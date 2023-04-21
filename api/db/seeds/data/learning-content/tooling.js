@@ -18,7 +18,15 @@ async function createTargetProfile({
   configTargetProfile,
 }) {
   await _cacheLearningContent();
-  _createTargetProfile({ databaseBuilder, targetProfileId, name, isPublic, ownerOrganizationId, isSimplifiedAccess, description });
+  _createTargetProfile({
+    databaseBuilder,
+    targetProfileId,
+    name,
+    isPublic,
+    ownerOrganizationId,
+    isSimplifiedAccess,
+    description,
+  });
   const cappedTubesDTO = _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTargetProfile });
   return {
     targetProfileId,
@@ -40,7 +48,18 @@ function createBadge({
   isAlwaysVisible,
   configBadge,
 }) {
-  _createBadge({ databaseBuilder, badgeId, targetProfileId, altMessage, imageUrl, message, title, key, isCertifiable, isAlwaysVisible });
+  _createBadge({
+    databaseBuilder,
+    badgeId,
+    targetProfileId,
+    altMessage,
+    imageUrl,
+    message,
+    title,
+    key,
+    isCertifiable,
+    isAlwaysVisible,
+  });
   _createBadgeCriteria({ databaseBuilder, badgeId, configBadge, cappedTubesDTO });
 }
 
@@ -49,22 +68,28 @@ function createStages({
   targetProfileId,
   cappedTubesDTO,
   type, // 'LEVEL' or 'THRESHOLD'
+  includeFirstSkill = false,
   countStages,
 }) {
   const values = [0];
+  let currentCountStages = countStages;
+  if (includeFirstSkill) {
+    _createStage({ databaseBuilder, targetProfileId, type, value: null, isFirstSkill: true });
+    --currentCountStages;
+  }
   if (type === 'LEVEL') {
     const maxLevel = _.maxBy(cappedTubesDTO, 'level').level;
     const possibleLevels = Array.from({ length: maxLevel }, (_, i) => i + 1);
-    const pickedLevels = _pickRandomAmong(possibleLevels, countStages - 1);
+    const pickedLevels = _pickRandomAmong(possibleLevels, currentCountStages - 1);
     values.push(...pickedLevels);
   }
   if (type === 'THRESHOLD') {
     const possibleThresholds = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-    const pickedThresholds = _pickRandomAmong(possibleThresholds, countStages - 1);
+    const pickedThresholds = _pickRandomAmong(possibleThresholds, currentCountStages - 1);
     values.push(...pickedThresholds);
   }
   for (const value of values) {
-    _createStage({ databaseBuilder, targetProfileId, type, value });
+    _createStage({ databaseBuilder, targetProfileId, type, value, isFirstSkill: false });
   }
 }
 
@@ -85,21 +110,60 @@ async function _cacheLearningContent() {
   }
 }
 
-function _createTargetProfile({ databaseBuilder, targetProfileId, name, isPublic, ownerOrganizationId, isSimplifiedAccess, description }) {
-  databaseBuilder.factory.buildTargetProfile({ id: targetProfileId, name, isPublic, ownerOrganizationId, isSimplifiedAccess, description });
+function _createTargetProfile({
+  databaseBuilder,
+  targetProfileId,
+  name,
+  isPublic,
+  ownerOrganizationId,
+  isSimplifiedAccess,
+  description,
+}) {
+  databaseBuilder.factory.buildTargetProfile({
+    id: targetProfileId,
+    name,
+    isPublic,
+    ownerOrganizationId,
+    isSimplifiedAccess,
+    description,
+  });
 }
 
-function _createBadge({ databaseBuilder, badgeId, targetProfileId, altMessage, imageUrl, message, title, key, isCertifiable, isAlwaysVisible }) {
-  databaseBuilder.factory.buildBadge({ id: badgeId, targetProfileId, altMessage, imageUrl, message, title, key, isCertifiable, isAlwaysVisible });
+function _createBadge({
+  databaseBuilder,
+  badgeId,
+  targetProfileId,
+  altMessage,
+  imageUrl,
+  message,
+  title,
+  key,
+  isCertifiable,
+  isAlwaysVisible,
+}) {
+  databaseBuilder.factory.buildBadge({
+    id: badgeId,
+    targetProfileId,
+    altMessage,
+    imageUrl,
+    message,
+    title,
+    key,
+    isCertifiable,
+    isAlwaysVisible,
+  });
 }
 
-function _createStage({ databaseBuilder, targetProfileId, type, value }) {
+function _createStage({ databaseBuilder, targetProfileId, type, value, isFirstSkill }) {
   databaseBuilder.factory.buildStage({
     targetProfileId,
-    message: `Palier "${value}" pour ${targetProfileId}`,
-    title: `Palier "${value}" pour ${targetProfileId}`,
-    level: type === 'LEVEL' ? value : null,
-    threshold: type === 'LEVEL' ? null : value,
+    message: isFirstSkill
+      ? `Palier premier acquis pour ${targetProfileId}`
+      : `Palier "${value}" pour ${targetProfileId}`,
+    title: isFirstSkill ? `Palier premier acquis pour ${targetProfileId}` : `Palier "${value}" pour ${targetProfileId}`,
+    level: isFirstSkill ? null : type === 'LEVEL' ? value : null,
+    threshold: isFirstSkill ? null : type === 'LEVEL' ? null : value,
+    isFirstSkill,
   });
 }
 
@@ -108,7 +172,10 @@ function _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTar
   for (const framework of configTargetProfile.frameworks) {
     const frameworkName = _getFrameworkName(framework);
     for (let i = 0; i < framework.countTubes; ++i) {
-      const tubeId = _pickRandomTube(frameworkName, cappedTubesDTO.map(({ id }) => id));
+      const tubeId = _pickRandomTube(
+        frameworkName,
+        cappedTubesDTO.map(({ id }) => id),
+      );
       if (tubeId) {
         const level = _.random(framework.minLevel, framework.maxLevel);
         cappedTubesDTO.push({
