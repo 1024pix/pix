@@ -2,6 +2,7 @@ const { expect, databaseBuilder, knex } = require('../../../test-helper');
 
 const organizationForAdminRepository = require('../../../../lib/infrastructure/repositories/organization-for-admin-repository');
 const dataProtectionOfficerRepository = require('../../../../lib/infrastructure/repositories/data-protection-officer-repository');
+const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator.js');
 const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
 
 const createOrganization = require('../../../../lib/domain/usecases/create-organization');
@@ -29,6 +30,7 @@ describe('Integration | UseCases | create-organization', function () {
       organization,
       dataProtectionOfficerRepository,
       organizationForAdminRepository,
+      organizationCreationValidator,
     });
 
     // then
