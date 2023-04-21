@@ -1,12 +1,12 @@
 .form {
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: $pix-spacing-l;
 
   &__field {
     display: flex;
     flex-direction: column;
-    margin: 16px 0;
+    margin: $pix-spacing-s 0;
 
     @include device-is('desktop') {
       width: 500px;
@@ -44,38 +44,40 @@
     border-radius: 8px;
     background: $pix-neutral-15;
     height: max-content;
-    padding: 16px;
+    padding: $pix-spacing-s;
     color: $pix-neutral-60;
     font-size: 0.875rem;
-    margin: 16px 0 0 0;
+    margin: $pix-spacing-s 0 0 0;
 
     @include device-is('desktop') {
       position: absolute;
-      margin: 0 0 0 16px;
+      margin: 0 0 0 $pix-spacing-s;
       left: 100%;
       width: calc(100vw - 100% - #{$app-sidebar-width} - 32px);
     }
 
     &-icon {
       color: $pix-primary;
-      margin-right: 8px;
+      margin-right: $pix-spacing-xs;
     }
 
     &-title {
-      font-weight: 500;
-      font-size: 0.875rem;
-      margin-bottom: 8px;
+      @extend %pix-body-m;
+
+      margin-bottom: $pix-spacing-xs;
       color: $pix-neutral-90;
+      font-weight: 500;
     }
 
     &-message {
-      font-size: 0.8125rem;
+      @extend %pix-body-s;
+
       color: $pix-neutral-60;
     }
   }
 
   &__field-filters {
-    margin-bottom: 16px;
+    margin-bottom: $pix-spacing-s;
     border: 0;
     padding: 0;
 
@@ -86,8 +88,8 @@
     }
 
     .pix-selectable-tag {
-      margin-top: 8px;
-      margin-inline-end: 8px;
+      margin-top: $pix-spacing-xs;
+      margin-inline-end: $pix-spacing-xs;
     }
 
     @include device-is('desktop') {
@@ -96,7 +98,7 @@
   }
 
   &__validation {
-    margin-top: 32px;
+    margin-top: $pix-spacing-l;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -107,11 +109,11 @@
   }
 
   &__error {
-    padding-top: 4px;
+    padding-top: $pix-spacing-xxs;
   }
 
   &__information {
-    margin-top: 7px;
+    margin-top: $pix-spacing-xs;
   }
 
   &__comment {
@@ -121,7 +123,7 @@
 
   &__mandatory-fields-information {
     font-size: 0.875rem;
-    margin: 0 0 35px 0;
+    margin: 0 0 $pix-spacing-l 0;
     color: $pix-neutral-70;
   }
 
@@ -134,21 +136,14 @@
 }
 
 .label {
-  display: inline-block;
-  color: $pix-neutral-70;
-  font-size: 0.875rem;
-  padding-bottom: 5px;
-}
-
-p.label {
-  margin: 0 0 16px;
+  @include label;
 }
 
 .input-container {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  margin-bottom: 22px;
+  margin-bottom: $pix-spacing-m;
 }
 
 .input {
@@ -156,7 +151,7 @@ p.label {
   border: 1px solid $pix-neutral-40;
   border-radius: 4px;
   font-size: 0.875rem;
-  padding-left: 15px;
+  padding-left: $pix-spacing-s;
   color: $pix-neutral-100;
   outline: none;
 
