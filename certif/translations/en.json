@@ -210,7 +210,9 @@
           "errors": {
             "download": "Une erreur s'est produite pendant le téléchargement",
             "CSV_DATA_REQUIRED": "Le modèle importé n'a pas été rempli, merci de le compléter avant de l'importer à nouveau",
-            "CSV_HEADERS_NOT_VALID": "Le modèle a été altéré, merci de le télécharger à nouveau"
+            "CSV_HEADERS_NOT_VALID": "Le modèle a été altéré, merci de le télécharger à nouveau",
+            "forbidden": "La création et l'édition de plusieurs sessions à la fois n'est pas disponible pour votre centre de certification. Veuillez utiliser la création et l'édition individuelle de session."
+
           },
           "instructions": {
             "creation": {
