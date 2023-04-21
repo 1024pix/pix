@@ -91,7 +91,11 @@
   </div>
 
   <div class="form__validation">
-    <PixButton @triggerAction={{fn @onCancel @campaign.id}} @backgroundColor="transparent-light">
+    <PixButton
+      @triggerAction={{fn @onCancel @campaign.id}}
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+    >
       {{t "common.actions.cancel"}}
     </PixButton>
     <PixButton @type="submit">
