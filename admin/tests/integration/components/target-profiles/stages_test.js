@@ -22,11 +22,10 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
     });
     this.set('stageCollection', stageCollection);
     this.set('maxLevel', 2);
-    this.set('isNewFormat', true);
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+      hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`
     );
 
     // then
@@ -41,11 +40,10 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       });
       this.set('stageCollection', stageCollection);
       this.set('maxLevel', 2);
-      this.set('isNewFormat', true);
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`
       );
 
       // then
@@ -64,7 +62,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+          hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`
         );
 
         // then
@@ -90,7 +88,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`
       );
 
       // then
@@ -111,7 +109,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`
       );
 
       // then
@@ -132,7 +130,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`
       );
       await click(screen.getByRole('button', { name: /Supprimer/ }));
       await screen.findByRole('dialog');
@@ -140,6 +138,56 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       // then
       assert.dom(screen.getByText('Confirmer la suppression')).exists();
       assert.dom(screen.getByRole('button', { name: 'Valider' })).exists();
+    });
+
+    test('it should display add "firstSkill" button', async function (assert) {
+      // given
+      const stage = store.createRecord('stage', {
+        level: 1,
+      });
+      const stageCollection = store.createRecord('stage-collection', {
+        stages: [stage],
+      });
+      this.set('stageCollection', stageCollection);
+      this.set('maxLevel', 2);
+
+      // when
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`
+      );
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Nouveau palier "1er acquis"' })).exists();
+      assert.dom(screen.queryByRole('button', { name: 'Nouveau palier "1er acquis"' })).hasNoAttribute('disabled');
+    });
+  });
+
+  module('when a firstSkill stage is already in the collection', function () {
+    test('it should disable add "firstSkill" button', async function (assert) {
+      // given
+      const stage = store.createRecord('stage', {
+        level: 0,
+        isFirstSkill: false,
+      });
+      const firstSkillStage = store.createRecord('stage', {
+        level: null,
+        threshold: null,
+        isFirstSkill: true,
+      });
+      const stageCollection = store.createRecord('stage-collection', {
+        stages: [stage, firstSkillStage],
+      });
+      this.set('stageCollection', stageCollection);
+      this.set('maxLevel', 2);
+
+      // when
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`
+      );
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Nouveau palier "1er acquis"' })).exists();
+      assert.dom(screen.queryByRole('button', { name: 'Nouveau palier "1er acquis"' })).hasAttribute('disabled');
     });
   });
 
@@ -149,6 +197,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       const stage = store.createRecord('stage', {
         id: 1,
         threshold: 100,
+        level: null,
         title: 'My title',
         message: 'My message',
       });
@@ -157,11 +206,10 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       });
       this.set('stageCollection', stageCollection);
       this.set('maxLevel', 2);
-      this.set('isNewFormat', true);
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`
       );
 
       // then
@@ -182,54 +230,6 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.dom(screen.getByRole('button', { name: /Supprimer/ })).exists();
       assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
     });
-
-    test('it should display a warning when there is no threshold at 0', async function (assert) {
-      // given
-      const stage = store.createRecord('stage', {
-        id: 1,
-        threshold: 100,
-        title: 'My title',
-        message: 'My message',
-      });
-      const stageCollection = store.createRecord('stage-collection', {
-        stages: [stage],
-      });
-      this.set('stageCollection', stageCollection);
-      this.set('maxLevel', 2);
-      this.set('isNewFormat', true);
-
-      // when
-      const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
-      );
-
-      // then
-      assert.dom(screen.getByText("Attention ! Il n'y a pas de palier à 0")).exists();
-    });
-
-    test('it should not display warning message when there is a stage with threshold 0', async function (assert) {
-      // given
-      const stage = store.createRecord('stage', {
-        id: 1,
-        threshold: 0,
-        title: 'My title',
-        message: 'My message',
-      });
-      const stageCollection = store.createRecord('stage-collection', {
-        stages: [stage],
-      });
-      this.set('stageCollection', stageCollection);
-      this.set('maxLevel', 2);
-      this.set('isNewFormat', true);
-
-      // when
-      const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
-      );
-
-      // then
-      assert.dom(screen.queryByText("Attention ! Il n'y a pas de palier à 0")).doesNotExist();
-    });
   });
 
   module('when stage type is level', function () {
@@ -237,7 +237,8 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       // given
       const stage = store.createRecord('stage', {
         id: 1,
-        level: 6,
+        level: 0,
+        threshold: null,
         title: 'My title',
         message: 'My message',
       });
@@ -246,11 +247,10 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       });
       this.set('stageCollection', stageCollection);
       this.set('maxLevel', 2);
-      this.set('isNewFormat', true);
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`
       );
 
       // then
@@ -264,38 +264,12 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.dom(screen.getByText('Description prescripteur')).exists();
       assert.dom(screen.getByText('Actions')).exists();
       assert.dom('tbody tr').exists({ count: 1 });
-      assert.strictEqual(find('tbody tr td:nth-child(1)').textContent.trim(), '6');
+      assert.strictEqual(find('tbody tr td:nth-child(1)').textContent.trim(), '0');
       assert.strictEqual(find('tbody tr td:nth-child(2)').textContent.trim(), 'My title');
       assert.strictEqual(find('tbody tr td:nth-child(3)').textContent.trim(), 'My message');
       assert.dom(screen.getByText('Voir détail')).exists();
       assert.dom(screen.getByRole('button', { name: /Supprimer/ })).exists();
       assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
-    });
-
-    module('when one stage with level 0', function () {
-      test('it should not display warning message', async function (assert) {
-        // given
-        const stage = store.createRecord('stage', {
-          id: 1,
-          level: 0,
-          title: 'My title',
-          message: 'My message',
-        });
-        const stageCollection = store.createRecord('stage-collection', {
-          stages: [stage],
-        });
-        this.set('stageCollection', stageCollection);
-        this.set('maxLevel', 2);
-        this.set('isNewFormat', true);
-
-        // when
-        const screen = await render(
-          hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
-        );
-
-        // then
-        assert.dom(screen.queryByText("Attention ! Il n'y a pas de palier à 0")).doesNotExist();
-      });
     });
   });
 });

@@ -14,7 +14,7 @@
   {{#if @isEditMode}}
     <Stages::UpdateStage
       @stage={{@stage}}
-      @isTypeLevel={{this.isTypeLevel}}
+      @isTypeLevel={{@stage.isTypeLevel}}
       @stageTypeName={{this.stageTypeName}}
       @toggleEditMode={{@toggleEditMode}}
       @availableLevels={{@availableLevels}}
@@ -24,7 +24,7 @@
   {{else}}
     <Stages::ViewStage
       @stage={{@stage}}
-      @isTypeLevel={{this.isTypeLevel}}
+      @isTypeLevel={{@stage.isTypeLevel}}
       @stageTypeName={{this.stageTypeName}}
       @toggleEditMode={{@toggleEditMode}}
     />

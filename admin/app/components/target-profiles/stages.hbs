@@ -1,12 +1,7 @@
 {{! template-lint-disable require-input-label }}
 <div class="content-text content-text--small">
   <form class="form" {{on "submit" this.createStages}}>
-    {{#if this.hasStages}}
-      {{#if this.displayNoZeroStage}}
-        <PixMessage type="warning">
-          Attention ! Il n'y a pas de palier à 0
-        </PixMessage>
-      {{/if}}
+    {{#if @stageCollection.stages}}
       <div class="table-admin">
         <table class="stages-table">
           <thead>
@@ -20,10 +15,9 @@
             </tr>
           </thead>
           <tbody>
-            {{#each @stageCollection.stages as |stage index|}}
+            {{#each @stageCollection.sortedStages as |stage|}}
               {{#if stage.isBeingCreated}}
                 <TargetProfiles::Stages::NewStage
-                  @setFirstStage={{(and this.setFirstStage (eq index 0))}}
                   @stage={{stage}}
                   @imageUrl={{@imageUrl}}
                   @availableLevels={{this.availableLevels}}
@@ -63,16 +57,30 @@
         {{on "change" this.onStageTypeChange}}
       />
     {{/if}}
-    <PixButton
-      class="stages-new-stage"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @triggerAction={{this.addStage}}
-      @isDisabled={{this.isAddStageDisabled}}
-      @iconBefore="plus"
-    >
-      Nouveau palier
-    </PixButton>
+    <div class="add-stage-actions">
+      <PixButton
+        class="stages-new-stage"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.addStage}}
+        @isDisabled={{this.isAddStageDisabled}}
+        @iconBefore="plus"
+      >
+        Nouveau palier
+      </PixButton>
+      {{#if @stageCollection.hasStages}}
+        <PixButton
+          class="stages-new-stage"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.addFirstSkillStage}}
+          @isDisabled={{this.isAddFirstSkillStageDisabled}}
+          @iconBefore="plus"
+        >
+          Nouveau palier "1er acquis"
+        </PixButton>
+      {{/if}}
+    </div>
     {{#if this.hasNewStage}}
       <div class="stages-actions form-actions">
         <PixButton

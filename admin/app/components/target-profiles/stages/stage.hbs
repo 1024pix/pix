@@ -1,6 +1,8 @@
 <tr aria-label="Informations sur le palier {{@stage.title}}">
   <td>
-    {{#if @stage.isTypeLevel}}
+    {{#if @stage.isFirstSkill}}
+      1er acquis
+    {{else if @stage.isTypeLevel}}
       {{@stage.level}}
     {{else}}
       {{@stage.threshold}}

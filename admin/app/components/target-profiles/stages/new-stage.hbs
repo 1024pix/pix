@@ -1,27 +1,31 @@
 <tr aria-label="Informations sur le palier {{@title}}">
   <td>
-    {{#if @stage.isTypeLevel}}
-      <Stages::StageLevelSelect
-        @availableLevels={{@availableLevels}}
-        @onChange={{@setLevel}}
-        @value={{@stage.level}}
-        class="stages-table__level-select"
-        required="true"
-        @isDisabled={{@setFirstStage}}
-        @label="Niveau du palier"
-      />
+    {{#if @stage.isFirstSkill}}
+      1er acquis
     {{else}}
-      <PixInput
-        @id="threshold"
-        @errorMessage="Le seuil est invalide"
-        @validationStatus={{this.thresholdStatus}}
-        @requiredLabel="Champ obligatoire"
-        type="number"
-        @value={{this.threshold}}
-        readonly={{@setFirstStage}}
-        @ariaLabel="Seuil du palier"
-        {{on "focusout" this.checkThresholdValidity}}
-      />
+      {{#if @stage.isTypeLevel}}
+        <Stages::StageLevelSelect
+          @availableLevels={{@availableLevels}}
+          @onChange={{@setLevel}}
+          @value={{@stage.levelAsString}}
+          class="stages-table__level-select"
+          required="true"
+          @isDisabled={{@stage.isZeroStage}}
+          @label="Niveau du palier"
+        />
+      {{else}}
+        <PixInput
+          @id="threshold"
+          @errorMessage="Le seuil est invalide"
+          @validationStatus={{this.thresholdStatus}}
+          @requiredLabel="Champ obligatoire"
+          type="number"
+          @value={{this.threshold}}
+          readonly={{@stage.isZeroStage}}
+          @ariaLabel="Seuil du palier"
+          {{on "focusout" this.checkThresholdValidity}}
+        />
+      {{/if}}
     {{/if}}
   </td>
   <td>
@@ -53,7 +57,7 @@
     À renseigner ultérieurement
   </td>
   <td>
-    {{#unless @setFirstStage}}
+    {{#unless @stage.isZeroStage}}
       <PixButton
         @backgroundColor="red"
         @size="small"

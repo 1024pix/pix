@@ -4,19 +4,18 @@ class StageCollection {
     this._maxLevel = maxLevel;
     this._stages = [];
 
-    stages.forEach((stage, index) => {
+    stages.forEach((stage) => {
       this._stages.push({
         id: stage.id,
         targetProfileId: id,
         level: stage.level,
         threshold: stage.threshold,
+        isFirstSkill: stage.isFirstSkill,
         title: stage.title,
         message: stage.message,
         prescriberTitle: stage.prescriberTitle,
         prescriberDescription: stage.prescriberDescription,
       });
-
-      if (index === 0) this._canAddStageTypeOfLevel = stage.level !== null;
     });
   }
 
@@ -40,6 +39,7 @@ class StageCollection {
         id: stage.id,
         level: stage.level,
         threshold: stage.threshold,
+        isFirstSkill: stage.isFirstSkill,
         title: stage.title,
         message: stage.message,
         prescriberTitle: stage.prescriberTitle,
