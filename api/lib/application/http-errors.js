@@ -156,7 +156,28 @@ function sendJsonApiError(httpError, h) {
   return h.response(jsonApiError).code(httpError.status).takeover();
 }
 
+const HttpErrors = {
+  BadRequestError,
+  BaseHttpError,
+  ConflictError,
+  ForbiddenError,
+  ImproveCompetenceEvaluationForbiddenError,
+  InternalServerError,
+  MissingQueryParamError,
+  NotFoundError,
+  PasswordShouldChangeError,
+  PayloadTooLargeError,
+  PreconditionFailedError,
+  sendJsonApiError,
+  ServiceUnavailableError,
+  SessionPublicationBatchError,
+  UnauthorizedError,
+  UnprocessableEntityError,
+  TooManyRequestsError,
+};
+
 module.exports = {
+  HttpErrors,
   BadRequestError,
   BaseHttpError,
   ConflictError,

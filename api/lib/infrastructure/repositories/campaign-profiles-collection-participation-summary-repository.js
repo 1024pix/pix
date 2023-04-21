@@ -4,7 +4,7 @@ const { knex } = require('../../../db/knex-database-connection.js');
 const placementProfileService = require('../../domain/services/placement-profile-service.js');
 const CampaignProfilesCollectionParticipationSummary = require('../../domain/read-models/CampaignProfilesCollectionParticipationSummary.js');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository.js');
-const constants = require('../constants.js');
+const { constants } = require('../constants.js');
 const { fetchPage } = require('../utils/knex-utils.js');
 const { filterByFullName } = require('../utils/filter-utils.js');
 

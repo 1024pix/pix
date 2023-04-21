@@ -1,6 +1,6 @@
 const SharedProfileForCampaign = require('../read-models/SharedProfileForCampaign.js');
 const { NoCampaignParticipationForUserAndCampaign } = require('../errors.js');
-const constants = require('../constants.js');
+const { constants } = require('../constants.js');
 
 module.exports = async function getUserProfileSharedForCampaign({
   userId,

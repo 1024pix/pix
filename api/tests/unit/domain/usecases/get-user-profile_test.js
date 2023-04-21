@@ -1,7 +1,7 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const getUserProfile = require('../../../../lib/domain/usecases/get-user-profile');
-const constants = require('../../../../lib/domain/constants');
+const { constants } = require('../../../../lib/domain/constants');
 const _ = require('lodash');
 
 function assertScorecard(userScorecard, expectedUserScorecard) {

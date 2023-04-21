@@ -3,7 +3,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const constants = require('../../../../lib/domain/constants');
+const { constants } = require('../../../../lib/domain/constants');
 
 describe('Unit | Domain | Models | Scorecard', function () {
   let computeDaysSinceLastKnowledgeElementStub;

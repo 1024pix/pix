@@ -7,7 +7,7 @@ const {
 } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
-const constants = require('../../../../lib/domain/constants');
+const { constants } = require('../../../../lib/domain/constants');
 
 describe('Acceptance | Controller | users-controller-get-user-profile-for-admin', function () {
   let options;
