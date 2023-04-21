@@ -7,10 +7,6 @@ const { post, get } = httpAgent;
 
 describe('Unit | Infrastructure | http | http-agent', function () {
   describe('#post', function () {
-    afterEach(function () {
-      axios.post.restore();
-    });
-
     it('should return the response status and success from the http call when successful', async function () {
       // given
       const url = 'someUrl';
@@ -124,9 +120,6 @@ describe('Unit | Infrastructure | http | http-agent', function () {
     });
   });
   describe('#get', function () {
-    afterEach(function () {
-      axios.get.restore();
-    });
     it('should return the response status and success from the http call when successful', async function () {
       // given
       const url = 'someUrl';

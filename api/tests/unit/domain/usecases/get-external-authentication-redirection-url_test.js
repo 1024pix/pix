@@ -53,7 +53,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userAttributes,
         userRepository,
         tokenService,
-        settings: samlSettings,
+        config: samlSettings,
       });
 
       // then
@@ -99,7 +99,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userRepository,
         authenticationMethodRepository,
         tokenService,
-        settings: samlSettings,
+        config: samlSettings,
       });
 
       // then
@@ -128,7 +128,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userRepository,
         authenticationMethodRepository,
         tokenService,
-        settings: samlSettings,
+        config: samlSettings,
       });
 
       // then
@@ -159,7 +159,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userRepository,
           authenticationMethodRepository,
           tokenService,
-          settings: samlSettings,
+          config: samlSettings,
         });
 
         // then
@@ -194,7 +194,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userRepository,
           authenticationMethodRepository,
           tokenService,
-          settings: samlSettings,
+          config: samlSettings,
         });
 
         // then
@@ -229,7 +229,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userRepository,
           authenticationMethodRepository,
           tokenService,
-          settings: samlSettings,
+          config: samlSettings,
         });
 
         // then
@@ -264,7 +264,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userRepository,
           authenticationMethodRepository,
           tokenService,
-          settings: samlSettings,
+          config: samlSettings,
         });
 
         // then

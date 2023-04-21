@@ -34,4 +34,6 @@ class CertificationCenterForAdmin {
   }
 }
 
+CertificationCenterForAdmin.types = CERTIFICATION_CENTER_TYPES;
+
 export { CertificationCenterForAdmin, CERTIFICATION_CENTER_TYPES as types };
