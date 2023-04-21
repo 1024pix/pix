@@ -12,19 +12,13 @@ export default class Stages extends Component {
   @service notifications;
 
   @tracked
-  firstStageType = undefined;
-
-  get setFirstStage() {
-    return (
-      (this.isLevelType && this.availableLevels.includes(0)) ||
-      (!this.isLevelType && !this.unavailableThresholds.includes(0))
-    );
-  }
+  stageType = undefined;
 
   get availableLevels() {
     const unavailableLevels = this.args.stageCollection
       .get('stages')
-      .map((stage) => (stage.isBeingCreated ? null : stage.level));
+      .filter((stage) => !stage.isBeingCreated)
+      .map((stage) => stage.level);
     const allLevels = Array.from({ length: this.args.maxLevel + 1 }, (_, i) => i);
     return difference(allLevels, unavailableLevels);
   }
@@ -79,36 +73,65 @@ export default class Stages extends Component {
     return nonZeroStages.length > 0;
   }
 
+  get isAddFirstSkillStageDisabled() {
+    return this.args.stageCollection.stages.find((stage) => stage.isFirstSkill);
+  }
+
   @action
-  addStage() {
-    const isFirstStage = this.args.stageCollection.stages.length === 0;
-    const nextLowestLevelAvailable = this.isLevelType ? this.availableLevels?.[0] : undefined;
+  addFirstSkillStage() {
     const stage = this.store.createRecord('stage', {
-      level: this.isLevelType ? nextLowestLevelAvailable.toString() : undefined,
-      threshold: !this.isLevelType && this.setFirstStage ? '0' : undefined,
-      title: isFirstStage ? 'Parcours terminé !' : null,
-      message: isFirstStage
-        ? 'Vous n’êtes visiblement pas tombé sur vos sujets préférés...Ou peut-être avez-vous besoin d’aide ? Dans tous les cas, rien n’est perdu d’avance ! Avec de l’accompagnement et un peu d’entraînement vous développerez à coup sûr vos compétences numériques !'
-        : null,
+      level: null,
+      threshold: null,
+      isFirstSkill: true,
+      title: null,
+      message: null,
     });
     this.args.stageCollection.stages.pushObject(stage);
   }
 
   @action
+  addStage() {
+    const shouldAddZeroStage = this.args.stageCollection.stages.length === 0;
+    let stage;
+    if (shouldAddZeroStage) {
+      stage = this.store.createRecord('stage', {
+        level: this.stageType === 'level' ? 0 : null,
+        threshold: this.stageType === 'level' ? null : 0,
+        isFirstSkill: false,
+        title: 'Parcours terminé !',
+        message:
+          'Vous n’êtes visiblement pas tombé sur vos sujets préférés...Ou peut-être avez-vous besoin d’aide ? Dans tous les cas, rien n’est perdu d’avance ! Avec de l’accompagnement et un peu d’entraînement vous développerez à coup sûr vos compétences numériques !',
+      });
+    } else {
+      const nextLowestLevelAvailable = this.isLevelType
+        ? this.availableLevels?.filter((level) => level !== 0)[0]
+        : undefined;
+      stage = this.store.createRecord('stage', {
+        level: this.isLevelType ? nextLowestLevelAvailable : null,
+        isFirstSkill: false,
+        threshold: null,
+        title: null,
+        message: null,
+      });
+    }
+    this.args.stageCollection.stages.pushObject(stage);
+  }
+
+  @action
   onStageTypeChange(event) {
-    this.firstStageType = event.target.value;
+    this.stageType = event.target.value;
   }
 
   get isStageTypeLevelChecked() {
-    return this.firstStageType === 'level';
+    return this.stageType === 'level';
   }
 
   get isStageTypeThresholdChecked() {
-    return this.firstStageType === 'threshold';
+    return this.stageType === 'threshold';
   }
 
   get isAddStageDisabled() {
-    return (this.mustChooseStageType && this.firstStageType == null) || !this.hasAvailableStages;
+    return (this.mustChooseStageType && this.stageType == null) || !this.hasAvailableStages;
   }
 
   @action
@@ -151,6 +174,6 @@ export default class Stages extends Component {
 
   @action
   onStageLevelChange(stage, level) {
-    stage.level = level;
+    stage.level = parseInt(level);
   }
 }

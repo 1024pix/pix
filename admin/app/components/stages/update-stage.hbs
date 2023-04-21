@@ -2,7 +2,7 @@
   <form class="form stage-form" {{on "submit" this.updateStage}}>
     <div class="form-field">
       {{#if @stage.isFirstSkill}}
-        <label class="form-field__label">Premier acquis</label>
+        <label class="form-field__label">1er acquis</label>
         <br/>
       {{else if @isTypeLevel}}
         <label for="threshold-or-level" class="form-field__label">
