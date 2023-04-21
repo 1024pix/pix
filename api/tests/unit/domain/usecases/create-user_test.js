@@ -2,9 +2,6 @@ const { catchErr, expect, sinon } = require('../../../test-helper');
 
 const { AlreadyRegisteredEmailError, EntityValidationError } = require('../../../../lib/domain/errors');
 
-const passwordValidator = require('../../../../lib/domain/validators/password-validator');
-const userValidator = require('../../../../lib/domain/validators/user-validator');
-
 const User = require('../../../../lib/domain/models/User');
 
 const createUser = require('../../../../lib/domain/usecases/create-user');
@@ -26,6 +23,8 @@ describe('Unit | UseCase | create-user', function () {
   let encryptionService;
   let mailService;
   let userService;
+  let passwordValidator;
+  let userValidator;
 
   beforeEach(function () {
     authenticationMethodRepository = {};
@@ -48,9 +47,12 @@ describe('Unit | UseCase | create-user', function () {
     userService = {
       createUserWithPassword: sinon.stub(),
     };
-
-    sinon.stub(userValidator, 'validate');
-    sinon.stub(passwordValidator, 'validate');
+    passwordValidator = {
+      validate: sinon.stub(),
+    };
+    userValidator = {
+      validate: sinon.stub(),
+    };
 
     userRepository.checkIfEmailIsAvailable.resolves();
     userToCreateRepository.create.resolves(savedUser);
@@ -83,6 +85,8 @@ describe('Unit | UseCase | create-user', function () {
         encryptionService,
         mailService,
         userService,
+        userValidator,
+        passwordValidator,
       });
 
       // then
@@ -103,6 +107,8 @@ describe('Unit | UseCase | create-user', function () {
         encryptionService,
         mailService,
         userService,
+        userValidator,
+        passwordValidator,
       });
 
       //then
@@ -123,6 +129,8 @@ describe('Unit | UseCase | create-user', function () {
         encryptionService,
         mailService,
         userService,
+        userValidator,
+        passwordValidator,
       });
 
       // then
@@ -157,6 +165,8 @@ describe('Unit | UseCase | create-user', function () {
           encryptionService,
           mailService,
           userService,
+          userValidator,
+          passwordValidator,
         });
 
         // then
@@ -196,6 +206,8 @@ describe('Unit | UseCase | create-user', function () {
           encryptionService,
           mailService,
           userService,
+          userValidator,
+          passwordValidator,
         });
 
         // then
@@ -237,6 +249,8 @@ describe('Unit | UseCase | create-user', function () {
           encryptionService,
           mailService,
           userService,
+          userValidator,
+          passwordValidator,
         });
 
         // then
@@ -266,6 +280,8 @@ describe('Unit | UseCase | create-user', function () {
           encryptionService,
           mailService,
           userService,
+          userValidator,
+          passwordValidator,
         });
 
         // then
@@ -294,6 +310,8 @@ describe('Unit | UseCase | create-user', function () {
           encryptionService,
           mailService,
           userService,
+          userValidator,
+          passwordValidator,
         });
 
         // then
@@ -319,6 +337,8 @@ describe('Unit | UseCase | create-user', function () {
         encryptionService,
         mailService,
         userService,
+        userValidator,
+        passwordValidator,
       });
 
       // then
@@ -342,6 +362,8 @@ describe('Unit | UseCase | create-user', function () {
           encryptionService,
           mailService,
           userService,
+          userValidator,
+          passwordValidator,
         });
 
         // then
@@ -385,6 +407,9 @@ describe('Unit | UseCase | create-user', function () {
           encryptionService,
           mailService,
           userService,
+
+          userValidator,
+          passwordValidator,
         });
 
         // then
@@ -418,6 +443,8 @@ describe('Unit | UseCase | create-user', function () {
           encryptionService,
           mailService,
           userService,
+          userValidator,
+          passwordValidator,
         });
 
         // then
@@ -448,6 +475,8 @@ describe('Unit | UseCase | create-user', function () {
             encryptionService,
             mailService,
             userService,
+            userValidator,
+            passwordValidator,
           });
 
           // then
@@ -480,6 +509,8 @@ describe('Unit | UseCase | create-user', function () {
             encryptionService,
             mailService,
             userService,
+            userValidator,
+            passwordValidator,
           });
 
           // then
@@ -506,6 +537,8 @@ describe('Unit | UseCase | create-user', function () {
         encryptionService,
         mailService,
         userService,
+        userValidator,
+        passwordValidator,
       });
 
       // then

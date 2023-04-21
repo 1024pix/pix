@@ -174,6 +174,8 @@ const disabledPoleEmploiNotifier = require('../../infrastructure/externals/pole-
 const organizationInvitationService = require('../services/organization-invitation-service.js');
 const organizationCreationValidator = require('../validators/organization-creation-validator.js');
 const organizationValidator = require('../validators/organization-with-tags-and-target-profiles-script.js');
+const userValidator = require('../validators/user-validator.js');
+const passwordValidator = require('../validators/password-validator.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -359,6 +361,8 @@ const dependencies = {
   organizationInvitationService,
   organizationCreationValidator,
   organizationValidator,
+  userValidator,
+  passwordValidator,
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection.js');
