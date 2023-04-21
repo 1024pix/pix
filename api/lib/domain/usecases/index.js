@@ -177,6 +177,7 @@ const organizationValidator = require('../validators/organization-with-tags-and-
 const userValidator = require('../validators/user-validator.js');
 const passwordValidator = require('../validators/password-validator.js');
 const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository');
+const campaignValidator = require('../validators/campaign-validator.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -365,6 +366,7 @@ const dependencies = {
   userValidator,
   passwordValidator,
   stageCollectionRepository,
+  campaignValidator,
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection.js');
