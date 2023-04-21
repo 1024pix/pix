@@ -264,7 +264,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
       // given
       const jsonOptions = { ...candidatesRange, dateNF: 'dd/mm/yyyy;@', raw: false };
       const expectedData = {
-        '* Date de naissance (format: jj/mm/aaaa)': '05/10/1988',
+        '* Date de naissance (format : jj/mm/aaaa)': '05/10/1988',
         '* Nom de naissance': 'Delarue',
         '* Prénom': 'Sophie',
         '* Sexe (M ou F)': 'F',
