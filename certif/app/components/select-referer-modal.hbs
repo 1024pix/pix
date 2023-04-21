@@ -1,6 +1,6 @@
 <PixModal
   class="select-referer-modal"
-  @title={{(t "pages.team.select-referer-modal.title")}}
+  @title={{t "pages.team.select-referer-modal.title"}}
   @onCloseButtonClick={{@toggleRefererModal}}
   @showModal={{@showModal}}
 >
@@ -13,7 +13,7 @@
         @id="referer"
         @options={{@options}}
         @value={{@selectedReferer}}
-        @placeholder={{(t "pages.team.select-referer-modal.empty-option")}}
+        @placeholder={{t "pages.team.select-referer-modal.empty-option"}}
         @hideDefaultOption={{true}}
         @onChange={{@onSelectReferer}}
         @emptyOptionNotSelectable={{true}}
