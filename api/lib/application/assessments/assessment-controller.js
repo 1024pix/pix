@@ -25,6 +25,12 @@ const save = async function (request, h, dependencies = { assessmentRepository }
   return h.response(assessmentSerializer.serialize(createdAssessment)).created();
 };
 
+const createForPix1d = async function (request, h, dependencies = { assessmentSerializer }) {
+  const { missionId } = request.payload;
+  const createdAssessment = await usecases.createMissionAssessment({ missionId });
+  return h.response(dependencies.assessmentSerializer.serialize(createdAssessment)).created();
+};
+
 const get = async function (request, _, dependencies = { assessmentSerializer }) {
   const assessmentId = request.params.id;
   const locale = extractLocaleFromRequest(request);
