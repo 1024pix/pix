@@ -1,10 +1,11 @@
 const { expect, sinon } = require('../../../test-helper');
 const acceptPixLastTermsOfService = require('../../../../lib/domain/usecases/accept-pix-last-terms-of-service');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Unit | UseCase | accept-pix-last-terms-of-service', function () {
+  let userRepository;
+
   beforeEach(function () {
-    sinon.stub(userRepository, 'acceptPixLastTermsOfService');
+    userRepository = { acceptPixLastTermsOfService: sinon.stub() };
   });
 
   it('should accept terms of service of pix', async function () {
