@@ -172,6 +172,7 @@ const participantResultsSharedRepository = require('../../infrastructure/reposit
 const poleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js');
 const disabledPoleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js');
 const organizationInvitationService = require('../services/organization-invitation-service.js');
+const organizationCreationValidator = require('../validators/organization-creation-validator.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -355,6 +356,7 @@ const dependencies = {
   userSavedTutorialRepository,
   verifyCertificateCodeService,
   organizationInvitationService,
+  organizationCreationValidator,
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection.js');
