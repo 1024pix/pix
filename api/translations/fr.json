@@ -75,7 +75,7 @@
       "birthcity-inseecode": "Code Insee",
       "birthcity-postcode": "Code postal",
       "birthcountry": "Pays",
-      "birth-date": "* Date de naissance (format: jj/mm/aaaa)",
+      "birth-date": "* Date de naissance (format : jj/mm/aaaa)",
       "birthname": "* Nom de naissance",
       "birthplace": "* Lieu de naissance",
       "birthplace-instructions": "Instructions de remplissage du lieu de naissance :",
@@ -103,7 +103,7 @@
       "session-number": "N° de session",
       "site-name": "Nom du site"
     },
-    "one-per-candidate":  "(une seule par candidat)",
+    "one-per-candidate": "(une seule par candidat)",
     "options": "Options possibles :",
     "prepayment": "Code de prépaiement",
     "pricing": "Tarification",
