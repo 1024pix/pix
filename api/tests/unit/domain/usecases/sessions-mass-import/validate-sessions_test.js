@@ -13,13 +13,11 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   let certificationCenterName;
   let certificationCenter;
   let certificationCenterRepository;
-  let certificationCandidateRepository;
   let certificationCourseRepository;
   let complementaryCertificationRepository;
   // eslint-disable-next-line mocha/no-setup-in-describe
   const i18n = getI18n();
   let sessionCodeService;
-
   let sessionsImportValidationService;
   let temporarySessionsStorageForMassImportService;
 
@@ -216,7 +214,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           userId,
           certificationCenterId,
           certificationCenterRepository,
-          certificationCandidateRepository,
           certificationCourseRepository,
           sessionCodeService,
           i18n,
@@ -384,11 +381,13 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           ],
         });
 
+        certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
+
         // when
         const sessionsMassImportReport = await validateSessions({
           sessions,
-          certificationCenterId,
           certificationCenterRepository,
+          certificationCenterId,
           sessionCodeService,
           i18n,
           sessionsImportValidationService,

@@ -7,7 +7,7 @@ import * as campaignCreatorRepository from '../../../../lib/infrastructure/repos
 import { createCampaign } from '../../../../lib/domain/usecases/create-campaign.js';
 import { Campaign } from '../../../../lib/domain/models/Campaign.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { campaignCodeGenerator } from '../../../../lib/domain/services/campaigns/campaign-code-generator.js';
+import * as campaignCodeGenerator from '../../../../lib/domain/services/campaigns/campaign-code-generator.js';
 
 describe('Integration | UseCases | create-campaign', function () {
   let userId;

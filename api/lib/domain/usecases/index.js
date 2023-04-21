@@ -23,7 +23,7 @@ import * as campaignAssessmentParticipationResultListRepository from '../../infr
 import * as campaignAssessmentParticipationResultRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
 import * as campaignForArchivingRepository from '../../infrastructure/repositories/campaign/campaign-for-archiving-repository.js';
-import * as campaignParticipantActivityRepository from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
+import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
 import * as campaignManagementRepository from '../../infrastructure/repositories/campaign-management-repository.js';
 import * as campaignParticipationInfoRepository from '../../infrastructure/repositories/campaign-participation-info-repository.js';
@@ -31,7 +31,7 @@ import * as campaignParticipantRepository from '../../infrastructure/repositorie
 import * as campaignParticipationOverviewRepository from '../../infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignParticipationResultRepository from '../../infrastructure/repositories/campaign-participation-result-repository.js';
-import * as campaignParticipationsStatsRepository from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
+import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import * as campaignProfileRepository from '../../infrastructure/repositories/campaign-profile-repository.js';
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
