@@ -23,9 +23,6 @@ export default class MembersList extends Component {
   }
 
   get shouldDisplayRefererColumn() {
-    return (
-      this.args.hasCleaHabilitation &&
-      this.featureToggles.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled
-    );
+    return this.args.hasCleaHabilitation;
   }
 }
