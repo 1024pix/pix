@@ -1,12 +1,15 @@
 const _ = require('lodash');
 const { InvalidStageError } = require('../../errors.js');
 
+const DEFAULT_VALUE_FIRST_SKILL = -1;
+
 class StageCollectionUpdate {
   constructor({ stagesDTO, stageCollection }) {
     this._stagesDTO = stagesDTO.map((stageDTO) => ({
       id: _.isNil(stageDTO.id) ? null : parseInt(stageDTO.id),
-      threshold: _.isNil(stageDTO.threshold) ? null : parseInt(stageDTO.threshold),
-      level: _.isNil(stageDTO.level) ? null : parseInt(stageDTO.level),
+      threshold: _.isNil(stageDTO.threshold) ? null : parseInt(stageDTO.threshold), // null
+      level: _.isNil(stageDTO.level) ? null : parseInt(stageDTO.level), // null
+      isFirstSkill: Boolean(stageDTO.isFirstSkill),
       title: _.isEmpty(stageDTO.title) ? '' : stageDTO.title,
       message: _.isEmpty(stageDTO.message) ? '' : stageDTO.message,
       prescriberTitle: _.isEmpty(stageDTO.prescriberTitle) ? '' : stageDTO.prescriberTitle,
@@ -46,7 +49,17 @@ function _checkValidity(stagesDTO, stageCollection) {
     throw new InvalidStageError('La présence du palier zéro est obligatoire.');
   }
 
-  const stagesWithoutValue = stagesDTO.filter(({ threshold, level }) => threshold === null && level === null);
+  const firstSkills = stagesDTO.filter(({ isFirstSkill }) => isFirstSkill);
+  if (firstSkills.length > 1) {
+    throw new InvalidStageError("Il ne peut y avoir qu'un seul palier premier acquis.");
+  }
+  if (firstSkills.length === 1 && (firstSkills[0].level !== null || firstSkills[0].threshold !== null)) {
+    throw new InvalidStageError('Un palier de premier acquis ne peut pas avoir de niveau ou de seuil.');
+  }
+
+  const stagesWithoutValue = stagesDTO.filter(
+    ({ threshold, level, isFirstSkill }) => threshold === null && level === null && !isFirstSkill
+  );
   if (stagesWithoutValue.length > 0) {
     throw new InvalidStageError('Les paliers doivent avoir une valeur de seuil ou de niveau.');
   }
@@ -58,8 +71,15 @@ function _checkValidity(stagesDTO, stageCollection) {
     throw new InvalidStageError('Les paliers doivent être tous en niveau ou seuil.');
   }
 
-  const uniqValue = new Set(stagesDTO.map(({ level, threshold }) => level || threshold));
-  if (uniqValue.size !== stagesDTO.length) {
+  const uniqValues = new Set(
+    stagesDTO.map(({ level, threshold, isFirstSkill }) => {
+      if (isFirstSkill) {
+        return DEFAULT_VALUE_FIRST_SKILL;
+      }
+      return level === null ? threshold : level;
+    })
+  );
+  if (uniqValues.size !== stagesDTO.length) {
     throw new InvalidStageError('Les valeurs de seuil/niveau doivent être uniques.');
   }
 
