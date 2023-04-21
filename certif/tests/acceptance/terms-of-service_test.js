@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import {
@@ -7,7 +7,7 @@ import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { visit } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -40,7 +40,7 @@ module('Acceptance | terms-of-service', function (hooks) {
 
       test('it should display cgu action buttons, title and pix Certif logo', async function (assert) {
         // given & when
-        const screen = await visitScreen('/cgu');
+        const screen = await visit('/cgu');
 
         // then
         assert
@@ -59,7 +59,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       test('it should send request for saving Pix-certif terms of service acceptation when submitting', async function (assert) {
         // given
         const previousPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceAccepted;
-        const screen = await visitScreen('/cgu');
+        const screen = await visit('/cgu');
 
         // when
         await click(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' }));
@@ -73,7 +73,7 @@ module('Acceptance | terms-of-service', function (hooks) {
 
       test('it should redirect to session list after saving terms of service acceptation', async function (assert) {
         // given
-        const screen = await visitScreen('/cgu');
+        const screen = await visit('/cgu');
 
         // when
         await click(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' }));
@@ -83,14 +83,33 @@ module('Acceptance | terms-of-service', function (hooks) {
       });
 
       test('it should not be possible to visit another page if cgu are not accepted', async function (assert) {
-        // given
-        await visit('/cgu');
-
-        // when
+        // given & when
         await visit('/campagnes');
 
         // then
         assert.strictEqual(currentURL(), '/cgu');
+      });
+
+      module('when cgu registration failed', function () {
+        test('it should return error message', async function (assert) {
+          // given
+          const screen = await visit('/cgu');
+          this.server.patch('/users/:id/pix-certif-terms-of-service-acceptance', () => {
+            return new Response(500, {}, { errors: [{ status: '500' }] });
+          });
+
+          // when
+          await click(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' }));
+
+          // then
+          assert
+            .dom(
+              screen.getByText(
+                'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
+              )
+            )
+            .exists();
+        });
       });
     }
   );

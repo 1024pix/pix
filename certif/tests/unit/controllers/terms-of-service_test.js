@@ -38,6 +38,7 @@ module('Unit | Controller | terms-of-service', function (hooks) {
       test('it should display a notification error', async function (assert) {
         // given
         controller.notifications = { error: sinon.stub() };
+        controller.intl = { t: sinon.stub() };
         controller.currentUser = { certificationPointOfContact: { save: sinon.stub().rejects() } };
 
         // when
