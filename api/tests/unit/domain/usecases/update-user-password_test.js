@@ -6,8 +6,6 @@ const {
   UserNotAuthorizedToUpdatePasswordError,
 } = require('../../../../lib/domain/errors');
 
-const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-
 const updateUserPassword = require('../../../../lib/domain/usecases/update-user-password');
 
 describe('Unit | UseCase | update-user-password', function () {
@@ -38,8 +36,6 @@ describe('Unit | UseCase | update-user-password', function () {
     userRepository = {
       get: sinon.stub(),
     };
-
-    sinon.stub(validationErrorSerializer, 'serialize');
 
     encryptionService.hashPassword.resolves();
     resetPasswordService.hasUserAPasswordResetDemandInProgress.withArgs(user.email, temporaryKey).resolves();
