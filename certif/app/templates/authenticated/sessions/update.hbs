@@ -64,7 +64,7 @@
         @altInput={{true}}
         @onChange={{this.onDatePicked}}
         @dateFormat="Y-m-d"
-        @locale="fr"
+        @locale={{this.currentLocale}}
         @name="session-date"
         class="input input--small"
         @date={{readonly this.session.date}}

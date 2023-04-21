@@ -21,6 +21,10 @@ export default class SessionsUpdateController extends Controller {
     return `${this.intl.t('pages.sessions.update.title')} | Session ${this.session.id} | Pix Certif`;
   }
 
+  get currentLocale() {
+    return this.intl.locale[0];
+  }
+
   @action
   async updateSession(event) {
     event.preventDefault();
