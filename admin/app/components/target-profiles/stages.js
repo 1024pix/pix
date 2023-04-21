@@ -16,8 +16,8 @@ export default class Stages extends Component {
 
   get setFirstStage() {
     return (
-      (this.isTypeLevel && this.availableLevels.includes(0)) ||
-      (!this.isTypeLevel && !this.unavailableThresholds.includes(0))
+      (this.isLevelType && this.availableLevels.includes(0)) ||
+      (!this.isLevelType && !this.unavailableThresholds.includes(0))
     );
   }
 
@@ -33,8 +33,8 @@ export default class Stages extends Component {
     return this.args.stageCollection.stages.map((stage) => (stage.isBeingCreated ? null : stage.threshold));
   }
 
-  get isTypeLevel() {
-    return this.args.stageCollection.stages?.firstObject?.isTypeLevel ?? this.firstStageType == 'level';
+  get isLevelType() {
+    return this.args.stageCollection.isLevelType;
   }
 
   get hasStages() {
@@ -52,20 +52,20 @@ export default class Stages extends Component {
 
   get displayNoZeroStage() {
     if (!this.hasStages) return false;
-    if (this.isTypeLevel) {
+    if (this.isLevelType) {
       return !this.args.stageCollection.stages.any((stage) => stage.level === 0);
     }
     return !this.args.stageCollection.stages.any((stage) => stage.threshold === 0);
   }
 
   get columnNameByStageType() {
-    return this.isTypeLevel ? LEVEL_COLUMN_NAME : THRESHOLD_COLUMN_NAME;
+    return this.isLevelType ? LEVEL_COLUMN_NAME : THRESHOLD_COLUMN_NAME;
   }
 
   get hasAvailableStages() {
     const allNewStages = this.args.stageCollection.stages.filter((stage) => stage.isBeingCreated) || [];
 
-    return (this.isTypeLevel && this.availableLevels.length > allNewStages.length) || !this.isTypeLevel;
+    return (this.isLevelType && this.availableLevels.length > allNewStages.length) || !this.isLevelType;
   }
 
   get mustChooseStageType() {
@@ -82,10 +82,10 @@ export default class Stages extends Component {
   @action
   addStage() {
     const isFirstStage = this.args.stageCollection.stages.length === 0;
-    const nextLowestLevelAvailable = this.isTypeLevel ? this.availableLevels?.[0] : undefined;
+    const nextLowestLevelAvailable = this.isLevelType ? this.availableLevels?.[0] : undefined;
     const stage = this.store.createRecord('stage', {
-      level: this.isTypeLevel ? nextLowestLevelAvailable.toString() : undefined,
-      threshold: !this.isTypeLevel && this.setFirstStage ? '0' : undefined,
+      level: this.isLevelType ? nextLowestLevelAvailable.toString() : undefined,
+      threshold: !this.isLevelType && this.setFirstStage ? '0' : undefined,
       title: isFirstStage ? 'Parcours terminé !' : null,
       message: isFirstStage
         ? 'Vous n’êtes visiblement pas tombé sur vos sujets préférés...Ou peut-être avez-vous besoin d’aide ? Dans tous les cas, rien n’est perdu d’avance ! Avec de l’accompagnement et un peu d’entraînement vous développerez à coup sûr vos compétences numériques !'

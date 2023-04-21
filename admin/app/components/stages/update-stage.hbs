@@ -1,10 +1,13 @@
 <section class="page-section">
   <form class="form stage-form" {{on "submit" this.updateStage}}>
     <div class="form-field">
-      <label for="threshold-or-level" class="form-field__label">
-        {{@stageTypeName}}
-      </label>
-      {{#if @isTypeLevel}}
+      {{#if @stage.isFirstSkill}}
+        <label class="form-field__label">Premier acquis</label>
+        <br/>
+      {{else if @isTypeLevel}}
+        <label for="threshold-or-level" class="form-field__label">
+          {{@stageTypeName}}
+        </label>
         <Stages::StageLevelSelect
           @id="threshold-or-level"
           @availableLevels={{@availableLevels}}
@@ -13,6 +16,9 @@
           @value={{this.level}}
         />
       {{else}}
+        <label for="threshold-or-level" class="form-field__label">
+          {{@stageTypeName}}
+        </label>
         <PixInput
           @id="threshold-or-level"
           @errorMessage="Le seuil est invalide"
