@@ -29,6 +29,20 @@ function deserializeForSessionsImport({ parsedCsvData, hasBillingMode }) {
   const sessions = [];
   const expectedHeadersKeys = Object.keys(headers);
 
+  const csvBillingModeKey = headers.billingMode;
+  const csvPrepaymentCodeKey = headers.prepaymentCode;
+
+  if (
+    _isScoAndHasBillingModeColumnsInCsv({
+      hasBillingMode,
+      parsedCsvLine: parsedCsvData[0],
+      csvBillingModeKey,
+      csvPrepaymentCodeKey,
+    })
+  ) {
+    throw new FileValidationError('CSV_HEADERS_NOT_VALID');
+  }
+
   _verifyHeaders({ expectedHeadersKeys, headers, parsedCsvLine: parsedCsvData[0], hasBillingMode });
 
   parsedCsvData.forEach((lineDTO, index) => {
@@ -224,6 +238,15 @@ function _verifyHeaders({ expectedHeadersKeys, parsedCsvLine, headers, hasBillin
       throw new FileValidationError('CSV_HEADERS_NOT_VALID');
     }
   });
+}
+
+function _isScoAndHasBillingModeColumnsInCsv({
+  hasBillingMode,
+  parsedCsvLine,
+  csvBillingModeKey,
+  csvPrepaymentCodeKey,
+}) {
+  return !hasBillingMode && (csvBillingModeKey in parsedCsvLine || csvPrepaymentCodeKey in parsedCsvLine);
 }
 
 function _isBillingModeOptional(key, hasBillingMode) {
