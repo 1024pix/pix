@@ -17,6 +17,7 @@
 
     <div class="embed__simulator {{unless this.isSimulatorLaunched 'blurred'}}">
       <iframe
+        tabindex={{unless this.isSimulatorLaunched "-1"}}
         class="embed__iframe"
         src="{{@embedDocument.url}}"
         title="{{@embedDocument.title}}"
