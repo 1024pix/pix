@@ -21,7 +21,6 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'findCertificationAttestationsForDivision');
-    sandbox.stub(usecases, 'findGroupsByOrganization');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
     sandbox.stub(usecases, 'getPaginatedParticipantsForAnOrganization');
     sandbox.stub(usecases, 'findOrganizationPlacesLot');

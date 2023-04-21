@@ -14,8 +14,8 @@ import * as obfuscationService from '../../../../lib/domain/services/obfuscation
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import * as userService from '../../../../lib/domain/services/user-service.js';
 import { createAndReconcileUserToOrganizationLearner } from '../../../../lib/domain/usecases/create-and-reconcile-user-to-organization-learner.js';
-import { passwordValidator } from '../../../../lib/domain/validators/password-validator.js';
-import { userValidator } from '../../../../lib/domain/validators/user-validator.js';
+import * as passwordValidator from '../../../../lib/domain/validators/password-validator.js';
+import * as userValidator from '../../../../lib/domain/validators/user-validator.js';
 
 import {
   CampaignCodeError,
