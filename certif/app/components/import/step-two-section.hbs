@@ -30,14 +30,18 @@
         @iconTitle="plus"
         class="import-page-section__collapsible-header--non-blocking"
       >
-        {{#each this.translatedNonBlockingErrorReport as |report|}}
-          <PixMessage @type="warning">
-            <p>{{t "pages.sessions.import.step-two.non-blocking-errors.line"}}
-              {{report.line}}
-              :
-              {{report.message}}</p>
-          </PixMessage>
-        {{/each}}
+        <ul>
+          {{#each this.translatedNonBlockingErrorReport as |report|}}
+            <li>
+              <PixMessage @type="warning">
+                {{t "pages.sessions.import.step-two.non-blocking-errors.line"}}
+                {{report.line}}
+                :
+                {{report.message}}
+              </PixMessage>
+            </li>
+          {{/each}}
+        </ul>
       </PixCollapsible>
     </div>
   {{/if}}
@@ -55,14 +59,18 @@
         @iconTitle="plus"
         class="import-page-section__collapsible-header--blocking"
       >
-        {{#each this.translatedBlockingErrorReport as |report|}}
-          <PixMessage @type="error">
-            <p>{{t "pages.sessions.import.step-two.blocking-errors.line"}}
-              {{report.line}}
-              :
-              {{report.message}}</p>
-          </PixMessage>
-        {{/each}}
+        <ul>
+          {{#each this.translatedBlockingErrorReport as |report|}}
+            <li>
+              <PixMessage @type="error">
+                {{t "pages.sessions.import.step-two.blocking-errors.line"}}
+                {{report.line}}
+                :
+                {{report.message}}
+              </PixMessage>
+            </li>
+          {{/each}}
+        </ul>
       </PixCollapsible>
     </div>
   {{/if}}
