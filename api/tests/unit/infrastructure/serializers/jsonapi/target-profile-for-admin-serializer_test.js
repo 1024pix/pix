@@ -49,6 +49,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             id: 500,
             level: 4,
             threshold: null,
+            isFirstSkill: false,
             title: 'titre 500',
             message: 'message 500',
             prescriberTitle: 'titre prescripteur 500',
@@ -58,10 +59,21 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             id: 501,
             level: 5,
             threshold: null,
+            isFirstSkill: false,
             title: 'titre 501',
             message: 'message 501',
             prescriberTitle: 'titre prescripteur 501',
             prescriberDescription: 'description prescripteur 501',
+          },
+          {
+            id: 502,
+            level: null,
+            threshold: null,
+            isFirstSkill: true,
+            title: 'titre 502',
+            message: 'message 502',
+            prescriberTitle: 'titre prescripteur 502',
+            prescriberDescription: 'description prescripteur 502',
           },
         ],
       });
@@ -290,6 +302,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
           {
             attributes: {
               level: 4,
+              'is-first-skill': false,
               message: 'message 500',
               'prescriber-description': 'description prescripteur 500',
               'prescriber-title': 'titre prescripteur 500',
@@ -302,6 +315,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
           {
             attributes: {
               level: 5,
+              'is-first-skill': false,
               message: 'message 501',
               'prescriber-description': 'description prescripteur 501',
               'prescriber-title': 'titre prescripteur 501',
@@ -309,6 +323,19 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               title: 'titre 501',
             },
             id: '501',
+            type: 'stages',
+          },
+          {
+            attributes: {
+              level: null,
+              'is-first-skill': true,
+              message: 'message 502',
+              'prescriber-description': 'description prescripteur 502',
+              'prescriber-title': 'titre prescripteur 502',
+              threshold: null,
+              title: 'titre 502',
+            },
+            id: '502',
             type: 'stages',
           },
           {
@@ -325,6 +352,10 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                   },
                   {
                     id: '501',
+                    type: 'stages',
+                  },
+                  {
+                    id: '502',
                     type: 'stages',
                   },
                 ],
