@@ -13,19 +13,11 @@ export default class Team extends Controller {
   @tracked selectedReferer = '';
 
   get shouldDisplayNoRefererSection() {
-    return (
-      this.model.hasCleaHabilitation &&
-      _hasAtLeastOneMemberAndNoReferer(this.model.members) &&
-      this.featureToggles.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled
-    );
+    return this.model.hasCleaHabilitation && _hasAtLeastOneMemberAndNoReferer(this.model.members);
   }
 
   get shouldDisplayUpdateRefererButton() {
-    return (
-      this.model.hasCleaHabilitation &&
-      _hasAtLeastTwoMembersAndOneReferer(this.model.members) &&
-      this.featureToggles.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled
-    );
+    return this.model.hasCleaHabilitation && _hasAtLeastTwoMembersAndOneReferer(this.model.members);
   }
 
   get membersSelectOptionsSortedByLastName() {
