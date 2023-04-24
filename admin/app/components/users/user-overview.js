@@ -1,96 +1,16 @@
-import Object, { action } from '@ember/object';
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
-import { none } from '@ember/object/computed';
-import { validator, buildValidations } from 'ember-cp-validations';
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { getOwner } from '@ember/application';
 import { service } from '@ember/service';
 import dayjs from 'dayjs';
 
 import ENV from 'pix-admin/config/environment';
 
-const Validations = buildValidations({
-  firstName: {
-    validators: [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true,
-        message: 'Le prénom ne peut pas être vide.',
-      }),
-      validator('length', {
-        min: 1,
-        max: 255,
-        message: 'La longueur du prénom ne doit pas excéder 255 caractères.',
-      }),
-    ],
-  },
-  lastName: {
-    validators: [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true,
-        message: 'Le nom ne peut pas être vide.',
-      }),
-      validator('length', {
-        min: 1,
-        max: 255,
-        message: 'La longueur du nom ne doit pas excéder 255 caractères.',
-      }),
-    ],
-  },
-  email: {
-    validators: [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true,
-        message: "L'adresse e-mail ne peut pas être vide.",
-        disabled: none('model.email'),
-      }),
-      validator('length', {
-        max: 255,
-        message: "La longueur de l'adresse e-mail ne doit pas excéder 255 caractères.",
-        disabled: none('model.email'),
-      }),
-      validator('format', {
-        ignoreBlank: true,
-        type: 'email',
-        message: "L'adresee e-mail n'a pas le bon format.",
-        disabled: none('model.email'),
-      }),
-    ],
-  },
-  username: {
-    validators: [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true,
-        message: "L'identifiant ne peut pas être vide.",
-        disabled: none('model.username'),
-      }),
-      validator('length', {
-        min: 1,
-        max: 255,
-        message: 'La longueur du nom ne doit pas excéder 255 caractères.',
-        disabled: none('model.username'),
-      }),
-    ],
-  },
-});
-
-class Form extends Object.extend(Validations) {
-  @tracked firstName;
-  @tracked lastName;
-  @tracked email;
-  @tracked username;
-  @tracked lang;
-  @tracked locale;
-}
-
 export default class UserOverview extends Component {
   @service accessControl;
   @service notifications;
   @service references;
+  @service store;
 
   @tracked displayAnonymizeModal = false;
   @tracked isEditionMode = false;
@@ -100,7 +20,7 @@ export default class UserOverview extends Component {
 
   constructor() {
     super(...arguments);
-    this.form = Form.create(getOwner(this).ownerInjection());
+    this.form = this.store.createRecord('user-form');
   }
 
   get externalURL() {
