@@ -43,6 +43,8 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
       birthCountry: 'ETATS-UNIS',
       birthINSEECode: '99404',
     });
+    const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+    cpfBirthInformationValidation.success({ birthCountry, birthINSEECode, birthPostalCode, birthCity });
 
     certificationCourseRepository.get.withArgs(4).resolves(certificationCourseToBeModified);
     certificationCpfService.getBirthInformation
@@ -54,9 +56,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
       })
-      .resolves(
-        new CpfBirthInformationValidation().success({ birthCountry, birthINSEECode, birthPostalCode, birthCity })
-      );
+      .resolves(cpfBirthInformationValidation);
 
     const command = {
       certificationCourseId: 4,
@@ -116,6 +116,8 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
 
     certificationCourseRepository.get.withArgs(4).resolves(certificationCourseToBeModified);
     const certificationCandidateError = { code: '', getMessage: () => 'Failure message' };
+    const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+    cpfBirthInformationValidation.failure({ certificationCandidateError });
     certificationCpfService.getBirthInformation
       .withArgs({
         birthCountry,
@@ -125,7 +127,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
       })
-      .resolves(new CpfBirthInformationValidation().failure({ certificationCandidateError }));
+      .resolves(cpfBirthInformationValidation);
 
     const command = {
       certificationCourseId: 4,
