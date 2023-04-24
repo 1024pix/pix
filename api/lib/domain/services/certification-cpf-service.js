@@ -23,7 +23,6 @@ class CpfBirthInformationValidation {
   failure({ certificationCandidateError, data }) {
     const message = certificationCandidateError.getMessage(data);
     this.errors.push({ message, code: certificationCandidateError.code });
-    return this;
   }
 
   success({ birthCountry, birthINSEECode, birthPostalCode, birthCity }) {
@@ -31,7 +30,6 @@ class CpfBirthInformationValidation {
     this.birthINSEECode = birthINSEECode;
     this.birthPostalCode = birthPostalCode;
     this.birthCity = birthCity;
-    return this;
   }
 
   hasFailed() {
@@ -150,23 +148,26 @@ async function getBirthInformation({
   const cpfBirthInformationValidation = new CpfBirthInformationValidation();
 
   if (!birthCountry && !birthINSEECode && !birthPostalCode && !birthCity) {
-    return cpfBirthInformationValidation.failure({
+    cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INFORMATION_REQUIRED,
     });
+    return cpfBirthInformationValidation;
   }
 
   if (!birthCountry) {
-    return cpfBirthInformationValidation.failure({
+    cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED,
     });
+    return cpfBirthInformationValidation;
   }
 
   const foundCountry = await _getCountry({ birthCountry, certificationCpfCountryRepository });
   if (!foundCountry) {
-    return cpfBirthInformationValidation.failure({
+    cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_NOT_FOUND,
       data: { birthCountry },
     });
+    return cpfBirthInformationValidation;
   }
 
   if (foundCountry.isForeign()) {
@@ -183,22 +184,25 @@ async function getBirthInformation({
       (birthINSEECode && birthPostalCode) ||
       (birthINSEECode && birthCity)
     ) {
-      return cpfBirthInformationValidation.failure({
+      cpfBirthInformationValidation.failure({
         certificationCandidateError:
           CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_AND_BIRTH_CITY_REQUIRED,
       });
+      return cpfBirthInformationValidation;
     }
 
     if (birthCity && !birthPostalCode) {
-      return cpfBirthInformationValidation.failure({
+      cpfBirthInformationValidation.failure({
         certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED,
       });
+      return cpfBirthInformationValidation;
     }
 
     if (!birthCity && birthPostalCode) {
-      return cpfBirthInformationValidation.failure({
+      cpfBirthInformationValidation.failure({
         certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED,
       });
+      return cpfBirthInformationValidation;
     }
 
     if (birthINSEECode) {

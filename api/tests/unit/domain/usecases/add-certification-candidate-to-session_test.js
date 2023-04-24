@@ -136,7 +136,8 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           sessionId: null,
           complementaryCertifications,
         });
-        const cpfBirthInformationValidation = new CpfBirthInformationValidation().success({
+        const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation.success({
           birthCountry: 'COUNTRY',
           birthINSEECode: 'INSEE_CODE',
           birthPostalCode: null,
@@ -173,7 +174,8 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
           sessionId: null,
         });
-        const cpfBirthInformationValidation = new CpfBirthInformationValidation().success({
+        const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation.success({
           birthCountry: 'COUNTRY',
           birthINSEECode: 'INSEE_CODE',
           birthPostalCode: null,
@@ -209,7 +211,8 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           sessionId: null,
         });
         certificationCandidate.validate = sinon.stub();
-        const cpfBirthInformationValidation = new CpfBirthInformationValidation().success({
+        const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation.success({
           birthCountry: 'COUNTRY',
           birthINSEECode: 'INSEE_CODE',
           birthPostalCode: null,
@@ -247,7 +250,8 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
             complementaryCertifications: [],
           });
           const certificationCandidateError = { code: '', getMessage: () => 'Failure message' };
-          const cpfBirthInformationValidation = new CpfBirthInformationValidation().failure({
+          const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+          cpfBirthInformationValidation.failure({
             certificationCandidateError,
           });
           certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);

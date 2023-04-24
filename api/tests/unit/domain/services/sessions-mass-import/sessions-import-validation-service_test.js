@@ -437,10 +437,10 @@ describe('Unit | Service | sessions import validation Service', function () {
           birthINSEECode: '67890',
         };
         const candidate = _buildValidCandidateData();
+        const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation.success(candidateInformation);
 
-        certificationCpfService.getBirthInformation.resolves(
-          new CpfBirthInformationValidation().success(candidateInformation)
-        );
+        certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
 
         // when
         const { certificationCandidateErrors } =
@@ -460,9 +460,9 @@ describe('Unit | Service | sessions import validation Service', function () {
         const isSco = false;
         const candidate = _buildValidCandidateData();
         candidate.firstName = null;
-        certificationCpfService.getBirthInformation.resolves(
-          new CpfBirthInformationValidation().success({ ...candidate })
-        );
+        const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation.success({ ...candidate });
+        certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
 
         // when
         const { certificationCandidateErrors } =
@@ -491,9 +491,9 @@ describe('Unit | Service | sessions import validation Service', function () {
             const isSco = false;
             const candidate = _buildValidCandidateData();
             candidate.billingMode = null;
-            certificationCpfService.getBirthInformation.resolves(
-              new CpfBirthInformationValidation().success({ ...candidate })
-            );
+            const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+            cpfBirthInformationValidation.success({ ...candidate });
+            certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
 
             // when
             const { certificationCandidateErrors } =
@@ -520,9 +520,9 @@ describe('Unit | Service | sessions import validation Service', function () {
             const isSco = false;
             const candidate = _buildValidCandidateData();
             candidate.billingMode = '';
-            certificationCpfService.getBirthInformation.resolves(
-              new CpfBirthInformationValidation().success({ ...candidate })
-            );
+            const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+            cpfBirthInformationValidation.success({ ...candidate });
+            certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
 
             // when
             const { certificationCandidateErrors } =
@@ -556,10 +556,10 @@ describe('Unit | Service | sessions import validation Service', function () {
           };
           const candidate = _buildValidCandidateData();
           candidate.billingMode = null;
+          const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+          cpfBirthInformationValidation.success(candidateInformation);
 
-          certificationCpfService.getBirthInformation.resolves(
-            new CpfBirthInformationValidation().success(candidateInformation)
-          );
+          certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
 
           // when
           const { certificationCandidateErrors } =
@@ -583,6 +583,8 @@ describe('Unit | Service | sessions import validation Service', function () {
           const certificationCpfCountryRepository = Symbol();
           const certificationCpfCityRepository = Symbol();
           const certificationCandidateError = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED;
+          const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+          cpfBirthInformationValidation.failure({ certificationCandidateError });
           certificationCpfService.getBirthInformation
             .withArgs({
               birthCountry: '',
@@ -592,7 +594,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               certificationCpfCountryRepository,
               certificationCpfCityRepository,
             })
-            .resolves(new CpfBirthInformationValidation().failure({ certificationCandidateError }));
+            .resolves(cpfBirthInformationValidation);
 
           // when
           const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
@@ -617,7 +619,8 @@ describe('Unit | Service | sessions import validation Service', function () {
         const certificationCpfCityRepository = Symbol();
         const certificationCandidateError = { code: 'CPF_INCORRECT', getMessage: noop };
         const certificationCandidateError2 = { code: 'CPF_INCORRECT 2', getMessage: noop };
-        const cpfBirthInformationValidation = new CpfBirthInformationValidation().failure({
+        const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation.failure({
           certificationCandidateError: certificationCandidateError,
         });
         cpfBirthInformationValidation.failure({ certificationCandidateError: certificationCandidateError2 });
