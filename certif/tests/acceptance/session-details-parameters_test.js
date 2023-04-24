@@ -93,21 +93,6 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             assert.dom(finalizeButton).doesNotExist();
           });
 
-          test('it should redirect to finalize page on click on finalize button', async function (assert) {
-            // given
-            const sessionCreatedAndStarted = server.create('session', { status: CREATED });
-            server.createList('certification-candidate', 2, { isLinked: true, sessionId: sessionCreatedAndStarted.id });
-
-            // when
-            const screen = await visit(`/sessions/${sessionCreatedAndStarted.id}`);
-            const finalizeButton = screen.getByRole('link', { name: 'Finaliser la session' });
-
-            await click(finalizeButton);
-
-            // then
-            assert.strictEqual(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
-          });
-
           test('it should display supervisor password', async function (assert) {
             // given
             const sessionWithSupervisorPassword = server.create('session', {
@@ -121,6 +106,56 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             // then
             const supervisorPasswordElement = screen.getByText('C-SOWHAT');
             assert.dom(supervisorPasswordElement).exists();
+          });
+
+          module('when finalize button is clicked', function () {
+            test('it should redirect to finalize page', async function (assert) {
+              // given
+              const sessionCreatedAndStarted = server.create('session', { status: CREATED });
+              server.createList('certification-candidate', 2, {
+                isLinked: true,
+                sessionId: sessionCreatedAndStarted.id,
+              });
+
+              // when
+              const screen = await visit(`/sessions/${sessionCreatedAndStarted.id}`);
+              const finalizeButton = screen.getByRole('link', { name: 'Finaliser la session' });
+
+              await click(finalizeButton);
+
+              // then
+              assert.strictEqual(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
+            });
+
+            module('when certification reports recovery fails', function () {
+              test('it should return error message', async function (assert) {
+                // given
+                const sessionCreatedAndStarted = server.create('session', { status: CREATED });
+                server.createList('certification-candidate', 2, {
+                  isLinked: true,
+                  sessionId: sessionCreatedAndStarted.id,
+                });
+                this.server.get('/sessions/:id/certification-reports', () => {
+                  return new Response(500, {}, { errors: [{ status: '500' }] });
+                });
+
+                // when
+                const screen = await visit(`/sessions/${sessionCreatedAndStarted.id}`);
+
+                const finalizeButton = screen.getByRole('link', { name: 'Finaliser la session' });
+                await click(finalizeButton);
+
+                // then
+                assert
+                  .dom(
+                    screen.getByText(
+                      'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
+                    )
+                  )
+                  .exists();
+                assert.strictEqual(currentURL(), `/sessions/${sessionCreatedAndStarted.id}`);
+              });
+            });
           });
         });
       });

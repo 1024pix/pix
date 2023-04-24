@@ -64,7 +64,7 @@ describe('Acceptance | Controller | password-controller', function () {
       });
     });
 
-    context('when existing email is provided, but some internal error has occured', function () {
+    context('when existing email is provided, but some internal error has occurred', function () {
       it('should reply with 500', async function () {
         // given
         sinon.stub(resetPasswordDemandRepository, 'create').rejects(new Error());

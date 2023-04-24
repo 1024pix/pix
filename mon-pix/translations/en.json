@@ -61,7 +61,7 @@
       "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
       "label": "Agree Pix terms of use and personal data protection policy"
     },
-    "error": "An error has occured. Please try again or contact the support.",
+    "error": "An error has occurred. Please try again or contact the support.",
     "form": {
       "error": "error",
       "invisible-password": "Hide password",
@@ -865,7 +865,7 @@
         "associate": "Link",
         "continue-with-pix": "Continue with my Pix account",
         "error-not-found": "If you're a pupil '<br>' Check your information (first name, last name and date of birth) or contact a teacher.'<br><br>' If you're a teacher '<br>' Access to this customised test is not available at the moment.",
-        "invalid-reconciliation-error": "An error has occured. <br> Please contact the support.",
+        "invalid-reconciliation-error": "An error has occurred. <br> Please contact the support.",
         "first-title": "{ organizationName }",
         "login-information-message": "The Pix account  '<b>'{ connectionMethod }'</b>' will be linked with the pupil:  '<b>'{ firstName }  { lastName }'</b>'.'<b>'If this is you, click on \"Link\". Otherwise, log out.",
         "login-information-title": "Pix account information",
@@ -1495,7 +1495,7 @@
             "empty-password": "Your password can't be empty.",
             "invalid-password": "There was an error in the password entered.",
             "mismatching-email": "The email addresses you entered do not match. Please check your entry for spelling errors.",
-            "unknown-error": "An error has occured. Please try again or contact the support.",
+            "unknown-error": "An error has occurred. Please try again or contact the support.",
             "wrong-email-format": "Your email address is invalid."
           },
           "new-email": {
