@@ -2,7 +2,7 @@ import Service from '@ember/service';
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
 module('Integration | Component | navbar-mobile-header', function (hooks) {

@@ -3,7 +3,7 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 class CurrentUserStub extends Service {
   organization = { id: 1 };

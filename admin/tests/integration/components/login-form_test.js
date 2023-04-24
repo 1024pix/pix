@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { render as renderScreen, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import { reject } from 'rsvp';
 import sinon from 'sinon';

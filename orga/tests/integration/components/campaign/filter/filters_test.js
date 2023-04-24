@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { clickByName, fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import { t } from 'ember-intl/test-support';

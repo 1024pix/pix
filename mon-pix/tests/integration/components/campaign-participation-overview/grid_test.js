@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { findAll, render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | CampaignParticipationOverview | Grid', function (hooks) {

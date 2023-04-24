@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { click, fillIn } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 const PICK_SELECT_OPTION_WITH_NESTED_LEVEL = 'question';
 const PICK_ANOTHER_SELECT_OPTION_WITH_NESTED_LEVEL = 'embed';

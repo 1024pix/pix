@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { click, fillIn, render, find } from '@ember/test-helpers';
 import { fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { clickByLabel } from '../../../helpers/click-by-label';

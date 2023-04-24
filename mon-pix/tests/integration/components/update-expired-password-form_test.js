@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { fillIn, triggerEvent, click } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { render } from '@1024pix/ember-testing-library';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';

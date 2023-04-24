@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { A } from '@ember/array';
 import { render } from '@1024pix/ember-testing-library';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | scorecard-details', function (hooks) {

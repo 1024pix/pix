@@ -4,7 +4,7 @@ import { clickByName, render, fillByLabel } from '@1024pix/ember-testing-library
 import { click } from '@ember/test-helpers';
 import sinon from 'sinon';
 import Service from '@ember/service';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Campaign::Results::AssessmentList', function (hooks) {
   setupIntlRenderingTest(hooks);

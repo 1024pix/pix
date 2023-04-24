@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, fillByLabel } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { A as EmberArray } from '@ember/array';
 
 module('Integration | Component | certification-centers/creation-form', function (hooks) {

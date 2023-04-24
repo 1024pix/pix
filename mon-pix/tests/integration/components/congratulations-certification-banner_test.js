@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Congratulations Certification Banner', function (hooks) {
   setupIntlRenderingTest(hooks);

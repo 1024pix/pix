@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
 import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Campaign::Charts::ParticipantsByDay', function (hooks) {
   setupIntlRenderingTest(hooks);

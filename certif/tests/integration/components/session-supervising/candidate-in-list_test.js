@@ -4,7 +4,7 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { waitForDialogClose } from '../../../helpers/wait-for';
 
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
 module('Integration | Component | SessionSupervising::CandidateInList', function (hooks) {
