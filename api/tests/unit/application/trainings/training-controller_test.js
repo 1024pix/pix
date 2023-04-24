@@ -2,6 +2,7 @@ const { sinon, expect, hFake } = require('../../../test-helper');
 const trainingController = require('../../../../lib/application/trainings/training-controller');
 const usecases = require('../../../../lib/domain/usecases/index.js');
 const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | Controller | training-controller', function () {
   describe('#findPaginatedTrainingSummaries', function () {
@@ -270,6 +271,11 @@ describe('Unit | Controller | training-controller', function () {
         tubes: Symbol('tubes'),
       };
 
+      const domainTransaction = Symbol();
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback(domainTransaction);
+      });
+
       const createdTrigger = Symbol('createdTrigger');
       const serializedTrigger = Symbol('serializedTrigger');
       sinon.stub(usecases, 'createOrUpdateTrainingTrigger').resolves(createdTrigger);
@@ -296,6 +302,7 @@ describe('Unit | Controller | training-controller', function () {
         threshold: deserializedTrigger.threshold,
         type: deserializedTrigger.type,
         tubes: deserializedTrigger.tubes,
+        domainTransaction,
       });
       expect(result).to.be.equal(serializedTrigger);
     });
