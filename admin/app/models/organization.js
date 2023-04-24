@@ -19,6 +19,7 @@ export default class Organization extends Model {
   @attr('date') createdAt;
   @attr('nullable-string') documentationUrl;
   @attr('boolean') showSkills;
+  @attr('boolean') enableMultipleSendingAssessment;
   @attr('nullable-string') archivistFullName;
   @attr('date') archivedAt;
   @attr('nullable-string') creatorFullName;
