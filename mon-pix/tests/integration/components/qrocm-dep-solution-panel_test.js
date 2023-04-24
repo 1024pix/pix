@@ -2,7 +2,7 @@ import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 const ANSWER = '.correction-qrocm__answer';
 const INPUT = 'input.correction-qrocm__answer--input';

@@ -3,7 +3,7 @@ import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 
 import Service from '@ember/service';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';

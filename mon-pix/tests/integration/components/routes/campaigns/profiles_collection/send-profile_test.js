@@ -4,7 +4,7 @@ import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering'
 import { contains } from '../../../../../helpers/contains';
 import { clickByLabel } from '../../../../../helpers/click-by-label';
 import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | routes/campaigns/profiles_collection/send-profile', function (hooks) {
   setupIntlRenderingTest(hooks);
