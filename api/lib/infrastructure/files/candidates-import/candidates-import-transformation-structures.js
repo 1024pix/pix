@@ -15,7 +15,7 @@ const {
 //  - header -> Header in the ods file under which the cell values will be found
 //  - property -> Property name of the target object in which the value will be put
 //  - transformFn -> Transformation function through which the cell value will be processed into the final value
-const _getTransformationsStructs = (translate) => [
+const _getTransformationsStruct = (translate) => [
   {
     header: translate('candidate-list-template.headers.birthname'),
     property: 'lastName',
@@ -80,18 +80,15 @@ const _getTransformationsStructs = (translate) => [
   },
 ];
 
-let translate;
-
 // ALL
 function getTransformationStructsForPixCertifCandidatesImport({ i18n, complementaryCertifications, isSco }) {
-  translate = i18n.__;
-  const TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT = _getTransformationsStructs(translate);
-  const transformationStruct = [...TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT];
+  const translate = i18n.__;
+  const transformationStruct = _getTransformationsStruct(translate);
 
-  _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct });
+  _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct, translate });
 
   if (!isSco) {
-    _includeBillingColumns({ transformationStruct });
+    _includeBillingColumns({ transformationStruct, translate });
   }
 
   return {
@@ -100,7 +97,7 @@ function getTransformationStructsForPixCertifCandidatesImport({ i18n, complement
   };
 }
 
-function _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct }) {
+function _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct, translate }) {
   const containsClea = complementaryCertifications.some(
     (complementaryCertification) => complementaryCertification.key === CLEA
   );
@@ -118,7 +115,7 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
     transformationStruct.push({
       header: `CléA Numérique${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasCleaNumerique',
-      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
     });
   }
 
@@ -126,7 +123,7 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
     transformationStruct.push({
       header: `Pix+ Droit${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasPixPlusDroit',
-      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
     });
   }
 
@@ -134,7 +131,7 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
     transformationStruct.push({
       header: `Pix+ Édu 1er degré${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasPixPlusEdu1erDegre',
-      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
     });
   }
 
@@ -142,12 +139,12 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
     transformationStruct.push({
       header: `Pix+ Édu 2nd degré${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasPixPlusEdu2ndDegre',
-      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
     });
   }
 }
 
-function _includeBillingColumns({ transformationStruct }) {
+function _includeBillingColumns({ transformationStruct, translate }) {
   transformationStruct.push({
     header: translate('candidate-list-template.pricing-pix'),
     property: 'billingMode',
@@ -175,10 +172,10 @@ function _getHeadersFromTransformationStruct(transformationStruct) {
   return _.map(transformationStruct, 'header');
 }
 
-function _toBooleanIfValueEqualsOuiOrNull(val) {
+function _toBooleanIfValueEqualsOuiOrNull({ val, translate }) {
   const yesTranslation = translate('candidate-list-template.yes');
 
-  return _.toUpper(val) === yesTranslation.toUpperCase() ? true : null;
+  return val?.toUpperCase() === yesTranslation.toUpperCase() ? true : null;
 }
 
 module.exports = {
