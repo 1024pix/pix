@@ -504,10 +504,12 @@ describe('Unit | Controller | certifications-center-controller', function () {
   describe('#validateSessionsForMassImport', function () {
     it('should call the usecase to validate sessions', async function () {
       // given
+      const i18n = Symbol('i18n');
       const request = {
         payload: { file: { path: 'csv-path' } },
         params: { certificationCenterId: 123 },
         auth: { credentials: { userId: 2 } },
+        i18n,
       };
       const cachedValidatedSessionsKey = 'uuid';
 
@@ -534,6 +536,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
         sessions: ['session'],
         certificationCenterId: 123,
         userId: 2,
+        i18n,
       });
     });
 

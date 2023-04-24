@@ -9,6 +9,7 @@ const { CERTIFICATION_CANDIDATES_ERRORS } = require('../../../../lib/domain/cons
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
+const translate = i18n.__;
 describe('Unit | Domain | Models | Certification Candidate', function () {
   describe('constructor', function () {
     it('should build a Certification Candidate from JSON', function () {
@@ -991,7 +992,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       { value: 'Prépayée', expectedTranslation: 'PREPAID' },
     ].forEach(({ value, expectedTranslation }) => {
       it(`should return ${expectedTranslation} when ${value} is translated`, function () {
-        expect(CertificationCandidate.parseBillingMode({ billingMode: value })).to.equal(expectedTranslation);
+        expect(CertificationCandidate.parseBillingMode({ billingMode: value, translate })).to.equal(
+          expectedTranslation
+        );
       });
     });
   });
@@ -1002,12 +1005,11 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       { value: 'FREE', expectedTranslation: 'Gratuite' },
       { value: 'PAID', expectedTranslation: 'Payante' },
       { value: 'PREPAID', expectedTranslation: 'Prépayée' },
-      { value: 'Gratuite', expectedTranslation: 'FREE' },
-      { value: 'Payante', expectedTranslation: 'PAID' },
-      { value: 'Prépayée', expectedTranslation: 'PREPAID' },
     ].forEach(({ value, expectedTranslation }) => {
       it(`should return ${expectedTranslation} when ${value} is translated`, function () {
-        expect(CertificationCandidate.translateBillingMode({ billingMode: value, i18n })).to.equal(expectedTranslation);
+        expect(CertificationCandidate.translateBillingMode({ billingMode: value, translate })).to.equal(
+          expectedTranslation
+        );
       });
     });
   });
