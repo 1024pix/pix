@@ -119,7 +119,7 @@ module('Acceptance | Team | List', function (hooks) {
           errors: [
             {
               code: 'UPDATE_ADMIN_MEMBER_ERROR',
-              detail: 'A problem occured while trying to update an admin member role',
+              detail: 'A problem occurred while trying to update an admin member role',
               status: '422',
               title: 'Unprocessable entity',
             },

@@ -667,7 +667,7 @@
           "instruction-with-name": "End the exam of {firstName} {lastName}?",
           "end-assessment": "End the exam",
           "success": "Success! {firstName} {lastName}'s test has been ended.",
-          "error": "An error occured, {firstName} {lastName}'s test could not be ended."
+          "error": "An error occurred, {firstName} {lastName}'s test could not be ended."
         },
         "resume-test-modal": {
           "actions": {

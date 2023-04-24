@@ -181,7 +181,7 @@ module('Integration | Component | login-form', function (hooks) {
     // given
     const msgErrorNotLinkedCertification = {
       status: Number(ApiErrorMessages.GATEWAY_TIMEOUT.CODE),
-      errors: [{ status: '502', title: 'Bad Gateway', detail: 'Bad gateway occured' }],
+      errors: [{ status: '502', title: 'Bad Gateway', detail: 'Bad gateway occurred' }],
     };
 
     sessionStub.authenticate.callsFake(() => reject(msgErrorNotLinkedCertification));

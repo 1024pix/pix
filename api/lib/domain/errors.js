@@ -909,7 +909,7 @@ class PasswordResetDemandNotFoundError extends DomainError {
 }
 
 class AdminMemberError extends DomainError {
-  constructor(message = 'An error occured on admin member', code = 'ADMIN_MEMBER_ERROR') {
+  constructor(message = 'An error occurred on admin member', code = 'ADMIN_MEMBER_ERROR') {
     super(message, code);
     this.code = code;
     this.message = message;

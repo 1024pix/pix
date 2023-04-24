@@ -72,7 +72,7 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
       assert.strictEqual(controller.userEmailToInviteError, "L'adresse e-mail saisie n'est pas valide.");
     });
 
-    test('it should send a notification error if an error occured', async function (assert) {
+    test('it should send a notification error if an error occurred', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/organizations/get/invitations');
       const store = this.owner.lookup('service:store');
