@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { contains } from '../../../helpers/contains';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 import { render } from '@1024pix/ember-testing-library';

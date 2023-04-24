@@ -5,7 +5,7 @@ import { render } from '@1024pix/ember-testing-library';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../../helpers/click-by-label';
 import { contains } from '../../../helpers/contains';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
 module('Integration | Component | user-account | email-with-validation-form', function (hooks) {
