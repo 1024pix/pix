@@ -1,0 +1,8 @@
+[
+  {
+    "id": 1,
+    "trainingId": "1",
+    "type": "prerequisite",
+    "threshold": 10
+  }
+]

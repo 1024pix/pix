@@ -44,11 +44,7 @@
                 </LinkTo>
               </td>
               <td headers="training-recommendable">
-                {{#if this.isTrainingRecommendationEnabled}}
-                  {{if summary.isRecommendable "Déclenchable" "Non déclenchable"}}
-                {{else}}
-                  Déclenchable
-                {{/if}}
+                {{if summary.isRecommendable "Déclenchable" "Non déclenchable"}}
               </td>
             </tr>
           {{/each}}

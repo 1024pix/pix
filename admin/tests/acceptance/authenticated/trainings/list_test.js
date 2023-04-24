@@ -35,7 +35,6 @@ module('Acceptance | Trainings | List', function (hooks) {
 
       test('it should list training summaries', async function (assert) {
         // given
-        server.create('feature-toggle', { id: 0, isTrainingRecommendationEnabled: true });
         server.createList('training-summary', 10);
         server.create('training-summary', { id: 11, title: 'Formation 11', isRecommendable: false });
         server.create('training-summary', { id: 12, title: 'Formation 12', isRecommendable: true });
@@ -49,26 +48,6 @@ module('Acceptance | Trainings | List', function (hooks) {
         assert.dom(screen.getByText('Déclenchable')).exists();
         assert.dom(screen.getByText('Formation 12')).exists();
         assert.dom(screen.getByText('Non déclenchable')).exists();
-      });
-
-      module('when training recommendation feature toggle is disabled', function () {
-        test('it should list training summaries', async function (assert) {
-          // given
-          server.create('feature-toggle', { id: 0, isTrainingRecommendationEnabled: false });
-          server.createList('training-summary', 10);
-          server.create('training-summary', { id: 11, title: 'Formation 11', isRecommendable: false });
-          server.create('training-summary', { id: 12, title: 'Formation 12', isRecommendable: true });
-
-          // when
-          const screen = await visit('/trainings/list');
-          await click(screen.getByRole('button', { name: 'Aller à la page suivante' }));
-
-          // then
-          assert.dom(screen.getByText('Formation 11')).exists();
-          assert.strictEqual(screen.queryAllByText('Déclenchable').length, 2);
-          assert.dom(screen.getByText('Formation 12')).exists();
-          assert.dom(screen.queryByText('Non déclenchable')).doesNotExist();
-        });
       });
 
       module('when filters are used', function (hooks) {
