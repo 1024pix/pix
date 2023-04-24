@@ -1,17 +1,20 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const { performance } = require('perf_hooks');
-const logger = require('../lib/infrastructure/logger');
-const { cache } = require('../lib/infrastructure/caches/learning-content-cache');
+const logger = require('../../../lib/infrastructure/logger');
+const { cache } = require('../../../lib/infrastructure/caches/learning-content-cache');
 
-const { knex, disconnect } = require('../db/knex-database-connection');
+const { knex, disconnect } = require('../../../db/knex-database-connection');
 
-const doSomething = async ({ throwError }) => {
-  if (throwError) {
-    throw new Error('An error occurred');
-  }
-  const data = await knex.select('id').from('users').first();
-  return data;
+const replaceThreshold = async () => {
+  const results = await knex('stages').select('*').where('threshold', 1);
+  logger.info(`${results.length} paliers trouvés à convertir...`);
+
+  const ids = await knex('stages')
+    .update({ isFirstSkill: true, threshold: null })
+    .where('threshold', 1)
+    .returning('id');
+  logger.info(`${ids.length} paliers convertis...`);
 };
 
 const isLaunchedFromCommandLine = require.main === module;
@@ -19,7 +22,7 @@ const isLaunchedFromCommandLine = require.main === module;
 async function main() {
   const startTime = performance.now();
   logger.info(`Script ${__filename} has started`);
-  await doSomething({ throwError: false });
+  await replaceThreshold();
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
   logger.info(`Script has ended: took ${duration} milliseconds`);
@@ -39,4 +42,4 @@ async function main() {
   }
 })();
 
-module.exports = { doSomething };
+module.exports = { main };
