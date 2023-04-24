@@ -53,7 +53,7 @@
       position: absolute;
       margin: 0 0 0 $pix-spacing-s;
       left: 100%;
-      width: calc(100vw - 100% - #{$app-sidebar-width} - 32px);
+      width: calc(100vw - 580px - #{$app-sidebar-width} - 32px);
     }
 
     &-icon {
