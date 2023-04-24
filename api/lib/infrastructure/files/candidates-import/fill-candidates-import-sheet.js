@@ -58,12 +58,12 @@ function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertif
     const title = translate('candidate-list-template.headers.candidates-list');
 
     const billingValidatorList = Object.values(CertificationCandidate.BILLING_MODES).map((value) =>
-      translate('candidate-list-template.billing-mode.' + value.toLowerCase())
+      translate(`candidate-list-template.billing-mode.${value.toLowerCase()}`)
     );
 
     odsBuilder
       .withTooltipOnCell({
-        targetCellAddress: title + '.O13',
+        targetCellAddress: `${title}.O13`,
         tooltipName: 'val-prepayment-code',
         tooltipTitle: translate('candidate-list-template.prepayment'),
         tooltipContentLines: [

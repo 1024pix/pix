@@ -116,7 +116,7 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
 
   if (containsClea) {
     transformationStruct.push({
-      header: 'CléA Numérique' + translate('candidate-list-template.yes-or-empty') + '',
+      header: `CléA Numérique${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasCleaNumerique',
       transformFn: _toBooleanIfValueEqualsOuiOrNull,
     });
@@ -124,7 +124,7 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
 
   if (containsPixPlusDroit) {
     transformationStruct.push({
-      header: 'Pix+ Droit' + translate('candidate-list-template.yes-or-empty') + '',
+      header: `Pix+ Droit${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasPixPlusDroit',
       transformFn: _toBooleanIfValueEqualsOuiOrNull,
     });
@@ -132,7 +132,7 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
 
   if (containsPixPlusEdu1erDegre) {
     transformationStruct.push({
-      header: 'Pix+ Édu 1er degré' + translate('candidate-list-template.yes-or-empty') + '',
+      header: `Pix+ Édu 1er degré${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasPixPlusEdu1erDegre',
       transformFn: _toBooleanIfValueEqualsOuiOrNull,
     });
@@ -140,7 +140,7 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
 
   if (containsPixPlusEdu2ndDegre) {
     transformationStruct.push({
-      header: 'Pix+ Édu 2nd degré' + translate('candidate-list-template.yes-or-empty') + '',
+      header: `Pix+ Édu 2nd degré${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasPixPlusEdu2ndDegre',
       transformFn: _toBooleanIfValueEqualsOuiOrNull,
     });
