@@ -32,16 +32,12 @@ export default class SessionsUpdateController extends Controller {
     try {
       await this.session.save();
     } catch (error) {
-      if (error.errors) {
-        switch (error.errors[0].status) {
-          case '400':
-            this.notifications.error(this.intl.t('common.api-error-messages.bad-request-error'));
-            break;
-          default:
-            this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
-            break;
-        }
+      const status = error?.errors?.[0]?.status;
+
+      if (status === '400') {
+        return this.notifications.error(this.intl.t('common.api-error-messages.bad-request-error'));
       }
+      return this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
     }
     this.router.transitionTo('authenticated.sessions.details', this.session.id);
   }
