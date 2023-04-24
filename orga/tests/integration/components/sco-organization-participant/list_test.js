@@ -4,7 +4,7 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import sinon from 'sinon';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | ScoOrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);

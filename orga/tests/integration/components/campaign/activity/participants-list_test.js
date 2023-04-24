@@ -4,7 +4,7 @@ import { click } from '@ember/test-helpers';
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
 import { fillByLabel, clickByText, render } from '@1024pix/ember-testing-library';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Activity::ParticipantsList', function (hooks) {
