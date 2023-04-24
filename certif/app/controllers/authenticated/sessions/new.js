@@ -21,6 +21,10 @@ export default class SessionsNewController extends Controller {
     return this.intl.t('pages.sessions.new.extra-information');
   }
 
+  get currentLocale() {
+    return this.intl.locale[0];
+  }
+
   @action
   async createSession(event) {
     event.preventDefault();
