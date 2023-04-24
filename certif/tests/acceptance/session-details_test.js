@@ -155,24 +155,19 @@ module('Acceptance | Session Details', function (hooks) {
     });
 
     module('when looking at the session details controls', function () {
-      module('when FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS is enabled', function () {
-        module('when session has clea results and session is published', function () {
-          test('it should show the clea result download section', async function (assert) {
-            // given
-            session.update({ publishedAt: '2022-01-01', hasSomeCleaAcquired: true });
-            server.create('feature-toggle', { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true });
+      module('when session has clea results and session is published', function () {
+        test('it should show the clea result download section', async function (assert) {
+          // given
+          session.update({ publishedAt: '2022-01-01', hasSomeCleaAcquired: true });
 
-            // when
-            const screen = await visit(`/sessions/${session.id}`);
+          // when
+          const screen = await visit(`/sessions/${session.id}`);
 
-            // then
-            assert.dom(screen.getByText(this.intl.t('pages.sessions.detail.panel-clea.title'))).exists();
-            assert
-              .dom(
-                screen.getByRole('button', { name: this.intl.t('pages.sessions.detail.panel-clea.download-button') })
-              )
-              .exists();
-          });
+          // then
+          assert.dom(screen.getByText(this.intl.t('pages.sessions.detail.panel-clea.title'))).exists();
+          assert
+            .dom(screen.getByRole('button', { name: this.intl.t('pages.sessions.detail.panel-clea.download-button') }))
+            .exists();
         });
       });
     });
