@@ -5,11 +5,9 @@ const {
   knex,
   mockLearningContent,
   learningContentBuilder,
-  sinon,
 } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const config = require('../../../../lib/config');
 const createServer = require('../../../../server');
 const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
 
@@ -286,123 +284,91 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         expect(badgeAcquisitions).to.have.lengthOf(2);
       });
 
-      describe('when training recommendation feature toggle is disabled', function () {
-        it('should create recommended trainings', async function () {
-          // given
-          sinon.stub(config, 'featureToggles').value({ isTrainingRecommendationEnabled: false });
-          const campaign = databaseBuilder.factory.buildCampaign({
-            targetProfileId: targetProfile.id,
-          });
-          databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkill0_0' });
-
-          // when
-          await _createAndCompleteCampaignParticipation({
-            user,
-            campaign,
-            badge,
-            options,
-            server,
-          });
-
-          // then
-          const recommendedTraining = await knex('user-recommended-trainings')
-            .where({
-              userId: user.id,
-              trainingId: training.id,
-            })
-            .first();
-          expect(recommendedTraining).to.exist;
-        });
-      });
-
-      describe('when training recommendation feature toggle is enabled', function () {
-        it('should create recommended trainings', async function () {
-          // given
-          sinon.stub(config, 'featureToggles').value({ isTrainingRecommendationEnabled: true });
-          const campaign = databaseBuilder.factory.buildCampaign({
-            targetProfileId: targetProfile.id,
-          });
-          databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkill0_0' });
-          const trainingTrigger = databaseBuilder.factory.buildTrainingTrigger({
-            trainingId: training.id,
-            threshold: 80,
-            type: TrainingTrigger.types.PREREQUISITE,
-          });
-          databaseBuilder.factory.buildTrainingTriggerTube({
-            trainingTriggerId: trainingTrigger.id,
-            tubeId: 'recTube0_0',
-            level: 2,
-          });
-
-          // when
-          await _createAndCompleteCampaignParticipation({
-            user,
-            campaign,
-            badge,
-            options,
-            server,
-          });
-
-          // then
-          const recommendedTraining = await knex('user-recommended-trainings')
-            .where({
-              userId: user.id,
-              trainingId: training.id,
-            })
-            .first();
-          expect(recommendedTraining).to.exist;
-        });
-      });
-    });
-
-    context('when assessment is of type certification', function () {
-      let certifiableUserId;
-      let certificationAssessmentId;
-
-      beforeEach(function () {
-        const limitDate = new Date('2020-01-01T00:00:00Z');
-        const dateAfterLimitDate = new Date('2020-01-02T00:00:00Z');
-        certifiableUserId = databaseBuilder.factory.buildUser().id;
-
-        const competenceIdSkillIdPairs =
-          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
-            learningContent,
-            userId: certifiableUserId,
-            placementDate: limitDate,
-            earnedPix: 8,
-          });
-
-        certificationAssessmentId = databaseBuilder.factory.buildAnsweredNotCompletedCertificationAssessment({
-          certifiableUserId,
-          competenceIdSkillIdPairs,
-          limitDate: dateAfterLimitDate,
-        }).id;
-        const badgeId = databaseBuilder.factory.buildBadge().id;
-        databaseBuilder.factory.buildSkillSet({
-          badgeId,
-          skillIds: ['recSkill0_0'],
-        });
-
-        return databaseBuilder.commit();
-      });
-
-      afterEach(async function () {
-        await knex('certification-courses-last-assessment-results').delete();
-        await knex('competence-marks').delete();
-        await knex('assessment-results').delete();
-      });
-
-      it('should complete the certification assessment', async function () {
+      it('should create recommended trainings', async function () {
         // given
-        options.url = `/api/assessments/${certificationAssessmentId}/complete-assessment`;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
+        const campaign = databaseBuilder.factory.buildCampaign({
+          targetProfileId: targetProfile.id,
+        });
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkill0_0' });
+        const trainingTrigger = databaseBuilder.factory.buildTrainingTrigger({
+          trainingId: training.id,
+          threshold: 80,
+          type: TrainingTrigger.types.PREREQUISITE,
+        });
+        databaseBuilder.factory.buildTrainingTriggerTube({
+          trainingTriggerId: trainingTrigger.id,
+          tubeId: 'recTube0_0',
+          level: 2,
+        });
 
         // when
-        const response = await server.inject(options);
+        await _createAndCompleteCampaignParticipation({
+          user,
+          campaign,
+          badge,
+          options,
+          server,
+        });
 
         // then
-        expect(response.statusCode).to.equal(204);
+        const recommendedTraining = await knex('user-recommended-trainings')
+          .where({
+            userId: user.id,
+            trainingId: training.id,
+          })
+          .first();
+        expect(recommendedTraining).to.exist;
       });
+    });
+  });
+
+  context('when assessment is of type certification', function () {
+    let certifiableUserId;
+    let certificationAssessmentId;
+
+    beforeEach(function () {
+      const limitDate = new Date('2020-01-01T00:00:00Z');
+      const dateAfterLimitDate = new Date('2020-01-02T00:00:00Z');
+      certifiableUserId = databaseBuilder.factory.buildUser().id;
+
+      const competenceIdSkillIdPairs =
+        databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
+          learningContent,
+          userId: certifiableUserId,
+          placementDate: limitDate,
+          earnedPix: 8,
+        });
+
+      certificationAssessmentId = databaseBuilder.factory.buildAnsweredNotCompletedCertificationAssessment({
+        certifiableUserId,
+        competenceIdSkillIdPairs,
+        limitDate: dateAfterLimitDate,
+      }).id;
+      const badgeId = databaseBuilder.factory.buildBadge().id;
+      databaseBuilder.factory.buildSkillSet({
+        badgeId,
+        skillIds: ['recSkill0_0'],
+      });
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async function () {
+      await knex('certification-courses-last-assessment-results').delete();
+      await knex('competence-marks').delete();
+      await knex('assessment-results').delete();
+    });
+
+    it('should complete the certification assessment', async function () {
+      // given
+      options.url = `/api/assessments/${certificationAssessmentId}/complete-assessment`;
+      options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
     });
   });
 });
