@@ -4,7 +4,7 @@ import { fillByLabel, clickByName, render as renderScreen } from '@1024pix/ember
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.first-name.error';

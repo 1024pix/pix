@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';

@@ -3,7 +3,7 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | SupOrganizationParticipant::HeaderActions', function (hooks) {
   setupIntlRenderingTest(hooks);

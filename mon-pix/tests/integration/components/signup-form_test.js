@@ -8,7 +8,7 @@ import { render, clickByName } from '@1024pix/ember-testing-library';
 import ArrayProxy from '@ember/array/proxy';
 import { resolve, reject } from 'rsvp';
 import EmberObject from '@ember/object';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';

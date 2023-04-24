@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { clickByName, render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Campaigns | details', function (hooks) {

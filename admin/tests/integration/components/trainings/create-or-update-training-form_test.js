@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { triggerEvent } from '@ember/test-helpers';
 import { render, clickByName } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { typeCategories, localeCategories } from 'pix-admin/models/training';
 
 module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', function (hooks) {

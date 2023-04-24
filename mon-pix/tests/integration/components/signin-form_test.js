@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
 import { fillIn } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { render, clickByName } from '@1024pix/ember-testing-library';
 
 import Service from '@ember/service';

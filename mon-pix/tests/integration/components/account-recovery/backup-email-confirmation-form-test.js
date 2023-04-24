@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { contains } from '../../../helpers/contains';

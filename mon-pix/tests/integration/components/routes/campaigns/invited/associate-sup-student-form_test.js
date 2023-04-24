@@ -5,7 +5,7 @@ import { fillInByLabel } from '../../../../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../../../../helpers/click-by-label';
 import { contains } from '../../../../../helpers/contains';
 import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 
 module('Integration | Component | routes/campaigns/invited/associate-sup-student-form', function (hooks) {

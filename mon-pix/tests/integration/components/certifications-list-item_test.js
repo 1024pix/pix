@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
 import { click, find } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 

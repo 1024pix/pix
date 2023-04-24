@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { resolve } from 'rsvp';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { triggerEvent } from '@ember/test-helpers';
 import Service from '@ember/service';

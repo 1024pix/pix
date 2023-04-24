@@ -2,7 +2,7 @@ import Service from '@ember/service';
 import { module, test } from 'qunit';
 import { fillIn } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import { render } from '@1024pix/ember-testing-library';
 import { clickByLabel } from '../../helpers/click-by-label';

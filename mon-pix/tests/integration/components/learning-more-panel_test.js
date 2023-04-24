@@ -3,7 +3,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import { A } from '@ember/array';
 import EmberObject from '@ember/object';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | learning-more-panel', function (hooks) {
   setupIntlRenderingTest(hooks);

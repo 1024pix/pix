@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import EmberObject from '@ember/object';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | competence-card-mobile', function (hooks) {
   setupIntlRenderingTest(hooks);

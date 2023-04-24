@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | inaccessible-campaign', function (hooks) {
   setupIntlRenderingTest(hooks);

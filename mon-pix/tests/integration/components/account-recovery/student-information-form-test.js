@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import Service from '@ember/service';
 import { render, triggerEvent } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { contains } from '../../../helpers/contains';
 import sinon from 'sinon';

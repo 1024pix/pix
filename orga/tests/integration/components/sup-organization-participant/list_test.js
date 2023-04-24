@@ -4,7 +4,7 @@ import { click } from '@ember/test-helpers';
 import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 
 module('Integration | Component | SupOrganizationParticipant::List', function (hooks) {

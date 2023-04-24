@@ -2,7 +2,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Dashboard | Content', function (hooks) {
