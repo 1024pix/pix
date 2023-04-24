@@ -19,6 +19,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   let sessionRepository;
   let complementaryCertificationRepository;
   let sessionCodeService;
+  let i18n;
 
   beforeEach(function () {
     accessCode = 'accessCode';
@@ -37,6 +38,8 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     sessionsImportValidationService.validateSession = sinon.stub();
     temporarySessionsStorageForMassImportService.save = sinon.stub();
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
+    i18n = { __: sinon.stub() };
+    i18n.__.withArgs('candidate-list-template.billing-mode.free').returns('FREE');
   });
 
   context('when sessions and candidates are valid', function () {
@@ -78,6 +81,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         certificationCenterRepository,
         sessionRepository,
         sessionCodeService,
+        i18n,
       });
 
       // then
@@ -195,6 +199,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCourseRepository,
           sessionRepository,
           sessionCodeService,
+          i18n,
         });
 
         // then
@@ -265,6 +270,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         certificationCenterRepository,
         sessionRepository,
         sessionCodeService,
+        i18n,
       });
 
       // then
@@ -297,6 +303,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterRepository,
           sessionRepository,
           sessionCodeService,
+          i18n,
         });
 
         // then
@@ -340,6 +347,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterRepository,
           sessionRepository,
           sessionCodeService,
+          i18n,
         });
 
         // then

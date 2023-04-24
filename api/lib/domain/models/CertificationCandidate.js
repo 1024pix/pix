@@ -198,13 +198,13 @@ class CertificationCandidate {
     this.prepaymentCode = prepaymentCode;
   }
 
-  static parseBillingMode({ billingMode }) {
+  static parseBillingMode({ billingMode, translate }) {
     switch (billingMode) {
-      case 'Gratuite':
+      case translate('candidate-list-template.billing-mode.free'):
         return 'FREE';
-      case 'Payante':
+      case translate('candidate-list-template.billing-mode.paid'):
         return 'PAID';
-      case 'Prépayée':
+      case translate('candidate-list-template.billing-mode.prepaid'):
         return 'PREPAID';
       case null:
       default:
@@ -212,9 +212,7 @@ class CertificationCandidate {
     }
   }
 
-  static translateBillingMode({ billingMode, i18n }) {
-    const translate = i18n.__;
-
+  static translateBillingMode({ billingMode, translate }) {
     switch (billingMode) {
       case 'FREE':
         return translate('candidate-list-template.billing-mode.free');
@@ -222,12 +220,6 @@ class CertificationCandidate {
         return translate('candidate-list-template.billing-mode.paid');
       case 'PREPAID':
         return translate('candidate-list-template.billing-mode.prepaid');
-      case translate('candidate-list-template.billing-mode.free'):
-        return 'FREE';
-      case translate('candidate-list-template.billing-mode.paid'):
-        return 'PAID';
-      case translate('candidate-list-template.billing-mode.prepaid'):
-        return 'PREPAID';
       case null:
       default:
         return '';

@@ -28,6 +28,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   complementaryCertificationRepository,
   certificationCenterRepository,
 }) {
+  const translate = i18n.__;
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
   const candidateImportStructs = getTransformationStructsForPixCertifCandidatesImport({
     i18n,
@@ -108,7 +109,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       });
 
       if (billingMode) {
-        billingMode = CertificationCandidate.translateBillingMode({ billingMode, i18n });
+        billingMode = CertificationCandidate.parseBillingMode({ billingMode, translate });
       }
 
       const certificationCandidate = new CertificationCandidate({

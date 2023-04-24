@@ -58,7 +58,7 @@ module.exports = class CandidateData {
     this.sessionId = this._emptyStringIfNull(sessionId);
     this.userId = this._emptyStringIfNull(userId);
     this.organizationLearnerId = this._emptyStringIfNull(organizationLearnerId);
-    this.billingMode = CertificationCandidate.translateBillingMode({ billingMode, i18n });
+    this.billingMode = CertificationCandidate.translateBillingMode({ billingMode, translate: this.translate });
     this.prepaymentCode = this._emptyStringIfNull(prepaymentCode);
     this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
