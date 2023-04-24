@@ -72,7 +72,7 @@ module('Integration | Component | organizations/information-section', function (
       await fillByLabel('Département (en 3 chiffres)', 'new provinceCode');
       await clickByName('Gestion d’élèves/étudiants');
       await fillByLabel('Lien vers la documentation', 'new documentationUrl');
-      await clickByName("Affichage des acquis dans l'export de résultats");
+      await clickByName("Activer l'envoi multiple pour les campagnes de type évaluation");
 
       // when
       await clickByName('Annuler');
@@ -121,6 +121,7 @@ module('Integration | Component | organizations/information-section', function (
       await clickByName('SSO');
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'organization 2' }));
+      await clickByName("Affichage des acquis dans l'export de résultats");
 
       // when
       await clickByName('Enregistrer');

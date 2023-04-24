@@ -127,6 +127,7 @@ class Form extends Object.extend(Validations) {
   @tracked documentationUrl;
   @tracked showSkills;
   @tracked identityProviderForCampaigns;
+  @tracked enableMultipleSendingAssessement;
 }
 
 export default class OrganizationInformationSectionEditionMode extends Component {
@@ -164,6 +165,11 @@ export default class OrganizationInformationSectionEditionMode extends Component
   }
 
   @action
+  onChangeMultipleSendingAssessment() {
+    this.form.enableMultipleSendingAssessment = !this.form.enableMultipleSendingAssessment;
+  }
+
+  @action
   async updateOrganization(event) {
     event.preventDefault();
 
@@ -188,6 +194,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.args.organization.set('documentationUrl', this.form.documentationUrl);
     this.args.organization.set('showSkills', this.form.showSkills);
     this.args.organization.set('identityProviderForCampaigns', this.form.identityProviderForCampaigns);
+    this.args.organization.set('enableMultipleSendingAssessment', this.form.enableMultipleSendingAssessment);
 
     this.closeAndResetForm();
     return this.args.onSubmit();
@@ -205,6 +212,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.form.isManagingStudents = this.args.organization.isManagingStudents;
     this.form.documentationUrl = this.args.organization.documentationUrl;
     this.form.showSkills = this.args.organization.showSkills;
+    this.form.enableMultipleSendingAssessment = this.args.organization.enableMultipleSendingAssessment;
     this.form.identityProviderForCampaigns =
       this.args.organization.identityProviderForCampaigns ?? this.noIdentityProviderOption.value;
   }

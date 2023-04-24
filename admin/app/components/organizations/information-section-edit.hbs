@@ -196,6 +196,15 @@
       </div>
     {{/if}}
 
+    <div class="form-field organization-edit-form__checkbox">
+      <PixCheckbox
+        @id="enableMultipleSendingAssessement"
+        {{on "change" this.onChangeMultipleSendingAssessment}}
+        @checked={{this.form.enableMultipleSendingAssessment}}
+      >
+        Activer l'envoi multiple pour les campagnes de type évaluation
+      </PixCheckbox>
+    </div>
     <div class="form-actions">
       <PixButton
         @size="small"
