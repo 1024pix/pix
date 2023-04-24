@@ -117,7 +117,7 @@ module.exports = {
     return h
       .response(candidateImportSheet)
       .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
-      .header('Content-Disposition', 'attachment; filename=' + filename + sessionId + '.ods');
+      .header('Content-Disposition', `attachment; filename=${filename + sessionId}.ods`);
   },
 
   async getCertificationCandidates(request, h, dependencies = { certificationCandidateSerializer }) {
