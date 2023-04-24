@@ -3,9 +3,16 @@ module.exports = async function createOrUpdateTrainingTrigger({
   tubes,
   type,
   threshold,
+  domainTransaction,
   trainingRepository,
   trainingTriggerRepository,
 }) {
-  await trainingRepository.get({ trainingId });
-  return trainingTriggerRepository.createOrUpdate({ trainingId, triggerTubesForCreation: tubes, type, threshold });
+  await trainingRepository.get({ trainingId, domainTransaction });
+  return trainingTriggerRepository.createOrUpdate({
+    trainingId,
+    triggerTubesForCreation: tubes,
+    type,
+    threshold,
+    domainTransaction,
+  });
 };
