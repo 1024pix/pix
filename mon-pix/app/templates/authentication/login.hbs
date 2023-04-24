@@ -1,4 +1,10 @@
 {{page-title (t "pages.sign-in.title")}}
 <main class="sign-form-page" role="main">
-  <SigninForm />
+  <section class="sign-form-page__container">
+    <SigninForm />
+
+    {{#if this.isInternationalDomain}}
+      <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
+    {{/if}}
+  </section>
 </main>
