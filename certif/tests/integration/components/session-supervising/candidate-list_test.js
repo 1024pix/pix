@@ -3,7 +3,7 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillIn, click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | SessionSupervising::CandidateList', function (hooks) {
   setupIntlRenderingTest(hooks);

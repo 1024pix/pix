@@ -4,7 +4,7 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | login-session-supervisor-form', function (hooks) {
   setupIntlRenderingTest(hooks);

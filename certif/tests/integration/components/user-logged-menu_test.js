@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { run } from '@ember/runloop';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
