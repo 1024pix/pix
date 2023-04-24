@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { click, currentURL } from '@ember/test-helpers';
 import { fillByLabel, clickByName, visit, within } from '@1024pix/ember-testing-library';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | Route | routes/authenticated/certifications/certification | informations', function (hooks) {
