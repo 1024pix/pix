@@ -1,4 +1,6 @@
 const databaseBuffer = require('../database-buffer');
+const _ = require("lodash");
+const buildTargetProfile = require("./build-target-profile");
 
 function buildStage({
   id = databaseBuffer.getNextId(),
@@ -11,6 +13,7 @@ function buildStage({
   prescriberTitle = null,
   prescriberDescription = null,
 } = {}) {
+  targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile().id : targetProfileId;
   const values = {
     id,
     message,
