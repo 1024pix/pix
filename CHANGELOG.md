@@ -1,5 +1,40 @@
 # Pix Changelog
 
+## v3.346.0 (24/04/2023)
+
+
+### :rocket: Amélioration
+- [#6038](https://github.com/1024pix/pix/pull/6038) [FEATURE] Empêcher l'entrée à la tabulation sur l'embed si le simulateur n'est pas lancé sur Pix-App (PIX-7826)
+- [#6046](https://github.com/1024pix/pix/pull/6046) [FEATURE] Expliquer l'obtention du palier 1er acquis lors du survol du bouton d'ajout de palier premier acquis (PIX-6517)
+- [#6043](https://github.com/1024pix/pix/pull/6043) [FEATURE] Pouvoir ajouter un palier "1er acquis" à la collection des paliers d'un profil cible (PIX-7334)
+- [#6029](https://github.com/1024pix/pix/pull/6029) [FEATURE] Harmonisation de la page de création de campagne (PIX-7663)
+- [#6022](https://github.com/1024pix/pix/pull/6022) [FEATURE] Création d'une vue pour l'affichage des prescrits actifs (PIX-7682).
+- [#6019](https://github.com/1024pix/pix/pull/6019) [FEATURE] Amélioration visuelle des consignes des écrans d'épreuve et de l'espacement en générale sur Pix-App (PIX-7716)
+- [#6031](https://github.com/1024pix/pix/pull/6031) [FEATURE] Pouvoir re-choisir son type de palier quand on supprime tous les paliers, le palier zéro en dernier (PIX-7680)
+- [#6000](https://github.com/1024pix/pix/pull/6000) [FEATURE] Amélioration A11y du fil d'Ariane d'import massif de sessions (PIX-7350)
+- [#6032](https://github.com/1024pix/pix/pull/6032) [FEATURE] align left header info content (PIX-7661)
+- [#5998](https://github.com/1024pix/pix/pull/5998) [FEATURE] Modifier l'icône de l'IndicatorCard Profils reçus pour coller à la maquette (PIX-7660)
+- [#6023](https://github.com/1024pix/pix/pull/6023) [FEATURE] Agrandissement de la font du composant fil d'ariane (PIX-7659).
+
+### :building_construction: Tech
+- [#6045](https://github.com/1024pix/pix/pull/6045) [TECH] Injecter les dépendances dans les use-cases pour préparer la migration ESM (épisode 357)
+- [#6044](https://github.com/1024pix/pix/pull/6044) [TECH] Montée de version de Artillery en 2.0.0
+- [#5967](https://github.com/1024pix/pix/pull/5967) [TECH] Ajoute un ADR sur la suppression des prescrits avec une vue SQL (PIX-7645)
+- [#6010](https://github.com/1024pix/pix/pull/6010) [TECH][ORGA] Montée de version de Pix UI en v31.1.0 (PIX-7781)
+- [#6035](https://github.com/1024pix/pix/pull/6035) [TECH] Wrapper les controllers et les constantes du domaine
+- [#6034](https://github.com/1024pix/pix/pull/6034) [TECH] Injecter les dépendances pour préparer la migration ESM
+- [#6030](https://github.com/1024pix/pix/pull/6030) [TECH] Amélioration du HTML de l'import en masse (PIX-7813).
+- [#6024](https://github.com/1024pix/pix/pull/6024) [TECH] Mettre à jour le package. json (PIX-7816)
+- [#5938](https://github.com/1024pix/pix/pull/5938) [TECH] Refacto pour persister les paliers en un seul appel sur PixAdmin (PIX-7222)
+
+### :bug: Correction
+- [#6033](https://github.com/1024pix/pix/pull/6033) [BUGFIX] Mettre en anglais la traduction anglaise de la légende des filtres sur la liste de campagnes (PIX-7729)
+- [#6027](https://github.com/1024pix/pix/pull/6027) [BUGFIX] Correction des marges des pages de checkpoints et résultats (PIX-7818).
+
+### :coffee: Autre
+- [#6049](https://github.com/1024pix/pix/pull/6049) [BUMP] Update dependency ember-cookies to v1 (certif)
+- [#6048](https://github.com/1024pix/pix/pull/6048) [BUMP] Update dependency ember-cookies to v1 (mon-pix)
+
 ## v3.345.0 (20/04/2023)
 
 
