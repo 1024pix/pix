@@ -208,9 +208,6 @@ const configuration = (function () {
     },
 
     featureToggles: {
-      isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: isFeatureEnabled(
-        process.env.FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS
-      ),
       isMassiveSessionManagementEnabled: isFeatureEnabled(process.env.FT_MASSIVE_SESSION_MANAGEMENT),
       isAlwaysOkValidateNextChallengeEndpointEnabled: isFeatureEnabled(
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT
@@ -356,7 +353,6 @@ const configuration = (function () {
     config.features.pixCertifScoBlockedAccessDateLycee = null;
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
-    config.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled = false;
     config.featureToggles.isMassiveSessionManagementEnabled = false;
     config.featureToggles.isPix1dEnabled = true;
     config.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled = true;
