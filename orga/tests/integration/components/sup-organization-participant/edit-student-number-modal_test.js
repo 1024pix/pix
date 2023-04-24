@@ -265,7 +265,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
           errors: [
             {
               status: '412',
-              detail: 'Error occured',
+              detail: 'Error occurred',
             },
           ],
         };
@@ -301,7 +301,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
           errors: [
             {
               status: '412',
-              detail: 'Error occured',
+              detail: 'Error occurred',
             },
           ],
         };

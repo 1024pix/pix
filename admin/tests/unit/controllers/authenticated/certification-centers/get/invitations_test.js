@@ -7,7 +7,7 @@ module('Unit | Controller | authenticated/certification-centers/get/invitations'
   setupTest(hooks);
 
   module('#createInvitation', function () {
-    test('it should send a notification error if an error occured', async function (assert) {
+    test('it should send a notification error if an error occurred', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certification-centers/get/invitations');
       const store = this.owner.lookup('service:store');
