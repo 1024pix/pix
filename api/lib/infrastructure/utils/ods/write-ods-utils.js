@@ -26,9 +26,9 @@ class OdsUtilsBuilder {
     return this;
   }
 
-  headerTranslation({ headerValues, translate }) {
+  headersTranslation({ headersValues, translate }) {
     const intermediateXmlDom = _.cloneDeep(this.xmlDom);
-    for (const propertyName of headerValues) {
+    for (const propertyName of headersValues) {
       const targetXmlDomElement = _getXmlDomElementByText(intermediateXmlDom, propertyName);
       if (targetXmlDomElement) {
         _translateNoteBackgroundTitle(targetXmlDomElement, translate);
@@ -38,8 +38,6 @@ class OdsUtilsBuilder {
     }
 
     this.xmlDom = intermediateXmlDom;
-
-    return this;
   }
 
   withTooltipOnCell({ xmlDom, tooltipName, tooltipTitle, tooltipContentLines }) {
@@ -129,7 +127,7 @@ class OdsUtilsBuilder {
   }
 
   withColumnGroupHeader({ headerLabels, numberOfColumns, lineNumber, rowspan }) {
-    const labelTranslation = this.translate('candidate-list-template.headers.birthplace');
+    const translatedLabel = this.translate('candidate-list-template.headers.birthplace');
     const addedCellOption = new AddedCellOption({
       labels: headerLabels,
       rowspan,
@@ -139,7 +137,7 @@ class OdsUtilsBuilder {
 
     this._withCellToEndOfLineWithStyleOfCellLabelled({
       lineNumber,
-      cellToCopyLabel: labelTranslation,
+      cellToCopyLabel: translatedLabel,
       addedCellOption,
     });
 

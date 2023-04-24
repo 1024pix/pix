@@ -29,7 +29,7 @@ module.exports = async function fillCandidatesImportSheet({
 
   const odsBuilder = new writeOdsUtils.OdsUtilsBuilder({ template, translate });
 
-  odsBuilder.headerTranslation({ headerValues: IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS, translate });
+  odsBuilder.headersTranslation({ headersValues: IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS, translate });
 
   _addSession(odsBuilder, session);
   _addColumns({

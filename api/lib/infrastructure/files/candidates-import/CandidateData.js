@@ -60,25 +60,18 @@ module.exports = class CandidateData {
     this.organizationLearnerId = this._emptyStringIfNull(organizationLearnerId);
     this.billingMode = CertificationCandidate.translateBillingMode({ billingMode, translate: this.translate });
     this.prepaymentCode = this._emptyStringIfNull(prepaymentCode);
-    this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(
-      complementaryCertifications,
-      CLEA,
-      this.translate
-    );
+    this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, CLEA);
     this.pixPlusDroit = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
-      PIX_PLUS_DROIT,
-      this.translate
+      PIX_PLUS_DROIT
     );
     this.pixPlusEdu1erDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
-      PIX_PLUS_EDU_1ER_DEGRE,
-      this.translate
+      PIX_PLUS_EDU_1ER_DEGRE
     );
     this.pixPlusEdu2ndDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
-      PIX_PLUS_EDU_2ND_DEGRE,
-      this.translate
+      PIX_PLUS_EDU_2ND_DEGRE
     );
     this.count = number;
     this._clearBirthInformationDataForExport();
@@ -103,14 +96,14 @@ module.exports = class CandidateData {
     }
   }
 
-  _displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, certificationKey, translate) {
+  _displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, certificationKey) {
     if (!complementaryCertifications) {
       return '';
     }
     const hasComplementaryCertification = complementaryCertifications.some(
       (complementaryCertification) => complementaryCertification.key === certificationKey
     );
-    return hasComplementaryCertification ? translate('candidate-list-template.yes') : '';
+    return hasComplementaryCertification ? this.translate('candidate-list-template.yes') : '';
   }
 
   static fromCertificationCandidateAndCandidateNumber({ certificationCandidate, number, i18n }) {
