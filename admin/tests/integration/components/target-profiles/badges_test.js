@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { find } from '@ember/test-helpers';
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
 module('Integration | Component | TargetProfiles::Badges', function (hooks) {
