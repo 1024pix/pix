@@ -1,6 +1,6 @@
 const databaseBuffer = require('../database-buffer');
-const _ = require("lodash");
-const buildTargetProfile = require("./build-target-profile");
+const _ = require('lodash');
+const buildTargetProfile = require('./build-target-profile');
 
 function buildStage({
   id = databaseBuffer.getNextId(),
