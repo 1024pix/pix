@@ -181,6 +181,7 @@ const stageCollectionRepository = require('../../infrastructure/repositories/use
 const campaignValidator = require('../validators/campaign-validator.js');
 const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service.js');
 const temporarySessionsStorageForMassImportService = require('../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
+const sessionValidator = require('../validators/session-validator.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -333,6 +334,7 @@ const dependencies = {
   sessionForSupervisingRepository,
   sessionJuryCommentRepository,
   sessionSummaryRepository,
+  sessionValidator,
   settings,
   skillRepository,
   skillSetRepository,

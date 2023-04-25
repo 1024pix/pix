@@ -1,10 +1,10 @@
 const { expect, sinon } = require('../../../test-helper');
 const updateSession = require('../../../../lib/domain/usecases/update-session');
-const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 
 describe('Unit | UseCase | update-session', function () {
   let originalSession;
   let sessionRepository;
+  let sessionValidator;
 
   const certificationCenterId = 1;
 
@@ -25,9 +25,9 @@ describe('Unit | UseCase | update-session', function () {
       get: sinon.stub(),
       updateSessionInfo: sinon.stub(),
     };
-    sinon.stub(sessionValidator, 'validate');
     sessionRepository.get.withArgs(originalSession.id).resolves(originalSession);
     sessionRepository.updateSessionInfo.callsFake((updatedSession) => updatedSession);
+    sessionValidator = { validate: sinon.stub() };
     sessionValidator.validate.withArgs(originalSession).returns();
   });
 
@@ -50,7 +50,8 @@ describe('Unit | UseCase | update-session', function () {
       // when
       const promise = updateSession({
         session: updatedSession,
-        sessionRepository: sessionRepository,
+        sessionRepository,
+        sessionValidator,
       });
 
       // then
@@ -78,7 +79,8 @@ describe('Unit | UseCase | update-session', function () {
       // when
       const promise = updateSession({
         session: updatedSession,
-        sessionRepository: sessionRepository,
+        sessionRepository,
+        sessionValidator,
       });
 
       // then
@@ -98,6 +100,7 @@ describe('Unit | UseCase | update-session', function () {
       const promise = updateSession({
         session: originalSession,
         sessionRepository: sessionRepository,
+        sessionValidator,
       });
 
       // then
@@ -111,7 +114,8 @@ describe('Unit | UseCase | update-session', function () {
       // when
       const promise = updateSession({
         session: originalSession,
-        sessionRepository: sessionRepository,
+        sessionRepository,
+        sessionValidator,
       });
 
       // then
@@ -125,7 +129,8 @@ describe('Unit | UseCase | update-session', function () {
       // when
       const promise = updateSession({
         session: originalSession,
-        sessionRepository: sessionRepository,
+        sessionRepository,
+        sessionValidator,
       });
 
       // then
