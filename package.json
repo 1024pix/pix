@@ -67,6 +67,7 @@
     "lint:docs": "find ./docs -type f -name '*.md' | xargs -L1 markdown-link-check --quiet --config ./docs/link--check-config.json ",
     "local:trigger-lint-on-commit": "husky install",
     "local:prevent-trigger-lint-on-commit": "git config --unset core.hooksPath",
+    "post-merge-update": "node cli/git-post-merge.js",
     "preinstall": "npx check-engine",
     "start": "run-p --print-label start:api start:mon-pix start:orga start:pix1d  start:certif start:admin",
     "start:admin": "cd admin && npm start",
@@ -99,14 +100,18 @@
   },
   "devDependencies": {
     "chai": "^4.3.0",
+    "commander": "^10.0.1",
     "ember-template-lint": "^3.7.0",
     "eslint": "^7.32.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-yml": "^0.10.1",
     "husky": "^7.0.4",
+    "inquirer": "^8.2.5",
     "lint-staged": "^12.3.2",
-    "mocha": "^9.0.0"
+    "lodash.isempty": "^4.4.0",
+    "mocha": "^9.0.0",
+    "ora-classic": "^5.4.2"
   },
   "peerDependencies": {
     "markdown-link-check": "^3.8.6"
