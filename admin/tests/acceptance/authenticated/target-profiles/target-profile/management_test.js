@@ -84,6 +84,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
       assert.dom(screen.getByText('456')).exists();
       assert.dom(screen.getByText('Top profil cible.')).exists();
       assert.dom(screen.getByText('Commentaire Privé.')).exists();
+      assert.dom(screen.getByAltText('Profil cible')).exists();
     });
 
     test('it should edit target profile information', async function (assert) {

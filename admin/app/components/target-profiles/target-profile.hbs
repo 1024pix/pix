@@ -30,8 +30,6 @@
               {{@model.ownerOrganizationId}}
             </LinkTo>
           </div>
-        </div>
-        <div class="page-section__content">
           {{#if @model.description}}
             <div>
               Description :
@@ -44,6 +42,11 @@
               <MarkdownToHtml @markdown={{@model.comment}} />
             </div>
           {{/if}}
+        </div>
+        <div class="page-section__content">
+          <div>
+            <img src={{@model.imageUrl}} role="img" alt="Profil cible" />
+          </div>
         </div>
       </div>
       <div class="target-profile__actions">
