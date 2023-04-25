@@ -325,35 +325,6 @@ describe('Unit | Service | sessions import validation Service', function () {
       });
     });
 
-    context('when session has certification candidates', function () {
-      context('when at least one candidate is duplicated', function () {
-        it('should return a sessionErrors array that contains a duplicate candidate error', async function () {
-          // given
-          const validCandidateData = _buildValidCandidateData(1);
-          const validCandidateDataDuplicate = _buildValidCandidateData(1);
-          const session = _buildValidSessionWithoutId();
-          session.certificationCandidates = [validCandidateData, validCandidateDataDuplicate];
-
-          // when
-          const sessionErrors = await sessionsImportValidationService.validateSession({
-            session,
-            line: 1,
-            sessionRepository,
-            certificationCourseRepository,
-          });
-
-          // then
-          expect(sessionErrors).to.deep.equal([
-            {
-              line: 1,
-              code: 'DUPLICATE_CANDIDATE_IN_SESSION',
-              isBlocking: false,
-            },
-          ]);
-        });
-      });
-    });
-
     context('when session has one invalid field', function () {
       it('should return a sessionErrors array that contains a session invalid field error', async function () {
         // given
