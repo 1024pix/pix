@@ -393,10 +393,6 @@ describe('Unit | Service | sessions import validation Service', function () {
   });
 
   describe('#getValidatedCandidateBirthInformation', function () {
-    beforeEach(function () {
-      sinon.stub(certificationCpfService, 'getBirthInformation');
-    });
-
     context('when the parsed data is valid', function () {
       it('should return an empty certificationCandidateErrors', async function () {
         // given
@@ -409,14 +405,16 @@ describe('Unit | Service | sessions import validation Service', function () {
         const candidate = _buildValidCandidateData();
         const cpfBirthInformationValidation = new CpfBirthInformationValidation();
         cpfBirthInformationValidation.success(candidateInformation);
-
-        certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
+        const certificationCpfServiceStub = {
+          getBirthInformation: sinon.stub().resolves(cpfBirthInformationValidation),
+        };
 
         // when
         const { certificationCandidateErrors } =
           await sessionsImportValidationService.getValidatedCandidateBirthInformation({
             candidate,
             isSco: false,
+            dependencies: { certificationCpfService: certificationCpfServiceStub },
           });
 
         // then
@@ -432,7 +430,9 @@ describe('Unit | Service | sessions import validation Service', function () {
         candidate.firstName = null;
         const cpfBirthInformationValidation = new CpfBirthInformationValidation();
         cpfBirthInformationValidation.success({ ...candidate });
-        certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
+        const certificationCpfServiceStub = {
+          getBirthInformation: sinon.stub().resolves(cpfBirthInformationValidation),
+        };
 
         // when
         const { certificationCandidateErrors } =
@@ -440,6 +440,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             candidate,
             isSco,
             line: 1,
+            dependencies: { certificationCpfService: certificationCpfServiceStub },
           });
 
         // then
@@ -463,7 +464,9 @@ describe('Unit | Service | sessions import validation Service', function () {
             candidate.billingMode = null;
             const cpfBirthInformationValidation = new CpfBirthInformationValidation();
             cpfBirthInformationValidation.success({ ...candidate });
-            certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
+            const certificationCpfServiceStub = {
+              getBirthInformation: sinon.stub().resolves(cpfBirthInformationValidation),
+            };
 
             // when
             const { certificationCandidateErrors } =
@@ -471,6 +474,7 @@ describe('Unit | Service | sessions import validation Service', function () {
                 candidate,
                 isSco,
                 line: 1,
+                dependencies: { certificationCpfService: certificationCpfServiceStub },
               });
 
             // then
@@ -492,14 +496,16 @@ describe('Unit | Service | sessions import validation Service', function () {
             candidate.billingMode = '';
             const cpfBirthInformationValidation = new CpfBirthInformationValidation();
             cpfBirthInformationValidation.success({ ...candidate });
-            certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
-
+            const certificationCpfServiceStub = {
+              getBirthInformation: sinon.stub().resolves(cpfBirthInformationValidation),
+            };
             // when
             const { certificationCandidateErrors } =
               await sessionsImportValidationService.getValidatedCandidateBirthInformation({
                 candidate,
                 isSco,
                 line: 1,
+                dependencies: { certificationCpfService: certificationCpfServiceStub },
               });
 
             // then
@@ -528,14 +534,16 @@ describe('Unit | Service | sessions import validation Service', function () {
           candidate.billingMode = null;
           const cpfBirthInformationValidation = new CpfBirthInformationValidation();
           cpfBirthInformationValidation.success(candidateInformation);
-
-          certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
+          const certificationCpfServiceStub = {
+            getBirthInformation: sinon.stub().resolves(cpfBirthInformationValidation),
+          };
 
           // when
           const { certificationCandidateErrors } =
             await sessionsImportValidationService.getValidatedCandidateBirthInformation({
               candidate,
               isSco,
+              dependencies: { certificationCpfService: certificationCpfServiceStub },
             });
 
           // then
@@ -555,16 +563,19 @@ describe('Unit | Service | sessions import validation Service', function () {
           const certificationCandidateError = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED;
           const cpfBirthInformationValidation = new CpfBirthInformationValidation();
           cpfBirthInformationValidation.failure({ certificationCandidateError });
-          certificationCpfService.getBirthInformation
-            .withArgs({
-              birthCountry: '',
-              birthCity: candidate.birthCity,
-              birthPostalCode: candidate.birthPostalCode,
-              birthINSEECode: candidate.birthINSEECode,
-              certificationCpfCountryRepository,
-              certificationCpfCityRepository,
-            })
-            .resolves(cpfBirthInformationValidation);
+          const certificationCpfServiceStub = {
+            getBirthInformation: sinon
+              .stub()
+              .withArgs({
+                birthCountry: '',
+                birthCity: candidate.birthCity,
+                birthPostalCode: candidate.birthPostalCode,
+                birthINSEECode: candidate.birthINSEECode,
+                certificationCpfCountryRepository,
+                certificationCpfCityRepository,
+              })
+              .resolves(cpfBirthInformationValidation),
+          };
 
           // when
           const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
@@ -573,6 +584,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
             line: 1,
+            dependencies: { certificationCpfService: certificationCpfServiceStub },
           });
 
           // then
@@ -594,17 +606,20 @@ describe('Unit | Service | sessions import validation Service', function () {
           certificationCandidateError: certificationCandidateError,
         });
         cpfBirthInformationValidation.failure({ certificationCandidateError: certificationCandidateError2 });
-        certificationCpfService.getBirthInformation
-          .withArgs({
-            birthCountry: candidate.birthCountry,
-            birthCity: candidate.birthCity,
-            birthPostalCode: candidate.birthPostalCode,
-            birthINSEECode: candidate.birthINSEECode,
-            certificationCpfCountryRepository,
-            certificationCpfCityRepository,
-          })
-          .resolves(cpfBirthInformationValidation);
 
+        const certificationCpfServiceStub = {
+          getBirthInformation: sinon
+            .stub()
+            .withArgs({
+              birthCountry: candidate.birthCountry,
+              birthCity: candidate.birthCity,
+              birthPostalCode: candidate.birthPostalCode,
+              birthINSEECode: candidate.birthINSEECode,
+              certificationCpfCountryRepository,
+              certificationCpfCityRepository,
+            })
+            .resolves(cpfBirthInformationValidation),
+        };
         // when
         const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
           candidate,
@@ -612,6 +627,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
           line: 1,
+          dependencies: { certificationCpfService: certificationCpfServiceStub },
         });
 
         // then

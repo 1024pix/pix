@@ -110,12 +110,13 @@ module.exports = {
     line,
     certificationCpfCountryRepository,
     certificationCpfCityRepository,
+    dependencies = { certificationCpfService },
   }) {
     const certificationCandidateErrors = [];
     const errorCodes = candidate.validateForMassSessionImport(isSco);
     _addToErrorList({ errorList: certificationCandidateErrors, line, codes: errorCodes });
 
-    const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+    const cpfBirthInformation = await dependencies.certificationCpfService.getBirthInformation({
       birthCountry: candidate.birthCountry,
       birthCity: candidate.birthCity,
       birthPostalCode: candidate.birthPostalCode,
