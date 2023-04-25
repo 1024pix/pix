@@ -28,10 +28,7 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   externalId: Joi.string().allow(null).empty(['', null]).optional(),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(null),
   extraTimePercentage: Joi.number().allow(null).optional(),
-  sessionId: Joi.when('$isSessionsMassImport', {
-    is: false,
-    then: Joi.number().required().empty(['', null]),
-  }),
+  sessionId: Joi.number().required().empty(['', null]),
   complementaryCertifications: Joi.array().max(1).required(),
   billingMode: Joi.when('$isSco', {
     is: false,
@@ -85,13 +82,6 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
     'number.min': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code,
     'number.max': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code,
     'number.integer': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code,
-  }),
-
-  sessionId: Joi.when('$isSessionsMassImport', {
-    is: false,
-    then: Joi.number().required().empty(['', null]).messages({
-      'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_REQUIRED.code,
-    }),
   }),
   complementaryCertifications: Joi.array().max(1).required().messages({
     'array.max': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
@@ -230,7 +220,6 @@ class CertificationCandidate {
     const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
       allowUnknown: true,
       context: {
-        isSessionsMassImport: false,
         isSco,
       },
     });
@@ -244,7 +233,6 @@ class CertificationCandidate {
       abortEarly: false,
       allowUnknown: true,
       context: {
-        isSessionsMassImport: true,
         isSco,
       },
     });
