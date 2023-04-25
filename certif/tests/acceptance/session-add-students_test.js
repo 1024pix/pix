@@ -15,7 +15,6 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
   let session;
 
   hooks.beforeEach(function () {
-    server.create('feature-toggle', { id: 0, certifPrescriptionSco: true });
     allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
       type: 'SCO',
       isRelatedToManagingStudentsOrganization: true,

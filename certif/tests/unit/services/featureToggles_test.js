@@ -11,7 +11,7 @@ module('Unit | Service | feature toggles', function (hooks) {
     test('should load the feature toggles', async function (assert) {
       // Given
       const featureToggles = Object.create({
-        certifPrescriptionSco: false,
+        isDifferentiatedTimeInvigilatorPortalEnabled: false,
       });
       const storeStub = Service.create({
         queryRecord: () => resolve(featureToggles),
@@ -23,7 +23,7 @@ module('Unit | Service | feature toggles', function (hooks) {
       await featureToggleService.load();
 
       // Then
-      assert.false(featureToggleService.featureToggles.certifPrescriptionSco);
+      assert.deepEqual(featureToggleService.featureToggles, featureToggles);
     });
   });
 });
