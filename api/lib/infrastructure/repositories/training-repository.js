@@ -112,7 +112,16 @@ async function findWithTriggersByCampaignParticipationIdAndLocale({
 
 async function create({ training, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
-  const [createdTraining] = await knexConn(TABLE_NAME).insert(training).returning('*');
+  const pickedAttributes = pick(training, [
+    'title',
+    'link',
+    'type',
+    'duration',
+    'locale',
+    'editorName',
+    'editorLogoUrl',
+  ]);
+  const [createdTraining] = await knexConn(TABLE_NAME).insert(pickedAttributes).returning('*');
   return new TrainingForAdmin(createdTraining);
 }
 
