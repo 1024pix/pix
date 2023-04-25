@@ -12,7 +12,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const ScoOrganizationParticipant = require('../../../../lib/domain/read-models/ScoOrganizationParticipant');
 const SupOrganizationParticipant = require('../../../../lib/domain/read-models/SupOrganizationParticipant');
 
-const organizationController = require('../../../../lib/application/organizations/organization-controller');
+const organizationController = require('../../../../lib/application/organizations/organization-controller.js');
 const usecases = require('../../../../lib/domain/usecases/index.js');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
@@ -20,33 +20,6 @@ const { getI18n } = require('../../../tooling/i18n/i18n');
 
 describe('Unit | Application | Organizations | organization-controller', function () {
   let request;
-
-  describe('#getOrganizationDetails', function () {
-    it('should call the usecase and serialize the response', async function () {
-      // given
-      const organizationId = 1234;
-      const request = { params: { id: organizationId } };
-
-      const organizationDetails = Symbol('organizationDetails');
-      const organizationDetailsSerialized = Symbol('organizationDetailsSerialized');
-      sinon.stub(usecases, 'getOrganizationDetails').withArgs({ organizationId }).resolves(organizationDetails);
-      const organizationForAdminSerializerStub = {
-        serialize: sinon.stub(),
-      };
-
-      organizationForAdminSerializerStub.serialize.withArgs(organizationDetails).returns(organizationDetailsSerialized);
-
-      const dependencies = {
-        organizationForAdminSerializer: organizationForAdminSerializerStub,
-      };
-
-      // when
-      const result = await organizationController.getOrganizationDetails(request, hFake, dependencies);
-
-      // then
-      expect(result).to.equal(organizationDetailsSerialized);
-    });
-  });
 
   describe('#findOrganizationPlacesLot', function () {
     it('should call the usecase and serialize the response', async function () {

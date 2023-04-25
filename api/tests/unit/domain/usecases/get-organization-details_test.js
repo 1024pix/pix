@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getOrganizationDetails = require('../../../../lib/domain/usecases/get-organization-details');
+const getOrganizationDetails = require('../../../../lib/domain/usecases/organizations-administration/get-organization-details');
 const Organization = require('../../../../lib/domain/models/Organization');
 
 describe('Unit | UseCase | get-organization-details', function () {
