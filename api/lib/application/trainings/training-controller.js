@@ -4,6 +4,7 @@ const trainingTriggerSerializer = require('../../infrastructure/serializers/json
 const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js');
 const usecases = require('../../domain/usecases/index.js');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
   async findPaginatedTrainingSummaries(request, h, dependencies = { trainingSummarySerializer, queryParamsUtils }) {
@@ -40,12 +41,17 @@ module.exports = {
   async createOrUpdateTrigger(request, h, dependencies = { trainingTriggerSerializer }) {
     const { trainingId } = request.params;
     const { threshold, tubes, type } = await dependencies.trainingTriggerSerializer.deserialize(request.payload);
-    const createdOrUpdatedTrainingTrigger = await usecases.createOrUpdateTrainingTrigger({
-      trainingId,
-      threshold,
-      tubes,
-      type,
+
+    const createdOrUpdatedTrainingTrigger = await DomainTransaction.execute(async (domainTransaction) => {
+      return usecases.createOrUpdateTrainingTrigger({
+        trainingId,
+        threshold,
+        tubes,
+        type,
+        domainTransaction,
+      });
     });
+
     return dependencies.trainingTriggerSerializer.serialize(createdOrUpdatedTrainingTrigger);
   },
 

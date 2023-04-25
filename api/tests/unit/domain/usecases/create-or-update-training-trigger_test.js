@@ -17,11 +17,16 @@ describe('Unit | UseCase | create-or-update-training-trigger', function () {
   context('when training does not exist', function () {
     it('should throw an error when training does not exist', async function () {
       // given
+      const domainTransaction = Symbol('domainTransaction');
       const trainingId = Symbol('trainingId');
-      trainingRepository.get.withArgs({ trainingId }).throws(new Error('Not Found'));
+      trainingRepository.get.withArgs({ trainingId, domainTransaction }).throws(new Error('Not Found'));
 
       // when
-      const error = await catchErr(createOrUpdateTrainingTrigger)({ trainingId, trainingRepository });
+      const error = await catchErr(createOrUpdateTrainingTrigger)({
+        trainingId,
+        domainTransaction,
+        trainingRepository,
+      });
 
       // then
       expect(error).to.be.instanceOf(Error);
@@ -32,6 +37,7 @@ describe('Unit | UseCase | create-or-update-training-trigger', function () {
   context('when training exists', function () {
     it('should call create or update trigger repository method', async function () {
       // given
+      const domainTransaction = Symbol('domainTransaction');
       const trainingId = Symbol('trainingId');
       const tubes = Symbol('tubes');
       const type = Symbol('type');
@@ -46,6 +52,7 @@ describe('Unit | UseCase | create-or-update-training-trigger', function () {
         tubes,
         type,
         threshold,
+        domainTransaction,
         trainingRepository,
         trainingTriggerRepository,
       });
@@ -56,6 +63,7 @@ describe('Unit | UseCase | create-or-update-training-trigger', function () {
         triggerTubesForCreation: tubes,
         type,
         threshold,
+        domainTransaction,
       });
       expect(result).to.equal(expectedTrainingTrigger);
     });

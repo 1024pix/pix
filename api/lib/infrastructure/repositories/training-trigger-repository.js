@@ -20,7 +20,7 @@ module.exports = {
     threshold,
     domainTransaction = DomainTransaction.emptyTransaction(),
   }) {
-    const knexConn = domainTransaction?.knexTransaction || knex;
+    const knexConn = domainTransaction?.knexTransaction || (await knex.transaction());
 
     const [trainingTrigger] = await knexConn(TABLE_NAME)
       .insert({ trainingId, type, threshold, updatedAt: new Date() })
@@ -41,6 +41,10 @@ module.exports = {
     const createdTrainingTriggerTubes = await knexConn('training-trigger-tubes')
       .insert(trainingTriggerTubesToCreate)
       .returning('*');
+
+    if (!domainTransaction?.knexTransaction) {
+      await knexConn.commit();
+    }
 
     return _toDomainForAdmin({ trainingTrigger, triggerTubes: createdTrainingTriggerTubes });
   },
