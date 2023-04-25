@@ -1,11 +1,12 @@
 const TargetProfileForCreation = require('../models/TargetProfileForCreation.js');
-const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service.js');
 const { TargetProfileCannotBeCreated } = require('../errors');
+
 module.exports = async function createTargetProfile({
   targetProfileCreationCommand,
   domainTransaction,
   targetProfileRepository,
   organizationRepository,
+  learningContentConversionService,
 }) {
   const targetProfileForCreation = TargetProfileForCreation.fromCreationCommand(targetProfileCreationCommand);
   try {
