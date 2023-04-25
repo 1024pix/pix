@@ -3,7 +3,6 @@ const crypto = require('crypto');
 const { sinon, expect } = require('../../../test-helper');
 const settings = require('../../../../lib/config');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
-const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
 
 describe('Unit | Service | Password Service', function () {
   describe('#generateTemporaryKey', function () {
@@ -33,46 +32,60 @@ describe('Unit | Service | Password Service', function () {
   });
 
   describe('#invalidateOldResetPasswordDemand', function () {
+    let resetPasswordDemandRepository;
+
     beforeEach(function () {
-      sinon.stub(resetPasswordRepository, 'markAsBeingUsed');
+      resetPasswordDemandRepository = {
+        markAsBeingUsed: sinon.stub(),
+      };
     });
 
     it('should call reset password repository', function () {
       // given
       const userEmail = 'shi@fu.me';
-      resetPasswordRepository.markAsBeingUsed.resolves();
+      resetPasswordDemandRepository.markAsBeingUsed.resolves();
 
       // when
-      const promise = resetPasswordService.invalidateOldResetPasswordDemand(userEmail);
+      const promise = resetPasswordService.invalidateOldResetPasswordDemand(userEmail, resetPasswordDemandRepository);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(resetPasswordRepository.markAsBeingUsed);
-        sinon.assert.calledWith(resetPasswordRepository.markAsBeingUsed, userEmail);
+        sinon.assert.calledOnce(resetPasswordDemandRepository.markAsBeingUsed);
+        sinon.assert.calledWith(resetPasswordDemandRepository.markAsBeingUsed, userEmail);
       });
     });
   });
 
   describe('#hasUserAPasswordResetDemandInProgress', function () {
     const userEmail = 'shi@fu.me';
+    let resetPasswordDemandRepository;
 
     beforeEach(function () {
-      sinon.stub(resetPasswordRepository, 'findByUserEmail').throws();
-
-      resetPasswordRepository.findByUserEmail.withArgs(userEmail, 'good-temporary-key').resolves();
-
-      resetPasswordRepository.findByUserEmail.withArgs(userEmail, 'bad-temporary-key').rejects();
+      resetPasswordDemandRepository = {
+        findByUserEmail: sinon.stub(),
+      };
+      resetPasswordDemandRepository.findByUserEmail.throws();
+      resetPasswordDemandRepository.findByUserEmail.withArgs(userEmail, 'good-temporary-key').resolves();
+      resetPasswordDemandRepository.findByUserEmail.withArgs(userEmail, 'bad-temporary-key').rejects();
     });
 
     context('when there is a matching password reset demand', function () {
       it('resolves', async function () {
-        await resetPasswordService.hasUserAPasswordResetDemandInProgress(userEmail, 'good-temporary-key');
+        await resetPasswordService.hasUserAPasswordResetDemandInProgress(
+          userEmail,
+          'good-temporary-key',
+          resetPasswordDemandRepository
+        );
       });
     });
 
     context('when there is no matching password reset demand', function () {
       it('resolves', function () {
-        const promise = resetPasswordService.hasUserAPasswordResetDemandInProgress(userEmail, 'bad-temporary-key');
+        const promise = resetPasswordService.hasUserAPasswordResetDemandInProgress(
+          userEmail,
+          'bad-temporary-key',
+          resetPasswordDemandRepository
+        );
         return expect(promise).to.be.rejected;
       });
     });
