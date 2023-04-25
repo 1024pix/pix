@@ -1,20 +1,26 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const sessionSupervisorAuthorization = require('../../../../lib/application/preHandlers/session-supervisor-authorization');
-const supervisorAccessRepository = require('../../../../lib/infrastructure/repositories/supervisor-access-repository');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 
 describe('Unit | Pre-handler | Supervisor Authorization', function () {
+  let supervisorAccessRepository;
+  let requestResponseUtils;
+  let dependencies;
+
+  beforeEach(function () {
+    supervisorAccessRepository = {
+      isUserSupervisorForSessionCandidate: sinon.stub(),
+      isUserSupervisorForSession: sinon.stub(),
+    };
+    requestResponseUtils = { extractUserIdFromRequest: sinon.stub() };
+    dependencies = { supervisorAccessRepository, requestResponseUtils };
+  });
+
   describe('#verifyByCertificationCandidateId', function () {
     const request = {
       params: {
         id: 8,
       },
     };
-
-    beforeEach(function () {
-      sinon.stub(supervisorAccessRepository, 'isUserSupervisorForSessionCandidate');
-      sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
-    });
 
     describe('When user is the supervisor of the assessment session', function () {
       it('should return true', async function () {
@@ -28,7 +34,11 @@ describe('Unit | Pre-handler | Supervisor Authorization', function () {
           .resolves(true);
 
         // when
-        const response = await sessionSupervisorAuthorization.verifyByCertificationCandidateId(request, hFake);
+        const response = await sessionSupervisorAuthorization.verifyByCertificationCandidateId(
+          request,
+          hFake,
+          dependencies
+        );
 
         // then
         expect(response).to.be.true;
@@ -47,7 +57,11 @@ describe('Unit | Pre-handler | Supervisor Authorization', function () {
           .resolves(false);
 
         // when
-        const response = await sessionSupervisorAuthorization.verifyByCertificationCandidateId(request, hFake);
+        const response = await sessionSupervisorAuthorization.verifyByCertificationCandidateId(
+          request,
+          hFake,
+          dependencies
+        );
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -62,11 +76,6 @@ describe('Unit | Pre-handler | Supervisor Authorization', function () {
       },
     };
 
-    beforeEach(function () {
-      sinon.stub(supervisorAccessRepository, 'isUserSupervisorForSession');
-      sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
-    });
-
     describe('When user is the supervisor of the assessment session', function () {
       it('should return true', async function () {
         // given
@@ -75,7 +84,7 @@ describe('Unit | Pre-handler | Supervisor Authorization', function () {
         supervisorAccessRepository.isUserSupervisorForSession.resolves(true);
 
         // when
-        const response = await sessionSupervisorAuthorization.verifyBySessionId(request, hFake);
+        const response = await sessionSupervisorAuthorization.verifyBySessionId(request, hFake, dependencies);
 
         // then
         sinon.assert.calledWith(supervisorAccessRepository.isUserSupervisorForSession, {
@@ -93,7 +102,7 @@ describe('Unit | Pre-handler | Supervisor Authorization', function () {
         supervisorAccessRepository.isUserSupervisorForSession.resolves(false);
 
         // when
-        const response = await sessionSupervisorAuthorization.verifyBySessionId(request, hFake);
+        const response = await sessionSupervisorAuthorization.verifyBySessionId(request, hFake, dependencies);
 
         // then
         expect(response.statusCode).to.equal(401);
