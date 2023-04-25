@@ -12,7 +12,7 @@ import perf_hooks from 'perf_hooks';
 const { performance } = perf_hooks;
 
 import Knex from 'knex';
-// const { QueryBuilder } = Knex;
+import QueryBuilder from 'knex/lib/query/querybuilder.js';
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
 But, when dealing with dates with no time (such as birthdate for example), we want to
@@ -49,14 +49,14 @@ const { logging, environment } = config;
 const knexConfig = knexConfigs.default[environment];
 const configuredKnex = Knex(knexConfig);
 
-// const originalToSQL = QueryBuilder.prototype.toSQL;
-// QueryBuilder.prototype.toSQL = function () {
-//   const ret = originalToSQL.apply(this);
-//   const request = monitoringTools.getInContext('request');
-//   const comments = [['path', get(request, 'route.path')]].map((comment) => comment.join(': ')).join(' ');
-//   ret.sql = `/* ${comments} */ `.concat(ret.sql);
-//   return ret;
-// };
+const originalToSQL = QueryBuilder.prototype.toSQL;
+QueryBuilder.prototype.toSQL = function () {
+  const ret = originalToSQL.apply(this);
+  const request = monitoringTools.getInContext('request');
+  const comments = [['path', get(request, 'route.path')]].map((comment) => comment.join(': ')).join(' ');
+  ret.sql = `/* ${comments} */ `.concat(ret.sql);
+  return ret;
+};
 
 configuredKnex.on('query', function (data) {
   if (logging.enableKnexPerformanceMonitoring) {
