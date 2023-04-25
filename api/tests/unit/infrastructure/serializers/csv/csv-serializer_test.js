@@ -170,6 +170,48 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       });
     });
 
+    describe('when certification center does not have billing mode', function () {
+      context('when billing mode header is present', function () {
+        it('should throw an error', async function () {
+          const parsedCsvData = [
+            {
+              'Numéro de session préexistante': '',
+              '* Nom du site': '',
+              '* Nom de la salle': '',
+              '* Date de début (format: JJ/MM/AAAA)': '',
+              '* Heure de début (heure locale format: HH:MM)': '',
+              '* Surveillant(s)': '',
+              'Observations (optionnel)': '',
+              '* Nom de naissance': 'Paul',
+              '* Prénom': 'Pierre',
+              '* Date de naissance (format: JJ/MM/AAAA)': '12/09/1987',
+              '* Sexe (M ou F)': 'M',
+              'Code INSEE de la commune de naissance': '',
+              'Code postal de la commune de naissance': '',
+              'Nom de la commune de naissance': '',
+              '* Pays de naissance': 'France',
+              'E-mail du destinataire des résultats (formateur, enseignant…)': '',
+              'E-mail de convocation': '',
+              'Identifiant externe': '',
+              'Temps majoré ? (exemple format: 33%)': '',
+              '* Tarification part Pix (Gratuite, Prépayée ou Payante)': '',
+              'Code de prépaiement (si Tarification part Pix Prépayée)': '',
+            },
+          ];
+
+          // when
+          const error = await catchErr(csvSerializer.deserializeForSessionsImport)({
+            parsedCsvData,
+            hasBillingMode: false,
+          });
+
+          // then
+          expect(error).to.be.instanceOf(FileValidationError);
+          expect(error.code).to.equal('CSV_HEADERS_NOT_VALID');
+        });
+      });
+    });
+
     describe('when importing sessions', function () {
       describe('when every mandatory information is missing', function () {
         it('should not throw an error', async function () {
