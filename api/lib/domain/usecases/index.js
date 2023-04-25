@@ -582,7 +582,6 @@ const getNextChallengeForCertification = require('./get-next-challenge-for-certi
 const getNextChallengeForCompetenceEvaluation = require('./get-next-challenge-for-competence-evaluation.js');
 const getNextChallengeForDemo = require('./get-next-challenge-for-demo.js');
 const getNextChallengeForPreview = require('./get-next-challenge-for-preview.js');
-const getOrganizationDetails = require('./get-organization-details.js');
 const getOrganizationInvitation = require('./get-organization-invitation.js');
 const getOrganizationLearner = require('./get-organization-learner.js');
 const getOrganizationLearnerActivity = require('./get-organization-learner-activity.js');
@@ -674,7 +673,6 @@ const updateCertificationCenterReferer = require('./update-certification-center-
 const updateExpiredPassword = require('./update-expired-password.js');
 const updateLastQuestionState = require('./update-last-question-state.js');
 const updateMembership = require('./update-membership.js');
-const updateOrganizationInformation = require('./organizations-administration/update-organization.js');
 const updateOrganizationLearnerDependentUserPassword = require('./update-organization-learner-dependent-user-password.js');
 const updateParticipantExternalId = require('./update-participant-external-id.js');
 const updateSession = require('./update-session.js');
@@ -686,6 +684,9 @@ const updateUserEmailWithValidation = require('./update-user-email-with-validati
 const updateUserForAccountRecovery = require('./account-recovery/update-user-for-account-recovery.js');
 const updateUserPassword = require('./update-user-password.js');
 const validateSessions = require('./sessions-mass-import/validate-sessions.js');
+// organization-administration
+const getOrganizationDetails = require('./organizations-administration/get-organization-details.js');
+const updateOrganizationInformation = require('./organizations-administration/update-organization.js');
 
 const usecasesWithoutInjectedDependencies = {
   abortCertificationCourse,

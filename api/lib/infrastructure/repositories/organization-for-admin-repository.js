@@ -4,6 +4,7 @@ const Tag = require('../../domain/models/Tag.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 const OrganizationInvitation = require('../../domain/models/OrganizationInvitation.js');
 const _ = require('lodash');
+const apps = require('../../domain/constants.js');
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
 
@@ -33,6 +34,7 @@ function _toDomain(rawOrganization) {
     creatorFirstName: rawOrganization.creatorFirstName,
     creatorLastName: rawOrganization.creatorLastName,
     identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
+    enableMultipleSendingAssessment: rawOrganization.enableMultipleSendingAssessment,
   });
 
   organization.tags = rawOrganization.tags || [];
@@ -87,6 +89,20 @@ module.exports = {
       .select('tags.*')
       .join('organization-tags', 'organization-tags.tagId', 'tags.id')
       .where('organization-tags.organizationId', organization.id);
+
+    const availableFeatures = await knex('features')
+      .select('key')
+      .join('organization-features', function () {
+        this.on('features.id', 'organization-features.featureId').andOn(
+          'organization-features.organizationId',
+          organization.id
+        );
+      })
+      .pluck('key');
+
+    organization.enableMultipleSendingAssessment = availableFeatures.includes(
+      apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT
+    );
 
     organization.tags = tags.map((tag) => {
       return new Tag(tag);

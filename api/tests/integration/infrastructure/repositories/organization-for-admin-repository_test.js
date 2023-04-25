@@ -83,6 +83,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         creatorFirstName: 'Cécile',
         creatorLastName: 'Encieux',
         identityProviderForCampaigns: OidcIdentityProviders.CNAV.service.code,
+        enableMultipleSendingAssessment: false,
       });
       expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
     });
@@ -187,6 +188,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
           creatorFirstName: superAdminUser.firstName,
           creatorLastName: superAdminUser.lastName,
           identityProviderForCampaigns: null,
+          enableMultipleSendingAssessment: false,
         });
         expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
       });

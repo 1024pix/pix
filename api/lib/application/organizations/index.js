@@ -111,35 +111,6 @@ exports.register = async (server) => {
       },
     },
     {
-      method: 'GET',
-      path: '/api/admin/organizations/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.getOrganizationDetails,
-        tags: ['api', 'organizations'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer toutes les informations d’une organisation',
-        ],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/admin/organizations/{id}/archive',
       config: {
