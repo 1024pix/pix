@@ -29,7 +29,22 @@ function deserializeForSessionsImport({ parsedCsvData, hasBillingMode }) {
   const sessions = [];
   const expectedHeadersKeys = Object.keys(headers);
 
-  _verifyHeaders({ expectedHeadersKeys, headers, parsedCsvLine: parsedCsvData[0], hasBillingMode });
+  const csvBillingModeKey = headers.billingMode;
+  const csvPrepaymentCodeKey = headers.prepaymentCode;
+  const firstCsvLine = parsedCsvData[0];
+
+  if (
+    _isScoAndHasBillingModeColumnsInCsv({
+      hasBillingMode,
+      firstCsvLine,
+      csvBillingModeKey,
+      csvPrepaymentCodeKey,
+    })
+  ) {
+    throw new FileValidationError('CSV_HEADERS_NOT_VALID');
+  }
+
+  _verifyHeaders({ expectedHeadersKeys, headers, firstCsvLine, hasBillingMode });
 
   parsedCsvData.forEach((lineDTO, index) => {
     const dataFromColumnName = _getDataFromColumnNames({ expectedHeadersKeys, headers, line: lineDTO });
@@ -160,20 +175,21 @@ function _getDataFromColumnNames({ expectedHeadersKeys, headers, line }) {
   data.complementaryCertifications = _extractComplementaryCertificationLabelsFromLine(line);
 
   expectedHeadersKeys.forEach((key) => {
-    const headerKeyInCurrentLine = line[headers[key]];
+    const headerLabel = headers[key];
+    const currentValue = line[headerLabel];
     if (key === 'birthdate' || key === 'date') {
       data[key] =
         convertDateValue({
-          dateString: headerKeyInCurrentLine,
+          dateString: currentValue,
           inputFormat: 'DD/MM/YYYY',
           outputFormat: 'YYYY-MM-DD',
-        }) ?? headerKeyInCurrentLine;
+        }) ?? currentValue;
     } else if (key === 'extraTimePercentage') {
-      data[key] = headerKeyInCurrentLine !== '' ? headerKeyInCurrentLine : null;
+      data[key] = currentValue || null;
     } else if (key === 'prepaymentCode') {
-      data[key] = headerKeyInCurrentLine !== '' ? headerKeyInCurrentLine : null;
+      data[key] = currentValue || null;
     } else {
-      data[key] = headerKeyInCurrentLine;
+      data[key] = currentValue;
     }
   });
   return data;
@@ -212,12 +228,12 @@ function _getComplementaryCertificationLabel(key, COMPLEMENTARY_CERTIFICATION_SU
   return key.replace(COMPLEMENTARY_CERTIFICATION_SUFFIX, '').trim();
 }
 
-function _verifyHeaders({ expectedHeadersKeys, parsedCsvLine, headers, hasBillingMode }) {
+function _verifyHeaders({ expectedHeadersKeys, firstCsvLine, headers, hasBillingMode }) {
   expectedHeadersKeys.forEach((key) => {
-    const headerKey = parsedCsvLine[headers[key]];
+    const matchingCsvColumnValue = firstCsvLine[headers[key]];
 
-    if (headerKey === undefined) {
-      if (_isBillingModeOptional(key, hasBillingMode)) {
+    if (_missingCsvColumn(matchingCsvColumnValue)) {
+      if (_isBillingModeOptionalAndAssociatedColumnsMissing(key, hasBillingMode)) {
         return;
       }
 
@@ -226,7 +242,20 @@ function _verifyHeaders({ expectedHeadersKeys, parsedCsvLine, headers, hasBillin
   });
 }
 
-function _isBillingModeOptional(key, hasBillingMode) {
+function _isScoAndHasBillingModeColumnsInCsv({
+  hasBillingMode,
+  firstCsvLine,
+  csvBillingModeKey,
+  csvPrepaymentCodeKey,
+}) {
+  return !hasBillingMode && (csvBillingModeKey in firstCsvLine || csvPrepaymentCodeKey in firstCsvLine);
+}
+
+function _missingCsvColumn(matchingCsvColumnValue) {
+  return matchingCsvColumnValue === undefined;
+}
+
+function _isBillingModeOptionalAndAssociatedColumnsMissing(key, hasBillingMode) {
   return (key === 'billingMode' || key === 'prepaymentCode') && !hasBillingMode;
 }
 
