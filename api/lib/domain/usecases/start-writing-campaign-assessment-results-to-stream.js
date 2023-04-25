@@ -11,7 +11,6 @@ const { constants } = require('../../infrastructure/constants.js');
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../errors.js');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer.js');
 const CampaignLearningContent = require('../models/CampaignLearningContent.js');
-const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js');
 
 module.exports = async function startWritingCampaignAssessmentResultsToStream({
   userId,
@@ -27,6 +26,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
   campaignCsvExportService,
   targetProfileRepository,
   learningContentRepository,
+  stageCollectionRepository,
 }) {
   const campaign = await campaignRepository.get(campaignId);
   const translate = i18n.__;
