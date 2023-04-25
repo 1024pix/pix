@@ -833,6 +833,9 @@
       "title": "Focus mode",
       "description": "For the next question(s), you will not be allowed to leave the page."
     },
+    "inscription": {
+      "choose-language-aria-label": "Select a language"
+    },
     "join": {
       "title": "Join",
       "button": "Let's go!",

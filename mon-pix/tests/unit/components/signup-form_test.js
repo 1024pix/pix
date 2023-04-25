@@ -56,6 +56,7 @@ module('Unit | Component | signup-form', function (hooks) {
         firstName: userWithSpaces.firstName.trim(),
         lastName: userWithSpaces.lastName.trim(),
         email: userWithSpaces.email.trim(),
+        lang: 'fr',
       };
 
       // when
@@ -63,7 +64,7 @@ module('Unit | Component | signup-form', function (hooks) {
 
       // then
       const user = component.args.user;
-      assert.deepEqual(pick(user, ['firstName', 'lastName', 'email']), expectedUser);
+      assert.deepEqual(pick(user, ['firstName', 'lastName', 'email', 'lang']), expectedUser);
     });
 
     test('should authenticate user after sign up', async function (assert) {
