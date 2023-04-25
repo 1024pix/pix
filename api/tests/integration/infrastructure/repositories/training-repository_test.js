@@ -644,8 +644,6 @@ describe('Integration | Repository | training-repository', function () {
         link: 'https://example.net/mon-nouveau-lien',
         editorName: 'Mon nouvel editeur',
         editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/nouveau-logo.svg',
-        prerequisiteThreshold: 10,
-        goalThreshold: 20,
       };
 
       // when
@@ -653,15 +651,13 @@ describe('Integration | Repository | training-repository', function () {
 
       // then
       const trainingNotUpdated = await knex('trainings')
-        .select('title', 'link', 'editorName', 'editorLogoUrl', 'prerequisiteThreshold', 'goalThreshold')
+        .select('title', 'link', 'editorName', 'editorLogoUrl')
         .where({ id: trainingNotToBeUpdated.id })
         .first();
       expect(trainingNotUpdated.title).to.equal(trainingNotToBeUpdated.title);
       expect(trainingNotUpdated.link).to.equal(trainingNotToBeUpdated.link);
       expect(trainingNotUpdated.editorName).to.equal(trainingNotToBeUpdated.editorName);
       expect(trainingNotUpdated.editorLogoUrl).to.equal(trainingNotToBeUpdated.editorLogoUrl);
-      expect(trainingNotUpdated.prerequisiteThreshold).to.equal(trainingNotToBeUpdated.prerequisiteThreshold);
-      expect(trainingNotUpdated.goalThreshold).to.equal(trainingNotToBeUpdated.goalThreshold);
     });
   });
 
