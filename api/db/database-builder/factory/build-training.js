@@ -9,8 +9,6 @@ function buildTraining({
   locale = 'fr-fr',
   editorName = "Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité",
   editorLogoUrl = 'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
-  prerequisiteThreshold = 30,
-  goalThreshold = 70,
   createdAt = new Date(),
   updatedAt = new Date(),
 } = {}) {
@@ -23,8 +21,6 @@ function buildTraining({
     locale,
     editorName,
     editorLogoUrl,
-    prerequisiteThreshold,
-    goalThreshold,
     createdAt,
     updatedAt,
   };
@@ -33,4 +29,5 @@ function buildTraining({
     values,
   });
 }
+
 module.exports = buildTraining;
