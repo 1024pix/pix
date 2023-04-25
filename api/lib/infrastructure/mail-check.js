@@ -1,10 +1,10 @@
-const { promisify } = require('util');
-const dns = require('dns');
-const resolveMx = promisify(dns.resolveMx);
+const { Resolver } = require('node:dns').promises;
+
+const resolver = new Resolver();
 
 module.exports = {
-  checkDomainIsValid(address) {
-    const domain = address.replace(/.*@/g, '');
-    return resolveMx(domain).then(() => true);
+  checkDomainIsValid(emailAddress) {
+    const domain = emailAddress.replace(/.*@/g, '');
+    return resolver.resolveMx(domain).then(() => true);
   },
 };
