@@ -7,19 +7,6 @@ export default class UserAccountPersonalInformationController extends Controller
   @service url;
   @service location;
 
-  get options() {
-    return [
-      {
-        value: 'fr',
-        label: this.intl.t('pages.user-account.language.fields.select.labels.french'),
-      },
-      {
-        value: 'en',
-        label: this.intl.t('pages.user-account.language.fields.select.labels.english'),
-      },
-    ];
-  }
-
   @action
   async onChangeLang(value) {
     if (!this.url.isFrenchDomainExtension) {
