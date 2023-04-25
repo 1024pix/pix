@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import {
   CERTIF_SUCCESS_USER_ID,
+  CERTIF_SCO_STUDENT_ID,
   CERTIF_FAILURE_USER_ID,
   CERTIF_REGULAR_USER5_ID,
   CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID,
@@ -12,12 +13,14 @@ import {
   NO_PROBLEM_FINALIZED_SESSION_ID,
   PROBLEMS_FINALIZED_SESSION_ID,
   PUBLISHED_SESSION_ID,
+  PUBLISHED_SCO_SESSION_ID,
 } from './certification-sessions-builder.js';
 
 import {
   CANDIDATE_DATA_SUCCESS,
   CANDIDATE_DATA_FAILURE,
   CANDIDATE_DATA_STARTED,
+  CANDIDATE_SCO_DATA_SUCCESS,
   CANDIDATE_DATA_EDU,
 } from './certification-candidates-builder.js';
 
@@ -61,6 +64,16 @@ async function certificationCoursesBuilder({ databaseBuilder }) {
       examinerComment: null,
       hasSeenEndTestScreen: false,
       isPublished: false,
+    },
+    {
+      userId: CERTIF_SCO_STUDENT_ID,
+      sessionId: PUBLISHED_SCO_SESSION_ID,
+      assessmentId: ASSESSMENT_SUCCESS_PUBLISHED_SESSION_SCO_ID,
+      candidateData: CANDIDATE_SCO_DATA_SUCCESS,
+      examinerComment: null,
+      hasSeenEndTestScreen: true,
+      isPublished: true,
+      pixCertificationStatus: 'validated',
     },
     {
       userId: CERTIF_SUCCESS_USER_ID,

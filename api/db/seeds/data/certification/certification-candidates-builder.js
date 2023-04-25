@@ -13,7 +13,14 @@ import {
   COMPLEMENTARY_CERTIFICATIONS_SESSION_ID,
 } from './certification-sessions-builder.js';
 
-import { CERTIF_SUCCESS_USER_ID, CERTIF_REGULAR_USER5_ID } from './users.js';
+import { SCO_STUDENT_ID as SCO_STUDENT_ORGANIZATION_LEARNER_ID } from '../organizations-sco-builder.js';
+
+import {
+  CERTIF_SUCCESS_USER_ID,
+  CERTIF_FAILED_USER_ID,
+  CERTIF_REGULAR_USER5_ID,
+  CERTIF_SCO_STUDENT_ID,
+} from './users.js';
 
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
@@ -145,6 +152,12 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
 
   let sessionId;
   const candidateDataSuccessWithUser = { ...CANDIDATE_DATA_SUCCESS, userId: CERTIF_SUCCESS_USER_ID };
+  const candidateDataSuccessWithUserSco = {
+    ...CANDIDATE_SCO_DATA_SUCCESS,
+    userId: CERTIF_SCO_STUDENT_ID,
+    organizationLearnerId: SCO_STUDENT_ORGANIZATION_LEARNER_ID,
+  };
+  const candidateDataFailureWithUser = { ...CANDIDATE_DATA_FAILURE, userId: CERTIF_FAILED_USER_ID };
   const candidateDataMissingWithUser = { ...CANDIDATE_DATA_MISSING, userId: null };
   const candidateDataStartedWithUser = { ...CANDIDATE_DATA_STARTED, userId: CERTIF_REGULAR_USER5_ID };
 
@@ -153,6 +166,11 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildCertificationCandidate({
     id: SUCCESS_CANDIDATE_IN_SESSION_TO_FINALIZE_ID,
     ...candidateDataSuccessWithUser,
+    sessionId,
+  });
+  databaseBuilder.factory.buildCertificationCandidate({
+    id: FAILURE_CANDIDATE_IN_SESSION_TO_FINALIZE_ID,
+    ...candidateDataFailureWithUser,
     sessionId,
   });
   databaseBuilder.factory.buildCertificationCandidate({ ...candidateDataMissingWithUser, sessionId });
@@ -164,6 +182,11 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
     ...candidateDataSuccessWithUser,
     sessionId,
   });
+  databaseBuilder.factory.buildCertificationCandidate({
+    id: FAILURE_CANDIDATE_IN_NO_PROBLEM_FINALIZED_SESSION_ID,
+    ...candidateDataFailureWithUser,
+    sessionId,
+  });
   databaseBuilder.factory.buildCertificationCandidate({ ...candidateDataMissingWithUser, sessionId });
 
   // Few candidates with some that have passed certification test with finalized courses in the Problematic session
@@ -171,6 +194,11 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildCertificationCandidate({
     id: SUCCESS_CANDIDATE_IN_PROBLEMS_FINALIZED_SESSION_ID,
     ...candidateDataSuccessWithUser,
+    sessionId,
+  });
+  databaseBuilder.factory.buildCertificationCandidate({
+    id: FAILURE_CANDIDATE_IN_PROBLEMS_FINALIZED_SESSION_ID,
+    ...candidateDataFailureWithUser,
     sessionId,
   });
   databaseBuilder.factory.buildCertificationCandidate({
@@ -187,9 +215,19 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
     ...candidateDataSuccessWithUser,
     sessionId,
   });
+  databaseBuilder.factory.buildCertificationCandidate({
+    id: FAILURE_CANDIDATE_IN_PUBLISHED_SESSION_ID,
+    ...candidateDataFailureWithUser,
+    sessionId,
+  });
 
   // One candidate for published sco session
   sessionId = PUBLISHED_SCO_SESSION_ID;
+  databaseBuilder.factory.buildCertificationCandidate({
+    id: SUCCESS_SCO_CANDIDATE_IN_PUBLISHED_SESSION_ID,
+    ...candidateDataSuccessWithUserSco,
+    sessionId,
+  });
 
   databaseBuilder.factory.buildCertificationCandidate({
     firstName: 'John',
