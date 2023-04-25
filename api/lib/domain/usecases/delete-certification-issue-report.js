@@ -14,7 +14,7 @@ const deleteCertificationIssueReport = async function ({
     throw new ForbiddenAccess('Certification issue report deletion forbidden');
   }
 
-  return certificationIssueReportRepository.delete(certificationIssueReportId);
+  return certificationIssueReportRepository.remove(certificationIssueReportId);
 };
 
 export { deleteCertificationIssueReport };

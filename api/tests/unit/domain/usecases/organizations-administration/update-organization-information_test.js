@@ -32,7 +32,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     };
     organizationTagRepository = {
       create: sinon.stub(),
-      delete: sinon.stub(),
+      remove: sinon.stub(),
       findOneByOrganizationIdAndTagId: sinon.stub(),
     };
     tagRepository = {

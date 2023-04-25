@@ -31,7 +31,7 @@ async function _updateOrganizationTags({
         organizationId: organization.id,
         tagId: tag.id,
       });
-      await organizationTagRepository.delete({ organizationTagId: organizationTag.id });
+      await organizationTagRepository.remove({ organizationTagId: organizationTag.id });
     });
   }
 }

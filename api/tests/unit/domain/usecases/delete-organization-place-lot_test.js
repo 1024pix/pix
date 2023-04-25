@@ -6,7 +6,7 @@ describe('Unit | UseCase | delete-organization-place-lot', function () {
   it('should delete the organization place lot', async function () {
     // given
     const organizationPlacesLotRepository = {
-      delete: sinon.stub(),
+      remove: sinon.stub(),
       get: sinon.stub(),
     };
 
@@ -25,7 +25,7 @@ describe('Unit | UseCase | delete-organization-place-lot', function () {
   it('should not call sofDelete given wrong organizationId', async function () {
     // given
     const organizationPlacesLotRepository = {
-      delete: sinon.stub(),
+      remove: sinon.stub(),
       get: sinon.stub(),
     };
     organizationPlacesLotRepository.get.withArgs(999).rejects(new NotFoundError());
