@@ -9,8 +9,9 @@ module.exports = async function createSession({
   certificationCenterRepository,
   sessionRepository,
   userRepository,
+  dependencies = { sessionValidator, sessionCodeService },
 }) {
-  sessionValidator.validate(session);
+  dependencies.sessionValidator.validate(session);
 
   const certificationCenterId = session.certificationCenterId;
   const userWithCertifCenters = await userRepository.getWithCertificationCenterMemberships(userId);
@@ -20,7 +21,7 @@ module.exports = async function createSession({
     );
   }
 
-  const accessCode = sessionCodeService.getNewSessionCode();
+  const accessCode = dependencies.sessionCodeService.getNewSessionCode();
   const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);
   const domainSession = new Session({
     ...session,
