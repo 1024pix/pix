@@ -179,7 +179,7 @@ module.exports = {
   },
 
   async findPaginatedFiltered({ filter, page }) {
-    const query = knex('organizations').modify(_setSearchFiltersForQueryBuilder, filter);
+    const query = knex('organizations').modify(_setSearchFiltersForQueryBuilder, filter).orderBy('name', 'ASC');
 
     const { results, pagination } = await fetchPage(query, page);
     const organizations = results.map((model) => _toDomain(model));
