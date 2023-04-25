@@ -134,14 +134,16 @@ module.exports = {
     });
 
     if (cpfBirthInformation.hasFailed()) {
-      if (
-        _isErrorNotDuplicated({
-          certificationCandidateErrors,
-          errorCode: cpfBirthInformation.code,
-        })
-      ) {
-        _addToErrorList({ errorList: certificationCandidateErrors, line, codes: [cpfBirthInformation.code] });
-      }
+      cpfBirthInformation.errors.forEach(({ code: errorCode }) => {
+        if (
+          _isErrorNotDuplicated({
+            certificationCandidateErrors,
+            errorCode,
+          })
+        ) {
+          _addToErrorList({ errorList: certificationCandidateErrors, line, codes: [errorCode] });
+        }
+      });
     }
 
     candidate.convertExtraTimePercentageToDecimal();

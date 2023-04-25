@@ -409,7 +409,6 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     [
       { field: 'firstName', expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code },
       { field: 'lastName', expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code },
-      { field: 'birthCountry', expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED.code },
       { field: 'birthdate', expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code },
       {
         field: 'sex',
@@ -693,110 +692,6 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
             // then
             expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code]);
           });
-        });
-      });
-    });
-
-    context('when birthPostalCode and birthInseeCode fields are presents', function () {
-      context('when there is a birthCity', function () {
-        it('should return a report if both birthPostalCode and birthInseeCode are empty', async function () {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            birthPostalCode: null,
-            birthINSEECode: null,
-            birthCity: 'PARIS',
-          });
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport();
-
-          // then
-          expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED.code]);
-        });
-        it('should return a report if birthPostalCode and birthInseeCode are present', async function () {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            birthPostalCode: 'TUTU',
-            birthINSEECode: 'TATA',
-            birthCity: 'TOTO',
-          });
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport();
-
-          // then
-          expect(report).to.deep.equal([
-            CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
-          ]);
-        });
-        it('should return nothing if birthPostalCode is present and birthInseeCode is empty', async function () {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            billingMode: 'FREE',
-            birthPostalCode: 'tutu',
-            birthINSEECode: null,
-            birthCity: 'tata',
-          });
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport();
-
-          // then
-          expect(report).to.be.undefined;
-        });
-      });
-      context('when there is no birthCity', function () {
-        it('should return a report if both birthPostalCode and birthInseeCode are empty', async function () {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            birthPostalCode: null,
-            birthINSEECode: null,
-            birthCity: null,
-          });
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport();
-
-          // then
-          expect(report).to.deep.equal([
-            CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
-          ]);
-        });
-        it('should return a report if both birthPostalCode and birthInseeCode are present', async function () {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            birthPostalCode: null,
-            birthINSEECode: null,
-            birthCity: null,
-          });
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport();
-
-          // then
-          expect(report).to.deep.equal([
-            CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
-          ]);
-        });
-        it('should return nothing if birthInseeCode is present and birthPostalCode is empty', async function () {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            billingMode: 'FREE',
-            birthPostalCode: '',
-            birthINSEECode: '75115',
-          });
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport();
-
-          // then
-          expect(report).to.be.undefined;
         });
       });
     });
