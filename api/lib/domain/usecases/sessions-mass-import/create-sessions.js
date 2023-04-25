@@ -1,7 +1,6 @@
 const { NotFoundError } = require('../../errors');
 const bluebird = require('bluebird');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction.js');
-const temporarySessionsStorageForMassImportService = require('../../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
 const Session = require('../../models/Session');
 const CertificationCandidate = require('../../models/CertificationCandidate');
 
@@ -10,6 +9,7 @@ module.exports = async function createSessions({
   cachedValidatedSessionsKey,
   certificationCandidateRepository,
   sessionRepository,
+  temporarySessionsStorageForMassImportService,
 }) {
   const temporaryCachedSessions = await temporarySessionsStorageForMassImportService.getByKeyAndUserId({
     cachedValidatedSessionsKey,

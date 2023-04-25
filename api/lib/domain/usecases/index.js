@@ -179,6 +179,7 @@ const passwordValidator = require('../validators/password-validator.js');
 const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository');
 const campaignValidator = require('../validators/campaign-validator.js');
 const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service.js');
+const temporarySessionsStorageForMassImportService = require('../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -369,6 +370,7 @@ const dependencies = {
   stageCollectionRepository,
   campaignValidator,
   learningContentConversionService,
+  temporarySessionsStorageForMassImportService,
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection.js');

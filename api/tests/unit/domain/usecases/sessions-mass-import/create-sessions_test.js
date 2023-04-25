@@ -1,7 +1,6 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../../test-helper');
 const { NotFoundError } = require('../../../../../lib/domain/errors');
 const createSessions = require('../../../../../lib/domain/usecases/sessions-mass-import/create-sessions');
-const temporarySessionsStorageForMassImportService = require('../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 const Session = require('../../../../../lib/domain/models/Session');
 
@@ -9,20 +8,23 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   let certificationCandidateRepository;
   let sessionRepository;
   let dependencies;
+  let temporarySessionsStorageForMassImportService;
 
   beforeEach(function () {
     certificationCandidateRepository = { saveInSession: sinon.stub(), deleteBySessionId: sinon.stub() };
     sessionRepository = { save: sinon.stub() };
+    temporarySessionsStorageForMassImportService = { getByKeyAndUserId: sinon.stub(), delete: sinon.stub() };
+
     dependencies = {
       certificationCandidateRepository,
       sessionRepository,
+      temporarySessionsStorageForMassImportService,
     };
   });
 
   context('when there are no cached sessions matching the key', function () {
     it('should throw a NotFound error', async function () {
       // given
-      temporarySessionsStorageForMassImportService.getByKeyAndUserId = sinon.stub();
       temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(undefined);
       const userId = 1234;
       const cachedValidatedSessionsKey = 'uuid';
@@ -60,9 +62,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
               certificationCandidates: [],
             },
           ];
-          temporarySessionsStorageForMassImportService.getByKeyAndUserId = sinon
-            .stub()
-            .resolves(temporaryCachedSessions);
+          temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
           const userId = 1234;
           const cachedValidatedSessionsKey = 'uuid';
           const domainTransaction = Symbol('trx');
@@ -103,9 +103,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
               certificationCandidates: [certificationCandidate],
             },
           ];
-          temporarySessionsStorageForMassImportService.getByKeyAndUserId = sinon
-            .stub()
-            .resolves(temporaryCachedSessions);
+          temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
           const userId = 1234;
           const cachedValidatedSessionsKey = 'uuid';
           const domainTransaction = Symbol('trx');
@@ -141,7 +139,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             certificationCandidates: [{ ...certificationCandidate }],
           },
         ];
-        temporarySessionsStorageForMassImportService.getByKeyAndUserId = sinon.stub().resolves(temporaryCachedSessions);
+        temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
         const userId = 1234;
         const cachedValidatedSessionsKey = 'uuid';
         const domainTransaction = Symbol('trx');
@@ -176,8 +174,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           certificationCandidates: [{ ...certificationCandidate }],
         },
       ];
-      temporarySessionsStorageForMassImportService.getByKeyAndUserId = sinon.stub().resolves(temporaryCachedSessions);
-      temporarySessionsStorageForMassImportService.delete = sinon.stub();
+      temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
       const userId = 1234;
       const cachedValidatedSessionsKey = 'uuid';
       const domainTransaction = Symbol('trx');
