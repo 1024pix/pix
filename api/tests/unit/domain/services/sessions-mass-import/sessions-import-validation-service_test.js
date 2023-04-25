@@ -1,7 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const sessionsImportValidationService = require('../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service');
 const { CpfBirthInformationValidation } = require('../../../../../lib/domain/services/certification-cpf-service');
-const certificationCpfService = require('../../../../../lib/domain/services/certification-cpf-service');
 const {
   CERTIFICATION_CANDIDATES_ERRORS,
 } = require('../../../../../lib/domain/constants/certification-candidates-errors');

@@ -1,6 +1,5 @@
 const { domainBuilder, expect, sinon } = require('../../../../test-helper');
 const validateSessions = require('../../../../../lib/domain/usecases/sessions-mass-import/validate-sessions');
-const sessionCodeService = require('../../../../../lib/domain/services/session-code-service');
 const Session = require('../../../../../lib/domain/models/Session');
 const sessionsImportValidationService = require('../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service');
 const temporarySessionsStorageForMassImportService = require('../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
@@ -19,6 +18,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   let certificationCourseRepository;
   let sessionRepository;
   let complementaryCertificationRepository;
+  let sessionCodeService;
 
   beforeEach(function () {
     accessCode = 'accessCode';
@@ -32,8 +32,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     complementaryCertificationRepository = { getByLabel: sinon.stub() };
     certificationCourseRepository = sinon.stub();
     sessionRepository = sinon.stub();
-    sinon.stub(sessionCodeService, 'getNewSessionCode');
-    sessionCodeService.getNewSessionCode.returns(accessCode);
+    sessionCodeService = { getNewSessionCode: sinon.stub().returns(accessCode) };
     sessionsImportValidationService.getValidatedCandidateBirthInformation = sinon.stub();
     sessionsImportValidationService.validateSession = sinon.stub();
     temporarySessionsStorageForMassImportService.save = sinon.stub();
@@ -78,6 +77,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         certificationCenterId,
         certificationCenterRepository,
         sessionRepository,
+        sessionCodeService,
       });
 
       // then
@@ -194,6 +194,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCandidateRepository,
           certificationCourseRepository,
           sessionRepository,
+          sessionCodeService,
         });
 
         // then
@@ -263,6 +264,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         certificationCenterId,
         certificationCenterRepository,
         sessionRepository,
+        sessionCodeService,
       });
 
       // then
@@ -294,6 +296,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterId,
           certificationCenterRepository,
           sessionRepository,
+          sessionCodeService,
         });
 
         // then
@@ -336,6 +339,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterId,
           certificationCenterRepository,
           sessionRepository,
+          sessionCodeService,
         });
 
         // then
