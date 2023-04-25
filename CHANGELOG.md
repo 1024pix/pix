@@ -1,5 +1,40 @@
 # Pix Changelog
 
+## v3.347.0 (25/04/2023)
+
+
+### :rocket: Amélioration
+- [#6026](https://github.com/1024pix/pix/pull/6026) [FEATURE] Ajouter un language switcher sur la page d'inscription de Pix App (PIX-7742)
+- [#6025](https://github.com/1024pix/pix/pull/6025) [FEATURE] Empêcher validation et création des sessions en masse pour les centres sco isManagingStudent (PIX-7775)
+- [#6041](https://github.com/1024pix/pix/pull/6041) [FEATURE] Empêcher l'import en masse pour un centre SCO isNotManagingStudent utilisant un modèle csv SUP/PRO (PIX-7774)
+- [#5975](https://github.com/1024pix/pix/pull/5975) [FEATURE] Permettre au service CPF de renvoyer plusieurs erreurs (PIX-7727)
+- [#6057](https://github.com/1024pix/pix/pull/6057) [FEATURE] remplacement du palier 1 par un booléen premier acquis (PIX-7787)
+- [#6039](https://github.com/1024pix/pix/pull/6039) [FEATURE] Traduction du date picker de création et de modification de session (PIX-7811).
+
+### :building_construction: Tech
+- [#6059](https://github.com/1024pix/pix/pull/6059) [TECH] Assurer la cohérence de données lors de la MAJ d'un déclencheur de contenu formatif (PIX-7852).
+- [#6069](https://github.com/1024pix/pix/pull/6069) [TECH] Supprimer les colonnes non utilisées de la table `trainings`(PIX-7857).
+- [#6071](https://github.com/1024pix/pix/pull/6071) [TECH] Ajout du feature toggle isDifferentiatedTimeInvigilatorPortalEnabled pour Pix Certif (PIX-7830).
+- [#6073](https://github.com/1024pix/pix/pull/6073) [TECH] Corrige un mauvais import dans pix-admin
+- [#6072](https://github.com/1024pix/pix/pull/6072) [TECH] Mise à jour de dépendances sur pix-admin
+- [#6070](https://github.com/1024pix/pix/pull/6070) [TECH] Supprime popper.js de admin
+- [#6058](https://github.com/1024pix/pix/pull/6058) [TECH] Migrer les tests vers ember-cli-htmlbars
+- [#6055](https://github.com/1024pix/pix/pull/6055) [TECH] Annule les mises à jour d'ember-cookies
+- [#6040](https://github.com/1024pix/pix/pull/6040) [TECH] Afficher un message explicite à l'utilisateur lorsque l'API retourne une erreur sur Pix Certif (PIX-7673).
+- [#6015](https://github.com/1024pix/pix/pull/6015) [TECH] Supprimer le FT lié aux recommandations des CF (PIX-7805).
+- [#6020](https://github.com/1024pix/pix/pull/6020) [TECH][ADMIN] Montée de version de Pix UI en v31.1.0 (PIX-7784)
+- [#6028](https://github.com/1024pix/pix/pull/6028) [TECH] Tester la stack Scalingo 22
+
+### :bug: Correction
+- [#6003](https://github.com/1024pix/pix/pull/6003) [BUGFIX] Ne plus appeler le provider de mail lors de l'exécution des tests (PIX-7783)
+- [#6077](https://github.com/1024pix/pix/pull/6077) [BUGFIX] Permettre la création de CF (PIX-7869).
+- [#6061](https://github.com/1024pix/pix/pull/6061) [BUGFIX] Supprimer la mauvaise vérification d'un doublon de candidat lors d'un import en masse de sessions sur Pix Certif (PIX-7838).
+- [#6021](https://github.com/1024pix/pix/pull/6021) [BUGFIX] Pix certif double scrollbar sur la liste des sessions (PIX-7413)
+
+### :coffee: Autre
+- [#6050](https://github.com/1024pix/pix/pull/6050) [BUMP] Update dependency ember-cookies to v1 (orga)
+- [#6051](https://github.com/1024pix/pix/pull/6051) [BUMP] Update dependency concurrently to v8 (pix1d)
+
 ## v3.346.0 (24/04/2023)
 
 
