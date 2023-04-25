@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
-import { contains } from '../../../../helpers/contains';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -24,13 +23,17 @@ module('Integration | Component | CampaignParticipationOverview | Card | ToShare
     this.set('campaignParticipationOverview', campaignParticipationOverview);
 
     // when
-    await render(hbs`<CampaignParticipationOverview::Card::ToShare @model={{this.campaignParticipationOverview}} />`);
+    const screen = await render(
+      hbs`<CampaignParticipationOverview::Card::ToShare @model={{this.campaignParticipationOverview}} />`
+    );
 
     // then
-    assert.ok(contains('My organization'));
-    assert.ok(contains('My campaign'));
-    assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.tag.completed').toUpperCase()));
-    assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.send')));
-    assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '10/12/2020' })));
+    assert.ok(screen.getByRole('heading', { name: 'My organization' }));
+    assert.ok(screen.getByText('My campaign'));
+    assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.tag.completed')));
+    assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.send')));
+    assert.ok(
+      screen.getByText(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '10/12/2020' }))
+    );
   });
 });

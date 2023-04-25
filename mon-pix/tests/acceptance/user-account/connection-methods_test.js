@@ -7,11 +7,8 @@ import {
 } from '../../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { triggerEvent } from '@ember/test-helpers';
+import { triggerEvent, click, fillIn } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
-import { contains } from '../../helpers/contains';
-import { clickByLabel } from '../../helpers/click-by-label';
-import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import setupIntl from '../../helpers/setup-intl';
 import PixWindow from 'mon-pix/utils/pix-window';
 import sinon from 'sinon';
@@ -33,11 +30,11 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       await authenticate(user);
 
       // when
-      await visit('/mon-compte/methodes-de-connexion');
+      const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      assert.ok(contains(user.email));
-      assert.ok(contains(user.username));
+      assert.ok(screen.getByText(user.email));
+      assert.ok(screen.getByText(user.username));
     });
 
     test("should display user's GAR authentication method", async function (assert) {
@@ -48,11 +45,11 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       await authenticateByGAR(garUser);
 
       // when
-      await visit('/mon-compte/methodes-de-connexion');
+      const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      assert.ok(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label')));
-      assert.ok(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.gar')));
+      assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label')));
+      assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.gar')));
     });
 
     test("should display user's OIDC authentication methods", async function (assert) {
@@ -65,11 +62,11 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
 
       // when
       await authenticate(user);
-      await visit('/mon-compte/methodes-de-connexion');
+      const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      assert.ok(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label')));
-      assert.ok(contains('Partenaire OIDC'));
+      assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label')));
+      assert.ok(screen.getByText('via Partenaire OIDC'));
     });
   });
 
@@ -83,10 +80,10 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       await authenticateByUsername(user);
 
       // when
-      await visit('/mon-compte/methodes-de-connexion');
+      const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      assert.notOk(contains(this.intl.t('pages.user-account.connexion-methods.email')));
+      assert.notOk(screen.queryByText(this.intl.t('pages.user-account.connexion-methods.email')));
     });
   });
 
@@ -100,10 +97,10 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       await authenticate(user);
 
       // when
-      await visit('/mon-compte/methodes-de-connexion');
+      const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      assert.notOk(contains(this.intl.t('pages.user-account.connexion-methods.username')));
+      assert.notOk(screen.queryByText(this.intl.t('pages.user-account.connexion-methods.username')));
     });
   });
 
@@ -113,15 +110,18 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       const user = server.create('user', 'withEmail');
       server.create('authentication-method', 'withPixIdentityProvider', { user });
       await authenticate(user);
-      await visit('/mon-compte/methodes-de-connexion');
-      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
+      const screen = await visit('/mon-compte/methodes-de-connexion');
+      await click(
+        screen.getByRole('button', { name: this.intl.t('pages.user-account.connexion-methods.edit-button') })
+      );
 
       // when
       await visit('/mon-compte/informations-personnelles');
       await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      assert.ok(contains(this.intl.t('pages.user-account.connexion-methods.email')));
+      assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.email')));
+      assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
     });
 
     test('should be able to edit the email, enter the code received, and be successfully redirected to account page', async function (assert) {
@@ -130,25 +130,21 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       server.create('authentication-method', 'withPixIdentityProvider', { user });
       await authenticate(user);
       const newEmail = 'new-email@example.net';
-      await visit('/mon-compte/methodes-de-connexion');
+      const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // when
-      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
-      await fillInByLabel(
-        this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
-        newEmail
-      );
-      await fillInByLabel(
-        this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'),
-        user.password
-      );
-      await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
-      await triggerEvent('#code-input-1', 'paste', { clipboardData: { getData: () => '123456' } });
+      await click(screen.getByRole('button', { name: 'Modifier' }));
+      await fillIn(screen.getByRole('textbox', { name: 'Nouvelle adresse e-mail' }), newEmail);
+      await fillIn(screen.getByLabelText('Mot de passe'), user.password);
+      await click(screen.getByRole('button', { name: 'Recevoir un code de vérification' }));
+      await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
+        clipboardData: { getData: () => '123456' },
+      });
 
       // then
-      assert.ok(contains(this.intl.t('pages.user-account.connexion-methods.email')));
-      assert.ok(contains(this.intl.t('pages.user-account.email-verification.update-successful')));
-      assert.ok(contains(newEmail));
+      assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.email')));
+      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.update-successful')));
+      assert.ok(screen.getByText(newEmail));
     });
   });
 });

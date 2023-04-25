@@ -1,11 +1,9 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { triggerEvent } from '@ember/test-helpers';
+import { triggerEvent, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { contains } from '../../../helpers/contains';
 import ENV from 'mon-pix/config/environment';
 import sinon from 'sinon';
-import { clickByLabel } from '../../../helpers/click-by-label';
 import { render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | user-account | email-verification-code', function (hooks) {
@@ -32,10 +30,17 @@ module('Integration | Component | user-account | email-verification-code', funct
       this.set('password', password);
 
       // when
-      await render(hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`);
+      const screen = await render(
+        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`
+      );
 
-      assert.ok(contains(this.intl.t('pages.user-account.email-verification.did-not-receive')));
-      assert.ok(contains(this.intl.t('pages.user-account.email-verification.send-back-the-code')));
+      // then
+      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.did-not-receive')));
+      assert.ok(
+        screen.getByRole('button', {
+          name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
+        })
+      );
     });
 
     test('should prevent multiple requests to resend verification code', async function (assert) {
@@ -56,7 +61,11 @@ module('Integration | Component | user-account | email-verification-code', funct
         hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`
       );
 
-      await clickByLabel(this.intl.t('pages.user-account.email-verification.send-back-the-code'));
+      await click(
+        screen.getByRole('button', {
+          name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
+        })
+      );
 
       // then
       assert.true(
@@ -82,13 +91,23 @@ module('Integration | Component | user-account | email-verification-code', funct
         .returns({ sendNewEmail: sendNewEmailStub });
 
       // when
-      await render(hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`);
+      const screen = await render(
+        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`
+      );
 
-      await clickByLabel(this.intl.t('pages.user-account.email-verification.send-back-the-code'));
+      await click(
+        screen.getByRole('button', {
+          name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
+        })
+      );
 
       // then
-      assert.ok(contains(this.intl.t('pages.user-account.email-verification.confirmation-message')));
-      assert.notOk(contains(this.intl.t('pages.user-account.email-verification.send-back-the-code')));
+      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.confirmation-message')));
+      assert.notOk(
+        screen.queryByRole('button', {
+          name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
+        })
+      );
     });
   });
 
@@ -104,19 +123,21 @@ module('Integration | Component | user-account | email-verification-code', funct
       const verifyCode = sinon.stub().throws({ errors: [{ status: '403', code: 'INVALID_VERIFICATION_CODE' }] });
       store.createRecord = () => ({ verifyCode });
 
-      await render(hbs`<UserAccount::EmailVerificationCode
+      const screen = await render(hbs`<UserAccount::EmailVerificationCode
         @email={{this.email}}
         @disableEmailEditionMode={{this.disableEmailEditionMode}}
         @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
       />`);
 
       // when
-      await triggerEvent('#code-input-1', 'paste', { clipboardData: { getData: () => '123456' } });
+      await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
+        clipboardData: { getData: () => '123456' },
+      });
 
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
-      assert.ok(contains(this.intl.t('pages.user-account.email-verification.errors.incorrect-code')));
+      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.errors.incorrect-code')));
     });
 
     test('should show demand expired message when receiving 403', async function (assert) {
@@ -137,20 +158,22 @@ module('Integration | Component | user-account | email-verification-code', funct
       });
       store.createRecord = () => ({ verifyCode });
 
-      await render(hbs`<UserAccount::EmailVerificationCode
+      const screen = await render(hbs`<UserAccount::EmailVerificationCode
         @email={{this.email}}
         @disableEmailEditionMode={{this.disableEmailEditionMode}}
         @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
       />`);
 
       // when
-      await triggerEvent('#code-input-1', 'paste', { clipboardData: { getData: () => '123456' } });
+      await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
+        clipboardData: { getData: () => '123456' },
+      });
 
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
       assert.ok(
-        contains(this.intl.t('pages.user-account.email-verification.errors.email-modification-demand-expired'))
+        screen.getByText(this.intl.t('pages.user-account.email-verification.errors.email-modification-demand-expired'))
       );
     });
 
@@ -172,19 +195,21 @@ module('Integration | Component | user-account | email-verification-code', funct
       });
       store.createRecord = () => ({ verifyCode });
 
-      await render(hbs`<UserAccount::EmailVerificationCode
+      const screen = await render(hbs`<UserAccount::EmailVerificationCode
         @email={{this.email}}
         @disableEmailEditionMode={{this.disableEmailEditionMode}}
         @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
       />`);
 
       // when
-      await triggerEvent('#code-input-1', 'paste', { clipboardData: { getData: () => '123456' } });
+      await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
+        clipboardData: { getData: () => '123456' },
+      });
 
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
-      assert.ok(contains(this.intl.t('pages.user-account.email-verification.errors.new-email-already-exist')));
+      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.errors.new-email-already-exist')));
     });
 
     test('should show error message when receiving 500', async function (assert) {
@@ -198,19 +223,21 @@ module('Integration | Component | user-account | email-verification-code', funct
       const verifyCode = sinon.stub().throws({ errors: [{ status: '500' }] });
       store.createRecord = () => ({ verifyCode });
 
-      await render(hbs`<UserAccount::EmailVerificationCode
+      const screen = await render(hbs`<UserAccount::EmailVerificationCode
         @email={{this.email}}
         @disableEmailEditionMode={{this.disableEmailEditionMode}}
         @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
       />`);
 
       // when
-      await triggerEvent('#code-input-1', 'paste', { clipboardData: { getData: () => '123456' } });
+      await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
+        clipboardData: { getData: () => '123456' },
+      });
 
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
-      assert.ok(contains(this.intl.t('pages.user-account.email-verification.errors.unknown-error')));
+      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.errors.unknown-error')));
     });
   });
 });
