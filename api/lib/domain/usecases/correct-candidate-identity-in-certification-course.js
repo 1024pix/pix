@@ -1,4 +1,4 @@
-const { CpfBirthInformationValidationError } = require('../errors.js');
+const { CpfBirthInformationValidationError } = require('../errors');
 
 module.exports = async function correctCandidateIdentityInCertificationCourse({
   command: {
@@ -34,7 +34,7 @@ module.exports = async function correctCandidateIdentityInCertificationCourse({
   });
 
   if (cpfBirthInformation.hasFailed()) {
-    throw new CpfBirthInformationValidationError(cpfBirthInformation.message);
+    throw new CpfBirthInformationValidationError(cpfBirthInformation.firstErrorMessage);
   }
 
   certificationCourse.correctBirthInformation(cpfBirthInformation);

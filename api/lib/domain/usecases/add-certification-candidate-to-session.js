@@ -1,8 +1,8 @@
 const {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CpfBirthInformationValidationError,
   CertificationCandidateAddError,
   CertificationCandidateOnFinalizedSessionError,
+  CpfBirthInformationValidationError,
 } = require('../errors.js');
 
 module.exports = async function addCertificationCandidateToSession({
@@ -50,7 +50,7 @@ module.exports = async function addCertificationCandidateToSession({
   });
 
   if (cpfBirthInformation.hasFailed()) {
-    throw new CpfBirthInformationValidationError(cpfBirthInformation.message);
+    throw new CpfBirthInformationValidationError(cpfBirthInformation.firstErrorMessage);
   }
 
   certificationCandidate.updateBirthInformation(cpfBirthInformation);

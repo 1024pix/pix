@@ -167,9 +167,12 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           },
         ];
 
-        const cpfBirthInformationValidation1 = CpfBirthInformationValidation.success({ ...candidate1 });
-        const cpfBirthInformationValidation2 = CpfBirthInformationValidation.success({ ...candidate2 });
-        const cpfBirthInformationValidation3 = CpfBirthInformationValidation.success({ ...candidate3 });
+        const cpfBirthInformationValidation1 = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation1.success({ ...candidate1 });
+        const cpfBirthInformationValidation2 = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation2.success({ ...candidate2 });
+        const cpfBirthInformationValidation3 = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation3.success({ ...candidate3 });
         sessionsImportValidationService.getValidatedCandidateBirthInformation
           .onCall(0)
           .resolves({ cpfBirthInformation: cpfBirthInformationValidation1 });
