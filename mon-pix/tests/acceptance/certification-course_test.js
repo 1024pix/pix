@@ -17,26 +17,26 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
   let user;
 
   module('Start a certification course', function () {
-    module('When user is not logged in', function (hooks) {
-      hooks.beforeEach(async function () {
+    module('When user is not logged in', function () {
+      test('should redirect to login page', async function (assert) {
+        // given
         user = server.create('user', 'withEmail');
-        await visit('/certifications');
-      });
 
-      test('should redirect to login page', function (assert) {
+        // when
+        await visit('/certifications');
+
         // then
         assert.ok(/connexion/.test(currentURL()));
       });
     });
 
     module('When user is logged in', function () {
-      module('When user is not certifiable', function (hooks) {
-        hooks.beforeEach(async function () {
+      module('When user is not certifiable', function () {
+        test('should render the not certifiable template', async function (assert) {
+          // given
           user = server.create('user', 'withEmail', 'notCertifiable');
           await authenticate(user);
-        });
 
-        test('should render the not certifiable template', async function (assert) {
           // when
           const screen = await visit('/certifications');
 
@@ -59,11 +59,12 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           assert.dom(screen.getByRole('link', { name: 'Certification' })).exists();
         });
 
-        module('when no candidate with given info has been registered in the given session', function (hooks) {
-          hooks.beforeEach(async function () {
-            // when
+        module('when no candidate with given info has been registered in the given session', function () {
+          test('should display an error message', async function (assert) {
+            // given
             const screen = await visit('/certifications');
 
+            // when
             await fillCertificationJoiner({
               sessionId: '1',
               firstName: 'Laura',
@@ -74,10 +75,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               intl: this.intl,
             });
 
-            return screen;
-          });
-
-          test('should display an error message', function (assert) {
             // then
             assert
               .dom(screen.getByText('Les informations saisies ne correspondent à aucun candidat inscrit à la session.'))
@@ -93,11 +90,12 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           });
         });
 
-        module('when several candidates with given info are found in the given session', function (hooks) {
-          hooks.beforeEach(async function () {
-            // when
+        module('when several candidates with given info are found in the given session', function () {
+          test('should display an error message', async function (assert) {
+            // given
             const screen = await visit('/certifications');
 
+            // when
             await fillCertificationJoiner({
               sessionId: '1',
               firstName: 'Laura',
@@ -108,10 +106,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               intl: this.intl,
             });
 
-            return screen;
-          });
-
-          test('should display an error message', function (assert) {
             // then
             assert
               .dom(screen.getByText('Les informations saisies ne correspondent à aucun candidat inscrit à la session.'))
@@ -127,11 +121,12 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           });
         });
 
-        module('when user has already been linked to another candidate in the session', function (hooks) {
-          hooks.beforeEach(async function () {
-            // when
+        module('when user has already been linked to another candidate in the session', function () {
+          test('should display an error message', async function (assert) {
+            // given
             const screen = await visit('/certifications');
 
+            // when
             await fillCertificationJoiner({
               sessionId: '1',
               firstName: 'Laura',
@@ -142,10 +137,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               intl: this.intl,
             });
 
-            return screen;
-          });
-
-          test('should display an error message', function (assert) {
             // then
             assert
               .dom(screen.getByText('Les informations saisies ne correspondent à aucun candidat inscrit à la session.'))
@@ -161,8 +152,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           });
         });
 
-        module('when user is already linked to this candidate', function (hooks) {
-          hooks.beforeEach(async function () {
+        module('when user is already linked to this candidate', function () {
+          test('should redirect to certification start route', async function (assert) {
             // given
             await visit('/certifications');
             this.server.schema.certificationCandidates.create({
@@ -178,6 +169,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               eligibleSubscriptions: [],
               nonEligibleSubscriptions: [],
             });
+
             // when
             await fillCertificationJoiner({
               sessionId: '1',
@@ -188,16 +180,14 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               yearOfBirth: '1990',
               intl: this.intl,
             });
-          });
 
-          test('should redirect to certification start route', function (assert) {
             // then
             assert.strictEqual(currentURL(), '/certifications/candidat/1');
           });
         });
 
-        module('when user is successfully linked to the candidate', function (hooks) {
-          hooks.beforeEach(async function () {
+        module('when user is successfully linked to the candidate', function () {
+          test('should redirect to certification start route', async function (assert) {
             // given
             await visit('/certifications');
             this.server.create('certification-candidate-subscription', {
@@ -217,9 +207,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               yearOfBirth: '1990',
               intl: this.intl,
             });
-          });
 
-          test('should redirect to certification start route', function (assert) {
             // then
             assert.strictEqual(currentURL(), '/certifications/candidat/2');
           });
@@ -251,9 +239,30 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             });
           });
 
-          module('when user enter a correct code session', function (hooks) {
-            hooks.beforeEach(async function () {
+          module('when user enter a correct code session', function () {
+            test('should be redirected on the first challenge of an assessment', async function (assert) {
+              // given
+              await visit('/certifications');
+
+              await fillCertificationJoiner({
+                sessionId: '1',
+                firstName: 'Laura',
+                lastName: 'Bravo',
+                dayOfBirth: '04',
+                monthOfBirth: '01',
+                yearOfBirth: '1990',
+                intl: this.intl,
+              });
+
               // when
+              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+
+              // then
+              assert.true(currentURL().startsWith(`/assessments/${assessment.id}/challenges`));
+            });
+
+            test('should navigate to next challenge when we click pass', async function (assert) {
+              // given
               const screen = await visit('/certifications');
 
               await fillCertificationJoiner({
@@ -267,15 +276,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               });
               await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
 
-              return screen;
-            });
-
-            test('should be redirected on the first challenge of an assessment', async function (assert) {
-              // then
-              assert.true(currentURL().startsWith(`/assessments/${assessment.id}/challenges`));
-            });
-
-            test('should navigate to next challenge when we click pass', async function (assert) {
               // when
               await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
 
@@ -285,6 +285,20 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
 
             module('after skipping the all challenges of the certification course', function () {
               test('should navigate to redirect to certification result page at the end of the assessment', async function (assert) {
+                // given
+                const screen = await visit('/certifications');
+
+                await fillCertificationJoiner({
+                  sessionId: '1',
+                  firstName: 'Laura',
+                  lastName: 'Bravo',
+                  dayOfBirth: '04',
+                  monthOfBirth: '01',
+                  yearOfBirth: '1990',
+                  intl: this.intl,
+                });
+                await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+
                 // when
                 for (let i = 0; i < NB_CHALLENGES; ++i) {
                   await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
@@ -313,6 +327,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
 
               await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
               await visit('/');
+
               // when
               await visit(`/certifications/${certificationCourse.id}`);
 
