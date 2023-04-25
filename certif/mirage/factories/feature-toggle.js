@@ -5,4 +5,5 @@ export default Factory.extend({
   certifPrescriptionSco: false,
   reportsCategorization: false,
   isMassiveSessionManagementEnabled: true,
+  isDifferentiatedTimeInvigilatorPortalEnabled: true,
 });
