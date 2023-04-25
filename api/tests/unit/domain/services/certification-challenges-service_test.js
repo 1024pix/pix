@@ -63,25 +63,6 @@ describe('Unit | Service | Certification Challenge Service', function () {
     });
   }
 
-  function findOperativeByIds(skillIds) {
-    const skills = [
-      skillCitation4,
-      skillCollaborer4,
-      skillMoteur3,
-      skillRecherche4,
-      skillRemplir2,
-      skillRemplir2Focus,
-      skillRemplir4,
-      skillUrl3,
-      skillWeb1,
-      skillRequin5,
-      skillRequin8,
-      skillKoala1,
-      skillKoala2,
-    ];
-    return skills.filter((skill) => skillIds.includes(skill.id));
-  }
-
   beforeEach(function () {
     competenceFlipper = domainBuilder.buildCompetence({
       id: 'competenceRecordIdOne',
@@ -257,13 +238,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
     let userCompetence1;
     let userCompetence2;
     let challengeRepository;
-    let skillRepository;
     let knowledgeElementRepository;
     let answerRepository;
 
     beforeEach(function () {
       challengeRepository = { findOperativeHavingLocale: sinon.stub() };
-      skillRepository = { findOperativeByIds: sinon.stub() };
       knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
       answerRepository = { findChallengeIdsFromAnswerIds: sinon.stub() };
 
@@ -285,7 +264,6 @@ describe('Unit | Service | Certification Challenge Service', function () {
           challengeForSkillKoala1,
           challengeForSkillKoala2,
         ]);
-      skillRepository.findOperativeByIds.callsFake(findOperativeByIds);
       userCompetence1 = domainBuilder.buildUserCompetence({
         id: 'competenceRecordIdOne',
         index: '1.1',
