@@ -13,7 +13,8 @@ describe('Acceptance | Controller | certification-center-controller-get-import-t
       it('should return a csv file', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ externalId: 1234 }).id;
+        databaseBuilder.factory.buildOrganization({ externalId: 1234, type: 'SUP' });
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         await databaseBuilder.commit();
 

@@ -16,7 +16,11 @@ describe('Acceptance | Controller | certification-centers-controller-post-create
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const { name: certificationCenter, id: certificationCenterId } =
-          databaseBuilder.factory.buildCertificationCenter();
+          databaseBuilder.factory.buildCertificationCenter({
+            type: 'SUP',
+            externalId: '1234AB',
+          });
+        databaseBuilder.factory.buildOrganization({ externalId: '1234AB', isManagingStudents: false, type: 'SUP' });
         databaseBuilder.factory.buildCertificationCenterMembership({
           userId,
           certificationCenterId,

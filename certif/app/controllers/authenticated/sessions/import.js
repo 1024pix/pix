@@ -37,7 +37,10 @@ export default class ImportController extends Controller {
     const token = this.session.data.authenticated.access_token;
     try {
       await this.fileSaver.save({ url, token });
-    } catch (e) {
+    } catch (error) {
+      if (error[0]?.code === 403) {
+        return this.notifications.error(this.intl.t('pages.sessions.import.step-one.errors.forbidden'));
+      }
       this.notifications.error(this.intl.t('pages.sessions.import.step-one.errors.download'));
     }
   }
@@ -76,6 +79,9 @@ export default class ImportController extends Controller {
       this.cachedValidatedSessionsKey = cachedValidatedSessionsKey;
       this.errorReports = errorReports;
     } catch (responseError) {
+      if (responseError.errors[0].code === 403) {
+        return this.notifications.error(this.intl.t('pages.sessions.import.step-one.errors.forbidden'));
+      }
       this.notifications.error(this.intl.t(this._handleApiError(responseError)));
       return;
     }
