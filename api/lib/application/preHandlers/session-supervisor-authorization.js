@@ -2,10 +2,14 @@ const supervisorAccessRepository = require('../../infrastructure/repositories/su
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
-  async verifyByCertificationCandidateId(request, h) {
-    const supervisorUserId = requestResponseUtils.extractUserIdFromRequest(request);
+  async verifyByCertificationCandidateId(
+    request,
+    h,
+    dependencies = { requestResponseUtils, supervisorAccessRepository }
+  ) {
+    const supervisorUserId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
     const candidateId = request.params.id;
-    const isSupervisorForSession = await supervisorAccessRepository.isUserSupervisorForSessionCandidate({
+    const isSupervisorForSession = await dependencies.supervisorAccessRepository.isUserSupervisorForSessionCandidate({
       supervisorId: supervisorUserId,
       certificationCandidateId: candidateId,
     });
@@ -17,11 +21,11 @@ module.exports = {
     return true;
   },
 
-  async verifyBySessionId(request, h) {
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
+  async verifyBySessionId(request, h, dependencies = { requestResponseUtils, supervisorAccessRepository }) {
+    const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
     const sessionId = request.params.id;
 
-    const isSupervisorForSession = await supervisorAccessRepository.isUserSupervisorForSession({
+    const isSupervisorForSession = await dependencies.supervisorAccessRepository.isUserSupervisorForSession({
       sessionId,
       userId,
     });
