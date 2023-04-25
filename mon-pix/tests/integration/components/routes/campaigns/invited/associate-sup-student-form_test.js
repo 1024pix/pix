@@ -1,9 +1,7 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
-import { fillInByLabel } from '../../../../../helpers/fill-in-by-label';
-import { clickByLabel } from '../../../../../helpers/click-by-label';
-import { contains } from '../../../../../helpers/contains';
+import { click, fillIn } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
@@ -37,16 +35,11 @@ module('Integration | Component | routes/campaigns/invited/associate-sup-student
 
   module('when user fill the form correctly', function () {
     test('should save form', async function (assert) {
-      // when
-      await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
+      // given
+      const screen = await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
 
-      await fillInByLabel('Numéro étudiant', 'F100');
-      await fillInByLabel('Prénom', 'Jean');
-      await fillInByLabel('Nom', 'Bon');
-      await fillInByLabel('jour de naissance', '01');
-      await fillInByLabel('mois de naissance', '01');
-      await fillInByLabel('année de naissance', '2000');
-      await clickByLabel("C'est parti !");
+      // when
+      await _fillInputsAndValidate({ screen });
 
       // then
       sinon.assert.calledWithExactly(saveStub);
@@ -54,16 +47,11 @@ module('Integration | Component | routes/campaigns/invited/associate-sup-student
     });
 
     test('should transition to fill-in-participant-external-id', async function (assert) {
-      // when
-      await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
+      // given
+      const screen = await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
 
-      await fillInByLabel('Numéro étudiant', 'F100');
-      await fillInByLabel('Prénom', 'Jean');
-      await fillInByLabel('Nom', 'Bon');
-      await fillInByLabel('jour de naissance', '01');
-      await fillInByLabel('mois de naissance', '01');
-      await fillInByLabel('année de naissance', '2000');
-      await clickByLabel("C'est parti !");
+      // when
+      await _fillInputsAndValidate({ screen });
 
       // then
       sinon.assert.calledWithExactly(transitionToStub, 'campaigns.invited.fill-in-participant-external-id', 123);
@@ -75,24 +63,27 @@ module('Integration | Component | routes/campaigns/invited/associate-sup-student
     test('should display server error', async function (assert) {
       // given
       saveStub.rejects();
+      const screen = await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
 
       // when
-      await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
-
-      await fillInByLabel('Numéro étudiant', 'F100');
-      await fillInByLabel('Prénom', 'Jean');
-      await fillInByLabel('Nom', 'Bon');
-      await fillInByLabel('jour de naissance', '01');
-      await fillInByLabel('mois de naissance', '01');
-      await fillInByLabel('année de naissance', '2000');
-      await clickByLabel("C'est parti !");
+      await _fillInputsAndValidate({ screen });
 
       // then
       assert.ok(
-        contains(
+        screen.getByText(
           'Veuillez vérifier les informations saisies, ou si vous avez déjà un compte Pix, connectez-vous avec celui-ci.'
         )
       );
     });
   });
+
+  async function _fillInputsAndValidate({ screen }) {
+    await fillIn(screen.getByRole('textbox', { name: 'Numéro étudiant' }), 'F100');
+    await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'Jean');
+    await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Bon');
+    await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '01');
+    await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '01');
+    await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
+    await click(screen.getByRole('button', { name: "C'est parti !" }));
+  }
 });

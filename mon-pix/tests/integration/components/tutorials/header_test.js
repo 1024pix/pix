@@ -1,5 +1,4 @@
 import { module, test } from 'qunit';
-import { contains } from '../../../helpers/contains';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
@@ -20,8 +19,8 @@ module('Integration | Component | Tutorials | Header', function (hooks) {
     const screen = await render(hbs`<Tutorials::Header />`);
 
     // then
-    assert.ok(contains(this.intl.t('pages.user-tutorials.title')));
-    assert.ok(contains(this.intl.t('pages.user-tutorials.description')));
+    assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.user-tutorials.title') }));
+    assert.ok(screen.getByText(this.intl.t('pages.user-tutorials.description')));
     assert.ok(screen.getByRole('link', { name: this.intl.t('pages.user-tutorials.recommended') }));
     assert.ok(screen.getByRole('link', { name: this.intl.t('pages.user-tutorials.saved') }));
   });

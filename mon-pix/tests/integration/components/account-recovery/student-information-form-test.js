@@ -1,27 +1,31 @@
 import { module, test } from 'qunit';
 import Service from '@ember/service';
-
-import { triggerEvent } from '@ember/test-helpers';
+import { triggerEvent, fillIn, click } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { contains } from '../../../helpers/contains';
 import sinon from 'sinon';
-import { fillInByLabel } from '../../../helpers/fill-in-by-label';
-import { clickByLabel } from '../../../helpers/click-by-label';
 
 module('Integration | Component | student-information-form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('should render a account recovery student information form', async function (assert) {
     // given / when
-    await render(hbs`<AccountRecovery::StudentInformationForm />`);
+    const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
 
     // then
-    assert.ok(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title')));
-    assert.ok(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.subtitle.text')));
-    assert.ok(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.subtitle.link')));
-    assert.ok(contains(this.intl.t('common.form.mandatory-all-fields')));
+    assert.ok(
+      screen.getByRole('heading', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+      })
+    );
+    assert.ok(screen.getByText('Si vous possédez un compte avec une adresse e-mail valide,'));
+    assert.ok(
+      screen.getByRole('link', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.subtitle.link'),
+      })
+    );
+    assert.ok(screen.getByText(this.intl.t('common.form.mandatory-all-fields')));
   });
 
   test('should enable submission on account recovery form', async function (assert) {
@@ -42,35 +46,54 @@ module('Integration | Component | student-information-form', function (hooks) {
     submitStudentInformation.resolves();
     this.set('submitStudentInformation', submitStudentInformation);
 
-    await render(hbs`
+    const screen = await render(hbs`
       <AccountRecovery::StudentInformationForm
         @submitStudentInformation={{this.submitStudentInformation}}
       />
     `);
 
     // when
-    await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ine);
-    await fillInByLabel(
-      this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'),
+    await fillIn(
+      screen.getByRole('textbox', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
+      }),
+      ine
+    );
+    await fillIn(
+      screen.getByRole('textbox', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'),
+      }),
       firstName
     );
-    await fillInByLabel(
-      this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'),
+    await fillIn(
+      screen.getByRole('textbox', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'),
+      }),
       lastName
     );
-    await fillInByLabel(
-      this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'),
+    await fillIn(
+      screen.getByRole('spinbutton', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'),
+      }),
       dayOfBirth
     );
-    await fillInByLabel(
-      this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'),
+    await fillIn(
+      screen.getByRole('spinbutton', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'),
+      }),
       monthOfBirth
     );
-    await fillInByLabel(
-      this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'),
+    await fillIn(
+      screen.getByRole('spinbutton', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'),
+      }),
       yearOfBirth
     );
-    await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
+    await click(
+      screen.getByRole('button', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'),
+      })
+    );
 
     // then
     sinon.assert.calledWithExactly(submitStudentInformation, {
@@ -87,18 +110,18 @@ module('Integration | Component | student-information-form', function (hooks) {
       test('should not display an error message on focus-out', async function (assert) {
         // given
         const validIna = '1234567890A';
-        await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const ineInaInput = screen.getByRole('textbox', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
+        });
 
         // when
-        await fillInByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
-          validIna
-        );
-        await triggerEvent('#ineIna', 'focusout');
+        await fillIn(ineInaInput, validIna);
+        await triggerEvent(ineInaInput, 'focusout');
 
         // then
         assert.notOk(
-          contains(
+          screen.queryByText(
             this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
           )
         );
@@ -107,18 +130,18 @@ module('Integration | Component | student-information-form', function (hooks) {
       test('should not display an error message on focus-out even if there are leading or trailing spaces', async function (assert) {
         // given
         const validIna = '  1234567890A  ';
-        await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const ineInaInput = screen.getByRole('textbox', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
+        });
 
         // when
-        await fillInByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
-          validIna
-        );
-        await triggerEvent('#ineIna', 'focusout');
+        await fillIn(ineInaInput, validIna);
+        await triggerEvent(ineInaInput, 'focusout');
 
         // then
         assert.notOk(
-          contains(
+          screen.queryByText(
             this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
           )
         );
@@ -129,18 +152,18 @@ module('Integration | Component | student-information-form', function (hooks) {
       test('should display an invalid format error message on focus-out', async function (assert) {
         // given
         const invalidIneIna = '123ABCDEF';
-        await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const ineInaInput = screen.getByRole('textbox', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
+        });
 
         // when
-        await fillInByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
-          invalidIneIna
-        );
-        await triggerEvent('#ineIna', 'focusout');
+        await fillIn(ineInaInput, invalidIneIna);
+        await triggerEvent(ineInaInput, 'focusout');
 
         // then
         assert.ok(
-          contains(
+          screen.queryByText(
             this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
           )
         );
@@ -149,18 +172,20 @@ module('Integration | Component | student-information-form', function (hooks) {
       test('should display a required field error message on focus-out if ine field is empty', async function (assert) {
         // given
         const emptyIneIna = '     ';
-        await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+        const ineInaInput = screen.getByRole('textbox', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
+        });
 
         // when
-        await fillInByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
-          emptyIneIna
-        );
-        await triggerEvent('#ineIna', 'focusout');
+        await fillIn(ineInaInput, emptyIneIna);
+        await triggerEvent(ineInaInput, 'focusout');
 
         // then
         assert.ok(
-          contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-ine-ina'))
+          screen.getByText(
+            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-ine-ina')
+          )
         );
       });
     });
@@ -170,18 +195,20 @@ module('Integration | Component | student-information-form', function (hooks) {
     test('should display a required field error message on focus-out if last name field is empty', async function (assert) {
       // given
       const emptyLastName = '     ';
-      await render(hbs`<AccountRecovery::StudentInformationForm />`);
+      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+      const lastNameInput = screen.getByRole('textbox', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'),
+      });
 
       // when
-      await fillInByLabel(
-        this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'),
-        emptyLastName
-      );
-      await triggerEvent('#lastName', 'focusout');
+      await fillIn(lastNameInput, emptyLastName);
+      await triggerEvent(lastNameInput, 'focusout');
 
       // then
       assert.ok(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-last-name'))
+        screen.getByText(
+          this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-last-name')
+        )
       );
     });
   });
@@ -190,18 +217,20 @@ module('Integration | Component | student-information-form', function (hooks) {
     test('should display a required field error message on focus-out if first name field is empty', async function (assert) {
       // given
       const emptyFirstName = '     ';
-      await render(hbs`<AccountRecovery::StudentInformationForm />`);
+      const screen = await render(hbs`<AccountRecovery::StudentInformationForm />`);
+      const firstNameInput = screen.getByRole('textbox', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'),
+      });
 
       // when
-      await fillInByLabel(
-        this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'),
-        emptyFirstName
-      );
-      await triggerEvent('#firstName', 'focusout');
+      await fillIn(firstNameInput, emptyFirstName);
+      await triggerEvent(firstNameInput, 'focusout');
 
       // then
       assert.ok(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-first-name'))
+        screen.getByText(
+          this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-first-name')
+        )
       );
     });
   });
