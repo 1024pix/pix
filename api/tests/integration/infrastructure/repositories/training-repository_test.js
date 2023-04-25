@@ -566,7 +566,12 @@ describe('Integration | Repository | training-repository', function () {
       };
 
       // when
-      const createdTraining = await trainingRepository.create({ training });
+      const createdTraining = await trainingRepository.create({
+        training: {
+          ...training,
+          anotherAttribute: 'anotherAttribute',
+        },
+      });
 
       // then
       expect(createdTraining).to.be.instanceOf(TrainingForAdmin);
