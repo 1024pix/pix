@@ -1,12 +1,19 @@
 ignores:
   [
+    '@babel/plugin-syntax-import-assertions',
     'bookshelf-validate',
-    'mocha-junit-reporter',
     'eslint-plugin-mocha',
     'eslint-plugin-yml',
+    'hapi-swagger',
+    'hapi-sentry',
     'jscodeshift',
+    'mocha-junit-reporter',
     'pino-pretty',
   ]
+
+#  @babel/plugin-syntax-import-assertions is used by eslint
+# see https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-import-assertions/README.md
+
 # "bookshelf-validate" is used in ./lib/infrastructure/bookshelf.js
 # code => bookshelf.plugin('bookshelf-validate',
 # see https://github.com/kripod/bookshelf-validate#configuration
@@ -22,6 +29,15 @@ ignores:
 # "eslint-plugin-YAML" is used in ../.eslintrc.yaml
 # code =>  plugins: - yaml
 # see https://github.com/ota-meshi/eslint-plugin-yml#book-usage
+
+# "hapi-sentry" is used in ./lib/infrastructure/plugins/sentry.js
+# see https://github.com/hydra-newmedia/hapi-sentry
+
+# "hapi-swagger" is used in ./lib/application/authentication/index.js
+# see https://github.com/hapi-swagger/hapi-swagger
+
+#  @babel/plugin-syntax-import-assertions is used by eslint
+# see https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-import-assertions/README.md
 
 # "pino-pretty" is used in ../lib/infrastructure/logger.js
 # code =>  target: 'pino-pretty'
