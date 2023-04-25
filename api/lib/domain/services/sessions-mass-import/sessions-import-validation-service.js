@@ -71,15 +71,6 @@ module.exports = {
         codes: [CERTIFICATION_SESSIONS_ERRORS.EMPTY_SESSION.code],
         isBlocking: false,
       });
-    } else {
-      if (_hasDuplicateCertificationCandidates(session.certificationCandidates)) {
-        _addToErrorList({
-          errorList: sessionErrors,
-          line,
-          codes: [CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_IN_SESSION.code],
-          isBlocking: false,
-        });
-      }
     }
 
     return sessionErrors;
@@ -193,12 +184,4 @@ async function _isSessionStarted({ certificationCourseRepository, sessionId }) {
     sessionId,
   });
   return foundCertificationCourses.length > 0;
-}
-
-function _hasDuplicateCertificationCandidates(certificationCandidates) {
-  const uniqCertificationCandidates = new Set(
-    certificationCandidates.map(({ lastName, firstName, birthdate }) => `${lastName}${firstName}${birthdate}`)
-  );
-
-  return uniqCertificationCandidates.size < certificationCandidates.length;
 }
