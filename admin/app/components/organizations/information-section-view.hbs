@@ -79,6 +79,8 @@
           {{/if}}
         </li>
         <li>Affichage du Net Promoter Score : {{if @organization.showNPS "Oui" "Non"}}</li>
+        <li>Activer l'envoi multiple sur les campagnes d'évaluation :
+          {{if @organization.enableMultipleSendingAssessment "Oui" "Non"}}</li>
       </ul>
       {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
         <div class="form-actions">
