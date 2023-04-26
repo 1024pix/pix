@@ -3,8 +3,6 @@ import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit, clickByName, clickByText } from '@1024pix/ember-testing-library';
-import { fillIn } from '@ember/test-helpers';
 
 module('Acceptance | User account', function (hooks) {
   setupApplicationTest(hooks);
@@ -14,12 +12,12 @@ module('Acceptance | User account', function (hooks) {
     test('should open tests page when click on menu', async function (assert) {
       //given
       server.create('campaign-participation-overview', { assessmentState: 'completed' });
-      const user = server.create('user', 'withEmail', 'withAssessmentParticipations');
-      await authenticateByEmail(user);
+      const user = server.create('user', 'withEmail', 'withAssessmentParticipations', { firstName: 'Henri' });
+      const screen = await authenticateByEmail(user);
 
       // when
-      await click('.logged-user-name');
-      await clickByName('Mes parcours');
+      await click(screen.getByRole('button', { name: 'Henri Consulter mes informations' }));
+      await click(screen.getByRole('link', { name: 'Mes parcours' }));
 
       // then
       assert.strictEqual(currentURL(), '/mes-parcours');
@@ -28,12 +26,12 @@ module('Acceptance | User account', function (hooks) {
     test('should open certifications page when click on menu', async function (assert) {
       //given
       server.create('campaign-participation-overview', { assessmentState: 'completed' });
-      const user = server.create('user', 'withEmail', 'withAssessmentParticipations');
-      await authenticateByEmail(user);
+      const user = server.create('user', 'withEmail', 'withAssessmentParticipations', { firstName: 'Henri' });
+      const screen = await authenticateByEmail(user);
 
       // when
-      await click('.logged-user-name');
-      await clickByName('Mes certifications');
+      await click(screen.getByRole('button', { name: 'Henri Consulter mes informations' }));
+      await click(screen.getByRole('link', { name: 'Mes certifications' }));
 
       // then
       assert.strictEqual(currentURL(), '/mes-certifications');
@@ -42,31 +40,26 @@ module('Acceptance | User account', function (hooks) {
     test('should contain link to support.pix.org/fr/support/home', async function (assert) {
       // given
       server.create('campaign-participation-overview', { assessmentState: 'completed' });
-      const user = server.create('user', 'withEmail', 'withAssessmentParticipations');
-      const screen = await visit('/connexion');
-      await fillIn('#login', user.email);
-      await fillIn('#password', user.password);
-      await clickByName('Je me connecte');
+      const user = server.create('user', 'withEmail', 'withAssessmentParticipations', { firstName: 'Henri' });
+      const screen = await authenticateByEmail(user);
 
       // when
-      await click('.logged-user-name');
-      const helplink = screen.getByRole('link', { name: 'Aide' }).getAttribute('href');
+      await click(screen.getByRole('button', { name: 'Henri Consulter mes informations' }));
 
       // then
+      const helplink = screen.getByRole('link', { name: 'Aide' }).getAttribute('href');
       assert.strictEqual(helplink, 'https://support.pix.org/fr/support/home');
     });
 
     test('should open My account page when click on menu', async function (assert) {
       //given
       server.create('campaign-participation-overview', { assessmentState: 'completed' });
-      const user = server.create('user', 'withEmail', 'withAssessmentParticipations');
-      await authenticateByEmail(user);
-
-      // given
-      await click('.logged-user-name');
+      const user = server.create('user', 'withEmail', 'withAssessmentParticipations', { firstName: 'Henri' });
+      const screen = await authenticateByEmail(user);
+      await click(screen.getByRole('button', { name: 'Henri Consulter mes informations' }));
 
       // when
-      await clickByName('Mon compte');
+      await click(screen.getByRole('link', { name: 'Mon compte' }));
 
       // then
       assert.strictEqual(currentURL(), '/mon-compte/informations-personnelles');
@@ -76,14 +69,14 @@ module('Acceptance | User account', function (hooks) {
   test('should close menu when click outside', async function (assert) {
     // given
     server.create('campaign-participation-overview', { assessmentState: 'completed' });
-    const user = server.create('user', 'withEmail', 'withAssessmentParticipations');
-    await authenticateByEmail(user);
-    await click('.logged-user-name');
+    const user = server.create('user', 'withEmail', 'withAssessmentParticipations', { firstName: 'Henri' });
+    const screen = await authenticateByEmail(user);
+    await click(screen.getByRole('button', { name: 'Henri Consulter mes informations' }));
 
     // when
-    await clickByText('Parcours');
+    await click(screen.getByRole('link', { name: 'Mes parcours' }));
 
     // then
-    assert.dom('.logged-user-menu').doesNotExist();
+    assert.dom(screen.queryByRole('button', { name: 'Henri Consulter mes informations', expanded: false })).exists();
   });
 });
