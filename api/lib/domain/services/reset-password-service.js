@@ -14,17 +14,21 @@ module.exports = {
     );
   },
 
-  invalidateOldResetPasswordDemand(userEmail) {
-    return passwordResetDemandRepository.markAsBeingUsed(userEmail);
+  invalidateOldResetPasswordDemand(userEmail, resetPasswordDemandRepository = passwordResetDemandRepository) {
+    return resetPasswordDemandRepository.markAsBeingUsed(userEmail);
   },
 
-  verifyDemand(temporaryKey) {
-    return passwordResetDemandRepository
+  verifyDemand(temporaryKey, resetPasswordDemandRepository = passwordResetDemandRepository) {
+    return resetPasswordDemandRepository
       .findByTemporaryKey(temporaryKey)
       .then((fetchedDemand) => fetchedDemand.toJSON());
   },
 
-  hasUserAPasswordResetDemandInProgress(email, temporaryKey) {
-    return passwordResetDemandRepository.findByUserEmail(email, temporaryKey);
+  hasUserAPasswordResetDemandInProgress(
+    email,
+    temporaryKey,
+    resetPasswordDemandRepository = passwordResetDemandRepository
+  ) {
+    return resetPasswordDemandRepository.findByUserEmail(email, temporaryKey);
   },
 };

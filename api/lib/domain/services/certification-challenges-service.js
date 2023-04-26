@@ -10,6 +10,7 @@ const {
 
 const KnowledgeElement = require('../models/KnowledgeElement.js');
 const Challenge = require('../models/Challenge.js');
+
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository.js');
 const answerRepository = require('../../infrastructure/repositories/answer-repository.js');
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository.js');
@@ -17,17 +18,23 @@ const learningContentRepository = require('../../infrastructure/repositories/lea
 const certifiableProfileForLearningContentRepository = require('../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js');
 
 module.exports = {
-  async pickCertificationChallenges(placementProfile, locale) {
+  async pickCertificationChallenges(
+    placementProfile,
+    locale,
+    injectedKnowledgeElementRepository = knowledgeElementRepository,
+    injectedAnswerRepository = answerRepository,
+    injectedChallengeRepository = challengeRepository
+  ) {
     const certifiableUserCompetences = placementProfile.getCertifiableUserCompetences();
 
     const alreadyAnsweredChallengeIds = await _getAlreadyAnsweredChallengeIds(
-      knowledgeElementRepository,
-      answerRepository,
+      injectedKnowledgeElementRepository,
+      injectedAnswerRepository,
       placementProfile.userId,
       placementProfile.profileDate
     );
 
-    const allOperativeChallengesForLocale = await challengeRepository.findOperativeHavingLocale(locale);
+    const allOperativeChallengesForLocale = await injectedChallengeRepository.findOperativeHavingLocale(locale);
 
     return _pickCertificationChallengesForCertifiableCompetences(
       certifiableUserCompetences,
@@ -36,9 +43,17 @@ module.exports = {
     );
   },
 
-  async pickCertificationChallengesForPixPlus(campaignId, badgeKey, userId, locale) {
-    const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
-    const certifiableProfile = await certifiableProfileForLearningContentRepository.get({
+  async pickCertificationChallengesForPixPlus(
+    campaignId,
+    badgeKey,
+    userId,
+    locale,
+    injectedLearningContentRepository = learningContentRepository,
+    injectedCertifiableProfileForLearningContentRepository = certifiableProfileForLearningContentRepository,
+    injectedChallengeRepository = challengeRepository
+  ) {
+    const learningContent = await injectedLearningContentRepository.findByCampaignId(campaignId, locale);
+    const certifiableProfile = await injectedCertifiableProfileForLearningContentRepository.get({
       id: userId,
       profileDate: new Date(),
       learningContent,
@@ -50,7 +65,7 @@ module.exports = {
 
     const alreadyAnsweredChallengeIds = certifiableProfile.getAlreadyAnsweredChallengeIds();
 
-    const allOperativeChallengesForLocale = await challengeRepository.findOperativeHavingLocale(locale);
+    const allOperativeChallengesForLocale = await injectedChallengeRepository.findOperativeHavingLocale(locale);
     return _pickCertificationChallengesForAllAreas(
       skillIdsByDecreasingDifficultyGroupedByArea,
       alreadyAnsweredChallengeIds,
@@ -61,15 +76,20 @@ module.exports = {
   },
 };
 
-async function _getAlreadyAnsweredChallengeIds(knowledgeElementRepository, answerRepository, userId, limitDate) {
-  const knowledgeElementsByCompetence = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
+async function _getAlreadyAnsweredChallengeIds(
+  injectedKnowledgeElementRepository = knowledgeElementRepository,
+  injectedAnswerRepository = answerRepository,
+  userId,
+  limitDate
+) {
+  const knowledgeElementsByCompetence = await injectedKnowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
     userId,
     limitDate,
   });
   const knowledgeElements = KnowledgeElement.findDirectlyValidatedFromGroups(knowledgeElementsByCompetence);
   const answerIds = _.map(knowledgeElements, 'answerId');
 
-  return answerRepository.findChallengeIdsFromAnswerIds(answerIds);
+  return injectedAnswerRepository.findChallengeIdsFromAnswerIds(answerIds);
 }
 
 function _pickCertificationChallengesForCertifiableCompetences(
