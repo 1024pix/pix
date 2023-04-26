@@ -297,6 +297,7 @@ describe('Acceptance | Route | target-profiles', function () {
               description: 'Amazing description',
               comment: 'Amazing comment',
               category: 'OTHER',
+              'image-url': 'http://valid-uri.com/image.png',
             },
           },
         },
