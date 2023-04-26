@@ -11,14 +11,15 @@ module.exports = function (defaults) {
     babel: {
       sourceMaps: 'inline',
     },
+    'ember-simple-auth': {
+      useSessionSetupMethod: true,
+    },
     'ember-cli-template-lint': {
       testGenerator: 'qunit', // or 'mocha', etc.
     },
-
     flatpickr: {
       locales: ['fr'],
     },
-
     'ember-dayjs': {
       locales: ['fr'],
     },
