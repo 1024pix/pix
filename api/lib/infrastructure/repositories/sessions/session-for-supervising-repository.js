@@ -52,6 +52,6 @@ function _toDomain(results) {
 
   return new SessionForSupervising({
     ...results,
-    certificationCandidates: certificationCandidates,
+    certificationCandidates,
   });
 }
