@@ -64,7 +64,8 @@ export default class CurrentSessionService extends SessionService {
   }
 
   async handleUserLanguageAndLocale(transition = null) {
-    await this._loadCurrentUserAndSetLocale(transition?.to?.queryParams?.lang);
+    const language = this.locale.handleUnsupportedLanguage(transition?.to?.queryParams?.lang);
+    await this._loadCurrentUserAndSetLocale(language);
   }
 
   requireAuthenticationAndApprovedTermsOfService(transition, authenticationRoute) {
