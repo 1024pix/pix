@@ -1,8 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const { noop } = require('lodash/noop');
 const createSession = require('../../../../lib/domain/usecases/create-session');
-const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
-const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 const Session = require('../../../../lib/domain/models/Session');
 
@@ -20,18 +18,22 @@ describe('Unit | UseCase | create-session', function () {
 
     context('when session is not valid', function () {
       it('should throw an error', function () {
-        sinon.stub(sessionValidator, 'validate').throws();
+        // given
+        const sessionValidatorStub = { validate: sinon.stub().throws() };
+
+        // when
         const promise = createSession({
           userId,
           session: sessionToSave,
           certificationCenterRepository,
           sessionRepository,
           userRepository,
+          dependencies: { sessionValidator: sessionValidatorStub },
         });
 
         // then
         expect(promise).to.be.rejected;
-        expect(sessionValidator.validate).to.have.been.calledWithExactly(sessionToSave);
+        expect(sessionValidatorStub.validate).to.have.been.calledWithExactly(sessionToSave);
       });
     });
 
@@ -43,8 +45,8 @@ describe('Unit | UseCase | create-session', function () {
           userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(false);
           userRepository.getWithCertificationCenterMemberships = sinon.stub();
           userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
-          sinon.stub(sessionValidator, 'validate').throws();
-          sessionValidator.validate.returns();
+          const sessionValidatorStub = { validate: sinon.stub().returns() };
+          const sessionCodeServiceStub = { getNewSessionCode: sinon.stub() };
 
           // when
           const error = await catchErr(createSession)({
@@ -53,6 +55,7 @@ describe('Unit | UseCase | create-session', function () {
             certificationCenterRepository,
             sessionRepository,
             userRepository,
+            dependencies: { sessionValidator: sessionValidatorStub, sessionCodeService: sessionCodeServiceStub },
           });
 
           // then
@@ -64,8 +67,8 @@ describe('Unit | UseCase | create-session', function () {
         it('should save the session with appropriate arguments', async function () {
           // given
           const accessCode = Symbol('accessCode');
-          sinon.stub(sessionValidator, 'validate').throws();
-          sinon.stub(sessionCodeService, 'getNewSessionCode').throws();
+          const sessionValidatorStub = { validate: sinon.stub().returns() };
+          const sessionCodeServiceStub = { getNewSessionCode: sinon.stub().returns(accessCode) };
           userWithMemberships.hasAccessToCertificationCenter = sinon.stub();
           userRepository.getWithCertificationCenterMemberships = sinon.stub();
           certificationCenterRepository.get = sinon.stub();
@@ -73,10 +76,8 @@ describe('Unit | UseCase | create-session', function () {
           sessionRepository.save = sinon.stub();
           userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
           userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
-          sessionCodeService.getNewSessionCode.returns(accessCode);
           certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
           sessionRepository.save.resolves();
-          sessionValidator.validate.returns();
 
           // when
           await createSession({
@@ -85,6 +86,7 @@ describe('Unit | UseCase | create-session', function () {
             certificationCenterRepository,
             sessionRepository,
             userRepository,
+            dependencies: { sessionValidator: sessionValidatorStub, sessionCodeService: sessionCodeServiceStub },
           });
 
           // then
