@@ -4,7 +4,6 @@ const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/d
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../../../../lib/domain/errors');
 const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 const { getI18n } = require('../../../tooling/i18n/i18n');
-const stageCollectionRepository = require('../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository');
 const StageCollection = require('../../../../lib/domain/models/user-campaign-results/StageCollection');
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
@@ -16,6 +15,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
   const campaignParticipationInfoRepository = { findByCampaignId: () => undefined };
   const knowledgeElementRepository = { findGroupedByCompetencesForUsersWithinLearningContent: () => undefined };
   const badgeAcquisitionRepository = { getAcquiredBadgesByCampaignParticipations: () => undefined };
+  const stageCollectionRepository = { findStageCollection: () => undefined };
 
   let writableStream, csvPromise, i18n;
 
@@ -46,6 +46,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
       campaignCsvExportService,
+      stageCollectionRepository,
     });
 
     // then
@@ -74,6 +75,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
       campaignCsvExportService,
+      stageCollectionRepository,
     });
 
     // then
@@ -144,6 +146,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
       campaignCsvExportService,
+      stageCollectionRepository,
     });
     const csv = await csvPromise;
 
@@ -205,6 +208,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
       campaignCsvExportService,
+      stageCollectionRepository,
     });
     const csv = await csvPromise;
 
@@ -268,6 +272,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
       campaignCsvExportService,
+      stageCollectionRepository,
     });
     const csv = await csvPromise;
 
@@ -327,6 +332,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
       campaignCsvExportService,
+      stageCollectionRepository,
     });
     const csv = await csvPromise;
 
@@ -405,6 +411,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
       campaignCsvExportService,
+      stageCollectionRepository,
     });
     const csv = await csvPromise;
 
@@ -468,6 +475,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
       campaignCsvExportService,
+      stageCollectionRepository,
     });
     const csv = await csvPromise;
 
@@ -531,6 +539,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
         campaignParticipationInfoRepository,
         knowledgeElementRepository,
         campaignCsvExportService,
+        stageCollectionRepository,
       });
       const csv = await csvPromise;
 
@@ -592,6 +601,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
         campaignParticipationInfoRepository,
         knowledgeElementRepository,
         campaignCsvExportService,
+        stageCollectionRepository,
       });
       const csv = await csvPromise;
 
@@ -695,6 +705,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       knowledgeElementRepository,
       badgeAcquisitionRepository,
       campaignCsvExportService,
+      stageCollectionRepository,
     });
     const csv = await csvPromise;
 
