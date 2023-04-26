@@ -129,6 +129,64 @@ describe('Integration | Repository | SessionForSupervising', function () {
       ]);
     });
 
+    it('should return certifications candidates with subscribed complementary certifications', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCenter({ name: 'Toto', id: 1234 });
+      const session = databaseBuilder.factory.buildSession({
+        certificationCenter: 'Tour Gamma',
+        room: 'Salle A',
+        examiner: 'Monsieur Examinateur',
+        date: '2018-02-23',
+        time: '12:00:00',
+        certificationCenterId: 1234,
+      });
+
+      const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+        lastName: 'Jackson',
+        firstName: 'Janet',
+        sessionId: session.id,
+      });
+
+      databaseBuilder.factory.buildCertificationCandidate({
+        lastName: 'Joplin',
+        firstName: 'Janis',
+        sessionId: session.id,
+      });
+
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        label: 'Pix+ Édu 1er degré',
+        key: 'EDU_1ER_DEGRE',
+      });
+
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        certificationCandidateId: certificationCandidate.id,
+        complementaryCertificationId: complementaryCertification.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const actualSession = await sessionForSupervisingRepository.get(session.id);
+
+      // then
+      const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
+        _.pick(item, ['sessionId', 'lastName', 'firstName', 'complementaryCertification'])
+      );
+
+      expect(actualCandidates).to.have.deep.ordered.members([
+        {
+          lastName: 'Jackson',
+          firstName: 'Janet',
+          complementaryCertification: 'Pix+ Édu 1er degré',
+        },
+        {
+          lastName: 'Joplin',
+          firstName: 'Janis',
+          complementaryCertification: null,
+        },
+      ]);
+    });
+
     it('should return a Not found error when no session was found', async function () {
       // when
       const error = await catchErr(sessionForSupervisingRepository.get)(123123);
