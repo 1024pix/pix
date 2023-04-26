@@ -1,12 +1,12 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { updateOrganizationInformation } = require('../../../../lib/domain/usecases/index.js');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const Tag = require('../../../../lib/domain/models/Tag');
-const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');
-const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
-const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../../test-helper');
+const { updateOrganizationInformation } = require('../../../../../lib/domain/usecases/index.js');
+const { NotFoundError } = require('../../../../../lib/domain/errors');
+const Tag = require('../../../../../lib/domain/models/Tag');
+const OrganizationTag = require('../../../../../lib/domain/models/OrganizationTag');
+const OrganizationForAdmin = require('../../../../../lib/domain/models/OrganizationForAdmin');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
-describe('Unit | UseCase | update-organization-information', function () {
+describe('Unit | UseCase | organizations-administration | update-organization-information', function () {
   let dataProtectionOfficerRepository;
   let organizationForAdminRepository;
   let organizationTagRepository;
