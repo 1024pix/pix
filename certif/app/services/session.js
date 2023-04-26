@@ -58,6 +58,5 @@ export default class CurrentSessionService extends SessionService {
   _setLocale(locale) {
     this.intl.setLocale([locale, FRENCH_INTERNATIONAL_LOCALE]);
     this.dayjs.setLocale(locale);
-    this.dayjs.self.locale(locale);
   }
 }

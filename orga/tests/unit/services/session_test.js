@@ -357,7 +357,7 @@ module('Unit | Service | session', function (hooks) {
     test('calls intl and dayjs services', async function (assert) {
       // given
       service.intl = { setLocale: sinon.stub() };
-      service.dayjs = { setLocale: sinon.stub(), self: { locale: sinon.stub() } };
+      service.dayjs = { setLocale: sinon.stub() };
 
       // when
       await service._setLocale('some locale');
