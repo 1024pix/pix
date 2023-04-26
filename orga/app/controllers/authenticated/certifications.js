@@ -4,12 +4,12 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class AuthenticatedCertificationsController extends Controller {
+  @service currentDomain;
   @service fileSaver;
   @service session;
   @service currentUser;
   @service notifications;
   @service intl;
-  @service url;
 
   @tracked selectedDivision = '';
 
@@ -67,7 +67,7 @@ export default class AuthenticatedCertificationsController extends Controller {
       }
 
       const organizationId = this.currentUser.organization.id;
-      const url = `/api/organizations/${organizationId}/certification-attestations?division=${this.selectedDivision}&isFrenchDomainExtension=${this.url.isFrenchDomainExtension}`;
+      const url = `/api/organizations/${organizationId}/certification-attestations?division=${this.selectedDivision}&isFrenchDomainExtension=${this.currentDomain.isFranceDomain}`;
       const fileName = 'attestations_pix.pdf';
 
       let token = '';

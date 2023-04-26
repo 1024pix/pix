@@ -11,15 +11,15 @@ module('Unit | Service | session', function (hooks) {
   setupTest(hooks);
 
   let routerService;
-  let sessionService;
+  let service;
   let localeService;
 
   hooks.beforeEach(function () {
     routerService = this.owner.lookup('service:router');
     routerService.transitionTo = sinon.stub();
 
-    sessionService = this.owner.lookup('service:session');
-    sessionService.currentUser = { load: sinon.stub(), certificationPointOfContact: null };
+    service = this.owner.lookup('service:session');
+    service.currentUser = { load: sinon.stub(), certificationPointOfContact: null };
 
     localeService = this.owner.lookup('service:locale');
     Object.assign(localeService, {
@@ -38,17 +38,17 @@ module('Unit | Service | session', function (hooks) {
       }
       this.owner.register('service:url', UrlStub);
 
-      sessionService.currentUser = {
+      service.currentUser = {
         load: sinon.stub(),
         certificationPointOfContact: { isMemberOfACertificationCenter: false },
       };
-      sessionService.handleLocale = sinon.stub();
+      service.handleLocale = sinon.stub();
 
       // when
-      await sessionService.handleAuthentication();
+      await service.handleAuthentication();
 
       // then
-      sinon.assert.called(sessionService.handleLocale);
+      sinon.assert.called(service.handleLocale);
       assert.ok(true);
     });
   });
@@ -64,7 +64,7 @@ module('Unit | Service | session', function (hooks) {
           const isFranceDomain = true;
           const localeFromQueryParam = undefined;
           const userLocale = undefined;
-          await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+          await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
           // then
           sinon.assert.calledWith(localeService.setLocaleCookie, FRENCH_FRANCE_LOCALE);
@@ -81,7 +81,7 @@ module('Unit | Service | session', function (hooks) {
           const isFranceDomain = true;
           const localeFromQueryParam = undefined;
           const userLocale = undefined;
-          await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+          await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
           // then
           sinon.assert.notCalled(localeService.setLocaleCookie);
@@ -93,16 +93,16 @@ module('Unit | Service | session', function (hooks) {
         module('when user is not loaded', function () {
           test('sets the locale to be French international in every case', async function (assert) {
             // given
-            sessionService._setLocale = sinon.stub();
+            service._setLocale = sinon.stub();
 
             // when
             const isFranceDomain = true;
             const localeFromQueryParam = undefined;
             const userLocale = undefined;
-            await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+            await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(sessionService._setLocale, FRENCH_INTERNATIONAL_LOCALE);
+            sinon.assert.calledWith(service._setLocale, FRENCH_INTERNATIONAL_LOCALE);
             assert.ok(true);
           });
         });
@@ -110,16 +110,16 @@ module('Unit | Service | session', function (hooks) {
         module('when user is loaded', function () {
           test('sets the locale to be French international in every case', async function (assert) {
             // given
-            sessionService._setLocale = sinon.stub();
+            service._setLocale = sinon.stub();
 
             // when
             const isFranceDomain = true;
             const localeFromQueryParam = undefined;
             const userLocale = 'user’s lang';
-            await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+            await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(sessionService._setLocale, FRENCH_INTERNATIONAL_LOCALE);
+            sinon.assert.calledWith(service._setLocale, FRENCH_INTERNATIONAL_LOCALE);
             assert.ok(true);
           });
         });
@@ -129,16 +129,16 @@ module('Unit | Service | session', function (hooks) {
         module('when user is not loaded', function () {
           test('sets the locale to be French international in every case', async function (assert) {
             // given
-            sessionService._setLocale = sinon.stub();
+            service._setLocale = sinon.stub();
 
             // when
             const isFranceDomain = true;
             const localeFromQueryParam = 'en';
             const userLocale = undefined;
-            await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+            await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(sessionService._setLocale, FRENCH_INTERNATIONAL_LOCALE);
+            sinon.assert.calledWith(service._setLocale, FRENCH_INTERNATIONAL_LOCALE);
             assert.ok(true);
           });
         });
@@ -146,16 +146,16 @@ module('Unit | Service | session', function (hooks) {
         module('when user is loaded', function () {
           test('sets the locale to be French international in every case', async function (assert) {
             // given
-            sessionService._setLocale = sinon.stub();
+            service._setLocale = sinon.stub();
 
             // when
             const isFranceDomain = true;
             const localeFromQueryParam = 'en';
             const userLocale = 'user’s lang';
-            await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+            await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(sessionService._setLocale, FRENCH_INTERNATIONAL_LOCALE);
+            sinon.assert.calledWith(service._setLocale, FRENCH_INTERNATIONAL_LOCALE);
             assert.ok(true);
           });
         });
@@ -171,7 +171,7 @@ module('Unit | Service | session', function (hooks) {
         const isFranceDomain = false;
         const localeFromQueryParam = undefined;
         const userLocale = undefined;
-        await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+        await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
         // then
         sinon.assert.notCalled(localeService.setLocaleCookie);
@@ -182,16 +182,16 @@ module('Unit | Service | session', function (hooks) {
         module('when user is not loaded', function () {
           test('sets the default locale', async function (assert) {
             // given
-            sessionService._setLocale = sinon.stub();
+            service._setLocale = sinon.stub();
 
             // when
             const isFranceDomain = false;
             const localeFromQueryParam = undefined;
             const userLocale = undefined;
-            await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+            await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(sessionService._setLocale, DEFAULT_LOCALE);
+            sinon.assert.calledWith(service._setLocale, DEFAULT_LOCALE);
             assert.ok(true);
           });
         });
@@ -199,16 +199,16 @@ module('Unit | Service | session', function (hooks) {
         module('when user is loaded', function () {
           test('sets the locale to the user’s lang', async function (assert) {
             // given
-            sessionService._setLocale = sinon.stub();
+            service._setLocale = sinon.stub();
 
             // when
             const isFranceDomain = false;
             const localeFromQueryParam = undefined;
             const userLocale = 'en';
-            await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+            await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(sessionService._setLocale, 'en');
+            sinon.assert.calledWith(service._setLocale, 'en');
             assert.ok(true);
           });
         });
@@ -219,16 +219,16 @@ module('Unit | Service | session', function (hooks) {
           module('when user is not loaded', function () {
             test('sets the default locale', async function (assert) {
               // given
-              sessionService._setLocale = sinon.stub();
+              service._setLocale = sinon.stub();
 
               // when
               const isFranceDomain = false;
               const localeFromQueryParam = 'an invalid locale';
               const userLocale = undefined;
-              await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+              await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
-              sinon.assert.calledWith(sessionService._setLocale, DEFAULT_LOCALE);
+              sinon.assert.calledWith(service._setLocale, DEFAULT_LOCALE);
               assert.ok(true);
             });
           });
@@ -236,16 +236,16 @@ module('Unit | Service | session', function (hooks) {
           module('when user is loaded', function () {
             test('sets the locale to the user’s lang', async function (assert) {
               // given
-              sessionService._setLocale = sinon.stub();
+              service._setLocale = sinon.stub();
 
               // when
               const isFranceDomain = false;
               const localeFromQueryParam = 'an invalid locale';
               const userLocale = 'en';
-              await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+              await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
-              sinon.assert.calledWith(sessionService._setLocale, 'en');
+              sinon.assert.calledWith(service._setLocale, 'en');
               assert.ok(true);
             });
           });
@@ -255,16 +255,16 @@ module('Unit | Service | session', function (hooks) {
           module('when user is not loaded', function () {
             test('sets the locale to the lang query param', async function (assert) {
               // given
-              sessionService._setLocale = sinon.stub();
+              service._setLocale = sinon.stub();
 
               // when
               const isFranceDomain = false;
               const localeFromQueryParam = 'en';
               const userLocale = undefined;
-              await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+              await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
-              sinon.assert.calledWith(sessionService._setLocale, 'en');
+              sinon.assert.calledWith(service._setLocale, 'en');
               assert.ok(true);
             });
           });
@@ -272,16 +272,16 @@ module('Unit | Service | session', function (hooks) {
           module('when user is loaded', function () {
             test('sets the locale to the lang query param which wins over', async function (assert) {
               // given
-              sessionService._setLocale = sinon.stub();
+              service._setLocale = sinon.stub();
 
               // when
               const isFranceDomain = false;
               const localeFromQueryParam = 'en';
               const userLocale = 'fr';
-              await sessionService.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+              await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
-              sinon.assert.calledWith(sessionService._setLocale, 'en');
+              sinon.assert.calledWith(service._setLocale, 'en');
               assert.ok(true);
             });
           });
@@ -293,16 +293,15 @@ module('Unit | Service | session', function (hooks) {
   module('#_setLocale', function () {
     test('calls intl and dayjs services', async function (assert) {
       // given
-      sessionService.intl = { setLocale: sinon.stub() };
-      sessionService.dayjs = { setLocale: sinon.stub(), self: { locale: sinon.stub() } };
+      service.intl = { setLocale: sinon.stub() };
+      service.dayjs = { setLocale: sinon.stub(), self: { locale: sinon.stub() } };
 
       // when
-      await sessionService._setLocale('some locale');
+      await service._setLocale('some locale');
 
       // then
-      sinon.assert.calledWith(sessionService.intl.setLocale, ['some locale', 'fr']);
-      sinon.assert.calledWith(sessionService.dayjs.setLocale, 'some locale');
-      sinon.assert.calledWith(sessionService.dayjs.self.locale, 'some locale');
+      sinon.assert.calledWith(service.intl.setLocale, ['some locale', 'fr']);
+      sinon.assert.calledWith(service.dayjs.setLocale, 'some locale');
       assert.ok(true);
     });
   });

@@ -66,6 +66,7 @@ export default function () {
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
+      lang: 'fr',
     });
 
     return user;
@@ -74,6 +75,12 @@ export default function () {
   this.patch('/users/:id/pix-orga-terms-of-service-acceptance', (schema, request) => {
     const user = schema.users.find(request.params.id);
     user.update({ pixOrgaTermsOfServiceAccepted: true });
+    return user;
+  });
+
+  this.patch('/users/:id/lang/:lang', (schema, request) => {
+    const user = schema.users.find(request.params.id);
+    user.update({ lang: request.params.lang });
     return user;
   });
 

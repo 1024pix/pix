@@ -8,6 +8,7 @@ import ENV from 'pix-orga/config/environment';
 import isEmailValid from '../../utils/email-validator';
 
 export default class LoginForm extends Component {
+  @service currentDomain;
   @service url;
   @service intl;
   @service session;
@@ -21,7 +22,7 @@ export default class LoginForm extends Component {
   @tracked emailValidationMessage = null;
 
   get displayRecoveryLink() {
-    if (this.intl.t('current-lang') === 'en' || !this.url.isFrenchDomainExtension) {
+    if (this.intl.t('current-lang') === 'en' || !this.currentDomain.isFranceDomain) {
       return false;
     }
     return !this.args.isWithInvitation;

@@ -9,6 +9,7 @@ export function createPrescriberByUser(user, participantCount = 0) {
     id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,
+    lang: user.lang,
     pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
     memberships: user.memberships,
     userOrgaSettings: user.userOrgaSettings,
@@ -22,8 +23,9 @@ export function createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServic
   const firstName = 'Harry';
   const lastName = 'Cover';
   const email = 'harry@cover.com';
+  const lang = 'fr';
 
-  const user = server.create('user', { firstName, lastName, email, pixOrgaTermsOfServiceAccepted });
+  const user = server.create('user', { firstName, lastName, email, lang, pixOrgaTermsOfServiceAccepted });
 
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
@@ -40,6 +42,7 @@ export function createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServic
     id: user.id,
     firstName,
     lastName,
+    lang,
     pixOrgaTermsOfServiceAccepted,
     memberships: [membership],
     userOrgaSettings: userOrgaSettings,
@@ -67,6 +70,7 @@ export function createUserWithMembership() {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
+    lang: 'fr',
     pixOrgaTermsOfServiceAccepted: false,
   });
 
@@ -79,6 +83,7 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
+    lang: 'fr',
     pixOrgaTermsOfServiceAccepted: true,
   });
   server.create('member-identity', { id: user.id, firstName: 'Harry', lastName: 'Cover' });
@@ -90,6 +95,7 @@ export function createUserMembershipWithRole(organizationRole) {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
+    lang: 'fr',
     pixOrgaTermsOfServiceAccepted: true,
   });
 
@@ -115,6 +121,7 @@ export function createUserWithMultipleMemberships() {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
+    lang: 'fr',
     pixOrgaTermsOfServiceAccepted: true,
   });
 
@@ -181,6 +188,7 @@ export function createAdmin() {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
+    lang: 'fr',
     pixOrgaTermsOfServiceAccepted: true,
   });
   const organization = server.create('organization', { name: 'BRO & Evil Associates' });
@@ -198,6 +206,7 @@ export function createAdmin() {
     id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,
+    lang: user.lang,
     pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
     memberships: user.memberships,
     userOrgaSettings: user.userOrgaSettings,
@@ -211,6 +220,7 @@ export function createMember() {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
+    lang: 'fr',
     pixOrgaTermsOfServiceAccepted: true,
   });
   server.create('member-identity', { id: user.id, firstName: 'Harry', lastName: 'Cover' });
@@ -229,6 +239,7 @@ export function createMember() {
     id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,
+    lang: user.lang,
     pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
     memberships: user.memberships,
     userOrgaSettings: user.userOrgaSettings,
@@ -242,6 +253,7 @@ export function createUserManagingStudents(role = 'MEMBER', type = 'SCO') {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
+    lang: 'fr',
     pixOrgaTermsOfServiceAccepted: true,
   });
 
