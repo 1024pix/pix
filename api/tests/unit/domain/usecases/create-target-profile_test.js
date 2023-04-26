@@ -1,13 +1,12 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const createTargetProfile = require('../../../../lib/domain/usecases/create-target-profile');
 const { categories } = require('../../../../lib/domain/models/TargetProfile');
-const learningContentConversionService = require('../../../../lib/domain/services/learning-content/learning-content-conversion-service');
-const usecases = require('../../../../lib/domain/usecases');
 const { TargetProfileCannotBeCreated } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-target-profile', function () {
   let targetProfileRepositoryStub;
   let organizationRepositoryStub;
+  let learningContentConversionService;
 
   beforeEach(function () {
     targetProfileRepositoryStub = {
@@ -16,6 +15,9 @@ describe('Unit | UseCase | create-target-profile', function () {
     };
     organizationRepositoryStub = {
       get: sinon.stub(),
+    };
+    learningContentConversionService = {
+      findActiveSkillsForCappedTubes: sinon.stub(),
     };
   });
 
@@ -36,11 +38,12 @@ describe('Unit | UseCase | create-target-profile', function () {
       tubes: [{ id: 'tubeId', level: 2 }],
     };
 
-    const error = await catchErr(usecases.createTargetProfile)({
+    const error = await catchErr(createTargetProfile)({
       targetProfileCreationCommand,
       domainTransaction,
       targetProfileRepository: targetProfileRepositoryStub,
       organizationRepository: organizationRepositoryStub,
+      learningContentConversionService,
     });
 
     // then
@@ -51,7 +54,6 @@ describe('Unit | UseCase | create-target-profile', function () {
     // given
     organizationRepositoryStub.get.resolves();
     const domainTransaction = Symbol('DomainTransaction');
-    sinon.stub(learningContentConversionService, 'findActiveSkillsForCappedTubes');
     learningContentConversionService.findActiveSkillsForCappedTubes.resolves();
     targetProfileRepositoryStub.updateTargetProfileWithSkills.resolves();
     const expectedTargetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
@@ -82,6 +84,7 @@ describe('Unit | UseCase | create-target-profile', function () {
       domainTransaction,
       targetProfileRepository: targetProfileRepositoryStub,
       organizationRepository: organizationRepositoryStub,
+      learningContentConversionService,
     });
 
     // then
@@ -95,7 +98,6 @@ describe('Unit | UseCase | create-target-profile', function () {
     // given
     organizationRepositoryStub.get.resolves();
     const domainTransaction = Symbol('DomainTransaction');
-    sinon.stub(learningContentConversionService, 'findActiveSkillsForCappedTubes');
     const expectedTargetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
       name: 'myFirstTargetProfile',
       category: categories.SUBJECT,
@@ -134,6 +136,7 @@ describe('Unit | UseCase | create-target-profile', function () {
       domainTransaction,
       targetProfileRepository: targetProfileRepositoryStub,
       organizationRepository: organizationRepositoryStub,
+      learningContentConversionService,
     });
 
     // then
@@ -148,7 +151,6 @@ describe('Unit | UseCase | create-target-profile', function () {
     // given
     organizationRepositoryStub.get.resolves();
     const domainTransaction = Symbol('DomainTransaction');
-    sinon.stub(learningContentConversionService, 'findActiveSkillsForCappedTubes');
     const expectedTargetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
       name: 'myFirstTargetProfile',
       category: categories.SUBJECT,
@@ -187,6 +189,7 @@ describe('Unit | UseCase | create-target-profile', function () {
       domainTransaction,
       targetProfileRepository: targetProfileRepositoryStub,
       organizationRepository: organizationRepositoryStub,
+      learningContentConversionService,
     });
 
     // then

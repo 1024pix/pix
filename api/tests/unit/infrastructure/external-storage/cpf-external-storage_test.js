@@ -1,15 +1,27 @@
 const { expect, sinon } = require('../../../test-helper');
 const cpfExternalStorage = require('../../../../lib/infrastructure/external-storage/cpf-external-storage');
 const { cpf } = require('../../../../lib/config');
-const s3Utils = require('../../../../lib/infrastructure/external-storage/s3-utils');
 const _ = require('lodash');
 
 describe('Unit | Infrastructure | external-storage | cpf-external-storage', function () {
+  let s3Utils;
+  let logger;
+
+  beforeEach(function () {
+    s3Utils = {
+      getS3Client: sinon.stub(),
+      startUpload: sinon.stub(),
+      listFiles: sinon.stub(),
+      preSignFiles: sinon.stub(),
+    };
+    logger = {
+      trace: sinon.stub(),
+    };
+  });
+
   context('#upload', function () {
     it('should instantiate a properly configured S3 client', async function () {
       // given
-      sinon.stub(s3Utils, 'getS3Client');
-      sinon.stub(s3Utils, 'startUpload');
       s3Utils.startUpload.returns({ done: _.noop, on: _.noop });
 
       sinon.stub(cpf, 'storage').value({
@@ -21,7 +33,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       const readableStream = Symbol('readableStream');
 
       // when
-      await cpfExternalStorage.upload({ filename: '', readableStream });
+      await cpfExternalStorage.upload({ filename: '', readableStream, dependencies: { s3Utils, logger } });
 
       // then
       expect(s3Utils.getS3Client).to.have.been.calledWith({
@@ -34,10 +46,8 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
 
     it('should instantiate an Upload with the expected parameters', async function () {
       // given
-      sinon.stub(s3Utils, 'getS3Client');
       const s3ClientMock = Symbol('S3Client');
       s3Utils.getS3Client.returns(s3ClientMock);
-      sinon.stub(s3Utils, 'startUpload');
       s3Utils.startUpload.returns({ done: _.noop, on: _.noop });
 
       sinon.stub(cpf, 'storage').value({
@@ -50,7 +60,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       const readableStream = Symbol('readableStream');
 
       // when
-      await cpfExternalStorage.upload({ filename: 'filename.xml', readableStream });
+      await cpfExternalStorage.upload({ filename: 'filename.xml', readableStream, dependencies: { s3Utils, logger } });
 
       // then
       expect(s3Utils.startUpload).to.have.been.calledWith({
@@ -63,8 +73,6 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
 
     it('should call done() when the upload is successfully completed', async function () {
       // given
-      sinon.stub(s3Utils, 'getS3Client');
-      sinon.stub(s3Utils, 'startUpload');
       const doneStub = sinon.stub();
       s3Utils.startUpload.returns({ done: doneStub, on: _.noop });
 
@@ -77,20 +85,16 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       const readableStream = Symbol('readableStream');
 
       // when
-      await cpfExternalStorage.upload({ filename: 'filename.xml', readableStream });
+      await cpfExternalStorage.upload({ filename: 'filename.xml', readableStream, dependencies: { s3Utils, logger } });
 
       // then
       expect(doneStub).to.have.been.called;
     });
   });
 
-  context('#getFilesModifiedAfter', function () {
+  context('#getPreSignUrlsOfFilesModifiedAfter', function () {
     it('should instantiate a properly configured S3 client', async function () {
       // given
-      sinon.stub(s3Utils, 'getS3Client');
-      sinon.stub(s3Utils, 'listFiles');
-      sinon.stub(s3Utils, 'preSignFiles');
-
       sinon.stub(cpf, 'storage').value({
         accessKeyId: 'accessKeyId',
         secretAccessKey: 'secretAccessKey',
@@ -99,7 +103,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       });
 
       // when
-      await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date: null });
+      await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date: null, dependencies: { s3Utils } });
 
       // then
       expect(s3Utils.getS3Client).to.have.been.calledWith({
@@ -112,10 +116,6 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
 
     it('should list files of the right bucket', async function () {
       // given
-      sinon.stub(s3Utils, 'getS3Client');
-      sinon.stub(s3Utils, 'listFiles');
-      sinon.stub(s3Utils, 'preSignFiles');
-
       const s3ClientMock = Symbol('s3Client');
       s3Utils.getS3Client.returns(s3ClientMock);
 
@@ -128,7 +128,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       });
 
       // when
-      await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date: null });
+      await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date: null, dependencies: { s3Utils } });
 
       // then
       expect(s3Utils.listFiles).to.have.been.calledWith({ client: s3ClientMock, bucket: 'bucket' });
@@ -145,10 +145,6 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
         { Key: 'thirdFile', LastModified: '2022-03-01' },
         { Key: 'fourthFile', LastModified: '2022-03-04' },
       ];
-
-      sinon.stub(s3Utils, 'getS3Client');
-      sinon.stub(s3Utils, 'listFiles');
-      sinon.stub(s3Utils, 'preSignFiles');
 
       const s3ClientMock = Symbol('s3Client');
       s3Utils.getS3Client.returns(s3ClientMock);
@@ -167,7 +163,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       });
 
       // when
-      await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date });
+      await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date, dependencies: { s3Utils } });
 
       // then
       expect(s3Utils.preSignFiles).to.have.been.calledWith({
@@ -190,10 +186,6 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
         { Key: 'fourthFile', LastModified: '2022-03-04' },
       ];
 
-      sinon.stub(s3Utils, 'getS3Client');
-      sinon.stub(s3Utils, 'listFiles');
-      sinon.stub(s3Utils, 'preSignFiles');
-
       s3Utils.listFiles.resolves({
         Contents: [...filesModifiedBeforeDate, ...filesModifiedAfterDate],
       });
@@ -208,7 +200,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       });
 
       // when
-      const result = await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date });
+      const result = await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date, dependencies: { s3Utils } });
 
       // then
       expect(result).to.deep.equals(['preSignedThirdFile', 'preSignedFourthFile']);
