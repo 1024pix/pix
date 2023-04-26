@@ -7,40 +7,43 @@ const localeService = require('../services/locale-service');
 const AuthenticationMethod = require('./AuthenticationMethod.js');
 
 class User {
-  constructor({
-    id,
-    cgu,
-    pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted,
-    email,
-    emailConfirmedAt,
-    username,
-    firstName,
-    knowledgeElements,
-    lastName,
-    lastTermsOfServiceValidatedAt,
-    lastPixOrgaTermsOfServiceValidatedAt,
-    lastPixCertifTermsOfServiceValidatedAt,
-    lastDataProtectionPolicySeenAt,
-    hasSeenAssessmentInstructions,
-    hasSeenNewDashboardInfo,
-    hasSeenFocusedChallengeTooltip,
-    hasSeenOtherChallengesTooltip,
-    mustValidateTermsOfService,
-    lang,
-    locale,
-    isAnonymous,
-    memberships = [],
-    certificationCenterMemberships = [],
-    pixScore,
-    scorecards = [],
-    campaignParticipations = [],
-    authenticationMethods = [],
-    hasBeenAnonymised,
-    hasBeenAnonymisedBy,
-  } = {}) {
+  constructor(
+    {
+      id,
+      cgu,
+      pixOrgaTermsOfServiceAccepted,
+      pixCertifTermsOfServiceAccepted,
+      email,
+      emailConfirmedAt,
+      username,
+      firstName,
+      knowledgeElements,
+      lastName,
+      lastTermsOfServiceValidatedAt,
+      lastPixOrgaTermsOfServiceValidatedAt,
+      lastPixCertifTermsOfServiceValidatedAt,
+      lastDataProtectionPolicySeenAt,
+      hasSeenAssessmentInstructions,
+      hasSeenNewDashboardInfo,
+      hasSeenFocusedChallengeTooltip,
+      hasSeenOtherChallengesTooltip,
+      mustValidateTermsOfService,
+      lang,
+      locale,
+      isAnonymous,
+      memberships = [],
+      certificationCenterMemberships = [],
+      pixScore,
+      scorecards = [],
+      campaignParticipations = [],
+      authenticationMethods = [],
+      hasBeenAnonymised,
+      hasBeenAnonymisedBy,
+    } = {},
+    dependencies = { config, localeService }
+  ) {
     if (locale) {
-      locale = localeService.getCanonicalLocale(locale);
+      locale = dependencies.localeService.getCanonicalLocale(locale);
     }
 
     this.id = id;
@@ -73,6 +76,7 @@ class User {
     this.authenticationMethods = authenticationMethods;
     this.hasBeenAnonymised = hasBeenAnonymised;
     this.hasBeenAnonymisedBy = hasBeenAnonymisedBy;
+    this.dependencies = dependencies;
   }
 
   get shouldChangePassword() {
@@ -86,13 +90,16 @@ class User {
   get shouldSeeDataProtectionPolicyInformationBanner() {
     const isNotOrganizationLearner = this.cgu === true;
     const parsedDate = new Date(this.lastDataProtectionPolicySeenAt);
-    return dayjs(parsedDate).isBefore(dayjs(config.dataProtectionPolicy.updateDate)) && isNotOrganizationLearner;
+    return (
+      dayjs(parsedDate).isBefore(dayjs(this.dependencies.config.dataProtectionPolicy.updateDate)) &&
+      isNotOrganizationLearner
+    );
   }
 
   setLocaleIfNotAlreadySet(newLocale) {
     this.hasBeenModified = false;
     if (newLocale && !this.locale) {
-      const canonicalLocale = localeService.getCanonicalLocale(newLocale);
+      const canonicalLocale = this.dependencies.localeService.getCanonicalLocale(newLocale);
       this.locale = canonicalLocale;
       this.hasBeenModified = true;
     }
