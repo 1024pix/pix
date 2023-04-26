@@ -1,12 +1,5 @@
-const {
-  domainBuilder,
-  expect,
-  generateValidRequestAuthorizationHeader,
-  hFake,
-  sinon,
-} = require('../../../test-helper');
-
-const organizationController = require('../../../../lib/application/organizations/organization-controller');
+const { domainBuilder, expect, hFake, sinon } = require('../../../test-helper');
+const organizationController = require('../../../../lib/application/organizations-administration/organization-administration-controller.js');
 const usecases = require('../../../../lib/domain/usecases/index.js');
 
 describe('Unit | Application | Organizations | organization-administration-controller', function () {
@@ -81,7 +74,7 @@ describe('Unit | Application | Organizations | organization-administration-contr
       const response = await organizationController.updateOrganizationInformation(request, hFake, dependencies);
 
       // then
-      expect(response).to.deep.equal(serializedOrganization);
+      expect(response.source).to.deep.equal(serializedOrganization);
     });
   });
 });

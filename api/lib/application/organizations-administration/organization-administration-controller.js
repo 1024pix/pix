@@ -4,16 +4,16 @@ const organizationForAdminSerializer = require('../../infrastructure/serializers
 module.exports = {
   async updateOrganizationInformation(
     request,
-    _h,
+    h,
     dependencies = {
       organizationForAdminSerializer,
     }
   ) {
-    const organizationDeserialized = organizationForAdminSerializer.deserialize(request.payload);
+    const organizationDeserialized = dependencies.organizationForAdminSerializer.deserialize(request.payload);
 
     const organizationUpdated = await usecases.updateOrganizationInformation({
       organization: organizationDeserialized,
     });
-    return dependencies.organizationForAdminSerializer.serialize(organizationUpdated);
+    return h.response(dependencies.organizationForAdminSerializer.serialize(organizationUpdated));
   },
 };

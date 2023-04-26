@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const createOrganization = require('../../../../lib/domain/usecases/create-organization.js');
-const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
+const OrganizationForAdmin = require('../../../../lib/domain/models/organizations-administration/Organization');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-organization', function () {

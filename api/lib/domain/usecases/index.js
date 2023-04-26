@@ -100,6 +100,7 @@ const membershipRepository = require('../../infrastructure/repositories/membersh
 const obfuscationService = require('../../domain/services/obfuscation-service.js');
 const organizationMemberIdentityRepository = require('../../infrastructure/repositories/organization-member-identity-repository.js');
 const organizationForAdminRepository = require('../../infrastructure/repositories/organization-for-admin-repository.js');
+const organizationFeatureRepository = require('../../infrastructure/repositories/organizations-administration/organization-feature-repository.js');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository.js');
 const organizationPlacesLotRepository = require('../../infrastructure/repositories/organizations/organization-places-lot-repository.js');
 const organizationPlacesCapacityRepository = require('../../infrastructure/repositories/organization-places-capacity-repository.js');
@@ -309,6 +310,7 @@ const dependencies = {
   organizationMemberIdentityRepository,
   organizationForAdminRepository,
   organizationRepository,
+  organizationFeatureRepository,
   organizationPlacesLotRepository,
   organizationPlacesCapacityRepository,
   organizationInvitationRepository,

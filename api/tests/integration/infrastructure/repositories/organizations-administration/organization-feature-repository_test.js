@@ -20,7 +20,7 @@ describe('Integration | Repository | Organization feature', function () {
   describe('#addFeatureToOrganization', function () {
     it('Authorize organization to use the feature', async function () {
       // given & when
-      await organizationFeatureRepository.addFeatureToOrganization(organizationId, feature.key);
+      await organizationFeatureRepository.addFeatureToOrganization({ organizationId, featureKey: feature.key });
 
       // then
       const result = await knex('organization-features')
@@ -38,7 +38,7 @@ describe('Integration | Repository | Organization feature', function () {
       await databaseBuilder.commit();
 
       // when
-      await organizationFeatureRepository.addFeatureToOrganization(organizationId, feature.key);
+      await organizationFeatureRepository.addFeatureToOrganization({ organizationId, featureKey: feature.key });
       // then
       const result = await knex('organization-features')
         .select('features.key')
@@ -57,7 +57,7 @@ describe('Integration | Repository | Organization feature', function () {
       await databaseBuilder.commit();
 
       // when
-      await organizationFeatureRepository.removeFeatureToOrganization(organizationId, feature.key);
+      await organizationFeatureRepository.removeFeatureToOrganization({ organizationId, featureKey: feature.key });
 
       // then
       const result = await knex('organization-features')
@@ -70,7 +70,7 @@ describe('Integration | Repository | Organization feature', function () {
 
     it('Do nothing if organization has not access to the feature', async function () {
       // given & when
-      await organizationFeatureRepository.removeFeatureToOrganization(organizationId, feature.key);
+      await organizationFeatureRepository.removeFeatureToOrganization({ organizationId, featureKey: feature.key });
 
       // then
       const result = await knex('organization-features')

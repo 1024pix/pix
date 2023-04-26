@@ -1,7 +1,7 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 const Organization = require('../../../../../lib/domain/models/Organization');
-const OrganizationForAdmin = require('../../../../../lib/domain/models/OrganizationForAdmin');
+const OrganizationForAdmin = require('../../../../../lib/domain/models/organizations-administration/Organization');
 const Tag = require('../../../../../lib/domain/models/Tag');
 const { SamlIdentityProviders } = require('../../../../../lib/domain/constants/saml-identity-providers');
 
