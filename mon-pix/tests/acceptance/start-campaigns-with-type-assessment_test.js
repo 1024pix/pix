@@ -282,8 +282,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT });
           const screen = await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
 
-          // when
-          await click(screen.getByRole('button', { name: 'Je commence' }));
+            // when
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
           // then
           assert.ok(currentURL().includes('/didacticiel'));

@@ -1,11 +1,10 @@
 import Service from '@ember/service';
 import { module, test } from 'qunit';
-import { fillIn } from '@ember/test-helpers';
+import { fillIn, click } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import { render } from '@1024pix/ember-testing-library';
-import { clickByLabel } from '../../helpers/click-by-label';
 
 module('Integration | Component | certification-starter', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -175,7 +174,6 @@ module('Integration | Component | certification-starter', function (hooks) {
       module('when the creation of certification course is successful', function () {
         test('should redirect to certifications.resume', async function (assert) {
           // given
-
           const certificationCourse = {
             id: 456,
             save: sinon.stub(),
@@ -214,11 +212,11 @@ module('Integration | Component | certification-starter', function (hooks) {
           await render(
             hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
           );
-          await fillIn('#certificationStarterSessionCode', 'ABC123');
+          await fillIn(screen.getByRole('textbox', { name: "Code d'accès communiqué par le surveillant" }), 'ABC123');
           replaceWithStub.returns('ok');
 
           // when
-          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+          await click(screen.getByRole('button', { name: this.intl.t('pages.certification-start.actions.submit') }));
 
           // then
           sinon.assert.calledWithExactly(createRecordStub, 'certification-course', {
@@ -259,11 +257,11 @@ module('Integration | Component | certification-starter', function (hooks) {
           const screen = await render(
             hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
           );
-          await fillIn('#certificationStarterSessionCode', 'ABC123');
+          await fillIn(screen.getByRole('textbox', { name: "Code d'accès communiqué par le surveillant" }), 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: '404' }] });
 
           // when
-          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+          await click(screen.getByRole('button', { name: this.intl.t('pages.certification-start.actions.submit') }));
 
           // then
           assert.ok(screen.getByText('Ce code n’existe pas ou n’est plus valide.'));
@@ -295,11 +293,11 @@ module('Integration | Component | certification-starter', function (hooks) {
           const screen = await render(
             hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
           );
-          await fillIn('#certificationStarterSessionCode', 'ABC123');
+          await fillIn(screen.getByRole('textbox', { name: "Code d'accès communiqué par le surveillant" }), 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: '412' }] });
 
           // when
-          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+          await click(screen.getByRole('button', { name: this.intl.t('pages.certification-start.actions.submit') }));
 
           // then
           assert.ok(screen.getByText("La session de certification n'est plus accessible."));
@@ -332,13 +330,13 @@ module('Integration | Component | certification-starter', function (hooks) {
             const screen = await render(
               hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
             );
-            await fillIn('#certificationStarterSessionCode', 'ABC123');
+            await fillIn(screen.getByRole('textbox', { name: "Code d'accès communiqué par le surveillant" }), 'ABC123');
             certificationCourse.save.rejects({
               errors: [{ status: '403', code: 'CANDIDATE_NOT_AUTHORIZED_TO_JOIN_SESSION' }],
             });
 
             // when
-            await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+            await click(screen.getByRole('button', { name: this.intl.t('pages.certification-start.actions.submit') }));
 
             // then
             assert.ok(
@@ -374,13 +372,13 @@ module('Integration | Component | certification-starter', function (hooks) {
             const screen = await render(
               hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
             );
-            await fillIn('#certificationStarterSessionCode', 'ABC123');
+            await fillIn(screen.getByRole('textbox', { name: "Code d'accès communiqué par le surveillant" }), 'ABC123');
             certificationCourse.save.rejects({
               errors: [{ status: '403', code: 'CANDIDATE_NOT_AUTHORIZED_TO_RESUME_SESSION' }],
             });
 
             // when
-            await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+            await click(screen.getByRole('button', { name: this.intl.t('pages.certification-start.actions.submit') }));
 
             // then
             assert.ok(
@@ -417,11 +415,11 @@ module('Integration | Component | certification-starter', function (hooks) {
           const screen = await render(
             hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
           );
-          await fillIn('#certificationStarterSessionCode', 'ABC123');
+          await fillIn(screen.getByRole('textbox', { name: "Code d'accès communiqué par le surveillant" }), 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: 'other' }] });
 
           // when
-          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+          await click(screen.getByRole('button', { name: this.intl.t('pages.certification-start.actions.submit') }));
 
           // then
           assert.ok(screen.getByText('Une erreur serveur inattendue vient de se produire.'));

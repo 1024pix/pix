@@ -3,7 +3,6 @@ import { click, currentURL } from '@ember/test-helpers';
 import { authenticateByEmail } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | terms-of-service', function (hooks) {
@@ -40,11 +39,11 @@ module('Acceptance | terms-of-service', function (hooks) {
         mustValidateTermsOfService: true,
         lastTermsOfServiceValidatedAt: new Date(),
       });
-      await authenticateByEmail(user);
+      const screen = await authenticateByEmail(user);
 
       // when
-      await click('#pix-cgu');
-      await clickByLabel(this.intl.t('pages.terms-of-service.form.button'));
+      await click(screen.getByRole('checkbox', { name: "J'accepte les conditions d'utilisation de Pix" }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.terms-of-service.form.button') }));
 
       // then
       assert.strictEqual(currentURL(), '/accueil');

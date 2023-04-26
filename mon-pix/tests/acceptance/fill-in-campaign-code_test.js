@@ -5,7 +5,6 @@ import { module, test } from 'qunit';
 import { visit } from '@1024pix/ember-testing-library';
 import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
-import { clickByLabel } from '../helpers/click-by-label';
 import { waitForDialog } from '../helpers/wait-for';
 
 module('Acceptance | Fill in campaign code page', function (hooks) {
@@ -26,7 +25,9 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
       const screen = await visit('/campagnes');
 
       // when
-      await clickByLabel(this.intl.t('pages.fill-in-campaign-code.warning-message-logout'));
+      await click(
+        screen.getByRole('link', { name: this.intl.t('pages.fill-in-campaign-code.warning-message-logout') })
+      );
 
       // then
       assert.notOk(screen.queryByText(user.firstName));
@@ -38,18 +39,23 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
     test('should redirect on the right support page', async function (assert) {
       // given
       await authenticate(user);
-      await visit('/campagnes');
+      const screen = await visit('/campagnes');
 
       // when
-      await clickByLabel(this.intl.t('pages.fill-in-campaign-code.explanation-message'));
+      await click(screen.getByRole('link', { name: this.intl.t('pages.fill-in-campaign-code.explanation-message') }));
 
       // then
+      const messageLink = screen.getByRole('link', {
+        name: this.intl.t('pages.fill-in-campaign-code.explanation-message'),
+      });
       assert
-        .dom(
-          '[href="https://support.pix.org/fr/support/solutions/articles/15000029147-qu-est-ce-qu-un-code-parcours-et-comment-l-utiliser-"]'
+        .dom(messageLink)
+        .hasAttribute(
+          'href',
+          'https://support.pix.org/fr/support/solutions/articles/15000029147-qu-est-ce-qu-un-code-parcours-et-comment-l-utiliser-'
         )
         .exists();
-      assert.dom('[target="_blank"]').exists();
+      assert.dom(messageLink).hasAttribute('target', '_blank').exists();
     });
   });
 
