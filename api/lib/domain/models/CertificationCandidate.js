@@ -63,11 +63,16 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
     'date.format': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code,
     'date.greater': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_MUST_BE_GREATER.code,
   }),
-  extraTimePercentage: Joi.number().integer().allow(null).optional().min(1).max(100).messages({
+  extraTimePercentage: Joi.number().allow(null).optional().min(0).less(10).messages({
     'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code,
-    'number.min': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code,
-    'number.max': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code,
-    'number.integer': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code,
+    'number.min': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code,
+    'number.less': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code,
+  }),
+  sessionId: Joi.when('$isSessionsMassImport', {
+    is: false,
+    then: Joi.number().required().empty(['', null]).messages({
+      'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_REQUIRED.code,
+    }),
   }),
   complementaryCertifications: Joi.array().max(1).required().messages({
     'array.max': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
