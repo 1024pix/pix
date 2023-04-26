@@ -5,7 +5,7 @@ import sinon from 'sinon';
 module('Unit | Controller | user-account/language', function (hooks) {
   setupTest(hooks);
 
-  module('#onChangeLang', function () {
+  module('#onLanguageChange', function () {
     test('should refresh page on change lang if domain is not french', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/user-account/language');
@@ -14,7 +14,7 @@ module('Unit | Controller | user-account/language', function (hooks) {
       controller.location = { replace: replaceStub };
 
       // when
-      controller.onChangeLang('en');
+      controller.onLanguageChange('en');
 
       // then
       sinon.assert.calledWith(replaceStub, '/mon-compte/langue?lang=en');
