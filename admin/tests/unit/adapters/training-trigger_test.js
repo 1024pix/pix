@@ -57,8 +57,6 @@ module('Unit | Adapter | TrainingTrigger', function (hooks) {
         serialize: sinon.stub().returns({ data: { attributes: attributesWithoutTubes } }),
       });
 
-      console.log(adapter.ajax.calledWith(`https://example.net`, 'PUT', expectedPayload));
-
       // then
       assert.ok(adapter.ajax.calledWith(`https://example.net`, 'PUT', expectedPayload));
     });
