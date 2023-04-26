@@ -35,6 +35,7 @@ const campaignReportRepository = require('../../infrastructure/repositories/camp
 const campaignRepository = require('../../infrastructure/repositories/campaign-repository.js');
 const campaignToJoinRepository = require('../../infrastructure/repositories/campaign-to-join-repository.js');
 const campaignCsvExportService = require('../../domain/services/campaign-csv-export-service.js');
+const certifiableProfileForLearningContentRepository = require('../../infrastructure/repositories/certifiable-profile-for-learning-content-repository');
 const certificateRepository = require('../../infrastructure/repositories/certificate-repository.js');
 const certificationAssessmentRepository = require('../../infrastructure/repositories/certification-assessment-repository.js');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf.js');
@@ -180,6 +181,7 @@ const stageCollectionRepository = require('../../infrastructure/repositories/use
 const campaignValidator = require('../validators/campaign-validator.js');
 const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service.js');
 const temporarySessionsStorageForMassImportService = require('../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
+const sessionValidator = require('../validators/session-validator.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -226,6 +228,7 @@ const dependencies = {
   campaignRepository,
   campaignToJoinRepository,
   campaignCsvExportService,
+  certifiableProfileForLearningContentRepository,
   certificateRepository,
   certificationAssessmentRepository,
   certificationAttestationPdf,
@@ -331,6 +334,7 @@ const dependencies = {
   sessionForSupervisingRepository,
   sessionJuryCommentRepository,
   sessionSummaryRepository,
+  sessionValidator,
   settings,
   skillRepository,
   skillSetRepository,
