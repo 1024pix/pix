@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-restricted-imports
-import { find, visit } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
@@ -9,25 +9,33 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   let user;
+  let answer;
 
   module('Challenge answered: the answers inputs should be disabled', function (hooks) {
     hooks.beforeEach(async function () {
+      // given
       user = server.create('user', 'withEmail');
       await authenticate(user);
       const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       const challenge = server.create('challenge', 'forCompetenceEvaluation');
-      const answer = server.create('answer', 'skipped', { assessment, challenge });
-
-      await visit(`/assessments/${answer.assessmentId}/challenges/0`);
+      answer = server.create('answer', 'skipped', { assessment, challenge });
     });
 
-    test('should display the lock overlay', function (assert) {
-      assert.dom('.challenge-response--locked').exists();
+    test('should display the lock overlay and disable input', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${answer.assessmentId}/challenges/0`);
+
+      // then
+      assert.true(screen.getByRole('textbox', { name: 'Rue de :' }).disabled);
     });
 
-    test('should display the resume button and the information sentence', function (assert) {
-      assert.dom('.challenge-actions__action-continue').exists();
-      assert.dom('.challenge-actions__already-answered').exists();
+    test('should display the resume button and the information sentence', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${answer.assessmentId}/challenges/0`);
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Poursuivre' })).exists();
+      assert.dom(screen.getByText('Vous avez déjà répondu à cette question')).exists();
     });
   });
 
@@ -38,60 +46,107 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
     hooks.beforeEach(async function () {
       user = server.create('user', 'withEmail');
       await authenticate(user);
-      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+      assessment = server.create('assessment', 'ofCompetenceEvaluationType', {
+        title: 'Assessment title',
+      });
       server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
         instruction: 'Instruction [lien](http://www.a.link.example.url)',
       });
       challengeBis = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', {
         instruction: 'Second instruction',
       });
-      await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
     test('should display the name of the test', async function (assert) {
-      assert.ok(find('.assessment-banner__title').textContent.includes(assessment.title));
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+      // then
+      assert
+        .dom(screen.getByRole('heading', { name: "Épreuve pour l'évaluation : Assessment title", level: 1 }))
+        .exists();
     });
 
     test('should display the challenge to answered instead of challenge asked', async function (assert) {
-      await visit(`/assessments/${assessment.id}/challenges/${challengeBis.id}`);
-      assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), 'Instruction lien');
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges/${challengeBis.id}`);
+
+      // then
+      assert.dom(screen.getByText('Instruction')).exists();
     });
 
-    test('should display the challenge instruction', function (assert) {
-      assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), 'Instruction lien');
+    test('should display the challenge instruction', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+      // then
+      assert.dom(screen.getByText('Instruction')).exists();
     });
 
-    test('should format content written as [foo](bar) as clickable link', function (assert) {
-      assert.dom('.challenge-statement-instruction__text a').exists();
-      assert.strictEqual(find('.challenge-statement-instruction__text a').textContent, 'lien');
-      assert.strictEqual(
-        find('.challenge-statement-instruction__text a').getAttribute('href'),
-        'http://www.a.link.example.url'
-      );
+    test('should format content written as [foo](bar) as clickable link', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+      // then
+      assert
+        .dom(screen.getByRole('link', { name: 'lien (Ouverture dans une nouvelle fenêtre)' }))
+        .hasAttribute('href', 'http://www.a.link.example.url');
     });
 
-    test('should open links in a new tab', function (assert) {
-      assert.strictEqual(find('.challenge-statement-instruction__text a').getAttribute('target'), '_blank');
+    test('should open links in a new tab', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+      // then
+      assert
+        .dom(screen.getByRole('link', { name: 'lien (Ouverture dans une nouvelle fenêtre)' }))
+        .hasAttribute('target', '_blank');
     });
 
-    test('should display the skip button', function (assert) {
-      assert.dom('.challenge-actions__action-skip').exists();
+    test('should display the skip button', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' })).exists();
     });
 
-    test('should display the validate button', function (assert) {
-      assert.dom('.challenge-actions__action-skip').exists();
+    test('should display the validate button', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' })).exists();
     });
 
-    test('should display a button to come back to the courses list', function (assert) {
-      assert.dom('.assessment-banner__home-link').exists();
+    test('should display a button to come back to the courses list', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Quitter' })).exists();
     });
 
     test('should come back to the home route when the back button is clicked', async function (assert) {
-      assert.strictEqual(find('.assessment-banner-closing-modal__footer a[title="Quitter"]').getAttribute('href'), '/');
+      // given
+      const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'Quitter' }));
+      await screen.findByRole('dialog');
+
+      // then
+      assert
+        .dom(screen.getByRole('link', { name: "Quitter l'épreuve et retourner à la page d'accueil" }))
+        .hasAttribute('href', '/');
     });
 
-    test('should be able to send a feedback about the current challenge', function (assert) {
-      assert.dom('.feedback-panel').exists();
+    test('should be able to send a feedback about the current challenge', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+      // then
+      assert.dom(screen.getByRole('heading', { name: 'Signaler un problème' })).exists();
     });
   });
 
@@ -109,10 +164,10 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
       await authenticate(user);
 
       // when
-      await visit(`/assessments/${assessment.id}/challenges/0`);
+      const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
       // then
-      assert.dom('.assessment-banner__home-link').doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Quitter' })).doesNotExist();
     });
   });
 });
