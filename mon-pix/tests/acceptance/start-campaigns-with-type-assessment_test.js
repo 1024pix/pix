@@ -1,11 +1,10 @@
-// eslint-disable-next-line no-restricted-imports
-import { click, fillIn, currentURL, find, visit } from '@ember/test-helpers';
+import { click, fillIn, currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
 const ASSESSMENT = 'ASSESSMENT';
@@ -35,21 +34,17 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
     module('When user is not logged in', function () {
       module('When campaign has external id', function () {
         module('When participant external id is not set in the url', function (hooks) {
+          let screen;
           hooks.beforeEach(async function () {
             campaign = server.create('campaign', { idPixLabel: 'email', type: ASSESSMENT });
-            const screen = await startCampaignByCode(campaign.code);
-            await fillIn('#firstName', prescritUser.firstName);
-            await fillIn('#lastName', prescritUser.lastName);
-            await fillIn('#email', prescritUser.email);
-            await fillIn('#password', prescritUser.password);
-            await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
-            await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+            screen = await startCampaignByCode(campaign.code);
+            await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
           });
 
           test('should redirect to assessment after completion of external id', async function (assert) {
             // when
-            await fillIn('#id-pix-label', 'monmail@truc.fr');
-            await clickByLabel('Continuer');
+            await fillIn(screen.getByRole('textbox', { name: 'email' }), 'monmail@truc.fr');
+            await click(screen.getByRole('button', { name: 'Continuer' }));
 
             // then
             assert.ok(currentURL().includes('/didacticiel'));
@@ -57,7 +52,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
 
           test('should redirect to campaign presentation after cancel button', async function (assert) {
             // when
-            await clickByLabel('Annuler');
+            await click(screen.getByRole('button', { name: 'Annuler' }));
 
             // then
             assert.ok(currentURL().includes(`/campagnes/${campaign.code}/presentation`));
@@ -66,19 +61,17 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
 
         module('When participant external id is set in the url', function () {
           module('When campaign is not restricted', function (hooks) {
+            let screen;
+
             hooks.beforeEach(async function () {
+              // given
               campaign = server.create('campaign', { isRestricted: false, idPixLabel: 'toto', type: ASSESSMENT });
-              const screen = await startCampaignByCodeAndExternalId(campaign.code);
-              await fillIn('#firstName', prescritUser.firstName);
-              await fillIn('#lastName', prescritUser.lastName);
-              await fillIn('#email', prescritUser.email);
-              await fillIn('#password', prescritUser.password);
-              await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
-              await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+              screen = await startCampaignByCodeAndExternalId(campaign.code);
+              await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
             });
 
             test('should redirect to assessment', async function (assert) {
-              // then
+              // when & then
               assert.ok(currentURL().includes('/didacticiel'));
             });
           });
@@ -91,25 +84,25 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
                 organizationType: 'SCO',
                 type: ASSESSMENT,
               });
-              await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
+              const screen = await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
 
               assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
-              await clickByLabel('Je commence');
+              await click(screen.getByRole('button', { name: 'Je commence' }));
 
               // when
-              await click('#login-button');
+              await click(screen.getByRole('button', { name: 'Se connecter' }));
 
-              await fillIn('#login', prescritUser.email);
-              await fillIn('#password', prescritUser.password);
-              await click('#submit-connexion');
+              await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), prescritUser.email);
+              await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
+              await click(screen.getByRole('button', { name: 'Se connecter' }));
 
-              await fillIn('#firstName', prescritUser.firstName);
-              await fillIn('#lastName', prescritUser.lastName);
-              await fillIn('#dayOfBirth', '10');
-              await fillIn('#monthOfBirth', '12');
-              await fillIn('#yearOfBirth', '2000');
-              await clickByLabel(this.intl.t('pages.join.button'));
-              await clickByLabel(this.intl.t('pages.join.sco.associate'));
+              await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), prescritUser.firstName);
+              await fillIn(screen.getByRole('textbox', { name: 'Nom' }), prescritUser.lastName);
+              await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
+              await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
+              await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
+              await click(screen.getByRole('button', { name: this.intl.t('pages.join.button') }));
+              await click(screen.getByRole('button', { name: this.intl.t('pages.join.sco.associate') }));
 
               // then
               assert.ok(currentURL().includes('/didacticiel'));
@@ -122,12 +115,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
         hooks.beforeEach(async function () {
           campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT });
           const screen = await startCampaignByCode(campaign.code);
-          await fillIn('#firstName', prescritUser.firstName);
-          await fillIn('#lastName', prescritUser.lastName);
-          await fillIn('#email', prescritUser.email);
-          await fillIn('#password', prescritUser.password);
-          await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
-          await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+          await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
         });
 
         test('should redirect to assessment after signup', async function (assert) {
@@ -142,12 +130,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           hooks.beforeEach(async function () {
             campaign = server.create('campaign', { type: ASSESSMENT });
             const screen = await startCampaignByCodeAndExternalId(campaign.code);
-            await fillIn('#firstName', prescritUser.firstName);
-            await fillIn('#lastName', prescritUser.lastName);
-            await fillIn('#email', prescritUser.email);
-            await fillIn('#password', prescritUser.password);
-            await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
-            await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+            await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
           });
 
           test('should redirect to assessment after signup', async function (assert) {
@@ -179,10 +162,10 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
         test('should redirect to landing page', async function (assert) {
           // when
           campaign = server.create('campaign', { type: ASSESSMENT });
-          await visit(`/campagnes/${campaign.code}`);
+          const screen = await visit(`/campagnes/${campaign.code}`);
 
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
-          assert.strictEqual(find('.campaign-landing-page__start-button').textContent.trim(), 'Je commence');
+          assert.dom(screen.getByRole('button', { name: 'Je commence' })).exists();
         });
       });
 
@@ -200,18 +183,18 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           test('should redirect to tutoriel page', async function (assert) {
             // given
             await visit(`/campagnes/${campaign.code}`);
-            await clickByLabel('Je commence');
-            await fillIn('#firstName', 'Robert');
-            await fillIn('#lastName', 'Smith');
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
-            await clickByLabel(this.intl.t('pages.join.button'));
-            await clickByLabel(this.intl.t('pages.join.sco.associate'));
-            await fillIn('#id-pix-label', 'truc');
+            await click(screen.getByRole('button', { name: 'Je commence' }));
+            await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'Rober');
+            await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Smith');
+            await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
+            await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
+            await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
+            await click(screen.getByRole('button', { name: this.intl.t('pages.join.button') }));
+            await click(screen.getByRole('button', { name: this.intl.t('pages.join.sco.associate') }));
+            await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
 
             // when
-            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
+            await click(screen.getByRole('button', { name: 'Continuer' }));
 
             //then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -221,15 +204,17 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
 
       module('When campaign has external id', function () {
         module('When participant external id is not set in the url', function (hooks) {
+          let screen;
+
           hooks.beforeEach(async function () {
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman', type: ASSESSMENT });
-            await startCampaignByCode(campaign.code);
+            screen = await startCampaignByCode(campaign.code);
           });
 
           test('should go to the tutorial when the user fill in his id', async function (assert) {
             // when
-            await fillIn('#id-pix-label', 'monmail@truc.fr');
-            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
+            await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
+            await click(screen.getByRole('button', { name: 'Continuer' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -237,9 +222,9 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
 
           test('should start the assessment when the user has seen tutorial', async function (assert) {
             // when
-            await fillIn('#id-pix-label', 'monmail@truc.fr');
-            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
-            await clickByLabel(this.intl.t('pages.tutorial.pass'));
+            await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
+            await click(screen.getByRole('button', { name: 'Continuer' }));
+            await click(screen.getByRole('button', { name: this.intl.t('pages.tutorial.pass') }));
 
             // then
             assert.ok(currentURL().includes('/assessments/'));
@@ -273,7 +258,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
 
           test('should start the assessment when the user has seen tutorial', async function (assert) {
             // when
-            await clickByLabel(this.intl.t('pages.tutorial.pass'));
+            await click(screen.getByRole('button', { name: this.intl.t('pages.tutorial.pass') }));
 
             // then
             assert.ok(currentURL().includes('/assessments/'));
@@ -284,12 +269,14 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
       module('When campaign does not have external id', function (hooks) {
         hooks.beforeEach(async function () {
           campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT });
-          await visit(`campagnes/${campaign.code}`);
         });
 
         test('should redirect to tutorial after clicking on start button in landing page', async function (assert) {
+          // given
+          const screen = await visit(`campagnes/${campaign.code}`);
+
           // when
-          await click('.campaign-landing-page__start-button');
+          await click(screen.getByRole('button', { name: 'Je commence' }));
 
           // then
           assert.ok(currentURL().includes('/didacticiel'));
@@ -301,12 +288,14 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
         function (hooks) {
           hooks.beforeEach(async function () {
             campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT });
-            await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
           });
 
           test('should redirect to tutorial after clicking on start button in landing page', async function (assert) {
+            // given
+            await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
+
             // when
-            await click('.campaign-landing-page__start-button');
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // then
             assert.ok(currentURL().includes('/didacticiel'));
@@ -383,4 +372,16 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
       });
     });
   });
+
+  async function _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl }) {
+    await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), prescritUser.firstName);
+    await fillIn(screen.getByRole('textbox', { name: 'Nom' }), prescritUser.lastName);
+    await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }), prescritUser.email);
+    await fillIn(
+      screen.getByLabelText('Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'),
+      prescritUser.password
+    );
+    await click(screen.getByRole('checkbox', { name: intl.t('common.cgu.label') }));
+    await click(screen.getByRole('button', { name: intl.t('pages.sign-up.actions.submit') }));
+  }
 });
