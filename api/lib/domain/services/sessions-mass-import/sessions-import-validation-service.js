@@ -113,6 +113,7 @@ module.exports = {
     dependencies = { certificationCpfService },
   }) {
     const certificationCandidateErrors = [];
+    candidate.convertExtraTimePercentageToDecimal();
     const errorCodes = candidate.validateForMassSessionImport(isSco);
     _addToErrorList({ errorList: certificationCandidateErrors, line, codes: errorCodes });
 
@@ -137,8 +138,6 @@ module.exports = {
         }
       });
     }
-
-    candidate.convertExtraTimePercentageToDecimal();
 
     return {
       certificationCandidateErrors,
