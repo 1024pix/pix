@@ -85,7 +85,7 @@ export default class TubesSelection extends Component {
     const selectedFrameworksAreas = (
       await Promise.all(
         this.selectedFrameworks.map(async (framework) => {
-          const frameworkAreas = await framework.areas;
+          const frameworkAreas = await framework.areas.reload();
           return frameworkAreas.toArray();
         })
       )
