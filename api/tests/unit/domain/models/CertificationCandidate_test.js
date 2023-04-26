@@ -217,10 +217,10 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({
             ...validAttributes,
+            extraTimePercentage: 30,
             billingMode: null,
           });
           const isSco = true;
-
           // when
           const call = () => {
             certificationCandidate.validate(isSco);
@@ -437,10 +437,10 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code]);
       });
 
-      it('should throw an error when field extraTimePercentage is upper than 100', async function () {
+      it('should throw an error when field extraTimePercentage is greater than 10', async function () {
         const certificationCandidate = buildCertificationCandidate({
           ...validAttributes,
-          extraTimePercentage: 101,
+          extraTimePercentage: 11,
         });
 
         const report = certificationCandidate.validateForMassSessionImport();

@@ -208,10 +208,11 @@ class CertificationCandidate {
   }
 
   validate(isSco = false) {
-    const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
+    const { error } = certificationCandidateValidationForMassImportJoiSchema.validate(this, {
       allowUnknown: true,
       context: {
         isSco,
+        isSessionsMassImport: false,
       },
     });
     if (error) {
@@ -225,6 +226,7 @@ class CertificationCandidate {
       allowUnknown: true,
       context: {
         isSco,
+        isSessionsMassImport: true,
       },
     });
     if (error) {
