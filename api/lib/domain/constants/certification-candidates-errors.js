@@ -80,8 +80,8 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_EMAIL_NOT_VALID',
     getMessage: () => '',
   },
-  CANDIDATE_EXTRA_TIME_BELOW_ONE: {
-    code: 'CANDIDATE_EXTRA_TIME_BELOW_ONE',
+  CANDIDATE_EXTRA_TIME_OUT_OF_RANGE: {
+    code: 'CANDIDATE_EXTRA_TIME_OUT_OF_RANGE',
     getMessage: () => `Le temps majoré doit être un pourcentage.`,
   },
   CANDIDATE_EXTRA_TIME_INTEGER: {
