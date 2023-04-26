@@ -20,9 +20,6 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   firstName: Joi.string().required().empty(null),
   lastName: Joi.string().required().empty(null),
   sex: Joi.string().valid('M', 'F').required().empty(['', null]),
-  birthPostalCode: Joi.string().empty(['', null]),
-  birthINSEECode: Joi.string().empty(['', null]),
-  birthCountry: Joi.string().required().empty(null),
   email: Joi.string().email().allow(null).empty('').optional(),
   resultRecipientEmail: Joi.string().email().empty(['', null]).optional(),
   externalId: Joi.string().allow(null).empty(['', null]).optional(),
@@ -41,14 +38,7 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
     then: Joi.string().required().empty(['', null]),
     otherwise: Joi.valid(null),
   }),
-}).assert(
-  '.birthPostalCode',
-  Joi.when('..birthINSEECode', {
-    is: Joi.exist(),
-    then: Joi.string().forbidden(),
-    otherwise: Joi.string().required(),
-  })
-);
+});
 
 const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
   firstName: Joi.string().required().empty(['', null]).messages({

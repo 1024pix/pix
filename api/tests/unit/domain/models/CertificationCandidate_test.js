@@ -74,7 +74,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
-    ['firstName', 'lastName', 'birthCountry'].forEach((field) => {
+    ['firstName', 'lastName'].forEach((field) => {
       it(`should throw an error when field ${field} is not a string`, async function () {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: 123 });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
@@ -322,58 +322,6 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           // then
           expect(call).to.not.throw();
         });
-      });
-    });
-
-    context('birthPostalCode and birthInseeCode', function () {
-      it('should throw an error if both birthPostalCode and birthInseeCode are not present', async function () {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({
-          ...validAttributes,
-          birthPostalCode: null,
-          birthINSEECode: '',
-        });
-
-        // when
-        const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
-
-        // then
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-        expect(error.why).to.equal('birthPostalCode_birthINSEECode_invalid');
-      });
-
-      it('should not throw an error if birthPostalCode is present and birthInseeCode is empty', async function () {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({
-          ...validAttributes,
-          birthPostalCode: '75000',
-          birthINSEECode: '',
-        });
-
-        // when
-        const call = () => {
-          certificationCandidate.validate();
-        };
-
-        // then
-        expect(call).to.not.throw();
-      });
-
-      it('should not throw an error if birthInseeCode is present and birthPostalCode is empty', async function () {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({
-          ...validAttributes,
-          birthPostalCode: '',
-          birthINSEECode: '75115',
-        });
-
-        // when
-        const call = () => {
-          certificationCandidate.validate();
-        };
-
-        // then
-        expect(call).to.not.throw();
       });
     });
   });
