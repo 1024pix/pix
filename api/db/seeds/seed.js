@@ -1,6 +1,8 @@
 'use strict';
 const DatabaseBuilder = require('../database-builder/database-builder');
 
+const featuresBuilder = require('./data/feature/feature-builder');
+
 const answersBuilder = require('./data/answers-builder');
 const assessmentsBuilder = require('./data/assessments-builder');
 const buildPixAileProfile = require('./data/pix-aile-profile-builder');
@@ -52,6 +54,9 @@ const {
 
 exports.seed = async (knex) => {
   const databaseBuilder = new DatabaseBuilder({ knex });
+
+  // Feature list
+  featuresBuilder({ databaseBuilder });
 
   // Users
   usersBuilder({ databaseBuilder });

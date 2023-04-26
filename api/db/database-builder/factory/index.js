@@ -47,6 +47,8 @@ const buildKnowledgeElement = require('./build-knowledge-element');
 const buildKnowledgeElementSnapshot = require('./build-knowledge-element-snapshot');
 const buildMembership = require('./build-membership');
 const buildOrganization = require('./build-organization');
+const buildFeature = require('./build-feature');
+const buildOrganizationFeature = require('./build-organization-feature');
 const buildOrganizationPlace = require('./build-organization-place');
 const buildOrganizationInvitation = require('./build-organization-invitation');
 const buildOrganizationLearner = require('./build-organization-learner');
@@ -119,6 +121,8 @@ module.exports = {
   buildCorrectAnswersAndKnowledgeElementsForLearningContent,
   buildCorrectAnswerAndKnowledgeElement,
   buildDataProtectionOfficer,
+  buildFeature,
+  buildOrganizationFeature,
   buildFinalizedSession,
   buildFlashAssessmentResult,
   buildIssueReportCategory,
