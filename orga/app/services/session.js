@@ -77,7 +77,6 @@ export default class CurrentSessionService extends SessionService {
 
     this.intl.setLocale([userLocale, DEFAULT_LOCALE]);
     this.dayjs.setLocale(userLocale);
-    this.dayjs.self.locale(userLocale);
   }
 
   _getRouteAfterInvalidation() {

@@ -5,6 +5,5 @@ export default function setupIntl(hooks, locale = ['fr']) {
 
     this.dayjs = this.owner.lookup('service:dayjs');
     this.dayjs.setLocale(locale[0]);
-    this.dayjs.self.locale(locale[0]);
   });
 }

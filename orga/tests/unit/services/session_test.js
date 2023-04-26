@@ -22,9 +22,6 @@ module('Unit | Service | session', function (hooks) {
     };
     service.dayjs = {
       setLocale: sinon.stub(),
-      self: {
-        locale: sinon.stub(),
-      },
     };
 
     service.locale = {
