@@ -33,6 +33,7 @@ const lcms = require('./application/lcms/index.js');
 const memberships = require('./application/memberships/index.js');
 const organizationInvitations = require('./application/organization-invitations/index.js');
 const organizations = require('./application/organizations/index.js');
+const organizationsAdministration = require('./application/organizations-administration/index.js');
 const passwords = require('./application/passwords/index.js');
 const poleEmploi = require('./application/pole-emploi/index.js');
 const prescribers = require('./application/prescribers/index.js');
@@ -90,6 +91,7 @@ const routes = [
   memberships,
   organizationLearners,
   organizations,
+  organizationsAdministration,
   passwords,
   poleEmploi,
   prescribers,

@@ -1,7 +1,7 @@
 const bluebird = require('bluebird');
 const _ = require('lodash');
-const OrganizationTag = require('../models/OrganizationTag.js');
-const DataProtectionOfficer = require('../models/DataProtectionOfficer.js');
+const OrganizationTag = require('../../models/OrganizationTag.js');
+const DataProtectionOfficer = require('../../models/DataProtectionOfficer.js');
 
 async function _updateOrganizationTags({
   organization,
