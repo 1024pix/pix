@@ -6,13 +6,14 @@ export const DEFAULT_LOCALE = 'fr';
 export const FRENCH_INTERNATIONAL_LOCALE = 'fr';
 export const ENGLISH_INTERNATIONAL_LOCALE = 'en';
 
+const supportedLanguages = [FRENCH_INTERNATIONAL_LOCALE, ENGLISH_INTERNATIONAL_LOCALE];
+
 export default class LocaleService extends Service {
   @service cookies;
   @service currentDomain;
 
-  handleSupportedLanguage(language) {
+  handleUnsupportedLanguage(language) {
     if (!language) return;
-    const supportedLanguages = [FRENCH_INTERNATIONAL_LOCALE, ENGLISH_INTERNATIONAL_LOCALE];
     return supportedLanguages.includes(language) ? language : DEFAULT_LOCALE;
   }
 

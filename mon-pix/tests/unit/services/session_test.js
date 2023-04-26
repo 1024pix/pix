@@ -16,7 +16,11 @@ module('Unit | Services | session', function (hooks) {
     sessionService.currentDomain = { getExtension: sinon.stub() };
     sessionService.intl = { setLocale: sinon.stub() };
     sessionService.dayjs = { setLocale: sinon.stub(), self: { locale: sinon.stub() } };
-    sessionService.locale = { setLocaleCookie: sinon.stub(), hasLocaleCookie: sinon.stub() };
+    sessionService.locale = {
+      setLocaleCookie: sinon.stub(),
+      hasLocaleCookie: sinon.stub(),
+      handleUnsupportedLanguage: sinon.stub(),
+    };
     sessionService._getRouteAfterInvalidation = sinon.stub();
     sessionService._logoutUser = sinon.stub();
 
@@ -187,6 +191,7 @@ module('Unit | Services | session', function (hooks) {
             // given
             const transition = { to: { queryParams: { lang: 'de' } } };
             sessionService.currentDomain.getExtension.returns('org');
+            sessionService.locale.handleUnsupportedLanguage.returns('de');
 
             // when
             await sessionService.handleUserLanguageAndLocale(transition);
@@ -204,6 +209,7 @@ module('Unit | Services | session', function (hooks) {
               // given
               const transition = { to: { queryParams: { lang: 'de' } } };
               sessionService.currentDomain.getExtension.returns('org');
+              sessionService.locale.handleUnsupportedLanguage.returns('de');
               sessionService.currentUser.user = { lang: 'ru', save: sinon.stub() };
 
               // when
@@ -223,6 +229,7 @@ module('Unit | Services | session', function (hooks) {
                 // given
                 const transition = { to: { queryParams: { lang: 'de' } } };
                 sessionService.currentDomain.getExtension.returns('org');
+                sessionService.locale.handleUnsupportedLanguage.returns('de');
                 sessionService.currentUser.user = {
                   lang: 'ru',
                   save: sinon.stub().throws({ errors: [{ status: '400' }] }),
