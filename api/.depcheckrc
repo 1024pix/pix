@@ -8,6 +8,7 @@ ignores:
     'hapi-sentry',
     'jscodeshift',
     'mocha-junit-reporter',
+    'pg-connection-string',
     'pino-pretty',
   ]
 
@@ -42,3 +43,5 @@ ignores:
 # "pino-pretty" is used in ../lib/infrastructure/logger.js
 # code =>  target: 'pino-pretty'
 # see https://github.com/pinojs/pino-pretty#programmatic-integration
+
+# "pg-connection-string" is used in api/tests/acceptance/database/configuration.cjs
