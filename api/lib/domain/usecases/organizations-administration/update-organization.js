@@ -3,6 +3,8 @@ const _ = require('lodash');
 const OrganizationTag = require('../../models/OrganizationTag.js');
 const DataProtectionOfficer = require('../../models/DataProtectionOfficer.js');
 
+const apps = require('../../constants.js');
+
 async function _updateOrganizationTags({
   organization,
   existingOrganization,
@@ -50,9 +52,26 @@ async function _addOrUpdateDataProtectionOfficer({ organization, dataProtectionO
   return dataProtectionOfficerRepository.create(dataProtectionOfficer);
 }
 
+async function _enablingOrganizationFeature(organization, organizationFeatureRepository) {
+  const availableFeatures = await organizationFeatureRepository.getFeaturesListFromOrganization(organization.id);
+  const isAssessmentFeatureEnable = availableFeatures.includes(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
+
+  const organizationFeatureData = {
+    organizationId: organization.id,
+    featureKey: apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
+  };
+
+  if (isAssessmentFeatureEnable && !organization.enableMultipleSendingAssessment) {
+    await organizationFeatureRepository.removeFeatureToOrganization(organizationFeatureData);
+  } else if (!isAssessmentFeatureEnable && organization.enableMultipleSendingAssessment) {
+    await organizationFeatureRepository.addFeatureToOrganization(organizationFeatureData);
+  }
+}
+
 module.exports = async function updateOrganizationInformation({
-  dataProtectionOfficerRepository,
   organization,
+  dataProtectionOfficerRepository,
+  organizationFeatureRepository,
   organizationForAdminRepository,
   organizationTagRepository,
   tagRepository,
@@ -83,6 +102,9 @@ module.exports = async function updateOrganizationInformation({
     organization,
   });
 
+  await _enablingOrganizationFeature(organization, organizationFeatureRepository);
+
+  updatedOrganization.enableMultipleSendingAssessment = organization.enableMultipleSendingAssessment;
   updatedOrganization.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
   updatedOrganization.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
   updatedOrganization.dataProtectionOfficerEmail = dataProtectionOfficer.email;

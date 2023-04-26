@@ -63,15 +63,6 @@ module.exports = {
     return h.response(organizationForAdminSerializer.serialize(createdOrganizations)).code(204);
   },
 
-  async updateOrganizationInformation(request, h, dependencies = { organizationForAdminSerializer }) {
-    const organizationDeserialized = dependencies.organizationForAdminSerializer.deserialize(request.payload);
-
-    const organizationUpdated = await usecases.updateOrganizationInformation({
-      organization: organizationDeserialized,
-    });
-    return dependencies.organizationForAdminSerializer.serialize(organizationUpdated);
-  },
-
   async findPaginatedFilteredOrganizations(
     request,
     h,

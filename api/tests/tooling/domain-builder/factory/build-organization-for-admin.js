@@ -1,4 +1,4 @@
-const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
+const OrganizationForAdmin = require('../../../../lib/domain/models/organizations-administration/Organization');
 
 function buildOrganizationForAdmin({
   id = 123,
