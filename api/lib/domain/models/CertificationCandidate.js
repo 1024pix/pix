@@ -16,31 +16,7 @@ const BILLING_MODES = {
   PREPAID: 'PREPAID',
 };
 
-const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
-  firstName: Joi.string().required().empty(null),
-  lastName: Joi.string().required().empty(null),
-  sex: Joi.string().valid('M', 'F').required().empty(['', null]),
-  email: Joi.string().email().allow(null).empty('').optional(),
-  resultRecipientEmail: Joi.string().email().empty(['', null]).optional(),
-  externalId: Joi.string().allow(null).empty(['', null]).optional(),
-  birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(null),
-  extraTimePercentage: Joi.number().allow(null).optional(),
-  sessionId: Joi.number().required().empty(['', null]),
-  complementaryCertifications: Joi.array().max(1).required(),
-  billingMode: Joi.when('$isSco', {
-    is: false,
-    then: Joi.string()
-      .valid(...Object.values(BILLING_MODES))
-      .required(),
-  }),
-  prepaymentCode: Joi.when('billingMode', {
-    is: 'PREPAID',
-    then: Joi.string().required().empty(['', null]),
-    otherwise: Joi.valid(null),
-  }),
-});
-
-const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
+const certificationCandidateValidationJoiSchema = Joi.object({
   firstName: Joi.string().required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code,
   }),
@@ -208,7 +184,7 @@ class CertificationCandidate {
   }
 
   validate(isSco = false) {
-    const { error } = certificationCandidateValidationForMassImportJoiSchema.validate(this, {
+    const { error } = certificationCandidateValidationJoiSchema.validate(this, {
       allowUnknown: true,
       context: {
         isSco,
@@ -221,7 +197,7 @@ class CertificationCandidate {
   }
 
   validateForMassSessionImport(isSco = false) {
-    const { error } = certificationCandidateValidationForMassImportJoiSchema.validate(this, {
+    const { error } = certificationCandidateValidationJoiSchema.validate(this, {
       abortEarly: false,
       allowUnknown: true,
       context: {
