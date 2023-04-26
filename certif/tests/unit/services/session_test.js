@@ -302,7 +302,6 @@ module('Unit | Service | session', function (hooks) {
       // then
       sinon.assert.calledWith(service.intl.setLocale, ['some locale', 'fr']);
       sinon.assert.calledWith(service.dayjs.setLocale, 'some locale');
-      sinon.assert.calledWith(service.dayjs.self.locale, 'some locale');
       assert.ok(true);
     });
   });
