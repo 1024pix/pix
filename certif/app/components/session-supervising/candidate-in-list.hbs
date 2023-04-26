@@ -30,6 +30,12 @@
         {{@candidate.extraTimePercentage}}%
       {{/if}}
     </div>
+    {{#if this.shouldDisplayComplementaryCertification}}
+      <div>
+        Inscription à
+        {{@candidate.complementaryCertification}}
+      </div>
+    {{/if}}
     {{#if @candidate.hasStarted}}
       {{#if @candidate.isAuthorizedToResume}}
         <span
