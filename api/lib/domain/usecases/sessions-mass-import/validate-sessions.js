@@ -1,6 +1,5 @@
 const Session = require('../../models/Session');
 const SessionMassImportReport = require('../../models/SessionMassImportReport');
-const sessionCodeService = require('../../services/session-code-service');
 const sessionsImportValidationService = require('../../services/sessions-mass-import/sessions-import-validation-service');
 const temporarySessionsStorageForMassImportService = require('../../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
 const CertificationCandidate = require('../../models/CertificationCandidate');
@@ -16,6 +15,7 @@ module.exports = async function validateSessions({
   certificationCpfCityRepository,
   complementaryCertificationRepository,
   certificationCourseRepository,
+  sessionCodeService,
 }) {
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
   const sessionsMassImportReport = new SessionMassImportReport();
