@@ -60,6 +60,8 @@ module('Acceptance | Target profile creation', function (hooks) {
     test('it should create the target profile', async function (assert) {
       // given
       server.get('/admin/frameworks', (schema) => schema.frameworks.all());
+      server.get('/areas/1', (schema) => schema.areas.find(1));
+      server.get('/areas/2', (schema) => schema.areas.find(2));
       const screen = await visit('/target-profiles/list');
       await clickByName('Nouveau profil cible');
       await fillByLabel('Nom (obligatoire) :', 'Un profil cible, et vite !');
