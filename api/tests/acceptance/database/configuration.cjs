@@ -1,7 +1,5 @@
-import dotenv from 'dotenv';
-dotenv.config();
-import pgConnectionString from 'pg-connection-string';
-const { parse: parsePostgresqlConnectionString } = pgConnectionString;
+require('dotenv').config();
+const parsePostgresqlConnectionString = require('pg-connection-string').parse;
 
 const databaseToLint = {
   connexion: parsePostgresqlConnectionString(process.env.TEST_DATABASE_URL),
@@ -25,4 +23,4 @@ const configuration = {
   ignores: rules.ignores,
 };
 
-export { configuration };
+module.exports = configuration;
