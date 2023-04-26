@@ -103,7 +103,6 @@ async function emptyAllTables() {
     tableNames,
     'knex_migrations',
     'knex_migrations_lock',
-    'features',
     'view-active-organization-learners'
   );
 
