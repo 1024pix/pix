@@ -175,8 +175,8 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
         save: sinon.stub(),
       };
 
-      controller.url = {
-        isFrenchDomainExtension: true,
+      controller.currentDomain = {
+        isFranceDomain: true,
       };
 
       controller.model = {

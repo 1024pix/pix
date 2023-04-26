@@ -2,21 +2,26 @@ import { inject as service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 import get from 'lodash/get';
 
-const DEFAULT_LOCALE = 'fr';
-const FRENCH_LOCALE = 'fr-FR';
+const FRENCH_INTERNATIONAL_LOCALE = 'fr';
+const FRENCH_FRANCE_LOCALE = 'fr-FR';
 
 export default class CurrentSessionService extends SessionService {
+  @service currentDomain;
   @service currentUser;
+  @service locale;
   @service intl;
   @service dayjs;
   @service url;
-  @service currentDomain;
-  @service locale;
+
+  _localeFromQueryParam;
 
   routeAfterAuthentication = 'authenticated';
 
   async handleAuthentication() {
-    await this.handlePrescriberLanguageAndLocale();
+    const isFranceDomain = this.currentDomain.isFranceDomain;
+    await this.currentUser.load();
+    const userLocale = this.currentUser.prescriber.lang;
+    await this.handleLocale({ isFranceDomain, userLocale });
     super.handleAuthentication(this.routeAfterAuthentication);
   }
 
@@ -25,35 +30,41 @@ export default class CurrentSessionService extends SessionService {
     await super.handleInvalidation(routeAfterInvalidation);
   }
 
-  async handlePrescriberLanguageAndLocale(localeFromQueryParam) {
-    const domain = this.currentDomain.getExtension();
-    const defaultLocale = 'fr';
-    const domainFr = 'fr';
+  async handleLocale({ isFranceDomain, localeFromQueryParam, userLocale }) {
+    if (localeFromQueryParam && this.intl.get('locales').includes(localeFromQueryParam)) {
+      this._localeFromQueryParam = localeFromQueryParam;
+    }
 
-    await this.currentUser.load();
-    await this._updatePrescriberLanguage(localeFromQueryParam);
-
-    if (domain === domainFr) {
-      this._setLocale(defaultLocale);
+    if (isFranceDomain) {
+      this._setLocale(FRENCH_INTERNATIONAL_LOCALE);
 
       if (!this.locale.hasLocaleCookie()) {
-        this.locale.setLocaleCookie(FRENCH_LOCALE);
+        this.locale.setLocaleCookie(FRENCH_FRANCE_LOCALE);
       }
 
       return;
     }
 
-    if (localeFromQueryParam) {
-      this._setLocale(localeFromQueryParam);
-    } else {
-      this._setLocale(defaultLocale);
+    if (this._localeFromQueryParam) {
+      await this._updatePrescriberLanguage(this._localeFromQueryParam);
+
+      this._setLocale(this._localeFromQueryParam);
+      return;
     }
+
+    const locale = userLocale || FRENCH_INTERNATIONAL_LOCALE;
+    this._setLocale(locale);
+  }
+
+  _setLocale(locale) {
+    this.intl.setLocale([locale, FRENCH_INTERNATIONAL_LOCALE]);
+    this.dayjs.setLocale(locale);
   }
 
   async _updatePrescriberLanguage(lang) {
     const prescriber = this.currentUser.prescriber;
 
-    if (!prescriber || !lang || prescriber.lang === lang) return;
+    if (!prescriber || prescriber.lang === lang) return;
 
     try {
       prescriber.lang = lang;
@@ -66,18 +77,6 @@ export default class CurrentSessionService extends SessionService {
         throw error;
       }
     }
-  }
-
-  _setLocale(locale) {
-    let userLocale = DEFAULT_LOCALE;
-
-    if (!this.url.isFrenchDomainExtension) {
-      userLocale = this.intl.get('locales').includes(locale) ? locale : DEFAULT_LOCALE;
-    }
-
-    this.intl.setLocale([userLocale, DEFAULT_LOCALE]);
-    this.dayjs.setLocale(userLocale);
-    this.dayjs.self.locale(userLocale);
   }
 
   _getRouteAfterInvalidation() {

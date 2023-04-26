@@ -1,7 +1,6 @@
 import { inject as service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 
-const DEFAULT_LOCALE = 'fr';
 const FRENCH_INTERNATIONAL_LOCALE = 'fr';
 const FRENCH_FRANCE_LOCALE = 'fr-FR';
 
@@ -33,7 +32,7 @@ export default class CurrentSessionService extends SessionService {
   }
 
   async handleLocale({ isFranceDomain, localeFromQueryParam, userLocale }) {
-    if (localeFromQueryParam) {
+    if (localeFromQueryParam && this.intl.get('locales').includes(localeFromQueryParam)) {
       this._localeFromQueryParam = localeFromQueryParam;
     }
 
@@ -47,18 +46,17 @@ export default class CurrentSessionService extends SessionService {
       return;
     }
 
-    if (this._localeFromQueryParam && this.intl.get('locales').includes(this._localeFromQueryParam)) {
+    if (this._localeFromQueryParam) {
       this._setLocale(this._localeFromQueryParam);
       return;
     }
 
-    const locale = userLocale || DEFAULT_LOCALE;
+    const locale = userLocale || FRENCH_INTERNATIONAL_LOCALE;
     this._setLocale(locale);
   }
 
   _setLocale(locale) {
-    this.intl.setLocale([locale, DEFAULT_LOCALE]);
+    this.intl.setLocale([locale, FRENCH_INTERNATIONAL_LOCALE]);
     this.dayjs.setLocale(locale);
-    this.dayjs.self.locale(locale);
   }
 }

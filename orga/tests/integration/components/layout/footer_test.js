@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
-import sinon from 'sinon';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Layout::Footer', function (hooks) {
@@ -22,7 +21,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
   test('should display legal notice link', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('org') };
+    service.currentDomain = { isFranceDomain: false };
 
     // when
     const screen = await renderScreen(hbs`<Layout::Footer />}`);
@@ -35,7 +34,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
   test('should display accessibility link', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    service.currentDomain = { isFranceDomain: true };
 
     // when
     const screen = await renderScreen(hbs`<Layout::Footer />}`);

@@ -57,7 +57,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
   test('it should display legal mentions with related links', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    service.currentDomain = { isFranceDomain: true };
 
     // when
     const screen = await renderScreen(hbs`<Auth::RegisterForm />`);
