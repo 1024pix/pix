@@ -2,7 +2,9 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import ENV from 'mon-pix/config/environment';
 
-const FRENCH_DOMAIN_EXTENSION = 'fr';
+const FRANCE_TLD = 'fr';
+const FRENCH_INTERNATIONAL_LOCALE = 'fr';
+const ENGLISH_INTERNATIONAL_LOCALE = 'en';
 
 export default class Url extends Service {
   @service currentDomain;
@@ -11,7 +13,7 @@ export default class Url extends Service {
   definedHomeUrl = ENV.rootURL;
 
   get isFrenchDomainExtension() {
-    return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION;
+    return this.currentDomain.getExtension() === FRANCE_TLD;
   }
 
   get showcase() {
@@ -26,10 +28,10 @@ export default class Url extends Service {
   get cguUrl() {
     const tld = this.currentDomain.getExtension();
     const currentLanguage = this.intl.t('current-lang');
-    if (tld === 'fr') {
+    if (tld === FRANCE_TLD) {
       return `https://pix.fr/conditions-generales-d-utilisation`;
     }
-    return currentLanguage === 'fr'
+    return currentLanguage === FRENCH_INTERNATIONAL_LOCALE
       ? 'https://pix.org/fr/conditions-generales-d-utilisation'
       : 'https://pix.org/en-gb/terms-and-conditions';
   }
@@ -37,11 +39,11 @@ export default class Url extends Service {
   get dataProtectionPolicyUrl() {
     const tld = this.currentDomain.getExtension();
     const currentLanguage = this.intl.t('current-lang');
-    if (tld === 'fr') {
+    if (tld === FRANCE_TLD) {
       return `https://pix.fr/politique-protection-donnees-personnelles-app`;
     }
 
-    return currentLanguage === 'fr'
+    return currentLanguage === FRENCH_INTERNATIONAL_LOCALE
       ? 'https://pix.org/fr/politique-protection-donnees-personnelles-app'
       : 'https://pix.org/en-gb/personal-data-protection-policy';
   }
@@ -49,7 +51,7 @@ export default class Url extends Service {
   get _showcaseWebsiteUrl() {
     const currentLanguage = this.intl.t('current-lang');
 
-    if (currentLanguage === 'en') {
+    if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
       return `https://pix.${this.currentDomain.getExtension()}/en-gb`;
     }
     return `https://pix.${this.currentDomain.getExtension()}`;
@@ -63,16 +65,18 @@ export default class Url extends Service {
     const tld = this.currentDomain.getExtension();
     const currentLanguage = this.intl.t('current-lang');
 
-    if (tld === 'fr') {
+    if (tld === FRANCE_TLD) {
       return `https://pix.fr/accessibilite`;
     }
-    return currentLanguage === 'fr' ? `https://pix.org/fr/accessibilite` : `https://pix.org/en-gb/accessibility`;
+    return currentLanguage === FRENCH_INTERNATIONAL_LOCALE
+      ? `https://pix.org/fr/accessibilite`
+      : `https://pix.org/en-gb/accessibility`;
   }
 
   get accessibilityHelpUrl() {
     const currentLanguage = this.intl.t('current-lang');
 
-    if (currentLanguage === 'en') {
+    if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
       return `https://pix.${this.currentDomain.getExtension()}/en-gb/help-accessibility`;
     }
     return `https://pix.${this.currentDomain.getExtension()}/aide-accessibilite`;
@@ -81,7 +85,7 @@ export default class Url extends Service {
   get supportHomeUrl() {
     const currentLanguage = this.intl.t('current-lang');
 
-    if (currentLanguage === 'en') {
+    if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
       return 'https://support.pix.org/en/support/home';
     }
     return 'https://support.pix.org/fr/support/home';
