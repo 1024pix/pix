@@ -3,9 +3,9 @@ const membershipRepository = require('../../infrastructure/repositories/membersh
 const organizationLearnerRepository = require('../../infrastructure/repositories/organization-learner-repository.js');
 
 module.exports = {
-  async execute(userId, organizationLearnerId) {
-    const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
-    const memberships = await membershipRepository.findByUserIdAndOrganizationId({
+  async execute(userId, organizationLearnerId, dependencies = { membershipRepository, organizationLearnerRepository }) {
+    const organizationLearner = await dependencies.organizationLearnerRepository.get(organizationLearnerId);
+    const memberships = await dependencies.membershipRepository.findByUserIdAndOrganizationId({
       userId,
       organizationId: organizationLearner.organizationId,
     });
