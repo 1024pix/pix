@@ -776,9 +776,9 @@ describe('Integration | API | Controller Error', function () {
       expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
     });
 
-    it('responds UnprocessableEntity when a UnknownCountryForStudentEnrollmentError occurs', async function () {
+    it('responds UnprocessableEntity when a UnknownCountryForStudentEnrolmentError occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.UnknownCountryForStudentEnrollmentError({ firstName: 'Paul', lastName: 'Preboist' })
+        new DomainErrors.UnknownCountryForStudentEnrolmentError({ firstName: 'Paul', lastName: 'Preboist' })
       );
       const response = await server.requestObject(request);
 
