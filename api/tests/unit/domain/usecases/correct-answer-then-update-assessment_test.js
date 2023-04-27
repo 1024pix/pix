@@ -12,7 +12,6 @@ const {
   CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
 } = require('../../../../lib/domain/errors');
-const dateUtils = require('../../../../lib/infrastructure/utils/date-utils');
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', function () {
   const userId = 1;
@@ -26,6 +25,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     level: 1,
     pix: 8,
   };
+  let dateUtils;
   const answerRepository = {
     saveWithKnowledgeElements: () => undefined,
   };
@@ -58,9 +58,11 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     sinon.stub(scorecardService, 'computeScorecard');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndAssessmentId');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
-    sinon.stub(dateUtils, 'getNowDate');
     sinon.stub(flashAlgorithmService, 'getEstimatedLevelAndErrorRate');
     sinon.stub(algorithmDataFetcherService, 'fetchForFlashLevelEstimation');
+    dateUtils = {
+      getNowDate: sinon.stub(),
+    };
 
     const challengeId = 'oneChallengeId';
     assessment = domainBuilder.buildAssessment({ userId, lastQuestionDate: nowDate });
@@ -88,6 +90,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       scorecardService,
       flashAlgorithmService,
       algorithmDataFetcherService,
+      dateUtils,
     };
   });
 
