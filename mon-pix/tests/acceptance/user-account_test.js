@@ -1,6 +1,8 @@
+import Service from '@ember/service';
 import { currentURL, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -79,15 +81,56 @@ module('Acceptance | User account page', function (hooks) {
         assert.strictEqual(currentURL(), '/mon-compte/methodes-de-connexion');
       });
 
-      test('should display language on click on "Choisir ma langue"', async function (assert) {
-        // given
-        const screen = await visit('/mon-compte');
+      module('When not in France domain', () => {
+        test('displays language switcher on click on "Choisir ma langue"', async function (assert) {
+          // given
+          class CurrentDomainStubService extends Service {
+            get isFranceDomain() {
+              return false;
+            }
 
-        // when
-        await click(screen.getByRole('link', { name: this.intl.t('pages.user-account.language.menu-link-title') }));
+            getExtension = sinon.stub().returns('org');
+          }
 
-        // then
-        assert.strictEqual(currentURL(), '/mon-compte/langue');
+          this.owner.register('service:currentDomain', CurrentDomainStubService);
+
+          const screen = await visit('/mon-compte');
+
+          // when
+          await click(screen.getByRole('link', { name: this.intl.t('pages.user-account.language.menu-link-title') }));
+
+          // then
+          const languageSwitcherGeneric = screen.getByRole('generic', {
+            name: this.intl.t('pages.inscription.choose-language-aria-label'),
+          });
+
+          assert.strictEqual(currentURL(), '/mon-compte/langue');
+          assert.dom(languageSwitcherGeneric).exists();
+        });
+      });
+
+      module('When in France domain', () => {
+        test('not display language menu link', async function (assert) {
+          // given
+          class CurrentDomainStubService extends Service {
+            get isFranceDomain() {
+              return true;
+            }
+
+            getExtension = sinon.stub().returns('fr');
+          }
+
+          this.owner.register('service:currentDomain', CurrentDomainStubService);
+
+          const screen = await visit('/mon-compte');
+
+          // when / then
+          const languageMenuLink = screen.queryByRole('link', {
+            name: this.intl.t('pages.user-account.language.menu-link-title'),
+          });
+
+          assert.dom(languageMenuLink).doesNotExist();
+        });
       });
     });
   });
