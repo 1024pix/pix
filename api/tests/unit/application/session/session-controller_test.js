@@ -185,6 +185,7 @@ describe('Unit | Controller | sessionController', function () {
       expect(usecases.importCertificationCandidatesFromCandidatesImportSheet).to.have.been.calledWith({
         sessionId,
         odsBuffer,
+        i18n: request.i18n,
       });
     });
   });

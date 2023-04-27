@@ -5,6 +5,7 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 module.exports = async function importCertificationCandidatesFromCandidatesImportSheet({
   sessionId,
   odsBuffer,
+  i18n,
   certificationCandidatesOdsService,
   certificationCandidateRepository,
   certificationCpfService,
@@ -25,6 +26,7 @@ module.exports = async function importCertificationCandidatesFromCandidatesImpor
 
   const certificationCandidates =
     await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
+      i18n,
       sessionId,
       isSco,
       odsBuffer,

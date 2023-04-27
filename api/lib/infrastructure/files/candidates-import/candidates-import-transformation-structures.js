@@ -15,79 +15,80 @@ const {
 //  - header -> Header in the ods file under which the cell values will be found
 //  - property -> Property name of the target object in which the value will be put
 //  - transformFn -> Transformation function through which the cell value will be processed into the final value
-const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT = [
+const _getTransformationsStruct = (translate) => [
   {
-    header: '* Nom de naissance',
+    header: translate('candidate-list-template.headers.birthname'),
     property: 'lastName',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: '* Prénom',
+    header: translate('candidate-list-template.headers.firstname'),
     property: 'firstName',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'Identifiant local',
+    header: translate('candidate-list-template.headers.externalid'),
     property: 'externalId',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'Temps majoré ?',
+    header: translate('candidate-list-template.headers.extratime'),
     property: 'extraTimePercentage',
     transformFn: _toNonZeroValueOrNull,
   },
   {
-    header: '* Date de naissance (format : jj/mm/aaaa)',
+    header: translate('candidate-list-template.headers.birth-date'),
     property: 'birthdate',
     transformFn: (cellVal) => {
       return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' });
     },
   },
   {
-    header: 'Nom de la commune',
+    header: translate('candidate-list-template.headers.birthcity'),
     property: 'birthCity',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'Code postal',
+    header: translate('candidate-list-template.headers.birthcity-postcode'),
     property: 'birthPostalCode',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'Code Insee',
+    header: translate('candidate-list-template.headers.birthcity-inseecode'),
     property: 'birthINSEECode',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'Pays',
+    header: translate('candidate-list-template.headers.birthcountry'),
     property: 'birthCountry',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'E-mail de convocation',
+    header: translate('candidate-list-template.headers.email-convocation'),
     property: 'email',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'E-mail du destinataire des résultats (formateur, enseignant…)',
+    header: translate('candidate-list-template.headers.email-results'),
     property: 'resultRecipientEmail',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: '* Sexe (M ou F)',
+    header: translate('candidate-list-template.headers.gender'),
     property: 'sex',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
 ];
 
 // ALL
-function getTransformationStructsForPixCertifCandidatesImport({ complementaryCertifications, isSco }) {
-  const transformationStruct = [..._TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT];
+function getTransformationStructsForPixCertifCandidatesImport({ i18n, complementaryCertifications, isSco }) {
+  const translate = i18n.__;
+  const transformationStruct = _getTransformationsStruct(translate);
 
-  _includeComplementaryCertificationColumns(complementaryCertifications, transformationStruct);
+  _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct, translate });
 
   if (!isSco) {
-    _includeBillingColumns(transformationStruct);
+    _includeBillingColumns({ transformationStruct, translate });
   }
 
   return {
@@ -96,7 +97,7 @@ function getTransformationStructsForPixCertifCandidatesImport({ complementaryCer
   };
 }
 
-function _includeComplementaryCertificationColumns(complementaryCertifications, transformationStruct) {
+function _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct, translate }) {
   const containsClea = complementaryCertifications.some(
     (complementaryCertification) => complementaryCertification.key === CLEA
   );
@@ -112,45 +113,45 @@ function _includeComplementaryCertificationColumns(complementaryCertifications, 
 
   if (containsClea) {
     transformationStruct.push({
-      header: 'CléA Numérique\n("oui" ou laisser vide)',
+      header: `CléA Numérique${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasCleaNumerique',
-      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
     });
   }
 
   if (containsPixPlusDroit) {
     transformationStruct.push({
-      header: 'Pix+ Droit\n("oui" ou laisser vide)',
+      header: `Pix+ Droit${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasPixPlusDroit',
-      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
     });
   }
 
   if (containsPixPlusEdu1erDegre) {
     transformationStruct.push({
-      header: 'Pix+ Édu 1er degré\n("oui" ou laisser vide)',
+      header: `Pix+ Édu 1er degré${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasPixPlusEdu1erDegre',
-      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
     });
   }
 
   if (containsPixPlusEdu2ndDegre) {
     transformationStruct.push({
-      header: 'Pix+ Édu 2nd degré\n("oui" ou laisser vide)',
+      header: `Pix+ Édu 2nd degré${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasPixPlusEdu2ndDegre',
-      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
     });
   }
 }
 
-function _includeBillingColumns(transformationStruct) {
+function _includeBillingColumns({ transformationStruct, translate }) {
   transformationStruct.push({
-    header: 'Tarification part Pix',
+    header: translate('candidate-list-template.pricing-pix'),
     property: 'billingMode',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   });
   transformationStruct.push({
-    header: 'Code de prépaiement',
+    header: translate('candidate-list-template.prepayment'),
     property: 'prepaymentCode',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   });
@@ -171,8 +172,10 @@ function _getHeadersFromTransformationStruct(transformationStruct) {
   return _.map(transformationStruct, 'header');
 }
 
-function _toBooleanIfValueEqualsOuiOrNull(val) {
-  return _.toUpper(val) === 'OUI' ? true : null;
+function _toBooleanIfValueEqualsOuiOrNull({ val, translate }) {
+  const yesTranslation = translate('candidate-list-template.yes');
+
+  return val?.toUpperCase() === yesTranslation.toUpperCase() ? true : null;
 }
 
 module.exports = {

@@ -15,6 +15,8 @@ const CertificationCandidate = require('../../../../../lib/domain/models/Certifi
 const { CertificationCandidatesImportError } = require('../../../../../lib/domain/errors');
 const { readFile } = require('fs').promises;
 const _ = require('lodash');
+const { getI18n } = require('../../../../tooling/i18n/i18n');
+const i18n = getI18n();
 
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
   let userId;
@@ -64,6 +66,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const error = await catchErr(
       certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
     )({
+      i18n,
       sessionId,
       odsBuffer,
       certificationCpfService,
@@ -89,6 +92,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const error = await catchErr(
       certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
     )({
+      i18n,
       sessionId,
       odsBuffer,
       certificationCpfService,
@@ -114,6 +118,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     // when
     const actualCertificationCandidates =
       await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
+        i18n,
         sessionId,
         isSco,
         odsBuffer,
@@ -275,6 +280,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         const error = await catchErr(
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
         )({
+          i18n,
           sessionId,
           odsBuffer,
           certificationCpfService,
@@ -424,6 +430,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       // when
       const actualCertificationCandidates =
         await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
+          i18n,
           sessionId,
           odsBuffer,
           certificationCpfService,
@@ -526,6 +533,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     // when
     const actualCertificationCandidates =
       await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
+        i18n,
         sessionId,
         isSco,
         odsBuffer,
@@ -548,6 +556,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     // when
     const actualCertificationCandidates =
       await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
+        i18n,
         sessionId,
         isSco,
         odsBuffer,

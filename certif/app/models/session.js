@@ -12,6 +12,7 @@ export const PROCESSED = 'processed';
 export default class Session extends Model {
   @service session;
   @service featureToggles;
+  @service intl;
 
   @attr('string') address;
   @attr('string') accessCode;
@@ -40,9 +41,10 @@ export default class Session extends Model {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/attendance-sheet?accessToken=${this.session.data.authenticated.access_token}`;
   }
 
-  @computed('id', 'session.data.authenticated.access_token')
+  @computed('id', 'intl.locale', 'session.data.authenticated.access_token')
   get urlToDownloadCandidatesImportTemplate() {
-    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/candidates-import-sheet?accessToken=${this.session.data.authenticated.access_token}`;
+    const locale = this.intl.locale[0];
+    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/candidates-import-sheet?accessToken=${this.session.data.authenticated.access_token}&lang=${locale}`;
   }
 
   @computed('id', 'session.data.authenticated.access_token')
