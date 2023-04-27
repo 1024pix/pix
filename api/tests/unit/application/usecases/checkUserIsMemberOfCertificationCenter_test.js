@@ -1,10 +1,13 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const usecase = require('../../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter');
-const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
 
 describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenter', function () {
+  let certificationCenterMembershipRepositoryStub;
+
   beforeEach(function () {
-    certificationCenterMembershipRepository.isMemberOfCertificationCenter = sinon.stub();
+    certificationCenterMembershipRepositoryStub = {
+      isMemberOfCertificationCenter: sinon.stub(),
+    };
   });
 
   context('When user is member in certification center', function () {
@@ -14,10 +17,12 @@ describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenter
       const certificationCenter = domainBuilder.buildCertificationCenter();
 
       domainBuilder.buildCertificationCenterMembership({ user, certificationCenter });
-      certificationCenterMembershipRepository.isMemberOfCertificationCenter.resolves(true);
+      certificationCenterMembershipRepositoryStub.isMemberOfCertificationCenter.resolves(true);
 
       // when
-      const response = await usecase.execute(user.id, certificationCenter.id);
+      const response = await usecase.execute(user.id, certificationCenter.id, {
+        certificationCenterMembershipRepository: certificationCenterMembershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(true);
@@ -29,10 +34,12 @@ describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenter
       // given
       const userId = 1234;
       const certificationCenterId = 789;
-      certificationCenterMembershipRepository.isMemberOfCertificationCenter.resolves(false);
+      certificationCenterMembershipRepositoryStub.isMemberOfCertificationCenter.resolves(false);
 
       // when
-      const response = await usecase.execute(userId, certificationCenterId);
+      const response = await usecase.execute(userId, certificationCenterId, {
+        certificationCenterMembershipRepository: certificationCenterMembershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(false);
