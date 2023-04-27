@@ -17,7 +17,6 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
   describe('GET /users/1/campaign-participation-overviews', function () {
     let userId;
     let options;
-    let targetProfile;
 
     beforeEach(function () {
       const user = databaseBuilder.factory.buildUser();
@@ -45,9 +44,6 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
       ];
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
-
-      targetProfile = databaseBuilder.factory.buildTargetProfile();
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
 
       return databaseBuilder.commit();
     });

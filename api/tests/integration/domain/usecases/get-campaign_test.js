@@ -87,13 +87,13 @@ describe('Integration | UseCase | get-campaign', function () {
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       userId = databaseBuilder.factory.buildUser().id;
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId });
       campaign = databaseBuilder.factory.buildCampaign({
         name: 'TroTro',
-        organizationId,
         targetProfileId,
+        organizationId,
         type: 'ASSESSMENT',
       });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId });
       databaseBuilder.factory.buildMembership({
         organizationId,
         userId,
