@@ -1,22 +1,24 @@
 const { expect, sinon } = require('../../../test-helper');
 const useCase = require('../../../../lib/application/usecases/checkAdminMemberHasRoleMetier');
 const tokenService = require('../../../../lib/domain/services/token-service');
-const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
 
 describe('Unit | Application | Use Case | checkAdminMemberHasRoleMetier', function () {
   const userId = '1234';
+  let adminMemberRepositoryStub;
 
   beforeEach(function () {
     sinon.stub(tokenService, 'extractUserId').resolves(userId);
-    sinon.stub(adminMemberRepository, 'get');
+    adminMemberRepositoryStub = {
+      get: sinon.stub(),
+    };
   });
 
   it('should resolve true when the admin member has role metier', async function () {
     // given
-    adminMemberRepository.get.resolves({ isMetier: true });
+    adminMemberRepositoryStub.get.resolves({ isMetier: true });
 
     // when
-    const result = await useCase.execute(userId);
+    const result = await useCase.execute(userId, { adminMemberRepository: adminMemberRepositoryStub });
 
     // then
     expect(result).to.be.true;
@@ -24,10 +26,10 @@ describe('Unit | Application | Use Case | checkAdminMemberHasRoleMetier', functi
 
   it('should resolve true when the admin member does not have role metier', async function () {
     // given
-    adminMemberRepository.get.resolves({ isMetier: false });
+    adminMemberRepositoryStub.get.resolves({ isMetier: false });
 
     // when
-    const result = await useCase.execute(userId);
+    const result = await useCase.execute(userId, { adminMemberRepository: adminMemberRepositoryStub });
     // then
     expect(result).to.be.false;
   });
