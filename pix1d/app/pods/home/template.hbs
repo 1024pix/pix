@@ -1,11 +1,11 @@
 {{page-title "Home"}}
 <img alt="Bienvenue Pix 123" width="300" src="/images/Logo_123_Pix_V2.png" />
 
-<p>Pour visualiser un challenge, renseignez un Id</p>
+<p>Pour visualiser une mission, renseignez un Id</p>
 
-<label for="id_challenge">Id challenge</label>
-<input id="id_challenge" type="text" {{on "change" this.onChange}} />
+<label for="id_mission">Id mission</label>
+<input id="id_mission" type="text" {{on "change" this.onChange}} />
 
-<LinkTo @route="challenge" @model={{this.id}}> Aller au challenge</LinkTo>
+<LinkTo @route="mission" @model={{this.id}}> Aller à la mission</LinkTo>
 
 {{outlet}}
