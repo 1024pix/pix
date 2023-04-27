@@ -90,13 +90,13 @@ module('Integration | Component | user certifications detail header', function (
 
   module('when domain is french', function (hooks) {
     hooks.beforeEach(function () {
-      class UrlServiceStub extends Service {
-        get isFrenchDomainExtension() {
+      class CurrentDomainServiceStub extends Service {
+        get isFranceDomain() {
           return true;
         }
       }
 
-      this.owner.register('service:url', UrlServiceStub);
+      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
     });
 
     module('when certification is delivered after 2022-01-01', function () {
@@ -209,13 +209,14 @@ module('Integration | Component | user certifications detail header', function (
   module('when domain is not french', function () {
     test('should not display the professionalizing warning', async function (assert) {
       // given
-      class UrlServiceStub extends Service {
-        get isFrenchDomainExtension() {
+      class CurrentDomainServiceStub extends Service {
+        get isFranceDomain() {
           return false;
         }
       }
 
-      this.owner.register('service:url', UrlServiceStub);
+      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
+
       const store = this.owner.lookup('service:store');
       const certification = store.createRecord('certification', {
         id: 1,

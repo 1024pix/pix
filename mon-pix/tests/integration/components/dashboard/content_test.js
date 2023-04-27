@@ -426,8 +426,8 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
     test('should display link on new dashboard banner when domain is pix.fr', async function (assert) {
       // given
-      class UrlStub extends Service {
-        get isFrenchDomainExtension() {
+      class CurrentDomainServiceStub extends Service {
+        get isFranceDomain() {
           return true;
         }
       }
@@ -445,7 +445,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       }
 
       this.owner.register('service:currentUser', CurrentUserStub);
-      this.owner.register('service:url', UrlStub);
+      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
       this.set('model', {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
@@ -463,12 +463,11 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
     test('should hide link on new dashboard banner when domain is pix.org', async function (assert) {
       // given
-      class UrlStub extends Service {
-        get isFrenchDomainExtension() {
+      class CurrentDomainServiceStub extends Service {
+        get isFranceDomain() {
           return false;
         }
       }
-
       class CurrentUserStub extends Service {
         user = store.createRecord('user', {
           firstName: 'Banana',
@@ -482,7 +481,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       }
 
       this.owner.register('service:currentUser', CurrentUserStub);
-      this.owner.register('service:url', UrlStub);
+      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
       this.set('model', {
         campaignParticipationOverviews: [],
         campaignParticipations: [],

@@ -4,6 +4,8 @@ import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
+const FRANCE_TLD = 'fr';
+
 module('Integration | Component | Sitemap::Content', function (hooks) {
   setupIntlRenderingTest(hooks);
 
@@ -64,7 +66,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
   test('should contain an external link to the list of recipient processors of Pix users ’personal data', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    service.currentDomain = { getExtension: sinon.stub().returns(FRANCE_TLD), isFranceDomain: true };
 
     // when
     const screen = await render(hbs`<Sitemap::Content />`);
@@ -82,7 +84,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
   test('should contain an external link to help accessibility page', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    service.currentDomain = { getExtension: sinon.stub().returns(FRANCE_TLD), isFranceDomain: true };
 
     // when
     const screen = await render(hbs`<Sitemap::Content />`);
@@ -114,7 +116,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
   test('should contain an external link to accessibility page', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    service.currentDomain = { getExtension: sinon.stub().returns(FRANCE_TLD), isFranceDomain: true };
 
     // when
     const screen = await render(hbs`<Sitemap::Content />`);
@@ -132,7 +134,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
   test('should contain an external link to cgu page', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    service.currentDomain = { getExtension: sinon.stub().returns(FRANCE_TLD), isFranceDomain: true };
 
     // when
     const screen = await render(hbs`<Sitemap::Content />`);
@@ -150,7 +152,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
   test('should contain an external link to data protection policy page', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    service.currentDomain = { getExtension: sinon.stub().returns(FRANCE_TLD), isFranceDomain: true };
 
     // when
     const screen = await render(hbs`<Sitemap::Content />`);

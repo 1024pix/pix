@@ -11,6 +11,8 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import ENV from '../../../config/environment';
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
+const INTERNATIONAL_TLD = 'org';
+
 module('Integration | Component | signin form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
@@ -253,17 +255,21 @@ module('Integration | Component | signin form', function (hooks) {
       module('when domain is pix.org', function () {
         test('only displays a FWB button and not Pole emploi button', async function (assert) {
           // given
-          class UrlServiceStub extends Service {
-            get isFrenchDomainExtension() {
+          class CurrentDomainServiceStub extends Service {
+            get isFranceDomain() {
               return false;
             }
           }
+
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { getExtension: sinon.stub().returns(INTERNATIONAL_TLD) };
+
           class OidcIdentityProvidersServiceStub extends Service {
             isFwbActivated() {
               return true;
             }
           }
-          this.owner.register('service:url', UrlServiceStub);
+          this.owner.register('service:currentDomain', CurrentDomainServiceStub);
           this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersServiceStub);
 
           // when
@@ -287,20 +293,25 @@ module('Integration | Component | signin form', function (hooks) {
             )
             .doesNotExist();
         });
+
         module('when fwb provider is not activated', function () {
           test("don't displays a FWB nor Pole emploi button", async function (assert) {
             // given
-            class UrlServiceStub extends Service {
-              get isFrenchDomainExtension() {
+            class CurrentDomainServiceStub extends Service {
+              get isFranceDomain() {
                 return false;
               }
             }
+
+            const service = this.owner.lookup('service:url');
+            service.currentDomain = { getExtension: sinon.stub().returns(INTERNATIONAL_TLD) };
+
             class OidcIdentityProvidersServiceStub extends Service {
               isFwbActivated() {
                 return false;
               }
             }
-            this.owner.register('service:url', UrlServiceStub);
+            this.owner.register('service:currentDomain', CurrentDomainServiceStub);
             this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersServiceStub);
 
             // when
@@ -330,17 +341,21 @@ module('Integration | Component | signin form', function (hooks) {
       module('when domain is pix.fr', function () {
         test('only displays a Pole emploi button and not FWB button even if fwb connect is activated', async function (assert) {
           // given
-          class UrlServiceStub extends Service {
-            get isFrenchDomainExtension() {
+          class CurrentDomainServiceStub extends Service {
+            get isFranceDomain() {
               return true;
             }
           }
+
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { getExtension: sinon.stub().returns(INTERNATIONAL_TLD) };
+
           class OidcIdentityProvidersServiceStub extends Service {
             isFwbActivated() {
               return true;
             }
           }
-          this.owner.register('service:url', UrlServiceStub);
+          this.owner.register('service:currentDomain', CurrentDomainServiceStub);
           this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersServiceStub);
 
           // when

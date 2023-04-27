@@ -12,7 +12,7 @@ module('Integration | Component | inaccessible-campaign', function (hooks) {
 
   test('should not display marianne logo when url does not have frenchDomainExtension', async function (assert) {
     // given
-    this.owner.register('service:url', Service.extend({ isFrenchDomainExtension: false }));
+    this.owner.register('service:currentDomain', Service.extend({ isFranceDomain: false }));
 
     // when
     await render(hbs`<InaccessibleCampaign></InaccessibleCampaign>`);
@@ -23,7 +23,7 @@ module('Integration | Component | inaccessible-campaign', function (hooks) {
 
   test('should display marianne logo when url does have frenchDomainExtension', async function (assert) {
     // given
-    this.owner.register('service:url', Service.extend({ isFrenchDomainExtension: true }));
+    this.owner.register('service:currentDomain', Service.extend({ isFranceDomain: true }));
 
     // when
     await render(hbs`<InaccessibleCampaign></InaccessibleCampaign>`);
