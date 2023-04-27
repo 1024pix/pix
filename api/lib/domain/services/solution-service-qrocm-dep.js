@@ -59,6 +59,18 @@ function _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatm
   );
 }
 
+function _convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring) {
+  let answers, solutions, scoring;
+  try {
+    answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
+    solutions = jsYaml.load(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
+    scoring = jsYaml.load(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
+  } catch (error) {
+    throw new YamlParsingError();
+  }
+  return { answers, solutions, scoring };
+}
+
 module.exports = {
   match({ answerValue, solution }) {
     const yamlSolution = solution.value;
@@ -73,15 +85,7 @@ module.exports = {
     // Pre-Treatments
     const preTreatedAnswers = applyPreTreatments(answerValue);
 
-    // Convert Yaml to JS objects
-    let answers, solutions, scoring;
-    try {
-      answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
-      solutions = jsYaml.load(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
-      scoring = jsYaml.load(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
-    } catch (error) {
-      throw new YamlParsingError();
-    }
+    const { answers, solutions, scoring } = _convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring);
 
     const enabledTreatments = getEnabledTreatments(true, deactivations);
 
