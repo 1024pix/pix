@@ -35,7 +35,17 @@
 
     .page-actions {
       display: flex;
+      align-items: center;
       gap: 1rem;
+
+      &__link {
+        font-size: 0.875rem;
+        color: $pix-primary;
+
+        svg {
+          margin-right: 2px;
+        }
+      }
     }
   }
 
