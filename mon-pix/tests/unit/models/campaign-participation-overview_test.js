@@ -54,11 +54,23 @@ module('Unit | Model | Campaign-Participation-Overview', function (hooks) {
     });
 
     module('when the participation is disabled"', function () {
-      test('should return the status "disabled"', function (assert) {
+      test('should return the status "ENDED" if campaign "SHARED"', function (assert) {
         // given
         const model = store.createRecord('campaign-participation-overview', {
           status: 'SHARED',
           isShared: true,
+          disabledAt: new Date('2021-01-01'),
+        });
+
+        // when / then
+        assert.strictEqual(model.cardStatus, 'ENDED');
+      });
+
+      test('should return the status "DISABLED" if campaign not "SHARED"', function (assert) {
+        // given
+        const model = store.createRecord('campaign-participation-overview', {
+          status: 'TO_SHARE',
+          isShared: false,
           disabledAt: new Date('2021-01-01'),
         });
 
