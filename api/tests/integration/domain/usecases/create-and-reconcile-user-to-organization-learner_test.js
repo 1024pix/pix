@@ -15,6 +15,9 @@ const userReconciliationService = require('../../../../lib/domain/services/user-
 const userService = require('../../../../lib/domain/services/user-service');
 const createAndReconcileUserToOrganizationLearner = require('../../../../lib/domain/usecases/create-and-reconcile-user-to-organization-learner');
 
+const passwordValidator = require('../../../../lib/domain/validators/password-validator');
+const userValidator = require('../../../../lib/domain/validators/user-validator');
+
 const {
   CampaignCodeError,
   EntityValidationError,
@@ -196,6 +199,8 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             obfuscationService,
             userReconciliationService,
             userService,
+            passwordValidator,
+            userValidator,
           });
 
           // then
@@ -269,6 +274,8 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             obfuscationService,
             userReconciliationService,
             userService,
+            passwordValidator,
+            userValidator,
           });
 
           // then
@@ -375,6 +382,8 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             obfuscationService,
             userReconciliationService,
             userService,
+            passwordValidator,
+            userValidator,
           });
 
           // then
