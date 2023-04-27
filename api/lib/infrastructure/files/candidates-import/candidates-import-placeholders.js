@@ -5,6 +5,44 @@ const {
   PIX_PLUS_EDU_2ND_DEGRE,
 } = require('../../../domain/models/ComplementaryCertification.js');
 
+const IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS = [
+  'headers.birthcity',
+  'headers.birthcity-inseecode',
+  'headers.birthcity-postcode',
+  'headers.birthcountry',
+  'headers.birth-date',
+  'headers.birthname',
+  'headers.birthplace',
+  'headers.birthplace-instructions',
+  'headers.birthplace-instructions-abroad',
+  'headers.birthplace-instructions-abroad-insee',
+  'headers.birthplace-instructions-france',
+  'headers.birthplace-instructions-france-insee',
+  'headers.birthplace-instructions-france-postal',
+  'headers.born-in-france',
+  'headers.born-abroad',
+  'headers.candidates',
+  'headers.candidates-list',
+  'headers.date',
+  'headers.email-convocation',
+  'headers.email-results',
+  'headers.externalid',
+  'headers.extratime',
+  'headers.firstname',
+  'headers.gender',
+  'headers.locale-time',
+  'headers.room-name',
+  'headers.session-certification',
+  'headers.session-invigilates-by',
+  'headers.session-invigilators',
+  'headers.session-number',
+  'headers.site-name',
+  'tooltips.date-format',
+  'tooltips.email-format',
+  'tooltips.email-results',
+  'tooltips.gender-format',
+];
+
 const IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES = [
   {
     placeholder: 'SESSION_ID',
@@ -124,6 +162,7 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
 const EXTRA_EMPTY_CANDIDATE_ROWS = 20;
 
 module.exports = {
+  IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS,
   IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
   IMPORT_CANDIDATES_TEMPLATE_VALUES,
   EXTRA_EMPTY_CANDIDATE_ROWS,

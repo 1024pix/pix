@@ -6,7 +6,8 @@ const AddedCellOption = require('./added-cell-option.js');
 const CONTENT_XML_IN_ODS = 'content.xml';
 
 class OdsUtilsBuilder {
-  constructor(stringifiedXml) {
+  constructor({ template: stringifiedXml, translate }) {
+    this.translate = translate;
     this.xmlDom = _buildXmlDomFromXmlString(stringifiedXml);
   }
 
@@ -23,6 +24,20 @@ class OdsUtilsBuilder {
     this.xmlDom = intermediateXmlDom;
 
     return this;
+  }
+
+  headersTranslation({ headersValues, translate }) {
+    const intermediateXmlDom = _.cloneDeep(this.xmlDom);
+    for (const propertyName of headersValues) {
+      const targetXmlDomElement = _getXmlDomElementByText(intermediateXmlDom, propertyName);
+      if (targetXmlDomElement) {
+        _translateNoteBackgroundTitle(targetXmlDomElement, translate);
+        const translatedHeader = translate(`candidate-list-template.${propertyName}`);
+        targetXmlDomElement.textContent = translatedHeader;
+      }
+    }
+
+    this.xmlDom = intermediateXmlDom;
   }
 
   withTooltipOnCell({ xmlDom, tooltipName, tooltipTitle, tooltipContentLines }) {
@@ -112,6 +127,7 @@ class OdsUtilsBuilder {
   }
 
   withColumnGroupHeader({ headerLabels, numberOfColumns, lineNumber, rowspan }) {
+    const translatedLabel = this.translate('candidate-list-template.headers.birthplace');
     const addedCellOption = new AddedCellOption({
       labels: headerLabels,
       rowspan,
@@ -121,7 +137,7 @@ class OdsUtilsBuilder {
 
     this._withCellToEndOfLineWithStyleOfCellLabelled({
       lineNumber,
-      cellToCopyLabel: '* Lieu de naissance',
+      cellToCopyLabel: translatedLabel,
       addedCellOption,
     });
 
@@ -170,7 +186,7 @@ class OdsUtilsBuilder {
   _addColumn(column, tableHeaderRow, tableFirstRow) {
     this._withCellToEndOfLineWithStyleOfCellLabelled({
       lineNumber: tableHeaderRow,
-      cellToCopyLabel: 'Temps majoré ?',
+      cellToCopyLabel: this.translate('candidate-list-template.headers.extratime'),
       addedCellOption: new AddedCellOption({ labels: column.headerLabel }),
     });
 
@@ -469,6 +485,15 @@ function _updateXmlDomWithData(parsedXmlDom, dataToInject, templateValues) {
     }
   }
   return parsedXmlDomUpdated;
+}
+
+function _translateNoteBackgroundTitle(targetXmlDomElement, translate) {
+  if (targetXmlDomElement.parentNode.nodeName === 'table:help-message') {
+    const title = targetXmlDomElement.parentNode.getAttribute('table:title');
+    if (title) {
+      targetXmlDomElement.parentNode.setAttribute('table:title', translate(`candidate-list-template.${title}`));
+    }
+  }
 }
 
 module.exports = {

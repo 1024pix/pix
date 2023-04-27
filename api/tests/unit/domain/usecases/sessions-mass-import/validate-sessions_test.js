@@ -7,6 +7,7 @@ const { CpfBirthInformationValidation } = require('../../../../../lib/domain/ser
 const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
 const { CERTIFICATION_SESSIONS_ERRORS } = require('../../../../../lib/domain/constants/sessions-errors');
 const SessionMassImportReport = require('../../../../../lib/domain/models/SessionMassImportReport');
+const { getI18n } = require('../../../../tooling/i18n/i18n');
 
 describe('Unit | UseCase | sessions-mass-import | validate-sessions', function () {
   let accessCode;
@@ -18,6 +19,8 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   let certificationCourseRepository;
   let sessionRepository;
   let complementaryCertificationRepository;
+  // eslint-disable-next-line mocha/no-setup-in-describe
+  const i18n = getI18n();
   let sessionCodeService;
 
   beforeEach(function () {
@@ -78,6 +81,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         certificationCenterRepository,
         sessionRepository,
         sessionCodeService,
+        i18n,
       });
 
       // then
@@ -195,6 +199,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCourseRepository,
           sessionRepository,
           sessionCodeService,
+          i18n,
         });
 
         // then
@@ -265,6 +270,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         certificationCenterRepository,
         sessionRepository,
         sessionCodeService,
+        i18n,
       });
 
       // then
@@ -297,6 +303,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterRepository,
           sessionRepository,
           sessionCodeService,
+          i18n,
         });
 
         // then
@@ -340,6 +347,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterRepository,
           sessionRepository,
           sessionCodeService,
+          i18n,
         });
 
         // then

@@ -215,6 +215,7 @@ module.exports = {
       sessions,
       certificationCenterId,
       userId: authenticatedUserId,
+      i18n: request.i18n,
     });
     return h.response(sessionMassImportReport).code(200);
   },

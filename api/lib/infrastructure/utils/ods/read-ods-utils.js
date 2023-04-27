@@ -27,14 +27,12 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
   if (_.isEmpty(dataByLine)) {
     throw new UnprocessableEntityError('No data in table');
   }
-
   return dataByLine;
 }
 
 async function validateOdsHeaders({ odsBuffer, headers }) {
   const sheetDataRows = await getSheetDataRowsFromOdsBuffer({ odsBuffer });
   const headerRow = _findHeaderRow(sheetDataRows, headers);
-
   if (!headerRow) {
     throw new UnprocessableEntityError('Unknown attendance sheet version');
   }

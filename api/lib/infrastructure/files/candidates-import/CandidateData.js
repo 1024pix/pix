@@ -33,7 +33,9 @@ module.exports = class CandidateData {
     complementaryCertifications = null,
     billingMode = null,
     prepaymentCode = null,
+    i18n = null,
   }) {
+    this.translate = i18n.__;
     this.id = this._emptyStringIfNull(id);
     this.firstName = this._emptyStringIfNull(firstName);
     this.lastName = this._emptyStringIfNull(lastName);
@@ -56,7 +58,7 @@ module.exports = class CandidateData {
     this.sessionId = this._emptyStringIfNull(sessionId);
     this.userId = this._emptyStringIfNull(userId);
     this.organizationLearnerId = this._emptyStringIfNull(organizationLearnerId);
-    this.billingMode = CertificationCandidate.translateBillingMode(billingMode);
+    this.billingMode = CertificationCandidate.translateBillingMode({ billingMode, translate: this.translate });
     this.prepaymentCode = this._emptyStringIfNull(prepaymentCode);
     this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, CLEA);
     this.pixPlusDroit = this._displayYesIfCandidateHasComplementaryCertification(
@@ -101,14 +103,14 @@ module.exports = class CandidateData {
     const hasComplementaryCertification = complementaryCertifications.some(
       (complementaryCertification) => complementaryCertification.key === certificationKey
     );
-    return hasComplementaryCertification ? 'oui' : '';
+    return hasComplementaryCertification ? this.translate('candidate-list-template.yes') : '';
   }
 
-  static fromCertificationCandidateAndCandidateNumber(certificationCandidate, number) {
-    return new CandidateData({ ...certificationCandidate, number });
+  static fromCertificationCandidateAndCandidateNumber({ certificationCandidate, number, i18n }) {
+    return new CandidateData({ ...certificationCandidate, number, i18n });
   }
 
-  static empty(number) {
-    return new CandidateData({ number });
+  static empty({ number, i18n }) {
+    return new CandidateData({ number, i18n });
   }
 };

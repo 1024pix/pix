@@ -16,9 +16,11 @@ module.exports = async function validateSessions({
   complementaryCertificationRepository,
   certificationCourseRepository,
   sessionCodeService,
+  i18n,
 }) {
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
   const sessionsMassImportReport = new SessionMassImportReport();
+  const translate = i18n.__;
 
   const validatedSessions = await bluebird.mapSeries(sessions, async (sessionDTO) => {
     const { sessionId } = sessionDTO;
@@ -52,6 +54,7 @@ module.exports = async function validateSessions({
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
         complementaryCertificationRepository,
+        translate,
       });
 
       session.certificationCandidates = validatedCertificationCandidates;
@@ -81,6 +84,7 @@ async function _createValidCertificationCandidates({
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
+  translate,
 }) {
   const { uniqueCandidates, duplicateCandidateErrors } =
     sessionsImportValidationService.getUniqueCandidates(certificationCandidates);
@@ -89,7 +93,10 @@ async function _createValidCertificationCandidates({
   }
 
   return bluebird.mapSeries(uniqueCandidates, async (certificationCandidate) => {
-    const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
+    const billingMode = CertificationCandidate.parseBillingMode({
+      billingMode: certificationCandidate.billingMode,
+      translate,
+    });
 
     const domainCertificationCandidate = new CertificationCandidate({
       ...certificationCandidate,

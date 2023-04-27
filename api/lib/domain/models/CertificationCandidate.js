@@ -198,20 +198,28 @@ class CertificationCandidate {
     this.prepaymentCode = prepaymentCode;
   }
 
-  static translateBillingMode(value) {
-    switch (value) {
-      case 'FREE':
-        return 'Gratuite';
-      case 'PAID':
-        return 'Payante';
-      case 'PREPAID':
-        return 'Prépayée';
-      case 'Gratuite':
+  static parseBillingMode({ billingMode, translate }) {
+    switch (billingMode) {
+      case translate('candidate-list-template.billing-mode.free'):
         return 'FREE';
-      case 'Payante':
+      case translate('candidate-list-template.billing-mode.paid'):
         return 'PAID';
-      case 'Prépayée':
+      case translate('candidate-list-template.billing-mode.prepaid'):
         return 'PREPAID';
+      case null:
+      default:
+        return '';
+    }
+  }
+
+  static translateBillingMode({ billingMode, translate }) {
+    switch (billingMode) {
+      case 'FREE':
+        return translate('candidate-list-template.billing-mode.free');
+      case 'PAID':
+        return translate('candidate-list-template.billing-mode.paid');
+      case 'PREPAID':
+        return translate('candidate-list-template.billing-mode.prepaid');
       case null:
       default:
         return '';
@@ -257,10 +265,6 @@ class CertificationCandidate {
     if (this.isBillingModePrepaid() && !this.prepaymentCode) {
       throw new CertificationCandidatePersonalInfoFieldMissingError();
     }
-  }
-
-  get translatedBillingMode() {
-    return CertificationCandidate.translateBillingMode(this.billingMode);
   }
 
   isAuthorizedToStart() {

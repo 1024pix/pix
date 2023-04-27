@@ -61,6 +61,65 @@
       "skill-ranking": "Nombre de pix pour la compétence {{name}}"
     }
   },
+  "candidate-list-template": {
+    "billing-mode": {
+      "free": "Gratuite",
+      "paid": "Payante",
+      "prepaid": "Prépayée"
+    },
+    "certification": "Certification",
+    "complementary": "complémentaire",
+    "filename": "liste-candidats-session-",
+    "headers": {
+      "birth-date": "* Date de naissance (format : jj/mm/aaaa)",
+      "birthcity": "Nom de la commune",
+      "birthcity-inseecode": "Code Insee",
+      "birthcity-postcode": "Code postal",
+      "birthcountry": "Pays",
+      "birthname": "* Nom de naissance",
+      "birthplace": "* Lieu de naissance",
+      "birthplace-instructions": "Instructions de remplissage du lieu de naissance :",
+      "birthplace-instructions-abroad": "- Candidat né à l'étranger : Remplir les colonnes « Pays » et « Nom de la commune » et",
+      "birthplace-instructions-abroad-insee": "       inscrire 99 dans la colonne « Code Insee »",
+      "birthplace-instructions-france": "- Candidat né en France : Inscrire France dans la colonne « Pays »",
+      "birthplace-instructions-france-insee": "    - Si code Insee : Ne remplir que la colonne « Code Insee »",
+      "birthplace-instructions-france-postal": "    - Si code postal : Remplir les colonnes « Code postal » et « Nom de la commune »",
+      "born-abroad": "Candidat né à l’étranger : Code Insee 99 ET nom de la commune",
+      "born-in-france": "Candidat né en France : Code Insee OU Code postal et nom de la commune",
+      "candidates": "Participants",
+      "candidates-list": "Liste des candidats",
+      "date": "Date",
+      "email-convocation": "E-mail de convocation",
+      "email-results": "E-mail du destinataire des résultats (formateur, enseignant…)",
+      "externalid": "Identifiant local",
+      "extratime": "Temps majoré ?",
+      "firstname": "* Prénom",
+      "gender": "* Sexe (M ou F)",
+      "locale-time": "Heure locale (début/fin)",
+      "room-name": "Nom de la salle",
+      "session-certification": "La session de certification",
+      "session-invigilates-by": "Session surveillée par :",
+      "session-invigilators": "Signature des surveillant(s) :",
+      "session-number": "N° de session",
+      "site-name": "Nom du site"
+    },
+    "one-per-candidate": "(une seule par candidat)",
+    "options": "Options possibles :",
+    "prepayment": "Code de prépaiement",
+    "pricing": "Tarification",
+    "pricing-pix": "Tarification part Pix",
+    "tooltip-line-1": "(Requis notamment dans le cas d'un achat de crédits combinés)",
+    "tooltip-line-2": "Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345",
+    "tooltip-line-3": "Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.",
+    "tooltips": {
+      "date-format": "Utiliser le format de date jj/mm/aaaa",
+      "email-format": "Votre email doit contenir un ‘@' et un ‘.’ , \n Exemple : nom@exemple.fr Ce champ est facultatif, \n il sert à faciliter la convocation des candidats.",
+      "email-results": "E-mail du destinataire des résultats (formateur, enseignant…), \n Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats concernés., \n Le candidat verra ses résultats affichés directement sur son compte Pix.",
+      "gender-format": "M=Homme F=Femme"
+    },
+    "yes": "Oui",
+    "yes-or-empty": "(\"oui\" ou laisser vide)"
+  },
   "certification-center-invitation-email": {
     "params": {
       "acceptInvitation": "Accepter l’invitation",
