@@ -76,8 +76,8 @@ module.exports = {
 
   async updateTargetProfile(request, h) {
     const id = request.params.id;
-    const { name, description, comment, category } = request.payload.data.attributes;
-    await usecases.updateTargetProfile({ id, name, description, comment, category });
+    const { name, 'image-url': imageUrl, description, comment, category } = request.payload.data.attributes;
+    await usecases.updateTargetProfile({ id, name, imageUrl, description, comment, category });
     return h.response({}).code(204);
   },
 

@@ -77,6 +77,7 @@ describe('Unit | Controller | target-profile-controller', function () {
               name: 'Pixer123',
               description: 'description changée',
               comment: 'commentaire changée',
+              'image-url': 'image changée',
             },
           },
         },
@@ -96,6 +97,7 @@ describe('Unit | Controller | target-profile-controller', function () {
           name: 'Pixer123',
           description: 'description changée',
           comment: 'commentaire changée',
+          imageUrl: 'image changée',
         });
       });
     });

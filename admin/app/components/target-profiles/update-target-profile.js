@@ -44,6 +44,15 @@ const Validations = buildValidations({
       }),
     ],
   },
+  imageUrl: {
+    validators: [
+      validator('presence', {
+        presence: true,
+        ignoreBlank: true,
+        message: "L'url vers l'image ne peut pas être vide",
+      }),
+    ],
+  },
 });
 
 class Form extends Object.extend(Validations) {
@@ -51,6 +60,7 @@ class Form extends Object.extend(Validations) {
   @tracked description;
   @tracked comment;
   @tracked category;
+  @tracked imageUrl;
 }
 
 export default class UpdateTargetProfile extends Component {
@@ -63,6 +73,7 @@ export default class UpdateTargetProfile extends Component {
     this.form.description = this.args.model.description || null;
     this.form.comment = this.args.model.comment || null;
     this.form.category = this.args.model.category || null;
+    this.form.imageUrl = this.args.model.imageUrl || null;
 
     this.optionsList = this.optionsList = optionsCategoryList;
   }
@@ -77,12 +88,18 @@ export default class UpdateTargetProfile extends Component {
     this.form.category = value;
   }
 
+  @action
+  onImageUrlChanged(event) {
+    this.form.imageUrl = event.target.value;
+  }
+
   async _updateTargetProfile() {
     const model = this.args.model;
     model.name = this.form.name;
     model.description = this.form.description;
     model.comment = this.form.comment;
     model.category = this.form.category;
+    model.imageUrl = this.form.imageUrl;
 
     try {
       await model.save();

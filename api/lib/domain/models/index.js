@@ -144,7 +144,6 @@ const Tag = require('./Tag.js');
 const TargetProfile = require('./TargetProfile.js');
 const TargetProfileForAdmin = require('./TargetProfileForAdmin.js');
 const TargetProfileForCreation = require('./TargetProfileForCreation.js');
-const TargetProfileForUpdate = require('./TargetProfileForUpdate.js');
 const TargetProfileSummaryForAdmin = require('./TargetProfileSummaryForAdmin.js');
 const Thematic = require('./Thematic.js');
 const Training = require('./Training.js');
@@ -296,7 +295,6 @@ module.exports = {
   TargetProfile,
   TargetProfileForAdmin,
   TargetProfileForCreation,
-  TargetProfileForUpdate,
   TargetProfileSummaryForAdmin,
   Thematic,
   Training,
