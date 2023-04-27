@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v3.348.0 (27/04/2023)
+
+
+### :rocket: Amélioration
+- [#5858](https://github.com/1024pix/pix/pull/5858) [FEATURE] Import d'une liste de candidats via l'.ods en anglais (PIX-6685)
+- [#6091](https://github.com/1024pix/pix/pull/6091) [FEATURE] Monter la version de pixUI en v33.1  sur PixOrga (PIX-7894)
+- [#6090](https://github.com/1024pix/pix/pull/6090) [FEATURE] Permettre à l'utilisateur de modifier l'url vers l'image du profil cible (PIX-7863)
+- [#5991](https://github.com/1024pix/pix/pull/5991) [FEATURE] Afficher Pix Orga dans la langue de l'utilisateur enregistrée dans son compte (PIX-5766)
+- [#6060](https://github.com/1024pix/pix/pull/6060) [FEATURE] Changer la couleur des icônes "?" dans la section avec le graphique “statuts” des participations
+- [#6052](https://github.com/1024pix/pix/pull/6052) [FEATURE] Upgrade pixUI version to latest (v32.0.0) on pixAdmin (PIX-7844)
+- [#6054](https://github.com/1024pix/pix/pull/6054) [FEATURE] Upgrade pix-ui version to 32.0.0 (PIX-7843)
+- [#6075](https://github.com/1024pix/pix/pull/6075) [FEATURE] Afficher l'image du profil cible dans l'encart de détails sur PixAdmin (PIX-7129)
+
+### :building_construction: Tech
+- [#6093](https://github.com/1024pix/pix/pull/6093) [TECH] Utiliser le test helper mockLearningContent  à la place de sinon.stub quand c'est nécessaire
+- [#6047](https://github.com/1024pix/pix/pull/6047) [TECH] Suppression du feature toggle de la recuperation des resultats pour les centres de certifications habilités (PIX-7828).
+- [#6076](https://github.com/1024pix/pix/pull/6076) [TECH] Injecter les dépendances dans le use-case `start-writing-campaign-assessment-results-to-stream` pour préparer la migration ESM
+- [#6081](https://github.com/1024pix/pix/pull/6081) [TECH] Mettre en place l'injection de dépendance pour la migration ESM
+- [#6079](https://github.com/1024pix/pix/pull/6079) [TECH] Injection de dépendances pour préparer la migration ESM
+- [#6080](https://github.com/1024pix/pix/pull/6080) [TECH] Injecter des dépendances pour préparer la migration ESM
+
+### :bug: Correction
+- [#6086](https://github.com/1024pix/pix/pull/6086) [BUGFIX] Afficher toutes les compétences lors de la sélection de tubes sur Pix Admin (PIX-7882).
+- [#6087](https://github.com/1024pix/pix/pull/6087) [BUGFIX] Changer le wording de la pop up "Quitter" dans une épreuve PixApp (PIX-7839).
+- [#6053](https://github.com/1024pix/pix/pull/6053) [BUGFIX] Corriger la width des form-field info sur la page de création de campagne (PIX-7846)
+- [#6056](https://github.com/1024pix/pix/pull/6056) [BUGFIX] Retirer le scroll automatique lors de l'utilisation d'un filtre sur Pix Orga (PIX-7850)
+
 ## v3.347.0 (25/04/2023)
 
 
