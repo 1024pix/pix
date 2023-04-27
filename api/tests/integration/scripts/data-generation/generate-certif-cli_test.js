@@ -238,7 +238,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
     complementaryCertificationBadgeKey,
   }) {
     const { id: targetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
-    databaseBuilderCli.factory.buildTargetProfileSkill({ targetProfileId });
+    databaseBuilderCli.factory.buildTargetProfileTube({ targetProfileId });
 
     databaseBuilderCli.factory.buildComplementaryCertification({
       id: complementaryCertificationId,

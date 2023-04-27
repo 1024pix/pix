@@ -1,8 +1,7 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, catchErr, sinon, knex, domainBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, catchErr, knex, domainBuilder } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const { skillDatasource } = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../../../lib/domain/errors');
 
@@ -110,19 +109,13 @@ describe('Integration | Repository | Target-profile', function () {
 
   describe('#get', function () {
     let targetProfile;
-    let targetProfileFirstSkill;
-    let skillAssociatedToTargetProfile;
     let organizationId;
 
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       targetProfile = databaseBuilder.factory.buildTargetProfile({});
-      targetProfileFirstSkill = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id });
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfile.id, organizationId });
       await databaseBuilder.commit();
-
-      skillAssociatedToTargetProfile = { id: targetProfileFirstSkill.skillId, name: '@Acquis2' };
-      sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([skillAssociatedToTargetProfile]);
     });
 
     it('should return the target profile with its associated skills and the list of organizations which could access it', function () {
@@ -152,13 +145,10 @@ describe('Integration | Repository | Target-profile', function () {
     beforeEach(async function () {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-      const { skillId } = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
-      const skillAssociatedToTargetProfile = { id: skillId, name: '@Acquis2' };
       databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildCampaign();
       databaseBuilder.factory.buildStage({ targetProfileId, threshold: 40 });
       databaseBuilder.factory.buildStage({ targetProfileId, threshold: 20 });
-      sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([skillAssociatedToTargetProfile]);
 
       await databaseBuilder.commit();
     });
@@ -388,6 +378,7 @@ describe('Integration | Repository | Target-profile', function () {
     });
   });
 
+  /* touche pas */
   describe('#hasSkills', function () {
     let targetProfileId;
 
