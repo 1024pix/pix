@@ -9,59 +9,54 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
   let screen;
 
   hooks.beforeEach(async function () {
+    const store = this.owner.lookup('service:store');
     const tubes1 = [
-      {
+      store.createRecord('tube', {
         id: 'tubeId1',
         name: '@tubeName1',
         practicalTitle: 'Tube 1',
         skills: [],
-      },
-      {
+      }),
+      store.createRecord('tube', {
         id: 'tubeId2',
         name: '@tubeName2',
         practicalTitle: 'Tube 2',
         skills: [],
-      },
+      }),
     ];
 
     const tubes2 = [
-      {
+      store.createRecord('tube', {
         id: 'tubeId3',
         name: '@tubeName3',
         practicalTitle: 'Tube 3',
         skills: [],
-      },
+      }),
     ];
 
     const thematics = [
-      { id: 'thematicId1', name: 'Thématique 1', tubes: tubes1 },
-      { id: 'thematicId2', name: 'Thématique 2', tubes: tubes2 },
+      store.createRecord('thematic', { id: 'thematicId1', name: 'Thématique 1', tubes: tubes1 }),
+      store.createRecord('thematic', { id: 'thematicId2', name: 'Thématique 2', tubes: tubes2 }),
     ];
 
     const competences = [
-      {
+      store.createRecord('competence', {
         id: 'competenceId',
         index: '1',
         name: 'Titre competence',
-        get sortedThematics() {
-          return thematics;
-        },
         thematics,
-      },
+      }),
     ];
 
     const areas = [
-      {
+      store.createRecord('area', {
         title: 'Titre domaine',
         code: 1,
-        get sortedCompetences() {
-          return competences;
-        },
         competences,
-      },
+      }),
     ];
 
-    const frameworks = [{ id: 'frameworkId', name: 'Pix', areas }];
+    const frameworks = [store.createRecord('framework', { id: 'frameworkId', name: 'Pix', areas })];
     this.set('frameworks', frameworks);
 
     const onChangeFunction = sinon.stub();
