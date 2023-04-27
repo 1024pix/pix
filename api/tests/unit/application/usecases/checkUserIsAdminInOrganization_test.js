@@ -1,11 +1,14 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const useCase = require('../../../../lib/application/usecases/checkUserIsAdminInOrganization');
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 const Membership = require('../../../../lib/domain/models/Membership');
 
 describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', function () {
+  let membershipRepositoryStub;
+
   beforeEach(function () {
-    membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
+    membershipRepositoryStub = {
+      findByUserIdAndOrganizationId: sinon.stub(),
+    };
   });
 
   context('When user is admin in organization', function () {
@@ -15,10 +18,12 @@ describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', funct
       const organizationId = 789;
 
       const membership = domainBuilder.buildMembership({ organizationRole: Membership.roles.ADMIN });
-      membershipRepository.findByUserIdAndOrganizationId.resolves([membership]);
+      membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([membership]);
 
       // when
-      const response = await useCase.execute(userId, organizationId);
+      const response = await useCase.execute(userId, organizationId, {
+        membershipRepository: membershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(true);
@@ -31,10 +36,12 @@ describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', funct
 
       const membershipAdmin = domainBuilder.buildMembership({ organizationRole: Membership.roles.ADMIN });
       const membershipMember = domainBuilder.buildMembership({ organizationRole: Membership.roles.MEMBER });
-      membershipRepository.findByUserIdAndOrganizationId.resolves([membershipAdmin, membershipMember]);
+      membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([membershipAdmin, membershipMember]);
 
       // when
-      const response = await useCase.execute(userId, organizationId);
+      const response = await useCase.execute(userId, organizationId, {
+        membershipRepository: membershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(true);
@@ -46,10 +53,12 @@ describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', funct
       // given
       const userId = 1234;
       const organizationId = 789;
-      membershipRepository.findByUserIdAndOrganizationId.resolves([]);
+      membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([]);
 
       // when
-      const response = await useCase.execute(userId, organizationId);
+      const response = await useCase.execute(userId, organizationId, {
+        membershipRepository: membershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(false);
