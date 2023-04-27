@@ -10,7 +10,7 @@ const TargetProfile = require('../../domain/models/TargetProfile.js');
 const TARGET_PROFILE_TABLE = 'target-profiles';
 
 module.exports = {
-  async createWithTubes({ targetProfileForCreation, domainTransaction }) {
+  async create({ targetProfileForCreation, domainTransaction }) {
     const knexConn = domainTransaction.knexTransaction;
     const targetProfileRawData = _.pick(targetProfileForCreation, [
       'name',
@@ -31,14 +31,6 @@ module.exports = {
     await knexConn.batchInsert('target-profile_tubes', tubesData);
 
     return targetProfileId;
-  },
-
-  async updateTargetProfileWithSkills({ targetProfileId, skills, domainTransaction }) {
-    const knexConn = domainTransaction.knexTransaction;
-    const skillsToAdd = skills.map((skill) => {
-      return { targetProfileId, skillId: skill.id };
-    });
-    await knexConn.batchInsert('target-profiles_skills', skillsToAdd);
   },
 
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -67,31 +59,6 @@ module.exports = {
     return targetProfileAdapter.fromDatasourceObjects({
       bookshelfTargetProfile,
     });
-  },
-
-  /**
-   * @deprecated Use findSkillIds from campaignRepository
-   * @param campaignId
-   * @param {DomainTransaction=} domainTransaction
-   * @returns skillIds
-   */
-  async getTargetProfileSkillIdsByCampaignId(campaignId, domainTransaction) {
-    const knexConn = domainTransaction?.knexTransaction ?? knex;
-    return knexConn('target-profiles_skills')
-      .join('campaigns', 'campaigns.targetProfileId', 'target-profiles_skills.targetProfileId')
-      .where('campaigns.id', campaignId)
-      .pluck('skillId');
-  },
-
-  /**
-   * @deprecated TargetProfile skill will disappear
-   * @param targetProfileId
-   * @param {DomainTransaction=} domainTransaction
-   * @returns skillIds
-   */
-  async getTargetProfileSkillIds(targetProfileId, domainTransaction) {
-    const knexConn = domainTransaction?.knexTransaction ?? knex;
-    return knexConn('target-profiles_skills').pluck('skillId').where({ targetProfileId });
   },
 
   async findByIds(targetProfileIds) {
