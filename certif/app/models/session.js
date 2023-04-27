@@ -68,9 +68,6 @@ export default class Session extends Model {
   }
 
   get shouldDisplayCleaResultDownloadSection() {
-    return (
-      this.featureToggles.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled &&
-      this.hasSomeCleaAcquired
-    );
+    return this.hasSomeCleaAcquired;
   }
 }
