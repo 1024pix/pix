@@ -107,6 +107,7 @@ module.exports = {
     return targetProfileShares.map((targetProfileShare) => targetProfileShare.organizationId);
   },
 
+  // TODO remove me with badge skill set
   async hasSkills({ targetProfileId, skillIds }, { knexTransaction } = DomainTransaction.emptyTransaction()) {
     const result = await (knexTransaction ?? knex)('target-profiles_skills')
       .select('skillId')

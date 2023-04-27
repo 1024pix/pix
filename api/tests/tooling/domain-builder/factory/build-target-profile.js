@@ -1,4 +1,3 @@
-const buildSkill = require('./build-skill');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 
 module.exports = function buildTargetProfile({
@@ -7,7 +6,6 @@ module.exports = function buildTargetProfile({
   imageUrl = 'ImageURL',
   isPublic = true,
   isSimplifiedAccess = false,
-  skills = [buildSkill()],
   ownerOrganizationId = 456,
   outdated = false,
   stages = [],
@@ -19,7 +17,6 @@ module.exports = function buildTargetProfile({
     imageUrl,
     isPublic,
     isSimplifiedAccess,
-    skills,
     ownerOrganizationId,
     outdated,
     stages,
