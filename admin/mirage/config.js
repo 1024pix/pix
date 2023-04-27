@@ -36,6 +36,7 @@ import {
   getTargetProfileSummariesForTraining,
   updateTraining,
 } from './handlers/trainings';
+import { findFrameworkAreas } from './handlers/frameworks';
 
 export default function () {
   this.logging = true;
@@ -285,6 +286,7 @@ export default function () {
   this.post('/admin/organizations/:id/archive', archiveOrganization);
 
   this.get('/admin/frameworks');
+  this.get('/admin/frameworks/:id/areas', findFrameworkAreas);
 
   this.post('/admin/target-profiles', createTargetProfile);
   this.get('/admin/target-profiles/:id');

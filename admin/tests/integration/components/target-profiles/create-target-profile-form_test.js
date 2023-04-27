@@ -29,7 +29,8 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     };
     onCancel = sinon.stub();
 
-    const frameworks = [{ id: 'framework1', name: 'Pix', areas: [] }];
+    const store = this.owner.lookup('service:store');
+    const frameworks = [store.createRecord('framework', { id: 'framework1', name: 'Pix', areas: [] })];
 
     this.set('targetProfile', targetProfile);
     this.set('onSubmit', onSubmitWrapper);

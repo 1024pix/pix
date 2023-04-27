@@ -1,7 +1,11 @@
 import ApplicationSerializer from './application';
 
-const include = ['areas'];
-
 export default ApplicationSerializer.extend({
-  include,
+  links(framework) {
+    return {
+      areas: {
+        related: `/api/admin/frameworks/${framework.id}/areas`,
+      },
+    };
+  },
 });
