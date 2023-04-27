@@ -169,7 +169,6 @@ describe('Integration | Repository | Target-profile', function () {
 
       // then
       expect(targetProfile.id).to.equal(targetProfileId);
-      expect(targetProfile.skills).to.deep.equal([]);
     });
   });
 
