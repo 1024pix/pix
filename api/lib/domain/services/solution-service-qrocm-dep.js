@@ -59,6 +59,37 @@ function getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatme
   );
 }
 
+function getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments) {
+  const unmatchedSolutions = new Map(Object.entries(treatedSolutions));
+
+  return Object.values(treatedAnswers)
+    .map((answer) => {
+      for (const [solutionGroup, availableSolutions] of unmatchedSolutions) {
+        const status = validateAnswer(answer, availableSolutions, useLevenshteinRatio(enabledTreatments));
+
+        if (status) {
+          unmatchedSolutions.delete(solutionGroup);
+
+          return { answer, status: 'ok', alternativeSolutions: [] };
+        }
+      }
+
+      return { answer, status: 'ko' };
+    })
+    .map((answerAndStatus) => {
+      if (answerAndStatus.status === 'ko') {
+        const alternativeSolutions = getAlternativeSolutions(unmatchedSolutions);
+        return { ...answerAndStatus, alternativeSolutions };
+      }
+
+      return answerAndStatus;
+    });
+}
+
+function getAlternativeSolutions(unmatchedSolutions) {
+  return Array.from(unmatchedSolutions.values()).map((availableSolutions) => availableSolutions[0]);
+}
+
 function convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring) {
   let answers, solutions, scoring;
   try {
@@ -109,5 +140,33 @@ module.exports = {
     const numberOfGoodAnswers = getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
 
     return formatResult(scoring, numberOfGoodAnswers, _.size(answers));
+  },
+
+  getSolution({
+    answerValue,
+    solution,
+    dependencies = {
+      applyPreTreatments,
+      convertYamlToJsObjects,
+      getEnabledTreatments,
+      applyTreatmentsToSolutions,
+      applyTreatmentsToAnswers,
+    },
+  }) {
+    const yamlSolution = solution.value;
+    const yamlScoring = solution.scoring;
+    const deactivations = solution.deactivations;
+
+    // Pre-Treatments
+    const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
+
+    const { answers, solutions } = dependencies.convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring);
+
+    const enabledTreatments = dependencies.getEnabledTreatments(true, deactivations);
+
+    const treatedSolutions = dependencies.applyTreatmentsToSolutions(solutions, enabledTreatments);
+    const treatedAnswers = dependencies.applyTreatmentsToAnswers(answers, enabledTreatments);
+
+    return getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments);
   },
 };
