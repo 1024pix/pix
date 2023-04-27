@@ -1,6 +1,4 @@
 import { expect, databaseBuilder, sinon } from '../../../test-helper.js';
-import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
-import * as knowledgeElementSnapshotRepository from '../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
@@ -118,14 +116,15 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
   });
 
   describe('#generateKnowledgeElementSnapshots', function () {
+    let knowledgeElementRepositoryStub;
+    let knowledgeElementSnapshotRepositoryStub;
     beforeEach(function () {
-      sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
-      sinon.stub(knowledgeElementSnapshotRepository, 'save');
-    });
-
-    afterEach(function () {
-      knowledgeElementRepository.findUniqByUserId.restore();
-      knowledgeElementSnapshotRepository.save.restore();
+      knowledgeElementRepositoryStub = {
+        findUniqByUserId: sinon.stub(),
+      };
+      knowledgeElementSnapshotRepositoryStub = {
+        save: sinon.stub(),
+      };
     });
 
     it('should save snapshots', async function () {
@@ -133,15 +132,18 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
       const concurrency = 1;
       const campaignParticipationData = [{ userId: 1, sharedAt: new Date('2020-01-01') }];
       const expectedKnowledgeElements = ['someKnowledgeElements'];
-      knowledgeElementRepository.findUniqByUserId
+      knowledgeElementRepositoryStub.findUniqByUserId
         .withArgs({ userId: campaignParticipationData[0].userId, limitDate: campaignParticipationData[0].sharedAt })
         .resolves(expectedKnowledgeElements);
 
       // when
-      await generateKnowledgeElementSnapshots(campaignParticipationData, concurrency);
+      await generateKnowledgeElementSnapshots(campaignParticipationData, concurrency, {
+        knowledgeElementRepository: knowledgeElementRepositoryStub,
+        knowledgeElementSnapshotRepository: knowledgeElementSnapshotRepositoryStub,
+      });
 
       // then
-      expect(knowledgeElementSnapshotRepository.save).to.have.been.calledWithExactly({
+      expect(knowledgeElementSnapshotRepositoryStub.save).to.have.been.calledWithExactly({
         userId: campaignParticipationData[0].userId,
         snappedAt: campaignParticipationData[0].sharedAt,
         knowledgeElements: expectedKnowledgeElements,
