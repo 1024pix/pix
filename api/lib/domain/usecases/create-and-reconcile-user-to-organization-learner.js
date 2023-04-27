@@ -10,9 +10,6 @@ const {
 
 const User = require('../models/User.js');
 
-const passwordValidator = require('../validators/password-validator.js');
-const userValidator = require('../validators/user-validator.js');
-
 const { getCampaignUrl } = require('../../infrastructure/utils/url-builder.js');
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants.js');
 
@@ -67,7 +64,7 @@ function _emptyOtherMode(isUsernameMode, userAttributes) {
   return isUsernameMode ? { ...userAttributes, email: undefined } : { ...userAttributes, username: undefined };
 }
 
-function _validatePassword(password) {
+function _validatePassword(password, passwordValidator) {
   let result;
   try {
     passwordValidator.validate(password);
@@ -77,7 +74,14 @@ function _validatePassword(password) {
   return result;
 }
 
-async function _validateData({ isUsernameMode, password, userAttributes, userRepository }) {
+async function _validateData({
+  isUsernameMode,
+  password,
+  userAttributes,
+  userRepository,
+  userValidator,
+  passwordValidator,
+}) {
   const validationErrors = [];
 
   try {
@@ -86,7 +90,7 @@ async function _validateData({ isUsernameMode, password, userAttributes, userRep
     validationErrors.push(err);
   }
 
-  validationErrors.push(_validatePassword(password));
+  validationErrors.push(_validatePassword(password, passwordValidator));
 
   if (isUsernameMode) {
     try {
@@ -123,6 +127,8 @@ module.exports = async function createAndReconcileUserToOrganizationLearner({
   obfuscationService,
   userReconciliationService,
   userService,
+  passwordValidator,
+  userValidator,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign) {
@@ -156,6 +162,8 @@ module.exports = async function createAndReconcileUserToOrganizationLearner({
     password,
     userAttributes: cleanedUserAttributes,
     userRepository,
+    passwordValidator,
+    userValidator,
   });
 
   const hashedPassword = await _encryptPassword(password, encryptionService);

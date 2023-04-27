@@ -1,8 +1,5 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
-const passwordValidator = require('../../../../lib/domain/validators/password-validator');
-const userValidator = require('../../../../lib/domain/validators/user-validator');
-
 const {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
@@ -33,6 +30,9 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
   let obfuscationService;
   let userReconciliationService;
   let userService;
+
+  let passwordValidator;
+  let userValidator;
 
   beforeEach(function () {
     campaignCode = 'ABCD12';
@@ -67,8 +67,12 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
       createAndReconcileUserToOrganizationLearner: sinon.stub(),
     };
 
-    sinon.stub(passwordValidator, 'validate');
-    sinon.stub(userValidator, 'validate');
+    passwordValidator = {
+      validate: sinon.stub(),
+    };
+    userValidator = {
+      validate: sinon.stub(),
+    };
 
     campaignRepository.getByCode
       .withArgs(campaignCode)
@@ -102,6 +106,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         obfuscationService,
         userReconciliationService,
         userService,
+        passwordValidator,
+        userValidator,
       });
 
       // then
@@ -131,6 +137,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         obfuscationService,
         userReconciliationService,
         userService,
+        passwordValidator,
+        userValidator,
       });
 
       // then
@@ -201,6 +209,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             obfuscationService,
             userReconciliationService,
             userService,
+            passwordValidator,
+            userValidator,
           });
 
           // then
@@ -229,6 +239,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             obfuscationService,
             userReconciliationService,
             userService,
+            passwordValidator,
+            userValidator,
           });
 
           // then
@@ -257,6 +269,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             obfuscationService,
             userReconciliationService,
             userService,
+            passwordValidator,
+            userValidator,
           });
 
           // then
@@ -282,6 +296,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             obfuscationService,
             userReconciliationService,
             userService,
+            passwordValidator,
+            userValidator,
           });
 
           // then
@@ -314,6 +330,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
               obfuscationService,
               userReconciliationService,
               userService,
+              passwordValidator,
+              userValidator,
             });
 
             // then
@@ -349,6 +367,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             obfuscationService,
             userReconciliationService,
             userService,
+            passwordValidator,
+            userValidator,
           });
 
           // then
@@ -373,6 +393,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             obfuscationService,
             userReconciliationService,
             userService,
+            passwordValidator,
+            userValidator,
           });
 
           // then
@@ -401,6 +423,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
               obfuscationService,
               userReconciliationService,
               userService,
+              passwordValidator,
+              userValidator,
             });
 
             // then
