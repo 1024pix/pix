@@ -7,7 +7,6 @@ const {
 const Examiner = require('../models/Examiner.js');
 const KnowledgeElement = require('../models/KnowledgeElement.js');
 const logger = require('../../infrastructure/logger.js');
-const dateUtils = require('../../infrastructure/utils/date-utils.js');
 
 module.exports = async function correctAnswerThenUpdateAssessment({
   answer,
@@ -27,6 +26,7 @@ module.exports = async function correctAnswerThenUpdateAssessment({
   flashAlgorithmService,
   algorithmDataFetcherService,
   examiner,
+  dateUtils,
 } = {}) {
   const assessment = await assessmentRepository.get(answer.assessmentId);
   if (assessment.userId !== userId) {

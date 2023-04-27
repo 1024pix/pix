@@ -183,6 +183,7 @@ const learningContentConversionService = require('../services/learning-content/l
 const temporarySessionsStorageForMassImportService = require('../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
 const sessionValidator = require('../validators/session-validator.js');
 const sessionCodeService = require('../services/session-code-service.js');
+const dateUtils = require('../../infrastructure/utils/date-utils.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -271,6 +272,7 @@ const dependencies = {
   courseRepository,
   cpfCertificationResultRepository,
   dataProtectionOfficerRepository,
+  dateUtils,
   divisionRepository,
   encryptionService,
   flashAssessmentResultRepository,
@@ -377,6 +379,7 @@ const dependencies = {
   campaignValidator,
   learningContentConversionService,
   temporarySessionsStorageForMassImportService,
+  dateUtils,
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection.js');
