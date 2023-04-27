@@ -6,7 +6,6 @@ module.exports = async function createTargetProfile({
   domainTransaction,
   targetProfileRepository,
   organizationRepository,
-  learningContentConversionService,
 }) {
   const targetProfileForCreation = TargetProfileForCreation.fromCreationCommand(targetProfileCreationCommand);
   try {
@@ -17,15 +16,8 @@ module.exports = async function createTargetProfile({
     );
   }
 
-  const targetProfileId = await targetProfileRepository.createWithTubes({
+  return targetProfileRepository.create({
     targetProfileForCreation,
     domainTransaction,
   });
-  const skills = await learningContentConversionService.findActiveSkillsForCappedTubes(targetProfileForCreation.tubes);
-  await targetProfileRepository.updateTargetProfileWithSkills({
-    targetProfileId,
-    skills,
-    domainTransaction,
-  });
-  return targetProfileId;
 };

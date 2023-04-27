@@ -2,7 +2,6 @@ const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 const Campaign = require('../../domain/models/Campaign.js');
-const targetProfileRepository = require('./target-profile-repository.js');
 const skillRepository = require('./skill-repository.js');
 
 const CAMPAIGNS_TABLE = 'campaigns';
@@ -54,18 +53,10 @@ module.exports = {
           .select('tubeId', 'level')
           .where('targetProfileId', campaignAttributes.targetProfileId);
         const skillData = [];
-        if (cappedTubes.length > 0) {
-          for (const cappedTube of cappedTubes) {
-            const allLevelSkills = await skillRepository.findActiveByTubeId(cappedTube.tubeId);
-            const rightLevelSkills = allLevelSkills.filter((skill) => skill.difficulty <= cappedTube.level);
-            skillData.push(...rightLevelSkills.map((skill) => ({ skillId: skill.id, campaignId: createdCampaign.id })));
-          }
-        } else {
-          const skillIds = await trx('target-profiles_skills')
-            .pluck('skillId')
-            .distinct()
-            .where('targetProfileId', campaignAttributes.targetProfileId);
-          skillData.push(...skillIds.map((skillId) => ({ skillId, campaignId: createdCampaign.id })));
+        for (const cappedTube of cappedTubes) {
+          const allLevelSkills = await skillRepository.findActiveByTubeId(cappedTube.tubeId);
+          const rightLevelSkills = allLevelSkills.filter((skill) => skill.difficulty <= cappedTube.level);
+          skillData.push(...rightLevelSkills.map((skill) => ({ skillId: skill.id, campaignId: createdCampaign.id })));
         }
         await trx.batchInsert('campaign_skills', skillData);
       }
@@ -179,10 +170,5 @@ async function _findSkills({ campaignId, domainTransaction, filterByStatus = 'op
 
 async function _findSkillIds({ campaignId, domainTransaction }) {
   const knexConn = domainTransaction?.knexTransaction ?? knex;
-  let skillIds = await knexConn('campaign_skills').where({ campaignId }).pluck('skillId');
-  // TODO remove it after target profile skills migration
-  if (skillIds.length === 0) {
-    skillIds = await targetProfileRepository.getTargetProfileSkillIdsByCampaignId(campaignId, domainTransaction);
-  }
-  return skillIds;
+  return knexConn('campaign_skills').where({ campaignId }).pluck('skillId');
 }

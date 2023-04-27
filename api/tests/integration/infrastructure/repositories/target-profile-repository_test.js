@@ -7,7 +7,7 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', function () {
-  describe('#createWithTubes', function () {
+  describe('#create', function () {
     afterEach(async function () {
       await knex('target-profile_tubes').delete();
       await knex('target-profiles').delete();
@@ -29,7 +29,7 @@ describe('Integration | Repository | Target-profile', function () {
 
       // when
       const targetProfileId = await DomainTransaction.execute(async (domainTransaction) => {
-        return targetProfileRepository.createWithTubes({
+        return targetProfileRepository.create({
           targetProfileForCreation,
           domainTransaction,
         });
@@ -63,7 +63,7 @@ describe('Integration | Repository | Target-profile', function () {
 
       // when
       const targetProfileId = await DomainTransaction.execute(async (domainTransaction) => {
-        return targetProfileRepository.createWithTubes({
+        return targetProfileRepository.create({
           targetProfileForCreation,
           domainTransaction,
         });
@@ -91,7 +91,7 @@ describe('Integration | Repository | Target-profile', function () {
       // when
       try {
         await DomainTransaction.execute(async (domainTransaction) => {
-          await targetProfileRepository.createWithTubes({
+          await targetProfileRepository.create({
             targetProfileForCreation,
             domainTransaction,
           });
@@ -105,62 +105,6 @@ describe('Integration | Repository | Target-profile', function () {
       const targetProfileTubesInDB = await knex('target-profile_tubes').select('id');
       expect(targetProfilesInDB).to.deepEqualArray([]);
       expect(targetProfileTubesInDB).to.deepEqualArray([]);
-    });
-  });
-
-  describe('#updateTargetProfileWithSkills', function () {
-    afterEach(async function () {
-      await knex('target-profiles_skills').delete();
-    });
-
-    it('should create the target profile skills in database', async function () {
-      // given
-      databaseBuilder.factory.buildTargetProfile({ id: 1 });
-      await databaseBuilder.commit();
-      const skills = [domainBuilder.buildSkill({ id: 'recSkill2' }), domainBuilder.buildSkill({ id: 'recSkill1' })];
-
-      // when
-      await DomainTransaction.execute(async (domainTransaction) => {
-        await targetProfileRepository.updateTargetProfileWithSkills({
-          targetProfileId: 1,
-          skills,
-          domainTransaction,
-        });
-      });
-
-      // then
-      const targetProfileSkillsInDB = await knex('target-profiles_skills')
-        .select(['targetProfileId', 'skillId'])
-        .where({ targetProfileId: 1 })
-        .orderBy('skillId', 'ASC');
-      expect(targetProfileSkillsInDB).to.deep.equal([
-        { targetProfileId: 1, skillId: 'recSkill1' },
-        { targetProfileId: 1, skillId: 'recSkill2' },
-      ]);
-    });
-
-    it('should be transactional through DomainTransaction and do nothing if an error occurs', async function () {
-      // given
-      databaseBuilder.factory.buildTargetProfile({ id: 1 });
-      await databaseBuilder.commit();
-      const skills = [domainBuilder.buildSkill({ id: 'recSkill2' }), domainBuilder.buildSkill({ id: 'recSkill1' })];
-
-      // when
-      try {
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await targetProfileRepository.updateTargetProfileWithSkills({
-            targetProfileId: 1,
-            skills,
-            domainTransaction,
-          });
-          throw new Error();
-        });
-        // eslint-disable-next-line no-empty
-      } catch (error) {}
-
-      // then
-      const targetProfileSkillsInDB = await knex('target-profiles_skills').select('id');
-      expect(targetProfileSkillsInDB).to.deepEqualArray([]);
     });
   });
 
