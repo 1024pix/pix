@@ -7,7 +7,7 @@ const { validateAnswer } = require('./string-comparison-service.js');
 
 const AnswerStatus = require('../models/AnswerStatus.js');
 
-function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
+function applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return _.mapValues(solutions, (validSolutions) => {
     return _.map(validSolutions, (validSolution) => {
       return applyTreatments(validSolution.toString(), enabledTreatments);
@@ -15,11 +15,11 @@ function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
   });
 }
 
-function _applyTreatmentsToAnswers(answers, enabledTreatments) {
+function applyTreatmentsToAnswers(answers, enabledTreatments) {
   return _.mapValues(answers, (answer) => applyTreatments(answer.toString(), enabledTreatments));
 }
 
-function _formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
+function formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
   if (_.isEmpty(scoring)) {
     return numberOfGoodAnswers === nbOfAnswers ? AnswerStatus.OK : AnswerStatus.KO;
   } else {
@@ -36,7 +36,7 @@ function _formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
   }
 }
 
-function _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments) {
+function getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments) {
   let solutionsNotFound = _.clone(treatedSolutions);
 
   return _.reduce(
@@ -59,7 +59,7 @@ function _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatm
   );
 }
 
-function _convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring) {
+function convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring) {
   let answers, solutions, scoring;
   try {
     answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
@@ -72,7 +72,17 @@ function _convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring) {
 }
 
 module.exports = {
-  match({ answerValue, solution }) {
+  match({
+    answerValue,
+    solution,
+    dependencies = {
+      applyPreTreatments,
+      convertYamlToJsObjects,
+      getEnabledTreatments,
+      applyTreatmentsToSolutions,
+      applyTreatmentsToAnswers,
+    },
+  }) {
     const yamlSolution = solution.value;
     const yamlScoring = solution.scoring;
     const deactivations = solution.deactivations;
@@ -83,17 +93,21 @@ module.exports = {
     }
 
     // Pre-Treatments
-    const preTreatedAnswers = applyPreTreatments(answerValue);
+    const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
 
-    const { answers, solutions, scoring } = _convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring);
+    const { answers, solutions, scoring } = dependencies.convertYamlToJsObjects(
+      preTreatedAnswers,
+      yamlSolution,
+      yamlScoring
+    );
 
-    const enabledTreatments = getEnabledTreatments(true, deactivations);
+    const enabledTreatments = dependencies.getEnabledTreatments(true, deactivations);
 
-    const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
-    const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments);
+    const treatedSolutions = dependencies.applyTreatmentsToSolutions(solutions, enabledTreatments);
+    const treatedAnswers = dependencies.applyTreatmentsToAnswers(answers, enabledTreatments);
 
-    const numberOfGoodAnswers = _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
+    const numberOfGoodAnswers = getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
 
-    return _formatResult(scoring, numberOfGoodAnswers, _.size(answers));
+    return formatResult(scoring, numberOfGoodAnswers, _.size(answers));
   },
 };
