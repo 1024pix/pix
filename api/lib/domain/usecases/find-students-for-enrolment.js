@@ -1,7 +1,7 @@
 const { NotFoundError } = require('../errors.js');
-const StudentForEnrollment = require('../read-models/StudentForEnrollment.js');
+const StudentForEnrolment = require('../read-models/StudentForEnrolment.js');
 
-module.exports = async function findStudentsForEnrollment({
+module.exports = async function findStudentsForEnrolment({
   certificationCenterId,
   sessionId,
   page,
@@ -19,7 +19,7 @@ module.exports = async function findStudentsForEnrollment({
     });
     const certificationCandidates = await certificationCandidateRepository.findBySessionId(sessionId);
     return {
-      data: _buildStudentsForEnrollment({ students: paginatedStudents.data, certificationCandidates }),
+      data: _buildStudentsForEnrolment({ students: paginatedStudents.data, certificationCandidates }),
       pagination: paginatedStudents.pagination,
     };
   } catch (error) {
@@ -32,9 +32,9 @@ module.exports = async function findStudentsForEnrollment({
   }
 };
 
-function _buildStudentsForEnrollment({ students, certificationCandidates }) {
+function _buildStudentsForEnrolment({ students, certificationCandidates }) {
   return students.map((student) =>
-    StudentForEnrollment.fromStudentsAndCertificationCandidates({ student, certificationCandidates })
+    StudentForEnrolment.fromStudentsAndCertificationCandidates({ student, certificationCandidates })
   );
 }
 

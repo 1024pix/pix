@@ -434,7 +434,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 
-  if (error instanceof DomainErrors.UnknownCountryForStudentEnrollmentError) {
+  if (error instanceof DomainErrors.UnknownCountryForStudentEnrolmentError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 
