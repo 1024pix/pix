@@ -44,7 +44,7 @@ module.exports = {
       stages: {
         ref: 'id',
         included: true,
-        attributes: ['prescriberTitle', 'prescriberDescription', 'threshold'], // todo faire sauter threshold ?
+        attributes: ['prescriberTitle', 'prescriberDescription', 'threshold'],
       },
       badges: {
         ref: 'id',
