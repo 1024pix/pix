@@ -32,8 +32,10 @@
     </div>
     {{#if this.shouldDisplayComplementaryCertification}}
       <div>
-        Inscription à
-        {{@candidate.complementaryCertification}}
+        {{t
+          "pages.session-supervising.candidate-in-list.complementary-certification-enrolment"
+          complementaryCertification=@candidate.complementaryCertification
+        }}
       </div>
     {{/if}}
     {{#if @candidate.hasStarted}}
