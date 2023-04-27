@@ -26,13 +26,12 @@ module('Unit | Model | certification', function (hooks) {
   module('#shouldDisplayProfessionalizingWarning', function () {
     module('when domain is french', function (hooks) {
       hooks.beforeEach(function () {
-        class UrlServiceStub extends Service {
-          get isFrenchDomainExtension() {
+        class CurrentDomainServiceStub extends Service {
+          get isFranceDomain() {
             return true;
           }
         }
-
-        this.owner.register('service:url', UrlServiceStub);
+        this.owner.register('service:currentDomain', CurrentDomainServiceStub);
       });
 
       test('should be true when deliveredAt >= 2022-01-01 ', function (assert) {
@@ -55,13 +54,13 @@ module('Unit | Model | certification', function (hooks) {
     module('when domain is not french', function () {
       test('should be false', function (assert) {
         // given
-        class UrlServiceStub extends Service {
-          get isFrenchDomainExtension() {
+        class CurrentDomainServiceStub extends Service {
+          get isFranceDomain() {
             return false;
           }
         }
 
-        this.owner.register('service:url', UrlServiceStub);
+        this.owner.register('service:currentDomain', CurrentDomainServiceStub);
         const model = store.createRecord('certification', { deliveredAt: '2022-01-01' });
 
         // when / then

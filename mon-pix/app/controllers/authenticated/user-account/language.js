@@ -4,12 +4,12 @@ import { inject as service } from '@ember/service';
 
 export default class UserAccountPersonalInformationController extends Controller {
   @service intl;
-  @service url;
+  @service currentDomain;
   @service location;
 
   @action
   async onLanguageChange(value) {
-    if (!this.url.isFrenchDomainExtension) {
+    if (!this.currentDomain.isFranceDomain) {
       this.location.replace(`/mon-compte/langue?lang=${value}`);
     }
   }

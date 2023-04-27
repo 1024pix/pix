@@ -2,7 +2,6 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import ENV from 'mon-pix/config/environment';
 
-const FRANCE_TLD = 'fr';
 const FRENCH_INTERNATIONAL_LOCALE = 'fr';
 const ENGLISH_INTERNATIONAL_LOCALE = 'en';
 
@@ -11,10 +10,6 @@ export default class Url extends Service {
   @service intl;
 
   definedHomeUrl = ENV.rootURL;
-
-  get isFrenchDomainExtension() {
-    return this.currentDomain.getExtension() === FRANCE_TLD;
-  }
 
   get showcase() {
     return { url: this._showcaseWebsiteUrl, linkText: this._showcaseWebsiteLinkText };
@@ -26,9 +21,8 @@ export default class Url extends Service {
   }
 
   get cguUrl() {
-    const tld = this.currentDomain.getExtension();
     const currentLanguage = this.intl.t('current-lang');
-    if (tld === FRANCE_TLD) {
+    if (this.currentDomain.isFranceDomain) {
       return `https://pix.fr/conditions-generales-d-utilisation`;
     }
     return currentLanguage === FRENCH_INTERNATIONAL_LOCALE
@@ -37,9 +31,8 @@ export default class Url extends Service {
   }
 
   get dataProtectionPolicyUrl() {
-    const tld = this.currentDomain.getExtension();
     const currentLanguage = this.intl.t('current-lang');
-    if (tld === FRANCE_TLD) {
+    if (this.currentDomain.isFranceDomain) {
       return `https://pix.fr/politique-protection-donnees-personnelles-app`;
     }
 
@@ -62,10 +55,8 @@ export default class Url extends Service {
   }
 
   get accessibilityUrl() {
-    const tld = this.currentDomain.getExtension();
     const currentLanguage = this.intl.t('current-lang');
-
-    if (tld === FRANCE_TLD) {
+    if (this.currentDomain.isFranceDomain) {
       return `https://pix.fr/accessibilite`;
     }
     return currentLanguage === FRENCH_INTERNATIONAL_LOCALE
@@ -75,7 +66,6 @@ export default class Url extends Service {
 
   get accessibilityHelpUrl() {
     const currentLanguage = this.intl.t('current-lang');
-
     if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
       return `https://pix.${this.currentDomain.getExtension()}/en-gb/help-accessibility`;
     }

@@ -8,6 +8,8 @@ import { clickByLabel } from '../../helpers/click-by-label';
 import { render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 
+const INTERNATIONAL_TLD = 'org';
+
 module('Integration | Component | reset password form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
@@ -16,7 +18,7 @@ module('Integration | Component | reset password form', function (hooks) {
       test(`renders all the necessary elements of the form `, async function (assert) {
         // given
         const service = this.owner.lookup('service:url');
-        service.currentDomain = { getExtension: sinon.stub().returns('org') };
+        service.currentDomain = { getExtension: sinon.stub().returns(INTERNATIONAL_TLD) };
 
         // when
         const screen = await render(hbs`<ResetPasswordForm />`);

@@ -9,7 +9,7 @@ module('Unit | Controller | user-account/language', function (hooks) {
     test('should refresh page on change lang if domain is not french', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/user-account/language');
-      controller.url = { isFrenchDomainExtension: false };
+      controller.url = { isFranceDomain: false };
       const replaceStub = sinon.stub();
       controller.location = { replace: replaceStub };
 
