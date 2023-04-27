@@ -12,8 +12,9 @@ describe("a11y", () => {
     cy.task("db:fixture", "organization-invitations");
     cy.task("db:fixture", "user-orga-settings");
     cy.task("db:fixture", "target-profiles");
-    cy.task("db:fixture", "target-profiles_skills");
+    cy.task("db:fixture", "target-profile_tubes");
     cy.task("db:fixture", "campaigns");
+    cy.task("db:fixture", "campaign_skills");
     cy.task("db:fixture", "organization-learners");
     cy.task("db:fixture", "campaign-participations");
     cy.task("db:fixture", "assessments");
