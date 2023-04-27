@@ -1,12 +1,9 @@
-const { expect, knex, sinon } = require('../../../test-helper');
+const { expect, knex, mockLearningContent } = require('../../../test-helper');
 const _ = require('lodash');
 const {
   main,
   databaseBuilder: databaseBuilderCli,
 } = require('../../../../scripts/data-generation/generate-certif-cli');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const databaseBuffer = require('../../../../db/database-builder/database-buffer');
 // FIXME Too hard to edit \o/
 describe('Integration | Scripts | generate-certif-cli.js', function () {
@@ -19,9 +16,12 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
   };
 
   beforeEach(async function () {
-    sinon.stub(skillRepository, 'findActiveByCompetenceId').resolves([]);
-    sinon.stub(competenceRepository, 'list').resolves([]);
-    sinon.stub(challengeRepository, 'list').resolves([]);
+    const learningContent = {
+      competences: [],
+      skills: [],
+      challenges: [],
+    };
+    mockLearningContent(learningContent);
   });
 
   afterEach(function () {
