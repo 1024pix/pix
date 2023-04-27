@@ -1,4 +1,4 @@
-const { expect, catchErr } = require('../../../test-helper');
+const { expect, catchErr, sinon } = require('../../../test-helper');
 
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const service = require('../../../../lib/domain/services/solution-service-qrocm-dep');
@@ -1192,6 +1192,83 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
           }
         );
       });
+    });
+  });
+
+  describe('#getSolution', function () {
+    it('should return solution block', function () {
+      // given
+      const expectedResult = [
+        {
+          answer: 'pqrs',
+          status: 'ok',
+          alternativeSolutions: [],
+        },
+        {
+          answer: 'tuvw',
+          status: 'ko',
+          alternativeSolutions: ['abcd'],
+        },
+      ];
+
+      const answerValue = Symbol('answerValue');
+
+      const yamlSolution = Symbol('yamlSolution');
+      const yamlScoring = Symbol('yamlScoring');
+      const deactivations = Symbol('deactivations');
+      const solution = {
+        value: yamlSolution,
+        scoring: yamlScoring,
+        deactivations,
+      };
+
+      const applyPreTreatments = sinon.stub();
+      const preTreatedAnswers = Symbol('preTreatedAnswers');
+      applyPreTreatments.withArgs(answerValue).returns(preTreatedAnswers);
+
+      const convertYamlToJsObjects = sinon.stub();
+      const answers = Symbol('answers');
+      const solutions = Symbol('solutions');
+      const scoring = Symbol('scoring');
+      convertYamlToJsObjects.withArgs(preTreatedAnswers, yamlSolution, yamlScoring).returns({
+        answers,
+        solutions,
+        scoring,
+      });
+
+      const getEnabledTreatments = sinon.stub();
+      const enabledTreatments = Symbol('enabledTreatments');
+      getEnabledTreatments.withArgs(true, deactivations).returns(enabledTreatments);
+
+      const applyTreatmentsToSolutions = sinon.stub();
+      const treatedSolution = {
+        Google: ['abcd', 'efgh', 'hijk'],
+        Yahoo: ['lmno', 'pqrs'],
+      };
+      applyTreatmentsToSolutions.withArgs(solutions, enabledTreatments).returns(treatedSolution);
+
+      const applyTreatmentsToAnswers = sinon.stub();
+      const treatedAnswerValue = {
+        num1: 'pqrs',
+        num2: 'tuvw',
+      };
+      applyTreatmentsToAnswers.withArgs(answers, enabledTreatments).returns(treatedAnswerValue);
+
+      // when
+      const result = service.getSolution({
+        answerValue,
+        solution,
+        dependencies: {
+          applyPreTreatments,
+          convertYamlToJsObjects,
+          getEnabledTreatments,
+          applyTreatmentsToSolutions,
+          applyTreatmentsToAnswers,
+        },
+      });
+
+      // then
+      expect(result).to.deep.equal(expectedResult);
     });
   });
 });
