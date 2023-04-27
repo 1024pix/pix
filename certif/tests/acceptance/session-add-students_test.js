@@ -189,7 +189,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             assert.strictEqual(checkboxChecked.length, 3);
           });
 
-          test('it should cancel students enrollment', async function (assert) {
+          test('it should cancel students enrolment', async function (assert) {
             // given
             server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
             const screen = await visitScreen(`/sessions/${session.id}/candidats`);
