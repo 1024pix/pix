@@ -66,25 +66,25 @@ class OidcAuthenticationService {
       redirect_uri: redirectUri,
     };
 
-    const response = await httpAgent.post({
+    const httpResponse = await httpAgent.post({
       url: this.tokenUrl,
       payload: querystring.stringify(data),
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       timeout: settings.partner.fetchTimeOut,
     });
 
-    if (!response.isSuccessful) {
+    if (!httpResponse.isSuccessful) {
       const message = 'Erreur lors de la récupération des tokens du partenaire.';
-      const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(response, message);
+      const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message);
       monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
       throw new InvalidExternalAPIResponseError(message);
     }
 
     return new AuthenticationSessionContent({
-      idToken: response.data['id_token'],
-      accessToken: response.data['access_token'],
-      expiresIn: response.data['expires_in'],
-      refreshToken: response.data['refresh_token'],
+      idToken: httpResponse.data['id_token'],
+      accessToken: httpResponse.data['access_token'],
+      expiresIn: httpResponse.data['expires_in'],
+      refreshToken: httpResponse.data['refresh_token'],
     });
   }
 
@@ -108,20 +108,20 @@ class OidcAuthenticationService {
   }
 
   async getUserInfoFromEndpoint({ accessToken, userInfoUrl }) {
-    const response = await httpAgent.get({
+    const httpResponse = await httpAgent.get({
       url: userInfoUrl,
       headers: { Authorization: `Bearer ${accessToken}` },
       timeout: settings.partner.fetchTimeOut,
     });
 
-    if (!response.isSuccessful) {
+    if (!httpResponse.isSuccessful) {
       const message = 'Une erreur est survenue en récupérant les informations des utilisateurs.';
-      const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(response, message);
+      const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message);
       monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
       throw new InvalidExternalAPIResponseError(message);
     }
 
-    const userInfoContent = response.data;
+    const userInfoContent = httpResponse.data;
 
     if (!userInfoContent || typeof userInfoContent !== 'object') {
       const message = `Les informations utilisateur renvoyées par votre fournisseur d'identité ${this.organizationName} ne sont pas au format attendu.`;
