@@ -1,7 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
 const getCompetenceLevel = require('../../../../lib/domain/services/get-competence-level');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const scoringService = require('../../../../lib/domain/services/scoring/scoring-service');
 
 describe('Unit | Domain | Service | Get Competence Level', function () {
   describe('#getCompetenceLevel', function () {
@@ -15,19 +13,27 @@ describe('Unit | Domain | Service | Get Competence Level', function () {
     const domainTransaction = Symbol('domainTransaction');
     const level = 3;
     let competenceLevel;
+    let knowledgeElementRepository;
+    let scoringService;
 
     beforeEach(async function () {
       // given
-      sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndCompetenceId').resolves(knowledgeElements);
-      sinon.stub(scoringService, 'calculateScoringInformationForCompetence').returns({ currentLevel: level });
+      knowledgeElementRepository = {
+        findUniqByUserIdAndCompetenceId: sinon.stub().resolves(knowledgeElements),
+      };
+      scoringService = {
+        calculateScoringInformationForCompetence: sinon.stub().returns({ currentLevel: level }),
+      };
 
       // when
       competenceLevel = await getCompetenceLevel({
-        knowledgeElementRepository,
-        scoringService,
         userId,
         competenceId,
         domainTransaction,
+        dependencies: {
+          knowledgeElementRepository,
+          scoringService,
+        },
       });
     });
 
