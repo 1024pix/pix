@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 
 const DEFAULT_LOCALE = 'fr';
 
-export default class InscriptionController extends Controller {
+export default class LoginController extends Controller {
   @service intl;
   @service dayjs;
   @service currentDomain;
@@ -21,7 +21,7 @@ export default class InscriptionController extends Controller {
   onLanguageChange(value) {
     this.selectedLanguage = value;
     this._setLocale(this.selectedLanguage);
-    this.router.replaceWith('inscription', { queryParams: { lang: null } });
+    this.router.replaceWith('authentication.login', { queryParams: { lang: null } });
   }
 
   _setLocale(language) {
