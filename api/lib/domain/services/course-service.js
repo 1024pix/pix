@@ -5,7 +5,7 @@ const { NotFoundError } = require('../../domain/errors.js');
 const courseRepository = require('../../infrastructure/repositories/course-repository.js');
 
 module.exports = {
-  async getCourse({ courseId }) {
+  async getCourse({ courseId, dependencies = { courseRepository } }) {
     // TODO: delete when campaign assessment does not have courses anymore
     if (_.startsWith(courseId, '[NOT USED] Campaign')) {
       return Promise.resolve(new Course({ id: courseId }));
@@ -13,7 +13,7 @@ module.exports = {
 
     // TODO This repo switch should not be here because we make a technical discrimination on the course id
     if (_.startsWith(courseId, 'rec')) {
-      return courseRepository.get(courseId);
+      return dependencies.courseRepository.get(courseId);
     }
 
     throw new NotFoundError();
