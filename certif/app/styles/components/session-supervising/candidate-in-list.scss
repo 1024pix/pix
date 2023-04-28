@@ -21,7 +21,7 @@
     text-transform: capitalize;
   }
 
-  &__checkbox[type="checkbox"] {
+  &__checkbox[type='checkbox'] {
     width: 32px;
     height: 32px;
     margin-right: 16px;
@@ -65,5 +65,20 @@
     right: 0;
     top: 32px;
     width: 216px;
+  }
+}
+
+.session-supervising-candidate-in-list-details {
+  &__enrolment {
+    color: $pix-neutral-0;
+    font-size: 0.875rem;
+    font-weight: normal;
+    line-height: 1.3125rem;
+  }
+}
+
+.session-supervising-candidate-in-list-details-enrolment {
+  &__icon {
+    margin-right: 5px;
   }
 }

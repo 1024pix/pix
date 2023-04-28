@@ -16,6 +16,7 @@ export default class CertificationCandidateForSupervising extends Model {
   @attr('boolean') authorizedToStart;
   @attr('string') assessmentStatus;
   @attr('date') startDateTime;
+  @attr('string') complementaryCertification;
 
   get hasStarted() {
     return this.assessmentStatus === 'started';

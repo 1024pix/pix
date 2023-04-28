@@ -295,6 +295,7 @@
     "session-supervising": {
       "candidate-in-list": {
         "candidate-options": "Options du candidat",
+        "complementary-certification-enrolment": "Inscription à {complementaryCertification}",
         "display-candidate-options": "Afficher les options du candidat",
         "resume-test-modal": {
           "actions": {

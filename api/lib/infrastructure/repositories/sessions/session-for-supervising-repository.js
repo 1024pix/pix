@@ -23,7 +23,8 @@ module.exports = {
             'extraTimePercentage', "certification-candidates"."extraTimePercentage",
             'authorizedToStart', "certification-candidates"."authorizedToStart",
             'assessmentStatus', "assessments"."state",
-            'startDateTime', "certification-courses"."createdAt"
+            'startDateTime', "certification-courses"."createdAt",
+            'complementaryCertification', "complementary-certifications"."label"
           ) order by lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
       `),
       })
@@ -35,6 +36,16 @@ module.exports = {
       })
       .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
       .innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+      .leftJoin(
+        'complementary-certification-subscriptions',
+        'complementary-certification-subscriptions.certificationCandidateId',
+        'certification-candidates.id'
+      )
+      .leftJoin(
+        'complementary-certifications',
+        'complementary-certifications.id',
+        'complementary-certification-subscriptions.complementaryCertificationId'
+      )
       .groupBy('sessions.id', 'certification-centers.id')
       .where({ 'sessions.id': idSession })
       .first();
@@ -52,6 +63,6 @@ function _toDomain(results) {
 
   return new SessionForSupervising({
     ...results,
-    certificationCandidates: certificationCandidates,
+    certificationCandidates,
   });
 }

@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillIn, click } from '@ember/test-helpers';
+import Service from '@ember/service';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 import { hbs } from 'ember-cli-htmlbars';
@@ -12,6 +13,10 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
 
   hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
+    class FeatureTogglesStub extends Service {
+      featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: false };
+    }
+    this.owner.register('service:featureToggles', FeatureTogglesStub);
   });
 
   module('when there are candidates', function () {

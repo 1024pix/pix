@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+import Service from '@ember/service';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
@@ -14,6 +15,32 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
   hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
+    class FeatureTogglesStub extends Service {
+      featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: false };
+    }
+    this.owner.register('service:featureToggles', FeatureTogglesStub);
+  });
+
+  module('when FT_DIFFERENTIATED_TIME_INVIGILATOR_PORTAL is enabled', function () {
+    test('should render the complementary certification name of the candidate if he passes one', async function (assert) {
+      class FeatureTogglesStub extends Service {
+        featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
+      }
+      this.owner.register('service:featureToggles', FeatureTogglesStub);
+
+      this.candidate = store.createRecord('certification-candidate-for-supervising', {
+        id: 123,
+        complementaryCertification: 'Super Certification Complémentaire',
+      });
+
+      // when
+      const screen = await renderScreen(hbs`
+      <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+    `);
+
+      // then
+      assert.dom(screen.getByText('Inscription à Super Certification Complémentaire')).exists();
+    });
   });
 
   test('it renders the candidates information with an unchecked checkbox', async function (assert) {
@@ -26,6 +53,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       extraTimePercentage: '8',
       authorizedToStart: false,
       assessmentStatus: null,
+      complementaryCertification: 'Super Certification Complémentaire',
     });
 
     // when
@@ -36,6 +64,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     // then
     assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
     assert.dom(screen.getByText('28/05/1984 · Temps majoré : 8%')).exists();
+    assert.dom(screen.queryByText('Inscription à Super Certification Complémentaire')).doesNotExist();
     assert.dom(screen.getByRole('checkbox', { name: 'Zen Whoberi Ben Titan Gamora' })).isNotChecked();
   });
 
