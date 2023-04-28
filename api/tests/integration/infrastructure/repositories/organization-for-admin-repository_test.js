@@ -1,6 +1,6 @@
 const { catchErr, expect, domainBuilder, databaseBuilder, sinon, knex } = require('../../../test-helper');
 const { NotFoundError, MissingAttributesError } = require('../../../../lib/domain/errors');
-const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
+const OrganizationForAdmin = require('../../../../lib/domain/models/organizations-administration/Organization');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const organizationForAdminRepository = require('../../../../lib/infrastructure/repositories/organization-for-admin-repository');
 const { SamlIdentityProviders } = require('../../../../lib/domain/constants/saml-identity-providers');
@@ -83,6 +83,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         creatorFirstName: 'Cécile',
         creatorLastName: 'Encieux',
         identityProviderForCampaigns: OidcIdentityProviders.CNAV.service.code,
+        enableMultipleSendingAssessment: false,
       });
       expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
     });
@@ -187,6 +188,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
           creatorFirstName: superAdminUser.firstName,
           creatorLastName: superAdminUser.lastName,
           identityProviderForCampaigns: null,
+          enableMultipleSendingAssessment: false,
         });
         expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
       });
@@ -250,6 +252,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         creatorFirstName: undefined,
         creatorLastName: undefined,
         identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
+        enableMultipleSendingAssessment: undefined,
         tags: [{ id: tagId, name: 'orga tag' }],
       });
       expect(organizationSaved.tags[0].id).to.be.equal(tagId);

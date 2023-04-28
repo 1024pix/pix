@@ -1,18 +1,25 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { updateOrganizationInformation } = require('../../../../lib/domain/usecases/index.js');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const Tag = require('../../../../lib/domain/models/Tag');
-const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');
-const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
-const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../../test-helper');
+const { updateOrganizationInformation } = require('../../../../../lib/domain/usecases/index.js');
+const { NotFoundError } = require('../../../../../lib/domain/errors');
+const Tag = require('../../../../../lib/domain/models/Tag');
+const OrganizationTag = require('../../../../../lib/domain/models/OrganizationTag');
+const OrganizationForAdmin = require('../../../../../lib/domain/models/organizations-administration/Organization');
+const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
-describe('Unit | UseCase | update-organization-information', function () {
+describe('Unit | UseCase | organizations-administration | update-organization-information', function () {
   let dataProtectionOfficerRepository;
   let organizationForAdminRepository;
   let organizationTagRepository;
+  let organizationFeatureRepository;
   let tagRepository;
 
   beforeEach(function () {
+    organizationFeatureRepository = {
+      getFeaturesListFromOrganization: sinon.stub(),
+      removeFeatureToOrganization: sinon.stub(),
+      addFeatureToOrganization: sinon.stub(),
+    };
+
     dataProtectionOfficerRepository = {
       create: sinon.stub(),
       get: sinon.stub(),
@@ -30,6 +37,10 @@ describe('Unit | UseCase | update-organization-information', function () {
     tagRepository = {
       get: sinon.stub(),
     };
+
+    organizationFeatureRepository.getFeaturesListFromOrganization.resolves([]);
+    organizationFeatureRepository.removeFeatureToOrganization.resolves();
+    organizationFeatureRepository.addFeatureToOrganization.resolves();
   });
 
   context('when organization exists', function () {
@@ -54,6 +65,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
 
       // then
@@ -84,6 +96,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
 
       // then
@@ -113,6 +126,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
 
       // then
@@ -142,6 +156,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
 
       // then
@@ -171,6 +186,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
 
       // then
@@ -200,6 +216,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
 
       // then
@@ -229,6 +246,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
 
       // then
@@ -257,6 +275,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
       expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
@@ -284,6 +303,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
 
       // then
@@ -313,6 +333,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
 
       // then
@@ -342,6 +363,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
 
       // then
@@ -371,6 +393,7 @@ describe('Unit | UseCase | update-organization-information', function () {
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
+        organizationFeatureRepository,
       });
 
       // then
@@ -407,6 +430,7 @@ describe('Unit | UseCase | update-organization-information', function () {
           organizationTagRepository,
           tagRepository,
           dataProtectionOfficerRepository,
+          organizationFeatureRepository,
         });
 
         // given
@@ -449,6 +473,7 @@ describe('Unit | UseCase | update-organization-information', function () {
           organizationTagRepository,
           tagRepository,
           dataProtectionOfficerRepository,
+          organizationFeatureRepository,
         });
 
         // given
@@ -485,6 +510,7 @@ describe('Unit | UseCase | update-organization-information', function () {
           organization: givenOrganization,
           organizationForAdminRepository,
           dataProtectionOfficerRepository,
+          organizationFeatureRepository,
         });
 
         // then
@@ -521,6 +547,7 @@ describe('Unit | UseCase | update-organization-information', function () {
           organization: givenOrganization,
           organizationForAdminRepository,
           dataProtectionOfficerRepository,
+          organizationFeatureRepository,
         });
 
         // then

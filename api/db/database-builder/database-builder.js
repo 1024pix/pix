@@ -115,7 +115,6 @@ module.exports = class DatabaseBuilder {
       tableNames,
       'knex_migrations',
       'knex_migrations_lock',
-      'features',
       'view-active-organization-learners'
     );
     const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();

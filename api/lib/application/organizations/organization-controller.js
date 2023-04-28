@@ -36,13 +36,6 @@ const { mapCertificabilityByLabel } = require('./helpers.js');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer.js');
 
 module.exports = {
-  async getOrganizationDetails(request, h, dependencies = { organizationForAdminSerializer }) {
-    const organizationId = request.params.id;
-
-    const organizationDetails = await usecases.getOrganizationDetails({ organizationId });
-    return dependencies.organizationForAdminSerializer.serialize(organizationDetails);
-  },
-
   async create(request) {
     const superAdminUserId = extractUserIdFromRequest(request);
     const organization = organizationForAdminSerializer.deserialize(request.payload);
@@ -61,15 +54,6 @@ module.exports = {
     const createdOrganizations = await usecases.createOrganizationsWithTagsAndTargetProfiles({ organizations });
 
     return h.response(organizationForAdminSerializer.serialize(createdOrganizations)).code(204);
-  },
-
-  async updateOrganizationInformation(request, h, dependencies = { organizationForAdminSerializer }) {
-    const organizationDeserialized = dependencies.organizationForAdminSerializer.deserialize(request.payload);
-
-    const organizationUpdated = await usecases.updateOrganizationInformation({
-      organization: organizationDeserialized,
-    });
-    return dependencies.organizationForAdminSerializer.serialize(organizationUpdated);
   },
 
   async findPaginatedFilteredOrganizations(
