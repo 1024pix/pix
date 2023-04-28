@@ -2,7 +2,12 @@ const jsonwebtoken = require('jsonwebtoken');
 const querystring = require('querystring');
 const { v4: uuidv4 } = require('uuid');
 
-const { InvalidExternalAPIResponseError, OidcMissingFieldsError, OidcUserInfoFormatError } = require('../../errors.js');
+const {
+  InvalidExternalAPIResponseError,
+  OidcInvokingTokenEndpointError,
+  OidcMissingFieldsError,
+  OidcUserInfoFormatError,
+} = require('../../errors.js');
 const AuthenticationMethod = require('../../models/AuthenticationMethod.js');
 const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent.js');
 const settings = require('../../../config.js');
@@ -77,7 +82,7 @@ class OidcAuthenticationService {
       const message = 'Erreur lors de la récupération des tokens du partenaire.';
       const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message);
       monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
-      throw new InvalidExternalAPIResponseError(message);
+      throw new OidcInvokingTokenEndpointError(message);
     }
 
     return new AuthenticationSessionContent({
