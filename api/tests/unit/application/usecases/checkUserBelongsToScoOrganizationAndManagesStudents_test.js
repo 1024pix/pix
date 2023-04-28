@@ -1,10 +1,13 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const useCase = require('../../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 
 describe('Unit | Application | Use Case | checkUserBelongsToScoOrganizationAndManagesStudents', function () {
+  let membershipRepositoryStub;
+
   beforeEach(function () {
-    membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
+    membershipRepositoryStub = {
+      findByUserIdAndOrganizationId: sinon.stub(),
+    };
   });
 
   context('When user is in a SCO organization', function () {
@@ -14,10 +17,12 @@ describe('Unit | Application | Use Case | checkUserBelongsToScoOrganizationAndMa
 
       const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: true });
       const membership = domainBuilder.buildMembership({ organization });
-      membershipRepository.findByUserIdAndOrganizationId.resolves([membership]);
+      membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([membership]);
 
       // when
-      const response = await useCase.execute(userId, organization.id);
+      const response = await useCase.execute(userId, organization.id, {
+        membershipRepository: membershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(true);
@@ -30,10 +35,12 @@ describe('Unit | Application | Use Case | checkUserBelongsToScoOrganizationAndMa
       const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: true });
       const membership1 = domainBuilder.buildMembership({ organization });
       const membership2 = domainBuilder.buildMembership({ organization });
-      membershipRepository.findByUserIdAndOrganizationId.resolves([membership1, membership2]);
+      membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([membership1, membership2]);
 
       // when
-      const response = await useCase.execute(userId, organization.id);
+      const response = await useCase.execute(userId, organization.id, {
+        membershipRepository: membershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(true);
@@ -46,10 +53,12 @@ describe('Unit | Application | Use Case | checkUserBelongsToScoOrganizationAndMa
       const userId = 1234;
       const organization = domainBuilder.buildOrganization({ type: 'PRO', isManagingStudents: true });
       const membership = domainBuilder.buildMembership({ organization });
-      membershipRepository.findByUserIdAndOrganizationId.resolves([membership]);
+      membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([membership]);
 
       // when
-      const response = await useCase.execute(userId, organization.id);
+      const response = await useCase.execute(userId, organization.id, {
+        membershipRepository: membershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(false);
@@ -62,10 +71,12 @@ describe('Unit | Application | Use Case | checkUserBelongsToScoOrganizationAndMa
       const userId = 1234;
       const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: false });
       const membership = domainBuilder.buildMembership({ organization });
-      membershipRepository.findByUserIdAndOrganizationId.resolves([membership]);
+      membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([membership]);
 
       // when
-      const response = await useCase.execute(userId, organization.id);
+      const response = await useCase.execute(userId, organization.id, {
+        membershipRepository: membershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(false);

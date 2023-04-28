@@ -1,12 +1,17 @@
 const { expect, sinon } = require('../../../test-helper');
 const usecase = require('../../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession');
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/sessions/session-repository');
 
 describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenterSession', function () {
+  let certificationCourseRepositoryStub;
+  let sessionRepositoryStub;
+
   beforeEach(function () {
-    sinon.stub(certificationCourseRepository, 'get');
-    sinon.stub(sessionRepository, 'doesUserHaveCertificationCenterMembershipForSession');
+    certificationCourseRepositoryStub = {
+      get: sinon.stub(),
+    };
+    sessionRepositoryStub = {
+      doesUserHaveCertificationCenterMembershipForSession: sinon.stub(),
+    };
   });
 
   context('When user is member of certification center session', function () {
@@ -19,11 +24,20 @@ describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenter
         getSessionId: () => sessionId,
       };
 
-      certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
-      sessionRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, sessionId).resolves(true);
+      certificationCourseRepositoryStub.get.withArgs(certificationCourseId).resolves(certificationCourse);
+      sessionRepositoryStub.doesUserHaveCertificationCenterMembershipForSession
+        .withArgs(userId, sessionId)
+        .resolves(true);
 
       // when
-      const response = await usecase.execute({ userId, certificationCourseId });
+      const response = await usecase.execute({
+        userId,
+        certificationCourseId,
+        dependencies: {
+          certificationCourseRepository: certificationCourseRepositoryStub,
+          sessionRepository: sessionRepositoryStub,
+        },
+      });
 
       // then
       expect(response).to.equal(true);
