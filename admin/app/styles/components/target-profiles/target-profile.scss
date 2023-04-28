@@ -3,10 +3,13 @@
 
   &__container {
     display: flex;
-  }
+    margin-bottom: 8px;
+    justify-content: space-between;
+    align-items: center;
 
-  &__content {
-    width: 50%;
+    li:not(:last-child) {
+      margin-bottom: .3em;
+    }
   }
 
   &:not(:first-of-type) {
@@ -40,4 +43,8 @@
       flex-grow: 1;
     }
   }
+}
+
+.bold {
+  font-weight: bold;
 }
