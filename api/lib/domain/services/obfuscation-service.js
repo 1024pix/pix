@@ -14,8 +14,8 @@ const EMAIL_SEPARATOR = '@';
 
 const TWO_PARTS = 2;
 
-async function getUserAuthenticationMethodWithObfuscation(user) {
-  const garAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+async function getUserAuthenticationMethodWithObfuscation(user, dependencies = { authenticationMethodRepository }) {
+  const garAuthenticationMethod = await dependencies.authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
     userId: user.id,
     identityProvider: AuthenticationMethod.identityProviders.GAR,
   });
