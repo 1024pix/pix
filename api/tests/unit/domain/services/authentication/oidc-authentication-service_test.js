@@ -7,6 +7,7 @@ const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
 const {
   InvalidExternalAPIResponseError,
+  OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
 } = require('../../../../../lib/domain/errors');
@@ -198,7 +199,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         });
 
         // then
-        expect(error).to.be.an.instanceOf(InvalidExternalAPIResponseError);
+        expect(error).to.be.an.instanceOf(OidcInvokingTokenEndpointError);
         expect(error.message).to.equal('Erreur lors de la récupération des tokens du partenaire.');
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
           message: {

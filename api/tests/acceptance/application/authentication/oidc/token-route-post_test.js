@@ -151,8 +151,8 @@ describe('Acceptance | Route | oidc | token', function () {
       expect(response.result['logout_url_uuid']).to.match(uuidPattern);
     });
 
-    context('when the identity provider API does not respond within timeout', function () {
-      it('should return 503', async function () {
+    context('when the identity provider token route API does not respond within timeout', function () {
+      it('should return 422', async function () {
         // given
         const firstName = 'John';
         const lastName = 'Doe';
@@ -204,10 +204,10 @@ describe('Acceptance | Route | oidc | token', function () {
         });
 
         // then
-        expect(response.statusCode).to.equal(503);
+        expect(response.statusCode).to.equal(422);
         expect(getAccessTokenRequest.isDone()).to.be.true;
         expect(response.payload).to.equal(
-          '{"errors":[{"status":"503","title":"ServiceUnavailable","detail":"Erreur lors de la récupération des tokens du partenaire."}]}'
+          '{"errors":[{"status":"422","title":"Unprocessable entity","detail":"Erreur lors de la récupération des tokens du partenaire."}]}'
         );
       });
     });
@@ -245,7 +245,7 @@ describe('Acceptance | Route | oidc | token', function () {
       });
 
       context('When user has a valid token but with missing required data', function () {
-        context('When identity provider userinfo does not respond within timeout', function () {
+        context('When identity provider userinfo does not respond within timeout or fails', function () {
           it('should return 503', async function () {
             // given
             const firstName = 'John';
