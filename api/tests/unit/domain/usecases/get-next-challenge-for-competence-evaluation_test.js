@@ -1,7 +1,6 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const getNextChallengeForCompetenceEvaluation = require('../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation');
-const smartRandom = require('../../../../lib/domain/services/algorithm-methods/smart-random');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluation', function () {
   describe('#getNextChallengeForCompetenceEvaluation', function () {
@@ -22,7 +21,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       actualComputedChallenge,
       challengeUrl21,
       challengeUrl22,
-      improvementService;
+      improvementService,
+      smartRandomStub;
 
     beforeEach(async function () {
       userId = 'dummyUserId';
@@ -62,10 +62,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
         domainBuilder.buildChallenge({ id: 'challenge_search2_2' }),
       ];
 
-      sinon.stub(smartRandom, 'getPossibleSkillsForNextChallenge').returns({
-        hasAssessmentEnded: false,
-        possibleSkillsForNextChallenge: [web2, url2, search2],
-      });
+      smartRandomStub = {
+        getPossibleSkillsForNextChallenge: sinon.stub().returns({
+          hasAssessmentEnded: false,
+          possibleSkillsForNextChallenge: [web2, url2, search2],
+        }),
+      };
     });
 
     context('when user is not related to assessment', function () {
@@ -81,6 +83,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           pickChallengeService,
           improvementService,
           locale,
+          smartRandom: smartRandomStub,
         });
       });
       it('should throw a UserNotAuthorizedToAccessEntityError error', function () {
@@ -100,6 +103,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           pickChallengeService,
           improvementService,
           locale,
+          smartRandom: smartRandomStub,
         });
       });
       it('should have fetched the answers', function () {
@@ -116,7 +120,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
 
       it('should have fetched the next challenge with only most recent knowledge elements', function () {
         const allAnswers = [lastAnswer];
-        expect(smartRandom.getPossibleSkillsForNextChallenge).to.have.been.calledWithExactly({
+        expect(smartRandomStub.getPossibleSkillsForNextChallenge).to.have.been.calledWithExactly({
           allAnswers,
           lastAnswer,
           challenges,
