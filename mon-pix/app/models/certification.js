@@ -9,7 +9,7 @@ export const ACQUIRED = 'acquired';
 const professionalizingDate = new Date('2022-01-01');
 
 export default class Certification extends Model {
-  @service url;
+  @service currentDomain;
 
   static PARTNER_KEY_CLEA = 'PIX_EMPLOI_CLEA';
   // attributes
@@ -43,7 +43,7 @@ export default class Certification extends Model {
   }
 
   get shouldDisplayProfessionalizingWarning() {
-    return this.url.isFrenchDomainExtension && new Date(this.deliveredAt).getTime() >= professionalizingDate.getTime();
+    return this.currentDomain.isFranceDomain && new Date(this.deliveredAt).getTime() >= professionalizingDate.getTime();
   }
 
   get maxReachablePixCountOnCertificationDate() {

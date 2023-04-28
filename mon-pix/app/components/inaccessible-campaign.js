@@ -2,9 +2,9 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 
 export default class InaccessibleCampaign extends Component {
-  @service url;
+  @service currentDomain;
 
   get shouldShowTheMarianneLogo() {
-    return this.url.isFrenchDomainExtension;
+    return this.currentDomain.isFranceDomain;
   }
 }

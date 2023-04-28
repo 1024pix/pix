@@ -3,6 +3,11 @@ import { setupTest } from 'ember-qunit';
 import REST from '@ember-data/adapter/rest';
 import sinon from 'sinon';
 
+const FRENCH_INTERNATIONAL_LOCALE = 'fr';
+const FRANCE_TLD = 'fr';
+const ENGLISH_INTERNATIONAL_LOCALE = 'en';
+const FRENCH_FRANCE_LOCALE = 'fr-fr';
+
 module('Unit | Adapters | ApplicationAdapter', function (hooks) {
   setupTest(hooks);
 
@@ -15,70 +20,74 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
   });
 
   module('get headers()', function () {
-    test('should add header with authentication token when the session is authenticated', function (assert) {
-      // Given
-      const access_token = '23456789';
-      const applicationAdapter = this.owner.lookup('adapter:application');
+    module('Authorization headers', function () {
+      test('should add header with authentication token when the session is authenticated', function (assert) {
+        // Given
+        const access_token = '23456789';
+        const applicationAdapter = this.owner.lookup('adapter:application');
 
-      // When
-      applicationAdapter.set('session', { isAuthenticated: true, data: { authenticated: { access_token } } });
+        // When
+        applicationAdapter.set('session', { isAuthenticated: true, data: { authenticated: { access_token } } });
 
-      // Then
-      assert.strictEqual(applicationAdapter.headers['Authorization'], `Bearer ${access_token}`);
-    });
-
-    test('should not add header authentication token when the session is not authenticated', function (assert) {
-      // Given
-      const applicationAdapter = this.owner.lookup('adapter:application');
-
-      // When
-      applicationAdapter.set('session', {});
-
-      // Then
-      assert.notOk(applicationAdapter.headers['Authorization']);
-    });
-
-    test('should add Accept-Language header set to fr-fr when the current domain contains pix.fr and locale is "fr"', function (assert) {
-      // Given
-      const applicationAdapter = this.owner.lookup('adapter:application');
-      applicationAdapter.intl = { get: () => ['fr'] };
-
-      // When
-      applicationAdapter.set('currentDomain', {
-        getExtension() {
-          return 'fr';
-        },
+        // Then
+        assert.strictEqual(applicationAdapter.headers['Authorization'], `Bearer ${access_token}`);
       });
 
-      // Then
-      assert.strictEqual(applicationAdapter.headers['Accept-Language'], 'fr-fr');
+      test('should not add header authentication token when the session is not authenticated', function (assert) {
+        // Given
+        const applicationAdapter = this.owner.lookup('adapter:application');
+
+        // When
+        applicationAdapter.set('session', {});
+
+        // Then
+        assert.notOk(applicationAdapter.headers['Authorization']);
+      });
     });
 
-    test('should add Accept-Language header set to fr when the current domain contains pix.digital and locale is "fr"', function (assert) {
-      // Given
-      const applicationAdapter = this.owner.lookup('adapter:application');
-      applicationAdapter.intl = { get: () => ['fr'] };
+    module('Accept-Language headers', function () {
+      test('should add Accept-Language header set to fr-fr when the current domain contains pix.fr and locale is "fr"', function (assert) {
+        // Given
+        const applicationAdapter = this.owner.lookup('adapter:application');
+        applicationAdapter.intl = { get: () => [FRENCH_INTERNATIONAL_LOCALE] };
 
-      // When
-      applicationAdapter.set('currentDomain', {
-        getExtension() {
-          return 'digital';
-        },
+        // When
+        applicationAdapter.set('currentDomain', {
+          getExtension() {
+            return FRANCE_TLD;
+          },
+        });
+
+        // Then
+        assert.strictEqual(applicationAdapter.headers['Accept-Language'], FRENCH_FRANCE_LOCALE);
       });
 
-      // Then
-      assert.strictEqual(applicationAdapter.headers['Accept-Language'], 'fr');
-    });
+      test('should add Accept-Language header set to fr when the current domain contains pix.digital and locale is "fr"', function (assert) {
+        // Given
+        const applicationAdapter = this.owner.lookup('adapter:application');
+        applicationAdapter.intl = { get: () => [FRENCH_INTERNATIONAL_LOCALE] };
 
-    test('should add Accept-Language header set to en when locale is "en"', function (assert) {
-      // Given
-      const applicationAdapter = this.owner.lookup('adapter:application');
+        // When
+        applicationAdapter.set('currentDomain', {
+          getExtension() {
+            return 'digital';
+          },
+        });
 
-      // When
-      applicationAdapter.intl = { get: () => ['en'] };
+        // Then
+        assert.strictEqual(applicationAdapter.headers['Accept-Language'], FRENCH_INTERNATIONAL_LOCALE);
+      });
 
-      // Then
-      assert.strictEqual(applicationAdapter.headers['Accept-Language'], 'en');
+      test('should add Accept-Language header set to en when locale is "en"', function (assert) {
+        // Given
+        const applicationAdapter = this.owner.lookup('adapter:application');
+
+        // When
+        applicationAdapter.intl = { get: () => [ENGLISH_INTERNATIONAL_LOCALE] };
+
+        // Then
+        assert.strictEqual(applicationAdapter.headers['Accept-Language'], ENGLISH_INTERNATIONAL_LOCALE);
+      });
     });
   });
 

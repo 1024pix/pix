@@ -24,7 +24,7 @@
                 {{t "pages.user-account.connexion-methods.menu-link-title"}}
               </LinkTo>
             </li>
-            {{#if this.displayLanguageSwitch}}
+            {{#if this.isInternationalDomain}}
               <li>
                 <LinkTo @route="authenticated.user-account.language" class="user-account-menu__link">
                   <FaIcon @icon="globe" />

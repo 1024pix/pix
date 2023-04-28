@@ -4,23 +4,23 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Controller | user-account', function (hooks) {
   setupTest(hooks);
 
-  module('#displayLanguageSwitch', function () {
+  module('#isInternationalDomain', function () {
     test('should return false if domain is french', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/user-account');
-      controller.url = { isFrenchDomainExtension: true };
+      controller.currentDomain = { isFranceDomain: true };
 
       // when / then
-      assert.false(controller.displayLanguageSwitch);
+      assert.false(controller.isInternationalDomain);
     });
 
     test('should return true if domain is not french', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/user-account');
-      controller.url = { isFrenchDomainExtension: false };
+      controller.currentDomain = { isFranceDomain: false };
 
       // when / then
-      assert.true(controller.displayLanguageSwitch);
+      assert.true(controller.isInternationalDomain);
     });
   });
 });
