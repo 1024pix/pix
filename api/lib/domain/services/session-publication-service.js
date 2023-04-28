@@ -12,6 +12,7 @@ async function publishSession({
   certificationRepository,
   finalizedSessionRepository,
   sessionRepository,
+  dependencies = { mailService },
 }) {
   const session = await sessionRepository.getWithCertificationCandidates(sessionId);
   if (session.isPublished()) {
@@ -35,11 +36,12 @@ async function publishSession({
 
     const refererEmailingAttempts = [];
     for (const refererEmail of refererEmails) {
-      const refererEmailingAttempt = await mailService.sendNotificationToCertificationCenterRefererForCleaResults({
-        sessionId: session.id,
-        email: refererEmail.email,
-        sessionDate: session.date,
-      });
+      const refererEmailingAttempt =
+        await dependencies.mailService.sendNotificationToCertificationCenterRefererForCleaResults({
+          sessionId: session.id,
+          email: refererEmail.email,
+          sessionDate: session.date,
+        });
       refererEmailingAttempts.push(refererEmailingAttempt);
     }
 
@@ -49,7 +51,7 @@ async function publishSession({
     }
   }
 
-  const emailingAttempts = await _sendPrescriberEmails(session);
+  const emailingAttempts = await _sendPrescriberEmails(session, dependencies.mailService);
   if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
     await sessionRepository.flagResultsAsSentToPrescriber({
       id: sessionId,
@@ -62,7 +64,7 @@ async function publishSession({
   }
 }
 
-async function _sendPrescriberEmails(session) {
+async function _sendPrescriberEmails(session, mailService) {
   const recipientEmails = _distinctCandidatesResultRecipientEmails(session.certificationCandidates);
 
   const emailingAttempts = [];

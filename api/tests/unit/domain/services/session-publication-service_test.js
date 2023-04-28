@@ -7,7 +7,6 @@ const {
   SessionAlreadyPublishedError,
   SendingEmailToRefererError,
 } = require('../../../../lib/domain/errors');
-const mailService = require('../../../../lib/domain/services/mail-service');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
 describe('Unit | UseCase | session-publication-service', function () {
@@ -19,7 +18,7 @@ describe('Unit | UseCase | session-publication-service', function () {
   const now = new Date('2019-01-01T05:06:07Z');
   const sessionDate = '2020-05-08';
   let clock;
-
+  let mailService;
   beforeEach(function () {
     clock = sinon.useFakeTimers(now);
     certificationRepository = {
@@ -39,7 +38,10 @@ describe('Unit | UseCase | session-publication-service', function () {
       getRefererEmails: sinon.stub(),
     };
     sessionRepository.flagResultsAsSentToPrescriber = sinon.stub();
-    mailService.sendCertificationResultEmail = sinon.stub();
+    mailService = {
+      sendCertificationResultEmail: sinon.stub(),
+      sendNotificationToCertificationCenterRefererForCleaResults: sinon.stub(),
+    };
   });
 
   afterEach(function () {
@@ -84,7 +86,6 @@ describe('Unit | UseCase | session-publication-service', function () {
       ],
       publishedAt: null,
     });
-
     beforeEach(function () {
       sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(originalSession);
     });
@@ -161,6 +162,7 @@ describe('Unit | UseCase | session-publication-service', function () {
           certificationRepository,
           finalizedSessionRepository,
           sessionRepository,
+          dependencies: { mailService },
         });
 
         // then
@@ -207,6 +209,7 @@ describe('Unit | UseCase | session-publication-service', function () {
           certificationRepository,
           finalizedSessionRepository,
           sessionRepository,
+          dependencies: { mailService },
         });
 
         // then
@@ -250,6 +253,7 @@ describe('Unit | UseCase | session-publication-service', function () {
             certificationRepository,
             finalizedSessionRepository,
             sessionRepository,
+            dependencies: { mailService },
           });
 
           // then
@@ -294,6 +298,7 @@ describe('Unit | UseCase | session-publication-service', function () {
             finalizedSessionRepository,
             sessionRepository,
             publishedAt: now,
+            dependencies: { mailService },
           });
 
           // then
@@ -306,7 +311,6 @@ describe('Unit | UseCase | session-publication-service', function () {
       context('when there is a referer', function () {
         it('should send an email to the referer', async function () {
           // given
-          mailService.sendNotificationToCertificationCenterRefererForCleaResults = sinon.stub();
           const session = domainBuilder.buildSession({
             certificationCenterId: 101,
             finalizedAt: now,
@@ -348,6 +352,7 @@ describe('Unit | UseCase | session-publication-service', function () {
             finalizedSessionRepository,
             sessionRepository,
             publishedAt: now,
+            dependencies: { mailService },
           });
 
           // then
@@ -363,7 +368,6 @@ describe('Unit | UseCase | session-publication-service', function () {
         context('when an email sending attempt fails', function () {
           it('should throw an error', async function () {
             // given
-            mailService.sendNotificationToCertificationCenterRefererForCleaResults = sinon.stub();
             const session = domainBuilder.buildSession({
               certificationCenterId: 101,
               finalizedAt: now,
@@ -409,6 +413,7 @@ describe('Unit | UseCase | session-publication-service', function () {
               finalizedSessionRepository,
               sessionRepository,
               publishedAt: now,
+              dependencies: { mailService },
             });
 
             // then
@@ -443,6 +448,7 @@ describe('Unit | UseCase | session-publication-service', function () {
           finalizedSessionRepository,
           sessionRepository,
           publishedAt,
+          dependencies: { mailService },
         });
 
         // then
