@@ -1,10 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/assessment-result-service');
-
-const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
-const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
-
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
@@ -34,19 +30,33 @@ describe('Unit | Domain | Services | assessment-results', function () {
         competence_code: 3.2,
       }),
     ];
+    let assessmentResultRepositoryStub;
+    let competenceMarkRepositoryStub;
 
     beforeEach(function () {
-      sinon.stub(assessmentResultRepository, 'save').resolves({ id: 1 });
-      sinon.stub(competenceMarkRepository, 'save').resolves();
+      assessmentResultRepositoryStub = {
+        save: sinon.stub().resolves({ id: 1 }),
+      };
+      competenceMarkRepositoryStub = {
+        save: sinon.stub().resolves(),
+      };
     });
 
     it('should save the assessment results', async function () {
       // when
-      await service.save({ certificationCourseId: 99, assessmentResult, competenceMarks });
+      await service.save({
+        certificationCourseId: 99,
+        assessmentResult,
+        competenceMarks,
+        dependencies: {
+          assessmentResultRepository: assessmentResultRepositoryStub,
+          competenceMarkRepository: competenceMarkRepositoryStub,
+        },
+      });
 
       // then
-      expect(assessmentResultRepository.save).to.have.been.calledOnce;
-      expect(assessmentResultRepository.save).to.have.been.calledOnceWith({
+      expect(assessmentResultRepositoryStub.save).to.have.been.calledOnce;
+      expect(assessmentResultRepositoryStub.save).to.have.been.calledOnceWith({
         certificationCourseId: 99,
         assessmentResult,
       });
@@ -54,11 +64,19 @@ describe('Unit | Domain | Services | assessment-results', function () {
 
     it('should save all competenceMarks', async function () {
       // when
-      await service.save({ certificationCourseId: 99, assessmentResult, competenceMarks });
+      await service.save({
+        certificationCourseId: 99,
+        assessmentResult,
+        competenceMarks,
+        dependencies: {
+          assessmentResultRepository: assessmentResultRepositoryStub,
+          competenceMarkRepository: competenceMarkRepositoryStub,
+        },
+      });
 
       // then
-      expect(competenceMarkRepository.save).to.have.been.calledTwice;
-      expect(competenceMarkRepository.save).to.have.been.calledWithMatch(
+      expect(competenceMarkRepositoryStub.save).to.have.been.calledTwice;
+      expect(competenceMarkRepositoryStub.save).to.have.been.calledWithMatch(
         new CompetenceMark({
           assessmentResultId: 1,
           level: 2,
@@ -67,7 +85,7 @@ describe('Unit | Domain | Services | assessment-results', function () {
           competence_code: 2.1,
         })
       );
-      expect(competenceMarkRepository.save).to.have.been.calledWithMatch(
+      expect(competenceMarkRepositoryStub.save).to.have.been.calledWithMatch(
         new CompetenceMark({
           assessmentResultId: 1,
           level: 3,
