@@ -110,7 +110,7 @@ module('Acceptance | User account page', function (hooks) {
       });
 
       module('When in France domain', () => {
-        test('not display language menu link', async function (assert) {
+        test('does not display language menu link', async function (assert) {
           // given
           class CurrentDomainStubService extends Service {
             get isFranceDomain() {
