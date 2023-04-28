@@ -7,7 +7,6 @@ export default class CurrentDomainService extends Service {
   getExtension() {
     return last(location.hostname.split('.'));
   }
-
   get isFranceDomain() {
     return this.getExtension() === FRANCE_TLD;
   }

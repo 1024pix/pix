@@ -8,6 +8,7 @@ import get from 'lodash/get';
 
 export default class SigninForm extends Component {
   @service url;
+  @service currentDomain;
   @service intl;
   @service featureToggles;
   @service session;
@@ -25,7 +26,7 @@ export default class SigninForm extends Component {
   }
 
   get displayPoleEmploiButton() {
-    return this.url.isFrenchDomainExtension;
+    return this.currentDomain.isFranceDomain;
   }
 
   get displayFwbButton() {

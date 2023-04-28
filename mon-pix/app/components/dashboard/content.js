@@ -7,7 +7,7 @@ export default class Content extends Component {
   MAX_SCORECARDS_TO_DISPLAY = 4;
 
   @service currentUser;
-  @service url;
+  @service currentDomain;
   @service intl;
 
   get hasNothingToShow() {
@@ -88,8 +88,8 @@ export default class Content extends Component {
 
   get newDashboardInfoLink() {
     return {
-      text: this.url.isFrenchDomainExtension ? this.intl.t('pages.dashboard.presentation.link.text') : null,
-      url: this.url.isFrenchDomainExtension ? this.intl.t('pages.dashboard.presentation.link.url') : null,
+      text: this.currentDomain.isFranceDomain ? this.intl.t('pages.dashboard.presentation.link.text') : null,
+      url: this.currentDomain.isFranceDomain ? this.intl.t('pages.dashboard.presentation.link.url') : null,
     };
   }
 }
