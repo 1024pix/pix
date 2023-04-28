@@ -13,7 +13,7 @@
     <li class="menu-bar__entry">
       <PixTooltip @position="right">
         <:triggerElement>
-          <LinkTo @route="authenticated.users.list" class="menu-bar__link">
+          <LinkTo @route="authenticated.users" class="menu-bar__link">
             <FaIcon @icon="user" @title="Utilisateurs" />
           </LinkTo>
         </:triggerElement>
@@ -23,7 +23,7 @@
     <li class="menu-bar__entry">
       <PixTooltip @position="right" @inline={{true}}>
         <:triggerElement>
-          <LinkTo @route="authenticated.certification-centers.list" class="menu-bar__link">
+          <LinkTo @route="authenticated.certification-centers" class="menu-bar__link">
             <FaIcon @icon="map-pin" @title="Centres de certification" />
           </LinkTo>
         </:triggerElement>
@@ -33,7 +33,7 @@
     <li class="menu-bar__entry">
       <PixTooltip @position="right" @inline={{true}}>
         <:triggerElement>
-          <LinkTo @route="authenticated.sessions.list.with-required-action" class="menu-bar__link">
+          <LinkTo @route="authenticated.sessions" class="menu-bar__link">
             <FaIcon @icon="chalkboard-user" @title="Sessions de certifications" />
           </LinkTo>
         </:triggerElement>
@@ -56,7 +56,7 @@
       <li class="menu-bar__entry">
         <PixTooltip @position="right" @inline={{true}}>
           <:triggerElement>
-            <LinkTo @route="authenticated.target-profiles.list" class="menu-bar__link">
+            <LinkTo @route="authenticated.target-profiles" class="menu-bar__link">
               <FaIcon @icon="clipboard-list" @title="Profils cibles" />
             </LinkTo>
           </:triggerElement>
@@ -80,7 +80,7 @@
       <li class="menu-bar__entry">
         <PixTooltip @position="right">
           <:triggerElement>
-            <LinkTo @route="authenticated.trainings.list" class="menu-bar__link">
+            <LinkTo @route="authenticated.trainings" class="menu-bar__link">
               <FaIcon @icon="book-open" @title="Contenus formatifs" />
             </LinkTo>
           </:triggerElement>
