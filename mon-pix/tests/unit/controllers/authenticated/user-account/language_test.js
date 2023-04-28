@@ -30,12 +30,12 @@ module('Unit | Controller | user-account/language', function (hooks) {
         controller.currentDomain = { isFranceDomain: false };
 
         // when
-        controller.onLanguageChange(language);
+        await controller.onLanguageChange(language);
 
         // then
+        sinon.assert.calledWith(userSaveStub, { adapterOptions: { lang: language } });
         sinon.assert.calledWith(dayjsSetLocaleStub, language);
         sinon.assert.calledWith(intlSetLocaleStub, [language]);
-        sinon.assert.calledWith(userSaveStub, { adapterOptions: { lang: language } });
         assert.ok(true);
       });
     });
@@ -47,12 +47,12 @@ module('Unit | Controller | user-account/language', function (hooks) {
         controller.currentDomain = { isFranceDomain: true };
 
         // when
-        controller.onLanguageChange(language);
+        await controller.onLanguageChange(language);
 
         // then
+        sinon.assert.notCalled(userSaveStub);
         sinon.assert.notCalled(dayjsSetLocaleStub);
         sinon.assert.notCalled(intlSetLocaleStub);
-        sinon.assert.notCalled(userSaveStub);
         assert.ok(true);
       });
     });
