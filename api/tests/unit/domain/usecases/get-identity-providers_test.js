@@ -33,7 +33,7 @@ describe('Unit | UseCase | get-identity-providers', function () {
     // then
     const expectedIdentityProviders = [OidcIdentityProviders.POLE_EMPLOI.service, OidcIdentityProviders.CNAV.service];
     expect(identityProviders.length).to.equal(2);
-    expect(identityProviders).to.deep.equal(expectedIdentityProviders);
+    expect(identityProviders).to.include.members(expectedIdentityProviders);
   });
 
   context('when an identity provider is not configured', function () {
