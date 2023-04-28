@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import * as acceptPixOrgaTermsOfService from '../../../../lib/domain/usecases/accept-pix-orga-terms-of-service.js';
+import { acceptPixOrgaTermsOfService } from '../../../../lib/domain/usecases/accept-pix-orga-terms-of-service.js';
 
 describe('Unit | UseCase | accept-pix-orga-terms-of-service', function () {
   let userRepository;
