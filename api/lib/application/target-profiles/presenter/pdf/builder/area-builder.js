@@ -22,7 +22,8 @@ const build = function (pdfDocument, area, frameworkName, language) {
   }
 };
 
-export { build as areaBuilder };
+export { build };
+
 /**
  * @param page{PDFPage}
  * @param positionY{number}
