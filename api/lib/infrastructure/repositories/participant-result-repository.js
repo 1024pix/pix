@@ -14,31 +14,29 @@ import * as flash from '../../domain/services/algorithm-methods/flash.js';
 import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetcher.js';
 import { NotFoundError } from '../../domain/errors.js';
 
-const ParticipantResultRepository = {
-  async getByUserIdAndCampaignId({ userId, campaignId, badges, locale }) {
-    const participationResults = await _getParticipationResults(userId, campaignId, locale);
-    let flashScoringResults;
-    if (participationResults.isFlash) {
-      flashScoringResults = await _getFlashScoringResults(participationResults.assessmentId, locale);
-    }
-    const isCampaignMultipleSendings = await _isCampaignMultipleSendings(campaignId);
-    const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
-    const isCampaignArchived = await _isCampaignArchived(campaignId);
-    const competences = await _findTargetedCompetences(campaignId, locale);
-    const badgeResultsDTO = await _getBadgeResults(badges);
-    const stageCollection = await _getStageCollection(campaignId);
+const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, locale }) {
+  const participationResults = await _getParticipationResults(userId, campaignId, locale);
+  let flashScoringResults;
+  if (participationResults.isFlash) {
+    flashScoringResults = await _getFlashScoringResults(participationResults.assessmentId, locale);
+  }
+  const isCampaignMultipleSendings = await _isCampaignMultipleSendings(campaignId);
+  const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
+  const isCampaignArchived = await _isCampaignArchived(campaignId);
+  const competences = await _findTargetedCompetences(campaignId, locale);
+  const badgeResultsDTO = await _getBadgeResults(badges);
+  const stageCollection = await _getStageCollection(campaignId);
 
-    return new AssessmentResult({
-      participationResults,
-      competences,
-      badgeResultsDTO,
-      stageCollection,
-      isCampaignMultipleSendings,
-      isOrganizationLearnerActive,
-      isCampaignArchived,
-      flashScoringResults,
-    });
-  },
+  return new AssessmentResult({
+    participationResults,
+    competences,
+    badgeResultsDTO,
+    stageCollection,
+    isCampaignMultipleSendings,
+    isOrganizationLearnerActive,
+    isCampaignArchived,
+    flashScoringResults,
+  });
 };
 
 async function _getParticipationResults(userId, campaignId) {
@@ -235,4 +233,4 @@ async function _isOrganizationLearnerActive(userId, campaignId) {
   return !organizationLearner?.isDisabled;
 }
 
-export { ParticipantResultRepository };
+export { getByUserIdAndCampaignId };
