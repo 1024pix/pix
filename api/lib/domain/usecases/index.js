@@ -482,7 +482,7 @@ const disableCertificationCenterMembership = require('./disable-certification-ce
 const disableMembership = require('./disable-membership.js');
 const dissociateUserFromOrganizationLearner = require('./dissociate-user-from-organization-learner.js');
 const endAssessmentBySupervisor = require('./end-assessment-by-supervisor.js');
-const enrollStudentsToSession = require('./enroll-students-to-session.js');
+const enrolStudentsToSession = require('./enrol-students-to-session.js');
 const finalizeSession = require('./finalize-session.js');
 const findAllTags = require('./find-all-tags.js');
 const findAnswerByAssessment = require('./find-answer-by-assessment.js');
@@ -770,7 +770,7 @@ const usecasesWithoutInjectedDependencies = {
   disableMembership,
   dissociateUserFromOrganizationLearner,
   endAssessmentBySupervisor,
-  enrollStudentsToSession,
+  enrolStudentsToSession,
   finalizeSession,
   findAllTags,
   findAnswerByAssessment,

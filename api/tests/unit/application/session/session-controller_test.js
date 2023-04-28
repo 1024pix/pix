@@ -453,7 +453,7 @@ describe('Unit | Controller | sessionController', function () {
     });
   });
 
-  describe('#enrollStudentsToSession', function () {
+  describe('#enrolStudentsToSession', function () {
     let request, studentIds, studentList, serializedCertificationCandidate;
     const sessionId = 1;
     const userId = 2;
@@ -479,7 +479,7 @@ describe('Unit | Controller | sessionController', function () {
         },
       };
       const requestResponseUtils = { extractUserIdFromRequest: sinon.stub() };
-      sinon.stub(usecases, 'enrollStudentsToSession');
+      sinon.stub(usecases, 'enrolStudentsToSession');
       sinon.stub(usecases, 'getSessionCertificationCandidates');
       const certificationCandidateSerializer = { serialize: sinon.stub() };
       dependencies = {
@@ -491,7 +491,7 @@ describe('Unit | Controller | sessionController', function () {
     context('when the user has access to session and there organizationLearnerIds are corrects', function () {
       beforeEach(function () {
         dependencies.requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
-        usecases.enrollStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
+        usecases.enrolStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
         usecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
         dependencies.certificationCandidateSerializer.serialize
           .withArgs(studentList)
@@ -500,7 +500,7 @@ describe('Unit | Controller | sessionController', function () {
 
       it('should return certificationCandidates', async function () {
         // when
-        const response = await sessionController.enrollStudentsToSession(request, hFake, dependencies);
+        const response = await sessionController.enrolStudentsToSession(request, hFake, dependencies);
 
         // then
         expect(response.statusCode).to.equal(201);

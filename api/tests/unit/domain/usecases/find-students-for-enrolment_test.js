@@ -61,11 +61,11 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
       });
     });
 
-    it('should return all students, enrolled or enrollable, regarding a session', async function () {
+    it('should return all students, enrolled or enrolable, regarding a session', async function () {
       // given
       const sessionId = 3;
       const enrolledStudent = domainBuilder.buildOrganizationLearner({ id: 10, organization, division: '3A' });
-      const enrollableStudents = _.times(5, (iteration) =>
+      const enrolableStudents = _.times(5, (iteration) =>
         domainBuilder.buildOrganizationLearner({ id: iteration, organization })
       );
       const certificationCandidates = [
@@ -74,7 +74,7 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
       organizationLearnerRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
         .withArgs({ page: { number: 1, size: 10 }, filter: { divisions: ['3A'] }, organizationId: organization.id })
         .resolves({
-          data: [enrolledStudent, ...enrollableStudents],
+          data: [enrolledStudent, ...enrolableStudents],
           pagination: { page: 1, pageSize: 10, rowCount: 5, pageCount: 1 },
         });
       certificationCandidateRepository.findBySessionId.withArgs(sessionId).resolves(certificationCandidates);
@@ -93,7 +93,7 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
 
       // then
       const expectedEnrolledStudent = new StudentForEnrolment({ ...enrolledStudent, isEnrolled: true });
-      const exepectedEnrollableStudents = enrollableStudents.map(
+      const exepectedEnrollableStudents = enrolableStudents.map(
         (student) => new StudentForEnrolment({ ...student, isEnrolled: false })
       );
       const expectedStudents = [expectedEnrolledStudent, ...exepectedEnrollableStudents];
