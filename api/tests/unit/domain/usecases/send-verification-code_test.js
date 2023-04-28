@@ -5,7 +5,6 @@ const {
   UserNotAuthorizedToUpdateEmailError,
 } = require('../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const codeUtils = require('../../../../lib/infrastructure/utils/code-utils');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
 const usecases = require('../../../../lib/domain/usecases/index.js');
@@ -16,6 +15,7 @@ describe('Unit | UseCase | send-verification-code', function () {
   let userRepository;
   let encryptionService;
   let mailService;
+  let codeUtilsStub;
 
   beforeEach(function () {
     userEmailRepository = {
@@ -35,7 +35,9 @@ describe('Unit | UseCase | send-verification-code', function () {
       findOneByUserIdAndIdentityProvider: sinon.stub(),
     };
 
-    sinon.stub(codeUtils, 'generateNumericalString');
+    codeUtilsStub = {
+      generateNumericalString: sinon.stub(),
+    };
   });
 
   it('should store the generated code in temporary storage', async function () {
@@ -61,7 +63,7 @@ describe('Unit | UseCase | send-verification-code', function () {
         })
       );
     encryptionService.checkPassword.withArgs({ password, passwordHash }).resolves();
-    codeUtils.generateNumericalString.withArgs(6).returns(code);
+    codeUtilsStub.generateNumericalString.withArgs(6).returns(code);
 
     // when
     await usecases.sendVerificationCode({
@@ -75,6 +77,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       userRepository,
       encryptionService,
       mailService,
+      codeUtils: codeUtilsStub,
     });
 
     // then
@@ -105,7 +108,7 @@ describe('Unit | UseCase | send-verification-code', function () {
         })
       );
     encryptionService.checkPassword.withArgs({ password, passwordHash }).resolves();
-    codeUtils.generateNumericalString.withArgs(6).returns(code);
+    codeUtilsStub.generateNumericalString.withArgs(6).returns(code);
 
     // when
     await usecases.sendVerificationCode({
@@ -119,6 +122,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       userRepository,
       encryptionService,
       mailService,
+      codeUtils: codeUtilsStub,
     });
 
     // then
@@ -151,6 +155,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       userRepository,
       encryptionService,
       mailService,
+      codeUtils: codeUtilsStub,
     });
 
     // then
@@ -190,6 +195,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       userRepository,
       encryptionService,
       mailService,
+      codeUtils: codeUtilsStub,
     });
 
     // then
@@ -215,6 +221,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       userRepository,
       encryptionService,
       mailService,
+      codeUtils: codeUtilsStub,
     });
 
     // then

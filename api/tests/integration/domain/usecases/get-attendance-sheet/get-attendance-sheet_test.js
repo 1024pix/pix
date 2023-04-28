@@ -2,6 +2,8 @@ const { unlink, writeFile } = require('fs').promises;
 const _ = require('lodash');
 const { expect, databaseBuilder } = require('../../../../test-helper');
 const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
+const writeOdsUtils = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
+const sessionXmlService = require('../../../../../lib/domain/services/session-xml-service');
 const sessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-repository');
 const sessionForAttendanceSheetRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository');
 const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
@@ -56,6 +58,9 @@ describe('Integration | UseCases | getAttendanceSheet', function () {
         sessionId,
         sessionRepository,
         sessionForAttendanceSheetRepository,
+        writeOdsUtils,
+        readOdsUtils,
+        sessionXmlService,
       });
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
       const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
@@ -114,6 +119,9 @@ describe('Integration | UseCases | getAttendanceSheet', function () {
         sessionId,
         sessionRepository,
         sessionForAttendanceSheetRepository,
+        writeOdsUtils,
+        readOdsUtils,
+        sessionXmlService,
       });
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
       const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });

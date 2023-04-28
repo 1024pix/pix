@@ -6,9 +6,6 @@ const {
   SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   EXTRA_EMPTY_CANDIDATE_ROWS,
 } = require('../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
-const writeOdsUtils = require('../../../../lib/infrastructure/utils/ods/write-ods-utils');
-const readOdsUtils = require('../../../../lib/infrastructure/utils/ods/read-ods-utils');
-const sessionXmlService = require('../../../../lib/domain/services/session-xml-service');
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
@@ -33,24 +30,33 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
             .resolves(_buildSessionWithCandidate('SUP', true));
 
           const odsBuffer = Buffer.from('some ods file');
-          sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
-          sinon
-            .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
+          const readOdsUtilsStub = {
+            getContentXml: sinon.stub().resolves(stringifiedXml),
+          };
+          const writeOdsUtilsStub = {
+            makeUpdatedOdsByContentXml: sinon.stub(),
+          };
+
+          writeOdsUtilsStub.makeUpdatedOdsByContentXml
             .withArgs({
               stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
               odsFilePath: sinon.match('attendance_sheet_template.ods'),
             })
             .resolves(odsBuffer);
-          sinon
-            .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
+
+          const sessionXmlServiceStub = {
+            getUpdatedXmlWithSessionData: sinon.stub(),
+            getUpdatedXmlWithCertificationCandidatesData: sinon.stub(),
+          };
+          sessionXmlServiceStub.getUpdatedXmlWithSessionData
             .withArgs({
               stringifiedXml,
               sessionData: _buildAttendanceSheetSessionData('SUP', true),
               sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
             })
             .returns(stringifiedSessionUpdatedXml);
-          sinon
-            .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
+
+          sessionXmlServiceStub.getUpdatedXmlWithCertificationCandidatesData
             .withArgs({
               stringifiedXml: stringifiedSessionUpdatedXml,
               candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SUP'),
@@ -64,6 +70,9 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
             sessionId,
             sessionRepository,
             sessionForAttendanceSheetRepository,
+            readOdsUtils: readOdsUtilsStub,
+            writeOdsUtils: writeOdsUtilsStub,
+            sessionXmlService: sessionXmlServiceStub,
           });
 
           // then
@@ -89,24 +98,33 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
             .resolves(_buildSessionWithCandidate('SCO', true));
 
           const odsBuffer = Buffer.from('some ods file');
-          sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
-          sinon
-            .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
+          const readOdsUtilsStub = {
+            getContentXml: sinon.stub().resolves(stringifiedXml),
+          };
+          const writeOdsUtilsStub = {
+            makeUpdatedOdsByContentXml: sinon.stub(),
+          };
+          writeOdsUtilsStub.makeUpdatedOdsByContentXml
             .withArgs({
               stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
               odsFilePath: sinon.match('sco_attendance_sheet_template.ods'),
             })
             .resolves(odsBuffer);
-          sinon
-            .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
+
+          const sessionXmlServiceStub = {
+            getUpdatedXmlWithSessionData: sinon.stub(),
+            getUpdatedXmlWithCertificationCandidatesData: sinon.stub(),
+          };
+
+          sessionXmlServiceStub.getUpdatedXmlWithSessionData
             .withArgs({
               stringifiedXml,
               sessionData: _buildAttendanceSheetSessionData('SCO', true),
               sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
             })
             .returns(stringifiedSessionUpdatedXml);
-          sinon
-            .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
+
+          sessionXmlServiceStub.getUpdatedXmlWithCertificationCandidatesData
             .withArgs({
               stringifiedXml: stringifiedSessionUpdatedXml,
               candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SCO'),
@@ -120,6 +138,9 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
             sessionId,
             sessionRepository,
             sessionForAttendanceSheetRepository,
+            readOdsUtils: readOdsUtilsStub,
+            writeOdsUtils: writeOdsUtilsStub,
+            sessionXmlService: sessionXmlServiceStub,
           });
 
           // then
