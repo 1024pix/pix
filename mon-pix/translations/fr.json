@@ -1562,14 +1562,6 @@
         }
       },
       "language": {
-        "fields": {
-          "select": {
-            "labels": {
-              "english": "Anglais",
-              "french": "Français"
-            }
-          }
-        },
         "lang": "Langue",
         "menu-link-title": "Choisir ma langue"
       },
