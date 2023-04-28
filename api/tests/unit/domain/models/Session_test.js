@@ -245,13 +245,13 @@ describe('Unit | Domain | Models | Session', function () {
     });
   });
 
-  context('#canEnrollCandidate', function () {
+  context('#canEnrolCandidate', function () {
     it('should return true when session is not finalized', function () {
       // given
       const session = domainBuilder.buildSession.created();
 
       // when
-      const result = session.canEnrollCandidate();
+      const result = session.canEnrolCandidate();
 
       // then
       expect(result).to.be.true;
@@ -262,7 +262,7 @@ describe('Unit | Domain | Models | Session', function () {
       const session = domainBuilder.buildSession.finalized();
 
       // when
-      const result = session.canEnrollCandidate();
+      const result = session.canEnrolCandidate();
 
       // then
       expect(result).to.be.false;
