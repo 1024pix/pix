@@ -37,26 +37,8 @@ function formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
 }
 
 function getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments) {
-  let solutionsNotFound = _.clone(treatedSolutions);
-
-  return _.reduce(
-    treatedAnswers,
-    (goodAnswerNb, answer) => {
-      let result = goodAnswerNb;
-
-      const solutionKey = _.findKey(solutionsNotFound, (solutionList) => {
-        return validateAnswer(answer, solutionList, useLevenshteinRatio(enabledTreatments));
-      });
-
-      if (solutionKey) {
-        solutionsNotFound = _.omit(solutionsNotFound, solutionKey);
-        result += 1;
-      }
-
-      return result;
-    },
-    0
-  );
+  return getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments).filter(({ status }) => status === 'ok')
+    .length;
 }
 
 function getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments) {
