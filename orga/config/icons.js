@@ -11,6 +11,7 @@ module.exports = function () {
       'chevron-down',
       'chevron-up',
       'crown',
+      'earth-europe',
       'ellipsis-vertical',
       'eye',
       'eye-slash',

@@ -595,7 +595,8 @@
       "select-label": "Class"
     },
     "login": {
-      "title": "Log in"
+      "title": "Log in",
+      "choose-language-aria-label": "Select a language"
     },
     "login-form": {
       "active-or-retrieve": "Activate or retrieve your Pix Orga space",
