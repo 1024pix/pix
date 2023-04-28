@@ -482,9 +482,13 @@ describe('Integration | Repository | challenge-repository', function () {
     it('should return only flash compatible challenges with skills', async function () {
       // given
       const locale = 'fr-fr';
+      const successProbabilityThreshold = 0.95;
 
       // when
-      const actualChallenges = await challengeRepository.findActiveFlashCompatible({ locale });
+      const actualChallenges = await challengeRepository.findActiveFlashCompatible({
+        locale,
+        successProbabilityThreshold,
+      });
 
       // then
       expect(actualChallenges).to.have.lengthOf(1);
