@@ -187,6 +187,9 @@ const dateUtils = require('../../infrastructure/utils/date-utils.js');
 const campaignCodeGenerator = require('../services/campaigns/campaign-code-generator.js');
 const smartRandom = require('../../domain/services/algorithm-methods/smart-random.js');
 const codeUtils = require('../../infrastructure/utils/code-utils.js');
+const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils.js');
+const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils.js');
+const sessionXmlService = require('../../domain/services/session-xml-service.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -346,6 +349,8 @@ const dependencies = {
   sessionValidator,
   smartRandom,
   settings,
+  readOdsUtils,
+  sessionXmlService,
   skillRepository,
   skillSetRepository,
   studentRepository,
@@ -385,6 +390,7 @@ const dependencies = {
   campaignValidator,
   learningContentConversionService,
   temporarySessionsStorageForMassImportService,
+  writeOdsUtils,
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection.js');

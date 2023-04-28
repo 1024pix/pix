@@ -1,8 +1,5 @@
 const _ = require('lodash');
 const moment = require('moment');
-const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils.js');
-const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils.js');
-const sessionXmlService = require('../services/session-xml-service.js');
 const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
@@ -16,6 +13,9 @@ module.exports = async function getAttendanceSheet({
   sessionId,
   sessionRepository,
   sessionForAttendanceSheetRepository,
+  writeOdsUtils,
+  readOdsUtils,
+  sessionXmlService,
 }) {
   const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
   if (!hasMembership) {
@@ -32,7 +32,7 @@ module.exports = async function getAttendanceSheet({
     odsFilePath,
   });
 
-  const updatedStringifiedXml = _updateXmlWithSession(stringifiedXml, session);
+  const updatedStringifiedXml = _updateXmlWithSession(stringifiedXml, session, sessionXmlService);
 
   return writeOdsUtils.makeUpdatedOdsByContentXml({
     stringifiedXml: updatedStringifiedXml,
@@ -40,7 +40,7 @@ module.exports = async function getAttendanceSheet({
   });
 };
 
-function _updateXmlWithSession(stringifiedXml, session) {
+function _updateXmlWithSession(stringifiedXml, session, sessionXmlService) {
   const sessionData = _.transform(session, _transformSessionIntoAttendanceSheetSessionData);
   const updatedStringifiedXml = sessionXmlService.getUpdatedXmlWithSessionData({
     stringifiedXml,
@@ -48,10 +48,10 @@ function _updateXmlWithSession(stringifiedXml, session) {
     sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
   });
 
-  return _attendanceSheetWithCertificationCandidates(updatedStringifiedXml, session);
+  return _attendanceSheetWithCertificationCandidates(updatedStringifiedXml, session, sessionXmlService);
 }
 
-function _attendanceSheetWithCertificationCandidates(stringifiedXml, session) {
+function _attendanceSheetWithCertificationCandidates(stringifiedXml, session, sessionXmlService) {
   let candidateTemplateValues = NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES;
 
   if (session.certificationCenterType === 'SCO' && session.isOrganizationManagingStudents) {
