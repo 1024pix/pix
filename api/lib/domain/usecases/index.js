@@ -185,6 +185,7 @@ const sessionValidator = require('../validators/session-validator.js');
 const sessionCodeService = require('../services/session-code-service.js');
 const dateUtils = require('../../infrastructure/utils/date-utils.js');
 const campaignCodeGenerator = require('../services/campaigns/campaign-code-generator.js');
+const smartRandom = require('../../domain/services/algorithm-methods/smart-random.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -341,6 +342,7 @@ const dependencies = {
   sessionJuryCommentRepository,
   sessionSummaryRepository,
   sessionValidator,
+  smartRandom,
   settings,
   skillRepository,
   skillSetRepository,
@@ -381,7 +383,6 @@ const dependencies = {
   campaignValidator,
   learningContentConversionService,
   temporarySessionsStorageForMassImportService,
-  dateUtils,
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection.js');
