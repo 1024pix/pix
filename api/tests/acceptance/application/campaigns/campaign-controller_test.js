@@ -668,7 +668,6 @@ describe('Acceptance | API | Campaign Controller', function () {
       organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
       await databaseBuilder.commit();
 
       const learningContent = [
@@ -792,7 +791,6 @@ describe('Acceptance | API | Campaign Controller', function () {
       organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
       const anotherUserId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
 

@@ -1,5 +1,4 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const TargetProfile = require('../../../../../lib/domain/models/TargetProfile');
 const skillsFilter = require('../../../../../lib/domain/services/algorithm-methods/skills-filter');
 const Tube = require('../../../../../lib/domain/models/Tube');
 
@@ -19,16 +18,16 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
     it('should return a first skill possible', function () {
       // given
       const skill1 = domainBuilder.buildSkill({ name: '@web3', difficulty: 3 });
-      const targetProfile = new TargetProfile({ skills: [skill1] });
+      const skills = [skill1];
       const knowledgeElements = [];
       const tubes = [new Tube({ skills: [skill1] })];
-      setPlayableSkills(targetProfile.skills);
+      setPlayableSkills(skills);
 
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills,
+        targetSkills: skills,
       });
 
       // then
@@ -38,16 +37,16 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
     it('should return a skill even if the only tube has a skill with difficulty > 3', function () {
       // given
       const skill1 = domainBuilder.buildSkill({ name: '@web4', difficulty: 4 });
-      const targetProfile = new TargetProfile({ skills: [skill1] });
+      const skills = [skill1];
       const knowledgeElements = [];
       const tubes = [new Tube({ skills: [skill1] })];
-      setPlayableSkills(targetProfile.skills);
+      setPlayableSkills(skills);
 
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills,
+        targetSkills: skills,
       });
 
       // then
@@ -61,21 +60,19 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       const skillFromEasyTubeLevel2 = domainBuilder.buildSkill({ id: 'rec3', name: '@url2', difficulty: 2 });
       const skillFromEasyTubeLevel1 = domainBuilder.buildSkill({ id: 'rec4', name: '@url1', difficulty: 1 });
 
-      const targetProfile = new TargetProfile({
-        skills: [skillTube1Level2, skillTube1Level4, skillFromEasyTubeLevel2, skillFromEasyTubeLevel1],
-      });
+      const skills = [skillTube1Level2, skillTube1Level4, skillFromEasyTubeLevel2, skillFromEasyTubeLevel1];
       const knowledgeElements = [];
       const tubes = [
         new Tube({ skills: [skillTube1Level4, skillTube1Level2] }),
         new Tube({ skills: [skillFromEasyTubeLevel2, skillFromEasyTubeLevel1] }),
       ];
-      setPlayableSkills(targetProfile.skills);
+      setPlayableSkills(skills);
 
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills,
+        targetSkills: skills,
       });
 
       // then
@@ -87,16 +84,16 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       const skillTube1Level2Timed = domainBuilder.buildSkill({ id: 'rec1', name: '@web2', difficulty: 2 });
       skillTube1Level2Timed.timed = true;
       const skillTube2Level2 = domainBuilder.buildSkill({ id: 'rec2', name: '@url2', difficulty: 2 });
-      const targetProfile = new TargetProfile({ skills: [skillTube1Level2Timed, skillTube2Level2] });
+      const skills = [skillTube1Level2Timed, skillTube2Level2];
       const knowledgeElements = [];
       const tubes = [new Tube({ skills: [skillTube1Level2Timed] }), new Tube({ skills: [skillTube2Level2] })];
-      setPlayableSkills(targetProfile.skills);
+      setPlayableSkills(skills);
 
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills,
+        targetSkills: skills,
       });
 
       // then
@@ -109,16 +106,16 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       skillTube1Level2Timed.timed = true;
       const skillTube2Level2Timed = domainBuilder.buildSkill({ id: 'rec2', name: '@url2', difficulty: 2 });
       skillTube2Level2Timed.timed = true;
-      const targetProfile = new TargetProfile({ skills: [skillTube1Level2Timed, skillTube2Level2Timed] });
+      const skills = [skillTube1Level2Timed, skillTube2Level2Timed];
       const knowledgeElements = [];
       const tubes = [new Tube({ skills: [skillTube1Level2Timed] }), new Tube({ skills: [skillTube2Level2Timed] })];
-      setPlayableSkills(targetProfile.skills);
+      setPlayableSkills(skills);
 
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills,
+        targetSkills: skills,
       });
 
       // then
@@ -129,7 +126,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       // given
       const playableSkill = domainBuilder.buildSkill({ name: '@web2', difficulty: 2 });
       const notPlayableSkill = domainBuilder.buildSkill({ name: '@url2', difficulty: 2 });
-      const targetProfile = new TargetProfile({ skills: [playableSkill, notPlayableSkill] });
+      const skills = [playableSkill, notPlayableSkill];
       const knowledgeElements = [];
       const tubes = [new Tube({ skills: [playableSkill, notPlayableSkill] })];
       playableSkill.isPlayable = true;
@@ -139,7 +136,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills,
+        targetSkills: skills,
       });
 
       // then
@@ -153,7 +150,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         // given
         const [skill1, skill2, skillNotAssessedLevel3] = domainBuilder.buildSkillCollection();
 
-        const targetProfile = new TargetProfile({ skills: [skill1, skill2, skillNotAssessedLevel3] });
+        const skills = [skill1, skill2, skillNotAssessedLevel3];
 
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
@@ -167,14 +164,14 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
             source: 'direct',
           }),
         ];
-        setPlayableSkills(targetProfile.skills);
+        setPlayableSkills(skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
           knowledgeElements,
           predictedLevel: 3,
           isLastChallengeTimed: false,
-          targetSkills: targetProfile.skills,
+          targetSkills: skills,
         });
 
         // then
@@ -190,9 +187,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         const skillWithTimedChallenge = domainBuilder.buildSkill({ id: 'rec3', name: '@web2', difficulty: 2 });
         skillWithTimedChallenge.timed = true;
 
-        const targetProfile = domainBuilder.buildTargetProfile({
-          skills: [skillWithoutTimedChallenge, skillWithTimedChallenge],
-        });
+        const skills = [skillWithoutTimedChallenge, skillWithTimedChallenge];
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: skill1.id,
@@ -201,14 +196,14 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
           }),
         ];
         const isLastChallengeTimed = true;
-        setPlayableSkills(targetProfile.skills);
+        setPlayableSkills(skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
           isLastChallengeTimed,
           knowledgeElements,
           predictedLevel: 2,
-          targetSkills: targetProfile.skills,
+          targetSkills: skills,
         });
 
         // then
@@ -221,7 +216,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         skill1.timed = true;
         skill2.timed = true;
         skill3.timed = true;
-        const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3] });
+        const skills = [skill1, skill2, skill3];
 
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
@@ -231,13 +226,13 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
           }),
         ];
         const isLastChallengeTimed = true;
-        setPlayableSkills(targetProfile.skills);
+        setPlayableSkills(skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
           knowledgeElements,
           predictedLevel: 2,
-          targetSkills: targetProfile.skills,
+          targetSkills: skills,
           isLastChallengeTimed,
         });
 
@@ -253,9 +248,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
           minLevel: 1,
           maxLevel: 6,
         });
-        const targetProfile = domainBuilder.buildTargetProfile({
-          skills: [skill1, skill2, skill3, skill4, skill5, skill6],
-        });
+        const skills = [skill1, skill2, skill3, skill4, skill5, skill6];
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: skill1.id,
@@ -269,13 +262,13 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
           }),
         ];
         const tubes = [new Tube({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] })];
-        setPlayableSkills(targetProfile.skills);
+        setPlayableSkills(skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
           knowledgeElements,
           predictedLevel: 2,
-          targetSkills: targetProfile.skills,
+          targetSkills: skills,
           tubes,
           isLastChallengeTimed: false,
         });
@@ -297,9 +290,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
           minLevel: 1,
           maxLevel: 3,
         });
-        const targetProfile = domainBuilder.buildTargetProfile({
-          skills: [skill3, skill4, skill5, skill6, easyTubeSkill1, easyTubeSkill2, easyTubeSkill3],
-        });
+        const skills = [skill3, skill4, skill5, skill6, easyTubeSkill1, easyTubeSkill2, easyTubeSkill3];
 
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
@@ -312,13 +303,13 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
           new Tube({ skills: [skill3, skill4, skill5, skill6] }),
           new Tube({ skills: [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] }),
         ];
-        setPlayableSkills(targetProfile.skills);
+        setPlayableSkills(skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
           knowledgeElements,
           predictedLevel: 5,
-          targetSkills: targetProfile.skills,
+          targetSkills: skills,
           tubes,
           isLastChallengeTimed: false,
         });
@@ -334,7 +325,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
           minLevel: 3,
           maxLevel: 6,
         });
-        const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill3, skill4, skill5, skill6] });
+        const skills = [skill3, skill4, skill5, skill6];
 
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
@@ -344,13 +335,13 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
           }),
         ];
         const tubes = [new Tube({ skills: [skill3, skill4, skill5, skill6] })];
-        setPlayableSkills(targetProfile.skills);
+        setPlayableSkills(skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
           knowledgeElements,
           predictedLevel: 5,
-          targetSkills: targetProfile.skills,
+          targetSkills: skills,
           tubes,
           isLastChallengeTimed: false,
         });
@@ -367,7 +358,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
           minLevel: 3,
           maxLevel: 6,
         });
-        const targetProfile = domainBuilder.buildTargetProfile({ skills: [notPlayableSkill, playableSkill] });
+        const skills = [notPlayableSkill, playableSkill];
 
         const knowledgeElements = [];
         const tubes = [new Tube({ skills: [notPlayableSkill, playableSkill] })];
@@ -378,7 +369,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
           knowledgeElements,
           tubes,
-          targetSkills: targetProfile.skills,
+          targetSkills: skills,
         });
 
         // then

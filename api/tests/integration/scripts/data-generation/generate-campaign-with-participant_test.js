@@ -16,6 +16,7 @@ describe('Integration | Scripts | generate-campaign-with-participants', function
       organizationId,
       participantCount: 2,
       campaignType: 'profiles_collection',
+      targetProfileId: null,
     });
 
     // then
@@ -36,6 +37,7 @@ describe('Integration | Scripts | generate-campaign-with-participants', function
       organizationId,
       participantCount: 2,
       campaignType: 'assessment',
+      targetProfileId: null,
     });
 
     // then
