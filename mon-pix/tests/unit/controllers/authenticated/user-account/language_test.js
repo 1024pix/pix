@@ -23,7 +23,7 @@ module('Unit | Controller | user-account/language', function (hooks) {
 
   module('#onLanguageChange', function () {
     module('when domain is international', function () {
-      test('set app locale and save user language', async function (assert) {
+      test('saves user language and update application locale', async function (assert) {
         // given
         const language = 'en';
 
@@ -39,8 +39,8 @@ module('Unit | Controller | user-account/language', function (hooks) {
         assert.ok(true);
       });
     });
-    module('when domain is french', function () {
-      test('not set locale and save user language', async function (assert) {
+    module('when in France domain', function () {
+      test('does not save user language and update application locale', async function (assert) {
         // given
         const language = 'en';
 
