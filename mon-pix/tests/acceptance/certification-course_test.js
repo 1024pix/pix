@@ -73,6 +73,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               monthOfBirth: '01',
               yearOfBirth: '1990',
               intl: this.intl,
+              screen,
             });
 
             // then
@@ -104,6 +105,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               monthOfBirth: '01',
               yearOfBirth: '1990',
               intl: this.intl,
+              screen,
             });
 
             // then
@@ -135,6 +137,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               monthOfBirth: '01',
               yearOfBirth: '1990',
               intl: this.intl,
+              screen,
             });
 
             // then
@@ -155,7 +158,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         module('when user is already linked to this candidate', function () {
           test('should redirect to certification start route', async function (assert) {
             // given
-            await visit('/certifications');
+            const screen = await visit('/certifications');
             this.server.schema.certificationCandidates.create({
               id: 1,
               firstName: 'Laura',
@@ -179,6 +182,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               monthOfBirth: '01',
               yearOfBirth: '1990',
               intl: this.intl,
+              screen,
             });
 
             // then
@@ -189,7 +193,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         module('when user is successfully linked to the candidate', function () {
           test('should redirect to certification start route', async function (assert) {
             // given
-            await visit('/certifications');
+            const screen = await visit('/certifications');
             this.server.create('certification-candidate-subscription', {
               id: 2,
               sessionId: 1,
@@ -206,6 +210,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               monthOfBirth: '01',
               yearOfBirth: '1990',
               intl: this.intl,
+              screen,
             });
 
             // then
@@ -242,7 +247,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           module('when user enter a correct code session', function () {
             test('should be redirected on the first challenge of an assessment', async function (assert) {
               // given
-              await visit('/certifications');
+              const screen = await visit('/certifications');
 
               await fillCertificationJoiner({
                 sessionId: '1',
@@ -252,10 +257,11 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
                 monthOfBirth: '01',
                 yearOfBirth: '1990',
                 intl: this.intl,
+                screen,
               });
 
               // when
-              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl, screen });
 
               // then
               assert.true(currentURL().startsWith(`/assessments/${assessment.id}/challenges`));
@@ -273,8 +279,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
                 monthOfBirth: '01',
                 yearOfBirth: '1990',
                 intl: this.intl,
+                screen,
               });
-              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl, screen });
 
               // when
               await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
@@ -296,8 +303,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
                   monthOfBirth: '01',
                   yearOfBirth: '1990',
                   intl: this.intl,
+                  screen,
                 });
-                await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+                await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl, screen });
 
                 // when
                 for (let i = 0; i < NB_CHALLENGES; ++i) {
@@ -322,8 +330,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
                 monthOfBirth: '01',
                 yearOfBirth: '1990',
                 intl: this.intl,
+                screen,
               });
-              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl, screen });
 
               await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
               await visit('/');
@@ -371,8 +380,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           monthOfBirth: '01',
           yearOfBirth: '1990',
           intl: this.intl,
+          screen,
         });
-        await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+        await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl, screen });
 
         // when
         for (let i = 0; i < NB_CHALLENGES; ++i) {
@@ -446,8 +456,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               monthOfBirth: '01',
               yearOfBirth: '2000',
               intl: this.intl,
+              screen,
             });
-            await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+            await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl, screen });
 
             // when
             assessment.update({ state: assessmentStates.ENDED_BY_SUPERVISOR });
