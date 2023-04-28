@@ -16,6 +16,7 @@ export default class CandidateInList extends Component {
   @tracked modalInstructionText = 'Information';
   @tracked actionOnConfirmation;
   @service intl;
+  @service featureToggles;
 
   get isCheckboxToBeDisplayed() {
     return !this.args.candidate.hasStarted && !this.args.candidate.hasCompleted;
@@ -23,6 +24,13 @@ export default class CandidateInList extends Component {
 
   get optionsMenuShouldBeDisplayed() {
     return this.args.candidate.hasStarted;
+  }
+
+  get shouldDisplayComplementaryCertification() {
+    return (
+      this.args.candidate.complementaryCertification &&
+      this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled
+    );
   }
 
   @action
