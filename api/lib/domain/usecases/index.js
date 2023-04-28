@@ -407,9 +407,9 @@ import { injectDependencies } from '../../infrastructure/utils/dependency-inject
 import { abortCertificationCourse } from './abort-certification-course.js';
 import { acceptCertificationCenterInvitation } from './accept-certification-center-invitation.js';
 import { acceptOrganizationInvitation } from './accept-organization-invitation.js';
-import * as acceptPixCertifTermsOfService from './accept-pix-certif-terms-of-service.js';
-import * as acceptPixLastTermsOfService from './accept-pix-last-terms-of-service.js';
-import * as acceptPixOrgaTermsOfService from './accept-pix-orga-terms-of-service.js';
+import { acceptPixCertifTermsOfService } from './accept-pix-certif-terms-of-service.js';
+import { acceptPixLastTermsOfService } from './accept-pix-last-terms-of-service.js';
+import { acceptPixOrgaTermsOfService } from './accept-pix-orga-terms-of-service.js';
 import { addCertificationCandidateToSession } from './add-certification-candidate-to-session.js';
 import { addPixAuthenticationMethodByEmail } from './add-pix-authentication-method-by-email.js';
 import { addTutorialEvaluation } from './add-tutorial-evaluation.js';
