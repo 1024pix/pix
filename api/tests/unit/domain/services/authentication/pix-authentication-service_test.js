@@ -3,9 +3,7 @@ const { PasswordNotMatching, UserNotFoundError } = require('../../../../../lib/d
 
 const User = require('../../../../../lib/domain/models/User');
 const UserLogin = require('../../../../../lib/domain/models/UserLogin');
-const encryptionService = require('../../../../../lib/domain/services/encryption-service');
 const pixAuthenticationService = require('../../../../../lib/domain/services/authentication/pix-authentication-service');
-const userLoginRepository = require('../../../../../lib/infrastructure/repositories/user-login-repository');
 
 describe('Unit | Domain | Services | pix-authentication-service', function () {
   describe('#getUserByUsernameAndPassword', function () {
@@ -16,6 +14,8 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
     let userLogin;
     let authenticationMethod;
     let userRepository;
+    let userLoginRepository;
+    let encryptionService;
 
     beforeEach(function () {
       user = domainBuilder.buildUser({ username });
@@ -29,11 +29,14 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
       userRepository = {
         getByUsernameOrEmailWithRolesAndPassword: sinon.stub(),
       };
-      sinon.stub(userLoginRepository, 'findByUserId');
-      sinon.stub(userLoginRepository, 'create');
-      sinon.stub(userLoginRepository, 'update');
-
-      sinon.stub(encryptionService, 'checkPassword');
+      userLoginRepository = {
+        findByUserId: sinon.stub(),
+        create: sinon.stub(),
+        update: sinon.stub(),
+      };
+      encryptionService = {
+        checkPassword: sinon.stub(),
+      };
     });
 
     context('When user credentials are valid', function () {
@@ -49,6 +52,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
           username,
           password,
           userRepository,
+          dependencies: { userLoginRepository, encryptionService },
         });
 
         // then
@@ -64,6 +68,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
           username,
           password,
           userRepository,
+          dependencies: { userLoginRepository, encryptionService },
         });
 
         // then
@@ -79,6 +84,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
           username,
           password,
           userRepository,
+          dependencies: { userLoginRepository, encryptionService },
         });
 
         // then
@@ -97,6 +103,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             username,
             password,
             userRepository,
+            dependencies: { userLoginRepository, encryptionService },
           });
 
           // then
@@ -120,6 +127,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             username,
             password,
             userRepository,
+            dependencies: { userLoginRepository, encryptionService },
           });
 
           // then
@@ -139,6 +147,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
           username,
           password,
           userRepository,
+          dependencies: { userLoginRepository, encryptionService },
         });
 
         // then
@@ -166,6 +175,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
               username,
               password,
               userRepository,
+              dependencies: { userLoginRepository, encryptionService },
             });
 
             // then
@@ -197,6 +207,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
               username,
               password,
               userRepository,
+              dependencies: { userLoginRepository, encryptionService },
             });
 
             // then
@@ -228,6 +239,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
               username,
               password,
               userRepository,
+              dependencies: { userLoginRepository, encryptionService },
             });
 
             // then

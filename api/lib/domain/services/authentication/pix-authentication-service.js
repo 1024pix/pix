@@ -2,17 +2,22 @@ const { PasswordNotMatching } = require('../../errors.js');
 const encryptionService = require('../encryption-service.js');
 const userLoginRepository = require('../../../infrastructure/repositories/user-login-repository.js');
 
-async function getUserByUsernameAndPassword({ username, password, userRepository }) {
+async function getUserByUsernameAndPassword({
+  username,
+  password,
+  userRepository,
+  dependencies = { userLoginRepository, encryptionService },
+}) {
   const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
   const passwordHash = foundUser.authenticationMethods[0].authenticationComplement.password;
 
-  let userLogin = await userLoginRepository.findByUserId(foundUser.id);
+  let userLogin = await dependencies.userLoginRepository.findByUserId(foundUser.id);
   if (!userLogin) {
-    userLogin = await userLoginRepository.create({ userId: foundUser.id });
+    userLogin = await dependencies.userLoginRepository.create({ userId: foundUser.id });
   }
 
   try {
-    await encryptionService.checkPassword({
+    await dependencies.encryptionService.checkPassword({
       password,
       passwordHash,
     });
@@ -26,7 +31,7 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
         userLogin.markUserAsTemporarilyBlocked();
       }
 
-      await userLoginRepository.update(userLogin);
+      await dependencies.userLoginRepository.update(userLogin);
     }
 
     throw error;
@@ -34,7 +39,7 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
 
   if (userLogin.hasFailedAtLeastOnce()) {
     userLogin.resetUserTemporaryBlocking();
-    await userLoginRepository.update(userLogin);
+    await dependencies.userLoginRepository.update(userLogin);
   }
 
   return foundUser;
