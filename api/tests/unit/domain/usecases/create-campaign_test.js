@@ -1,6 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
 const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
-const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns/campaign-code-generator');
 const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const CampaignCreator = require('../../../../lib/domain/models/CampaignCreator');
 const CampaignForCreation = require('../../../../lib/domain/models/CampaignForCreation');
@@ -8,11 +7,14 @@ const CampaignForCreation = require('../../../../lib/domain/models/CampaignForCr
 describe('Unit | UseCase | create-campaign', function () {
   let campaignRepository;
   let campaignCreatorRepository;
+  let campaignCodeGeneratorStub;
 
   beforeEach(function () {
     campaignRepository = { save: sinon.stub() };
     campaignCreatorRepository = { get: sinon.stub() };
-    sinon.stub(campaignCodeGenerator, 'generate');
+    campaignCodeGeneratorStub = {
+      generate: sinon.stub(),
+    };
   });
 
   it('should save the campaign', async function () {
@@ -35,7 +37,7 @@ describe('Unit | UseCase | create-campaign', function () {
     const campaignCreator = new CampaignCreator([targetProfileId]);
     campaignCreatorRepository.get.withArgs({ userId: creatorId, organizationId, ownerId }).resolves(campaignCreator);
 
-    campaignCodeGenerator.generate.resolves(code);
+    campaignCodeGeneratorStub.generate.resolves(code);
     campaignRepository.save.resolves();
 
     // when
@@ -43,6 +45,7 @@ describe('Unit | UseCase | create-campaign', function () {
       campaign: campaignData,
       campaignRepository,
       campaignCreatorRepository,
+      campaignCodeGenerator: campaignCodeGeneratorStub,
     });
 
     // then
@@ -67,7 +70,7 @@ describe('Unit | UseCase | create-campaign', function () {
     const campaignCreator = new CampaignCreator([targetProfileId]);
     campaignCreatorRepository.get.withArgs({ userId: creatorId, organizationId, ownerId }).resolves(campaignCreator);
 
-    campaignCodeGenerator.generate.resolves(code);
+    campaignCodeGeneratorStub.generate.resolves(code);
     const savedCampaign = Symbol('a saved campaign');
 
     campaignRepository.save.resolves(savedCampaign);
@@ -77,6 +80,7 @@ describe('Unit | UseCase | create-campaign', function () {
       campaign: campaignData,
       campaignRepository,
       campaignCreatorRepository,
+      campaignCodeGenerator: campaignCodeGeneratorStub,
     });
 
     // then
