@@ -186,6 +186,7 @@ const sessionCodeService = require('../services/session-code-service.js');
 const dateUtils = require('../../infrastructure/utils/date-utils.js');
 const campaignCodeGenerator = require('../services/campaigns/campaign-code-generator.js');
 const smartRandom = require('../../domain/services/algorithm-methods/smart-random.js');
+const codeUtils = require('../../infrastructure/utils/code-utils.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -262,6 +263,7 @@ const dependencies = {
   challengeRepository,
   challengeForPixAutoAnswerRepository,
   cleaCertifiedCandidateRepository,
+  codeUtils,
   competenceEvaluationRepository,
   competenceMarkRepository,
   competenceRepository,
