@@ -1,12 +1,12 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
-const enrollStudentsToSession = require('../../../../lib/domain/usecases/enroll-students-to-session');
+const enrolStudentsToSession = require('../../../../lib/domain/usecases/enrol-students-to-session');
 const SCOCertificationCandidate = require('../../../../lib/domain/models/SCOCertificationCandidate');
 const { ForbiddenAccess, UnknownCountryForStudentEnrolmentError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | enroll-students-to-session', function () {
+describe('Unit | UseCase | enrol-students-to-session', function () {
   context('when referent is allowed to Pix Certif', function () {
-    it('enrolls n students to a session', async function () {
+    it('enrols n students to a session', async function () {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;
@@ -54,7 +54,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         .resolves(organizationForReferent.id);
 
       // when
-      await enrollStudentsToSession({
+      await enrolStudentsToSession({
         sessionId,
         studentIds,
         referentId,
@@ -73,7 +73,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       expect(scoCertificationCandidateRepository.findBySessionId(anotherSessionId)).to.deep.equal(undefined);
     });
 
-    it('enrolls a student by trimming his first name and last name', async function () {
+    it('enrols a student by trimming his first name and last name', async function () {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;
@@ -125,7 +125,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         .resolves(organizationForReferent.id);
 
       // when
-      await enrollStudentsToSession({
+      await enrolStudentsToSession({
         sessionId,
         studentIds: [1],
         referentId,
@@ -167,7 +167,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         .resolves(organizationForReferent.id);
 
       // when
-      const error = await catchErr(enrollStudentsToSession)({
+      const error = await catchErr(enrolStudentsToSession)({
         sessionId: session.id,
         studentIds,
         referentId,
@@ -195,7 +195,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       sessionRepository.get.withArgs(session.id).resolves(session);
 
       // when
-      const error = await catchErr(enrollStudentsToSession)({
+      const error = await catchErr(enrolStudentsToSession)({
         sessionId: session.id,
         studentIds,
         referentId,
@@ -241,7 +241,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         .resolves(organizationForReferent.id);
 
       // when
-      const error = await catchErr(enrollStudentsToSession)({
+      const error = await catchErr(enrolStudentsToSession)({
         sessionId,
         studentIds,
         referentId,
@@ -288,7 +288,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         .resolves(organizationForReferent.id);
 
       // when
-      await enrollStudentsToSession({
+      await enrolStudentsToSession({
         sessionId,
         studentIds,
         referentId,

@@ -3,7 +3,7 @@ const _ = require('lodash');
 const { ForbiddenAccess, UnknownCountryForStudentEnrolmentError } = require('../errors.js');
 const INSEE_PREFIX_CODE = '99';
 
-module.exports = async function enrollStudentsToSession({
+module.exports = async function enrolStudentsToSession({
   sessionId,
   referentId,
   studentIds,

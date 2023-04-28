@@ -361,16 +361,16 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('PUT /api/session/{id}/enroll-students-to-session', function () {
+  describe('PUT /api/session/{id}/enrol-students-to-session', function () {
     it('exists', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
+      sinon.stub(sessionController, 'enrolStudentsToSession').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('PUT', '/api/sessions/3/enroll-students-to-session');
+      const response = await httpTestServer.request('PUT', '/api/sessions/3/enrol-students-to-session');
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -379,12 +379,12 @@ describe('Unit | Application | Sessions | Routes', function () {
     it('validates the session id', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
+      sinon.stub(sessionController, 'enrolStudentsToSession').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('PUT', '/api/sessions/invalidId/enroll-students-to-session');
+      const response = await httpTestServer.request('PUT', '/api/sessions/invalidId/enrol-students-to-session');
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -393,12 +393,12 @@ describe('Unit | Application | Sessions | Routes', function () {
     it('denies access if the session of the logged used is not authorized', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').throws(new NotFoundError());
-      sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
+      sinon.stub(sessionController, 'enrolStudentsToSession').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('PUT', '/api/sessions/3/enroll-students-to-session');
+      const response = await httpTestServer.request('PUT', '/api/sessions/3/enrol-students-to-session');
 
       // then
       expect(response.statusCode).to.equal(404);
