@@ -1,7 +1,4 @@
 const { AssessmentEndedError } = require('../errors.js');
-const smartRandom = require('../services/algorithm-methods/smart-random.js');
-const flash = require('../services/algorithm-methods/flash.js');
-const dataFetcher = require('../services/algorithm-methods/data-fetcher.js');
 
 module.exports = async function getNextChallengeForCampaignAssessment({
   challengeRepository,
@@ -10,6 +7,9 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   assessment,
   pickChallengeService,
   locale,
+  dataFetcher,
+  smartRandom,
+  flash,
 }) {
   let algoResult;
 
