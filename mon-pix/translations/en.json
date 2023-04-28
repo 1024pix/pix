@@ -1562,14 +1562,6 @@
         }
       },
       "language": {
-        "fields": {
-          "select": {
-            "labels": {
-              "english": "English",
-              "french": "French"
-            }
-          }
-        },
         "lang": "Language",
         "menu-link-title": "Language"
       },
