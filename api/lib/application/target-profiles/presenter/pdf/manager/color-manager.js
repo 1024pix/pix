@@ -37,33 +37,17 @@ const findLighterShadeRGBColor = function (color = DEFAULT_COLOR) {
   return rgbColor;
 };
 
-const legalMentionColor = function () {
-  return colorToRgb['black'];
-};
+const legalMentionColor = colorToRgb['black'];
+const coverPageTitleColor = colorToRgb['white'];
+const coverPageLegalMentionColor = colorToRgb['white'];
 
-const coverPageTitleColor = function () {
-  return colorToRgb['white'];
-};
+const coverPageVersionColor = colorToRgb['white'];
 
-const coverPageLegalMentionColor = function () {
-  return colorToRgb['white'];
-};
+const competenceBackground = DEFAULT_BACKGROUND;
 
-const coverPageVersionColor = function () {
-  return colorToRgb['white'];
-};
+const thematicBackground = DEFAULT_BACKGROUND;
 
-const competenceBackground = function () {
-  return DEFAULT_BACKGROUND;
-};
-
-const thematicBackground = function () {
-  return DEFAULT_BACKGROUND;
-};
-
-const tubeBackground = function () {
-  return rgb(0.89, 0.89, 0.89);
-};
+const tubeBackground = rgb(0.89, 0.89, 0.89);
 
 export {
   findRGBColor,
