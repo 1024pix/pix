@@ -1,15 +1,16 @@
 import EmberRouter from '@ember/routing/router';
 import config from 'pix-admin/config/environment';
 
-class Router extends EmberRouter {
+export default class Router extends EmberRouter {
   location = config.locationType;
   rootURL = config.rootURL;
 
-  // eslint-disable-next-line ember/classic-decorator-hooks
-  init() {
-    super.init(...arguments);
-    this.on('routeDidChange', () => {
-      window.scrollTo(0, 0);
+  constructor() {
+    super(...arguments);
+    this.on('routeDidChange', (transition) => {
+      if (transition.from && transition.to.name !== transition.from.name) {
+        window.scrollTo(0, 0);
+      }
     });
   }
 }
@@ -122,5 +123,3 @@ Router.map(function () {
     this.route('tools');
   });
 });
-
-export default Router;
