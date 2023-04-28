@@ -1,12 +1,17 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const usecase = require('../../../../lib/application/usecases/checkUserBelongsToLearnersOrganization');
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
 
 describe('Unit | Application | Use Case | checkUserBelongsToLearnersOrganization', function () {
+  let membershipRepositoryStub;
+  let organizationLearnerRepositoryStub;
+
   beforeEach(function () {
-    membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
-    organizationLearnerRepository.get = sinon.stub();
+    membershipRepositoryStub = {
+      findByUserIdAndOrganizationId: sinon.stub(),
+    };
+    organizationLearnerRepositoryStub = {
+      get: sinon.stub(),
+    };
   });
 
   it('should return true when user belongs to the same organization as learner', async function () {
@@ -21,15 +26,18 @@ describe('Unit | Application | Use Case | checkUserBelongsToLearnersOrganization
       id: organizationLearnerId,
       organization: sharedOrganization,
     });
-    organizationLearnerRepository.get.resolves(organizationLearner);
-    membershipRepository.findByUserIdAndOrganizationId.resolves([membership]);
+    organizationLearnerRepositoryStub.get.resolves(organizationLearner);
+    membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([membership]);
 
     // when
-    const response = await usecase.execute(userId, organizationLearnerId);
+    const response = await usecase.execute(userId, organizationLearnerId, {
+      membershipRepository: membershipRepositoryStub,
+      organizationLearnerRepository: organizationLearnerRepositoryStub,
+    });
 
     // then
     expect(response).to.equal(true);
-    expect(membershipRepository.findByUserIdAndOrganizationId).to.have.been.calledWith({
+    expect(membershipRepositoryStub.findByUserIdAndOrganizationId).to.have.been.calledWith({
       userId,
       organizationId: sharedOrganization.id,
     });
@@ -46,15 +54,18 @@ describe('Unit | Application | Use Case | checkUserBelongsToLearnersOrganization
       id: organizationLearnerId,
       anotherOrganization,
     });
-    organizationLearnerRepository.get.resolves(organizationLearner);
-    membershipRepository.findByUserIdAndOrganizationId.resolves([]);
+    organizationLearnerRepositoryStub.get.resolves(organizationLearner);
+    membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([]);
 
     // when
-    const response = await usecase.execute(userId, organizationLearnerId);
+    const response = await usecase.execute(userId, organizationLearnerId, {
+      membershipRepository: membershipRepositoryStub,
+      organizationLearnerRepository: organizationLearnerRepositoryStub,
+    });
 
     // then
     expect(response).to.equal(false);
-    expect(membershipRepository.findByUserIdAndOrganizationId).to.have.been.calledWith({
+    expect(membershipRepositoryStub.findByUserIdAndOrganizationId).to.have.been.calledWith({
       userId,
       organizationId: anotherOrganization.id,
     });

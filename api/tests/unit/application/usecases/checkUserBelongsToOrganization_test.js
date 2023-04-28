@@ -1,10 +1,13 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const useCase = require('../../../../lib/application/usecases/checkUserBelongsToOrganization');
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 
 describe('Unit | Application | Use Case | checkUserBelongsToOrganization', function () {
+  let membershipRepositoryStub;
+
   beforeEach(function () {
-    membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
+    membershipRepositoryStub = {
+      findByUserIdAndOrganizationId: sinon.stub(),
+    };
   });
 
   context('When user is in the organization', function () {
@@ -13,10 +16,12 @@ describe('Unit | Application | Use Case | checkUserBelongsToOrganization', funct
       const userId = 1234;
       const organization = domainBuilder.buildOrganization();
       const membership = domainBuilder.buildMembership({ organization });
-      membershipRepository.findByUserIdAndOrganizationId.resolves([membership]);
+      membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([membership]);
 
       // when
-      const response = await useCase.execute(userId, organization.id);
+      const response = await useCase.execute(userId, organization.id, {
+        membershipRepository: membershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(true);
@@ -28,10 +33,12 @@ describe('Unit | Application | Use Case | checkUserBelongsToOrganization', funct
       const organization = domainBuilder.buildOrganization();
       const membership1 = domainBuilder.buildMembership({ organization });
       const membership2 = domainBuilder.buildMembership({ organization });
-      membershipRepository.findByUserIdAndOrganizationId.resolves([membership1, membership2]);
+      membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([membership1, membership2]);
 
       // when
-      const response = await useCase.execute(userId, organization.id);
+      const response = await useCase.execute(userId, organization.id, {
+        membershipRepository: membershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(true);
@@ -43,10 +50,12 @@ describe('Unit | Application | Use Case | checkUserBelongsToOrganization', funct
       // given
       const userId = 1234;
       const organization = domainBuilder.buildOrganization();
-      membershipRepository.findByUserIdAndOrganizationId.resolves([]);
+      membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([]);
 
       // when
-      const response = await useCase.execute(userId, organization.id);
+      const response = await useCase.execute(userId, organization.id, {
+        membershipRepository: membershipRepositoryStub,
+      });
 
       // then
       expect(response).to.equal(false);

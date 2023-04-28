@@ -2,9 +2,13 @@ const certificationCourseRepository = require('../../infrastructure/repositories
 const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository.js');
 
 module.exports = {
-  async execute({ userId, certificationCourseId }) {
-    const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
-    return sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
+  async execute({
+    userId,
+    certificationCourseId,
+    dependencies = { certificationCourseRepository, sessionRepository },
+  }) {
+    const certificationCourse = await dependencies.certificationCourseRepository.get(certificationCourseId);
+    return dependencies.sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
       userId,
       certificationCourse.getSessionId()
     );
