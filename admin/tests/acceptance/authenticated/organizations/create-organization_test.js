@@ -13,6 +13,14 @@ module('Acceptance | Organizations | Create', function (hooks) {
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
   });
 
+  test('it should set organizations menubar item active', async function (assert) {
+    // when
+    const screen = await visit('/organizations/new');
+
+    // then
+    assert.dom(screen.getByRole('link', { name: 'Organisations' })).hasClass('active');
+  });
+
   module('when an organization is created', function () {
     test('it redirects the user on the organization details page with the tags tab opened', async function (assert) {
       // given

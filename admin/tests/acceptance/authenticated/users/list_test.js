@@ -32,6 +32,14 @@ module('Acceptance | authenticated/users | list', function (hooks) {
       assert.strictEqual(currentURL(), '/users/list');
     });
 
+    test('it should set users menubar item active', async function (assert) {
+      // when
+      const screen = await visit('/users/list');
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Utilisateurs' })).hasClass('active');
+    });
+
     test('it should not list the users at loading page', async function (assert) {
       // when
       const screen = await visit('/users/list');

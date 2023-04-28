@@ -46,6 +46,14 @@ module('Acceptance | authenticated/sessions/list/with required action', function
       assert.strictEqual(currentURL(), '/sessions/list/with-required-action');
     });
 
+    test('it should set sessions menubar item active', async function (assert) {
+      // when
+      const screen = await visit('/sessions/list/with-required-action');
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Sessions de certifications' })).hasClass('active');
+    });
+
     test('it should display sessions with required action informations', async function (assert) {
       assert.expect(8);
       // given

@@ -14,12 +14,20 @@ module('Acceptance | administration', function (hooks) {
   });
 
   module('Access', function () {
-    test('Administration page should be accessible from /tools', async function (assert) {
+    test('Administration page should be accessible from /administration', async function (assert) {
       // given & when
       await visit('/administration');
 
       // then
       assert.strictEqual(currentURL(), '/administration');
+    });
+
+    test('it should set administration menubar item active', async function (assert) {
+      // when
+      const screen = await visit(`/administration`);
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Administration' })).hasClass('active');
     });
   });
 

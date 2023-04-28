@@ -21,7 +21,7 @@ module('Acceptance | Session page', function (hooks) {
       await visitSessionsPage();
 
       // then
-      assert.strictEqual(currentURL(), '/sessions/list');
+      assert.strictEqual(currentURL(), '/sessions/list/with-required-action');
     });
   });
 

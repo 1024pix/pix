@@ -24,6 +24,14 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
     assert.strictEqual(currentURL(), `/organizations/${organization.id}/team`);
   });
 
+  test('it should set organizations menubar item active', async function (assert) {
+    // when
+    const screen = await visit(`/organizations/${organization.id}`);
+
+    // then
+    assert.dom(screen.getByRole('link', { name: 'Organisations' })).hasClass('active');
+  });
+
   module('listing members', function () {
     test('it should display the current filter when memberships are filtered by firstName', async function (assert) {
       // when
