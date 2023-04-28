@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, domainBuilder, mockLearningContent } = require('../../../../test-helper');
+const { expect, databaseBuilder } = require('../../../../test-helper');
 const TargetProfileForSpecifierRepository = require('../../../../../lib/infrastructure/repositories/campaign/target-profile-for-specifier-repository');
 const TargetProfileForSpecifier = require('../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier');
 const { categories } = require('../../../../../lib/domain/models/TargetProfile');
@@ -6,82 +6,28 @@ const { categories } = require('../../../../../lib/domain/models/TargetProfile')
 describe('Integration | Infrastructure | Repository | target-profile-for-campaign-repository', function () {
   describe('#availableForOrganization', function () {
     context('when there is one target profile', function () {
-      context('when target profile has skills', function () {
-        it('returns the count of tube', async function () {
-          const skill1 = domainBuilder.buildSkill({ id: 'skill1', tubeId: 'tube1' });
-          const skill2 = domainBuilder.buildSkill({ id: 'skill2', tubeId: 'tube2' });
-          const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
-          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill1.id });
-          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill2.id });
+      it('returns the count of tube', async function () {
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
+        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube1' });
+        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube2' });
 
-          const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
 
-          mockLearningContent({ skills: [skill1, skill2] });
-          await databaseBuilder.commit();
+        await databaseBuilder.commit();
 
-          const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-            organizationId
-          );
+        const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
+          organizationId
+        );
 
-          expect(targetProfileForSpecifier.tubeCount).to.equal(2);
-        });
-      });
-      // TODO remove it after target profile tube migration to target-profile_tubes
-      context('when target profile has skills and tubes', function () {
-        it('returns the count of tube', async function () {
-          const skill1 = domainBuilder.buildSkill({ id: 'skill1', tubeId: 'tube1' });
-          const skill2 = domainBuilder.buildSkill({ id: 'skill2', tubeId: 'tube2' });
-          const skill3 = domainBuilder.buildSkill({ id: 'skill3', tubeId: 'tube2' });
-          const tube1 = domainBuilder.buildTube({ id: 'tube1', skills: [skill1] });
-          const tube2 = domainBuilder.buildTube({ id: 'tube2', skills: [skill2, skill3] });
-          const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
-          databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube1' });
-          databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube2' });
-          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill1.id });
-          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill2.id });
-          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill3.id });
-
-          const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-
-          mockLearningContent({ skills: [skill1, skill2, skill3], tubes: [tube1, tube2] });
-          await databaseBuilder.commit();
-
-          const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-            organizationId
-          );
-
-          expect(targetProfileForSpecifier.tubeCount).to.equal(2);
-        });
-      });
-      context('when target profile has tubes', function () {
-        it('returns the count of tube', async function () {
-          const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
-          databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube1' });
-          databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube2' });
-
-          const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-
-          await databaseBuilder.commit();
-
-          const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-            organizationId
-          );
-
-          expect(targetProfileForSpecifier.tubeCount).to.equal(2);
-        });
+        expect(targetProfileForSpecifier.tubeCount).to.equal(2);
       });
 
       it('returns the count of thematic results', async function () {
-        const skill1 = domainBuilder.buildSkill({ id: 'skill1', tubeId: 'tube1' });
-        const skill2 = domainBuilder.buildSkill({ id: 'skill2', tubeId: 'tube2' });
         const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill1.id });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill2.id });
         databaseBuilder.factory.buildBadge({ targetProfileId });
 
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
 
-        mockLearningContent({ skills: [] });
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
@@ -97,7 +43,6 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
 
-        mockLearningContent({ skills: [] });
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
@@ -110,7 +55,6 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       it('returns the target profile category', async function () {
         databaseBuilder.factory.buildTargetProfile({ category: categories.CUSTOM });
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        mockLearningContent({ skills: [] });
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
@@ -123,7 +67,6 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       it('returns the target profile description', async function () {
         databaseBuilder.factory.buildTargetProfile({ description: 'THIS IS SPARTA!' });
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        mockLearningContent({ skills: [] });
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
@@ -137,21 +80,19 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
     context('when there are several target profile', function () {
       it('returns information about each target profile', async function () {
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        const skill1 = domainBuilder.buildSkill({ id: 'skill1', tubeId: 'tube1' });
         const { id: targetProfileId1 } = databaseBuilder.factory.buildTargetProfile({ name: 'name1' });
         const { id: targetProfileId2 } = databaseBuilder.factory.buildTargetProfile({ name: 'name2' });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileId1, skillId: skill1.id });
-        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfileId2, tubeId: 'tube2' });
+        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfileId1, tubeId: 'tube1' });
+        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfileId1, tubeId: 'tube2' });
+        databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfileId2, tubeId: 'tube3' });
         databaseBuilder.factory.buildBadge({ targetProfileId: targetProfileId1 });
-        databaseBuilder.factory.buildStage({ targetProfileId: targetProfileId2 });
-        mockLearningContent({ skills: [skill1] });
 
         await databaseBuilder.commit();
 
         const targetProfile1 = new TargetProfileForSpecifier({
           id: targetProfileId1,
           name: 'name1',
-          tubeCount: 1,
+          tubeCount: 2,
           thematicResultCount: 1,
           hasStage: false,
           description: null,
@@ -162,7 +103,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           name: 'name2',
           tubeCount: 1,
           thematicResultCount: 0,
-          hasStage: true,
+          hasStage: false,
           description: null,
           category: 'OTHER',
         });
@@ -177,7 +118,6 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({ isPublic: true });
       databaseBuilder.factory.buildTargetProfile({ isPublic: false });
-      mockLearningContent({ skills: [] });
 
       await databaseBuilder.commit();
 
@@ -193,7 +133,6 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         isPublic: false,
       });
       databaseBuilder.factory.buildTargetProfile({ isPublic: false });
-      mockLearningContent({ skills: [] });
 
       await databaseBuilder.commit();
 
@@ -209,8 +148,6 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       });
       databaseBuilder.factory.buildTargetProfile({ isPublic: false });
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
-
-      mockLearningContent({ skills: [] });
 
       await databaseBuilder.commit();
 
@@ -232,8 +169,6 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         outdated: true,
       });
       databaseBuilder.factory.buildTargetProfile({ isPublic: true, outdated: true });
-
-      mockLearningContent({ skills: [] });
 
       await databaseBuilder.commit();
 

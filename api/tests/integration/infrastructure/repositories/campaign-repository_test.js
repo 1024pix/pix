@@ -275,47 +275,6 @@ describe('Integration | Repository | Campaign', function () {
         });
       });
 
-      context('when target profile doesnt have tubes (yet ;) )', function () {
-        it('should save skills as campaign skills', async function () {
-          // given
-          const user = databaseBuilder.factory.buildUser();
-          const creatorId = user.id;
-          const ownerId = databaseBuilder.factory.buildUser().id;
-          const organizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
-          const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skillA' });
-          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skillA' });
-          databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skillB' });
-          // random skill
-          databaseBuilder.factory.buildTargetProfileSkill({ skillId: 'skillD' });
-          await databaseBuilder.commit();
-
-          const campaignToSave = {
-            name: 'Evaluation niveau 1 recherche internet',
-            code: 'BCTERD153',
-            customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
-            creatorId,
-            ownerId,
-            organizationId,
-            multipleSendings: true,
-            type: CampaignTypes.ASSESSMENT,
-            targetProfileId,
-            title: 'Parcours recherche internet',
-          };
-
-          // when
-          const savedCampaign = await campaignRepository.save(campaignToSave);
-
-          // then
-          const skillIds = await knex('campaign_skills')
-            .pluck('skillId')
-            .where('campaignId', savedCampaign.id)
-            .orderBy('skillId', 'ASC');
-          expect(skillIds).to.deepEqualArray(['skillA', 'skillB']);
-        });
-      });
-
       it('should not save anything if something goes wrong between campaign creation and skills computation', async function () {
         // given
         const findActiveStub = sinon.stub(skillRepository, 'findActiveByTubeId');

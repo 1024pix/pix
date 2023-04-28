@@ -6,7 +6,6 @@ const { learningContentCache: cache } = require('../../lib/infrastructure/caches
 const moment = require('moment');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
-const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
 const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
 const CampaignParticipationStatuses = require('../../lib/domain/models/CampaignParticipationStatuses');
 const computeParticipationResults = require('../prod/compute-participation-results');
@@ -176,7 +175,21 @@ function _validateAndNormalizeArgs(commandLineArgs) {
   };
 }
 
-async function _createTargetProfile({ profileType }) {
+async function _getTargetProfileAndSkills(targetProfileId, profileType) {
+  _log('Récupération du profil cible existant...');
+  const allSkills = [];
+  const cappedTubes = await knex('target-profile_tubes').select('tubeId', 'level').where({ targetProfileId });
+  if (cappedTubes.length > 0) {
+    _log('Trouvé!');
+    for (const cappedTube of cappedTubes) {
+      const skills = await skillRepository.findOperativeByTubeId(cappedTube.tubeId);
+      const skillsCapped = skills.filter((skill) => skill.difficulty <= parseInt(cappedTube.level));
+      allSkills.push(...skillsCapped);
+    }
+
+    const targetProfile = await knex('target-profiles').select('name', 'id').where({ id: targetProfileId }).first();
+    return { targetProfile, allSkills };
+  }
   _log('Création du profil cible...');
   const competences = await competenceRepository.listPixCompetencesOnly();
   const competencesInProfile =
@@ -185,27 +198,27 @@ async function _createTargetProfile({ profileType }) {
       : profileType === 'medium'
       ? _.sampleSize(competences, Math.round(competences.length / 2))
       : competences;
-  const [{ id: targetProfileId }] = await knex('target-profiles').returning('id').insert({ name: 'SomeTargetProfile' });
+  const [{ id: createdTargetProfileId }] = await knex('target-profiles')
+    .returning('id')
+    .insert({ name: 'SomeTargetProfile' });
   for (const competence of competencesInProfile) {
     const skills = await skillRepository.findOperativeByCompetenceId(competence.id);
-    for (const skill of skills) {
-      await knex('target-profiles_skills').insert({ targetProfileId, skillId: skill.id });
+    const tubeIds = _.uniq(_.map(skills, 'tubeId'));
+    for (const tubeId of tubeIds) {
+      const level = _.random(1, 8);
+      await knex('target-profile_tubes').insert({ targetProfileId: createdTargetProfileId, tubeId, level });
     }
+    allSkills.push(...skills);
   }
-
-  const targetProfile = await targetProfileRepository.get(targetProfileId);
   _log('OK');
-  return targetProfile;
+  const targetProfile = await knex('target-profiles')
+    .select('name', 'id')
+    .where({ id: createdTargetProfileId })
+    .first();
+  return { targetProfile, skills: allSkills };
 }
 
-async function _getTargetProfile(targetProfileId) {
-  _log('Récupération du profil cible existant...');
-  const targetProfile = await targetProfileRepository.get(targetProfileId);
-  _log('OK');
-  return targetProfile;
-}
-
-async function _createCampaign({ organizationId, campaignType, targetProfileId }) {
+async function _createCampaign({ organizationId, campaignType, targetProfileId, skills }) {
   const doesOrganizationExist = await knex('organizations').where({ id: organizationId }).first();
   if (!doesOrganizationExist) {
     throw new Error(`Organisation ${organizationId} n'existe pas.`);
@@ -230,6 +243,9 @@ async function _createCampaign({ organizationId, campaignType, targetProfileId }
       targetProfileId,
       type: campaignType,
     });
+  for (const skill of skills) {
+    await knex('campaign_skills').insert({ campaignId, skillId: skill.id });
+  }
 
   return campaignId;
 }
@@ -357,7 +373,7 @@ async function _createCampaignParticipations({ campaignId, trx, organizationLear
   return trx.batchInsert('campaign-participations', participationData.flat(), chunkSize).returning(['id', 'userId']);
 }
 
-async function _createAnswersAndKnowledgeElements({ campaignId, targetProfile, userAndAssessmentIds, trx }) {
+async function _createAnswersAndKnowledgeElements({ campaignId, userAndAssessmentIds, trx }) {
   _log('\tCréation des answers de référence...');
   const answerData = [];
   for (const userAndAssessmentId of userAndAssessmentIds) {
@@ -406,7 +422,7 @@ async function _createAnswersAndKnowledgeElements({ campaignId, targetProfile, u
       });
     }
     knowledgeElementData.push(knowledgeElementDataForOneSkill);
-    _logProgression(targetProfile.skills.length);
+    _logProgression(skills.length);
   }
   _resetProgression();
   _log('\t\tOK');
@@ -473,7 +489,7 @@ async function _createParticipants({ count, targetProfile, organizationId, campa
   const userAndAssessmentIds = await _createAssessments({ userAndCampaignParticipationIds, trx });
   _log('OK');
   _log('Création des answers/knowledge-elements...');
-  await _createAnswersAndKnowledgeElements({ campaignId, targetProfile, userAndAssessmentIds, trx });
+  await _createAnswersAndKnowledgeElements({ campaignId, userAndAssessmentIds, trx });
   _log('OK');
   _log('Création des obtentions de badge...');
   await _createBadgeAcquisitions({ targetProfile, userAndCampaignParticipationIds, trx });
@@ -487,11 +503,14 @@ async function generateCampaignWithParticipants({
   profileType,
   campaignType,
 }) {
-  const targetProfile = targetProfileId
-    ? await _getTargetProfile(targetProfileId)
-    : await _createTargetProfile({ profileType });
+  const { targetProfile, skills } = await _getTargetProfileAndSkills(targetProfileId, profileType);
   _log('Création de la campagne...');
-  const campaignId = await _createCampaign({ organizationId, campaignType, targetProfileId: targetProfile.id });
+  const campaignId = await _createCampaign({
+    organizationId,
+    campaignType,
+    targetProfileId: targetProfile.id,
+    skills,
+  });
   _log('OK');
   const trx = await knex.transaction();
   if (lowRAMMode) {
