@@ -3,6 +3,7 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment');
 const flash = require('../../../../lib/domain/services/algorithm-methods/flash');
 const smartRandom = require('../../../../lib/domain/services/algorithm-methods/smart-random');
+const dataFetcher = require('../../../../lib/domain/services/algorithm-methods/data-fetcher');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
@@ -92,6 +93,9 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
         improvementService,
         pickChallengeService,
         locale,
+        smartRandom,
+        flash,
+        dataFetcher,
       });
     });
 
@@ -227,6 +231,9 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
         flashAssessmentResultRepository,
         improvementService,
         locale,
+        flash,
+        smartRandom,
+        dataFetcher,
       });
     });
 

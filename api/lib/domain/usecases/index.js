@@ -183,6 +183,15 @@ const learningContentConversionService = require('../services/learning-content/l
 const temporarySessionsStorageForMassImportService = require('../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
 const sessionValidator = require('../validators/session-validator.js');
 const sessionCodeService = require('../services/session-code-service.js');
+const dateUtils = require('../../infrastructure/utils/date-utils.js');
+const campaignCodeGenerator = require('../services/campaigns/campaign-code-generator.js');
+const smartRandom = require('../../domain/services/algorithm-methods/smart-random.js');
+const codeUtils = require('../../infrastructure/utils/code-utils.js');
+const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils.js');
+const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils.js');
+const sessionXmlService = require('../../domain/services/session-xml-service.js');
+const flash = require('../../domain/services/algorithm-methods/flash.js');
+const dataFetcher = require('../../domain/services/algorithm-methods/data-fetcher.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -213,6 +222,7 @@ const dependencies = {
   campaignAssessmentParticipationResultListRepository,
   campaignAssessmentParticipationResultRepository,
   campaignCreatorRepository,
+  campaignCodeGenerator,
   campaignForArchivingRepository,
   campaignParticipantActivityRepository,
   campaignCollectiveResultRepository,
@@ -258,6 +268,7 @@ const dependencies = {
   challengeRepository,
   challengeForPixAutoAnswerRepository,
   cleaCertifiedCandidateRepository,
+  codeUtils,
   competenceEvaluationRepository,
   competenceMarkRepository,
   competenceRepository,
@@ -271,10 +282,13 @@ const dependencies = {
   courseRepository,
   cpfCertificationResultRepository,
   dataProtectionOfficerRepository,
+  dateUtils,
+  dataFetcher,
   divisionRepository,
   encryptionService,
   flashAssessmentResultRepository,
   flashAlgorithmService,
+  flash,
   frameworkRepository,
   getCompetenceLevel,
   sessionForSupervisorKitRepository,
@@ -337,7 +351,10 @@ const dependencies = {
   sessionJuryCommentRepository,
   sessionSummaryRepository,
   sessionValidator,
+  smartRandom,
   settings,
+  readOdsUtils,
+  sessionXmlService,
   skillRepository,
   skillSetRepository,
   studentRepository,
@@ -377,6 +394,7 @@ const dependencies = {
   campaignValidator,
   learningContentConversionService,
   temporarySessionsStorageForMassImportService,
+  writeOdsUtils,
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection.js');

@@ -1,9 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment');
-const smartRandom = require('../../../../lib/domain/services/algorithm-methods/smart-random');
-const flash = require('../../../../lib/domain/services/algorithm-methods/flash');
-const dataFetcher = require('../../../../lib/domain/services/algorithm-methods/data-fetcher');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
   describe('#get-next-challenge-for-campaign-assessment', function () {
@@ -31,10 +28,17 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
     it('should use smart-random algorithm', async function () {
       // given
-      sinon
-        .stub(smartRandom, 'getPossibleSkillsForNextChallenge')
-        .resolves({ possibleSkillsForNextChallenge: [], hasAssessmentEnded: true });
-      sinon.stub(dataFetcher, 'fetchForCampaigns').resolves({});
+      const smartRandomStub = {
+        getPossibleSkillsForNextChallenge: sinon
+          .stub()
+          .resolves({ possibleSkillsForNextChallenge: [], hasAssessmentEnded: true }),
+      };
+      const dataFetcherStub = {
+        fetchForCampaigns: sinon.stub().resolves({}),
+      };
+      const flashStub = {
+        getPossibleNextChallenges: sinon.stub().returns(),
+      };
 
       // when
       await getNextChallengeForCampaignAssessment({
@@ -43,19 +47,30 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
         flashAssessmentResultRepository,
         pickChallengeService,
         assessment,
+        smartRandom: smartRandomStub,
+        dataFetcher: dataFetcherStub,
+        flash: flashStub,
       });
 
       // then
-      expect(smartRandom.getPossibleSkillsForNextChallenge).to.have.been.called;
+      expect(smartRandomStub.getPossibleSkillsForNextChallenge).to.have.been.called;
     });
 
     describe('when assessment method is flash', function () {
       it('should use flash algorithm', async function () {
         // given
         assessment.method = 'FLASH';
-        sinon.stub(flash, 'getPossibleNextChallenges').returns({ possibleChallenges: [], hasAssessmentEnded: false });
-        sinon.stub(dataFetcher, 'fetchForFlashCampaigns').resolves({});
+        const flashStub = {
+          getPossibleNextChallenges: sinon.stub().returns({ possibleChallenges: [], hasAssessmentEnded: false }),
+        };
+        const dataFetcherStub = {
+          fetchForFlashCampaigns: sinon.stub().resolves({}),
+        };
+        const smartRandomStub = {
+          getPossibleSkillsForNextChallenge: sinon.stub().resolves(),
+        };
         const locale = 'fr-fr';
+
         // when
         await getNextChallengeForCampaignAssessment({
           challengeRepository,
@@ -64,11 +79,14 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           pickChallengeService,
           assessment,
           locale,
+          flash: flashStub,
+          dataFetcher: dataFetcherStub,
+          smartRandom: smartRandomStub,
         });
 
         // then
-        expect(flash.getPossibleNextChallenges).to.have.been.called;
-        expect(dataFetcher.fetchForFlashCampaigns).to.have.been.calledWith({
+        expect(flashStub.getPossibleNextChallenges).to.have.been.called;
+        expect(dataFetcherStub.fetchForFlashCampaigns).to.have.been.calledWith({
           assessmentId: assessment.id,
           answerRepository,
           challengeRepository,
