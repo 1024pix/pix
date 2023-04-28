@@ -1,7 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const mailService = require('../../../../lib/domain/services/mail-service');
 const {
   createOrUpdateOrganizationInvitation,
   createScoOrganizationInvitation,
@@ -18,6 +17,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
   const code = 'ABCDEFGH01';
   let organizationInvitationRepository;
   let organizationRepository;
+  let mailService;
 
   beforeEach(function () {
     organizationInvitationRepository = {
@@ -28,8 +28,10 @@ describe('Unit | Service | Organization-Invitation Service', function () {
     organizationRepository = {
       get: sinon.stub(),
     };
-    sinon.stub(mailService, 'sendOrganizationInvitationEmail').resolves();
-    sinon.stub(mailService, 'sendScoOrganizationInvitationEmail').resolves();
+    mailService = {
+      sendOrganizationInvitationEmail: sinon.stub().resolves(),
+      sendScoOrganizationInvitationEmail: sinon.stub().resolves(),
+    };
   });
 
   describe('#createOrUpdateOrganizationInvitation', function () {
@@ -60,6 +62,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           email: userEmailAddress,
           locale,
           role,
+          dependencies: { mailService },
         });
 
         // then
@@ -108,6 +111,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
             email: userEmailAddress,
             locale,
             role,
+            dependencies: { mailService },
           });
 
           // then
@@ -141,6 +145,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           organizationId: organization.id,
           email: userEmailAddress,
           locale,
+          dependencies: { mailService },
         });
 
         // then
@@ -176,6 +181,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           organizationId: organization.id,
           email: userEmailAddress,
           locale,
+          dependencies: { mailService },
         });
 
         // then
@@ -218,6 +224,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           email: userEmailAddress,
           locale,
           role,
+          dependencies: { mailService },
         });
 
         // then
@@ -266,6 +273,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           lastName,
           email: userEmailAddress,
           locale,
+          dependencies: { mailService },
         });
 
         // then
@@ -314,6 +322,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           email: userEmailAddress,
           locale,
           tags,
+          dependencies: { mailService },
         });
 
         // then
@@ -357,6 +366,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           lastName,
           email: userEmailAddress,
           locale,
+          dependencies: { mailService },
         });
 
         // then
@@ -398,6 +408,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           lastName,
           email: userEmailAddress,
           locale,
+          dependencies: { mailService },
         });
 
         // then
@@ -451,6 +462,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           role,
           locale,
           tags,
+          dependencies: { mailService },
         });
 
         // then
@@ -483,6 +495,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           role,
           locale,
           tags,
+          dependencies: { mailService },
         });
 
         // then
@@ -520,6 +533,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           email: userEmailAddress,
           locale,
           tags,
+          dependencies: { mailService },
         });
 
         // then
