@@ -184,6 +184,7 @@ const temporarySessionsStorageForMassImportService = require('../services/sessio
 const sessionValidator = require('../validators/session-validator.js');
 const sessionCodeService = require('../services/session-code-service.js');
 const dateUtils = require('../../infrastructure/utils/date-utils.js');
+const campaignCodeGenerator = require('../services/campaigns/campaign-code-generator.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -214,6 +215,7 @@ const dependencies = {
   campaignAssessmentParticipationResultListRepository,
   campaignAssessmentParticipationResultRepository,
   campaignCreatorRepository,
+  campaignCodeGenerator,
   campaignForArchivingRepository,
   campaignParticipantActivityRepository,
   campaignCollectiveResultRepository,

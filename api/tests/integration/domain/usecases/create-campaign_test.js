@@ -9,6 +9,8 @@ const createCampaign = require('../../../../lib/domain/usecases/create-campaign'
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
+const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns/campaign-code-generator');
+
 describe('Integration | UseCases | create-campaign', function () {
   let userId;
   let organizationId;
@@ -59,6 +61,7 @@ describe('Integration | UseCases | create-campaign', function () {
       campaign,
       campaignRepository,
       campaignCreatorRepository,
+      campaignCodeGenerator,
     });
 
     // then
@@ -86,6 +89,7 @@ describe('Integration | UseCases | create-campaign', function () {
       campaign,
       campaignRepository,
       campaignCreatorRepository,
+      campaignCodeGenerator,
     });
 
     // then
