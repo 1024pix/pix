@@ -7,7 +7,8 @@ module.exports = {
   async findPaginatedFiltered({ filter, page }) {
     const query = knex('target-profiles')
       .select('id', 'name', 'outdated')
-      .orderBy('id', 'ASC')
+      .orderBy('outdated', 'ASC')
+      .orderBy('name', 'ASC')
       .modify(_applyFilters, filter);
 
     const { results, pagination } = await fetchPage(query, page);
