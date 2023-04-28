@@ -1,7 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
 const _ = require('lodash');
-const OrganizationForAdmin = require('../../../domain/models/organizations-administration/Organization');
-const Tag = require('../../../domain/models/Tag.js');
 
 module.exports = {
   serialize(organizations, meta) {
@@ -31,6 +29,7 @@ module.exports = {
         'organizationMemberships',
         'targetProfileSummaries',
         'identityProviderForCampaigns',
+        'enableMultipleSendingAssessment',
       ],
       organizationMemberships: {
         ref: 'id',
@@ -67,10 +66,12 @@ module.exports = {
 
     let tags = [];
     if (relationships && relationships.tags) {
-      tags = relationships.tags.data.map((tag) => new Tag({ id: parseInt(tag.id) }));
+      tags = relationships.tags.data.map((tag) => {
+        return { id: parseInt(tag.id) };
+      });
     }
 
-    const organization = new OrganizationForAdmin({
+    const organization = {
       id: _.isNil(json.data.id) ? null : parseInt(json.data.id),
       name: attributes.name,
       type: attributes.type,
@@ -87,8 +88,9 @@ module.exports = {
       dataProtectionOfficerFirstName: attributes['data-protection-officer-first-name'],
       dataProtectionOfficerLastName: attributes['data-protection-officer-last-name'],
       dataProtectionOfficerEmail: attributes['data-protection-officer-email'],
+      enableMultipleSendingAssessment: attributes['enable-multiple-sending-assessment'],
       tags,
-    });
+    };
 
     return organization;
   },

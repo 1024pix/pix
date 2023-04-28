@@ -24,6 +24,7 @@ class OrganizationForAdmin {
     creatorFirstName,
     creatorLastName,
     identityProviderForCampaigns,
+    enableMultipleSendingAssessment,
     tags = [],
   } = {}) {
     this.id = id;
@@ -50,6 +51,7 @@ class OrganizationForAdmin {
     this.creatorFirstName = creatorFirstName;
     this.creatorLastName = creatorLastName;
     this.identityProviderForCampaigns = identityProviderForCampaigns;
+    this.enableMultipleSendingAssessment = enableMultipleSendingAssessment;
     this.tags = tags;
   }
 
