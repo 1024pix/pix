@@ -1,10 +1,4 @@
-import {
-  BadgeDetails,
-  BadgeCriterion,
-  SkillSet,
-  CappedTube,
-  SCOPES,
-} from '../../../../lib/domain/models/BadgeDetails.js';
+import { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 
 const buildBadgeDetails = function buildBadgeDetails({
   id = 123,

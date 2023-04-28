@@ -19,7 +19,7 @@ const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE_BADGE_ID = 127;
 const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID = 128;
 const PIX_EMPLOI_CLEA_BADGE_ID_V3 = 129;
 
-import { BadgeCriterion } from '../../../lib/domain/models/BadgeCriterion.js';
+import { SCOPES } from '../../../lib/domain/models/BadgeDetails.js';
 import { badges } from '../../constants.js';
 
 import {
@@ -516,13 +516,13 @@ function _createPixEduBadges(databaseBuilder) {
     pixEduFormationInitiale2ndDegreInitieBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 40,
     badgeId: pixEduFormationInitiale2ndDegreInitieBadge.id,
     skillSetIds: [domain1Initie2ndDegreSkillSetId],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 40,
     badgeId: pixEduFormationInitiale2ndDegreInitieBadge.id,
     skillSetIds: [domain2Initie2ndDegreSkillSetId],
@@ -545,13 +545,13 @@ function _createPixEduBadges(databaseBuilder) {
     pixEduFormationInitiale1erDegreInitieBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 40,
     badgeId: pixEduFormationInitiale1erDegreInitieBadge.id,
     skillSetIds: [domain1Initie1SkillSetId],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 40,
     badgeId: pixEduFormationInitiale1erDegreInitieBadge.id,
     skillSetIds: [domain2Initie1erDegreSkillSetId],
@@ -575,13 +575,13 @@ function _createPixEduBadges(databaseBuilder) {
       pixEduFormationInitiale2ndDegreConfirmeBadge
     );
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 60,
     badgeId: pixEduFormationInitiale2ndDegreConfirmeBadge.id,
     skillSetIds: [domain1Confirme2ndDegreSkillSetId],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 60,
     badgeId: pixEduFormationInitiale2ndDegreConfirmeBadge.id,
     skillSetIds: [domain2Confirme2ndDegreSkillSetId],
@@ -605,13 +605,13 @@ function _createPixEduBadges(databaseBuilder) {
       pixEduFormationInitiale1erDegreConfirmeBadge
     );
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 60,
     badgeId: pixEduFormationInitiale1erDegreConfirmeBadge.id,
     skillSetIds: [domain1Confirme1erDegreSkillSetId],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 60,
     badgeId: pixEduFormationInitiale1erDegreConfirmeBadge.id,
     skillSetIds: [domain2Confirme1erDegreSkillSetId],
@@ -633,7 +633,7 @@ function _createPixEduBadges(databaseBuilder) {
     pixEduFormationContinue2ndDegreConfirmeBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 40,
     badgeId: pixEduFormationContinue2ndDegreConfirmeBadge.id,
     skillSetIds: [domain3Confirme2ndDegreSkillSetId],
@@ -655,7 +655,7 @@ function _createPixEduBadges(databaseBuilder) {
     pixEduFormationContinue1erDegreConfirmeBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 40,
     badgeId: pixEduFormationContinue1erDegreConfirmeBadge.id,
     skillSetIds: [domain3Confirme1erDegreSkillSetId],
@@ -677,7 +677,7 @@ function _createPixEduBadges(databaseBuilder) {
     pixEduFormationContinue2ndDegreAvanceBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 60,
     badgeId: pixEduFormationContinue2ndDegreAvanceBadge.id,
     skillSetIds: [domain3Avance2ndDegreSkillSetId],
@@ -699,7 +699,7 @@ function _createPixEduBadges(databaseBuilder) {
     pixEduFormationContinue1erDegreAvanceBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 60,
     badgeId: pixEduFormationContinue1erDegreAvanceBadge.id,
     skillSetIds: [domain3Avance1erDegreSkillSetId],
@@ -721,7 +721,7 @@ function _createPixEduBadges(databaseBuilder) {
     pixEduFormationContinue2ndDegreExpertBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 80,
     badgeId: pixEduFormationContinue2ndDegreExpertBadge.id,
     skillSetIds: [domain3Expert2ndDegreSkillSetId],
@@ -743,7 +743,7 @@ function _createPixEduBadges(databaseBuilder) {
     pixEduFormationContinue1erDegreExpertBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 80,
     badgeId: pixEduFormationContinue1erDegreExpertBadge.id,
     skillSetIds: [domain3Expert1erDegreSkillSetId],
@@ -781,13 +781,13 @@ function _associateSkillSets(databaseBuilder, targetProfileSkillIds, badge) {
 
 function _associateBadgeCriteria(databaseBuilder, badge, skillSetsIds = []) {
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+    scope: SCOPES.CAMPAIGN_PARTICIPATION,
     threshold: 85,
     badgeId: badge.id,
   });
 
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 75,
     badgeId: badge.id,
     skillSetIds: skillSetsIds,
@@ -852,19 +852,19 @@ function _associatePixDroitExpertSkillSets(databaseBuilder, targetProfileSkillId
 
 function _associatePixDroitMasterBadgeCriteria(databaseBuilder, badge, skillSetsIds) {
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 70,
     badgeId: badge.id,
     skillSetIds: [skillSetsIds[0]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 60,
     badgeId: badge.id,
     skillSetIds: [skillSetsIds[1]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 40,
     badgeId: badge.id,
     skillSetIds: [skillSetsIds[2], skillSetsIds[3]],
@@ -873,19 +873,19 @@ function _associatePixDroitMasterBadgeCriteria(databaseBuilder, badge, skillSets
 
 function _associatePixDroitExpertBadgeCriteria(databaseBuilder, badge, skillSetsIds) {
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 70,
     badgeId: badge.id,
     skillSetIds: [skillSetsIds[0]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 80,
     badgeId: badge.id,
     skillSetIds: [skillSetsIds[1]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 40,
     badgeId: badge.id,
     skillSetIds: [skillSetsIds[2], skillSetsIds[3]],

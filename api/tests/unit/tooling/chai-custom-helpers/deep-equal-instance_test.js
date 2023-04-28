@@ -18,60 +18,77 @@ describe('Unit | chai-custom-helpers | deepEqualInstance', function () {
 
   it('should fail assertion when both objects have not the same content', function () {
     // given
-    const skillSet = domainBuilder.buildSkillSet({
-      id: 123,
-      name: 'someName',
-      skillIds: ['recABC', 'recDEF'],
+    const training = domainBuilder.buildTraining({
+      title: 'trainingTitle1',
+      targetProfileIds: [1000, 1001],
+      duration: {
+        hours: 5,
+      },
     });
-    const otherSkillSet = domainBuilder.buildSkillSet({
-      id: 124,
-      name: 'someName',
-      skillIds: ['recABC', 'recDEF'],
+    const otherTraining1 = domainBuilder.buildTraining({
+      title: 'trainingTitle2',
+      targetProfileIds: [1000, 1001],
+      duration: {
+        hours: 5,
+      },
     });
-    const anotherSkillSet = domainBuilder.buildSkillSet({
-      id: 123,
-      name: 'name',
-      skillIds: ['recUVW', 'recXYZ'],
+    const otherTraining2 = domainBuilder.buildTraining({
+      title: 'trainingTitle1',
+      targetProfileIds: [2222, 1001],
+      duration: {
+        hours: 5,
+      },
+    });
+    const otherTraining3 = domainBuilder.buildTraining({
+      title: 'trainingTitle1',
+      targetProfileIds: [2222, 1001],
+      duration: {
+        hours: 3,
+      },
+    });
+    const otherTraining4 = domainBuilder.buildTraining({
+      title: 'trainingTitle1',
+      targetProfileIds: [2222, 1001],
+      duration: {
+        minutes: 8,
+        hours: 5,
+      },
     });
 
     // when/then
-    global.chaiErr(
-      function () {
-        expect(otherSkillSet).to.deepEqualInstance(skillSet);
-      },
-      {
-        actual: otherSkillSet,
-        expected: skillSet,
-        operator: 'deepStrictEqual',
-      }
-    );
-    global.chaiErr(
-      function () {
-        expect(anotherSkillSet).to.deepEqualInstance(skillSet);
-      },
-      {
-        actual: anotherSkillSet,
-        expected: skillSet,
-        operator: 'deepStrictEqual',
-      }
-    );
+    for (const otherTraining of [otherTraining1, otherTraining2, otherTraining3, otherTraining4]) {
+      global.chaiErr(
+        function () {
+          expect(otherTraining).to.deepEqualInstance(training);
+        },
+        {
+          actual: otherTraining,
+          expected: training,
+          operator: 'deepStrictEqual',
+        }
+      );
+    }
   });
 
   it('should succeed assertion when both objects have the same type and content, regardless of the reference', function () {
     // given
-    const skillSet = domainBuilder.buildSkillSet({
-      id: 123,
-      name: 'someName',
-      skillIds: ['recABC', 'recDEF'],
+    const training = domainBuilder.buildTraining({
+      title: 'trainingTitle1',
+      targetProfileIds: [1000, 1001],
+      duration: {
+        hours: 5,
+      },
     });
-    const sameSkillSet = domainBuilder.buildSkillSet({
-      id: 123,
-      name: 'someName',
-      skillIds: ['recABC', 'recDEF'],
+    const sameTraining = domainBuilder.buildTraining({
+      title: 'trainingTitle1',
+      targetProfileIds: [1000, 1001],
+      duration: {
+        hours: 5,
+      },
     });
 
     // then
-    expect(skillSet).to.deepEqualInstance(skillSet);
-    expect(skillSet).to.deepEqualInstance(sameSkillSet);
+    expect(training).to.deepEqualInstance(training);
+    expect(training).to.deepEqualInstance(sameTraining);
   });
 });

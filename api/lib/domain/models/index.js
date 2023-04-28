@@ -13,7 +13,6 @@ import { AuthenticationMethod } from './AuthenticationMethod.js';
 import { AuthenticationSessionContent } from './AuthenticationSessionContent.js';
 import { Badge } from './Badge.js';
 import { BadgeAcquisition } from './BadgeAcquisition.js';
-import { BadgeCriterion } from './BadgeCriterion.js';
 import { BadgeDetails } from './BadgeDetails.js';
 import { BadgeForCalculation } from './BadgeForCalculation.js';
 import { Campaign } from './Campaign.js';
@@ -116,7 +115,6 @@ import { SessionJuryComment } from './SessionJuryComment.js';
 import { SessionPublicationBatchResult } from './SessionPublicationBatchResult.js';
 import { ShareableCertificate } from './ShareableCertificate.js';
 import { Skill } from './Skill.js';
-import { SkillSet } from './SkillSet.js';
 import { Solution } from './Solution.js';
 import { Stage } from './Stage.js';
 import { Student } from './Student.js';
@@ -166,7 +164,6 @@ export {
   AuthenticationSessionContent,
   Badge,
   BadgeAcquisition,
-  BadgeCriterion,
   BadgeDetails,
   BadgeForCalculation,
   Campaign,
@@ -269,7 +266,6 @@ export {
   SessionPublicationBatchResult,
   ShareableCertificate,
   Skill,
-  SkillSet,
   Solution,
   Stage,
   Student,

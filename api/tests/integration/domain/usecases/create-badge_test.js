@@ -4,7 +4,6 @@ import { expect, databaseBuilder, mockLearningContent, knex, catchErr, sinon } f
 
 import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
 import * as badgeCriteriaRepository from '../../../../lib/infrastructure/repositories/badge-criteria-repository.js';
-import * as skillSetRepository from '../../../../lib/infrastructure/repositories/skill-set-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import { createBadge } from '../../../../lib/domain/usecases/create-badge.js';
 import { Badge } from '../../../../lib/domain/models/Badge.js';
@@ -12,7 +11,6 @@ import { Badge } from '../../../../lib/domain/models/Badge.js';
 import {
   AlreadyExistingEntityError,
   NotFoundError,
-  InvalidSkillSetError,
   MissingBadgeCriterionError,
 } from '../../../../lib/domain/errors.js';
 
@@ -56,12 +54,10 @@ describe('Integration | UseCases | create-badge', function () {
       badgeRepository,
       badgeCriteriaRepository,
       targetProfileRepository,
-      skillSetRepository,
     };
   });
 
   afterEach(async function () {
-    await knex('skill-sets').delete();
     await knex('badge-criteria').delete();
     await knex('badges').delete();
   });
@@ -124,41 +120,6 @@ describe('Integration | UseCases | create-badge', function () {
     });
   });
 
-  it('should save a new badge with a skillset criterion', async function () {
-    // given
-    Object.assign(badgeCreation, {
-      skillSetThreshold: 99,
-      skillSetName: 'skillset-name',
-      skillSetSkillsIds: ['recSkill1'],
-    });
-
-    // when
-    const result = await createBadge({
-      targetProfileId,
-      badgeCreation,
-      ...dependencies,
-    });
-
-    // then
-    expect(result).to.be.an.instanceOf(Badge);
-    expect(_.pick(result, Object.keys(badge))).to.deep.equal(badge);
-
-    const skillSets = await knex('skill-sets').select().where({ badgeId: result.id });
-    expect(skillSets).to.have.lengthOf(1);
-    expect(_.pick(skillSets[0], ['name', 'skillIds'])).to.deep.equal({
-      name: badgeCreation.skillSetName,
-      skillIds: badgeCreation.skillSetSkillsIds,
-    });
-
-    const criteria = await knex('badge-criteria').select().where({ badgeId: result.id });
-    expect(criteria).to.have.lengthOf(1);
-    expect(_.pick(criteria[0], ['threshold', 'scope', 'skillSetIds'])).to.deep.equal({
-      threshold: badgeCreation.skillSetThreshold,
-      scope: 'SkillSet',
-      skillSetIds: [skillSets[0].id],
-    });
-  });
-
   describe('when an error occurs during criterion creation', function () {
     it('should not create a badge nor a criterion', async function () {
       // given
@@ -210,31 +171,6 @@ describe('Integration | UseCases | create-badge', function () {
 
       // then
       expect(error).to.be.instanceOf(AlreadyExistingEntityError);
-    });
-  });
-
-  describe('when skillId is not attached to the corresponding target profile', function () {
-    it('should throw a InvalidSkillSetError', async function () {
-      // given
-      Object.assign(badgeCreation, {
-        skillSetThreshold: 99,
-        skillSetName: 'skillset-name',
-        skillSetSkillsIds: ['recSkill666'],
-      });
-
-      // when
-      const error = await catchErr(createBadge)({
-        targetProfileId,
-        badgeCreation,
-        ...dependencies,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(InvalidSkillSetError);
-      expect(error).to.haveOwnProperty(
-        'message',
-        'Les acquis suivants ne font pas partie du profil cible : recSkill666'
-      );
     });
   });
 });

@@ -1,11 +1,7 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { Badge } from '../../domain/models/Badge.js';
-import { SkillSet } from '../../domain/models/SkillSet.js';
-import { BadgeCriterion } from '../../domain/models/BadgeCriterion.js';
 import lodash from 'lodash';
-
 const { omit } = lodash;
-
 import * as knexUtils from '../utils/knex-utils.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
@@ -13,18 +9,12 @@ import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 const TABLE_NAME = 'badges';
 
 const findByCampaignId = async function (campaignId) {
-  const badges = await knex(TABLE_NAME)
+  const badgesDTO = await knex(TABLE_NAME)
     .select(`${TABLE_NAME}.*`)
     .join('target-profiles', 'target-profiles.id', `${TABLE_NAME}.targetProfileId`)
     .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
     .where('campaigns.id', campaignId);
-
-  return Promise.all(
-    badges.map(async (badge) => {
-      const { badgeCriteria, skillSets } = await _addCriteriaInformation(badge);
-      return new Badge({ ...badge, badgeCriteria, skillSets });
-    })
-  );
+  return badgesDTO.map((dto) => new Badge(dto));
 };
 
 const isAssociated = async function (badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
@@ -41,14 +31,8 @@ const isRelatedToCertification = async function (badgeId, { knexTransaction } = 
 
 const get = async function (id) {
   const badge = await knex(TABLE_NAME).select('*').where({ id }).first();
-  const { badgeCriteria, skillSets } = await _addCriteriaInformation(badge);
-  return new Badge({ ...badge, badgeCriteria, skillSets });
-};
-
-const getByKey = async function (key) {
-  const badge = await knex(TABLE_NAME).select('*').where({ key }).first();
-  const { badgeCriteria, skillSets } = await _addCriteriaInformation(badge);
-  return new Badge({ ...badge, badgeCriteria, skillSets });
+  if (!badge) throw new Error();
+  return new Badge(badge);
 };
 
 const save = async function (badge, { knexTransaction } = DomainTransaction.emptyTransaction()) {
@@ -65,7 +49,7 @@ const save = async function (badge, { knexTransaction } = DomainTransaction.empt
 
 const update = async function (badge) {
   const [updatedBadge] = await knex(TABLE_NAME).update(_adaptModelToDb(badge)).where({ id: badge.id }).returning('*');
-  return new Badge({ ...badge, ...updatedBadge });
+  return new Badge(updatedBadge);
 };
 
 const isKeyAvailable = async function (key, { knexTransaction } = DomainTransaction.emptyTransaction()) {
@@ -79,34 +63,13 @@ const isKeyAvailable = async function (key, { knexTransaction } = DomainTransact
 const remove = async function (badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
   const knexConn = knexTransaction ?? knex;
   await knexConn('badge-criteria').where({ badgeId }).del();
-  await knexConn('skill-sets').where({ badgeId }).del();
   await knexConn('badges').where({ id: badgeId }).del();
 
   return true;
 };
 
-export {
-  findByCampaignId,
-  isAssociated,
-  isRelatedToCertification,
-  get,
-  getByKey,
-  save,
-  update,
-  isKeyAvailable,
-  remove,
-};
-
-async function _addCriteriaInformation(badge) {
-  const badgeCriteria = await knex('badge-criteria').where({ badgeId: badge.id });
-  const skillSets = await knex('skill-sets').where({ badgeId: badge.id });
-
-  return {
-    badgeCriteria: badgeCriteria.map((badgeCriterion) => new BadgeCriterion(badgeCriterion)),
-    skillSets: skillSets.map((skillSet) => new SkillSet(skillSet)),
-  };
-}
+export { findByCampaignId, isAssociated, isRelatedToCertification, get, save, update, isKeyAvailable, remove };
 
 function _adaptModelToDb(badge) {
-  return omit(badge, ['id', 'badgeCriteria', 'skillSets', 'complementaryCertificationBadge']);
+  return omit(badge, ['id', 'badgeCriteria', 'complementaryCertificationBadge']);
 }

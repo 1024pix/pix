@@ -146,7 +146,6 @@ import * as sessionForSupervisingRepository from '../../infrastructure/repositor
 import * as sessionJuryCommentRepository from '../../infrastructure/repositories/sessions/session-jury-comment-repository.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
-import * as skillSetRepository from '../../infrastructure/repositories/skill-set-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
@@ -362,7 +361,6 @@ const dependencies = {
   sessionXmlService,
   config,
   skillRepository,
-  skillSetRepository,
   studentRepository,
   supervisorAccessRepository,
   tagRepository,

@@ -54,7 +54,15 @@ async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
     .where({ 'complementary-certifications.key': ComplementaryCertification.CLEA })
     .orderBy('complementary-certification-badges.level', 'desc');
 
-  const { skillSets } = await badgeRepository.getByKey(badgeKey);
+  const skillSets = await knex('skill-sets')
+    .select({
+      id: 'skill-sets.id',
+      name: 'skill-sets.name',
+      skillIds: 'skill-sets.skillIds',
+      badgeId: 'skill-sets.badgeId',
+    })
+    .join('badges', 'badges.id', 'skill-sets.badgeId')
+    .where('badges.badgeKey', badgeKey);
   const skillIds = skillSets.flatMap(({ skillIds }) => skillIds);
   return bluebird.mapSeries(skillIds, async (skillId) => {
     const skill = await skillRepository.get(skillId);

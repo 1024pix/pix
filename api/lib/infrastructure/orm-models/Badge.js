@@ -1,7 +1,6 @@
 import { Bookshelf } from '../bookshelf.js';
 
 import './BadgeCriterion.js';
-import './SkillSet.js';
 import './TargetProfile.js';
 
 const modelName = 'Badge';
@@ -17,10 +16,6 @@ const BookshelfBadge = Bookshelf.model(
 
     badgeCriteria() {
       return this.hasMany('BadgeCriterion', 'badgeId');
-    },
-
-    skillSets() {
-      return this.hasMany('SkillSet', 'badgeId');
     },
   },
   {

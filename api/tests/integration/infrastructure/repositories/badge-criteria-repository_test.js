@@ -1,8 +1,5 @@
 import { knex, expect, databaseBuilder } from '../../../test-helper.js';
 import * as badgeCriteriaRepository from '../../../../lib/infrastructure/repositories/badge-criteria-repository.js';
-import lodash from 'lodash';
-const { omit } = lodash;
-import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
 
 describe('Integration | Repository | Badge Criteria Repository', function () {
   afterEach(async function () {
@@ -21,46 +18,19 @@ describe('Integration | Repository | Badge Criteria Repository', function () {
         badgeId,
       };
 
-      const expectedBadgeCriterion = {
+      // when
+      await badgeCriteriaRepository.save({ badgeCriterion });
+
+      // then
+      const badgeCriterionDTO = await knex('badge-criteria')
+        .select(['threshold', 'scope', 'badgeId'])
+        .where({ badgeId })
+        .first();
+      expect(badgeCriterionDTO).to.deep.equal({
         threshold: 90,
         scope: 'CampaignParticipation',
         badgeId,
-        skillSetIds: null,
-      };
-
-      // when
-      const result = await badgeCriteriaRepository.save({ badgeCriterion });
-
-      // then
-      expect(result).to.be.instanceOf(BadgeCriterion);
-      expect(omit(result, 'id')).to.deep.equal(expectedBadgeCriterion);
-    });
-
-    it('should save SkillSet badge-criterion', async function () {
-      // given
-      const { id: badgeId } = databaseBuilder.factory.buildBadge();
-      const { id: skillSetId } = databaseBuilder.factory.buildSkillSet();
-      await databaseBuilder.commit();
-      const badgeCriterion = {
-        threshold: 80,
-        scope: 'SkillSet',
-        badgeId,
-        skillSetIds: [skillSetId],
-      };
-
-      const expectedBadgeCriterion = {
-        threshold: 80,
-        scope: 'SkillSet',
-        badgeId,
-        skillSetIds: [skillSetId],
-      };
-
-      // when
-      const result = await badgeCriteriaRepository.save({ badgeCriterion });
-
-      // then
-      expect(result).to.be.instanceOf(BadgeCriterion);
-      expect(omit(result, 'id')).to.deep.equal(expectedBadgeCriterion);
+      });
     });
   });
 });

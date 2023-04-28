@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
 import { BadgeForCalculation, BadgeCriterion } from '../../domain/models/BadgeForCalculation.js';
-import { SCOPES } from '../../domain/models/BadgeCriterion.js';
+import { SCOPES } from '../../domain/models/BadgeDetails.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as campaignRepository from './campaign-repository.js';
 
@@ -20,7 +20,7 @@ const findByCampaignParticipationId = async function ({
 
   const badgeIds = badgesDTO.map(({ id }) => id);
   const badgeCriteriaDTO = await knexConn('badge-criteria')
-    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes', 'skillSetIds'])
+    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes'])
     .whereIn('badgeId', badgeIds)
     .orderBy('badge-criteria.id');
   const badgeCriteriaDTOByBadge = _.groupBy(badgeCriteriaDTO, 'badgeId');
@@ -57,7 +57,7 @@ const findByCampaignId = async function ({ campaignId, domainTransaction = Domai
 
   const badgeIds = badgesDTO.map(({ id }) => id);
   const badgeCriteriaDTO = await knexConn('badge-criteria')
-    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes', 'skillSetIds'])
+    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes'])
     .whereIn('badgeId', badgeIds)
     .orderBy('badge-criteria.id');
   const badgeCriteriaDTOByBadge = _.groupBy(badgeCriteriaDTO, 'badgeId');
@@ -100,7 +100,7 @@ const getByCertifiableBadgeAcquisition = async function ({
   if (!badgeDTO) return null;
 
   const badgeCriteriaDTO = await knexConn('badge-criteria')
-    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes', 'skillSetIds'])
+    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes'])
     .where('badgeId', badgeDTO.id)
     .orderBy('badge-criteria.id');
 
@@ -126,17 +126,6 @@ async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCr
           skillIds: campaignSkillIds,
         })
       );
-    }
-    if (badgeCriterionDTO.scope === SCOPES.SKILL_SET) {
-      const arrayOfSkillIds = await knex('skill-sets').pluck('skillIds').whereIn('id', badgeCriterionDTO.skillSetIds);
-      for (const skillIds of arrayOfSkillIds) {
-        badgeCriteria.push(
-          new BadgeCriterion({
-            threshold: badgeCriterionDTO.threshold,
-            skillIds,
-          })
-        );
-      }
     }
     if (badgeCriterionDTO.scope === SCOPES.CAPPED_TUBES) {
       let skillIds = [];

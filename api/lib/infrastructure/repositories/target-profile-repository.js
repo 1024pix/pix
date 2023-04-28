@@ -3,7 +3,7 @@ import { BookshelfTargetProfile } from '../orm-models/TargetProfile.js';
 import * as targetProfileAdapter from '../adapters/target-profile-adapter.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError, ObjectValidationError, InvalidSkillSetError } from '../../domain/errors.js';
+import { NotFoundError, ObjectValidationError } from '../../domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { TargetProfile } from '../../domain/models/TargetProfile.js';
 
@@ -100,23 +100,6 @@ const findOrganizationIds = async function (targetProfileId) {
   return targetProfileShares.map((targetProfileShare) => targetProfileShare.organizationId);
 };
 
-const hasSkills = async function (
-  { targetProfileId, skillIds },
-  { knexTransaction } = DomainTransaction.emptyTransaction()
-) {
-  const result = await (knexTransaction ?? knex)('target-profiles_skills')
-    .select('skillId')
-    .whereIn('skillId', skillIds)
-    .andWhere('targetProfileId', targetProfileId);
-
-  const unknownSkillIds = _.difference(skillIds, _.map(result, 'skillId'));
-  if (unknownSkillIds.length) {
-    throw new InvalidSkillSetError(`Les acquis suivants ne font pas partie du profil cible : ${unknownSkillIds}`);
-  }
-
-  return true;
-};
-
 const hasTubesWithLevels = async function (
   { targetProfileId, tubesWithLevels },
   { knexTransaction } = DomainTransaction.emptyTransaction()
@@ -141,4 +124,4 @@ const hasTubesWithLevels = async function (
   }
 };
 
-export { create, get, getByCampaignId, findByIds, update, findOrganizationIds, hasSkills, hasTubesWithLevels };
+export { create, get, getByCampaignId, findByIds, update, findOrganizationIds, hasTubesWithLevels };
