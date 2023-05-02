@@ -1,7 +1,5 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Pre-handler | User Verification', function () {
@@ -11,10 +9,16 @@ describe('Unit | Pre-handler | User Verification', function () {
         id: 7,
       },
     };
+    let userRepository;
+    let errorSerializer;
 
     beforeEach(function () {
-      sinon.stub(userRepository, 'get');
-      sinon.stub(errorSerializer, 'serialize');
+      userRepository = {
+        get: sinon.stub(),
+      };
+      errorSerializer = {
+        serialize: sinon.stub(),
+      };
     });
 
     describe('When user exist', function () {
@@ -24,7 +28,7 @@ describe('Unit | Pre-handler | User Verification', function () {
         userRepository.get.resolves(userCount);
 
         // when
-        const response = await userVerification.verifyById(request, hFake);
+        const response = await userVerification.verifyById(request, hFake, { userRepository, errorSerializer });
 
         // then
         sinon.assert.calledOnce(userRepository.get);
@@ -41,7 +45,7 @@ describe('Unit | Pre-handler | User Verification', function () {
         errorSerializer.serialize.returns(serializedError);
 
         // when
-        const response = await userVerification.verifyById(request, hFake);
+        const response = await userVerification.verifyById(request, hFake, { userRepository, errorSerializer });
 
         // then
         expect(response.source).to.deep.equal(serializedError);
