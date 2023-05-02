@@ -96,7 +96,7 @@ function treatAnswersAndSolutions(deactivations, solutions, answers) {
 module.exports = {
   match({
     answerValue,
-    solution,
+    solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
     dependencies = {
       applyPreTreatments,
       convertYamlToJsObjects,
@@ -104,8 +104,6 @@ module.exports = {
       treatAnswersAndSolutions,
     },
   }) {
-    const { value: yamlSolution, scoring: yamlScoring, deactivations } = solution;
-
     // Input checking
     if (typeof answerValue !== 'string' || !answerValue.length || !String(yamlSolution).includes('\n')) {
       return AnswerStatus.KO;
@@ -130,15 +128,13 @@ module.exports = {
 
   getSolution({
     answerValue,
-    solution,
+    solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
     dependencies = {
       applyPreTreatments,
       convertYamlToJsObjects,
       treatAnswersAndSolutions,
     },
   }) {
-    const { value: yamlSolution, scoring: yamlScoring, deactivations } = solution;
-
     // Pre-Treatments
     const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
     const { answers, solutions } = dependencies.convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring);
