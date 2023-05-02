@@ -65,7 +65,7 @@ module('Unit | Adapter | session', function (hooks) {
         ];
 
         const expectedStudentIdList = [1, 2];
-        const expectedUrl = 'http://localhost:3000/api/sessions/123/enroll-students-to-session';
+        const expectedUrl = 'http://localhost:3000/api/sessions/123/enrol-students-to-session';
         const expectedMethod = 'PUT';
         const expectedData = {
           data: {

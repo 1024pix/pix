@@ -730,7 +730,7 @@ exports.register = async (server) => {
     },
     {
       method: 'PUT',
-      path: '/api/sessions/{id}/enroll-students-to-session',
+      path: '/api/sessions/{id}/enrol-students-to-session',
       config: {
         validate: {
           params: Joi.object({
@@ -743,7 +743,7 @@ exports.register = async (server) => {
             assign: 'authorizationCheck',
           },
         ],
-        handler: sessionController.enrollStudentsToSession,
+        handler: sessionController.enrolStudentsToSession,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Dans le cadre du SCO, inscrit un élève à une session de certification',

@@ -482,7 +482,7 @@ const disableCertificationCenterMembership = require('./disable-certification-ce
 const disableMembership = require('./disable-membership.js');
 const dissociateUserFromOrganizationLearner = require('./dissociate-user-from-organization-learner.js');
 const endAssessmentBySupervisor = require('./end-assessment-by-supervisor.js');
-const enrollStudentsToSession = require('./enroll-students-to-session.js');
+const enrolStudentsToSession = require('./enrol-students-to-session.js');
 const finalizeSession = require('./finalize-session.js');
 const findAllTags = require('./find-all-tags.js');
 const findAnswerByAssessment = require('./find-answer-by-assessment.js');
@@ -525,7 +525,7 @@ const findPaginatedTrainingSummaries = require('./find-paginated-training-summar
 const findPaginatedUserRecommendedTrainings = require('./find-paginated-user-recommended-trainings.js');
 const findPendingCertificationCenterInvitations = require('./find-pending-certification-center-invitations.js');
 const findPendingOrganizationInvitations = require('./find-pending-organization-invitations.js');
-const findStudentsForEnrollment = require('./find-students-for-enrollment.js');
+const findStudentsForEnrolment = require('./find-students-for-enrolment.js');
 const findTargetProfileSummariesForTraining = require('./find-target-profile-summaries-for-training.js');
 const findTutorials = require('./find-tutorials.js');
 const findUserAuthenticationMethods = require('./find-user-authentication-methods.js');
@@ -770,7 +770,7 @@ const usecasesWithoutInjectedDependencies = {
   disableMembership,
   dissociateUserFromOrganizationLearner,
   endAssessmentBySupervisor,
-  enrollStudentsToSession,
+  enrolStudentsToSession,
   finalizeSession,
   findAllTags,
   findAnswerByAssessment,
@@ -813,7 +813,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedUserRecommendedTrainings,
   findPendingCertificationCenterInvitations,
   findPendingOrganizationInvitations,
-  findStudentsForEnrollment,
+  findStudentsForEnrolment,
   findTargetProfileSummariesForTraining,
   findTutorials,
   findUserAuthenticationMethods,

@@ -1,9 +1,9 @@
 const SCOCertificationCandidate = require('../models/SCOCertificationCandidate.js');
 const _ = require('lodash');
-const { ForbiddenAccess, UnknownCountryForStudentEnrollmentError } = require('../errors.js');
+const { ForbiddenAccess, UnknownCountryForStudentEnrolmentError } = require('../errors.js');
 const INSEE_PREFIX_CODE = '99';
 
-module.exports = async function enrollStudentsToSession({
+module.exports = async function enrolStudentsToSession({
   sessionId,
   referentId,
   studentIds,
@@ -37,7 +37,7 @@ module.exports = async function enrollStudentsToSession({
     const studentCountry = countries.find((country) => country.code === studentInseeCountryCode);
 
     if (!studentCountry)
-      throw new UnknownCountryForStudentEnrollmentError({
+      throw new UnknownCountryForStudentEnrolmentError({
         firstName: student.firstName.trim(),
         lastName: student.lastName.trim(),
       });

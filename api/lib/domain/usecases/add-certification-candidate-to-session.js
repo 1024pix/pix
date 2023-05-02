@@ -18,7 +18,7 @@ module.exports = async function addCertificationCandidateToSession({
   certificationCandidate.sessionId = sessionId;
 
   const session = await sessionRepository.get(sessionId);
-  if (!session.canEnrollCandidate()) {
+  if (!session.canEnrolCandidate()) {
     throw new CertificationCandidateOnFinalizedSessionError();
   }
 

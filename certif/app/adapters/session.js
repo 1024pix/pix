@@ -43,7 +43,7 @@ export default class SessionAdapter extends ApplicationAdapter {
       }
 
       if (snapshot.adapterOptions.studentListToAdd) {
-        const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/enroll-students-to-session';
+        const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/enrol-students-to-session';
         const organizationLearnerIds = snapshot.adapterOptions.studentListToAdd.map((student) => student.id);
         const data = {
           data: {

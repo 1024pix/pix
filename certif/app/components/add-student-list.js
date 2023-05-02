@@ -29,8 +29,8 @@ export default class AddStudentList extends Component {
   }
 
   get hasCheckedEverything() {
-    const enrollableStudentList = this.args.studentList.filter((student) => !student.isEnrolled);
-    const allCertifReportsAreCheck = enrollableStudentList.every((student) => student.isSelected);
+    const enrolableStudentList = this.args.studentList.filter((student) => !student.isEnrolled);
+    const allCertifReportsAreCheck = enrolableStudentList.every((student) => student.isSelected);
     return allCertifReportsAreCheck;
   }
 
@@ -66,7 +66,7 @@ export default class AddStudentList extends Component {
   }
 
   @action
-  async enrollStudents() {
+  async enrolStudents() {
     const sessionId = this.args.session.id;
     const studentListToAdd = this.store.peekAll('student').filter((student) => student.isSelected);
 
