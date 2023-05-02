@@ -28,10 +28,10 @@
       @backgroundColor="blue"
       @shape="rounded"
       class="challenge-actions__action-continue"
+      aria-label={{t "pages.challenge.actions.continue-go-to-next"}}
     >
-      <span class="challenge-actions__action-continue-text">{{t "pages.challenge.actions.continue"}}<span
-          class="sr-only"
-        > {{t "pages.challenge.actions.go-to-next"}}</span>
+      <span class="challenge-actions__action-continue-text">
+        {{t "pages.challenge.actions.continue"}}
       </span>
     </PixButton>
 
@@ -66,10 +66,10 @@
         @shape="rounded"
         @iconAfter="arrow-right"
         class="challenge-actions__action-validate"
+        aria-label={{t "pages.challenge.actions.validate-go-to-next"}}
       >
         <span class="challenge-actions__action-validate-text">
-          {{t "pages.challenge.actions.validate"}}<span class="sr-only">
-            {{t "pages.challenge.actions.go-to-next"}}</span>
+          {{t "pages.challenge.actions.validate"}}
         </span>
       </PixButton>
 
@@ -80,9 +80,10 @@
         @backgroundColor="transparent-light"
         @shape="rounded"
         class="challenge-actions__action-skip"
+        aria-label={{t "pages.challenge.actions.skip-go-to-next"}}
       >
         <span class="challenge-actions__action-skip-text">
-          {{t "pages.challenge.actions.skip"}}<span class="sr-only"> {{t "pages.challenge.actions.go-to-next"}}</span>
+          {{t "pages.challenge.actions.skip"}}
         </span>
       </PixButton>
     </div>

@@ -403,9 +403,11 @@
       },
       "actions": {
         "continue": "Continue",
-        "go-to-next": " and go to the next question",
+        "continue-go-to-next": "Continue and go to the next question",
         "skip": "Skip",
-        "validate": "Validate"
+        "skip-go-to-next": "Skip and go to the next question",
+        "validate": "Validate",
+        "validate-go-to-next": "Validate and go to the next question"
       },
       "already-answered": "You have already answered this question",
       "answer-input": {

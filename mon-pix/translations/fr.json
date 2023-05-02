@@ -403,9 +403,11 @@
       },
       "actions": {
         "continue": "Poursuivre",
-        "go-to-next": " et je vais à la prochaine question",
+        "continue-go-to-next": "Je continue et je vais à la prochaine question",
         "skip": "Je passe",
-        "validate": "Je valide"
+        "skip-go-to-next": "Je passe et je vais à la prochaine question",
+        "validate": "Je valide",
+        "validate-go-to-next": "Je valide et je vais à la prochaine question"
       },
       "already-answered": "Vous avez déjà répondu à cette question",
       "answer-input": {
