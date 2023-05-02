@@ -1,5 +1,4 @@
 const jsYaml = require('js-yaml');
-const _ = require('../../infrastructure/utils/lodash-utils.js');
 const { applyPreTreatments, applyTreatments } = require('./validation-treatments.js');
 const { YamlParsingError } = require('../../domain/errors.js');
 const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils.js');
@@ -8,23 +7,26 @@ const { validateAnswer } = require('./string-comparison-service.js');
 const AnswerStatus = require('../models/AnswerStatus.js');
 
 function applyTreatmentsToSolutions(solutions, enabledTreatments) {
-  return _.mapValues(solutions, (validSolutions) => {
-    return _.map(validSolutions, (validSolution) => {
-      return applyTreatments(validSolution.toString(), enabledTreatments);
-    });
-  });
+  return Object.fromEntries(
+    Object.entries(solutions).map(([key, validSolutions]) => [
+      key,
+      validSolutions.map((validSolution) => applyTreatments(validSolution.toString(), enabledTreatments)),
+    ])
+  );
 }
 
 function applyTreatmentsToAnswers(answers, enabledTreatments) {
-  return _.mapValues(answers, (answer) => applyTreatments(answer.toString(), enabledTreatments));
+  return Object.fromEntries(
+    Object.entries(answers).map(([key, answer]) => [key, applyTreatments(answer.toString(), enabledTreatments)])
+  );
 }
 
 function formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
-  if (_.isEmpty(scoring)) {
+  if (!scoring || Object.keys(scoring).length === 0) {
     return numberOfGoodAnswers === nbOfAnswers ? AnswerStatus.OK : AnswerStatus.KO;
   } else {
-    const minGrade = _.min(Object.keys(scoring));
-    const maxGrade = _.max(Object.keys(scoring));
+    const minGrade = Math.min(...Object.keys(scoring));
+    const maxGrade = Math.max(...Object.keys(scoring));
 
     if (numberOfGoodAnswers >= maxGrade) {
       return AnswerStatus.OK;
@@ -101,7 +103,7 @@ module.exports = {
     const deactivations = solution.deactivations;
 
     // Input checking
-    if (!_.isString(answerValue) || _.isEmpty(answerValue) || !_.includes(yamlSolution, '\n')) {
+    if (typeof answerValue !== 'string' || !answerValue.length || !String(yamlSolution).includes('\n')) {
       return AnswerStatus.KO;
     }
 
@@ -121,7 +123,7 @@ module.exports = {
 
     const numberOfGoodAnswers = getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
 
-    return formatResult(scoring, numberOfGoodAnswers, _.size(answers));
+    return formatResult(scoring, numberOfGoodAnswers, Object.keys(answers).length);
   },
 
   getSolution({
