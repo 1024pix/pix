@@ -1,11 +1,11 @@
 const _ = require('lodash');
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const StudentForEnrollment = require('../../../../lib/domain/read-models/StudentForEnrollment');
+const StudentForEnrolment = require('../../../../lib/domain/read-models/StudentForEnrolment');
 
-const findStudentsForEnrollment = require('../../../../lib/domain/usecases/find-students-for-enrollment');
+const findStudentsForEnrolment = require('../../../../lib/domain/usecases/find-students-for-enrolment');
 
-describe('Unit | UseCase | find-students-for-enrollment', function () {
+describe('Unit | UseCase | find-students-for-enrolment', function () {
   const certificationCenterId = 1;
   const userId = 'userId';
   let organization;
@@ -44,7 +44,7 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
           .rejects(new NotFoundError());
 
         // when
-        const studentsFounds = await findStudentsForEnrollment({
+        const studentsFounds = await findStudentsForEnrolment({
           userId,
           certificationCenterId,
           page: { size: 10, number: 1 },
@@ -61,11 +61,11 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
       });
     });
 
-    it('should return all students, enrolled or enrollable, regarding a session', async function () {
+    it('should return all students, enrolled or enrolable, regarding a session', async function () {
       // given
       const sessionId = 3;
       const enrolledStudent = domainBuilder.buildOrganizationLearner({ id: 10, organization, division: '3A' });
-      const enrollableStudents = _.times(5, (iteration) =>
+      const enrolableStudents = _.times(5, (iteration) =>
         domainBuilder.buildOrganizationLearner({ id: iteration, organization })
       );
       const certificationCandidates = [
@@ -74,13 +74,13 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
       organizationLearnerRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
         .withArgs({ page: { number: 1, size: 10 }, filter: { divisions: ['3A'] }, organizationId: organization.id })
         .resolves({
-          data: [enrolledStudent, ...enrollableStudents],
+          data: [enrolledStudent, ...enrolableStudents],
           pagination: { page: 1, pageSize: 10, rowCount: 5, pageCount: 1 },
         });
       certificationCandidateRepository.findBySessionId.withArgs(sessionId).resolves(certificationCandidates);
 
       // when
-      const studentsFounds = await findStudentsForEnrollment({
+      const studentsFounds = await findStudentsForEnrolment({
         userId,
         certificationCenterId,
         sessionId,
@@ -92,9 +92,9 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
       });
 
       // then
-      const expectedEnrolledStudent = new StudentForEnrollment({ ...enrolledStudent, isEnrolled: true });
-      const exepectedEnrollableStudents = enrollableStudents.map(
-        (student) => new StudentForEnrollment({ ...student, isEnrolled: false })
+      const expectedEnrolledStudent = new StudentForEnrolment({ ...enrolledStudent, isEnrolled: true });
+      const exepectedEnrollableStudents = enrolableStudents.map(
+        (student) => new StudentForEnrolment({ ...student, isEnrolled: false })
       );
       const expectedStudents = [expectedEnrolledStudent, ...exepectedEnrollableStudents];
       expect(studentsFounds).to.be.deep.equal({
@@ -114,7 +114,7 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
           });
 
         // when
-        const studentsFounds = await findStudentsForEnrollment({
+        const studentsFounds = await findStudentsForEnrolment({
           userId,
           certificationCenterId,
           page: { number: 1, size: 10 },

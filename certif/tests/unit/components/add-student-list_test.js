@@ -91,7 +91,7 @@ module('Unit | Component | add-student-list', function (hooks) {
     });
   });
 
-  module('#action enrollStudents', function () {
+  module('#action enrolStudents', function () {
     test('it should save only selected students via the session', async function (assert) {
       // given
       const sessionId = 1;
@@ -105,7 +105,7 @@ module('Unit | Component | add-student-list', function (hooks) {
       sinon.stub(store, 'peekAll').withArgs('student').returns(selectedStudents);
 
       // when
-      await component.enrollStudents();
+      await component.enrolStudents();
 
       // then
       sinon.assert.calledWith(component.args.session.save, {
@@ -124,7 +124,7 @@ module('Unit | Component | add-student-list', function (hooks) {
       component.args.returnToSessionCandidates = sinon.spy();
 
       // when
-      await component.enrollStudents();
+      await component.enrolStudents();
 
       // then
       sinon.assert.calledOnce(component.notifications.error);

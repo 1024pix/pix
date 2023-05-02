@@ -106,7 +106,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       };
 
       sinon
-        .stub(usecases, 'findStudentsForEnrollment')
+        .stub(usecases, 'findStudentsForEnrolment')
         .withArgs({
           certificationCenterId: 99,
           sessionId: 88,

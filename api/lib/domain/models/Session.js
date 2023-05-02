@@ -95,7 +95,7 @@ class Session {
     return this.supervisorPassword === supervisorPassword;
   }
 
-  canEnrollCandidate() {
+  canEnrolCandidate() {
     return _.isNull(this.finalizedAt);
   }
 

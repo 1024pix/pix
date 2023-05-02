@@ -241,12 +241,12 @@ module.exports = {
     return null;
   },
 
-  async enrollStudentsToSession(request, h, dependencies = { certificationCandidateSerializer, requestResponseUtils }) {
+  async enrolStudentsToSession(request, h, dependencies = { certificationCandidateSerializer, requestResponseUtils }) {
     const referentId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
     const sessionId = request.params.id;
     const studentIds = request.deserializedPayload.organizationLearnerIds;
 
-    await usecases.enrollStudentsToSession({ sessionId, referentId, studentIds });
+    await usecases.enrolStudentsToSession({ sessionId, referentId, studentIds });
     const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
     const certificationCandidatesSerialized =
       dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
