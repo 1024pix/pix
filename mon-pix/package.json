@@ -11,6 +11,11 @@
   "ember": {
     "edition": "octane"
   },
+  "ember-addon": {
+    "paths": [
+      "../shared"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/1024pix/pix.git"
