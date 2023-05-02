@@ -1,6 +1,4 @@
 const { sinon, expect, nock, catchErr } = require('../../../test-helper');
-
-const mailCheck = require('../../../../lib/infrastructure/mail-check');
 const { mailing } = require('../../../../lib/config');
 
 const SendinblueProvider = require('../../../../lib/infrastructure/mailers/SendinblueProvider');
@@ -27,7 +25,6 @@ describe('Unit | Class | SendinblueProvider', function () {
         sinon.stub(mailing, 'provider').value('sendinblue');
 
         sinon.stub(SendinblueProvider, 'createSendinblueSMTPApi');
-        sinon.stub(mailCheck, 'checkDomainIsValid').withArgs(userEmailAddress).resolves();
 
         stubbedSendinblueSMTPApi = { sendTransacEmail: sinon.stub() };
         SendinblueProvider.createSendinblueSMTPApi.returns(stubbedSendinblueSMTPApi);
