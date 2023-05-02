@@ -48,6 +48,7 @@ const PIX_CERTIF = {
   SCOPE: 'pix-certif',
   NOT_LINKED_CERTIFICATION_MSG:
     "L'accès à Pix Certif est limité aux centres de certification Pix. Contactez le référent de votre centre de certification si vous pensez avoir besoin d'y accéder.",
+  DEFAULT_SESSION_DURATION_MINUTES: 105,
 };
 
 const LOCALE = {
