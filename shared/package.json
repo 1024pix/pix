@@ -21,8 +21,8 @@
     "lint:js": "eslint .",
     "lint:js:fix": "npm run lint:js -- --fix",
     "start": "ember serve",
-    "test": "npm-run-all lint test:*",
-    "test:ember": "ember test",
+    "test": "ember test --reporter dot",
+    "test:ci": "npm run test",
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {

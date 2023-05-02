@@ -123,7 +123,13 @@ workflows:
           context: Pix
           requires:
             - checkout
+
       - pix1d_build_and_test:
+          context: Pix
+          requires:
+            - checkout
+
+      - shared_test:
           context: Pix
           requires:
             - checkout
@@ -342,6 +348,33 @@ jobs:
       - run: cat package*.json > cachekey
       - restore_cache:
           keys:
+            - v7-shared-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-shared-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Test
+          command: npm run test:ci
+
+  shared_test:
+    docker:
+      - image: cimg/node:16.19.1-browsers
+        environment:
+          JOBS: 2
+    resource_class: small
+    working_directory: ~/pix/shared
+    steps:
+      - browser-tools/install-chrome
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
             - v7-admin-npm-{{ checksum "cachekey" }}
       - run: npm ci
       - save_cache:
@@ -353,7 +386,7 @@ jobs:
           command: npm run lint
       - run:
           name: Test
-          command: npm run test:ci
+          command: npm run test
 
   e2e_test_app:
     executor:
