@@ -9,11 +9,12 @@
 }
 
 .progress-bar-stepnums {
+  @extend %pix-body-m;
+
   display: flex;
   justify-content: space-between;
   margin-bottom: 7px;
   padding: 0 4px;
-  font-size: 1rem;
 }
 
 .progress-bar-stepnum {
