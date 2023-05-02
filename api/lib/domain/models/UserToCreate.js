@@ -19,9 +19,10 @@ class UserToCreate {
     hasSeenOtherChallengesTooltip = false,
     createdAt,
     updatedAt,
+    dependencies = { localeService },
   } = {}) {
     if (locale) {
-      locale = localeService.getCanonicalLocale(locale);
+      locale = dependencies.localeService.getCanonicalLocale(locale);
     }
 
     this.firstName = firstName;
