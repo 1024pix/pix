@@ -4,7 +4,7 @@ import ChallengeItemGeneric from './challenge-item-generic';
 import { inject as service } from '@ember/service';
 import generateRandomString from 'mon-pix/utils/generate-random-string';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
-import ENV from 'mon-pix/config/environment';
+import { isEmbedAllowedOrigin } from 'mon-pix/utils/embed-allowed-origins';
 
 export default class ChallengeItemQroc extends ChallengeItemGeneric {
   @service intl;
@@ -12,7 +12,6 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   @tracked autoReplyAnswer = '';
   @tracked qcrocProposalAnswerValue = '';
   postMessageHandler = null;
-  embedOrigins = ENV.APP.EMBED_ALLOWED_ORIGINS;
 
   constructor() {
     super(...arguments);
@@ -62,24 +61,26 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   _getMessageFromEventData(event) {
-    let data = null;
-    const isAllowedOrigin = this.allowedOriginWithRegExp.some((allowedOrigin) => {
-      return event.origin.match(allowedOrigin);
-    });
-    if (isAllowedOrigin) {
-      if (this._isNumeric(event.data)) {
-        data = this._transformToObjectMessage(event.data);
-      } else if (typeof event.data === 'string') {
-        try {
-          data = JSON.parse(event.data);
-        } catch {
-          data = this._transformToObjectMessage(event.data);
-        }
-      } else if (typeof event.data === 'object') {
-        data = event.data;
+    if (!isEmbedAllowedOrigin(event.origin)) return null;
+
+    if (this._isNumeric(event.data)) {
+      return this._transformToObjectMessage(event.data);
+    }
+
+    if (typeof event.data === 'string') {
+      try {
+        return JSON.parse(event.data);
+      } catch {
+        return this._transformToObjectMessage(event.data);
       }
     }
-    return data;
+
+    if (typeof event.data === 'object') {
+      if (event.data.type && event.data.type !== 'answer') return null;
+      return event.data;
+    }
+
+    return null;
   }
 
   _isNumeric(x) {
@@ -128,12 +129,6 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   get _defaultAnswer() {
     const inputBlock = this._blocks.find((block) => block.input != null);
     return inputBlock?.defaultValue ?? '';
-  }
-
-  get allowedOriginWithRegExp() {
-    return this.embedOrigins.map((allowedOrigin) => {
-      return new RegExp(allowedOrigin.replace('*', '[\\w-]+'));
-    });
   }
 }
 
