@@ -21,7 +21,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   let sessionCodeService;
 
   let sessionsImportValidationService;
-  let sessionRepository;
   let temporarySessionsStorageForMassImportService;
 
   beforeEach(function () {
@@ -42,9 +41,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       getValidatedCandidateBirthInformation: sinon.stub(),
       validateSession: sinon.stub(),
       getUniqueCandidates: sinon.stub(),
-    };
-    sessionRepository = {
-      isSessionExisting: sinon.stub(),
     };
     temporarySessionsStorageForMassImportService = {
       save: sinon.stub(),
@@ -93,10 +89,8 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         userId,
         certificationCenterId,
         certificationCenterRepository,
-        sessionRepository,
         sessionCodeService,
         i18n,
-
         sessionsImportValidationService,
         temporarySessionsStorageForMassImportService,
       });
@@ -188,15 +182,17 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           },
         ];
 
-        sessionsImportValidationService.getUniqueCandidates.onCall(0).returns({
-          uniqueCandidates: [candidate1],
-          duplicateCandidateErrors: [],
-        });
-
-        sessionsImportValidationService.getUniqueCandidates.onCall(1).returns({
-          uniqueCandidates: [candidate2, candidate3],
-          duplicateCandidateErrors: [],
-        });
+        sessionsImportValidationService.getUniqueCandidates
+          .onFirstCall()
+          .returns({
+            uniqueCandidates: [candidate1],
+            duplicateCandidateErrors: [],
+          })
+          .onSecondCall()
+          .returns({
+            uniqueCandidates: [candidate2, candidate3],
+            duplicateCandidateErrors: [],
+          });
 
         const cpfBirthInformationValidation1 = new CpfBirthInformationValidation();
         cpfBirthInformationValidation1.success({ ...candidate1 });
@@ -205,13 +201,11 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         const cpfBirthInformationValidation3 = new CpfBirthInformationValidation();
         cpfBirthInformationValidation3.success({ ...candidate3 });
         sessionsImportValidationService.getValidatedCandidateBirthInformation
-          .onCall(0)
-          .resolves({ cpfBirthInformation: cpfBirthInformationValidation1 });
-        sessionsImportValidationService.getValidatedCandidateBirthInformation
-          .onCall(1)
-          .resolves({ cpfBirthInformation: cpfBirthInformationValidation2 });
-        sessionsImportValidationService.getValidatedCandidateBirthInformation
-          .onCall(2)
+          .onFirstCall()
+          .resolves({ cpfBirthInformation: cpfBirthInformationValidation1 })
+          .onSecondCall()
+          .resolves({ cpfBirthInformation: cpfBirthInformationValidation2 })
+          .onThirdCall()
           .resolves({ cpfBirthInformation: cpfBirthInformationValidation3 });
 
         temporarySessionsStorageForMassImportService.save.resolves(cachedValidatedSessionsKey);
@@ -224,10 +218,8 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterRepository,
           certificationCandidateRepository,
           certificationCourseRepository,
-          sessionRepository,
           sessionCodeService,
           i18n,
-
           sessionsImportValidationService,
           temporarySessionsStorageForMassImportService,
         });
@@ -303,10 +295,8 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         sessions,
         certificationCenterId,
         certificationCenterRepository,
-        sessionRepository,
         sessionCodeService,
         i18n,
-
         sessionsImportValidationService,
       });
 
@@ -343,10 +333,8 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           sessions,
           certificationCenterId,
           certificationCenterRepository,
-          sessionRepository,
           sessionCodeService,
           i18n,
-
           sessionsImportValidationService,
           temporarySessionsStorageForMassImportService,
         });
@@ -401,7 +389,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           sessions,
           certificationCenterId,
           certificationCenterRepository,
-          sessionRepository,
           sessionCodeService,
           i18n,
           sessionsImportValidationService,
