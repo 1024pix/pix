@@ -192,7 +192,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
       // then
       const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-        _.pick(item, ['userId', 'sessionId', 'lastName', 'firstName', 'enrolledComplementaryCertification'])
+        _.pick(item, ['userId', 'sessionId', 'lastName', 'firstName', 'enrolledComplementaryCertification', 'enrolledComplementaryCertificationKey'])
       );
 
       expect(actualCandidates).to.have.deep.ordered.members([
@@ -201,12 +201,14 @@ describe('Integration | Repository | SessionForSupervising', function () {
           lastName: 'Jackson',
           firstName: 'Janet',
           enrolledComplementaryCertification: 'Pix+ Édu 1er degré',
+          enrolledComplementaryCertificationKey: 'EDU_1ER_DEGRE',
         },
         {
           userId: 22222,
           lastName: 'Joplin',
           firstName: 'Janis',
           enrolledComplementaryCertification: null,
+          enrolledComplementaryCertificationKey: null,
         },
       ]);
     });
