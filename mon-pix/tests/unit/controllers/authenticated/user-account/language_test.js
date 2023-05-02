@@ -35,7 +35,7 @@ module('Unit | Controller | user-account/language', function (hooks) {
         // then
         sinon.assert.calledWith(userSaveStub, { adapterOptions: { lang: language } });
         sinon.assert.calledWith(dayjsSetLocaleStub, language);
-        sinon.assert.calledWith(intlSetLocaleStub, [language]);
+        sinon.assert.calledWith(intlSetLocaleStub, language);
         assert.ok(true);
       });
     });
