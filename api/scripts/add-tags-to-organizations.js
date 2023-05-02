@@ -48,20 +48,23 @@ async function retrieveTagsByName({ checkedData }) {
   return tagByNames;
 }
 
-async function addTagsToOrganizations({ tagsByName, checkedData }) {
+async function addTagsToOrganizations({ tagsByName, checkedData, dependencies = { organizationTagRepository } }) {
   for (let i = 0; i < checkedData.length; i++) {
     if (require.main === module) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
 
     const { organizationId, tagName } = checkedData[i];
     const tagId = tagsByName.get(tagName).id;
 
-    const isExisting = await organizationTagRepository.isExistingByOrganizationIdAndTagId({ organizationId, tagId });
+    const isExisting = await dependencies.organizationTagRepository.isExistingByOrganizationIdAndTagId({
+      organizationId,
+      tagId,
+    });
 
     if (!isExisting) {
       if (require.main === module) process.stdout.write(`Adding tag: ${tagName} to organization: ${organizationId} `);
 
       const organizationTag = new OrganizationTag({ organizationId, tagId });
-      await organizationTagRepository.create(organizationTag);
+      await dependencies.organizationTagRepository.create(organizationTag);
 
       if (require.main === module) process.stdout.write('===> ✔');
     } else {
