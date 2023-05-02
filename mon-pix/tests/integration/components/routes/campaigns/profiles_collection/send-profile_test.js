@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import { contains } from '../../../../../helpers/contains';
 import { clickByLabel } from '../../../../../helpers/click-by-label';
+// eslint-disable-next-line no-restricted-imports
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 

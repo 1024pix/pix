@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-imports
 import { find, click } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
