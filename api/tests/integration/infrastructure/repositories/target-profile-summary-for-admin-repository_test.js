@@ -3,20 +3,97 @@ const targetProfileSummaryForAdminRepository = require('../../../../lib/infrastr
 
 describe('Integration | Repository | Target-profile-summary-for-admin', function () {
   describe('#findPaginatedFiltered', function () {
+    it('return TargetProfileSummaryForAdmins model', async function () {
+      // given
+      const targetProfile = { id: 1, name: 'Go go target profile', outdated: false };
+      const expectedTargetProfileSummary = domainBuilder.buildTargetProfileSummaryForAdmin(targetProfile);
+      databaseBuilder.factory.buildTargetProfile(targetProfile);
+      await databaseBuilder.commit();
+
+      const filter = {};
+      const page = { number: 1, size: 10 };
+
+      // when
+      const {
+        models: [actualTargetProfileSummary],
+      } = await targetProfileSummaryForAdminRepository.findPaginatedFiltered({
+        filter,
+        page,
+      });
+
+      // then
+      expect(actualTargetProfileSummary).to.deepEqualInstance(expectedTargetProfileSummary);
+    });
+
+    context('ordered target profile list', function () {
+      it('return sorted active target profile first', async function () {
+        // given
+        const targetProfileData = [
+          { id: 1, name: 'TPA', outdated: false },
+          { id: 2, name: 'TPA', outdated: true },
+          { id: 5, name: 'TPA', outdated: true },
+          { id: 6, name: 'TPA', outdated: true },
+          { id: 7, name: 'TPA', outdated: false },
+        ];
+        targetProfileData.map(databaseBuilder.factory.buildTargetProfile);
+        await databaseBuilder.commit();
+
+        const filter = {};
+        const page = { number: 1, size: 10 };
+
+        // when
+        const { models: actualTargetProfileSummaries } =
+          await targetProfileSummaryForAdminRepository.findPaginatedFiltered({
+            filter,
+            page,
+          });
+
+        // then
+        expect(actualTargetProfileSummaries.length).to.equal(5);
+        expect(actualTargetProfileSummaries[0].outdated).to.be.false;
+        expect(actualTargetProfileSummaries[1].outdated).to.be.false;
+      });
+
+      it('return sorted by name target profile first', async function () {
+        // given
+        const targetProfileData = [
+          { id: 2, name: 'TPE', outdated: true },
+          { id: 4, name: 'TPD', outdated: true },
+          { id: 5, name: 'TPC', outdated: false },
+          { id: 6, name: 'TPB', outdated: true },
+          { id: 7, name: 'TPA', outdated: false },
+        ];
+        targetProfileData.map(databaseBuilder.factory.buildTargetProfile);
+        await databaseBuilder.commit();
+
+        const filter = {};
+        const page = { number: 1, size: 10 };
+
+        // when
+        const { models: actualTargetProfileSummaries } =
+          await targetProfileSummaryForAdminRepository.findPaginatedFiltered({
+            filter,
+            page,
+          });
+
+        // then
+        expect(actualTargetProfileSummaries.length).to.equal(5);
+        expect(actualTargetProfileSummaries[0].name).to.equal('TPA');
+        expect(actualTargetProfileSummaries[1].name).to.equal('TPC');
+      });
+    });
+
     context('when searched target profiles fit in one page', function () {
-      let targetProfileData;
-      beforeEach(function () {
-        targetProfileData = [
+      it('return TargetProfileSummariesForAdmin in the page', async function () {
+        // given
+        const targetProfileData = [
           { id: 1, name: 'TPA', outdated: false },
           { id: 2, name: 'TPB', outdated: true },
           { id: 3, name: 'TPC', outdated: false },
         ];
         targetProfileData.map(databaseBuilder.factory.buildTargetProfile);
-        return databaseBuilder.commit();
-      });
+        await databaseBuilder.commit();
 
-      it('should return an array of TargetProfileSummariesForAdmin in the page', async function () {
-        // given
         const filter = {};
         const page = { number: 1, size: 10 };
 
@@ -28,17 +105,16 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
           });
 
         // then
-        const expectedTargetProfileSummaries = targetProfileData.map(domainBuilder.buildTargetProfileSummaryForAdmin);
         const expectedMeta = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
-        expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+        expect(actualTargetProfileSummaries.length).to.equal(3);
         expect(meta).to.deep.equal(expectedMeta);
       });
     });
 
-    context("when searched target profiles don't fit in one page", function () {
-      let targetProfileData;
-      beforeEach(function () {
-        targetProfileData = [
+    context("when searched target profiles  doesn't fit in one page", function () {
+      it('return TargetProfileSummariesForAdmin in the page', async function () {
+        // given
+        const targetProfileData = [
           { id: 1, name: 'TPA', outdated: false },
           { id: 2, name: 'TPB', outdated: true },
           { id: 3, name: 'TPC', outdated: false },
@@ -46,11 +122,8 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
           { id: 4, name: 'TPD', outdated: false },
         ];
         targetProfileData.map(databaseBuilder.factory.buildTargetProfile);
-        return databaseBuilder.commit();
-      });
+        await databaseBuilder.commit();
 
-      it('should return the queried page of TargetProfileSummariesForAdmin array', async function () {
-        // given
         const filter = {};
         const page = { number: 2, size: 3 };
 
@@ -62,12 +135,8 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
           });
 
         // then
-        const expectedTargetProfileSummaries = [
-          domainBuilder.buildTargetProfileSummaryForAdmin({ id: 4, name: 'TPD', outdated: false }),
-          domainBuilder.buildTargetProfileSummaryForAdmin({ id: 5, name: 'TPE', outdated: true }),
-        ];
         const expectedMeta = { page: page.number, pageSize: page.size, pageCount: 2, rowCount: 5 };
-        expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+        expect(actualTargetProfileSummaries.length).to.equal(2);
         expect(meta).to.deep.equal(expectedMeta);
       });
     });
