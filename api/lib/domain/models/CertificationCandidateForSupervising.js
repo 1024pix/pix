@@ -11,7 +11,9 @@ class CertificationCandidateForSupervising {
     authorizedToStart,
     assessmentStatus,
     startDateTime,
+    theoricalEndDateTime,
     enrolledComplementaryCertification,
+    enrolledComplementaryCertificationKey,
     stillValidBadgeAcquisitions = [],
   } = {}) {
     this.id = id;
@@ -23,7 +25,9 @@ class CertificationCandidateForSupervising {
     this.authorizedToStart = authorizedToStart;
     this.assessmentStatus = assessmentStatus;
     this.startDateTime = startDateTime;
+    this.theoricalEndDateTime = theoricalEndDateTime;
     this.enrolledComplementaryCertification = enrolledComplementaryCertification;
+    this.enrolledComplementaryCertificationKey = enrolledComplementaryCertificationKey;
     this.stillValidBadgeAcquisitions = stillValidBadgeAcquisitions;
   }
 

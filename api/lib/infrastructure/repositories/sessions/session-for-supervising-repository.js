@@ -25,7 +25,8 @@ module.exports = {
             'authorizedToStart', "certification-candidates"."authorizedToStart",
             'assessmentStatus', "assessments"."state",
             'startDateTime', "certification-courses"."createdAt",
-            'enrolledComplementaryCertification', "complementary-certifications"."label"
+            'enrolledComplementaryCertification', "complementary-certifications"."label",
+            'enrolledComplementaryCertificationKey', "complementary-certifications"."key"
           ) order by lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
       `),
       })
