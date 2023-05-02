@@ -1,7 +1,5 @@
 const Session = require('../../models/Session');
 const SessionMassImportReport = require('../../models/SessionMassImportReport');
-const sessionsImportValidationService = require('../../services/sessions-mass-import/sessions-import-validation-service');
-const temporarySessionsStorageForMassImportService = require('../../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
 const CertificationCandidate = require('../../models/CertificationCandidate');
 const bluebird = require('bluebird');
 
@@ -17,6 +15,8 @@ module.exports = async function validateSessions({
   certificationCourseRepository,
   sessionCodeService,
   i18n,
+  sessionsImportValidationService,
+  temporarySessionsStorageForMassImportService,
 }) {
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
   const sessionsMassImportReport = new SessionMassImportReport();
@@ -55,6 +55,7 @@ module.exports = async function validateSessions({
         certificationCpfCityRepository,
         complementaryCertificationRepository,
         translate,
+        sessionsImportValidationService,
       });
 
       session.certificationCandidates = validatedCertificationCandidates;
@@ -85,6 +86,7 @@ async function _createValidCertificationCandidates({
   certificationCpfCityRepository,
   complementaryCertificationRepository,
   translate,
+  sessionsImportValidationService,
 }) {
   const { uniqueCandidates, duplicateCandidateErrors } =
     sessionsImportValidationService.getUniqueCandidates(certificationCandidates);
