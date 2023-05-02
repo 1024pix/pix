@@ -1,6 +1,4 @@
 const courseService = require('../../../../lib/domain/services/course-service');
-
-const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const logger = require('../../../../lib/infrastructure/logger');
 const { expect, sinon } = require('../../../test-helper');
 
@@ -8,9 +6,12 @@ describe('Unit | Service | Course Service', function () {
   describe('#getCourse', function () {
     const userId = 1;
     const learningContentCourse = { id: 'recLearningContentId' };
+    let courseRepository;
 
     beforeEach(function () {
-      sinon.stub(courseRepository, 'get');
+      courseRepository = {
+        get: sinon.stub(),
+      };
       sinon.stub(logger, 'error');
     });
 
@@ -20,7 +21,7 @@ describe('Unit | Service | Course Service', function () {
       courseRepository.get.resolves(learningContentCourse);
 
       // when
-      const promise = courseService.getCourse({ courseId: givenCourseId, userId });
+      const promise = courseService.getCourse({ courseId: givenCourseId, userId, dependencies: { courseRepository } });
 
       // then
       return promise.then(() => {
@@ -37,7 +38,7 @@ describe('Unit | Service | Course Service', function () {
         courseRepository.get.withArgs(courseId).resolves(aCourse);
 
         // when
-        const result = await courseService.getCourse({ courseId });
+        const result = await courseService.getCourse({ courseId, dependencies: { courseRepository } });
 
         // then
         expect(result).to.equal(aCourse);

@@ -5,18 +5,26 @@ const knowledgeElementRepository = require('../../infrastructure/repositories/kn
 const badgeForCalculationRepository = require('../../infrastructure/repositories/badge-for-calculation-repository.js');
 
 module.exports = {
-  async findStillValidBadgeAcquisitions({ userId, domainTransaction }) {
-    const highestCertifiableBadgeAcquisitions = await certifiableBadgeAcquisitionRepository.findHighestCertifiable({
+  async findStillValidBadgeAcquisitions({
+    userId,
+    domainTransaction,
+    dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
+  }) {
+    const highestCertifiableBadgeAcquisitions =
+      await dependencies.certifiableBadgeAcquisitionRepository.findHighestCertifiable({
+        userId,
+        domainTransaction,
+      });
+
+    const knowledgeElements = await dependencies.knowledgeElementRepository.findUniqByUserId({
       userId,
       domainTransaction,
     });
 
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, domainTransaction });
-
     const badgeAcquisitions = await bluebird.mapSeries(
       highestCertifiableBadgeAcquisitions,
       async (certifiableBadgeAcquisition) => {
-        const badgeForCalculation = await badgeForCalculationRepository.getByCertifiableBadgeAcquisition({
+        const badgeForCalculation = await dependencies.badgeForCalculationRepository.getByCertifiableBadgeAcquisition({
           certifiableBadgeAcquisition,
         });
         if (!badgeForCalculation) return null;

@@ -121,7 +121,7 @@ function _getResult(answers, certificationChallenges, testedCompetences, allArea
   });
 }
 
-async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
+async function _getTestedCompetences({ userId, limitDate, isV2Certification, placementProfileService }) {
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, isV2Certification });
   return _(placementProfile.userCompetences)
     .filter((uc) => uc.isCertifiable())
@@ -130,12 +130,20 @@ async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
 }
 
 module.exports = {
-  async calculateCertificationAssessmentScore({ certificationAssessment, continueOnError }) {
+  async calculateCertificationAssessmentScore({
+    certificationAssessment,
+    continueOnError,
+    dependencies = {
+      areaRepository,
+      placementProfileService,
+    },
+  }) {
     // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
     const testedCompetences = await _getTestedCompetences({
       userId: certificationAssessment.userId,
       limitDate: certificationAssessment.createdAt,
       isV2Certification: certificationAssessment.isV2Certification,
+      placementProfileService: dependencies.placementProfileService,
     });
 
     // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
@@ -150,7 +158,7 @@ module.exports = {
       matchingCertificationChallenges
     );
 
-    const allAreas = await areaRepository.list();
+    const allAreas = await dependencies.areaRepository.list();
     return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, allAreas, continueOnError);
   },
 };

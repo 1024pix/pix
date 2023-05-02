@@ -1,17 +1,15 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
-const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | user-authentication-method-obfuscation-service', function () {
+  let authenticationMethodRepository;
   beforeEach(function () {
-    sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
-  });
-
-  afterEach(function () {
-    authenticationMethodRepository.findOneByUserIdAndIdentityProvider.restore();
+    authenticationMethodRepository = {
+      findOneByUserIdAndIdentityProvider: sinon.stub(),
+    };
   });
 
   describe('#emailObfuscation', function () {
@@ -50,7 +48,9 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
       // when
-      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user, {
+        authenticationMethodRepository,
+      });
 
       // then
       const expectedResult = {
@@ -71,7 +71,9 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
       // when
-      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user, {
+        authenticationMethodRepository,
+      });
 
       // then
       const expectedResult = {
@@ -92,7 +94,9 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
       // when
-      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user, {
+        authenticationMethodRepository,
+      });
 
       // then
       const expectedResult = {
@@ -108,7 +112,9 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
       const user = new User({ username });
 
       // when
-      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user, {
+        authenticationMethodRepository,
+      });
       // then
       const expectedResult = {
         authenticatedBy: 'username',
@@ -124,7 +130,9 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
       const user = new User({ username, email });
 
       // when
-      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user, {
+        authenticationMethodRepository,
+      });
 
       // then
       const expectedResult = {
@@ -140,7 +148,9 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
       const user = new User({ email });
 
       // when
-      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+      const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user, {
+        authenticationMethodRepository,
+      });
 
       // then
       const expectedResult = {
@@ -155,7 +165,9 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
       const user = domainBuilder.buildUser({ username: null, email: null, authenticationMethods: [] });
 
       // when
-      const error = await catchErr(obfuscationService.getUserAuthenticationMethodWithObfuscation)(user);
+      const error = await catchErr(obfuscationService.getUserAuthenticationMethodWithObfuscation)(user, {
+        authenticationMethodRepository,
+      });
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
