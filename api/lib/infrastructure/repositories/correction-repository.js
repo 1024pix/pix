@@ -9,17 +9,24 @@ const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
 
 module.exports = {
-  async getByChallengeId({ challengeId, userId, locale }) {
+  async getByChallengeId({ challengeId, userId, locale, dependencies = { tutorialRepository } } = {}) {
     const challenge = await challengeDatasource.get(challengeId);
     const skill = await _getSkill(challenge);
     const hint = await _getHint({ skill, locale });
 
-    const tutorials = await _getTutorials({ userId, skill, tutorialIdsProperty: 'tutorialIds', locale });
+    const tutorials = await _getTutorials({
+      userId,
+      skill,
+      tutorialIdsProperty: 'tutorialIds',
+      locale,
+      tutorialRepository: dependencies.tutorialRepository,
+    });
     const learningMoreTutorials = await _getTutorials({
       userId,
       skill,
       tutorialIdsProperty: 'learningMoreTutorialIds',
       locale,
+      tutorialRepository: dependencies.tutorialRepository,
     });
 
     return new Correction({
@@ -54,7 +61,7 @@ function _convertSkillToHint({ skill, locale }) {
   });
 }
 
-async function _getTutorials({ userId, skill, tutorialIdsProperty, locale }) {
+async function _getTutorials({ userId, skill, tutorialIdsProperty, locale, tutorialRepository }) {
   const tutorialIds = skill[tutorialIdsProperty];
   if (!_.isEmpty(tutorialIds)) {
     const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialIds, userId, locale });
