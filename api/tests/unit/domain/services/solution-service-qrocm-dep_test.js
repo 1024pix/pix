@@ -1236,23 +1236,19 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         scoring,
       });
 
-      const getEnabledTreatments = sinon.stub();
-      const enabledTreatments = Symbol('enabledTreatments');
-      getEnabledTreatments.withArgs(true, deactivations).returns(enabledTreatments);
-
-      const applyTreatmentsToSolutions = sinon.stub();
-      const treatedSolution = {
+      const treatAnswersAndSolutions = sinon.stub();
+      const enabledTreatments = ['t1', 't2', 't3'];
+      const treatedSolutions = {
         Google: ['abcd', 'efgh', 'hijk'],
         Yahoo: ['lmno', 'pqrs'],
       };
-      applyTreatmentsToSolutions.withArgs(solutions, enabledTreatments).returns(treatedSolution);
-
-      const applyTreatmentsToAnswers = sinon.stub();
-      const treatedAnswerValue = {
+      const treatedAnswers = {
         num1: 'pqrs',
         num2: 'tuvw',
       };
-      applyTreatmentsToAnswers.withArgs(answers, enabledTreatments).returns(treatedAnswerValue);
+      treatAnswersAndSolutions
+        .withArgs(deactivations, solutions, answers)
+        .returns({ enabledTreatments, treatedSolutions, treatedAnswers });
 
       // when
       const result = service.getSolution({
@@ -1261,9 +1257,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         dependencies: {
           applyPreTreatments,
           convertYamlToJsObjects,
-          getEnabledTreatments,
-          applyTreatmentsToSolutions,
-          applyTreatmentsToAnswers,
+          treatAnswersAndSolutions,
         },
       });
 
