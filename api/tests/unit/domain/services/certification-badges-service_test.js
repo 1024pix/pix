@@ -1,21 +1,12 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const certificationBadgesService = require('../../../../lib/domain/services/certification-badges-service');
-const certifiableBadgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/certifiable-badge-acquisition-repository');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const badgeForCalculationRepository = require('../../../../lib/infrastructure/repositories/badge-for-calculation-repository');
 
 describe('Unit | Service | certification-badges-service', function () {
   describe('#findStillValidBadgeAcquisitions', function () {
-    const userId = 123;
-    let domainTransaction, args;
-
-    beforeEach(function () {
-      domainTransaction = Symbol('domainTransaction');
-      args = { userId, domainTransaction };
-    });
-
     it('should return all still valid badge acquisitions based on highest certifiable ones', async function () {
       // given
+      const userId = 123;
+      const domainTransaction = Symbol('domainTransaction');
       const highestBadgeAcquisition1 = domainBuilder.buildCertifiableBadgeAcquisition({ badgeId: 1 });
       const highestBadgeAcquisition2 = domainBuilder.buildCertifiableBadgeAcquisition({ badgeId: 2 });
       const highestBadgeAcquisition3 = domainBuilder.buildCertifiableBadgeAcquisition({ badgeId: 3 });
@@ -29,30 +20,43 @@ describe('Unit | Service | certification-badges-service', function () {
       const badgeStillValid3 = domainBuilder.buildBadgeForCalculation.mockObtainable({
         id: highestBadgeAcquisition3.badgeId,
       });
-      sinon
-        .stub(certifiableBadgeAcquisitionRepository, 'findHighestCertifiable')
+      const certifiableBadgeAcquisitionRepository = {
+        findHighestCertifiable: sinon.stub(),
+      };
+      certifiableBadgeAcquisitionRepository.findHighestCertifiable
         .withArgs({ userId, domainTransaction })
         .resolves([highestBadgeAcquisition1, highestBadgeAcquisition2, highestBadgeAcquisition3]);
-      sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves([domainBuilder.buildKnowledgeElement()]);
-      const getByCertifiableBadgeAcquisitionStub = sinon.stub(
-        badgeForCalculationRepository,
-        'getByCertifiableBadgeAcquisition'
-      );
-      getByCertifiableBadgeAcquisitionStub
+
+      const knowledgeElementRepository = {
+        findUniqByUserId: sinon.stub().resolves([domainBuilder.buildKnowledgeElement()]),
+      };
+      const badgeForCalculationRepository = {
+        getByCertifiableBadgeAcquisition: sinon.stub(),
+      };
+
+      badgeForCalculationRepository.getByCertifiableBadgeAcquisition
         .withArgs({ certifiableBadgeAcquisition: highestBadgeAcquisition1 })
         .resolves(badgeStillValid1);
-      getByCertifiableBadgeAcquisitionStub
+      badgeForCalculationRepository.getByCertifiableBadgeAcquisition
         .withArgs({ certifiableBadgeAcquisition: highestBadgeAcquisition2 })
         .resolves(badgeNoMoreValid2);
-      getByCertifiableBadgeAcquisitionStub
+      badgeForCalculationRepository.getByCertifiableBadgeAcquisition
         .withArgs({ certifiableBadgeAcquisition: highestBadgeAcquisition3 })
         .resolves(badgeStillValid3);
-      getByCertifiableBadgeAcquisitionStub
+      badgeForCalculationRepository.getByCertifiableBadgeAcquisition
         .withArgs({ certifiableBadgeAcquisition: highestBadgeAcquisition4 })
         .resolves(null);
 
       // when
-      const stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions(args);
+      const stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+        userId,
+        domainTransaction,
+        dependencies: {
+          certifiableBadgeAcquisitionRepository,
+          knowledgeElementRepository,
+          badgeForCalculationRepository,
+        },
+      });
 
       // then
       expect(stillValidBadgeAcquisitions).to.deepEqualArray([highestBadgeAcquisition1, highestBadgeAcquisition3]);

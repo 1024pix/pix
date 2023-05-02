@@ -19,6 +19,7 @@ const createOrUpdateOrganizationInvitation = async ({
   locale,
   tags,
   role,
+  dependencies = { mailService },
 }) => {
   let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({
     organizationId,
@@ -37,7 +38,7 @@ const createOrUpdateOrganizationInvitation = async ({
 
   const organization = await organizationRepository.get(organizationId);
 
-  const mailerResponse = await mailService.sendOrganizationInvitationEmail({
+  const mailerResponse = await dependencies.mailService.sendOrganizationInvitationEmail({
     email,
     organizationName: organization.name,
     organizationInvitationId: organizationInvitation.id,
@@ -68,6 +69,7 @@ const createProOrganizationInvitation = async ({
   locale,
   tags,
   name,
+  dependencies = { mailService },
 }) => {
   let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({
     organizationId,
@@ -79,7 +81,7 @@ const createProOrganizationInvitation = async ({
     organizationInvitation = await organizationInvitationRepository.create({ organizationId, email, role, code });
   }
 
-  await mailService.sendOrganizationInvitationEmail({
+  await dependencies.mailService.sendOrganizationInvitationEmail({
     email,
     name,
     organizationInvitationId: organizationInvitation.id,
@@ -102,6 +104,7 @@ const createScoOrganizationInvitation = async ({
   email,
   locale,
   tags,
+  dependencies = { mailService },
 }) => {
   let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({
     organizationId,
@@ -116,7 +119,7 @@ const createScoOrganizationInvitation = async ({
 
   const organization = await organizationRepository.get(organizationId);
 
-  await mailService.sendScoOrganizationInvitationEmail({
+  await dependencies.mailService.sendScoOrganizationInvitationEmail({
     email,
     organizationName: organization.name,
     firstName,
