@@ -1,5 +1,33 @@
 # Pix Changelog
 
+## v3.349.0 (02/05/2023)
+
+
+### :rocket: Amélioration
+- [#6037](https://github.com/1024pix/pix/pull/6037) [FEATURE] Activer/Désactiver l'envoi multiple pour les campagnes d'évaluation d'une Organization dans Pix Admin (PIX-7476)
+- [#6088](https://github.com/1024pix/pix/pull/6088) [FEATURE] Afficher la certif. complémentaire sur l'espace surveillant (PIX-7831).
+- [#6062](https://github.com/1024pix/pix/pull/6062) [FEATURE] Ajouter le language switcher sur la page de connexion de Pix App (PIX-7214)
+
+### :building_construction: Tech
+- [#6119](https://github.com/1024pix/pix/pull/6119) [TECH] Injection de dépendances dans les models pour préparer la migration ESM
+- [#6103](https://github.com/1024pix/pix/pull/6103) [TECH] Renommage de enroll en enrol (PIX-7906).
+- [#6109](https://github.com/1024pix/pix/pull/6109) [TECH] Injection de dépendances pour préparer la migration ESM - Suite
+- [#6094](https://github.com/1024pix/pix/pull/6094) [TECH] Nettoyage du code inutile lié à l'usage des target-profiles_skills (PIX-6696)
+- [#6036](https://github.com/1024pix/pix/pull/6036) [TECH] S'aligner sur les standards utilisés sur Certif dans Pix App, concernant i18N(PIX-7556)
+- [#6098](https://github.com/1024pix/pix/pull/6098) [TECH] Injection de dépendances pour préparer la migration ESM
+- [#6097](https://github.com/1024pix/pix/pull/6097) [TECH] Injection de dépendances pour préparer la migration ESM
+- [#6018](https://github.com/1024pix/pix/pull/6018) [TECH] Ajout du lint sur les fichiers de traduction de Certif (PIX-7807).
+
+### :bug: Correction
+- [#6107](https://github.com/1024pix/pix/pull/6107) [BUGFIX] Les menus de navigation sur Admin ne sont pas en surbrillances quand on est dans une sous page (PIX-7914)
+- [#6099](https://github.com/1024pix/pix/pull/6099) [BUGFIX] Le rechargement d'un embed n'émet aucun evènement (PIX-7887)
+- [#5645](https://github.com/1024pix/pix/pull/5645) [BUGFIX] Écran de fin de campagne flash : crash si épreuves périmées/archivées (PIX-7106)
+
+### :coffee: Autre
+- [#6111](https://github.com/1024pix/pix/pull/6111) [BUMP] Update Slashgear/action-check-pr-title action to v4.3.0 (workflows)
+- [#6110](https://github.com/1024pix/pix/pull/6110) [BUMP] Update dependency eslint to v8 (mon-pix)
+- [#6092](https://github.com/1024pix/pix/pull/6092) [FEAUTRE] Afficher "Terminé" sur une participation partagé pour une campagne archivé (PIX-5626)
+
 ## v3.348.0 (27/04/2023)
 
 
