@@ -63,6 +63,36 @@ module('Acceptance | Trainings | Training', function (hooks) {
       });
     });
 
+    module('creation page', function () {
+      test('it should set trainings menubar item active', async function (assert) {
+        // when
+        const screen = await visit(`/trainings/new`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Contenus formatifs' })).hasClass('active');
+      });
+    });
+
+    module('triggers details page', function () {
+      test('it should set trainings menubar item active', async function (assert) {
+        // when
+        const screen = await visit(`/trainings/${trainingId}/triggers`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Contenus formatifs' })).hasClass('active');
+      });
+    });
+
+    module('triggers target-profiles page', function () {
+      test('it should set trainings menubar item active', async function (assert) {
+        // when
+        const screen = await visit(`/trainings/${trainingId}/target-profiles`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Contenus formatifs' })).hasClass('active');
+      });
+    });
+
     test('should be redirected to training detail page after training creation', async function (assert) {
       // when
       await visit(`/trainings/list`);

@@ -33,6 +33,14 @@ module('Acceptance | Trainings | List', function (hooks) {
         assert.strictEqual(currentURL(), '/trainings/list');
       });
 
+      test('it should set trainings menubar item active', async function (assert) {
+        // when
+        const screen = await visit(`/trainings/list`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Contenus formatifs' })).hasClass('active');
+      });
+
       test('it should list training summaries', async function (assert) {
         // given
         server.createList('training-summary', 10);
