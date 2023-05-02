@@ -9,9 +9,9 @@ const { MailingProviderInvalidEmailError } = require('./MailingProviderInvalidEm
 const debugEmail = Debug('pix:mailer:email');
 
 class Mailer {
-  constructor() {
+  constructor({ dependencies = { mailCheck } } = {}) {
     this._providerName = mailing.provider;
-
+    this.dependencies = dependencies;
     switch (this._providerName) {
       case 'sendinblue':
         this._provider = new SendinblueProvider();
@@ -29,7 +29,7 @@ class Mailer {
     }
 
     try {
-      await mailCheck.checkDomainIsValid(options.to);
+      await this.dependencies.mailCheck.checkDomainIsValid(options.to);
     } catch (err) {
       logger.warn({ err }, `Email is not valid '${options.to}'`);
       return EmailingAttempt.failure(options.to, EmailingAttempt.errorCode.INVALID_DOMAIN);
@@ -97,4 +97,4 @@ class Mailer {
 
 const mailer = new Mailer();
 
-module.exports = { mailer };
+module.exports = { mailer, Mailer };
