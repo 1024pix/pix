@@ -35,6 +35,7 @@ module('Unit | Route | application', function (hooks) {
         load: sinon.stub().resolves(catchStub),
       });
       sessionServiceStub = Service.create({
+        setup: sinon.stub().resolves(),
         handleUserLanguageAndLocale: sinon.stub().resolves(),
       });
       oidcIdentityProvidersStub = Service.create({
@@ -42,6 +43,21 @@ module('Unit | Route | application', function (hooks) {
       });
 
       this.intl = this.owner.lookup('service:intl');
+    });
+
+    test('should setup the session', async function (assert) {
+      // given
+      const route = this.owner.lookup('route:application');
+      route.set('featureToggles', featureTogglesServiceStub);
+      route.set('session', sessionServiceStub);
+      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
+
+      // when
+      await route.beforeModel();
+
+      // then
+      sinon.assert.calledOnce(sessionServiceStub.setup);
+      assert.ok(true);
     });
 
     test('should set "fr" locale as default', async function (assert) {
