@@ -3,9 +3,7 @@ const targetProfileController = require('../../../../lib/application/target-prof
 const usecases = require('../../../../lib/domain/usecases/index.js');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const targetProfileAttachOrganizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
-const trainingSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-summary-serializer');
 const learningContentPDFPresenter = require('../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | Controller | target-profile-controller', function () {
@@ -301,8 +299,16 @@ describe('Unit | Controller | target-profile-controller', function () {
         trainings: trainingSummaries,
         meta,
       });
-      sinon.stub(trainingSummarySerializer, 'serialize').withArgs(trainingSummaries, meta).returns(expectedResult);
-      sinon.stub(queryParamsUtils, 'extractParameters').returns(useCaseParameters);
+
+      const trainingSummarySerializer = {
+        serialize: sinon.stub(),
+      };
+      trainingSummarySerializer.serialize.withArgs(trainingSummaries, meta).returns(expectedResult);
+
+      const queryParamsUtils = {
+        extractParameters: sinon.stub().returns(useCaseParameters),
+      };
+
       // when
       const response = await targetProfileController.findPaginatedTrainings(
         {
@@ -311,7 +317,8 @@ describe('Unit | Controller | target-profile-controller', function () {
             page: { size: 2, number: 1 },
           },
         },
-        hFake
+        hFake,
+        { trainingSummarySerializer, queryParamsUtils }
       );
 
       // then
