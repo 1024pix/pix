@@ -31,6 +31,17 @@ module('Acceptance | Team | List', function (hooks) {
       assert.strictEqual(currentURL(), '/organizations/list');
     });
 
+    test('it should set team menubar item active', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+      // when
+      const screen = await visit(`/equipe`);
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Équipe' })).hasClass('active');
+    });
+
     test('it should be possible to change the role of an admin member', async function (assert) {
       // given
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);

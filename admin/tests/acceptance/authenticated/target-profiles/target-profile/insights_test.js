@@ -48,6 +48,17 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           await visit('/target-profiles/1/badges/200');
           assert.strictEqual(currentURL(), '/target-profiles/1/badges/200');
         });
+
+        test('it should set target-profiles menubar item active', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+          // when
+          const screen = await visit(`/target-profiles/1/insights`);
+
+          // then
+          assert.dom(screen.getByRole('link', { name: 'Profils cibles' })).hasClass('active');
+        });
       });
 
       module('when admin member has role "CERTIF"', function () {

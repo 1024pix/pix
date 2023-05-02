@@ -34,6 +34,18 @@ module('Acceptance | Target profile creation', function (hooks) {
           // then
           assert.strictEqual(currentURL(), '/target-profiles/new');
         });
+
+        test('it should set target-profiles menubar item active', async function (assert) {
+          // given
+          server.create('framework', { id: 'framework', name: 'Pix' });
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+          // when
+          const screen = await visit(`/target-profiles/new`);
+
+          // then
+          assert.dom(screen.getByRole('link', { name: 'Profils cibles' })).hasClass('active');
+        });
       });
 
       module('when admin member has role "CERTIF"', function () {

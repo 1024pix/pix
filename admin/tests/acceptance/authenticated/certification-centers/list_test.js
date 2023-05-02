@@ -34,6 +34,14 @@ module('Acceptance | Certification Centers | List', function (hooks) {
       assert.strictEqual(currentURL(), '/certification-centers/list');
     });
 
+    test('it should set certification-centers menubar item active', async function (assert) {
+      // when
+      const screen = await visit('/certification-centers/list');
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Centres de certification' })).hasClass('active');
+    });
+
     test('it should list the certification-centers', async function (assert) {
       // given
       const certificationCenter = server.createList('certification-center', 3);

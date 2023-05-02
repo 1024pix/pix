@@ -33,6 +33,14 @@ module('Acceptance | Target Profiles | List', function (hooks) {
         assert.strictEqual(currentURL(), '/target-profiles/list');
       });
 
+      test('it should set target-profiles menubar item active', async function (assert) {
+        // when
+        const screen = await visit(`/target-profiles/list`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Profils cibles' })).hasClass('active');
+      });
+
       test('it should list target profile summaries', async function (assert) {
         // given
         server.create('target-profile-summary', { id: 1, name: 'COUCOU', outdated: true });

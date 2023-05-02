@@ -21,5 +21,13 @@ module('Acceptance | tools', function (hooks) {
       // then
       assert.strictEqual(currentURL(), '/tools');
     });
+
+    test('it should set tools menubar item active', async function (assert) {
+      // when
+      const screen = await visit(`/tools`);
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Outils' })).hasClass('active');
+    });
   });
 });

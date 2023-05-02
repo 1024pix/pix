@@ -34,6 +34,14 @@ module('Acceptance | Target Profile Management', function (hooks) {
           // then
           assert.strictEqual(currentURL(), '/target-profiles/1/details');
         });
+
+        test('it should set target-profiles menubar item active', async function (assert) {
+          // when
+          const screen = await visit(`/target-profiles/1/details`);
+
+          // then
+          assert.dom(screen.getByRole('link', { name: 'Profils cibles' })).hasClass('active');
+        });
       });
 
       module('when admin member has role "CERTIF"', function () {

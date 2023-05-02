@@ -33,6 +33,14 @@ module('Acceptance | Organizations | List', function (hooks) {
       assert.strictEqual(currentURL(), '/organizations/list');
     });
 
+    test('it should set organizations menubar item active', async function (assert) {
+      // when
+      const screen = await visit('/organizations/list');
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Organisations' })).hasClass('active');
+    });
+
     test('it should list the organizations', async function (assert) {
       // given
       server.create('organization', { name: 'Tic' });

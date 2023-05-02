@@ -34,6 +34,17 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       assert.strictEqual(currentURL(), SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
     });
 
+    test('it should set sessions menubar item active', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+      // when
+      const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Sessions de certifications' })).hasClass('active');
+    });
+
     test('it should display sessions to publish informations', async function (assert) {
       assert.expect(7);
       // given
