@@ -1,13 +1,16 @@
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const solutionServiceQrocmDep = require('../../../../lib/domain/services/solution-service-qrocm-dep');
 const Validation = require('../../../../lib/domain/models/Validation');
 const ValidatorQROCMDep = require('../../../../lib/domain/models/ValidatorQROCMDep');
 
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | ValidatorQROCMDep', function () {
+  let solutionServiceQROCMDepStub;
+
   beforeEach(function () {
-    sinon.stub(solutionServiceQrocmDep, 'match');
+    solutionServiceQROCMDepStub = {
+      match: sinon.stub(),
+    };
   });
 
   describe('#assess', function () {
@@ -18,7 +21,7 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', function () {
 
     beforeEach(function () {
       // given
-      solutionServiceQrocmDep.match.returns(AnswerStatus.OK);
+      solutionServiceQROCMDepStub.match.returns(AnswerStatus.OK);
       solution = domainBuilder.buildSolution({
         type: 'QROCM-dep',
         value: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
@@ -29,7 +32,10 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', function () {
       });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
-      validator = new ValidatorQROCMDep({ solution: solution });
+      validator = new ValidatorQROCMDep({
+        solution: solution,
+        dependencies: { solutionServiceQROCMDep: solutionServiceQROCMDepStub },
+      });
 
       // when
       validation = validator.assess({ answer: uncorrectedAnswer });
@@ -37,7 +43,10 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', function () {
 
     it('should call solutionServiceQROCMDep', function () {
       // then
-      expect(solutionServiceQrocmDep.match).to.have.been.calledWith({ answerValue: uncorrectedAnswer.value, solution });
+      expect(solutionServiceQROCMDepStub.match).to.have.been.calledWith({
+        answerValue: uncorrectedAnswer.value,
+        solution,
+      });
     });
     it('should return a validation object with the returned status', function () {
       const expectedValidation = domainBuilder.buildValidation({
