@@ -6,12 +6,13 @@ const Validator = require('./Validator.js');
  * Traduction: Vérificateur de réponse pour un QCM
  */
 class ValidatorQCM extends Validator {
-  constructor({ solution } = {}) {
+  constructor({ solution, dependencies = { solutionServiceQCM } } = {}) {
     super({ solution });
+    this.dependencies = dependencies;
   }
 
   assess({ answer }) {
-    const result = solutionServiceQCM.match(answer.value, this.solution.value);
+    const result = this.dependencies.solutionServiceQCM.match(answer.value, this.solution.value);
 
     return new Validation({
       result,
