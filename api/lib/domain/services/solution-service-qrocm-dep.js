@@ -8,9 +8,9 @@ const AnswerStatus = require('../models/AnswerStatus.js');
 
 function applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return Object.fromEntries(
-    Object.entries(solutions).map(([key, validSolutions]) => [
-      key,
-      validSolutions.map((validSolution) => applyTreatments(validSolution.toString(), enabledTreatments)),
+    Object.entries(solutions).map(([solutionGroup, acceptedSolutions]) => [
+      solutionGroup,
+      acceptedSolutions.map((acceptedSolution) => applyTreatments(acceptedSolution.toString(), enabledTreatments)),
     ])
   );
 }
@@ -44,15 +44,15 @@ function getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatme
 }
 
 function getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments) {
-  const unmatchedSolutions = new Map(Object.entries(treatedSolutions));
+  const remainingUnmatchedSolutions = new Map(Object.entries(treatedSolutions));
 
   return Object.values(treatedAnswers)
     .map((answer) => {
-      for (const [solutionGroup, availableSolutions] of unmatchedSolutions) {
-        const status = validateAnswer(answer, availableSolutions, useLevenshteinRatio(enabledTreatments));
+      for (const [solutionGroup, acceptedSolutions] of remainingUnmatchedSolutions) {
+        const status = validateAnswer(answer, acceptedSolutions, useLevenshteinRatio(enabledTreatments));
 
         if (status) {
-          unmatchedSolutions.delete(solutionGroup);
+          remainingUnmatchedSolutions.delete(solutionGroup);
 
           return { answer, status: 'ok', alternativeSolutions: [] };
         }
@@ -62,7 +62,7 @@ function getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments)
     })
     .map((answerAndStatus) => {
       if (answerAndStatus.status === 'ko') {
-        const alternativeSolutions = getAlternativeSolutions(unmatchedSolutions);
+        const alternativeSolutions = getAlternativeSolutions(remainingUnmatchedSolutions);
         return { ...answerAndStatus, alternativeSolutions };
       }
 
@@ -70,8 +70,8 @@ function getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments)
     });
 }
 
-function getAlternativeSolutions(unmatchedSolutions) {
-  return Array.from(unmatchedSolutions.values()).map((availableSolutions) => availableSolutions[0]);
+function getAlternativeSolutions(remainingUnmatchedSolutions) {
+  return Array.from(remainingUnmatchedSolutions.values()).map((availableSolutions) => availableSolutions[0]);
 }
 
 function convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring) {
