@@ -2,6 +2,7 @@ import EmberObject from '@ember/object';
 import { resolve, reject } from 'rsvp';
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+// eslint-disable-next-line no-restricted-imports
 import { find, fillIn, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { clickByLabel } from '../../helpers/click-by-label';

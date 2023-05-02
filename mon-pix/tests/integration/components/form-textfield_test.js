@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+// eslint-disable-next-line no-restricted-imports
 import { click, fillIn, find, render, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 

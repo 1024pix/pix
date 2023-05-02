@@ -1,6 +1,7 @@
 import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+// eslint-disable-next-line no-restricted-imports
 import { find, findAll, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 

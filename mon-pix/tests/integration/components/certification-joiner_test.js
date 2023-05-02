@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+// eslint-disable-next-line no-restricted-imports
 import { find, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';

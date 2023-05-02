@@ -25,7 +25,16 @@ module.exports = {
   },
   rules: {
     'no-console': 'error',
-    'no-restricted-imports': ['error', { paths: ['lodash'] }],
+    'no-restricted-imports': [
+      'error',
+      'lodash',
+      {
+        name: '@ember/test-helpers',
+        importNames: ['render', 'find'],
+        message:
+          "Please import 'render' from '@1024pix/ember-testing-library'.\n 'find' should be replaced with '@1024pix/ember-testing-library' 'find...'/'get...'/'query...' methods to enforce accessible usages",
+      },
+    ],
     'ember/avoid-leaking-state-in-ember-objects': 'off',
     'ember/no-get': ['error'],
     'ember/no-empty-attrs': 'error',
