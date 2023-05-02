@@ -25,8 +25,8 @@ function formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
   if (!scoring || Object.keys(scoring).length === 0) {
     return numberOfGoodAnswers === nbOfAnswers ? AnswerStatus.OK : AnswerStatus.KO;
   } else {
-    const minGrade = Math.min(...Object.keys(scoring));
-    const maxGrade = Math.max(...Object.keys(scoring));
+    const minGrade = Math.min(...Object.keys(scoring).map((key) => Number(key)));
+    const maxGrade = Math.max(...Object.keys(scoring).map((key) => Number(key)));
 
     if (numberOfGoodAnswers >= maxGrade) {
       return AnswerStatus.OK;
