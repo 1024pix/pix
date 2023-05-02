@@ -4,7 +4,11 @@
     <SigninForm />
 
     {{#if this.isInternationalDomain}}
-      <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
+      <Pix::LanguageSwitcher
+        @ariaLabel={{t "pages.inscription.choose-language-aria-label"}}
+        @selectedLanguage={{this.selectedLanguage}}
+        @onLanguageChange={{this.onLanguageChange}}
+      />
     {{/if}}
   </section>
 </main>

@@ -1,5 +1,6 @@
 <div class="language">
-  <LanguageSwitcher
+  <Pix::LanguageSwitcher
+    @ariaLabel={{t "pages.inscription.choose-language-aria-label"}}
     @label="{{t 'pages.user-account.language.lang'}}"
     @selectedLanguage={{@model.lang}}
     @onLanguageChange={{this.onLanguageChange}}
