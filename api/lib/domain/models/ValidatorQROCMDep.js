@@ -6,12 +6,13 @@ const Validator = require('./Validator.js');
  * Traduction: Vérificateur de réponse pour un QROCM Dep
  */
 class ValidatorQROCMDep extends Validator {
-  constructor({ solution } = {}) {
+  constructor({ solution, dependencies = { solutionServiceQROCMDep } } = {}) {
     super({ solution });
+    this.dependencies = dependencies;
   }
 
   assess({ answer }) {
-    const result = solutionServiceQROCMDep.match({
+    const result = this.dependencies.solutionServiceQROCMDep.match({
       answerValue: answer.value,
       solution: this.solution,
     });
