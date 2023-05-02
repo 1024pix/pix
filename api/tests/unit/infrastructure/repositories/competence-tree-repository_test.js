@@ -1,11 +1,11 @@
 const { expect, sinon } = require('../../../test-helper');
 const competenceTreeRepository = require('../../../../lib/infrastructure/repositories/competence-tree-repository');
-const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
 const CompetenceTree = require('../../../../lib/domain/models/CompetenceTree');
 
 describe('Unit | Repository | competence-tree-repository', function () {
+  let areaRepository;
   beforeEach(function () {
-    sinon.stub(areaRepository, 'listWithPixCompetencesOnly');
+    areaRepository = { listWithPixCompetencesOnly: sinon.stub() };
   });
 
   describe('#get', function () {
@@ -55,7 +55,7 @@ describe('Unit | Repository | competence-tree-repository', function () {
       };
 
       // when
-      const competenceTree = await competenceTreeRepository.get({ locale: 'fr' });
+      const competenceTree = await competenceTreeRepository.get({ locale: 'fr', dependencies: { areaRepository } });
 
       // then
       expect(competenceTree).to.be.an.instanceof(CompetenceTree);
