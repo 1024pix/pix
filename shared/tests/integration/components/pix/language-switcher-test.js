@@ -1,0 +1,56 @@
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import sinon from 'sinon';
+import { render } from '@1024pix/ember-testing-library';
+import { hbs } from 'ember-cli-htmlbars';
+import { click } from '@ember/test-helpers';
+
+module('Integration | Component | pix/language-switcher', function (hooks) {
+  setupRenderingTest(hooks);
+
+  module('when component renders', function () {
+    test('displays a button with default option selected', async function (assert) {
+      // when
+      const screen = await render(hbs`<Pix::LanguageSwitcher @selectedLanguage="en" />`);
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'English' })).exists();
+    });
+  });
+
+  module('when component is clicked', function () {
+    test('displays a list of available languages', async function (assert) {
+      // given
+      const screen = await render(hbs`<Pix::LanguageSwitcher @selectedLanguage="en" />`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'English' }));
+      await screen.findByRole('listbox');
+
+      // then
+      assert.dom(screen.getByRole('option', { name: 'Français' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'English' })).exists();
+    });
+  });
+
+  module('when a language is selected', function () {
+    test('calls onLanguageChange callback', async function (assert) {
+      // given
+      const onLanguageChangeStub = sinon.stub();
+      this.set('onLanguageChange', onLanguageChangeStub);
+      const screen = await render(hbs`<Pix::LanguageSwitcher
+        @onLanguageChange={{this.onLanguageChange}}
+        @selectedLanguage="en"
+      />`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'English' }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'Français' }));
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Français' })).exists();
+      assert.ok(onLanguageChangeStub.called);
+    });
+  });
+});
