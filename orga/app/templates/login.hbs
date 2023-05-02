@@ -6,5 +6,9 @@
       @hasInvitationAlreadyBeenAccepted={{this.hasInvitationAlreadyBeenAccepted}}
       @isInvitationCancelled={{this.isInvitationCancelled}}
     />
+
+    {{#if this.isInternationalDomain}}
+      <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
+    {{/if}}
   </section>
 </main>
