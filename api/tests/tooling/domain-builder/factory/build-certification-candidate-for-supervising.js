@@ -2,6 +2,7 @@ const CertificationCandidateForSupervising = require('../../../../lib/domain/mod
 
 module.exports = function buildCertificationCandidateForSupervising({
   id = 123,
+  userId = 345,
   firstName = 'Monkey',
   lastName = 'D Luffy',
   birthdate = '1997-07-22',
@@ -14,6 +15,7 @@ module.exports = function buildCertificationCandidateForSupervising({
 } = {}) {
   return new CertificationCandidateForSupervising({
     id,
+    userId,
     firstName,
     lastName,
     birthdate,
