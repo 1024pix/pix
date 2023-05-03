@@ -23,8 +23,9 @@
 }
 
 .assessment-banner__title {
+  @extend %pix-body-m;
+
   margin: 0;
-  font-size: 1rem;
 
   @include device-is('mobile') {
     position: absolute;
@@ -59,14 +60,12 @@
 }
 
 .assessment-banner__home-link {
+  @extend %pix-body-m;
+
   z-index: 1;
   height: 1.5rem;
   margin-left: auto;
   color: $pix-neutral-0;
-  font-weight: $font-medium;
-  font-size: 1rem;
-  font-family: $font-roboto;
-  letter-spacing: 0.016rem;
   text-align: right;
 
   &:hover {
