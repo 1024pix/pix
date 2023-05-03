@@ -26,6 +26,11 @@ log_format keyvalue
 # as we are about to override it in the server directive here below
 access_log off;
 
+<%
+  canary_enabled = ENV['NGINX_UPSTREAM_CANARY'] == 'enabled' && ENV['NGINX_UPSTREAM_CANARY_WEIGHT'] && ENV['NGINX_UPSTREAM_CANARY_APP_NAME']
+  canary_weight  = ENV['NGINX_UPSTREAM_CANARY_WEIGHT'].to_i
+  server_options = "max_fails=#{ENV['NGINX_UPSTREAM_MAX_FAILS'] || 3} fail_timeout=#{ENV['NGINX_UPSTREAM_FAIL_TIMEOUT'] || '5s'}"
+%>
 upstream api {
     <%
     # We compute the API host from the front app name, examples:
@@ -33,7 +38,25 @@ upstream api {
     #   pix-orga-integration-pr123 -> pix-api-integration-pr123.scalingo.io
     #   pix-orga-production        -> pix-api-production.scalingo.io
     %>
-    server <%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>:443 max_fails=<%= ENV['NGINX_UPSTREAM_MAX_FAILS'] || 3 %> fail_timeout=<%= ENV['NGINX_UPSTREAM_FAIL_TIMEOUT'] || '5s' %>;
+    server <%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>:443 <%= server_options %>;
+}
+<% if canary_enabled %>
+upstream api-canary {
+  server <%= ENV['NGINX_UPSTREAM_CANARY_APP_NAME'] %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>:443 <%= server_options %>;
+}
+<% end %>
+
+split_clients "${request_id}" $upstream {
+  <% if canary_enabled %>
+    <%= canary_weight %>%  api-canary;
+  <% end %>
+  * api;
+}
+split_clients "${request_id}" $upstream_host {
+  <% if canary_enabled %>
+    <%= canary_weight %>%  <%= ENV['NGINX_UPSTREAM_CANARY_APP_NAME'] %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>;
+  <% end %>
+  * <%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>;
 }
 
 server {
@@ -110,9 +133,8 @@ server {
   }
 
   location /api/ {
-    proxy_pass https://api;
-    proxy_redirect default;
-    proxy_set_header Host <%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>;
+    proxy_pass https://$upstream;
+    proxy_set_header Host $upstream_host;
   }
 
   <% end %>
