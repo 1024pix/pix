@@ -49,7 +49,7 @@
     "@embroider/compat": "^2.1.1",
     "@embroider/core": "^2.1.1",
     "@embroider/webpack": "^2.1.1",
-    "@faker-js/faker": "^5.5.3",
+    "@faker-js/faker": "^7.6.0",
     "@formatjs/intl-getcanonicallocales": "^2.0.5",
     "@formatjs/intl-locale": "^3.0.11",
     "@formatjs/intl-pluralrules": "^5.1.8",
