@@ -22,7 +22,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
   });
 
   module('when FT_DIFFERENTIATED_TIME_INVIGILATOR_PORTAL is enabled', function () {
-    test('should render the complementary certification name of the candidate if he passes one', async function (assert) {
+    test('should render the enrolled complementary certification name of the candidate if he passes one', async function (assert) {
       class FeatureTogglesStub extends Service {
         featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
       }
@@ -30,7 +30,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: 123,
-        complementaryCertification: 'Super Certification Complémentaire',
+        enrolledComplementaryCertification: 'Super Certification Complémentaire',
       });
 
       // when
@@ -198,7 +198,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       extraTimePercentage: '8',
       authorizedToStart: false,
       assessmentStatus: null,
-      complementaryCertification: 'Super Certification Complémentaire',
+      enrolledComplementaryCertification: 'Super Certification Complémentaire',
     });
 
     // when

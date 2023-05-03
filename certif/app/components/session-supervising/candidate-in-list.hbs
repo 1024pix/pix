@@ -22,12 +22,12 @@
         :
         {{format-percentage @candidate.extraTimePercentage}}
       {{/if}}
-      {{#if this.shouldDisplayComplementaryCertification}}
+      {{#if this.shouldDisplayEnrolledComplementaryCertification}}
         <p class="session-supervising-candidate-in-list-details__enrolment">
           <span class="session-supervising-candidate-in-list-details-enrolment__icon"><FaIcon @icon="award" /></span>
           {{t
             "pages.session-supervising.candidate-in-list.complementary-certification-enrolment"
-            complementaryCertification=@candidate.complementaryCertification
+            complementaryCertification=@candidate.enrolledComplementaryCertification
           }}
         </p>
       {{/if}}
