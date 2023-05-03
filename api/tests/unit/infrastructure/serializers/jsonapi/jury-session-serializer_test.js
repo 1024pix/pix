@@ -5,16 +5,16 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
   describe('#serializeForPaginatedList()', function () {
     it('should call serialize method by destructuring passed parameter', function () {
       // given
-      sinon.stub(serializer, 'serialize');
+      const serialize = sinon.stub().resolves();
       const jurySessions = Symbol('someJurySessions');
       const pagination = Symbol('somePagination');
       const parameter = { jurySessions, pagination, someUnusedField: 'unused' };
 
       // when
-      serializer.serializeForPaginatedList(parameter);
+      serializer.serializeForPaginatedList(parameter, serialize);
 
       // then
-      expect(serializer.serialize).to.have.been.calledWithExactly(jurySessions, undefined, pagination);
+      expect(serialize).to.have.been.calledWithExactly(jurySessions, undefined, pagination);
     });
   });
 
