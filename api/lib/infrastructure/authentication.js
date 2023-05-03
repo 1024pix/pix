@@ -36,7 +36,7 @@ function validateUser(decoded) {
 }
 
 function validateClientApplication(decoded) {
-  const application = find(config.graviteeRegisterApplicationsCredentials, { clientId: decoded.client_id });
+  const application = find(config.apimRegisterApplicationsCredentials, { clientId: decoded.client_id });
 
   if (!application) {
     return { isValid: false, errorCode: 401 };

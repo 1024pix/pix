@@ -11,7 +11,7 @@ const customChaiHelpers = require('./tooling/chai-custom-helpers/index');
 _.each(customChaiHelpers, chai.use);
 const { learningContentCache } = require('../lib/infrastructure/caches/learning-content-cache');
 
-const { graviteeRegisterApplicationsCredentials, jwtConfig } = require('../lib/config');
+const { apimRegisterApplicationsCredentials, jwtConfig } = require('../lib/config');
 
 const { knex, disconnect } = require('../db/knex-database-connection');
 
@@ -49,7 +49,7 @@ function generateValidRequestAuthorizationHeader(userId = 1234, source = 'pix') 
 }
 
 function generateValidRequestAuthorizationHeaderForApplication(clientId = 'client-id-name', source, scope) {
-  const application = _.find(graviteeRegisterApplicationsCredentials, { clientId });
+  const application = _.find(apimRegisterApplicationsCredentials, { clientId });
   if (application) {
     const accessToken = tokenService.createAccessTokenFromApplication(
       application.clientId,
