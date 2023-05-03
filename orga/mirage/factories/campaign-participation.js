@@ -1,5 +1,5 @@
 import { Factory, association } from 'miragejs';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   campaign: association(),
@@ -7,10 +7,10 @@ export default Factory.extend({
   user: association(),
 
   participantExternalId() {
-    return faker.random.number();
+    return faker.datatype.number();
   },
 
   isShared() {
-    return faker.random.boolean();
+    return faker.datatype.boolean();
   },
 });
