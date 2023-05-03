@@ -3,7 +3,7 @@ import { expect, databaseBuilder, knex, sinon, catchErr } from '../../../test-he
 
 import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
-import * as mailService from '../../../../lib/domain/services/mail-service.js';
+import { mailService } from '../../../../lib/domain/services/mail-service.js';
 
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
