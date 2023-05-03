@@ -3,14 +3,18 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class UserAccountPersonalInformationController extends Controller {
+  @service currentUser;
+  @service dayjs;
   @service intl;
   @service currentDomain;
-  @service location;
 
   @action
-  async onLanguageChange(value) {
+  async onLanguageChange(language) {
     if (!this.currentDomain.isFranceDomain) {
-      this.location.replace(`/mon-compte/langue?lang=${value}`);
+      await this.currentUser.user.save({ adapterOptions: { lang: language } });
+
+      this.intl.setLocale(language);
+      this.dayjs.setLocale(language);
     }
   }
 }
