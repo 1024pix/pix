@@ -16,6 +16,7 @@ module.exports = {
         certificationCenterName: 'certification-centers.name',
         certificationCandidates: knex.raw(`
           json_agg(json_build_object(
+            'userId', "certification-candidates"."userId",
             'firstName', "certification-candidates"."firstName",
             'lastName', "certification-candidates"."lastName",
             'birthdate', "certification-candidates"."birthdate",
