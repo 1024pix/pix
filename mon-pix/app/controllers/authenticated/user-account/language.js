@@ -7,14 +7,14 @@ export default class UserAccountPersonalInformationController extends Controller
   @service dayjs;
   @service intl;
   @service currentDomain;
+  @service locale;
 
   @action
   async onLanguageChange(language) {
     if (!this.currentDomain.isFranceDomain) {
       await this.currentUser.user.save({ adapterOptions: { lang: language } });
 
-      this.intl.setLocale(language);
-      this.dayjs.setLocale(language);
+      this.locale.setLocale(language);
     }
   }
 }

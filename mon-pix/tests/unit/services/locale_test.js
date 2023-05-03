@@ -10,6 +10,8 @@ module('Unit | Services | locale', function (hooks) {
   let localeService;
   let cookiesService;
   let currentDomainService;
+  let dayjsService;
+  let intlService;
 
   hooks.beforeEach(function () {
     localeService = this.owner.lookup('service:locale');
@@ -18,6 +20,12 @@ module('Unit | Services | locale', function (hooks) {
     sinon.stub(cookiesService, 'exists');
     currentDomainService = this.owner.lookup('service:currentDomain');
     sinon.stub(currentDomainService, 'getExtension');
+
+    dayjsService = this.owner.lookup('service:dayjs');
+    sinon.stub(dayjsService, 'setLocale');
+
+    intlService = this.owner.lookup('service:intl');
+    sinon.stub(intlService, 'setLocale');
   });
 
   module('#handleUnsupportedLanguage', function () {
@@ -115,6 +123,21 @@ module('Unit | Services | locale', function (hooks) {
         sinon.assert.calledWith(cookiesService.exists, 'locale');
         assert.ok(hasCookieLocale);
       });
+    });
+  });
+
+  module('#setLocale', function () {
+    test('set app locale', function (assert) {
+      // given
+      const locale = DEFAULT_LOCALE;
+
+      // when
+      localeService.setLocale(locale);
+
+      // then
+      sinon.assert.calledWith(intlService.setLocale, locale);
+      sinon.assert.calledWith(dayjsService.setLocale, locale);
+      assert.ok(true);
     });
   });
 });
