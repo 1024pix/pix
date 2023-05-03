@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-imports
 import { click, fillIn, currentURL, find, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';

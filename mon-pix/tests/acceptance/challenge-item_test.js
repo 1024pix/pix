@@ -3,6 +3,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
 import { authenticate } from '../helpers/authentication';
+// eslint-disable-next-line no-restricted-imports
 import { click, find, triggerEvent, visit } from '@ember/test-helpers';
 
 module('Acceptance | Displaying a challenge of any type', function (hooks) {
