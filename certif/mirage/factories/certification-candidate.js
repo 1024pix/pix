@@ -1,5 +1,5 @@
 import { Factory } from 'miragejs';
-import faker from 'faker';
+import faker from '@faker-js/faker';
 import dayjs from 'dayjs';
 
 export default Factory.extend({
