@@ -4,6 +4,7 @@ import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering'
 import { fillInByLabel } from '../../../../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../../../../helpers/click-by-label';
 import { contains } from '../../../../../helpers/contains';
+// eslint-disable-next-line no-restricted-imports
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';

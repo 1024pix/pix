@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
+// eslint-disable-next-line no-restricted-imports
 import { find, render } from '@ember/test-helpers';
 import { A as EmberArray } from '@ember/array';
 
