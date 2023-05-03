@@ -29,7 +29,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 dayjs.extend(customParseFormat);
 import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
-import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
+import { getCertificationAttestationsPdf as certificationAttestationPdf } from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
 
 import { mapCertificabilityByLabel } from './helpers.js';
