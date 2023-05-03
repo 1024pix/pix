@@ -1,5 +1,5 @@
 const js2xmlparser = require('js2xmlparser');
-const faker = require('faker');
+const faker = require('@faker-js/faker');
 const fs = require('fs');
 
 const DEFAULT_USER_COUNT = 5;
