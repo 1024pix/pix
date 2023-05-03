@@ -30,6 +30,13 @@ class CertificationCandidateForSupervising {
   authorizeToStart() {
     this.authorizedToStart = true;
   }
+
+  isStillEligibleToComplementaryCertification() {
+    return this.stillValidBadgeAcquisitions.some(
+      (stillValidBadgeAcquisition) =>
+        stillValidBadgeAcquisition.complementaryCertificationBadgeLabel === this.enrolledComplementaryCertification
+    );
+  }
 }
 
 module.exports = CertificationCandidateForSupervising;
