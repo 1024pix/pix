@@ -1,5 +1,5 @@
-const findGroupByOrganization = async function ({ organizationId, groupRepository }) {
+const findGroupsByOrganization = async function ({ organizationId, groupRepository }) {
   return groupRepository.findByOrganizationId({ organizationId });
 };
 
-export { findGroupByOrganization };
+export { findGroupsByOrganization };

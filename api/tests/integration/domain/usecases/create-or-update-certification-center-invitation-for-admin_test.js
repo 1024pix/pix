@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, knex, sinon, catchErr } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
-import * as mailService from '../../../../lib/domain/services/mail-service.js';
+import { mailService } from '../../../../lib/domain/services/mail-service.js';
 import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../lib/domain/errors.js';
 import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
 

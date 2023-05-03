@@ -1,7 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
-import * as flash from '../../../../lib/domain/services/algorithm-methods/flash.js';
-import * as smartRandom from '../../../../lib/domain/services/algorithm-methods/smart-random.js';
 import * as dataFetcher from '../../../../lib/domain/services/algorithm-methods/data-fetcher.js';
 
 import { LOCALE } from '../../../../lib/domain/constants.js';
@@ -31,6 +29,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       challengeWeb21,
       challengeWeb22,
       possibleSkillsForNextChallenge,
+      smartRandom,
       locale;
 
     beforeEach(async function () {
@@ -80,10 +79,12 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       locale = FRENCH_SPOKEN;
       possibleSkillsForNextChallenge = [web2, url2, search2];
 
-      sinon.stub(smartRandom, 'getPossibleSkillsForNextChallenge').returns({
-        hasAssessmentEnded: false,
-        possibleSkillsForNextChallenge,
-      });
+      smartRandom = {
+        getPossibleSkillsForNextChallenge: sinon.stub().returns({
+          hasAssessmentEnded: false,
+          possibleSkillsForNextChallenge,
+        }),
+      };
 
       actualNextChallenge = await getNextChallengeForCampaignAssessment({
         assessment,
@@ -96,7 +97,6 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
         pickChallengeService,
         locale,
         smartRandom,
-        flash,
         dataFetcher,
       });
     });
@@ -172,7 +172,8 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       challengeWeb22,
       possibleChallenges,
       locale,
-      estimatedLevel;
+      estimatedLevel,
+      flash;
 
     beforeEach(async function () {
       // given
@@ -217,10 +218,12 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       locale = FRENCH_SPOKEN;
       possibleChallenges = [challengeWeb21, challengeWeb22];
 
-      sinon.stub(flash, 'getPossibleNextChallenges').returns({
-        hasAssessmentEnded: false,
-        possibleChallenges,
-      });
+      flash = {
+        getPossibleNextChallenges: sinon.stub().returns({
+          hasAssessmentEnded: false,
+          possibleChallenges,
+        }),
+      };
 
       // when
       actualNextChallenge = await getNextChallengeForCampaignAssessment({
@@ -232,7 +235,6 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
         improvementService,
         locale,
         flash,
-        smartRandom,
         dataFetcher,
       });
     });
