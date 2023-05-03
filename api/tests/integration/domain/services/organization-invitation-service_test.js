@@ -97,6 +97,9 @@ describe('Integration | Service | Organization-Invitation Service', function () 
         email,
         organizationRepository,
         organizationInvitationRepository,
+        dependencies: {
+          mailService,
+        },
       });
 
       // then
