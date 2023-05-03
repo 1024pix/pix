@@ -6,19 +6,16 @@ module('Unit | Controller | user-account/language', function (hooks) {
   setupTest(hooks);
 
   let controller;
-  let dayjsSetLocaleStub;
-  let intlSetLocaleStub;
   let userSaveStub;
+  let setLocaleStub;
 
   hooks.beforeEach(function () {
-    dayjsSetLocaleStub = sinon.stub();
-    intlSetLocaleStub = sinon.stub();
     userSaveStub = sinon.stub();
+    setLocaleStub = sinon.stub();
 
     controller = this.owner.lookup('controller:authenticated/user-account/language');
     controller.currentUser = { user: { save: userSaveStub } };
-    controller.dayjs = { setLocale: dayjsSetLocaleStub };
-    controller.intl = { setLocale: intlSetLocaleStub };
+    controller.locale = { setLocale: setLocaleStub };
   });
 
   module('#onLanguageChange', function () {
@@ -34,8 +31,7 @@ module('Unit | Controller | user-account/language', function (hooks) {
 
         // then
         sinon.assert.calledWith(userSaveStub, { adapterOptions: { lang: language } });
-        sinon.assert.calledWith(dayjsSetLocaleStub, language);
-        sinon.assert.calledWith(intlSetLocaleStub, language);
+        sinon.assert.calledWith(setLocaleStub, language);
         assert.ok(true);
       });
     });
@@ -51,8 +47,7 @@ module('Unit | Controller | user-account/language', function (hooks) {
 
         // then
         sinon.assert.notCalled(userSaveStub);
-        sinon.assert.notCalled(dayjsSetLocaleStub);
-        sinon.assert.notCalled(intlSetLocaleStub);
+        sinon.assert.notCalled(setLocaleStub);
         assert.ok(true);
       });
     });

@@ -2,11 +2,10 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
+import { DEFAULT_LOCALE, FRENCH_FRANCE_LOCALE } from 'mon-pix/services/locale';
 
 const FRANCE_TLD = 'fr';
 const INTERNATIONAL_TLD = 'org';
-const DEFAULT_LOCALE = 'fr';
-const FRENCH_FRANCE_LOCALE = 'fr-FR';
 
 module('Unit | Services | session', function (hooks) {
   setupTest(hooks);
@@ -19,12 +18,11 @@ module('Unit | Services | session', function (hooks) {
     sessionService = this.owner.lookup('service:session');
     sessionService.currentUser = { load: sinon.stub(), user: null };
     sessionService.currentDomain = { getExtension: sinon.stub() };
-    sessionService.intl = { setLocale: sinon.stub() };
-    sessionService.dayjs = { setLocale: sinon.stub(), self: { locale: sinon.stub() } };
     sessionService.locale = {
       setLocaleCookie: sinon.stub(),
       hasLocaleCookie: sinon.stub(),
       handleUnsupportedLanguage: sinon.stub(),
+      setLocale: sinon.stub(),
     };
     sessionService._getRouteAfterInvalidation = sinon.stub();
     sessionService._logoutUser = sinon.stub();
@@ -110,8 +108,7 @@ module('Unit | Services | session', function (hooks) {
 
         // then
         sinon.assert.calledOnce(sessionService.currentUser.load);
-        sinon.assert.calledWith(sessionService.intl.setLocale, [DEFAULT_LOCALE, DEFAULT_LOCALE]);
-        sinon.assert.calledWith(sessionService.dayjs.setLocale, DEFAULT_LOCALE);
+        sinon.assert.calledWith(sessionService.locale.setLocale, DEFAULT_LOCALE);
         assert.ok(true);
       });
     });
@@ -126,8 +123,7 @@ module('Unit | Services | session', function (hooks) {
 
         // then
         sinon.assert.calledOnce(sessionService.currentUser.load);
-        sinon.assert.calledWith(sessionService.intl.setLocale, [DEFAULT_LOCALE, DEFAULT_LOCALE]);
-        sinon.assert.calledWith(sessionService.dayjs.setLocale, DEFAULT_LOCALE);
+        sinon.assert.calledWith(sessionService.locale.setLocale, DEFAULT_LOCALE);
         assert.ok(true);
       });
 
@@ -141,8 +137,7 @@ module('Unit | Services | session', function (hooks) {
 
         // then
         sinon.assert.calledOnce(sessionService.currentUser.load);
-        sinon.assert.calledWith(sessionService.intl.setLocale, ['nl', DEFAULT_LOCALE]);
-        sinon.assert.calledWith(sessionService.dayjs.setLocale, 'nl');
+        sinon.assert.calledWith(sessionService.locale.setLocale, 'nl');
         assert.ok(true);
       });
     });
@@ -234,8 +229,7 @@ module('Unit | Services | session', function (hooks) {
             await sessionService.handleUserLanguageAndLocale(transition);
 
             // then
-            sinon.assert.calledWith(sessionService.intl.setLocale, ['de', DEFAULT_LOCALE]);
-            sinon.assert.calledWith(sessionService.dayjs.setLocale, 'de');
+            sinon.assert.calledWith(sessionService.locale.setLocale, 'de');
             assert.ok(true);
           });
         });
@@ -254,8 +248,7 @@ module('Unit | Services | session', function (hooks) {
 
               // then
               sinon.assert.calledWith(sessionService.currentUser.user.save, { adapterOptions: { lang: 'de' } });
-              sinon.assert.calledWith(sessionService.intl.setLocale, ['de', DEFAULT_LOCALE]);
-              sinon.assert.calledWith(sessionService.dayjs.setLocale, 'de');
+              sinon.assert.calledWith(sessionService.locale.setLocale, 'de');
               assert.strictEqual(sessionService.currentUser.user.lang, 'de');
             });
           });
@@ -280,8 +273,7 @@ module('Unit | Services | session', function (hooks) {
 
                 // then
                 sinon.assert.calledWith(sessionService.currentUser.user.save, { adapterOptions: { lang: 'de' } });
-                sinon.assert.calledWith(sessionService.intl.setLocale, ['ru', DEFAULT_LOCALE]);
-                sinon.assert.calledWith(sessionService.dayjs.setLocale, 'ru');
+                sinon.assert.calledWith(sessionService.locale.setLocale, 'ru');
                 assert.ok(true);
               });
             });
@@ -301,8 +293,7 @@ module('Unit | Services | session', function (hooks) {
             await sessionService.handleUserLanguageAndLocale();
 
             // then
-            sinon.assert.calledWith(sessionService.intl.setLocale, [DEFAULT_LOCALE, DEFAULT_LOCALE]);
-            sinon.assert.calledWith(sessionService.dayjs.setLocale, DEFAULT_LOCALE);
+            sinon.assert.calledWith(sessionService.locale.setLocale, DEFAULT_LOCALE);
             assert.ok(true);
           });
         });
@@ -317,8 +308,7 @@ module('Unit | Services | session', function (hooks) {
             await sessionService.handleUserLanguageAndLocale();
 
             // then
-            sinon.assert.calledWith(sessionService.intl.setLocale, ['ru', DEFAULT_LOCALE]);
-            sinon.assert.calledWith(sessionService.dayjs.setLocale, 'ru');
+            sinon.assert.calledWith(sessionService.locale.setLocale, 'ru');
             assert.ok(true);
           });
         });
