@@ -10,7 +10,7 @@ class CertificationCandidateForSupervising {
     authorizedToStart,
     assessmentStatus,
     startDateTime,
-    complementaryCertification,
+    enrolledComplementaryCertification,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -20,7 +20,7 @@ class CertificationCandidateForSupervising {
     this.authorizedToStart = authorizedToStart;
     this.assessmentStatus = assessmentStatus;
     this.startDateTime = startDateTime;
-    this.complementaryCertification = complementaryCertification;
+    this.enrolledComplementaryCertification = enrolledComplementaryCertification;
   }
 
   authorizeToStart() {

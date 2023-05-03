@@ -170,19 +170,19 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
       // then
       const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-        _.pick(item, ['sessionId', 'lastName', 'firstName', 'complementaryCertification'])
+        _.pick(item, ['sessionId', 'lastName', 'firstName', 'enrolledComplementaryCertification'])
       );
 
       expect(actualCandidates).to.have.deep.ordered.members([
         {
           lastName: 'Jackson',
           firstName: 'Janet',
-          complementaryCertification: 'Pix+ Édu 1er degré',
+          enrolledComplementaryCertification: 'Pix+ Édu 1er degré',
         },
         {
           lastName: 'Joplin',
           firstName: 'Janis',
-          complementaryCertification: null,
+          enrolledComplementaryCertification: null,
         },
       ]);
     });

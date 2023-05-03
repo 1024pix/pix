@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               'authorized-to-start': true,
               'assessment-status': Assessment.states.STARTED,
               'start-date-time': new Date('2022-10-01T13:37:00Z'),
-              'complementary-certification': 'Super Certification Complémentaire',
+              'enrolled-complementary-certification': 'Super Certification Complémentaire',
             },
             id: '1234',
             type: 'certification-candidate-for-supervising',
@@ -67,7 +67,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
             authorizedToStart: true,
             assessmentStatus: Assessment.states.STARTED,
             startDateTime: new Date('2022-10-01T13:37:00Z'),
-            complementaryCertification: 'Super Certification Complémentaire',
+            enrolledComplementaryCertification: 'Super Certification Complémentaire',
           },
         ],
       });
