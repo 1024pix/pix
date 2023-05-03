@@ -11,7 +11,7 @@ module.exports = function buildCertificationCandidateForSupervising({
   assessmentStatus = null,
   startDateTime = new Date('2022-10-01T12:00:00Z'),
   enrolledComplementaryCertification,
-  stillValidBadgeAcquisitions,
+  stillValidBadgeAcquisitions = [],
 } = {}) {
   return new CertificationCandidateForSupervising({
     id,
