@@ -18,7 +18,7 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   get isAnswerFieldDisabled() {
-    return this.args.answer;
+    return !!this.args.answer;
   }
 
   get isTimedChallengeWithoutAnswer() {
