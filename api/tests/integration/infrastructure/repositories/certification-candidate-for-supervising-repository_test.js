@@ -36,7 +36,7 @@ describe('Integration | Repository | certification candidate for supervising', f
         expect(result).to.deep.equal(
           domainBuilder.buildCertificationCandidateForSupervising({
             sessionId: session.id,
-            userId: 1234,
+            userId: candidate.userId,
             authorizedToStart: false,
             birthdate: '2000-01-04',
             extraTimePercentage: '0.30',

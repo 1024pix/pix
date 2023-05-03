@@ -3,6 +3,7 @@ const isNil = require('lodash/isNil');
 class CertificationCandidateForSupervising {
   constructor({
     id,
+    userId,
     firstName,
     lastName,
     birthdate,
@@ -13,6 +14,7 @@ class CertificationCandidateForSupervising {
     enrolledComplementaryCertification,
   } = {}) {
     this.id = id;
+    this.userId = userId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthdate = birthdate;
