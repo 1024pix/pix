@@ -1,5 +1,5 @@
 import { Factory, trait } from 'miragejs';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   id() {
@@ -115,7 +115,7 @@ export default Factory.extend({
   }),
 
   timed: trait({
-    timer: faker.random.number(),
+    timer: faker.datatype.number(),
   }),
 
   QROCwithFile1: trait({
