@@ -1,6 +1,12 @@
 .training-trigger {
-  &__description {
-    margin-bottom: $pix-spacing-m;
+  &__link {
+    color: $pix-primary;
+
+    svg {
+      height: 0.75em;
+      vertical-align: -0.05em;
+      margin-left: 2px;
+    }
   }
 }
 
