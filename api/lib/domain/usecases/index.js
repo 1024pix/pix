@@ -505,7 +505,7 @@ import { findDivisionsByCertificationCenter } from './find-divisions-by-certific
 import { findDivisionsByOrganization } from './find-divisions-by-organization.js';
 import { findFinalizedSessionsToPublish } from './find-finalized-sessions-to-publish.js';
 import { findFinalizedSessionsWithRequiredAction } from './find-finalized-sessions-with-required-action.js';
-import { findGroupByOrganization } from './find-groups-by-organization.js';
+import { findGroupsByOrganization } from './find-groups-by-organization.js';
 import { findLatestOngoingUserCampaignParticipations } from './find-latest-ongoing-user-campaign-participations.js';
 import { findOrganizationPlacesLot } from './find-organization-places-lot.js';
 import { findOrganizationTargetProfileSummariesForAdmin } from './find-organization-target-profile-summaries-for-admin.js';
@@ -792,7 +792,7 @@ const usecasesWithoutInjectedDependencies = {
   findDivisionsByOrganization,
   findFinalizedSessionsToPublish,
   findFinalizedSessionsWithRequiredAction,
-  findGroupByOrganization,
+  findGroupsByOrganization,
   findLatestOngoingUserCampaignParticipations,
   findOrganizationPlacesLot,
   findOrganizationTargetProfileSummariesForAdmin,
