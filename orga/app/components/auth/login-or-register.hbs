@@ -64,4 +64,9 @@
       </div>
     </div>
   </div>
+  {{#if this.isInternationalDomain}}
+    <div>
+      <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
+    </div>
+  {{/if}}
 </div>
