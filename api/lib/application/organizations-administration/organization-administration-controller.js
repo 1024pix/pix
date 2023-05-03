@@ -23,4 +23,5 @@ const updateOrganizationInformation = async function (
   return h.response(dependencies.organizationForAdminSerializer.serialize(organizationUpdated));
 };
 
-export { getOrganizationDetails, updateOrganizationInformation };
+const organizationAdministrationController = { getOrganizationDetails, updateOrganizationInformation };
+export { organizationAdministrationController, getOrganizationDetails, updateOrganizationInformation };
