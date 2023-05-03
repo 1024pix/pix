@@ -1,5 +1,5 @@
 import { Factory } from 'miragejs';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
 import { CREATED } from 'pix-certif/models/session';
 
@@ -9,7 +9,7 @@ export default Factory.extend({
   },
 
   accessCode() {
-    return 'ABCDEF' + faker.random.number({ min: 100, max: 999 });
+    return 'ABCDEF' + faker.datatype.number({ min: 100, max: 999 });
   },
 
   date() {
@@ -30,9 +30,9 @@ export default Factory.extend({
 
   time() {
     return (
-      faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') +
+      faker.datatype.number({ min: 0, max: 23 }).toString().padStart(2, '0') +
       ':' +
-      faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0')
+      faker.datatype.number({ min: 0, max: 59 }).toString().padStart(2, '0')
     );
   },
 
