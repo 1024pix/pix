@@ -361,4 +361,5 @@ async function _finalizeDocument(pdfDocument) {
   return buffer;
 }
 
-export { getCertificationAttestationsPdfBuffer };
+const getCertificationAttestationsPdf = { getCertificationAttestationsPdfBuffer };
+export { getCertificationAttestationsPdfBuffer, getCertificationAttestationsPdf };
