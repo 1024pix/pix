@@ -2,11 +2,6 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serializeForPaginatedList = function (jurySessionsForPaginatedList) {
-  const { jurySessions, pagination } = jurySessionsForPaginatedList;
-  return this.serialize(jurySessions, undefined, pagination);
-};
-
 const serialize = function (jurySessions, hasSupervisorAccess, meta) {
   return new Serializer('sessions', {
     attributes: [
@@ -77,6 +72,11 @@ const serialize = function (jurySessions, hasSupervisorAccess, meta) {
     },
     meta,
   }).serialize(jurySessions);
+};
+
+const serializeForPaginatedList = function (jurySessionsForPaginatedList, injectedSerialize = serialize) {
+  const { jurySessions, pagination } = jurySessionsForPaginatedList;
+  return injectedSerialize(jurySessions, undefined, pagination);
 };
 
 export { serializeForPaginatedList, serialize };
