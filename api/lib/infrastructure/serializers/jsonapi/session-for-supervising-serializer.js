@@ -9,7 +9,7 @@ const attributes = [
   'authorizedToStart',
   'assessmentStatus',
   'startDateTime',
-  'complementaryCertification',
+  'enrolledComplementaryCertification',
 ];
 
 module.exports = {
