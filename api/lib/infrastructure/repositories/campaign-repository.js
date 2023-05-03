@@ -29,7 +29,7 @@ const get = async function (id) {
   });
 };
 
-const save = async function (campaign) {
+const save = async function (campaign, dependencies = { skillRepository }) {
   const trx = await knex.transaction();
   const campaignAttributes = _.pick(campaign, [
     'name',
@@ -53,7 +53,7 @@ const save = async function (campaign) {
         .where('targetProfileId', campaignAttributes.targetProfileId);
       const skillData = [];
       for (const cappedTube of cappedTubes) {
-        const allLevelSkills = await skillRepository.findActiveByTubeId(cappedTube.tubeId);
+        const allLevelSkills = await dependencies.skillRepository.findActiveByTubeId(cappedTube.tubeId);
         const rightLevelSkills = allLevelSkills.filter((skill) => skill.difficulty <= cappedTube.level);
         skillData.push(...rightLevelSkills.map((skill) => ({ skillId: skill.id, campaignId: createdCampaign.id })));
       }
