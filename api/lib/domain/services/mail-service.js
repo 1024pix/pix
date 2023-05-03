@@ -449,6 +449,18 @@ function sendNotificationToCertificationCenterRefererForCleaResults({ email, ses
   return mailer.sendEmail(options);
 }
 
+const mailService = {
+  sendAccountCreationEmail,
+  sendAccountRecoveryEmail,
+  sendCertificationResultEmail,
+  sendOrganizationInvitationEmail,
+  sendScoOrganizationInvitationEmail,
+  sendCertificationCenterInvitationEmail,
+  sendResetPasswordDemandEmail,
+  sendVerificationCodeEmail,
+  sendCpfEmail,
+  sendNotificationToCertificationCenterRefererForCleaResults,
+};
 export {
   sendAccountCreationEmail,
   sendAccountRecoveryEmail,
@@ -460,4 +472,5 @@ export {
   sendVerificationCodeEmail,
   sendCpfEmail,
   sendNotificationToCertificationCenterRefererForCleaResults,
+  mailService,
 };
