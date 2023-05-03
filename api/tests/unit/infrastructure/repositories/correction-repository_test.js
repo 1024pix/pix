@@ -4,16 +4,19 @@ const {
   challengeDatasource,
 } = require('../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
 const { skillDatasource } = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
 const Correction = require('../../../../lib/domain/models/Correction');
 const ChallengeLearningContentDataObjectFixture = require('../../../tooling/fixtures/infrastructure/challengeLearningContentDataObjectFixture');
 const SkillLearningContentDataObjectFixture = require('../../../tooling/fixtures/infrastructure/skillLearningContentDataObjectFixture');
 
 describe('Unit | Repository | correction-repository', function () {
+  let tutorialRepository;
+
   beforeEach(function () {
     sinon.stub(challengeDatasource, 'get');
     sinon.stub(skillDatasource, 'get');
-    sinon.stub(tutorialRepository, 'findByRecordIdsForCurrentUser');
+    tutorialRepository = {
+      findByRecordIdsForCurrentUser: sinon.stub(),
+    };
   });
 
   describe('#getByChallengeId', function () {
@@ -104,7 +107,12 @@ describe('Unit | Repository | correction-repository', function () {
         challengeDatasource.get.resolves(challengeDataObject);
 
         // when
-        const result = await correctionRepository.getByChallengeId({ challengeId: recordId, userId, locale });
+        const result = await correctionRepository.getByChallengeId({
+          challengeId: recordId,
+          userId,
+          locale,
+          dependencies: { tutorialRepository },
+        });
 
         // then
         expect(result).to.be.an.instanceof(Correction);
@@ -124,7 +132,12 @@ describe('Unit | Repository | correction-repository', function () {
         challengeDatasource.get.resolves(challengeDataObject);
 
         // when
-        const result = await correctionRepository.getByChallengeId({ challengeId: recordId, userId, locale });
+        const result = await correctionRepository.getByChallengeId({
+          challengeId: recordId,
+          userId,
+          locale,
+          dependencies: { tutorialRepository },
+        });
 
         // then
         expect(result.hint).to.deep.equal(expectedHint);

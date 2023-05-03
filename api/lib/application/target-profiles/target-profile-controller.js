@@ -100,15 +100,15 @@ module.exports = {
     return targetProfileSerializer.serializeId(targetProfileId);
   },
 
-  async findPaginatedTrainings(request) {
-    const { page } = queryParamsUtils.extractParameters(request.query);
+  async findPaginatedTrainings(request, h, dependencies = { queryParamsUtils, trainingSummarySerializer }) {
+    const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
     const targetProfileId = request.params.id;
 
     const { trainings, meta } = await usecases.findPaginatedTargetProfileTrainingSummaries({
       targetProfileId,
       page,
     });
-    return trainingSummarySerializer.serialize(trainings, meta);
+    return dependencies.trainingSummarySerializer.serialize(trainings, meta);
   },
 
   async createBadge(request, h) {
