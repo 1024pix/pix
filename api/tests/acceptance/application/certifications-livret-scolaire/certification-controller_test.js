@@ -16,7 +16,7 @@ const {
 
 describe('Acceptance | API | Certifications', function () {
   let server, options;
-  const OSMOSE_CLIENT_ID = 'graviteeOsmoseClientId';
+  const OSMOSE_CLIENT_ID = 'apimOsmoseClientId';
   const OSMOSE_SCOPE = 'organizations-certifications-result';
   const OSMOSE_SOURCE = 'livretScolaire';
 
