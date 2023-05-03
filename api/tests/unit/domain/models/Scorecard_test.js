@@ -405,8 +405,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       // given
       const level = 2;
       const maxReachableLevel = 1;
-      sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
-      const scorecard = new Scorecard({ level });
+      const scorecard = new Scorecard({ level, maxReachableLevel });
 
       // when
       const result = scorecard.isMaxLevel;
@@ -445,8 +444,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       it(`should return ${testCase.expectedResult} when level is ${testCase.level} and status ${testCase.status}`, function () {
         // given
         const maxReachableLevel = 2;
-        sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
-        const scorecard = new Scorecard({ level: testCase.level, status: testCase.status });
+        const scorecard = new Scorecard({ level: testCase.level, status: testCase.status, maxReachableLevel });
 
         // when
         const result = scorecard.isFinishedWithMaxLevel;
@@ -506,8 +504,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       it(`should return ${testCase.expectedResult} when status is ${testCase.status}, level is ${testCase.level}`, function () {
         // given
         const maxReachableLevel = 2;
-        sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
-        const scorecard = new Scorecard({ status: testCase.status, level: testCase.level });
+        const scorecard = new Scorecard({ status: testCase.status, level: testCase.level, maxReachableLevel });
 
         // when
         const result = scorecard.isProgressable;
