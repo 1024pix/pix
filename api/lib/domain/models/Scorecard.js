@@ -32,6 +32,7 @@ class Scorecard {
     remainingDaysBeforeReset,
     remainingDaysBeforeImproving,
     tutorials,
+    maxReachableLevel = MAX_REACHABLE_LEVEL,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -47,6 +48,7 @@ class Scorecard {
     this.remainingDaysBeforeReset = remainingDaysBeforeReset;
     this.remainingDaysBeforeImproving = remainingDaysBeforeImproving;
     this.tutorials = tutorials;
+    this.maxReachableLevel = maxReachableLevel;
   }
 
   static parseId(scorecardId) {
@@ -111,7 +113,7 @@ class Scorecard {
   }
 
   get isMaxLevel() {
-    return this.level >= MAX_REACHABLE_LEVEL;
+    return this.level >= this.maxReachableLevel;
   }
 
   get isNotStarted() {
