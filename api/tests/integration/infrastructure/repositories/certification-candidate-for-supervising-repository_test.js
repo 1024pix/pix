@@ -45,6 +45,7 @@ describe('Integration | Repository | certification candidate for supervising', f
             lastName: 'Joplin',
             assessmentStatus: 'started',
             startDateTime: new Date('2022-10-01T14:00:00Z'),
+            stillValidBadgeAcquisitions: undefined,
           })
         );
       });
