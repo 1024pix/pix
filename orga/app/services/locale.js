@@ -3,9 +3,16 @@ import config from 'pix-orga/config/environment';
 
 const { COOKIE_LOCALE_LIFESPAN_IN_SECONDS } = config.APP;
 
+export const FRENCH_INTERNATIONAL_LOCALE = 'fr';
+export const ENGLISH_INTERNATIONAL_LOCALE = 'en';
+export const FRENCH_FRANCE_LOCALE = 'fr-FR';
+export const DEFAULT_LOCALE = FRENCH_INTERNATIONAL_LOCALE;
+
 export default class LocaleService extends Service {
   @service cookies;
   @service currentDomain;
+  @service intl;
+  @service dayjs;
 
   hasLocaleCookie() {
     return this.cookies.exists('locale');
@@ -18,5 +25,10 @@ export default class LocaleService extends Service {
       path: '/',
       sameSite: 'Strict',
     });
+  }
+
+  setLocale(locale) {
+    this.intl.setLocale(locale);
+    this.dayjs.setLocale(locale);
   }
 }
