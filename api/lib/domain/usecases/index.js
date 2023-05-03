@@ -30,7 +30,7 @@ import * as campaignParticipationInfoRepository from '../../infrastructure/repos
 import * as campaignParticipantRepository from '../../infrastructure/repositories/campaign-participant-repository.js';
 import * as campaignParticipationOverviewRepository from '../../infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
-import * as campaignParticipationResultRepository from '../../infrastructure/repositories/campaign-participation-result-repository.js';
+import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
 import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import * as campaignProfileRepository from '../../infrastructure/repositories/campaign-profile-repository.js';
