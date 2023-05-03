@@ -128,7 +128,7 @@ import * as pixAuthenticationService from '../../domain/services/authentication/
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as prescriberRepository from '../../infrastructure/repositories/prescriber-repository.js';
-import { pseudoRandom } from '../../infrastructure/utils/pseudo-random.js';
+import * as pseudoRandom from '../../infrastructure/utils/pseudo-random.js';
 import * as resetPasswordService from '../../domain/services/reset-password-service.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
 import * as scoAccountRecoveryService from '../services/sco-account-recovery-service.js';
@@ -503,7 +503,7 @@ import { findDivisionsByCertificationCenter } from './find-divisions-by-certific
 import { findDivisionsByOrganization } from './find-divisions-by-organization.js';
 import { findFinalizedSessionsToPublish } from './find-finalized-sessions-to-publish.js';
 import { findFinalizedSessionsWithRequiredAction } from './find-finalized-sessions-with-required-action.js';
-import { findGroupByOrganization } from './find-groups-by-organization.js';
+import { findGroupsByOrganization } from './find-groups-by-organization.js';
 import { findLatestOngoingUserCampaignParticipations } from './find-latest-ongoing-user-campaign-participations.js';
 import { findOrganizationPlacesLot } from './find-organization-places-lot.js';
 import { findOrganizationTargetProfileSummariesForAdmin } from './find-organization-target-profile-summaries-for-admin.js';
@@ -790,7 +790,7 @@ const usecasesWithoutInjectedDependencies = {
   findDivisionsByOrganization,
   findFinalizedSessionsToPublish,
   findFinalizedSessionsWithRequiredAction,
-  findGroupByOrganization,
+  findGroupsByOrganization,
   findLatestOngoingUserCampaignParticipations,
   findOrganizationPlacesLot,
   findOrganizationTargetProfileSummariesForAdmin,

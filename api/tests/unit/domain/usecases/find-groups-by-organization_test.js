@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { findGroupByOrganization as findDivisionsByOrganization } from '../../../../lib/domain/usecases/find-groups-by-organization.js';
+import { findGroupsByOrganization } from '../../../../lib/domain/usecases/find-groups-by-organization.js';
 
 describe('Unit | UseCase | find-groups-by-organization', function () {
   it('should return all groups', async function () {
@@ -13,7 +13,7 @@ describe('Unit | UseCase | find-groups-by-organization', function () {
       .resolves([{ name: '3a' }, { name: '3b' }, { name: '5c' }]);
 
     // when
-    const groups = await findDivisionsByOrganization({
+    const groups = await findGroupsByOrganization({
       organizationId,
       groupRepository,
     });
