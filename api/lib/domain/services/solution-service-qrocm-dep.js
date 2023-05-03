@@ -1,5 +1,4 @@
 const jsYaml = require('js-yaml');
-const _ = require('../../infrastructure/utils/lodash-utils.js');
 const { applyPreTreatments, applyTreatments } = require('./validation-treatments.js');
 const { YamlParsingError } = require('../../domain/errors.js');
 const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils.js');
@@ -7,24 +6,28 @@ const { validateAnswer } = require('./string-comparison-service.js');
 
 const AnswerStatus = require('../models/AnswerStatus.js');
 
-function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
-  return _.mapValues(solutions, (validSolutions) => {
-    return _.map(validSolutions, (validSolution) => {
-      return applyTreatments(validSolution.toString(), enabledTreatments);
-    });
-  });
+function applyTreatmentsToSolutions(solutions, enabledTreatments) {
+  return Object.fromEntries(
+    Object.entries(solutions).map(([solutionGroup, acceptedSolutions]) => [
+      solutionGroup,
+      acceptedSolutions.map((acceptedSolution) => applyTreatments(acceptedSolution.toString(), enabledTreatments)),
+    ])
+  );
 }
 
-function _applyTreatmentsToAnswers(answers, enabledTreatments) {
-  return _.mapValues(answers, (answer) => applyTreatments(answer.toString(), enabledTreatments));
+function applyTreatmentsToAnswers(answers, enabledTreatments) {
+  return Object.fromEntries(
+    Object.entries(answers).map(([key, answer]) => [key, applyTreatments(answer.toString(), enabledTreatments)])
+  );
 }
 
-function _formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
-  if (_.isEmpty(scoring)) {
+function formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
+  if (!scoring || Object.keys(scoring).length === 0) {
     return numberOfGoodAnswers === nbOfAnswers ? AnswerStatus.OK : AnswerStatus.KO;
   } else {
-    const minGrade = _.min(Object.keys(scoring));
-    const maxGrade = _.max(Object.keys(scoring));
+    const grades = Object.keys(scoring).map((grade) => Number(grade));
+    const minGrade = Math.min(...grades);
+    const maxGrade = Math.max(...grades);
 
     if (numberOfGoodAnswers >= maxGrade) {
       return AnswerStatus.OK;
@@ -36,60 +39,112 @@ function _formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
   }
 }
 
-function _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments) {
-  let solutionsNotFound = _.clone(treatedSolutions);
+function getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments) {
+  return getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments).filter(({ status }) => status === 'ok')
+    .length;
+}
 
-  return _.reduce(
-    treatedAnswers,
-    (goodAnswerNb, answer) => {
-      let result = goodAnswerNb;
+function getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments) {
+  const remainingUnmatchedSolutions = new Map(Object.entries(treatedSolutions));
 
-      const solutionKey = _.findKey(solutionsNotFound, (solutionList) => {
-        return validateAnswer(answer, solutionList, useLevenshteinRatio(enabledTreatments));
-      });
+  return Object.values(treatedAnswers)
+    .map((answer) => {
+      for (const [solutionGroup, acceptedSolutions] of remainingUnmatchedSolutions) {
+        const status = validateAnswer(answer, acceptedSolutions, useLevenshteinRatio(enabledTreatments));
 
-      if (solutionKey) {
-        solutionsNotFound = _.omit(solutionsNotFound, solutionKey);
-        result += 1;
+        if (status) {
+          remainingUnmatchedSolutions.delete(solutionGroup);
+
+          return { answer, status: 'ok', alternativeSolutions: [] };
+        }
       }
 
-      return result;
-    },
-    0
-  );
+      return { answer, status: 'ko' };
+    })
+    .map((answerAndStatus) => {
+      if (answerAndStatus.status === 'ko') {
+        const alternativeSolutions = getAlternativeSolutions(remainingUnmatchedSolutions);
+        return { ...answerAndStatus, alternativeSolutions };
+      }
+
+      return answerAndStatus;
+    });
+}
+
+function getAlternativeSolutions(remainingUnmatchedSolutions) {
+  return Array.from(remainingUnmatchedSolutions.values()).map((availableSolutions) => availableSolutions[0]);
+}
+
+function convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring) {
+  let answers, solutions, scoring;
+  try {
+    answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
+    solutions = jsYaml.load(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
+    scoring = jsYaml.load(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
+  } catch (error) {
+    throw new YamlParsingError();
+  }
+  return { answers, solutions, scoring };
+}
+
+function treatAnswersAndSolutions(deactivations, solutions, answers) {
+  const enabledTreatments = getEnabledTreatments(true, deactivations);
+  const treatedSolutions = applyTreatmentsToSolutions(solutions, enabledTreatments);
+  const treatedAnswers = applyTreatmentsToAnswers(answers, enabledTreatments);
+  return { enabledTreatments, treatedSolutions, treatedAnswers };
 }
 
 module.exports = {
-  match({ answerValue, solution }) {
-    const yamlSolution = solution.value;
-    const yamlScoring = solution.scoring;
-    const deactivations = solution.deactivations;
-
+  match({
+    answerValue,
+    solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
+    dependencies = {
+      applyPreTreatments,
+      convertYamlToJsObjects,
+      getEnabledTreatments,
+      treatAnswersAndSolutions,
+    },
+  }) {
     // Input checking
-    if (!_.isString(answerValue) || _.isEmpty(answerValue) || !_.includes(yamlSolution, '\n')) {
+    if (typeof answerValue !== 'string' || !answerValue.length || !String(yamlSolution).includes('\n')) {
       return AnswerStatus.KO;
     }
 
     // Pre-Treatments
-    const preTreatedAnswers = applyPreTreatments(answerValue);
+    const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
+    const { answers, solutions, scoring } = dependencies.convertYamlToJsObjects(
+      preTreatedAnswers,
+      yamlSolution,
+      yamlScoring
+    );
+    const { enabledTreatments, treatedSolutions, treatedAnswers } = dependencies.treatAnswersAndSolutions(
+      deactivations,
+      solutions,
+      answers
+    );
+    const numberOfGoodAnswers = getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
 
-    // Convert Yaml to JS objects
-    let answers, solutions, scoring;
-    try {
-      answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
-      solutions = jsYaml.load(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
-      scoring = jsYaml.load(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
-    } catch (error) {
-      throw new YamlParsingError();
-    }
+    return formatResult(scoring, numberOfGoodAnswers, Object.keys(answers).length);
+  },
 
-    const enabledTreatments = getEnabledTreatments(true, deactivations);
+  getSolution({
+    answerValue,
+    solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
+    dependencies = {
+      applyPreTreatments,
+      convertYamlToJsObjects,
+      treatAnswersAndSolutions,
+    },
+  }) {
+    // Pre-Treatments
+    const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
+    const { answers, solutions } = dependencies.convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring);
+    const { enabledTreatments, treatedSolutions, treatedAnswers } = dependencies.treatAnswersAndSolutions(
+      deactivations,
+      solutions,
+      answers
+    );
 
-    const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
-    const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments);
-
-    const numberOfGoodAnswers = _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
-
-    return _formatResult(scoring, numberOfGoodAnswers, _.size(answers));
+    return getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments);
   },
 };
