@@ -545,8 +545,8 @@ describe('Acceptance | Controller | authentication-controller', function () {
   describe('POST /api/application/token', function () {
     let server;
     let options;
-    const OSMOSE_CLIENT_ID = 'graviteeOsmoseClientId';
-    const OSMOSE_CLIENT_SECRET = 'graviteeOsmoseClientSecret';
+    const OSMOSE_CLIENT_ID = 'apimOsmoseClientId';
+    const OSMOSE_CLIENT_SECRET = 'apimOsmoseClientSecret';
     const SCOPE = 'organizations-certifications-result';
 
     beforeEach(async function () {

@@ -292,16 +292,16 @@ const configuration = (function () {
       redisUrl: process.env.REDIS_URL,
     },
 
-    graviteeRegisterApplicationsCredentials: [
+    apimRegisterApplicationsCredentials: [
       {
-        clientId: process.env.GRAVITEE_OSMOSE_CLIENT_ID,
-        clientSecret: process.env.GRAVITEE_OSMOSE_CLIENT_SECRET,
+        clientId: process.env.APIM_OSMOSE_CLIENT_ID || process.env.GRAVITEE_OSMOSE_CLIENT_ID,
+        clientSecret: process.env.APIM_OSMOSE_CLIENT_SECRET || process.env.GRAVITEE_OSMOSE_CLIENT_SECRET,
         scope: 'organizations-certifications-result',
         source: 'livretScolaire',
       },
       {
-        clientId: process.env.GRAVITEE_POLE_EMPLOI_CLIENT_ID,
-        clientSecret: process.env.GRAVITEE_POLE_EMPLOI_CLIENT_SECRET,
+        clientId: process.env.APIM_POLE_EMPLOI_CLIENT_ID || process.env.GRAVITEE_POLE_EMPLOI_CLIENT_ID,
+        clientSecret: process.env.APIM_POLE_EMPLOI_CLIENT_SECRET || process.env.GRAVITEE_POLE_EMPLOI_CLIENT_SECRET,
         scope: 'pole-emploi-participants-result',
         source: 'poleEmploi',
       },
@@ -403,10 +403,10 @@ const configuration = (function () {
 
     config.saml.accessTokenLifespanMs = 1000;
 
-    config.graviteeRegisterApplicationsCredentials = [
+    config.apimRegisterApplicationsCredentials = [
       {
-        clientId: 'graviteeOsmoseClientId',
-        clientSecret: 'graviteeOsmoseClientSecret',
+        clientId: 'apimOsmoseClientId',
+        clientSecret: 'apimOsmoseClientSecret',
         scope: 'organizations-certifications-result',
         source: 'livretScolaire',
       },
