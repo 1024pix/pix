@@ -38,9 +38,9 @@ export default class CandidateInList extends Component {
     return this.args.candidate.hasStarted;
   }
 
-  get shouldDisplayComplementaryCertification() {
+  get shouldDisplayEnrolledComplementaryCertification() {
     return (
-      this.args.candidate.complementaryCertification &&
+      this.args.candidate.enrolledComplementaryCertification &&
       this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled
     );
   }
