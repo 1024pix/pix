@@ -1,7 +1,5 @@
 import { expect, catchErr } from '../../../../test-helper.js';
 import * as authenticationRegistry from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
-import * as PoleEmploiOidcAuthenticationService from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
-import * as FwbOidcAuthenticationService from '../../../../../lib/domain/services/authentication/fwb-oidc-authentication-service.js';
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Services | authentication registry', function () {
@@ -14,7 +12,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       const service = await authenticationRegistry.lookupAuthenticationService(identityProvider);
 
       // then
-      expect(service).to.be.an.instanceOf(PoleEmploiOidcAuthenticationService);
+      expect(service.identityProvider).to.equal('POLE_EMPLOI');
     });
 
     it('finds the identity provider service with hasLogoutUrl', async function () {
@@ -25,7 +23,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       const service = await authenticationRegistry.lookupAuthenticationService(identityProvider);
 
       // then
-      expect(service).to.be.an.instanceOf(FwbOidcAuthenticationService);
+      expect(service.identityProvider).to.equal('FWB');
       expect(service.hasLogoutUrl).to.be.true;
     });
 
