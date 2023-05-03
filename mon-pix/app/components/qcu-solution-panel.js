@@ -22,7 +22,7 @@ export default class QcuSolutionPanel extends Component {
     const correctAnswerIndex = this.solutionArray.indexOf(true);
     const solutionAndStatus = answersProposedByUser[correctAnswerIndex];
 
-    return solutionAndStatus[0];
+    return solutionAndStatus.label;
   }
 
   get labeledRadios() {

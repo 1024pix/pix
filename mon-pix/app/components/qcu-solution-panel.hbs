@@ -2,7 +2,7 @@
   {{#each this.labeledRadios as |labeledItemRadio index|}}
     <p class="qcu-solution-panel__proposal-item">
       <span class="qcu-solution-panel__radio-button">
-        {{#if (get labeledItemRadio 1)}}
+        {{#if labeledItemRadio.checked}}
           <svg
             width="18px"
             height="18px"
@@ -35,8 +35,8 @@
       <MarkdownToHtml
         @class="qcu-solution-panel__proposition"
         data-goodness="{{if (get this.solutionArray (concat index)) 'good' 'bad'}}"
-        data-checked={{if (get labeledItemRadio 1) "yes" "no"}}
-        @markdown="{{get labeledItemRadio 0}}"
+        data-checked={{if labeledItemRadio.checked "yes" "no"}}
+        @markdown="{{labeledItemRadio.label}}"
       />
     </p>
   {{/each}}

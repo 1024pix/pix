@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import createProposalAnswerTuples from 'mon-pix/utils/labeled-checkboxes';
+import labeledCheckboxes from 'mon-pix/utils/labeled-checkboxes';
 import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
 import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
 
@@ -9,7 +9,7 @@ export default class QcmProposals extends Component {
     const arrayOfProposals = proposalsAsArray(this.args.proposals);
     const arrayOfBoolean = valueAsArrayOfBoolean(this.args.answerValue);
 
-    return createProposalAnswerTuples(arrayOfProposals, arrayOfBoolean);
+    return labeledCheckboxes(arrayOfProposals, arrayOfBoolean);
   }
 
   @action

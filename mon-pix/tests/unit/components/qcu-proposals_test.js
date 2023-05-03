@@ -25,9 +25,9 @@ module('Unit | Component | QCU proposals', function (hooks) {
       // Given
       answerValue = '2';
       const expectedLabeledRadios = [
-        ['prop 1', false],
-        ['prop 2', true],
-        ['prop 3', false],
+        { checked: false, label: 'prop 1', value: 1 },
+        { checked: true, label: 'prop 2', value: 2 },
+        { checked: false, label: 'prop 3', value: 3 },
       ];
       initComponent.call(this);
 
@@ -54,9 +54,9 @@ module('Unit | Component | QCU proposals', function (hooks) {
       // given
       answerValue = null;
       const expectedLabeledRadios = [
-        ['prop 1', false],
-        ['prop 2', false],
-        ['prop 3', false],
+        { checked: false, label: 'prop 1', value: 1 },
+        { checked: false, label: 'prop 2', value: 2 },
+        { checked: false, label: 'prop 3', value: 3 },
       ];
       initComponent.call(this);
 
@@ -71,9 +71,9 @@ module('Unit | Component | QCU proposals', function (hooks) {
       // given
       answerValue = '';
       const expectedLabeledRadios = [
-        ['prop 1', false],
-        ['prop 2', false],
-        ['prop 3', false],
+        { checked: false, label: 'prop 1', value: 1 },
+        { checked: false, label: 'prop 2', value: 2 },
+        { checked: false, label: 'prop 3', value: 3 },
       ];
       initComponent.call(this);
 
