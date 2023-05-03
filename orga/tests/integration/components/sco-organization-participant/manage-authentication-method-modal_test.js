@@ -7,7 +7,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
 import { triggerCopySuccess } from 'ember-cli-clipboard/test-support';
-import faker from 'faker';
+import faker from '@faker-js/faker';
 
 module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticationMethodModal', function (hooks) {
   setupIntlRenderingTest(hooks);
