@@ -6,7 +6,7 @@ const DomainTransaction = require('../DomainTransaction.js');
 module.exports = {
   async findPaginatedFiltered({ filter, page }) {
     const query = knex('target-profiles')
-      .select('id', 'name', 'outdated')
+      .select('id', 'name', 'outdated', 'createdAt')
       .orderBy('outdated', 'ASC')
       .orderBy('name', 'ASC')
       .modify(_applyFilters, filter);
