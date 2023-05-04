@@ -3,12 +3,10 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 
-const DEFAULT_LOCALE = 'fr';
-
 export default class InscriptionController extends Controller {
-  @service intl;
-  @service dayjs;
   @service currentDomain;
+  @service intl;
+  @service locale;
   @service router;
 
   @tracked selectedLanguage = this.intl.primaryLocale;
@@ -18,14 +16,9 @@ export default class InscriptionController extends Controller {
   }
 
   @action
-  onLanguageChange(value) {
-    this.selectedLanguage = value;
-    this._setLocale(this.selectedLanguage);
+  onLanguageChange(language) {
+    this.selectedLanguage = language;
+    this.locale.setLocale(this.selectedLanguage);
     this.router.replaceWith('inscription', { queryParams: { lang: null } });
-  }
-
-  _setLocale(language) {
-    this.intl.setLocale([language, DEFAULT_LOCALE]);
-    this.dayjs.setLocale(language);
   }
 }
