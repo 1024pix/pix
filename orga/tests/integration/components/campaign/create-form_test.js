@@ -12,7 +12,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   setupRenderingTest(hooks);
   setupIntl(hooks);
 
-  const prescriber = EmberObject.create({ fullName: 'Adam Troisjour', id: 1 });
+  const prescriber = EmberObject.create({ fullName: 'Adam Troisjour', id: 1, enableMultipleSendingAssessment: false });
   const defaultMembers = [prescriber];
 
   hooks.beforeEach(function () {
@@ -138,23 +138,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // then
       assert.contains(t('pages.campaign-creation.purpose.assessment-info'));
       assert.notContains(t('pages.campaign-creation.purpose.profiles-collection-info'));
-    });
-
-    test('it should not display multiple sendings field', async function (assert) {
-      // when
-      await render(
-        hbs`<Campaign::CreateForm
-  @onSubmit={{this.createCampaignSpy}}
-  @onCancel={{this.cancelSpy}}
-  @errors={{this.errors}}
-  @targetProfiles={{this.targetProfiles}}
-  @membersSortedByFullName={{this.defaultMembers}}
-/>`
-      );
-
-      // then
-      assert.notContains(t('pages.campaign-creation.multiple-sendings.question-label'));
-      assert.notContains(t('pages.campaign-creation.multiple-sendings.info'));
     });
 
     module('when the user chose a target profile', function () {
@@ -361,6 +344,72 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         ];
       });
     });
+
+    module('multiple sending', function () {
+      test('it should not display multiple sendings field', async function (assert) {
+        // when
+        await render(
+          hbs`<Campaign::CreateForm
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`
+        );
+        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+        // then
+        assert.notContains(t('pages.campaign-creation.multiple-sendings.assessments.question-label'));
+        assert.notContains(t('pages.campaign-creation.multiple-sendings.assessments.info'));
+      });
+
+      test('it should display multiple sendings field', async function (assert) {
+        // given
+        this.targetProfiles = [
+          EmberObject.create({
+            id: '1',
+            name: 'targetProfile1',
+            description: 'description1',
+            tubeCount: 11,
+            thematicResultCount: 12,
+            hasStage: true,
+          }),
+          EmberObject.create({
+            id: '2',
+            name: 'targetProfile2',
+            description: 'description2',
+            tubeCount: 21,
+            thematicResultCount: 22,
+            hasStage: false,
+          }),
+        ];
+        const prescriber = EmberObject.create({
+          fullName: 'Adam Troisjour',
+          id: 1,
+          enableMultipleSendingAssessment: true,
+        });
+        this.set('defaultMembers', [prescriber]);
+
+        // when
+        const screen = await render(
+          hbs`<Campaign::CreateForm
+  @targetProfiles={{this.targetProfiles}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`
+        );
+        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+        await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+        await click(await screen.findByRole('option', { name: 'targetProfile1' }));
+
+        // then
+        assert.contains(t('common.target-profile-details.results.common'));
+      });
+    });
   });
 
   module('when user choose to create a campaign of type PROFILES_COLLECTION', () => {
@@ -396,8 +445,8 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
 
       // then
-      assert.contains(t('pages.campaign-creation.multiple-sendings.question-label'));
-      assert.contains(t('pages.campaign-creation.multiple-sendings.info'));
+      assert.contains(t('pages.campaign-creation.multiple-sendings.profiles.question-label'));
+      assert.contains(t('pages.campaign-creation.multiple-sendings.profiles.info'));
     });
 
     test('it should display the purpose explanation of a profiles collection campaign', async function (assert) {
