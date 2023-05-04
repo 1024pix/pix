@@ -3,18 +3,58 @@ const bluebird = require('bluebird');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 
+module.exports = {
+  createTargetProfile,
+  createBadge,
+  createStages,
+};
+
 const tubeIdsByFramework = {};
 let frameworkNames;
 let learningContentCached = false;
 
+/**
+ * Fonction générique pour créer un profil cible selon une configuration donnée.
+ * Retourne l'ID du profil cible ainsi qu'un objet JS contenant les sujets cappés par niveau.
+ *
+ * @param databaseBuilder{DatabaseBuilder}
+ * @param targetProfileId{number}
+ * @param name{string}
+ * @param category{string}
+ * @param isPublic{boolean}
+ * @param ownerOrganizationId{number}
+ * @param isSimplifiedAccess{boolean}
+ * @param description{string}
+ * @param comment{string}
+ * @param imageUrl{string}
+ * @param outdated{boolean}
+ * @param attachedOrganizationIds{Array<number>}
+ * @param configTargetProfile {frameworks: [
+ *       {
+ *         chooseCoreFramework: boolean,
+ *         countTubes: number,
+ *         minLevel: number,
+ *         maxLevel: number,
+ *       },
+ *     ]}
+ * @returns {Promise<{cappedTubesDTO: [{
+ *           id: number,
+ *           level: number,
+ *         }], targetProfileId: number}>}
+ */
 async function createTargetProfile({
   databaseBuilder,
   targetProfileId,
   name,
+  category,
   isPublic,
   ownerOrganizationId,
   isSimplifiedAccess,
   description,
+  comment,
+  imageUrl,
+  outdated,
+  attachedOrganizationIds = [],
   configTargetProfile,
 }) {
   await _cacheLearningContent();
@@ -22,10 +62,15 @@ async function createTargetProfile({
     databaseBuilder,
     targetProfileId,
     name,
+    category,
     isPublic,
     ownerOrganizationId,
     isSimplifiedAccess,
     description,
+    comment,
+    imageUrl,
+    outdated,
+    attachedOrganizationIds,
   });
   const cappedTubesDTO = _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTargetProfile });
   return {
@@ -34,6 +79,32 @@ async function createTargetProfile({
   };
 }
 
+/**
+ * Fonction générique pour créer un RT et ses critères à un profil cible selon une configuration donnée.
+ * Retourne l'ID du RT.
+ *
+ * @param databaseBuilder{DatabaseBuilder}
+ * @param badgeId{number}
+ * @param targetProfileId{number}
+ * @param cappedTubesDTO [{
+ *           id: number,
+ *           level: number,
+ *         }]
+ * @param altMessage{string}
+ * @param imageUrl{string}
+ * @param message{string}
+ * @param title{string}
+ * @param key{string}
+ * @param isCertifiable{boolean}
+ * @param isAlwaysVisible{boolean}
+ * @param configBadge {criteria: [
+ *       {
+ *         scope: {('CampaignParticipation','CappedTubes')},
+ *         threshold: number,
+ *       },
+ *     ]}
+ * @returns {badgeId: number}
+ */
 function createBadge({
   databaseBuilder,
   badgeId,
@@ -61,20 +132,50 @@ function createBadge({
     isAlwaysVisible,
   });
   _createBadgeCriteria({ databaseBuilder, badgeId, configBadge, cappedTubesDTO });
+  return {
+    badgeId,
+  };
 }
 
+/**
+ * Fonction générique pour créer des paliers selon une configuration donnée.
+ * Retourne les IDS des paliers créés.
+ *
+ * @param databaseBuilder{DatabaseBuilder}
+ * @param targetProfileId<number>
+ * @param cappedTubesDTO [{
+ *           id: number,
+ *           level: number
+ *         }]
+ * @param type {('LEVEL','THRESHOLD')}
+ * @param includeFirstSkill<boolean>
+ * @param countStages<number>
+ * @param shouldInsertPrescriberTitleAndDescription<boolean>
+ * @returns {stageIds: Array<number>}
+ */
 function createStages({
   databaseBuilder,
   targetProfileId,
   cappedTubesDTO,
-  type, // 'LEVEL' or 'THRESHOLD'
+  type,
   includeFirstSkill = false,
   countStages,
+  shouldInsertPrescriberTitleAndDescription,
 }) {
   const values = [0];
+  const stageIds = [];
   let currentCountStages = countStages;
   if (includeFirstSkill) {
-    _createStage({ databaseBuilder, targetProfileId, type, value: null, isFirstSkill: true });
+    stageIds.push(
+      _createStage({
+        databaseBuilder,
+        targetProfileId,
+        type,
+        value: null,
+        isFirstSkill: true,
+        shouldInsertPrescriberTitleAndDescription,
+      }),
+    );
     --currentCountStages;
   }
   if (type === 'LEVEL') {
@@ -89,8 +190,18 @@ function createStages({
     values.push(...pickedThresholds);
   }
   for (const value of values) {
-    _createStage({ databaseBuilder, targetProfileId, type, value, isFirstSkill: false });
+    stageIds.push(
+      _createStage({
+        databaseBuilder,
+        targetProfileId,
+        type,
+        value,
+        isFirstSkill: false,
+        shouldInsertPrescriberTitleAndDescription,
+      }),
+    );
   }
+  return { stageIds };
 }
 
 async function _cacheLearningContent() {
@@ -114,19 +225,34 @@ function _createTargetProfile({
   databaseBuilder,
   targetProfileId,
   name,
+  category,
   isPublic,
   ownerOrganizationId,
   isSimplifiedAccess,
   description,
+  comment,
+  imageUrl,
+  outdated,
+  attachedOrganizationIds,
 }) {
   databaseBuilder.factory.buildTargetProfile({
     id: targetProfileId,
     name,
+    category,
     isPublic,
     ownerOrganizationId,
     isSimplifiedAccess,
     description,
+    comment,
+    imageUrl,
+    outdated,
   });
+  attachedOrganizationIds.map((organizationId) =>
+    databaseBuilder.factory.buildTargetProfileShare({
+      targetProfileId,
+      organizationId,
+    }),
+  );
 }
 
 function _createBadge({
@@ -154,17 +280,29 @@ function _createBadge({
   });
 }
 
-function _createStage({ databaseBuilder, targetProfileId, type, value, isFirstSkill }) {
-  databaseBuilder.factory.buildStage({
+function _createStage({
+  databaseBuilder,
+  targetProfileId,
+  type,
+  value,
+  isFirstSkill,
+  shouldInsertPrescriberTitleAndDescription,
+}) {
+  const stageValueStr = isFirstSkill ? 'premier acquis' : `"${value}"`;
+  return databaseBuilder.factory.buildStage({
     targetProfileId,
-    message: isFirstSkill
-      ? `Palier premier acquis pour ${targetProfileId}`
-      : `Palier "${value}" pour ${targetProfileId}`,
-    title: isFirstSkill ? `Palier premier acquis pour ${targetProfileId}` : `Palier "${value}" pour ${targetProfileId}`,
+    message: `Message du palier ${stageValueStr} pour le profil cible ${targetProfileId}`,
+    title: `Titre du palier ${stageValueStr} pour le profil cible ${targetProfileId}`,
     level: isFirstSkill ? null : type === 'LEVEL' ? value : null,
     threshold: isFirstSkill ? null : type === 'LEVEL' ? null : value,
     isFirstSkill,
-  });
+    prescriberTitle: shouldInsertPrescriberTitleAndDescription
+      ? `Titre prescripteur du palier ${stageValueStr} pour le profil cible ${targetProfileId}`
+      : null,
+    prescriberDescription: shouldInsertPrescriberTitleAndDescription
+      ? `Description prescripteur du palier ${stageValueStr} pour le profil cible ${targetProfileId}`
+      : null,
+  }).id;
 }
 
 function _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTargetProfile }) {
@@ -240,9 +378,3 @@ function _pickRandomAmong(collection, howMuch) {
   const shuffledCollection = _.sortBy(collection, () => _.random(0, 100));
   return _.slice(shuffledCollection, 0, howMuch);
 }
-
-module.exports = {
-  createTargetProfile,
-  createBadge,
-  createStages,
-};
