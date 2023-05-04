@@ -3,19 +3,10 @@ require('dotenv').config();
 const hashInt = require('hash-int');
 const fs = require('fs');
 const { find, isEmpty } = require('lodash');
-const smartRandom = require('../../api/lib/domain/services/algorithm-methods/smart-random');
-const dataFetcher = require('../../api/lib/domain/services/algorithm-methods/data-fetcher');
-const challengeRepository = require('../../api/lib/infrastructure/repositories/challenge-repository');
-const skillRepository = require('../../api/lib/infrastructure/repositories/skill-repository');
-const campaignRepository = require('../../api/lib/infrastructure/repositories/campaign-repository');
-const improvementService = require('../../api/lib/domain/services/improvement-service');
-const pickChallengeService = require('../../api/lib/domain/services/pick-challenge-service');
-const Answer = require('../../api/lib/domain/models/Answer');
-const AnswerStatus = require('../../api/lib/domain/models/AnswerStatus');
-const KnowledgeElement = require('../../api/lib/domain/models/KnowledgeElement');
-const AlgoResult = require('./AlgoResult');
+const AlgoResult = require('./AlgoResult.js');
 
-const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
+let campaignRepository;
+let Answer;
 
 function _readUsersKEFile(path) {
   if (path) {
@@ -27,7 +18,25 @@ function _readUsersKEFile(path) {
   return [[]];
 }
 
-function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult, userKE }) {
+async function answerTheChallenge({
+  challenge,
+  allAnswers,
+  allKnowledgeElements,
+  targetSkills,
+  userId,
+  userResult,
+  userKE,
+}) {
+  const AnswerStatus = (
+    await import('../../api/lib/domain/models/AnswerStatus.js')
+  ).AnswerStatus;
+  const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
+
+  const KnowledgeElement = (
+    await import('../../api/lib/domain/models/KnowledgeElement.js')
+  ).KnowledgeElement;
+  Answer = (await import('../../api/lib/domain/models/Answer.js')).Answer;
+
   let result;
   const isFirstAnswer = !allAnswers.length;
   switch (userResult) {
@@ -49,7 +58,10 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     case 'KE': {
       const ke = find(userKE, (ke) => challenge.skill.id === ke.skillId);
       const status = ke ? ke.status : KnowledgeElement.StatusType.INVALIDATED;
-      result = status === KnowledgeElement.StatusType.VALIDATED ? AnswerStatus.OK : AnswerStatus.KO;
+      result =
+        status === KnowledgeElement.StatusType.VALIDATED
+          ? AnswerStatus.OK
+          : AnswerStatus.KO;
       break;
     }
     default:
@@ -57,34 +69,42 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
   }
   const newAnswer = new Answer({ challengeId: challenge.id, result });
 
-  const _getSkillsFilteredByStatus = (knowledgeElements, targetSkills, status) => {
+  const _getSkillsFilteredByStatus = (
+    knowledgeElements,
+    targetSkills,
+    status,
+  ) => {
     return knowledgeElements
       .filter((knowledgeElement) => knowledgeElement.status === status)
       .map((knowledgeElement) => knowledgeElement.skillId)
       .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
   };
 
-  const newKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
-    answer: newAnswer,
-    challenge,
-    previouslyFailedSkills: _getSkillsFilteredByStatus(
-      allKnowledgeElements,
+  const newKnowledgeElements =
+    KnowledgeElement.createKnowledgeElementsForAnswer({
+      answer: newAnswer,
+      challenge,
+      previouslyFailedSkills: _getSkillsFilteredByStatus(
+        allKnowledgeElements,
+        targetSkills,
+        KnowledgeElement.StatusType.INVALIDATED,
+      ),
+      previouslyValidatedSkills: _getSkillsFilteredByStatus(
+        allKnowledgeElements,
+        targetSkills,
+        KnowledgeElement.StatusType.VALIDATED,
+      ),
       targetSkills,
-      KnowledgeElement.StatusType.INVALIDATED,
-    ),
-    previouslyValidatedSkills: _getSkillsFilteredByStatus(
-      allKnowledgeElements,
-      targetSkills,
-      KnowledgeElement.StatusType.VALIDATED,
-    ),
-    targetSkills,
-    userId,
-  });
+      userId,
+    });
 
   return {
     answerStatus: result,
     updatedAnswers: [...allAnswers, newAnswer],
-    updatedKnowledgeElements: [...allKnowledgeElements, ...newKnowledgeElements],
+    updatedKnowledgeElements: [
+      ...allKnowledgeElements,
+      ...newKnowledgeElements,
+    ],
   };
 }
 
@@ -97,7 +117,17 @@ async function _getReferentiel({
   skillRepository,
   improvementService,
   campaignRepository,
+  dependencies,
 }) {
+  let dataFetcher;
+  if (!dependencies?.dataFetcher) {
+    dataFetcher = await import(
+      '../../api/lib/domain/services/algorithm-methods/data-fetcher.js'
+    );
+  } else {
+    dataFetcher = dependencies.dataFetcher;
+  }
+
   if (campaignId) {
     const skills = await campaignRepository.findSkills({ campaignId });
     const campaignRepositoryStub = {
@@ -118,25 +148,38 @@ async function _getReferentiel({
       challengeRepository,
       knowledgeElementRepository,
       improvementService,
-
       campaignParticipationRepository: campaignParticipationRepositoryStub,
     });
 
     return { targetSkills, challenges };
   } else {
-    const { targetSkills, challenges } = await dataFetcher.fetchForCompetenceEvaluations({
-      assessment,
-      answerRepository,
-      challengeRepository,
-      knowledgeElementRepository,
-      skillRepository,
-      improvementService,
-    });
+    const { targetSkills, challenges } =
+      await dataFetcher.fetchForCompetenceEvaluations({
+        assessment,
+        answerRepository,
+        challengeRepository,
+        knowledgeElementRepository,
+        skillRepository,
+        improvementService,
+      });
     return { targetSkills, challenges };
   }
 }
 
-async function _getChallenge({ challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers }) {
+async function _getChallenge({
+  challenges,
+  targetSkills,
+  assessment,
+  locale,
+  knowledgeElements,
+  allAnswers,
+}) {
+  const smartRandom = await import(
+    '../../api/lib/domain/services/algorithm-methods/smart-random.js'
+  );
+  const pickChallengeService = await import(
+    '../../api/lib/domain/services/pick-challenge-service.js'
+  );
   const result = smartRandom.getPossibleSkillsForNextChallenge({
     knowledgeElements,
     challenges,
@@ -184,25 +227,27 @@ async function proceedAlgo(
   const algoResult = new AlgoResult();
 
   while (!isAssessmentOver) {
-    const { challenge, hasAssessmentEnded, estimatedLevel, challengeLevel } = await _getChallenge({
-      challenges,
-      targetSkills,
-      assessment,
-      locale,
-      knowledgeElements,
-      allAnswers,
-    });
+    const { challenge, hasAssessmentEnded, estimatedLevel, challengeLevel } =
+      await _getChallenge({
+        challenges,
+        targetSkills,
+        assessment,
+        locale,
+        knowledgeElements,
+        allAnswers,
+      });
     algoResult.addEstimatedLevels(estimatedLevel);
     if (challenge) {
-      const { answerStatus, updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({
-        challenge,
-        allAnswers,
-        userId: assessment.userId,
-        allKnowledgeElements: knowledgeElements,
-        targetSkills,
-        userResult: isEmpty(userKE) ? userResult : 'KE',
-        userKE,
-      });
+      const { answerStatus, updatedAnswers, updatedKnowledgeElements } =
+        answerTheChallenge({
+          challenge,
+          allAnswers,
+          userId: assessment.userId,
+          allKnowledgeElements: knowledgeElements,
+          targetSkills,
+          userResult: isEmpty(userKE) ? userResult : 'KE',
+          userKE,
+        });
       allAnswers = updatedAnswers;
       knowledgeElements = updatedKnowledgeElements;
       algoResult.addChallenge(challenge);
@@ -218,7 +263,14 @@ async function proceedAlgo(
 }
 
 async function launchTest(argv) {
-  const { competenceId, campaignId, locale, userResult, usersKEFile, enabledCsvOutput } = argv;
+  const {
+    competenceId,
+    campaignId,
+    locale,
+    userResult,
+    usersKEFile,
+    enabledCsvOutput,
+  } = argv;
 
   const allAnswers = [];
   const knowledgeElements = [];
@@ -237,7 +289,15 @@ async function launchTest(argv) {
   };
 
   const usersKE = _readUsersKEFile(usersKEFile);
-
+  const skillRepository = await import(
+    '../../api/lib/infrastructure/repositories/skill-repository.js'
+  );
+  const challengeRepository = await import(
+    '../../api/lib/infrastructure/repositories/challenge-repository.js'
+  );
+  const improvementService = await import(
+    '../../api/lib/domain/services/improvement-service.js'
+  );
   const { challenges, targetSkills } = await _getReferentiel({
     assessment,
     campaignId,
@@ -250,7 +310,16 @@ async function launchTest(argv) {
   });
 
   const proceedUsers = usersKE.map((userKE) => {
-    return proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE);
+    return proceedAlgo(
+      challenges,
+      targetSkills,
+      assessment,
+      locale,
+      knowledgeElements,
+      allAnswers,
+      userResult,
+      userKE,
+    );
   });
 
   const algoResults = await Promise.all(proceedUsers);
