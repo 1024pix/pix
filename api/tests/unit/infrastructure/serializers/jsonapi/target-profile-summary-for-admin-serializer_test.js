@@ -6,8 +6,18 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
     it('should serialize target profile summaries to JSONAPI with meta data', function () {
       // given
       const targetProfileSummaries = [
-        domainBuilder.buildTargetProfileSummaryForAdmin({ id: 1, name: 'TPA', outdated: false }),
-        domainBuilder.buildTargetProfileSummaryForAdmin({ id: 2, name: 'TPB', outdated: true }),
+        domainBuilder.buildTargetProfileSummaryForAdmin({
+          id: 1,
+          name: 'TPA',
+          outdated: false,
+          createdAt: new Date('2021-01-01'),
+        }),
+        domainBuilder.buildTargetProfileSummaryForAdmin({
+          id: 2,
+          name: 'TPB',
+          outdated: true,
+          createdAt: new Date('2021-01-01'),
+        }),
       ];
       const meta = { page: 1, pageSize: 3, pageCount: 1, rowCount: 2 };
 
@@ -23,6 +33,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
             attributes: {
               name: 'TPA',
               outdated: false,
+              'created-at': new Date('2021-01-01'),
             },
           },
           {
@@ -31,6 +42,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
             attributes: {
               name: 'TPB',
               outdated: true,
+              'created-at': new Date('2021-01-01'),
             },
           },
         ],

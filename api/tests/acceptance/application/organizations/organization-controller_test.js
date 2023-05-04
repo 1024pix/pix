@@ -1619,6 +1619,7 @@ describe('Acceptance | Application | organization-controller', function () {
             attributes: {
               name: 'Super profil cible',
               outdated: false,
+              'created-at': undefined,
             },
           },
         ],
