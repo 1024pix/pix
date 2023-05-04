@@ -445,6 +445,7 @@ describe('Acceptance | Controller | training-controller', function () {
         name: 'Super profil cible',
         isPublic: true,
         outdated: false,
+        'created-at': undefined,
       });
       databaseBuilder.factory.buildTargetProfileTraining({
         trainingId: training.id,
@@ -458,6 +459,7 @@ describe('Acceptance | Controller | training-controller', function () {
         attributes: {
           name: targetProfile.name,
           outdated: false,
+          'created-at': undefined,
         },
       };
 
