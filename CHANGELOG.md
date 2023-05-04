@@ -1,5 +1,33 @@
 # Pix Changelog
 
+## v3.350.0 (04/05/2023)
+
+
+### :rocket: Amélioration
+- [#6134](https://github.com/1024pix/pix/pull/6134) [FEATURE] Suppression des références Gravitee  (PIX-7909)
+- [#6095](https://github.com/1024pix/pix/pull/6095) [FEATURE] Ajouter des liens vers la doc de création de contenu formatif (PIX-7881).
+- [#6123](https://github.com/1024pix/pix/pull/6123) [FEATURE] Utiliser les design tokens de typographie pour l'entête des épreuves (PIX-7779)
+- [#6120](https://github.com/1024pix/pix/pull/6120) [FEATURE] Ajouter une méthode au solution-service-qrcom-dep pour avoir le résultat complet (PIX-7865)
+- [#6105](https://github.com/1024pix/pix/pull/6105) [FEATURE] Trier les profiles cibles dans PixAdmin par status puis par nom (PIX-7913)
+
+### :building_construction: Tech
+- [#6084](https://github.com/1024pix/pix/pull/6084) [TECH] Permet de configurer le proxy de l'API des fronts pix vers une release de test  (PIX-7880)
+- [#6116](https://github.com/1024pix/pix/pull/6116) [TECH] Tester unitairement le use-case sessions-mass-import
+- [#6122](https://github.com/1024pix/pix/pull/6122) [TECH] Ajouter une erreur de lint si `render` ou `find` ne sont pas importés depuis `@1024pix/ember-testing-library` (PIX-7926)
+- [#6101](https://github.com/1024pix/pix/pull/6101) [TECH] Mise à jour de la langue utilisateur depuis le controller language (PIX-7871)
+- [#6124](https://github.com/1024pix/pix/pull/6124) [TECH] - Mettre en place l'injection de dépendances pour les cas restants
+- [#6106](https://github.com/1024pix/pix/pull/6106) [TECH] Renvoyer une erreur 422 au lieu d'une erreur 503 quand l'appel à la route /token de l'idp échoue (PIX-7915) 
+
+### :bug: Correction
+- [#6125](https://github.com/1024pix/pix/pull/6125) [BUGFIX] Améliorer la lecture d'écran des boutons d'action d'une épreuve (PIX-7920)
+- [#6100](https://github.com/1024pix/pix/pull/6100) [BUGFIX] Empêcher le scrollTop lors de l'utilisation d'un filtre/pagination (PIX-7912)
+
+### :coffee: Autre
+- [#6133](https://github.com/1024pix/pix/pull/6133) [BUMP] Update dependency p-queue to v7 (mon-pix)
+- [#6132](https://github.com/1024pix/pix/pull/6132) [BUMP] Update dependency p-queue to v7 (certif)
+- [#6129](https://github.com/1024pix/pix/pull/6129) [BUMP] Update dependency p-queue to v7 (admin)
+- [#6121](https://github.com/1024pix/pix/pull/6121) [BUMP] Update dependency ember-click-outside to v6 (orga)
+
 ## v3.349.0 (02/05/2023)
 
 
