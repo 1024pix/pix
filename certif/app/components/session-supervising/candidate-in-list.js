@@ -33,6 +33,20 @@ export default class CandidateInList extends Component {
     );
   }
 
+  get shouldDisplayNonEligibilityWarning() {
+    return this._isReconciliated() && this._isNotEligibleToEnrolledComplementaryCertification();
+  }
+
+  _isNotEligibleToEnrolledComplementaryCertification() {
+    return !this.args.candidate.isStillEligibleToComplementaryCertification;
+  }
+
+  _isReconciliated() {
+    return (
+      this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled && this.args.candidate.userId
+    );
+  }
+
   @action
   async toggleCandidate(candidate) {
     await this.args.toggleCandidate(candidate);
