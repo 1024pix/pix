@@ -76,7 +76,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.lastName })).exists();
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.firstName })).exists();
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.resultRecipientEmail })).exists();
-    assert.dom(screen.getByRole('cell', { name: '3000 %' })).exists();
+    assert.dom(screen.getByRole('cell', { name: '30 %' })).exists();
     assert.dom(screen.getByRole('cell', { name: 'Pix+Edu, Pix+Droit' })).exists();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCity })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthProvinceCode })).doesNotExist();
