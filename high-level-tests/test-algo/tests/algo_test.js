@@ -1,20 +1,24 @@
 const { expect, sinon } = require('./test-helpers');
-const { answerTheChallenge, _getReferentiel } = require('../algo');
-const DataFetcher = require('../../../api/lib/domain/services/algorithm-methods/data-fetcher');
-const KnowledgeElement = require('../../../api/lib/domain/models/KnowledgeElement');
+const { answerTheChallenge, _getReferentiel } = require('../algo.js');
 
 describe('#answerTheChallenge', () => {
   let previousAnswers;
   let previousKE;
   let newKe;
   let challenge;
+  let KnowledgeElement;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     previousAnswers = [{ id: 1, result: 'ko' }];
     previousKE = [{ id: 1 }];
     challenge = { id: 'recId' };
     newKe = { id: 'KE-id' };
-    sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer').returns([newKe]);
+    KnowledgeElement = (
+      await import('../../../api/lib/domain/models/KnowledgeElement.js')
+    ).KnowledgeElement;
+    sinon
+      .stub(KnowledgeElement, 'createKnowledgeElementsForAnswer')
+      .returns([newKe]);
     sinon.stub(console, 'log');
   });
 
@@ -22,9 +26,9 @@ describe('#answerTheChallenge', () => {
     sinon.restore();
   });
 
-  it('should return the list of answers with previous answer with the new one', () => {
+  it('should return the list of answers with previous answer with the new one', async () => {
     // when
-    const result = answerTheChallenge({
+    const result = await answerTheChallenge({
       challenge,
       allAnswers: previousAnswers,
       allKnowledgeElements: previousKE,
@@ -38,9 +42,9 @@ describe('#answerTheChallenge', () => {
     expect(result.updatedAnswers[1].challengeId).to.be.equal(challenge.id);
   });
 
-  it('should return the list of previous KE with the new one', () => {
+  it('should return the list of previous KE with the new one', async () => {
     // when
-    const result = answerTheChallenge({
+    const result = await answerTheChallenge({
       challenge,
       allAnswers: previousAnswers,
       allKnowledgeElements: previousKE,
@@ -57,9 +61,9 @@ describe('#answerTheChallenge', () => {
   describe('when userResult is "ok"', () => {
     const userResult = 'ok';
 
-    it('should return the list of answers with the new one validated', () => {
+    it('should return the list of answers with the new one validated', async () => {
       // when
-      const result = answerTheChallenge({
+      const result = await answerTheChallenge({
         challenge,
         allAnswers: previousAnswers,
         allKnowledgeElements: previousKE,
@@ -81,9 +85,9 @@ describe('#answerTheChallenge', () => {
   describe('when userResult is "ko"', () => {
     const userResult = 'ko';
 
-    it('should return the list of answers with the new one invalidated', () => {
+    it('should return the list of answers with the new one invalidated', async () => {
       // when
-      const result = answerTheChallenge({
+      const result = await answerTheChallenge({
         challenge,
         allAnswers: previousAnswers,
         allKnowledgeElements: previousKE,
@@ -105,12 +109,12 @@ describe('#answerTheChallenge', () => {
   describe('when userResult is "random"', () => {
     const userResult = 'random';
 
-    it('should return the list of answers with some validated and some invalidated', () => {
+    it('should return the list of answers with some validated and some invalidated', async () => {
       // when
       previousAnswers = [];
       const allResults = [];
       for (let i = 0; i < 50; i++) {
-        const result = answerTheChallenge({
+        const result = await answerTheChallenge({
           challenge,
           allAnswers: previousAnswers,
           allKnowledgeElements: previousKE,
@@ -130,12 +134,12 @@ describe('#answerTheChallenge', () => {
   describe('when userResult is first OK then all KO', () => {
     const userResult = 'firstOKthenKO';
 
-    it('should return the list of answers with the first one validated and the rest invalidated', () => {
+    it('should return the list of answers with the first one validated and the rest invalidated', async () => {
       // when
       const allResults = [];
       previousAnswers = [];
       for (let i = 0; i < 10; i++) {
-        const result = answerTheChallenge({
+        const result = await answerTheChallenge({
           challenge,
           allAnswers: previousAnswers,
           allKnowledgeElements: previousKE,
@@ -157,12 +161,12 @@ describe('#answerTheChallenge', () => {
   describe('when userResult is first K0 then all OK', () => {
     const userResult = 'firstKOthenOK';
 
-    it('should return the list of answers with the first one invalidated and the rest validated', () => {
+    it('should return the list of answers with the first one invalidated and the rest validated', async () => {
       // when
       const allResults = [];
       let previousAnswers = [];
       for (let i = 0; i < 10; i++) {
-        const result = answerTheChallenge({
+        const result = await answerTheChallenge({
           challenge,
           allAnswers: previousAnswers,
           allKnowledgeElements: previousKE,
@@ -201,14 +205,16 @@ describe('#answerTheChallenge', () => {
       },
       { userKE: null, answerStatus: 'ko' },
     ].forEach((testCase) => {
-      it(`should return the list of answers with ${testCase.answerStatus} answers for ${
+      it(`should return the list of answers with ${
+        testCase.answerStatus
+      } answers for ${
         testCase.userKE ? testCase.userKE.status : 'empty'
-      } KE`, () => {
+      } KE`, async () => {
         // given
         challenge.skill = { id: 'recPgkHUdzk0HPGt1' };
 
         // when
-        const result = answerTheChallenge({
+        const result = await answerTheChallenge({
           challenge,
           allAnswers: previousAnswers,
           allKnowledgeElements: [],
@@ -244,13 +250,22 @@ describe('#_getReferentiel', () => {
       findSkills: () => {},
     };
 
-    const expectedSkills = [{ id: 'recSkill1' }, { id: 'recSkill2' }, { id: 'recSkill3' }];
-    const expectedChallenges = [{ id: 'recChallenge1' }, { id: 'recChallenge2' }, { id: 'recChallenge3' }];
-
-    sinon.stub(DataFetcher, 'fetchForCampaigns').returns({
-      targetSkills: expectedSkills,
-      challenges: expectedChallenges,
-    });
+    const expectedSkills = [
+      { id: 'recSkill1' },
+      { id: 'recSkill2' },
+      { id: 'recSkill3' },
+    ];
+    const expectedChallenges = [
+      { id: 'recChallenge1' },
+      { id: 'recChallenge2' },
+      { id: 'recChallenge3' },
+    ];
+    const DataFetcher = {
+      fetchForCampaigns: sinon.stub().returns({
+        targetSkills: expectedSkills,
+        challenges: expectedChallenges,
+      }),
+    };
 
     // when
     const result = await _getReferentiel({
@@ -262,6 +277,7 @@ describe('#_getReferentiel', () => {
       skillRepository,
       improvementService,
       campaignRepository,
+      dependencies: { dataFetcher: DataFetcher },
     });
 
     // then
@@ -280,13 +296,23 @@ describe('#_getReferentiel', () => {
     const improvementService = {};
     const targetProfileRepository = {};
 
-    const expectedSkills = [{ id: 'recSkill1' }, { id: 'recSkill2' }, { id: 'recSkill3' }];
-    const expectedChallenges = [{ id: 'recChallenge1' }, { id: 'recChallenge2' }, { id: 'recChallenge3' }];
+    const expectedSkills = [
+      { id: 'recSkill1' },
+      { id: 'recSkill2' },
+      { id: 'recSkill3' },
+    ];
+    const expectedChallenges = [
+      { id: 'recChallenge1' },
+      { id: 'recChallenge2' },
+      { id: 'recChallenge3' },
+    ];
 
-    sinon.stub(DataFetcher, 'fetchForCompetenceEvaluations').returns({
-      targetSkills: expectedSkills,
-      challenges: expectedChallenges,
-    });
+    const DataFetcher = {
+      fetchForCompetenceEvaluations: sinon.stub().returns({
+        targetSkills: expectedSkills,
+        challenges: expectedChallenges,
+      }),
+    };
 
     // when
     const result = await _getReferentiel({
@@ -298,6 +324,7 @@ describe('#_getReferentiel', () => {
       skillRepository,
       improvementService,
       targetProfileRepository,
+      dependencies: { dataFetcher: DataFetcher },
     });
 
     // then
