@@ -9,4 +9,4 @@ class CampaignProfileCompetence {
   }
 }
 
-module.exports = CampaignProfileCompetence;
+export { CampaignProfileCompetence };

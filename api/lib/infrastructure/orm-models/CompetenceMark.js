@@ -1,9 +1,9 @@
-const Bookshelf = require('../bookshelf.js');
-const CompetenceMark = require('../../domain/models/CompetenceMark.js');
+import { Bookshelf } from '../bookshelf.js';
+import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
 
 const modelName = 'CompetenceMark';
 
-module.exports = Bookshelf.model(
+const BookshelfCompetenceMark = Bookshelf.model(
   modelName,
   {
     tableName: 'competence-marks',
@@ -22,3 +22,5 @@ module.exports = Bookshelf.model(
     modelName,
   }
 );
+
+export { BookshelfCompetenceMark };

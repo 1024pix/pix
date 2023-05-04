@@ -1,4 +1,4 @@
-module.exports = async function updateParticipantExternalId({
+const updateParticipantExternalId = async function ({
   campaignParticipationId,
   participantExternalId,
   participationsForCampaignManagementRepository,
@@ -8,3 +8,5 @@ module.exports = async function updateParticipantExternalId({
     participantExternalId,
   });
 };
+
+export { updateParticipantExternalId };

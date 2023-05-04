@@ -1,4 +1,4 @@
-module.exports = async function getSession({ sessionId, sessionRepository, supervisorAccessRepository }) {
+const getSession = async function ({ sessionId, sessionRepository, supervisorAccessRepository }) {
   const session = await sessionRepository.get(sessionId);
   const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(sessionId);
   const hasSupervisorAccess = await supervisorAccessRepository.sessionHasSupervisorAccess({ sessionId });
@@ -8,3 +8,5 @@ module.exports = async function getSession({ sessionId, sessionRepository, super
     hasSomeCleaAcquired,
   };
 };
+
+export { getSession };

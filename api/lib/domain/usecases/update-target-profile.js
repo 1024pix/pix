@@ -1,6 +1,6 @@
-const { validate } = require('../validators/target-profile/base-validation.js');
+import { validate } from '../validators/target-profile/base-validation.js';
 
-module.exports = async function updateTargetProfile({
+const updateTargetProfile = async function ({
   id,
   name,
   imageUrl,
@@ -19,3 +19,5 @@ module.exports = async function updateTargetProfile({
     category,
   });
 };
+
+export { updateTargetProfile };

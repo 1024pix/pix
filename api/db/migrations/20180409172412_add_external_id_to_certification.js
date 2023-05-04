@@ -1,13 +1,15 @@
 const TABLE_NAME = 'certification-courses';
 
-exports.up = (knex) => {
+const up = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.string('externalId');
   });
 };
 
-exports.down = (knex) => {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn('externalId');
   });
 };
+
+export { up, down };

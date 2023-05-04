@@ -1,10 +1,8 @@
-const Assessment = require('../models/Assessment.js');
-const {
-  AlreadySharedCampaignParticipationError,
-  UserNotAuthorizedToAccessEntityError,
-} = require('../../domain/errors.js');
+import { Assessment } from '../models/Assessment.js';
 
-module.exports = async function beginCampaignParticipationImprovement({
+import { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntityError } from '../../domain/errors.js';
+
+const beginCampaignParticipationImprovement = async function ({
   campaignParticipationId,
   userId,
   assessmentRepository,
@@ -30,3 +28,5 @@ module.exports = async function beginCampaignParticipationImprovement({
   const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
   await assessmentRepository.save({ assessment, domainTransaction });
 };
+
+export { beginCampaignParticipationImprovement };

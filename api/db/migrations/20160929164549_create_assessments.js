@@ -1,6 +1,6 @@
 const TABLE_NAME = 'assessments';
 
-exports.up = (knex) => {
+const up = function(knex) {
   function table(t) {
     t.increments().primary();
     t.string('courseId');
@@ -13,6 +13,8 @@ exports.up = (knex) => {
   return knex.schema.createTable(TABLE_NAME, table);
 };
 
-exports.down = (knex) => {
+const down = function(knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
+
+export { up, down };

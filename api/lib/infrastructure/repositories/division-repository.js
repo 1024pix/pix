@@ -1,5 +1,5 @@
-const Division = require('../../domain/models/Division.js');
-const { knex } = require('../../../db/knex-database-connection.js');
+import { Division } from '../../domain/models/Division.js';
+import { knex } from '../../../db/knex-database-connection.js';
 
 async function findByCampaignId(campaignId) {
   const divisions = await knex('organization-learners')
@@ -27,7 +27,4 @@ function _toDomain(division) {
   return new Division({ name: division });
 }
 
-module.exports = {
-  findByCampaignId,
-  findByOrganizationIdForCurrentSchoolYear,
-};
+export { findByCampaignId, findByOrganizationIdForCurrentSchoolYear };

@@ -1,6 +1,8 @@
-const MonitoringJobHandler = require('./MonitoringJobExecutionTimeHandler.js');
-const logger = require('../../logger.js');
-const { teamSize, teamConcurrency } = require('../../../config.js').pgBoss;
+import { MonitoringJobHandler } from './MonitoringJobExecutionTimeHandler.js';
+import { logger } from '../../logger.js';
+import { pgBoss } from '../../../config.js';
+
+const { teamSize, teamConcurrency } = pgBoss;
 
 class MonitoredJobQueue {
   constructor(jobQueue) {
@@ -21,4 +23,4 @@ class MonitoredJobQueue {
   }
 }
 
-module.exports = MonitoredJobQueue;
+export { MonitoredJobQueue };

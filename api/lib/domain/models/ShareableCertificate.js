@@ -36,4 +36,4 @@ class ShareableCertificate {
   }
 }
 
-module.exports = ShareableCertificate;
+export { ShareableCertificate };

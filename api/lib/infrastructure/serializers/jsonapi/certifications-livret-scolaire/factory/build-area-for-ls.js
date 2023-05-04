@@ -1,6 +1,8 @@
-module.exports = function buildArea({ id, name } = {}) {
+const buildArea = function ({ id, name } = {}) {
   return {
     id,
     name,
   };
 };
+
+export { buildArea };

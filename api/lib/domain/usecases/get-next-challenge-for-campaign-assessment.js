@@ -1,6 +1,6 @@
-const { AssessmentEndedError } = require('../errors.js');
+import { AssessmentEndedError } from '../errors.js';
 
-module.exports = async function getNextChallengeForCampaignAssessment({
+const getNextChallengeForCampaignAssessment = async function ({
   challengeRepository,
   answerRepository,
   flashAssessmentResultRepository,
@@ -43,3 +43,5 @@ module.exports = async function getNextChallengeForCampaignAssessment({
     });
   }
 };
+
+export { getNextChallengeForCampaignAssessment };

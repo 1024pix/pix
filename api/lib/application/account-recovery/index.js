@@ -1,15 +1,17 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const XRegExp = require('xregexp');
+import XRegExp from 'xregexp';
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
 const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
 
-const accountRecoveryController = require('./account-recovery-controller.js');
+import { accountRecoveryController } from './account-recovery-controller.js';
 
-const { passwordValidationPattern } = require('../../config.js').account;
+import { account } from '../../config.js';
 
-exports.register = async function (server) {
+const { passwordValidationPattern } = account;
+
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -84,4 +86,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'account-recovery-api';
+const name = 'account-recovery-api';
+export { register, name };

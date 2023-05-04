@@ -1,4 +1,4 @@
-const fr = require('./fr');
-const en = require('./en');
+import { fr } from './fr.js';
+import { en } from './en.js';
 
-module.exports = { fr, en };
+export { fr, en };

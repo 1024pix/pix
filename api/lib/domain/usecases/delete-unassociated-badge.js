@@ -1,7 +1,8 @@
-const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
-const { AcquiredBadgeForbiddenDeletionError, CertificationBadgeForbiddenDeletionError } = require('../errors.js');
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
-module.exports = async function deleteUnassociatedBadge({ badgeId, badgeRepository }) {
+import { AcquiredBadgeForbiddenDeletionError, CertificationBadgeForbiddenDeletionError } from '../errors.js';
+
+const deleteUnassociatedBadge = async function ({ badgeId, badgeRepository }) {
   return DomainTransaction.execute(async (domainTransaction) => {
     const isAssociated = await badgeRepository.isAssociated(badgeId, domainTransaction);
     const isRelatedToCertification = await badgeRepository.isRelatedToCertification(badgeId, domainTransaction);
@@ -17,3 +18,5 @@ module.exports = async function deleteUnassociatedBadge({ badgeId, badgeReposito
     return badgeRepository.delete(badgeId, domainTransaction);
   });
 };
+
+export { deleteUnassociatedBadge };

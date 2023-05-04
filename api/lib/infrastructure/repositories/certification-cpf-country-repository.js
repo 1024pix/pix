@@ -1,16 +1,16 @@
-const { knex } = require('../../../db/knex-database-connection.js');
-const CertificationCpfCountry = require('../../domain/models/CertificationCpfCountry.js');
+import { knex } from '../../../db/knex-database-connection.js';
+import { CertificationCpfCountry } from '../../domain/models/CertificationCpfCountry.js';
 
-module.exports = {
-  async getByMatcher({ matcher }) {
-    const COLUMNS = ['id', 'code', 'commonName', 'originalName', 'matcher'];
+const getByMatcher = async function ({ matcher }) {
+  const COLUMNS = ['id', 'code', 'commonName', 'originalName', 'matcher'];
 
-    const result = await knex.select(COLUMNS).from('certification-cpf-countries').where({ matcher }).first();
+  const result = await knex.select(COLUMNS).from('certification-cpf-countries').where({ matcher }).first();
 
-    if (!result) {
-      return null;
-    }
+  if (!result) {
+    return null;
+  }
 
-    return new CertificationCpfCountry(result);
-  },
+  return new CertificationCpfCountry(result);
 };
+
+export { getByMatcher };

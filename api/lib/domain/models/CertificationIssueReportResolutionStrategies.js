@@ -1,5 +1,5 @@
-const CertificationIssueReportResolutionAttempt = require('./CertificationIssueReportResolutionAttempt.js');
-const { CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory.js');
+import { CertificationIssueReportResolutionAttempt } from './CertificationIssueReportResolutionAttempt.js';
+import { CertificationIssueReportSubcategories } from './CertificationIssueReportCategory.js';
 
 async function neutralizeIfTimedChallengeStrategy({
   certificationIssueReport,
@@ -163,7 +163,7 @@ class CertificationIssueReportResolutionStrategies {
   }
 }
 
-module.exports = {
+export {
   neutralizeWithoutCheckingStrategy,
   neutralizeIfImageOrEmbedStrategy,
   neutralizeIfAttachmentStrategy,

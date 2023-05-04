@@ -1,14 +1,16 @@
 const TABLE_NAME = 'campaigns';
 const COLUMN_NAME = 'archivedAt';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.table(TABLE_NAME, async (table) => {
     table.dateTime(COLUMN_NAME).nullable();
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn(COLUMN_NAME);
   });
 };
+
+export { up, down };

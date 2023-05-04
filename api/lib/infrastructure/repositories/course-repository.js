@@ -1,7 +1,7 @@
-const Course = require('../../domain/models/Course.js');
-const { courseDatasource } = require('../datasources/learning-content/course-datasource.js');
-const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound.js');
-const { NotFoundError } = require('../../domain/errors.js');
+import { Course } from '../../domain/models/Course.js';
+import { courseDatasource } from '../datasources/learning-content/course-datasource.js';
+import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
+import { NotFoundError } from '../../domain/errors.js';
 
 function _toDomain(courseDataObject) {
   return new Course({
@@ -26,17 +26,17 @@ async function _get(id) {
   }
 }
 
-module.exports = {
-  async get(id) {
-    return _get(id);
-  },
-
-  async getCourseName(id) {
-    try {
-      const course = await _get(id);
-      return course.name;
-    } catch (err) {
-      throw new NotFoundError("Le test demandé n'existe pas");
-    }
-  },
+const get = async function (id) {
+  return _get(id);
 };
+
+const getCourseName = async function (id) {
+  try {
+    const course = await _get(id);
+    return course.name;
+  } catch (err) {
+    throw new NotFoundError("Le test demandé n'existe pas");
+  }
+};
+
+export { get, getCourseName };

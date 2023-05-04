@@ -1,33 +1,33 @@
-const usecases = require('../../domain/usecases/index.js');
+import { usecases } from '../../domain/usecases/index.js';
 
-module.exports = {
-  async reconcileSupOrganizationLearner(request, h) {
-    const userId = request.auth.credentials.userId;
-    const payload = request.payload.data.attributes;
+const reconcileSupOrganizationLearner = async function (request, h) {
+  const userId = request.auth.credentials.userId;
+  const payload = request.payload.data.attributes;
 
-    const campaignCode = payload['campaign-code'];
+  const campaignCode = payload['campaign-code'];
 
-    const reconciliationInfo = {
-      userId,
-      studentNumber: payload['student-number'],
-      firstName: payload['first-name'],
-      lastName: payload['last-name'],
-      birthdate: payload['birthdate'],
-    };
+  const reconciliationInfo = {
+    userId,
+    studentNumber: payload['student-number'],
+    firstName: payload['first-name'],
+    lastName: payload['last-name'],
+    birthdate: payload['birthdate'],
+  };
 
-    await usecases.reconcileSupOrganizationLearner({ campaignCode, reconciliationInfo });
+  await usecases.reconcileSupOrganizationLearner({ campaignCode, reconciliationInfo });
 
-    return h.response(null).code(204);
-  },
-
-  async updateStudentNumber(request, h) {
-    const payload = request.payload.data.attributes;
-    const organizationId = request.params.id;
-    const studentNumber = payload['student-number'];
-    const organizationLearnerId = request.params.organizationLearnerId;
-
-    await usecases.updateStudentNumber({ organizationLearnerId, studentNumber, organizationId });
-
-    return h.response().code(204);
-  },
+  return h.response(null).code(204);
 };
+
+const updateStudentNumber = async function (request, h) {
+  const payload = request.payload.data.attributes;
+  const organizationId = request.params.id;
+  const studentNumber = payload['student-number'];
+  const organizationLearnerId = request.params.organizationLearnerId;
+
+  await usecases.updateStudentNumber({ organizationLearnerId, studentNumber, organizationId });
+
+  return h.response().code(204);
+};
+
+export { reconcileSupOrganizationLearner, updateStudentNumber };

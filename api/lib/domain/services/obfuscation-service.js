@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const authenticationMethodRepository = require('../../infrastructure/repositories/authentication-method-repository.js');
-const AuthenticationMethod = require('../models/AuthenticationMethod.js');
-const { NotFoundError } = require('../errors.js');
+import _ from 'lodash';
+import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { NotFoundError } from '../errors.js';
 
 const CONNEXION_TYPES = {
   username: 'username',
@@ -46,8 +46,4 @@ function usernameObfuscation(username) {
   )}${ASTERISK_OBFUSCATION}${_.last(name)}`;
 }
 
-module.exports = {
-  usernameObfuscation,
-  emailObfuscation,
-  getUserAuthenticationMethodWithObfuscation,
-};
+export { usernameObfuscation, emailObfuscation, getUserAuthenticationMethodWithObfuscation };

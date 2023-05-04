@@ -1,7 +1,7 @@
-const { v4: uuidv4 } = require('uuid');
-const settings = require('../../../config.js');
-const OidcAuthenticationService = require('./oidc-authentication-service.js');
-const { temporaryStorage } = require('../../../infrastructure/temporary-storage/index.js');
+import { v4 as uuidv4 } from 'uuid';
+import { settings } from '../../../config.js';
+import * as OidcAuthenticationService from './oidc-authentication-service.js';
+import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
@@ -53,4 +53,4 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
   }
 }
 
-module.exports = FwbOidcAuthenticationService;
+export { FwbOidcAuthenticationService };

@@ -1,10 +1,10 @@
-const Joi = require('joi');
-const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers.js');
-const oidcController = require('./oidc-controller.js');
+import Joi from 'joi';
+import { OidcIdentityProviders } from '../../../domain/constants/oidc-identity-providers.js';
+import { oidcController } from './oidc-controller.js';
 
 const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.service.code);
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -171,4 +171,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'oidc-authentication-api';
+const name = 'oidc-authentication-api';
+export { register, name };

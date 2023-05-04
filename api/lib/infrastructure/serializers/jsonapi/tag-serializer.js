@@ -1,9 +1,9 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(tags) {
-    return new Serializer('tags', {
-      attributes: ['name'],
-    }).serialize(tags);
-  },
+const serialize = function (tags) {
+  return new Serializer('tags', {
+    attributes: ['name'],
+  }).serialize(tags);
 };
+
+export { serialize };

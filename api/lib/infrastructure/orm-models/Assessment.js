@@ -1,13 +1,13 @@
-const Bookshelf = require('../bookshelf.js');
+import { Bookshelf } from '../bookshelf.js';
 
-require('./Answer.js');
-require('./User.js');
-require('./KnowledgeElement.js');
-require('./CampaignParticipation.js');
+import './Answer.js';
+import './User.js';
+import './KnowledgeElement.js';
+import './CampaignParticipation.js';
 
 const modelName = 'Assessment';
 
-module.exports = Bookshelf.model(
+const BookshelfAssessment = Bookshelf.model(
   modelName,
   {
     tableName: 'assessments',
@@ -29,3 +29,5 @@ module.exports = Bookshelf.model(
     modelName,
   }
 );
+
+export { BookshelfAssessment };

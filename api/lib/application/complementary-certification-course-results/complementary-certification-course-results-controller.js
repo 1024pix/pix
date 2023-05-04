@@ -1,13 +1,13 @@
-const usecases = require('../../domain/usecases/index.js');
+import { usecases } from '../../domain/usecases/index.js';
 
-module.exports = {
-  async saveJuryComplementaryCertificationCourseResult(request, h) {
-    const { complementaryCertificationCourseId, juryLevel } = request.payload.data.attributes;
+const saveJuryComplementaryCertificationCourseResult = async function (request, h) {
+  const { complementaryCertificationCourseId, juryLevel } = request.payload.data.attributes;
 
-    await usecases.saveJuryComplementaryCertificationCourseResult({
-      complementaryCertificationCourseId,
-      juryLevel,
-    });
-    return h.response().code(200);
-  },
+  await usecases.saveJuryComplementaryCertificationCourseResult({
+    complementaryCertificationCourseId,
+    juryLevel,
+  });
+  return h.response().code(200);
 };
+
+export { saveJuryComplementaryCertificationCourseResult };

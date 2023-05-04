@@ -1,10 +1,10 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(targetProfileSummaries, meta) {
-    return new Serializer('target-profile-summary', {
-      attributes: ['name', 'outdated'],
-      meta,
-    }).serialize(targetProfileSummaries);
-  },
+const serialize = function (targetProfileSummaries, meta) {
+  return new Serializer('target-profile-summary', {
+    attributes: ['name', 'outdated'],
+    meta,
+  }).serialize(targetProfileSummaries);
 };
+
+export { serialize };

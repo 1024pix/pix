@@ -1,6 +1,6 @@
-const { ForbiddenAccess } = require('../../domain/errors.js');
+import { ForbiddenAccess } from '../../domain/errors.js';
 
-module.exports = async function findPaginatedCertificationCenterSessionSummaries({
+const findPaginatedCertificationCenterSessionSummaries = async function ({
   userId,
   certificationCenterId,
   page,
@@ -14,3 +14,5 @@ module.exports = async function findPaginatedCertificationCenterSessionSummaries
 
   return sessionSummaryRepository.findPaginatedByCertificationCenterId({ certificationCenterId, page });
 };
+
+export { findPaginatedCertificationCenterSessionSummaries };

@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const XLSX = require('xlsx');
+import _ from 'lodash';
+import XLSX from 'xlsx';
 
-const { UnprocessableEntityError } = require('../../../application/http-errors.js');
-const { loadOdsZip } = require('./common-ods-utils.js');
+import { UnprocessableEntityError } from '../../../application/http-errors.js';
+import { loadOdsZip } from './common-ods-utils.js';
 
 const CONTENT_XML_IN_ODS = 'content.xml';
 
@@ -122,9 +122,4 @@ function _transformSheetDataRow(sheetDataRow, sheetHeaderPropertyMap) {
   );
 }
 
-module.exports = {
-  extractTableDataFromOdsFile,
-  getContentXml,
-  getSheetDataRowsFromOdsBuffer,
-  validateOdsHeaders,
-};
+export { extractTableDataFromOdsFile, getContentXml, getSheetDataRowsFromOdsBuffer, validateOdsHeaders };

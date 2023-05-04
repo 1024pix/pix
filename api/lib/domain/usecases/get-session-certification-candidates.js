@@ -1,3 +1,5 @@
-module.exports = async function getSessionCertificationCandidates({ sessionId, certificationCandidateRepository }) {
+const getSessionCertificationCandidates = async function ({ sessionId, certificationCandidateRepository }) {
   return certificationCandidateRepository.findBySessionId(sessionId);
 };
+
+export { getSessionCertificationCandidates };

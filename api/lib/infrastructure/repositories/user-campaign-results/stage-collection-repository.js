@@ -1,21 +1,21 @@
-const { knex } = require('../../../../db/knex-database-connection.js');
-const StageCollection = require('../../../domain/models/user-campaign-results/StageCollection.js');
-const skillRepository = require('./../skill-repository.js');
+import { knex } from '../../../../db/knex-database-connection.js';
+import { StageCollection } from '../../../domain/models/user-campaign-results/StageCollection.js';
+import * as skillRepository from './../skill-repository.js';
 const MAX_STAGE_THRESHOLD = 100;
 
-module.exports = {
-  async findStageCollection({ campaignId }) {
-    const stages = await knex('stages')
-      .select('stages.*')
-      .join('campaigns', 'campaigns.targetProfileId', 'stages.targetProfileId')
-      .where('campaigns.id', campaignId)
-      .orderBy(['stages.threshold', 'stages.level']);
+const findStageCollection = async function ({ campaignId }) {
+  const stages = await knex('stages')
+    .select('stages.*')
+    .join('campaigns', 'campaigns.targetProfileId', 'stages.targetProfileId')
+    .where('campaigns.id', campaignId)
+    .orderBy(['stages.threshold', 'stages.level']);
 
-    await _computeStagesThresholdForCampaign(stages, campaignId);
+  await _computeStagesThresholdForCampaign(stages, campaignId);
 
-    return new StageCollection({ campaignId, stages });
-  },
+  return new StageCollection({ campaignId, stages });
 };
+
+export { findStageCollection };
 
 async function _computeStagesThresholdForCampaign(stages, campaignId) {
   const stagesWithLevel = stages.filter((stage) => stage.level || stage.level === 0);

@@ -1,57 +1,57 @@
-const { knex } = require('../../../db/knex-database-connection.js');
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult.js');
-const CertificationResult = require('../../domain/models/CertificationResult.js');
-const isEmpty = require('lodash/isEmpty');
+import { knex } from '../../../db/knex-database-connection.js';
+import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
+import { CertificationResult } from '../../domain/models/CertificationResult.js';
+import isEmpty from 'lodash/isEmpty';
 
-module.exports = {
-  async findBySessionId({ sessionId }) {
-    const certificationResultDTOs = await _selectCertificationResults()
-      .where('certification-courses.sessionId', sessionId)
-      .orderBy('certification-courses.lastName', 'ASC')
-      .orderBy('certification-courses.firstName', 'ASC');
+const findBySessionId = async function ({ sessionId }) {
+  const certificationResultDTOs = await _selectCertificationResults()
+    .where('certification-courses.sessionId', sessionId)
+    .orderBy('certification-courses.lastName', 'ASC')
+    .orderBy('certification-courses.firstName', 'ASC');
 
-    const complementaryCertificationCourseResultsByCertificationCourseId =
-      await _selectComplementaryCertificationCourseResultsBySessionId({
-        sessionId,
-      });
-
-    return certificationResultDTOs.map((certificationResultDTO) => {
-      certificationResultDTO.complementaryCertificationCourseResults =
-        complementaryCertificationCourseResultsByCertificationCourseId.find(
-          ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id
-        )?.complementaryCertificationCourseResults;
-      return _toDomain(certificationResultDTO);
+  const complementaryCertificationCourseResultsByCertificationCourseId =
+    await _selectComplementaryCertificationCourseResultsBySessionId({
+      sessionId,
     });
-  },
 
-  async findByCertificationCandidateIds({ certificationCandidateIds }) {
-    const certificationResultDTOs = await _selectCertificationResults()
-      .join('certification-candidates', function () {
-        this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' }).andOn({
-          'certification-candidates.userId': 'certification-courses.userId',
-        });
-      })
-      .whereIn('certification-candidates.id', certificationCandidateIds)
-      .orderBy('certification-courses.lastName', 'ASC')
-      .orderBy('certification-courses.firstName', 'ASC');
-
-    let complementaryCertificationCourseResultsByCertificationCourseId = [];
-    if (!isEmpty(certificationResultDTOs)) {
-      complementaryCertificationCourseResultsByCertificationCourseId =
-        await _selectComplementaryCertificationCourseResultsBySessionId({
-          sessionId: certificationResultDTOs[0].sessionId,
-        });
-    }
-
-    return certificationResultDTOs.map((certificationResultDTO) => {
-      certificationResultDTO.complementaryCertificationCourseResults =
-        complementaryCertificationCourseResultsByCertificationCourseId.find(
-          ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id
-        )?.complementaryCertificationCourseResults;
-      return _toDomain(certificationResultDTO);
-    });
-  },
+  return certificationResultDTOs.map((certificationResultDTO) => {
+    certificationResultDTO.complementaryCertificationCourseResults =
+      complementaryCertificationCourseResultsByCertificationCourseId.find(
+        ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id
+      )?.complementaryCertificationCourseResults;
+    return _toDomain(certificationResultDTO);
+  });
 };
+
+const findByCertificationCandidateIds = async function ({ certificationCandidateIds }) {
+  const certificationResultDTOs = await _selectCertificationResults()
+    .join('certification-candidates', function () {
+      this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' }).andOn({
+        'certification-candidates.userId': 'certification-courses.userId',
+      });
+    })
+    .whereIn('certification-candidates.id', certificationCandidateIds)
+    .orderBy('certification-courses.lastName', 'ASC')
+    .orderBy('certification-courses.firstName', 'ASC');
+
+  let complementaryCertificationCourseResultsByCertificationCourseId = [];
+  if (!isEmpty(certificationResultDTOs)) {
+    complementaryCertificationCourseResultsByCertificationCourseId =
+      await _selectComplementaryCertificationCourseResultsBySessionId({
+        sessionId: certificationResultDTOs[0].sessionId,
+      });
+  }
+
+  return certificationResultDTOs.map((certificationResultDTO) => {
+    certificationResultDTO.complementaryCertificationCourseResults =
+      complementaryCertificationCourseResultsByCertificationCourseId.find(
+        ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id
+      )?.complementaryCertificationCourseResults;
+    return _toDomain(certificationResultDTO);
+  });
+};
+
+export { findBySessionId, findByCertificationCandidateIds };
 
 function _selectCertificationResults() {
   return knex

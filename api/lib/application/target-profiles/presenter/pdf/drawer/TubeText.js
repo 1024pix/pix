@@ -1,9 +1,9 @@
-const Text = require('./Text.js');
-const ColorManager = require('../manager/color-manager.js');
-const FontManager = require('../manager/font-manager.js');
-const PositionManager = require('../manager/position-manager.js');
+import { Text } from './Text.js';
+import { ColorManager } from '../manager/color-manager.js';
+import { FontManager } from '../manager/font-manager.js';
+import { PositionManager } from '../manager/position-manager.js';
 
-module.exports = class TubeText extends Text {
+class TubeText extends Text {
   constructor({ practicalTitle, practicalDescription, positionY }) {
     super({
       text: practicalTitle || 'error on practicalTitle',
@@ -38,4 +38,6 @@ module.exports = class TubeText extends Text {
   get spaceUnderText() {
     return Math.max(FontManager.tubeTitleFontHeight, FontManager.tubeDescriptionFontHeight) / 2;
   }
-};
+}
+
+export { TubeText };

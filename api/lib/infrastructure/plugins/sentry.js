@@ -1,6 +1,6 @@
-const hapiSentry = require('hapi-sentry');
+import hapiSentry from 'hapi-sentry';
 const packageJSON = require('../../../package.json');
-const config = require('../../config.js');
+import { config } from '../../config.js';
 
 const plugin = hapiSentry;
 const options = {
@@ -17,7 +17,4 @@ const options = {
   },
 };
 
-module.exports = {
-  plugin,
-  options,
-};
+export { plugin, options };

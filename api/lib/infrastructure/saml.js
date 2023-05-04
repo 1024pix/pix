@@ -1,10 +1,10 @@
-const samlify = require('samlify');
+import samlify from 'samlify';
 samlify.setSchemaValidator({
   validate: () => {
     return true;
   },
 });
-const logger = require('./logger.js');
+import { logger } from './logger.js';
 const samlSettings = require('../config.js').saml;
 
 let _serviceProvider, _identityProvider;
@@ -35,23 +35,23 @@ function _getIdentityProvider() {
   return _identityProvider;
 }
 
-module.exports = {
-  getServiceProviderMetadata() {
-    return _getServiceProvider().getMetadata();
-  },
-
-  createLoginRequest() {
-    const { context } = _getServiceProvider().createLoginRequest(_getIdentityProvider(), 'redirect');
-    logger.trace({ SAMLRequest: context }, 'Created SAML request');
-    return context;
-  },
-
-  async parsePostResponse(payload) {
-    logger.trace({ SAMLPayload: payload }, 'Parsing SAML response');
-    const { extract } = await _getServiceProvider().parseLoginResponse(_getIdentityProvider(), 'post', {
-      body: payload,
-    });
-    logger.trace({ parsedSAML: extract }, 'Parsed SAML response');
-    return extract.attributes;
-  },
+const getServiceProviderMetadata = function () {
+  return _getServiceProvider().getMetadata();
 };
+
+const createLoginRequest = function () {
+  const { context } = _getServiceProvider().createLoginRequest(_getIdentityProvider(), 'redirect');
+  logger.trace({ SAMLRequest: context }, 'Created SAML request');
+  return context;
+};
+
+const parsePostResponse = async function (payload) {
+  logger.trace({ SAMLPayload: payload }, 'Parsing SAML response');
+  const { extract } = await _getServiceProvider().parseLoginResponse(_getIdentityProvider(), 'post', {
+    body: payload,
+  });
+  logger.trace({ parsedSAML: extract }, 'Parsed SAML response');
+  return extract.attributes;
+};
+
+export { getServiceProviderMetadata, createLoginRequest, parsePostResponse };

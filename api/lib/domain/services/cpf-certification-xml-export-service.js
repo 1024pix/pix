@@ -1,9 +1,9 @@
-const { cpf } = require('../../config.js');
-const { create, fragment } = require('xmlbuilder2');
-const { v4: uuidv4 } = require('uuid');
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
+import { cpf } from '../../config.js';
+import { create, fragment } from 'xmlbuilder2';
+import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -166,9 +166,7 @@ async function buildXmlExport({ cpfCertificationResults, writableStream, opts = 
   writableStream.end();
 }
 
-module.exports = {
-  buildXmlExport,
-};
+export { buildXmlExport };
 
 function _write(writableStream, data) {
   return new Promise((resolve) => {

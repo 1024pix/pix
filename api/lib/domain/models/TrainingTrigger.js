@@ -47,4 +47,4 @@ function _getValidatedKnowledgeElementsCount({ knowledgeElements }) {
   return knowledgeElements.filter((knowledgeElement) => knowledgeElement.isValidated).length;
 }
 
-module.exports = TrainingTrigger;
+export { TrainingTrigger };

@@ -32,4 +32,4 @@ class Training {
   }
 }
 
-module.exports = Training;
+export { Training };

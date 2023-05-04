@@ -1,4 +1,4 @@
-const { SESSION_SUPERVISING } = require('./constants/session-supervising');
+import { SESSION_SUPERVISING } from './constants/session-supervising.js';
 
 class DomainError extends Error {
   constructor(message, code, meta) {
@@ -1321,7 +1321,7 @@ class InvalidStageError extends DomainError {
   }
 }
 
-module.exports = {
+export {
   LocaleFormatError,
   LocaleNotSupportedError,
   AccountRecoveryDemandNotCreatedError,

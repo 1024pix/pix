@@ -1,54 +1,54 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(framework, { withoutThematics = false } = {}) {
-    return new Serializer('area', {
+const serialize = function (framework, { withoutThematics = false } = {}) {
+  return new Serializer('area', {
+    ref: 'id',
+    attributes: ['code', 'title', 'color', 'competences'],
+
+    competences: {
+      include: true,
       ref: 'id',
-      attributes: ['code', 'title', 'color', 'competences'],
+      attributes: ['name', 'index', 'thematics'],
 
-      competences: {
+      thematics: {
         include: true,
         ref: 'id',
-        attributes: ['name', 'index', 'thematics'],
+        attributes: ['name', 'index', 'tubes'],
 
-        thematics: {
+        tubes: {
           include: true,
           ref: 'id',
-          attributes: ['name', 'index', 'tubes'],
-
-          tubes: {
-            include: true,
-            ref: 'id',
-            attributes: ['name', 'practicalTitle', 'practicalDescription', 'mobile', 'tablet'],
-          },
+          attributes: ['name', 'practicalTitle', 'practicalDescription', 'mobile', 'tablet'],
         },
       },
+    },
 
-      transform(area) {
-        if (withoutThematics) {
-          return area;
-        }
-        area.competences.forEach((competence) => {
-          competence.thematics = framework.thematics
-            .filter((thematic) => {
-              return competence.thematicIds.includes(thematic.id);
-            })
-            .map((thematic) => {
-              return {
-                ...thematic,
-                tubes: framework.tubes
-                  .filter(({ id }) => {
-                    return thematic.tubeIds.includes(id);
-                  })
-                  .map((tube) => ({ ...tube, mobile: tube.isMobileCompliant, tablet: tube.isTabletCompliant })),
-              };
-            })
-            .filter((thematic) => {
-              return thematic.tubes.length > 0;
-            });
-        });
+    transform(area) {
+      if (withoutThematics) {
         return area;
-      },
-    }).serialize(framework.areas);
-  },
+      }
+      area.competences.forEach((competence) => {
+        competence.thematics = framework.thematics
+          .filter((thematic) => {
+            return competence.thematicIds.includes(thematic.id);
+          })
+          .map((thematic) => {
+            return {
+              ...thematic,
+              tubes: framework.tubes
+                .filter(({ id }) => {
+                  return thematic.tubeIds.includes(id);
+                })
+                .map((tube) => ({ ...tube, mobile: tube.isMobileCompliant, tablet: tube.isTabletCompliant })),
+            };
+          })
+          .filter((thematic) => {
+            return thematic.tubes.length > 0;
+          });
+      });
+      return area;
+    },
+  }).serialize(framework.areas);
 };
+
+export { serialize };

@@ -1,6 +1,6 @@
-const { OrganizationsToAttachToTargetProfile } = require('../models/index.js');
+import { OrganizationsToAttachToTargetProfile } from '../models/index.js';
 
-module.exports = async function attachOrganizationsToTargetProfile({
+const attachOrganizationsToTargetProfile = async function ({
   targetProfileId,
   organizationIds,
   organizationsToAttachToTargetProfileRepository,
@@ -11,3 +11,5 @@ module.exports = async function attachOrganizationsToTargetProfile({
 
   return organizationsToAttachToTargetProfileRepository.attachOrganizations(targetProfileOrganizations);
 };
+
+export { attachOrganizationsToTargetProfile };

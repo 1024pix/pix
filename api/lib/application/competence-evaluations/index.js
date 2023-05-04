@@ -1,6 +1,6 @@
-const competenceEvaluationController = require('./competence-evaluation-controller.js');
+import { competenceEvaluationController } from './competence-evaluation-controller.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -30,4 +30,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'competence-evaluations-api';
+const name = 'competence-evaluations-api';
+export { register, name };

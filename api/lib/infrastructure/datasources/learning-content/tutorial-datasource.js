@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const datasource = require('./datasource.js');
+import _ from 'lodash';
+import * as datasource from './datasource.js';
 
 const tutorialDatasource = datasource.extend({
   modelName: 'tutorials',
@@ -9,4 +9,4 @@ const tutorialDatasource = datasource.extend({
     return tutorials.filter((tutorialData) => _.includes(tutorialRecordIds, tutorialData.id));
   },
 });
-module.exports = { tutorialDatasource };
+export { tutorialDatasource };

@@ -1,4 +1,4 @@
-module.exports = class NeutralizationAttempt {
+class NeutralizationAttempt {
   constructor(questionNumber, status) {
     this.questionNumber = questionNumber;
     this.status = status;
@@ -27,7 +27,9 @@ module.exports = class NeutralizationAttempt {
   wasSkipped() {
     return this.status === NeutralizationStatus.SKIPPED;
   }
-};
+}
+
+export { NeutralizationAttempt };
 
 const NeutralizationStatus = {
   NEUTRALIZED: 'NEUTRALIZED',

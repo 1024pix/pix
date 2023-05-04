@@ -1,13 +1,13 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
 
-const { sendJsonApiError, UnprocessableEntityError, NotFoundError } = require('../http-errors.js');
-const supOrganizationLearnerController = require('./sup-organization-learner-controller.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import { sendJsonApiError, UnprocessableEntityError, NotFoundError } from '../http-errors.js';
+import { supOrganizationLearnerController } from './sup-organization-learner-controller.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -84,4 +84,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'sup-organization-learners-api';
+const name = 'sup-organization-learners-api';
+export { register, name };

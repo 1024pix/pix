@@ -1,156 +1,162 @@
-const sessionValidator = require('../../validators/session-validator.js');
-const certificationCpfService = require('../certification-cpf-service.js');
-const { CERTIFICATION_SESSIONS_ERRORS } = require('../../constants/sessions-errors');
-const dayjs = require('dayjs');
+import { sessionValidator } from '../../validators/session-validator.js';
+import * as certificationCpfService from '../certification-cpf-service.js';
+import { CERTIFICATION_SESSIONS_ERRORS } from '../../constants/sessions-errors.js';
+import dayjs from 'dayjs';
 
-module.exports = {
-  async validateSession({ session, line, certificationCenterId, sessionRepository, certificationCourseRepository }) {
-    const sessionId = session.id;
-    const sessionErrors = [];
+const validateSession = async function ({
+  session,
+  line,
+  certificationCenterId,
+  sessionRepository,
+  certificationCourseRepository,
+}) {
+  const sessionId = session.id;
+  const sessionErrors = [];
 
-    if (sessionId) {
-      if (_hasSessionInfo(session)) {
-        _addToErrorList({
-          errorList: sessionErrors,
-          line,
-          codes: [CERTIFICATION_SESSIONS_ERRORS.INFORMATION_NOT_ALLOWED_WITH_SESSION_ID.code],
-        });
-      }
+  if (sessionId) {
+    if (_hasSessionInfo(session)) {
+      _addToErrorList({
+        errorList: sessionErrors,
+        line,
+        codes: [CERTIFICATION_SESSIONS_ERRORS.INFORMATION_NOT_ALLOWED_WITH_SESSION_ID.code],
+      });
+    }
 
-      if (_isSessionIdFormatValid(sessionId)) {
-        if (await _isSessionExistingInCertificationCenter({ sessionId, certificationCenterId, sessionRepository })) {
-          if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
-            _addToErrorList({
-              errorList: sessionErrors,
-              line,
-              codes: [CERTIFICATION_SESSIONS_ERRORS.CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION.code],
-            });
-          }
-        } else {
+    if (_isSessionIdFormatValid(sessionId)) {
+      if (await _isSessionExistingInCertificationCenter({ sessionId, certificationCenterId, sessionRepository })) {
+        if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
           _addToErrorList({
             errorList: sessionErrors,
             line,
-            codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_ID_NOT_EXISTING.code],
+            codes: [CERTIFICATION_SESSIONS_ERRORS.CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION.code],
           });
         }
       } else {
         _addToErrorList({
           errorList: sessionErrors,
           line,
-          codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_ID_NOT_VALID.code],
+          codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_ID_NOT_EXISTING.code],
         });
       }
     } else {
-      if (_isDateAndTimeValid(session)) {
-        const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
-        if (isSessionExisting) {
-          _addToErrorList({
-            errorList: sessionErrors,
-            line,
-            codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS.code],
-          });
-        }
-      }
-
-      if (session.isSessionScheduledInThePast()) {
-        _addToErrorList({
-          errorList: sessionErrors,
-          line,
-          codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_SCHEDULED_IN_THE_PAST.code],
-        });
-      }
-
-      const errorCodes = sessionValidator.validateForMassSessionImport(session);
-      _addToErrorList({ errorList: sessionErrors, line, codes: errorCodes });
-    }
-
-    if (session.certificationCandidates.length === 0) {
       _addToErrorList({
         errorList: sessionErrors,
         line,
-        codes: [CERTIFICATION_SESSIONS_ERRORS.EMPTY_SESSION.code],
+        codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_ID_NOT_VALID.code],
+      });
+    }
+  } else {
+    if (_isDateAndTimeValid(session)) {
+      const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
+      if (isSessionExisting) {
+        _addToErrorList({
+          errorList: sessionErrors,
+          line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS.code],
+        });
+      }
+    }
+
+    if (session.isSessionScheduledInThePast()) {
+      _addToErrorList({
+        errorList: sessionErrors,
+        line,
+        codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_SCHEDULED_IN_THE_PAST.code],
+      });
+    }
+
+    const errorCodes = sessionValidator.validateForMassSessionImport(session);
+    _addToErrorList({ errorList: sessionErrors, line, codes: errorCodes });
+  }
+
+  if (session.certificationCandidates.length === 0) {
+    _addToErrorList({
+      errorList: sessionErrors,
+      line,
+      codes: [CERTIFICATION_SESSIONS_ERRORS.EMPTY_SESSION.code],
+      isBlocking: false,
+    });
+  }
+
+  return sessionErrors;
+};
+
+const getUniqueCandidates = function (candidates) {
+  const duplicateCandidateErrors = [];
+
+  const uniqueCandidates = candidates.filter((candidate, index) => {
+    const isFirstOccurence =
+      index ===
+      candidates.findIndex(
+        (other) =>
+          candidate.firstName === other.firstName &&
+          candidate.lastName === other.lastName &&
+          candidate.birthdate === other.birthdate
+      );
+
+    if (!isFirstOccurence) {
+      _addToErrorList({
+        errorList: duplicateCandidateErrors,
+        line: candidate.line,
+        codes: [CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_IN_SESSION.code],
         isBlocking: false,
       });
     }
 
-    return sessionErrors;
-  },
+    return isFirstOccurence;
+  });
 
-  getUniqueCandidates(candidates) {
-    const duplicateCandidateErrors = [];
+  return { uniqueCandidates, duplicateCandidateErrors };
+};
 
-    const uniqueCandidates = candidates.filter((candidate, index) => {
-      const isFirstOccurence =
-        index ===
-        candidates.findIndex(
-          (other) =>
-            candidate.firstName === other.firstName &&
-            candidate.lastName === other.lastName &&
-            candidate.birthdate === other.birthdate
-        );
+const getValidatedCandidateBirthInformation = async function ({
+  candidate,
+  isSco,
+  line,
+  certificationCpfCountryRepository,
+  certificationCpfCityRepository,
+  dependencies = { certificationCpfService },
+}) {
+  const certificationCandidateErrors = [];
+  const errorCodes = candidate.validateForMassSessionImport(isSco);
+  _addToErrorList({ errorList: certificationCandidateErrors, line, codes: errorCodes });
 
-      if (!isFirstOccurence) {
-        _addToErrorList({
-          errorList: duplicateCandidateErrors,
-          line: candidate.line,
-          codes: [CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_IN_SESSION.code],
-          isBlocking: false,
-        });
-      }
-
-      return isFirstOccurence;
-    });
-
-    return { uniqueCandidates, duplicateCandidateErrors };
-  },
-
-  async getValidatedCandidateBirthInformation({
-    candidate,
-    isSco,
-    line,
+  const cpfBirthInformation = await dependencies.certificationCpfService.getBirthInformation({
+    birthCountry: candidate.birthCountry,
+    birthCity: candidate.birthCity,
+    birthPostalCode: candidate.birthPostalCode,
+    birthINSEECode: candidate.birthINSEECode,
     certificationCpfCountryRepository,
     certificationCpfCityRepository,
-    dependencies = { certificationCpfService },
-  }) {
-    const certificationCandidateErrors = [];
-    const errorCodes = candidate.validateForMassSessionImport(isSco);
-    _addToErrorList({ errorList: certificationCandidateErrors, line, codes: errorCodes });
+  });
 
-    const cpfBirthInformation = await dependencies.certificationCpfService.getBirthInformation({
-      birthCountry: candidate.birthCountry,
-      birthCity: candidate.birthCity,
-      birthPostalCode: candidate.birthPostalCode,
-      birthINSEECode: candidate.birthINSEECode,
-      certificationCpfCountryRepository,
-      certificationCpfCityRepository,
+  if (cpfBirthInformation.hasFailed()) {
+    cpfBirthInformation.errors.forEach(({ code: errorCode }) => {
+      if (
+        _isErrorNotDuplicated({
+          certificationCandidateErrors,
+          errorCode,
+        })
+      ) {
+        _addToErrorList({ errorList: certificationCandidateErrors, line, codes: [errorCode] });
+      }
     });
+  }
 
-    if (cpfBirthInformation.hasFailed()) {
-      cpfBirthInformation.errors.forEach(({ code: errorCode }) => {
-        if (
-          _isErrorNotDuplicated({
-            certificationCandidateErrors,
-            errorCode,
-          })
-        ) {
-          _addToErrorList({ errorList: certificationCandidateErrors, line, codes: [errorCode] });
-        }
-      });
-    }
+  candidate.convertExtraTimePercentageToDecimal();
 
-    candidate.convertExtraTimePercentageToDecimal();
-
-    return {
-      certificationCandidateErrors,
-      cpfBirthInformation: {
-        birthCountry: cpfBirthInformation.birthCountry,
-        birthCity: cpfBirthInformation.birthCity,
-        birthPostalCode: cpfBirthInformation.birthPostalCode,
-        birthINSEECode: cpfBirthInformation.birthINSEECode,
-      },
-    };
-  },
+  return {
+    certificationCandidateErrors,
+    cpfBirthInformation: {
+      birthCountry: cpfBirthInformation.birthCountry,
+      birthCity: cpfBirthInformation.birthCity,
+      birthPostalCode: cpfBirthInformation.birthPostalCode,
+      birthINSEECode: cpfBirthInformation.birthINSEECode,
+    },
+  };
 };
+
+export { validateSession, getUniqueCandidates, getValidatedCandidateBirthInformation };
 
 function _isDateAndTimeValid(session) {
   return dayjs(`${session.date} ${session.time}`, 'YYYY-MM-DD HH:mm', true).isValid();

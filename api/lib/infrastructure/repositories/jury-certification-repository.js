@@ -1,66 +1,66 @@
-const { knex } = require('../../../db/knex-database-connection.js');
-const { NotFoundError } = require('../../domain/errors.js');
-const _ = require('lodash');
-const JuryCertification = require('../../domain/models/JuryCertification.js');
-const CertificationIssueReport = require('../../domain/models/CertificationIssueReport.js');
-const ComplementaryCertificationCourseResultsForJuryCertification = require('../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification.js');
-const ComplementaryCertificationCourseResultsForJuryCertificationWithExternal = require('../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal.js');
+import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../domain/errors.js';
+import _ from 'lodash';
+import { JuryCertification } from '../../domain/models/JuryCertification.js';
+import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
+import { ComplementaryCertificationCourseResultsForJuryCertification } from '../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification.js';
+import { ComplementaryCertificationCourseResultsForJuryCertificationWithExternal } from '../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal.js';
 
-module.exports = {
-  async get(certificationCourseId) {
-    const juryCertificationDTO = await _selectJuryCertifications()
-      .where('certification-courses.id', certificationCourseId)
-      .first();
+const get = async function (certificationCourseId) {
+  const juryCertificationDTO = await _selectJuryCertifications()
+    .where('certification-courses.id', certificationCourseId)
+    .first();
 
-    if (!juryCertificationDTO) {
-      throw new NotFoundError(`Certification course of id ${certificationCourseId} does not exist.`);
-    }
+  if (!juryCertificationDTO) {
+    throw new NotFoundError(`Certification course of id ${certificationCourseId} does not exist.`);
+  }
 
-    const competenceMarkDTOs = await knex('competence-marks')
-      .where({
-        assessmentResultId: juryCertificationDTO.assessmentResultId,
-      })
-      .orderBy('competence_code', 'asc');
+  const competenceMarkDTOs = await knex('competence-marks')
+    .where({
+      assessmentResultId: juryCertificationDTO.assessmentResultId,
+    })
+    .orderBy('competence_code', 'asc');
 
-    const complementaryCertificationCourseResultDTOs = await knex('complementary-certification-course-results')
-      .select(
-        'complementary-certification-course-results.*',
-        'complementary-certification-courses.id',
-        'complementary-certification-badges.label',
-        'complementary-certification-badges.level',
-        'complementary-certifications.hasExternalJury'
-      )
-      .leftJoin(
-        'complementary-certification-courses',
-        'complementary-certification-course-results.complementaryCertificationCourseId',
-        'complementary-certification-courses.id'
-      )
-      .leftJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
-      .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
-      .leftJoin(
-        'complementary-certifications',
-        'complementary-certifications.id',
-        'complementary-certification-badges.complementaryCertificationId'
-      )
-      .where({
-        certificationCourseId: juryCertificationDTO.certificationCourseId,
-      });
-
-    const badgeKeyAndLabelsGroupedByTargetProfile = await _getBadgeKeyAndLabelsGroupedByTargetProfile();
-
-    const certificationIssueReportDTOs = await knex('certification-issue-reports')
-      .where({ certificationCourseId })
-      .orderBy('id', 'ASC');
-
-    return _toDomainWithComplementaryCertifications({
-      juryCertificationDTO,
-      certificationIssueReportDTOs,
-      competenceMarkDTOs,
-      complementaryCertificationCourseResultDTOs,
-      badgeKeyAndLabelsGroupedByTargetProfile,
+  const complementaryCertificationCourseResultDTOs = await knex('complementary-certification-course-results')
+    .select(
+      'complementary-certification-course-results.*',
+      'complementary-certification-courses.id',
+      'complementary-certification-badges.label',
+      'complementary-certification-badges.level',
+      'complementary-certifications.hasExternalJury'
+    )
+    .leftJoin(
+      'complementary-certification-courses',
+      'complementary-certification-course-results.complementaryCertificationCourseId',
+      'complementary-certification-courses.id'
+    )
+    .leftJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
+    .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .leftJoin(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-badges.complementaryCertificationId'
+    )
+    .where({
+      certificationCourseId: juryCertificationDTO.certificationCourseId,
     });
-  },
+
+  const badgeKeyAndLabelsGroupedByTargetProfile = await _getBadgeKeyAndLabelsGroupedByTargetProfile();
+
+  const certificationIssueReportDTOs = await knex('certification-issue-reports')
+    .where({ certificationCourseId })
+    .orderBy('id', 'ASC');
+
+  return _toDomainWithComplementaryCertifications({
+    juryCertificationDTO,
+    certificationIssueReportDTOs,
+    competenceMarkDTOs,
+    complementaryCertificationCourseResultDTOs,
+    badgeKeyAndLabelsGroupedByTargetProfile,
+  });
 };
+
+export { get };
 
 function _selectJuryCertifications() {
   return knex

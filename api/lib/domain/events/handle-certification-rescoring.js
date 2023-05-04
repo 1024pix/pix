@@ -1,13 +1,13 @@
-const AssessmentResult = require('../models/AssessmentResult.js');
-const CertificationResult = require('../models/CertificationResult.js');
-const CompetenceMark = require('../models/CompetenceMark.js');
-const CertificationRescoringCompleted = require('./CertificationRescoringCompleted.js');
-const bluebird = require('bluebird');
-const { CertificationComputeError } = require('../errors.js');
-const ChallengeNeutralized = require('./ChallengeNeutralized.js');
-const ChallengeDeneutralized = require('./ChallengeDeneutralized.js');
-const CertificationJuryDone = require('./CertificationJuryDone.js');
-const { checkEventTypes } = require('./check-event-types.js');
+import { AssessmentResult } from '../models/AssessmentResult.js';
+import { CertificationResult } from '../models/CertificationResult.js';
+import { CompetenceMark } from '../models/CompetenceMark.js';
+import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
+import bluebird from 'bluebird';
+import { CertificationComputeError } from '../errors.js';
+import { ChallengeNeutralized } from './ChallengeNeutralized.js';
+import { ChallengeDeneutralized } from './ChallengeDeneutralized.js';
+import { CertificationJuryDone } from './CertificationJuryDone.js';
+import { checkEventTypes } from './check-event-types.js';
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
 
@@ -157,4 +157,4 @@ function _getEmitterFromEvent(event) {
 }
 
 handleCertificationRescoring.eventTypes = eventTypes;
-module.exports = handleCertificationRescoring;
+export { handleCertificationRescoring };

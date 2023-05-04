@@ -1,10 +1,10 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(model) {
-    return new Serializer('target-profile-attach-organization', {
-      id: 'targetProfileId',
-      attributes: ['duplicatedIds', 'attachedIds'],
-    }).serialize(model);
-  },
+const serialize = function (model) {
+  return new Serializer('target-profile-attach-organization', {
+    id: 'targetProfileId',
+    attributes: ['duplicatedIds', 'attachedIds'],
+  }).serialize(model);
 };
+
+export { serialize };

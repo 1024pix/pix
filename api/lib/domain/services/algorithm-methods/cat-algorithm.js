@@ -1,15 +1,8 @@
-const KnowledgeElement = require('../../models/KnowledgeElement.js');
-const _ = require('lodash');
-const { pipe } = require('lodash/fp');
+import { KnowledgeElement } from '../../models/KnowledgeElement.js';
+import _ from 'lodash';
+import { pipe } from 'lodash/fp';
 
-// This file implements methods useful for a CAT algorithm
-// https://en.wikipedia.org/wiki/Computerized_adaptive_testing
-// https://en.wikipedia.org/wiki/Item_response_theory
-
-module.exports = {
-  findMaxRewardingSkills,
-  getPredictedLevel,
-};
+export { findMaxRewardingSkills, getPredictedLevel };
 
 function getPredictedLevel(knowledgeElements, skills) {
   return _.maxBy(_enumerateCatLevels(), (level) =>

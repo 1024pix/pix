@@ -1,6 +1,6 @@
 const TABLE_NAME = 'students';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.string('preferredLastName');
     table.string('middleName');
@@ -16,7 +16,7 @@ exports.up = function (knex) {
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn('preferredLastName');
     table.dropColumn('middleName');
@@ -31,3 +31,5 @@ exports.down = function (knex) {
     table.dropColumn('division');
   });
 };
+
+export { up, down };

@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const config = require('../../config.js');
+import _ from 'lodash';
+import { config } from '../../config.js';
 
 function _randomLetter() {
   const letters = config.availableCharacterForCode.letters.split('');
@@ -23,8 +23,8 @@ function _generateSessionCode() {
   return code;
 }
 
-module.exports = {
-  getNewSessionCode() {
-    return _generateSessionCode();
-  },
+const getNewSessionCode = function () {
+  return _generateSessionCode();
 };
+
+export { getNewSessionCode };

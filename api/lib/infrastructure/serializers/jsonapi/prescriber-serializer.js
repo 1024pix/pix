@@ -1,114 +1,114 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(prescriber) {
-    return new Serializer('prescriber', {
-      transform: (record) => {
-        const recordWithoutClass = { ...record };
-        recordWithoutClass.memberships.forEach((membership) => {
-          membership.organization = { ...membership.organization };
-        });
-        recordWithoutClass.userOrgaSettings = {
-          ...recordWithoutClass.userOrgaSettings,
-          organization: {
-            ...recordWithoutClass.userOrgaSettings.currentOrganization,
-            isAgriculture: recordWithoutClass.userOrgaSettings.currentOrganization.isAgriculture,
-          },
-        };
-        delete recordWithoutClass.userOrgaSettings.currentOrganization;
-
-        return recordWithoutClass;
-      },
-
-      attributes: [
-        'firstName',
-        'lastName',
-        'pixOrgaTermsOfServiceAccepted',
-        'areNewYearOrganizationLearnersImported',
-        'participantCount',
-        'lang',
-        'memberships',
-        'userOrgaSettings',
-      ],
-      memberships: {
-        ref: 'id',
-        attributes: ['organizationRole', 'organization'],
+const serialize = function (prescriber) {
+  return new Serializer('prescriber', {
+    transform: (record) => {
+      const recordWithoutClass = { ...record };
+      recordWithoutClass.memberships.forEach((membership) => {
+        membership.organization = { ...membership.organization };
+      });
+      recordWithoutClass.userOrgaSettings = {
+        ...recordWithoutClass.userOrgaSettings,
         organization: {
-          ref: 'id',
-          attributes: ['name', 'externalId'],
+          ...recordWithoutClass.userOrgaSettings.currentOrganization,
+          isAgriculture: recordWithoutClass.userOrgaSettings.currentOrganization.isAgriculture,
         },
-      },
-      userOrgaSettings: {
+      };
+      delete recordWithoutClass.userOrgaSettings.currentOrganization;
+
+      return recordWithoutClass;
+    },
+
+    attributes: [
+      'firstName',
+      'lastName',
+      'pixOrgaTermsOfServiceAccepted',
+      'areNewYearOrganizationLearnersImported',
+      'participantCount',
+      'lang',
+      'memberships',
+      'userOrgaSettings',
+    ],
+    memberships: {
+      ref: 'id',
+      attributes: ['organizationRole', 'organization'],
+      organization: {
         ref: 'id',
-        attributes: ['organization', 'user'],
-        organization: {
+        attributes: ['name', 'externalId'],
+      },
+    },
+    userOrgaSettings: {
+      ref: 'id',
+      attributes: ['organization', 'user'],
+      organization: {
+        ref: 'id',
+        attributes: [
+          'name',
+          'type',
+          'credit',
+          'isManagingStudents',
+          'isAgriculture',
+          'identityProviderForCampaigns',
+          'targetProfiles',
+          'memberships',
+          'divisions',
+          'organizationInvitations',
+          'documentationUrl',
+          'groups',
+        ],
+        memberships: {
           ref: 'id',
-          attributes: [
-            'name',
-            'type',
-            'credit',
-            'isManagingStudents',
-            'isAgriculture',
-            'identityProviderForCampaigns',
-            'targetProfiles',
-            'memberships',
-            'divisions',
-            'organizationInvitations',
-            'documentationUrl',
-            'groups',
-          ],
-          memberships: {
-            ref: 'id',
-            ignoreRelationshipData: true,
-            nullIfMissing: true,
-            relationshipLinks: {
-              related: function (record, current, parent) {
-                return `/api/organizations/${parent.id}/memberships`;
-              },
-            },
-          },
-          organizationInvitations: {
-            ref: 'id',
-            ignoreRelationshipData: true,
-            nullIfMissing: true,
-            relationshipLinks: {
-              related: function (record, current, parent) {
-                return `/api/organizations/${parent.id}/invitations`;
-              },
-            },
-          },
-          targetProfiles: {
-            ref: 'id',
-            ignoreRelationshipData: true,
-            nullIfMissing: true,
-            relationshipLinks: {
-              related: function (record, current, parent) {
-                return `/api/organizations/${parent.id}/target-profiles`;
-              },
-            },
-          },
-          groups: {
-            ref: 'id',
-            ignoreRelationshipData: true,
-            nullIfMissing: true,
-            relationshipLinks: {
-              related: function (record, current, parent) {
-                return `/api/organizations/${parent.id}/groups`;
-              },
-            },
-          },
-          divisions: {
-            ref: 'id',
-            ignoreRelationshipData: true,
-            nullIfMissing: true,
-            relationshipLinks: {
-              related(record, current, parent) {
-                return `/api/organizations/${parent.id}/divisions`;
-              },
+          ignoreRelationshipData: true,
+          nullIfMissing: true,
+          relationshipLinks: {
+            related: function (record, current, parent) {
+              return `/api/organizations/${parent.id}/memberships`;
             },
           },
         },
+        organizationInvitations: {
+          ref: 'id',
+          ignoreRelationshipData: true,
+          nullIfMissing: true,
+          relationshipLinks: {
+            related: function (record, current, parent) {
+              return `/api/organizations/${parent.id}/invitations`;
+            },
+          },
+        },
+        targetProfiles: {
+          ref: 'id',
+          ignoreRelationshipData: true,
+          nullIfMissing: true,
+          relationshipLinks: {
+            related: function (record, current, parent) {
+              return `/api/organizations/${parent.id}/target-profiles`;
+            },
+          },
+        },
+        groups: {
+          ref: 'id',
+          ignoreRelationshipData: true,
+          nullIfMissing: true,
+          relationshipLinks: {
+            related: function (record, current, parent) {
+              return `/api/organizations/${parent.id}/groups`;
+            },
+          },
+        },
+        divisions: {
+          ref: 'id',
+          ignoreRelationshipData: true,
+          nullIfMissing: true,
+          relationshipLinks: {
+            related(record, current, parent) {
+              return `/api/organizations/${parent.id}/divisions`;
+            },
+          },
+        },
       },
-    }).serialize(prescriber);
-  },
+    },
+  }).serialize(prescriber);
 };
+
+export { serialize };

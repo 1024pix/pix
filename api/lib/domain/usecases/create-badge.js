@@ -1,7 +1,7 @@
-const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
-const { MissingBadgeCriterionError } = require('../errors.js');
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import { MissingBadgeCriterionError } from '../errors.js';
 
-module.exports = async function createBadge({
+const createBadge = async function ({
   targetProfileId,
   badgeCreation,
   badgeRepository,
@@ -91,3 +91,5 @@ module.exports = async function createBadge({
     return savedBadge;
   });
 };
+
+export { createBadge };

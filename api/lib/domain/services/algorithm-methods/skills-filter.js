@@ -1,11 +1,8 @@
-const _ = require('lodash');
-const { pipe } = require('lodash/fp');
-const { constants } = require('../../constants.js');
+import _ from 'lodash';
+import { pipe } from 'lodash/fp';
+import { constants } from '../../constants.js';
 
-module.exports = {
-  getFilteredSkillsForFirstChallenge,
-  getFilteredSkillsForNextChallenge,
-};
+export { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge };
 
 function getFilteredSkillsForFirstChallenge({ knowledgeElements, tubes, targetSkills }) {
   return pipe(

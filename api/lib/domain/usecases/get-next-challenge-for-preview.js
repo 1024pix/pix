@@ -1,5 +1,7 @@
-const { AssessmentEndedError } = require('../errors.js');
+import { AssessmentEndedError } from '../errors.js';
 
-module.exports = function getNextChallengeForPreview() {
+const getNextChallengeForPreview = function () {
   return Promise.reject(new AssessmentEndedError());
 };
+
+export { getNextChallengeForPreview };

@@ -1,9 +1,9 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const tutorialEvaluationsController = require('./tutorial-evaluations-controller.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import { tutorialEvaluationsController } from './tutorial-evaluations-controller.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'PUT',
@@ -37,4 +37,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'tutorial-evaluations-api';
+const name = 'tutorial-evaluations-api';
+export { register, name };

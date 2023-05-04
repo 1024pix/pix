@@ -1,9 +1,9 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const organizationInvitationController = require('./organization-invitation-controller.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import { organizationInvitationController } from './organization-invitation-controller.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -79,4 +79,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'organization-invitation-api';
+const name = 'organization-invitation-api';
+export { register, name };

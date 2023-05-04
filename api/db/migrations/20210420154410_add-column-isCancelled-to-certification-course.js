@@ -1,13 +1,15 @@
 const TABLE_NAME = 'certification-courses';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.boolean('isCancelled').notNullable().defaultTo(false);
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn('isCancelled');
   });
 };
+
+export { up, down };

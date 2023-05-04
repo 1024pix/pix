@@ -1,6 +1,6 @@
-const PoleEmploiOidcAuthenticationService = require('../services/authentication/pole-emploi-oidc-authentication-service.js');
-const CnavOidcAuthenticationService = require('../services/authentication/cnav-oidc-authentication-service.js');
-const FwbOidcAuthenticationService = require('../services/authentication/fwb-oidc-authentication-service.js');
+import * as PoleEmploiOidcAuthenticationService from '../services/authentication/pole-emploi-oidc-authentication-service.js';
+import * as CnavOidcAuthenticationService from '../services/authentication/cnav-oidc-authentication-service.js';
+import * as FwbOidcAuthenticationService from '../services/authentication/fwb-oidc-authentication-service.js';
 
 const DEFAULT_PROPERTY_PATHS_TO_PICK = ['clientId', 'authenticationUrl', 'userInfoUrl', 'tokenUrl', 'clientSecret'];
 
@@ -20,8 +20,4 @@ const FWB = {
   service: new FwbOidcAuthenticationService(),
 };
 
-module.exports = {
-  POLE_EMPLOI,
-  CNAV,
-  FWB,
-};
+export { POLE_EMPLOI, CNAV, FWB };

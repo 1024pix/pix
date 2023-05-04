@@ -1,7 +1,7 @@
-const Text = require('./Text.js');
-const ColorManager = require('../manager/color-manager.js');
-const FontManager = require('../manager/font-manager.js');
-const PositionManager = require('../manager/position-manager.js');
+import { Text } from './Text.js';
+import { ColorManager } from '../manager/color-manager.js';
+import { FontManager } from '../manager/font-manager.js';
+import { PositionManager } from '../manager/position-manager.js';
 
 class ThematicText extends Text {
   constructor({ text, positionY, positionYAfterTubes }) {
@@ -56,4 +56,4 @@ function _thematicHeight(text) {
   return FontManager.thematicFontHeight * numberOfLine;
 }
 
-module.exports = ThematicText;
+export { ThematicText };

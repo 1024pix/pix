@@ -1,14 +1,16 @@
-const isNil = require('lodash/isNil');
-const endsWith = require('lodash/endsWith');
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import isNil from 'lodash/isNil';
+import endsWith from 'lodash/endsWith';
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const {
+
+import {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-} = require('../errors.js');
-const { CERTIFICATION_CANDIDATES_ERRORS } = require('../constants/certification-candidates-errors');
+} from '../errors.js';
+
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 
 const BILLING_MODES = {
   FREE: 'FREE',
@@ -301,4 +303,4 @@ class CertificationCandidate {
 
 CertificationCandidate.BILLING_MODES = BILLING_MODES;
 
-module.exports = CertificationCandidate;
+export { CertificationCandidate };

@@ -1,18 +1,20 @@
-const CertificationCourse = require('../models/CertificationCourse.js');
-const Assessment = require('../models/Assessment.js');
-const ComplementaryCertificationCourse = require('../models/ComplementaryCertificationCourse.js');
-const {
+import { CertificationCourse } from '../models/CertificationCourse.js';
+import { Assessment } from '../models/Assessment.js';
+import { ComplementaryCertificationCourse } from '../models/ComplementaryCertificationCourse.js';
+
+import {
   UserNotAuthorizedToCertifyError,
   NotFoundError,
   SessionNotAccessible,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   UnexpectedUserAccountError,
-} = require('../errors.js');
-const { features } = require('../../config.js');
-const bluebird = require('bluebird');
+} from '../errors.js';
 
-module.exports = async function retrieveLastOrCreateCertificationCourse({
+import { features } from '../../config.js';
+import bluebird from 'bluebird';
+
+const retrieveLastOrCreateCertificationCourse = async function ({
   domainTransaction,
   accessCode,
   sessionId,
@@ -87,6 +89,8 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     certificationBadgesService,
   });
 };
+
+export { retrieveLastOrCreateCertificationCourse };
 
 async function _startNewCertification({
   domainTransaction,

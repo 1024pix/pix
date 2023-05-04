@@ -1,6 +1,5 @@
-const { AlreadyRegisteredEmailError, EntityValidationError } = require('../errors.js');
-
-const { getCampaignUrl } = require('../../infrastructure/utils/url-builder.js');
+import { AlreadyRegisteredEmailError, EntityValidationError } from '../errors.js';
+import { getCampaignUrl } from '../../infrastructure/utils/url-builder.js';
 
 function _manageEmailAvailabilityError(error) {
   return _manageError(error, AlreadyRegisteredEmailError, 'email', 'ALREADY_REGISTERED_EMAIL');
@@ -52,7 +51,7 @@ async function _validateData({ password, user, userRepository, userValidator, pa
   return true;
 }
 
-module.exports = async function createUser({
+const createUser = async function ({
   campaignCode,
   localeFromHeader,
   password,
@@ -104,3 +103,5 @@ module.exports = async function createUser({
     return savedUser;
   }
 };
+
+export { createUser };

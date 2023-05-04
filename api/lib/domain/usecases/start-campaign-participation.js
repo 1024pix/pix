@@ -1,6 +1,6 @@
-const CampaignParticipationStarted = require('../events/CampaignParticipationStarted.js');
+import { CampaignParticipationStarted } from '../events/CampaignParticipationStarted.js';
 
-module.exports = async function startCampaignParticipation({
+const startCampaignParticipation = async function ({
   campaignParticipation,
   userId,
   campaignParticipantRepository,
@@ -27,3 +27,5 @@ module.exports = async function startCampaignParticipation({
     campaignParticipation: createdCampaignParticipation,
   };
 };
+
+export { startCampaignParticipation };

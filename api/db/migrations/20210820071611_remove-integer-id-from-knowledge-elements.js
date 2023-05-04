@@ -1,7 +1,9 @@
-exports.up = async function (knex) {
+const up = async function(knex) {
   await knex.raw('ALTER TABLE "knowledge-elements" DROP COLUMN "intId"');
 };
 
-exports.down = async function (knex) {
+const down = async function(knex) {
   await knex.raw('ALTER TABLE "knowledge-elements" ADD COLUMN "intId" INTEGER');
 };
+
+export { up, down };

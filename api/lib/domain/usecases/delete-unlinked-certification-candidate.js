@@ -1,6 +1,6 @@
-const { CertificationCandidateForbiddenDeletionError } = require('../errors.js');
+import { CertificationCandidateForbiddenDeletionError } from '../errors.js';
 
-module.exports = async function deleteUnlinkedCertificationCandidate({
+const deleteUnlinkedCertificationCandidate = async function ({
   certificationCandidateId,
   certificationCandidateRepository,
 }) {
@@ -12,3 +12,5 @@ module.exports = async function deleteUnlinkedCertificationCandidate({
 
   throw new CertificationCandidateForbiddenDeletionError();
 };
+
+export { deleteUnlinkedCertificationCandidate };

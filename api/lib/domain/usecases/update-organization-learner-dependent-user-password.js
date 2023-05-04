@@ -1,8 +1,8 @@
-const isEmpty = require('lodash/isEmpty');
+import isEmpty from 'lodash/isEmpty';
 
-const { UserNotAuthorizedToUpdatePasswordError } = require('../errors.js');
+import { UserNotAuthorizedToUpdatePasswordError } from '../errors.js';
 
-module.exports = async function updateOrganizationLearnerDependentUserPassword({
+const updateOrganizationLearnerDependentUserPassword = async function ({
   organizationId,
   organizationLearnerId,
   userId,
@@ -41,3 +41,5 @@ module.exports = async function updateOrganizationLearnerDependentUserPassword({
 
   return generatedPassword;
 };
+
+export { updateOrganizationLearnerDependentUserPassword };

@@ -1,3 +1,5 @@
-module.exports = async function revokeRefreshToken({ refreshToken, refreshTokenService }) {
+const revokeRefreshToken = async function ({ refreshToken, refreshTokenService }) {
   await refreshTokenService.revokeRefreshToken({ refreshToken });
 };
+
+export { revokeRefreshToken };

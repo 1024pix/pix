@@ -1,8 +1,7 @@
-const { knex } = require('../../../../db/knex-database-connection.js');
-const Campaign = require('../../../domain/models/CampaignForArchiving.js');
-const knexUtils = require('../../utils/knex-utils.js');
-
-const { NotFoundError, UserNotFoundError } = require('../../../domain/errors.js');
+import { knex } from '../../../../db/knex-database-connection.js';
+import { Campaign } from '../../../domain/models/CampaignForArchiving.js';
+import { knexUtils } from '../../utils/knex-utils.js';
+import { NotFoundError, UserNotFoundError } from '../../../domain/errors.js';
 
 async function save(campaign) {
   try {
@@ -30,8 +29,4 @@ async function get(id) {
   return new Campaign(row);
 }
 
-module.exports = {
-  save,
-  getByCode,
-  get,
-};
+export { save, getByCode, get };

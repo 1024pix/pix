@@ -1,7 +1,7 @@
-const { knex } = require('../../../db/knex-database-connection.js');
-const CampaignParticipantActivity = require('../../domain/read-models/CampaignParticipantActivity.js');
-const { fetchPage } = require('../utils/knex-utils.js');
-const { filterByFullName } = require('../utils/filter-utils.js');
+import { knex } from '../../../db/knex-database-connection.js';
+import { CampaignParticipantActivity } from '../../domain/read-models/CampaignParticipantActivity.js';
+import { fetchPage } from '../utils/knex-utils.js';
+import { filterByFullName } from '../utils/filter-utils.js';
 
 const campaignParticipantActivityRepository = {
   async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {
@@ -82,4 +82,4 @@ function _filterByGroup(queryBuilder, filters) {
   }
 }
 
-module.exports = campaignParticipantActivityRepository;
+export { campaignParticipantActivityRepository };

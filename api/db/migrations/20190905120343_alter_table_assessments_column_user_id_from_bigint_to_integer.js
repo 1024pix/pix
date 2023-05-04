@@ -1,13 +1,15 @@
 const TABLE_NAME = 'assessments';
 
-exports.up = (knex) => {
+const up = function(knex) {
   return knex.schema.alterTable(TABLE_NAME, function (table) {
     table.integer('userId').unsigned().alter();
   });
 };
 
-exports.down = (knex) => {
+const down = function(knex) {
   return knex.schema.alterTable(TABLE_NAME, function (table) {
     table.bigInteger('userId').alter();
   });
 };
+
+export { up, down };
