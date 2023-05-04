@@ -36,7 +36,7 @@ module.exports = {
       certificationCandidates: {
         included: true,
         ref: 'id',
-        attributes: [...attributes, 'isStillEligibleToComplementaryCertification'],
+        attributes: [...attributes, 'isStillEligibleToComplementaryCertification', 'userId'],
       },
     }).serialize(sessions);
   },
