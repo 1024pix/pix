@@ -4,7 +4,6 @@ import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { pshuffle } from 'mon-pix/utils/pshuffle';
 
 module('Acceptance | Displaying a QCM challenge', function (hooks) {
   setupApplicationTest(hooks);
