@@ -15,6 +15,13 @@ const attributes = [
 module.exports = {
   serialize(sessions) {
     return new Serializer('sessionForSupervising', {
+      transform(currentSessionForSupervising) {
+        currentSessionForSupervising.certificationCandidates.forEach((certificationCandidate) => {
+          certificationCandidate.isStillEligibleToComplementaryCertification =
+            certificationCandidate.isStillEligibleToComplementaryCertification();
+        });
+        return currentSessionForSupervising;
+      },
       attributes: [
         'room',
         'examiner',
@@ -29,7 +36,7 @@ module.exports = {
       certificationCandidates: {
         included: true,
         ref: 'id',
-        attributes: [...attributes],
+        attributes: [...attributes, 'isStillEligibleToComplementaryCertification'],
       },
     }).serialize(sessions);
   },
