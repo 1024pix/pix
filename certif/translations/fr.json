@@ -296,6 +296,7 @@
       "candidate-in-list": {
         "candidate-options": "Options du candidat",
         "complementary-certification-enrolment": "Inscription à {complementaryCertification}",
+        "complementary-certification-non-eligibility-warning": "Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.",
         "display-candidate-options": "Afficher les options du candidat",
         "resume-test-modal": {
           "actions": {
