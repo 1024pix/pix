@@ -147,6 +147,7 @@ function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThr
     discriminant: challengeDataObject.alpha,
     difficulty: challengeDataObject.delta,
     responsive: challengeDataObject.responsive,
+    shuffled: challengeDataObject.shuffled,
     successProbabilityThreshold,
   });
 }
