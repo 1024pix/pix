@@ -289,7 +289,7 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
       modal.updateComplementaryCertification(complementaryCertification);
 
       // then
-      assert.deepEqual(modal.args.candidateData.complementaryCertifications, [complementaryCertification]);
+      assert.deepEqual(modal.args.candidateData.complementaryCertification, complementaryCertification);
     });
 
     test('it should not be possible to select multiple complementary certifications', function (assert) {
@@ -297,14 +297,14 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
       const firstComplementaryCertification = { label: 'firstComplementaryCertification' };
       const secondComplementaryCertification = { label: 'secondComplementaryCertification' };
       modal.args.candidateData = {
-        complementaryCertifications: [firstComplementaryCertification],
+        complementaryCertification: firstComplementaryCertification,
       };
 
       // when
       modal.updateComplementaryCertification(secondComplementaryCertification);
 
       // then
-      assert.deepEqual(modal.args.candidateData.complementaryCertifications, [secondComplementaryCertification]);
+      assert.deepEqual(modal.args.candidateData.complementaryCertification, secondComplementaryCertification);
     });
   });
 });

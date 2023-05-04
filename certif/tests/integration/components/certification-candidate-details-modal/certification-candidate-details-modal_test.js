@@ -25,16 +25,10 @@ module('Integration | Component | certification-candidate-details-modal', functi
       birthInseeCode: 76255,
       birthPostalCode: 76260,
       sex: 'F',
-      complementaryCertifications: [
-        {
-          id: 1,
-          label: 'Pix+Edu',
-        },
-        {
-          id: 2,
-          label: 'Pix+Droit',
-        },
-      ],
+      complementaryCertification: {
+        id: 1,
+        label: 'Pix+Edu',
+      },
     });
 
     const closeModalStub = sinon.stub();
@@ -46,6 +40,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
     const screen = await renderScreen(hbs`
       <CertificationCandidateDetailsModal
         @closeModal={{this.closeModal}}
+        @showModal={{true}}
         @candidate={{this.candidate}}
         @displayComplementaryCertification={{this.displayComplementaryCertification}}
       />
@@ -65,7 +60,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
     assert.dom(screen.getByText('12345')).exists();
     assert.dom(screen.getByText('25/12/2000')).exists();
     assert.dom(screen.getByText('10 %')).exists();
-    assert.dom(screen.getByText('Pix+Edu, Pix+Droit')).exists();
+    assert.dom(screen.getByText('Pix+Edu')).exists();
   });
 
   module('when candidate has missing data', () => {
@@ -82,7 +77,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         resultRecipientEmail: undefined,
         externalId: undefined,
         extraTimePercentage: undefined,
-        complementaryCertifications: [],
+        complementaryCertification: null,
       });
 
       const closeModalStub = sinon.stub();
@@ -94,6 +89,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       const screen = await renderScreen(hbs`
         <CertificationCandidateDetailsModal
           @closeModal={{this.closeModal}}
+          @showModal={{true}}
           @candidate={{this.candidate}}
           @displayComplementaryCertification={{this.displayComplementaryCertification}}
         />
@@ -121,7 +117,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         birthInseeCode: 76255,
         birthPostalCode: 76260,
         sex: 'F',
-        complementaryCertifications: [],
+        complementaryCertification: null,
         billingMode: 'PREPAID',
         prepaymentCode: 'prep123',
       });
@@ -178,7 +174,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         birthInseeCode: 76255,
         birthPostalCode: 76260,
         sex: 'F',
-        complementaryCertifications: [],
+        complementaryCertification: null,
         billingMode: 'PREPAID',
         prepaymentCode: 'prep123',
       });

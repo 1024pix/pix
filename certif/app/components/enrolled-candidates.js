@@ -164,7 +164,7 @@ export default class EnrolledCandidates extends Component {
       extraTimePercentage: certificationCandidateData.extraTimePercentage,
       billingMode: certificationCandidateData.billingMode,
       prepaymentCode: this._trimOrUndefinedIfFalsy(certificationCandidateData.prepaymentCode),
-      complementaryCertifications: certificationCandidateData.complementaryCertifications,
+      complementaryCertification: certificationCandidateData.complementaryCertification,
     });
   }
 

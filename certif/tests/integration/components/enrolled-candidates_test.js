@@ -77,7 +77,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.firstName })).exists();
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.resultRecipientEmail })).exists();
     assert.dom(screen.getByRole('cell', { name: '30 %' })).exists();
-    assert.dom(screen.getByRole('cell', { name: 'Pix+Edu, Pix+Droit' })).exists();
+    assert.dom(screen.getByRole('cell', { name: 'Pix+Droit' })).exists();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCity })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthProvinceCode })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCountry })).doesNotExist();
@@ -88,7 +88,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     // given
     this.set('displayComplementaryCertification', true);
     const candidate = _buildCertificationCandidate({
-      complementaryCertifications: null,
+      complementaryCertification: null,
     });
 
     const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
@@ -313,16 +313,10 @@ function _buildCertificationCandidate({
   externalId = 'an external id',
   extraTimePercentage = 0.3,
   isLinked = false,
-  complementaryCertifications = [
-    {
-      id: 1,
-      label: 'Pix+Edu',
-    },
-    {
-      id: 2,
-      label: 'Pix+Droit',
-    },
-  ],
+  complementaryCertification = {
+    id: 2,
+    label: 'Pix+Droit',
+  },
   billingMode = null,
   prepaymentCode = null,
 }) {
@@ -339,7 +333,7 @@ function _buildCertificationCandidate({
     externalId,
     extraTimePercentage,
     isLinked,
-    complementaryCertifications,
+    complementaryCertification,
     billingMode,
     prepaymentCode,
   };
