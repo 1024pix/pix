@@ -72,32 +72,6 @@ module('Unit | Model | certification-candidate', function (hooks) {
     });
   });
 
-  module('#get complementaryCertificationsList', () => {
-    test('returns the complementary certification names as a string', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const data = {
-        complementaryCertifications: [
-          {
-            id: 1,
-            key: 'A',
-            label: 'Pix+Edu',
-          },
-          {
-            id: 2,
-            key: 'B',
-            label: 'Pix+Droit',
-          },
-        ],
-      };
-      // when
-      const model = store.createRecord('certification-candidate', data);
-
-      // then
-      assert.strictEqual(model.complementaryCertificationsList, 'Pix+Edu, Pix+Droit');
-    });
-  });
-
   module('#get billingModeLabel', () => {
     test('should display the billing mode label', function (assert) {
       // given

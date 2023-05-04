@@ -66,12 +66,8 @@ export default class NewCertificationCandidateModal extends Component {
 
   @action
   updateComplementaryCertification(complementaryCertification) {
-    this.args.candidateData.complementaryCertifications = [];
-
-    const complementaryCertifications = this.args.candidateData.complementaryCertifications;
-
     if (complementaryCertification?.target?.value !== 'none') {
-      complementaryCertifications.addObject(complementaryCertification);
+      this.args.candidateData.complementaryCertification = complementaryCertification;
     }
   }
 

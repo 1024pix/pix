@@ -20,11 +20,7 @@ export default class CertificationCandidate extends Model {
   @attr('string') sex;
   @attr('string') billingMode;
   @attr('string') prepaymentCode;
-  @attr complementaryCertifications;
-
-  get complementaryCertificationsList() {
-    return this.complementaryCertifications.map(({ label }) => label).join(', ');
-  }
+  @attr complementaryCertification;
 
   get genderLabel() {
     const candidateGender = this.sex;
