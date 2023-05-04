@@ -3,7 +3,7 @@ const USERID_COLUMN = 'userId';
 const ORGANIZATIONID_COLUMN = 'organizationId';
 const NATIONALSTUDENTID_COLUMN = 'nationalStudentId';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropIndex(NATIONALSTUDENTID_COLUMN);
     table.dropIndex(ORGANIZATIONID_COLUMN);
@@ -13,7 +13,7 @@ const up = function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.index(NATIONALSTUDENTID_COLUMN);
     table.index(ORGANIZATIONID_COLUMN);

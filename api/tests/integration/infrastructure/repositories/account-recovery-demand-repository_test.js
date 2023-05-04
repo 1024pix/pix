@@ -1,9 +1,9 @@
-const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
-const accountRecoveryDemandRepository = require('../../../../lib/infrastructure/repositories/account-recovery-demand-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const AccountRecoveryDemand = require('../../../../lib/domain/models/AccountRecoveryDemand');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const omit = require('lodash/omit');
+import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper.js';
+import * as accountRecoveryDemandRepository from '../../../../lib/infrastructure/repositories/account-recovery-demand-repository.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { AccountRecoveryDemand } from '../../../../lib/domain/models/AccountRecoveryDemand.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import omit from 'lodash/omit';
 
 describe('Integration | Infrastructure | Repository | account-recovery-demand-repository', function () {
   afterEach(function () {

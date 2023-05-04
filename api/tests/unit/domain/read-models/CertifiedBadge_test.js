@@ -1,6 +1,6 @@
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
-const CertifiedBadge = require('../../../../lib/domain/read-models/CertifiedBadge');
-const { expect } = require('../../../test-helper');
+import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { CertifiedBadge } from '../../../../lib/domain/read-models/CertifiedBadge.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | CertifiedBadge', function () {
   describe('#getAcquiredCertifiedBadgesDTO', function () {

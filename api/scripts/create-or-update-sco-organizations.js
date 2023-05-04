@@ -2,17 +2,17 @@
 // To use on file with columns |externalId, name|
 
 'use strict';
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
-const request = require('request-promise-native');
+import request from 'request-promise-native';
 
-const logoUrl = require('./logo/default-sco-organization-logo-base64');
-const {
+import { logoUrl } from './logo/default-sco-organization-logo-base64.js';
+import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
-} = require('./helpers/organizations-by-external-id-helper');
-const { parseCsv } = require('./helpers/csvHelpers');
-const { disconnect } = require('../db/knex-database-connection');
+} from './helpers/organizations-by-external-id-helper.js';
+import { parseCsv } from './helpers/csvHelpers.js';
+import { disconnect } from '../db/knex-database-connection.js';
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
@@ -169,7 +169,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  checkData,
-  createOrUpdateOrganizations,
-};
+export { checkData, createOrUpdateOrganizations };

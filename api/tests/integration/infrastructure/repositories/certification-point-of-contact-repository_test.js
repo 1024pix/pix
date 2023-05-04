@@ -1,8 +1,8 @@
-const { databaseBuilder, expect, domainBuilder, catchErr } = require('../../../test-helper');
-const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
-const Organization = require('../../../../lib/domain/models/Organization');
-const certificationPointOfContactRepository = require('../../../../lib/infrastructure/repositories/certification-point-of-contact-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { databaseBuilder, expect, domainBuilder, catchErr } from '../../../test-helper.js';
+import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
+import { Organization } from '../../../../lib/domain/models/Organization.js';
+import * as certificationPointOfContactRepository from '../../../../lib/infrastructure/repositories/certification-point-of-contact-repository.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | CertificationPointOfContact', function () {
   describe('#get', function () {

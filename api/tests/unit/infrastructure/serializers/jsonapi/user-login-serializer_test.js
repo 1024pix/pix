@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-login-serializer');
-const UserLogin = require('../../../../../lib/domain/models/UserLogin');
+import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-login-serializer.js';
+import { UserLogin } from '../../../../../lib/domain/models/UserLogin.js';
 
 describe('Unit | Serializer | JSONAPI | user-login-serializer', function () {
   describe('#serialize', function () {

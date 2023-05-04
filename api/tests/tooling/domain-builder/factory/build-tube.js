@@ -1,7 +1,7 @@
-const Tube = require('../../../../lib/domain/models/Tube');
-const buildSkillCollection = require('./build-skill-collection');
+import { Tube } from '../../../../lib/domain/models/Tube.js';
+import { buildSkillCollection } from './build-skill-collection.js';
 
-module.exports = function buildTube({
+const buildTube = function ({
   id = 'recTube123',
   name = '@tubeName',
   title = 'titre',
@@ -30,3 +30,5 @@ module.exports = function buildTube({
     skillIds,
   });
 };
+
+export { buildTube };

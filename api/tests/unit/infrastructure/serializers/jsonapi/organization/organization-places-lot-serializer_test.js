@@ -1,6 +1,6 @@
-const { expect } = require('../../../../../test-helper');
-const organizationPlacesLotSerializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer');
-const { FREE_RATE } = require('../../../../../../lib/domain/constants/organization-places-categories');
+import { expect } from '../../../../../test-helper.js';
+import * as organizationPlacesLotSerializer from '../../../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer.js';
+import { FREE_RATE } from '../../../../../../lib/domain/constants/organization-places-categories.js';
 
 describe('Unit | Serializer | JSONAPI | organization-places-lot-serializer', function () {
   describe('#deserialize', function () {

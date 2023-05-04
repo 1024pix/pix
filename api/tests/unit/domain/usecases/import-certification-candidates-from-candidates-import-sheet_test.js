@@ -1,8 +1,8 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { CertificationCandidateAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
-const importCertificationCandidatesFromCandidatesImportSheet = require('../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
+import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
 describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', function () {

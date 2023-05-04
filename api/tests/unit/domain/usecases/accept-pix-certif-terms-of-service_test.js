@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const acceptPixCertifTermsOfService = require('../../../../lib/domain/usecases/accept-pix-certif-terms-of-service');
+import { expect, sinon } from '../../../test-helper.js';
+import * as acceptPixCertifTermsOfService from '../../../../lib/domain/usecases/accept-pix-certif-terms-of-service.js';
 
 describe('Unit | UseCase | accept-pix-certif-terms-of-service', function () {
   let userRepository;

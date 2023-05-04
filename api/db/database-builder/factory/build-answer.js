@@ -1,8 +1,8 @@
-const buildAssessment = require('./build-assessment');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import { buildAssessment } from './build-assessment.js';
+import { databaseBuffer } from '../database-buffer.js';
+import _ from 'lodash';
 
-module.exports = function buildAnswer({
+const buildAnswer = function ({
   id = databaseBuffer.getNextId(),
   value = 'Some value for answer',
   result = 'Some result for answer',
@@ -33,3 +33,5 @@ module.exports = function buildAnswer({
     values,
   });
 };
+
+export { buildAnswer };

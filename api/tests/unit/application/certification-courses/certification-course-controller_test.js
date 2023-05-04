@@ -1,15 +1,9 @@
-const {
-  sinon,
-  expect,
-  hFake,
-  generateValidRequestAuthorizationHeader,
-  domainBuilder,
-} = require('../../../test-helper');
-const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { sinon, expect, hFake, generateValidRequestAuthorizationHeader, domainBuilder } from '../../../test-helper.js';
 
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
+import { certificationCourseController } from '../../../../lib/application/certification-courses/certification-course-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   let certificationDetailsSerializer;

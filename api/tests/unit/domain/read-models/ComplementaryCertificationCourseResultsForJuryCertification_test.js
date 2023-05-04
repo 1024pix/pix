@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const ComplementaryCertificationCourseResultsForJuryCertification = require('../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { ComplementaryCertificationCourseResultsForJuryCertification } from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification.js';
 
 describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJuryCertification', function () {
   describe('#status', function () {

@@ -1,8 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/campaigns');
-
-const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { moduleUnderTest } from '../../../../lib/application/campaigns.js';
+import { campaignController } from '../../../../lib/application/campaigns/campaign-controller.js';
 
 describe('Integration | Application | Route | campaignRouter', function () {
   let httpTestServer;

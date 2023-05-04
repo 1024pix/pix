@@ -1,4 +1,4 @@
-module.exports = function tutorialLearningContentDataObjectFixture({
+const tutorialLearningContentDataObjectFixture = function ({
   id = 'receomyzL0AmpMFGw',
   duration = '00:01:30',
   format = 'video',
@@ -17,3 +17,5 @@ module.exports = function tutorialLearningContentDataObjectFixture({
     locale,
   };
 };
+
+export { tutorialLearningContentDataObjectFixture };

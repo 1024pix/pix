@@ -1,4 +1,4 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
 const parsePostgresqlConnectionString = require('pg-connection-string').parse;
 
@@ -24,4 +24,4 @@ const configuration = {
   ignores: rules.ignores,
 };
 
-module.exports = configuration;
+export { configuration };

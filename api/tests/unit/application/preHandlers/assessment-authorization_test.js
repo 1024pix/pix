@@ -1,7 +1,7 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const AssessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+import { expect, sinon, hFake } from '../../../test-helper.js';
+import { AssessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
+import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
 
 describe('Unit | Pre-handler | Assessment Authorization', function () {
   describe('#verify', function () {

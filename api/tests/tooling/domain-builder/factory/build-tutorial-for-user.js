@@ -1,8 +1,8 @@
-const buildTutorial = require('./build-tutorial');
-const buildUserSavedTutorial = require('./build-user-saved-tutorial');
-const TutorialForUser = require('../../../../lib/domain/read-models/TutorialForUser');
+import { buildTutorial } from './build-tutorial.js';
+import { buildUserSavedTutorial } from './build-user-saved-tutorial.js';
+import { TutorialForUser } from '../../../../lib/domain/read-models/TutorialForUser.js';
 
-module.exports = function buildTutorialForUser({
+const buildTutorialForUser = function ({
   tutorial = buildTutorial(),
   userSavedTutorial = buildUserSavedTutorial(),
   tutorialEvaluation,
@@ -10,3 +10,5 @@ module.exports = function buildTutorialForUser({
 } = {}) {
   return new TutorialForUser({ ...tutorial, tutorialEvaluation, userSavedTutorial, skillId });
 };
+
+export { buildTutorialForUser };

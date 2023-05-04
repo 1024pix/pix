@@ -1,5 +1,5 @@
-const { expect } = require('../../test-helper');
-const errors = require('../../../lib/domain/errors');
+import { expect } from '../../test-helper.js';
+import { errors } from '../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Errors', function () {
   it('should export a AdminMemberError', function () {

@@ -1,8 +1,8 @@
-const buildTargetProfile = require('./build-target-profile');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import { buildTargetProfile } from './build-target-profile.js';
+import { databaseBuffer } from '../database-buffer.js';
+import _ from 'lodash';
 
-module.exports = function buildTargetProfileSkill({
+const buildTargetProfileSkill = function ({
   id = databaseBuffer.getNextId(),
   targetProfileId,
   skillId = 'recSKI456',
@@ -19,3 +19,5 @@ module.exports = function buildTargetProfileSkill({
     values,
   });
 };
+
+export { buildTargetProfileSkill };

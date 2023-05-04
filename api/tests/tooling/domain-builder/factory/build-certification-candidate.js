@@ -1,5 +1,5 @@
-const buildComplementaryCertification = require('./build-complementary-certification');
-const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
+import { buildComplementaryCertification } from './build-complementary-certification.js';
+import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
 
 const buildCertificationCandidate = function ({
   id = 123,
@@ -129,4 +129,4 @@ buildCertificationCandidate.notPersisted = function ({
   });
 };
 
-module.exports = buildCertificationCandidate;
+export { buildCertificationCandidate };

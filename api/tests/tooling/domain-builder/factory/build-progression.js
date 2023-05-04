@@ -1,8 +1,8 @@
-const buildSkillCollection = require('./build-skill-collection');
-const buildKnowledgeElement = require('./build-knowledge-element');
-const Progression = require('../../../../lib/domain/models/Progression');
+import { buildSkillCollection } from './build-skill-collection.js';
+import { buildKnowledgeElement } from './build-knowledge-element.js';
+import { Progression } from '../../../../lib/domain/models/Progression.js';
 
-module.exports = function buildProgression({
+const buildProgression = function ({
   id = Progression.generateIdFromAssessmentId(1234),
   skillIds = buildSkillCollection().map((skill) => skill.id),
   knowledgeElements = [buildKnowledgeElement()],
@@ -10,3 +10,5 @@ module.exports = function buildProgression({
 } = {}) {
   return new Progression({ id, skillIds, knowledgeElements, isProfileCompleted });
 };
+
+export { buildProgression };

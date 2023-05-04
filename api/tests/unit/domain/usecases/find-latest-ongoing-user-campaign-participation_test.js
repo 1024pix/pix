@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const findCampaignParticipationsRelatedToUser = require('../../../../lib/domain/usecases/find-latest-ongoing-user-campaign-participations');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { findCampaignParticipationsRelatedToUser } from '../../../../lib/domain/usecases/find-latest-ongoing-user-campaign-participations.js';
 
 describe('Unit | UseCase | find-latest-user-campaign-participations', function () {
   let userId;

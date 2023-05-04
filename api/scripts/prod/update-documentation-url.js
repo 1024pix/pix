@@ -1,4 +1,4 @@
-const { knex, disconnect } = require('../../db/knex-database-connection');
+import { knex, disconnect } from '../../db/knex-database-connection.js';
 
 async function updateDocumentationUrl() {
   await _updateProOrganizations();
@@ -26,10 +26,7 @@ const URL = {
   AGRI: 'https://view.genial.ly/5f85a0b87812e90d12b7b593',
 };
 
-module.exports = {
-  updateDocumentationUrl,
-  URL,
-};
+export { updateDocumentationUrl, URL };
 
 async function _updateProOrganizations() {
   await knex('organizations').where('type', 'PRO').update({ documentationUrl: URL.PRO });

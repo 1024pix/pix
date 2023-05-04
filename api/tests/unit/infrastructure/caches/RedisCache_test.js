@@ -1,7 +1,7 @@
-const Redlock = require('redlock');
-const { expect, sinon } = require('../../../test-helper');
-const settings = require('../../../../lib/config');
-const RedisCache = require('../../../../lib/infrastructure/caches/RedisCache');
+import Redlock from 'redlock';
+import { expect, sinon } from '../../../test-helper.js';
+import { settings } from '../../../../lib/config.js';
+import { RedisCache } from '../../../../lib/infrastructure/caches/RedisCache.js';
 
 describe('Unit | Infrastructure | Cache | redis-cache', function () {
   let stubbedClient;

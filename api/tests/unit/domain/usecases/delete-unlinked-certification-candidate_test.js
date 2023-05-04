@@ -1,7 +1,6 @@
-const { sinon, expect, catchErr } = require('../../../test-helper');
-
-const deleteUnlinkedCertificationCandidate = require('../../../../lib/domain/usecases/delete-unlinked-certification-candidate');
-const { CertificationCandidateForbiddenDeletionError } = require('../../../../lib/domain/errors');
+import { sinon, expect, catchErr } from '../../../test-helper.js';
+import { deleteUnlinkedCertificationCandidate } from '../../../../lib/domain/usecases/delete-unlinked-certification-candidate.js';
+import { CertificationCandidateForbiddenDeletionError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | delete-unlinked-sertification-candidate', function () {
   let certificationCandidateId;

@@ -1,7 +1,6 @@
-const { expect, catchErr } = require('../../../test-helper');
-
-const { EntityValidationError } = require('../../../../lib/domain/errors');
-const passwordValidator = require('../../../../lib/domain/validators/password-validator');
+import { expect, catchErr } from '../../../test-helper.js';
+import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { passwordValidator } from '../../../../lib/domain/validators/password-validator.js';
 
 function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
   expect(entityValidationErrors).to.be.instanceOf(EntityValidationError);

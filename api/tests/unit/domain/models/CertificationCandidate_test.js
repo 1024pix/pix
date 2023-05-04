@@ -1,12 +1,14 @@
-const { expect, domainBuilder, catchErr } = require('../../../test-helper');
-const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
-const {
+import { expect, domainBuilder, catchErr } from '../../../test-helper.js';
+import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
+
+import {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-} = require('../../../../lib/domain/errors');
-const { CERTIFICATION_CANDIDATES_ERRORS } = require('../../../../lib/domain/constants/certification-candidates-errors');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+} from '../../../../lib/domain/errors.js';
+
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
 const translate = i18n.__;

@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
+import { expect } from '../../../test-helper.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { CampaignAssessmentParticipation } from '../../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
 
 describe('Unit | Domain | Models | CampaignAssessmentParticipation', function () {
   describe('#progression', function () {

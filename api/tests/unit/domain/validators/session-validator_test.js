@@ -1,7 +1,7 @@
-const { expect, domainBuilder, catchErr } = require('../../../test-helper');
-const { statuses } = require('../../../../lib/domain/models/Session');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
-const sessionValidator = require('../../../../lib/domain/validators/session-validator');
+import { expect, domainBuilder, catchErr } from '../../../test-helper.js';
+import { statuses } from '../../../../lib/domain/models/Session.js';
+import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { sessionValidator } from '../../../../lib/domain/validators/session-validator.js';
 
 const MISSING_VALUE = '';
 

@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const databaseBuffer = require('../database-buffer');
-const buildCertificationCenter = require('./build-certification-center');
-const buildUser = require('./build-user');
+import _ from 'lodash';
+import { databaseBuffer } from '../database-buffer.js';
+import { buildCertificationCenter } from './build-certification-center.js';
+import { buildUser } from './build-user.js';
 
-module.exports = function buildCertificationCenterMembership({
+const buildCertificationCenterMembership = function ({
   id = databaseBuffer.getNextId(),
   userId,
   updatedByUserId,
@@ -29,3 +29,5 @@ module.exports = function buildCertificationCenterMembership({
     values,
   });
 };
+
+export { buildCertificationCenterMembership };

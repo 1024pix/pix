@@ -1,10 +1,10 @@
-const { expect, databaseBuilder, catchErr, sinon } = require('../../../../test-helper');
-const { knex } = require('../../../../../db/knex-database-connection');
-const organizationPlacesLotRepository = require('../../../../../lib/infrastructure/repositories/organizations/organization-places-lot-repository');
-const OrganizationPlacesLotManagement = require('../../../../../lib/domain/read-models/OrganizationPlacesLotManagement');
-const OrganizationPlacesLot = require('../../../../../lib/domain/models/OrganizationPlacesLot');
-const categories = require('../../../../../lib/domain/constants/organization-places-categories');
-const { NotFoundError, DeletedError } = require('../../../../../lib/domain/errors');
+import { expect, databaseBuilder, catchErr, sinon } from '../../../../test-helper.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import * as organizationPlacesLotRepository from '../../../../../lib/infrastructure/repositories/organizations/organization-places-lot-repository.js';
+import { OrganizationPlacesLotManagement } from '../../../../../lib/domain/read-models/OrganizationPlacesLotManagement.js';
+import { OrganizationPlacesLot } from '../../../../../lib/domain/models/OrganizationPlacesLot.js';
+import { categories } from '../../../../../lib/domain/constants/organization-places-categories.js';
+import { NotFoundError, DeletedError } from '../../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | Organization Place', function () {
   describe('#findByOrganizationId', function () {

@@ -1,12 +1,12 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
-} = require('../../../test-helper');
+} from '../../../test-helper.js';
 
-const createServer = require('../../../../server');
-const { constants } = require('../../../../lib/domain/constants');
+import { createServer } from '../../../../server.js';
+import { constants } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | users-controller-get-user-profile', function () {
   let options;

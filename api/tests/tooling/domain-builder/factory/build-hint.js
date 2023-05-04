@@ -1,8 +1,10 @@
-const Hint = require('../../../../lib/domain/models/Hint');
+import { Hint } from '../../../../lib/domain/models/Hint.js';
 
-module.exports = function buildHint({ skillName = '@web2', value = 'Pense à regarder les indices' } = {}) {
+const buildHint = function ({ skillName = '@web2', value = 'Pense à regarder les indices' } = {}) {
   return new Hint({
     skillName,
     value,
   });
 };
+
+export { buildHint };

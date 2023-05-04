@@ -1,6 +1,6 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const checkUserIsAdminAndManagingStudentsForOrganization = require('../../../../lib/application/usecases/checkUserIsAdminAndManagingStudentsForOrganization');
-const Membership = require('../../../../lib/domain/models/Membership');
+import { expect, databaseBuilder } from '../../../test-helper.js';
+import { checkUserIsAdminAndManagingStudentsForOrganization } from '../../../../lib/application/usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization', function () {
   describe('when the user does not belongs to the organization', function () {

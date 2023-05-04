@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../../test-helper');
-const CampaignParticipationResultsShared = require('../../../../../lib/domain/events/CampaignParticipationResultsShared');
-const usecases = require('../../../../../lib/domain/usecases/index.js');
-const ParticipationResultCalculationJobHandler = require('../../../../../lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler');
+import { expect, sinon } from '../../../../test-helper.js';
+import { CampaignParticipationResultsShared } from '../../../../../lib/domain/events/CampaignParticipationResultsShared.js';
+import { usecases } from '../../../../../lib/domain/usecases/index.js';
+import { ParticipationResultCalculationJobHandler } from '../../../../../lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
 
 describe('Unit | Infrastructure | Jobs | saveComputedCampaignParticipationResult', function () {
   context('#handle', function () {

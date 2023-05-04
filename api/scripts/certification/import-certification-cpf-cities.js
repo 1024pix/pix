@@ -1,9 +1,6 @@
-#!/usr/bin/env node
-// eslint-disable-file node/no-process-exit
-
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
-const logger = require('../../lib/infrastructure/logger');
+import { logger } from '../../lib/infrastructure/logger.js';
 
 /**
  * Usage: node scripts/import-certification-cpf-cities path/file.csv
@@ -15,10 +12,10 @@ const logger = require('../../lib/infrastructure/logger');
  **/
 
 ('use strict');
-const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const uniqBy = require('lodash/uniqBy');
-const values = require('lodash/values');
+import { parseCsv, checkCsvHeader } from '../helpers/csvHelpers.js';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import uniqBy from 'lodash/uniqBy';
+import values from 'lodash/values';
 
 const wordsToReplace = [
   {
@@ -443,7 +440,4 @@ async function main(filePath) {
   }
 })();
 
-module.exports = {
-  buildCities,
-  getCitiesWithDistricts,
-};
+export { buildCities, getCitiesWithDistricts };

@@ -1,6 +1,6 @@
-const CampaignParticipationBadge = require('../../../../lib/domain/models/CampaignParticipationBadge');
+import { CampaignParticipationBadge } from '../../../../lib/domain/models/CampaignParticipationBadge.js';
 
-module.exports = function buildCampaignParticipationBadge({
+const buildCampaignParticipationBadge = function ({
   id = 123,
   key,
   altMessage,
@@ -27,3 +27,5 @@ module.exports = function buildCampaignParticipationBadge({
     skillSetResults,
   });
 };
+
+export { buildCampaignParticipationBadge };

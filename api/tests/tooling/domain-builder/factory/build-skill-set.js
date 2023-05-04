@@ -1,6 +1,6 @@
-const SkillSet = require('../../../../lib/domain/models/SkillSet');
+import { SkillSet } from '../../../../lib/domain/models/SkillSet.js';
 
-module.exports = function buildSkillSet({ id = 1, badgeId = 64, name = 'name', skillIds = ['recABC', 'recDEF'] } = {}) {
+const buildSkillSet = function ({ id = 1, badgeId = 64, name = 'name', skillIds = ['recABC', 'recDEF'] } = {}) {
   return new SkillSet({
     id,
     badgeId,
@@ -8,3 +8,5 @@ module.exports = function buildSkillSet({ id = 1, badgeId = 64, name = 'name', s
     skillIds,
   });
 };
+
+export { buildSkillSet };

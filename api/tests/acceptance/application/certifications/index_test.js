@@ -1,17 +1,16 @@
-const {
+import {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
   learningContentBuilder,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const {
-  generateCertificateVerificationCode,
-} = require('../../../../lib/domain/services/verify-certificate-code-service');
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 
 describe('Acceptance | API | Certifications', function () {
   let server, options;

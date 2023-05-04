@@ -1,12 +1,10 @@
-// Usage: node create-profile-collection-campaigns.js path/file.csv <creatorId>
-// To use on file with columns |name, organizationId, customLandingPageText, creatorId|, those headers included
-const bluebird = require('bluebird');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const CampaignTypes = require('../../lib/domain/models/CampaignTypes');
-const campaignCodeGenerator = require('../../lib/domain/services/campaigns/campaign-code-generator');
-const campaignValidator = require('../../lib/domain/validators/campaign-validator');
-const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
-const { parseCsvWithHeader } = require('../helpers/csvHelpers');
+import bluebird from 'bluebird';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import { CampaignTypes } from '../../lib/domain/models/CampaignTypes.js';
+import { campaignCodeGenerator } from '../../lib/domain/services/campaigns/campaign-code-generator.js';
+import { campaignValidator } from '../../lib/domain/validators/campaign-validator.js';
+import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
+import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
 
 function checkData(campaignData) {
   return campaignData.map(({ name, organizationId, customLandingPageText, creatorId }, index) => {
@@ -93,7 +91,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  prepareCampaigns,
-  checkData,
-};
+export { prepareCampaigns, checkData };

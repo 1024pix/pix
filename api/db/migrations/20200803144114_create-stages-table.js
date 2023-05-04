@@ -1,6 +1,6 @@
 const TABLE_NAME = 'stages';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments('id').primary();
     t.integer('targetProfileId').notNullable().references('target-profiles.id').index();
@@ -12,7 +12,7 @@ const up = function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 

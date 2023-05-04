@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
-const JuryCertificationSummary = require('../../../../../lib/domain/read-models/JuryCertificationSummary');
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
+import { JuryCertificationSummary } from '../../../../../lib/domain/read-models/JuryCertificationSummary.js';
 
 describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', function () {
   describe('#serialize()', function () {

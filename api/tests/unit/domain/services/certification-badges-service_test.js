@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const certificationBadgesService = require('../../../../lib/domain/services/certification-badges-service');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import * as certificationBadgesService from '../../../../lib/domain/services/certification-badges-service.js';
 
 describe('Unit | Service | certification-badges-service', function () {
   describe('#findStillValidBadgeAcquisitions', function () {

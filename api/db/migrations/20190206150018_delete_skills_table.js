@@ -1,10 +1,10 @@
 const TABLE_NAME = 'skills';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 
-const down = function(knex) {
+const down = function (knex) {
   function table(t) {
     t.increments().primary();
     t.integer('assessmentId').unsigned().references('assessments.id').index();

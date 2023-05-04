@@ -1,13 +1,14 @@
-const { domainBuilder, sinon, expect, catchErr } = require('../../../test-helper');
+import { domainBuilder, sinon, expect, catchErr } from '../../../test-helper.js';
+import { publishSession } from '../../../../lib/domain/services/session-publication-service.js';
+import { FinalizedSession } from '../../../../lib/domain/models/FinalizedSession.js';
 
-const { publishSession } = require('../../../../lib/domain/services/session-publication-service');
-const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
-const {
+import {
   SendingEmailToResultRecipientError,
   SessionAlreadyPublishedError,
   SendingEmailToRefererError,
-} = require('../../../../lib/domain/errors');
-const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
+} from '../../../../lib/domain/errors.js';
+
+import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
 
 describe('Unit | UseCase | session-publication-service', function () {
   const sessionId = 123;

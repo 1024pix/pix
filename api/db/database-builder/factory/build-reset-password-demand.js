@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildResetPasswordDemand({
+const buildResetPasswordDemand = function ({
   id = databaseBuffer.getNextId(),
   email = 'example@example.net',
   temporaryKey = 'ABCD12345',
@@ -17,3 +17,5 @@ module.exports = function buildResetPasswordDemand({
     values,
   });
 };
+
+export { buildResetPasswordDemand };

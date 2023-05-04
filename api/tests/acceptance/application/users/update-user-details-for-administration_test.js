@@ -1,12 +1,12 @@
-const {
+import {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
-} = require('../../../test-helper');
+} from '../../../test-helper.js';
 
-const createServer = require('../../../../server');
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | users-controller-update-user-details-for-administration', function () {
   let server;

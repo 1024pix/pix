@@ -1,8 +1,7 @@
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const Validation = require('../../../../lib/domain/models/Validation');
-const ValidatorQCU = require('../../../../lib/domain/models/ValidatorQCU');
-
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { Validation } from '../../../../lib/domain/models/Validation.js';
+import { ValidatorQCU } from '../../../../lib/domain/models/ValidatorQCU.js';
+import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ValidatorQCU', function () {
   let solutionServiceQCUStub;

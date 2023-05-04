@@ -1,11 +1,9 @@
-const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
+import { expect, catchErr, databaseBuilder } from '../../../test-helper.js';
+import { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError } from '../../../../lib/domain/errors.js';
 
-const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError } = require('../../../../lib/domain/errors');
-
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
-
-const updateUserDetailsForAdministration = require('../../../../lib/domain/usecases/update-user-details-for-administration');
+import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
+import { updateUserDetailsForAdministration } from '../../../../lib/domain/usecases/update-user-details-for-administration.js';
 
 describe('Integration | UseCases | updateUserDetailsForAdministration', function () {
   let userId;

@@ -1,6 +1,6 @@
-const TargetProfileSummaryForAdmin = require('../../../../lib/domain/models/TargetProfileSummaryForAdmin');
+import { TargetProfileSummaryForAdmin } from '../../../../lib/domain/models/TargetProfileSummaryForAdmin.js';
 
-module.exports = function buildTargetProfileSummaryForAdmin({
+const buildTargetProfileSummaryForAdmin = function ({
   id = 123,
   name = 'Profil cible super cool',
   outdated = false,
@@ -11,3 +11,5 @@ module.exports = function buildTargetProfileSummaryForAdmin({
     outdated,
   });
 };
+
+export { buildTargetProfileSummaryForAdmin };

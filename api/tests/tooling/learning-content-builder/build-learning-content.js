@@ -1,5 +1,7 @@
-const _ = require('lodash');
-const { FRENCH_FRANCE, FRENCH_SPOKEN, ENGLISH_SPOKEN } = require('../../../lib/domain/constants').LOCALE;
+import _ from 'lodash';
+import { LOCALE } from '../../../lib/domain/constants.js';
+
+const { FRENCH_FRANCE, FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
 const buildLearningContent = function (learningContent) {
   const allAreas = [];
@@ -183,4 +185,4 @@ buildLearningContent.fromAreas = function (learningContent) {
   return buildLearningContent(frameworks);
 };
 
-module.exports = buildLearningContent;
+export { buildLearningContent };

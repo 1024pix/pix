@@ -1,6 +1,6 @@
-const SessionJuryComment = require('../../../../lib/domain/models/SessionJuryComment');
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const _ = require('lodash');
+import { SessionJuryComment } from '../../../../lib/domain/models/SessionJuryComment.js';
+import { expect, domainBuilder, sinon } from '../../../test-helper.js';
+import _ from 'lodash';
 
 const SESSION_JURY_COMMENT_PROPS = ['id', 'comment', 'authorId', 'updatedAt'];
 

@@ -1,4 +1,4 @@
-const { knex, disconnect } = require('../db/knex-database-connection');
+import { knex, disconnect } from '../db/knex-database-connection.js';
 
 async function markUsersRequiringTermsOfServiceValidationForRevalidation() {
   const subquery = knex.select('users.id').from('users').where({
@@ -39,6 +39,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  markUsersRequiringTermsOfServiceValidationForRevalidation,
-};
+export { markUsersRequiringTermsOfServiceValidationForRevalidation };

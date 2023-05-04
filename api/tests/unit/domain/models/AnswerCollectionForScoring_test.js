@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const AnswerCollectionForScoring = require('../../../../lib/domain/models/AnswerCollectionForScoring');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { AnswerCollectionForScoring } from '../../../../lib/domain/models/AnswerCollectionForScoring.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 
 describe('Unit | Domain | Models | AnswerCollectionForScoring', function () {
   context('#numberOfChallenges', function () {

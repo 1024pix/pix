@@ -1,6 +1,5 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-
-const challengeController = require('../../../../lib/application/challenges/challenge-controller');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import { challengeController } from '../../../../lib/application/challenges/challenge-controller.js';
 
 describe('Unit | Controller | challenge-controller', function () {
   let challengeRepository;

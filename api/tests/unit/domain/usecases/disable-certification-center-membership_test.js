@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const disableCertificationCenterMembership = require('../../../../lib/domain/usecases/disable-certification-center-membership.js');
+import { expect, sinon } from '../../../test-helper.js';
+import { disableCertificationCenterMembership } from '../../../../lib/domain/usecases/disable-certification-center-membership.js';
 
 describe('Unit | UseCase | disable-certification-center-membership', function () {
   let certificationCenterMembershipRepository;

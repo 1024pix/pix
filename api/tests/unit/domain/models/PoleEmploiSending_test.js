@@ -1,5 +1,5 @@
-const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
-const { expect, domainBuilder } = require('../../../test-helper');
+import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
+import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | PoleEmploiSending', function () {
   let expectedPoleEmploiSending;

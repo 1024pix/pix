@@ -1,5 +1,5 @@
-const Thematic = require('../../../../lib/domain/models/Thematic');
-const { expect } = require('../../../test-helper');
+import { Thematic } from '../../../../lib/domain/models/Thematic.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Thematic', function () {
   it('should return a thematic', function () {

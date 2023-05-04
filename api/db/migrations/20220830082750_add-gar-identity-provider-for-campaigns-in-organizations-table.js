@@ -1,11 +1,11 @@
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.raw('ALTER TABLE "organizations" DROP CONSTRAINT "organizations_identityProviderForCampaigns_check" ');
   return knex.raw(
     'ALTER TABLE "organizations" ADD CONSTRAINT "organizations_identityProviderForCampaigns_check" CHECK ( "identityProviderForCampaigns" IN (\'POLE_EMPLOI\', \'CNAV\', \'GAR\') )'
   );
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   await knex.raw('ALTER TABLE "organizations" DROP CONSTRAINT "organizations_identityProviderForCampaigns_check" ');
   return knex.raw(
     'ALTER TABLE "organizations" ADD CONSTRAINT "organizations_identityProviderForCampaigns_check" CHECK ( "identityProviderForCampaigns" IN (\'POLE_EMPLOI\', \'CNAV\') )'

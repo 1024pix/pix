@@ -1,8 +1,8 @@
-const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
-const buildCompetenceTree = require('./build-competence-tree');
-const buildCompetenceMark = require('./build-competence-mark');
+import { ResultCompetenceTree } from '../../../../lib/domain/models/ResultCompetenceTree.js';
+import { buildCompetenceTree } from './build-competence-tree.js';
+import { buildCompetenceMark } from './build-competence-mark.js';
 
-module.exports = function buildResultCompetenceTree({
+const buildResultCompetenceTree = function ({
   id = '1-1',
   competenceTree = buildCompetenceTree(),
   competenceMarks = [buildCompetenceMark()],
@@ -14,3 +14,5 @@ module.exports = function buildResultCompetenceTree({
   resultCompetenceTree.id = id;
   return resultCompetenceTree;
 };
+
+export { buildResultCompetenceTree };

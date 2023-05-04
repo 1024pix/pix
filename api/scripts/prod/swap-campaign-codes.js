@@ -1,8 +1,7 @@
-const { knex } = require('../../db/knex-database-connection');
-const { generate } = require('../../lib/domain/services/campaigns/campaign-code-generator');
-const DomainTransaction = require('../../lib/infrastructure/DomainTransaction');
-const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
-const { disconnect } = require('../../db/knex-database-connection');
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import { generate } from '../../lib/domain/services/campaigns/campaign-code-generator.js';
+import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
+import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 
 async function swapCampaignCodes(campaignId, otherCampaignId) {
   const temporaryCode = await generate(campaignRepository);
@@ -32,4 +31,4 @@ const isLaunchedFromCommandLine = require.main === module;
   }
 })();
 
-module.exports = { swapCampaignCodes };
+export { swapCampaignCodes };

@@ -1,13 +1,13 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
-const groupBy = require('lodash/groupBy');
-const { knex, disconnect } = require('../db/knex-database-connection');
-const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');
-const KnowledgeElement = require('../lib/domain/models/KnowledgeElement');
-const UserSavedTutorialWithTutorial = require('../lib/domain/models/UserSavedTutorialWithTutorial');
-const knowledgeElementRepository = require('../lib/infrastructure/repositories/knowledge-element-repository');
-const { tutorialDatasource } = require('../lib/infrastructure/datasources/learning-content/tutorial-datasource');
-const { skillDatasource } = require('../lib/infrastructure/datasources/learning-content/skill-datasource');
+import groupBy from 'lodash/groupBy';
+import { knex, disconnect } from '../db/knex-database-connection.js';
+import { UserSavedTutorial } from '../lib/domain/models/UserSavedTutorial.js';
+import { KnowledgeElement } from '../lib/domain/models/KnowledgeElement.js';
+import { UserSavedTutorialWithTutorial } from '../lib/domain/models/UserSavedTutorialWithTutorial.js';
+import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { tutorialDatasource } from '../lib/infrastructure/datasources/learning-content/tutorial-datasource.js';
+import { skillDatasource } from '../lib/infrastructure/datasources/learning-content/skill-datasource.js';
 
 async function getAllUserSavedTutorialsWithoutSkillId() {
   const userSavedTutorials = await knex('user-saved-tutorials').whereNull('skillId');
@@ -167,7 +167,7 @@ const isLaunchedFromCommandLine = require.main === module;
   }
 })();
 
-module.exports = {
+export {
   getAllUserSavedTutorialsWithoutSkillId,
   getAllTutorials,
   getAllSkills,

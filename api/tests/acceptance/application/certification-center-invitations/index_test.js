@@ -1,12 +1,13 @@
-const {
+import {
   databaseBuilder,
   expect,
   knex,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
-const createServer = require('../../../../server');
+} from '../../../test-helper.js';
+
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Certification center invitations', function () {
   let server;

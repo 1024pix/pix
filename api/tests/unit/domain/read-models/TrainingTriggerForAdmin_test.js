@@ -1,5 +1,5 @@
-const { expect, domainBuilder, catchErr } = require('../../../test-helper');
-const TrainingTriggerForAdmin = require('../../../../lib/domain/read-models/TrainingTriggerForAdmin');
+import { expect, domainBuilder, catchErr } from '../../../test-helper.js';
+import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
 
 describe('Unit | Domain | Read-Models | TrainingTriggerForAdmin', function () {
   describe('#constructor', function () {

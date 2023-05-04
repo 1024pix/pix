@@ -1,5 +1,5 @@
-const { sinon, expect } = require('../../../test-helper');
-const deactivateAdminMember = require('../../../../lib/domain/usecases/deactivate-admin-member');
+import { sinon, expect } from '../../../test-helper.js';
+import { deactivateAdminMember } from '../../../../lib/domain/usecases/deactivate-admin-member.js';
 
 describe('Unit | UseCase | deactivate-admin-member', function () {
   it("should deactivate the given admin member and revoke all user's refresh tokens", async function () {

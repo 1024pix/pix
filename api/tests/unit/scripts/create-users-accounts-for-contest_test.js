@@ -1,6 +1,5 @@
-const { expect } = require('../../test-helper');
-
-const { prepareDataForInsert } = require('../../../scripts/create-users-accounts-for-contest');
+import { expect } from '../../test-helper.js';
+import { prepareDataForInsert } from '../../../scripts/create-users-accounts-for-contest.js';
 
 describe('Unit | Scripts | create-users-accounts-for-contest.js', function () {
   describe('#prepareDataForInsert', function () {

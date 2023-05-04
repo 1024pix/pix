@@ -1,6 +1,5 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-
-const createServer = require('../../../../server');
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | users-controller-get-current-user', function () {
   let options;

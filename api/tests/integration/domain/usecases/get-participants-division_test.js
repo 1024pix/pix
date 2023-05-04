@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const { getParticipantsDivision } = require('../../../../lib/domain/usecases/index');
-const { ForbiddenAccess } = require('../../../../lib/domain/errors');
+import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { getParticipantsDivision } from '../../../../lib/domain/usecases/index.js';
+import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
 
 describe('Integration | UseCase | get-participants-division', function () {
   context('when the use has access to the campaign', function () {

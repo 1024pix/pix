@@ -1,4 +1,4 @@
-const up = async function(knex) {
+const up = async function (knex) {
   await knex('competence-marks').whereNull('competenceId').where('competence_code', '1.1').update({
     competenceId: 'recsvLz0W2ShyfD63',
   });
@@ -52,7 +52,7 @@ const up = async function(knex) {
   });
 };
 
-const down = function() {
+const down = function () {
   return;
 };
 

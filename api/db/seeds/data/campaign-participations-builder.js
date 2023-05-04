@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const Assessment = require('../../../lib/domain/models/Assessment');
-const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
-const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
-const { PIX_SUPER_ADMIN_ID } = require('./users-builder');
+import _ from 'lodash';
+import { Assessment } from '../../../lib/domain/models/Assessment.js';
+import { CampaignParticipationStatuses } from '../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
+import { PIX_SUPER_ADMIN_ID } from './users-builder.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
@@ -89,7 +89,15 @@ function _buildAssessmentAndAnswer({ databaseBuilder, userId, campaignParticipat
   });
 }
 
-function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, organizationLearnerId, status, isImprovingOldParticipation = false, deleted = false }) {
+function participateToAssessmentCampaign({
+  databaseBuilder,
+  campaignId,
+  user,
+  organizationLearnerId,
+  status,
+  isImprovingOldParticipation = false,
+  deleted = false,
+}) {
   const today = new Date();
   const sharedAt = status === SHARED ? today : null;
   const deletedAt = deleted ? today : null;
@@ -108,7 +116,13 @@ function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, or
     deletedBy,
   });
 
-  _buildAssessmentAndAnswer({ databaseBuilder, userId, campaignParticipationId, status, hasSomeFailures: _.sample([true, false]) });
+  _buildAssessmentAndAnswer({
+    databaseBuilder,
+    userId,
+    campaignParticipationId,
+    status,
+    hasSomeFailures: _.sample([true, false]),
+  });
 
   if (isImprovingOldParticipation) {
     const { id: oldCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -121,12 +135,28 @@ function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, or
       sharedAt: user.createdAt,
       isImproved: true,
     });
-    _buildAssessmentAndAnswer({ databaseBuilder, userId, campaignParticipationId: oldCampaignParticipationId, status: SHARED, hasSomeFailures: true });
+    _buildAssessmentAndAnswer({
+      databaseBuilder,
+      userId,
+      campaignParticipationId: oldCampaignParticipationId,
+      status: SHARED,
+      hasSomeFailures: true,
+    });
   }
   return campaignParticipationId;
 }
 
-function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, user, organizationLearnerId, status, isImprovingOldParticipation = false, deleted = false, isCertifiable = null, sharedAt = null }) {
+function participateToProfilesCollectionCampaign({
+  databaseBuilder,
+  campaignId,
+  user,
+  organizationLearnerId,
+  status,
+  isImprovingOldParticipation = false,
+  deleted = false,
+  isCertifiable = null,
+  sharedAt = null,
+}) {
   const today = new Date();
   sharedAt = status === SHARED && sharedAt === null ? today : sharedAt;
   const deletedAt = deleted ? today : null;
@@ -161,7 +191,4 @@ function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, 
   }
 }
 
-module.exports = {
-  participateToAssessmentCampaign,
-  participateToProfilesCollectionCampaign,
-};
+export { participateToAssessmentCampaign, participateToProfilesCollectionCampaign };

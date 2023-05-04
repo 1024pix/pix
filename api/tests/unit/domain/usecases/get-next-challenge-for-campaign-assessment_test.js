@@ -1,6 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-
-const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
   describe('#get-next-challenge-for-campaign-assessment', function () {

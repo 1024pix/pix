@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const flash = require('../../../../../lib/domain/services/algorithm-methods/flash');
-const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
-const config = require('../../../../../lib/config');
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import { flash } from '../../../../../lib/domain/services/algorithm-methods/flash.js';
+import { AnswerStatus } from '../../../../../lib/domain/models/AnswerStatus.js';
+import { config } from '../../../../../lib/config.js';
 
 describe('Integration | Domain | Algorithm-methods | Flash', function () {
   describe('#getPossibleNextChallenge', function () {

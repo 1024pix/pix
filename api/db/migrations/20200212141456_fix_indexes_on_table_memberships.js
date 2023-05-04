@@ -4,7 +4,7 @@ const ORGANIZATIONID_COLUMN = 'organizationId';
 const OLD_INDEX_USERID = 'organizations_accesses_userid_index';
 const OLD_INDEX_ORGANIZATIONID = 'organizations_accesses_organizationid_index';
 
-const up = async function(knex) {
+const up = async function (knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(`DROP INDEX IF EXISTS ${OLD_INDEX_USERID}`);
   // eslint-disable-next-line knex/avoid-injections
@@ -14,7 +14,7 @@ const up = async function(knex) {
   });
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropIndex(ORGANIZATIONID_COLUMN);
     table.index(USERID_COLUMN, OLD_INDEX_USERID);

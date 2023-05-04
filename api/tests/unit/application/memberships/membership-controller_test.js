@@ -1,8 +1,7 @@
-const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
-
-const membershipController = require('../../../../lib/application/memberships/membership-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const Membership = require('../../../../lib/domain/models/Membership');
+import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
+import { membershipController } from '../../../../lib/application/memberships/membership-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Unit | Controller | membership-controller', function () {
   describe('#create', function () {

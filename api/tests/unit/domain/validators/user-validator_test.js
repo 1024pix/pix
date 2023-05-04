@@ -1,9 +1,7 @@
-const { expect, catchErr } = require('../../../test-helper');
-
-const User = require('../../../../lib/domain/models/User');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
-
-const userValidator = require('../../../../lib/domain/validators/user-validator');
+import { expect, catchErr } from '../../../test-helper.js';
+import { User } from '../../../../lib/domain/models/User.js';
+import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { userValidator } from '../../../../lib/domain/validators/user-validator.js';
 
 const MISSING_VALUE = '';
 

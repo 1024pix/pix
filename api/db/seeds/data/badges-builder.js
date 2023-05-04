@@ -19,9 +19,10 @@ const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE_BADGE_ID = 127;
 const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID = 128;
 const PIX_EMPLOI_CLEA_BADGE_ID_V3 = 129;
 
-const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
-const { badges } = require('../../constants');
-const {
+import { BadgeCriterion } from '../../../lib/domain/models/BadgeCriterion.js';
+import { badges } from '../../constants.js';
+
+import {
   targetProfileSkillIdsForCleaBadgeV1,
   targetProfileSkillIdsForCleaBadgeV2,
   targetProfileSkillIdsForCleaBadgeV3,
@@ -35,7 +36,7 @@ const {
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
   TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
-} = require('./target-profiles-builder');
+} from './target-profiles-builder.js';
 
 function badgesBuilder({ databaseBuilder }) {
   _createBasicsBadge(databaseBuilder);
@@ -113,7 +114,7 @@ function _createBasicsBadge(databaseBuilder) {
     imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
     key: 'Basics',
     message:
-      'Bravo ! Vous maîtrisez quelques bases du numérique comme le vocabulaire, la manipulation basique ou l\'utilisation d\'outils',
+      "Bravo ! Vous maîtrisez quelques bases du numérique comme le vocabulaire, la manipulation basique ou l'utilisation d'outils",
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
   });
 
@@ -159,7 +160,7 @@ function _createManipBadge(databaseBuilder) {
     imageUrl: 'https://images.pix.fr/badges/office.svg',
     key: 'Manip',
     message:
-      'Vous maîtrisez les gestes de base : le clic, la saisie de texte et la navigation entre onglets d\'un navigateur WEB',
+      "Vous maîtrisez les gestes de base : le clic, la saisie de texte et la navigation entre onglets d'un navigateur WEB",
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
   });
 
@@ -398,14 +399,14 @@ function _createPixDroitBadge(databaseBuilder) {
   const skillSetsMasterIds = _associatePixDroitMasterSkillSets(
     databaseBuilder,
     targetProfileSkillIdsForPixDroitBadge,
-    pixDroitMasterBadge,
+    pixDroitMasterBadge
   );
   _associatePixDroitMasterBadgeCriteria(databaseBuilder, pixDroitMasterBadge, skillSetsMasterIds);
 
   const skillSetsExpertIds = _associatePixDroitExpertSkillSets(
     databaseBuilder,
     targetProfileSkillIdsForPixDroitBadge,
-    pixDroitExpertBadge,
+    pixDroitExpertBadge
   );
   _associatePixDroitExpertBadgeCriteria(databaseBuilder, pixDroitExpertBadge, skillSetsExpertIds);
 }
@@ -512,7 +513,7 @@ function _createPixEduBadges(databaseBuilder) {
     databaseBuilder,
     skillIdsForPixEduDomain1,
     skillIdsForPixEduDomain2,
-    pixEduFormationInitiale2ndDegreInitieBadge,
+    pixEduFormationInitiale2ndDegreInitieBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
@@ -541,7 +542,7 @@ function _createPixEduBadges(databaseBuilder) {
     databaseBuilder,
     skillIdsForPixEduDomain1,
     skillIdsForPixEduDomain2,
-    pixEduFormationInitiale1erDegreInitieBadge,
+    pixEduFormationInitiale1erDegreInitieBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
@@ -566,12 +567,13 @@ function _createPixEduBadges(databaseBuilder) {
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
   });
-  const [domain1Confirme2ndDegreSkillSetId, domain2Confirme2ndDegreSkillSetId] = _associatePixEduFormationInitialeSkillSets(
-    databaseBuilder,
-    skillIdsForPixEduDomain1,
-    skillIdsForPixEduDomain2,
-    pixEduFormationInitiale2ndDegreConfirmeBadge,
-  );
+  const [domain1Confirme2ndDegreSkillSetId, domain2Confirme2ndDegreSkillSetId] =
+    _associatePixEduFormationInitialeSkillSets(
+      databaseBuilder,
+      skillIdsForPixEduDomain1,
+      skillIdsForPixEduDomain2,
+      pixEduFormationInitiale2ndDegreConfirmeBadge
+    );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 60,
@@ -595,12 +597,13 @@ function _createPixEduBadges(databaseBuilder) {
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
   });
-  const [domain1Confirme1erDegreSkillSetId, domain2Confirme1erDegreSkillSetId] = _associatePixEduFormationInitialeSkillSets(
-    databaseBuilder,
-    skillIdsForPixEduDomain1,
-    skillIdsForPixEduDomain2,
-    pixEduFormationInitiale1erDegreConfirmeBadge,
-  );
+  const [domain1Confirme1erDegreSkillSetId, domain2Confirme1erDegreSkillSetId] =
+    _associatePixEduFormationInitialeSkillSets(
+      databaseBuilder,
+      skillIdsForPixEduDomain1,
+      skillIdsForPixEduDomain2,
+      pixEduFormationInitiale1erDegreConfirmeBadge
+    );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 60,
@@ -627,7 +630,7 @@ function _createPixEduBadges(databaseBuilder) {
   const [domain3Confirme2ndDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
     databaseBuilder,
     skillIdsForPixEduDomain3,
-    pixEduFormationContinue2ndDegreConfirmeBadge,
+    pixEduFormationContinue2ndDegreConfirmeBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
@@ -649,7 +652,7 @@ function _createPixEduBadges(databaseBuilder) {
   const [domain3Confirme1erDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
     databaseBuilder,
     skillIdsForPixEduDomain3,
-    pixEduFormationContinue1erDegreConfirmeBadge,
+    pixEduFormationContinue1erDegreConfirmeBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
@@ -671,7 +674,7 @@ function _createPixEduBadges(databaseBuilder) {
   const [domain3Avance2ndDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
     databaseBuilder,
     skillIdsForPixEduDomain3,
-    pixEduFormationContinue2ndDegreAvanceBadge,
+    pixEduFormationContinue2ndDegreAvanceBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
@@ -693,7 +696,7 @@ function _createPixEduBadges(databaseBuilder) {
   const [domain3Avance1erDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
     databaseBuilder,
     skillIdsForPixEduDomain3,
-    pixEduFormationContinue1erDegreAvanceBadge,
+    pixEduFormationContinue1erDegreAvanceBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
@@ -715,7 +718,7 @@ function _createPixEduBadges(databaseBuilder) {
   const [domain3Expert2ndDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
     databaseBuilder,
     skillIdsForPixEduDomain3,
-    pixEduFormationContinue2ndDegreExpertBadge,
+    pixEduFormationContinue2ndDegreExpertBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
@@ -737,7 +740,7 @@ function _createPixEduBadges(databaseBuilder) {
   const [domain3Expert1erDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
     databaseBuilder,
     skillIdsForPixEduDomain3,
-    pixEduFormationContinue1erDegreExpertBadge,
+    pixEduFormationContinue1erDegreExpertBadge
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
@@ -772,7 +775,7 @@ function _associateSkillSets(databaseBuilder, targetProfileSkillIds, badge) {
       name: 'Partager sur les réseaux sociaux',
       skillIds: targetProfileSkillIds[3].map((id) => id),
       badgeId: badge.id,
-    }),
+    })
   );
 }
 
@@ -815,7 +818,7 @@ function _associatePixDroitMasterSkillSets(databaseBuilder, targetProfileSkillId
       name: 'Domaine Pix+ Droit Domaine 10',
       skillIds: targetProfileSkillIds[3].map((id) => id),
       badgeId: badge.id,
-    }),
+    })
   );
 }
 
@@ -843,7 +846,7 @@ function _associatePixDroitExpertSkillSets(databaseBuilder, targetProfileSkillId
       name: 'Domaine Pix+ Droit Domaine 10',
       skillIds: targetProfileSkillIds[3].map((id) => id),
       badgeId: badge.id,
-    }),
+    })
   );
 }
 
@@ -893,7 +896,7 @@ function _associatePixEduFormationInitialeSkillSets(
   databaseBuilder,
   skillIdsForPixEduDomain1,
   skillIdsForPixEduDomain2,
-  badge,
+  badge
 ) {
   return _returnIds(
     databaseBuilder.factory.buildSkillSet({
@@ -905,7 +908,7 @@ function _associatePixEduFormationInitialeSkillSets(
       name: 'Domaine Pix+ Édu Domaine 2',
       skillIds: skillIdsForPixEduDomain2.map((id) => id),
       badgeId: badge.id,
-    }),
+    })
   );
 }
 
@@ -915,11 +918,11 @@ function _associatePixEduFormationContinueSkillSets(databaseBuilder, skillIdsFor
       name: 'Domaine Pix+ Édu Domaine 3',
       skillIds: skillIdsForPixEduDomain3.map((id) => id),
       badgeId: badge.id,
-    }),
+    })
   );
 }
 
-module.exports = {
+export {
   badgesBuilder,
   PIX_EMPLOI_CLEA_BADGE_ID_V1,
   PIX_EMPLOI_CLEA_BADGE_ID_V2,

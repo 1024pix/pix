@@ -1,9 +1,7 @@
-const { expect, catchErr, sinon } = require('../../../test-helper');
-
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const service = require('../../../../lib/domain/services/solution-service-qrocm-dep');
-
-const { YamlParsingError } = require('../../../../lib/domain/errors');
+import { expect, catchErr, sinon } from '../../../test-helper.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { service } from '../../../../lib/domain/services/solution-service-qrocm-dep.js';
+import { YamlParsingError } from '../../../../lib/domain/errors.js';
 
 const ANSWER_PARTIALLY = AnswerStatus.PARTIALLY;
 const ANSWER_OK = AnswerStatus.OK;

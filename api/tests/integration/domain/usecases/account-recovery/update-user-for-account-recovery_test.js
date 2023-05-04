@@ -1,12 +1,12 @@
-const { catchErr, databaseBuilder, expect, knex } = require('../../../../test-helper');
-const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
+import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 
-const authenticationMethodRepository = require('../../../../../lib/infrastructure/repositories/authentication-method-repository');
-const accountRecoveryDemandRepository = require('../../../../../lib/infrastructure/repositories/account-recovery-demand-repository');
-const userRepository = require('../../../../../lib/infrastructure/repositories/user-repository');
-const encryptionService = require('../../../../../lib/domain/services/encryption-service');
+import * as authenticationMethodRepository from '../../../../../lib/infrastructure/repositories/authentication-method-repository.js';
+import * as accountRecoveryDemandRepository from '../../../../../lib/infrastructure/repositories/account-recovery-demand-repository.js';
+import * as userRepository from '../../../../../lib/infrastructure/repositories/user-repository.js';
+import * as encryptionService from '../../../../../lib/domain/services/encryption-service.js';
 
-const updateUserForAccountRecovery = require('../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery');
+import { updateUserForAccountRecovery } from '../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery.js';
 
 describe('Integration | UseCases | Account-recovery | updateUserForAccountRecovery', function () {
   it('should rollback update user account when domain transaction throw an error', async function () {

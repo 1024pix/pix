@@ -1,5 +1,5 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const getUserCertificationEligibility = require('../../../../lib/domain/usecases/get-user-certification-eligibility');
+import { sinon, expect, domainBuilder } from '../../../test-helper.js';
+import { getUserCertificationEligibility } from '../../../../lib/domain/usecases/get-user-certification-eligibility.js';
 
 describe('Unit | UseCase | get-user-certification-eligibility', function () {
   let clock;

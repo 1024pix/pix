@@ -1,5 +1,5 @@
-const { sinon, domainBuilder, expect } = require('../../../test-helper');
-const getCleaCertifiedCandidateBySession = require('../../../../lib/domain/usecases/get-clea-certified-candidate-by-session');
+import { sinon, domainBuilder, expect } from '../../../test-helper.js';
+import { getCleaCertifiedCandidateBySession } from '../../../../lib/domain/usecases/get-clea-certified-candidate-by-session.js';
 
 describe('Unit | UseCase | getCleaCertifiedCandidateBySession', function () {
   let cleaCertifiedCandidateRepository;
