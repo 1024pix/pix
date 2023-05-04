@@ -17,7 +17,7 @@ export default class NewCertificationCandidateModal extends Component {
 
   @tracked isLoading = false;
 
-  get complementaryCertifications() {
+  get complementaryCertificationsHabilitations() {
     return this.currentUser.currentAllowedCertificationCenterAccess?.habilitations;
   }
 
