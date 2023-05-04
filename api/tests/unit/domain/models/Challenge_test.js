@@ -42,6 +42,7 @@ describe('Unit | Domain | Models | Challenge', function () {
         difficulty: -0.23,
         successProbabilityThreshold: 0.85,
         responsive: 'Smartphone',
+        shuffled: false,
       };
 
       const expectedChallengeDataObject = {
@@ -74,6 +75,7 @@ describe('Unit | Domain | Models | Challenge', function () {
         difficulty: -0.23,
         minimumCapability: 2.0828014071841414,
         responsive: 'Smartphone',
+        shuffled: false,
       };
 
       // when

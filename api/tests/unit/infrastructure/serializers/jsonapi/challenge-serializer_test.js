@@ -24,6 +24,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
         embedTitle: 'Epreuve de selection de dossier',
         embedHeight: 500,
         format: 'mots',
+        shuffled: false,
       });
 
       // when
@@ -46,6 +47,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
             'embed-title': 'Epreuve de selection de dossier',
             'embed-height': 500,
             format: 'mots',
+            shuffled: false,
           },
         },
       });
