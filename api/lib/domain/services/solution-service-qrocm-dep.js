@@ -5,6 +5,7 @@ const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils.
 const { validateAnswer } = require('./string-comparison-service.js');
 
 const AnswerStatus = require('../models/AnswerStatus.js');
+const CorrectionBlockQROCMDep = require('../models/CorrectionBlockQROCMDep.js');
 
 function applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return Object.fromEntries(
@@ -55,19 +56,19 @@ function getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments)
         if (status) {
           remainingUnmatchedSolutions.delete(solutionGroup);
 
-          return { answer, status: 'ok', alternativeSolutions: [] };
+          return new CorrectionBlockQROCMDep(true, []);
         }
       }
 
-      return { answer, status: 'ko' };
+      return new CorrectionBlockQROCMDep(false, []);
     })
-    .map((answerAndStatus) => {
-      if (answerAndStatus.status === 'ko') {
-        const alternativeSolutions = getAlternativeSolutions(remainingUnmatchedSolutions);
-        return { ...answerAndStatus, alternativeSolutions };
+    .map((correctionBlock) => {
+      if (!correctionBlock.validated) {
+        correctionBlock.alternativeSolutions = getAlternativeSolutions(remainingUnmatchedSolutions);
+        return correctionBlock;
       }
 
-      return answerAndStatus;
+      return correctionBlock;
     });
 }
 

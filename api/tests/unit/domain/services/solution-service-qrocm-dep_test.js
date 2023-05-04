@@ -4,6 +4,7 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const service = require('../../../../lib/domain/services/solution-service-qrocm-dep');
 
 const { YamlParsingError } = require('../../../../lib/domain/errors');
+const CorrectionBlockQROCMDep = require('../../../../lib/domain/models/CorrectionBlockQROCMDep');
 
 const ANSWER_PARTIALLY = AnswerStatus.PARTIALLY;
 const ANSWER_OK = AnswerStatus.OK;
@@ -1198,18 +1199,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
   describe('#getSolution', function () {
     it('should return solution block', function () {
       // given
-      const expectedResult = [
-        {
-          answer: 'pqrs',
-          status: 'ok',
-          alternativeSolutions: [],
-        },
-        {
-          answer: 'tuvw',
-          status: 'ko',
-          alternativeSolutions: ['abcd'],
-        },
-      ];
+      const expectedResult = [new CorrectionBlockQROCMDep(true, []), new CorrectionBlockQROCMDep(false, ['abcd'])];
 
       const answerValue = Symbol('answerValue');
 
@@ -1263,6 +1253,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
 
       // then
       expect(result).to.deep.equal(expectedResult);
+      expect(result[0]).to.be.instanceOf(CorrectionBlockQROCMDep);
     });
   });
 });
