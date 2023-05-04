@@ -57,11 +57,11 @@ module('Unit | Service | session', function (hooks) {
         test('adds a cookie locale with "fr-FR" as value', async function (assert) {
           // given
           localeService.hasLocaleCookie.returns(false);
-
-          // when
           const isFranceDomain = true;
           const localeFromQueryParam = undefined;
           const userLocale = undefined;
+
+          // when
           await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
           // then
@@ -74,11 +74,11 @@ module('Unit | Service | session', function (hooks) {
         test('does not update cookie locale', async function (assert) {
           // given
           localeService.hasLocaleCookie.returns(true);
-
-          // when
           const isFranceDomain = true;
           const localeFromQueryParam = undefined;
           const userLocale = undefined;
+
+          // when
           await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
           // then
@@ -90,10 +90,12 @@ module('Unit | Service | session', function (hooks) {
       module('when no lang query param', function () {
         module('when user is not loaded', function () {
           test('sets the locale to be French international in every case', async function (assert) {
-            // when
+            // given
             const isFranceDomain = true;
             const localeFromQueryParam = undefined;
             const userLocale = undefined;
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -104,10 +106,12 @@ module('Unit | Service | session', function (hooks) {
 
         module('when user is loaded', function () {
           test('sets the locale to be French international in every case', async function (assert) {
-            // when
+            // given
             const isFranceDomain = true;
             const localeFromQueryParam = undefined;
             const userLocale = 'user’s lang';
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -120,10 +124,12 @@ module('Unit | Service | session', function (hooks) {
       module('when a lang query param is present', function () {
         module('when user is not loaded', function () {
           test('sets the locale to be French international in every case', async function (assert) {
-            // when
+            // given
             const isFranceDomain = true;
             const localeFromQueryParam = 'en';
             const userLocale = undefined;
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -134,10 +140,12 @@ module('Unit | Service | session', function (hooks) {
 
         module('when user is loaded', function () {
           test('sets the locale to be French international in every case', async function (assert) {
-            // when
+            // given
             const isFranceDomain = true;
             const localeFromQueryParam = 'en';
             const userLocale = 'user’s lang';
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -152,11 +160,11 @@ module('Unit | Service | session', function (hooks) {
       test('does not set the cookie locale', async function (assert) {
         // given
         localeService.hasLocaleCookie.returns(false);
-
-        // when
         const isFranceDomain = false;
         const localeFromQueryParam = undefined;
         const userLocale = undefined;
+
+        // when
         await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
         // then
@@ -167,10 +175,12 @@ module('Unit | Service | session', function (hooks) {
       module('when no lang query param', function () {
         module('when user is not loaded', function () {
           test('sets the default locale', async function (assert) {
-            // when
+            // given
             const isFranceDomain = false;
             const localeFromQueryParam = undefined;
             const userLocale = undefined;
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -181,10 +191,12 @@ module('Unit | Service | session', function (hooks) {
 
         module('when user is loaded', function () {
           test('sets the locale to the user’s lang', async function (assert) {
-            // when
+            // given
             const isFranceDomain = false;
             const localeFromQueryParam = undefined;
             const userLocale = 'en';
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -198,10 +210,12 @@ module('Unit | Service | session', function (hooks) {
         module('when the lang query param is invalid', function () {
           module('when user is not loaded', function () {
             test('sets the default locale', async function (assert) {
-              // when
+              // given
               const isFranceDomain = false;
               const localeFromQueryParam = 'an invalid locale';
               const userLocale = undefined;
+
+              // when
               await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
@@ -212,10 +226,12 @@ module('Unit | Service | session', function (hooks) {
 
           module('when user is loaded', function () {
             test('sets the locale to the user’s lang', async function (assert) {
-              // when
+              // given
               const isFranceDomain = false;
               const localeFromQueryParam = 'an invalid locale';
               const userLocale = 'en';
+
+              // when
               await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
@@ -228,10 +244,12 @@ module('Unit | Service | session', function (hooks) {
         module('when the lang query param is valid', function () {
           module('when user is not loaded', function () {
             test('sets the locale to the lang query param', async function (assert) {
-              // when
+              // given
               const isFranceDomain = false;
               const localeFromQueryParam = 'en';
               const userLocale = undefined;
+
+              // when
               await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
@@ -242,10 +260,12 @@ module('Unit | Service | session', function (hooks) {
 
           module('when user is loaded', function () {
             test('sets the locale to the lang query param which wins over', async function (assert) {
-              // when
+              // given
               const isFranceDomain = false;
               const localeFromQueryParam = 'en';
               const userLocale = 'fr';
+
+              // when
               await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
