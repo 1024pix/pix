@@ -57,10 +57,6 @@ const IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES = [
     propertyName: 'startTime',
   },
   {
-    placeholder: 'SESSION_END_TIME',
-    propertyName: 'endTime',
-  },
-  {
     placeholder: 'SESSION_ADDRESS',
     propertyName: 'address',
   },
