@@ -38,7 +38,7 @@ module('Unit | Component | QCM proposals', function (hooks) {
       });
     }
 
-    module('when shuffled is false', function (hooks) {
+    module('when shuffled is false', function () {
       test('should return', function (assert) {
         // Given
         const expectedLabeledRadios = [
