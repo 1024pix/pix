@@ -58,11 +58,11 @@ module('Unit | Service | session', function (hooks) {
         test('adds a cookie locale with "fr-FR" as value', async function (assert) {
           // given
           localeService.hasLocaleCookie.returns(false);
-
-          // when
           const isFranceDomain = true;
           const localeFromQueryParam = undefined;
           const userLocale = undefined;
+
+          // when
           await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
           // then
@@ -75,11 +75,11 @@ module('Unit | Service | session', function (hooks) {
         test('does not update cookie locale', async function (assert) {
           // given
           localeService.hasLocaleCookie.returns(true);
-
-          // when
           const isFranceDomain = true;
           const localeFromQueryParam = undefined;
           const userLocale = undefined;
+
+          // when
           await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
           // then
@@ -96,11 +96,11 @@ module('Unit | Service | session', function (hooks) {
               load: sinon.stub(),
               prescriber: null,
             };
-
-            // when
             const isFranceDomain = true;
             const localeFromQueryParam = undefined;
             const userLocale = undefined;
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -119,11 +119,11 @@ module('Unit | Service | session', function (hooks) {
                 save: sinon.stub(),
               },
             };
-
-            // when
             const isFranceDomain = true;
             const localeFromQueryParam = undefined;
             const userLocale = 'en';
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -142,11 +142,11 @@ module('Unit | Service | session', function (hooks) {
               load: sinon.stub(),
               prescriber: null,
             };
-
-            // when
             const isFranceDomain = true;
             const localeFromQueryParam = 'en';
             const userLocale = undefined;
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -165,11 +165,11 @@ module('Unit | Service | session', function (hooks) {
                 save: sinon.stub(),
               },
             };
-
-            // when
             const isFranceDomain = true;
             const localeFromQueryParam = 'en';
             const userLocale = 'en';
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -185,11 +185,11 @@ module('Unit | Service | session', function (hooks) {
       test('does not set the cookie locale', async function (assert) {
         // given
         localeService.hasLocaleCookie.returns(false);
-
-        // when
         const isFranceDomain = false;
         const localeFromQueryParam = undefined;
         const userLocale = undefined;
+
+        // when
         await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
         // then
@@ -205,11 +205,11 @@ module('Unit | Service | session', function (hooks) {
               load: sinon.stub(),
               prescriber: null,
             };
-
-            // when
             const isFranceDomain = false;
             const localeFromQueryParam = undefined;
             const userLocale = undefined;
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -228,11 +228,11 @@ module('Unit | Service | session', function (hooks) {
                 save: sinon.stub(),
               },
             };
-
-            // when
             const isFranceDomain = false;
             const localeFromQueryParam = undefined;
             const userLocale = 'en';
+
+            // when
             await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
@@ -252,11 +252,11 @@ module('Unit | Service | session', function (hooks) {
                 load: sinon.stub(),
                 prescriber: null,
               };
-
-              // when
               const isFranceDomain = false;
               const localeFromQueryParam = 'an invalid locale';
               const userLocale = undefined;
+
+              // when
               await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
@@ -275,11 +275,11 @@ module('Unit | Service | session', function (hooks) {
                   save: sinon.stub(),
                 },
               };
-
-              // when
               const isFranceDomain = false;
               const localeFromQueryParam = 'an invalid locale';
               const userLocale = 'en';
+
+              // when
               await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
@@ -298,11 +298,11 @@ module('Unit | Service | session', function (hooks) {
                 load: sinon.stub(),
                 prescriber: null,
               };
-
-              // when
               const isFranceDomain = false;
               const localeFromQueryParam = 'en';
               const userLocale = undefined;
+
+              // when
               await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
@@ -321,11 +321,11 @@ module('Unit | Service | session', function (hooks) {
                   save: sinon.stub(),
                 },
               };
-
-              // when
               const isFranceDomain = false;
               const localeFromQueryParam = 'en';
               const userLocale = 'fr';
+
+              // when
               await service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
