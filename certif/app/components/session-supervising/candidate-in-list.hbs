@@ -31,6 +31,17 @@
           }}
         </p>
       {{/if}}
+
+      {{#if this.shouldDisplayNonEligibilityWarning}}
+        <PixMessage
+          @type="warning"
+          @withIcon={{true}}
+          class="session-supervising-candidate-in-list-details__eligibility"
+        >
+          Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.
+        </PixMessage>
+      {{/if}}
+
     </div>
     {{#if this.isConfirmButtonToBeDisplayed}}
       <PixButton

@@ -21,13 +21,16 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     this.owner.register('service:featureToggles', FeatureTogglesStub);
   });
 
-  module('when FT_DIFFERENTIATED_TIME_INVIGILATOR_PORTAL is enabled', function () {
-    test('should render the enrolled complementary certification name of the candidate if he passes one', async function (assert) {
+  module('when FT_DIFFERENTIATED_TIME_INVIGILATOR_PORTAL is enabled', function (hooks) {
+    hooks.beforeEach(async function () {
+      store = this.owner.lookup('service:store');
       class FeatureTogglesStub extends Service {
         featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
       }
       this.owner.register('service:featureToggles', FeatureTogglesStub);
+    });
 
+    test('should render the enrolled complementary certification name of the candidate if he passes one', async function (assert) {
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: 123,
         enrolledComplementaryCertification: 'Super Certification Complémentaire',
@@ -186,6 +189,85 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         });
       });
     });
+
+    module('when the candidate is reconciliated before starting the session', function () {
+      module('when the candidate is no longer eligible to the complementary certification', function () {
+        test('should render a warning message', async function (assert) {
+          // given
+          this.candidate = store.createRecord('certification-candidate-for-supervising', {
+            id: 123,
+            enrolledComplementaryCertification: 'Super Certification Complémentaire',
+            userId: 678,
+            isStillEligibleToComplementaryCertification: false,
+          });
+
+          // when
+          const screen = await renderScreen(hbs`
+            <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+          `);
+
+          // then
+          assert
+            .dom(
+              screen.getByText(
+                'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.'
+              )
+            )
+            .exists();
+        });
+      });
+
+      module('when the candidate is still eligible to the complementary certification', function () {
+        test('should not render a warning message', async function (assert) {
+          // given
+          this.candidate = store.createRecord('certification-candidate-for-supervising', {
+            id: 123,
+            enrolledComplementaryCertification: 'Super Certification Complémentaire',
+            userId: 678,
+            isStillEligibleToComplementaryCertification: true,
+          });
+
+          // when
+          const screen = await renderScreen(hbs`
+            <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+          `);
+
+          // then
+          assert
+            .dom(
+              screen.queryByText(
+                'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.'
+              )
+            )
+            .doesNotExist();
+        });
+      });
+    });
+
+    module('when the candidate is not reconciliated before starting the session', function () {
+      test('should not render a warning message', async function (assert) {
+        // given
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: 123,
+          enrolledComplementaryCertification: 'Super Certification Complémentaire',
+          isStillEligibleToComplementaryCertification: false,
+        });
+
+        // when
+        const screen = await renderScreen(hbs`
+            <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+          `);
+
+        // then
+        assert
+          .dom(
+            screen.queryByText(
+              'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.'
+            )
+          )
+          .doesNotExist();
+      });
+    });
   });
 
   test('it renders the candidates information with an unchecked checkbox', async function (assert) {
@@ -213,6 +295,13 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     assert
       .dom(screen.getByRole('checkbox', { name: "Confirmer la présence de l'élève Gamora Zen Whoberi Ben Titan" }))
       .isNotChecked();
+    assert
+      .dom(
+        screen.queryByText(
+          'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.'
+        )
+      )
+      .doesNotExist();
   });
 
   module('when the candidate is authorized to start', function () {
