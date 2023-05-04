@@ -11,7 +11,7 @@ import { waitForDialog } from '../helpers/wait-for';
 module('Acceptance | Fill in campaign code page', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, ['fr', 'en']);
 
   let user;
 
@@ -20,7 +20,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
   });
 
   module('When connected', function () {
-    test('should disconnect when cliking on the link', async function (assert) {
+    test('should disconnect when clicking on the link', async function (assert) {
       // given
       await authenticate(user);
       const screen = await visit('/campagnes');
@@ -128,6 +128,75 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+      });
+    });
+  });
+
+  module('on international domain (.org)', function () {
+    module('when connected', function () {
+      module('when accessing the fill in campaign code page with "Français" as default language', function () {
+        test('does not display the language switcher', async function (assert) {
+          // given & when
+          await authenticate(user);
+          const screen = await visit('/campagnes');
+
+          // then
+          assert.strictEqual(currentURL(), '/campagnes');
+          assert.dom(screen.getByRole('button', { name: 'Accéder au parcours' })).exists();
+          assert.dom(screen.queryByRole('button', { name: 'Français' })).doesNotExist();
+        });
+      });
+    });
+
+    module('when not connected', function () {
+      module('when accessing the fill in campaign code page with "Français" as default language', function () {
+        test('displays the fill in campaign code page with "Français" as selected language', async function (assert) {
+          // given & when
+          const screen = await visit('/campagnes');
+
+          // then
+          assert.strictEqual(currentURL(), '/campagnes');
+          assert.dom(screen.getByRole('button', { name: 'Accéder au parcours' })).exists();
+        });
+
+        module('when the user select "English" as his language', function () {
+          test('displays the fill in campaign code page with "English" as selected language', async function (assert) {
+            // given & when
+            const screen = await visit('/campagnes');
+            await click(screen.getByRole('button', { name: 'Français' }));
+            await screen.findByRole('listbox');
+            await click(screen.getByRole('option', { name: 'English' }));
+
+            // then
+            assert.strictEqual(currentURL(), '/campagnes');
+            assert.dom(screen.getByRole('button', { name: 'Start' })).exists();
+          });
+        });
+      });
+
+      module('when accessing the fill in campaign code page with "English" as selected language', function () {
+        test('displays the fill in campaign code page with "English"', async function (assert) {
+          // given && when
+          const screen = await visit('/campagnes?lang=en');
+
+          // then
+          assert.strictEqual(currentURL(), '/campagnes?lang=en');
+          assert.dom(screen.getByRole('button', { name: 'Start' })).exists();
+        });
+
+        module('when the user select "Français" as his language', function () {
+          test('displays the fill in campaign code page with "Français" as selected language', async function (assert) {
+            // given & when
+            const screen = await visit('/campagnes?lang=en');
+            await click(screen.getByRole('button', { name: 'English' }));
+            await screen.findByRole('listbox');
+            await click(screen.getByRole('option', { name: 'Français' }));
+
+            // then
+            assert.strictEqual(currentURL(), '/campagnes');
+            assert.dom(screen.getByRole('button', { name: 'Accéder au parcours' })).exists();
+          });
+        });
       });
     });
   });

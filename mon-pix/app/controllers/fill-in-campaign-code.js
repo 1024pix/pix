@@ -6,17 +6,20 @@ import Controller from '@ember/controller';
 const IDENTITY_PROVIDER_ID_GAR = 'GAR';
 
 export default class FillInCampaignCodeController extends Controller {
-  @service store;
+  @service currentDomain;
+  @service currentUser;
   @service intl;
+  @service locale;
   @service router;
   @service session;
-  @service currentUser;
+  @service store;
 
   campaignCode = null;
 
   @tracked errorMessage = null;
   @tracked showGARModal = false;
   @tracked campaign = null;
+  @tracked selectedLanguage = this.intl.primaryLocale;
 
   get isUserAuthenticatedByPix() {
     return this.session.isAuthenticated;
@@ -41,6 +44,18 @@ export default class FillInCampaignCodeController extends Controller {
 
   get showWarningMessage() {
     return this.isUserAuthenticatedByPix && !this.currentUser.user.isAnonymous;
+  }
+
+  get isInternationalDomain() {
+    return !this.currentDomain.isFranceDomain;
+  }
+
+  get isUserNotAuthenticated() {
+    return !this.isUserAuthenticatedByPix && !this.isUserAuthenticatedByGAR;
+  }
+
+  get canDisplayLanguageSwitcher() {
+    return this.isInternationalDomain && this.isUserNotAuthenticated;
   }
 
   @action
@@ -101,6 +116,13 @@ export default class FillInCampaignCodeController extends Controller {
   navigateToCampaignEntryPoint() {
     this.closeModal();
     this.router.transitionTo('campaigns.entry-point', this.campaign.code);
+  }
+
+  @action
+  onLanguageChange(language) {
+    this.selectedLanguage = language;
+    this.locale.setLocale(this.selectedLanguage);
+    this.router.replaceWith('fill-in-campaign-code', { queryParams: { lang: null } });
   }
 }
 
