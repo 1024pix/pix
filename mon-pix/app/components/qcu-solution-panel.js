@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import labeledCheckboxes from 'mon-pix/utils/labeled-checkboxes';
+import { pshuffle } from 'mon-pix/utils/pshuffle';
 import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
 import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
 import isEmpty from 'lodash/isEmpty';
@@ -33,6 +34,9 @@ export default class QcuSolutionPanel extends Component {
       const proposalsArray = proposalsAsArray(proposals);
       const answerArray = valueAsArrayOfBoolean(answer);
       radiosArray = labeledCheckboxes(proposalsArray, answerArray);
+      if (this.args.challenge.get('shuffled')) {
+        pshuffle(radiosArray, this.args.answer.assessment.get('id'));
+      }
     }
 
     return radiosArray;
