@@ -29,7 +29,7 @@ module.exports = {
       certificationCandidates: {
         included: true,
         ref: 'id',
-        attributes: [...attributes],
+        attributes: [...attributes, 'isStillEligibleToComplementaryCertification'],
       },
     }).serialize(sessions);
   },

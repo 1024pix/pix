@@ -1,6 +1,7 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
+const { CertificationCandidateForSupervising } = require('../../../../../lib/domain/models');
 
 describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', function () {
   describe('#serialize()', function () {
@@ -41,6 +42,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               'assessment-status': Assessment.states.STARTED,
               'start-date-time': new Date('2022-10-01T13:37:00Z'),
               'enrolled-complementary-certification': 'Super Certification Complémentaire',
+              'is-still-eligible-to-complementary-certification': true,
             },
             id: '1234',
             type: 'certification-candidate-for-supervising',
@@ -58,7 +60,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
         time: '14:30',
         certificationCenterName: 'Toto',
         certificationCandidates: [
-          {
+          new CertificationCandidateForSupervising({
             id: 1234,
             firstName: 'toto',
             lastName: 'tata',
@@ -68,7 +70,12 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
             assessmentStatus: Assessment.states.STARTED,
             startDateTime: new Date('2022-10-01T13:37:00Z'),
             enrolledComplementaryCertification: 'Super Certification Complémentaire',
-          },
+            stillValidBadgeAcquisitions: [
+              domainBuilder.buildCertifiableBadgeAcquisition({
+                complementaryCertificationBadgeLabel: 'Super Certification Complémentaire',
+              }),
+            ],
+          }),
         ],
       });
 
