@@ -43,6 +43,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               'start-date-time': new Date('2022-10-01T13:37:00Z'),
               'enrolled-complementary-certification': 'Super Certification Complémentaire',
               'is-still-eligible-to-complementary-certification': true,
+              'user-id': 6789,
             },
             id: '1234',
             type: 'certification-candidate-for-supervising',
@@ -62,6 +63,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
         certificationCandidates: [
           new CertificationCandidateForSupervising({
             id: 1234,
+            userId: 6789,
             firstName: 'toto',
             lastName: 'tata',
             birthdate: '28/05/1984',
