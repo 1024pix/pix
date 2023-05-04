@@ -5,6 +5,7 @@
         <tr>
           <th class="table__column table__column--id" id="target-profile-id">ID</th>
           <th id="target-profile-name">Nom</th>
+          <th class="col-date">Date de création</th>
           <th class="col-status" id="target-profile-status">Statut</th>
         </tr>
         <tr>
@@ -27,6 +28,7 @@
             />
           </td>
           <td></td>
+          <td></td>
         </tr>
       </thead>
 
@@ -40,6 +42,7 @@
                   {{summary.name}}
                 </LinkTo>
               </td>
+              <td class="table__column">{{format-date summary.createdAt}}</td>
               <td headers="target-profile-status" class="target-profile-table-column__status">
                 {{if summary.outdated "Obsolète" "Actif"}}
               </td>
