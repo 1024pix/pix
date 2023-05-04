@@ -24,6 +24,7 @@ export default class CreateForm extends Component {
     };
     this._setTargetProfilesOptions(this.args.targetProfiles);
     this.ownerId = this.currentUser.prescriber.id;
+    this.isMultipleSendingAssessmentEnabled = this.currentUser.prescriber.enableMultipleSendingAssessment;
   }
 
   _setTargetProfilesOptions(targetProfiles) {
@@ -42,6 +43,26 @@ export default class CreateForm extends Component {
     if (!this.args.membersSortedByFullName) return [];
 
     return this.args.membersSortedByFullName.map((member) => ({ value: member.id, label: member.fullName }));
+  }
+
+  get isMultipleSendingEnabled() {
+    return (
+      this.isCampaignGoalProfileCollection || (this.isCampaignGoalAssessment && this.isMultipleSendingAssessmentEnabled)
+    );
+  }
+
+  get multipleSendingWording() {
+    if (this.isCampaignGoalProfileCollection) {
+      return {
+        label: 'pages.campaign-creation.multiple-sendings.profiles.question-label',
+        info: 'pages.campaign-creation.multiple-sendings.profiles.info',
+      };
+    } else {
+      return {
+        label: 'pages.campaign-creation.multiple-sendings.assessments.question-label',
+        info: 'pages.campaign-creation.multiple-sendings.assessments.info',
+      };
+    }
   }
 
   @action
