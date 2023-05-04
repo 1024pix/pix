@@ -83,7 +83,7 @@
       "extratime": "Extra time ?",
       "firstname": "* First name",
       "gender": "* Gender (M or F)",
-      "locale-time": "Local time (start/end)",
+      "locale-time": "Local time (start)",
       "room-name": "Room name",
       "session-certification": "The certification session",
       "session-invigilates-by": "Session invigilated by",
