@@ -304,7 +304,7 @@
         </div>
       {{/if}}
 
-      {{#if this.complementaryCertifications.length}}
+      {{#if this.complementaryCertificationsHabilitations.length}}
         <div class="new-certification-candidate-modal__form__field">
           <span class="label">
             {{t "common.forms.certification-labels.additional-certification"}}
@@ -322,15 +322,15 @@
                 />
                 {{t "common.labels.candidate.none"}}
               </label>
-              {{#each this.complementaryCertifications as |complementaryCertification index|}}
+              {{#each this.complementaryCertificationsHabilitations as |complementaryCertificationHabilitation index|}}
                 <label for={{concat "complementaryCertification_" index}}>
                   <input
                     type="radio"
                     name="complementary-certifications"
                     id={{concat "complementaryCertification_" index}}
-                    {{on "input" (fn this.updateComplementaryCertification complementaryCertification)}}
+                    {{on "input" (fn this.updateComplementaryCertification complementaryCertificationHabilitation)}}
                   />
-                  {{complementaryCertification.label}}
+                  {{complementaryCertificationHabilitation.label}}
                 </label>
               {{/each}}
             </fieldset>
