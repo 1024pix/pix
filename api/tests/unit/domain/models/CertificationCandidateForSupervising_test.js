@@ -33,7 +33,8 @@ describe('Unit | Domain | Models | Certification Candidate for supervising', fun
             });
 
             // when
-            const isStillEligibleToComplementaryCertification = certificationCandidateForSupervising.isStillEligibleToComplementaryCertification;
+            const isStillEligibleToComplementaryCertification =
+              certificationCandidateForSupervising.isStillEligibleToComplementaryCertification;
 
             // then
             expect(isStillEligibleToComplementaryCertification).to.be.true;
@@ -52,7 +53,8 @@ describe('Unit | Domain | Models | Certification Candidate for supervising', fun
             });
 
             // when
-            const isStillEligibleToComplementaryCertification = certificationCandidateForSupervising.isStillEligibleToComplementaryCertification;
+            const isStillEligibleToComplementaryCertification =
+              certificationCandidateForSupervising.isStillEligibleToComplementaryCertification;
 
             // then
             expect(isStillEligibleToComplementaryCertification).to.be.false;
@@ -75,7 +77,8 @@ describe('Unit | Domain | Models | Certification Candidate for supervising', fun
             });
 
             // when
-            const isStillEligibleToComplementaryCertification = certificationCandidateForSupervising.isStillEligibleToComplementaryCertification;
+            const isStillEligibleToComplementaryCertification =
+              certificationCandidateForSupervising.isStillEligibleToComplementaryCertification;
 
             // then
             expect(isStillEligibleToComplementaryCertification).to.be.false;
@@ -93,7 +96,8 @@ describe('Unit | Domain | Models | Certification Candidate for supervising', fun
         });
 
         // when
-        const isStillEligibleToComplementaryCertification = certificationCandidateForSupervising.isStillEligibleToComplementaryCertification;
+        const isStillEligibleToComplementaryCertification =
+          certificationCandidateForSupervising.isStillEligibleToComplementaryCertification;
 
         // then
         expect(isStillEligibleToComplementaryCertification).to.be.false;
