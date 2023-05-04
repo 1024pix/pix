@@ -29,9 +29,7 @@ export default class CurrentSessionService extends SessionService {
   }
 
   async handleLocale({ isFranceDomain, localeFromQueryParam, userLocale }) {
-    if (localeFromQueryParam && this.intl.get('locales').includes(localeFromQueryParam)) {
-      this._localeFromQueryParam = localeFromQueryParam;
-    }
+    this._localeFromQueryParam = this.locale.handleUnsupportedLanguage(localeFromQueryParam);
 
     if (isFranceDomain) {
       this.locale.setLocale(FRENCH_INTERNATIONAL_LOCALE);

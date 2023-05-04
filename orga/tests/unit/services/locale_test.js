@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import { DEFAULT_LOCALE } from 'pix-orga/services/locale';
+import { DEFAULT_LOCALE, ENGLISH_INTERNATIONAL_LOCALE, FRENCH_INTERNATIONAL_LOCALE } from 'pix-orga/services/locale';
 
 module('Unit | Service | locale', function (hooks) {
   setupTest(hooks);
@@ -27,6 +27,55 @@ module('Unit | Service | locale', function (hooks) {
 
     intlService = this.owner.lookup('service:intl');
     sinon.stub(intlService, 'setLocale');
+  });
+
+  module('#handleUnsupportedLanguage', function () {
+    module('when language is not supported', function () {
+      test('returns default language', function (assert) {
+        // given
+        const language = 'es';
+
+        // when
+        const result = localeService.handleUnsupportedLanguage(language);
+
+        // then
+        assert.strictEqual(result, DEFAULT_LOCALE);
+      });
+    });
+
+    module('when language is supported', function () {
+      test('returns same language when language is fr', function (assert) {
+        // given
+        const language = FRENCH_INTERNATIONAL_LOCALE;
+
+        // when
+        const result = localeService.handleUnsupportedLanguage(language);
+
+        // then
+        assert.strictEqual(result, language);
+      });
+
+      test('returns same language when language is en', function (assert) {
+        // given
+        const language = ENGLISH_INTERNATIONAL_LOCALE;
+
+        // when
+        const result = localeService.handleUnsupportedLanguage(language);
+
+        // then
+        assert.strictEqual(result, language);
+      });
+    });
+
+    module('when no language is provided', function () {
+      test('returns "undefined"', function (assert) {
+        // given & when
+        const result = localeService.handleUnsupportedLanguage();
+
+        // then
+        assert.strictEqual(result, undefined);
+      });
+    });
   });
 
   module('#setLocaleCookie', function () {

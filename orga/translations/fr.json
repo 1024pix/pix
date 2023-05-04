@@ -598,7 +598,8 @@
       "select-label": "Classe"
     },
     "login": {
-      "title": "Connectez-vous"
+      "title": "Connectez-vous",
+      "choose-language-aria-label": "Sélectionnez une langue"
     },
     "login-form": {
       "active-or-retrieve": "Activez ou récupérez votre espace Pix Orga",
