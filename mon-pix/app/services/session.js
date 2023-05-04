@@ -1,9 +1,8 @@
 import { inject as service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 import get from 'lodash/get';
+import { DEFAULT_LOCALE, FRENCH_FRANCE_LOCALE } from 'mon-pix/services/locale';
 
-const DEFAULT_LOCALE = 'fr';
-const FRENCH_FRANCE_LOCALE = 'fr-FR';
 const FRANCE_TLD = 'fr';
 
 export default class CurrentSessionService extends SessionService {
@@ -93,7 +92,7 @@ export default class CurrentSessionService extends SessionService {
     const domain = this.currentDomain.getExtension();
 
     if (domain === FRANCE_TLD) {
-      await this._setLocale(DEFAULT_LOCALE);
+      await this.locale.setLocale(DEFAULT_LOCALE);
 
       if (!this.locale.hasLocaleCookie()) {
         this.locale.setLocaleCookie(FRENCH_FRANCE_LOCALE);
@@ -106,31 +105,26 @@ export default class CurrentSessionService extends SessionService {
         this.currentUser.user.lang = localeFromQueryParam;
         try {
           await this.currentUser.user.save({ adapterOptions: { lang: this.currentUser.user.lang } });
-          await this._setLocale(this.currentUser.user.lang);
+          await this.locale.setLocale(this.currentUser.user.lang);
         } catch (error) {
           const status = get(error, 'errors[0].status');
           if (status === '400') {
             this.currentUser.user.rollbackAttributes();
-            await this._setLocale(this.currentUser.user.lang);
+            await this.locale.setLocale(this.currentUser.user.lang);
           } else {
             throw error;
           }
         }
       } else {
-        await this._setLocale(this.currentUser.user.lang);
+        await this.locale.setLocale(this.currentUser.user.lang);
       }
     } else {
       if (localeFromQueryParam) {
-        await this._setLocale(localeFromQueryParam);
+        await this.locale.setLocale(localeFromQueryParam);
       } else {
-        await this._setLocale(DEFAULT_LOCALE);
+        await this.locale.setLocale(DEFAULT_LOCALE);
       }
     }
-  }
-
-  _setLocale(locale) {
-    this.intl.setLocale([locale, DEFAULT_LOCALE]);
-    this.dayjs.setLocale(locale);
   }
 
   _getRouteAfterInvalidation() {
