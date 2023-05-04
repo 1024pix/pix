@@ -1,17 +1,31 @@
+const { beforeEach } = require('mocha');
 const { expect, sinon } = require('./test-helpers');
 const AlgoResult = require('../AlgoResult');
-const AnswerStatus = require('../../../api/lib/domain/models/AnswerStatus');
-const domainBuilder = require('../../../api/tests/tooling/domain-builder/domain-builder');
 const CsvFile = require('../utils/CsvFile');
 
 describe('AlgoResult', () => {
+  let AnswerStatus;
+  let domainBuilder;
+
+  beforeEach(async function() {
+    AnswerStatus = (await import('../../../api/lib/domain/models/AnswerStatus.js')).AnswerStatus;
+    domainBuilder = (await import(
+      '../../../api/tests/tooling/domain-builder/domain-builder.js'
+    )).domainBuilder;
+  });
 
   describe('#log', () => {
     it('should return total challenge asked', () => {
       // given
       const algoResult = new AlgoResult();
-      const challenge1 = domainBuilder.buildChallenge({ id: 'rec1', skill: {} });
-      const challenge2 = domainBuilder.buildChallenge({ id: 'rec2', skill: {} });
+      const challenge1 = domainBuilder.buildChallenge({
+        id: 'rec1',
+        skill: {},
+      });
+      const challenge2 = domainBuilder.buildChallenge({
+        id: 'rec2',
+        skill: {},
+      });
       algoResult.addChallenge(challenge1);
       algoResult.addChallenge(challenge2);
 
@@ -25,8 +39,14 @@ describe('AlgoResult', () => {
     it('should return challengeIds asked', () => {
       // given
       const algoResult = new AlgoResult();
-      const challenge1 = domainBuilder.buildChallenge({ id: 'rec1', skill: {} });
-      const challenge2 = domainBuilder.buildChallenge({ id: 'rec2', skill: {} });
+      const challenge1 = domainBuilder.buildChallenge({
+        id: 'rec1',
+        skill: {},
+      });
+      const challenge2 = domainBuilder.buildChallenge({
+        id: 'rec2',
+        skill: {},
+      });
       algoResult.addChallenge(challenge1);
       algoResult.addChallenge(challenge2);
 
@@ -57,9 +77,15 @@ describe('AlgoResult', () => {
     it('should return unique names of the skills', () => {
       // given
       const algoResult = new AlgoResult();
-      const challenge1 = domainBuilder.buildChallenge({ skill: { name: 'skill1' } });
-      const challenge2 = domainBuilder.buildChallenge({ skill: { name: 'skill1' } });
-      const challenge3 = domainBuilder.buildChallenge({ skill: { name: 'skill2' } });
+      const challenge1 = domainBuilder.buildChallenge({
+        skill: { name: 'skill1' },
+      });
+      const challenge2 = domainBuilder.buildChallenge({
+        skill: { name: 'skill1' },
+      });
+      const challenge3 = domainBuilder.buildChallenge({
+        skill: { name: 'skill2' },
+      });
       algoResult.addChallenge(challenge1);
       algoResult.addChallenge(challenge2);
       algoResult.addChallenge(challenge3);
@@ -95,7 +121,6 @@ describe('AlgoResult', () => {
     });
 
     describe('display first answer status', () => {
-
       it('should return N/A if there is no answer status', () => {
         // given
         const algoResult = new AlgoResult();
@@ -149,7 +174,6 @@ describe('AlgoResult', () => {
         expect(log).contains('----- biggest DESC gap: 4');
       });
     });
-
   });
 
   describe('#getResults', () => {
@@ -158,8 +182,14 @@ describe('AlgoResult', () => {
     beforeEach(() => {
       // given
       const algoResult = new AlgoResult();
-      const challenge1 = domainBuilder.buildChallenge({ id: 'rec1', skill: { name: 'skill1' } });
-      const challenge2 = domainBuilder.buildChallenge({ id: 'rec2', skill: { name: 'skill2' } });
+      const challenge1 = domainBuilder.buildChallenge({
+        id: 'rec1',
+        skill: { name: 'skill1' },
+      });
+      const challenge2 = domainBuilder.buildChallenge({
+        id: 'rec2',
+        skill: { name: 'skill2' },
+      });
       algoResult.addChallenge(challenge1);
       algoResult.addChallenge(challenge2);
       algoResult.addChallengeLevel(2);
@@ -230,8 +260,14 @@ describe('AlgoResult', () => {
     it('should get results and write it in file', () => {
       // given
       const algoResult = new AlgoResult();
-      const challenge1 = domainBuilder.buildChallenge({ id: 'rec1', skill: { name: 'skill1' } });
-      const challenge2 = domainBuilder.buildChallenge({ id: 'rec2', skill: { name: 'skill2' } });
+      const challenge1 = domainBuilder.buildChallenge({
+        id: 'rec1',
+        skill: { name: 'skill1' },
+      });
+      const challenge2 = domainBuilder.buildChallenge({
+        id: 'rec2',
+        skill: { name: 'skill2' },
+      });
       algoResult.addChallenge(challenge1);
       algoResult.addChallenge(challenge2);
       algoResult.addChallengeLevel(2);
@@ -240,7 +276,10 @@ describe('AlgoResult', () => {
       algoResult.addEstimatedLevels(4);
       algoResult.addAnswerStatus({ status: 'ko' });
       algoResult.addAnswerStatus({ status: 'ok' });
-      const csvFileCreateStub = sinon.stub(CsvFile.prototype, '_createAndAddHeadersIfNotExisting');
+      const csvFileCreateStub = sinon.stub(
+        CsvFile.prototype,
+        '_createAndAddHeadersIfNotExisting',
+      );
       const csvFileAppendStub = sinon.stub(CsvFile.prototype, 'append');
       algoResult._id = 'fixed-id';
       const testSet = 'test-set';
