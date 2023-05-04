@@ -95,7 +95,7 @@
       "extratime": "Temps majoré ?",
       "firstname": "* Prénom",
       "gender": "* Sexe (M ou F)",
-      "locale-time": "Heure locale (début/fin)",
+      "locale-time": "Heure locale (début)",
       "room-name": "Nom de la salle",
       "session-certification": "La session de certification",
       "session-invigilates-by": "Session surveillée par :",
