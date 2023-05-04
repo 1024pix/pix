@@ -1,8 +1,0 @@
-node_modules
-codemods/
-scripts/
-tests/
-nyc.config.js
-db/knexfile.js
-db/database-builder/
-db/seeds/

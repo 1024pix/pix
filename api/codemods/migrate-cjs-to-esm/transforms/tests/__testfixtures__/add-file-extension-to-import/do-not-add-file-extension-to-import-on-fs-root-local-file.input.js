@@ -1,1 +1,0 @@
-const { foobar } = require('/bar');
