@@ -72,6 +72,9 @@
         </a>
       </div>
     </PixBlock>
+    {{#if this.canDisplayLanguageSwitcher}}
+      <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
+    {{/if}}
   </PixBackgroundHeader>
 </main>
 
