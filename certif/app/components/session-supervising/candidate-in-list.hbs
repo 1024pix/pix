@@ -27,7 +27,7 @@
         ·
         {{t "common.forms.certification-labels.extratime"}}
         :
-        {{@candidate.extraTimePercentage}}%
+        {{format-percentage @candidate.extraTimePercentage}}
       {{/if}}
       {{#if this.shouldDisplayComplementaryCertification}}
         <p class="session-supervising-candidate-in-list-details__enrolment">
