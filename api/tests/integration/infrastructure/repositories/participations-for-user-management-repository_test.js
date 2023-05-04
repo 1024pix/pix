@@ -112,21 +112,27 @@ describe('Integration | Repository | Participations-For-User-Management', functi
         });
       });
 
-      it('should sort participations by descending createdAt', async function () {
+      it('should sort participations by ascending campaign code', async function () {
+        const campaignId1 = databaseBuilder.factory.buildCampaign({ code: 'AAAAAAA' }).id;
+        const campaignId2 = databaseBuilder.factory.buildCampaign({ code: 'BBBBBBB' }).id;
+        const campaignId3 = databaseBuilder.factory.buildCampaign({ code: 'CCCCCCC' }).id;
         // given
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
-          participantExternalId: '2',
+          campaignId: campaignId3,
+          participantExternalId: '3',
           createdAt: new Date('2020-01-02'),
         });
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
-          participantExternalId: '3',
+          campaignId: campaignId1,
+          participantExternalId: '1',
           createdAt: new Date('2020-01-01'),
         });
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
-          participantExternalId: '1',
+          campaignId: campaignId2,
+          participantExternalId: '2',
           createdAt: new Date('2020-01-03'),
         });
 
@@ -136,10 +142,90 @@ describe('Integration | Repository | Participations-For-User-Management', functi
         const participationsForUserManagement = await participationsForUserManagementRepository.findByUserId(userId);
 
         // then
+        expect(_.map(participationsForUserManagement, 'campaignCode')).to.exactlyContainInOrder([
+          'AAAAAAA',
+          'BBBBBBB',
+          'CCCCCCC',
+        ]);
+      });
+
+      it('should sort participations by descending sharedAt when campaign code is the same', async function () {
+        const campaignId = databaseBuilder.factory.buildCampaign({ code: 'AAAAAAA' }).id;
+        // given
+        databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          participantExternalId: 'January23',
+          createdAt: new Date('2020-01-02'),
+          sharedAt: new Date('2023-01-01'),
+          isImproved: true,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          participantExternalId: 'May23',
+          createdAt: new Date('2020-01-01'),
+          sharedAt: new Date('2023-05-01'),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          participantExternalId: 'March23',
+          createdAt: new Date('2020-01-03'),
+          sharedAt: new Date('2023-03-01'),
+          isImproved: true,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const participationsForUserManagement = await participationsForUserManagementRepository.findByUserId(userId);
+
+        // then
         expect(_.map(participationsForUserManagement, 'participantExternalId')).to.exactlyContainInOrder([
-          '1',
-          '2',
-          '3',
+          'May23',
+          'March23',
+          'January23',
+        ]);
+      });
+
+      it('should sort participations first by ascending campaignCode and after by sharedAt', async function () {
+        const campaignId1 = databaseBuilder.factory.buildCampaign({ code: 'AAAAAAA' }).id;
+        const campaignId2 = databaseBuilder.factory.buildCampaign({ code: 'BBBBBBB' }).id;
+        // given
+        databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId: campaignId2,
+          participantExternalId: 'BBBB-MAY23',
+          createdAt: new Date('2020-01-02'),
+          sharedAt: new Date('2023-05-01'),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId: campaignId1,
+          participantExternalId: 'AAAA-JANUARY23',
+          createdAt: new Date('2020-01-01'),
+          sharedAt: new Date('2023-01-01'),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId: campaignId2,
+          participantExternalId: 'BBBB-FEBRUARY23',
+          createdAt: new Date('2020-01-03'),
+          sharedAt: new Date('2023-02-01'),
+          isImproved: true,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const participationsForUserManagement = await participationsForUserManagementRepository.findByUserId(userId);
+
+        // then
+        expect(_.map(participationsForUserManagement, 'participantExternalId')).to.exactlyContainInOrder([
+          'AAAA-JANUARY23',
+          'BBBB-MAY23',
+          'BBBB-FEBRUARY23',
         ]);
       });
     });
