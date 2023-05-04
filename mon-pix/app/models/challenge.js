@@ -25,6 +25,7 @@ export default class Challenge extends Model {
   @attr('string') type;
   @attr('boolean') autoReply;
   @attr('boolean') focused;
+  @attr('boolean') shuffled;
 
   // includes
   @belongsTo('answer') answer;
