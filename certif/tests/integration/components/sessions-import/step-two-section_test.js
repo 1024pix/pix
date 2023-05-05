@@ -63,7 +63,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
         expectedMessage: 'Champ "Date de naissance" doit être supérieur à 01/01/1900',
       },
       {
-        error: 'CANDIDATE_EXTRA_TIME_BELOW_ONE',
+        error: 'CANDIDATE_EXTRA_TIME_OUT_OF_RANGE',
         expectedMessage: 'Donnée du champ "Temps majoré" invalide (exemple de format accepté: 30%)',
       },
       {
