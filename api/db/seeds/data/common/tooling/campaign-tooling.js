@@ -17,6 +17,7 @@ module.exports = {
  * @param {string} customLandingPageText
  * @param {boolean} isForAbsoluteNovice
  * @param {Date} archivedAt
+ * @param {number} archivedBy
  * @param {string} type
  * @param {Date} createdAt
  * @param {number} organizationId
@@ -28,7 +29,7 @@ module.exports = {
  * @param {string} customResultPageButtonUrl
  * @param {boolean} multipleSendings
  * @param {string} assessmentMethod
- * @returns {campaignId: number}
+ * @returns {{campaignId: number}}
  */
 function createCampaign({
   databaseBuilder,

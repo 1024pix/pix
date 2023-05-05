@@ -1,25 +1,33 @@
 const tooling = require('../common/tooling');
-const { PRO_COMPANY_ID } = require('../organizations-pro-builder');
+// TODO créer les campaign skills
+const TEAM_CONTENU_OFFSET = 5000;
+// IDS
+/// USERS
+const PRO_ORGANIZATION_USER_ID = TEAM_CONTENU_OFFSET;
+/// ORGAS
+const PRO_ORGANIZATION_ID = TEAM_CONTENU_OFFSET;
 
 async function teamContenuDataBuilder({ databaseBuilder }) {
-  await _createTargetProfile500(databaseBuilder);
-  await _createTargetProfile501(databaseBuilder);
-  await _createCampaign500(databaseBuilder);
+  _createProOrganization(databaseBuilder);
+  await _createCoreTargetProfile(databaseBuilder);
+  await _createDiverseTargetProfile(databaseBuilder);
+  await _createAssessmentCampaign(databaseBuilder);
 }
 
 module.exports = {
   teamContenuDataBuilder,
 };
 
-async function _createCampaign500(databaseBuilder) {
-  const organizationId = databaseBuilder.factory.buildOrganization({
+function _createProOrganization(databaseBuilder) {
+  databaseBuilder.factory.buildOrganization({
+    id: PRO_ORGANIZATION_ID,
     type: 'PRO',
     name: 'Orga team contenu',
     isManagingStudents: false,
     externalId: 'CONTENU',
-  }).id;
-
-  const userId = databaseBuilder.factory.buildUser.withRawPassword({
+  });
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: PRO_ORGANIZATION_USER_ID,
     firstName: 'Orga PRO',
     lastName: 'Contenu',
     email: 'contenu-orga-pro@example.net',
@@ -33,14 +41,15 @@ async function _createCampaign500(databaseBuilder) {
     hasSeenAssessmentInstructions: false,
     rawPassword: 'pix123',
     shouldChangePassword: false,
-  }).id;
-
+  });
   databaseBuilder.factory.buildMembership({
-    userId,
-    organizationId,
+    userId: PRO_ORGANIZATION_USER_ID,
+    organizationId: PRO_ORGANIZATION_ID,
     organizationRole: 'ADMIN',
   });
+}
 
+async function _createAssessmentCampaign(databaseBuilder) {
   await tooling.campaign.createCampaign({
     databaseBuilder,
     campaignId: 500,
@@ -56,9 +65,9 @@ async function _createCampaign500(databaseBuilder) {
     archivedBy: null,
     type: 'ASSESSMENT',
     createdAt: undefined,
-    organizationId,
-    creatorId: userId,
-    ownerId: userId,
+    organizationId: PRO_ORGANIZATION_ID,
+    creatorId: PRO_ORGANIZATION_USER_ID,
+    ownerId: PRO_ORGANIZATION_USER_ID,
     targetProfileId: null,
     customResultPageText: 'customResultPageText',
     customResultPageButtonText: 'customResultPageButtonText',
@@ -68,7 +77,7 @@ async function _createCampaign500(databaseBuilder) {
   });
 }
 
-async function _createTargetProfile500(databaseBuilder) {
+async function _createCoreTargetProfile(databaseBuilder) {
   const configTargetProfile = {
     frameworks: [
       {
@@ -96,7 +105,7 @@ async function _createTargetProfile500(databaseBuilder) {
     targetProfileId: 500,
     name: 'Profil cible Pur Pix (Niv3 ~ 5)',
     isPublic: true,
-    ownerOrganizationId: PRO_COMPANY_ID,
+    ownerOrganizationId: PRO_ORGANIZATION_ID,
     isSimplifiedAccess: false,
     description:
       'Profil cible pur pix (Niv3 ~ 5) avec 1 RT double critère (tube et participation) et des paliers NIVEAUX',
@@ -126,7 +135,7 @@ async function _createTargetProfile500(databaseBuilder) {
   });
 }
 
-async function _createTargetProfile501(databaseBuilder) {
+async function _createDiverseTargetProfile(databaseBuilder) {
   const configTargetProfile = {
     frameworks: [
       {
@@ -148,7 +157,7 @@ async function _createTargetProfile501(databaseBuilder) {
     targetProfileId: 501,
     name: 'Profil cible Pix et un autre réf (Niv1 ~ 8)',
     isPublic: true,
-    ownerOrganizationId: PRO_COMPANY_ID,
+    ownerOrganizationId: PRO_ORGANIZATION_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible pur pix et un autre réf (Niv1 ~ 8) et des paliers SEUILS',
     configTargetProfile,
