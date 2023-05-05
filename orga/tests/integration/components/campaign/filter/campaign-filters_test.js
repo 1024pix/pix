@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
-import { clickByName, fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import { t } from 'ember-intl/test-support';
 
-module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
+module('Integration | Component | Campaign::Filter::CampaignFilters', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
@@ -15,8 +15,8 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
 
   test('it should display filters', async function (assert) {
     // when
-    const screen = await renderScreen(
-      hbs`<Campaign::Filter::Filters
+    const screen = await render(
+      hbs`<Campaign::Filter::CampaignFilters
   @onFilter={{this.triggerFilteringSpy}}
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
@@ -34,10 +34,13 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
 
   module('With clear all filters button', function () {
     test('it should reset all filters on button clear filters click', async function (assert) {
+      //giver
+      this.set('nameFilter', 'toto');
       // when
-      await renderScreen(
-        hbs`<Campaign::Filter::Filters
+      await render(
+        hbs`<Campaign::Filter::CampaignFilters
   @onFilter={{this.triggerFilteringSpy}}
+  @nameFilter={{this.nameFilter}}
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
 />`
@@ -55,8 +58,8 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
   module('when showing current user campaign list', function () {
     test('it should not show creator input', async function (assert) {
       // given / when
-      const screen = await renderScreen(
-        hbs`<Campaign::Filter::Filters
+      const screen = await render(
+        hbs`<Campaign::Filter::CampaignFilters
   @onFilter={{this.triggerFilteringSpy}}
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
@@ -75,8 +78,8 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     this.set('triggerFiltering', triggerFiltering);
 
     // when
-    await renderScreen(
-      hbs`<Campaign::Filter::Filters
+    await render(
+      hbs`<Campaign::Filter::CampaignFilters
   @onFilter={{this.triggerFiltering}}
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
@@ -95,8 +98,8 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     this.set('triggerFiltering', triggerFiltering);
 
     // when
-    await renderScreen(
-      hbs`<Campaign::Filter::Filters
+    await render(
+      hbs`<Campaign::Filter::CampaignFilters
   @onFilter={{this.triggerFiltering}}
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
@@ -111,8 +114,8 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
 
   test('[A11Y] it should make filters container accessible', async function (assert) {
     // when
-    const screen = await renderScreen(
-      hbs`<Campaign::Filter::Filters
+    const screen = await render(
+      hbs`<Campaign::Filter::CampaignFilters
   @onFilter={{this.triggerFilteringSpy}}
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
@@ -120,6 +123,6 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     );
 
     // then
-    assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.legend'))).exists();
+    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.legend'))).exists();
   });
 });
