@@ -5,8 +5,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
   describe('#findPaginatedFiltered', function () {
     it('return TargetProfileSummaryForAdmins model', async function () {
       // given
-      const targetProfile = { id: 1, name: 'Go go target profile', outdated: false };
-      const expectedTargetProfileSummary = domainBuilder.buildTargetProfileSummaryForAdmin(targetProfile);
+      const targetProfile = { id: 1, name: 'Go go target profile', outdated: false, createdAt: new Date('2021-01-01') };
       databaseBuilder.factory.buildTargetProfile(targetProfile);
       await databaseBuilder.commit();
 
@@ -22,7 +21,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
       });
 
       // then
-      expect(actualTargetProfileSummary).to.deepEqualInstance(expectedTargetProfileSummary);
+      expect(actualTargetProfileSummary).to.deep.equal(targetProfile);
     });
 
     context('ordered target profile list', function () {
@@ -146,10 +145,10 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
         let targetProfileData;
         beforeEach(function () {
           targetProfileData = [
-            { id: 1, name: 'paTtErN', outdated: false },
-            { id: 2, name: 'AApatterNOo', outdated: true },
-            { id: 3, name: 'NotUnderTheRadar', outdated: false },
-            { id: 4, name: 'PaTternXXXX', outdated: true },
+            { id: 1, name: 'paTtErN', outdated: false, createdAt: new Date('2021-01-01') },
+            { id: 2, name: 'AApatterNOo', outdated: true, createdAt: new Date('2021-01-01') },
+            { id: 3, name: 'NotUnderTheRadar', outdated: false, createdAt: new Date('2021-01-01') },
+            { id: 4, name: 'PaTternXXXX', outdated: true, createdAt: new Date('2021-01-01') },
           ];
           targetProfileData.map(databaseBuilder.factory.buildTargetProfile);
           return databaseBuilder.commit();
@@ -169,9 +168,24 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
           // then
           const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 1, name: 'paTtErN', outdated: false }),
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 2, name: 'AApatterNOo', outdated: true }),
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 4, name: 'PaTternXXXX', outdated: true }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({
+              id: 1,
+              name: 'paTtErN',
+              outdated: false,
+              createdAt: new Date('2021-01-01'),
+            }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({
+              id: 2,
+              name: 'AApatterNOo',
+              outdated: true,
+              createdAt: new Date('2021-01-01'),
+            }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({
+              id: 4,
+              name: 'PaTternXXXX',
+              outdated: true,
+              createdAt: new Date('2021-01-01'),
+            }),
           ];
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
@@ -180,10 +194,10 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
         let targetProfileData;
         beforeEach(function () {
           targetProfileData = [
-            { id: 1, name: 'TPA', outdated: false },
-            { id: 11, name: 'TPB', outdated: true },
-            { id: 21, name: 'TPC', outdated: false },
-            { id: 4, name: 'TPD', outdated: true },
+            { id: 1, name: 'TPA', outdated: false, createdAt: new Date('2021-01-01') },
+            { id: 11, name: 'TPB', outdated: true, createdAt: new Date('2021-01-01') },
+            { id: 21, name: 'TPC', outdated: false, createdAt: new Date('2021-01-01') },
+            { id: 4, name: 'TPD', outdated: true, createdAt: new Date('2021-01-01') },
           ];
           targetProfileData.map(databaseBuilder.factory.buildTargetProfile);
           return databaseBuilder.commit();
@@ -203,7 +217,12 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
           // then
           const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 1, name: 'TPA', outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({
+              id: 1,
+              name: 'TPA',
+              outdated: false,
+              createdAt: new Date('2021-01-01'),
+            }),
           ];
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
@@ -534,8 +553,8 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
       // then
       const expectedTargetProfileSummaries = [
-        domainBuilder.buildTargetProfileSummaryForAdmin({ ...targetProfile1 }),
-        domainBuilder.buildTargetProfileSummaryForAdmin({ ...targetProfile2 }),
+        domainBuilder.buildTargetProfileSummaryForAdmin({ ...targetProfile1, createdAt: undefined }),
+        domainBuilder.buildTargetProfileSummaryForAdmin({ ...targetProfile2, createdAt: undefined }),
       ];
       expect(targetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
     });
