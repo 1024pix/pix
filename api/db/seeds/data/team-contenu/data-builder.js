@@ -2,14 +2,14 @@ const { createCampaign } = require('../common/campaign-tooling');
 const { createTargetProfile, createBadge, createStages } = require('../common/target-profile-tooling');
 const { PRO_COMPANY_ID } = require('../organizations-pro-builder');
 
-async function richTargetProfilesBuilder({ databaseBuilder }) {
+async function teamContenuDataBuilder({ databaseBuilder }) {
   await _createTargetProfile500(databaseBuilder);
   await _createTargetProfile501(databaseBuilder);
   await _createCampaign500(databaseBuilder);
 }
 
 module.exports = {
-  richTargetProfilesBuilder,
+  teamContenuDataBuilder,
 };
 
 async function _createCampaign500(databaseBuilder) {
