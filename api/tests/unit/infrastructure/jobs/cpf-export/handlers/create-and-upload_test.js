@@ -1,6 +1,7 @@
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
 import stream from 'stream';
+import * as uuidService from 'uuid';
 
 const { PassThrough, Readable } = stream;
 
@@ -70,6 +71,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
       expect(cpfCertificationXmlExportService.buildXmlExport).to.have.been.calledWith({
         cpfCertificationResults,
         writableStream: sinon.match(PassThrough),
+        uuidService,
       });
       expect(cpfExternalStorage.upload).to.have.been.calledWith({
         filename: 'pix-cpf-export-20220101-114327.xml.gz',

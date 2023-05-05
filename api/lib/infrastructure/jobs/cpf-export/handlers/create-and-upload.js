@@ -3,8 +3,11 @@ import { createGzip } from 'node:zlib';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+import * as uuid from 'uuid';
 
 const createAndUpload = async function ({
   data,
@@ -12,6 +15,7 @@ const createAndUpload = async function ({
   cpfCertificationResultRepository,
   cpfCertificationXmlExportService,
   cpfExternalStorage,
+  uuidService = uuid,
 }) {
   const { batchId } = data;
   const start = new Date();
@@ -29,6 +33,7 @@ const createAndUpload = async function ({
   cpfCertificationXmlExportService.buildXmlExport({
     cpfCertificationResults,
     writableStream: gzipStream,
+    uuidService,
   });
 
   const now = dayjs().tz('Europe/Paris').format('YYYYMMDD-HHmmss');
