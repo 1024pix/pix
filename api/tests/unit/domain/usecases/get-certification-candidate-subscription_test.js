@@ -71,8 +71,8 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           domainBuilder.buildCertificationCandidateSubscription({
             id: certificationCandidateId,
             sessionId,
-            eligibleSubscriptions: [],
-            nonEligibleSubscriptions: [],
+            eligibleSubscription: null,
+            nonEligibleSubscription: null,
           })
         );
       });
@@ -130,8 +130,8 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           domainBuilder.buildCertificationCandidateSubscription({
             id: certificationCandidateId,
             sessionId,
-            eligibleSubscriptions: [],
-            nonEligibleSubscriptions: [],
+            eligibleSubscription: null,
+            nonEligibleSubscription: null,
           })
         );
       });

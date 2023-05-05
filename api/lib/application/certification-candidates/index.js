@@ -82,7 +82,7 @@ const register = async function (server) {
             id: identifiersType.certificationCandidateId,
           }),
         },
-        handler: certificationCandidatesController.getSubscriptions,
+        handler: certificationCandidatesController.getSubscription,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             "- Renvoie les informations d'inscription et d'élligibilité au passage de la certification complémentaire d'un candidat",

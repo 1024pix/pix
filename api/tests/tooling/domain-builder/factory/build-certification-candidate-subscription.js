@@ -3,14 +3,14 @@ import { CertificationCandidateSubscription } from '../../../../lib/domain/read-
 const buildCertificationCandidateSubscription = function ({
   id = 1234,
   sessionId = 1234,
-  eligibleSubscriptions = [],
-  nonEligibleSubscriptions = [],
+  eligibleSubscription = null,
+  nonEligibleSubscription = null,
 } = {}) {
   return new CertificationCandidateSubscription({
     id,
     sessionId,
-    eligibleSubscriptions,
-    nonEligibleSubscriptions,
+    eligibleSubscription,
+    nonEligibleSubscription,
   });
 };
 

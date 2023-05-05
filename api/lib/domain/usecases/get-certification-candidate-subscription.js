@@ -14,15 +14,15 @@ const getCertificationCandidateSubscription = async function ({
     return new CertificationCandidateSubscription({
       id: certificationCandidateId,
       sessionId: certificationCandidate.sessionId,
-      eligibleSubscriptions: [],
-      nonEligibleSubscriptions: [],
+      eligibleSubscription: null,
+      nonEligibleSubscription: null,
     });
   }
 
   const certificationCenter = await certificationCenterRepository.getBySessionId(certificationCandidate.sessionId);
 
-  const eligibleSubscriptions = [];
-  const nonEligibleSubscriptions = [];
+  let eligibleSubscription = null;
+  let nonEligibleSubscription = null;
   const certifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
     userId: certificationCandidate.userId,
   });
@@ -34,17 +34,17 @@ const getCertificationCandidateSubscription = async function ({
     );
 
     if (isSubscriptionEligible) {
-      eligibleSubscriptions.push(certificationCandidate.complementaryCertification);
+      eligibleSubscription = certificationCandidate.complementaryCertification;
     } else {
-      nonEligibleSubscriptions.push(certificationCandidate.complementaryCertification);
+      nonEligibleSubscription = certificationCandidate.complementaryCertification;
     }
   }
 
   return new CertificationCandidateSubscription({
     id: certificationCandidateId,
     sessionId: certificationCandidate.sessionId,
-    eligibleSubscriptions,
-    nonEligibleSubscriptions,
+    eligibleSubscription,
+    nonEligibleSubscription,
   });
 };
 

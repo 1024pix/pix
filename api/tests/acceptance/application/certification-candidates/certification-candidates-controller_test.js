@@ -209,14 +209,12 @@ describe('Acceptance | API | Certifications candidates', function () {
         type: 'certification-candidate-subscriptions',
         attributes: {
           'session-id': session.id,
-          'eligible-subscriptions': [],
-          'non-eligible-subscriptions': [
-            {
-              id: cleaComplementaryCertification.id,
-              label: 'CléA Numérique',
-              key: ComplementaryCertification.CLEA,
-            },
-          ],
+          'eligible-subscription': null,
+          'non-eligible-subscription': {
+            id: cleaComplementaryCertification.id,
+            label: 'CléA Numérique',
+            key: ComplementaryCertification.CLEA,
+          },
         },
       });
     });
