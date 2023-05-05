@@ -1,4 +1,4 @@
-const { createTargetProfile, createBadge, createStages } = require('./tooling');
+const { createTargetProfile, createBadge, createStages } = require('../common/target-profile-tooling');
 const { PRO_COMPANY_ID } = require('../organizations-pro-builder');
 
 async function richTargetProfilesBuilder({ databaseBuilder }) {
