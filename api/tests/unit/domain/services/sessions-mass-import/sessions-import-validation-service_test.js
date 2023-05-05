@@ -454,6 +454,38 @@ describe('Unit | Service | sessions import validation Service', function () {
       });
     });
 
+    context("when candidate's extraTimePourcentage is below than 1", function () {
+      it('should return a report', async function () {
+        // given
+        const isSco = false;
+        const candidate = _buildValidCandidateData();
+        candidate.extraTimePercentage = 0.33;
+        const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation.success({ ...candidate });
+        const certificationCpfServiceStub = {
+          getBirthInformation: sinon.stub().resolves(cpfBirthInformationValidation),
+        };
+
+        // when
+        const { certificationCandidateErrors } =
+          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+            candidate,
+            isSco,
+            line: 1,
+            dependencies: { certificationCpfService: certificationCpfServiceStub },
+          });
+
+        // then
+        expect(certificationCandidateErrors).to.deep.equal([
+          {
+            code: 'CANDIDATE_EXTRA_TIME_OUT_OF_RANGE',
+            line: 1,
+            isBlocking: true,
+          },
+        ]);
+      });
+    });
+
     context('when candidate has missing billing information', function () {
       context('when the parsed candidate is not sco', function () {
         context('when billing mode is null', function () {
@@ -731,7 +763,7 @@ function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { ca
     resultRecipientEmail: 'robindahood@email.fr',
     email: 'robindahood2@email.fr',
     externalId: 'htehte',
-    extraTimePercentage: '20',
+    extraTimePercentage: 20,
     billingMode: 'PAID',
     line: lineNumber,
   });

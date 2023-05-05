@@ -2,6 +2,7 @@ const sessionValidator = require('../../validators/session-validator.js');
 const certificationCpfService = require('../certification-cpf-service.js');
 const { CERTIFICATION_SESSIONS_ERRORS } = require('../../constants/sessions-errors');
 const dayjs = require('dayjs');
+const { CERTIFICATION_CANDIDATES_ERRORS } = require('../../constants/certification-candidates-errors');
 
 module.exports = {
   async validateSession({ session, line, certificationCenterId, sessionRepository, certificationCourseRepository }) {
@@ -113,6 +114,19 @@ module.exports = {
     dependencies = { certificationCpfService },
   }) {
     const certificationCandidateErrors = [];
+
+    if (candidate.extraTimePercentage) {
+      if (candidate.extraTimePercentage >= 1) {
+        candidate.convertExtraTimePercentageToDecimal();
+      } else {
+        _addToErrorList({
+          errorList: certificationCandidateErrors,
+          line,
+          codes: [CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code],
+        });
+      }
+    }
+
     const errorCodes = candidate.validateForMassSessionImport(isSco);
     _addToErrorList({ errorList: certificationCandidateErrors, line, codes: errorCodes });
 
@@ -137,8 +151,6 @@ module.exports = {
         }
       });
     }
-
-    candidate.convertExtraTimePercentageToDecimal();
 
     return {
       certificationCandidateErrors,
