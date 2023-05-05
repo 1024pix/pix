@@ -63,7 +63,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
     // then
     assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
-    assert.dom(screen.getByText('28/05/1984 · Temps majoré : 8%')).exists();
+    assert.dom(screen.getByText('28/05/1984 · Temps majoré : 8 %')).exists();
     assert.dom(screen.queryByText('Inscription à Super Certification Complémentaire')).doesNotExist();
     assert.dom(screen.getByRole('checkbox', { name: 'Zen Whoberi Ben Titan Gamora' })).isNotChecked();
   });
@@ -88,7 +88,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
       // then
       assert.dom(screen.getByText('Lord Star')).exists();
-      assert.dom(screen.getByText('28/06/1983 · Temps majoré : 12%')).exists();
+      assert.dom(screen.getByText('28/06/1983 · Temps majoré : 12 %')).exists();
       assert.dom(screen.getByRole('checkbox', { name: 'Lord Star' })).isChecked();
     });
 
