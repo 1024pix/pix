@@ -1,14 +1,73 @@
+const { createCampaign } = require('../common/campaign-tooling');
 const { createTargetProfile, createBadge, createStages } = require('../common/target-profile-tooling');
 const { PRO_COMPANY_ID } = require('../organizations-pro-builder');
 
 async function richTargetProfilesBuilder({ databaseBuilder }) {
   await _createTargetProfile500(databaseBuilder);
   await _createTargetProfile501(databaseBuilder);
+  await _createCampaign500(databaseBuilder);
 }
 
 module.exports = {
   richTargetProfilesBuilder,
 };
+
+async function _createCampaign500(databaseBuilder) {
+  const organizationId = databaseBuilder.factory.buildOrganization({
+    type: 'PRO',
+    name: 'Orga team contenu',
+    isManagingStudents: false,
+    externalId: 'CONTENU',
+  }).id;
+
+  const userId = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Orga PRO',
+    lastName: 'Contenu',
+    email: 'contenu-orga-pro@example.net',
+    cgu: true,
+    lang: 'fr',
+    lastTermsOfServiceValidatedAt: new Date(),
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
+    mustValidateTermsOfService: false,
+    pixOrgaTermsOfServiceAccepted: false,
+    pixCertifTermsOfServiceAccepted: false,
+    hasSeenAssessmentInstructions: false,
+    rawPassword: 'pix123',
+    shouldChangePassword: false,
+  }).id;
+
+  databaseBuilder.factory.buildMembership({
+    userId,
+    organizationId,
+    organizationRole: 'ADMIN',
+  });
+
+  await createCampaign({
+    databaseBuilder,
+    campaignId: 500,
+    name: 'Campagne team-contenu',
+    code: 'CONTEN123',
+    title: 'Campagne team-contenu',
+    idPixLabel: null,
+    externalIdHelpImageUrl: null,
+    alternativeTextToExternalIdHelpImage: null,
+    customLandingPageText: null,
+    isForAbsoluteNovice: false,
+    archivedAt: null,
+    archivedBy: null,
+    type: 'ASSESSMENT',
+    createdAt: undefined,
+    organizationId,
+    creatorId: userId,
+    ownerId: userId,
+    targetProfileId: null,
+    customResultPageText: 'customResultPageText',
+    customResultPageButtonText: 'customResultPageButtonText',
+    customResultPageButtonUrl: 'customResultPageButtonUrl',
+    multipleSendings: false,
+    assessmentMethod: 'SMART_RANDOM',
+  });
+}
 
 async function _createTargetProfile500(databaseBuilder) {
   const configTargetProfile = {
