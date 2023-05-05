@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 
 export default class ListController extends Controller {
   @service currentUser;
-  @service intl;
   @service router;
 
   @tracked pageNumber = 1;
@@ -46,22 +45,5 @@ export default class ListController extends Controller {
   goToLearnerPage(learnerId, event) {
     event.preventDefault();
     this.router.transitionTo('authenticated.organization-participants.organization-participant', learnerId);
-  }
-
-  get certificabilityOptions() {
-    return [
-      {
-        value: 'not-available',
-        label: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.not-available'),
-      },
-      {
-        value: 'eligible',
-        label: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'),
-      },
-      {
-        value: 'non-eligible',
-        label: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.non-eligible'),
-      },
-    ];
   }
 }
