@@ -13,14 +13,6 @@ export default class AuthenticatedCampaignsListAllCampaignsController extends Co
   @tracked ownerName = null;
   @tracked status = null;
 
-  get isArchived() {
-    return this.status === 'archived';
-  }
-
-  get isClearFiltersButtonDisabled() {
-    return !this.name && !this.ownerName && !this.status;
-  }
-
   @action
   clearFilters() {
     this.name = null;

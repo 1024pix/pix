@@ -5,11 +5,10 @@
     @campaigns={{@model}}
     @nameFilter={{this.name}}
     @ownerNameFilter={{this.ownerName}}
+    @statusFilter={{this.status}}
     @onFilter={{this.triggerFiltering}}
     @onClear={{this.clearFilters}}
-    @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}}
     @onClickCampaign={{this.goToCampaignPage}}
-    @isArchived={{this.isArchived}}
   />
 {{else}}
   <Campaign::NoCampaignPanel />
