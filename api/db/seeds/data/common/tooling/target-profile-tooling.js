@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
+const skillRepository = require('../../../../../lib/infrastructure/repositories/skill-repository');
+const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
 
 module.exports = {
   createTargetProfile,

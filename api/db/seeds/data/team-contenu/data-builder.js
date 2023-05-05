@@ -1,5 +1,4 @@
-const { createCampaign } = require('../common/campaign-tooling');
-const { createTargetProfile, createBadge, createStages } = require('../common/target-profile-tooling');
+const tooling = require('../common/tooling');
 const { PRO_COMPANY_ID } = require('../organizations-pro-builder');
 
 async function teamContenuDataBuilder({ databaseBuilder }) {
@@ -42,7 +41,7 @@ async function _createCampaign500(databaseBuilder) {
     organizationRole: 'ADMIN',
   });
 
-  await createCampaign({
+  await tooling.campaign.createCampaign({
     databaseBuilder,
     campaignId: 500,
     name: 'Campagne team-contenu',
@@ -92,7 +91,7 @@ async function _createTargetProfile500(databaseBuilder) {
       },
     ],
   };
-  const { targetProfileId, cappedTubesDTO } = await createTargetProfile({
+  const { targetProfileId, cappedTubesDTO } = await tooling.targetProfile.createTargetProfile({
     databaseBuilder,
     targetProfileId: 500,
     name: 'Profil cible Pur Pix (Niv3 ~ 5)',
@@ -103,7 +102,7 @@ async function _createTargetProfile500(databaseBuilder) {
       'Profil cible pur pix (Niv3 ~ 5) avec 1 RT double critère (tube et participation) et des paliers NIVEAUX',
     configTargetProfile,
   });
-  createBadge({
+  tooling.targetProfile.createBadge({
     databaseBuilder,
     targetProfileId,
     cappedTubesDTO,
@@ -117,7 +116,7 @@ async function _createTargetProfile500(databaseBuilder) {
     isAlwaysVisible: false,
     configBadge,
   });
-  createStages({
+  tooling.targetProfile.createStages({
     databaseBuilder,
     targetProfileId,
     cappedTubesDTO,
@@ -144,7 +143,7 @@ async function _createTargetProfile501(databaseBuilder) {
       },
     ],
   };
-  const { targetProfileId, cappedTubesDTO } = await createTargetProfile({
+  const { targetProfileId, cappedTubesDTO } = await tooling.targetProfile.createTargetProfile({
     databaseBuilder,
     targetProfileId: 501,
     name: 'Profil cible Pix et un autre réf (Niv1 ~ 8)',
@@ -154,7 +153,7 @@ async function _createTargetProfile501(databaseBuilder) {
     description: 'Profil cible pur pix et un autre réf (Niv1 ~ 8) et des paliers SEUILS',
     configTargetProfile,
   });
-  createStages({
+  tooling.targetProfile.createStages({
     databaseBuilder,
     targetProfileId,
     cappedTubesDTO,
