@@ -1,16 +1,22 @@
 const tooling = require('../common/tooling');
-// TODO créer les campaign skills
-const TEAM_CONTENU_OFFSET = 5000;
+
+const TEAM_CONTENU_OFFSET_ID = 5000;
 // IDS
 /// USERS
-const PRO_ORGANIZATION_USER_ID = TEAM_CONTENU_OFFSET;
+const PRO_ORGANIZATION_USER_ID = TEAM_CONTENU_OFFSET_ID;
 /// ORGAS
-const PRO_ORGANIZATION_ID = TEAM_CONTENU_OFFSET;
+const PRO_ORGANIZATION_ID = TEAM_CONTENU_OFFSET_ID;
+// TARGET PROFILES
+const TARGET_PROFILE_PIX_ID = TEAM_CONTENU_OFFSET_ID;
+const TARGET_PROFILE_PIX_AND_MORE_ID = TEAM_CONTENU_OFFSET_ID + 1;
+// CAMPAIGNS
+const CAMPAIGN_PIX_ID = TEAM_CONTENU_OFFSET_ID;
 
 async function teamContenuDataBuilder({ databaseBuilder }) {
   _createProOrganization(databaseBuilder);
   await _createCoreTargetProfile(databaseBuilder);
   await _createDiverseTargetProfile(databaseBuilder);
+  await databaseBuilder.commit();
   await _createAssessmentCampaign(databaseBuilder);
 }
 
@@ -52,7 +58,7 @@ function _createProOrganization(databaseBuilder) {
 async function _createAssessmentCampaign(databaseBuilder) {
   await tooling.campaign.createCampaign({
     databaseBuilder,
-    campaignId: 500,
+    campaignId: CAMPAIGN_PIX_ID,
     name: 'Campagne team-contenu',
     code: 'CONTEN123',
     title: 'Campagne team-contenu',
@@ -68,7 +74,7 @@ async function _createAssessmentCampaign(databaseBuilder) {
     organizationId: PRO_ORGANIZATION_ID,
     creatorId: PRO_ORGANIZATION_USER_ID,
     ownerId: PRO_ORGANIZATION_USER_ID,
-    targetProfileId: null,
+    targetProfileId: TARGET_PROFILE_PIX_ID,
     customResultPageText: 'customResultPageText',
     customResultPageButtonText: 'customResultPageButtonText',
     customResultPageButtonUrl: 'customResultPageButtonUrl',
@@ -102,7 +108,7 @@ async function _createCoreTargetProfile(databaseBuilder) {
   };
   const { targetProfileId, cappedTubesDTO } = await tooling.targetProfile.createTargetProfile({
     databaseBuilder,
-    targetProfileId: 500,
+    targetProfileId: TARGET_PROFILE_PIX_ID,
     name: 'Profil cible Pur Pix (Niv3 ~ 5)',
     isPublic: true,
     ownerOrganizationId: PRO_ORGANIZATION_ID,
@@ -154,7 +160,7 @@ async function _createDiverseTargetProfile(databaseBuilder) {
   };
   const { targetProfileId, cappedTubesDTO } = await tooling.targetProfile.createTargetProfile({
     databaseBuilder,
-    targetProfileId: 501,
+    targetProfileId: TARGET_PROFILE_PIX_AND_MORE_ID,
     name: 'Profil cible Pix et un autre réf (Niv1 ~ 8)',
     isPublic: true,
     ownerOrganizationId: PRO_ORGANIZATION_ID,
