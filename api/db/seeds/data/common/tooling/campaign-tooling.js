@@ -1,3 +1,5 @@
+const learningContent = require('./learning-content');
+
 module.exports = {
   createCampaign,
 };
@@ -29,9 +31,9 @@ module.exports = {
  * @param {string} customResultPageButtonUrl
  * @param {boolean} multipleSendings
  * @param {string} assessmentMethod
- * @returns {{campaignId: number}}
+ * @returns {Promise<{campaignId: number}>}
  */
-function createCampaign({
+async function createCampaign({
   databaseBuilder,
   campaignId,
   name,
@@ -81,7 +83,15 @@ function createCampaign({
     multipleSendings,
     assessmentMethod,
   });
-
+  const cappedTubes = await databaseBuilder
+    .knex('target-profile_tubes')
+    .select('tubeId', 'level')
+    .where({ targetProfileId });
+  for (const cappedTube of cappedTubes) {
+    const skillsForTube = await learningContent.findActiveSkillsByTubeId(cappedTube.id);
+    const skillsCapped = skillsForTube.filter((skill) => skill.difficulty <= parseInt(cappedTube.level));
+    skillsCapped.map((skill) => databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: skill.id }));
+  }
   return { campaignId };
 }
 
