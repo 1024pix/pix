@@ -1,4 +1,4 @@
-import { tooling } from '../common/tooling.js';
+import * as tooling from '../common/tooling/index.js';
 
 const TEAM_CONTENU_OFFSET_ID = 5000;
 // IDS
