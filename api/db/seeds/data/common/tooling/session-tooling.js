@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { learningContent } from './learning-content.js';
-import { campaignTooling } from './campaign-tooling.js';
-import { generic } from './generic.js';
+import * as learningContent from './learning-content.js';
+import * as campaignTooling from './campaign-tooling.js';
+import * as generic from './generic.js';
 
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,

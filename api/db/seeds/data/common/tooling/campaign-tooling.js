@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import dayjs from 'dayjs';
-import { learningContent } from './learning-content.js';
-import { profileTooling } from './profile-tooling.js';
-import { generic } from './generic.js';
+import * as learningContent from './learning-content.js';
+import * as profileTooling from './profile-tooling.js';
+import * as generic from './generic.js';
 import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
 
