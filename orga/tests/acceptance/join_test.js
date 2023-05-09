@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import Response from 'ember-cli-mirage/response';
-import { visit, currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { visit, currentURL, click } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -29,7 +29,7 @@ module('Acceptance | join', function (hooks) {
   });
 
   module('When prescriber tries to go on join page', function () {
-    test('it should remain on join page when organization-invitation exists', async function (assert) {
+    test('remains on join page when organization-invitation exists', async function (assert) {
       // given
       const code = 'ABCDEFGH01';
       const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
@@ -48,7 +48,7 @@ module('Acceptance | join', function (hooks) {
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
 
-    test('it should redirect user to login page when organization-invitation exists but user tries to change language by url', async function (assert) {
+    test('redirects user to login page when organization-invitation exists but user tries to change language by url', async function (assert) {
       // given
       const code = 'ABCDEFGH01';
       const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
@@ -67,7 +67,7 @@ module('Acceptance | join', function (hooks) {
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
 
-    test('it should redirect user to login page when organization-invitation does not exist', async function (assert) {
+    test('redirects user to login page when organization-invitation does not exist', async function (assert) {
       // when
       await visit('rejoindre?invitationId=123456&code=FAKE999');
 
@@ -76,7 +76,7 @@ module('Acceptance | join', function (hooks) {
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
 
-    test('it should redirect user to login page when organization-invitation has already been accepted', async function (assert) {
+    test('redirects user to login page when organization-invitation has already been accepted', async function (assert) {
       // given
       const code = 'ABCDEFGH01';
       const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
@@ -98,7 +98,7 @@ module('Acceptance | join', function (hooks) {
       assert.dom('.login-form__invitation-error').hasText(expectedErrorMessage);
     });
 
-    test('it should redirect user to login page when organization-invitation has been cancelled', async function (assert) {
+    test('redirects user to login page when organization-invitation has been cancelled', async function (assert) {
       // given
       const code = 'ABCDEFGH01';
       const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
@@ -148,7 +148,7 @@ module('Acceptance | join', function (hooks) {
         }).id;
       });
 
-      test('it should redirect user to the terms-of-service page', async function (assert) {
+      test('redirects user to the terms-of-service page', async function (assert) {
         // given
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         await clickByName(loginFormButton);
@@ -164,7 +164,27 @@ module('Acceptance | join', function (hooks) {
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
       });
 
-      test('it should not show menu nor top bar', async function (assert) {
+      test("redirects user to the terms-of-service page in the user's language even if another language selected in join page", async function (assert) {
+        // given
+        const screen = await visitScreen(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+
+        await click(screen.getByRole('button', { name: 'Français' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'English' }));
+
+        await clickByName(this.intl.t('pages.login-or-register.login-form.button'));
+        await fillByLabel(this.intl.t('pages.login-or-register.register-form.fields.email.label'), user.email);
+        await fillByLabel(this.intl.t('pages.login-or-register.register-form.fields.password.label'), 'secret');
+
+        // when
+        await clickByName(this.intl.t('pages.login-or-register.login-form.button'));
+
+        // then
+        assert.strictEqual(currentURL(), '/cgu');
+        assert.dom(screen.getByText("CONDITIONS GÉNÉRALES D'UTILISATION DE LA PLATEFORME PIX ORGA")).exists();
+      });
+
+      test('does not show menu nor top bar', async function (assert) {
         // given
         server.create('campaign');
 
@@ -202,7 +222,7 @@ module('Acceptance | join', function (hooks) {
         }).id;
       });
 
-      test('it redirects user to the campaigns list that contains prescriber name', async function (assert) {
+      test('redirects user to the campaigns list that contains prescriber name', async function (assert) {
         // given
         server.create('campaign');
 
@@ -242,7 +262,7 @@ module('Acceptance | join', function (hooks) {
           }).id;
         });
 
-        test('it should remain on join page, even with multiple attempts', async function (assert) {
+        test('remains on join page, even with multiple attempts', async function (assert) {
           // given
           server.post(
             '/token',
@@ -290,7 +310,7 @@ module('Acceptance | join', function (hooks) {
           }).id;
         });
 
-        test('it displays an error message', async function (assert) {
+        test('displays an error message', async function (assert) {
           // given
           server.post(
             `/organization-invitations/${organizationInvitationId}/response`,
@@ -332,7 +352,7 @@ module('Acceptance | join', function (hooks) {
             }).id;
           });
 
-          test('it should redirect to terms-of-service page', async function (assert) {
+          test('redirects to terms-of-service page', async function (assert) {
             // given
             server.post(
               `/organization-invitations/${organizationInvitationId}/response`,
@@ -389,31 +409,67 @@ module('Acceptance | join', function (hooks) {
           organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         });
 
-        test('it should accept invitation and redirect prescriber to the terms-of-service page', async function (assert) {
-          // given
-          const code = 'ABCDEFGH01';
-          const organizationInvitationId = server.create('organizationInvitation', {
-            organizationId,
-            email: 'random@email.com',
-            status: 'pending',
-            code,
-          }).id;
+        module('when join page is in french international language by default', function () {
+          test('accepts invitation, create user and membership and redirect prescriber to the terms-of-service page', async function (assert) {
+            // given
+            const code = 'ABCDEFGH01';
+            const organizationInvitationId = server.create('organizationInvitation', {
+              organizationId,
+              email: 'random@email.com',
+              status: 'pending',
+              code,
+            }).id;
 
-          await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-          await fillByLabel(firstNameInputLabel, 'pix');
-          await fillByLabel(lastNameInputLabel, 'pix');
-          await fillByLabel(emailInputLabel, 'shi@fu.me');
-          await fillByLabel(passwordInputLabel, 'Password4register');
-          await clickByName(cguAriaLabel);
+            await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+            await fillByLabel(firstNameInputLabel, 'pix');
+            await fillByLabel(lastNameInputLabel, 'pix');
+            await fillByLabel(emailInputLabel, 'shi@fu.me');
+            await fillByLabel(passwordInputLabel, 'Password4register');
+            await clickByName(cguAriaLabel);
 
-          // when
-          await clickByName(registerButtonLabel);
+            // when
+            await clickByName(registerButtonLabel);
 
-          // then
-          assert.strictEqual(currentURL(), '/cgu');
-          assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-          const organizationInvitation = server.db.organizationInvitations[0];
-          assert.strictEqual(organizationInvitation.status, 'accepted');
+            // then
+            assert.strictEqual(currentURL(), '/cgu');
+            assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+            const organizationInvitation = server.db.organizationInvitations[0];
+            assert.strictEqual(organizationInvitation.status, 'accepted');
+          });
+        });
+
+        module('when user select english language', function () {
+          test("redirects user to the terms-of-service page in the user's language selected", async function (assert) {
+            // given
+            const code = 'ENGLISH_USER_INVITATION_CODE';
+            const organizationInvitationId = server.create('organizationInvitation', {
+              organizationId,
+              email: 'random@email.com',
+              status: 'pending',
+              code,
+            }).id;
+
+            const screen = await visitScreen(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+            await click(screen.getByRole('button', { name: 'Français' }));
+            await screen.findByRole('listbox');
+            await click(screen.getByRole('option', { name: 'English' }));
+
+            await fillByLabel(this.intl.t('pages.login-or-register.register-form.fields.first-name.label'), 'pix');
+            await fillByLabel(this.intl.t('pages.login-or-register.register-form.fields.last-name.label'), 'pix');
+            await fillByLabel(this.intl.t('pages.login-or-register.register-form.fields.email.label'), 'shi@fu.me');
+            await fillByLabel(
+              this.intl.t('pages.login-or-register.register-form.fields.password.label'),
+              'Password4register'
+            );
+            await clickByName(this.intl.t('pages.login-or-register.register-form.fields.cgu.aria-label'));
+
+            // when
+            await clickByName(this.intl.t('pages.login-or-register.register-form.fields.button.label'));
+
+            // then
+            assert.strictEqual(currentURL(), '/cgu');
+            assert.dom(screen.getByText('TERMS AND CONDITIONS OF USE OF THE PIX ORGA PLATFORM')).exists();
+          });
         });
       });
 
@@ -424,7 +480,7 @@ module('Acceptance | join', function (hooks) {
           organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         });
 
-        test('should redirect prescriber to the campaigns list', async function (assert) {
+        test('redirects prescriber to the campaigns list', async function (assert) {
           // given
           const code = 'ABCDEFGH01';
           const organizationInvitationId = server.create('organizationInvitation', {
