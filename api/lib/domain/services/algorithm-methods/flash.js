@@ -1,4 +1,4 @@
-const { orderBy, range, sortBy, sortedUniqBy, sumBy } = require('lodash');
+const { maxBy, orderBy, range, sortBy, sortedUniqBy, sumBy } = require('lodash');
 
 const config = require('../../../config.js');
 
@@ -35,20 +35,9 @@ function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DE
     };
   });
 
-  let maxReward = 0;
-  const possibleChallenges = challengesWithReward.reduce((acc, challengesWithReward) => {
-    if (challengesWithReward.reward > maxReward) {
-      acc = [challengesWithReward.challenge];
-      maxReward = challengesWithReward.reward;
-    } else if (challengesWithReward.reward === maxReward) {
-      acc.push(challengesWithReward.challenge);
-    }
-    return acc;
-  }, []);
-
   return {
     hasAssessmentEnded: false,
-    possibleChallenges,
+    possibleChallenges: _findBestPossibleChallenges(challengesWithReward),
   };
 }
 
@@ -133,6 +122,13 @@ function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, es
   ]);
 
   return pixScoreAndScoreByCompetence;
+}
+
+function _findBestPossibleChallenges(challengesWithReward) {
+  const { reward: maxReward } = maxBy(challengesWithReward, 'reward');
+  const possibleChallengesWithReward = challengesWithReward.filter(({ reward }) => reward === maxReward);
+
+  return possibleChallengesWithReward.map(({ challenge }) => challenge);
 }
 
 function _getDirectSucceededChallenges({ allAnswers, challenges }) {
