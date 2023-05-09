@@ -1,5 +1,9 @@
 {{! template-lint-disable style-concatenation no-inline-styles }}
-<div class="challenge-embed-simulator" style="{{this.embedDocumentHeightStyle}}">
+<div
+  class="challenge-embed-simulator"
+  style="{{this.embedDocumentHeightStyle}}"
+  data-test-id="challenge-embed-simulator"
+>
   {{#if this.isLoadingEmbed}}
     <div class="embed placeholder blurred" aria-label="{{t 'pages.challenge.embed-simulator.placeholder'}}">
       <FaIcon @icon="image" />
@@ -15,7 +19,7 @@
       </div>
     {{/unless}}
 
-    <div class="embed__simulator {{unless this.isSimulatorLaunched 'blurred'}}">
+    <div class="embed__simulator {{unless this.isSimulatorLaunched 'blurred'}}" data-test-id="embed-simulator">
       <iframe
         tabindex={{unless this.isSimulatorLaunched "-1"}}
         class="embed__iframe"
@@ -23,6 +27,7 @@
         title="{{@embedDocument.title}}"
         {{did-insert this.configureIframe @embedDocument.url this}}
         {{did-update this.configureIframe @embedDocument.url this}}
+        data-test-id="embed-iframe"
       ></iframe>
     </div>
 
