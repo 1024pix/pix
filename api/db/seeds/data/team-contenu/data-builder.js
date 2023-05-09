@@ -10,7 +10,8 @@ const PRO_ORGANIZATION_ID = TEAM_CONTENU_OFFSET_ID;
 const TARGET_PROFILE_PIX_ID = TEAM_CONTENU_OFFSET_ID;
 const TARGET_PROFILE_PIX_AND_MORE_ID = TEAM_CONTENU_OFFSET_ID + 1;
 // CAMPAIGNS
-const CAMPAIGN_PIX_ID = TEAM_CONTENU_OFFSET_ID;
+const ASSESSMENT_CAMPAIGN_PIX_ID = TEAM_CONTENU_OFFSET_ID;
+const PROFILES_COLLECTION_CAMPAIGN_PIX_ID = TEAM_CONTENU_OFFSET_ID + 1;
 
 async function teamContenuDataBuilder({ databaseBuilder }) {
   _createProOrganization(databaseBuilder);
@@ -18,6 +19,7 @@ async function teamContenuDataBuilder({ databaseBuilder }) {
   await _createDiverseTargetProfile(databaseBuilder);
   await databaseBuilder.commit();
   await _createAssessmentCampaign(databaseBuilder);
+  await _createProfilesCollectionCampaign(databaseBuilder);
 }
 
 module.exports = {
@@ -56,12 +58,12 @@ function _createProOrganization(databaseBuilder) {
 }
 
 async function _createAssessmentCampaign(databaseBuilder) {
-  await tooling.campaign.createCampaign({
+  await tooling.campaign.createAssessmentCampaign({
     databaseBuilder,
-    campaignId: CAMPAIGN_PIX_ID,
-    name: 'Campagne team-contenu',
+    campaignId: ASSESSMENT_CAMPAIGN_PIX_ID,
+    name: 'Campagne evaluation team-contenu',
     code: 'CONTEN123',
-    title: 'Campagne team-contenu',
+    title: 'Campagne evaluation team-contenu',
     idPixLabel: null,
     externalIdHelpImageUrl: null,
     alternativeTextToExternalIdHelpImage: null,
@@ -69,12 +71,37 @@ async function _createAssessmentCampaign(databaseBuilder) {
     isForAbsoluteNovice: false,
     archivedAt: null,
     archivedBy: null,
-    type: 'ASSESSMENT',
     createdAt: undefined,
     organizationId: PRO_ORGANIZATION_ID,
     creatorId: PRO_ORGANIZATION_USER_ID,
     ownerId: PRO_ORGANIZATION_USER_ID,
     targetProfileId: TARGET_PROFILE_PIX_ID,
+    customResultPageText: 'customResultPageText',
+    customResultPageButtonText: 'customResultPageButtonText',
+    customResultPageButtonUrl: 'customResultPageButtonUrl',
+    multipleSendings: false,
+    assessmentMethod: 'SMART_RANDOM',
+  });
+}
+
+async function _createProfilesCollectionCampaign(databaseBuilder) {
+  await tooling.campaign.createProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: PROFILES_COLLECTION_CAMPAIGN_PIX_ID,
+    name: 'Campagne collecte profils team-contenu',
+    code: 'CONTEN456',
+    title: 'Campagne collecte profils team-contenu',
+    idPixLabel: null,
+    externalIdHelpImageUrl: null,
+    alternativeTextToExternalIdHelpImage: null,
+    customLandingPageText: null,
+    isForAbsoluteNovice: false,
+    archivedAt: null,
+    archivedBy: null,
+    createdAt: undefined,
+    organizationId: PRO_ORGANIZATION_ID,
+    creatorId: PRO_ORGANIZATION_USER_ID,
+    ownerId: PRO_ORGANIZATION_USER_ID,
     customResultPageText: 'customResultPageText',
     customResultPageButtonText: 'customResultPageButtonText',
     customResultPageButtonUrl: 'customResultPageButtonUrl',
