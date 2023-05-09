@@ -29,7 +29,6 @@ const { organizationsScoBuilder } = require('./data/organizations-sco-builder');
 const { organizationsSupBuilder } = require('./data/organizations-sup-builder');
 const { organizationPlacesProBuilder } = require('./data/organization-places-pro-builder');
 const { badgesBuilder } = require('./data/badges-builder');
-const tagsBuilder = require('./data/tags-builder');
 const { targetProfilesBuilder } = require('./data/target-profiles-builder');
 const { usersBuilder } = require('./data/users-builder');
 const { userLoginsBuilder } = require('./data/user-logins-builder');
@@ -46,6 +45,7 @@ const computeParticipationsResults = require('../../scripts/prod/compute-partici
 
 const poleEmploiSendingsBuilder = require('./data/pole-emploi-sendings-builder');
 const { trainingBuilder } = require('./data/trainings-builder');
+const { commonBuilder } = require('./data/common/common-builder');
 const { teamContenuDataBuilder } = require('./data/team-contenu/data-builder');
 const { fillCampaignSkills } = require('./data/fill-campaign-skills');
 const {
@@ -54,6 +54,7 @@ const {
 
 exports.seed = async (knex) => {
   const databaseBuilder = new DatabaseBuilder({ knex });
+  commonBuilder({ databaseBuilder });
 
   // Feature list
   featuresBuilder({ databaseBuilder });
@@ -63,8 +64,6 @@ exports.seed = async (knex) => {
   pixAdminRolesBuilder({ databaseBuilder });
 
   // Organizations
-  tagsBuilder({ databaseBuilder });
-
   organizationsProBuilder({ databaseBuilder });
   organizationPlacesProBuilder({ databaseBuilder });
 
