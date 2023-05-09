@@ -49,7 +49,8 @@ module('Acceptance | Challenge page banner', function (hooks) {
       await click(screen.getByRole('button', { name: 'Je commence' }));
       await click(screen.getByRole('button', { name: 'Ignorer' }));
       await click(screen.getByRole('button', { name: 'Quitter' }));
-      await click(screen.getByTitle('Quitter'));
+      await screen.findByRole('dialog');
+      await click(screen.getByRole('link', { name: "Quitter l'épreuve et retourner à la page d'accueil" }));
 
       // then
       assert.strictEqual(currentURL(), '/accueil');

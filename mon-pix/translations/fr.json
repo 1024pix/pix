@@ -151,9 +151,16 @@
   },
   "pages": {
     "assessment-banner": {
-      "title": "Épreuve pour l'évaluation : ",
-      "modal-title": "Besoin d'une pause ?",
-      "modal-content": "Tous vos progrès sont enregistrés. Vous pourrez reprendre là où vous vous êtes arrêté."
+      "modal": {
+        "title": "Besoin d'une pause ?",
+        "content": "Tous vos progrès sont enregistrés. Vous pourrez reprendre là où vous vous êtes arrêté.",
+        "actions": {
+          "quit": {
+            "extra-information": "Quitter l'épreuve et retourner à la page d'accueil"
+          }
+        }
+      },
+      "title": "Épreuve pour l'évaluation : "
     },
     "assessment-results": {
       "title": "Fin du test",

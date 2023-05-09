@@ -151,9 +151,16 @@
   },
   "pages": {
     "assessment-banner": {
-      "title": "Question for the assessment: ",
-      "modal-title": "Do you need a break?",
-      "modal-content": "All your progress is saved. You will be able to resume where you stopped."
+      "modal": {
+        "title": "Do you need a break?",
+        "content": "All your progress is saved. You will be able to resume where you stopped.",
+        "actions": {
+          "quit": {
+            "extra-information": "Exit the assessment and return to the home page"
+          }
+        }
+      },
+      "title": "Question for the assessment: "
     },
     "assessment-results": {
       "title": "End of test",

@@ -1,9 +1,9 @@
-import { fillIn, currentURL, visit } from '@ember/test-helpers';
+import { fillIn, currentURL, click } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Competence Evaluations | Resume Competence Evaluations', function (hooks) {
@@ -27,10 +27,13 @@ module('Acceptance | Competence Evaluations | Resume Competence Evaluations', f
       });
 
       test('should redirect to assessment after signin', async function (assert) {
+        // given
+        const screen = await visit('/competences/1/evaluer');
+
         // when
-        await fillIn('#login', user.email);
-        await fillIn('#password', user.password);
-        await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+        await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), user.email);
+        await fillIn(screen.getByLabelText('Mot de passe'), user.password);
+        await click(screen.getByRole('button', { name: this.intl.t('pages.sign-in.actions.submit') }));
 
         assert.ok(currentURL().includes('/assessments'));
       });
@@ -41,25 +44,24 @@ module('Acceptance | Competence Evaluations | Resume Competence Evaluations', f
         await authenticate(user);
       });
 
-      module('When competence evaluation exists', function (hooks) {
-        hooks.beforeEach(async function () {
-          await visit('/competences/1/evaluer');
-        });
-
+      module('When competence evaluation exists', function () {
         test('should redirect to assessment', async function (assert) {
+          // given & when
+          const screen = await visit('/competences/1/evaluer');
+
           // then
           assert.ok(currentURL().includes('/assessments/'));
-          assert.dom('.assessment-banner').exists();
+          assert.dom(screen.getByRole('banner')).exists();
         });
       });
 
-      module('When competence evaluation does not exist', function (hooks) {
-        hooks.beforeEach(async function () {
-          await visit('/competences/nonExistantCompetenceId/evaluer');
-        });
-
+      module('When competence evaluation does not exist', function () {
         test('should show an error message', async function (assert) {
-          assert.dom('.error-page__main-content').exists();
+          // given & when
+          const screen = await visit('/competences/nonExistantCompetenceId/evaluer');
+
+          // then
+          assert.dom(screen.getByRole('heading', { name: 'Oups, une erreur est survenue !' })).exists();
         });
       });
     });

@@ -3,9 +3,10 @@
     <img class="assessment-banner__pix-logo" src="/images/pix-logo-blanc.svg" alt="{{t 'common.pix'}}" />
     {{#if @title}}
       <div class="assessment-banner__splitter"></div>
-      <h1 class="assessment-banner__title"><span class="sr-only">{{t
-            "pages.assessment-banner.title"
-          }}</span>{{@title}}</h1>
+      <h1 class="assessment-banner__title">
+        <span class="sr-only"> {{t "pages.assessment-banner.title"}} </span>
+        {{@title}}
+      </h1>
     {{/if}}
     {{#if @displayHomeLink}}
       <button type="button" class="assessment-banner__home-link" onclick={{this.toggleClosingModal}}>
@@ -14,12 +15,12 @@
       </button>
       <PixModal
         class="assessment-banner__closing-modal"
-        @title={{t "pages.assessment-banner.modal-title"}}
+        @title={{t "pages.assessment-banner.modal.title"}}
         @showModal={{this.showClosingModal}}
         @onCloseButtonClick={{this.toggleClosingModal}}
       >
         <:content>
-          <p>{{t "pages.assessment-banner.modal-content"}}</p>
+          <p>{{t "pages.assessment-banner.modal.content"}}</p>
         </:content>
         <:footer>
           <div class="assessment-banner-closing-modal__footer">
@@ -30,7 +31,10 @@
             >
               {{t "common.actions.stay"}}
             </PixButton>
-            <PixButtonLink @route="authenticated" title={{t "common.actions.quit"}}>
+            <PixButtonLink
+              @route="authenticated"
+              aria-label={{t "pages.assessment-banner.modal.actions.quit.extra-information"}}
+            >
               {{t "common.actions.quit"}}
             </PixButtonLink>
           </div>

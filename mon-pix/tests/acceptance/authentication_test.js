@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { fillIn, currentURL, visit } from '@ember/test-helpers';
+import { fillIn, currentURL, click } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateByEmail, authenticateByUsername } from '../helpers/authentication';
-import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Authentication', function (hooks) {
@@ -42,12 +42,12 @@ module('Acceptance | Authentication', function (hooks) {
   module('Error case', function () {
     test('should stay in /connexion, when authentication failed', async function (assert) {
       // given
-      await visit('/connexion');
-      await fillIn('#login', 'anyone@pix.world');
-      await fillIn('#password', 'Pix20!!');
+      const screen = await visit('/connexion');
+      await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), 'anyone@pix.world');
+      await fillIn(screen.getByLabelText('Mot de passe'), 'Pix20!!');
 
       // when
-      await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.sign-in.actions.submit') }));
 
       // then
       assert.strictEqual(currentURL(), '/connexion');
