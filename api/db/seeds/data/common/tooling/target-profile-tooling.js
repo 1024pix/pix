@@ -1,18 +1,14 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
+const learningContent = require('./learning-content');
 
 module.exports = {
   createTargetProfile,
   createBadge,
   createStages,
 };
-
-const tubeIdsByFramework = {};
 let frameworkNames;
-let learningContentCached = false;
-
+const tubeIdsByFramework = {};
 /**
  * Fonction générique pour créer un profil cible selon une configuration donnée.
  * Retourne l'ID du profil cible ainsi qu'un objet JS contenant les sujets cappés par niveau.
@@ -57,7 +53,23 @@ async function createTargetProfile({
   attachedOrganizationIds = [],
   configTargetProfile,
 }) {
-  await _cacheLearningContent();
+  if (!frameworkNames) {
+    const allCompetences = await learningContent.getAllCompetences();
+    await bluebird.map(
+      allCompetences,
+      async (competence) => {
+        if (!tubeIdsByFramework[competence.origin]) tubeIdsByFramework[competence.origin] = [];
+        const skillsForCompetence = await learningContent.findActiveSkillsByCompetenceId(competence.id);
+        tubeIdsByFramework[competence.origin] = _(skillsForCompetence)
+          .flatMap('tubeId')
+          .concat(tubeIdsByFramework[competence.origin])
+          .uniq()
+          .value();
+      },
+      { concurrency: 3 },
+    );
+    frameworkNames = Object.keys(tubeIdsByFramework);
+  }
   _createTargetProfile({
     databaseBuilder,
     targetProfileId,
@@ -202,23 +214,6 @@ function createStages({
     );
   }
   return { stageIds };
-}
-
-async function _cacheLearningContent() {
-  if (!learningContentCached) {
-    learningContentCached = true;
-    const allCompetences = await competenceRepository.list();
-    await bluebird.mapSeries(allCompetences, async (competence) => {
-      if (!tubeIdsByFramework[competence.origin]) tubeIdsByFramework[competence.origin] = [];
-      const skillsForCompetence = await skillRepository.findActiveByCompetenceId(competence.id);
-      tubeIdsByFramework[competence.origin] = _(skillsForCompetence)
-        .flatMap('tubeId')
-        .concat(tubeIdsByFramework[competence.origin])
-        .uniq()
-        .value();
-    });
-    frameworkNames = Object.keys(tubeIdsByFramework);
-  }
 }
 
 function _createTargetProfile({
