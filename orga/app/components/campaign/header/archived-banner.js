@@ -14,7 +14,7 @@ export default class CampaignArchivedBanner extends Component {
       const campaign = this.store.peekRecord('campaign', this.args.campaign.id);
       await campaign.unarchive();
     } catch (err) {
-      this.notifications.error(this.intl.t('api-error-messages.global'));
+      this.notifications.sendError(this.intl.t('api-error-messages.global'));
     }
   }
 

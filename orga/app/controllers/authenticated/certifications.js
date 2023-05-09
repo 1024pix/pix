@@ -52,7 +52,7 @@ export default class AuthenticatedCertificationsController extends Controller {
           { autoClear: false }
         );
       } else {
-        this.notifications.error(error.message, { autoClear: false });
+        this.notifications.sendError(error.message, { autoClear: false });
       }
     }
   }
@@ -90,7 +90,7 @@ export default class AuthenticatedCertificationsController extends Controller {
           { autoClear: false }
         );
       } else {
-        this.notifications.error(error.message, { autoClear: false });
+        this.notifications.sendError(error.message, { autoClear: false });
       }
     }
   }
