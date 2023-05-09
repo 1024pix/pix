@@ -1,9 +1,9 @@
 import { Factory } from 'miragejs';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   certificationCourseId() {
-    return faker.random.number();
+    return faker.datatype.number();
   },
 
   firstName() {
@@ -15,15 +15,15 @@ export default Factory.extend({
   },
 
   externalId() {
-    return faker.random.uuid();
+    return faker.datatype.uuid();
   },
 
   hasSeenEndTestScreen() {
-    return faker.random.boolean();
+    return faker.datatype.boolean();
   },
 
   isCompleted() {
-    return faker.random.boolean();
+    return faker.datatype.boolean();
   },
 
   abortReason() {

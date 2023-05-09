@@ -1,5 +1,5 @@
 import { Factory } from 'miragejs';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   name() {
@@ -11,7 +11,7 @@ export default Factory.extend({
   },
 
   totalSkillsCount() {
-    return faker.random.number() + 3;
+    return faker.datatype.number() + 3;
   },
 
   afterCreate(competenceResult) {

@@ -1,5 +1,5 @@
 import { Factory } from 'miragejs';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
 
 export default Factory.extend({
@@ -32,11 +32,11 @@ export default Factory.extend({
   },
 
   externalId() {
-    return faker.random.uuid();
+    return faker.datatype.uuid();
   },
 
   extraTimePercentage() {
-    if (faker.random.boolean()) {
+    if (faker.datatype.boolean()) {
       return 0.3;
     }
 
@@ -44,15 +44,15 @@ export default Factory.extend({
   },
 
   isLinked() {
-    return faker.random.boolean();
+    return faker.datatype.boolean();
   },
 
   sessionId() {
-    return faker.random.number();
+    return faker.datatype.number();
   },
 
   sex() {
-    return faker.random.arrayElement(['M', 'F']);
+    return faker.helpers.arrayElement(['M', 'F']);
   },
 
   birthInseeCode() {
