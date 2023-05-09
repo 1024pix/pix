@@ -16,12 +16,22 @@ describe('Unit | Domain | Models | CorrectionBlockQROCMDep', function () {
     });
 
     describe('when passing parameters', function () {
-      it('should have a validated key that equals true if first param is true', function () {
-        const correctionBlock = new CorrectionBlockQROCMDep(true);
-        expect(correctionBlock.validated).to.equal(true);
+      describe('validated param', function () {
+        it('should throw if is null', function () {
+          expect(() => new CorrectionBlockQROCMDep(null)).to.throw();
+        });
+
+        it('should throw if is not a boolean', function () {
+          expect(() => new CorrectionBlockQROCMDep([])).to.throw();
+        });
+
+        it('should set internal property', function () {
+          const correctionBlock = new CorrectionBlockQROCMDep(true);
+          expect(correctionBlock.validated).to.be.true;
+        });
       });
 
-      describe('second param', function () {
+      describe('alternativeSolutions param', function () {
         it('should throw if is null', function () {
           expect(() => new CorrectionBlockQROCMDep(true, null)).to.throw();
         });
