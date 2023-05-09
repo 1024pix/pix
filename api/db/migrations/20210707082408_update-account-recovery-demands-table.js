@@ -1,13 +1,15 @@
 const TABLE_NAME = 'account-recovery-demands';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.alterTable(TABLE_NAME, (t) => {
     t.integer('userId').alter();
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.alterTable(TABLE_NAME, (t) => {
     t.string('userId').alter();
   });
 };
+
+export { up, down };

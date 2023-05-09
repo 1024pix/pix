@@ -1,3 +1,5 @@
-module.exports = function acceptPixLastTermsOfService({ userId, userRepository }) {
+const acceptPixLastTermsOfService = function ({ userId, userRepository }) {
   return userRepository.acceptPixLastTermsOfService(userId);
 };
+
+export { acceptPixLastTermsOfService };

@@ -7,7 +7,7 @@ const USERID_COLUMN = 'userId';
 const CAMPAIGNID_COLUMN = 'campaignId';
 const NEW_CONSTRAINT_NAME = 'campaign_participations_campaignid_userid_isimproved';
 
-exports.up = async (knex) => {
+const up = async function(knex) {
   await knex.schema.table(CAMPAIGNS_TABLE, function (table) {
     table.boolean(MULTIPLESENDINGS_COLUMN).defaultTo(false);
   });
@@ -23,7 +23,7 @@ exports.up = async (knex) => {
   );
 };
 
-exports.down = async (knex) => {
+const down = async function(knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(`DROP INDEX ${NEW_CONSTRAINT_NAME};`);
   await knex.schema.table(CAMPAIGNPARTICIPATIONS_TABLE, (table) => {
@@ -36,3 +36,5 @@ exports.down = async (knex) => {
     table.dropColumn(MULTIPLESENDINGS_COLUMN);
   });
 };
+
+export { up, down };

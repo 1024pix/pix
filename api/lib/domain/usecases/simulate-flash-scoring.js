@@ -1,6 +1,6 @@
-const ScoringSimulationResult = require('../models/ScoringSimulationResult.js');
+import { ScoringSimulationResult } from '../models/ScoringSimulationResult.js';
 
-module.exports = async function simulateFlashScoring({
+const simulateFlashScoring = async function ({
   challengeRepository,
   flashAlgorithmService,
   simulations,
@@ -62,3 +62,5 @@ module.exports = async function simulateFlashScoring({
     return new ScoringSimulationResult({ id, estimatedLevel: finalEstimatedLevel, pixScore, pixScoreByCompetence });
   });
 };
+
+export { simulateFlashScoring };

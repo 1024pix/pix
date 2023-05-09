@@ -176,7 +176,7 @@ const HttpErrors = {
   TooManyRequestsError,
 };
 
-module.exports = {
+export {
   HttpErrors,
   BadRequestError,
   BaseHttpError,

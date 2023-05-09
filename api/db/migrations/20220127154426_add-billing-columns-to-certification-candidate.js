@@ -1,6 +1,6 @@
 const TABLE_NAME = 'certification-candidates';
 
-exports.up = async function (knex) {
+const up = async function(knex) {
   await knex.schema.table(TABLE_NAME, (table) => {
     table.text('billingMode').defaultsTo(null);
     table.text('prepaymentCode').defaultsTo(null);
@@ -11,9 +11,11 @@ exports.up = async function (knex) {
   );
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.alterTable(TABLE_NAME, (table) => {
     table.dropColumn('billingMode');
     table.dropColumn('prepaymentCode');
   });
 };
+
+export { up, down };

@@ -1,7 +1,7 @@
 const TABLE_NAME = 'campaigns';
 const COLUMN_NAME = 'ownerId';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema
     .table(TABLE_NAME, function (table) {
       table.bigInteger(COLUMN_NAME).references('users.id');
@@ -16,8 +16,10 @@ exports.up = function (knex) {
     });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN_NAME);
   });
 };
+
+export { up, down };

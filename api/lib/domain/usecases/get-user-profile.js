@@ -1,8 +1,8 @@
-const Scorecard = require('../models/Scorecard.js');
-const { constants } = require('../constants.js');
-const _ = require('lodash');
+import { Scorecard } from '../models/Scorecard.js';
+import { constants } from '../constants.js';
+import _ from 'lodash';
 
-module.exports = async function getUserProfile({
+const getUserProfile = async function ({
   userId,
   competenceRepository,
   areaRepository,
@@ -43,3 +43,5 @@ module.exports = async function getUserProfile({
     maxReachableLevel,
   };
 };
+
+export { getUserProfile };

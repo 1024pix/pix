@@ -1,4 +1,4 @@
-module.exports = async function createOrUpdateTrainingTrigger({
+const createOrUpdateTrainingTrigger = async function ({
   trainingId,
   tubes,
   type,
@@ -16,3 +16,5 @@ module.exports = async function createOrUpdateTrainingTrigger({
     domainTransaction,
   });
 };
+
+export { createOrUpdateTrainingTrigger };

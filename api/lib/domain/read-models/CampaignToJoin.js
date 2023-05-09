@@ -1,5 +1,5 @@
-const Assessment = require('../models/Assessment.js');
-const CampaignTypes = require('../models/CampaignTypes.js');
+import { Assessment } from '../models/Assessment.js';
+import { CampaignTypes } from '../models/CampaignTypes.js';
 
 class CampaignToJoin {
   constructor({
@@ -75,4 +75,4 @@ class CampaignToJoin {
   }
 }
 
-module.exports = CampaignToJoin;
+export { CampaignToJoin };

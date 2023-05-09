@@ -1,4 +1,4 @@
-module.exports = async function getAccountRecoveryDetails({
+const getAccountRecoveryDetails = async function ({
   temporaryKey,
   accountRecoveryDemandRepository,
   organizationLearnerRepository,
@@ -20,3 +20,5 @@ module.exports = async function getAccountRecoveryDetails({
     firstName,
   };
 };
+
+export { getAccountRecoveryDetails };

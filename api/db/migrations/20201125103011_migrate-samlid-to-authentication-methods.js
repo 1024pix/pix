@@ -1,6 +1,6 @@
-const AuthenticationMethod = require('../../lib/domain/models/AuthenticationMethod');
+import { AuthenticationMethod } from '../../lib/domain/models/AuthenticationMethod.js';
 
-exports.up = function (knex) {
+const up = function(knex) {
   // eslint-disable-next-line knex/avoid-injections
   return knex.raw(
     'INSERT INTO "authentication-methods"("userId", "externalIdentifier", "identityProvider") ' +
@@ -8,7 +8,7 @@ exports.up = function (knex) {
   );
 };
 
-exports.down = async function (knex) {
+const down = async function(knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(
     'UPDATE users SET "samlId" = ' +
@@ -19,3 +19,5 @@ exports.down = async function (knex) {
     .where({ identityProvider: AuthenticationMethod.identityProviders.GAR })
     .delete();
 };
+
+export { up, down };

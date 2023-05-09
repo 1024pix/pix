@@ -1,14 +1,16 @@
 const TABLE_NAME = 'campaigns';
 const TITLE_COLUMN = 'alternativeTextToExternalIdHelpImage';
 
-exports.up = (knex) => {
+const up = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.text(TITLE_COLUMN);
   });
 };
 
-exports.down = (knex) => {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn(TITLE_COLUMN);
   });
 };
+
+export { up, down };

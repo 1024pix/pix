@@ -1,4 +1,4 @@
-const { batch } = require('../batch-processing');
+import { batch } from '../batch-processing.js';
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 const TABLE_NAME_CERTIFICATIONS = 'certification-courses';
 const LIST_COMPETENCES_PLACEMENT = [
@@ -24,7 +24,7 @@ const TYPE_CERTIFICATION = 'CERTIFICATION';
 const TYPE_DEMO = 'DEMO';
 const TYPE_PREVIEW = 'PREVIEW';
 
-exports.up = function (knex) {
+const up = function(knex) {
   // XXX : Modify PREVIEW assessments
   return knex(TABLE_NAME_ASSESSMENTS)
     .select('id', 'courseId', 'type')
@@ -83,6 +83,8 @@ exports.up = function (knex) {
     });
 };
 
-exports.down = function () {
+const down = function() {
   return;
 };
+
+export { up, down };

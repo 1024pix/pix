@@ -1,6 +1,6 @@
-const uniqBy = require('lodash/uniqBy');
-const remove = require('lodash/remove');
-const EuropeanNumericLevel = require('./EuropeanNumericLevel.js');
+import uniqBy from 'lodash/uniqBy';
+import remove from 'lodash/remove';
+import { EuropeanNumericLevel } from './EuropeanNumericLevel.js';
 
 class EuropeanNumericLevelFactory {
   static buildFromCompetenceMarks(competenceMarks) {
@@ -94,4 +94,4 @@ function _areAtLeastOneCompetenceByDomain(competenceMarks) {
   return uniqBy(competenceMarks, 'areaCode').length === 5;
 }
 
-module.exports = EuropeanNumericLevelFactory;
+export { EuropeanNumericLevelFactory };

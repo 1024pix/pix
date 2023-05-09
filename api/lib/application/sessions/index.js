@@ -1,15 +1,15 @@
-const Joi = require('joi');
-const securityPreHandlers = require('../security-pre-handlers.js');
-const sessionController = require('./session-controller.js');
-const sessionForSupervisingController = require('./session-for-supervising-controller.js');
-const sessionWithCleaCertifiedCandidateController = require('./session-with-clea-certified-candidate-controller.js');
-const finalizedSessionController = require('./finalized-session-controller.js');
-const authorization = require('../preHandlers/authorization.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
-const { sendJsonApiError, UnprocessableEntityError } = require('../http-errors.js');
-const assessmentSupervisorAuthorization = require('../preHandlers/session-supervisor-authorization.js');
+import Joi from 'joi';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { sessionController } from './session-controller.js';
+import { sessionForSupervisingController } from './session-for-supervising-controller.js';
+import { sessionWithCleaCertifiedCandidateController } from './session-with-clea-certified-candidate-controller.js';
+import { finalizedSessionController } from './finalized-session-controller.js';
+import { authorization } from '../preHandlers/authorization.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
+import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -777,4 +777,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'sessions-api';
+const name = 'sessions-api';
+export { register, name };

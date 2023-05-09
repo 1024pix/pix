@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+const up = async function(knex) {
   await knex.schema.createTable('complementary-certifications', (t) => {
     t.increments().primary();
     t.string('name').notNullable();
@@ -17,6 +17,8 @@ exports.up = async function (knex) {
   }
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.dropTable('complementary-certifications');
 };
+
+export { up, down };

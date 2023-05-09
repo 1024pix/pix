@@ -1,12 +1,11 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const { statuses } = require('../models/Session.js');
-const { types } = require('../models/CertificationCenter.js');
-const { CERTIFICATION_SESSIONS_ERRORS } = require('../constants/sessions-errors');
-
-const { EntityValidationError } = require('../errors.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import { statuses } from '../models/Session.js';
+import { types } from '../models/CertificationCenter.js';
+import { CERTIFICATION_SESSIONS_ERRORS } from '../constants/sessions-errors.js';
+import { EntityValidationError } from '../errors.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -84,28 +83,28 @@ const sessionFiltersValidationSchema = Joi.object({
   certificationCenterType: Joi.string().trim().valid(types.SUP, types.SCO, types.PRO).optional(),
 });
 
-module.exports = {
-  validate(session) {
-    const { error } = sessionValidationJoiSchema.validate(session, validationConfiguration);
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details);
-    }
-  },
-
-  validateForMassSessionImport(session) {
-    const { error } = sessionValidationForMassImportJoiSchema.validate(session, validationConfiguration);
-    if (error) {
-      return error.details.map(({ message }) => message);
-    }
-  },
-
-  validateAndNormalizeFilters(filters) {
-    const { value, error } = sessionFiltersValidationSchema.validate(filters, { abortEarly: true });
-
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details);
-    }
-
-    return value;
-  },
+const validate = function (session) {
+  const { error } = sessionValidationJoiSchema.validate(session, validationConfiguration);
+  if (error) {
+    throw EntityValidationError.fromJoiErrors(error.details);
+  }
 };
+
+const validateForMassSessionImport = function (session) {
+  const { error } = sessionValidationForMassImportJoiSchema.validate(session, validationConfiguration);
+  if (error) {
+    return error.details.map(({ message }) => message);
+  }
+};
+
+const validateAndNormalizeFilters = function (filters) {
+  const { value, error } = sessionFiltersValidationSchema.validate(filters, { abortEarly: true });
+
+  if (error) {
+    throw EntityValidationError.fromJoiErrors(error.details);
+  }
+
+  return value;
+};
+
+export { validate, validateForMassSessionImport, validateAndNormalizeFilters };

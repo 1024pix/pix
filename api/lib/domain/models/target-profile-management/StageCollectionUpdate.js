@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const { InvalidStageError } = require('../../errors.js');
+import _ from 'lodash';
+import { InvalidStageError } from '../../errors.js';
 
 const DEFAULT_VALUE_FIRST_SKILL = -1;
 
@@ -142,4 +142,4 @@ function _checkTargetProfileIds(stagesDTO, stageCollection) {
   }
 }
 
-module.exports = StageCollectionUpdate;
+export { StageCollectionUpdate };

@@ -1,7 +1,7 @@
-const { knex } = require('../../../db/knex-database-connection.js');
+import { knex } from '../../../db/knex-database-connection.js';
 
-module.exports = {
-  async get({ name }) {
-    return knex('issue-report-categories').where({ name }).first();
-  },
+const get = async function ({ name }) {
+  return knex('issue-report-categories').where({ name }).first();
 };
+
+export { get };

@@ -1,6 +1,6 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
+import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
 
-module.exports = async function findCompetenceEvaluationsByAssessment({
+const findCompetenceEvaluationsByAssessment = async function ({
   userId,
   assessmentId,
   assessmentRepository,
@@ -12,3 +12,5 @@ module.exports = async function findCompetenceEvaluationsByAssessment({
 
   return competenceEvaluationRepository.findByAssessmentId(assessmentId);
 };
+
+export { findCompetenceEvaluationsByAssessment };

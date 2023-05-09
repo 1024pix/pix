@@ -1,6 +1,6 @@
-const certificationPointOfContactController = require('./certification-point-of-contact-controller.js');
+import { certificationPointOfContactController } from './certification-point-of-contact-controller.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -17,4 +17,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'certification-point-of-contacts-api';
+const name = 'certification-point-of-contacts-api';
+export { register, name };

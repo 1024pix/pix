@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 class CorrectionBlockQROCMDep {
   /**
@@ -60,4 +60,4 @@ class CorrectionBlockQROCMDep {
   }
 }
 
-module.exports = CorrectionBlockQROCMDep;
+export { CorrectionBlockQROCMDep };

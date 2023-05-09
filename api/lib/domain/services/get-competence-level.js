@@ -1,10 +1,11 @@
-const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository.js');
-const scoringService = require('./scoring/scoring-service.js');
+import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
+import * as scoringService from './scoring/scoring-service.js';
 
-module.exports = async function getCompetenceLevel({
+const getCompetenceLevel = async function ({
   userId,
   competenceId,
   domainTransaction,
+
   dependencies = {
     knowledgeElementRepository,
     scoringService,
@@ -18,3 +19,5 @@ module.exports = async function getCompetenceLevel({
   const { currentLevel } = dependencies.scoringService.calculateScoringInformationForCompetence({ knowledgeElements });
   return currentLevel;
 };
+
+export { getCompetenceLevel };

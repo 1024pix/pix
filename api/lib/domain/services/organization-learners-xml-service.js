@@ -1,8 +1,6 @@
-const SiecleParser = require('../../infrastructure/serializers/xml/siecle-parser.js');
+import { SiecleParser } from '../../infrastructure/serializers/xml/siecle-parser.js';
 
-module.exports = {
-  extractOrganizationLearnersInformationFromSIECLE,
-};
+export { extractOrganizationLearnersInformationFromSIECLE };
 
 async function extractOrganizationLearnersInformationFromSIECLE(path, organization) {
   const parser = new SiecleParser(organization, path);

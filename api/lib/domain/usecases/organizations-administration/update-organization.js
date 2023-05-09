@@ -1,9 +1,8 @@
-const bluebird = require('bluebird');
-const _ = require('lodash');
-const OrganizationTag = require('../../models/OrganizationTag.js');
-const DataProtectionOfficer = require('../../models/DataProtectionOfficer.js');
-
-const apps = require('../../constants.js');
+import bluebird from 'bluebird';
+import _ from 'lodash';
+import { OrganizationTag } from '../../models/OrganizationTag.js';
+import { DataProtectionOfficer } from '../../models/DataProtectionOfficer.js';
+import { apps } from '../../constants.js';
 
 async function _updateOrganizationTags({
   organization,
@@ -68,7 +67,7 @@ async function _enablingOrganizationFeature(organization, organizationFeatureRep
   }
 }
 
-module.exports = async function updateOrganizationInformation({
+const updateOrganizationInformation = async function ({
   organization,
   dataProtectionOfficerRepository,
   organizationFeatureRepository,
@@ -111,3 +110,5 @@ module.exports = async function updateOrganizationInformation({
 
   return updatedOrganization;
 };
+
+export { updateOrganizationInformation };

@@ -6,4 +6,4 @@ class ComplementaryCertificationForSupervising {
   }
 }
 
-module.exports = ComplementaryCertificationForSupervising;
+export { ComplementaryCertificationForSupervising };

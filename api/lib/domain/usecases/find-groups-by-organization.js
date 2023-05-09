@@ -1,3 +1,5 @@
-module.exports = async function findGroupByOrganization({ organizationId, groupRepository }) {
+const findGroupByOrganization = async function ({ organizationId, groupRepository }) {
   return groupRepository.findByOrganizationId({ organizationId });
 };
+
+export { findGroupByOrganization };

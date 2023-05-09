@@ -1,47 +1,47 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection.js');
-const { NotFoundError } = require('../../domain/errors.js');
-const CertificationPointOfContact = require('../../domain/read-models/CertificationPointOfContact.js');
-const AllowedCertificationCenterAccess = require('../../domain/read-models/AllowedCertificationCenterAccess.js');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../domain/errors.js';
+import { CertificationPointOfContact } from '../../domain/read-models/CertificationPointOfContact.js';
+import { AllowedCertificationCenterAccess } from '../../domain/read-models/AllowedCertificationCenterAccess.js';
 
-module.exports = {
-  async get(userId) {
-    const certificationPointOfContactDTO = await knex
-      .select({
-        id: 'users.id',
-        firstName: 'users.firstName',
-        lastName: 'users.lastName',
-        email: 'users.email',
-        lang: 'users.lang',
-        pixCertifTermsOfServiceAccepted: 'users.pixCertifTermsOfServiceAccepted',
-        certificationCenterIds: knex.raw('array_agg(?? order by ?? asc)', [
-          'certificationCenterId',
-          'certificationCenterId',
-        ]),
-      })
-      .from('users')
-      .leftJoin('certification-center-memberships', 'certification-center-memberships.userId', 'users.id')
-      .where('users.id', userId)
-      .groupByRaw('1, 2, 3, 4, 5')
-      .first();
+const get = async function (userId) {
+  const certificationPointOfContactDTO = await knex
+    .select({
+      id: 'users.id',
+      firstName: 'users.firstName',
+      lastName: 'users.lastName',
+      email: 'users.email',
+      lang: 'users.lang',
+      pixCertifTermsOfServiceAccepted: 'users.pixCertifTermsOfServiceAccepted',
+      certificationCenterIds: knex.raw('array_agg(?? order by ?? asc)', [
+        'certificationCenterId',
+        'certificationCenterId',
+      ]),
+    })
+    .from('users')
+    .leftJoin('certification-center-memberships', 'certification-center-memberships.userId', 'users.id')
+    .where('users.id', userId)
+    .groupByRaw('1, 2, 3, 4, 5')
+    .first();
 
-    if (!certificationPointOfContactDTO) {
-      throw new NotFoundError(`Le référent de certification ${userId} n'existe pas.`);
-    }
+  if (!certificationPointOfContactDTO) {
+    throw new NotFoundError(`Le référent de certification ${userId} n'existe pas.`);
+  }
 
-    const authorizedCertificationCenterIds = await _removeDisabledCertificationCenterAccesses({
-      certificationPointOfContactDTO,
-    });
-    const allowedCertificationCenterAccesses = await _findAllowedCertificationCenterAccesses(
-      authorizedCertificationCenterIds
-    );
+  const authorizedCertificationCenterIds = await _removeDisabledCertificationCenterAccesses({
+    certificationPointOfContactDTO,
+  });
+  const allowedCertificationCenterAccesses = await _findAllowedCertificationCenterAccesses(
+    authorizedCertificationCenterIds
+  );
 
-    return new CertificationPointOfContact({
-      ...certificationPointOfContactDTO,
-      allowedCertificationCenterAccesses,
-    });
-  },
+  return new CertificationPointOfContact({
+    ...certificationPointOfContactDTO,
+    allowedCertificationCenterAccesses,
+  });
 };
+
+export { get };
 
 async function _removeDisabledCertificationCenterAccesses({ certificationPointOfContactDTO }) {
   const certificationCenters = await knex

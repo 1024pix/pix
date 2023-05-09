@@ -79,4 +79,4 @@ const PositionManager = {
   },
 };
 
-module.exports = PositionManager;
+export { PositionManager };

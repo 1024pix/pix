@@ -1,102 +1,102 @@
-const Assessment = require('../../../domain/models/Assessment.js');
-const Progression = require('../../../domain/models/Progression.js');
-const { Serializer } = require('jsonapi-serializer');
+import { Assessment } from '../../../domain/models/Assessment.js';
+import { Progression } from '../../../domain/models/Progression.js';
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(assessments) {
-    return new Serializer('assessment', {
-      transform(currentAssessment) {
-        const assessment = Object.assign({}, currentAssessment);
+const serialize = function (assessments) {
+  return new Serializer('assessment', {
+    transform(currentAssessment) {
+      const assessment = Object.assign({}, currentAssessment);
 
-        // TODO: We can't use currentAssessment.isCertification() because
-        // this serializer is also used by model CampaignAssessment
-        assessment.certificationNumber = null;
-        if (currentAssessment.type === Assessment.types.CERTIFICATION) {
-          assessment.certificationNumber = currentAssessment.certificationCourseId;
-          assessment.certificationCourse = { id: currentAssessment.certificationCourseId };
-        }
+      // TODO: We can't use currentAssessment.isCertification() because
+      // this serializer is also used by model CampaignAssessment
+      assessment.certificationNumber = null;
+      if (currentAssessment.type === Assessment.types.CERTIFICATION) {
+        assessment.certificationNumber = currentAssessment.certificationCourseId;
+        assessment.certificationCourse = { id: currentAssessment.certificationCourseId };
+      }
 
-        // Same here for isForCampaign() and isCompetenceEvaluation()
-        if ([Assessment.types.CAMPAIGN, Assessment.types.COMPETENCE_EVALUATION].includes(currentAssessment.type)) {
-          assessment.progression = {
-            id: Progression.generateIdFromAssessmentId(currentAssessment.id),
-          };
-        }
+      // Same here for isForCampaign() and isCompetenceEvaluation()
+      if ([Assessment.types.CAMPAIGN, Assessment.types.COMPETENCE_EVALUATION].includes(currentAssessment.type)) {
+        assessment.progression = {
+          id: Progression.generateIdFromAssessmentId(currentAssessment.id),
+        };
+      }
 
-        if (currentAssessment.type === Assessment.types.CAMPAIGN) {
-          assessment.codeCampaign = currentAssessment.campaignCode;
-        }
+      if (currentAssessment.type === Assessment.types.CAMPAIGN) {
+        assessment.codeCampaign = currentAssessment.campaignCode;
+      }
 
-        if (!currentAssessment.course) {
-          assessment.course = { id: currentAssessment.courseId };
-        }
+      if (!currentAssessment.course) {
+        assessment.course = { id: currentAssessment.courseId };
+      }
 
-        return assessment;
-      },
-      attributes: [
-        'title',
-        'type',
-        'state',
-        'answers',
-        'codeCampaign',
-        'certificationNumber',
-        'course',
-        'certificationCourse',
-        'progression',
-        'competenceId',
-        'lastQuestionState',
-        'method',
-      ],
-      answers: {
-        ref: 'id',
-        relationshipLinks: {
-          related(record) {
-            return `/api/answers?assessmentId=${record.id}`;
-          },
+      return assessment;
+    },
+    attributes: [
+      'title',
+      'type',
+      'state',
+      'answers',
+      'codeCampaign',
+      'certificationNumber',
+      'course',
+      'certificationCourse',
+      'progression',
+      'competenceId',
+      'lastQuestionState',
+      'method',
+    ],
+    answers: {
+      ref: 'id',
+      relationshipLinks: {
+        related(record) {
+          return `/api/answers?assessmentId=${record.id}`;
         },
       },
-      course: {
-        ref: 'id',
-        included: _includeCourse(assessments),
-        attributes: ['name', 'description', 'nbChallenges'],
-      },
-      certificationCourse: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        relationshipLinks: {
-          related(record, current) {
-            return `/api/certification-courses/${current.id}`;
-          },
+    },
+    course: {
+      ref: 'id',
+      included: _includeCourse(assessments),
+      attributes: ['name', 'description', 'nbChallenges'],
+    },
+    certificationCourse: {
+      ref: 'id',
+      ignoreRelationshipData: true,
+      relationshipLinks: {
+        related(record, current) {
+          return `/api/certification-courses/${current.id}`;
         },
       },
-      progression: {
-        ref: 'id',
-        relationshipLinks: {
-          related(record, current) {
-            return `/api/progressions/${current.id}`;
-          },
+    },
+    progression: {
+      ref: 'id',
+      relationshipLinks: {
+        related(record, current) {
+          return `/api/progressions/${current.id}`;
         },
       },
-    }).serialize(assessments);
-  },
-
-  deserialize(json) {
-    const type = json.data.attributes.type;
-    const method = Assessment.computeMethodFromType(type);
-
-    let courseId = null;
-    if (type !== Assessment.types.CAMPAIGN && type !== Assessment.types.PREVIEW) {
-      courseId = json.data.relationships.course.data.id;
-    }
-
-    return new Assessment({
-      id: json.data.id,
-      type,
-      courseId,
-      method,
-    });
-  },
+    },
+  }).serialize(assessments);
 };
+
+const deserialize = function (json) {
+  const type = json.data.attributes.type;
+  const method = Assessment.computeMethodFromType(type);
+
+  let courseId = null;
+  if (type !== Assessment.types.CAMPAIGN && type !== Assessment.types.PREVIEW) {
+    courseId = json.data.relationships.course.data.id;
+  }
+
+  return new Assessment({
+    id: json.data.id,
+    type,
+    courseId,
+    method,
+  });
+};
+
+export { serialize, deserialize };
 
 function _includeCourse(assessments) {
   if (Array.isArray(assessments)) {

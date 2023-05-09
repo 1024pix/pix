@@ -1,4 +1,4 @@
-module.exports = class CertificationAnswerStatusChangeAttempt {
+class CertificationAnswerStatusChangeAttempt {
   constructor(questionNumber, status) {
     this.questionNumber = questionNumber;
     this.status = status;
@@ -27,7 +27,9 @@ module.exports = class CertificationAnswerStatusChangeAttempt {
   wasSkipped() {
     return this.status === CertificationAnswerStatusChangeStatus.SKIPPED;
   }
-};
+}
+
+export { CertificationAnswerStatusChangeAttempt };
 
 const CertificationAnswerStatusChangeStatus = {
   CHANGED: 'CHANGED',

@@ -11,4 +11,4 @@ const organisationPlacesCategories = {
   FULL_RATE: 'FULL_RATE',
 };
 
-module.exports = organisationPlacesCategories;
+export { organisationPlacesCategories };

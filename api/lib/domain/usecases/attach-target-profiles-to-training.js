@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const { NotFoundError } = require('../errors.js');
+import _ from 'lodash';
+import { NotFoundError } from '../errors.js';
 
-module.exports = async function attachTargetProfilesToTraining({
+const attachTargetProfilesToTraining = async function ({
   trainingId,
   targetProfileIds,
   targetProfileRepository,
@@ -20,3 +20,5 @@ module.exports = async function attachTargetProfilesToTraining({
     targetProfileIds: uniqTargetProfileIds,
   });
 };
+
+export { attachTargetProfilesToTraining };

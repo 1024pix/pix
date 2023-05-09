@@ -1,9 +1,9 @@
-const Joi = require('joi');
-const securityPreHandlers = require('../security-pre-handlers.js');
-const stageCollectionController = require('./stage-collection-controller');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import Joi from 'joi';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { stageCollectionController } from './stage-collection-controller.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'PATCH',
@@ -36,4 +36,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'stage-collections-api';
+const name = 'stage-collections-api';
+export { register, name };

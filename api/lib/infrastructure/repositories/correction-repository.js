@@ -1,44 +1,44 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-const Correction = require('../../domain/models/Correction.js');
-const Hint = require('../../domain/models/Hint.js');
-const { challengeDatasource } = require('../datasources/learning-content/challenge-datasource.js');
-const { skillDatasource } = require('../datasources/learning-content/skill-datasource.js');
-const tutorialRepository = require('./tutorial-repository.js');
+import { Correction } from '../../domain/models/Correction.js';
+import { Hint } from '../../domain/models/Hint.js';
+import { challengeDatasource } from '../datasources/learning-content/challenge-datasource.js';
+import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
+import * as tutorialRepository from './tutorial-repository.js';
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
-const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
+import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 
-module.exports = {
-  async getByChallengeId({ challengeId, userId, locale, dependencies = { tutorialRepository } } = {}) {
-    const challenge = await challengeDatasource.get(challengeId);
-    const skill = await _getSkill(challenge);
-    const hint = await _getHint({ skill, locale });
+const getByChallengeId = async function ({ challengeId, userId, locale, dependencies = { tutorialRepository } } = {}) {
+  const challenge = await challengeDatasource.get(challengeId);
+  const skill = await _getSkill(challenge);
+  const hint = await _getHint({ skill, locale });
 
-    const tutorials = await _getTutorials({
-      userId,
-      skill,
-      tutorialIdsProperty: 'tutorialIds',
-      locale,
-      tutorialRepository: dependencies.tutorialRepository,
-    });
-    const learningMoreTutorials = await _getTutorials({
-      userId,
-      skill,
-      tutorialIdsProperty: 'learningMoreTutorialIds',
-      locale,
-      tutorialRepository: dependencies.tutorialRepository,
-    });
+  const tutorials = await _getTutorials({
+    userId,
+    skill,
+    tutorialIdsProperty: 'tutorialIds',
+    locale,
+    tutorialRepository: dependencies.tutorialRepository,
+  });
+  const learningMoreTutorials = await _getTutorials({
+    userId,
+    skill,
+    tutorialIdsProperty: 'learningMoreTutorialIds',
+    locale,
+    tutorialRepository: dependencies.tutorialRepository,
+  });
 
-    return new Correction({
-      id: challenge.id,
-      solution: challenge.solution,
-      solutionToDisplay: challenge.solutionToDisplay,
-      hint,
-      tutorials,
-      learningMoreTutorials: learningMoreTutorials,
-    });
-  },
+  return new Correction({
+    id: challenge.id,
+    solution: challenge.solution,
+    solutionToDisplay: challenge.solutionToDisplay,
+    hint,
+    tutorials,
+    learningMoreTutorials: learningMoreTutorials,
+  });
 };
+
+export { getByChallengeId };
 
 async function _getHint({ skill, locale }) {
   if (_hasValidatedHint(skill)) {

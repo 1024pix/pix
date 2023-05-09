@@ -1,6 +1,5 @@
-module.exports = function getAvailableTargetProfilesForOrganization({
-  organizationId,
-  TargetProfileForSpecifierRepository,
-}) {
+const getAvailableTargetProfilesForOrganization = function ({ organizationId, TargetProfileForSpecifierRepository }) {
   return TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
 };
+
+export { getAvailableTargetProfilesForOrganization };

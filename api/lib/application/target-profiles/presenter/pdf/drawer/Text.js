@@ -1,7 +1,7 @@
-const PositionManager = require('../manager/position-manager.js');
-const pdfLibUtils = require('pdf-lib/cjs/utils');
+import { PositionManager } from '../manager/position-manager.js';
+import pdfLibUtils from 'pdf-lib/cjs/utils';
 
-module.exports = class Text {
+class Text {
   constructor({ text, positionX, positionY, fontSize, font, fontColor, maxWidth }) {
     this.text = text;
     this.position = {
@@ -130,4 +130,6 @@ module.exports = class Text {
     const textWidth = font.widthOfTextAtSize(text, fontSize);
     return page.getWidth() / 2 - textWidth / 2;
   }
-};
+}
+
+export { Text };

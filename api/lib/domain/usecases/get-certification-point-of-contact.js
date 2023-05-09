@@ -1,3 +1,5 @@
-module.exports = async function getCertificationPointOfContact({ userId, certificationPointOfContactRepository }) {
+const getCertificationPointOfContact = async function ({ userId, certificationPointOfContactRepository }) {
   return certificationPointOfContactRepository.get(userId);
 };
+
+export { getCertificationPointOfContact };

@@ -1,6 +1,6 @@
-const { NotFoundError } = require('../../domain/errors.js');
+import { NotFoundError } from '../../domain/errors.js';
 
-module.exports = async function flagSessionResultsAsSentToPrescriber({ sessionId, sessionRepository }) {
+const flagSessionResultsAsSentToPrescriber = async function ({ sessionId, sessionRepository }) {
   const integerSessionId = parseInt(sessionId);
   const NOT_FOUND_SESSION = `La session ${sessionId} n'existe pas ou son accès est restreint lors du marquage d'envoi des résultats au prescripteur`;
 
@@ -20,3 +20,5 @@ module.exports = async function flagSessionResultsAsSentToPrescriber({ sessionId
 
   return { resultsFlaggedAsSent: false, session };
 };
+
+export { flagSessionResultsAsSentToPrescriber };

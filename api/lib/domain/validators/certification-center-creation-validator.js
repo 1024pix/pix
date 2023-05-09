@@ -1,5 +1,5 @@
-const Joi = require('joi');
-const { EntityValidationError } = require('../errors.js');
+import Joi from 'joi';
+import { EntityValidationError } from '../errors.js';
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -21,12 +21,12 @@ const certificationCenterSchema = Joi.object({
   }),
 });
 
-module.exports = {
-  validate(certificationCenter) {
-    const { error } = certificationCenterSchema.validate(certificationCenter, validationConfiguration);
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details);
-    }
-    return true;
-  },
+const validate = function (certificationCenter) {
+  const { error } = certificationCenterSchema.validate(certificationCenter, validationConfiguration);
+  if (error) {
+    throw EntityValidationError.fromJoiErrors(error.details);
+  }
+  return true;
 };
+
+export { validate };

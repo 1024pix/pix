@@ -1,5 +1,5 @@
-const AnswerStatus = require('./AnswerStatus.js');
-const _ = require('lodash');
+import { AnswerStatus } from './AnswerStatus.js';
+import _ from 'lodash';
 
 class Answer {
   constructor({
@@ -68,4 +68,4 @@ class Answer {
 //  and transform it to an AnswerStatus "aband" in the api
 Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS = '#ABAND#';
 
-module.exports = Answer;
+export { Answer };

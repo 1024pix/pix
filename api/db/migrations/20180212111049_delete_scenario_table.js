@@ -1,10 +1,10 @@
 const TABLE_NAME = 'scenarios';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   function table(t) {
     t.increments().primary();
     t.string('courseId').notNull();
@@ -16,3 +16,5 @@ exports.down = function (knex) {
 
   return knex.schema.createTable(TABLE_NAME, table);
 };
+
+export { up, down };

@@ -1,19 +1,19 @@
-const { NotFoundError } = require('../../domain/errors.js');
-const { knex } = require('../../../db/knex-database-connection.js');
-const CampaignAuthorization = require('../../application/preHandlers/models/CampaignAuthorization.js');
+import { NotFoundError } from '../../domain/errors.js';
+import { knex } from '../../../db/knex-database-connection.js';
+import { CampaignAuthorization } from '../../application/preHandlers/models/CampaignAuthorization.js';
 
-module.exports = {
-  async getForCampaign({ userId, campaignId }) {
-    const { organizationId, ownerId } = await _getOrganizationIdAndOwnerId({ campaignId });
-    const organizationRole = await _getOrganizationRole({ userId, organizationId });
+const getForCampaign = async function ({ userId, campaignId }) {
+  const { organizationId, ownerId } = await _getOrganizationIdAndOwnerId({ campaignId });
+  const organizationRole = await _getOrganizationRole({ userId, organizationId });
 
-    let prescriberRole = organizationRole;
-    if (userId === ownerId) {
-      prescriberRole = CampaignAuthorization.prescriberRoles.OWNER;
-    }
-    return prescriberRole;
-  },
+  let prescriberRole = organizationRole;
+  if (userId === ownerId) {
+    prescriberRole = CampaignAuthorization.prescriberRoles.OWNER;
+  }
+  return prescriberRole;
 };
+
+export { getForCampaign };
 
 async function _getOrganizationIdAndOwnerId({ campaignId }) {
   const result = await knex('campaigns').select('organizationId', 'ownerId').where({ id: campaignId }).first();

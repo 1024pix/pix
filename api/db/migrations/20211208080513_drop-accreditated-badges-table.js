@@ -1,10 +1,10 @@
 const TABLE_NAME = 'accredited-badges';
 
-exports.up = (knex) => {
+const up = function(knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 
-exports.down = (knex) => {
+const down = function(knex) {
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments().primary();
     t.integer('accreditationId').references('accreditations.id').notNullable();
@@ -12,3 +12,5 @@ exports.down = (knex) => {
     t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
   });
 };
+
+export { up, down };

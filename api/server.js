@@ -1,21 +1,18 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
-const Hapi = require('@hapi/hapi');
-const Oppsy = require('oppsy');
+import Hapi from '@hapi/hapi';
+import Oppsy from 'oppsy';
 
-const settings = require('./lib/config');
-const preResponseUtils = require('./lib/application/pre-response-utils');
-
-const { routes } = require('./lib/routes');
-const plugins = require('./lib/infrastructure/plugins');
-const swaggers = require('./lib/swaggers');
-const authentication = require('./lib/infrastructure/authentication');
-
-const { handleFailAction } = require('./lib/validate');
-const monitoringTools = require('./lib/infrastructure/monitoring-tools');
-const deserializer = require('./lib/infrastructure/serializers/jsonapi/deserializer');
-const { knex } = require('./db/knex-database-connection');
-const { port, logging } = require('./lib/config');
+import { settings, port, logging } from './lib/config.js';
+import { preResponseUtils } from './lib/application/pre-response-utils.js';
+import { routes } from './lib/routes.js';
+import { plugins } from './lib/infrastructure/plugins.js';
+import { swaggers } from './lib/swaggers.js';
+import { authentication } from './lib/infrastructure/authentication.js';
+import { handleFailAction } from './lib/validate.js';
+import { monitoringTools } from './lib/infrastructure/monitoring-tools.js';
+import { deserializer } from './lib/infrastructure/serializers/jsonapi/deserializer.js';
+import { knex } from './db/knex-database-connection.js';
 
 monitoringTools.installHapiHook();
 
@@ -115,4 +112,4 @@ const setupOpenApiSpecification = async function (server) {
   }
 };
 
-module.exports = createServer;
+export { createServer };

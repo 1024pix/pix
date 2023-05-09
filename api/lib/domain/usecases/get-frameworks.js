@@ -1,3 +1,5 @@
-module.exports = async function getFrameworks({ frameworkRepository }) {
+const getFrameworks = async function ({ frameworkRepository }) {
   return frameworkRepository.list();
 };
+
+export { getFrameworks };

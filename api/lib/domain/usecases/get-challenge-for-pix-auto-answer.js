@@ -1,6 +1,6 @@
-const { NotFoundError } = require('../errors.js');
+import { NotFoundError } from '../errors.js';
 
-module.exports = async function getChallengeForPixAutoAnswer({
+const getChallengeForPixAutoAnswer = async function ({
   assessmentId,
   assessmentRepository,
   challengeForPixAutoAnswerRepository,
@@ -13,3 +13,5 @@ module.exports = async function getChallengeForPixAutoAnswer({
   const lastChallengeId = assessment.lastChallengeId;
   return challengeForPixAutoAnswerRepository.get(lastChallengeId);
 };
+
+export { getChallengeForPixAutoAnswer };

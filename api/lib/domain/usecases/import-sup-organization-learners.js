@@ -1,4 +1,4 @@
-module.exports = async function importSupOrganizationLearners({
+const importSupOrganizationLearners = async function ({
   supOrganizationLearnerRepository,
   supOrganizationLearnerParser,
 }) {
@@ -8,3 +8,5 @@ module.exports = async function importSupOrganizationLearners({
 
   return warnings;
 };
+
+export { importSupOrganizationLearners };

@@ -1,4 +1,4 @@
-module.exports = async function createCampaign({
+const createCampaign = async function ({
   campaign,
   campaignRepository,
   campaignCreatorRepository,
@@ -15,3 +15,5 @@ module.exports = async function createCampaign({
 
   return campaignRepository.save(campaignForCreation);
 };
+
+export { createCampaign };

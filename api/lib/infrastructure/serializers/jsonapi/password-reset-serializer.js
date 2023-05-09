@@ -1,9 +1,9 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(passwordResetDemands) {
-    return new Serializer('password-reset-demand', {
-      attributes: ['email'],
-    }).serialize(passwordResetDemands);
-  },
+const serialize = function (passwordResetDemands) {
+  return new Serializer('password-reset-demand', {
+    attributes: ['email'],
+  }).serialize(passwordResetDemands);
 };
+
+export { serialize };

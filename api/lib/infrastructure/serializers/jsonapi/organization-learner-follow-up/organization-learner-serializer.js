@@ -1,19 +1,19 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(organizationLearner) {
-    return new Serializer('organization-learner', {
-      attributes: [
-        'lastName',
-        'firstName',
-        'email',
-        'username',
-        'authenticationMethods',
-        'division',
-        'group',
-        'isCertifiable',
-        'certifiableAt',
-      ],
-    }).serialize(organizationLearner);
-  },
+const serialize = function (organizationLearner) {
+  return new Serializer('organization-learner', {
+    attributes: [
+      'lastName',
+      'firstName',
+      'email',
+      'username',
+      'authenticationMethods',
+      'division',
+      'group',
+      'isCertifiable',
+      'certifiableAt',
+    ],
+  }).serialize(organizationLearner);
 };
+
+export { serialize };

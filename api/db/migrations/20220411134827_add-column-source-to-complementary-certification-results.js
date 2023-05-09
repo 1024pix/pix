@@ -1,7 +1,7 @@
 const TABLE_NAME = 'complementary-certification-course-results';
 const COLUMN_NAME = 'source';
 
-exports.up = async function (knex) {
+const up = async function(knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.string(COLUMN_NAME).defaultTo('PIX').notNullable();
   });
@@ -12,8 +12,10 @@ exports.up = async function (knex) {
   `);
 };
 
-exports.down = async function (knex) {
+const down = async function(knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN_NAME);
   });
 };
+
+export { up, down };

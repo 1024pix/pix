@@ -1,8 +1,8 @@
-const Bookshelf = require('../bookshelf.js');
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'KnowledgeElementSnapshot';
 
-module.exports = Bookshelf.model(
+const BookshelfKnowledgeElementSnapshot = Bookshelf.model(
   modelName,
   {
     tableName: 'knowledge-element-snapshots',
@@ -11,3 +11,5 @@ module.exports = Bookshelf.model(
     modelName,
   }
 );
+
+export { BookshelfKnowledgeElementSnapshot };

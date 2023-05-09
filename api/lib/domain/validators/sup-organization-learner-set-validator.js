@@ -1,21 +1,21 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const { EntityValidationError } = require('../errors.js');
+import { EntityValidationError } from '../errors.js';
 
 const validationConfiguration = { allowUnknown: true };
 
 const validationSchema = Joi.array().unique('studentNumber');
 
-module.exports = {
-  checkValidation(organizationLearnerSet) {
-    const { error } = validationSchema.validate(organizationLearnerSet.learners, validationConfiguration);
+const checkValidation = function (organizationLearnerSet) {
+  const { error } = validationSchema.validate(organizationLearnerSet.learners, validationConfiguration);
 
-    if (error) {
-      const err = EntityValidationError.fromJoiErrors(error.details);
-      err.key = 'studentNumber';
-      err.why = 'uniqueness';
-      throw err;
-    }
-  },
+  if (error) {
+    const err = EntityValidationError.fromJoiErrors(error.details);
+    err.key = 'studentNumber';
+    err.why = 'uniqueness';
+    throw err;
+  }
 };
+
+export { checkValidation };

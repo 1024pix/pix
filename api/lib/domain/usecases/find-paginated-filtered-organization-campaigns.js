@@ -1,4 +1,4 @@
-module.exports = function findPaginatedFilteredOrganizationCampaigns({
+const findPaginatedFilteredOrganizationCampaigns = function ({
   userId,
   organizationId,
   filter,
@@ -7,3 +7,5 @@ module.exports = function findPaginatedFilteredOrganizationCampaigns({
 }) {
   return campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page, userId });
 };
+
+export { findPaginatedFilteredOrganizationCampaigns };

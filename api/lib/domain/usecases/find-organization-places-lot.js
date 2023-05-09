@@ -1,3 +1,5 @@
-module.exports = async function findOrganizationPlacesLot({ organizationId, organizationPlacesLotRepository }) {
+const findOrganizationPlacesLot = async function ({ organizationId, organizationPlacesLotRepository }) {
   return organizationPlacesLotRepository.findByOrganizationId(organizationId);
 };
+
+export { findOrganizationPlacesLot };

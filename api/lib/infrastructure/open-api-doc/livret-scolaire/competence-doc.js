@@ -1,8 +1,8 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const areaDoc = require('./area-doc.js');
+import { areaDoc } from './area-doc.js';
 
-module.exports = Joi.object({
+const joiObject = Joi.object({
   id: Joi.number().example('1.1').required().description('ID unique de la compétence (ex : “1.1”, “4.3”)'),
   name: Joi.string()
     .example('Mener une recherche et une veille d’information')
@@ -10,3 +10,5 @@ module.exports = Joi.object({
     .description('Nom de la compétence'),
   area: areaDoc,
 });
+
+export { joiObject };

@@ -1,7 +1,7 @@
-const settings = require('../../config');
+import { settings } from '../../config.js';
 
-module.exports = {
-  async execute() {
-    return settings.featureToggles.isPix1dEnabled;
-  },
+const execute = async function () {
+  return settings.featureToggles.isPix1dEnabled;
 };
+
+export { execute };

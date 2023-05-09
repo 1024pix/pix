@@ -1,4 +1,4 @@
-module.exports = async function unpublishSession({
+const unpublishSession = async function ({
   sessionId,
   certificationRepository,
   sessionRepository,
@@ -16,6 +16,8 @@ module.exports = async function unpublishSession({
 
   return sessionRepository.getWithCertificationCandidates(sessionId);
 };
+
+export { unpublishSession };
 
 async function _updateFinalizedSession(finalizedSessionRepository, sessionId) {
   const finalizedSession = await finalizedSessionRepository.get({ sessionId });

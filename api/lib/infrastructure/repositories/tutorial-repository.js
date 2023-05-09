@@ -1,102 +1,117 @@
-const _ = require('lodash');
-const Tutorial = require('../../domain/models/Tutorial.js');
-const userSavedTutorialRepository = require('./user-saved-tutorial-repository.js');
-const tutorialEvaluationRepository = require('./tutorial-evaluation-repository.js');
-const { tutorialDatasource } = require('../datasources/learning-content/tutorial-datasource.js');
-const { NotFoundError } = require('../../domain/errors.js');
-const TutorialForUser = require('../../domain/read-models/TutorialForUser.js');
-const { FRENCH_FRANCE } = require('../../domain/constants.js').LOCALE;
-const knowledgeElementRepository = require('./knowledge-element-repository.js');
-const skillRepository = require('./skill-repository.js');
-const paginateModule = require('../utils/paginate.js');
+import _ from 'lodash';
+import { Tutorial } from '../../domain/models/Tutorial.js';
+import * as userSavedTutorialRepository from './user-saved-tutorial-repository.js';
+import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.js';
+import { tutorialDatasource } from '../datasources/learning-content/tutorial-datasource.js';
+import { NotFoundError } from '../../domain/errors.js';
+import { TutorialForUser } from '../../domain/read-models/TutorialForUser.js';
+import { LOCALE } from '../../domain/constants.js';
 
-module.exports = {
-  async findByRecordIdsForCurrentUser({ ids, userId, locale }) {
-    const tutorials = await _findByRecordIds({ ids, locale });
-    const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
-    const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
-    return _toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials });
-  },
+const { FRENCH_FRANCE } = LOCALE;
 
-  async findByRecordIds(ids) {
-    return _findByRecordIds({ ids });
-  },
+import * as knowledgeElementRepository from './knowledge-element-repository.js';
+import * as skillRepository from './skill-repository.js';
+import { paginateModule } from '../utils/paginate.js';
 
-  async findPaginatedFilteredForCurrentUser({ userId, filters = {}, page }) {
-    const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
-    const [tutorials, tutorialEvaluations] = await Promise.all([
-      tutorialDatasource.findByRecordIds(userSavedTutorials.map(({ tutorialId }) => tutorialId)),
-      tutorialEvaluationRepository.find({ userId }),
-    ]);
+const findByRecordIdsForCurrentUser = async function ({ ids, userId, locale }) {
+  const tutorials = await _findByRecordIds({ ids, locale });
+  const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
+  const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
+  return _toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials });
+};
 
-    let filteredTutorials = [...tutorials];
-    if (filters.competences?.length) {
-      const filteredSkills = await skillRepository.findOperativeByCompetenceIds(filters.competences);
+const findByRecordIds = async function (ids) {
+  return _findByRecordIds({ ids });
+};
 
-      const filteredTutorialIds = filteredSkills.flatMap(({ tutorialIds }) => tutorialIds);
+const findPaginatedFilteredForCurrentUser = async function ({ userId, filters = {}, page }) {
+  const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
+  const [tutorials, tutorialEvaluations] = await Promise.all([
+    tutorialDatasource.findByRecordIds(userSavedTutorials.map(({ tutorialId }) => tutorialId)),
+    tutorialEvaluationRepository.find({ userId }),
+  ]);
 
-      filteredTutorials = tutorials.filter(({ id }) => filteredTutorialIds.includes(id));
-    }
+  let filteredTutorials = [...tutorials];
+  if (filters.competences?.length) {
+    const filteredSkills = await skillRepository.findOperativeByCompetenceIds(filters.competences);
 
-    const tutorialsForUser = _toTutorialsForUser({
-      tutorials: filteredTutorials,
-      tutorialEvaluations,
-      userSavedTutorials,
-    });
+    const filteredTutorialIds = filteredSkills.flatMap(({ tutorialIds }) => tutorialIds);
 
-    const sortedTutorialsForUser = _.orderBy(tutorialsForUser, ['userSavedTutorial.createdAt'], ['desc']);
-    const { results: models, pagination: meta } = paginateModule.paginate(sortedTutorialsForUser, page);
+    filteredTutorials = tutorials.filter(({ id }) => filteredTutorialIds.includes(id));
+  }
 
-    return { models, meta };
-  },
+  const tutorialsForUser = _toTutorialsForUser({
+    tutorials: filteredTutorials,
+    tutorialEvaluations,
+    userSavedTutorials,
+  });
 
-  async get(id) {
-    try {
-      const tutorialData = await tutorialDatasource.get(id);
-      return _toDomain(tutorialData);
-    } catch (error) {
-      throw new NotFoundError('Tutorial not found');
-    }
-  },
+  const sortedTutorialsForUser = _.orderBy(tutorialsForUser, ['userSavedTutorial.createdAt'], ['desc']);
+  const { results: models, pagination: meta } = paginateModule.paginate(sortedTutorialsForUser, page);
 
-  async list({ locale = FRENCH_FRANCE }) {
-    let tutorialData = await tutorialDatasource.list();
-    const lang = _extractLangFromLocale(locale);
-    tutorialData = tutorialData.filter((tutorial) => _extractLangFromLocale(tutorial.locale) === lang);
-    return _.map(tutorialData, _toDomain);
-  },
+  return { models, meta };
+};
 
-  async findPaginatedFilteredRecommendedByUserId({ userId, filters = {}, page, locale = FRENCH_FRANCE } = {}) {
-    const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
+const get = async function (id) {
+  try {
+    const tutorialData = await tutorialDatasource.get(id);
+    return _toDomain(tutorialData);
+  } catch (error) {
+    throw new NotFoundError('Tutorial not found');
+  }
+};
 
-    const [userSavedTutorials, tutorialEvaluations, skills] = await Promise.all([
-      userSavedTutorialRepository.find({ userId }),
-      tutorialEvaluationRepository.find({ userId }),
-      skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId)),
-    ]);
+const list = async function ({ locale = FRENCH_FRANCE }) {
+  let tutorialData = await tutorialDatasource.list();
+  const lang = _extractLangFromLocale(locale);
+  tutorialData = tutorialData.filter((tutorial) => _extractLangFromLocale(tutorial.locale) === lang);
+  return _.map(tutorialData, _toDomain);
+};
 
-    let filteredSkills = [...skills];
-    if (filters.competences?.length) {
-      filteredSkills = skills.filter(({ competenceId }) => filters.competences.includes(competenceId));
-    }
+const findPaginatedFilteredRecommendedByUserId = async function ({
+  userId,
+  filters = {},
+  page,
+  locale = FRENCH_FRANCE,
+} = {}) {
+  const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
 
-    const tutorialsForUser = [];
+  const [userSavedTutorials, tutorialEvaluations, skills] = await Promise.all([
+    userSavedTutorialRepository.find({ userId }),
+    tutorialEvaluationRepository.find({ userId }),
+    skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId)),
+  ]);
 
-    for (const skill of filteredSkills) {
-      const tutorials = await _findByRecordIds({ ids: skill.tutorialIds, locale });
+  let filteredSkills = [...skills];
+  if (filters.competences?.length) {
+    filteredSkills = skills.filter(({ competenceId }) => filters.competences.includes(competenceId));
+  }
 
-      tutorialsForUser.push(
-        ..._toTutorialsForUserForRecommandation({
-          tutorials,
-          tutorialEvaluations,
-          userSavedTutorials,
-          skillId: skill.id,
-        })
-      );
-    }
+  const tutorialsForUser = [];
 
-    return paginateModule.paginate(tutorialsForUser, page);
-  },
+  for (const skill of filteredSkills) {
+    const tutorials = await _findByRecordIds({ ids: skill.tutorialIds, locale });
+
+    tutorialsForUser.push(
+      ..._toTutorialsForUserForRecommandation({
+        tutorials,
+        tutorialEvaluations,
+        userSavedTutorials,
+        skillId: skill.id,
+      })
+    );
+  }
+
+  return paginateModule.paginate(tutorialsForUser, page);
+};
+
+export {
+  findByRecordIdsForCurrentUser,
+  findByRecordIds,
+  findPaginatedFilteredForCurrentUser,
+  get,
+  list,
+  findPaginatedFilteredRecommendedByUserId,
 };
 
 function _toDomain(tutorialData) {

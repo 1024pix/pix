@@ -1,10 +1,10 @@
-const {
+import {
   CampaignCodeError,
   UserNotAuthorizedToAccessEntityError,
   OrganizationLearnerDisabledError,
-} = require('../errors.js');
+} from '../errors.js';
 
-module.exports = async function findAssociationBetweenUserAndOrganizationLearner({
+const findAssociationBetweenUserAndOrganizationLearner = async function ({
   authenticatedUserId,
   requestedUserId,
   campaignCode,
@@ -31,3 +31,5 @@ module.exports = async function findAssociationBetweenUserAndOrganizationLearner
 
   return organizationLearner;
 };
+
+export { findAssociationBetweenUserAndOrganizationLearner };

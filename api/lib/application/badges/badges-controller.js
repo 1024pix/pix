@@ -1,20 +1,20 @@
-const usecases = require('../../domain/usecases/index.js');
-const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer.js');
+import { usecases } from '../../domain/usecases/index.js';
+import * as badgeSerializer from '../../infrastructure/serializers/jsonapi/badge-serializer.js';
 
-module.exports = {
-  async updateBadge(request, h) {
-    const badgeId = request.params.id;
-    const badge = badgeSerializer.deserialize(request.payload);
+const updateBadge = async function (request, h) {
+  const badgeId = request.params.id;
+  const badge = badgeSerializer.deserialize(request.payload);
 
-    const updatedBadge = await usecases.updateBadge({ badgeId, badge });
+  const updatedBadge = await usecases.updateBadge({ badgeId, badge });
 
-    return h.response(badgeSerializer.serialize(updatedBadge)).code(204);
-  },
-
-  async deleteUnassociatedBadge(request, h) {
-    const badgeId = request.params.id;
-    await usecases.deleteUnassociatedBadge({ badgeId });
-
-    return h.response().code(204);
-  },
+  return h.response(badgeSerializer.serialize(updatedBadge)).code(204);
 };
+
+const deleteUnassociatedBadge = async function (request, h) {
+  const badgeId = request.params.id;
+  await usecases.deleteUnassociatedBadge({ badgeId });
+
+  return h.response().code(204);
+};
+
+export { updateBadge, deleteUnassociatedBadge };

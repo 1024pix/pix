@@ -1,10 +1,12 @@
-const Examiner = require('../models/Examiner');
+import { Examiner } from '../models/Examiner.js';
 
-module.exports = async function correctAnswer({ answer, challengeId, challengeRepository, examiner } = {}) {
+const correctAnswer = async function ({ answer, challengeId, challengeRepository, examiner } = {}) {
   const challenge = await challengeRepository.get(challengeId);
   const result = _evaluateAnswer({ challenge, answer, examiner });
   return result;
 };
+
+export { correctAnswer };
 
 // Evaluation temporaire sans enregistrement de la réponse. Utiliser correct-answer-then-update-assessment après ? Peut être...
 function _evaluateAnswer({ challenge, answer, examiner: injectedExaminer }) {

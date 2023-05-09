@@ -1,4 +1,4 @@
-module.exports = async function authorizeCertificationCandidateToResume({
+const authorizeCertificationCandidateToResume = async function ({
   certificationCandidateId,
   certificationCandidateForSupervisingRepository,
 }) {
@@ -7,3 +7,5 @@ module.exports = async function authorizeCertificationCandidateToResume({
 
   await certificationCandidateForSupervisingRepository.update(candidate);
 };
+
+export { authorizeCertificationCandidateToResume };
