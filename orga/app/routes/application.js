@@ -8,6 +8,7 @@ export default class ApplicationRoute extends Route {
   @service session;
 
   async beforeModel(transition) {
+    await this.session.setup();
     await this.featureToggles.load();
     const isFranceDomain = this.currentDomain.isFranceDomain;
     const localeFromQueryParam = transition.to.queryParams.lang;
