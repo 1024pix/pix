@@ -1,9 +1,7 @@
 const TABLE_NAME = 'complementary-certification-badges';
 import lodash from 'lodash';
 
-const {
-  noop
-} = lodash;
+const { noop } = lodash;
 
 const {
   PIX_EMPLOI_CLEA_V1,
@@ -78,7 +76,7 @@ const data = [
   { keys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT], level: 5, complementaryCourseKey: EDU_2 },
 ];
 
-const up = async function(knex) {
+const up = async function (knex) {
   await _insertComplementaryCertifications();
 
   await knex(TABLE_NAME).del();
@@ -136,7 +134,7 @@ const up = async function(knex) {
   }
 };
 
-const down = async function() {
+const down = async function () {
   noop;
 };
 

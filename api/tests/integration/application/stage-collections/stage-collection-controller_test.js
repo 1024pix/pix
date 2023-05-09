@@ -1,6 +1,6 @@
-const { expect, knex, databaseBuilder, hFake } = require('../../../test-helper');
-const controller = require('../../../../lib/application/stage-collections/stage-collection-controller');
-const stageCollectionRepository = require('../../../../lib/infrastructure/repositories/target-profile-management/stage-collection-repository');
+import { expect, knex, databaseBuilder, hFake } from '../../../test-helper.js';
+import { controller } from '../../../../lib/application/stage-collections/stage-collection-controller.js';
+import * as stageCollectionRepository from '../../../../lib/infrastructure/repositories/target-profile-management/stage-collection-repository.js';
 
 describe('Integration | Application | stage-collection-controller', function () {
   context('update', function () {

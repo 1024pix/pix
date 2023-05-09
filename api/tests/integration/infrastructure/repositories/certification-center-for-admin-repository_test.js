@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, domainBuilder, catchErr, sinon } = require('../../../test-helper');
-const certificationCenterForAdminRepository = require('../../../../lib/infrastructure/repositories/certification-center-for-admin-repository');
-const CertificationCenterForAdmin = require('../../../../lib/domain/models/CertificationCenterForAdmin');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, databaseBuilder, domainBuilder, catchErr, sinon } from '../../../test-helper.js';
+import * as certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
+import { CertificationCenterForAdmin } from '../../../../lib/domain/models/CertificationCenterForAdmin.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | certification-center-for-admin', function () {
   let clock;

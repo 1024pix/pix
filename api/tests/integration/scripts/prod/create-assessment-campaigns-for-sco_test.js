@@ -1,10 +1,10 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
-const {
+import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import {
   prepareCampaigns,
   checkData,
   getByExternalIdFetchingIdOnly,
-} = require('../../../../scripts/prod/create-assessment-campaigns-for-sco');
+} from '../../../../scripts/prod/create-assessment-campaigns-for-sco.js';
 
 describe('Integration | Scripts | create-assessment-campaigns', function () {
   describe('#prepareCampaigns', function () {

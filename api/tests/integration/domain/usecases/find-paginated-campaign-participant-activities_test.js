@@ -1,6 +1,6 @@
-const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases/index.js');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+import { expect, catchErr, databaseBuilder } from '../../../test-helper.js';
+import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | UseCase | find-paginated-campaign-participants-activities', function () {
   let organizationId;

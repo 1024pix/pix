@@ -1,10 +1,10 @@
-const {
+import {
   BadgeDetails,
   BadgeCriterion,
   SkillSet,
   CappedTube,
   SCOPES,
-} = require('../../../../lib/domain/models/BadgeDetails');
+} from '../../../../lib/domain/models/BadgeDetails.js';
 
 const buildBadgeDetails = function buildBadgeDetails({
   id = 123,
@@ -81,4 +81,4 @@ buildBadgeDetails.buildBadgeCriterion_CappedTubes = function ({
   });
 };
 
-module.exports = buildBadgeDetails;
+export { buildBadgeDetails };

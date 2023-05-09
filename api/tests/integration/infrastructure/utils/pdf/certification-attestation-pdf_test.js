@@ -1,13 +1,18 @@
-const { domainBuilder, expect, nock, catchErr } = require('../../../../test-helper');
-const dayjs = require('dayjs');
-const { isSameBinary } = require('../../../../tooling/binary-comparator');
-const {
-  getCertificationAttestationsPdfBuffer,
-} = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-const { CertificationAttestationGenerationError } = require('../../../../../lib/domain/errors');
-const fs = require('fs');
+import { domainBuilder, expect, nock, catchErr } from '../../../../test-helper.js';
+import dayjs from 'dayjs';
+import { isSameBinary } from '../../../../tooling/binary-comparator.js';
+import { getCertificationAttestationsPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import { CertificationAttestationGenerationError } from '../../../../../lib/domain/errors.js';
+import fs from 'fs';
+import pdfLib/cjs/utils from 'pdf-lib/cjs/utils';
 
-const { addRandomSuffix } = require('pdf-lib/cjs/utils');
+const {
+  writeFile
+} = fs/promises;
+
+const {
+  addRandomSuffix
+} = pdfLib/cjs/utils;
 
 describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation Pdf', function () {
   beforeEach(async function () {
@@ -253,7 +258,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
 async function _writeFile(buffer, outputFilename, dryRun = true) {
   // Note: to update the reference pdf, set dryRun to false.
   if (!dryRun) {
-    const { writeFile } = require('fs/promises');
+    import fs/promises from 'fs/promises';
     await writeFile(`${__dirname}/${outputFilename}`, buffer);
   }
 }

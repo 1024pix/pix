@@ -1,6 +1,6 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const organizationParticipantRepository = require('../../../../lib/infrastructure/repositories/organization-participant-repository');
-const getPaginatedParticipantsForAnOrganization = require('../../../../lib/domain/usecases/get-paginated-participants-for-an-organization');
+import { expect, databaseBuilder } from '../../../test-helper.js';
+import * as organizationParticipantRepository from '../../../../lib/infrastructure/repositories/organization-participant-repository.js';
+import { getPaginatedParticipantsForAnOrganization } from '../../../../lib/domain/usecases/get-paginated-participants-for-an-organization.js';
 
 describe('Integration | UseCases | get-paginated-participants-for-an-organization', function () {
   it('should get all participations for an organization', async function () {

@@ -1,8 +1,7 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/certification-candidates');
-const sessionSupervisorAuthorization = require('../../../../lib/application/preHandlers/session-supervisor-authorization');
-const certificationCandidatesController = require('../../../../lib/application/certification-candidates/certification-candidates-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { moduleUnderTest } from '../../../../lib/application/certification-candidates.js';
+import { sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
+import { certificationCandidatesController } from '../../../../lib/application/certification-candidates/certification-candidates-controller.js';
 
 describe('Unit | Application | CertificationCandidates | Routes', function () {
   describe('GET certification-candidates/{id}/authorize-to-start', function () {

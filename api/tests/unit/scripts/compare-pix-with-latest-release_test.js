@@ -1,19 +1,20 @@
-const { expect, sinon } = require('../../test-helper');
-const {
+import { expect, sinon } from '../../test-helper.js';
+
+import {
   getUserValidatedKnowledgeElements,
   getTubeByIds,
   getUserSkillsGroupedByTubeId,
   getHardestSkillByTubeId,
   compareUserScoreWithLatestRelease,
-} = require('../../../scripts/compare-pix-with-latest-release');
-const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
-const tubeRepository = require('../../../lib/infrastructure/repositories/tube-repository');
-const skillRepository = require('../../../lib/infrastructure/repositories/skill-repository');
+} from '../../../scripts/compare-pix-with-latest-release.js';
 
-// mock datas
-const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
-const Tube = require('../../../lib/domain/models/Tube');
-const Skill = require('../../../lib/domain/models/Skill');
+import * as knowledgeElementRepository from '../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
+import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
+
+import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
+import { Tube } from '../../../lib/domain/models/Tube.js';
+import { Skill } from '../../../lib/domain/models/Skill.js';
 
 const skill1 = new Skill({
   id: 'skill1',

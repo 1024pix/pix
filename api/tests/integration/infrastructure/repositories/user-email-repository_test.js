@@ -1,6 +1,6 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const userEmailRepository = require('../../../../lib/infrastructure/repositories/user-email-repository');
-const EmailModificationDemand = require('../../../../lib/domain/models/EmailModificationDemand');
+import { expect, databaseBuilder } from '../../../test-helper.js';
+import * as userEmailRepository from '../../../../lib/infrastructure/repositories/user-email-repository.js';
+import { EmailModificationDemand } from '../../../../lib/domain/models/EmailModificationDemand.js';
 
 describe('Integration | Repository | UserEmailRepository', function () {
   describe('#saveEmailModificationDemand', function () {

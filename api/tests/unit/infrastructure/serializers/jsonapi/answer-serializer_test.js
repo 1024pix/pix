@@ -1,8 +1,8 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const Answer = require('../../../../../lib/domain/models/Answer');
-const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
-const answerStatusJSONAPIAdapter = require('../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import { Answer } from '../../../../../lib/domain/models/Answer.js';
+import { AnswerStatus } from '../../../../../lib/domain/models/AnswerStatus.js';
+import { answerStatusJSONAPIAdapter } from '../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
   describe('#serialize', function () {

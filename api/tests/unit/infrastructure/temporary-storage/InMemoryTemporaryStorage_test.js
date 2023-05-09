@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const InMemoryTemporaryStorage = require('../../../../lib/infrastructure/temporary-storage/InMemoryTemporaryStorage');
+import { expect, sinon } from '../../../test-helper.js';
+import { InMemoryTemporaryStorage } from '../../../../lib/infrastructure/temporary-storage/InMemoryTemporaryStorage.js';
 
 describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage', function () {
   let inMemoryTemporaryStorage;

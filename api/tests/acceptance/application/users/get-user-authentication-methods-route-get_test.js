@@ -1,6 +1,6 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const createServer = require('../../../../server');
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | Users', function () {
   describe('GET /api/users/{id}/authentication-methods', function () {

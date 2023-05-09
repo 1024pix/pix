@@ -1,8 +1,7 @@
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const Validation = require('../../../../lib/domain/models/Validation');
-const ValidatorQCM = require('../../../../lib/domain/models/ValidatorQCM');
-
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { Validation } from '../../../../lib/domain/models/Validation.js';
+import { ValidatorQCM } from '../../../../lib/domain/models/ValidatorQCM.js';
+import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ValidatorQCM', function () {
   let solutionServiceQcmStub;

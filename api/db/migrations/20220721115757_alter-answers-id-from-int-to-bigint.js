@@ -9,7 +9,7 @@ const changeAnswerIdTypeToBigint = async (knex) => {
   });
 };
 
-const up = async function(knex) {
+const up = async function (knex) {
   const { rows: answersCheckDataTypeQueryResult } = await knex.raw(`
   SELECT "column_name","data_type"
   FROM "information_schema"."columns"
@@ -34,5 +34,5 @@ const up = async function(knex) {
   }
 };
 
-const down = function() {};
+const down = function () {};
 export { up, down };

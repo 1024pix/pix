@@ -1,13 +1,11 @@
 'use strict';
 
-const _ = require('lodash');
-const bluebird = require('bluebird');
+import _ from 'lodash';
+import bluebird from 'bluebird';
 
-const { parseCsvWithHeader } = require('./helpers/csvHelpers');
-
-const Membership = require('../lib/domain/models/Membership');
-
-const { knex, disconnect } = require('../db/knex-database-connection');
+import { parseCsvWithHeader } from './helpers/csvHelpers.js';
+import { Membership } from '../lib/domain/models/Membership.js';
+import { knex, disconnect } from '../db/knex-database-connection.js';
 
 async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
   const certificationCenterIdWithMemberships = await knex('certification-centers')
@@ -106,7 +104,7 @@ async function main() {
   }
 })();
 
-module.exports = {
+export {
   getCertificationCenterIdWithMembershipsUserIdByExternalId,
   getAdminMembershipsUserIdByOrganizationExternalId,
   buildCertificationCenterMemberships,

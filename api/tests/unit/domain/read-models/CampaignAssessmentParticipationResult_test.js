@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const CampaignAssessmentParticipationResult = require('../../../../lib/domain/read-models/CampaignAssessmentParticipationResult');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { CampaignAssessmentParticipationResult } from '../../../../lib/domain/read-models/CampaignAssessmentParticipationResult.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 

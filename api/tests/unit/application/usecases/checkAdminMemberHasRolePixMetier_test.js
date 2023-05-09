@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const useCase = require('../../../../lib/application/usecases/checkAdminMemberHasRoleMetier');
-const tokenService = require('../../../../lib/domain/services/token-service');
+import { expect, sinon } from '../../../test-helper.js';
+import { useCase } from '../../../../lib/application/usecases/checkAdminMemberHasRoleMetier.js';
+import { tokenService } from '../../../../lib/domain/services/token-service.js';
 
 describe('Unit | Application | Use Case | checkAdminMemberHasRoleMetier', function () {
   const userId = '1234';

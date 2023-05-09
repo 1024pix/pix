@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const EuropeanNumericLevelFactory = require('../../../../lib/domain/read-models/EuropeanNumericLevelFactory');
-const EuropeanNumericLevel = require('../../../../lib/domain/read-models/EuropeanNumericLevel');
+import { expect } from '../../../test-helper.js';
+import { EuropeanNumericLevelFactory } from '../../../../lib/domain/read-models/EuropeanNumericLevelFactory.js';
+import { EuropeanNumericLevel } from '../../../../lib/domain/read-models/EuropeanNumericLevel.js';
 
 describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function () {
   describe('static #buildFromCompetenceMarks', function () {

@@ -1,5 +1,5 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { expect, databaseBuilder } from '../../../test-helper.js';
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Application | Account-Recovery | Routes', function () {
   describe('GET /api/account-recovery/{temporaryKey}', function () {

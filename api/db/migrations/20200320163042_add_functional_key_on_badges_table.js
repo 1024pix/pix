@@ -1,7 +1,7 @@
 const TABLE_NAME = 'badges';
 const COLUMN_KEY = 'key';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.alterTable(TABLE_NAME, function (table) {
     table.text(COLUMN_KEY);
   });
@@ -11,7 +11,7 @@ const up = async function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn(COLUMN_KEY);
   });

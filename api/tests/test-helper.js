@@ -7,28 +7,28 @@ const sinon = require('sinon');
 chai.use(require('chai-as-promised'));
 chai.use(require('chai-sorted'));
 chai.use(require('sinon-chai'));
-const customChaiHelpers = require('./tooling/chai-custom-helpers/index');
+const customChaiHelpers = require('./tooling/chai-custom-helpers/index.js');
 _.each(customChaiHelpers, chai.use);
-const { learningContentCache } = require('../lib/infrastructure/caches/learning-content-cache');
+const { learningContentCache } = require('../lib/infrastructure/caches/learning-content-cache.js');
 
-const { apimRegisterApplicationsCredentials, jwtConfig } = require('../lib/config');
+const { apimRegisterApplicationsCredentials, jwtConfig } = require('../lib/config.js');
 
-const { knex, disconnect } = require('../db/knex-database-connection');
+const { knex, disconnect } = require('../db/knex-database-connection.js');
 
-const DatabaseBuilder = require('../db/database-builder/database-builder');
+const DatabaseBuilder = require('../db/database-builder/database-builder.js');
 const databaseBuilder = new DatabaseBuilder({ knex });
 
 const nock = require('nock');
 nock.disableNetConnect();
 
-const learningContentBuilder = require('./tooling/learning-content-builder');
+const learningContentBuilder = require('./tooling/learning-content-builder.js');
 
-const tokenService = require('../lib/domain/services/token-service');
-const Membership = require('../lib/domain/models/Membership');
+const tokenService = require('../lib/domain/services/token-service.js');
+const Membership = require('../lib/domain/models/Membership.js');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
-const { ROLES } = require('../lib/domain/constants').PIX_ADMIN;
-const { createTempFile, removeTempFile } = require('./tooling/temporary-file');
+const { ROLES } = require('../lib/domain/constants.js').PIX_ADMIN;
+const { createTempFile, removeTempFile } = require('./tooling/temporary-file.js');
 
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
@@ -245,13 +245,13 @@ global.chaiErr = function globalErr(fn, val) {
 module.exports = {
   EMPTY_BLANK_AND_NULL,
   expect,
-  domainBuilder: require('./tooling/domain-builder/factory'),
+  domainBuilder: require('./tooling/domain-builder/factory.js'),
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   generateValidRequestAuthorizationHeaderForApplication,
   generateIdTokenForExternalUser,
   hFake,
-  HttpTestServer: require('./tooling/server/http-test-server'),
+  HttpTestServer: require('./tooling/server/http-test-server.js'),
   insertOrganizationUserWithRoleAdmin,
   insertUserWithRoleSuperAdmin,
   insertUserWithRoleCertif,

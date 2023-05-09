@@ -1,6 +1,6 @@
-const { expect, databaseBuilder } = require('../../../../test-helper');
-const { knex } = require('../../../../../db/knex-database-connection');
-const organizationFeatureRepository = require('../../../../../lib/infrastructure/repositories/organizations-administration/organization-feature-repository');
+import { expect, databaseBuilder } from '../../../../test-helper.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import * as organizationFeatureRepository from '../../../../../lib/infrastructure/repositories/organizations-administration/organization-feature-repository.js';
 
 describe('Integration | Repository | Organization feature', function () {
   let organizationId;

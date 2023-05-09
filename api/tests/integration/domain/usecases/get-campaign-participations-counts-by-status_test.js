@@ -1,7 +1,7 @@
-const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, catchErr, databaseBuilder } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED, TO_SHARE } = CampaignParticipationStatuses;
 

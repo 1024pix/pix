@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const _ = require('lodash');
-const verifyCertificateCodeService = require('../../../../lib/domain/services/verify-certificate-code-service');
-const { CertificateVerificationCodeGenerationTooManyTrials } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr } from '../../../test-helper.js';
+import _ from 'lodash';
+import * as verifyCertificateCodeService from '../../../../lib/domain/services/verify-certificate-code-service.js';
+import { CertificateVerificationCodeGenerationTooManyTrials } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Service | VerifyCertificateCode', function () {
   describe('#generateCertificateVerificationCode', function () {

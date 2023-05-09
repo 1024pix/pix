@@ -1,7 +1,6 @@
-const { expect } = require('../../../../test-helper');
-
-const User = require('../../../../../lib/domain/models/User');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-for-admin-serializer');
+import { expect } from '../../../../test-helper.js';
+import { User } from '../../../../../lib/domain/models/User.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | user-for-adminserializer', function () {
   describe('#serialize', function () {

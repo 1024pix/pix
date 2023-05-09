@@ -1,6 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-
-const getUserDetailsForAdmin = require('../../../../lib/domain/usecases/get-user-details-for-admin');
+import { expect, sinon } from '../../../test-helper.js';
+import { getUserDetailsForAdmin } from '../../../../lib/domain/usecases/get-user-details-for-admin.js';
 
 describe('Unit | UseCase | get-user-details-for-admin', function () {
   let userRepository;

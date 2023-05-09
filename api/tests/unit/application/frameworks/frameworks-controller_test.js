@@ -1,6 +1,6 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const frameworksController = require('../../../../lib/application/frameworks/frameworks-controller');
+import { expect, sinon, hFake } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { frameworksController } from '../../../../lib/application/frameworks/frameworks-controller.js';
 
 describe('Unit | Controller | frameworks-controller', function () {
   let frameworks;

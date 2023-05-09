@@ -1,8 +1,8 @@
-const CampaignCreator = require('../../../../lib/domain/models/CampaignCreator');
-const { expect, catchErr } = require('../../../test-helper');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const CampaignForCreation = require('../../../../lib/domain/models/CampaignForCreation');
-const { UserNotAuthorizedToCreateCampaignError, EntityValidationError } = require('../../../../lib/domain/errors');
+import { CampaignCreator } from '../../../../lib/domain/models/CampaignCreator.js';
+import { expect, catchErr } from '../../../test-helper.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignForCreation } from '../../../../lib/domain/models/CampaignForCreation.js';
+import { UserNotAuthorizedToCreateCampaignError, EntityValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | CampaignCreator', function () {
   describe('#createCampaign', function () {

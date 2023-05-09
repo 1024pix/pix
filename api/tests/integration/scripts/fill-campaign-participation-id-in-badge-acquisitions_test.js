@@ -1,11 +1,11 @@
-const { expect, databaseBuilder, knex, sinon } = require('../../test-helper');
+import { expect, databaseBuilder, knex, sinon } from '../../test-helper.js';
 
-const {
+import {
   main,
   getAllBadgeAcquistionsWithoutCampaignParticipationId,
   getCampaignParticipationFromBadgeAcquisition,
   updateBadgeAcquisitionWithCampaignParticipationId,
-} = require('../../../scripts/fill-campaign-participation-id-in-badge-acquisitions');
+} from '../../../scripts/fill-campaign-participation-id-in-badge-acquisitions.js';
 
 describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions', function () {
   beforeEach(function () {

@@ -2,7 +2,7 @@ import { batch } from '../batch-processing.js';
 
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex(TABLE_NAME_ASSESSMENTS)
     .select('id', 'estimatedLevel', 'pixScore', 'type')
     .where('type', '=', 'PLACEMENT')
@@ -20,7 +20,7 @@ const up = function(knex) {
     });
 };
 
-const down = function() {
+const down = function () {
   return;
 };
 

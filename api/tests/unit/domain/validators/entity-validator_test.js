@@ -1,7 +1,7 @@
-const { expect } = require('../../../test-helper');
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
-const Joi = require('joi');
-const { validateEntity } = require('../../../../lib/domain/validators/entity-validator');
+import { expect } from '../../../test-helper.js';
+import { ObjectValidationError } from '../../../../lib/domain/errors.js';
+import Joi from 'joi';
+import { validateEntity } from '../../../../lib/domain/validators/entity-validator.js';
 
 describe('Unit | Domain | Validators | entity-validator', function () {
   describe('#validateEntity', function () {

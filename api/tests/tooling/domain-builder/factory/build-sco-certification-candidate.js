@@ -1,6 +1,6 @@
-const SCOCertificationCandidate = require('../../../../lib/domain/models/SCOCertificationCandidate');
+import { SCOCertificationCandidate } from '../../../../lib/domain/models/SCOCertificationCandidate.js';
 
-module.exports = function buildSCOCertificationCandidate({
+const buildSCOCertificationCandidate = function ({
   id = 123,
   firstName = 'Myriam',
   lastName = 'Meilleure',
@@ -21,3 +21,5 @@ module.exports = function buildSCOCertificationCandidate({
     organizationLearnerId,
   });
 };
+
+export { buildSCOCertificationCandidate };

@@ -1,10 +1,11 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
-const { cloneDeep } = require('lodash');
+import lodash from 'lodash';
 
-const Feedback = require('../../../../lib/infrastructure/orm-models/Feedback');
+const { cloneDeep } = lodash;
 
-const moduleUnderTest = require('../../../../lib/application/feedbacks');
+import { Feedback } from '../../../../lib/infrastructure/orm-models/Feedback.js';
+import { moduleUnderTest } from '../../../../lib/application/feedbacks.js';
 
 describe('Unit | Controller | feedback-controller', function () {
   let httpTestServer;

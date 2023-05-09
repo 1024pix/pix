@@ -1,7 +1,7 @@
-const { expect } = require('../../../../test-helper');
+import { expect } from '../../../../test-helper.js';
 const JSONAPIError = require('jsonapi-serializer').Error;
-const { MissingQueryParamError, ConflictError } = require('../../../../../lib/application/http-errors');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/error-serializer');
+import { MissingQueryParamError, ConflictError } from '../../../../../lib/application/http-errors.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/error-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | error-serializer', function () {
   describe('#serialize()', function () {

@@ -1,10 +1,12 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
-const { performance } = require('perf_hooks');
-const logger = require('../lib/infrastructure/logger');
-const { cache } = require('../lib/infrastructure/caches/learning-content-cache');
+import perf_hooks from 'perf_hooks';
 
-const { knex, disconnect } = require('../db/knex-database-connection');
+const { performance } = perf_hooks;
+
+import { logger } from '../lib/infrastructure/logger.js';
+import { cache } from '../lib/infrastructure/caches/learning-content-cache.js';
+import { knex, disconnect } from '../db/knex-database-connection.js';
 
 async function toggleIsForAbsoluteNoviceCampaignAttribute(campaignId) {
   const campaign = await knex.select('isForAbsoluteNovice').from('campaigns').where({ id: campaignId }).first();
@@ -40,4 +42,4 @@ async function main() {
   }
 })();
 
-module.exports = { toggleIsForAbsoluteNoviceCampaignAttribute };
+export { toggleIsForAbsoluteNoviceCampaignAttribute };

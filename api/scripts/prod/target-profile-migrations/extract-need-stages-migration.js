@@ -1,11 +1,24 @@
 require('dotenv').config({
   path: `${__dirname}/../../../.env`,
 });
-const { resolve } = require('path');
-const { performance } = require('perf_hooks');
-const XLSX = require('xlsx');
-const logger = require('../../../lib/infrastructure/logger');
-const { writeFile } = require('fs/promises');
+import path from 'path';
+
+const {
+  writeFile
+} = fs/promises;
+
+const {
+  performance
+} = perf_hooks;
+
+const {
+  resolve
+} = path;
+
+import perf_hooks from 'perf_hooks';
+import XLSX from 'xlsx';
+import { logger } from '../../../lib/infrastructure/logger.js';
+import fs/promises from 'fs/promises';
 
 async function doJob(multiFormFiles) {
   const targetProfiles = Object.entries(
@@ -88,4 +101,4 @@ async function main() {
   }
 })();
 
-module.exports = { doJob };
+export { doJob };

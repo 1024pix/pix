@@ -1,7 +1,5 @@
-const { expect, learningContentBuilder, mockLearningContent, databaseBuilder, knex } = require('../../../test-helper');
-const {
-  generateCampaignWithParticipants,
-} = require('../../../../scripts/data-generation/generate-campaign-with-participants');
+import { expect, learningContentBuilder, mockLearningContent, databaseBuilder, knex } from '../../../test-helper.js';
+import { generateCampaignWithParticipants } from '../../../../scripts/data-generation/generate-campaign-with-participants.js';
 
 describe('Integration | Scripts | generate-campaign-with-participants', function () {
   it('should create a profiles collection campaign with participants', async function () {

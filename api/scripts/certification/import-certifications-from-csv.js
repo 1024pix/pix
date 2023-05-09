@@ -1,8 +1,8 @@
-const path = require('path');
-const fs = require('fs');
-const request = require('request-promise-native');
-const papa = require('papaparse');
-const { disconnect } = require('../../db/knex-database-connection');
+import path from 'path';
+import fs from 'fs';
+import request from 'request-promise-native';
+import papa from 'papaparse';
+import { disconnect } from '../../db/knex-database-connection.js';
 
 const CSV_HEADERS = {
   ID: 'ID de certification',
@@ -152,8 +152,4 @@ function main() {
   }
 })();
 
-module.exports = {
-  assertFileValidity,
-  convertCSVDataIntoCertifications,
-  saveCertifications,
-};
+export { assertFileValidity, convertCSVDataIntoCertifications, saveCertifications };

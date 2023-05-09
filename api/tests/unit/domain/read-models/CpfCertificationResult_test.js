@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | CpfCertificationResult', function () {
   context('#inseeCode', function () {

@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
-const buildTargetProfile = require('./build-target-profile');
+import { databaseBuffer } from '../database-buffer.js';
+import _ from 'lodash';
+import { buildTargetProfile } from './build-target-profile.js';
 
 function buildStage({
   id = databaseBuffer.getNextId(),
@@ -96,4 +96,4 @@ buildStage.firstSkill = function ({
   });
 };
 
-module.exports = buildStage;
+export { buildStage };

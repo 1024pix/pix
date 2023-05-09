@@ -1,7 +1,7 @@
-const buildTraining = require('./build-training');
-const databaseBuffer = require('../database-buffer');
+import { buildTraining } from './build-training.js';
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildTrainingTrigger({
+const buildTrainingTrigger = function ({
   id = databaseBuffer.getNextId(),
   trainingId = buildTraining().id,
   threshold = 80,
@@ -22,3 +22,5 @@ module.exports = function buildTrainingTrigger({
     values,
   });
 };
+
+export { buildTrainingTrigger };

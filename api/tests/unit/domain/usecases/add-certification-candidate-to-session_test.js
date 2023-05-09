@@ -1,12 +1,13 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const addCertificationCandidateToSession = require('../../../../lib/domain/usecases/add-certification-candidate-to-session');
-const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
-const {
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { addCertificationCandidateToSession } from '../../../../lib/domain/usecases/add-certification-candidate-to-session.js';
+import { CpfBirthInformationValidation } from '../../../../lib/domain/services/certification-cpf-service.js';
+
+import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CpfBirthInformationValidationError,
   CertificationCandidateAddError,
   CertificationCandidateOnFinalizedSessionError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | add-certification-candidate-to-session', function () {
   let certificationCandidateRepository;

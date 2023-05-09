@@ -1,5 +1,5 @@
-const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
-const buildOrganization = require('./build-organization');
+import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
+import { buildOrganization } from './build-organization.js';
 
 function buildOrganizationLearner({
   id = 123,
@@ -47,4 +47,4 @@ function buildOrganizationLearner({
   });
 }
 
-module.exports = buildOrganizationLearner;
+export { buildOrganizationLearner };

@@ -1,12 +1,12 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
-const logger = require('../../../../lib/infrastructure/logger');
-const { knex } = require('../../../../db/knex-database-connection');
-const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import * as skillRepository from '../../../../lib/infrastructure/repositories/skill-repository.js';
+import * as competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository.js';
+import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
+import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
+import { logger } from '../../../../lib/infrastructure/logger.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
 
 let allChallenges = [];
 let allPixCompetences = [];
@@ -49,7 +49,7 @@ async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
     .innerJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-badges.complementaryCertificationId',
+      'complementary-certification-badges.complementaryCertificationId'
     )
     .where({ 'complementary-certifications.key': ComplementaryCertification.CLEA })
     .orderBy('complementary-certification-badges.level', 'desc');
@@ -154,9 +154,4 @@ function _findFirstChallengeValidatedBySkillId(skillId) {
   return _.find(allChallenges, { status: 'validé', skill: { id: skillId } });
 }
 
-module.exports = {
-  makeUserPixCertifiable,
-  makeUserPixDroitCertifiable,
-  makeUserCleaCertifiable,
-  makeUserPixEduCertifiable,
-};
+export { makeUserPixCertifiable, makeUserPixDroitCertifiable, makeUserCleaCertifiable, makeUserPixEduCertifiable };

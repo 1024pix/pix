@@ -1,1 +1,1 @@
-module.exports = require('./factory');
+module.exports = require('./factory.js');

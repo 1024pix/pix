@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
-const Challenge = require('../../../../../lib/domain/models/Challenge');
+import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer.js';
+import { Challenge } from '../../../../../lib/domain/models/Challenge.js';
 
 describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
   describe('#serialize()', function () {

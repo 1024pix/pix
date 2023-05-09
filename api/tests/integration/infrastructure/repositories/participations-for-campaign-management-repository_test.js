@@ -1,9 +1,9 @@
-const { expect, databaseBuilder, catchErr, knex } = require('../../../test-helper');
-const participationsForCampaignManagementRepository = require('../../../../lib/infrastructure/repositories/participations-for-campaign-management-repository');
-const _ = require('lodash');
-const ParticipationForCampaignManagement = require('../../../../lib/domain/models/ParticipationForCampaignManagement');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, databaseBuilder, catchErr, knex } from '../../../test-helper.js';
+import * as participationsForCampaignManagementRepository from '../../../../lib/infrastructure/repositories/participations-for-campaign-management-repository.js';
+import _ from 'lodash';
+import { ParticipationForCampaignManagement } from '../../../../lib/domain/models/ParticipationForCampaignManagement.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

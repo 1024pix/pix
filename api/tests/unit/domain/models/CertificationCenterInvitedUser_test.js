@@ -1,7 +1,7 @@
-const CertificationCenterInvitedUser = require('../../../../lib/domain/models/CertificationCenterInvitedUser');
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
-const { expect, catchErr, domainBuilder } = require('../../../test-helper');
-const { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } = require('../../../../lib/domain/errors');
+import { CertificationCenterInvitedUser } from '../../../../lib/domain/models/CertificationCenterInvitedUser.js';
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { expect, catchErr, domainBuilder } from '../../../test-helper.js';
+import { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | CertificationCenterInvitedUser', function () {
   describe('#acceptInvitation', function () {

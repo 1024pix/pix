@@ -1,8 +1,8 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const getUserProfile = require('../../../../lib/domain/usecases/get-user-profile');
-const { constants } = require('../../../../lib/domain/constants');
-const _ = require('lodash');
+import { sinon, expect, domainBuilder } from '../../../test-helper.js';
+import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
+import { getUserProfile } from '../../../../lib/domain/usecases/get-user-profile.js';
+import { constants } from '../../../../lib/domain/constants.js';
+import _ from 'lodash';
 
 function assertScorecard(userScorecard, expectedUserScorecard) {
   expect(userScorecard.earnedPix).to.equal(expectedUserScorecard.earnedPix);

@@ -1,14 +1,15 @@
-const { expect, databaseBuilder, domainBuilder, catchErr, knex, mockLearningContent } = require('../../../test-helper');
-const trainingRepository = require('../../../../lib/infrastructure/repositories/training-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const TrainingSummary = require('../../../../lib/domain/read-models/TrainingSummary');
-const Training = require('../../../../lib/domain/models/Training');
-const UserRecommendedTraining = require('../../../../lib/domain/read-models/UserRecommendedTraining');
-const TrainingTriggerForAdmin = require('../../../../lib/domain/read-models/TrainingTriggerForAdmin');
-const TrainingForAdmin = require('../../../../lib/domain/read-models/TrainingForAdmin');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
-const TrainingTriggerTube = require('../../../../lib/domain/models/TrainingTriggerTube');
-const _ = require('lodash');
+import { expect, databaseBuilder, domainBuilder, catchErr, knex, mockLearningContent } from '../../../test-helper.js';
+
+import * as trainingRepository from '../../../../lib/infrastructure/repositories/training-repository.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { TrainingSummary } from '../../../../lib/domain/read-models/TrainingSummary.js';
+import { Training } from '../../../../lib/domain/models/Training.js';
+import { UserRecommendedTraining } from '../../../../lib/domain/read-models/UserRecommendedTraining.js';
+import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
+import { TrainingForAdmin } from '../../../../lib/domain/read-models/TrainingForAdmin.js';
+import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
+import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
+import _ from 'lodash';
 
 describe('Integration | Repository | training-repository', function () {
   describe('#get', function () {

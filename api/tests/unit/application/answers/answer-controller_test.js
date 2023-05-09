@@ -1,7 +1,6 @@
-const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
-
-const answerController = require('../../../../lib/application/answers/answer-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
+import { answerController } from '../../../../lib/application/answers/answer-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Unit | Controller | answer-controller', function () {
   let answerSerializerStub;

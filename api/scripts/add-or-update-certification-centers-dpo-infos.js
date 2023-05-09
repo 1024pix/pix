@@ -1,12 +1,12 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
 
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const { checkCsvHeader, parseCsvWithHeader } = require('./helpers/csvHelpers');
-const { disconnect } = require('../db/knex-database-connection');
-const updateCertificationCenterDataProtectionOfficerInformation = require('../lib/domain/usecases/update-certification-center-data-protection-officer-information');
-const dataProtectionOfficerRepository = require('../lib/infrastructure/repositories/data-protection-officer-repository');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
+import { disconnect } from '../db/knex-database-connection.js';
+import { updateCertificationCenterDataProtectionOfficerInformation } from '../lib/domain/usecases/update-certification-center-data-protection-officer-information.js';
+import * as dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository.js';
 
 const IS_LAUNCHED_FROM_CLI = require.main === module;
 const REQUIRED_FIELD_NAMES = ['certificationCenterId', 'firstName', 'lastName', 'email'];

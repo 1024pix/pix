@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const LayeredCache = require('../../../../lib/infrastructure/caches/LayeredCache');
+import { expect, sinon } from '../../../test-helper.js';
+import { LayeredCache } from '../../../../lib/infrastructure/caches/LayeredCache.js';
 
 describe('Unit | Infrastructure | Caches | LayeredCache', function () {
   const layeredCacheInstance = new LayeredCache();

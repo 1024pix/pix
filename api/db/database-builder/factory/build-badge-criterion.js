@@ -1,5 +1,5 @@
-const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
-const databaseBuffer = require('../database-buffer');
+import { BadgeCriterion } from '../../../lib/domain/models/BadgeCriterion.js';
+import { databaseBuffer } from '../database-buffer.js';
 
 const buildBadgeCriterion = function ({
   id = databaseBuffer.getNextId(),
@@ -60,4 +60,4 @@ buildBadgeCriterion.scopeCappedTubes = function ({ id, threshold, badgeId, cappe
   });
 };
 
-module.exports = buildBadgeCriterion;
+export { buildBadgeCriterion };

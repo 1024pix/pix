@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const superviseSession = require('../../../../lib/domain/usecases/supervise-session');
-const { InvalidSessionSupervisingLoginError, SessionNotAccessible } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { superviseSession } from '../../../../lib/domain/usecases/supervise-session.js';
+import { InvalidSessionSupervisingLoginError, SessionNotAccessible } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | supervise-session', function () {
   let sessionRepository;

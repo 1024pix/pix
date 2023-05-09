@@ -1,6 +1,6 @@
 const TABLE_NAME = 'complementary-certification-subscriptions';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.integer('complementaryCertificationId').references('complementary-certifications.id').notNullable();
     t.integer('certificationCandidateId').references('certification-candidates.id').notNullable();
@@ -8,7 +8,7 @@ const up = function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 

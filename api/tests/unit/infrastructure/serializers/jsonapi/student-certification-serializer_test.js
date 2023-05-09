@@ -1,6 +1,6 @@
-const { domainBuilder, expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/student-certification-serializer');
-const StudentForEnrolment = require('../../../../../lib/domain/read-models/StudentForEnrolment');
+import { domainBuilder, expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/student-certification-serializer.js';
+import { StudentForEnrolment } from '../../../../../lib/domain/read-models/StudentForEnrolment.js';
 
 describe('Unit | Serializer | JSONAPI | student-certification-serializer', function () {
   describe('#serialize', function () {

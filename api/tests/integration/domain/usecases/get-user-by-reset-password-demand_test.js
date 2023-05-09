@@ -1,18 +1,19 @@
-const { catchErr, expect, databaseBuilder } = require('../../../test-helper');
+import { catchErr, expect, databaseBuilder } from '../../../test-helper.js';
 
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
-const tokenService = require('../../../../lib/domain/services/token-service');
+import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
+import { tokenService } from '../../../../lib/domain/services/token-service.js';
 
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
 
-const User = require('../../../../lib/domain/models/User');
-const {
+import { User } from '../../../../lib/domain/models/User.js';
+
+import {
   InvalidTemporaryKeyError,
   PasswordResetDemandNotFoundError,
   UserNotFoundError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
-const getUserByResetPasswordDemand = require('../../../../lib/domain/usecases/get-user-by-reset-password-demand');
+import { getUserByResetPasswordDemand } from '../../../../lib/domain/usecases/get-user-by-reset-password-demand.js';
 
 describe('Integration | UseCases | get-user-by-reset-password-demand', function () {
   const email = 'user@example.net';

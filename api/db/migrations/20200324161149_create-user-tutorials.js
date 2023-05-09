@@ -1,6 +1,6 @@
 const TABLE_NAME = 'user_tutorials';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments('id').primary();
     t.bigInteger('userId').index();
@@ -11,7 +11,7 @@ const up = function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 

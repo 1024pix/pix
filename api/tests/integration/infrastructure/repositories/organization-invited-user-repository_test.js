@@ -1,8 +1,8 @@
-const { expect, databaseBuilder, catchErr, knex, sinon } = require('../../../test-helper');
-const organizationInvitedUserRepository = require('../../../../lib/infrastructure/repositories/organization-invited-user-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const OrganizationInvitedUser = require('../../../../lib/domain/models/OrganizationInvitedUser');
+import { expect, databaseBuilder, catchErr, knex, sinon } from '../../../test-helper.js';
+import * as organizationInvitedUserRepository from '../../../../lib/infrastructure/repositories/organization-invited-user-repository.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { OrganizationInvitedUser } from '../../../../lib/domain/models/OrganizationInvitedUser.js';
 
 describe('Integration | Repository | OrganizationInvitedUserRepository', function () {
   afterEach(async function () {

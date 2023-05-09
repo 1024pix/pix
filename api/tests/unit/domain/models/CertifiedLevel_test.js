@@ -1,7 +1,6 @@
-const { expect } = require('../../../test-helper');
-const { CertifiedLevel } = require('../../../../lib/domain/models/CertifiedLevel');
-
-const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED, UNCERTIFIED_LEVEL } = require('../../../../lib/domain/constants');
+import { expect } from '../../../test-helper.js';
+import { CertifiedLevel } from '../../../../lib/domain/models/CertifiedLevel.js';
+import { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED, UNCERTIFIED_LEVEL } from '../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Models | CertifiedLevel', function () {
   context('when 3 challenges were answered', function () {

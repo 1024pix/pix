@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const { expect, databaseBuilder, catchErr, mockLearningContent } = require('../../../test-helper');
-const campaignReportRepository = require('../../../../lib/infrastructure/repositories/campaign-report-repository');
-const CampaignReport = require('../../../../lib/domain/read-models/CampaignReport');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import _ from 'lodash';
+import { expect, databaseBuilder, catchErr, mockLearningContent } from '../../../test-helper.js';
+import * as campaignReportRepository from '../../../../lib/infrastructure/repositories/campaign-report-repository.js';
+import { CampaignReport } from '../../../../lib/domain/read-models/CampaignReport.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 

@@ -1,6 +1,6 @@
 const CERTIFICATION_CENTER_MEMBERSHIPS = 'certification-center-memberships';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.createTable(CERTIFICATION_CENTER_MEMBERSHIPS, (t) => {
     t.increments('id').primary();
     t.bigInteger('userId').references('users.id').index();
@@ -10,7 +10,7 @@ const up = function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.dropTable(CERTIFICATION_CENTER_MEMBERSHIPS);
 };
 

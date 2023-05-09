@@ -1,7 +1,6 @@
-const { expect, nock } = require('../../test-helper');
-
-const { checkData, createOrUpdateOrganizations } = require('../../../scripts/create-or-update-sco-organizations');
-const logoUrl = require('../../../scripts/logo/default-sco-organization-logo-base64');
+import { expect, nock } from '../../test-helper.js';
+import { checkData, createOrUpdateOrganizations } from '../../../scripts/create-or-update-sco-organizations.js';
+import { logoUrl } from '../../../scripts/logo/default-sco-organization-logo-base64.js';
 
 describe('Acceptance | Scripts | create-or-update-sco-organizations.js', function () {
   describe('#createOrUpdateOrganizations', function () {

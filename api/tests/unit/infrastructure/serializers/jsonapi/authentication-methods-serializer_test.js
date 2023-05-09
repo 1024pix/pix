@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer');
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | authentication-methods-serializer', function () {
   describe('#serialize()', function () {

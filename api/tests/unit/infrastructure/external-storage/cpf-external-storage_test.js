@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const cpfExternalStorage = require('../../../../lib/infrastructure/external-storage/cpf-external-storage');
-const { cpf } = require('../../../../lib/config');
-const _ = require('lodash');
+import { expect, sinon } from '../../../test-helper.js';
+import { cpfExternalStorage } from '../../../../lib/infrastructure/external-storage/cpf-external-storage.js';
+import { cpf } from '../../../../lib/config.js';
+import _ from 'lodash';
 
 describe('Unit | Infrastructure | external-storage | cpf-external-storage', function () {
   let s3Utils;

@@ -2,14 +2,14 @@
 // To use on file with columns |organizationId, tagName|
 
 'use strict';
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
-const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
-const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
-const OrganizationTag = require('../lib/domain/models/OrganizationTag');
-const { parseCsv } = require('./helpers/csvHelpers');
-const uniq = require('lodash/uniq');
-const { disconnect } = require('../db/knex-database-connection');
+import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
+import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
+import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
+import { parseCsv } from './helpers/csvHelpers.js';
+import uniq from 'lodash/uniq';
+import { disconnect } from '../db/knex-database-connection.js';
 
 function checkData({ csvData }) {
   return csvData
@@ -111,8 +111,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  addTagsToOrganizations,
-  retrieveTagsByName,
-  checkData,
-};
+export { addTagsToOrganizations, retrieveTagsByName, checkData };

@@ -1,10 +1,7 @@
-#! /usr/bin/env node
-
-const fileSystem = require('fs');
-
-const request = require('request-promise-native');
-const json2csv = require('json2csv');
-const moment = require('moment-timezone');
+import fileSystem from 'fs';
+import request from 'request-promise-native';
+import json2csv from 'json2csv';
+import moment from 'moment-timezone';
 
 const HEADERS = [
   'ID de certification',
@@ -185,9 +182,4 @@ if (require.main === module) {
   main();
 }
 
-module.exports = {
-  buildCertificationRequest,
-  toCSVRow,
-  findCompetence,
-  buildSessionRequest,
-};
+export { buildCertificationRequest, toCSVRow, findCompetence, buildSessionRequest };

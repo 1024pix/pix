@@ -1,9 +1,8 @@
-const { databaseBuilder, expect } = require('../../../test-helper');
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
-const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
-const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
-
-const { findCertificationCenterMembershipsByCertificationCenter } = require('../../../../lib/domain/usecases/index');
+import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
+import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import { findCertificationCenterMembershipsByCertificationCenter } from '../../../../lib/domain/usecases/index.js';
 
 describe('Integration | UseCase | find-certification-center-memberships-by-certification-center', function () {
   it('should return certification center memberships', async function () {

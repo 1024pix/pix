@@ -1,9 +1,9 @@
-const { expect, databaseBuilder, knex, sinon, catchErr } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases/index.js');
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
-const mailService = require('../../../../lib/domain/services/mail-service');
-const { SendingEmailError, SendingEmailToInvalidDomainError } = require('../../../../lib/domain/errors');
-const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
+import { expect, databaseBuilder, knex, sinon, catchErr } from '../../../test-helper.js';
+import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import * as mailService from '../../../../lib/domain/services/mail-service.js';
+import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../lib/domain/errors.js';
+import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
 
 describe('Integration | UseCase | create-or-update-certification-center-invitation-for-admin', function () {
   let clock;

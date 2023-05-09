@@ -1,8 +1,8 @@
-const buildCampaignParticipation = require('./build-campaign-participation');
-const buildUser = require('./build-user');
-const buildAuthenticationMethod = require('./build-authentication-method');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import { buildCampaignParticipation } from './build-campaign-participation.js';
+import { buildUser } from './build-user.js';
+import { buildAuthenticationMethod } from './build-authentication-method.js';
+import { databaseBuffer } from '../database-buffer.js';
+import _ from 'lodash';
 
 function build({
   id = databaseBuffer.getNextId(),
@@ -39,7 +39,4 @@ function buildWithUser(sendingAttributes, externalIdentifier) {
   return build({ ...sendingAttributes, campaignParticipationId });
 }
 
-module.exports = {
-  build,
-  buildWithUser,
-};
+export { build, buildWithUser };

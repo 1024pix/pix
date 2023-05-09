@@ -1,10 +1,10 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const moduleUnderTest = require('../../../../lib/application/campaigns');
-const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
-const campaignStatsController = require('../../../../lib/application/campaigns/campaign-stats-controller');
-const campaignManagementController = require('../../../../lib/application/campaigns/campaign-management-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { moduleUnderTest } from '../../../../lib/application/campaigns.js';
+import { campaignController } from '../../../../lib/application/campaigns/campaign-controller.js';
+import { campaignStatsController } from '../../../../lib/application/campaigns/campaign-stats-controller.js';
+import { campaignManagementController } from '../../../../lib/application/campaigns/campaign-management-controller.js';
 
 describe('Unit | Application | Router | campaign-router ', function () {
   describe('POST /api/campaigns', function () {

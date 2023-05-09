@@ -1,19 +1,28 @@
-const { writeFile, stat, unlink } = require('fs').promises;
-const fs = require('fs');
-const FormData = require('form-data');
-const streamToPromise = require('stream-to-promise');
-const { NotFoundError } = require('../../../../lib/application/http-errors');
+import fs from 'fs';
 
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+const {
+  promises
+} = fs;
 
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const sessionController = require('../../../../lib/application/sessions/session-controller');
-const sessionForSupervisingController = require('../../../../lib/application/sessions/session-for-supervising-controller');
-const sessionWithCleaCertifiedCandidateController = require('../../../../lib/application/sessions/session-with-clea-certified-candidate-controller');
-const finalizedSessionController = require('../../../../lib/application/sessions/finalized-session-controller');
-const authorization = require('../../../../lib/application/preHandlers/authorization');
-const moduleUnderTest = require('../../../../lib/application/sessions');
-const sessionSupervisorAuthorization = require('../../../../lib/application/preHandlers/session-supervisor-authorization');
+const {
+  writeFile,
+  stat,
+  unlink,
+} = promises;
+
+import fs from 'fs';
+import FormData from 'form-data';
+import streamToPromise from 'stream-to-promise';
+import { NotFoundError } from '../../../../lib/application/http-errors.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
+import { sessionForSupervisingController } from '../../../../lib/application/sessions/session-for-supervising-controller.js';
+import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
+import { finalizedSessionController } from '../../../../lib/application/sessions/finalized-session-controller.js';
+import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
+import { moduleUnderTest } from '../../../../lib/application/sessions.js';
+import { sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
 
 describe('Unit | Application | Sessions | Routes', function () {
   describe('GET /api/sessions/{id}', function () {

@@ -1,8 +1,8 @@
-const buildCampaign = require('./build-campaign');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import { buildCampaign } from './build-campaign.js';
+import { databaseBuffer } from '../database-buffer.js';
+import _ from 'lodash';
 
-module.exports = function buildCampaignSkill({ campaignId, skillId = 'recSKI456' } = {}) {
+const buildCampaignSkill = function ({ campaignId, skillId = 'recSKI456' } = {}) {
   campaignId = _.isUndefined(campaignId) ? buildCampaign().id : campaignId;
 
   const values = {
@@ -14,3 +14,5 @@ module.exports = function buildCampaignSkill({ campaignId, skillId = 'recSKI456'
     values,
   });
 };
+
+export { buildCampaignSkill };

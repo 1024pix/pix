@@ -1,8 +1,6 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-
-const usecases = require('../../../../lib/domain/usecases/index.js');
-
-const passwordController = require('../../../../lib/application/passwords/password-controller');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { passwordController } from '../../../../lib/application/passwords/password-controller.js';
 
 describe('Unit | Controller | PasswordController', function () {
   describe('#createResetDemand', function () {

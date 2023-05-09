@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const { updateDocumentationUrl, URL } = require('../../../../scripts/prod/update-documentation-url');
+import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { updateDocumentationUrl, URL } from '../../../../scripts/prod/update-documentation-url.js';
 
 describe('updateDocumentationUrl', function () {
   context('when the organization is PRO', function () {

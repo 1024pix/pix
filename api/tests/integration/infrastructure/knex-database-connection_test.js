@@ -1,10 +1,9 @@
-const { expect, databaseBuilder } = require('../../test-helper');
-
-const knexDatabaseConnection = require('../../../db/knex-database-connection');
+import { expect, databaseBuilder } from '../../test-helper.js';
+import { knexDatabaseConnection } from '../../../db/knex-database-connection.js';
 const knex = knexDatabaseConnection.knex;
 
-const { UserNotFoundError } = require('../../../lib/domain/errors');
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
+import { UserNotFoundError } from '../../../lib/domain/errors.js';
+import * as userRepository from '../../../lib/infrastructure/repositories/user-repository.js';
 
 describe('Integration | Infrastructure | knex-database-connection', function () {
   it('should connect to the database', async function () {

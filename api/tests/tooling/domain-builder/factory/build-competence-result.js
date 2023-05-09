@@ -1,6 +1,6 @@
-const CompetenceResult = require('../../../../lib/domain/models/CompetenceResult');
+import { CompetenceResult } from '../../../../lib/domain/models/CompetenceResult.js';
 
-module.exports = function buildCompetenceResult({
+const buildCompetenceResult = function ({
   id = 1,
   name = 'name',
   index = '1.1',
@@ -21,3 +21,5 @@ module.exports = function buildCompetenceResult({
     validatedSkillsCount,
   });
 };
+
+export { buildCompetenceResult };

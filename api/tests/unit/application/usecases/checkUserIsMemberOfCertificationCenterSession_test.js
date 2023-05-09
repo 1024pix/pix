@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const usecase = require('../../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession');
+import { expect, sinon } from '../../../test-helper.js';
+import { usecase } from '../../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession.js';
 
 describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenterSession', function () {
   let certificationCourseRepositoryStub;

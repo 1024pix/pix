@@ -1,7 +1,7 @@
-const _map = require('lodash/map');
-const _omit = require('lodash/omit');
+import _map from 'lodash/map';
+import _omit from 'lodash/omit';
 
-const {
+import {
   expect,
   knex,
   learningContentBuilder,
@@ -10,15 +10,14 @@ const {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   sinon,
-} = require('../../../test-helper');
+} from '../../../test-helper.js';
 
-const createServer = require('../../../../server');
-
-const Membership = require('../../../../lib/domain/models/Membership');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
+import { createServer } from '../../../../server.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 
 describe('Acceptance | Application | organization-controller', function () {
   let server;

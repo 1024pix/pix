@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const CampaignManagement = require('../../../../../lib/domain/read-models/CampaignManagement');
+import { expect } from '../../../../test-helper.js';
+import { CampaignManagement } from '../../../../../lib/domain/read-models/CampaignManagement.js';
 
 describe('campaignManagement', function () {
   describe('#totalParticipationsCount', function () {

@@ -1,7 +1,7 @@
 const TABLE_NAME = 'certification-partner-acquisitions';
 const COLUMN_NAME = 'acquired';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, (table) => {
     table.boolean(COLUMN_NAME);
   });
@@ -13,7 +13,7 @@ const up = async function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn(COLUMN_NAME);
   });

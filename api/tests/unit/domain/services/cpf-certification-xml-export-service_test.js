@@ -1,9 +1,12 @@
-const { expect, domainBuilder, sinon, streamToPromise } = require('../../../test-helper');
-const { PassThrough } = require('stream');
-const proxyquire = require('proxyquire');
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
+import { expect, domainBuilder, sinon, streamToPromise } from '../../../test-helper.js';
+import stream from 'stream';
+
+const { PassThrough } = stream;
+
+import proxyquire from 'proxyquire';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 

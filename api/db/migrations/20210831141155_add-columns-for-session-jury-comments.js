@@ -1,6 +1,6 @@
 const TABLE_NAME = 'sessions';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.text('juryComment').defaultsTo(null);
     table.integer('juryCommentAuthorId').unsigned().references('users.id').defaultsTo(null);
@@ -8,7 +8,7 @@ const up = function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.alterTable(TABLE_NAME, (table) => {
     table.dropColumn('juryComment');
     table.dropColumn('juryCommentAuthorId');

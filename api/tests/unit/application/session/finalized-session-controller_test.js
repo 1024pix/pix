@@ -1,6 +1,6 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const finalizedSessionController = require('../../../../lib/application/sessions/finalized-session-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { expect, sinon, hFake } from '../../../test-helper.js';
+import { finalizedSessionController } from '../../../../lib/application/sessions/finalized-session-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Unit | Controller | finalized-session', function () {
   let request;

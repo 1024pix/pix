@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const findCertificationAttestationsForDivision = require('../../../../lib/domain/usecases/certificate/find-certification-attestations-for-division');
-const { NoCertificationAttestationForDivisionError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { findCertificationAttestationsForDivision } from '../../../../lib/domain/usecases/certificate/find-certification-attestations-for-division.js';
+import { NoCertificationAttestationForDivisionError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | find-certification-attestations-for-division', function () {
   const certificateRepository = {
