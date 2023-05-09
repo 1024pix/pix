@@ -1,6 +1,6 @@
-const sortBy = require('lodash/sortBy');
-const moment = require('moment');
-const { toArrayOfFixedLengthStringsConservingWords } = require('../string-utils.js');
+import sortBy from 'lodash/sortBy';
+import moment from 'moment';
+import { toArrayOfFixedLengthStringsConservingWords } from '../string-utils.js';
 
 const PROFESSIONALIZING_VALIDITY_START_DATE = new Date('2022-01-01');
 
@@ -135,4 +135,4 @@ function _formatDate(date) {
   return moment(date).locale('fr').format('LL');
 }
 
-module.exports = AttestationViewModel;
+export { AttestationViewModel };

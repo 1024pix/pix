@@ -1,4 +1,4 @@
-exports.up = (knex) => {
+const up = function(knex) {
   return knex.schema
     .createTable('pix_roles', (table) => {
       table.increments('id').primary();
@@ -18,8 +18,10 @@ exports.up = (knex) => {
     });
 };
 
-exports.down = (knex) => {
+const down = function(knex) {
   return knex.schema.dropTable('pix_roles').then(() => {
     return knex.schema.dropTable('users_pix_roles');
   });
 };
+
+export { up, down };

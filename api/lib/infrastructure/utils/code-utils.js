@@ -1,11 +1,11 @@
-const randomString = require('randomstring');
+import randomString from 'randomstring';
 
-module.exports = {
-  generateNumericalString(numberOfDigits) {
-    return randomString.generate({
-      charset: 'numeric',
-      length: numberOfDigits,
-      readable: true,
-    });
-  },
+const generateNumericalString = function (numberOfDigits) {
+  return randomString.generate({
+    charset: 'numeric',
+    length: numberOfDigits,
+    readable: true,
+  });
 };
+
+export { generateNumericalString };

@@ -1,12 +1,14 @@
-const { SessionStartedDeletionError } = require('../errors.js');
+import { SessionStartedDeletionError } from '../errors.js';
 
-module.exports = async function deleteSession({ sessionId, sessionRepository, certificationCourseRepository }) {
+const deleteSession = async function ({ sessionId, sessionRepository, certificationCourseRepository }) {
   if (await _isSessionStarted(certificationCourseRepository, sessionId)) {
     throw new SessionStartedDeletionError();
   }
 
   await sessionRepository.delete(sessionId);
 };
+
+export { deleteSession };
 
 async function _isSessionStarted(certificationCourseRepository, sessionId) {
   const foundCertificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({

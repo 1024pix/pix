@@ -1,25 +1,24 @@
-const { knex } = require('../../../db/knex-database-connection.js');
+import { knex } from '../../../db/knex-database-connection.js';
+import { foreignKeyConstraintViolated } from '../utils/knex-utils.js';
+import { NotFoundError } from '../../domain/errors.js';
 
-const { foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
-const { NotFoundError } = require('../../domain/errors.js');
+const attachOrganizations = async function (targetProfile) {
+  const rows = targetProfile.organizations.map((organizationId) => {
+    return {
+      organizationId,
+      targetProfileId: targetProfile.id,
+    };
+  });
+  const attachedOrganizationIds = await _createTargetProfileShares(rows);
 
-module.exports = {
-  async attachOrganizations(targetProfile) {
-    const rows = targetProfile.organizations.map((organizationId) => {
-      return {
-        organizationId,
-        targetProfileId: targetProfile.id,
-      };
-    });
-    const attachedOrganizationIds = await _createTargetProfileShares(rows);
+  const duplicatedOrganizationIds = targetProfile.organizations.filter(
+    (organizationId) => !attachedOrganizationIds.includes(organizationId)
+  );
 
-    const duplicatedOrganizationIds = targetProfile.organizations.filter(
-      (organizationId) => !attachedOrganizationIds.includes(organizationId)
-    );
-
-    return { duplicatedIds: duplicatedOrganizationIds, attachedIds: attachedOrganizationIds };
-  },
+  return { duplicatedIds: duplicatedOrganizationIds, attachedIds: attachedOrganizationIds };
 };
+
+export { attachOrganizations };
 
 async function _createTargetProfileShares(targetProfileShares) {
   try {

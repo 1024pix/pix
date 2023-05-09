@@ -1,6 +1,6 @@
-const { AlreadyExistingMembershipError } = require('../../domain/errors.js');
+import { AlreadyExistingMembershipError } from '../../domain/errors.js';
 
-module.exports = async function acceptOrganizationInvitation({
+const acceptOrganizationInvitation = async function ({
   organizationInvitationId,
   code,
   email,
@@ -31,3 +31,5 @@ module.exports = async function acceptOrganizationInvitation({
   await organizationInvitedUserRepository.save({ organizationInvitedUser });
   return { id: organizationInvitedUser.currentMembershipId, isAdmin: organizationInvitedUser.currentRole === 'ADMIN' };
 };
+
+export { acceptOrganizationInvitation };

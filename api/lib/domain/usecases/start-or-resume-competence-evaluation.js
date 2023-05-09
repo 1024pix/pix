@@ -1,8 +1,8 @@
-const Assessment = require('../models/Assessment.js');
-const CompetenceEvaluation = require('../models/CompetenceEvaluation.js');
-const { NotFoundError } = require('../../domain/errors.js');
+import { Assessment } from '../models/Assessment.js';
+import { CompetenceEvaluation } from '../models/CompetenceEvaluation.js';
+import { NotFoundError } from '../../domain/errors.js';
 
-module.exports = async function startOrResumeCompetenceEvaluation({
+const startOrResumeCompetenceEvaluation = async function ({
   competenceId,
   userId,
   competenceEvaluationRepository,
@@ -31,6 +31,8 @@ module.exports = async function startOrResumeCompetenceEvaluation({
     }
   }
 };
+
+export { startOrResumeCompetenceEvaluation };
 
 function _checkCompetenceExists(competenceId, competenceRepository) {
   return competenceRepository.get({ id: competenceId });

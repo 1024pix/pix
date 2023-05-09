@@ -1,7 +1,7 @@
-const { cpf } = require('../../../../config.js');
-const cronParser = require('cron-parser');
+import { cpf } from '../../../../config.js';
+import cronParser from 'cron-parser';
 
-module.exports = async function sendEmail({ cpfExternalStorage, mailService }) {
+const sendEmail = async function ({ cpfExternalStorage, mailService }) {
   const parsedCron = cronParser.parseExpression(cpf.plannerJob.cron, { tz: 'Europe/Paris' });
   const date = parsedCron.prev().toDate();
 
@@ -9,3 +9,5 @@ module.exports = async function sendEmail({ cpfExternalStorage, mailService }) {
 
   await mailService.sendCpfEmail({ email: cpf.sendEmailJob.recipient, generatedFiles });
 };
+
+export { sendEmail };

@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const membershipRepository = require('../../infrastructure/repositories/membership-repository.js');
+import _ from 'lodash';
+import * as membershipRepository from '../../infrastructure/repositories/membership-repository.js';
 
-module.exports = {
-  execute(userId) {
-    return membershipRepository.findByUserId({ userId }).then((memberships) => !_.isEmpty(memberships));
-  },
+const execute = function (userId) {
+  return membershipRepository.findByUserId({ userId }).then((memberships) => !_.isEmpty(memberships));
 };
+
+export { execute };

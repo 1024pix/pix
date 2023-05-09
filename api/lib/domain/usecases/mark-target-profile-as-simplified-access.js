@@ -1,3 +1,5 @@
-module.exports = async function markTargetProfileAsSimplifiedAccess({ id, targetProfileRepository }) {
+const markTargetProfileAsSimplifiedAccess = async function ({ id, targetProfileRepository }) {
   return targetProfileRepository.update({ id, isSimplifiedAccess: true });
 };
+
+export { markTargetProfileAsSimplifiedAccess };

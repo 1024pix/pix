@@ -1,6 +1,6 @@
-const FinalizedSession = require('../models/FinalizedSession.js');
-const { checkEventTypes } = require('./check-event-types.js');
-const AutoJuryDone = require('./AutoJuryDone.js');
+import { FinalizedSession } from '../models/FinalizedSession.js';
+import { checkEventTypes } from './check-event-types.js';
+import { AutoJuryDone } from './AutoJuryDone.js';
 
 const eventTypes = [AutoJuryDone];
 
@@ -32,4 +32,4 @@ async function handleSessionFinalized({
 }
 
 handleSessionFinalized.eventTypes = eventTypes;
-module.exports = handleSessionFinalized;
+export { handleSessionFinalized };

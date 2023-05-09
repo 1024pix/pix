@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const config = require('../../config.js');
+import _ from 'lodash';
+import { config } from '../../config.js';
 
 const CREATED = 'created';
 const FINALIZED = 'finalized';
@@ -105,7 +105,7 @@ class Session {
   }
 }
 
-module.exports = Session;
+export { Session };
 module.exports.statuses = statuses;
 module.exports.NO_EXAMINER_GLOBAL_COMMENT = NO_EXAMINER_GLOBAL_COMMENT;
 

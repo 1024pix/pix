@@ -1,4 +1,4 @@
-const Promise = require('bluebird');
+import Promise from 'bluebird';
 
 const indexes = {
   answers: ['assessmentId'],
@@ -8,7 +8,8 @@ const indexes = {
   marks: ['assessmentId'],
   snapshots: ['organizationId'],
 };
-exports.up = function (knex) {
+
+const up = function(knex) {
   const promises = Object.keys(indexes).map((tableForIndexes) => {
     return knex.schema.table(tableForIndexes, (table) => {
       indexes[tableForIndexes].forEach((column) => table.index(column));
@@ -17,7 +18,7 @@ exports.up = function (knex) {
   return Promise.all(promises);
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   const promises = Object.keys(indexes).map((tableForIndexes) => {
     return knex.schema.table(tableForIndexes, (table) => {
       indexes[tableForIndexes].forEach((column) => table.dropIndex(column));
@@ -25,3 +26,5 @@ exports.down = function (knex) {
   });
   return Promise.all(promises);
 };
+
+export { up, down };

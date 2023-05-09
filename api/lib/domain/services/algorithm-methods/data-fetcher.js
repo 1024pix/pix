@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 async function fetchForCampaigns({
   assessment,
@@ -115,9 +115,4 @@ async function fetchForFlashLevelEstimation({ assessment, answerRepository, chal
   };
 }
 
-module.exports = {
-  fetchForCampaigns,
-  fetchForCompetenceEvaluations,
-  fetchForFlashCampaigns,
-  fetchForFlashLevelEstimation,
-};
+export { fetchForCampaigns, fetchForCompetenceEvaluations, fetchForFlashCampaigns, fetchForFlashLevelEstimation };

@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const datasource = require('./datasource.js');
+import _ from 'lodash';
+import * as datasource from './datasource.js';
 
 const VALIDATED_CHALLENGE = 'validé';
 const OPERATIVE_CHALLENGES = [VALIDATED_CHALLENGE, 'archivé'];
@@ -65,4 +65,4 @@ const challengeDatasource = datasource.extend({
   },
 });
 
-module.exports = { challengeDatasource };
+export { challengeDatasource };

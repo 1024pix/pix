@@ -1,6 +1,8 @@
-const Tag = require('../models/Tag.js');
+import { Tag } from '../models/Tag.js';
 
-module.exports = async function createTag({ tagName, tagRepository }) {
+const createTag = async function ({ tagName, tagRepository }) {
   const tag = new Tag({ name: tagName });
   return tagRepository.create(tag);
 };
+
+export { createTag };

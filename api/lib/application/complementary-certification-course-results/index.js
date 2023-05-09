@@ -1,9 +1,9 @@
-const Joi = require('joi');
-const identifiersType = require('../../domain/types/identifiers-type.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
-const complementaryCertificationCourseResultsController = require('./complementary-certification-course-results-controller.js');
+import Joi from 'joi';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { complementaryCertificationCourseResultsController } from './complementary-certification-course-results-controller.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -41,4 +41,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'complementary-certification-course-results-api';
+const name = 'complementary-certification-course-results-api';
+export { register, name };

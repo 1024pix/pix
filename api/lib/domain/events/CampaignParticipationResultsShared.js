@@ -1,4 +1,4 @@
-const Event = require('./Event.js');
+import { Event } from './Event.js';
 
 class CampaignParticipationResultsShared extends Event {
   constructor({ campaignParticipationId } = {}) {
@@ -7,4 +7,4 @@ class CampaignParticipationResultsShared extends Event {
   }
 }
 
-module.exports = CampaignParticipationResultsShared;
+export { CampaignParticipationResultsShared };

@@ -1,7 +1,7 @@
-const { NotFoundError, InvalidJuryLevelError } = require('../errors.js');
-const ComplementaryCertificationCourseResult = require('../models/ComplementaryCertificationCourseResult.js');
+import { NotFoundError, InvalidJuryLevelError } from '../errors.js';
+import { ComplementaryCertificationCourseResult } from '../models/ComplementaryCertificationCourseResult.js';
 
-module.exports = async function saveJuryComplementaryCertificationCourseResult({
+const saveJuryComplementaryCertificationCourseResult = async function ({
   complementaryCertificationCourseId,
   juryLevel,
   complementaryCertificationCourseResultRepository,
@@ -35,3 +35,5 @@ module.exports = async function saveJuryComplementaryCertificationCourseResult({
 
   return complementaryCertificationCourseResultRepository.save(externalComplementaryCertificationCourseResult);
 };
+
+export { saveJuryComplementaryCertificationCourseResult };

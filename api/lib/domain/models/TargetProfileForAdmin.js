@@ -188,4 +188,4 @@ class TP_Tube {
   }
 }
 
-module.exports = TargetProfileForAdmin;
+export { TargetProfileForAdmin };

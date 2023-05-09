@@ -1,7 +1,7 @@
-const BadgeResult = require('./BadgeResult.js');
-const CompetenceResult = require('./CompetenceResult.js');
-const { constants } = require('../../constants.js');
-const moment = require('moment');
+import { BadgeResult } from './BadgeResult.js';
+import { CompetenceResult } from './CompetenceResult.js';
+import { constants } from '../../constants.js';
+import moment from 'moment';
 
 class AssessmentResult {
   constructor({
@@ -143,4 +143,4 @@ function _buildCompetenceResult({
   });
 }
 
-module.exports = AssessmentResult;
+export { AssessmentResult };

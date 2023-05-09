@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const { NotFoundError } = require('../../domain/errors.js');
-const Organization = require('../../domain/models/Organization.js');
-const DomainTransaction = require('../DomainTransaction.js');
-const { knex } = require('../../../db/knex-database-connection.js');
-const Tag = require('../../domain/models/Tag.js');
-const { fetchPage } = require('../utils/knex-utils.js');
+import _ from 'lodash';
+import { NotFoundError } from '../../domain/errors.js';
+import { Organization } from '../../domain/models/Organization.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { knex } from '../../../db/knex-database-connection.js';
+import { Tag } from '../../domain/models/Tag.js';
+import { fetchPage } from '../utils/knex-utils.js';
 
 function _toDomain(rawOrganization) {
   const organization = new Organization({
@@ -48,153 +48,167 @@ function _setSearchFiltersForQueryBuilder(qb, filter) {
   }
 }
 
-module.exports = {
-  create(organization) {
-    const organizationRawData = _.pick(organization, [
+const create = function (organization) {
+  const organizationRawData = _.pick(organization, [
+    'name',
+    'type',
+    'logoUrl',
+    'externalId',
+    'provinceCode',
+    'email',
+    'isManagingStudents',
+    'createdBy',
+    'documentationUrl',
+  ]);
+
+  return knex('organizations')
+    .insert(organizationRawData)
+    .returning('*')
+    .then(([organization]) => _toDomain(organization));
+};
+
+const batchCreateOrganizations = async function (
+  organizations,
+  domainTransaction = DomainTransaction.emptyTransaction()
+) {
+  const organizationsRawData = organizations.map((organization) =>
+    _.pick(organization, [
       'name',
       'type',
-      'logoUrl',
+      'email',
       'externalId',
       'provinceCode',
-      'email',
       'isManagingStudents',
+      'identityProviderForCampaigns',
+      'credit',
       'createdBy',
       'documentationUrl',
-    ]);
+    ])
+  );
+  return knex
+    .batchInsert('organizations', organizationsRawData)
+    .transacting(domainTransaction.knexTransaction)
+    .returning(['id', 'externalId', 'name']);
+};
 
-    return knex('organizations')
-      .insert(organizationRawData)
-      .returning('*')
-      .then(([organization]) => _toDomain(organization));
-  },
+const update = async function (organization) {
+  const organizationRawData = _.pick(organization, [
+    'name',
+    'type',
+    'logoUrl',
+    'externalId',
+    'provinceCode',
+    'isManagingStudents',
+    'email',
+    'credit',
+    'documentationUrl',
+    'showSkills',
+  ]);
 
-  async batchCreateOrganizations(organizations, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const organizationsRawData = organizations.map((organization) =>
-      _.pick(organization, [
-        'name',
-        'type',
-        'email',
-        'externalId',
-        'provinceCode',
-        'isManagingStudents',
-        'identityProviderForCampaigns',
-        'credit',
-        'createdBy',
-        'documentationUrl',
-      ])
-    );
-    return knex
-      .batchInsert('organizations', organizationsRawData)
-      .transacting(domainTransaction.knexTransaction)
-      .returning(['id', 'externalId', 'name']);
-  },
+  const [organizationDB] = await knex('organizations')
+    .update(organizationRawData)
+    .where({ id: organization.id })
+    .returning('*');
 
-  async update(organization) {
-    const organizationRawData = _.pick(organization, [
-      'name',
-      'type',
-      'logoUrl',
-      'externalId',
-      'provinceCode',
-      'isManagingStudents',
-      'email',
-      'credit',
-      'documentationUrl',
-      'showSkills',
-    ]);
+  const tagsDB = await knex('tags')
+    .select(['tags.id', 'tags.name'])
+    .join('organization-tags', 'organization-tags.tagId', 'tags.id')
+    .where('organization-tags.organizationId', organizationDB.id);
 
-    const [organizationDB] = await knex('organizations')
-      .update(organizationRawData)
-      .where({ id: organization.id })
-      .returning('*');
+  const tags = tagsDB.map((tagDB) => new Tag(tagDB));
 
-    const tagsDB = await knex('tags')
-      .select(['tags.id', 'tags.name'])
-      .join('organization-tags', 'organization-tags.tagId', 'tags.id')
-      .where('organization-tags.organizationId', organizationDB.id);
+  return _toDomain({ ...organizationDB, tags });
+};
 
-    const tags = tagsDB.map((tagDB) => new Tag(tagDB));
+const get = async function (id) {
+  const organizationDB = await knex('organizations').where({ id }).first();
+  if (!organizationDB) {
+    throw new NotFoundError(`Not found organization for ID ${id}`);
+  }
 
-    return _toDomain({ ...organizationDB, tags });
-  },
+  const tagsDB = await knex('tags')
+    .select(['tags.id', 'tags.name'])
+    .join('organization-tags', 'organization-tags.tagId', 'tags.id')
+    .where('organization-tags.organizationId', id);
 
-  async get(id) {
-    const organizationDB = await knex('organizations').where({ id }).first();
-    if (!organizationDB) {
-      throw new NotFoundError(`Not found organization for ID ${id}`);
-    }
+  const tags = tagsDB.map((tagDB) => new Tag(tagDB));
+  return _toDomain({ ...organizationDB, tags });
+};
 
-    const tagsDB = await knex('tags')
-      .select(['tags.id', 'tags.name'])
-      .join('organization-tags', 'organization-tags.tagId', 'tags.id')
-      .where('organization-tags.organizationId', id);
+const getIdByCertificationCenterId = async function (certificationCenterId) {
+  const organizationIds = await knex
+    .pluck('organizations.id')
+    .from('organizations')
+    .innerJoin('certification-centers', function () {
+      this.on('certification-centers.externalId', 'organizations.externalId').andOn(
+        'certification-centers.type',
+        'organizations.type'
+      );
+    })
+    .where('certification-centers.id', certificationCenterId);
 
-    const tags = tagsDB.map((tagDB) => new Tag(tagDB));
-    return _toDomain({ ...organizationDB, tags });
-  },
+  if (organizationIds.length !== 1)
+    throw new NotFoundError(`Not found organization for certification center id ${certificationCenterId}`);
+  return organizationIds[0];
+};
 
-  async getIdByCertificationCenterId(certificationCenterId) {
-    const organizationIds = await knex
-      .pluck('organizations.id')
-      .from('organizations')
-      .innerJoin('certification-centers', function () {
-        this.on('certification-centers.externalId', 'organizations.externalId').andOn(
-          'certification-centers.type',
-          'organizations.type'
-        );
-      })
-      .where('certification-centers.id', certificationCenterId);
+const getScoOrganizationByExternalId = async function (externalId) {
+  const organizationDB = await knex('organizations')
+    .where({ type: Organization.types.SCO })
+    .whereRaw('LOWER("externalId") = ?', externalId.toLowerCase())
+    .first();
 
-    if (organizationIds.length !== 1)
-      throw new NotFoundError(`Not found organization for certification center id ${certificationCenterId}`);
-    return organizationIds[0];
-  },
+  if (!organizationDB) {
+    throw new NotFoundError(`Could not find organization for externalId ${externalId}.`);
+  }
+  return _toDomain(organizationDB);
+};
 
-  async getScoOrganizationByExternalId(externalId) {
-    const organizationDB = await knex('organizations')
-      .where({ type: Organization.types.SCO })
-      .whereRaw('LOWER("externalId") = ?', externalId.toLowerCase())
-      .first();
+const findByExternalIdsFetchingIdsOnly = async function (externalIds) {
+  const organizationsDB = await knex('organizations')
+    .whereInArray('externalId', externalIds)
+    .select(['id', 'externalId']);
 
-    if (!organizationDB) {
-      throw new NotFoundError(`Could not find organization for externalId ${externalId}.`);
-    }
-    return _toDomain(organizationDB);
-  },
+  return organizationsDB.map((model) => _toDomain(model));
+};
 
-  async findByExternalIdsFetchingIdsOnly(externalIds) {
-    const organizationsDB = await knex('organizations')
-      .whereInArray('externalId', externalIds)
-      .select(['id', 'externalId']);
+const findScoOrganizationsByUai = async function ({ uai }) {
+  const organizationsDB = await knex('organizations')
+    .where({ type: Organization.types.SCO })
+    .whereRaw('LOWER("externalId") = ? ', `${uai.toLowerCase()}`);
 
-    return organizationsDB.map((model) => _toDomain(model));
-  },
+  return organizationsDB.map((model) => _toDomain(model));
+};
 
-  async findScoOrganizationsByUai({ uai }) {
-    const organizationsDB = await knex('organizations')
-      .where({ type: Organization.types.SCO })
-      .whereRaw('LOWER("externalId") = ? ', `${uai.toLowerCase()}`);
+const findPaginatedFiltered = async function ({ filter, page }) {
+  const query = knex('organizations').modify(_setSearchFiltersForQueryBuilder, filter).orderBy('name', 'ASC');
 
-    return organizationsDB.map((model) => _toDomain(model));
-  },
+  const { results, pagination } = await fetchPage(query, page);
+  const organizations = results.map((model) => _toDomain(model));
+  return { models: organizations, pagination };
+};
 
-  async findPaginatedFiltered({ filter, page }) {
-    const query = knex('organizations').modify(_setSearchFiltersForQueryBuilder, filter).orderBy('name', 'ASC');
+const findPaginatedFilteredByTargetProfile = async function ({ targetProfileId, filter, page }) {
+  const query = knex('organizations')
+    .select('organizations.*')
+    .innerJoin('target-profile-shares', 'organizations.id', 'target-profile-shares.organizationId')
+    .where({ 'target-profile-shares.targetProfileId': targetProfileId })
+    .modify(_setSearchFiltersForQueryBuilder, filter);
 
-    const { results, pagination } = await fetchPage(query, page);
-    const organizations = results.map((model) => _toDomain(model));
-    return { models: organizations, pagination };
-  },
+  const { results, pagination } = await fetchPage(query, page);
+  const organizations = results.map((model) => _toDomain(model));
+  return { models: organizations, pagination };
+};
 
-  async findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page }) {
-    const query = knex('organizations')
-      .select('organizations.*')
-      .innerJoin('target-profile-shares', 'organizations.id', 'target-profile-shares.organizationId')
-      .where({ 'target-profile-shares.targetProfileId': targetProfileId })
-      .modify(_setSearchFiltersForQueryBuilder, filter);
-
-    const { results, pagination } = await fetchPage(query, page);
-    const organizations = results.map((model) => _toDomain(model));
-    return { models: organizations, pagination };
-  },
+export {
+  create,
+  batchCreateOrganizations,
+  update,
+  get,
+  getIdByCertificationCenterId,
+  getScoOrganizationByExternalId,
+  findByExternalIdsFetchingIdsOnly,
+  findScoOrganizationsByUai,
+  findPaginatedFiltered,
+  findPaginatedFilteredByTargetProfile,
 };

@@ -1,10 +1,10 @@
-const Bookshelf = require('../bookshelf.js');
+import { Bookshelf } from '../bookshelf.js';
 
-require('./Badge.js');
+import './Badge.js';
 
 const modelName = 'BadgeCriterion';
 
-module.exports = Bookshelf.model(
+const BookshelfBadgeCriteri = Bookshelf.model(
   modelName,
   {
     tableName: 'badge-criteria',
@@ -17,3 +17,5 @@ module.exports = Bookshelf.model(
     modelName,
   }
 );
+
+export { BookshelfBadgeCriteri };

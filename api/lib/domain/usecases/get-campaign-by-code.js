@@ -1,3 +1,5 @@
-module.exports = function getCampaignByCode({ code, campaignToJoinRepository }) {
+const getCampaignByCode = function ({ code, campaignToJoinRepository }) {
   return campaignToJoinRepository.getByCode(code);
 };
+
+export { getCampaignByCode };

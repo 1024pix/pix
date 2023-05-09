@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const SibApiV3Sdk = require('sib-api-v3-sdk');
+import _ from 'lodash';
+import SibApiV3Sdk from 'sib-api-v3-sdk';
 
-const MailingProvider = require('./MailingProvider.js');
-const { mailing } = require('../../config.js');
-const { MailingProviderInvalidEmailError } = require('./MailingProviderInvalidEmailError');
+import { MailingProvider } from './MailingProvider.js';
+import { mailing } from '../../config.js';
+import { MailingProviderInvalidEmailError } from './MailingProviderInvalidEmailError.js';
 
 function _formatPayload({ to, fromName, from, subject, template, variables, tags }) {
   const payload = {
@@ -64,4 +64,4 @@ class SendinblueProvider extends MailingProvider {
   }
 }
 
-module.exports = SendinblueProvider;
+export { SendinblueProvider };

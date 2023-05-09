@@ -1,6 +1,6 @@
-const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
-module.exports = async function anonymizeUser({
+const anonymizeUser = async function ({
   updatedByUserId,
   userId,
   userRepository,
@@ -38,3 +38,5 @@ module.exports = async function anonymizeUser({
   });
   return userRepository.getUserDetailsForAdmin(userId);
 };
+
+export { anonymizeUser };

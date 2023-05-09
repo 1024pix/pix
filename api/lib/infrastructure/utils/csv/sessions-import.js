@@ -49,8 +49,4 @@ const emptySession = {
 
 const COMPLEMENTARY_CERTIFICATION_SUFFIX = "('oui' ou laisser vide)";
 
-module.exports = {
-  headers,
-  emptySession,
-  COMPLEMENTARY_CERTIFICATION_SUFFIX,
-};
+export { headers, emptySession, COMPLEMENTARY_CERTIFICATION_SUFFIX };

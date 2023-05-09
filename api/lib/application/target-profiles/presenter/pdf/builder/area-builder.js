@@ -1,31 +1,25 @@
-const sortBy = require('lodash/sortBy');
-const competenceBuilder = require('./competence-builder.js');
-const AreaText = require('../drawer/AreaText.js');
-const LegalMentionText = require('../drawer/LegalMentionText.js');
+import sortBy from 'lodash/sortBy';
+import { competenceBuilder } from './competence-builder.js';
+import { AreaText } from '../drawer/AreaText.js';
+import { LegalMentionText } from '../drawer/LegalMentionText.js';
 
 const MARGIN_TOP_WITHOUT_AREA = 15;
 const MARGIN_BOTTOM_LIMIT = 5;
 
-module.exports = {
-  /**
-   * @param pdfDocument{PDFDocument}
-   * @param area{Area}
-   * @param frameworkName{string}
-   * @param language{string}
-   */
-  build(pdfDocument, area, frameworkName, language) {
-    const page = _addPage(pdfDocument, language);
-    const areaTitle = frameworkName + ' : ' + area.title;
-    let pageContext = {
-      page,
-      positionY: _drawAreaTitle(page, areaTitle, area.color),
-    };
-    for (const competence of sortBy(area.competences, 'index')) {
-      pageContext = _nextPage(pageContext.page, pageContext.positionY, competence, area.color, language);
-      pageContext.positionY = competenceBuilder.build(pageContext.positionY, pageContext.page, competence, area.color);
-    }
-  },
+const build = function (pdfDocument, area, frameworkName, language) {
+  const page = _addPage(pdfDocument, language);
+  const areaTitle = frameworkName + ' : ' + area.title;
+  let pageContext = {
+    page,
+    positionY: _drawAreaTitle(page, areaTitle, area.color),
+  };
+  for (const competence of sortBy(area.competences, 'index')) {
+    pageContext = _nextPage(pageContext.page, pageContext.positionY, competence, area.color, language);
+    pageContext.positionY = competenceBuilder.build(pageContext.positionY, pageContext.page, competence, area.color);
+  }
 };
+
+export { build };
 /**
  * @param page{PDFPage}
  * @param positionY{number}

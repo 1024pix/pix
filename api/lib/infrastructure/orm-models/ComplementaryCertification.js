@@ -1,8 +1,8 @@
-const Bookshelf = require('../bookshelf.js');
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'ComplementaryCertification';
 
-module.exports = Bookshelf.model(
+const BookshelfComplementaryCertification = Bookshelf.model(
   modelName,
   {
     tableName: 'complementary-certifications',
@@ -12,3 +12,5 @@ module.exports = Bookshelf.model(
     modelName,
   }
 );
+
+export { BookshelfComplementaryCertification };

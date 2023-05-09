@@ -1,15 +1,15 @@
-const moment = require('moment');
-const _ = require('lodash');
+import moment from 'moment';
+import _ from 'lodash';
 const FRANCE_COUNTRY_CODE = '99100';
-const CertificationCandidate = require('../../../domain/models/CertificationCandidate.js');
-const {
+import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
+import {
   PIX_PLUS_DROIT,
   CLEA,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} = require('../../../domain/models/ComplementaryCertification.js');
+} from '../../../domain/models/ComplementaryCertification.js';
 
-module.exports = class CandidateData {
+class CandidateData {
   constructor({
     id = null,
     firstName = null,
@@ -113,4 +113,6 @@ module.exports = class CandidateData {
   static empty({ number, i18n }) {
     return new CandidateData({ number, i18n });
   }
-};
+}
+
+export { CandidateData };

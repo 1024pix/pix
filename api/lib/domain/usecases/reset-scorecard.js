@@ -1,8 +1,8 @@
-const Scorecard = require('../models/Scorecard.js');
-const { CompetenceResetError } = require('../errors.js');
-const _ = require('lodash');
+import { Scorecard } from '../models/Scorecard.js';
+import { CompetenceResetError } from '../errors.js';
+import _ from 'lodash';
 
-module.exports = async function resetScorecard({
+const resetScorecard = async function ({
   userId,
   competenceId,
   scorecardService,
@@ -57,3 +57,5 @@ module.exports = async function resetScorecard({
     locale,
   });
 };
+
+export { resetScorecard };

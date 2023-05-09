@@ -1,4 +1,4 @@
-const HapiSwagger = require('hapi-swagger');
+import HapiSwagger from 'hapi-swagger';
 const packageJSON = require('../package.json');
 
 const swaggerOptionsAuthorizationServer = {
@@ -59,4 +59,4 @@ const swaggers = [
   swaggerOptionsIn,
 ].map(_buildSwaggerArgs);
 
-module.exports = swaggers;
+export { swaggers };

@@ -1,9 +1,9 @@
-const areaRepository = require('./area-repository.js');
-const CompetenceTree = require('../../domain/models/CompetenceTree.js');
+import * as areaRepository from './area-repository.js';
+import { CompetenceTree } from '../../domain/models/CompetenceTree.js';
 
-module.exports = {
-  async get({ locale, dependencies = { areaRepository } } = {}) {
-    const areas = await dependencies.areaRepository.listWithPixCompetencesOnly({ locale });
-    return new CompetenceTree({ areas });
-  },
+const get = async function ({ locale, dependencies = { areaRepository } } = {}) {
+  const areas = await dependencies.areaRepository.listWithPixCompetencesOnly({ locale });
+  return new CompetenceTree({ areas });
 };
+
+export { get };

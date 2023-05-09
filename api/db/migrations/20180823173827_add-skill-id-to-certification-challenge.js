@@ -1,13 +1,15 @@
 const TABLE_NAME = 'certification-challenges';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.string('associatedSkillId');
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn('associatedSkillId');
   });
 };
+
+export { up, down };

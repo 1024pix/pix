@@ -1,4 +1,4 @@
-const { readFile } = require('fs/promises');
+import { readFile } from 'fs/promises';
 
 const embeddedFonts = {};
 const COVER_PAGE_VERSION_TEXT_FONT_SIZE = 20;
@@ -187,4 +187,4 @@ const FontManager = {
   },
 };
 
-module.exports = FontManager;
+export { FontManager };

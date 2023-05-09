@@ -1,6 +1,6 @@
 const INDEX_NAME = 'reset-password-demands_email_lower';
 
-exports.up = async (knex) => {
+const up = async function(knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(`CREATE INDEX "${INDEX_NAME}" ON "reset-password-demands"(LOWER("email"))`);
   return knex.schema.table('reset-password-demands', function (table) {
@@ -8,7 +8,7 @@ exports.up = async (knex) => {
   });
 };
 
-exports.down = async (knex) => {
+const down = async function(knex) {
   await knex.schema.table('reset-password-demands', function (table) {
     table.index('email');
   });
@@ -16,3 +16,5 @@ exports.down = async (knex) => {
   // eslint-disable-next-line knex/avoid-injections
   return knex.raw(`DROP INDEX "${INDEX_NAME}"`);
 };
+
+export { up, down };

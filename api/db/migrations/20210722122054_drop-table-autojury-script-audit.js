@@ -1,10 +1,10 @@
 const TABLE_NAME = 'autojury-script-audit';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments('sessionId').primary();
     t.text('certificationCenterName');
@@ -16,3 +16,5 @@ exports.down = function (knex) {
     t.enu('status', ['TO DO', 'DOING', 'DONE', 'TO RETRY']);
   });
 };
+
+export { up, down };

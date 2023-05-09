@@ -1,11 +1,11 @@
-const {
+import {
   ApplicationScopeNotAllowedError,
   ApplicationWithInvalidClientIdError,
   ApplicationWithInvalidClientSecretError,
-} = require('../../domain/errors.js');
+} from '../../domain/errors.js';
 
-const { find } = require('lodash');
-const { apimRegisterApplicationsCredentials, jwtConfig } = require('../../config.js');
+import { find } from 'lodash';
+import { apimRegisterApplicationsCredentials, jwtConfig } from '../../config.js';
 
 function _checkClientId(application, clientId) {
   if (!application || application.clientId !== clientId) {
@@ -25,7 +25,7 @@ function _checkAppScope(application, scope) {
   }
 }
 
-module.exports = async function authenticateApplication({ clientId, clientSecret, scope, tokenService }) {
+const authenticateApplication = async function ({ clientId, clientSecret, scope, tokenService }) {
   const application = find(apimRegisterApplicationsCredentials, { clientId });
   _checkClientId(application, clientId);
   _checkClientSecret(application, clientSecret);
@@ -39,3 +39,5 @@ module.exports = async function authenticateApplication({ clientId, clientSecret
     jwtConfig[application.source].tokenLifespan
   );
 };
+
+export { authenticateApplication };

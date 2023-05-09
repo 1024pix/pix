@@ -1,6 +1,6 @@
-const { AlreadyExistingEntityError } = require('../errors.js');
+import { AlreadyExistingEntityError } from '../errors.js';
 
-module.exports = async function createCertificationCenterMembershipByEmail({
+const createCertificationCenterMembershipByEmail = async function ({
   certificationCenterId,
   email,
   certificationCenterMembershipRepository,
@@ -21,3 +21,5 @@ module.exports = async function createCertificationCenterMembershipByEmail({
 
   return certificationCenterMembershipRepository.save({ userId, certificationCenterId });
 };
+
+export { createCertificationCenterMembershipByEmail };

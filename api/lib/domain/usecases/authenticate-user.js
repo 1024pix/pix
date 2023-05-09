@@ -1,14 +1,14 @@
-const get = require('lodash/get');
+import get from 'lodash/get';
 
-const {
+import {
   ForbiddenAccess,
   LocaleFormatError,
   LocaleNotSupportedError,
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
-} = require('../../domain/errors.js');
+} from '../../domain/errors.js';
 
-const apps = require('../constants.js');
+import { apps } from '../constants.js';
 
 async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   if (scope === apps.PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
@@ -23,7 +23,7 @@ async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   }
 }
 
-module.exports = async function authenticateUser({
+const authenticateUser = async function ({
   password,
   scope,
   source,
@@ -77,3 +77,5 @@ module.exports = async function authenticateUser({
     throw new MissingOrInvalidCredentialsError();
   }
 };
+
+export { authenticateUser };

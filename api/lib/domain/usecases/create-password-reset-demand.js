@@ -1,4 +1,4 @@
-module.exports = async function createPasswordResetDemand({
+const createPasswordResetDemand = async function ({
   email,
   locale,
   mailService,
@@ -15,3 +15,5 @@ module.exports = async function createPasswordResetDemand({
 
   return passwordResetDemand;
 };
+
+export { createPasswordResetDemand };

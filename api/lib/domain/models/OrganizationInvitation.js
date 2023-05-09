@@ -1,7 +1,7 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const { validateEntity } = require('../validators/entity-validator.js');
+import { validateEntity } from '../validators/entity-validator.js';
 
 const statuses = {
   PENDING: 'pending',
@@ -71,4 +71,4 @@ class OrganizationInvitation {
 
 OrganizationInvitation.StatusType = statuses;
 
-module.exports = OrganizationInvitation;
+export { OrganizationInvitation };

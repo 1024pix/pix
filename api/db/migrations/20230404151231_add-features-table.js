@@ -1,7 +1,7 @@
 const TABLE_NAME_FEATURES = 'features';
 const TABLE_NAME_ORGANIZATION_FEATURES = 'organization-features';
 
-exports.up = async (knex) => {
+const up = async function(knex) {
   await knex.schema.createTable(TABLE_NAME_FEATURES, (t) => {
     t.bigIncrements().primary();
     t.string('key').notNullable().unique();
@@ -15,8 +15,10 @@ exports.up = async (knex) => {
   });
 };
 
-exports.down = async (knex) => {
+const down = async function(knex) {
   await knex.schema.dropTable(TABLE_NAME_FEATURES);
 
   return knex.schema.dropTable(TABLE_NAME_ORGANIZATION_FEATURES);
 };
+
+export { up, down };

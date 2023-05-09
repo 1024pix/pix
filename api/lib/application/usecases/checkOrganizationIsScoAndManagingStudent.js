@@ -1,14 +1,15 @@
-const organizationRepository = require('../../infrastructure/repositories/organization-repository.js');
+import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
 
-module.exports = {
-  async execute({
-    organizationId,
-    dependencies = {
-      organizationRepository,
-    },
-  }) {
-    const organization = await dependencies.organizationRepository.get(organizationId);
+const execute = async function ({
+  organizationId,
 
-    return organization.isScoAndManagingStudents;
+  dependencies = {
+    organizationRepository,
   },
+}) {
+  const organization = await dependencies.organizationRepository.get(organizationId);
+
+  return organization.isScoAndManagingStudents;
 };
+
+export { execute };

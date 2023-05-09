@@ -51,4 +51,4 @@ class _Thematic {
   }
 }
 
-module.exports = TrainingTriggerForAdmin;
+export { TrainingTriggerForAdmin };

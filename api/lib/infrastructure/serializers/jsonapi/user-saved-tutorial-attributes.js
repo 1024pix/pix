@@ -4,4 +4,4 @@ const userSavedTutorialAttributes = {
   attributes: ['id', 'userId', 'tutorialId'],
 };
 
-module.exports = userSavedTutorialAttributes;
+export { userSavedTutorialAttributes };

@@ -1,13 +1,8 @@
-const AuthenticationMethod = require('../models/AuthenticationMethod.js');
-const { UserNotAuthorizedToRemoveAuthenticationMethod } = require('../errors.js');
-const OidcIdentityProviders = require('../constants/oidc-identity-providers.js');
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../errors.js';
+import { OidcIdentityProviders } from '../constants/oidc-identity-providers.js';
 
-module.exports = async function removeAuthenticationMethod({
-  userId,
-  type,
-  userRepository,
-  authenticationMethodRepository,
-}) {
+const removeAuthenticationMethod = async function ({ userId, type, userRepository, authenticationMethodRepository }) {
   const user = await userRepository.get(userId);
 
   if (type === 'EMAIL') {
@@ -52,6 +47,8 @@ module.exports = async function removeAuthenticationMethod({
     await _removeAuthenticationMethod(userId, OidcIdentityProviders.CNAV.service.code, authenticationMethodRepository);
   }
 };
+
+export { removeAuthenticationMethod };
 
 async function _removeAuthenticationMethod(userId, identityProvider, authenticationMethodRepository) {
   const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });

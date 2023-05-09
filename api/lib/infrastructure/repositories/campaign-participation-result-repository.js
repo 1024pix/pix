@@ -1,10 +1,10 @@
-const CampaignParticipationResult = require('../../domain/models/CampaignParticipationResult.js');
-const campaignParticipationRepository = require('./campaign-participation-repository.js');
-const campaignRepository = require('./campaign-repository.js');
-const competenceRepository = require('./competence-repository.js');
-const areaRepository = require('./area-repository.js');
-const assessmentRepository = require('./assessment-repository.js');
-const knowledgeElementRepository = require('./knowledge-element-repository.js');
+import { CampaignParticipationResult } from '../../domain/models/CampaignParticipationResult.js';
+import * as campaignParticipationRepository from './campaign-participation-repository.js';
+import * as campaignRepository from './campaign-repository.js';
+import * as competenceRepository from './competence-repository.js';
+import * as areaRepository from './area-repository.js';
+import * as assessmentRepository from './assessment-repository.js';
+import * as knowledgeElementRepository from './knowledge-element-repository.js';
 
 const campaignParticipationResultRepository = {
   async getByParticipationId(campaignParticipationId) {
@@ -31,4 +31,4 @@ const campaignParticipationResultRepository = {
   },
 };
 
-module.exports = campaignParticipationResultRepository;
+export { campaignParticipationResultRepository };

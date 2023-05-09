@@ -1,3 +1,5 @@
-module.exports = async function archiveCampaigns({ userId, campaignIds, campaignAdministrationRepository }) {
+const archiveCampaigns = async function ({ userId, campaignIds, campaignAdministrationRepository }) {
   await campaignAdministrationRepository.archiveCampaigns(campaignIds, userId);
 };
+
+export { archiveCampaigns };

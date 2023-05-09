@@ -1,7 +1,7 @@
 const TABLE_NAME = 'certification-courses';
 const COLUMN_NAME = 'verificationCode';
 
-exports.up = async function (knex) {
+const up = async function(knex) {
   await knex.schema.table(TABLE_NAME, (table) => {
     table.string(COLUMN_NAME);
   });
@@ -11,9 +11,11 @@ exports.up = async function (knex) {
   ]);
 };
 
-exports.down = async function (knex) {
+const down = async function(knex) {
   await knex.raw('DROP INDEX index_certification_courses_upper_verification_code');
   await knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn(COLUMN_NAME);
   });
 };
+
+export { up, down };

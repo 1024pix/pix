@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 class BadgeForCalculation {
   constructor({ id, badgeCriteria }) {
@@ -37,7 +37,4 @@ function _computeMasteryPercentage(validatedSkillsCount, totalSkillsCount) {
   return Math.round((validatedSkillsCount * 100) / totalSkillsCount);
 }
 
-module.exports = {
-  BadgeForCalculation,
-  BadgeCriterion,
-};
+export { BadgeForCalculation, BadgeCriterion };

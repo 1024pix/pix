@@ -1,8 +1,8 @@
-const EventBus = require('./EventBus.js');
-const dependenciesBuilder = require('./EventHandlerDependenciesBuilder.js');
-const LogEvent = require('./subscribers/LogEvent.js');
-const ScheduleParticipationResultCalculationJob = require('./subscribers/ScheduleParticipationResultCalculationJob.js');
-const ScheduleSendSharedParticipationResultsToPoleEmploiJob = require('./subscribers/ScheduleSendSharedParticipationResultsToPoleEmploiJob.js');
+import { EventBus } from './EventBus.js';
+import { dependenciesBuilder } from './EventHandlerDependenciesBuilder.js';
+import { LogEvent } from './subscribers/LogEvent.js';
+import { ScheduleParticipationResultCalculationJob } from './subscribers/ScheduleParticipationResultCalculationJob.js';
+import { ScheduleSendSharedParticipationResultsToPoleEmploiJob } from './subscribers/ScheduleSendSharedParticipationResultsToPoleEmploiJob.js';
 
 const subscribers = [
   LogEvent,
@@ -20,6 +20,4 @@ function build() {
   return eventBus;
 }
 
-module.exports = {
-  build,
-};
+export { build };

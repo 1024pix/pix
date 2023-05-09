@@ -1,6 +1,6 @@
 const TABLE_NAME = 'assessments';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex(TABLE_NAME)
     .where({
       type: 'PLACEMENT',
@@ -28,7 +28,7 @@ exports.up = function (knex) {
     });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex(TABLE_NAME)
     .where({
       type: 'PLACEMENT',
@@ -37,3 +37,5 @@ exports.down = function (knex) {
       competenceId: null,
     });
 };
+
+export { up, down };

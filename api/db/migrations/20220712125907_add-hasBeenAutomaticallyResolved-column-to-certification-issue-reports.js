@@ -11,7 +11,7 @@ const autoResolveSentences = [
   'Cette réponse a été acceptée automatiquement',
 ];
 
-exports.up = async function (knex) {
+const up = async function(knex) {
   await knex.schema.table('certification-issue-reports', (table) => {
     table.boolean('hasBeenAutomaticallyResolved').nullable();
   });
@@ -24,8 +24,10 @@ exports.up = async function (knex) {
     .update({ hasBeenAutomaticallyResolved: true });
 };
 
-exports.down = async function (knex) {
+const down = async function(knex) {
   await knex.schema.table('certification-issue-reports', (table) => {
     table.dropColumn('hasBeenAutomaticallyResolved');
   });
 };
+
+export { up, down };

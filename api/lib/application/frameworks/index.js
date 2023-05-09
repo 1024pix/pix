@@ -1,9 +1,9 @@
-const Joi = require('joi');
-const frameworkController = require('./frameworks-controller.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import Joi from 'joi';
+import { frameworkController } from './frameworks-controller.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   const adminRoutes = [
     {
       method: 'GET',
@@ -86,4 +86,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'frameworks-api';
+const name = 'frameworks-api';
+export { register, name };

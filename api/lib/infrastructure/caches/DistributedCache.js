@@ -1,5 +1,5 @@
-const Cache = require('./Cache.js');
-const RedisClient = require('../utils/RedisClient.js');
+import { Cache } from './Cache.js';
+import { RedisClient } from '../utils/RedisClient.js';
 
 class DistributedCache extends Cache {
   constructor(underlyingCache, redisUrl, channel) {
@@ -40,4 +40,4 @@ class DistributedCache extends Cache {
   }
 }
 
-module.exports = DistributedCache;
+export { DistributedCache };

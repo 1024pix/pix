@@ -1,9 +1,9 @@
-const bluebird = require('bluebird');
-const { v4: uuidv4 } = require('uuid');
-const settings = require('../../config.js');
-const tokenService = require('./token-service.js');
-const { UnauthorizedError } = require('../../application/http-errors.js');
-const { temporaryStorage } = require('../../infrastructure/temporary-storage/index.js');
+import bluebird from 'bluebird';
+import { v4 as uuidv4 } from 'uuid';
+import { settings } from '../../config.js';
+import { tokenService } from './token-service.js';
+import { UnauthorizedError } from '../../application/http-errors.js';
+import { temporaryStorage } from '../../infrastructure/temporary-storage/index.js';
 
 const refreshTokenTemporaryStorage = temporaryStorage.withPrefix('refresh-tokens:');
 const userRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refresh-tokens:');
@@ -53,12 +53,11 @@ async function revokeRefreshTokensForUserId({ userId }) {
   });
 }
 
-module.exports = {
+export {
   createRefreshTokenFromUserId,
   createAccessTokenFromRefreshToken,
   revokeRefreshToken,
   revokeRefreshTokensForUserId,
-
-  refreshTokenTemporaryStorageForTests: refreshTokenTemporaryStorage,
-  userRefreshTokensTemporaryStorageForTests: userRefreshTokensTemporaryStorage,
+  refreshTokenTemporaryStorage,
+  userRefreshTokensTemporaryStorage,
 };

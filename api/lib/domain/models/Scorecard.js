@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const Assessment = require('./Assessment.js');
-const CompetenceEvaluation = require('./CompetenceEvaluation.js');
-const KnowledgeElement = require('./KnowledgeElement.js');
-const { constants } = require('../constants.js');
-const scoringService = require('../services/scoring/scoring-service.js');
+import _ from 'lodash';
+import { Assessment } from './Assessment.js';
+import { CompetenceEvaluation } from './CompetenceEvaluation.js';
+import { KnowledgeElement } from './KnowledgeElement.js';
+import { constants } from '../constants.js';
+import * as scoringService from '../services/scoring/scoring-service.js';
 
 const statuses = {
   NOT_STARTED: 'NOT_STARTED',
@@ -169,4 +169,4 @@ function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
 
 Scorecard.statuses = statuses;
 
-module.exports = Scorecard;
+export { Scorecard };

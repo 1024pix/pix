@@ -2,7 +2,7 @@ const TABLE_NAME = 'memberships';
 const CREATED_AT_COLUMN = 'createdAt';
 const UPDATED_AT_COLUMN = 'updatedAt';
 
-exports.up = async function (knex) {
+const up = async function(knex) {
   await knex.schema.table(TABLE_NAME, (table) => {
     table.dateTime(CREATED_AT_COLUMN);
     table.dateTime(UPDATED_AT_COLUMN);
@@ -13,9 +13,11 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn(UPDATED_AT_COLUMN);
     table.dropColumn(CREATED_AT_COLUMN);
   });
 };
+
+export { up, down };

@@ -1,6 +1,6 @@
-const settings = require('../../config.js');
+import { settings } from '../../config.js';
 
-module.exports = { getCampaignUrl };
+export { getCampaignUrl };
 
 function getCampaignUrl(locale, campaignCode) {
   if (!campaignCode) {

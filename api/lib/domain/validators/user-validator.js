@@ -1,6 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const { EntityValidationError } = require('../errors.js');
+import { EntityValidationError } from '../errors.js';
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
 const userValidationJoiSchema = Joi.object({
@@ -47,12 +47,12 @@ const userValidationJoiSchema = Joi.object({
     'object.missing': 'FILL_USERNAME_OR_EMAIL',
   });
 
-module.exports = {
-  validate({ user, cguRequired = true }) {
-    const { error } = userValidationJoiSchema.validate(user, { ...validationConfiguration, context: { cguRequired } });
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details);
-    }
-    return true;
-  },
+const validate = function ({ user, cguRequired = true }) {
+  const { error } = userValidationJoiSchema.validate(user, { ...validationConfiguration, context: { cguRequired } });
+  if (error) {
+    throw EntityValidationError.fromJoiErrors(error.details);
+  }
+  return true;
 };
+
+export { validate };
