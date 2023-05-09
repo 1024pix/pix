@@ -37,13 +37,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
     assert.ok(submitButton);
     assert.true(submitButton.disabled);
 
-    assert
-      .dom(
-        screen.getByRole('checkbox', {
-          name: 'Accepter les conditions d’utilisation de Pix et la politique de confidentialité',
-        })
-      )
-      .exists();
+    assert.dom(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).exists();
     assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') }));
     assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') }));
   });
