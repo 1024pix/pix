@@ -1,7 +1,7 @@
-const { AuthenticationMethodAlreadyExistsError } = require('../errors.js');
-const AuthenticationMethod = require('../models/AuthenticationMethod.js');
+import { AuthenticationMethodAlreadyExistsError } from '../errors.js';
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
-module.exports = async function addPixAuthenticationMethodByEmail({
+const addPixAuthenticationMethodByEmail = async function ({
   userId,
   email,
   passwordGenerator,
@@ -32,3 +32,5 @@ module.exports = async function addPixAuthenticationMethodByEmail({
     return userRepository.getUserDetailsForAdmin(userId);
   }
 };
+
+export { addPixAuthenticationMethodByEmail };

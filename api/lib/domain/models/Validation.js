@@ -10,4 +10,4 @@ class Validation {
   }
 }
 
-module.exports = Validation;
+export { Validation };

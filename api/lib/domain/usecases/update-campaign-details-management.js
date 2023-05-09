@@ -1,6 +1,6 @@
-const { EntityValidationError } = require('../errors.js');
+import { EntityValidationError } from '../errors.js';
 
-module.exports = async function updateCampaignDetailsManagement({
+const updateCampaignDetailsManagement = async function ({
   campaignId,
   name,
   title,
@@ -42,3 +42,5 @@ module.exports = async function updateCampaignDetailsManagement({
   };
   return campaignManagementRepository.update({ campaignId, campaignAttributes });
 };
+
+export { updateCampaignDetailsManagement };

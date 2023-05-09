@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const csvSerializer = require('./csv-serializer.js');
-const { constants } = require('../../constants.js');
-const CampaignProfilesCollectionResultLine = require('../../exports/campaigns/campaign-profiles-collection-result-line.js');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import * as csvSerializer from './csv-serializer.js';
+import { constants } from '../../constants.js';
+import { CampaignProfilesCollectionResultLine } from '../../exports/campaigns/campaign-profiles-collection-result-line.js';
 class CampaignProfilesCollectionExport {
   constructor(outputStream, organization, campaign, competences, translate) {
     this.stream = outputStream;
@@ -106,4 +106,4 @@ class CampaignProfilesCollectionExport {
   }
 }
 
-module.exports = CampaignProfilesCollectionExport;
+export { CampaignProfilesCollectionExport };

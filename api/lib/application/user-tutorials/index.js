@@ -1,10 +1,10 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const userTutorialsController = require('./user-tutorials-controller.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
+import { userTutorialsController } from './user-tutorials-controller.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'PUT',
@@ -85,4 +85,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'tutorials-api';
+const name = 'tutorials-api';
+export { register, name };

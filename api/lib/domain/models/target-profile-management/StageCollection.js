@@ -49,4 +49,4 @@ class StageCollection {
   }
 }
 
-module.exports = StageCollection;
+export { StageCollection };

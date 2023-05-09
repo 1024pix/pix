@@ -1,5 +1,5 @@
-const { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } = require('../errors.js');
-const CertificationCenterInvitation = require('./CertificationCenterInvitation.js');
+import { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } from '../errors.js';
+import { CertificationCenterInvitation } from './CertificationCenterInvitation.js';
 
 class CertificationCenterInvitedUser {
   constructor({ userId, invitation, status } = {}) {
@@ -23,4 +23,4 @@ class CertificationCenterInvitedUser {
   }
 }
 
-module.exports = CertificationCenterInvitedUser;
+export { CertificationCenterInvitedUser };

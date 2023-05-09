@@ -1,25 +1,19 @@
-const pdfLibFontKit = require('@pdf-lib/fontkit');
+import pdfLibFontKit from '@pdf-lib/fontkit';
 require('dayjs/locale/fr');
-const FontManager = require('./manager/font-manager.js');
-const TemplatePageManager = require('./manager/template-page-manager.js');
-const learningContentBuilder = require('./builder/learning-content-builder.js');
-const coverPageBuilder = require('./builder/cover-page-builder.js');
-const { PDFDocument } = require('pdf-lib');
+import { FontManager } from './manager/font-manager.js';
+import { TemplatePageManager } from './manager/template-page-manager.js';
+import { learningContentBuilder } from './builder/learning-content-builder.js';
+import { coverPageBuilder } from './builder/cover-page-builder.js';
+import { PDFDocument } from 'pdf-lib';
 
-module.exports = {
-  /**
-   * @param learningContent{LearningContent}
-   * @param title{string}
-   * @param language{string}
-   * @return {Promise<Buffer>}
-   */
-  async present(learningContent, title, language) {
-    const pdfDocument = await _initializeNewPDFDocument(pdfLibFontKit);
-    coverPageBuilder.build(pdfDocument, title, language);
-    const pdfBytes = await learningContentBuilder.build(pdfDocument, learningContent, language).save();
-    return Buffer.from(pdfBytes);
-  },
+const present = async function (learningContent, title, language) {
+  const pdfDocument = await _initializeNewPDFDocument(pdfLibFontKit);
+  coverPageBuilder.build(pdfDocument, title, language);
+  const pdfBytes = await learningContentBuilder.build(pdfDocument, learningContent, language).save();
+  return Buffer.from(pdfBytes);
 };
+
+export { present };
 
 /**
  * @param fontKit {Fontkit}

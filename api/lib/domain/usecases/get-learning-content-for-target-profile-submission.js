@@ -1,8 +1,10 @@
 const AUTHORIZED_FRAMEWORKS = ['Pix'];
 
-module.exports = async function getLearningContentForTargetProfileSubmission({ learningContentRepository, locale }) {
+const getLearningContentForTargetProfileSubmission = async function ({ learningContentRepository, locale }) {
   return learningContentRepository.findByFrameworkNames({
     frameworkNames: AUTHORIZED_FRAMEWORKS,
     locale,
   });
 };
+
+export { getLearningContentForTargetProfileSubmission };

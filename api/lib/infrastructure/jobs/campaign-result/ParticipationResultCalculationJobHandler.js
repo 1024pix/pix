@@ -1,5 +1,5 @@
-const Job = require('./ParticipationResultCalculationJob.js');
-const usecases = require('../../../domain/usecases/index.js');
+import { Job } from './ParticipationResultCalculationJob.js';
+import { usecases } from '../../../domain/usecases/index.js';
 
 class ParticipationResultCalculationJobHandler {
   async handle(event) {
@@ -13,4 +13,4 @@ class ParticipationResultCalculationJobHandler {
   }
 }
 
-module.exports = ParticipationResultCalculationJobHandler;
+export { ParticipationResultCalculationJobHandler };

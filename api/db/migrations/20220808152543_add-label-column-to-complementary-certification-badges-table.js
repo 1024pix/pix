@@ -16,11 +16,11 @@ const {
   PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
   PIX_EMPLOI_CLEA_V3,
-} = require('../constants').badges.keys;
+} = require('../constants.js').badges.keys;
 
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
 
-exports.up = async function (knex) {
+const up = async function(knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.string(COLUMN_NAME);
   });
@@ -95,8 +95,10 @@ exports.up = async function (knex) {
   }
 };
 
-exports.down = async function (knex) {
+const down = async function(knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN_NAME);
   });
 };
+
+export { up, down };

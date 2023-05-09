@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const { OrganizationLearnersCouldNotBeSavedError } = require('../../domain/errors.js');
-const { knex } = require('../../../db/knex-database-connection.js');
-const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner.js');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
+import _ from 'lodash';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../domain/errors.js';
+import { knex } from '../../../db/knex-database-connection.js';
+import { BookshelfOrganizationLearner } from '../orm-models/OrganizationLearner.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 
 const ATTRIBUTES_TO_SAVE = [
   'firstName',
@@ -21,46 +21,52 @@ const ATTRIBUTES_TO_SAVE = [
   'organizationId',
 ];
 
-module.exports = {
-  async updateStudentNumber(studentId, studentNumber) {
-    await BookshelfOrganizationLearner.where('id', studentId).save(
-      { studentNumber },
-      {
-        patch: true,
-      }
-    );
-  },
+const updateStudentNumber = async function (studentId, studentNumber) {
+  await BookshelfOrganizationLearner.where('id', studentId).save(
+    { studentNumber },
+    {
+      patch: true,
+    }
+  );
+};
 
-  async findOneByStudentNumberAndBirthdate({ organizationId, studentNumber, birthdate }) {
-    const organizationLearner = await BookshelfOrganizationLearner.query((qb) => {
-      qb.where('organizationId', organizationId);
-      qb.where('birthdate', birthdate);
-      qb.where('isDisabled', false);
-      qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
-    }).fetch({ require: false });
+const findOneByStudentNumberAndBirthdate = async function ({ organizationId, studentNumber, birthdate }) {
+  const organizationLearner = await BookshelfOrganizationLearner.query((qb) => {
+    qb.where('organizationId', organizationId);
+    qb.where('birthdate', birthdate);
+    qb.where('isDisabled', false);
+    qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
+  }).fetch({ require: false });
 
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
-  },
+  return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
+};
 
-  async findOneByStudentNumber({ organizationId, studentNumber }) {
-    const organizationLearner = await BookshelfOrganizationLearner.query((qb) => {
-      qb.where('organizationId', organizationId);
-      qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
-    }).fetch({ require: false });
+const findOneByStudentNumber = async function ({ organizationId, studentNumber }) {
+  const organizationLearner = await BookshelfOrganizationLearner.query((qb) => {
+    qb.where('organizationId', organizationId);
+    qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
+  }).fetch({ require: false });
 
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
-  },
+  return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
+};
 
-  async addStudents(supOrganizationLearners) {
-    await _upsertStudents(knex, supOrganizationLearners);
-  },
+const addStudents = async function (supOrganizationLearners) {
+  await _upsertStudents(knex, supOrganizationLearners);
+};
 
-  async replaceStudents(organizationId, supOrganizationLearners) {
-    await knex.transaction(async (transaction) => {
-      await _disableAllOrganizationLearners(transaction, organizationId);
-      await _upsertStudents(transaction, supOrganizationLearners);
-    });
-  },
+const replaceStudents = async function (organizationId, supOrganizationLearners) {
+  await knex.transaction(async (transaction) => {
+    await _disableAllOrganizationLearners(transaction, organizationId);
+    await _upsertStudents(transaction, supOrganizationLearners);
+  });
+};
+
+export {
+  updateStudentNumber,
+  findOneByStudentNumberAndBirthdate,
+  findOneByStudentNumber,
+  addStudents,
+  replaceStudents,
 };
 
 async function _disableAllOrganizationLearners(queryBuilder, organizationId) {

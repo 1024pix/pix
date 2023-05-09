@@ -1,6 +1,6 @@
-const CertificationDetails = require('../read-models/CertificationDetails.js');
+import { CertificationDetails } from '../read-models/CertificationDetails.js';
 
-module.exports = async function getCertificationDetails({
+const getCertificationDetails = async function ({
   certificationCourseId,
   competenceMarkRepository,
   certificationAssessmentRepository,
@@ -23,6 +23,8 @@ module.exports = async function getCertificationDetails({
     );
   }
 };
+
+export { getCertificationDetails };
 
 async function _computeCertificationDetailsOnTheFly(
   certificationAssessment,

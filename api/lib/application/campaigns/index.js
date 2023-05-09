@@ -1,14 +1,14 @@
-const Joi = require('joi');
-const campaignController = require('./campaign-controller.js');
-const campaignManagementController = require('./campaign-management-controller.js');
-const campaignStatsController = require('./campaign-stats-controller.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
+import Joi from 'joi';
+import { campaignController } from './campaign-controller.js';
+import { campaignManagementController } from './campaign-management-controller.js';
+import { campaignStatsController } from './campaign-stats-controller.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
 
 const campaignParticipationStatuses = Object.values(CampaignParticipationStatuses);
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -440,4 +440,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'campaigns-api';
+const name = 'campaigns-api';
+export { register, name };

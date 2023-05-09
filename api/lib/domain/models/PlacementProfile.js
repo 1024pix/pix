@@ -1,5 +1,5 @@
-const { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } = require('../constants.js');
-const _ = require('lodash');
+import { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } from '../constants.js';
+import _ from 'lodash';
 
 class PlacementProfile {
   constructor({ profileDate, userId, userCompetences } = {}) {
@@ -35,4 +35,4 @@ class PlacementProfile {
   }
 }
 
-module.exports = PlacementProfile;
+export { PlacementProfile };

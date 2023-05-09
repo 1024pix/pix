@@ -1,9 +1,9 @@
-const bluebird = require('bluebird');
-const dayjs = require('dayjs');
-const { constants: domainConstants } = require('../constants');
-const { constants: infraConstants } = require('../../infrastructure/constants.js');
+import bluebird from 'bluebird';
+import dayjs from 'dayjs';
+import { constants as domainConstants } from '../constants.js';
+import { constants as infraConstants } from '../../infrastructure/constants.js';
 
-module.exports = async function getSessionForSupervising({
+const getSessionForSupervising = async function ({
   sessionId,
   sessionForSupervisingRepository,
   certificationBadgesService,
@@ -20,6 +20,8 @@ module.exports = async function getSessionForSupervising({
 
   return sessionForSupervising;
 };
+
+export { getSessionForSupervising };
 
 function _computeComplementaryCertificationEligibility(certificationBadgesService) {
   return async (candidate) => {

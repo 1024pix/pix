@@ -1,9 +1,9 @@
-const { batch } = require('../batch-processing');
+import { batch } from '../batch-processing.js';
 
 const TABLE_NAME_ASSESSMENT_RESULT = 'assessment-results';
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex(TABLE_NAME_ASSESSMENTS)
     .select('id', 'type', 'createdAt', 'pixScore', 'estimatedLevel')
     .where('state', '!=', 'started')
@@ -28,7 +28,7 @@ exports.up = function (knex) {
     });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema
     .table(TABLE_NAME_ASSESSMENTS, function (table) {
       table.integer('pixScore');
@@ -47,3 +47,5 @@ exports.down = function (knex) {
       return knex(TABLE_NAME_ASSESSMENT_RESULT).delete();
     });
 };
+
+export { up, down };

@@ -1,9 +1,9 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const userOrgaSettingsController = require('./user-orga-settings-controller.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import { userOrgaSettingsController } from './user-orga-settings-controller.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'PUT',
@@ -40,4 +40,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'user-orga-settings-api';
+const name = 'user-orga-settings-api';
+export { register, name };

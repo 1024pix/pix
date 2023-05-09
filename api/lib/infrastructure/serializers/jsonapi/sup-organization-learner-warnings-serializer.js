@@ -1,10 +1,10 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(organizations, meta) {
-    return new Serializer('sup-organization-learner-warnings', {
-      attributes: ['warnings'],
-      meta,
-    }).serialize(organizations);
-  },
+const serialize = function (organizations, meta) {
+  return new Serializer('sup-organization-learner-warnings', {
+    attributes: ['warnings'],
+    meta,
+  }).serialize(organizations);
 };
+
+export { serialize };

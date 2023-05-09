@@ -1,11 +1,13 @@
-const poleEmploiService = require('../services/pole-emploi-service.js');
+import * as poleEmploiService from '../services/pole-emploi-service.js';
 
-module.exports = async function getPoleEmploiSendings({ cursor, poleEmploiSendingRepository, filters }) {
+const getPoleEmploiSendings = async function ({ cursor, poleEmploiSendingRepository, filters }) {
   const cursorData = await poleEmploiService.decodeCursor(cursor);
   const sendings = await poleEmploiSendingRepository.find(cursorData, filters);
   const link = _generateLink(sendings, filters);
   return { sendings, link };
 };
+
+export { getPoleEmploiSendings };
 
 function _generateLink(sendings, filters) {
   if (!sendings.length) return null;

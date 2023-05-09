@@ -1,6 +1,6 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-module.exports = class CampaignLearningContent {
+class CampaignLearningContent {
   constructor(learningContent) {
     this._learningContent = learningContent;
   }
@@ -120,4 +120,6 @@ module.exports = class CampaignLearningContent {
     const area = this.findArea(competence.areaId);
     return area || null;
   }
-};
+}
+
+export { CampaignLearningContent };

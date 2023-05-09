@@ -1,9 +1,9 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(places) {
-    return new Serializer('organization-places-capacity', {
-      attributes: ['categories'],
-    }).serialize(places);
-  },
+const serialize = function (places) {
+  return new Serializer('organization-places-capacity', {
+    attributes: ['categories'],
+  }).serialize(places);
 };
+
+export { serialize };

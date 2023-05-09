@@ -1,5 +1,5 @@
-const { ObjectValidationError } = require('../errors.js');
-const Answer = require('./Answer.js');
+import { ObjectValidationError } from '../errors.js';
+import { Answer } from './Answer.js';
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
@@ -216,4 +216,4 @@ Assessment.types = types;
 Assessment.statesOfLastQuestion = statesOfLastQuestion;
 Assessment.methods = methods;
 
-module.exports = Assessment;
+export { Assessment };

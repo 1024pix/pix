@@ -1,6 +1,6 @@
-const UserWithActivity = require('../read-models/UserWithActivity.js');
+import { UserWithActivity } from '../read-models/UserWithActivity.js';
 
-module.exports = async function getCurrentUser({
+const getCurrentUser = async function ({
   authenticatedUserId,
   userRepository,
   campaignParticipationRepository,
@@ -21,3 +21,5 @@ module.exports = async function getCurrentUser({
     shouldSeeDataProtectionPolicyInformationBanner,
   });
 };
+
+export { getCurrentUser };

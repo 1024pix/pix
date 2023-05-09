@@ -1,3 +1,5 @@
-module.exports = function getCertificationCenter({ id, certificationCenterRepository }) {
+const getCertificationCenter = function ({ id, certificationCenterRepository }) {
   return certificationCenterRepository.get(id);
 };
+
+export { getCertificationCenter };

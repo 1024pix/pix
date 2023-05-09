@@ -1,10 +1,10 @@
-const Request = require('@hapi/hapi/lib/request');
-const settings = require('../config.js');
-const { get, set, update, omit } = require('lodash');
-const logger = require('../infrastructure/logger.js');
-const requestUtils = require('../infrastructure/utils/request-response-utils.js');
+import Request from '@hapi/hapi/lib/request';
+import { settings } from '../config.js';
+import { get, set, update, omit } from 'lodash';
+import { logger } from '../infrastructure/logger.js';
+import { requestUtils } from '../infrastructure/utils/request-response-utils.js';
 
-const { AsyncLocalStorage } = require('async_hooks');
+import { AsyncLocalStorage } from 'async_hooks';
 const asyncLocalStorage = new AsyncLocalStorage();
 
 function getCorrelationContext() {
@@ -97,7 +97,7 @@ function installHapiHook() {
   };
 }
 
-module.exports = {
+export {
   extractUserIdFromRequest,
   getContext,
   getInContext,
@@ -107,5 +107,5 @@ module.exports = {
   logInfoWithCorrelationIds,
   pushInContext,
   setInContext,
-  asyncLocalStorageForTests: asyncLocalStorage,
+  asyncLocalStorage,
 };

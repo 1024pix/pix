@@ -1,32 +1,31 @@
-/* eslint-disable  no-restricted-syntax */
-const bluebird = require('bluebird');
-const checkIfUserIsBlockedUseCase = require('./usecases/checkIfUserIsBlocked.js');
-const checkAdminMemberHasRoleSuperAdminUseCase = require('./usecases/checkAdminMemberHasRoleSuperAdmin.js');
-const checkAdminMemberHasRoleCertifUseCase = require('./usecases/checkAdminMemberHasRoleCertif.js');
-const checkAdminMemberHasRoleSupportUseCase = require('./usecases/checkAdminMemberHasRoleSupport.js');
-const checkAdminMemberHasRoleMetierUseCase = require('./usecases/checkAdminMemberHasRoleMetier.js');
-const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization.js');
-const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents.js');
-const checkUserBelongsToLearnersOrganizationUseCase = require('./usecases/checkUserBelongsToLearnersOrganization.js');
-const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js');
-const checkUserBelongsToSupOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js');
-const checkUserOwnsCertificationCourseUseCase = require('./usecases/checkUserOwnsCertificationCourse.js');
-const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelongsToOrganization.js');
-const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization.js');
-const checkUserIsMemberOfAnOrganizationUseCase = require('./usecases/checkUserIsMemberOfAnOrganization.js');
-const checkUserIsMemberOfCertificationCenterUsecase = require('./usecases/checkUserIsMemberOfCertificationCenter.js');
-const checkUserIsMemberOfCertificationCenterSessionUsecase = require('./usecases/checkUserIsMemberOfCertificationCenterSession.js');
-const checkAuthorizationToManageCampaignUsecase = require('./usecases/checkAuthorizationToManageCampaign.js');
-const checkOrganizationIsScoAndManagingStudentUsecase = require('./usecases/checkOrganizationIsScoAndManagingStudent');
-const checkPix1dEnabled = require('./usecases/checkPix1dEnabled.js');
-const certificationIssueReportRepository = require('../infrastructure/repositories/certification-issue-report-repository.js');
-const organizationRepository = require('../infrastructure/repositories/organization-repository');
-const Organization = require('../../lib/domain/models/Organization.js');
-const { ForbiddenAccess, NotFoundError } = require('../..//lib/domain/errors.js');
-const apps = require('../..//lib/domain/constants.js');
+import bluebird from 'bluebird';
+import * as checkIfUserIsBlockedUseCase from './usecases/checkIfUserIsBlocked.js';
+import * as checkAdminMemberHasRoleSuperAdminUseCase from './usecases/checkAdminMemberHasRoleSuperAdmin.js';
+import * as checkAdminMemberHasRoleCertifUseCase from './usecases/checkAdminMemberHasRoleCertif.js';
+import * as checkAdminMemberHasRoleSupportUseCase from './usecases/checkAdminMemberHasRoleSupport.js';
+import * as checkAdminMemberHasRoleMetierUseCase from './usecases/checkAdminMemberHasRoleMetier.js';
+import * as checkUserIsAdminInOrganizationUseCase from './usecases/checkUserIsAdminInOrganization.js';
+import * as checkUserBelongsToOrganizationManagingStudentsUseCase from './usecases/checkUserBelongsToOrganizationManagingStudents.js';
+import * as checkUserBelongsToLearnersOrganizationUseCase from './usecases/checkUserBelongsToLearnersOrganization.js';
+import * as checkUserBelongsToScoOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js';
+import * as checkUserBelongsToSupOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js';
+import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
+import * as checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelongsToOrganization.js';
+import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
+import * as checkUserIsMemberOfAnOrganizationUseCase from './usecases/checkUserIsMemberOfAnOrganization.js';
+import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
+import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession.js';
+import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
+import * as checkOrganizationIsScoAndManagingStudentUsecase from './usecases/checkOrganizationIsScoAndManagingStudent.js';
+import * as checkPix1dEnabled from './usecases/checkPix1dEnabled.js';
+import * as certificationIssueReportRepository from '../infrastructure/repositories/certification-issue-report-repository.js';
+import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
+import { Organization } from '../../lib/domain/models/Organization.js';
+import { ForbiddenAccess, NotFoundError } from '../..//lib/domain/errors.js';
+import { apps } from '../..//lib/domain/constants.js';
 
 const JSONAPIError = require('jsonapi-serializer').Error;
-const has = require('lodash/has');
+import has from 'lodash/has';
 
 function _replyForbiddenError(h) {
   const errorHttpStatusCode = 403;
@@ -529,9 +528,7 @@ function _noOrganizationFound(error) {
   return error instanceof NotFoundError;
 }
 
-/* eslint-enable no-restricted-syntax */
-
-module.exports = {
+export {
   checkIfUserIsBlocked,
   checkPix1dActivated,
   checkRequestedUserIsAuthenticatedUser,
@@ -547,7 +544,7 @@ module.exports = {
   checkAuthorizationToManageCampaign,
   checkUserIsAdminInSCOOrganizationManagingStudents,
   checkUserIsAdminInSUPOrganizationManagingStudents,
-  checkUserBelongsToLearnersOrganization: checkUserBelongsToLearnersOrganization,
+  checkUserBelongsToLearnersOrganization,
   checkUserBelongsToOrganization,
   checkUserIsMemberOfAnOrganization,
   checkUserIsMemberOfCertificationCenter,

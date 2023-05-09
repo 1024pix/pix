@@ -1,8 +1,8 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const { EntityValidationError } = require('../errors.js');
-const OrganizationLearner = require('../models/OrganizationLearner.js');
+import { EntityValidationError } from '../errors.js';
+import { OrganizationLearner } from '../models/OrganizationLearner.js';
 
 const { STUDENT, APPRENTICE } = OrganizationLearner.STATUS;
 const validationConfiguration = { allowUnknown: true };
@@ -88,7 +88,4 @@ const checkValidation = function (organizationLearner) {
   }
 };
 
-module.exports = {
-  FRANCE_COUNTRY_CODE,
-  checkValidation,
-};
+export { FRANCE_COUNTRY_CODE, checkValidation };

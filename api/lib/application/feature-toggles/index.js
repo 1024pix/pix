@@ -1,6 +1,6 @@
-const featureToggleController = require('./feature-toggle-controller.js');
+import { featureToggleController } from './feature-toggle-controller.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -14,4 +14,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'feature-toggles-api';
+const name = 'feature-toggles-api';
+export { register, name };

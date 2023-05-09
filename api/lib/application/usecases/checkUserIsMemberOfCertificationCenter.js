@@ -1,10 +1,14 @@
-const certificationCenterMembershipRepository = require('../../infrastructure/repositories/certification-center-membership-repository.js');
+import * as certificationCenterMembershipRepository from '../../infrastructure/repositories/certification-center-membership-repository.js';
 
-module.exports = {
-  async execute(userId, certificationCenterId, dependencies = { certificationCenterMembershipRepository }) {
-    return await dependencies.certificationCenterMembershipRepository.isMemberOfCertificationCenter({
-      userId,
-      certificationCenterId,
-    });
-  },
+const execute = async function (
+  userId,
+  certificationCenterId,
+  dependencies = { certificationCenterMembershipRepository }
+) {
+  return await dependencies.certificationCenterMembershipRepository.isMemberOfCertificationCenter({
+    userId,
+    certificationCenterId,
+  });
 };
+
+export { execute };

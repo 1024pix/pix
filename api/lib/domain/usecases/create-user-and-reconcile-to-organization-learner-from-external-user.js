@@ -1,9 +1,9 @@
-const { CampaignCodeError, ObjectValidationError } = require('../errors.js');
-const User = require('../models/User.js');
-const AuthenticationMethod = require('../models/AuthenticationMethod.js');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../constants.js');
+import { CampaignCodeError, ObjectValidationError } from '../errors.js';
+import { User } from '../models/User.js';
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 
-module.exports = async function createUserAndReconcileToOrganizationLearnerFromExternalUser({
+const createUserAndReconcileToOrganizationLearnerFromExternalUser = async function ({
   birthdate,
   campaignCode,
   token,
@@ -96,3 +96,5 @@ module.exports = async function createUserAndReconcileToOrganizationLearnerFromE
   await userRepository.updateLastLoggedAt({ userId: tokenUserId });
   return accessToken;
 };
+
+export { createUserAndReconcileToOrganizationLearnerFromExternalUser };

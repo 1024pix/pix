@@ -1,7 +1,7 @@
-const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js');
-const { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } = require('../errors.js');
+import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
+import { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } from '../errors.js';
 
-module.exports = async function getCampaignParticipationsCountByStage({
+const getCampaignParticipationsCountByStage = async function ({
   userId,
   campaignId,
   campaignRepository,
@@ -40,3 +40,5 @@ module.exports = async function getCampaignParticipationsCountByStage({
 
   return participantsByStage;
 };
+
+export { getCampaignParticipationsCountByStage };

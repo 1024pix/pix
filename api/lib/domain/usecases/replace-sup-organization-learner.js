@@ -1,4 +1,4 @@
-module.exports = async function replaceSupOrganizationLearners({
+const replaceSupOrganizationLearners = async function ({
   organizationId,
   supOrganizationLearnerRepository,
   supOrganizationLearnerParser,
@@ -9,3 +9,5 @@ module.exports = async function replaceSupOrganizationLearners({
 
   return warnings;
 };
+
+export { replaceSupOrganizationLearners };

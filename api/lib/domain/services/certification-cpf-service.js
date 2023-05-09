@@ -1,6 +1,6 @@
-const { normalizeAndSortChars } = require('../../infrastructure/utils/string-utils.js');
-const isEmpty = require('lodash/isEmpty');
-const { CERTIFICATION_CANDIDATES_ERRORS } = require('../constants/certification-candidates-errors');
+import { normalizeAndSortChars } from '../../infrastructure/utils/string-utils.js';
+import isEmpty from 'lodash/isEmpty';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 
 const CpfValidationStatus = {
   FAILURE: 'FAILURE',
@@ -238,8 +238,4 @@ function _getActualCity(cities) {
   return actualCity.name;
 }
 
-module.exports = {
-  getBirthInformation,
-  CpfBirthInformationValidation,
-  CpfValidationStatus,
-};
+export { getBirthInformation, CpfBirthInformationValidation, CpfValidationStatus };

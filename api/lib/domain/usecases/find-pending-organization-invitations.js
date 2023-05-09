@@ -1,3 +1,5 @@
-module.exports = function findPendingOrganizationInvitations({ organizationId, organizationInvitationRepository }) {
+const findPendingOrganizationInvitations = function ({ organizationId, organizationInvitationRepository }) {
   return organizationInvitationRepository.findPendingByOrganizationId({ organizationId });
 };
+
+export { findPendingOrganizationInvitations };

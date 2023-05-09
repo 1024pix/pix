@@ -1,6 +1,6 @@
-const { AlreadyExistingInvitationError, CancelledInvitationError } = require('../../domain/errors.js');
+import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../domain/errors.js';
 
-module.exports = async function getOrganizationInvitation({
+const getOrganizationInvitation = async function ({
   organizationInvitationId,
   organizationInvitationCode,
   organizationRepository,
@@ -24,3 +24,5 @@ module.exports = async function getOrganizationInvitation({
 
   return foundOrganizationInvitation;
 };
+
+export { getOrganizationInvitation };

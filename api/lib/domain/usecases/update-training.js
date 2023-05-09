@@ -1,4 +1,4 @@
-module.exports = async function updateTraining({ training, trainingRepository }) {
+const updateTraining = async function ({ training, trainingRepository }) {
   const trainingId = training.id;
   await trainingRepository.get({ trainingId });
 
@@ -7,3 +7,5 @@ module.exports = async function updateTraining({ training, trainingRepository })
     attributesToUpdate: training,
   });
 };
+
+export { updateTraining };

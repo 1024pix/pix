@@ -1,24 +1,21 @@
-const { knex } = require('../../../db/knex-database-connection.js');
+import { knex } from '../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { OrganizationLearnerAlreadyLinkedToUserError } from '../../domain/errors.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../../domain/constants.js';
+import { User } from '../../domain/models/User.js';
+import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../db/pgsql-errors.js';
 
-const DomainTransaction = require('../DomainTransaction.js');
+const create = async function ({ user, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConnection = domainTransaction.knexTransaction || knex;
 
-const { OrganizationLearnerAlreadyLinkedToUserError } = require('../../domain/errors.js');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../../domain/constants.js');
-
-const User = require('../../domain/models/User.js');
-const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors.js');
-
-module.exports = {
-  async create({ user, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const knexConnection = domainTransaction.knexTransaction || knex;
-
-    if (user.username) {
-      return await _createWithUsername({ knexConnection, user });
-    } else {
-      return await _createWithoutUsername({ knexConnection, user });
-    }
-  },
+  if (user.username) {
+    return await _createWithUsername({ knexConnection, user });
+  } else {
+    return await _createWithoutUsername({ knexConnection, user });
+  }
 };
+
+export { create };
 
 async function _createWithUsername({ knexConnection, user }) {
   const detail = 'Un compte avec cet identifiant existe déjà.';

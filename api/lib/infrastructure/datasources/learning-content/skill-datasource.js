@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const datasource = require('./datasource.js');
+import _ from 'lodash';
+import * as datasource from './datasource.js';
 
 const ACTIVE_STATUS = 'actif';
 const OPERATIVE_STATUSES = ['actif', 'archivé'];
@@ -61,4 +61,4 @@ const skillDatasource = datasource.extend({
   },
 });
 
-module.exports = { skillDatasource };
+export { skillDatasource };

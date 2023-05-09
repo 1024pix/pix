@@ -6,6 +6,4 @@ class Country {
   }
 }
 
-module.exports = {
-  Country,
-};
+export { Country };

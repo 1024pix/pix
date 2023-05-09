@@ -1,19 +1,19 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(sessionSummaries, meta) {
-    return new Serializer('session-summary', {
-      attributes: [
-        'address',
-        'room',
-        'date',
-        'time',
-        'examiner',
-        'enrolledCandidatesCount',
-        'effectiveCandidatesCount',
-        'status',
-      ],
-      meta,
-    }).serialize(sessionSummaries);
-  },
+const serialize = function (sessionSummaries, meta) {
+  return new Serializer('session-summary', {
+    attributes: [
+      'address',
+      'room',
+      'date',
+      'time',
+      'examiner',
+      'enrolledCandidatesCount',
+      'effectiveCandidatesCount',
+      'status',
+    ],
+    meta,
+  }).serialize(sessionSummaries);
 };
+
+export { serialize };

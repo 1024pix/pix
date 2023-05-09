@@ -1,9 +1,8 @@
-const Certificate = require('../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/Certificate.js');
-const CompetenceResults = require('../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/CompetenceResults.js');
-const CertificationsResults = require('../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/CertificationsResults.js');
-
-const buildCompetenceForLS = require('./build-competences-for-ls.js');
-const buildAreaForLS = require('./build-area-for-ls.js');
+import { Certificate } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/Certificate.js';
+import { CompetenceResults } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/CompetenceResults.js';
+import { CertificationsResults } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/CertificationsResults.js';
+import { buildCompetenceForLS } from './build-competences-for-ls.js';
+import { buildAreaForLS } from './build-area-for-ls.js';
 
 function buildReferentialOfCompetences() {
   const area1 = buildAreaForLS({
@@ -99,4 +98,4 @@ function buildCertificationsResults(certifications, competences = buildReferenti
   return new CertificationsResults({ certifications, competences });
 }
 
-module.exports = { buildCertificateForLS, buildReferentialOfCompetences, buildCertificationsResults };
+export { buildCertificateForLS, buildReferentialOfCompetences, buildCertificationsResults };

@@ -1,13 +1,15 @@
 const TABLE_NAME = 'campaigns';
 
-exports.up = (knex) => {
+const up = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.text('externalIdHelpImageUrl');
   });
 };
 
-exports.down = (knex) => {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn('externalIdHelpImageUrl');
   });
 };
+
+export { up, down };

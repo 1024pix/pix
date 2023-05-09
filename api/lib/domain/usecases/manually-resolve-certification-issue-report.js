@@ -1,6 +1,6 @@
-const { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } = require('../errors.js');
+import { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } from '../errors.js';
 
-module.exports = async function manuallyResolveCertificationIssueReport({
+const manuallyResolveCertificationIssueReport = async function ({
   certificationIssueReportId,
   resolution,
   certificationIssueReportRepository,
@@ -13,3 +13,5 @@ module.exports = async function manuallyResolveCertificationIssueReport({
   certificationIssueReport.resolveManually(resolution);
   await certificationIssueReportRepository.save(certificationIssueReport);
 };
+
+export { manuallyResolveCertificationIssueReport };

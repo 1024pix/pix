@@ -1,6 +1,6 @@
-const AssessmentResult = require('../../domain/models/AssessmentResult.js');
-const CompetenceMark = require('../../domain/models/CompetenceMark.js');
-const assessmentResultService = require('../../domain/services/assessment-result-service.js');
+import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
+import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
+import * as assessmentResultService from '../../domain/services/assessment-result-service.js';
 
 // TODO: Should be removed and replaced by a real serializer
 function _deserializeResultsAdd(json) {
@@ -26,13 +26,13 @@ function _deserializeResultsAdd(json) {
   return { assessmentResult, competenceMarks };
 }
 
-module.exports = {
-  async save(request, h, dependencies = { assessmentResultService }) {
-    const jsonResult = request.payload.data.attributes;
-    const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
-    const juryId = request.auth.credentials.userId;
-    // FIXME (re)calculate partner certifications which may be invalidated/validated
-    await dependencies.assessmentResultService.save({ ...assessmentResult, juryId }, competenceMarks);
-    return null;
-  },
+const save = async function (request, h, dependencies = { assessmentResultService }) {
+  const jsonResult = request.payload.data.attributes;
+  const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
+  const juryId = request.auth.credentials.userId;
+  // FIXME (re)calculate partner certifications which may be invalidated/validated
+  await dependencies.assessmentResultService.save({ ...assessmentResult, juryId }, competenceMarks);
+  return null;
 };
+
+export { save };

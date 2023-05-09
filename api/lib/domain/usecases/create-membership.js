@@ -1,12 +1,7 @@
-const { roles } = require('../models/Membership.js');
-const { OrganizationArchivedError } = require('../errors.js');
+import { roles } from '../models/Membership.js';
+import { OrganizationArchivedError } from '../errors.js';
 
-module.exports = async function createMembership({
-  userId,
-  organizationId,
-  membershipRepository,
-  organizationRepository,
-}) {
+const createMembership = async function ({ userId, organizationId, membershipRepository, organizationRepository }) {
   const organization = await organizationRepository.get(organizationId);
 
   if (organization.archivedAt) {
@@ -18,3 +13,5 @@ module.exports = async function createMembership({
 
   return membershipRepository.create(userId, organizationId, organizationRole);
 };
+
+export { createMembership };

@@ -1,8 +1,8 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const { validateEntity } = require('../validators/entity-validator.js');
-const { NotImplementedError } = require('../errors.js');
+import { validateEntity } from '../validators/entity-validator.js';
+import { NotImplementedError } from '../errors.js';
 
 const SOURCES = {
   PIX: 'PIX',
@@ -29,4 +29,4 @@ class PartnerCertificationScoring {
   }
 }
 
-module.exports = PartnerCertificationScoring;
+export { PartnerCertificationScoring };

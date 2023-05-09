@@ -1,3 +1,5 @@
-module.exports = function getOrganizationMemberIdentities({ organizationId, organizationMemberIdentityRepository }) {
+const getOrganizationMemberIdentities = function ({ organizationId, organizationMemberIdentityRepository }) {
   return organizationMemberIdentityRepository.findAllByOrganizationId({ organizationId });
 };
+
+export { getOrganizationMemberIdentities };

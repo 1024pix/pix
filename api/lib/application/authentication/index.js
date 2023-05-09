@@ -1,11 +1,11 @@
-const Joi = require('joi');
-const { sendJsonApiError, BadRequestError } = require('../http-errors.js');
-const AuthenticationController = require('./authentication-controller.js');
-const responseAuthenticationObjectDoc = require('../../infrastructure/open-api-doc/authentication/response-authentication-doc.js');
-const responseErrorObjectDoc = require('../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
+import Joi from 'joi';
+import { sendJsonApiError, BadRequestError } from '../http-errors.js';
+import { AuthenticationController } from './authentication-controller.js';
+import { responseAuthenticationObjectDoc } from '../../infrastructure/open-api-doc/authentication/response-authentication-doc.js';
+import { responseErrorObjectDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -155,4 +155,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'authentication-api';
+const name = 'authentication-api';
+export { register, name };

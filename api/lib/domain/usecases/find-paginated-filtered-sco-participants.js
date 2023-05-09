@@ -1,4 +1,4 @@
-module.exports = function findPaginatedFilteredScoParticipants({
+const findPaginatedFilteredScoParticipants = function ({
   organizationId,
   filter,
   page,
@@ -12,3 +12,5 @@ module.exports = function findPaginatedFilteredScoParticipants({
     sort,
   });
 };
+
+export { findPaginatedFilteredScoParticipants };

@@ -1,33 +1,24 @@
-const TubeText = require('../drawer/TubeText.js');
-const PositionManager = require('../manager/position-manager.js');
-const FontManager = require('../manager/font-manager.js');
-const ColorManager = require('../manager/color-manager.js');
+import { TubeText } from '../drawer/TubeText.js';
+import { PositionManager } from '../manager/position-manager.js';
+import { FontManager } from '../manager/font-manager.js';
+import { ColorManager } from '../manager/color-manager.js';
 
 const START_BORDER = 2;
 
-module.exports = {
-  /**
-   *
-   * @param positionY{number}
-   * @param page {PDFPage}
-   * @param tube {Tube}
-   * @param dryRun {boolean}
-   * @param withBackground {boolean}
-   * @returns {number}  next y position
-   */
-  build(positionY, page, tube, withBackground, dryRun) {
-    const tubeText = new TubeText({
-      practicalTitle: tube.practicalTitle,
-      practicalDescription: tube.practicalDescription,
-      positionY,
-    });
-    if (!dryRun && withBackground) {
-      _drawTubeBackground(positionY, page, tubeText);
-    }
+const build = function (positionY, page, tube, withBackground, dryRun) {
+  const tubeText = new TubeText({
+    practicalTitle: tube.practicalTitle,
+    practicalDescription: tube.practicalDescription,
+    positionY,
+  });
+  if (!dryRun && withBackground) {
+    _drawTubeBackground(positionY, page, tubeText);
+  }
 
-    return tubeText.draw(page, dryRun);
-  },
+  return tubeText.draw(page, dryRun);
 };
+
+export { build };
 /**
  *
  * @param positionY{number}

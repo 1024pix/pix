@@ -1,8 +1,5 @@
-module.exports = function findPaginatedFilteredOrganizationMemberships({
-  organizationId,
-  filter,
-  page,
-  membershipRepository,
-}) {
+const findPaginatedFilteredOrganizationMemberships = function ({ organizationId, filter, page, membershipRepository }) {
   return membershipRepository.findPaginatedFiltered({ organizationId, filter, page });
 };
+
+export { findPaginatedFilteredOrganizationMemberships };

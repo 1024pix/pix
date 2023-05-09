@@ -1,13 +1,12 @@
-const jsYaml = require('js-yaml');
-const levenshtein = require('fast-levenshtein');
-const _ = require('../../infrastructure/utils/lodash-utils.js');
-const logger = require('../../infrastructure/logger.js');
-const { applyPreTreatments, applyTreatments } = require('./validation-treatments.js');
-const { YamlParsingError } = require('../../domain/errors.js');
-const { LEVENSHTEIN_DISTANCE_MAX_RATE } = require('../constants.js');
-const { useLevenshteinRatio } = require('./services-utils.js');
-
-const AnswerStatus = require('../models/AnswerStatus.js');
+import jsYaml from 'js-yaml';
+import levenshtein from 'fast-levenshtein';
+import { _ } from '../../infrastructure/utils/lodash-utils.js';
+import { logger } from '../../infrastructure/logger.js';
+import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
+import { YamlParsingError } from '../../domain/errors.js';
+import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../constants.js';
+import { useLevenshteinRatio } from './services-utils.js';
+import { AnswerStatus } from '../models/AnswerStatus.js';
 
 function _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTypes = {}) {
   return _.forEach(solutions, (solution, solutionKey) => {
@@ -113,10 +112,4 @@ function match({ answerValue, solution }) {
   };
 }
 
-module.exports = {
-  _applyTreatmentsToSolutions,
-  _applyTreatmentsToAnswers,
-  _compareAnswersAndSolutions,
-  _formatResult,
-  match,
-};
+export { _applyTreatmentsToSolutions, _applyTreatmentsToAnswers, _compareAnswersAndSolutions, _formatResult, match };

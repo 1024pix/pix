@@ -1,17 +1,17 @@
-const { Country } = require('../../domain/read-models/Country.js');
-const { knex } = require('../../../db/knex-database-connection.js');
+import { Country } from '../../domain/read-models/Country.js';
+import { knex } from '../../../db/knex-database-connection.js';
 
-module.exports = {
-  async findAll() {
-    const result = await knex
-      .from('certification-cpf-countries')
-      .select('commonName', 'code', 'matcher')
-      .where('commonName', '=', knex.ref('originalName'))
-      .orderBy('commonName', 'asc');
+const findAll = async function () {
+  const result = await knex
+    .from('certification-cpf-countries')
+    .select('commonName', 'code', 'matcher')
+    .where('commonName', '=', knex.ref('originalName'))
+    .orderBy('commonName', 'asc');
 
-    return result.map(_toDomain);
-  },
+  return result.map(_toDomain);
 };
+
+export { findAll };
 
 function _toDomain(row) {
   return new Country({

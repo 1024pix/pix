@@ -1,4 +1,4 @@
-const settings = require('../../config.js');
+import { settings } from '../../config.js';
 
 function generateLink(sending, filters = {}) {
   const host = settings.apiManager.url;
@@ -25,4 +25,4 @@ function decodeCursor(strbase64) {
   return JSON.parse(string);
 }
 
-module.exports = { generateLink, generateCursor, decodeCursor };
+export { generateLink, generateCursor, decodeCursor };

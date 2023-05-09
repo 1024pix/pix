@@ -1,7 +1,7 @@
-const { NotFoundError, UserNotAuthorizedToAccessEntityError } = require('../../domain/errors.js');
-const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js');
+import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../domain/errors.js';
+import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 
-module.exports = async function getCampaign({
+const getCampaign = async function ({
   campaignId,
   userId,
   badgeRepository,
@@ -38,3 +38,5 @@ module.exports = async function getCampaign({
   }
   return campaignReport;
 };
+
+export { getCampaign };

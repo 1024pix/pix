@@ -1,7 +1,7 @@
-const { loadOdsZip } = require('./common-ods-utils.js');
-const { DOMParser, XMLSerializer } = require('@xmldom/xmldom');
-const _ = require('lodash');
-const AddedCellOption = require('./added-cell-option.js');
+import { loadOdsZip } from './common-ods-utils.js';
+import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
+import _ from 'lodash';
+import { AddedCellOption } from './added-cell-option.js';
 
 const CONTENT_XML_IN_ODS = 'content.xml';
 
@@ -496,7 +496,7 @@ function _translateNoteBackgroundTitle(targetXmlDomElement, translate) {
   }
 }
 
-module.exports = {
+export {
   makeUpdatedOdsByContentXml,
   updateXmlSparseValues,
   updateXmlRows,

@@ -1,4 +1,4 @@
-const { readFile } = require('fs/promises');
+import { readFile } from 'fs/promises';
 
 const embeddedTemplatePages = {};
 
@@ -11,33 +11,24 @@ const templatesPages = {
   'cover-page': 'cover-page.pdf',
 };
 
-module.exports = {
-  /**
-   * @param areaColor {string}
-   * @returns {PDFEmbeddedPage}
-   */
-  findTemplatePage(areaColor) {
-    if (!embeddedTemplatePages[areaColor]) {
-      return embeddedTemplatePages['jaffa'];
-    }
-    return embeddedTemplatePages[areaColor];
-  },
-  /**
-   * @returns {PDFEmbeddedPage}
-   */
-  getCoverPage() {
-    return embeddedTemplatePages['cover-page'];
-  },
-  /**
-   * @param pdfDocument {PDFDocument}
-   * @returns {Promise<void>}
-   */
-  async initializeTemplatesPages(pdfDocument) {
-    for (const templateKey in templatesPages) {
-      const templateFilename = templatesPages[templateKey];
-      const templateBuffer = await readFile(`${__dirname}/templates/${templateFilename}`);
-      const [templatePage] = await pdfDocument.embedPdf(templateBuffer);
-      embeddedTemplatePages[templateKey] = templatePage;
-    }
-  },
+const findTemplatePage = function (areaColor) {
+  if (!embeddedTemplatePages[areaColor]) {
+    return embeddedTemplatePages['jaffa'];
+  }
+  return embeddedTemplatePages[areaColor];
 };
+
+const getCoverPage = function () {
+  return embeddedTemplatePages['cover-page'];
+};
+
+const initializeTemplatesPages = async function (pdfDocument) {
+  for (const templateKey in templatesPages) {
+    const templateFilename = templatesPages[templateKey];
+    const templateBuffer = await readFile(`${__dirname}/templates/${templateFilename}`);
+    const [templatePage] = await pdfDocument.embedPdf(templateBuffer);
+    embeddedTemplatePages[templateKey] = templatePage;
+  }
+};
+
+export { findTemplatePage, getCoverPage, initializeTemplatesPages };

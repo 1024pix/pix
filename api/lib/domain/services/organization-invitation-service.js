@@ -1,11 +1,12 @@
-const randomString = require('randomstring');
-const Membership = require('../models/Membership.js');
-const mailService = require('../../domain/services/mail-service.js');
-const {
+import randomString from 'randomstring';
+import { Membership } from '../models/Membership.js';
+import * as mailService from '../../domain/services/mail-service.js';
+
+import {
   SendingEmailError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-} = require('../errors.js');
+} from '../errors.js';
 
 const _generateCode = () => {
   return randomString.generate({ length: 10, capitalization: 'uppercase' });
@@ -135,8 +136,4 @@ const createScoOrganizationInvitation = async ({
   return organizationInvitation;
 };
 
-module.exports = {
-  createOrUpdateOrganizationInvitation,
-  createScoOrganizationInvitation,
-  createProOrganizationInvitation,
-};
+export { createOrUpdateOrganizationInvitation, createScoOrganizationInvitation, createProOrganizationInvitation };

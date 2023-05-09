@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 class StageCollection {
   constructor({ campaignId, stages }) {
@@ -184,4 +184,4 @@ class StageCollection {
   }
 }
 
-module.exports = StageCollection;
+export { StageCollection };

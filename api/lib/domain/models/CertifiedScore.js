@@ -1,4 +1,4 @@
-const { PIX_COUNT_BY_LEVEL } = require('../constants.js');
+import { PIX_COUNT_BY_LEVEL } from '../constants.js';
 
 class CertifiedScore {
   constructor(value) {
@@ -15,6 +15,4 @@ class CertifiedScore {
   }
 }
 
-module.exports = {
-  CertifiedScore,
-};
+export { CertifiedScore };

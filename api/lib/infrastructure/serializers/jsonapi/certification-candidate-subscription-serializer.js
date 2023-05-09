@@ -1,9 +1,9 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(certificationCandidateSubscription) {
-    return new Serializer('certification-candidate-subscription', {
-      attributes: ['sessionId', 'eligibleSubscriptions', 'nonEligibleSubscriptions'],
-    }).serialize(certificationCandidateSubscription);
-  },
+const serialize = function (certificationCandidateSubscription) {
+  return new Serializer('certification-candidate-subscription', {
+    attributes: ['sessionId', 'eligibleSubscriptions', 'nonEligibleSubscriptions'],
+  }).serialize(certificationCandidateSubscription);
 };
+
+export { serialize };

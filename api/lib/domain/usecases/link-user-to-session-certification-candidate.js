@@ -1,17 +1,19 @@
-const _ = require('lodash');
-const CertificationCandidate = require('../models/CertificationCandidate.js');
-const {
+import _ from 'lodash';
+import { CertificationCandidate } from '../models/CertificationCandidate.js';
+
+import {
   CertificationCandidateByPersonalInfoNotFoundError,
   MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   UserAlreadyLinkedToCandidateInSessionError,
   SessionNotAccessible,
   UnexpectedUserAccountError,
-} = require('../errors.js');
-const UserLinkedToCertificationCandidate = require('../events/UserLinkedToCertificationCandidate.js');
-const UserAlreadyLinkedToCertificationCandidate = require('../events/UserAlreadyLinkedToCertificationCandidate.js');
+} from '../errors.js';
 
-module.exports = async function linkUserToSessionCertificationCandidate({
+import { UserLinkedToCertificationCandidate } from '../events/UserLinkedToCertificationCandidate.js';
+import { UserAlreadyLinkedToCertificationCandidate } from '../events/UserAlreadyLinkedToCertificationCandidate.js';
+
+const linkUserToSessionCertificationCandidate = async function ({
   userId,
   sessionId,
   firstName,
@@ -70,6 +72,8 @@ module.exports = async function linkUserToSessionCertificationCandidate({
     throw new UnexpectedUserAccountError({});
   }
 };
+
+export { linkUserToSessionCertificationCandidate };
 
 async function _getSessionCertificationCandidateByPersonalInfo({
   sessionId,
