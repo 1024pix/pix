@@ -1,4 +1,4 @@
-module.exports = class LearningContent {
+class LearningContent {
   constructor(frameworks) {
     this.frameworks = frameworks;
   }
@@ -55,4 +55,6 @@ module.exports = class LearningContent {
     if (!frameworkId) return '';
     return this.findFramework(frameworkId).name;
   }
-};
+}
+
+export { LearningContent };

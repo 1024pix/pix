@@ -1,12 +1,10 @@
-const { checkEventTypes } = require('./check-event-types.js');
-const SessionFinalized = require('./SessionFinalized.js');
-const CertificationIssueReportResolutionAttempt = require('../models/CertificationIssueReportResolutionAttempt.js');
-const AutoJuryDone = require('./AutoJuryDone.js');
-const CertificationJuryDone = require('./CertificationJuryDone.js');
-const bluebird = require('bluebird');
-const {
-  CertificationIssueReportResolutionStrategies,
-} = require('../models/CertificationIssueReportResolutionStrategies.js');
+import { checkEventTypes } from './check-event-types.js';
+import { SessionFinalized } from './SessionFinalized.js';
+import { CertificationIssueReportResolutionAttempt } from '../models/CertificationIssueReportResolutionAttempt.js';
+import { AutoJuryDone } from './AutoJuryDone.js';
+import { CertificationJuryDone } from './CertificationJuryDone.js';
+import bluebird from 'bluebird';
+import { CertificationIssueReportResolutionStrategies } from '../models/CertificationIssueReportResolutionStrategies.js';
 
 const eventTypes = [SessionFinalized];
 
@@ -129,4 +127,4 @@ async function _autoResolveCertificationIssueReport({
 }
 
 handleAutoJury.eventTypes = eventTypes;
-module.exports = handleAutoJury;
+export { handleAutoJury };

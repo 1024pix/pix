@@ -4,7 +4,7 @@ const PROVINCECODE_COLUMN = 'provinceCode';
 const EXTERNALID_COLUMN = 'externalId';
 const CODE_COLUMN = 'code';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropIndex(USERID_COLUMN);
     table.dropIndex(PROVINCECODE_COLUMN);
@@ -13,7 +13,7 @@ exports.up = function (knex) {
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.index(USERID_COLUMN);
     table.index(PROVINCECODE_COLUMN);
@@ -21,3 +21,5 @@ exports.down = function (knex) {
     table.dropIndex(CODE_COLUMN);
   });
 };
+
+export { up, down };

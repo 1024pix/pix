@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const CAMPAIGN_TYPES = ['EVALUATION', 'COLLECTE_PROFILS'];
 const TEST_STATUS = [2, 3, 4];
@@ -149,4 +149,4 @@ const poleEmploiEnvoisDoc = Joi.array()
   )
   .label('Envois');
 
-module.exports = { poleEmploiEnvoisDoc };
+export { poleEmploiEnvoisDoc };

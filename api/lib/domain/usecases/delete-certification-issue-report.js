@@ -1,6 +1,6 @@
-const { ForbiddenAccess } = require('../errors.js');
+import { ForbiddenAccess } from '../errors.js';
 
-module.exports = async function deleteCertificationIssueReport({
+const deleteCertificationIssueReport = async function ({
   certificationIssueReportId,
   certificationCourseRepository,
   certificationIssueReportRepository,
@@ -16,3 +16,5 @@ module.exports = async function deleteCertificationIssueReport({
 
   return certificationIssueReportRepository.delete(certificationIssueReportId);
 };
+
+export { deleteCertificationIssueReport };

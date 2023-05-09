@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 class CampaignAssessmentParticipationResultMinimal {
   constructor({
@@ -28,4 +28,4 @@ class CampaignAssessmentParticipationResultMinimal {
   }
 }
 
-module.exports = CampaignAssessmentParticipationResultMinimal;
+export { CampaignAssessmentParticipationResultMinimal };

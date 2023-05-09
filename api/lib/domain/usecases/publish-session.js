@@ -1,4 +1,4 @@
-module.exports = async function publishSession({
+const publishSession = async function ({
   sessionId,
   certificationRepository,
   certificationCenterRepository,
@@ -18,3 +18,5 @@ module.exports = async function publishSession({
 
   return sessionRepository.get(sessionId);
 };
+
+export { publishSession };

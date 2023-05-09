@@ -1,21 +1,21 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize({ organizationParticipants, meta }) {
-    return new Serializer('organization-participants', {
-      id: 'id',
-      attributes: [
-        'firstName',
-        'lastName',
-        'participationCount',
-        'lastParticipationDate',
-        'campaignName',
-        'campaignType',
-        'participationStatus',
-        'isCertifiable',
-        'certifiableAt',
-      ],
-      meta,
-    }).serialize(organizationParticipants);
-  },
+const serialize = function ({ organizationParticipants, meta }) {
+  return new Serializer('organization-participants', {
+    id: 'id',
+    attributes: [
+      'firstName',
+      'lastName',
+      'participationCount',
+      'lastParticipationDate',
+      'campaignName',
+      'campaignType',
+      'participationStatus',
+      'isCertifiable',
+      'certifiableAt',
+    ],
+    meta,
+  }).serialize(organizationParticipants);
 };
+
+export { serialize };

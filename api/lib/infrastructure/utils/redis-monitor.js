@@ -1,5 +1,5 @@
-const settings = require('../../config.js');
-const RedisClient = require('./RedisClient.js');
+import { settings } from '../../config.js';
+import { RedisClient } from './RedisClient.js';
 
 class RedisMonitor {
   constructor() {
@@ -22,4 +22,4 @@ class RedisMonitor {
 
 const redisMonitor = new RedisMonitor();
 
-module.exports = { redisMonitor };
+export { redisMonitor };

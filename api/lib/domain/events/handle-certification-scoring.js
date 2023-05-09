@@ -1,10 +1,10 @@
-const AssessmentResult = require('../models/AssessmentResult.js');
-const CertificationScoringCompleted = require('./CertificationScoringCompleted.js');
-const CompetenceMark = require('../models/CompetenceMark.js');
-const bluebird = require('bluebird');
-const { CertificationComputeError } = require('../errors.js');
-const AssessmentCompleted = require('./AssessmentCompleted.js');
-const { checkEventTypes } = require('./check-event-types.js');
+import { AssessmentResult } from '../models/AssessmentResult.js';
+import { CertificationScoringCompleted } from './CertificationScoringCompleted.js';
+import { CompetenceMark } from '../models/CompetenceMark.js';
+import bluebird from 'bluebird';
+import { CertificationComputeError } from '../errors.js';
+import { AssessmentCompleted } from './AssessmentCompleted.js';
+import { checkEventTypes } from './check-event-types.js';
 
 const eventTypes = [AssessmentCompleted];
 const EMITTER = 'PIX-ALGO';
@@ -135,4 +135,4 @@ async function _saveResultAfterCertificationComputeError({
   return certificationCourseRepository.update(certificationCourse);
 }
 handleCertificationScoring.eventTypes = eventTypes;
-module.exports = handleCertificationScoring;
+export { handleCertificationScoring };

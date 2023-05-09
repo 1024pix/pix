@@ -1,4 +1,4 @@
-module.exports = async function handleTrainingRecommendation({
+const handleTrainingRecommendation = async function ({
   locale,
   assessment,
   campaignRepository,
@@ -42,3 +42,5 @@ module.exports = async function handleTrainingRecommendation({
   }
   return;
 };
+
+export { handleTrainingRecommendation };

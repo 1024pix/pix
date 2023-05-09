@@ -2,16 +2,18 @@ const TABLE_NAME = 'sessions';
 const COLUMN_NAME_INCIDENT = 'hasIncident';
 const COLUMN_NAME_JOINING_ISSUE = 'hasJoiningIssue';
 
-exports.up = async function (knex) {
+const up = async function(knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.boolean(COLUMN_NAME_INCIDENT).notNullable().defaultTo(false);
     table.boolean(COLUMN_NAME_JOINING_ISSUE).notNullable().defaultTo(false);
   });
 };
 
-exports.down = async function (knex) {
+const down = async function(knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN_NAME_INCIDENT);
     table.dropColumn(COLUMN_NAME_JOINING_ISSUE);
   });
 };
+
+export { up, down };

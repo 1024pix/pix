@@ -1,6 +1,6 @@
 const TABLE_NAME = 'training-trigger-tubes';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments().primary();
     t.integer('trainingTriggerId').references('training-triggers.id').notNullable();
@@ -12,6 +12,8 @@ exports.up = function (knex) {
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
+
+export { up, down };

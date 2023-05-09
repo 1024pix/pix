@@ -1,9 +1,9 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(progression) {
-    return new Serializer('progression', {
-      attributes: ['completionRate'],
-    }).serialize(progression);
-  },
+const serialize = function (progression) {
+  return new Serializer('progression', {
+    attributes: ['completionRate'],
+  }).serialize(progression);
 };
+
+export { serialize };

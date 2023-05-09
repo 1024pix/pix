@@ -1,7 +1,7 @@
-const TargetProfileForCreation = require('../models/TargetProfileForCreation.js');
-const { TargetProfileCannotBeCreated } = require('../errors');
+import { TargetProfileForCreation } from '../models/TargetProfileForCreation.js';
+import { TargetProfileCannotBeCreated } from '../errors.js';
 
-module.exports = async function createTargetProfile({
+const createTargetProfile = async function ({
   targetProfileCreationCommand,
   domainTransaction,
   targetProfileRepository,
@@ -21,3 +21,5 @@ module.exports = async function createTargetProfile({
     domainTransaction,
   });
 };
+
+export { createTargetProfile };

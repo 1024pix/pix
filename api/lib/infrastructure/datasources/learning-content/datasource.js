@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const lcms = require('../../lcms.js');
-const LearningContentResourceNotFound = require('./LearningContentResourceNotFound.js');
-const { learningContentCache } = require('../../caches/learning-content-cache.js');
+import _ from 'lodash';
+import { lcms } from '../../lcms.js';
+import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
+import { learningContentCache } from '../../caches/learning-content-cache.js';
 
 const _DatasourcePrototype = {
   async get(id) {
@@ -51,16 +51,16 @@ const _DatasourcePrototype = {
   },
 };
 
-module.exports = {
-  extend(props) {
-    const result = Object.assign({}, _DatasourcePrototype, props);
-    _.bindAll(result, _.functions(result));
-    return result;
-  },
-
-  async refreshLearningContentCacheRecords() {
-    const learningContent = await lcms.getLatestRelease();
-    await learningContentCache.set(learningContent);
-    return learningContent;
-  },
+const extend = function (props) {
+  const result = Object.assign({}, _DatasourcePrototype, props);
+  _.bindAll(result, _.functions(result));
+  return result;
 };
+
+const refreshLearningContentCacheRecords = async function () {
+  const learningContent = await lcms.getLatestRelease();
+  await learningContentCache.set(learningContent);
+  return learningContent;
+};
+
+export { extend, refreshLearningContentCacheRecords };

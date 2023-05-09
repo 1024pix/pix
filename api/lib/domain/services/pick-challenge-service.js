@@ -1,20 +1,20 @@
-const _ = require('lodash');
-const hashInt = require('hash-int');
+import _ from 'lodash';
+import hashInt from 'hash-int';
 const NON_EXISTING_ITEM = null;
 const VALIDATED_STATUS = 'validé';
 
-module.exports = {
-  pickChallenge({ skills, randomSeed, locale }) {
-    if (skills.length === 0) {
-      return NON_EXISTING_ITEM;
-    }
-    const keyForSkill = Math.abs(hashInt(randomSeed));
-    const keyForChallenge = Math.abs(hashInt(randomSeed + 1));
-    const chosenSkill = skills[keyForSkill % skills.length];
+const pickChallenge = function ({ skills, randomSeed, locale }) {
+  if (skills.length === 0) {
+    return NON_EXISTING_ITEM;
+  }
+  const keyForSkill = Math.abs(hashInt(randomSeed));
+  const keyForChallenge = Math.abs(hashInt(randomSeed + 1));
+  const chosenSkill = skills[keyForSkill % skills.length];
 
-    return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
-  },
+  return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
 };
+
+export { pickChallenge };
 
 function _pickLocaleChallengeAtIndex(challenges, locale, index) {
   const localeChallenges = _.filter(challenges, (challenge) => _.includes(challenge.locales, locale));

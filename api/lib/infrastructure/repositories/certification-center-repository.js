@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const BookshelfCertificationCenter = require('../orm-models/CertificationCenter.js');
-const { knex } = require('../../../db/knex-database-connection.js');
-const CertificationCenter = require('../../domain/models/CertificationCenter.js');
-const ComplementaryCertification = require('../../domain/models/ComplementaryCertification.js');
-const { NotFoundError } = require('../../domain/errors.js');
+import _ from 'lodash';
+import { BookshelfCertificationCenter } from '../orm-models/CertificationCenter.js';
+import { knex } from '../../../db/knex-database-connection.js';
+import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
+import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
+import { NotFoundError } from '../../domain/errors.js';
 
 function _toDomain(bookshelfCertificationCenter) {
   const dbCertificationCenter = bookshelfCertificationCenter.toJSON();
@@ -37,76 +37,10 @@ function _setSearchFiltersForQueryBuilder(filters, qb) {
   }
 }
 
-module.exports = {
-  async get(id) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter.query((q) => q.orderBy('id', 'desc'))
-      .where({ id })
-      .fetch({
-        require: false,
-        withRelated: [
-          {
-            habilitations: function (query) {
-              query.orderBy('id');
-            },
-          },
-        ],
-      });
-
-    if (certificationCenterBookshelf) {
-      return _toDomain(certificationCenterBookshelf);
-    }
-    throw new NotFoundError(`Certification center with id: ${id} not found`);
-  },
-
-  async getBySessionId(sessionId) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ 'sessions.id': sessionId })
-      .query((qb) => {
-        qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
-      })
-      .fetch({
-        require: false,
-        withRelated: [
-          {
-            habilitations: function (query) {
-              query.orderBy('id');
-            },
-          },
-        ],
-      });
-
-    if (certificationCenterBookshelf) {
-      return _toDomain(certificationCenterBookshelf);
-    }
-    throw new NotFoundError(`Could not find certification center for sessionId ${sessionId}.`);
-  },
-  async save(certificationCenter) {
-    const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'habilitations']);
-    const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter).save();
-    await certificationCenterBookshelf.related('habilitations').fetch();
-    return _toDomain(certificationCenterBookshelf);
-  },
-
-  async findPaginatedFiltered({ filter, page }) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter.query((qb) => {
-      _setSearchFiltersForQueryBuilder(filter, qb);
-      qb.orderBy('id');
-    }).fetchPage({
-      page: page.number,
-      pageSize: page.size,
-      withRelated: [
-        {
-          habilitations: function (query) {
-            query.orderBy('id');
-          },
-        },
-      ],
-    });
-    const { models, pagination } = certificationCenterBookshelf;
-    return { models: models.map(_toDomain), pagination };
-  },
-
-  async findByExternalId({ externalId }) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ externalId }).fetch({
+const get = async function (id) {
+  const certificationCenterBookshelf = await BookshelfCertificationCenter.query((q) => q.orderBy('id', 'desc'))
+    .where({ id })
+    .fetch({
       require: false,
       withRelated: [
         {
@@ -117,21 +51,88 @@ module.exports = {
       ],
     });
 
-    return certificationCenterBookshelf ? _toDomain(certificationCenterBookshelf) : null;
-  },
-
-  async getRefererEmails(certificationCenterId) {
-    const refererEmails = await knex('certification-centers')
-      .select('users.email')
-      .join(
-        'certification-center-memberships',
-        'certification-center-memberships.certificationCenterId',
-        'certification-centers.id'
-      )
-      .join('users', 'users.id', 'certification-center-memberships.userId')
-      .where('certification-centers.id', certificationCenterId)
-      .where('certification-center-memberships.isReferer', true);
-
-    return refererEmails;
-  },
+  if (certificationCenterBookshelf) {
+    return _toDomain(certificationCenterBookshelf);
+  }
+  throw new NotFoundError(`Certification center with id: ${id} not found`);
 };
+
+const getBySessionId = async function (sessionId) {
+  const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ 'sessions.id': sessionId })
+    .query((qb) => {
+      qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
+    })
+    .fetch({
+      require: false,
+      withRelated: [
+        {
+          habilitations: function (query) {
+            query.orderBy('id');
+          },
+        },
+      ],
+    });
+
+  if (certificationCenterBookshelf) {
+    return _toDomain(certificationCenterBookshelf);
+  }
+  throw new NotFoundError(`Could not find certification center for sessionId ${sessionId}.`);
+};
+
+const save = async function (certificationCenter) {
+  const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'habilitations']);
+  const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter).save();
+  await certificationCenterBookshelf.related('habilitations').fetch();
+  return _toDomain(certificationCenterBookshelf);
+};
+
+const findPaginatedFiltered = async function ({ filter, page }) {
+  const certificationCenterBookshelf = await BookshelfCertificationCenter.query((qb) => {
+    _setSearchFiltersForQueryBuilder(filter, qb);
+    qb.orderBy('id');
+  }).fetchPage({
+    page: page.number,
+    pageSize: page.size,
+    withRelated: [
+      {
+        habilitations: function (query) {
+          query.orderBy('id');
+        },
+      },
+    ],
+  });
+  const { models, pagination } = certificationCenterBookshelf;
+  return { models: models.map(_toDomain), pagination };
+};
+
+const findByExternalId = async function ({ externalId }) {
+  const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ externalId }).fetch({
+    require: false,
+    withRelated: [
+      {
+        habilitations: function (query) {
+          query.orderBy('id');
+        },
+      },
+    ],
+  });
+
+  return certificationCenterBookshelf ? _toDomain(certificationCenterBookshelf) : null;
+};
+
+const getRefererEmails = async function (certificationCenterId) {
+  const refererEmails = await knex('certification-centers')
+    .select('users.email')
+    .join(
+      'certification-center-memberships',
+      'certification-center-memberships.certificationCenterId',
+      'certification-centers.id'
+    )
+    .join('users', 'users.id', 'certification-center-memberships.userId')
+    .where('certification-centers.id', certificationCenterId)
+    .where('certification-center-memberships.isReferer', true);
+
+  return refererEmails;
+};
+
+export { get, getBySessionId, save, findPaginatedFiltered, findByExternalId, getRefererEmails };

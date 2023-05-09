@@ -1,4 +1,4 @@
-const { Type } = require('./Challenge.js');
+import { Type } from './Challenge.js';
 
 class CertificationChallengeWithType {
   constructor({
@@ -39,4 +39,4 @@ class CertificationChallengeWithType {
   }
 }
 
-module.exports = CertificationChallengeWithType;
+export { CertificationChallengeWithType };

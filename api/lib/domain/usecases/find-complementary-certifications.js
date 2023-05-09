@@ -1,3 +1,5 @@
-module.exports = function findComplementaryCertifications({ complementaryCertificationRepository }) {
+const findComplementaryCertifications = function ({ complementaryCertificationRepository }) {
   return complementaryCertificationRepository.findAll();
 };
+
+export { findComplementaryCertifications };

@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection.js');
-const OrganizationPlacesCapacity = require('../../domain/read-models/OrganizationPlacesCapacity.js');
+import { knex } from '../../../db/knex-database-connection.js';
+import { OrganizationPlacesCapacity } from '../../domain/read-models/OrganizationPlacesCapacity.js';
 
 async function findByOrganizationId(organizationId) {
   const now = new Date();
@@ -15,6 +15,4 @@ async function findByOrganizationId(organizationId) {
   return new OrganizationPlacesCapacity({ placesLots: organizationPlacesLots, organizationId });
 }
 
-module.exports = {
-  findByOrganizationId,
-};
+export { findByOrganizationId };

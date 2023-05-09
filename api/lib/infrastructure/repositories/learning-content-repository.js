@@ -1,16 +1,15 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection.js');
-const { NoSkillsInCampaignError, NotFoundError } = require('../../domain/errors.js');
-const tubeRepository = require('./tube-repository.js');
-const thematicRepository = require('./thematic-repository.js');
-const campaignRepository = require('./campaign-repository.js');
-const competenceRepository = require('./competence-repository.js');
-const areaRepository = require('./area-repository.js');
-const frameworkRepository = require('./framework-repository.js');
-const skillRepository = require('./skill-repository.js');
-const LearningContent = require('../../domain/models/LearningContent.js');
-// TODO pas satisfaisant comme dépendance
-const learningContentConversionService = require('../../domain/services/learning-content/learning-content-conversion-service.js');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection.js';
+import { NoSkillsInCampaignError, NotFoundError } from '../../domain/errors.js';
+import * as tubeRepository from './tube-repository.js';
+import * as thematicRepository from './thematic-repository.js';
+import * as campaignRepository from './campaign-repository.js';
+import * as competenceRepository from './competence-repository.js';
+import * as areaRepository from './area-repository.js';
+import * as frameworkRepository from './framework-repository.js';
+import * as skillRepository from './skill-repository.js';
+import { LearningContent } from '../../domain/models/LearningContent.js';
+import * as learningContentConversionService from '../../domain/services/learning-content/learning-content-conversion-service.js';
 
 async function findByCampaignId(campaignId, locale) {
   const skills = await campaignRepository.findSkills({ campaignId });
@@ -149,9 +148,4 @@ async function _getLearningContentByFrameworks(frameworks, locale) {
   return frameworks;
 }
 
-module.exports = {
-  findByCampaignId,
-  findByTargetProfileId,
-  findByCampaignParticipationId,
-  findByFrameworkNames,
-};
+export { findByCampaignId, findByTargetProfileId, findByCampaignParticipationId, findByFrameworkNames };

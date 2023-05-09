@@ -1,5 +1,6 @@
-const bluebird = require('bluebird');
-module.exports = async function getSessionForSupervising({
+import bluebird from 'bluebird';
+
+const getSessionForSupervising = async function ({
   sessionId,
   sessionForSupervisingRepository,
   certificationBadgesService,
@@ -17,3 +18,5 @@ module.exports = async function getSessionForSupervising({
 
   return sessionForSupervising;
 };
+
+export { getSessionForSupervising };

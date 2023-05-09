@@ -1,6 +1,5 @@
-module.exports = function findTargetProfileSummariesForTraining({
-  trainingId,
-  targetProfileSummaryForAdminRepository,
-}) {
+const findTargetProfileSummariesForTraining = function ({ trainingId, targetProfileSummaryForAdminRepository }) {
   return targetProfileSummaryForAdminRepository.findByTraining({ trainingId });
 };
+
+export { findTargetProfileSummariesForTraining };

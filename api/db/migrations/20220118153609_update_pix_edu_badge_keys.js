@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+const up = async function(knex) {
   await knex.schema.alterTable('partner-certifications', (table) => {
     table.dropForeign(null, 'certification_partner_acquisitions_partnerkey_foreign');
   });
@@ -43,7 +43,7 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+const down = async function(knex) {
   await knex.schema.alterTable('partner-certifications', (table) => {
     table.dropForeign('partnerKey');
   });
@@ -87,3 +87,5 @@ exports.down = async function (knex) {
     table.foreign(null, 'certification_partner_acquisitions_partnerkey_foreign').references('key').inTable('badges');
   });
 };
+
+export { up, down };

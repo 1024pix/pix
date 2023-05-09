@@ -1,8 +1,8 @@
-const { find } = require('lodash');
-const boom = require('@hapi/boom');
+import { find } from 'lodash';
+import boom from '@hapi/boom';
 
-const tokenService = require('../domain/services/token-service.js');
-const config = require('../../lib/config.js');
+import { tokenService } from '../domain/services/token-service.js';
+import { config } from '../../lib/config.js';
 
 async function _checkIsAuthenticated(request, h, { key, validate }) {
   if (!request.headers.authorization) {
@@ -83,4 +83,4 @@ const autentication = {
   defaultStrategy: 'jwt-user',
 };
 
-module.exports = autentication;
+export { autentication };

@@ -1,8 +1,8 @@
-const feedbackController = require('./feedback-controller.js');
-const Joi = require('joi');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import { feedbackController } from './feedback-controller.js';
+import Joi from 'joi';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -46,4 +46,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'feedbacks-api';
+const name = 'feedbacks-api';
+export { register, name };

@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const Joi = require('joi');
+import _ from 'lodash';
+import Joi from 'joi';
 
-const { InvalidCertificationReportForFinalization } = require('../errors.js');
+import { InvalidCertificationReportForFinalization } from '../errors.js';
 
 const NO_EXAMINER_COMMENT = null;
 
@@ -74,5 +74,5 @@ class CertificationReport {
   }
 }
 
-module.exports = CertificationReport;
+export { CertificationReport };
 module.exports.NO_EXAMINER_COMMENT = NO_EXAMINER_COMMENT;

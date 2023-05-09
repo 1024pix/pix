@@ -8,4 +8,4 @@ class ResultCompetence {
   }
 }
 
-module.exports = ResultCompetence;
+export { ResultCompetence };

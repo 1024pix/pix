@@ -1,6 +1,6 @@
-const moment = require('moment');
-const { isEmpty, isNil, each } = require('lodash');
-const { SiecleXmlImportError } = require('../../../domain/errors.js');
+import moment from 'moment';
+import { isEmpty, isNil, each } from 'lodash';
+import { SiecleXmlImportError } from '../../../domain/errors.js';
 
 const ERRORS = {
   INE_REQUIRED: 'INE_REQUIRED',
@@ -102,4 +102,4 @@ function _frenchBornHasEmptyCityCode({ birthCountryCode, birthCityCode }) {
   return birthCountryCode === FRANCE_COUNTRY_CODE && isEmpty(birthCityCode);
 }
 
-module.exports = XMLOrganizationLearnersSet;
+export { XMLOrganizationLearnersSet };

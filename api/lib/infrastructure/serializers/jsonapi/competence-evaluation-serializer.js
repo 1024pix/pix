@@ -1,27 +1,27 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(competenceEvaluations) {
-    return new Serializer('competence-evaluations', {
-      transform(current) {
-        const competenceEvaluation = Object.assign({}, current);
-        competenceEvaluation.assessment = { id: current.assessmentId };
-        return competenceEvaluation;
-      },
-      attributes: ['createdAt', 'updatedAt', 'userId', 'competenceId', 'assessment', 'scorecard', 'status'],
-      assessment: {
-        ref: 'id',
-        included: false,
-      },
-      scorecard: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        relationshipLinks: {
-          related: function (record) {
-            return `/api/scorecards/${record.userId}_${record.competenceId}`;
-          },
+const serialize = function (competenceEvaluations) {
+  return new Serializer('competence-evaluations', {
+    transform(current) {
+      const competenceEvaluation = Object.assign({}, current);
+      competenceEvaluation.assessment = { id: current.assessmentId };
+      return competenceEvaluation;
+    },
+    attributes: ['createdAt', 'updatedAt', 'userId', 'competenceId', 'assessment', 'scorecard', 'status'],
+    assessment: {
+      ref: 'id',
+      included: false,
+    },
+    scorecard: {
+      ref: 'id',
+      ignoreRelationshipData: true,
+      relationshipLinks: {
+        related: function (record) {
+          return `/api/scorecards/${record.userId}_${record.competenceId}`;
         },
       },
-    }).serialize(competenceEvaluations);
-  },
+    },
+  }).serialize(competenceEvaluations);
 };
+
+export { serialize };

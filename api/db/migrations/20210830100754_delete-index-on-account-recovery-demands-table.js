@@ -1,6 +1,6 @@
 const TABLE_NAME = 'account-recovery-demands';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropIndex('oldEmail');
     table.dropIndex('newEmail');
@@ -8,10 +8,12 @@ exports.up = function (knex) {
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.index('oldEmail');
     table.index('newEmail');
     table.index('temporaryKey');
   });
 };
+
+export { up, down };

@@ -1,6 +1,6 @@
-const { AlreadyExistingMembershipError } = require('../errors.js');
+import { AlreadyExistingMembershipError } from '../errors.js';
 
-module.exports = async function acceptCertificationCenterInvitation({
+const acceptCertificationCenterInvitation = async function ({
   certificationCenterInvitationId,
   code,
   email,
@@ -40,3 +40,5 @@ module.exports = async function acceptCertificationCenterInvitation({
 
   await certificationCenterInvitedUserRepository.save(certificationCenterInvitedUser);
 };
+
+export { acceptCertificationCenterInvitation };

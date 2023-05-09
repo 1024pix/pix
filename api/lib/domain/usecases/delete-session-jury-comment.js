@@ -1,3 +1,5 @@
-module.exports = async function deleteSessionJuryComment({ sessionId, sessionJuryCommentRepository }) {
+const deleteSessionJuryComment = async function ({ sessionId, sessionJuryCommentRepository }) {
   await sessionJuryCommentRepository.delete(sessionId);
 };
+
+export { deleteSessionJuryComment };

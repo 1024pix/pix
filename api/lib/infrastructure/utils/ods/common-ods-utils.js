@@ -1,4 +1,4 @@
-const JSZip = require('jszip');
+import JSZip from 'jszip';
 const fs = require('fs').promises;
 
 async function loadOdsZip(odsFilePath) {
@@ -11,6 +11,4 @@ function _openOdsFile(odsFilePath) {
   return fs.readFile(odsFilePath);
 }
 
-module.exports = {
-  loadOdsZip,
-};
+export { loadOdsZip };

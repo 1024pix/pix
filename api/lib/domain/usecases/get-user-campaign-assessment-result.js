@@ -1,6 +1,6 @@
-const { NotFoundError, NoCampaignParticipationForUserAndCampaign } = require('../errors.js');
+import { NotFoundError, NoCampaignParticipationForUserAndCampaign } from '../errors.js';
 
-module.exports = async function getUserCampaignAssessmentResult({
+const getUserCampaignAssessmentResult = async function ({
   userId,
   campaignId,
   locale,
@@ -33,6 +33,8 @@ module.exports = async function getUserCampaignAssessmentResult({
     throw error;
   }
 };
+
+export { getUserCampaignAssessmentResult };
 
 async function _checkStillValidBadges(campaignId, userId, knowledgeElementRepository, badgeForCalculationRepository) {
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });

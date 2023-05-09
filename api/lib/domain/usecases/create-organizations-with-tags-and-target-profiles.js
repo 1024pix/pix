@@ -1,20 +1,20 @@
-const { isEmpty, uniqBy } = require('lodash');
-const bluebird = require('bluebird');
-const Organization = require('../models/Organization.js');
-const OrganizationTag = require('../models/OrganizationTag.js');
-const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
+import { isEmpty, uniqBy } from 'lodash';
+import bluebird from 'bluebird';
+import { Organization } from '../models/Organization.js';
+import { OrganizationTag } from '../models/OrganizationTag.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
-const {
+import {
   ManyOrganizationsFoundError,
   OrganizationAlreadyExistError,
   OrganizationTagNotFound,
   ObjectValidationError,
   TargetProfileInvalidError,
-} = require('../errors.js');
+} from '../errors.js';
 
 const SEPARATOR = '_';
 
-module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
+const createOrganizationsWithTagsAndTargetProfiles = async function ({
   organizations,
   domainTransaction = DomainTransaction,
   organizationRepository,
@@ -122,6 +122,8 @@ module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
 
   return createdOrganizations;
 };
+
+export { createOrganizationsWithTagsAndTargetProfiles };
 
 function _checkIfOrganizationsDataAreUnique(organizations) {
   const uniqOrganizations = uniqBy(organizations, 'externalId');

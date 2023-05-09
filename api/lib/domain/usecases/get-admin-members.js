@@ -1,3 +1,5 @@
-module.exports = async function getAdminMembers({ adminMemberRepository }) {
+const getAdminMembers = async function ({ adminMemberRepository }) {
   return adminMemberRepository.findAll();
 };
+
+export { getAdminMembers };

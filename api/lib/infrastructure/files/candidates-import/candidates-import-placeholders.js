@@ -1,9 +1,9 @@
-const {
+import {
   PIX_PLUS_DROIT,
   CLEA,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} = require('../../../domain/models/ComplementaryCertification.js');
+} from '../../../domain/models/ComplementaryCertification.js';
 
 const IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS = [
   'headers.birthcity',
@@ -161,7 +161,7 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
 
 const EXTRA_EMPTY_CANDIDATE_ROWS = 20;
 
-module.exports = {
+export {
   IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS,
   IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
   IMPORT_CANDIDATES_TEMPLATE_VALUES,

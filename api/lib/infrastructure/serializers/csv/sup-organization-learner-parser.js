@@ -1,8 +1,7 @@
-const SupOrganizationLearnerSet = require('../../../domain/models/SupOrganizationLearnerSet.js');
-const { CsvImportError } = require('../../../domain/errors.js');
-
-const { CsvOrganizationLearnerParser } = require('./csv-learner-parser.js');
-const SupOrganizationLearnerImportHeader = require('./sup-organization-learner-import-header.js');
+import { SupOrganizationLearnerSet } from '../../../domain/models/SupOrganizationLearnerSet.js';
+import { CsvImportError } from '../../../domain/errors.js';
+import { CsvOrganizationLearnerParser } from './csv-learner-parser.js';
+import { SupOrganizationLearnerImportHeader } from './sup-organization-learner-import-header.js';
 
 const ERRORS = {
   STUDENT_NUMBER_UNIQUE: 'STUDENT_NUMBER_UNIQUE',
@@ -32,4 +31,4 @@ class SupOrganizationLearnerParser extends CsvOrganizationLearnerParser {
   }
 }
 
-module.exports = SupOrganizationLearnerParser;
+export { SupOrganizationLearnerParser };

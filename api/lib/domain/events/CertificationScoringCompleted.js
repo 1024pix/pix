@@ -6,4 +6,4 @@ class CertificationScoringCompleted {
   }
 }
 
-module.exports = CertificationScoringCompleted;
+export { CertificationScoringCompleted };

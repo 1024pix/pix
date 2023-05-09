@@ -1,4 +1,4 @@
-module.exports = async function findDivisionsByCertificationCenter({
+const findDivisionsByCertificationCenter = async function ({
   certificationCenterId,
   organizationRepository,
   divisionRepository,
@@ -6,3 +6,5 @@ module.exports = async function findDivisionsByCertificationCenter({
   const organizationId = await organizationRepository.getIdByCertificationCenterId(certificationCenterId);
   return divisionRepository.findByOrganizationIdForCurrentSchoolYear({ organizationId });
 };
+
+export { findDivisionsByCertificationCenter };

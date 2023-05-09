@@ -1,4 +1,4 @@
-const { statuses } = require('../models/Session.js');
+import { statuses } from '../models/Session.js';
 
 class SessionSummary {
   constructor({
@@ -70,4 +70,4 @@ SessionSummary.statuses = {
   PROCESSED: statuses.PROCESSED,
 };
 
-module.exports = SessionSummary;
+export { SessionSummary };

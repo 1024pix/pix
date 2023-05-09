@@ -1,13 +1,13 @@
-const {
+import {
   MissingOrInvalidCredentialsError,
   UserNotFoundError,
   PasswordNotMatching,
   UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserShouldChangePasswordError,
-} = require('../errors.js');
+} from '../errors.js';
 
-const AuthenticationMethod = require('../models/AuthenticationMethod.js');
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
 async function authenticateExternalUser({
   username,
@@ -91,4 +91,4 @@ const _checkIfSamlIdIsNotReconciledWithAnotherUser = async ({ samlId, userId, us
   }
 };
 
-module.exports = authenticateExternalUser;
+export { authenticateExternalUser };

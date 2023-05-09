@@ -1,6 +1,6 @@
 const TABLE_NAME = 'memberships';
 
-exports.up = async function (knex) {
+const up = async function(knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(`
     WITH newroles AS (
@@ -13,9 +13,10 @@ exports.up = async function (knex) {
   `);
 };
 
-// Rollback, make every membership an MEMBER
-exports.down = function (knex) {
+const down = function(knex) {
   return knex(TABLE_NAME).update({
     organizationRole: 'MEMBER',
   });
 };
+
+export { up, down };

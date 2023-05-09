@@ -1,5 +1,5 @@
-const { UNCERTIFIED_LEVEL } = require('../constants.js');
-const { DomainError } = require('../errors.js');
+import { UNCERTIFIED_LEVEL } from '../constants.js';
+import { DomainError } from '../errors.js';
 
 class CertifiedLevel {
   constructor({ value, status }) {
@@ -57,9 +57,7 @@ const statuses = {
   VALIDATED: 'VALIDATED',
 };
 
-module.exports = {
-  CertifiedLevel,
-};
+export { CertifiedLevel };
 
 class Rule {
   constructor({

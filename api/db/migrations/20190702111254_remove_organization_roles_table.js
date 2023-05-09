@@ -1,10 +1,10 @@
 const TABLE_NAME = 'organization-roles';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema
     .createTable(TABLE_NAME, (table) => {
       table.increments('id').primary();
@@ -16,3 +16,5 @@ exports.down = function (knex) {
       return knex.batchInsert(TABLE_NAME, roles);
     });
 };
+
+export { up, down };

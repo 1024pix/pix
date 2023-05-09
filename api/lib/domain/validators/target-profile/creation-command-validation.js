@@ -1,6 +1,6 @@
-const Joi = require('joi');
-const { schema: base } = require('./base-validation.js');
-const { EntityValidationError } = require('../../errors.js');
+import Joi from 'joi';
+import { schema as base } from './base-validation.js';
+import { EntityValidationError } from '../../errors.js';
 
 const schema = base.keys({
   description: Joi.string().allow(null),
@@ -25,6 +25,4 @@ function validate(creationCommand) {
   return true;
 }
 
-module.exports = {
-  validate,
-};
+export { validate };

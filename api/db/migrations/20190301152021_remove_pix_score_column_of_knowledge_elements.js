@@ -1,13 +1,15 @@
 const TABLE_NAME = 'knowledge-elements';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn('pixScore');
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.string('pixScore');
   });
 };
+
+export { up, down };

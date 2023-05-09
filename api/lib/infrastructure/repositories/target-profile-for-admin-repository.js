@@ -1,44 +1,47 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection.js');
-const { NotFoundError } = require('../../domain/errors.js');
-const { FRENCH_FRANCE } = require('../../domain/constants.js').LOCALE;
-const areaRepository = require('./area-repository.js');
-const competenceRepository = require('./competence-repository.js');
-const thematicRepository = require('./thematic-repository.js');
-const tubeRepository = require('./tube-repository.js');
-const TargetProfileForAdmin = require('../../domain/models/TargetProfileForAdmin.js');
-const StageCollection = require('../../domain/models/target-profile-management/StageCollection');
-const { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } = require('../../domain/models/BadgeDetails.js');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../domain/errors.js';
+import { LOCALE } from '../../domain/constants.js';
 
-module.exports = {
-  async get({ id, locale = FRENCH_FRANCE }) {
-    const targetProfileDTO = await knex('target-profiles')
-      .select(
-        'target-profiles.id',
-        'target-profiles.name',
-        'target-profiles.outdated',
-        'target-profiles.isPublic',
-        'target-profiles.imageUrl',
-        'target-profiles.createdAt',
-        'target-profiles.description',
-        'target-profiles.comment',
-        'target-profiles.ownerOrganizationId',
-        'target-profiles.category',
-        'target-profiles.isSimplifiedAccess'
-      )
-      .where('id', id)
-      .first();
+const { FRENCH_FRANCE } = LOCALE;
 
-    if (targetProfileDTO == null) {
-      throw new NotFoundError("Le profil cible n'existe pas");
-    }
+import * as areaRepository from './area-repository.js';
+import * as competenceRepository from './competence-repository.js';
+import * as thematicRepository from './thematic-repository.js';
+import * as tubeRepository from './tube-repository.js';
+import { TargetProfileForAdmin } from '../../domain/models/TargetProfileForAdmin.js';
+import { StageCollection } from '../../domain/models/target-profile-management/StageCollection.js';
+import { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } from '../../domain/models/BadgeDetails.js';
 
-    const tubesData = await knex('target-profile_tubes')
-      .select('tubeId', 'level')
-      .where('targetProfileId', targetProfileDTO.id);
-    return _toDomain(targetProfileDTO, tubesData, locale);
-  },
+const get = async function ({ id, locale = FRENCH_FRANCE }) {
+  const targetProfileDTO = await knex('target-profiles')
+    .select(
+      'target-profiles.id',
+      'target-profiles.name',
+      'target-profiles.outdated',
+      'target-profiles.isPublic',
+      'target-profiles.imageUrl',
+      'target-profiles.createdAt',
+      'target-profiles.description',
+      'target-profiles.comment',
+      'target-profiles.ownerOrganizationId',
+      'target-profiles.category',
+      'target-profiles.isSimplifiedAccess'
+    )
+    .where('id', id)
+    .first();
+
+  if (targetProfileDTO == null) {
+    throw new NotFoundError("Le profil cible n'existe pas");
+  }
+
+  const tubesData = await knex('target-profile_tubes')
+    .select('tubeId', 'level')
+    .where('targetProfileId', targetProfileDTO.id);
+  return _toDomain(targetProfileDTO, tubesData, locale);
 };
+
+export { get };
 
 async function _toDomain(targetProfileDTO, tubesData, locale) {
   const { areas, competences, thematics, tubes } = await _getLearningContent(targetProfileDTO.id, tubesData, locale);

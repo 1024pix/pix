@@ -1,6 +1,6 @@
-const scorecardController = require('./scorecard-controller.js');
+import { scorecardController } from './scorecard-controller.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -31,4 +31,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'scorecards-api';
+const name = 'scorecards-api';
+export { register, name };

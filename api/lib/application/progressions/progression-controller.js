@@ -1,17 +1,17 @@
-const ProgressionSerializer = require('../../infrastructure/serializers/jsonapi/progression-serializer.js');
-const usecases = require('../../domain/usecases/index.js');
+import * as ProgressionSerializer from '../../infrastructure/serializers/jsonapi/progression-serializer.js';
+import { usecases } from '../../domain/usecases/index.js';
 
-module.exports = {
-  get(request) {
-    const userId = request.auth.credentials.userId;
+const get = function (request) {
+  const userId = request.auth.credentials.userId;
 
-    const progressionId = request.params.id;
+  const progressionId = request.params.id;
 
-    return usecases
-      .getProgression({
-        progressionId,
-        userId,
-      })
-      .then(ProgressionSerializer.serialize);
-  },
+  return usecases
+    .getProgression({
+      progressionId,
+      userId,
+    })
+    .then(ProgressionSerializer.serialize);
 };
+
+export { get };

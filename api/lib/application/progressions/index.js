@@ -1,5 +1,6 @@
-const ProgressionController = require('./progression-controller.js');
-exports.register = async function (server) {
+import { ProgressionController } from './progression-controller.js';
+
+const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -16,4 +17,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'progressions-api';
+const name = 'progressions-api';
+export { register, name };

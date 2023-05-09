@@ -1,8 +1,8 @@
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
 
-const { OrganizationArchivedError } = require('../errors.js');
+import { OrganizationArchivedError } from '../errors.js';
 
-module.exports = async function createOrganizationInvitations({
+const createOrganizationInvitations = async function ({
   organizationId,
   emails,
   locale,
@@ -29,3 +29,5 @@ module.exports = async function createOrganizationInvitations({
     });
   });
 };
+
+export { createOrganizationInvitations };
