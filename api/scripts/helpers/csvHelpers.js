@@ -1,10 +1,25 @@
-const fs = require('fs');
-const { readFile, access } = require('fs').promises;
-const { difference, isEmpty } = require('lodash');
-const papa = require('papaparse');
+import fs from 'fs';
+import fs from 'fs';
 
-const { NotFoundError, FileValidationError } = require('../../lib/domain/errors');
-const { UnprocessableEntityError } = require('../../lib/application/http-errors');
+const {
+  difference,
+  isEmpty
+} = lodash;
+
+const {
+  promises
+} = fs;
+
+const {
+  readFile,
+  access,
+} = promises;
+
+import lodash from 'lodash';
+import papa from 'papaparse';
+
+import { NotFoundError, FileValidationError } from '../../lib/domain/errors.js';
+import { UnprocessableEntityError } from '../../lib/application/http-errors.js';
 
 const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
@@ -111,12 +126,4 @@ async function parseCsvWithHeaderAndRequiredFields({ filePath, requiredFieldName
   return csvData;
 }
 
-module.exports = {
-  checkCsvHeader,
-  readCsvFile,
-  parseCsvData,
-  parseCsv,
-  parseCsvWithHeader,
-  parseCsvWithHeaderAndRequiredFields,
-  optionsWithHeader,
-};
+export { checkCsvHeader, readCsvFile, parseCsvData, parseCsv, parseCsvWithHeader, parseCsvWithHeaderAndRequiredFields, optionsWithHeader };

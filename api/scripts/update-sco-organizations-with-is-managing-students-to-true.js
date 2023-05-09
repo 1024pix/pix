@@ -2,15 +2,15 @@
 // To use on file with columns |externalId|
 
 'use strict';
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
-const { disconnect } = require('../db/knex-database-connection');
-const request = require('request-promise-native');
-const {
+import { disconnect } from '../db/knex-database-connection.js';
+import request from 'request-promise-native';
+import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
-} = require('./helpers/organizations-by-external-id-helper');
-const { parseCsv } = require('./helpers/csvHelpers');
+} from './helpers/organizations-by-external-id-helper.js';
+import { parseCsv } from './helpers/csvHelpers.js';
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
@@ -123,7 +123,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  checkData,
-  updateOrganizations,
-};
+export { checkData, updateOrganizations };

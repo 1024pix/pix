@@ -1,8 +1,8 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const ParticipantResultsShared = require('../../../../lib/domain/models/ParticipantResultsShared');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../../lib/domain/constants');
-const noop = require('lodash/noop');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { ParticipantResultsShared } from '../../../../lib/domain/models/ParticipantResultsShared.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
+import noop from 'lodash/noop';
 
 describe('Unit | Domain | Models | ParticipantResultsShared', function () {
   context('#masteryRate', function () {

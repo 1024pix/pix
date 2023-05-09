@@ -1,7 +1,7 @@
-const bluebird = require('bluebird');
-const { disconnect } = require('../db/knex-database-connection');
-const { parseCsvWithHeader } = require('../scripts/helpers/csvHelpers');
-const BookshelfOrganization = require('../lib/infrastructure/orm-models/Organization');
+import bluebird from 'bluebird';
+import { disconnect } from '../db/knex-database-connection.js';
+import { parseCsvWithHeader } from '../scripts/helpers/csvHelpers.js';
+import { BookshelfOrganization } from '../lib/infrastructure/orm-models/Organization.js';
 
 async function updateOrganizationEmailByExternalId(externalId, email) {
   return BookshelfOrganization.where({ externalId })
@@ -54,4 +54,4 @@ async function main() {
   }
 })();
 
-module.exports = populateOrganizations;
+export { populateOrganizations };

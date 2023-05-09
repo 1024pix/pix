@@ -1,8 +1,7 @@
-const { expect } = require('../../../test-helper');
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
-
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
+import { expect } from '../../../test-helper.js';
+import { ObjectValidationError } from '../../../../lib/domain/errors.js';
+import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { OidcIdentityProviders } from '../../../../lib/domain/constants/oidc-identity-providers.js';
 
 describe('Unit | Domain | Models | AuthenticationMethod', function () {
   describe('buildPixAuthenticationMethod', function () {

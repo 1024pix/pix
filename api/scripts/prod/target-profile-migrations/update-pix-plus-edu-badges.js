@@ -201,4 +201,4 @@ async function main() {
   }
 })();
 
-module.exports = { doJob };
+export { doJob };

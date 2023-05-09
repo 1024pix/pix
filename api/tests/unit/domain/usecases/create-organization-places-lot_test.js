@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const OrganizationPlacesLot = require('../../../../lib/domain/models/OrganizationPlacesLot');
-const createOrganizationPlacesLot = require('../../../../lib/domain/usecases/create-organization-places-lot');
-const organizationPlacesLotManagement = require('../../../../lib/domain/read-models/OrganizationPlacesLotManagement');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { OrganizationPlacesLot } from '../../../../lib/domain/models/OrganizationPlacesLot.js';
+import { createOrganizationPlacesLot } from '../../../../lib/domain/usecases/create-organization-places-lot.js';
+import { organizationPlacesLotManagement } from '../../../../lib/domain/read-models/OrganizationPlacesLotManagement.js';
 
 describe('Unit | UseCase | create-organization-place-lot', function () {
   let organizationPlacesLotRepository, organizationRepository, organization;

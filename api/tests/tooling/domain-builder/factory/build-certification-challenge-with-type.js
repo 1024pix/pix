@@ -1,7 +1,7 @@
-const CertificationChallengeWithType = require('../../../../lib/domain/models/CertificationChallengeWithType');
-const Challenge = require('../../../../lib/domain/models/Challenge');
+import { CertificationChallengeWithType } from '../../../../lib/domain/models/CertificationChallengeWithType.js';
+import { Challenge } from '../../../../lib/domain/models/Challenge.js';
 
-module.exports = function buildCertificationChallengeWithType({
+const buildCertificationChallengeWithType = function ({
   id = 123,
   challengeId = 'recCHAL',
   competenceId = 'recCOMP',
@@ -22,3 +22,5 @@ module.exports = function buildCertificationChallengeWithType({
     certifiableBadgeKey,
   });
 };
+
+export { buildCertificationChallengeWithType };

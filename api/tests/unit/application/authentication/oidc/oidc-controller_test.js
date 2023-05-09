@@ -1,7 +1,7 @@
-const { sinon, expect, hFake, catchErr, domainBuilder } = require('../../../../test-helper');
-const oidcController = require('../../../../../lib/application/authentication/oidc/oidc-controller');
-const usecases = require('../../../../../lib/domain/usecases/index.js');
-const { UnauthorizedError } = require('../../../../../lib/application/http-errors');
+import { sinon, expect, hFake, catchErr, domainBuilder } from '../../../../test-helper.js';
+import { oidcController } from '../../../../../lib/application/authentication/oidc/oidc-controller.js';
+import { usecases } from '../../../../../lib/domain/usecases/index.js';
+import { UnauthorizedError } from '../../../../../lib/application/http-errors.js';
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';

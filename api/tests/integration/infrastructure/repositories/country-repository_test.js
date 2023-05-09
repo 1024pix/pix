@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const countryRepository = require('../../../../lib/infrastructure/repositories/country-repository');
-const { Country } = require('../../../../lib/domain/read-models/Country');
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
+import * as countryRepository from '../../../../lib/infrastructure/repositories/country-repository.js';
+import { Country } from '../../../../lib/domain/read-models/Country.js';
 
 describe('Integration | Repository | country-repository', function () {
   describe('#findAll', function () {

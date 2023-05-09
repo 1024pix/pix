@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildCertificationCenter({
+const buildCertificationCenter = function ({
   id = databaseBuffer.getNextId(),
   name = 'some name',
   type = 'SUP',
@@ -21,3 +21,5 @@ module.exports = function buildCertificationCenter({
     values,
   });
 };
+
+export { buildCertificationCenter };

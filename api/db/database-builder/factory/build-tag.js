@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildTag({ id = databaseBuffer.getNextId(), name = 'Tag' } = {}) {
+const buildTag = function ({ id = databaseBuffer.getNextId(), name = 'Tag' } = {}) {
   const values = {
     id,
     name,
@@ -10,3 +10,5 @@ module.exports = function buildTag({ id = databaseBuffer.getNextId(), name = 'Ta
     values,
   });
 };
+
+export { buildTag };

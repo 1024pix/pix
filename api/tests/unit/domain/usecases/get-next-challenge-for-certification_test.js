@@ -1,7 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-
-const getNextChallengeForCertification = require('../../../../lib/domain/usecases/get-next-challenge-for-certification');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import { expect, sinon } from '../../../test-helper.js';
+import { getNextChallengeForCertification } from '../../../../lib/domain/usecases/get-next-challenge-for-certification.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', function () {
   describe('#getNextChallengeForCertification', function () {

@@ -1,7 +1,15 @@
-const { domainBuilder, expect, MockDate } = require('../../../../../test-helper');
-const { isSameBinary } = require('../../../../../tooling/binary-comparator');
-const learningContentPDFPresenter = require('../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter');
-const { addRandomSuffix } = require('pdf-lib/cjs/utils');
+import { domainBuilder, expect, MockDate } from '../../../../../test-helper.js';
+import { isSameBinary } from '../../../../../tooling/binary-comparator.js';
+import { learningContentPDFPresenter } from '../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter.js';
+import pdfLib/cjs/utils from 'pdf-lib/cjs/utils';
+
+const {
+  writeFile
+} = fs/promises;
+
+const {
+  addRandomSuffix
+} = pdfLib/cjs/utils;
 
 const REWRITE_REFERENCE_FILE = false;
 
@@ -64,7 +72,7 @@ describe('Integration | Application | Target-Profiles | Presenter | PDF | Learni
 async function _writeFile(buffer, outputFilename) {
   // Note: to update the reference pdf, set REWRITE_REFERENCE_FILE to true.
   if (REWRITE_REFERENCE_FILE) {
-    const { writeFile } = require('fs/promises');
+    import fs/promises from 'fs/promises';
     await writeFile(`${__dirname}/${outputFilename}`, buffer);
   }
 }

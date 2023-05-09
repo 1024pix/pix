@@ -1,11 +1,11 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases/index.js');
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
-const {
+import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import {
   NotFoundError,
   AlreadyExistingInvitationError,
   CancelledInvitationError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
 describe('Integration | API | getCertificationCenterInvitation', function () {
   describe('when an invitation exists', function () {

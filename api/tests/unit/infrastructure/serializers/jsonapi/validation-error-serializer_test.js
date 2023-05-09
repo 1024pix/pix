@@ -1,7 +1,7 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer.js';
 
-const Bookshelf = require('../../../../../lib/infrastructure/bookshelf');
+import { Bookshelf } from '../../../../../lib/infrastructure/bookshelf.js';
 
 describe('Unit | Serializer | JSONAPI | validation-error-serializer', function () {
   describe('#serialize', function () {

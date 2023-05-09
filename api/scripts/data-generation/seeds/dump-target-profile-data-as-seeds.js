@@ -1,9 +1,14 @@
 require('dotenv').config({ path: `${__dirname}/../../../.env` });
-const yargs = require('yargs');
-const { hideBin } = require('yargs/helpers');
-const { knex, disconnect } = require('../../../db/knex-database-connection');
-const logger = require('../../../lib/infrastructure/logger');
-const { learningContentCache } = require('../../../lib/infrastructure/caches/learning-content-cache');
+import yargs from 'yargs';
+import yargs/helpers from 'yargs/helpers';
+
+const {
+  hideBin
+} = yargs/helpers;
+
+import { knex, disconnect } from '../../../db/knex-database-connection.js';
+import { logger } from '../../../lib/infrastructure/logger.js';
+import { learningContentCache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 
 async function main() {
   try {
@@ -142,6 +147,4 @@ if (require.main === module) {
   main();
 }
 
-module.exports = {
-  doJob,
-};
+export { doJob };

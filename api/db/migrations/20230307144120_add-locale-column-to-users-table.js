@@ -1,7 +1,7 @@
 const TABLE_NAME = 'users';
 const COLUMN_NAME = 'locale';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.string(COLUMN_NAME).defaultTo(null);
   });
@@ -11,7 +11,7 @@ const up = async function(knex) {
   );
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN_NAME);
   });

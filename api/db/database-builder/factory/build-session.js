@@ -1,8 +1,8 @@
-const buildCertificationCenter = require('./build-certification-center');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import { buildCertificationCenter } from './build-certification-center.js';
+import { databaseBuffer } from '../database-buffer.js';
+import _ from 'lodash';
 
-module.exports = function buildSession({
+const buildSession = function ({
   id = databaseBuffer.getNextId(),
   accessCode = 'FMKP39',
   address = '3 rue des églantines',
@@ -60,3 +60,5 @@ module.exports = function buildSession({
     values,
   });
 };
+
+export { buildSession };

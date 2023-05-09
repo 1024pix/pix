@@ -1,6 +1,8 @@
-const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import {
+  status as assessmentResultStatuses,
+  AssessmentResult,
+} from '../../../../lib/domain/models/AssessmentResult.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 const buildAssessmentResult = function ({
   id = 123,
@@ -182,4 +184,4 @@ buildAssessmentResult.standard = function ({
   });
 };
 
-module.exports = buildAssessmentResult;
+export { buildAssessmentResult };

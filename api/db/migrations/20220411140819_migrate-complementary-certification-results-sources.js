@@ -1,7 +1,7 @@
 const TABLE_NAME = 'complementary-certification-course-results';
 const TEMPORARY_PARTNER_KEY_COLUMN_NAME = 'temporaryPartnerKey';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.raw(`
   INSERT INTO "complementary-certification-course-results" ("partnerKey", "complementaryCertificationCourseId", "acquired", "source")
     SELECT "partnerKey", "complementaryCertificationCourseId", "acquired", 'EXTERNAL'
@@ -21,7 +21,7 @@ const up = async function(knex) {
   });
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.string(TEMPORARY_PARTNER_KEY_COLUMN_NAME).references('badges.key').nullable();
   });

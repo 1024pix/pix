@@ -1,6 +1,6 @@
-const SessionForSupervising = require('../../../../lib/domain/read-models/SessionForSupervising');
+import { SessionForSupervising } from '../../../../lib/domain/read-models/SessionForSupervising.js';
 
-module.exports = function buildSessionForSupervising({
+const buildSessionForSupervising = function ({
   id = 123,
   certificationCenterName = 'Centre de certif pix',
   certificationCenterId = 565,
@@ -23,3 +23,5 @@ module.exports = function buildSessionForSupervising({
     certificationCandidates,
   });
 };
+
+export { buildSessionForSupervising };

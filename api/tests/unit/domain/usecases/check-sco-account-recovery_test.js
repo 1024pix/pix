@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const StudentInformationForAccountRecovery = require('../../../../lib/domain/read-models/StudentInformationForAccountRecovery');
-const checkScoAccountRecovery = require('../../../../lib/domain/usecases/check-sco-account-recovery');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { StudentInformationForAccountRecovery } from '../../../../lib/domain/read-models/StudentInformationForAccountRecovery.js';
+import { checkScoAccountRecovery } from '../../../../lib/domain/usecases/check-sco-account-recovery.js';
 
 describe('Unit | UseCase | check-sco-account-recovery', function () {
   let organizationLearnerRepository;

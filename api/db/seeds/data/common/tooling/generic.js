@@ -1,9 +1,6 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-module.exports = {
-  pickRandomAmong,
-  pickOneRandomAmong,
-};
+export { pickRandomAmong, pickOneRandomAmong };
 
 function pickRandomAmong(collection, howMuch) {
   const shuffledCollection = _.sortBy(collection, () => _.random(0, 100));

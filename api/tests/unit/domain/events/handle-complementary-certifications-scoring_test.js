@@ -1,7 +1,7 @@
-const { ReproducibilityRate } = require('../../../../lib/domain/models/ReproducibilityRate');
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
-const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const { handleComplementaryCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
+import { ReproducibilityRate } from '../../../../lib/domain/models/ReproducibilityRate.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper.js';
+const { handleComplementaryCertificationsScoring } = require('../../../../lib/domain/events.js')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-complementary-certification-certifications-scoring', function () {
   const certificationAssessmentRepository = {};

@@ -1,6 +1,6 @@
-const Training = require('../../../../lib/domain/models/Training');
+import { Training } from '../../../../lib/domain/models/Training.js';
 
-module.exports = function buildTraining({
+const buildTraining = function ({
   id = 'training1',
   title = 'Training 1',
   link = 'https://example.net',
@@ -27,3 +27,5 @@ module.exports = function buildTraining({
     trainingTriggers,
   });
 };
+
+export { buildTraining };

@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const ResultCompetence = require('../../../../lib/domain/models/ResultCompetence');
-const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { ResultCompetence } from '../../../../lib/domain/models/ResultCompetence.js';
+import { ResultCompetenceTree } from '../../../../lib/domain/models/ResultCompetenceTree.js';
 
 describe('Unit | Domain | Models | ResultCompetence', function () {
   describe('#generateTreeFromCompetenceMarks', function () {

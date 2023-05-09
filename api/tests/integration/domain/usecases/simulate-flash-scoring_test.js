@@ -1,9 +1,9 @@
-const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
-const ScoringSimulationContext = require('../../../../lib/domain/models/ScoringSimulationContext');
-const ScoringSimulation = require('../../../../lib/domain/models/ScoringSimulation');
-const ScoringSimulationResult = require('../../../../lib/domain/models/ScoringSimulationResult');
-const usecases = require('../../../../lib/domain/usecases/');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
+import { expect, mockLearningContent, domainBuilder } from '../../../test-helper.js';
+import { ScoringSimulationContext } from '../../../../lib/domain/models/ScoringSimulationContext.js';
+import { ScoringSimulation } from '../../../../lib/domain/models/ScoringSimulation.js';
+import { ScoringSimulationResult } from '../../../../lib/domain/models/ScoringSimulationResult.js';
+import { usecases } from '../../../../lib/domain/usecases/.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 
 describe('Integration | UseCases | simulateFlashScoring', function () {
   const locale = 'fr-fr';

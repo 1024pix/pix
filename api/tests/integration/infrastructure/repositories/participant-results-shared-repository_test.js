@@ -1,7 +1,7 @@
-const { expect, knex, databaseBuilder, mockLearningContent } = require('../../../test-helper');
-const participantResultsSharedRepository = require('../../../../lib/infrastructure/repositories/participant-results-shared-repository');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../../lib/domain/constants');
+import { expect, knex, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
+import * as participantResultsSharedRepository from '../../../../lib/infrastructure/repositories/participant-results-shared-repository.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | Campaign Participant Result Shared Repository', function () {
   describe('#save', function () {

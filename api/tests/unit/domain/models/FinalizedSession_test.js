@@ -1,10 +1,8 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
-const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
-const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
-const {
-  CertificationIssueReportCategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { FinalizedSession } from '../../../../lib/domain/models/FinalizedSession.js';
+import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
+import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult.js';
+import { CertificationIssueReportCategories } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | Domain | Models | FinalizedSession', function () {
   context('#isPublishable', function () {

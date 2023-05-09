@@ -1,5 +1,5 @@
-const { expect, mockLearningContent, databaseBuilder } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases/index.js');
+import { expect, mockLearningContent, databaseBuilder } from '../../../test-helper.js';
+import { useCases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Integration | UseCase | find-assessment-participation-result-list', function () {
   let organizationId;

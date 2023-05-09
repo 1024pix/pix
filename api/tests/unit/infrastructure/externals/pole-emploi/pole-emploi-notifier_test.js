@@ -1,14 +1,14 @@
-const querystring = require('querystring');
-const dayjs = require('dayjs');
-const { expect, sinon, catchErr, domainBuilder } = require('../../../../test-helper');
-const settings = require('../../../../../lib/config');
-const { UnexpectedUserAccountError } = require('../../../../../lib/domain/errors');
-const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
-const { notify } = require('../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier');
-const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
-const authenticationMethodRepository = require('../../../../../lib/infrastructure/repositories/authentication-method-repository');
-const monitoringTools = require('../../../../../lib/infrastructure/monitoring-tools');
+import querystring from 'querystring';
+import dayjs from 'dayjs';
+import { expect, sinon, catchErr, domainBuilder } from '../../../../test-helper.js';
+import { settings } from '../../../../../lib/config.js';
+import { UnexpectedUserAccountError } from '../../../../../lib/domain/errors.js';
+import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
+import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { notify } from '../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
+import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
+import * as authenticationMethodRepository from '../../../../../lib/infrastructure/repositories/authentication-method-repository.js';
+import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 
 describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function () {
   describe('#notify', function () {

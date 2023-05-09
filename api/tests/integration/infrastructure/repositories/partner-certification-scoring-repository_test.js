@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, domainBuilder, knex, sinon } = require('../../../test-helper');
-const omit = require('lodash/omit');
-const partnerCertificationScoringRepository = require('../../../../lib/infrastructure/repositories/partner-certification-scoring-repository');
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
+import { expect, databaseBuilder, domainBuilder, knex, sinon } from '../../../test-helper.js';
+import omit from 'lodash/omit';
+import * as partnerCertificationScoringRepository from '../../../../lib/infrastructure/repositories/partner-certification-scoring-repository.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 
 describe('Integration | Repository | Partner Certification Scoring', function () {
   const COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME = 'complementary-certification-course-results';

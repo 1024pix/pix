@@ -1,6 +1,6 @@
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
+import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
 
-module.exports = function buildTargetProfile({
+const buildTargetProfile = function ({
   id = 123,
   name = 'Profil cible super cool',
   imageUrl = 'ImageURL',
@@ -23,3 +23,5 @@ module.exports = function buildTargetProfile({
     badges,
   });
 };
+
+export { buildTargetProfile };

@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const archiveCampaignFromCampaignCode = require('../../../../lib/domain/usecases/archive-campaign-from-campaign-code');
-const Campaign = require('../../../../lib/domain/models/CampaignForArchiving');
+import { expect, sinon } from '../../../test-helper.js';
+import { archiveCampaignFromCampaignCode } from '../../../../lib/domain/usecases/archive-campaign-from-campaign-code.js';
+import { Campaign } from '../../../../lib/domain/models/CampaignForArchiving.js';
 
 describe('Unit | UseCase | archive-campaign', function () {
   let campaignForArchivingRepository;

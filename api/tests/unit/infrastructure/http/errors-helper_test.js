@@ -1,6 +1,5 @@
-const { expect } = require('../../../test-helper');
-
-const { serializeHttpErrorResponse } = require('../../../../lib/infrastructure/http/errors-helper');
+import { expect } from '../../../test-helper.js';
+import { serializeHttpErrorResponse } from '../../../../lib/infrastructure/http/errors-helper.js';
 
 describe('serializeHttpErrorResponse', function () {
   describe('when http error data is null', function () {

@@ -1,9 +1,8 @@
-const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
-
-const accountRecoveryController = require('../../../../lib/application/account-recovery/account-recovery-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
+import { accountRecoveryController } from '../../../../lib/application/account-recovery/account-recovery-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as studentInformationForAccountRecoverySerializer from '../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | account-recovery-controller', function () {
   describe('#sendEmailForAccountRecovery', function () {

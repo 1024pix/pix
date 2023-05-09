@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const certificationCpfCountryRepository = require('../../../../lib/infrastructure/repositories/certification-cpf-country-repository');
-const CertificationCpfCountry = require('../../../../lib/domain/models/CertificationCpfCountry');
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
+import * as certificationCpfCountryRepository from '../../../../lib/infrastructure/repositories/certification-cpf-country-repository.js';
+import { CertificationCpfCountry } from '../../../../lib/domain/models/CertificationCpfCountry.js';
 
 describe('Integration | Repository | certificationCpfCountryRepository', function () {
   describe('#getByMatcher', function () {

@@ -1,6 +1,6 @@
-const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
-const Organization = require('../../../../lib/domain/models/Organization');
-const User = require('../../../../lib/domain/models/User');
+import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
+import { Organization } from '../../../../lib/domain/models/Organization.js';
+import { User } from '../../../../lib/domain/models/User.js';
 
 /*
  * /!\ We can not use standard entity builders because of bidirectional relationships (a.k.a. cyclic dependencies)
@@ -26,7 +26,7 @@ function _buildOrganization() {
   });
 }
 
-module.exports = function buildUserOrgaSettings({
+const buildUserOrgaSettings = function ({
   id = 789,
   currentOrganization = _buildOrganization(),
   user = _buildUser(),
@@ -37,3 +37,5 @@ module.exports = function buildUserOrgaSettings({
 
   return userOrgaSettings;
 };
+
+export { buildUserOrgaSettings };

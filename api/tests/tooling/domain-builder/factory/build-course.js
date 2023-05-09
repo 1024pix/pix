@@ -1,6 +1,6 @@
-const Course = require('../../../../lib/domain/models/Course');
+import { Course } from '../../../../lib/domain/models/Course.js';
 
-module.exports = function buildCourse({
+const buildCourse = function ({
   id = 'recCOUR123',
   description = 'description',
   imageUrl = 'imageURL',
@@ -25,3 +25,5 @@ module.exports = function buildCourse({
     tubes,
   });
 };
+
+export { buildCourse };

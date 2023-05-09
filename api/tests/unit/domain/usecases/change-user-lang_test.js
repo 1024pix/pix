@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const changeUserLang = require('../../../../lib/domain/usecases/change-user-lang');
+import { expect, sinon } from '../../../test-helper.js';
+import { changeUserLang } from '../../../../lib/domain/usecases/change-user-lang.js';
 
 describe('Unit | UseCase | change-user-lang', function () {
   let userRepository;

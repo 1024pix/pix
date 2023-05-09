@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer');
+import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
 
 describe('Unit | Serializer | sup-organization-learner-warnings-serializer', function () {
   describe('#serialize', function () {

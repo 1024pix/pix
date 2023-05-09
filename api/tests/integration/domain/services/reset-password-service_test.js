@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
+import { expect } from '../../../test-helper.js';
+import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
 
 describe('Integration | Service | Password Service', function () {
   describe('#generateTemporaryKey', function () {

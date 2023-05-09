@@ -1,10 +1,10 @@
 const TABLE_NAME = 'autojury-script-audit';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments('sessionId').primary();
     t.text('certificationCenterName');

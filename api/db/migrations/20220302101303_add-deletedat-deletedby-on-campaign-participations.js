@@ -8,7 +8,7 @@ const CAMPAIGNID_COLUMN = 'campaignId';
 const NEW_CONSTRAINT_NAME = 'campaign_participations_campaignid_userid_isimproved_deleted';
 const OLD_CONSTRAINT_NAME = 'campaign_participations_campaignid_userid_isimproved';
 
-const up = async function(knex) {
+const up = async function (knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(`DROP INDEX ${OLD_CONSTRAINT_NAME};`);
 
@@ -23,7 +23,7 @@ const up = async function(knex) {
   );
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(`DROP INDEX ${NEW_CONSTRAINT_NAME};`);
 

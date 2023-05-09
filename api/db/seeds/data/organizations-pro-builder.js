@@ -1,8 +1,11 @@
-const Membership = require('../../../lib/domain/models/Membership');
-const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
-const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
-const { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } = require('./users-builder');
-const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers');
+import { Membership } from '../../../lib/domain/models/Membership.js';
+import { OrganizationInvitation } from '../../../lib/domain/models/OrganizationInvitation.js';
+import { PIX_ADMIN } from '../../../lib/domain/constants.js';
+
+const { ROLES } = PIX_ADMIN;
+
+import { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } from './users-builder.js';
+import { OidcIdentityProviders } from '../../../lib/domain/constants/oidc-identity-providers.js';
 
 const PRO_COMPANY_ID = 1;
 const PRO_POLE_EMPLOI_ID = 4;
@@ -46,7 +49,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     id: PRO_COMPANY_ID,
     type: 'PRO',
     name: 'Dragon & Co',
-    logoUrl: require('../src/dragonAndCoBase64'),
+    logoUrl: require('../src/dragonAndCoBase64.js'),
     createdBy: privateCompanyCreator.id,
     credit: 100,
     externalId: null,
@@ -244,7 +247,7 @@ function organizationsProBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
+export {
   organizationsProBuilder,
   PRO_COMPANY_ID,
   PRO_POLE_EMPLOI_ID,

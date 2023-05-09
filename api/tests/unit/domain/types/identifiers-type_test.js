@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const { userId, competenceId } = require('../../../../lib/domain/types/identifiers-type');
+import { expect } from '../../../test-helper.js';
+import { userId, competenceId } from '../../../../lib/domain/types/identifiers-type.js';
 
 describe('Unit | Domain | Type | identifier-types', function () {
   describe('#userId', function () {

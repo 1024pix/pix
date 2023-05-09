@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const { main } = require('../../../../scripts/certification/fill-issue-report-category-id');
+import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { main } from '../../../../scripts/certification/fill-issue-report-category-id.js';
 
 describe('Integration | Scripts | Certification | fill-issue-report-category-id', function () {
   describe('#updateCertificationIssueReport', function () {

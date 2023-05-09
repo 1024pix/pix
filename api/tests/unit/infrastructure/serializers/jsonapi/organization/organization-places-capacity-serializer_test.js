@@ -1,7 +1,7 @@
-const { expect } = require('../../../../../test-helper');
-const categories = require('../../../../../../lib/domain/constants/organization-places-categories');
-const serializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/organization-places-capacity-serializer');
-const OrganizationPlacesCapacity = require('../../../../../../lib/domain/read-models/OrganizationPlacesCapacity');
+import { expect } from '../../../../../test-helper.js';
+import { categories } from '../../../../../../lib/domain/constants/organization-places-categories.js';
+import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/organization-places-capacity-serializer.js';
+import { OrganizationPlacesCapacity } from '../../../../../../lib/domain/read-models/OrganizationPlacesCapacity.js';
 
 describe('Unit | Serializer | JSONAPI | organization-places-capacity-serializer', function () {
   describe('#serialize', function () {

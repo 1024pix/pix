@@ -1,8 +1,8 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+import { expect, databaseBuilder } from '../../../test-helper.js';
 
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-follow-up/organization-learner-repository');
-const OrganizationLearner = require('../../../../lib/domain/read-models/organization-learner-follow-up/OrganizationLearner');
-const getOrganizationLearner = require('../../../../lib/domain/usecases/get-organization-learner');
+import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-follow-up/organization-learner-repository.js';
+import { OrganizationLearner } from '../../../../lib/domain/read-models/organization-learner-follow-up/OrganizationLearner.js';
+import { getOrganizationLearner } from '../../../../lib/domain/usecases/get-organization-learner.js';
 
 describe('Integration | UseCases | get-organization-learner', function () {
   it('should return organization learner given organizationLearnerId', async function () {

@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const abortCertificationCourse = require('../../../../lib/domain/usecases/abort-certification-course');
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { abortCertificationCourse } from '../../../../lib/domain/usecases/abort-certification-course.js';
+import * as certificationCourseRepository from '../../../../lib/infrastructure/repositories/certification-course-repository.js';
 
 describe('Integration | UseCase | abort-certification-course', function () {
   context('when abort reason is valid', function () {

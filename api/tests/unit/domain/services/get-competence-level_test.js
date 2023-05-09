@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const getCompetenceLevel = require('../../../../lib/domain/services/get-competence-level');
+import { expect, sinon } from '../../../test-helper.js';
+import { getCompetenceLevel } from '../../../../lib/domain/services/get-competence-level.js';
 
 describe('Unit | Domain | Service | Get Competence Level', function () {
   describe('#getCompetenceLevel', function () {

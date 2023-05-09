@@ -1,5 +1,5 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const User = require('../../../../lib/domain/models/User');
+import { sinon, expect, domainBuilder } from '../../../test-helper.js';
+import { User } from '../../../../lib/domain/models/User.js';
 
 describe('Unit | Domain | Models | User', function () {
   let config;

@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const { catchErr, expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const BookshelfCertificationCourse = require('../../../../lib/infrastructure/orm-models/CertificationCourse');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
+import _ from 'lodash';
+import { catchErr, expect, databaseBuilder, domainBuilder, knex } from '../../../test-helper.js';
+import * as certificationCourseRepository from '../../../../lib/infrastructure/repositories/certification-course-repository.js';
+import { BookshelfCertificationCourse } from '../../../../lib/infrastructure/orm-models/CertificationCourse.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
 
 describe('Integration | Repository | Certification Course', function () {
   describe('#save', function () {

@@ -1,9 +1,9 @@
 'use strict';
-const _ = require('lodash');
-const dotenv = require('dotenv');
+import _ from 'lodash';
+import dotenv from 'dotenv';
 dotenv.config();
-const { knex } = require('../db/knex-database-connection');
-const Assessment = require('../lib/domain/models/Assessment');
+import { knex } from '../db/knex-database-connection.js';
+import { Assessment } from '../lib/domain/models/Assessment.js';
 
 async function switchCampaignToFlash(id) {
   await knex('campaigns').update({ assessmentMethod: Assessment.methods.FLASH }).where({ id });
@@ -26,4 +26,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { switchCampaignToFlash };
+export { switchCampaignToFlash };

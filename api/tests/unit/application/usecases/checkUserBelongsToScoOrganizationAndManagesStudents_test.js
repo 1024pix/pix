@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const useCase = require('../../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { useCase } from '../../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js';
 
 describe('Unit | Application | Use Case | checkUserBelongsToScoOrganizationAndManagesStudents', function () {
   let membershipRepositoryStub;

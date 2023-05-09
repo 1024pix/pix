@@ -1,6 +1,6 @@
 const TABLE_NAME = 'certification-courses';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.string('firstName');
     table.string('lastName');
@@ -10,7 +10,7 @@ const up = function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropTable('firstName');
     table.dropTable('lastName');

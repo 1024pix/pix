@@ -1,9 +1,9 @@
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
-const buildUser = require('./build-user');
-const buildSession = require('./build-session');
+import { databaseBuffer } from '../database-buffer.js';
+import _ from 'lodash';
+import { buildUser } from './build-user.js';
+import { buildSession } from './build-session.js';
 
-module.exports = function buildSupervisorAccess({
+const buildSupervisorAccess = function ({
   id = databaseBuffer.getNextId(),
   sessionId,
   userId,
@@ -22,3 +22,5 @@ module.exports = function buildSupervisorAccess({
     values,
   });
 };
+
+export { buildSupervisorAccess };

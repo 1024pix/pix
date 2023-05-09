@@ -1,8 +1,11 @@
-const { domainBuilder, expect, sinon, HttpTestServer } = require('../../../test-helper');
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
-const adminMemberController = require('../../../../lib/application/admin-members/admin-member-controller');
-const adminMembersRouter = require('../../../../lib/application/admin-members');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+import { domainBuilder, expect, sinon, HttpTestServer } from '../../../test-helper.js';
+import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+
+const { ROLES } = PIX_ADMIN;
+
+import { adminMemberController } from '../../../../lib/application/admin-members/admin-member-controller.js';
+import { adminMembersRouter } from '../../../../lib/application/admin-members.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 
 describe('Unit | Application | Router | admin-members-router', function () {
   describe('GET /api/admin/admin-members/me', function () {

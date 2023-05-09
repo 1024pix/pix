@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getUserProfileSharedForCampaign = require('../../../../lib/domain/usecases/get-user-profile-shared-for-campaign');
-const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const { NoCampaignParticipationForUserAndCampaign } = require('../../../../lib/domain/errors');
-const { constants } = require('../../../../lib/domain/constants');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { getUserProfileSharedForCampaign } from '../../../../lib/domain/usecases/get-user-profile-shared-for-campaign.js';
+import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
+import { NoCampaignParticipationForUserAndCampaign } from '../../../../lib/domain/errors.js';
+import { constants } from '../../../../lib/domain/constants.js';
 
 describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
   const sharedAt = new Date('2020-02-01');

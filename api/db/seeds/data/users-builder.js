@@ -1,4 +1,4 @@
-const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers');
+import { OidcIdentityProviders } from '../../../lib/domain/constants/oidc-identity-providers.js';
 
 const PIX_SUPER_ADMIN_ID = 199;
 const PIX_SUPPORT_ID = 200;
@@ -8,7 +8,6 @@ const PIX_ALL_ORGA_ID = 203;
 const DEFAULT_PASSWORD = 'pix123';
 
 function usersBuilder({ databaseBuilder }) {
-
   const now = new Date('2022-06-10');
   databaseBuilder.factory.buildUser.withRawPassword({
     id: 1,
@@ -230,7 +229,7 @@ function usersBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
+export {
   usersBuilder,
   PIX_SUPER_ADMIN_ID,
   PIX_SUPPORT_ID,

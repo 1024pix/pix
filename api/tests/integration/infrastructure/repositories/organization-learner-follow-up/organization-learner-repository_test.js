@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, catchErr } = require('../../../../test-helper');
-const organizationLearnerFollowUpRepository = require('../../../../../lib/infrastructure/repositories/organization-learner-follow-up/organization-learner-repository');
-const { NotFoundError } = require('../../../../../lib/domain/errors');
-const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
+import { expect, databaseBuilder, catchErr } from '../../../../test-helper.js';
+import * as organizationLearnerFollowUpRepository from '../../../../../lib/infrastructure/repositories/organization-learner-follow-up/organization-learner-repository.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 
 describe('Integration | Infrastructure | Repository | Organization Learner Follow Up | Organization Learner', function () {
   describe('#get', function () {

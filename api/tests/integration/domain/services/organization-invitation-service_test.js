@@ -1,18 +1,15 @@
-const _ = require('lodash');
-const { expect, databaseBuilder, knex, sinon, catchErr } = require('../../../test-helper');
+import _ from 'lodash';
+import { expect, databaseBuilder, knex, sinon, catchErr } from '../../../test-helper.js';
 
-const organizationInvitationRepository = require('../../../../lib/infrastructure/repositories/organization-invitation-repository');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const mailService = require('../../../../lib/domain/services/mail-service');
+import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
+import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
+import * as mailService from '../../../../lib/domain/services/mail-service.js';
 
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const Membership = require('../../../../lib/domain/models/Membership');
-
-const {
-  createOrUpdateOrganizationInvitation,
-} = require('../../../../lib/domain/services/organization-invitation-service');
-const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
-const { SendingEmailError } = require('../../../../lib/domain/errors');
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { createOrUpdateOrganizationInvitation } from '../../../../lib/domain/services/organization-invitation-service.js';
+import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
+import { SendingEmailError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Service | Organization-Invitation Service', function () {
   describe('#createOrUpdateOrganizationInvitation', function () {

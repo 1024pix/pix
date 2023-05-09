@@ -1,6 +1,6 @@
-const NodeCache = require('node-cache');
-const { expect, sinon } = require('../../../test-helper');
-const InMemoryCache = require('../../../../lib/infrastructure/caches/InMemoryCache');
+import NodeCache from 'node-cache';
+import { expect, sinon } from '../../../test-helper.js';
+import { InMemoryCache } from '../../../../lib/infrastructure/caches/InMemoryCache.js';
 
 describe('Unit | Infrastructure | Cache | in-memory-cache', function () {
   let inMemoryCache;

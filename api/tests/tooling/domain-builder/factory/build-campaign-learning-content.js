@@ -1,5 +1,5 @@
-const CampaignLearningContent = require('../../../../lib/domain/models/CampaignLearningContent');
-const buildLearningContent = require('./build-learning-content');
+import { CampaignLearningContent } from '../../../../lib/domain/models/CampaignLearningContent.js';
+import { buildLearningContent } from './build-learning-content.js';
 
 function buildCampaignLearningContent(learningContent = buildLearningContent()) {
   return new CampaignLearningContent(learningContent);
@@ -15,4 +15,4 @@ buildCampaignLearningContent.withSimpleContent = () => {
   return buildCampaignLearningContent(simpleLearningContent);
 };
 
-module.exports = buildCampaignLearningContent;
+export { buildCampaignLearningContent };

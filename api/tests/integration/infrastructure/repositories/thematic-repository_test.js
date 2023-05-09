@@ -1,6 +1,6 @@
-const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
-const thematicRepository = require('../../../../lib/infrastructure/repositories/thematic-repository');
-const Thematic = require('../../../../lib/domain/models/Thematic');
+import { expect, mockLearningContent, domainBuilder } from '../../../test-helper.js';
+import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
+import { Thematic } from '../../../../lib/domain/models/Thematic.js';
 
 describe('Integration | Repository | thematic-repository', function () {
   describe('#list', function () {

@@ -1,6 +1,6 @@
-const Validator = require('../../../../lib/domain/models/Validator');
-const ValidatorQCU = require('../../../../lib/domain/models/ValidatorQCU');
-const buildSolution = require('./build-solution');
+import { Validator } from '../../../../lib/domain/models/Validator.js';
+import { ValidatorQCU } from '../../../../lib/domain/models/ValidatorQCU.js';
+import { buildSolution } from './build-solution.js';
 
 function buildValidator({ solution = buildSolution() } = {}) {
   return new Validator({
@@ -14,4 +14,4 @@ buildValidator.ofTypeQCU = function ({ solution = buildSolution() } = {}) {
   });
 };
 
-module.exports = buildValidator;
+export { buildValidator };
