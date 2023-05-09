@@ -1,4 +1,4 @@
-import { learningContent } from './learning-content.js';
+import * as learningContent from './learning-content.js';
 
 export { createAssessmentCampaign, createProfilesCollectionCampaign };
 
