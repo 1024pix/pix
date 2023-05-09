@@ -2,7 +2,8 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 // eslint-disable-next-line no-restricted-imports
-import { click, fillIn, render, find } from '@ember/test-helpers';
+import { click, fillIn, find } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';

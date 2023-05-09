@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-restricted-imports
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
