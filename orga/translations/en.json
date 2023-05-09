@@ -313,8 +313,18 @@
         },
         "error": "An error occurred while removing this participation.",
         "success": "The participation has been successfully deleted",
-        "title": "Delete this participation ?",
-        "text": "You are about to delete the participation of <strong>{firstName} {lastName}</strong>, it will no longer be visible nor included in the statistics of the campaign.",
+        "title": "Delete the participation of <strong>{firstName} {lastName}</strong>?",
+        "text": {
+          "assessment-campaign-participation": {
+            "started-participation": "You are about to delete a participation, it will no longer be visible nor included in the statistics of the campaign.",
+            "to-share-participation": "The participant will no longer be able to submit their results nor to take the test again.",
+            "shared-participation": "The participant will not be able to take the test again."
+          },
+          "profiles-collection-campaign-participation": {
+            "to-share-participation": "The participant will no longer be able to submit their profile through this campaign.",
+            "shared-participation": "The participant will no longer be able to submit their profile through this campaign."    
+          }
+        },
         "warning": "The participant will be able to complete their customised test but will no longer be able to submit their results. They will also not be able to participate in the campaign again."
       }
     },

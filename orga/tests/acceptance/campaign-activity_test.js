@@ -31,7 +31,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
       campaignAssessmentParticipationResult,
       lastName: 'Bacri',
     });
-    server.create('campaign-participant-activity', { id: 1, lastName: 'Bacri' });
+    server.create('campaign-participant-activity', { id: 1, lastName: 'Bacri', status: 'SHARED' });
 
     await authenticateSession(user.id);
   });
@@ -41,6 +41,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
       test('it could click on user to go to details', async function (assert) {
         // when
         await visit('/campagnes/1');
+
         await clickByName('Voir les résultats de Bacri');
 
         // then
@@ -87,14 +88,15 @@ module('Acceptance | Campaign Activity', function (hooks) {
     test('Success case: should display empty sentence and success notification', async function (assert) {
       // when
       const screen = await visit('/campagnes/1');
+
       await click(screen.getByLabelText('Supprimer la participation'));
 
       await screen.findByRole('dialog');
 
       await clickByName('Oui, je supprime');
       // then
-      assert.contains('Aucun participant');
       assert.contains('La participation a été supprimée avec succès.');
+      assert.contains('Aucun participant');
     });
 
     test('Error case: should display an error notification', async function (assert) {
