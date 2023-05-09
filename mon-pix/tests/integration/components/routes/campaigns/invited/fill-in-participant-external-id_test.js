@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 // eslint-disable-next-line no-restricted-imports
-import { render, find } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | routes/campaigns/invited/fill-in-participant-external-id', function (hooks) {

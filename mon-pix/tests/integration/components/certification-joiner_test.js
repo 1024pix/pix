@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 // eslint-disable-next-line no-restricted-imports
-import { find, render } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { contains } from '../../helpers/contains';
