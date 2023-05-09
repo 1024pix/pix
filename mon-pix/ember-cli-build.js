@@ -16,6 +16,9 @@ module.exports = function (defaults) {
       exclude: ['png', 'svg'],
       extensions: ['js', 'css', 'jpg', 'gif', 'map'],
     },
+    'ember-simple-auth': {
+      useSessionSetupMethod: true,
+    },
     'ember-dayjs': {
       locales: ['fr', 'en'],
       plugins: ['duration', 'relativeTime'],

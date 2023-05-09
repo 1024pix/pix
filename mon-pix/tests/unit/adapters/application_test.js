@@ -111,20 +111,20 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       test('should invalidate the current session', function (assert) {
         // given
         const applicationAdapter = this.owner.lookup('adapter:application');
-        const session = this.owner.lookup('service:session');
+        applicationAdapter.session = {
+          invalidate: sinon.stub(),
+          isAuthenticated: true,
+        };
         const status = 401;
         const headers = {};
         const payload = {};
         const requestData = {};
 
-        sinon.stub(session, 'invalidate');
-        session.isAuthenticated = true;
-
         // when
         applicationAdapter.handleResponse(status, headers, payload, requestData);
 
         // then
-        sinon.assert.calledOnce(session.invalidate);
+        sinon.assert.calledOnce(applicationAdapter.session.invalidate);
         assert.ok(true);
       });
     });

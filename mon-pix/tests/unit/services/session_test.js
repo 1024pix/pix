@@ -144,7 +144,8 @@ module('Unit | Services | session', function (hooks) {
 
     test('should replace the URL with the one set before the identity provider authentication', async function (assert) {
       // given
-      sessionService.data = { nextURL: '/campagnes', authenticated: { identityProviderCode: 'OIDC_PARTNER' } };
+      sessionService.data.nextURL = '/campagnes';
+      sessionService.data.authenticated = { identityProviderCode: 'OIDC_PARTNER' };
 
       // when
       await sessionService.handleAuthentication();
@@ -321,7 +322,8 @@ module('Unit | Services | session', function (hooks) {
       test('should redirect user to terms of service page', async function (assert) {
         // given
         const transition = { from: 'campaigns.campaign-landing-page' };
-        sessionService.isAuthenticated = true;
+        sessionService.setup();
+        sessionService.session.isAuthenticated = true;
         sessionService.currentUser.user = { mustValidateTermsOfService: true };
 
         // when
