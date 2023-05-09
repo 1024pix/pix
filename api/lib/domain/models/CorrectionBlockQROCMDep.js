@@ -4,36 +4,58 @@ class CorrectionBlockQROCMDep {
    */
   #validated;
 
-  get validated() {
-    return this.#validated;
-  }
-
   /**
    * @type {string[]}
    */
   #alternativeSolutions;
 
-  get alternativeSolutions() {
-    return this.#alternativeSolutions;
-  }
-
-  set alternativeSolutions(alternativeSolutions) {
-    this.assertAlternativeSolutionsIsAnArrayOfString(alternativeSolutions);
-    this.#alternativeSolutions = alternativeSolutions;
-  }
-
   /**
-   * @param validated
-   * @param alternativeSolutions
+   * @param {boolean} validated
+   * @param {string[]} alternativeSolutions
    */
   constructor(validated = false, alternativeSolutions = []) {
-    this.assertAlternativeSolutionsIsAnArrayOfString(alternativeSolutions);
+    this.#validateValidatedArgument(validated);
+    this.#validateAlternativeSolutionsArgument(alternativeSolutions);
 
     this.#validated = validated;
     this.#alternativeSolutions = alternativeSolutions;
   }
 
-  assertAlternativeSolutionsIsAnArrayOfString(alternativeSolutions) {
+  /**
+   * @returns {boolean}
+   */
+  get validated() {
+    return this.#validated;
+  }
+
+  /**
+   * @returns {string[]}
+   */
+  get alternativeSolutions() {
+    return this.#alternativeSolutions;
+  }
+
+  /**
+   * @param {string[]} alternativeSolutions
+   */
+  set alternativeSolutions(alternativeSolutions) {
+    this.#validateAlternativeSolutionsArgument(alternativeSolutions);
+    this.#alternativeSolutions = alternativeSolutions;
+  }
+
+  /**
+   * @param {boolean} validated
+   */
+  #validateValidatedArgument(validated) {
+    if (typeof validated !== 'boolean') {
+      throw new Error('alternativeSolutions must be an array');
+    }
+  }
+
+  /**
+   * @param {string[]} alternativeSolutions
+   */
+  #validateAlternativeSolutionsArgument(alternativeSolutions) {
     if (!Array.isArray(alternativeSolutions)) {
       throw new Error('alternativeSolutions must be an array');
     }
