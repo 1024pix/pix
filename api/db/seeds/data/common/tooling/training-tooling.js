@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import bluebird from 'bluebird';
-import { learningContent } from './learning-content.js';
+import * as learningContent from './learning-content.js';
 
 export { createTraining };
 

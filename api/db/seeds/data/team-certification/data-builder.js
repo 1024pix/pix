@@ -1,4 +1,4 @@
-import { tooling } from '../common/tooling.js';
+import * as tooling from '../common/tooling/index.js';
 
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
