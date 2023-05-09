@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import Service from '@ember/service';
-// eslint-disable-next-line no-restricted-imports
-import { render, triggerEvent } from '@ember/test-helpers';
+
+import { triggerEvent } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { contains } from '../../../helpers/contains';
