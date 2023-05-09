@@ -6,12 +6,6 @@ import { click, fillIn } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
-const PICK_SELECT_OPTION_WITH_NESTED_LEVEL = 'question';
-const PICK_ANOTHER_SELECT_OPTION_WITH_NESTED_LEVEL = 'embed';
-const PICK_SELECT_OPTION_WITH_TEXTAREA = 'accessibility';
-const PICK_SELECT_OPTION_WITH_TUTORIAL = 'picture';
-const PICK_SELECT_OPTION_WITH_TEXTAREA_AND_TUTORIAL = '3';
-
 module('Integration | Component | feedback-panel', function (hooks) {
   setupIntlRenderingTest(hooks);
 
@@ -53,9 +47,12 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
       await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-      await fillIn(
-        screen.getByRole('combobox', { name: 'Sélectionner la catégorie du problème rencontré' }),
-        PICK_SELECT_OPTION_WITH_TEXTAREA
+      await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+      await screen.findByRole('listbox');
+      await click(
+        screen.getByRole('option', {
+          name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+        })
       );
 
       const contentValue = 'Prêtes-moi ta plume, pour écrire un mot';
@@ -82,9 +79,12 @@ module('Integration | Component | feedback-panel', function (hooks) {
         // when
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-        await fillIn(
-          screen.getByRole('combobox', { name: 'Sélectionner la catégorie du problème rencontré' }),
-          PICK_SELECT_OPTION_WITH_NESTED_LEVEL
+        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await screen.findByRole('listbox');
+        await click(
+          screen.getByRole('option', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'),
+          })
         );
 
         // then
@@ -93,10 +93,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
         assert.dom(textareaLabel).doesNotExist();
         assert.dom(submitButtonLabel).doesNotExist();
 
-        assert.dom(screen.getByRole('option', { name: 'Je ne comprends pas la question' })).exists();
-        assert
-          .dom(screen.getByRole('option', { name: 'Je souhaite proposer une amélioration de la question' }))
-          .exists();
+        assert.dom(screen.getByText('Je ne comprends pas la question')).exists();
+        assert.dom(screen.getByText('Je souhaite proposer une amélioration de la question')).exists();
       });
 
       test('should directly display the message box and the submit button when category has a textarea', async function (assert) {
@@ -108,9 +106,12 @@ module('Integration | Component | feedback-panel', function (hooks) {
         // when
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-        await fillIn(
-          screen.getByRole('combobox', { name: 'Sélectionner la catégorie du problème rencontré' }),
-          PICK_SELECT_OPTION_WITH_TEXTAREA
+        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await screen.findByRole('listbox');
+        await click(
+          screen.getByRole('option', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+          })
         );
 
         // then
@@ -129,9 +130,12 @@ module('Integration | Component | feedback-panel', function (hooks) {
         // when
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-        await fillIn(
-          screen.getByRole('combobox', { name: 'Sélectionner la catégorie du problème rencontré' }),
-          PICK_SELECT_OPTION_WITH_TUTORIAL
+        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await screen.findByRole('listbox');
+        await click(
+          screen.getByRole('option', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.picture'),
+          })
         );
 
         // then
@@ -140,8 +144,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
         assert.dom(textareaLabel).doesNotExist();
         assert.dom(submitButtonLabel).doesNotExist();
 
-        assert.dom(screen.getByRole('option', { name: "L'image ne s'affiche pas" })).exists();
-        assert.dom(screen.getByRole('option', { name: "L'image a un autre problème" })).exists();
+        assert.dom(screen.getByText("L'image ne s'affiche pas")).exists();
+        assert.dom(screen.getByText("L'image a un autre problème")).exists();
       });
 
       test('should show the correct feedback action when selecting two different categories', async function (assert) {
@@ -152,11 +156,18 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         // when
-        const selectInputLabel = screen.getByRole('combobox', {
-          name: 'Sélectionner la catégorie du problème rencontré',
-        });
-        await fillIn(selectInputLabel, PICK_SELECT_OPTION_WITH_TUTORIAL);
-        await fillIn(selectInputLabel, PICK_SELECT_OPTION_WITH_TEXTAREA);
+        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await screen.findByRole('listbox');
+        await click(
+          screen.getByRole('option', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.picture'),
+          })
+        );
+        await click(
+          screen.getByRole('option', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+          })
+        );
 
         // then
         assert.dom(screen.queryByText('Votre connexion internet est peut-être trop faible.')).doesNotExist();
@@ -175,11 +186,18 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         // when
-        const selectInputLabel = screen.getByRole('combobox', {
-          name: 'Sélectionner la catégorie du problème rencontré',
-        });
-        await fillIn(selectInputLabel, PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
-        await fillIn(selectInputLabel, PICK_SELECT_OPTION_WITH_TEXTAREA);
+        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await screen.findByRole('listbox');
+        await click(
+          screen.getByRole('option', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'),
+          })
+        );
+        await click(
+          screen.getByRole('option', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+          })
+        );
 
         // then
         assert.dom(screen.queryByText('Votre connexion internet est peut-être trop faible.')).doesNotExist();
@@ -198,15 +216,21 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         // when
-        const firstSelectInputLabel = screen.getByRole('combobox', {
-          name: 'Sélectionner la catégorie du problème rencontré',
-        });
-        await fillIn(firstSelectInputLabel, PICK_ANOTHER_SELECT_OPTION_WITH_NESTED_LEVEL);
-
-        const secondSelectInputLabel = screen.getByRole('combobox', {
-          name: 'Sélectionner une option pour préciser votre problème',
-        });
-        await fillIn(secondSelectInputLabel, PICK_SELECT_OPTION_WITH_TEXTAREA_AND_TUTORIAL);
+        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await screen.findByRole('listbox');
+        await click(
+          screen.getByRole('option', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.embed'),
+          })
+        );
+        await click(screen.getByRole('button', { name: 'Sélectionner une option pour préciser votre problème' }));
+        await click(
+          await screen.findByRole('option', {
+            name: this.intl.t(
+              'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-mobile-devices-with-problems.label'
+            ),
+          })
+        );
 
         // then
         assert
@@ -217,7 +241,6 @@ module('Integration | Component | feedback-panel', function (hooks) {
             )
           )
           .exists();
-
         const textareaLabel = screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
         const submitButtonLabel = screen.getByRole('button', { name: 'Envoyer' });
         assert.dom(textareaLabel).exists();
@@ -297,7 +320,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       );
 
       // then
-      const selectInputLabel = screen.getByRole('combobox', {
+      const selectInputLabel = screen.getByRole('button', {
         name: 'Sélectionner la catégorie du problème rencontré',
       });
       assert.dom(selectInputLabel).exists();
@@ -366,10 +389,13 @@ module('Integration | Component | feedback-panel', function (hooks) {
       const screen = await render(hbs`<FeedbackPanel />`);
       await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-      const selectInputLabel = screen.getByRole('combobox', {
-        name: 'Sélectionner la catégorie du problème rencontré',
-      });
-      await fillIn(selectInputLabel, PICK_SELECT_OPTION_WITH_TEXTAREA);
+      await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+      await screen.findByRole('listbox');
+      await click(
+        screen.getByRole('option', {
+          name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+        })
+      );
 
       // when
       await click(screen.getByRole('button', { name: 'Envoyer' }));
@@ -383,11 +409,13 @@ module('Integration | Component | feedback-panel', function (hooks) {
       const screen = await render(hbs`<FeedbackPanel />`);
       await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-      const selectInputLabel = screen.getByRole('combobox', {
-        name: 'Sélectionner la catégorie du problème rencontré',
-      });
-      await fillIn(selectInputLabel, PICK_SELECT_OPTION_WITH_TEXTAREA);
-
+      await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+      await screen.findByRole('listbox');
+      await click(
+        screen.getByRole('option', {
+          name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+        })
+      );
       await fillIn(screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }), '');
 
       // when
@@ -402,10 +430,13 @@ module('Integration | Component | feedback-panel', function (hooks) {
       const screen = await render(hbs`<FeedbackPanel />`);
       await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-      const selectInputLabel = screen.getByRole('combobox', {
-        name: 'Sélectionner la catégorie du problème rencontré',
-      });
-      await fillIn(selectInputLabel, PICK_SELECT_OPTION_WITH_TEXTAREA);
+      await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+      await screen.findByRole('listbox');
+      await click(
+        screen.getByRole('option', {
+          name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+        })
+      );
 
       await fillIn(screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }), '    ');
 

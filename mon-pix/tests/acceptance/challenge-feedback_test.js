@@ -1,15 +1,17 @@
 // eslint-disable-next-line no-restricted-imports
-import { blur, click, fillIn, find } from '@ember/test-helpers';
+import { click, fillIn, find } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import setupIntl from '../helpers/setup-intl';
 
-const TEXTAREA = 'textarea.feedback-panel__field--content';
-const DROPDOWN = '.feedback-panel__dropdown';
+const TEXTAREA = '.feedback-panel__field--content';
+const DROPDOWN = '.pix-select-button';
 
 module('Acceptance | Giving feedback about a challenge', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
   let assessment;
   let firstChallenge;
@@ -27,13 +29,17 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
     });
 
     test('should be able to directly send a feedback', async function (assert) {
+      const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
       // then
-      assert.dom('.feedback-panel').exists();
+      assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).exists();
     });
 
     module('when the feedback-panel button is clicked', function (hooks) {
+      let screen;
+
       hooks.beforeEach(async function () {
-        await click('.feedback-panel__open-button');
+        screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
       });
 
       test('should open the feedback form', function (assert) {
@@ -43,9 +49,18 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
 
       module('and the form is filled but not sent', function (hooks) {
         hooks.beforeEach(async function () {
-          await fillIn(DROPDOWN, 'accessibility');
-          await fillIn(TEXTAREA, 'TEST_CONTENT');
-          await blur(TEXTAREA);
+          await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+          await screen.findByRole('listbox');
+          await click(
+            screen.getByRole('option', {
+              name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+            })
+          );
+          const contentValue = 'Prêtes-moi ta plume, pour écrire un mot';
+          await fillIn(
+            screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }),
+            contentValue
+          );
         });
 
         module('and the challenge is skipped', function (hooks) {
@@ -59,10 +74,21 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
           });
 
           test('should always reset the feedback form between two consecutive challenges', async function (assert) {
-            await click('.feedback-panel__open-button');
-            await fillIn(DROPDOWN, 'accessibility');
+            await click(screen.getByRole('button', { name: 'Signaler un problème' }));
+            await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+            await screen.findByRole('listbox');
+            await click(
+              screen.getByRole('option', {
+                name: this.intl.t(
+                  'pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'
+                ),
+              })
+            );
 
-            assert.strictEqual(find(TEXTAREA).value, '');
+            assert.strictEqual(
+              screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }).value,
+              ''
+            );
           });
         });
       });
