@@ -1,10 +1,7 @@
-const { catchErr, expect, sinon } = require('../../../test-helper');
-
-const { AlreadyRegisteredEmailError, EntityValidationError } = require('../../../../lib/domain/errors');
-
-const User = require('../../../../lib/domain/models/User');
-
-const createUser = require('../../../../lib/domain/usecases/create-user');
+import { catchErr, expect, sinon } from '../../../test-helper.js';
+import { AlreadyRegisteredEmailError, EntityValidationError } from '../../../../lib/domain/errors.js';
+import { User } from '../../../../lib/domain/models/User.js';
+import { createUser } from '../../../../lib/domain/usecases/create-user.js';
 
 describe('Unit | UseCase | create-user', function () {
   const userId = 123;

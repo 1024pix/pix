@@ -1,10 +1,10 @@
-const LearningContent = require('../../../../lib/domain/models/LearningContent');
-const buildSkill = require('./build-skill');
-const buildTube = require('./build-tube');
-const buildThematic = require('./build-thematic');
-const buildCompetence = require('./build-competence');
-const buildArea = require('./build-area');
-const buildFramework = require('./build-framework');
+import { LearningContent } from '../../../../lib/domain/models/LearningContent.js';
+import { buildSkill } from './build-skill.js';
+import { buildTube } from './build-tube.js';
+import { buildThematic } from './build-thematic.js';
+import { buildCompetence } from './build-competence.js';
+import { buildArea } from './build-area.js';
+import { buildFramework } from './build-framework.js';
 
 function buildLearningContent(frameworks) {
   frameworks = frameworks || [buildFramework({ id: 'frameworkId', name: 'someFramework' })];
@@ -24,4 +24,4 @@ buildLearningContent.withSimpleContent = () => {
   return buildLearningContent([framework]);
 };
 
-module.exports = buildLearningContent;
+export { buildLearningContent };

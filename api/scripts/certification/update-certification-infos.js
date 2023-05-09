@@ -1,8 +1,13 @@
 require('dotenv').config({ path: `${__dirname}/../.env` });
 
-const bluebird = require('bluebird');
-const { readFile } = require('fs/promises');
-const logger = require('../../lib/infrastructure/logger');
+import bluebird from 'bluebird';
+import fs/promises from 'fs/promises';
+
+const {
+  readFile
+} = fs/promises;
+
+import { logger } from '../../lib/infrastructure/logger.js';
 // Usage: node scripts/update-certifications-infos path/data.csv path/sessionsId.csv
 // data.csv
 // #externalId,birthdate,birthINSEECode,birthPostalCode,birthCity,birthCountry
@@ -11,9 +16,9 @@ const logger = require('../../lib/infrastructure/logger');
 // 1,12,30
 
 ('use strict');
-const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const values = require('lodash/values');
+import { parseCsv, checkCsvHeader } from '../helpers/csvHelpers.js';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import values from 'lodash/values';
 
 const headers = {
   externalId: 'externalId',
@@ -128,7 +133,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  updateCertificationInfos,
-  headers,
-};
+export { updateCertificationInfos, headers };

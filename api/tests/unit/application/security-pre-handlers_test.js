@@ -1,8 +1,7 @@
-const { expect, sinon, hFake, domainBuilder } = require('../../test-helper');
-
-const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
-const tokenService = require('../../../lib/domain/services/token-service');
-const { NotFoundError } = require('../../../lib/domain/errors');
+import { expect, sinon, hFake, domainBuilder } from '../../test-helper.js';
+import { securityPreHandlers } from '../../../lib/application/security-pre-handlers.js';
+import { tokenService } from '../../../lib/domain/services/token-service.js';
+import { NotFoundError } from '../../../lib/domain/errors.js';
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {
     let request;

@@ -19,7 +19,7 @@ const STICKERS_URL_BY_BADGE_KEY = {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT: 'https://images.pix.fr/stickers/macaron_edu_1er_expert.pdf',
 };
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.alterTable('complementary-certification-badges', (table) => {
     table.string('stickerUrl');
   });
@@ -35,7 +35,7 @@ const up = async function(knex) {
   });
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   await knex.schema.alterTable('complementary-certification-badges', (table) => {
     table.dropColumn('stickerUrl');
   });

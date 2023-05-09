@@ -1,4 +1,4 @@
-const organizationRepository = require('../../lib/infrastructure/repositories/organization-repository');
+import * as organizationRepository from '../../lib/infrastructure/repositories/organization-repository.js';
 
 function organizeOrganizationsByExternalId(organizations) {
   const organizationsByExternalId = {};
@@ -19,7 +19,4 @@ function findOrganizationsByExternalIds({ checkedData }) {
   });
 }
 
-module.exports = {
-  findOrganizationsByExternalIds,
-  organizeOrganizationsByExternalId,
-};
+export { findOrganizationsByExternalIds, organizeOrganizationsByExternalId };

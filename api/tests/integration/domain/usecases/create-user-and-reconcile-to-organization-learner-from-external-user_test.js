@@ -1,27 +1,26 @@
-const { catchErr, databaseBuilder, expect, knex } = require('../../../test-helper');
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const userToCreateRepository = require('../../../../lib/infrastructure/repositories/user-to-create-repository');
-const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
-const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
+import * as studentRepository from '../../../../lib/infrastructure/repositories/student-repository.js';
+import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
+import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
+import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
+import * as userService from '../../../../lib/domain/services/user-service.js';
 
-const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
-const userService = require('../../../../lib/domain/services/user-service');
+import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-
-const {
+import {
   CampaignCodeError,
   NotFoundError,
   ObjectValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
-const createUserAndReconcileToOrganizationLearnerByExternalUser = require('../../../../lib/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user');
+import { createUserAndReconcileToOrganizationLearnerByExternalUser } from '../../../../lib/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user.js';
 
 describe('Integration | UseCases | create-user-and-reconcile-to-organization-learner-from-external-user', function () {
   context('When there is no campaign with the given code', function () {

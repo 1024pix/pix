@@ -1,9 +1,10 @@
-const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
+import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
+import { adminMemberController } from '../../../../lib/application/admin-members/admin-member-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as adminMemberSerializer from '../../../../lib/infrastructure/serializers/jsonapi/admin-member-serializer.js';
+import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 
-const adminMemberController = require('../../../../lib/application/admin-members/admin-member-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const adminMemberSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/admin-member-serializer');
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
+const { ROLES } = PIX_ADMIN;
 
 describe('Unit | Controller | admin-member-controller', function () {
   describe('#findAll', function () {

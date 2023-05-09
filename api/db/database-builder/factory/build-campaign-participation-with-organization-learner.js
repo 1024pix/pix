@@ -1,6 +1,6 @@
-const buildAssessment = require('./build-assessment');
-const buildCampaignParticipation = require('./build-campaign-participation');
-const buildOrganizationLearnerWithUser = require('./build-organization-learner-with-user');
+const buildAssessment = require('./build-assessment.js');
+const buildCampaignParticipation = require('./build-campaign-participation.js');
+const buildOrganizationLearnerWithUser = require('./build-organization-learner-with-user.js');
 
 module.exports = (organizationLearner, campaignParticipation, withAssessment) => {
   const { userId, id: organizationLearnerId } = buildOrganizationLearnerWithUser(organizationLearner);

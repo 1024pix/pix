@@ -1,6 +1,6 @@
 const TABLE_NAME = 'schooling-registrations';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.raw('DROP INDEX "organizationid_studentnumber_index"');
   await knex.raw('DROP INDEX "organizationid_studentnumber_notsupernumerary_index"');
 
@@ -9,7 +9,7 @@ const up = async function(knex) {
   });
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   await knex.raw(
     'CREATE INDEX "organizationid_studentnumber_index" ON "schooling-registrations" ("organizationId", "studentNumber");'
   );

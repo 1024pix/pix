@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const Organization = require('../../../../lib/domain/models/Organization');
+import { expect, sinon } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { Organization } from '../../../../lib/domain/models/Organization.js';
 
 describe('Unit | UseCase | find-paginated-filtered-organizations', function () {
   it('should result organizations with filtering and pagination', async function () {

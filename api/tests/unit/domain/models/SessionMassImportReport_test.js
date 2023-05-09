@@ -1,5 +1,5 @@
-const SessionMassImportReport = require('../../../../lib/domain/models/SessionMassImportReport');
-const { expect } = require('../../../test-helper');
+import { SessionMassImportReport } from '../../../../lib/domain/models/SessionMassImportReport.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | SessionMassImportReport', function () {
   context('#addErrorsReports', function () {

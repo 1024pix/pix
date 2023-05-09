@@ -1,7 +1,7 @@
 const TABLE_NAME = 'target-profiles';
 const COLUMN = 'migration_status';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.string(COLUMN).default('N/A').notNullable();
   });
@@ -12,7 +12,7 @@ const up = async function(knex) {
     });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN);
   });

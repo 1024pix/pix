@@ -1,7 +1,7 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | Prescriber-controller', function () {
   let user;

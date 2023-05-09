@@ -1,9 +1,9 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const {
+import { expect, sinon, catchErr } from '../../../test-helper.js';
+import {
   AuthenticationKeyExpired,
   UserAlreadyExistsWithAuthenticationMethodError,
-} = require('../../../../lib/domain/errors');
-const createOidcUser = require('../../../../lib/domain/usecases/create-oidc-user');
+} from '../../../../lib/domain/errors.js';
+import { createOidcUser } from '../../../../lib/domain/usecases/create-oidc-user.js';
 
 describe('Unit | UseCase | create-oidc-user', function () {
   let authenticationMethodRepository, userToCreateRepository, userRepository;

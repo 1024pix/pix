@@ -1,8 +1,7 @@
-const { expect, sinon, catchErr, domainBuilder, hFake } = require('../../../test-helper');
-
-const { MissingQueryParamError } = require('../../../../lib/application/http-errors');
-const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { expect, sinon, catchErr, domainBuilder, hFake } from '../../../test-helper.js';
+import { MissingQueryParamError } from '../../../../lib/application/http-errors.js';
+import { organizationInvitationController } from '../../../../lib/application/organization-invitations/organization-invitation-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Unit | Application | Organization-Invitations | organization-invitation-controller', function () {
   describe('#acceptOrganizationInvitation', function () {

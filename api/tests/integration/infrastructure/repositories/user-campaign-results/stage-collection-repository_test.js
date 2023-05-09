@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, learningContentBuilder, mockLearningContent } = require('../../../../test-helper');
-const stageCollectionRepository = require('../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js');
+import { expect, databaseBuilder, learningContentBuilder, mockLearningContent } from '../../../../test-helper.js';
+import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 
 const competenceId = 'recCompetence';
 const learningContent = [

@@ -1,8 +1,8 @@
-const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../../../lib/domain/errors');
-const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
+import { expect, knex, domainBuilder, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { ChallengeAlreadyAnsweredError, NotFoundError } from '../../../../lib/domain/errors.js';
+import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
 
 describe('Integration | Repository | answerRepository', function () {
   describe('#get', function () {

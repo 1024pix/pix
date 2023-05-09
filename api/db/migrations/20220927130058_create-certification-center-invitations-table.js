@@ -1,6 +1,6 @@
 const TABLE_NAME = 'certification-center-invitations';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, (table) => {
     table.bigIncrements('id').primary();
     table.bigInteger('certificationCenterId').references('certification-centers.id').index();
@@ -13,7 +13,7 @@ const up = function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 

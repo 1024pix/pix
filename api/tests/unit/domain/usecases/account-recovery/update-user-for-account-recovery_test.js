@@ -1,10 +1,9 @@
-const sinon = require('sinon');
-const { expect, domainBuilder } = require('../../../../test-helper');
-const updateUserForAccountRecovery = require('../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery');
-const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
-const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
-
-const User = require('../../../../../lib/domain/models/User');
+import sinon from 'sinon';
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import { updateUserForAccountRecovery } from '../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery.js';
+import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { User } from '../../../../../lib/domain/models/User.js';
 
 describe('Unit | Usecases | update-user-for-account-recovery', function () {
   let userRepository,

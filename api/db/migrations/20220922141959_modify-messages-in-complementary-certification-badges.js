@@ -12,7 +12,7 @@ const {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../constants.js').badges.keys;
 
-const up = async function(knex) {
+const up = async function (knex) {
   const badges = await knex('complementary-certification-badges')
     .select('complementary-certification-badges.id', 'key')
     .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
@@ -59,5 +59,5 @@ const up = async function(knex) {
   });
 };
 
-const down = function() {};
+const down = function () {};
 export { up, down };

@@ -1,5 +1,5 @@
-const CampaignCollectiveResult = require('../../../../lib/domain/read-models/CampaignCollectiveResult');
-const { expect, domainBuilder } = require('../../../test-helper');
+import { CampaignCollectiveResult } from '../../../../lib/domain/read-models/CampaignCollectiveResult.js';
+import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {
   describe('constructor', function () {

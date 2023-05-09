@@ -1,6 +1,6 @@
-const { databaseBuilder, expect, knex, domainBuilder } = require('../../../test-helper');
-const scoCertificationCandidateRepository = require('../../../../lib/infrastructure/repositories/sco-certification-candidate-repository');
-const _ = require('lodash');
+import { databaseBuilder, expect, knex, domainBuilder } from '../../../test-helper.js';
+import * as scoCertificationCandidateRepository from '../../../../lib/infrastructure/repositories/sco-certification-candidate-repository.js';
+import _ from 'lodash';
 
 describe('Integration | Repository | SCOCertificationCandidate', function () {
   describe('#addNonEnrolledCandidatesToSession', function () {

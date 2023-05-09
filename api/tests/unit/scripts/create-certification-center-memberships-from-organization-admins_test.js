@@ -1,8 +1,5 @@
-const { expect } = require('../../test-helper');
-
-const {
-  buildCertificationCenterMemberships,
-} = require('../../../scripts/create-certification-center-memberships-from-organization-admins');
+import { expect } from '../../test-helper.js';
+import { buildCertificationCenterMemberships } from '../../../scripts/create-certification-center-memberships-from-organization-admins.js';
 
 describe('Unit | Scripts | create-certification-center-memberships-from-organization-admins.js', function () {
   describe('#buildCertificationCenterMemberships', function () {

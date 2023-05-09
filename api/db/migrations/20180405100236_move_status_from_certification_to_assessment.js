@@ -3,7 +3,7 @@ import { batch } from '../batch-processing.js';
 const TABLE_NAME_CERTIFICATION = 'certification-courses';
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 
-const up = function(knex) {
+const up = function (knex) {
   return (
     knex.schema
       // Add Column
@@ -42,7 +42,7 @@ const up = function(knex) {
   );
 };
 
-const down = function(knex) {
+const down = function (knex) {
   // Add Column
   return knex.schema
     .table(TABLE_NAME_CERTIFICATION, function (table) {

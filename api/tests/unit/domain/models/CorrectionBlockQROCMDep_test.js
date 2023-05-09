@@ -1,5 +1,5 @@
-const CorrectionBlockQROCMDep = require('../../../../lib/domain/models/CorrectionBlockQROCMDep');
-const { expect } = require('../../../test-helper');
+import { CorrectionBlockQROCMDep } from '../../../../lib/domain/models/CorrectionBlockQROCMDep.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CorrectionBlockQROCMDep', function () {
   describe('#constructor', function () {

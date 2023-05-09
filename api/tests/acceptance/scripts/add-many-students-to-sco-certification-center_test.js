@@ -1,13 +1,8 @@
-const { expect } = require('../../test-helper');
-const { SCO_MIDDLE_SCHOOL_ID } = require('../../../db/seeds/data/organizations-sco-builder');
-
-const { knex } = require('../../../lib/infrastructure/bookshelf');
-const BookshelfOrganizationLearner = require('../../../lib/infrastructure/orm-models/OrganizationLearner');
-const { databaseBuilder } = require('../../test-helper');
-
-const {
-  addManyStudentsToScoCertificationCenter,
-} = require('../../../scripts/data-generation/add-many-students-to-sco-certification-center');
+import { expect, databaseBuilder } from '../../test-helper.js';
+import { SCO_MIDDLE_SCHOOL_ID } from '../../../db/seeds/data/organizations-sco-builder.js';
+import { knex } from '../../../lib/infrastructure/bookshelf.js';
+import { BookshelfOrganizationLearner } from '../../../lib/infrastructure/orm-models/OrganizationLearner.js';
+import { addManyStudentsToScoCertificationCenter } from '../../../scripts/data-generation/add-many-students-to-sco-certification-center.js';
 
 describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.js', function () {
   describe('#addManyStudentsToScoCertificationCenter', function () {

@@ -1,6 +1,6 @@
-const { expect, catchErr, sinon, domainBuilder } = require('../../../test-helper');
-const getCandidateImportSheetData = require('../../../../lib/domain/usecases/get-candidate-import-sheet-data');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+import { expect, catchErr, sinon, domainBuilder } from '../../../test-helper.js';
+import { getCandidateImportSheetData } from '../../../../lib/domain/usecases/get-candidate-import-sheet-data.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | get-candidate-import-sheet-data', function () {
   let sessionRepository;

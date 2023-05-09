@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const UserOrganizationForAdmin = require('../../../../../lib/domain/read-models/UserOrganizationForAdmin');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer');
+import { expect } from '../../../../test-helper.js';
+import { UserOrganizationForAdmin } from '../../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | user-organization-for-admin-serializer', function () {
   describe('#serialize', function () {

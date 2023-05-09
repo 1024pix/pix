@@ -1,12 +1,10 @@
-const _ = require('lodash');
-const { databaseBuilder, domainBuilder, expect, catchErr, knex } = require('../../../test-helper');
-const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const certificationReportRepository = require('../../../../lib/infrastructure/repositories/certification-report-repository');
-const { CertificationCourseUpdateError } = require('../../../../lib/domain/errors');
-const {
-  CertificationIssueReportCategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+import _ from 'lodash';
+import { databaseBuilder, domainBuilder, expect, catchErr, knex } from '../../../test-helper.js';
+import { CertificationReport } from '../../../../lib/domain/models/CertificationReport.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import * as certificationReportRepository from '../../../../lib/infrastructure/repositories/certification-report-repository.js';
+import { CertificationCourseUpdateError } from '../../../../lib/domain/errors.js';
+import { CertificationIssueReportCategories } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 describe('Integration | Repository | CertificationReport', function () {
   describe('#findBySessionId', function () {

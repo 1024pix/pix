@@ -1,7 +1,7 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const campaignParticipationInfoRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-info-repository');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, databaseBuilder } from '../../../test-helper.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import * as campaignParticipationInfoRepository from '../../../../lib/infrastructure/repositories/campaign-participation-info-repository.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
+import { expect, sinon } from '../../../test-helper.js';
+import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 
 describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
   let localeService;

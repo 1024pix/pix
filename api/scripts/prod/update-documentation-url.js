@@ -1,4 +1,4 @@
-const { knex, disconnect } = require('../../db/knex-database-connection');
+import { knex, disconnect } from '../../db/knex-database-connection.js';
 
 async function updateDocumentationUrl() {
   await _updateProOrganizations();
@@ -53,10 +53,7 @@ const URL = {
   PIXTERRITOIRES: 'https://cloud.pix.fr/s/deploiement_pixterritoires',
 };
 
-module.exports = {
-  updateDocumentationUrl,
-  URL,
-};
+export { updateDocumentationUrl, URL };
 
 async function _updateProOrganizations() {
   await knex('organizations').where('type', 'PRO').update({ documentationUrl: URL.PRO });

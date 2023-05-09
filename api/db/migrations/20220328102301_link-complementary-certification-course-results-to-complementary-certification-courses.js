@@ -21,7 +21,7 @@ const PIX_PLUS_EDU = 'Pix+ Édu';
 const PIX_PLUS_DROIT = 'Pix+ Droit';
 const CLEA = 'CléA Numérique';
 
-const up = async function(knex) {
+const up = async function (knex) {
   const complementaryCertifications = await knex(COMPLEMENTARY_CERTIFICATIONS_TABLE).select('*');
   await _alterComplementaryCertificationCourseResultsForeignKey();
   await _addMissingComplementaryCertificationCourses();
@@ -151,7 +151,7 @@ const up = async function(knex) {
   }
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   await knex.schema.table(COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE, async (table) => {
     table
       .dropColumn(COMPLEMENTARY_CERTIFICATION_COURSE_ID_COLUMN)

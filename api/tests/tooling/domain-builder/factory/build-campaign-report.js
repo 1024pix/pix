@@ -1,7 +1,7 @@
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const CampaignReport = require('../../../../lib/domain/read-models/CampaignReport');
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignReport } from '../../../../lib/domain/read-models/CampaignReport.js';
 
-module.exports = function buildCampaignReport({
+const buildCampaignReport = function ({
   id = 1,
   name = 'Un nom de campagne',
   code = 'AZERTY123',
@@ -52,3 +52,5 @@ module.exports = function buildCampaignReport({
     totalStage,
   });
 };
+
+export { buildCampaignReport };

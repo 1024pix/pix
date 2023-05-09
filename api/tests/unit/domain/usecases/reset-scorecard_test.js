@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const resetScorecard = require('../../../../lib/domain/usecases/reset-scorecard');
-const { CompetenceResetError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr } from '../../../test-helper.js';
+import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
+import { resetScorecard } from '../../../../lib/domain/usecases/reset-scorecard.js';
+import { CompetenceResetError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | reset-scorecard', function () {
   let knowledgeElements, resetScorecardResult, scorecard;

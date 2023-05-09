@@ -1,8 +1,7 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const moduleUnderTest = require('../../../../lib/application/prescribers');
-const prescriberController = require('../../../../lib/application/prescribers/prescriber-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { moduleUnderTest } from '../../../../lib/application/prescribers.js';
+import { prescriberController } from '../../../../lib/application/prescribers/prescriber-controller.js';
 
 describe('Unit | Router | prescriber-router', function () {
   describe('GET /api/prescription/prescribers/{id}', function () {

@@ -1,10 +1,10 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const completeAssessment = require('../../../../lib/domain/usecases/complete-assessment');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const { TO_SHARE, STARTED } = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { completeAssessment } from '../../../../lib/domain/usecases/complete-assessment.js';
+import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
+import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { TO_SHARE, STARTED } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 describe('Integration | Usecase | Complete Assessment', function () {
   let userId, assessmentId, campaignParticipationId;

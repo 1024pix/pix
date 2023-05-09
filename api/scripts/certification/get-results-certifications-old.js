@@ -1,8 +1,6 @@
-#! /usr/bin/env node
-
-const request = require('request-promise-native');
-const json2csv = require('json2csv');
-const moment = require('moment-timezone');
+import request from 'request-promise-native';
+import json2csv from 'json2csv';
+import moment from 'moment-timezone';
 
 // request.debug = true;
 const HEADERS = [
@@ -102,11 +100,5 @@ function main() {
 if (require.main === module) {
   main();
 } else {
-  module.exports = {
-    parseArgs,
-    toCSVRow,
-    buildRequestObject,
-    findCompetence,
-    HEADERS,
-  };
+  export { parseArgs, toCSVRow, buildRequestObject, findCompetence, HEADERS };
 }

@@ -1,4 +1,4 @@
-const {
+import {
   expect,
   databaseBuilder,
   knex,
@@ -6,14 +6,13 @@ const {
   mockLearningContent,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const {
-  CertificationIssueReportCategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
+import { CertificationIssueReportCategories } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 
 describe('Acceptance | API | Certification Course', function () {
   let server;

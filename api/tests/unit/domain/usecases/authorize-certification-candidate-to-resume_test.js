@@ -1,5 +1,5 @@
-const { domainBuilder, expect, sinon } = require('../../../test-helper');
-const authorizeCertificationCandidateToResume = require('../../../../lib/domain/usecases/authorize-certification-candidate-to-resume');
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { authorizeCertificationCandidateToResume } from '../../../../lib/domain/usecases/authorize-certification-candidate-to-resume.js';
 
 describe('Unit | Domain | Use Cases | authorize-certification-candidate-to-resume', function () {
   let certificationCandidateForSupervisingRepository;

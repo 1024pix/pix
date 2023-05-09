@@ -1,6 +1,6 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const OrganizationMemberIdentity = require('../../../../lib/domain/models/OrganizationMemberIdentity');
-const organizationMemberIdentityRepository = require('../../../../lib/infrastructure/repositories/organization-member-identity-repository');
+import { expect, databaseBuilder } from '../../../test-helper.js';
+import { OrganizationMemberIdentity } from '../../../../lib/domain/models/OrganizationMemberIdentity.js';
+import * as organizationMemberIdentityRepository from '../../../../lib/infrastructure/repositories/organization-member-identity-repository.js';
 
 describe('Integration | Repository | organizationMemberIdentityRepository', function () {
   describe('#findAllByOrganizationId', function () {

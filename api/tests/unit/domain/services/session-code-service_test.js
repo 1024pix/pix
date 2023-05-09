@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
+import { expect } from '../../../test-helper.js';
+import * as sessionCodeService from '../../../../lib/domain/services/session-code-service.js';
 
 describe('Unit | Service | CodeSession', function () {
   describe('#getNewSessionCode', function () {

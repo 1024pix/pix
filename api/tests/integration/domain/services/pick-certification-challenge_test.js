@@ -1,10 +1,10 @@
-const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
-const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
-const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const { PIX_COUNT_BY_LEVEL } = require('../../../../lib/domain/constants');
+import { expect, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
+import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
+import * as certificationChallengesService from '../../../../lib/domain/services/certification-challenges-service.js';
+import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
+import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../lib/domain/constants.js';
 
 describe('Integration | CertificationChallengeService | pickCertificationChallenge', function () {
   const placementDate = new Date('2020-01-01');

@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const getPrivateCertificate = require('../../../../lib/domain/usecases/certificate/get-private-certificate');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { getPrivateCertificate } from '../../../../lib/domain/usecases/certificate/get-private-certificate.js';
 
 describe('Unit | UseCase | getPrivateCertificate', function () {
   const certificateRepository = {

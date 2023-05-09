@@ -1,6 +1,6 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const poleEmploiController = require('../../../../lib/application/pole-emploi/pole-emploi-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { expect, sinon, hFake } from '../../../test-helper.js';
+import { poleEmploiController } from '../../../../lib/application/pole-emploi/pole-emploi-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Unit | Controller | pole-emploi-controller', function () {
   describe('#getSendings', function () {

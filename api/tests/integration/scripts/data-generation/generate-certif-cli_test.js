@@ -1,10 +1,10 @@
-const { expect, knex, mockLearningContent } = require('../../../test-helper');
-const _ = require('lodash');
-const {
+import { expect, knex, mockLearningContent } from '../../../test-helper.js';
+import _ from 'lodash';
+import {
   main,
-  databaseBuilder: databaseBuilderCli,
-} = require('../../../../scripts/data-generation/generate-certif-cli');
-const databaseBuffer = require('../../../../db/database-builder/database-buffer');
+  databaseBuilder as databaseBuilderCli,
+} from '../../../../scripts/data-generation/generate-certif-cli.js';
+import { databaseBuffer } from '../../../../db/database-builder/database-buffer.js';
 // FIXME Too hard to edit \o/
 describe('Integration | Scripts | generate-certif-cli.js', function () {
   const certificationCenterSup = { id: 3, type: 'SUP' };

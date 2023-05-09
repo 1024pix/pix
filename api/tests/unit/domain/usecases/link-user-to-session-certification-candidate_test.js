@@ -1,15 +1,17 @@
-const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const linkUserToSessionCertificationCandidate = require('../../../../lib/domain/usecases/link-user-to-session-certification-candidate');
-const {
+import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { linkUserToSessionCertificationCandidate } from '../../../../lib/domain/usecases/link-user-to-session-certification-candidate.js';
+
+import {
   CertificationCandidateByPersonalInfoNotFoundError,
   MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   UserAlreadyLinkedToCandidateInSessionError,
   SessionNotAccessible,
   UnexpectedUserAccountError,
-} = require('../../../../lib/domain/errors');
-const UserLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserLinkedToCertificationCandidate');
-const UserAlreadyLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate');
+} from '../../../../lib/domain/errors.js';
+
+import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
+import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 
 describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', function () {
   const sessionId = 42;

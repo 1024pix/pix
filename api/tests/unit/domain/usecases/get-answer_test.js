@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const getAnswer = require('../../../../lib/domain/usecases/get-answer');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, sinon } from '../../../test-helper.js';
+import { getAnswer } from '../../../../lib/domain/usecases/get-answer.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | get-answer', function () {
   const answerId = 1;

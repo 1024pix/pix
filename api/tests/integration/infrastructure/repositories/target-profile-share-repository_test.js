@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const _ = require('lodash');
-const targetProfileShareRepository = require('../../../../lib/infrastructure/repositories/target-profile-share-repository');
+import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import _ from 'lodash';
+import * as targetProfileShareRepository from '../../../../lib/infrastructure/repositories/target-profile-share-repository.js';
 
 describe('Integration | Repository | Target-profile-share', function () {
   describe('#addTargetProfilesToOrganization', function () {

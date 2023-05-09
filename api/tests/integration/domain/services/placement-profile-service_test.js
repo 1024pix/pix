@@ -1,7 +1,9 @@
-const { expect, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
-const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+import { expect, databaseBuilder, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
+import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { LOCALE } from '../../../../lib/domain/constants.js';
+
+const { ENGLISH_SPOKEN } = LOCALE;
 
 describe('Integration | Service | Placement Profile Service', function () {
   let userId, assessmentId;

@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const { temporaryStorage } = require('../../../../../lib/infrastructure/temporary-storage');
-const FwbOidcAuthenticationService = require('../../../../../lib/domain/services/authentication/fwb-oidc-authentication-service');
+import { expect } from '../../../../test-helper.js';
+import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage.js';
+import * as FwbOidcAuthenticationService from '../../../../../lib/domain/services/authentication/fwb-oidc-authentication-service.js';
 
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 

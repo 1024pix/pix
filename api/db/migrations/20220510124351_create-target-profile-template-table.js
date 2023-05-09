@@ -2,7 +2,7 @@ const TEMPLATE_TABLE_NAME = 'target-profile-templates';
 const TEMPLATE_TUBES_TABLE_NAME = 'target-profile-templates_tubes';
 const TARGET_PROFILE_TABLE_NAME = 'target-profiles';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.createTable(TEMPLATE_TABLE_NAME, (t) => {
     t.increments().primary();
   });
@@ -19,7 +19,7 @@ const up = async function(knex) {
   });
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   await knex.schema.table(TARGET_PROFILE_TABLE_NAME, (t) => {
     t.dropColumn('targetProfileTemplateId');
   });

@@ -1,8 +1,8 @@
-const { expect, databaseBuilder } = require('../../../../test-helper');
-const createServer = require('../../../../../server');
-const jsonwebtoken = require('jsonwebtoken');
-const authenticationSessionService = require('../../../../../lib/domain/services/authentication/authentication-session-service');
-const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
+import { expect, databaseBuilder } from '../../../../test-helper.js';
+import { createServer } from '../../../../../server.js';
+import jsonwebtoken from 'jsonwebtoken';
+import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
+import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 
 describe('Acceptance | Application | Oidc | Routes', function () {
   describe('POST /api/oidc/user/reconcile', function () {

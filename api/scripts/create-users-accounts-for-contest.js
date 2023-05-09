@@ -1,10 +1,10 @@
-const { parseCsvWithHeader } = require('./helpers/csvHelpers');
-const bluebird = require('bluebird');
-const userToCreateRepository = require('../lib/infrastructure/repositories/user-to-create-repository');
-const authenticationMethodRepository = require('../lib/infrastructure/repositories/authentication-method-repository');
-const userService = require('../lib/domain/services/user-service');
-const encryptionService = require('../lib/domain/services/encryption-service');
-const { disconnect } = require('../db/knex-database-connection');
+import { parseCsvWithHeader } from './helpers/csvHelpers.js';
+import bluebird from 'bluebird';
+import * as userToCreateRepository from '../lib/infrastructure/repositories/user-to-create-repository.js';
+import * as authenticationMethodRepository from '../lib/infrastructure/repositories/authentication-method-repository.js';
+import * as userService from '../lib/domain/services/user-service.js';
+import * as encryptionService from '../lib/domain/services/encryption-service.js';
+import { disconnect } from '../db/knex-database-connection.js';
 
 function prepareDataForInsert(rawUsers) {
   return rawUsers.map(({ firstName, lastName, email, password }) => {
@@ -73,7 +73,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  prepareDataForInsert,
-  createUsers,
-};
+export { prepareDataForInsert, createUsers };

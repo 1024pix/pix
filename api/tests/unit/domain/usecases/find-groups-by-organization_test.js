@@ -1,6 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-
-const findDivisionsByOrganization = require('../../../../lib/domain/usecases/find-groups-by-organization');
+import { expect, sinon } from '../../../test-helper.js';
+import { findDivisionsByOrganization } from '../../../../lib/domain/usecases/find-groups-by-organization.js';
 
 describe('Unit | UseCase | find-groups-by-organization', function () {
   it('should return all groups', async function () {

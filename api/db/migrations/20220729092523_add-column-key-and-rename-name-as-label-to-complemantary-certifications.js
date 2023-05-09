@@ -3,7 +3,7 @@ const COLUMN_NAME_NAME = 'name';
 const COLUMN_NAME_LABEL = 'label';
 const COLUMN_NAME_KEY = 'key';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.string(COLUMN_NAME_KEY);
   });
@@ -19,7 +19,7 @@ const up = async function(knex) {
   });
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN_NAME_KEY);
     table.renameColumn(COLUMN_NAME_LABEL, COLUMN_NAME_NAME);

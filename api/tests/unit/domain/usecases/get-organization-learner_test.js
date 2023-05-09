@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const getOrganizationLearner = require('../../../../lib/domain/usecases/get-organization-learner');
-const OrganizationLearner = require('../../../../lib/domain/read-models/organization-learner-follow-up/OrganizationLearner');
+import { expect, sinon } from '../../../test-helper.js';
+import { getOrganizationLearner } from '../../../../lib/domain/usecases/get-organization-learner.js';
+import { OrganizationLearner } from '../../../../lib/domain/read-models/organization-learner-follow-up/OrganizationLearner.js';
 
 describe('Unit | UseCase | get-organisation-learner', function () {
   it('should return organization learner matching the given organizationLearnerId', async function () {

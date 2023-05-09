@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const targetProfileForAdminRepository = require('../../../../lib/infrastructure/repositories/target-profile-for-admin-repository');
-const TargetProfileForAdmin = require('../../../../lib/domain/models/TargetProfileForAdmin');
+import { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
+import { TargetProfileForAdmin } from '../../../../lib/domain/models/TargetProfileForAdmin.js';
 
 describe('Integration | Repository | target-profile-for-admin', function () {
   describe('#get', function () {

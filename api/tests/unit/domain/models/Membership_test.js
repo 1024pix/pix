@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const Membership = require('../../../../lib/domain/models/Membership');
-const { InvalidMembershipOrganizationRoleError } = require('../../../../lib/domain/errors');
+import { expect } from '../../../test-helper.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { InvalidMembershipOrganizationRoleError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | Membership', function () {
   describe('#validateRole', function () {

@@ -1,6 +1,6 @@
 const TABLE_NAME = 'followers';
 
-const up = function(knex) {
+const up = function (knex) {
   function table(t) {
     t.increments().primary();
     t.string('email').unique().notNullable();
@@ -11,7 +11,7 @@ const up = function(knex) {
   return knex.schema.createTable(TABLE_NAME, table);
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 

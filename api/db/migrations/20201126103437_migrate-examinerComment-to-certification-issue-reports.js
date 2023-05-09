@@ -2,7 +2,7 @@ import { CertificationIssueReportCategories } from '../../lib/domain/models/Cert
 const CERTIFICATION_COURSES = 'certification-courses';
 const CERTIFICATION_ISSUE_REPORTS = 'certification-issue-reports';
 
-const up = async function(knex) {
+const up = async function (knex) {
   const certificationCoursesWithExaminerComment = await knex(CERTIFICATION_COURSES)
     .select('id', 'examinerComment')
     .whereNotNull('examinerComment');
@@ -18,7 +18,7 @@ const up = async function(knex) {
   return knex.batchInsert(CERTIFICATION_ISSUE_REPORTS, reportsToInsert);
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   const certificationCoursesWithExaminerComment = await knex(CERTIFICATION_COURSES)
     .select('id')
     .whereNotNull('examinerComment');

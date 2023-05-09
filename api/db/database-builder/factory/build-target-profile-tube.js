@@ -1,7 +1,7 @@
-const buildTargetProfile = require('./build-target-profile');
-const databaseBuffer = require('../database-buffer');
+import { buildTargetProfile } from './build-target-profile.js';
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildTargetProfileTube({
+const buildTargetProfileTube = function ({
   id = databaseBuffer.getNextId(),
   targetProfileId = buildTargetProfile().id,
   tubeId = 'tubeId1',
@@ -18,3 +18,5 @@ module.exports = function buildTargetProfileTube({
     values,
   });
 };
+
+export { buildTargetProfileTube };

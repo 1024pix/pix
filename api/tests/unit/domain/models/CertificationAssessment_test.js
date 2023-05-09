@@ -1,14 +1,15 @@
-const _ = require('lodash');
-const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const NeutralizationAttempt = require('../../../../lib/domain/models/NeutralizationAttempt');
-const CertificationAnswerStatusChangeAttempt = require('../../../../lib/domain/models/CertificationAnswerStatusChangeAttempt');
-const { expect, domainBuilder } = require('../../../test-helper');
-const {
+import _ from 'lodash';
+import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { NeutralizationAttempt } from '../../../../lib/domain/models/NeutralizationAttempt.js';
+import { CertificationAnswerStatusChangeAttempt } from '../../../../lib/domain/models/CertificationAnswerStatusChangeAttempt.js';
+import { expect, domainBuilder } from '../../../test-helper.js';
+
+import {
   ObjectValidationError,
   ChallengeToBeNeutralizedNotFoundError,
   ChallengeToBeDeneutralizedNotFoundError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | CertificationAssessment', function () {
   describe('constructor', function () {

@@ -1,9 +1,9 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
-const Organization = require('../../../../../lib/domain/models/Organization');
-const OrganizationForAdmin = require('../../../../../lib/domain/models/organizations-administration/Organization');
-const Tag = require('../../../../../lib/domain/models/Tag');
-const { SamlIdentityProviders } = require('../../../../../lib/domain/constants/saml-identity-providers');
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
+import { Organization } from '../../../../../lib/domain/models/Organization.js';
+import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/Organization.js';
+import { Tag } from '../../../../../lib/domain/models/Tag.js';
+import { SamlIdentityProviders } from '../../../../../lib/domain/constants/saml-identity-providers.js';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
   describe('#serialize', function () {

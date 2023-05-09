@@ -1,13 +1,13 @@
-const { catchErr, domainBuilder, expect, sinon } = require('../../../test-helper');
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { User } from '../../../../lib/domain/models/User.js';
 
-const User = require('../../../../lib/domain/models/User');
-const {
+import {
   InvalidTemporaryKeyError,
   PasswordResetDemandNotFoundError,
   UserNotFoundError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
-const getUserByResetPasswordDemand = require('../../../../lib/domain/usecases/get-user-by-reset-password-demand');
+import { getUserByResetPasswordDemand } from '../../../../lib/domain/usecases/get-user-by-reset-password-demand.js';
 
 describe('Unit | UseCase | get-user-by-reset-password-demand', function () {
   const temporaryKey = 'ABCDEF123';

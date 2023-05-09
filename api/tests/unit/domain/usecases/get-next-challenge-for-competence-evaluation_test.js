@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const getNextChallengeForCompetenceEvaluation = require('../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { getNextChallengeForCompetenceEvaluation } from '../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluation', function () {
   describe('#getNextChallengeForCompetenceEvaluation', function () {

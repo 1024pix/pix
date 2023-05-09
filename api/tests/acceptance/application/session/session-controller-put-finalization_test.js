@@ -1,18 +1,19 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const {
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
+import {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
+} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
 
 describe('Acceptance | Controller | sessions-controller', function () {
   let options;

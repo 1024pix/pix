@@ -1,10 +1,7 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-
-const moduleUnderTest = require('../../../../lib/application/lcms');
-
-const lcmsController = require('../../../../lib/application/lcms/lcms-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { moduleUnderTest } from '../../../../lib/application/lcms.js';
+import { lcmsController } from '../../../../lib/application/lcms/lcms-controller.js';
 
 describe('Unit | Router | lcms-router', function () {
   let httpTestServer;

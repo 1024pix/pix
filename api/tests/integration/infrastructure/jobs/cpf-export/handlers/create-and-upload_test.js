@@ -1,16 +1,25 @@
-const { domainBuilder, expect, sinon } = require('../../../../../test-helper');
-const createAndUpload = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload');
-const { createUnzip } = require('node:zlib');
-const fs = require('fs');
-const noop = require('lodash/noop');
-const proxyquire = require('proxyquire');
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
+import node:zlib from 'node:zlib';
+
+const {
+  PassThrough
+} = stream;
+
+const {
+  createUnzip
+} = node:zlib;
+
+import fs from 'fs';
+import noop from 'lodash/noop';
+import proxyquire from 'proxyquire';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const { PassThrough } = require('stream');
+import stream from 'stream';
 
 describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload', function () {
   let cpfCertificationResultRepository;

@@ -1,6 +1,6 @@
 const TABLE_NAME = 'users';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn('login');
     table.boolean('cgu');
@@ -8,7 +8,7 @@ const up = function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.string('login').defaultTo('').notNullable();
     table.dropColumn('cgu');

@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const createTargetProfile = require('../../../../lib/domain/usecases/create-target-profile');
-const { categories } = require('../../../../lib/domain/models/TargetProfile');
-const { TargetProfileCannotBeCreated } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { createTargetProfile } from '../../../../lib/domain/usecases/create-target-profile.js';
+import { categories } from '../../../../lib/domain/models/TargetProfile.js';
+import { TargetProfileCannotBeCreated } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | create-target-profile', function () {
   let targetProfileRepositoryStub;
