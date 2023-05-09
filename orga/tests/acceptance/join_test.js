@@ -220,97 +220,56 @@ module('Acceptance | join', function (hooks) {
       });
     });
 
-    module('When prescriber is logging in but his credentials are invalid', function (hooks) {
-      const code = 'ABCDEFGH01';
+    module('errors cases', function () {
+      module('When prescriber is logging in but his credentials are invalid', function (hooks) {
+        const code = 'ABCDEFGH01';
 
-      let user;
-      let organizationInvitationId;
+        let user;
+        let organizationInvitationId;
 
-      hooks.beforeEach(() => {
-        user = createUserWithMembership();
-        server.create('prescriber', { id: user.id });
+        hooks.beforeEach(() => {
+          user = createUserWithMembership();
+          server.create('prescriber', { id: user.id });
 
-        const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
-        organizationInvitationId = server.create('organizationInvitation', {
-          organizationId,
-          email: 'random@email.com',
-          status: 'pending',
-          code,
-        }).id;
+          const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+          organizationInvitationId = server.create('organizationInvitation', {
+            organizationId,
+            email: 'random@email.com',
+            status: 'pending',
+            code,
+          }).id;
+        });
+
+        test('it should remain on join page, even with multiple attempts', async function (assert) {
+          // given
+          server.post(
+            '/token',
+            {
+              errors: [{ status: '401' }],
+            },
+            401
+          );
+
+          await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+          await clickByName(loginFormButton);
+          await fillByLabel(emailInputLabel, user.email);
+          await fillByLabel(passwordInputLabel, 'fakepassword');
+
+          // when
+          await clickByName(loginButton);
+          // Multiple attempts on purpose
+          await clickByName(loginButton);
+          await clickByName(loginButton);
+
+          // then
+
+          assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+          assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+          assert.contains(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY));
+        });
       });
 
-      test('it should remain on join page, even with multiple attempts', async function (assert) {
-        // given
-        server.post(
-          '/token',
-          {
-            errors: [{ status: '401' }],
-          },
-          401
-        );
-
-        await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByName(loginFormButton);
-        await fillByLabel(emailInputLabel, user.email);
-        await fillByLabel(passwordInputLabel, 'fakepassword');
-
-        // when
-        await clickByName(loginButton);
-        // Multiple attempts on purpose
-        await clickByName(loginButton);
-        await clickByName(loginButton);
-
-        // then
-
-        assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-        assert.contains(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY));
-      });
-    });
-
-    module('When organization-invitation has already been accepted by another account', function (hooks) {
-      let user;
-      let organizationInvitationId;
-      let code;
-
-      hooks.beforeEach(() => {
-        user = createUserWithMembership();
-        createPrescriberByUser(user);
-
-        code = 'ABCDEFGH01';
-        const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
-        organizationInvitationId = server.create('organizationInvitation', {
-          organizationId,
-          email: 'random@email.com',
-          status: 'pending',
-          code,
-        }).id;
-      });
-
-      test('it displays an error message', async function (assert) {
-        // given
-        server.post(
-          `/organization-invitations/${organizationInvitationId}/response`,
-          () => new Response(409, {}, { errors: [{ status: '409' }] })
-        );
-        await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByName(loginFormButton);
-        await fillByLabel(emailInputLabel, user.email);
-        await fillByLabel(passwordInputLabel, 'secret');
-
-        // when
-        await clickByName(loginButton);
-
-        // then
-        assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-        assert.contains(this.intl.t('pages.login-form.errors.status.409'));
-      });
-    });
-
-    module(
-      'When prescriber has already accepted organization-invitation or prescriber is already a member of the organization',
-      function (hooks) {
+      module('When organization-invitation has already been accepted by another account', function (hooks) {
         let user;
         let organizationInvitationId;
         let code;
@@ -329,20 +288,11 @@ module('Acceptance | join', function (hooks) {
           }).id;
         });
 
-        test('it should redirect to terms-of-service page', async function (assert) {
+        test('it displays an error message', async function (assert) {
           // given
           server.post(
             `/organization-invitations/${organizationInvitationId}/response`,
-            {
-              errors: [
-                {
-                  detail: '',
-                  status: '412',
-                  title: '',
-                },
-              ],
-            },
-            412
+            () => new Response(409, {}, { errors: [{ status: '409' }] })
           );
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
           await clickByName(loginFormButton);
@@ -353,11 +303,63 @@ module('Acceptance | join', function (hooks) {
           await clickByName(loginButton);
 
           // then
-          assert.strictEqual(currentURL(), '/cgu');
-          assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+          assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+          assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+          assert.contains(this.intl.t('pages.login-form.errors.status.409'));
         });
-      }
-    );
+      });
+
+      module(
+        'When prescriber has already accepted organization-invitation or prescriber is already a member of the organization',
+        function (hooks) {
+          let user;
+          let organizationInvitationId;
+          let code;
+
+          hooks.beforeEach(() => {
+            user = createUserWithMembership();
+            createPrescriberByUser(user);
+
+            code = 'ABCDEFGH01';
+            const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+            organizationInvitationId = server.create('organizationInvitation', {
+              organizationId,
+              email: 'random@email.com',
+              status: 'pending',
+              code,
+            }).id;
+          });
+
+          test('it should redirect to terms-of-service page', async function (assert) {
+            // given
+            server.post(
+              `/organization-invitations/${organizationInvitationId}/response`,
+              {
+                errors: [
+                  {
+                    detail: '',
+                    status: '412',
+                    title: '',
+                  },
+                ],
+              },
+              412
+            );
+            await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+            await clickByName(loginFormButton);
+            await fillByLabel(emailInputLabel, user.email);
+            await fillByLabel(passwordInputLabel, 'secret');
+
+            // when
+            await clickByName(loginButton);
+
+            // then
+            assert.strictEqual(currentURL(), '/cgu');
+            assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+          });
+        }
+      );
+    });
   });
 
   module('Register', function (hooks) {
