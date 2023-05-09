@@ -17,6 +17,7 @@ async function teamContenuDataBuilder({ databaseBuilder }) {
   _createProOrganization(databaseBuilder);
   await _createCoreTargetProfile(databaseBuilder);
   await _createDiverseTargetProfile(databaseBuilder);
+  await _createTraining(databaseBuilder);
   await databaseBuilder.commit();
   await _createAssessmentCampaign(databaseBuilder);
   await _createProfilesCollectionCampaign(databaseBuilder);
@@ -201,5 +202,53 @@ async function _createDiverseTargetProfile(databaseBuilder) {
     cappedTubesDTO,
     type: 'THRESHOLD',
     countStages: 4,
+  });
+}
+
+async function _createTraining(databaseBuilder) {
+  const configTriggers = [
+    {
+      type: 'goal',
+      threshold: 80,
+      frameworks: [
+        {
+          chooseCoreFramework: true,
+          countTubes: 15,
+          minLevel: 1,
+          maxLevel: 2,
+        },
+        {
+          chooseCoreFramework: false,
+          countTubes: 2,
+          minLevel: 5,
+          maxLevel: 7,
+        },
+      ],
+    },
+    {
+      type: 'prerequisite',
+      threshold: 10,
+      frameworks: [
+        {
+          chooseCoreFramework: true,
+          countTubes: 5,
+          minLevel: 1,
+          maxLevel: 4,
+        },
+      ],
+    },
+  ];
+  await tooling.training.createTraining({
+    databaseBuilder,
+    trainingId: TEAM_CONTENU_OFFSET_ID,
+    title: 'Contenu formatif / équipe contenu',
+    link: 'https://www.youtube.com/watch?v=qq09UkPRdFY',
+    type: 'Webinaire',
+    duration: '00:04:08',
+    locale: 'fr-fr',
+    editorName: 'Mariah Carey',
+    editorLogoUrl: 'some-butterfly-logo.svg',
+    attachedTargetProfileIds: [TARGET_PROFILE_PIX_ID],
+    configTriggers,
   });
 }
