@@ -31,6 +31,5 @@ function _removeCurrentSessionFromLocalStorage() {
 }
 
 export default {
-  before: 'ember-simple-auth',
   initialize,
 };
