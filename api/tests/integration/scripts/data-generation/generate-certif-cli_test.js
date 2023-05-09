@@ -45,7 +45,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
             await main({
               centerType: type,
               candidateNumber: 2,
-              complementaryCertifications: false,
+              complementaryCertifications: [],
             });
 
             // then
@@ -97,9 +97,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
                 candidateNumber: 2,
                 complementaryCertifications: [
                   { candidateNumber: 1, key: 'CLEA' },
-                  { candidateNumber: 1, key: 'DROIT' },
-                  { candidateNumber: 1, key: 'EDU_1ER_DEGRE' },
-                  { candidateNumber: 1, key: 'EDU_2ND_DEGRE' },
+                  { candidateNumber: 2, key: 'DROIT' },
                 ],
               });
 
@@ -117,13 +115,8 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
                 ])
                 .pluck('key');
 
-              expect(badgeAcquisitions).to.deep.equal([
-                'PIX_EMPLOI_CLEA_V3',
-                'PIX_DROIT_EXPERT_CERTIF',
-                'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
-                'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
-              ]);
-              expect(habilitations).to.equal(4);
+              expect(badgeAcquisitions).to.deep.equal(['PIX_EMPLOI_CLEA_V3', 'PIX_DROIT_EXPERT_CERTIF']);
+              expect(habilitations).to.equal(2);
             });
           });
         });
@@ -142,7 +135,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
           await main({
             centerType: 'SCO',
             candidateNumber: 2,
-            complementaryCertifications: false,
+            complementaryCertifications: [],
           });
 
           // then
@@ -186,12 +179,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
             await main({
               centerType: 'SCO',
               candidateNumber: 2,
-              complementaryCertifications: [
-                { candidateNumber: 1, key: 'CLEA' },
-                { candidateNumber: 1, key: 'DROIT' },
-                { candidateNumber: 1, key: 'EDU_1ER_DEGRE' },
-                { candidateNumber: 1, key: 'EDU_2ND_DEGRE' },
-              ],
+              complementaryCertification: { candidateNumber: 1, key: 'CLEA' },
             });
 
             // then
