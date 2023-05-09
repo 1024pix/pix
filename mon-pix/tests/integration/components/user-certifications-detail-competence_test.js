@@ -3,7 +3,8 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
-import { find, render } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { A as EmberArray } from '@ember/array';
 
 module('Integration | Component | user-certifications-detail-competence', function (hooks) {
