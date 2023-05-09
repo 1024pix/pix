@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
-import { contains } from '../../../../helpers/contains';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -25,15 +24,17 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       // when
-      await render(hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`);
+      const screen = await render(
+        hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`
+      );
 
       // then
-      assert.ok(contains('My organization'));
-      assert.ok(contains('My campaign'));
-      assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.tag.finished')));
-      assert.ok(contains(this.intl.t('pages.campaign-participation-overview.card.see-more')));
+      assert.ok(screen.getByRole('heading', { name: 'My organization' }));
+      assert.ok(screen.getByText('My campaign'));
+      assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.tag.finished')));
+      assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.see-more')));
       assert.ok(
-        contains(this.intl.t('pages.campaign-participation-overview.card.finished-at', { date: '18/12/2020' }))
+        screen.getByText(this.intl.t('pages.campaign-participation-overview.card.finished-at', { date: '18/12/2020' }))
       );
     });
 
@@ -52,10 +53,12 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
         this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        await render(hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`);
+        const screen = await render(
+          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`
+        );
 
         // then
-        assert.ok(contains('20 % de réussite'));
+        assert.ok(screen.getByText('20 % de réussite'));
       });
     });
 

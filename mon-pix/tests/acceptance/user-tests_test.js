@@ -1,7 +1,7 @@
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
-import { contains } from '../helpers/contains';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -54,11 +54,11 @@ module('Acceptance | User tests', function (hooks) {
       });
 
       // when
-      await visit('/mes-parcours');
+      const screen = await visit('/mes-parcours');
 
       // then
-      assert.ok(contains('Campaign 1'));
-      assert.ok(contains('Campaign 2'));
+      assert.ok(screen.getByText('Campaign 1'));
+      assert.ok(screen.getByText('Campaign 2'));
     });
   });
 
