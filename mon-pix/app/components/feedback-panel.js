@@ -21,10 +21,11 @@ export default class FeedbackPanel extends Component {
   @tracked nextCategory = null;
   @tracked quickHelpInstructions = null;
   @tracked isExpanded = false;
+  @tracked _currentMajorCategory = null;
+  @tracked _currentNextCategory = null;
   _category = null;
   _questions = questions;
   _sendButtonStatus = buttonStatusTypes.unrecorded;
-  _currentMajorCategory = null;
 
   constructor(owner, args) {
     super(owner, args);
@@ -39,11 +40,21 @@ export default class FeedbackPanel extends Component {
     return this.isFormSubmitted ? 'feedback-panel-submitted' : 'feedback-panel';
   }
 
-  get categories() {
+  filteredCategories() {
     const context = this._isComparisonWindowContext ? 'displayOnlyOnChallengePage' : 'displayOnlyOnComparisonWindow';
     return topLevelLabels.filter((label) => !label[context]);
   }
 
+  get categories() {
+    return this.filteredCategories().map((category) => ({ value: category.value, label: this.intl.t(category.name) }));
+  }
+
+  get nextCategories() {
+    return this.nextCategory.map((question, index) => ({
+      value: index + 1,
+      label: this.intl.t(question.name),
+    }));
+  }
   get isSendButtonDisabled() {
     return this._sendButtonStatus === buttonStatusTypes.pending;
   }
@@ -103,15 +114,20 @@ export default class FeedbackPanel extends Component {
   }
 
   @action
-  displayCategoryOptions() {
+  displayCategoryOptions(value) {
     this.displayTextBox = false;
     this.quickHelpInstructions = null;
     this.emptyTextBoxMessageError = null;
     this.displayQuestionDropdown = false;
     this._category = null;
+    this._currentNextCategory = null;
 
-    this._currentMajorCategory = event.target.value;
+    this._currentMajorCategory = value;
     this.nextCategory = this._questions[this._currentMajorCategory];
+
+    if (!this.nextCategory) {
+      return;
+    }
 
     if (this.nextCategory.length > 1) {
       this.displayQuestionDropdown = true;
@@ -121,15 +137,21 @@ export default class FeedbackPanel extends Component {
   }
 
   @action
-  showFeedback() {
-    if (event.target.value === 'default') {
+  showFeedback(value) {
+    if (value === '') {
       this.displayTextBox = false;
       this.quickHelpInstructions = null;
       this.emptyTextBoxMessageError = null;
+      this._currentNextCategory = null;
+      return;
     }
+
+    this._currentNextCategory = value;
     this.emptyTextBoxMessageError = null;
-    this._category = this.nextCategory[event.target.value].name;
-    this._showFeedbackActionBasedOnCategoryType(this.nextCategory[event.target.value]);
+    this._category = this.nextCategory[value - 1] ? this.nextCategory[value - 1].name : null;
+    if (this._category != null) {
+      this._showFeedbackActionBasedOnCategoryType(this.nextCategory[value - 1]);
+    }
   }
 
   _resetPanel() {
@@ -145,6 +167,8 @@ export default class FeedbackPanel extends Component {
     this.content = null;
     this._category = null;
     this.nextCategory = null;
+    this.quickHelpInstructions = null;
+    this._currentMajorCategory = null;
     this.displayTextBox = false;
     this.tutorialContent = null;
     this.displayQuestionDropdown = false;
