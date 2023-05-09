@@ -2,7 +2,6 @@ import sinon from 'sinon';
 import { module, test } from 'qunit';
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
-import { t } from 'ember-intl/test-support';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Activity::DeleteParticipationModal', function (hooks) {
@@ -12,7 +11,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
     module('when the user click to delete the campaign participation', function (hooks) {
       let participation;
       let campaign;
-      const deleteCampaignParticipant = sinon.stub();
+      const deleteCampaignParticipation = sinon.stub();
       const closeModal = sinon.stub();
 
       hooks.beforeEach(async function () {
@@ -28,27 +27,49 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
         this.set('campaign', campaign);
         this.set('participation', participation);
         this.closeModal = closeModal;
-        this.deleteCampaignParticipant = deleteCampaignParticipant;
+        this.deleteCampaignParticipation = deleteCampaignParticipation;
         this.isModalOpen = true;
+      });
 
-        await render(hbs`<Campaign::Activity::DeleteParticipationModal
+      test('it displays the modal to confirm the deletion', async function (assert) {
+        const screen = await render(hbs`<Campaign::Activity::DeleteParticipationModal
   @campaign={{this.campaign}}
   @participation={{this.participation}}
   @isModalOpen={{this.isModalOpen}}
   @closeModal={{this.closeModal}}
-  @deleteCampaignParticipant={{this.deleteCampaignParticipant}}
+  @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
 />`);
-      });
 
-      test('it displays the modal to confirm the deletion', async function (assert) {
-        assert.contains(t('pages.campaign-activity.delete-participation-modal.title'));
-        assert.contains(t('pages.campaign-activity.delete-participation-modal.actions.cancel'));
-        assert.contains(t('pages.campaign-activity.delete-participation-modal.actions.confirmation'));
+        const expectedText = this.intl.t('pages.campaign-activity.delete-participation-modal.title', {
+          firstName: 'Joe',
+          lastName: 'La frite',
+          htmlSafe: true,
+        });
+        assert
+          .dom(
+            screen.getByText((content, node) => {
+              const hasText = (node) => node.innerHTML.trim() === expectedText.string;
+              const nodeHasText = hasText(node);
+              const childrenDontHaveText = Array.from(node.children).every((child) => !hasText(child));
+              return nodeHasText && childrenDontHaveText;
+            })
+          )
+          .exists();
+        assert.contains(this.intl.t('pages.campaign-activity.delete-participation-modal.actions.cancel'));
+        assert.contains(this.intl.t('pages.campaign-activity.delete-participation-modal.actions.confirmation'));
       });
 
       module('When the user clicks on cancel button', function () {
         test('it closes the modal and not delete the campaign participation', async function (assert) {
-          await clickByName(t('pages.campaign-activity.delete-participation-modal.actions.cancel'));
+          await render(hbs`<Campaign::Activity::DeleteParticipationModal
+  @campaign={{this.campaign}}
+  @participation={{this.participation}}
+  @isModalOpen={{this.isModalOpen}}
+  @closeModal={{this.closeModal}}
+  @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
+/>`);
+
+          await clickByName(this.intl.t('pages.campaign-activity.delete-participation-modal.actions.cancel'));
 
           assert.ok(closeModal.calledOnce);
         });
@@ -56,9 +77,113 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
       module('When the user clicks on confirmation button', function () {
         test('it deletes the campaign participation', async function (assert) {
-          await clickByName(t('pages.campaign-activity.delete-participation-modal.actions.confirmation'));
+          await render(hbs`<Campaign::Activity::DeleteParticipationModal
+  @campaign={{this.campaign}}
+  @participation={{this.participation}}
+  @isModalOpen={{this.isModalOpen}}
+  @closeModal={{this.closeModal}}
+  @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
+/>`);
+          await clickByName(this.intl.t('pages.campaign-activity.delete-participation-modal.actions.confirmation'));
 
-          assert.ok(deleteCampaignParticipant.calledWith(campaign.id, participation));
+          assert.ok(deleteCampaignParticipation.called);
+        });
+      });
+
+      module('When the text is different according to the campaign type and the participation status', function () {
+        test('it is a started participation for an assessment campaign', async function (assert) {
+          this.set('campaign.type', 'ASSESSMENT');
+          this.set('participation.status', 'STARTED');
+
+          await render(hbs`<Campaign::Activity::DeleteParticipationModal
+  @campaign={{this.campaign}}
+  @participation={{this.participation}}
+  @isModalOpen={{this.isModalOpen}}
+  @closeModal={{this.closeModal}}
+  @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
+/>`);
+
+          assert.contains(
+            this.intl.t(
+              'pages.campaign-activity.delete-participation-modal.text.assessment-campaign-participation.started-participation'
+            )
+          );
+        });
+
+        test('it is a participation to share for an assessment campaign', async function (assert) {
+          this.set('campaign.type', 'ASSESSMENT');
+          this.set('participation.status', 'TO_SHARE');
+
+          await render(hbs`<Campaign::Activity::DeleteParticipationModal
+  @campaign={{this.campaign}}
+  @participation={{this.participation}}
+  @isModalOpen={{this.isModalOpen}}
+  @closeModal={{this.closeModal}}
+  @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
+/>`);
+
+          assert.contains(
+            this.intl.t(
+              'pages.campaign-activity.delete-participation-modal.text.assessment-campaign-participation.to-share-participation'
+            )
+          );
+        });
+
+        test('it is a shared participation for an assessment campaign', async function (assert) {
+          this.set('campaign.type', 'ASSESSMENT');
+          this.set('participation.status', 'SHARED');
+
+          await render(hbs`<Campaign::Activity::DeleteParticipationModal
+  @campaign={{this.campaign}}
+  @participation={{this.participation}}
+  @isModalOpen={{this.isModalOpen}}
+  @closeModal={{this.closeModal}}
+  @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
+/>`);
+
+          assert.contains(
+            this.intl.t(
+              'pages.campaign-activity.delete-participation-modal.text.assessment-campaign-participation.shared-participation'
+            )
+          );
+        });
+
+        test('it is a participation to share for a profiles collection campaign', async function (assert) {
+          this.set('campaign.type', 'PROFILES_COLLECTION');
+          this.set('participation.status', 'TO_SHARE');
+
+          await render(hbs`<Campaign::Activity::DeleteParticipationModal
+  @campaign={{this.campaign}}
+  @participation={{this.participation}}
+  @isModalOpen={{this.isModalOpen}}
+  @closeModal={{this.closeModal}}
+  @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
+/>`);
+
+          assert.contains(
+            this.intl.t(
+              'pages.campaign-activity.delete-participation-modal.text.profiles-collection-campaign-participation.to-share-participation'
+            )
+          );
+        });
+
+        test('it is a shared participation for a profiles collection campaign', async function (assert) {
+          this.set('campaign.type', 'PROFILES_COLLECTION');
+          this.set('participation.status', 'SHARED');
+
+          await render(hbs`<Campaign::Activity::DeleteParticipationModal
+  @campaign={{this.campaign}}
+  @participation={{this.participation}}
+  @isModalOpen={{this.isModalOpen}}
+  @closeModal={{this.closeModal}}
+  @deleteCampaignParticipation={{this.deleteCampaignParticipation}}
+/>`);
+
+          assert.contains(
+            this.intl.t(
+              'pages.campaign-activity.delete-participation-modal.text.profiles-collection-campaign-participation.shared-participation'
+            )
+          );
         });
       });
     });

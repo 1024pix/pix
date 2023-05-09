@@ -33,4 +33,11 @@ export default class ParticipantsList extends Component {
     this.participationToDelete = null;
     this.isModalOpen = false;
   }
+
+  @action
+  deleteCampaignParticipation() {
+    this.isModalOpen = false;
+    this.args.deleteCampaignParticipation(this.args.campaign.id, this.participationToDelete);
+    this.participationToDelete = null;
+  }
 }
