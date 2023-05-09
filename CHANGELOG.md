@@ -1,5 +1,35 @@
 # Pix Changelog
 
+## v3.351.0 (09/05/2023)
+
+
+### :rocket: Amélioration
+- [#6143](https://github.com/1024pix/pix/pull/6143) [FEATURE] Modifier le tri des participations d'un utilisateur pour les regrouper par code campagne (PIX-5389)
+- [#6148](https://github.com/1024pix/pix/pull/6148) [FEATURE] Affiche la date de création des profil cibles dans la liste sur PixAdmin (PIX-7947)
+- [#6144](https://github.com/1024pix/pix/pull/6144) [FEATURE] Ajouter le sélecteur de langue sur la page app.pix.org/campagnes (PIX-7216)
+- [#6113](https://github.com/1024pix/pix/pull/6113) [FEATURE] Ajouter un sélecteur de langue sur la page connexion de Pix Orga domaine international (PIX-5604)
+
+### :building_construction: Tech
+- [#6163](https://github.com/1024pix/pix/pull/6163) [TECH] Utiliser la méthode `render` d'`ember-testing-library` plutôt que celle de `@ember/test-helpers` (PIX-7998)
+- [#6165](https://github.com/1024pix/pix/pull/6165) [TECH] Déplacer les données en commun des seeds dans un fichier dédié (PIX-7996)
+- [#6161](https://github.com/1024pix/pix/pull/6161) [TECH] Supprime la dépendance ember-collapsible-panel
+- [#6117](https://github.com/1024pix/pix/pull/6117) [TECH] Appeler session.setup de ember-simple-auth dans la route de l'application
+- [#6159](https://github.com/1024pix/pix/pull/6159) [TECH] Mise à jour de faker en v7
+- [#6155](https://github.com/1024pix/pix/pull/6155) [TECH] Compléter et documenter les outils génériques pour la création de contenus formatifs dans les seeds (PIX-7959)
+- [#6152](https://github.com/1024pix/pix/pull/6152) [TECH] Compléter et documenter les outils génériques pour la création de campagne dans les seeds (PIX-7959)
+- [#6130](https://github.com/1024pix/pix/pull/6130) [TECH] Met à jour vers @faker-js/faker
+- [#6147](https://github.com/1024pix/pix/pull/6147) [TECH] Compléter et documenter les outils génériques pour la création de profil cibles et clés de lecture dans les seeds (PIX-7951)
+- [#6074](https://github.com/1024pix/pix/pull/6074) [TECH] Uniformiser les vérifications joi pour l'import candidat (PIX-7859)
+- [#6127](https://github.com/1024pix/pix/pull/6127) [TECH] Mettre à jour les urls de certaines Orga ayant des tags (PIX-7928)
+- [#6136](https://github.com/1024pix/pix/pull/6136) [TECH] Centraliser le code permettant de changer de locales dans localeService (PIX-7922).
+
+### :bug: Correction
+- [#6138](https://github.com/1024pix/pix/pull/6138) [BUGFIX] Affichage du temps majoré dans l'Espace Surveillant (PIX-7835)
+
+### :coffee: Autre
+- [#6158](https://github.com/1024pix/pix/pull/6158) [BUMP] Update browser-tools orb to v1.4.1 (.circleci)
+- [#6142](https://github.com/1024pix/pix/pull/6142) [BUMP] Update nginx Docker tag to v1.24.0
+
 ## v3.350.0 (04/05/2023)
 
 
