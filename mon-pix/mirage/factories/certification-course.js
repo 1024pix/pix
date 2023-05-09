@@ -1,13 +1,13 @@
 import { Factory } from 'miragejs';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   nbChallenges() {
-    return faker.random.number();
+    return faker.datatype.number();
   },
 
   sessionId() {
-    return faker.random.number();
+    return faker.datatype.number();
   },
 
   accessCode() {

@@ -1,5 +1,5 @@
 import { Factory, trait } from 'miragejs';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import sumBy from 'lodash/sumBy';
 
 function _addDefaultProfile(user, server) {

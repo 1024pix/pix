@@ -1,5 +1,5 @@
 import { Factory, trait } from 'miragejs';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   name() {
@@ -7,7 +7,7 @@ export default Factory.extend({
   },
 
   code() {
-    return 'ABCDEF' + faker.random.number({ min: 100, max: 999 });
+    return 'ABCDEF' + faker.datatype.number({ min: 100, max: 999 });
   },
 
   createdAt() {

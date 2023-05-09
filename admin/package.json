@@ -43,7 +43,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
-    "@faker-js/faker": "^5.5.3",
+    "@faker-js/faker": "^7.6.0",
     "@formatjs/intl": "^2.5.1",
     "@fortawesome/ember-fontawesome": "^0.4.1",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
