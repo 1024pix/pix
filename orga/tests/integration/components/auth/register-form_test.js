@@ -90,9 +90,6 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
           save() {
             return resolve();
           },
-          unloadRecord() {
-            return resolve();
-          },
         });
       };
       SessionStub.prototype.authenticate = function (authenticator, email, password, scope) {
@@ -135,9 +132,6 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       this.owner.register('service:store', StoreStub);
       StoreStub.prototype.createRecord = sinon.stub().returns({
         save: spy,
-        unloadRecord: () => {
-          return resolve();
-        },
       });
 
       screen = await renderScreen(
