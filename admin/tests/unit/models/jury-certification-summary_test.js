@@ -93,59 +93,6 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
     });
   });
 
-  module('#complementaryCertificationsLabel', function () {
-    module('When there are no complementary certifications taken', function () {
-      test('it returns an empty string', function (assert) {
-        // given
-        const juryCertificationSummaryProcessed = run(() => {
-          return store.createRecord('jury-certification-summary', {
-            complementaryCertificationTakenLabels: [],
-          });
-        });
-
-        // when
-        const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
-
-        // then
-        assert.strictEqual(complementaryCertificationsLabel, '');
-      });
-    });
-
-    module('When there is 1 complementary certification taken', function () {
-      test('it returns the complementary certifications taken', function (assert) {
-        // given
-        const juryCertificationSummaryProcessed = run(() => {
-          return store.createRecord('jury-certification-summary', {
-            complementaryCertificationTakenLabels: ['Pix+ Droit Expert'],
-          });
-        });
-
-        // when
-        const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
-
-        // then
-        assert.strictEqual(complementaryCertificationsLabel, 'Pix+ Droit Expert');
-      });
-    });
-
-    module('When there are more than 1 complementary certification taken', function () {
-      test('it returns all complementary certifications taken separated by carriage return', function (assert) {
-        // given
-        const juryCertificationSummaryProcessed = run(() => {
-          return store.createRecord('jury-certification-summary', {
-            complementaryCertificationTakenLabels: ['CléA Numérique', 'Pix+ Droit Expert'],
-          });
-        });
-
-        // when
-        const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
-
-        // then
-        assert.strictEqual(complementaryCertificationsLabel, 'CléA Numérique\nPix+ Droit Expert');
-      });
-    });
-  });
-
   module('#get isCertificationStarted', function () {
     test('it should return true when the status is "started"', function (assert) {
       // given

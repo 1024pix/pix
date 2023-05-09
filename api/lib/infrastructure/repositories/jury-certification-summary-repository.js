@@ -58,11 +58,7 @@ async function _getByCertificationCourseIds(orderedCertificationCourseIds) {
       assessmentResultStatus: 'assessment-results.status',
       assessmentState: 'assessments.state',
     })
-    .select(
-      knex.raw(
-        `json_agg("complementary-certification-badges"."label") over (partition by "certification-courses".id) as "complementaryCertificationTakenLabels"`
-      )
-    )
+    .select({ complementaryCertificationTakenLabel: 'complementary-certification-badges.label' })
     .from('certification-courses')
     .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin(
@@ -91,7 +87,8 @@ async function _getByCertificationCourseIds(orderedCertificationCourseIds) {
     })
     .leftJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
     .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
-    .whereIn('certification-courses.id', orderedCertificationCourseIds);
+    .whereIn('certification-courses.id', orderedCertificationCourseIds)
+    .orderBy('certification-courses.id');
 }
 
 function _getCertificationCoursesIdBySessionIdQuery(sessionId) {
@@ -146,6 +143,5 @@ function _toDomain(juryCertificationSummaryDTO) {
     status: juryCertificationSummaryDTO.assessmentResultStatus,
     isEndedBySupervisor: juryCertificationSummaryDTO.assessmentState === Assessment.states.ENDED_BY_SUPERVISOR,
     certificationIssueReports,
-    complementaryCertificationTakenLabels: _.compact(juryCertificationSummaryDTO.complementaryCertificationTakenLabels),
   });
 }

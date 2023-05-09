@@ -11,10 +11,7 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function () {
       const notImpactfulIssueReport = domainBuilder.buildCertificationIssueReport.notImpactful({ resolvedAt: null });
       const data = {
         certificationIssueReports: [notImpactfulIssueReport],
-        complementaryCertificationTakenLabels: [
-          'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-          'Pix+ Droit Expert',
-        ],
+        complementaryCertificationTakenLabel: 'Pix+ Droit Expert',
         completedAt: new Date('2020-01-01'),
         createdAt: new Date('2020-01-02'),
         firstName: 'Mad',
@@ -34,10 +31,7 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function () {
       // then
       expect(juryCertificationSummary).to.deep.equal({
         certificationIssueReports: [notImpactfulIssueReport],
-        complementaryCertificationTakenLabels: [
-          'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-          'Pix+ Droit Expert',
-        ],
+        complementaryCertificationTakenLabel: 'Pix+ Droit Expert',
         completedAt: new Date('2020-01-01'),
         createdAt: new Date('2020-01-02'),
         firstName: 'Mad',
