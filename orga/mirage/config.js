@@ -189,6 +189,9 @@ export default function () {
     });
 
     prescriber.memberships = [membership];
+    if (code === 'ENGLISH_USER_INVITATION_CODE') {
+      prescriber.lang = 'en';
+    }
     prescriber.save();
 
     const organization = schema.organizations.find(organizationInvitation.organizationId);
