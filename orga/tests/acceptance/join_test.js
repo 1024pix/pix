@@ -48,6 +48,25 @@ module('Acceptance | join', function (hooks) {
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
 
+    test('it should redirect user to login page when organization-invitation exists but user tries to change language by url', async function (assert) {
+      // given
+      const code = 'ABCDEFGH01';
+      const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+      const organizationInvitationId = server.create('organizationInvitation', {
+        organizationId,
+        email: 'random@email.com',
+        status: 'pending',
+        code,
+      }).id;
+
+      // when
+      await visit(`rejoindre?invitationId=${organizationInvitationId}&code=${code}?lang=en`);
+
+      // then
+      assert.strictEqual(currentURL(), '/connexion');
+      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+    });
+
     test('it should redirect user to login page when organization-invitation does not exist', async function (assert) {
       // when
       await visit('rejoindre?invitationId=123456&code=FAKE999');
@@ -183,7 +202,7 @@ module('Acceptance | join', function (hooks) {
         }).id;
       });
 
-      test('it should redirect user to the campaigns list', async function (assert) {
+      test('it redirects user to the campaigns list that contains prescriber name', async function (assert) {
         // given
         server.create('campaign');
 
@@ -199,23 +218,6 @@ module('Acceptance | join', function (hooks) {
 
         assert.strictEqual(currentURL(), '/campagnes/les-miennes');
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-      });
-
-      test('it should show prescriber name', async function (assert) {
-        // given
-        server.create('campaign');
-
-        await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByName(loginFormButton);
-        await fillByLabel(emailInputLabel, user.email);
-        await fillByLabel(passwordInputLabel, 'secret');
-
-        // when
-        await clickByName(loginButton);
-
-        // then
-        assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-
         assert.contains('Harry Cover');
       });
     });
