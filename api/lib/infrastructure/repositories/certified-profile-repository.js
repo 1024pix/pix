@@ -1,63 +1,65 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection.js');
-const {
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection.js';
+
+import {
   CertifiedProfile,
   CertifiedArea,
   CertifiedCompetence,
   CertifiedTube,
   CertifiedSkill,
-} = require('../../domain/read-models/CertifiedProfile.js');
-const { NotFoundError } = require('../../domain/errors.js');
-const { skillDatasource } = require('../datasources/learning-content/skill-datasource.js');
-const { tubeDatasource } = require('../datasources/learning-content/tube-datasource.js');
-const { competenceDatasource } = require('../datasources/learning-content/competence-datasource.js');
-const { areaDatasource } = require('../datasources/learning-content/area-datasource.js');
-const knowledgeElementRepository = require('./knowledge-element-repository.js');
+} from '../../domain/read-models/CertifiedProfile.js';
 
-module.exports = {
-  async get(certificationCourseId) {
-    const certificationDatas = await knex
-      .select({
-        userId: 'certification-courses.userId',
-        createdAt: 'certification-courses.createdAt',
-        skillId: 'certification-challenges.associatedSkillId',
-      })
-      .from('certification-courses')
-      .join('certification-challenges', 'certification-challenges.courseId', 'certification-courses.id')
-      .where('certification-courses.id', certificationCourseId);
+import { NotFoundError } from '../../domain/errors.js';
+import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
+import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
+import { competenceDatasource } from '../datasources/learning-content/competence-datasource.js';
+import { areaDatasource } from '../datasources/learning-content/area-datasource.js';
+import * as knowledgeElementRepository from './knowledge-element-repository.js';
 
-    if (certificationDatas.length === 0) {
-      throw new NotFoundError(`Test de certification ${certificationCourseId} n'existe pas`);
-    }
-    const userId = certificationDatas[0].userId;
-    const createdAt = certificationDatas[0].createdAt;
-    const askedSkillIds = certificationDatas.map((data) => data.skillId);
+const get = async function (certificationCourseId) {
+  const certificationDatas = await knex
+    .select({
+      userId: 'certification-courses.userId',
+      createdAt: 'certification-courses.createdAt',
+      skillId: 'certification-challenges.associatedSkillId',
+    })
+    .from('certification-courses')
+    .join('certification-challenges', 'certification-challenges.courseId', 'certification-courses.id')
+    .where('certification-courses.id', certificationCourseId);
 
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
-      userId,
-      limitDate: createdAt,
-    });
+  if (certificationDatas.length === 0) {
+    throw new NotFoundError(`Test de certification ${certificationCourseId} n'existe pas`);
+  }
+  const userId = certificationDatas[0].userId;
+  const createdAt = certificationDatas[0].createdAt;
+  const askedSkillIds = certificationDatas.map((data) => data.skillId);
 
-    const isKnowledgeElementValidated = (knowledgeElement) => knowledgeElement.status === 'validated';
-    const skillIds = knowledgeElements
-      .filter((knowledgeElement) => isKnowledgeElementValidated(knowledgeElement))
-      .map((pixKnowledgeElement) => pixKnowledgeElement.skillId);
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
+    userId,
+    limitDate: createdAt,
+  });
 
-    const certifiedSkills = await _createCertifiedSkills(skillIds, askedSkillIds);
-    const certifiedTubes = await _createCertifiedTubes(certifiedSkills);
-    const certifiedCompetences = await _createCertifiedCompetences(certifiedTubes);
-    const certifiedAreas = await _createCertifiedAreas(certifiedCompetences);
+  const isKnowledgeElementValidated = (knowledgeElement) => knowledgeElement.status === 'validated';
+  const skillIds = knowledgeElements
+    .filter((knowledgeElement) => isKnowledgeElementValidated(knowledgeElement))
+    .map((pixKnowledgeElement) => pixKnowledgeElement.skillId);
 
-    return new CertifiedProfile({
-      id: certificationCourseId,
-      userId,
-      certifiedAreas,
-      certifiedCompetences,
-      certifiedTubes,
-      certifiedSkills,
-    });
-  },
+  const certifiedSkills = await _createCertifiedSkills(skillIds, askedSkillIds);
+  const certifiedTubes = await _createCertifiedTubes(certifiedSkills);
+  const certifiedCompetences = await _createCertifiedCompetences(certifiedTubes);
+  const certifiedAreas = await _createCertifiedAreas(certifiedCompetences);
+
+  return new CertifiedProfile({
+    id: certificationCourseId,
+    userId,
+    certifiedAreas,
+    certifiedCompetences,
+    certifiedTubes,
+    certifiedSkills,
+  });
 };
+
+export { get };
 
 async function _createCertifiedSkills(skillIds, askedSkillIds) {
   const learningContentSkills = await skillDatasource.findByRecordIds(skillIds);

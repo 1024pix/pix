@@ -1,9 +1,9 @@
-const { injectDependencies } = require('../../utils/dependency-injection.js');
+import { injectDependencies } from '../../utils/dependency-injection.js';
 
-const cpfCertificationResultRepository = require('../../repositories/cpf-certification-result-repository.js');
-const cpfCertificationXmlExportService = require('../../../domain/services/cpf-certification-xml-export-service.js');
-const cpfExternalStorage = require('../../external-storage/cpf-external-storage.js');
-const mailService = require('../../../domain/services/mail-service.js');
+import * as cpfCertificationResultRepository from '../../repositories/cpf-certification-result-repository.js';
+import * as cpfCertificationXmlExportService from '../../../domain/services/cpf-certification-xml-export-service.js';
+import { cpfExternalStorage } from '../../external-storage/cpf-external-storage.js';
+import * as mailService from '../../../domain/services/mail-service.js';
 
 const dependencies = {
   cpfCertificationResultRepository,
@@ -21,4 +21,4 @@ const cpfExport = injectDependencies(
   dependencies
 );
 
-module.exports = cpfExport;
+export { cpfExport };

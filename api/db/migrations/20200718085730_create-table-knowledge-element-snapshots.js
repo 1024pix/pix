@@ -1,6 +1,6 @@
 const TABLE_NAME = 'knowledge-element-snapshots';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.integer('userId').notNullable();
@@ -10,6 +10,8 @@ exports.up = function (knex) {
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
+
+export { up, down };

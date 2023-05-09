@@ -1,6 +1,6 @@
-const { UserNotAuthorizedToUpdatePasswordError } = require('../errors.js');
+import { UserNotAuthorizedToUpdatePasswordError } from '../errors.js';
 
-module.exports = async function updateUserPassword({
+const updateUserPassword = async function ({
   userId,
   password,
   temporaryKey,
@@ -26,3 +26,5 @@ module.exports = async function updateUserPassword({
 
   return updatedUser;
 };
+
+export { updateUserPassword };

@@ -1,6 +1,6 @@
 const TABLE_NAME = 'issue-report-categories';
 
-exports.up = async (knex) => {
+const up = async function(knex) {
   await knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments().primary();
     t.string('name').notNullable();
@@ -158,6 +158,8 @@ exports.up = async (knex) => {
   ]);
 };
 
-exports.down = (knex) => {
+const down = function(knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
+
+export { up, down };

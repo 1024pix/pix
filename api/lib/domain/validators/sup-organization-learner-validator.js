@@ -1,7 +1,7 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const { EntityValidationError } = require('../errors.js');
+import { EntityValidationError } from '../errors.js';
 
 const validationConfiguration = { allowUnknown: true };
 const MAX_LENGTH = 255;
@@ -26,39 +26,39 @@ const validationSchema = Joi.object({
   organizationId: Joi.number().integer().required(),
 });
 
-module.exports = {
-  checkValidation(supOrganizationLearner) {
-    const { error } = validationSchema.validate(supOrganizationLearner, validationConfiguration);
-    if (error) {
-      const err = EntityValidationError.fromJoiErrors(error.details);
-      err.key = error.details[0].context.key;
-      const { type, context } = error.details[0];
-      if (type === 'any.required') {
-        err.why = 'required';
-      }
-      if (type === 'string.max') {
-        err.why = 'max_length';
-        err.limit = context.limit;
-      }
-      if (type === 'date.format') {
-        err.why = 'date_format';
-      }
-      if (type === 'string.email') {
-        err.why = 'email_format';
-      }
-      if (type === 'string.base') {
-        err.why = 'not_a_string';
-      }
-      if (type === 'number.base' || type === 'number.integer') {
-        err.why = 'not_an_integer';
-      }
-      if (type === 'boolean.base') {
-        err.why = 'not_a_boolean';
-      }
-      if (err.key === 'studentNumber' && type === 'string.pattern.base') {
-        err.why = 'student_number_format';
-      }
-      throw err;
+const checkValidation = function (supOrganizationLearner) {
+  const { error } = validationSchema.validate(supOrganizationLearner, validationConfiguration);
+  if (error) {
+    const err = EntityValidationError.fromJoiErrors(error.details);
+    err.key = error.details[0].context.key;
+    const { type, context } = error.details[0];
+    if (type === 'any.required') {
+      err.why = 'required';
     }
-  },
+    if (type === 'string.max') {
+      err.why = 'max_length';
+      err.limit = context.limit;
+    }
+    if (type === 'date.format') {
+      err.why = 'date_format';
+    }
+    if (type === 'string.email') {
+      err.why = 'email_format';
+    }
+    if (type === 'string.base') {
+      err.why = 'not_a_string';
+    }
+    if (type === 'number.base' || type === 'number.integer') {
+      err.why = 'not_an_integer';
+    }
+    if (type === 'boolean.base') {
+      err.why = 'not_a_boolean';
+    }
+    if (err.key === 'studentNumber' && type === 'string.pattern.base') {
+      err.why = 'student_number_format';
+    }
+    throw err;
+  }
 };
+
+export { checkValidation };

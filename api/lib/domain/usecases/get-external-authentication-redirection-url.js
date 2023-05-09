@@ -1,6 +1,6 @@
-const AuthenticationMethod = require('../models/AuthenticationMethod.js');
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
-module.exports = async function getExternalAuthenticationRedirectionUrl({
+const getExternalAuthenticationRedirectionUrl = async function ({
   userAttributes,
   userRepository,
   authenticationMethodRepository,
@@ -28,6 +28,8 @@ module.exports = async function getExternalAuthenticationRedirectionUrl({
 
   return _getUrlForReconciliationPage({ tokenService, externalUser });
 };
+
+export { getExternalAuthenticationRedirectionUrl };
 
 async function _getUrlWithAccessToken({
   user,

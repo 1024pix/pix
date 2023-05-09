@@ -1,119 +1,125 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection.js');
-const PrivateCertificate = require('../../domain/models/PrivateCertificate.js');
-const ShareableCertificate = require('../../domain/models/ShareableCertificate.js');
-const CertificationAttestation = require('../../domain/models/CertificationAttestation.js');
-const CertifiedBadge = require('../../../lib/domain/read-models/CertifiedBadge.js');
-const { NotFoundError } = require('../../../lib/domain/errors.js');
-const competenceTreeRepository = require('./competence-tree-repository.js');
-const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree.js');
-const CompetenceMark = require('../../domain/models/CompetenceMark.js');
-const AssessmentResult = require('../../domain/models/AssessmentResult.js');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection.js';
+import { PrivateCertificate } from '../../domain/models/PrivateCertificate.js';
+import { ShareableCertificate } from '../../domain/models/ShareableCertificate.js';
+import { CertificationAttestation } from '../../domain/models/CertificationAttestation.js';
+import { CertifiedBadge } from '../../../lib/domain/read-models/CertifiedBadge.js';
+import { NotFoundError } from '../../../lib/domain/errors.js';
+import * as competenceTreeRepository from './competence-tree-repository.js';
+import { ResultCompetenceTree } from '../../domain/models/ResultCompetenceTree.js';
+import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
+import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
 
-module.exports = {
-  async getPrivateCertificate(id, { locale } = {}) {
-    const certificationCourseDTO = await _selectPrivateCertificates()
-      .where('certification-courses.id', '=', id)
-      .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
-      .where('certification-courses.isPublished', true)
-      .where('certification-courses.isCancelled', false)
-      .where('assessment-results.status', AssessmentResult.status.VALIDATED)
-      .first();
+const getPrivateCertificate = async function (id, { locale } = {}) {
+  const certificationCourseDTO = await _selectPrivateCertificates()
+    .where('certification-courses.id', '=', id)
+    .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
+    .where('certification-courses.isPublished', true)
+    .where('certification-courses.isCancelled', false)
+    .where('assessment-results.status', AssessmentResult.status.VALIDATED)
+    .first();
 
-    if (!certificationCourseDTO) {
-      throw new NotFoundError(`Certificate not found for ID ${id}`);
-    }
+  if (!certificationCourseDTO) {
+    throw new NotFoundError(`Certificate not found for ID ${id}`);
+  }
 
-    const certifiedBadges = await _getCertifiedBadges(id);
+  const certifiedBadges = await _getCertifiedBadges(id);
 
-    const competenceTree = await competenceTreeRepository.get({ locale });
+  const competenceTree = await competenceTreeRepository.get({ locale });
 
-    return _toDomainForPrivateCertificate({
+  return _toDomainForPrivateCertificate({
+    certificationCourseDTO,
+    competenceTree,
+    certifiedBadges,
+  });
+};
+
+const findPrivateCertificatesByUserId = async function ({ userId }) {
+  const certificationCourseDTOs = await _selectPrivateCertificates()
+    .where('certification-courses.userId', '=', userId)
+    .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
+    .orderBy('certification-courses.createdAt', 'DESC');
+
+  const privateCertificates = certificationCourseDTOs.map((certificationCourseDTO) =>
+    _toDomainForPrivateCertificate({
       certificationCourseDTO,
-      competenceTree,
-      certifiedBadges,
-    });
-  },
+    })
+  );
+  return privateCertificates;
+};
 
-  async findPrivateCertificatesByUserId({ userId }) {
-    const certificationCourseDTOs = await _selectPrivateCertificates()
-      .where('certification-courses.userId', '=', userId)
-      .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
-      .orderBy('certification-courses.createdAt', 'DESC');
+const getShareableCertificateByVerificationCode = async function (verificationCode, { locale } = {}) {
+  const shareableCertificateDTO = await _selectShareableCertificates()
+    .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
+    .where({ verificationCode })
+    .first();
 
-    const privateCertificates = certificationCourseDTOs.map((certificationCourseDTO) =>
-      _toDomainForPrivateCertificate({
-        certificationCourseDTO,
-      })
-    );
-    return privateCertificates;
-  },
+  if (!shareableCertificateDTO) {
+    throw new NotFoundError(`There is no certification course with verification code "${verificationCode}"`);
+  }
 
-  async getShareableCertificateByVerificationCode(verificationCode, { locale } = {}) {
-    const shareableCertificateDTO = await _selectShareableCertificates()
-      .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
-      .where({ verificationCode })
-      .first();
+  const competenceTree = await competenceTreeRepository.get({ locale });
 
-    if (!shareableCertificateDTO) {
-      throw new NotFoundError(`There is no certification course with verification code "${verificationCode}"`);
-    }
+  const certifiedBadges = await _getCertifiedBadges(shareableCertificateDTO.id);
 
-    const competenceTree = await competenceTreeRepository.get({ locale });
+  return _toDomainForShareableCertificate({ shareableCertificateDTO, competenceTree, certifiedBadges });
+};
 
-    const certifiedBadges = await _getCertifiedBadges(shareableCertificateDTO.id);
+const getCertificationAttestation = async function (id) {
+  const certificationCourseDTO = await _selectCertificationAttestations()
+    .where('certification-courses.id', '=', id)
+    .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
+    .first();
 
-    return _toDomainForShareableCertificate({ shareableCertificateDTO, competenceTree, certifiedBadges });
-  },
+  if (!certificationCourseDTO) {
+    throw new NotFoundError(`There is no certification course with id "${id}"`);
+  }
 
-  async getCertificationAttestation(id) {
-    const certificationCourseDTO = await _selectCertificationAttestations()
-      .where('certification-courses.id', '=', id)
-      .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
-      .first();
+  const competenceTree = await competenceTreeRepository.get();
+  const certifiedBadges = await _getCertifiedBadges(certificationCourseDTO.id);
 
-    if (!certificationCourseDTO) {
-      throw new NotFoundError(`There is no certification course with id "${id}"`);
-    }
+  return _toDomainForCertificationAttestation({ certificationCourseDTO, competenceTree, certifiedBadges });
+};
 
-    const competenceTree = await competenceTreeRepository.get();
-    const certifiedBadges = await _getCertifiedBadges(certificationCourseDTO.id);
+const findByDivisionForScoIsManagingStudentsOrganization = async function ({ organizationId, division }) {
+  const certificationCourseDTOs = await _selectCertificationAttestations()
+    .select({ organizationLearnerId: 'organization-learners.id' })
+    .innerJoin('certification-candidates', function () {
+      this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' }).andOn({
+        'certification-candidates.userId': 'certification-courses.userId',
+      });
+    })
+    .innerJoin('organization-learners', 'organization-learners.id', 'certification-candidates.organizationLearnerId')
+    .innerJoin('organizations', 'organizations.id', 'organization-learners.organizationId')
+    .where({
+      'organization-learners.organizationId': organizationId,
+      'organization-learners.isDisabled': false,
+    })
+    .whereRaw('LOWER("organization-learners"."division") = ?', division.toLowerCase())
+    .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
+    .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
+    .modify(_checkOrganizationIsScoIsManagingStudents)
+    .groupBy('organization-learners.id', 'certification-courses.id', 'sessions.id', 'assessment-results.id')
+    .orderBy('certification-courses.createdAt', 'DESC');
 
-    return _toDomainForCertificationAttestation({ certificationCourseDTO, competenceTree, certifiedBadges });
-  },
+  const competenceTree = await competenceTreeRepository.get();
 
-  async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
-    const certificationCourseDTOs = await _selectCertificationAttestations()
-      .select({ organizationLearnerId: 'organization-learners.id' })
-      .innerJoin('certification-candidates', function () {
-        this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' }).andOn({
-          'certification-candidates.userId': 'certification-courses.userId',
-        });
-      })
-      .innerJoin('organization-learners', 'organization-learners.id', 'certification-candidates.organizationLearnerId')
-      .innerJoin('organizations', 'organizations.id', 'organization-learners.organizationId')
-      .where({
-        'organization-learners.organizationId': organizationId,
-        'organization-learners.isDisabled': false,
-      })
-      .whereRaw('LOWER("organization-learners"."division") = ?', division.toLowerCase())
-      .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
-      .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
-      .modify(_checkOrganizationIsScoIsManagingStudents)
-      .groupBy('organization-learners.id', 'certification-courses.id', 'sessions.id', 'assessment-results.id')
-      .orderBy('certification-courses.createdAt', 'DESC');
+  const mostRecentCertificationsPerOrganizationLearner =
+    _filterMostRecentCertificationCoursePerOrganizationLearner(certificationCourseDTOs);
+  return _(mostRecentCertificationsPerOrganizationLearner)
+    .orderBy(['lastName', 'firstName'], ['asc', 'asc'])
+    .map((certificationCourseDTO) => {
+      return _toDomainForCertificationAttestation({ certificationCourseDTO, competenceTree, certifiedBadges: [] });
+    })
+    .value();
+};
 
-    const competenceTree = await competenceTreeRepository.get();
-
-    const mostRecentCertificationsPerOrganizationLearner =
-      _filterMostRecentCertificationCoursePerOrganizationLearner(certificationCourseDTOs);
-    return _(mostRecentCertificationsPerOrganizationLearner)
-      .orderBy(['lastName', 'firstName'], ['asc', 'asc'])
-      .map((certificationCourseDTO) => {
-        return _toDomainForCertificationAttestation({ certificationCourseDTO, competenceTree, certifiedBadges: [] });
-      })
-      .value();
-  },
+export {
+  getPrivateCertificate,
+  findPrivateCertificatesByUserId,
+  getShareableCertificateByVerificationCode,
+  getCertificationAttestation,
+  findByDivisionForScoIsManagingStudentsOrganization,
 };
 
 async function _getCertifiedBadges(certificationCourseId) {

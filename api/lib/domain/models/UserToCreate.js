@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const localeService = require('../services/locale-service');
+import _ from 'lodash';
+import * as localeService from '../services/locale-service.js';
 
 class UserToCreate {
   constructor({
@@ -75,4 +75,4 @@ class UserToCreate {
   }
 }
 
-module.exports = UserToCreate;
+export { UserToCreate };

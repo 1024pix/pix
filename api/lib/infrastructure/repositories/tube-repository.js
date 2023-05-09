@@ -1,10 +1,9 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const Tube = require('../../domain/models/Tube.js');
-const { tubeDatasource } = require('../datasources/learning-content/tube-datasource.js');
-const { skillDatasource } = require('../datasources/learning-content/skill-datasource.js');
-
-const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import { Tube } from '../../domain/models/Tube.js';
+import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
+import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
+import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 
 function _toDomain({ tubeData, locale }) {
   const translatedPracticalTitle = getTranslatedKey(tubeData.practicalTitle_i18n, locale);
@@ -32,34 +31,34 @@ async function _findActive(tubes) {
   });
 }
 
-module.exports = {
-  async get(id) {
-    const tubeData = await tubeDatasource.get(id);
-    return _toDomain({ tubeData });
-  },
-
-  async list() {
-    const tubeDatas = await tubeDatasource.list();
-    const tubes = _.map(tubeDatas, (tubeData) => _toDomain({ tubeData }));
-    return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
-  },
-
-  async findByNames({ tubeNames, locale }) {
-    const tubeDatas = await tubeDatasource.findByNames(tubeNames);
-    const tubes = _.map(tubeDatas, (tubeData) => _toDomain({ tubeData, locale }));
-    return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
-  },
-
-  async findByRecordIds(tubeIds, locale) {
-    const tubeDatas = await tubeDatasource.findByRecordIds(tubeIds);
-    const tubes = _.map(tubeDatas, (tubeData) => _toDomain({ tubeData, locale }));
-    return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
-  },
-
-  async findActiveByRecordIds(tubeIds, locale) {
-    const tubeDatas = await tubeDatasource.findByRecordIds(tubeIds);
-    const activeTubes = await _findActive(tubeDatas);
-    const tubes = _.map(activeTubes, (tubeData) => _toDomain({ tubeData, locale }));
-    return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
-  },
+const get = async function (id) {
+  const tubeData = await tubeDatasource.get(id);
+  return _toDomain({ tubeData });
 };
+
+const list = async function () {
+  const tubeDatas = await tubeDatasource.list();
+  const tubes = _.map(tubeDatas, (tubeData) => _toDomain({ tubeData }));
+  return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
+};
+
+const findByNames = async function ({ tubeNames, locale }) {
+  const tubeDatas = await tubeDatasource.findByNames(tubeNames);
+  const tubes = _.map(tubeDatas, (tubeData) => _toDomain({ tubeData, locale }));
+  return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
+};
+
+const findByRecordIds = async function (tubeIds, locale) {
+  const tubeDatas = await tubeDatasource.findByRecordIds(tubeIds);
+  const tubes = _.map(tubeDatas, (tubeData) => _toDomain({ tubeData, locale }));
+  return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
+};
+
+const findActiveByRecordIds = async function (tubeIds, locale) {
+  const tubeDatas = await tubeDatasource.findByRecordIds(tubeIds);
+  const activeTubes = await _findActive(tubeDatas);
+  const tubes = _.map(activeTubes, (tubeData) => _toDomain({ tubeData, locale }));
+  return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
+};
+
+export { get, list, findByNames, findByRecordIds, findActiveByRecordIds };

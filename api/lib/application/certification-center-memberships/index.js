@@ -1,7 +1,7 @@
-const certificationCenterMembershipController = require('./certification-center-membership-controller.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
+import { certificationCenterMembershipController } from './certification-center-membership-controller.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   const adminRoutes = [
     {
       method: 'DELETE',
@@ -32,4 +32,5 @@ exports.register = async function (server) {
   server.route([...adminRoutes]);
 };
 
-exports.name = 'certification-center-memberships-api';
+const name = 'certification-center-memberships-api';
+export { register, name };

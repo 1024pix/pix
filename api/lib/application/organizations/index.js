@@ -1,18 +1,18 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
 
-const { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError } = require('../http-errors.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
-const organizationController = require('./organization-controller.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError } from '../http-errors.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { organizationController } from './organization-controller.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
 };
 const TWENTY_MEGABYTES = 1048576 * 20;
 
-exports.register = async (server) => {
+const register = async function (server) {
   const adminRoutes = [
     {
       method: 'POST',
@@ -994,4 +994,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'organization-api';
+const name = 'organization-api';
+export { register, name };

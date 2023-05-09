@@ -63,7 +63,7 @@ const DeprecatedSubcategories = [
   CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
 ];
 
-module.exports = {
+export {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
   ImpactfulCategories,

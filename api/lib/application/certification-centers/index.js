@@ -1,9 +1,9 @@
-const certificationCenterController = require('./certification-center-controller.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
-const Joi = require('joi');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import { certificationCenterController } from './certification-center-controller.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import Joi from 'joi';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   const adminRoutes = [
     {
       method: 'POST',
@@ -458,4 +458,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'certification-centers-api';
+const name = 'certification-centers-api';
+export { register, name };

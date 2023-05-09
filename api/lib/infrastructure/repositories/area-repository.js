@@ -1,9 +1,9 @@
-const Area = require('../../domain/models/Area.js');
-const { areaDatasource } = require('../datasources/learning-content/area-datasource.js');
-const competenceRepository = require('./competence-repository.js');
-const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
-const _ = require('lodash');
-const { NotFoundError } = require('../../domain/errors.js');
+import { Area } from '../../domain/models/Area.js';
+import { areaDatasource } from '../datasources/learning-content/area-datasource.js';
+import * as competenceRepository from './competence-repository.js';
+import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
+import _ from 'lodash';
+import { NotFoundError } from '../../domain/errors.js';
 
 function _toDomain({ areaData, locale }) {
   const translatedTitle = getTranslatedKey(areaData.title_i18n, locale);
@@ -62,11 +62,4 @@ async function get({ id, locale }) {
   return _toDomain({ areaData, locale });
 }
 
-module.exports = {
-  list,
-  listWithPixCompetencesOnly,
-  findByFrameworkIdWithCompetences,
-  findByFrameworkId,
-  findByRecordIds,
-  get,
-};
+export { list, listWithPixCompetencesOnly, findByFrameworkIdWithCompetences, findByFrameworkId, findByRecordIds, get };

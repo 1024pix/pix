@@ -1,6 +1,6 @@
 const TABLE_NAME = 'reset-password-demands';
 
-exports.up = function (knex) {
+const up = function(knex) {
   function table(t) {
     t.increments().primary();
     t.string('email').index();
@@ -13,6 +13,8 @@ exports.up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, table);
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
+
+export { up, down };

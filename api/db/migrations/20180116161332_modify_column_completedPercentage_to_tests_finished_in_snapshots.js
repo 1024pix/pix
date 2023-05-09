@@ -3,7 +3,7 @@ const NUMBER_OF_COMPETENCES = 16;
 const MULTIPLICATOR_PERCENTAGE_TO_COMPETENCES = NUMBER_OF_COMPETENCES / 100;
 const MULTIPLICATOR_COMPETENCES_TO_PERCENTAGE = 100 / NUMBER_OF_COMPETENCES;
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema
     .table(TABLE_NAME, function (table) {
       table.integer('testsFinished');
@@ -24,7 +24,7 @@ exports.up = function (knex) {
     });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema
     .table(TABLE_NAME, function (table) {
       table.integer('completionPercentage');
@@ -44,3 +44,5 @@ exports.down = function (knex) {
       });
     });
 };
+
+export { up, down };

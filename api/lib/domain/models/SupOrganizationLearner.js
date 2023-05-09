@@ -1,4 +1,4 @@
-const { checkValidation } = require('../validators/sup-organization-learner-validator.js');
+import { checkValidation } from '../validators/sup-organization-learner-validator.js';
 
 class SupOrganizationLearner {
   constructor({
@@ -35,4 +35,4 @@ class SupOrganizationLearner {
   }
 }
 
-module.exports = SupOrganizationLearner;
+export { SupOrganizationLearner };

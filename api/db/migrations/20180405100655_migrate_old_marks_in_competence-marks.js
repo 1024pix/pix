@@ -1,10 +1,10 @@
-const { batch } = require('../batch-processing');
+import { batch } from '../batch-processing.js';
 
 const TABLE_NAME_MARKS = 'marks';
 const TABLE_NAME_COMPETENCE_MARKS = 'competence-marks';
 const TABLE_NAME_ASSESSMENT_RESULTS = 'assessment-results';
 
-exports.up = function (knex) {
+const up = function(knex) {
   return knex(TABLE_NAME_MARKS)
     .select('id', 'level', 'score', 'area_code', 'competence_code', 'assessmentResultId')
     .then((allMarks) => {
@@ -21,7 +21,7 @@ exports.up = function (knex) {
     .then(() => knex.schema.dropTable(TABLE_NAME_MARKS));
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema
     .createTable(TABLE_NAME_MARKS, (t) => {
       t.increments().primary();
@@ -55,3 +55,5 @@ exports.down = function (knex) {
       });
     });
 };
+
+export { up, down };

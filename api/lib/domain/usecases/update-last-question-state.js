@@ -1,7 +1,7 @@
-const logger = require('../../infrastructure/logger.js');
-const Assessment = require('../models/Assessment.js');
+import { logger } from '../../infrastructure/logger.js';
+import { Assessment } from '../models/Assessment.js';
 
-module.exports = async function updateLastQuestionState({
+const updateLastQuestionState = async function ({
   assessmentId,
   lastQuestionState,
   challengeId,
@@ -45,3 +45,5 @@ module.exports = async function updateLastQuestionState({
     domainTransaction,
   });
 };
+
+export { updateLastQuestionState };

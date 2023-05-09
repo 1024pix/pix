@@ -1,6 +1,6 @@
-const { AlreadyExistingEntityError } = require('../../domain/errors.js');
+import { AlreadyExistingEntityError } from '../../domain/errors.js';
 
-module.exports = async function updateStudentNumber({
+const updateStudentNumber = async function ({
   organizationLearnerId,
   studentNumber,
   organizationId,
@@ -17,3 +17,5 @@ module.exports = async function updateStudentNumber({
 
   await supOrganizationLearnerRepository.updateStudentNumber(organizationLearnerId, studentNumber);
 };
+
+export { updateStudentNumber };

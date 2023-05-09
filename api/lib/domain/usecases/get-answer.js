@@ -1,6 +1,6 @@
-const { NotFoundError } = require('../errors.js');
+import { NotFoundError } from '../errors.js';
 
-module.exports = async function getAnswer({ answerId, userId, answerRepository, assessmentRepository } = {}) {
+const getAnswer = async function ({ answerId, userId, answerRepository, assessmentRepository } = {}) {
   const integerAnswerId = parseInt(answerId);
   if (!Number.isFinite(integerAnswerId)) {
     throw new NotFoundError(`Not found answer for ID ${answerId}`);
@@ -12,3 +12,5 @@ module.exports = async function getAnswer({ answerId, userId, answerRepository, 
   }
   return answer;
 };
+
+export { getAnswer };

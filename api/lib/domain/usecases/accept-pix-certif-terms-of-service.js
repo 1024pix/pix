@@ -1,3 +1,5 @@
-module.exports = function acceptPixCertifTermsOfService({ userId, userRepository }) {
+const acceptPixCertifTermsOfService = function ({ userId, userRepository }) {
   return userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(userId);
 };
+
+export { acceptPixCertifTermsOfService };

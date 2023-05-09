@@ -1,6 +1,6 @@
-const OrganizationPlacesLot = require('../models/OrganizationPlacesLot.js');
+import { OrganizationPlacesLot } from '../models/OrganizationPlacesLot.js';
 
-module.exports = async function createOrganizationPlacesLot({
+const createOrganizationPlacesLot = async function ({
   organizationPlacesLotData,
   organizationId,
   createdBy,
@@ -18,3 +18,5 @@ module.exports = async function createOrganizationPlacesLot({
   const id = await organizationPlacesLotRepository.create(organizationPlaceLot);
   return await organizationPlacesLotRepository.get(id);
 };
+
+export { createOrganizationPlacesLot };

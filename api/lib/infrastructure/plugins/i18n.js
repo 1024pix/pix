@@ -1,4 +1,4 @@
-const hapiI18n = require('hapi-i18n');
+import hapiI18n from 'hapi-i18n';
 const plugin = hapiI18n;
 const options = {
   locales: ['en', 'fr'],
@@ -10,7 +10,4 @@ const options = {
   updateFiles: false,
 };
 
-module.exports = {
-  plugin,
-  options,
-};
+export { plugin, options };

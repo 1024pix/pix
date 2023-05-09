@@ -1,13 +1,15 @@
-const dayjs = require('dayjs');
+import dayjs from 'dayjs';
 
-const tokenService = require('./token-service.js');
-const { mailer } = require('../../infrastructure/mailers/mailer.js');
-const settings = require('../../config.js');
+import { tokenService } from './token-service.js';
+import { mailer } from '../../infrastructure/mailers/mailer.js';
+import { settings } from '../../config.js';
 
 const frTranslations = require('../../../translations/fr.json');
 const enTranslations = require('../../../translations/en.json');
 
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/constants.js').LOCALE;
+import { LOCALE } from '../../domain/constants.js';
+
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
@@ -430,7 +432,7 @@ function sendNotificationToCertificationCenterRefererForCleaResults({ email, ses
   return mailer.sendEmail(options);
 }
 
-module.exports = {
+export {
   sendAccountCreationEmail,
   sendAccountRecoveryEmail,
   sendCertificationResultEmail,

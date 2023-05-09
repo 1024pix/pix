@@ -1,8 +1,8 @@
-const { knex } = require('../../../../db/knex-database-connection.js');
-const { NotFoundError } = require('../../../domain/errors.js');
-const OrganizationLearner = require('../../../domain/read-models/organization-learner-follow-up/OrganizationLearner.js');
-const CampaignTypes = require('../../../domain/models/CampaignTypes.js');
-const CampaignParticipationStatuses = require('../../../domain/models/CampaignParticipationStatuses.js');
+import { knex } from '../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../domain/errors.js';
+import { OrganizationLearner } from '../../../domain/read-models/organization-learner-follow-up/OrganizationLearner.js';
+import { CampaignTypes } from '../../../domain/models/CampaignTypes.js';
+import { CampaignParticipationStatuses } from '../../../domain/models/CampaignParticipationStatuses.js';
 
 function _buildIsCertifiable(queryBuilder, organizationLearnerId) {
   queryBuilder
@@ -53,4 +53,4 @@ async function get(organizationLearnerId) {
   throw new NotFoundError(`Student not found for ID ${organizationLearnerId}`);
 }
 
-module.exports = { get };
+export { get };

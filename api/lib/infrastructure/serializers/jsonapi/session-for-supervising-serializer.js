@@ -1,4 +1,4 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
 const attributes = [
   'id',
@@ -12,25 +12,25 @@ const attributes = [
   'complementaryCertification',
 ];
 
-module.exports = {
-  serialize(sessions) {
-    return new Serializer('sessionForSupervising', {
-      attributes: [
-        'room',
-        'examiner',
-        'accessCode',
-        'date',
-        'time',
-        'certificationCenterName',
-        'certificationCandidates',
-      ],
-      typeForAttribute: (attribute) =>
-        attribute === 'certificationCandidates' ? 'certification-candidate-for-supervising' : attribute,
-      certificationCandidates: {
-        included: true,
-        ref: 'id',
-        attributes: [...attributes],
-      },
-    }).serialize(sessions);
-  },
+const serialize = function (sessions) {
+  return new Serializer('sessionForSupervising', {
+    attributes: [
+      'room',
+      'examiner',
+      'accessCode',
+      'date',
+      'time',
+      'certificationCenterName',
+      'certificationCandidates',
+    ],
+    typeForAttribute: (attribute) =>
+      attribute === 'certificationCandidates' ? 'certification-candidate-for-supervising' : attribute,
+    certificationCandidates: {
+      included: true,
+      ref: 'id',
+      attributes: [...attributes],
+    },
+  }).serialize(sessions);
 };
+
+export { serialize };

@@ -1,12 +1,14 @@
-const _ = require('lodash');
-const {
+import _ from 'lodash';
+
+import {
   ArchivedCampaignError,
   AssessmentNotCompletedError,
   AlreadySharedCampaignParticipationError,
   CantImproveCampaignParticipationError,
   CampaignParticipationDeletedError,
-} = require('../errors.js');
-const CampaignParticipationStatuses = require('./CampaignParticipationStatuses.js');
+} from '../errors.js';
+
+import { CampaignParticipationStatuses } from './CampaignParticipationStatuses.js';
 
 class CampaignParticipation {
   constructor({
@@ -116,4 +118,4 @@ function lastAssessmentNotCompleted(campaignParticipation) {
   return !campaignParticipation.lastAssessment || !campaignParticipation.lastAssessment.isCompleted();
 }
 
-module.exports = CampaignParticipation;
+export { CampaignParticipation };

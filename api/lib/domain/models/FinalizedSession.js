@@ -1,4 +1,4 @@
-module.exports = class FinalizedSession {
+class FinalizedSession {
   constructor({
     sessionId,
     finalizedAt,
@@ -57,7 +57,9 @@ module.exports = class FinalizedSession {
     this.isPublishable = false;
     this.assignedCertificationOfficerName = certificationOfficerName;
   }
-};
+}
+
+export { FinalizedSession };
 
 function _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries) {
   return !juryCertificationSummaries.some((summary) => summary.isActionRequired());

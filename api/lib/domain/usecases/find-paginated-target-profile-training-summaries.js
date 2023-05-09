@@ -1,4 +1,4 @@
-module.exports = async function findPaginatedTargetProfileTrainings({ targetProfileId, page, trainingRepository }) {
+const findPaginatedTargetProfileTrainings = async function ({ targetProfileId, page, trainingRepository }) {
   const { trainings, pagination } = await trainingRepository.findPaginatedSummariesByTargetProfileId({
     targetProfileId,
     page,
@@ -9,3 +9,5 @@ module.exports = async function findPaginatedTargetProfileTrainings({ targetProf
     meta: { pagination },
   };
 };
+
+export { findPaginatedTargetProfileTrainings };

@@ -1,3 +1,3 @@
 class MailingProviderInvalidEmailError extends Error {}
 
-module.exports = { MailingProviderInvalidEmailError };
+export { MailingProviderInvalidEmailError };

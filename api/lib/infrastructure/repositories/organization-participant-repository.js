@@ -1,9 +1,9 @@
-const OrganizationParticipant = require('../../domain/read-models/OrganizationParticipant.js');
-const { knex } = require('../../../db/knex-database-connection.js');
-const { fetchPage } = require('../utils/knex-utils.js');
-const { filterByFullName } = require('../utils/filter-utils.js');
-const CampaignTypes = require('../../domain/models/CampaignTypes.js');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
+import { OrganizationParticipant } from '../../domain/read-models/OrganizationParticipant.js';
+import { knex } from '../../../db/knex-database-connection.js';
+import { fetchPage } from '../utils/knex-utils.js';
+import { filterByFullName } from '../utils/filter-utils.js';
+import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
+import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
 
 async function getParticipantsByOrganizationId({ organizationId, page, filters = {}, sort = {} }) {
   const { count } = await knex
@@ -126,6 +126,4 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
     .where('campaign-participations.deletedAt', null);
 }
 
-module.exports = {
-  getParticipantsByOrganizationId,
-};
+export { getParticipantsByOrganizationId };

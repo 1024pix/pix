@@ -1,4 +1,4 @@
-const datasource = require('./datasource.js');
+import * as datasource from './datasource.js';
 
 const frameworkDatasource = datasource.extend({
   modelName: 'frameworks',
@@ -14,4 +14,4 @@ const frameworkDatasource = datasource.extend({
   },
 });
 
-module.exports = { frameworkDatasource };
+export { frameworkDatasource };

@@ -1,3 +1,5 @@
-module.exports = function rememberUserHasSeenLastDataProtectionPolicyInformation({ userId, userRepository }) {
+const rememberUserHasSeenLastDataProtectionPolicyInformation = function ({ userId, userRepository }) {
   return userRepository.updateLastDataProtectionPolicySeenAt({ userId });
 };
+
+export { rememberUserHasSeenLastDataProtectionPolicyInformation };

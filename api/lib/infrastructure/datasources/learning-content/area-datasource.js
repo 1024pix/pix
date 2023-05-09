@@ -1,4 +1,4 @@
-const datasource = require('./datasource.js');
+import * as datasource from './datasource.js';
 const areaDatasource = datasource.extend({
   modelName: 'areas',
 
@@ -13,4 +13,4 @@ const areaDatasource = datasource.extend({
   },
 });
 
-module.exports = { areaDatasource };
+export { areaDatasource };

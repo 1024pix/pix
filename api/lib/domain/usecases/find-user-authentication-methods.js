@@ -1,3 +1,5 @@
-module.exports = function findUserAuthenticationMethods({ userId, authenticationMethodRepository }) {
+const findUserAuthenticationMethods = function ({ userId, authenticationMethodRepository }) {
   return authenticationMethodRepository.findByUserId({ userId });
 };
+
+export { findUserAuthenticationMethods };

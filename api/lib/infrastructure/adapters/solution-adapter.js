@@ -1,5 +1,5 @@
-const Solution = require('../../domain/models/Solution.js');
-const _ = require('../../../lib/infrastructure/utils/lodash-utils.js');
+import { Solution } from '../../domain/models/Solution.js';
+import { _ } from '../../../lib/infrastructure/utils/lodash-utils.js';
 
 function statusToBoolean(value) {
   if (typeof value === 'boolean') {
@@ -33,19 +33,19 @@ function _extractTypeOfQroc(datasourceObject) {
   return qrocBlocksTypes;
 }
 
-module.exports = {
-  fromDatasourceObject(datasourceObject) {
-    const scoring = _.ensureString(datasourceObject.scoring).replace(/@/g, ''); // XXX YAML ne supporte pas @
-    const qrocBlocksTypes = _extractTypeOfQroc(datasourceObject);
-    return new Solution({
-      id: datasourceObject.id,
-      isT1Enabled: statusToBoolean(datasourceObject.t1Status),
-      isT2Enabled: statusToBoolean(datasourceObject.t2Status),
-      isT3Enabled: statusToBoolean(datasourceObject.t3Status),
-      type: datasourceObject.type,
-      value: datasourceObject.solution,
-      scoring,
-      qrocBlocksTypes,
-    });
-  },
+const fromDatasourceObject = function (datasourceObject) {
+  const scoring = _.ensureString(datasourceObject.scoring).replace(/@/g, ''); // XXX YAML ne supporte pas @
+  const qrocBlocksTypes = _extractTypeOfQroc(datasourceObject);
+  return new Solution({
+    id: datasourceObject.id,
+    isT1Enabled: statusToBoolean(datasourceObject.t1Status),
+    isT2Enabled: statusToBoolean(datasourceObject.t2Status),
+    isT3Enabled: statusToBoolean(datasourceObject.t3Status),
+    type: datasourceObject.type,
+    value: datasourceObject.solution,
+    scoring,
+    qrocBlocksTypes,
+  });
 };
+
+export { fromDatasourceObject };

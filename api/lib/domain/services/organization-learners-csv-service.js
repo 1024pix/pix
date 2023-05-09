@@ -1,9 +1,7 @@
 const fs = require('fs').promises;
-const OrganizationLearnerParser = require('../../infrastructure/serializers/csv/organization-learner-parser.js');
+import { OrganizationLearnerParser } from '../../infrastructure/serializers/csv/organization-learner-parser.js';
 
-module.exports = {
-  extractOrganizationLearnersInformation,
-};
+export { extractOrganizationLearnersInformation };
 
 async function extractOrganizationLearnersInformation(path, organization, i18n) {
   const buffer = await fs.readFile(path);

@@ -1,9 +1,9 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(authenticationMethods) {
-    return new Serializer('authentication-methods', {
-      attributes: ['identityProvider'],
-    }).serialize(authenticationMethods);
-  },
+const serialize = function (authenticationMethods) {
+  return new Serializer('authentication-methods', {
+    attributes: ['identityProvider'],
+  }).serialize(authenticationMethods);
 };
+
+export { serialize };

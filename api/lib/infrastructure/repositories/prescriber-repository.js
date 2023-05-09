@@ -1,12 +1,12 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection.js');
-const settings = require('../../config.js');
-const BookshelfUser = require('../orm-models/User.js');
-const BookshelfMembership = require('../orm-models/Membership.js');
-const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings.js');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
-const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors.js');
-const Prescriber = require('../../domain/read-models/Prescriber.js');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection.js';
+import { settings } from '../../config.js';
+import { BookshelfUser } from '../orm-models/User.js';
+import { BookshelfMembership } from '../orm-models/Membership.js';
+import { BookshelfUserOrgaSettings } from '../orm-models/UserOrgaSettings.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+import { ForbiddenAccess, UserNotFoundError } from '../../domain/errors.js';
+import { Prescriber } from '../../domain/read-models/Prescriber.js';
 
 function _toPrescriberDomain(bookshelfUser) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();
@@ -57,34 +57,34 @@ async function _getParticipantCount(prescriber) {
   prescriber.participantCount = allCounts;
 }
 
-module.exports = {
-  async getPrescriber(userId) {
-    try {
-      const prescriberFromDB = await BookshelfUser.where({ id: userId }).fetch({
-        columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
-        withRelated: [
-          { memberships: (qb) => qb.where({ disabledAt: null }).orderBy('id') },
-          'memberships.organization',
-          'userOrgaSettings',
-          'userOrgaSettings.currentOrganization',
-          'userOrgaSettings.currentOrganization.tags',
-        ],
-      });
-      const prescriber = _toPrescriberDomain(prescriberFromDB);
+const getPrescriber = async function (userId) {
+  try {
+    const prescriberFromDB = await BookshelfUser.where({ id: userId }).fetch({
+      columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
+      withRelated: [
+        { memberships: (qb) => qb.where({ disabledAt: null }).orderBy('id') },
+        'memberships.organization',
+        'userOrgaSettings',
+        'userOrgaSettings.currentOrganization',
+        'userOrgaSettings.currentOrganization.tags',
+      ],
+    });
+    const prescriber = _toPrescriberDomain(prescriberFromDB);
 
-      if (_.isEmpty(prescriber.memberships)) {
-        throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
-      }
-
-      await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
-      await _getParticipantCount(prescriber);
-
-      return prescriber;
-    } catch (err) {
-      if (err instanceof BookshelfUser.NotFoundError) {
-        throw new UserNotFoundError(`User not found for ID ${userId}`);
-      }
-      throw err;
+    if (_.isEmpty(prescriber.memberships)) {
+      throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
     }
-  },
+
+    await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
+    await _getParticipantCount(prescriber);
+
+    return prescriber;
+  } catch (err) {
+    if (err instanceof BookshelfUser.NotFoundError) {
+      throw new UserNotFoundError(`User not found for ID ${userId}`);
+    }
+    throw err;
+  }
 };
+
+export { getPrescriber };

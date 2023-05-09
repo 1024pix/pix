@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import _ from 'lodash';
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const { EntityValidationError } = require('../errors.js');
+import { EntityValidationError } from '../errors.js';
 
 const ABORT_REASONS = ['candidate', 'technical'];
 const cpfImportStatus = {
@@ -260,4 +260,4 @@ function _sanitizedString(string) {
 
 CertificationCourse.cpfImportStatus = cpfImportStatus;
 
-module.exports = CertificationCourse;
+export { CertificationCourse };

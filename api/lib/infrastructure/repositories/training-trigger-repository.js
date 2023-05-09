@@ -1,96 +1,99 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection.js');
-const { NotFoundError } = require('../../domain/errors.js');
-const DomainTransaction = require('../DomainTransaction.js');
-const TrainingTriggerForAdmin = require('../../domain/read-models/TrainingTriggerForAdmin.js');
-const TrainingTriggerTube = require('../../domain/models/TrainingTriggerTube.js');
-const areaRepository = require('./area-repository');
-const competenceRepository = require('./competence-repository');
-const thematicRepository = require('./thematic-repository');
-const tubeRepository = require('./tube-repository');
-const TrainingTrigger = require('../../domain/models/TrainingTrigger');
-const logger = require('../logger');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../domain/errors.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { TrainingTriggerForAdmin } from '../../domain/read-models/TrainingTriggerForAdmin.js';
+import { TrainingTriggerTube } from '../../domain/models/TrainingTriggerTube.js';
+import * as areaRepository from './area-repository.js';
+import * as competenceRepository from './competence-repository.js';
+import * as thematicRepository from './thematic-repository.js';
+import * as tubeRepository from './tube-repository.js';
+import { TrainingTrigger } from '../../domain/models/TrainingTrigger.js';
+import { logger } from '../logger.js';
 const TABLE_NAME = 'training-triggers';
 
-module.exports = {
-  async createOrUpdate({
-    trainingId,
-    triggerTubesForCreation,
-    type,
-    threshold,
-    domainTransaction = DomainTransaction.emptyTransaction(),
-  }) {
-    const knexConn = domainTransaction?.knexTransaction || (await knex.transaction());
+const createOrUpdate = async function ({
+  trainingId,
+  triggerTubesForCreation,
+  type,
+  threshold,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  const knexConn = domainTransaction?.knexTransaction || (await knex.transaction());
 
-    const [trainingTrigger] = await knexConn(TABLE_NAME)
-      .insert({ trainingId, type, threshold, updatedAt: new Date() })
-      .onConflict(['trainingId', 'type'])
-      .merge(['threshold', 'updatedAt'])
-      .returning('*');
+  const [trainingTrigger] = await knexConn(TABLE_NAME)
+    .insert({ trainingId, type, threshold, updatedAt: new Date() })
+    .onConflict(['trainingId', 'type'])
+    .merge(['threshold', 'updatedAt'])
+    .returning('*');
 
-    await knexConn('training-trigger-tubes').where({ trainingTriggerId: trainingTrigger.id }).delete();
+  await knexConn('training-trigger-tubes').where({ trainingTriggerId: trainingTrigger.id }).delete();
 
-    const trainingTriggerTubesToCreate = triggerTubesForCreation.map(({ tubeId, level }) => {
-      return {
-        trainingTriggerId: trainingTrigger.id,
-        tubeId,
-        level,
-      };
-    });
+  const trainingTriggerTubesToCreate = triggerTubesForCreation.map(({ tubeId, level }) => {
+    return {
+      trainingTriggerId: trainingTrigger.id,
+      tubeId,
+      level,
+    };
+  });
 
-    const createdTrainingTriggerTubes = await knexConn('training-trigger-tubes')
-      .insert(trainingTriggerTubesToCreate)
-      .returning('*');
+  const createdTrainingTriggerTubes = await knexConn('training-trigger-tubes')
+    .insert(trainingTriggerTubesToCreate)
+    .returning('*');
 
-    if (!domainTransaction?.knexTransaction) {
-      await knexConn.commit();
-    }
+  if (!domainTransaction?.knexTransaction) {
+    await knexConn.commit();
+  }
 
-    return _toDomainForAdmin({ trainingTrigger, triggerTubes: createdTrainingTriggerTubes });
-  },
-
-  async findByTrainingIdForAdmin({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const knexConn = domainTransaction?.knexTransaction || knex;
-    const trainingTriggers = await knexConn(TABLE_NAME).select('*').where({ trainingId }).orderBy('id', 'asc');
-    if (!trainingTriggers) {
-      return [];
-    }
-    const trainingTriggerIds = trainingTriggers.map(({ id }) => id);
-    const trainingTriggerTubes = await knexConn('training-trigger-tubes')
-      .whereIn('trainingTriggerId', trainingTriggerIds)
-      .select('*');
-
-    return Promise.all(
-      trainingTriggers.map(async (trainingTrigger) => {
-        const triggerTubes = trainingTriggerTubes.filter(
-          ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id
-        );
-        return await _toDomainForAdmin({ trainingTrigger, triggerTubes });
-      })
-    );
-  },
-
-  async findByTrainingId({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const knexConn = domainTransaction?.knexTransaction || knex;
-    const trainingTriggers = await knexConn(TABLE_NAME).select('*').where({ trainingId }).orderBy('id', 'asc');
-    if (!trainingTriggers) {
-      return [];
-    }
-    const trainingTriggerIds = trainingTriggers.map(({ id }) => id);
-    const trainingTriggerTubes = await knexConn('training-trigger-tubes')
-      .whereIn('trainingTriggerId', trainingTriggerIds)
-      .select('*');
-
-    return Promise.all(
-      trainingTriggers.map(async (trainingTrigger) => {
-        const triggerTubes = trainingTriggerTubes.filter(
-          ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id
-        );
-        return _toDomain({ trainingTrigger, triggerTubes });
-      })
-    );
-  },
+  return _toDomainForAdmin({ trainingTrigger, triggerTubes: createdTrainingTriggerTubes });
 };
+
+const findByTrainingIdForAdmin = async function ({
+  trainingId,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const trainingTriggers = await knexConn(TABLE_NAME).select('*').where({ trainingId }).orderBy('id', 'asc');
+  if (!trainingTriggers) {
+    return [];
+  }
+  const trainingTriggerIds = trainingTriggers.map(({ id }) => id);
+  const trainingTriggerTubes = await knexConn('training-trigger-tubes')
+    .whereIn('trainingTriggerId', trainingTriggerIds)
+    .select('*');
+
+  return Promise.all(
+    trainingTriggers.map(async (trainingTrigger) => {
+      const triggerTubes = trainingTriggerTubes.filter(
+        ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id
+      );
+      return await _toDomainForAdmin({ trainingTrigger, triggerTubes });
+    })
+  );
+};
+
+const findByTrainingId = async function ({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const trainingTriggers = await knexConn(TABLE_NAME).select('*').where({ trainingId }).orderBy('id', 'asc');
+  if (!trainingTriggers) {
+    return [];
+  }
+  const trainingTriggerIds = trainingTriggers.map(({ id }) => id);
+  const trainingTriggerTubes = await knexConn('training-trigger-tubes')
+    .whereIn('trainingTriggerId', trainingTriggerIds)
+    .select('*');
+
+  return Promise.all(
+    trainingTriggers.map(async (trainingTrigger) => {
+      const triggerTubes = trainingTriggerTubes.filter(
+        ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id
+      );
+      return _toDomain({ trainingTrigger, triggerTubes });
+    })
+  );
+};
+
+export { createOrUpdate, findByTrainingIdForAdmin, findByTrainingId };
 
 async function _toDomain({ trainingTrigger, triggerTubes }) {
   const triggerTubeIds = triggerTubes.map(({ tubeId }) => tubeId);

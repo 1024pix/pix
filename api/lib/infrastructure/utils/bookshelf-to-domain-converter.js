@@ -1,10 +1,7 @@
-const _ = require('lodash');
-const Models = require('../../domain/models/index.js');
+import _ from 'lodash';
+import { Models } from '../../domain/models/index.js';
 
-module.exports = {
-  buildDomainObjects,
-  buildDomainObject,
-};
+export { buildDomainObjects, buildDomainObject };
 
 function buildDomainObjects(BookshelfClass, bookshelfObjects) {
   return bookshelfObjects.map((bookshelfObject) => buildDomainObject(BookshelfClass, bookshelfObject));

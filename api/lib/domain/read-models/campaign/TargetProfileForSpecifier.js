@@ -10,4 +10,4 @@ class TargetProfileForSpecifier {
   }
 }
 
-module.exports = TargetProfileForSpecifier;
+export { TargetProfileForSpecifier };
