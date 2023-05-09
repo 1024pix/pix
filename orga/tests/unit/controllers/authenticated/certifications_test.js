@@ -122,7 +122,7 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
         options: [{ label: '3èmeA', value: '3èmeA' }],
       };
       class NotificationsStub extends Service {
-        error = errorMock;
+        sendError = errorMock;
       }
       this.owner.register('service:notifications', NotificationsStub);
       const errorMock = sinon.stub();
@@ -211,7 +211,7 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
         options: [{ label: '3èmeA', value: '3èmeA' }],
       };
       class NotificationsStub extends Service {
-        error = errorMock;
+        sendError = errorMock;
       }
       this.owner.register('service:notifications', NotificationsStub);
       const errorMock = sinon.stub();

@@ -63,10 +63,10 @@ export default class MembersListItem extends Component {
 
     try {
       await membership.save();
-      this.notifications.success(this.intl.t('pages.team-members.notifications.change-member-role.success'));
+      this.notifications.sendSuccess(this.intl.t('pages.team-members.notifications.change-member-role.success'));
     } catch (e) {
       membership.rollbackAttributes();
-      this.notifications.error(this.intl.t('pages.team-members.notifications.change-member-role.error'));
+      this.notifications.sendError(this.intl.t('pages.team-members.notifications.change-member-role.error'));
     }
   }
 
@@ -94,11 +94,11 @@ export default class MembersListItem extends Component {
       const memberLastName = membership.user.get('lastName');
 
       await this.args.onRemoveMember(membership);
-      this.notifications.success(
+      this.notifications.sendSuccess(
         this.intl.t('pages.team-members.notifications.remove-membership.success', { memberFirstName, memberLastName })
       );
     } catch (e) {
-      this.notifications.error(this.intl.t('pages.team-members.notifications.remove-membership.error'));
+      this.notifications.sendError(this.intl.t('pages.team-members.notifications.remove-membership.error'));
     } finally {
       this.closeRemoveMembershipModal();
     }
