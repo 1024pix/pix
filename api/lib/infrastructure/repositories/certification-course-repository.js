@@ -1,16 +1,16 @@
-const { _ } = require('lodash');
-const { knex } = require('../../../db/knex-database-connection.js');
-const bluebird = require('bluebird');
-const CertificationCourseBookshelf = require('../orm-models/CertificationCourse.js');
-const AssessmentBookshelf = require('../orm-models/Assessment.js');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
-const DomainTransaction = require('../DomainTransaction.js');
-const CertificationCourse = require('../../domain/models/CertificationCourse.js');
-const { NotFoundError } = require('../../domain/errors.js');
-const certificationChallengeRepository = require('./certification-challenge-repository.js');
-const CertificationIssueReport = require('../../domain/models/CertificationIssueReport.js');
-const ComplementaryCertificationCourse = require('../../domain/models/ComplementaryCertificationCourse.js');
-const Bookshelf = require('../bookshelf.js');
+import { _ } from 'lodash';
+import { knex } from '../../../db/knex-database-connection.js';
+import bluebird from 'bluebird';
+import { CertificationCourseBookshelf } from '../orm-models/CertificationCourse.js';
+import { AssessmentBookshelf } from '../orm-models/Assessment.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
+import { NotFoundError } from '../../domain/errors.js';
+import * as certificationChallengeRepository from './certification-challenge-repository.js';
+import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
+import { ComplementaryCertificationCourse } from '../../domain/models/ComplementaryCertificationCourse.js';
+import { Bookshelf } from '../bookshelf.js';
 
 async function save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
@@ -174,7 +174,7 @@ function toDomain(bookshelfCertificationCourse) {
   });
 }
 
-module.exports = {
+export {
   save,
   changeCompletionDate,
   get,

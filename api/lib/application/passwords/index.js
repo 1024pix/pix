@@ -1,10 +1,13 @@
-const Joi = require('joi');
-const XRegExp = require('xregexp');
+import Joi from 'joi';
+import XRegExp from 'xregexp';
 
-const { passwordValidationPattern } = require('../../config.js').account;
-const passwordController = require('./password-controller.js');
+import { account } from '../../config.js';
 
-exports.register = async function (server) {
+const { passwordValidationPattern } = account;
+
+import { passwordController } from './password-controller.js';
+
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -61,4 +64,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'passwords-api';
+const name = 'passwords-api';
+export { register, name };

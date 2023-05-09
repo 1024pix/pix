@@ -1,6 +1,6 @@
-const monitoringTools = require('../../infrastructure/monitoring-tools.js');
-const ParticipationResultCalculationJob = require('../jobs/campaign-result/ParticipationResultCalculationJob.js');
-const SendSharedParticipationResultsToPoleEmploiJob = require('../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js');
+import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
+import { ParticipationResultCalculationJob } from '../jobs/campaign-result/ParticipationResultCalculationJob.js';
+import { SendSharedParticipationResultsToPoleEmploiJob } from '../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 
 function build(classToInstanciate, domainTransaction) {
   const dependencies = _buildDependencies(domainTransaction);
@@ -19,9 +19,7 @@ function _buildDependencies(domainTransaction) {
   };
 }
 
-module.exports = {
-  build,
-};
+export { build };
 
 class EventErrorHandler {
   constructor(handler, logger) {

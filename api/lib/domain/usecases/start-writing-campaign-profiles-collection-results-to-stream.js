@@ -1,11 +1,11 @@
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../errors.js');
-const CampaignProfilesCollectionExport = require('../../infrastructure/serializers/csv/campaign-profiles-collection-export.js');
+import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../errors.js';
+import { CampaignProfilesCollectionExport } from '../../infrastructure/serializers/csv/campaign-profiles-collection-export.js';
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   const user = await userRepository.getWithMemberships(userId);
@@ -17,7 +17,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-module.exports = async function startWritingCampaignProfilesCollectionResultsToStream({
+const startWritingCampaignProfilesCollectionResultsToStream = async function ({
   userId,
   campaignId,
   writableStream,
@@ -74,3 +74,5 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
 
   return { fileName };
 };
+
+export { startWritingCampaignProfilesCollectionResultsToStream };

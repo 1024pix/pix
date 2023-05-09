@@ -12,6 +12,4 @@ function mapCertificabilityByLabel(certificabilityFilter) {
   return result.map((value) => certificabilityByLabel[value]);
 }
 
-module.exports = {
-  mapCertificabilityByLabel,
-};
+export { mapCertificabilityByLabel };

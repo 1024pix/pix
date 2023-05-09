@@ -1,11 +1,13 @@
-exports.up = function (knex) {
+const up = function(knex) {
   return knex.schema.table('assessments', (table) => {
     table.string('lastChallengeId', 50);
   });
 };
 
-exports.down = function (knex) {
+const down = function(knex) {
   return knex.schema.table('assessments', function (table) {
     table.dropColumn('lastChallengeId');
   });
 };
+
+export { up, down };

@@ -1,21 +1,17 @@
-const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils.js');
-const {
-  getTransformationStructsForPixCertifCandidatesImport,
-} = require('../../infrastructure/files/candidates-import/candidates-import-transformation-structures.js');
-const CertificationCandidate = require('../models/CertificationCandidate.js');
-const {
+import { readOdsUtils } from '../../infrastructure/utils/ods/read-ods-utils.js';
+import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
+import { CertificationCandidate } from '../models/CertificationCandidate.js';
+import {
   CLEA,
   PIX_PLUS_DROIT,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} = require('../models/ComplementaryCertification.js');
-const { CertificationCandidatesImportError } = require('../errors.js');
-const _ = require('lodash');
-const bluebird = require('bluebird');
+} from '../models/ComplementaryCertification.js';
+import { CertificationCandidatesImportError } from '../errors.js';
+import _ from 'lodash';
+import bluebird from 'bluebird';
 
-module.exports = {
-  extractCertificationCandidatesFromCandidatesImportSheet,
-};
+export { extractCertificationCandidatesFromCandidatesImportSheet };
 
 async function extractCertificationCandidatesFromCandidatesImportSheet({
   i18n,

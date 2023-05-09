@@ -1,14 +1,15 @@
-const {
+import {
   ForbiddenAccess,
   ChallengeNotAskedError,
   CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
-} = require('../errors.js');
-const Examiner = require('../models/Examiner.js');
-const KnowledgeElement = require('../models/KnowledgeElement.js');
-const logger = require('../../infrastructure/logger.js');
+} from '../errors.js';
 
-module.exports = async function correctAnswerThenUpdateAssessment({
+import { Examiner } from '../models/Examiner.js';
+import { KnowledgeElement } from '../models/KnowledgeElement.js';
+import { logger } from '../../infrastructure/logger.js';
+
+const correctAnswerThenUpdateAssessment = async function ({
   answer,
   userId,
   locale,
@@ -115,6 +116,8 @@ module.exports = async function correctAnswerThenUpdateAssessment({
   }
   return answerSaved;
 };
+
+export { correctAnswerThenUpdateAssessment };
 
 function _evaluateAnswer({ challenge, answer, assessment, examiner: injectedExaminer }) {
   const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });

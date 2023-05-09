@@ -1,7 +1,7 @@
-const { UserCantBeCreatedError } = require('../errors.js');
-const UserToCreate = require('../models/UserToCreate.js');
+import { UserCantBeCreatedError } from '../errors.js';
+import { UserToCreate } from '../models/UserToCreate.js';
 
-module.exports = async function authenticateAnonymousUser({
+const authenticateAnonymousUser = async function ({
   campaignCode,
   lang = 'fr',
   campaignToJoinRepository,
@@ -18,3 +18,5 @@ module.exports = async function authenticateAnonymousUser({
 
   return tokenService.createAccessTokenFromAnonymousUser(newUser.id);
 };
+
+export { authenticateAnonymousUser };

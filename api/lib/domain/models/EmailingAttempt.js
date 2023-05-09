@@ -1,4 +1,4 @@
-module.exports = class EmailingAttempt {
+class EmailingAttempt {
   static errorCode = {
     PROVIDER_ERROR: 'PROVIDER_ERROR',
     INVALID_DOMAIN: 'INVALID_DOMAIN',
@@ -35,7 +35,9 @@ module.exports = class EmailingAttempt {
   static failure(email, errorCode = EmailingAttempt.errorCode.PROVIDER_ERROR, errorMessage) {
     return new EmailingAttempt(email, AttemptStatus.FAILURE, errorCode, errorMessage);
   }
-};
+}
+
+export { EmailingAttempt };
 
 const AttemptStatus = {
   SUCCESS: 'SUCCESS',

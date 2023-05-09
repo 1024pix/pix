@@ -1,6 +1,6 @@
-const { AssessmentNotCompletedError, NotFoundError } = require('../errors.js');
+import { AssessmentNotCompletedError, NotFoundError } from '../errors.js';
 
-module.exports = async function getCorrectionForAnswer({
+const getCorrectionForAnswer = async function ({
   assessmentRepository,
   answerRepository,
   correctionRepository,
@@ -21,6 +21,8 @@ module.exports = async function getCorrectionForAnswer({
 
   return correctionRepository.getByChallengeId({ challengeId: answer.challengeId, userId, locale });
 };
+
+export { getCorrectionForAnswer };
 
 function _validateCorrectionIsAccessible(assessment) {
   if (assessment.isForCampaign() || assessment.isCompetenceEvaluation()) {

@@ -6,4 +6,4 @@ class TrainingSummary {
   }
 }
 
-module.exports = TrainingSummary;
+export { TrainingSummary };

@@ -1,1 +1,2 @@
-module.exports = class UserLinkedToCertificationCandidate {};
+class UserLinkedToCertificationCandidate {}
+export { UserLinkedToCertificationCandidate };

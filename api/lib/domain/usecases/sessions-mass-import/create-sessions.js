@@ -1,10 +1,10 @@
-const { NotFoundError } = require('../../errors');
-const bluebird = require('bluebird');
-const DomainTransaction = require('../../../infrastructure/DomainTransaction.js');
-const Session = require('../../models/Session');
-const CertificationCandidate = require('../../models/CertificationCandidate');
+import { NotFoundError } from '../../errors.js';
+import bluebird from 'bluebird';
+import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
+import { Session } from '../../models/Session.js';
+import { CertificationCandidate } from '../../models/CertificationCandidate.js';
 
-module.exports = async function createSessions({
+const createSessions = async function ({
   userId,
   cachedValidatedSessionsKey,
   certificationCandidateRepository,
@@ -52,6 +52,8 @@ module.exports = async function createSessions({
     userId,
   });
 };
+
+export { createSessions };
 
 function _hasCandidates(certificationCandidates) {
   return certificationCandidates.length > 0;

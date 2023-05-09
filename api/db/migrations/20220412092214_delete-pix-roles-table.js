@@ -2,11 +2,11 @@ const TABLE_NAME_TO_DELETE = 'pix_roles';
 const TABLE_NAME_TO_UPDATE = 'pix-admin-roles';
 const COLUMN_TO_DELETE = 'pix_role_id';
 
-exports.up = async (knex) => {
+const up = async function(knex) {
   await knex.schema.dropTable(TABLE_NAME_TO_DELETE);
 };
 
-exports.down = async (knex) => {
+const down = async function(knex) {
   await knex.schema.createTable(TABLE_NAME_TO_DELETE, (table) => {
     table.increments('id').primary();
     table.string('name').notNull();
@@ -18,3 +18,5 @@ exports.down = async (knex) => {
     table.bigInteger(COLUMN_TO_DELETE).defaultTo(pixRoleId).references(`${TABLE_NAME_TO_DELETE}.id`);
   });
 };
+
+export { up, down };

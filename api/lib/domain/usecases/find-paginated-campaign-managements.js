@@ -1,3 +1,5 @@
-module.exports = function findPaginatedCampaignManagements({ organizationId, page, campaignManagementRepository }) {
+const findPaginatedCampaignManagements = function ({ organizationId, page, campaignManagementRepository }) {
   return campaignManagementRepository.findPaginatedCampaignManagements({ organizationId, page });
 };
+
+export { findPaginatedCampaignManagements };

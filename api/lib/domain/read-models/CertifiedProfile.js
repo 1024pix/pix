@@ -44,10 +44,4 @@ class CertifiedProfile {
   }
 }
 
-module.exports = {
-  CertifiedProfile,
-  CertifiedArea,
-  CertifiedCompetence,
-  CertifiedTube,
-  CertifiedSkill,
-};
+export { CertifiedProfile, CertifiedArea, CertifiedCompetence, CertifiedTube, CertifiedSkill };

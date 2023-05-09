@@ -1,8 +1,8 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const { EntityValidationError } = require('../errors.js');
-const categories = require('../constants/organization-places-categories.js');
+import { EntityValidationError } from '../errors.js';
+import { categories } from '../constants/organization-places-categories.js';
 
 const schema = Joi.object({
   organizationId: Joi.number().integer().required().messages({
@@ -47,4 +47,4 @@ function validate(organizationPlaces) {
   return true;
 }
 
-module.exports = validate;
+export { validate };

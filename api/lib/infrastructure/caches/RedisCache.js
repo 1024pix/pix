@@ -1,9 +1,9 @@
-const { using } = require('bluebird');
-const Redlock = require('redlock');
-const Cache = require('./Cache.js');
-const RedisClient = require('../utils/RedisClient.js');
-const logger = require('../logger.js');
-const settings = require('../../config.js');
+import { using } from 'bluebird';
+import Redlock from 'redlock';
+import { Cache } from './Cache.js';
+import { RedisClient } from '../utils/RedisClient.js';
+import { logger } from '../logger.js';
+import { settings } from '../../config.js';
 
 const REDIS_LOCK_PREFIX = 'locks:';
 
@@ -70,4 +70,4 @@ class RedisCache extends Cache {
   }
 }
 
-module.exports = RedisCache;
+export { RedisCache };

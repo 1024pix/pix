@@ -1,212 +1,231 @@
-const _ = require('lodash');
-const { normalize } = require('../utils/string-utils.js');
-const logger = require('../../infrastructure/logger.js');
-const CertificationCandidateBookshelf = require('../orm-models/CertificationCandidate.js');
-const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter.js');
-const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors.js');
-const {
+import _ from 'lodash';
+import { normalize } from '../utils/string-utils.js';
+import { logger } from '../../infrastructure/logger.js';
+import { CertificationCandidateBookshelf } from '../orm-models/CertificationCandidate.js';
+import * as bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter.js';
+import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../db/pgsql-errors.js';
+
+import {
   NotFoundError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
-} = require('../../domain/errors.js');
-const { knex } = require('../../../db/knex-database-connection.js');
-const CertificationCandidate = require('../../domain/models/CertificationCandidate.js');
-const ComplementaryCertification = require('../../domain/models/ComplementaryCertification.js');
-const DomainTransaction = require('../DomainTransaction.js');
+} from '../../domain/errors.js';
 
-module.exports = {
-  async linkToUser({ id, userId }) {
-    try {
-      const certificationCandidateBookshelf = new CertificationCandidateBookshelf({ id });
-      await certificationCandidateBookshelf.save({ userId }, { patch: true, method: 'update' });
-    } catch (bookshelfError) {
-      if (bookshelfError.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
-        throw new CertificationCandidateMultipleUserLinksWithinSessionError(
-          'A user cannot be linked to several certification candidates within the same session'
-        );
-      }
-      throw new CertificationCandidateCreationOrUpdateError(
-        'An error occurred while linking the certification candidate to a user'
+import { knex } from '../../../db/knex-database-connection.js';
+import { CertificationCandidate } from '../../domain/models/CertificationCandidate.js';
+import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+
+const linkToUser = async function ({ id, userId }) {
+  try {
+    const certificationCandidateBookshelf = new CertificationCandidateBookshelf({ id });
+    await certificationCandidateBookshelf.save({ userId }, { patch: true, method: 'update' });
+  } catch (bookshelfError) {
+    if (bookshelfError.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
+      throw new CertificationCandidateMultipleUserLinksWithinSessionError(
+        'A user cannot be linked to several certification candidates within the same session'
       );
     }
-  },
+    throw new CertificationCandidateCreationOrUpdateError(
+      'An error occurred while linking the certification candidate to a user'
+    );
+  }
+};
 
-  async saveInSession({ certificationCandidate, sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const certificationCandidateDataToSave = _adaptModelToDb(certificationCandidate);
+const saveInSession = async function ({
+  certificationCandidate,
+  sessionId,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  const certificationCandidateDataToSave = _adaptModelToDb(certificationCandidate);
 
-    try {
-      const insertCertificationCandidateQuery = knex('certification-candidates')
-        .insert({ ...certificationCandidateDataToSave, sessionId })
-        .returning('*');
+  try {
+    const insertCertificationCandidateQuery = knex('certification-candidates')
+      .insert({ ...certificationCandidateDataToSave, sessionId })
+      .returning('*');
+
+    if (domainTransaction.knexTransaction) {
+      insertCertificationCandidateQuery.transacting(domainTransaction.knexTransaction);
+    }
+
+    const [addedCertificationCandidate] = await insertCertificationCandidateQuery;
+
+    if (!_.isEmpty(certificationCandidate.complementaryCertifications)) {
+      const complementaryCertificationSubscriptionsToSave = certificationCandidate.complementaryCertifications.map(
+        (complementaryCertification) => {
+          return {
+            complementaryCertificationId: complementaryCertification.id,
+            certificationCandidateId: addedCertificationCandidate.id,
+          };
+        }
+      );
+
+      const insertComplementaryCertificationSubscriptionQuery = knex(
+        'complementary-certification-subscriptions'
+      ).insert(complementaryCertificationSubscriptionsToSave);
 
       if (domainTransaction.knexTransaction) {
-        insertCertificationCandidateQuery.transacting(domainTransaction.knexTransaction);
+        insertComplementaryCertificationSubscriptionQuery.transacting(domainTransaction.knexTransaction);
       }
 
-      const [addedCertificationCandidate] = await insertCertificationCandidateQuery;
-
-      if (!_.isEmpty(certificationCandidate.complementaryCertifications)) {
-        const complementaryCertificationSubscriptionsToSave = certificationCandidate.complementaryCertifications.map(
-          (complementaryCertification) => {
-            return {
-              complementaryCertificationId: complementaryCertification.id,
-              certificationCandidateId: addedCertificationCandidate.id,
-            };
-          }
-        );
-
-        const insertComplementaryCertificationSubscriptionQuery = knex(
-          'complementary-certification-subscriptions'
-        ).insert(complementaryCertificationSubscriptionsToSave);
-
-        if (domainTransaction.knexTransaction) {
-          insertComplementaryCertificationSubscriptionQuery.transacting(domainTransaction.knexTransaction);
-        }
-
-        await insertComplementaryCertificationSubscriptionQuery;
-      }
-
-      return new CertificationCandidate(addedCertificationCandidate);
-    } catch (error) {
-      logger.error(error);
-      throw new CertificationCandidateCreationOrUpdateError(
-        'An error occurred while saving the certification candidate in a session'
-      );
+      await insertComplementaryCertificationSubscriptionQuery;
     }
-  },
 
-  async delete(certificationCandidateId) {
-    await knex.transaction(async (trx) => {
-      await trx('complementary-certification-subscriptions').where({ certificationCandidateId }).del();
-      return trx('certification-candidates').where({ id: certificationCandidateId }).del();
-    });
+    return new CertificationCandidate(addedCertificationCandidate);
+  } catch (error) {
+    logger.error(error);
+    throw new CertificationCandidateCreationOrUpdateError(
+      'An error occurred while saving the certification candidate in a session'
+    );
+  }
+};
 
-    return true;
-  },
+const remove = async function (certificationCandidateId) {
+  await knex.transaction(async (trx) => {
+    await trx('complementary-certification-subscriptions').where({ certificationCandidateId }).del();
+    return trx('certification-candidates').where({ id: certificationCandidateId }).del();
+  });
 
-  async isNotLinked(certificationCandidateId) {
-    const notLinkedCandidate = await CertificationCandidateBookshelf.where({
-      id: certificationCandidateId,
-      userId: null,
-    }).fetch({ require: false, columns: ['id'] });
+  return true;
+};
 
-    return !!notLinkedCandidate;
-  },
+const isNotLinked = async function (certificationCandidateId) {
+  const notLinkedCandidate = await CertificationCandidateBookshelf.where({
+    id: certificationCandidateId,
+    userId: null,
+  }).fetch({ require: false, columns: ['id'] });
 
-  async getBySessionIdAndUserId({ sessionId, userId }) {
-    const certificationCandidate = await knex
-      .select('certification-candidates.*')
-      .select({ complementaryCertifications: knex.raw(`json_agg("complementary-certifications".*)`) })
-      .from('certification-candidates')
-      .leftJoin(
-        'complementary-certification-subscriptions',
-        'certification-candidates.id',
-        'complementary-certification-subscriptions.certificationCandidateId'
-      )
-      .leftJoin(
-        'complementary-certifications',
-        'complementary-certification-subscriptions.complementaryCertificationId',
-        'complementary-certifications.id'
-      )
-      .where({ sessionId, userId })
-      .groupBy('certification-candidates.id')
-      .first();
-    return certificationCandidate ? _toDomain(certificationCandidate) : undefined;
-  },
+  return !!notLinkedCandidate;
+};
 
-  async findBySessionId(sessionId) {
-    const results = await knex
-      .select('certification-candidates.*')
-      .select({ complementaryCertifications: knex.raw(`json_agg("complementary-certifications".*)`) })
-      .from('certification-candidates')
-      .where({ 'certification-candidates.sessionId': sessionId })
-      .leftJoin(
-        'complementary-certification-subscriptions',
-        'certification-candidates.id',
-        'complementary-certification-subscriptions.certificationCandidateId'
-      )
-      .leftJoin(
-        'complementary-certifications',
-        'complementary-certification-subscriptions.complementaryCertificationId',
-        'complementary-certifications.id'
-      )
-      .groupBy('certification-candidates.id')
-      .orderByRaw('LOWER("certification-candidates"."lastName") asc')
-      .orderByRaw('LOWER("certification-candidates"."firstName") asc');
-    return results.map(_toDomain);
-  },
+const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
+  const certificationCandidate = await knex
+    .select('certification-candidates.*')
+    .select({ complementaryCertifications: knex.raw(`json_agg("complementary-certifications".*)`) })
+    .from('certification-candidates')
+    .leftJoin(
+      'complementary-certification-subscriptions',
+      'certification-candidates.id',
+      'complementary-certification-subscriptions.certificationCandidateId'
+    )
+    .leftJoin(
+      'complementary-certifications',
+      'complementary-certification-subscriptions.complementaryCertificationId',
+      'complementary-certifications.id'
+    )
+    .where({ sessionId, userId })
+    .groupBy('certification-candidates.id')
+    .first();
+  return certificationCandidate ? _toDomain(certificationCandidate) : undefined;
+};
 
-  async findBySessionIdAndPersonalInfo({ sessionId, firstName, lastName, birthdate }) {
-    const results = await CertificationCandidateBookshelf.where({ sessionId, birthdate }).fetchAll();
+const findBySessionId = async function (sessionId) {
+  const results = await knex
+    .select('certification-candidates.*')
+    .select({ complementaryCertifications: knex.raw(`json_agg("complementary-certifications".*)`) })
+    .from('certification-candidates')
+    .where({ 'certification-candidates.sessionId': sessionId })
+    .leftJoin(
+      'complementary-certification-subscriptions',
+      'certification-candidates.id',
+      'complementary-certification-subscriptions.certificationCandidateId'
+    )
+    .leftJoin(
+      'complementary-certifications',
+      'complementary-certification-subscriptions.complementaryCertificationId',
+      'complementary-certifications.id'
+    )
+    .groupBy('certification-candidates.id')
+    .orderByRaw('LOWER("certification-candidates"."lastName") asc')
+    .orderByRaw('LOWER("certification-candidates"."firstName") asc');
+  return results.map(_toDomain);
+};
 
-    const certificationCandidates = _buildCertificationCandidates(results);
+const findBySessionIdAndPersonalInfo = async function ({ sessionId, firstName, lastName, birthdate }) {
+  const results = await CertificationCandidateBookshelf.where({ sessionId, birthdate }).fetchAll();
 
-    const normalizedInputNames = {
-      lastName: normalize(lastName),
-      firstName: normalize(firstName),
+  const certificationCandidates = _buildCertificationCandidates(results);
+
+  const normalizedInputNames = {
+    lastName: normalize(lastName),
+    firstName: normalize(firstName),
+  };
+  return _.filter(certificationCandidates, (certificationCandidate) => {
+    const certificationCandidateNormalizedNames = {
+      lastName: normalize(certificationCandidate.lastName),
+      firstName: normalize(certificationCandidate.firstName),
     };
-    return _.filter(certificationCandidates, (certificationCandidate) => {
-      const certificationCandidateNormalizedNames = {
-        lastName: normalize(certificationCandidate.lastName),
-        firstName: normalize(certificationCandidate.firstName),
-      };
-      return _.isEqual(normalizedInputNames, certificationCandidateNormalizedNames);
-    });
-  },
+    return _.isEqual(normalizedInputNames, certificationCandidateNormalizedNames);
+  });
+};
 
-  findOneBySessionIdAndUserId({ sessionId, userId }) {
-    return CertificationCandidateBookshelf.where({ sessionId, userId })
-      .fetchAll()
-      .then((results) => _buildCertificationCandidates(results)[0]);
-  },
+const findOneBySessionIdAndUserId = function ({ sessionId, userId }) {
+  return CertificationCandidateBookshelf.where({ sessionId, userId })
+    .fetchAll()
+    .then((results) => _buildCertificationCandidates(results)[0]);
+};
 
-  async doesLinkedCertificationCandidateInSessionExist({ sessionId }) {
-    const anyLinkedCandidateInSession = await CertificationCandidateBookshelf.query({
-      where: { sessionId },
-      whereNotNull: 'userId',
-    }).fetch({ require: false, columns: 'id' });
+const doesLinkedCertificationCandidateInSessionExist = async function ({ sessionId }) {
+  const anyLinkedCandidateInSession = await CertificationCandidateBookshelf.query({
+    where: { sessionId },
+    whereNotNull: 'userId',
+  }).fetch({ require: false, columns: 'id' });
 
-    return anyLinkedCandidateInSession !== null;
-  },
+  return anyLinkedCandidateInSession !== null;
+};
 
-  async update(certificationCandidate) {
-    const result = await knex('certification-candidates')
-      .where({ id: certificationCandidate.id })
-      .update({ authorizedToStart: certificationCandidate.authorizedToStart });
+const update = async function (certificationCandidate) {
+  const result = await knex('certification-candidates')
+    .where({ id: certificationCandidate.id })
+    .update({ authorizedToStart: certificationCandidate.authorizedToStart });
 
-    if (result === 0) {
-      throw new NotFoundError('Aucun candidat trouvé');
-    }
-  },
+  if (result === 0) {
+    throw new NotFoundError('Aucun candidat trouvé');
+  }
+};
 
-  async deleteBySessionId({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const knexConn = domainTransaction.knexTransaction ?? knex;
-    await knexConn('complementary-certification-subscriptions')
-      .whereIn('certificationCandidateId', knexConn.select('id').from('certification-candidates').where({ sessionId }))
-      .del();
+const deleteBySessionId = async function ({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+  await knexConn('complementary-certification-subscriptions')
+    .whereIn('certificationCandidateId', knexConn.select('id').from('certification-candidates').where({ sessionId }))
+    .del();
 
-    await knexConn('certification-candidates').where({ sessionId }).del();
-  },
+  await knexConn('certification-candidates').where({ sessionId }).del();
+};
 
-  async getWithComplementaryCertifications(id) {
-    const candidateData = await knex('certification-candidates')
-      .select('certification-candidates.*')
-      .select({ complementaryCertifications: knex.raw('json_agg("complementary-certifications".*)') })
-      .leftJoin(
-        'complementary-certification-subscriptions',
-        'complementary-certification-subscriptions.certificationCandidateId',
-        'certification-candidates.id'
-      )
-      .leftJoin(
-        'complementary-certifications',
-        'complementary-certifications.id',
-        'complementary-certification-subscriptions.complementaryCertificationId'
-      )
-      .where('certification-candidates.id', id)
-      .groupBy('certification-candidates.id')
-      .first();
-    return _toDomain(candidateData);
-  },
+const getWithComplementaryCertifications = async function (id) {
+  const candidateData = await knex('certification-candidates')
+    .select('certification-candidates.*')
+    .select({ complementaryCertifications: knex.raw('json_agg("complementary-certifications".*)') })
+    .leftJoin(
+      'complementary-certification-subscriptions',
+      'complementary-certification-subscriptions.certificationCandidateId',
+      'certification-candidates.id'
+    )
+    .leftJoin(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-subscriptions.complementaryCertificationId'
+    )
+    .where('certification-candidates.id', id)
+    .groupBy('certification-candidates.id')
+    .first();
+  return _toDomain(candidateData);
+};
+
+export {
+  linkToUser,
+  saveInSession,
+  remove,
+  isNotLinked,
+  getBySessionIdAndUserId,
+  findBySessionId,
+  findBySessionIdAndPersonalInfo,
+  findOneBySessionIdAndUserId,
+  doesLinkedCertificationCandidateInSessionExist,
+  update,
+  deleteBySessionId,
+  getWithComplementaryCertifications,
 };
 
 function _buildCertificationCandidates(results) {

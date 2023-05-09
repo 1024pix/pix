@@ -1,9 +1,11 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const certificationDoc = require('./certification-doc.js');
-const competenceDoc = require('./competence-doc.js');
+import { certificationDoc } from './certification-doc.js';
+import { competenceDoc } from './competence-doc.js';
 
-module.exports = Joi.object({
+const joiObject = Joi.object({
   certifications: certificationDoc,
   competences: competenceDoc,
 }).label('CertificationsResults');
+
+export { joiObject };

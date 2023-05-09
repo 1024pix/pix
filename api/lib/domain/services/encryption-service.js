@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
-const { bcryptNumberOfSaltRounds } = require('../../config.js');
+import bcrypt from 'bcrypt';
+import { bcryptNumberOfSaltRounds } from '../../config.js';
 const PasswordNotMatching = require('../errors.js').PasswordNotMatching;
 
 const hashPassword = function (password) {
@@ -18,8 +18,4 @@ const checkPassword = async function ({ password, passwordHash }) {
   }
 };
 
-module.exports = {
-  hashPassword,
-  hashPasswordSync,
-  checkPassword,
-};
+export { hashPassword, hashPasswordSync, checkPassword };

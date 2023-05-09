@@ -1,12 +1,12 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(country) {
-    return new Serializer('country', {
-      attributes: ['code', 'name'],
-      transform(country) {
-        return { ...country, id: `${country.code}_${country.matcher}` };
-      },
-    }).serialize(country);
-  },
+const serialize = function (country) {
+  return new Serializer('country', {
+    attributes: ['code', 'name'],
+    transform(country) {
+      return { ...country, id: `${country.code}_${country.matcher}` };
+    },
+  }).serialize(country);
 };
+
+export { serialize };

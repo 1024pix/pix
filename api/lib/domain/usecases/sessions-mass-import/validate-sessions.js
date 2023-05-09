@@ -1,9 +1,9 @@
-const Session = require('../../models/Session');
-const SessionMassImportReport = require('../../models/SessionMassImportReport');
-const CertificationCandidate = require('../../models/CertificationCandidate');
-const bluebird = require('bluebird');
+import { Session } from '../../models/Session.js';
+import { SessionMassImportReport } from '../../models/SessionMassImportReport.js';
+import { CertificationCandidate } from '../../models/CertificationCandidate.js';
+import bluebird from 'bluebird';
 
-module.exports = async function validateSessions({
+const validateSessions = async function ({
   sessions,
   userId,
   certificationCenterId,
@@ -76,6 +76,8 @@ module.exports = async function validateSessions({
 
   return sessionsMassImportReport;
 };
+
+export { validateSessions };
 
 async function _createValidCertificationCandidates({
   certificationCandidates,

@@ -1,4 +1,4 @@
-module.exports = async function updateCertificationCenterReferer({
+const updateCertificationCenterReferer = async function ({
   userId,
   isReferer,
   certificationCenterId,
@@ -22,3 +22,5 @@ module.exports = async function updateCertificationCenterReferer({
     isReferer,
   });
 };
+
+export { updateCertificationCenterReferer };

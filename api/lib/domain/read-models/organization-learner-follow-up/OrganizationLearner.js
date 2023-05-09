@@ -24,4 +24,4 @@ class OrganizationLearner {
   }
 }
 
-module.exports = OrganizationLearner;
+export { OrganizationLearner };

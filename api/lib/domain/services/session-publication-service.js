@@ -1,9 +1,12 @@
-const { SendingEmailToResultRecipientError, SessionAlreadyPublishedError } = require('../../domain/errors.js');
-const mailService = require('../../domain/services/mail-service.js');
-const uniqBy = require('lodash/uniqBy');
-const some = require('lodash/some');
-const { SendingEmailToRefererError } = require('../errors.js');
-const logger = require('../../infrastructure/logger.js');
+import {
+  SendingEmailToResultRecipientError,
+  SessionAlreadyPublishedError,
+  SendingEmailToRefererError,
+} from '../../domain/errors.js';
+import * as mailService from '../../domain/services/mail-service.js';
+import uniqBy from 'lodash/uniqBy';
+import some from 'lodash/some';
+import { logger } from '../../infrastructure/logger.js';
 
 async function publishSession({
   i18n,
@@ -116,6 +119,4 @@ async function _updateFinalizedSession(finalizedSessionRepository, sessionId, pu
   await finalizedSessionRepository.save(finalizedSession);
 }
 
-module.exports = {
-  publishSession,
-};
+export { publishSession };

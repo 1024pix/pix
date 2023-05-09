@@ -1,10 +1,10 @@
-const settings = require('../../../config.js');
-const OidcAuthenticationService = require('./oidc-authentication-service.js');
-const DomainTransaction = require('../../../infrastructure/DomainTransaction.js');
-const AuthenticationMethod = require('../../models/AuthenticationMethod.js');
-const dayjs = require('dayjs');
-const { v4: uuidv4 } = require('uuid');
-const { temporaryStorage } = require('../../../infrastructure/temporary-storage/index.js');
+import { settings } from '../../../config.js';
+import * as OidcAuthenticationService from './oidc-authentication-service.js';
+import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
+import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
+import dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
+import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
@@ -103,4 +103,4 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   }
 }
 
-module.exports = PoleEmploiOidcAuthenticationService;
+export { PoleEmploiOidcAuthenticationService };

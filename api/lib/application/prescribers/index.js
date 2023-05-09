@@ -1,10 +1,10 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const securityPreHandlers = require('../security-pre-handlers.js');
-const prescriberController = require('./prescriber-controller.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { prescriberController } from './prescriber-controller.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -33,4 +33,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'prescribers-api';
+const name = 'prescribers-api';
+export { register, name };

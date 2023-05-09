@@ -1,7 +1,7 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const { InvalidCertificationCandidate } = require('../errors.js');
+import { InvalidCertificationCandidate } from '../errors.js';
 
 const scoCertificationCandidateValidationJoiSchema = Joi.object({
   firstName: Joi.string().required().empty(null),
@@ -49,4 +49,4 @@ class SCOCertificationCandidate {
   }
 }
 
-module.exports = SCOCertificationCandidate;
+export { SCOCertificationCandidate };

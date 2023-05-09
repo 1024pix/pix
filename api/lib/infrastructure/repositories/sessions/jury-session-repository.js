@@ -1,10 +1,9 @@
-const { knex } = require('../../bookshelf.js');
-const { fetchPage } = require('../../utils/knex-utils.js');
-const { NotFoundError } = require('../../../domain/errors.js');
-const JurySession = require('../../../domain/models/JurySession.js');
-const { statuses } = require('../../../domain/models/JurySession.js');
-const CertificationOfficer = require('../../../domain/models/CertificationOfficer.js');
-const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../../db/pgsql-errors.js');
+import { knex } from '../../bookshelf.js';
+import { fetchPage } from '../../utils/knex-utils.js';
+import { NotFoundError } from '../../../domain/errors.js';
+import { JurySession, statuses } from '../../../domain/models/JurySession.js';
+import { CertificationOfficer } from '../../../domain/models/CertificationOfficer.js';
+import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
 
 const COLUMNS = Object.freeze([
   'sessions.*',
@@ -18,57 +17,57 @@ const ALIASED_COLUMNS = Object.freeze({
   juryCommentAuthorLastName: 'jury-comment-authors.lastName',
 });
 
-module.exports = {
-  async get(id) {
-    const jurySessionDTO = await knex
-      .select(COLUMNS)
-      .select(ALIASED_COLUMNS)
-      .from('sessions')
-      .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
-      .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
-      .leftJoin({ 'jury-comment-authors': 'users' }, 'jury-comment-authors.id', 'sessions.juryCommentAuthorId')
-      .where('sessions.id', '=', id)
-      .first();
-    if (!jurySessionDTO) {
-      throw new NotFoundError("La session n'existe pas ou son accès est restreint");
-    }
-    return _toDomain(jurySessionDTO);
-  },
-
-  async findPaginatedFiltered({ filters, page }) {
-    const query = knex
-      .select(COLUMNS)
-      .select(ALIASED_COLUMNS)
-      .from('sessions')
-      .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
-      .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
-      .leftJoin({ 'jury-comment-authors': 'users' }, 'jury-comment-authors.id', 'sessions.juryCommentAuthorId')
-      .modify(_setupFilters, filters)
-      .orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
-      .orderByRaw('?? ASC', 'finalizedAt')
-      .orderBy('id');
-
-    const { results, pagination } = await fetchPage(query, page);
-    const jurySessions = results.map(_toDomain);
-
-    return {
-      jurySessions,
-      pagination,
-    };
-  },
-
-  async assignCertificationOfficer({ id, assignedCertificationOfficerId }) {
-    try {
-      await knex('sessions').where({ id }).update({ assignedCertificationOfficerId }).returning('*');
-      return this.get(id);
-    } catch (error) {
-      if (error.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
-        throw new NotFoundError(`L'utilisateur d'id ${assignedCertificationOfficerId} n'existe pas`);
-      }
-      throw new NotFoundError(`La session d'id ${id} n'existe pas.`);
-    }
-  },
+const get = async function (id) {
+  const jurySessionDTO = await knex
+    .select(COLUMNS)
+    .select(ALIASED_COLUMNS)
+    .from('sessions')
+    .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+    .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
+    .leftJoin({ 'jury-comment-authors': 'users' }, 'jury-comment-authors.id', 'sessions.juryCommentAuthorId')
+    .where('sessions.id', '=', id)
+    .first();
+  if (!jurySessionDTO) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+  return _toDomain(jurySessionDTO);
 };
+
+const findPaginatedFiltered = async function ({ filters, page }) {
+  const query = knex
+    .select(COLUMNS)
+    .select(ALIASED_COLUMNS)
+    .from('sessions')
+    .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+    .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
+    .leftJoin({ 'jury-comment-authors': 'users' }, 'jury-comment-authors.id', 'sessions.juryCommentAuthorId')
+    .modify(_setupFilters, filters)
+    .orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
+    .orderByRaw('?? ASC', 'finalizedAt')
+    .orderBy('id');
+
+  const { results, pagination } = await fetchPage(query, page);
+  const jurySessions = results.map(_toDomain);
+
+  return {
+    jurySessions,
+    pagination,
+  };
+};
+
+const assignCertificationOfficer = async function ({ id, assignedCertificationOfficerId }) {
+  try {
+    await knex('sessions').where({ id }).update({ assignedCertificationOfficerId }).returning('*');
+    return this.get(id);
+  } catch (error) {
+    if (error.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
+      throw new NotFoundError(`L'utilisateur d'id ${assignedCertificationOfficerId} n'existe pas`);
+    }
+    throw new NotFoundError(`La session d'id ${id} n'existe pas.`);
+  }
+};
+
+export { get, findPaginatedFiltered, assignCertificationOfficer };
 
 function _toDomain(jurySessionFromDB) {
   let assignedCertificationOfficer = null;

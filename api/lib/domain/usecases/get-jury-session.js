@@ -1,4 +1,4 @@
-module.exports = async function getJurySession({ sessionId, jurySessionRepository, supervisorAccessRepository }) {
+const getJurySession = async function ({ sessionId, jurySessionRepository, supervisorAccessRepository }) {
   const jurySession = await jurySessionRepository.get(sessionId);
   const hasSupervisorAccess = await supervisorAccessRepository.sessionHasSupervisorAccess({ sessionId });
   return {
@@ -6,3 +6,5 @@ module.exports = async function getJurySession({ sessionId, jurySessionRepositor
     hasSupervisorAccess,
   };
 };
+
+export { getJurySession };

@@ -1,4 +1,4 @@
-module.exports = async function updateCertificationCenterDataProtectionOfficerInformation({
+const updateCertificationCenterDataProtectionOfficerInformation = async function ({
   dataProtectionOfficer,
   dataProtectionOfficerRepository,
 }) {
@@ -11,3 +11,5 @@ module.exports = async function updateCertificationCenterDataProtectionOfficerIn
 
   return dataProtectionOfficerRepository.update(dataProtectionOfficer);
 };
+
+export { updateCertificationCenterDataProtectionOfficerInformation };

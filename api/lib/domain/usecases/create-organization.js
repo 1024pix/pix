@@ -1,4 +1,4 @@
-module.exports = async function createOrganization({
+const createOrganization = async function ({
   organization,
   dataProtectionOfficerRepository,
   organizationForAdminRepository,
@@ -20,3 +20,5 @@ module.exports = async function createOrganization({
 
   return createdOrganization;
 };
+
+export { createOrganization };

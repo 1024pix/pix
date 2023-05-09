@@ -1,6 +1,6 @@
-const Assessment = require('../models/Assessment.js');
-const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses.js');
-const _ = require('lodash');
+import { Assessment } from '../models/Assessment.js';
+import { CampaignParticipationStatuses } from '../models/CampaignParticipationStatuses.js';
+import _ from 'lodash';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -64,4 +64,4 @@ class CampaignAssessmentParticipation {
   }
 }
 
-module.exports = CampaignAssessmentParticipation;
+export { CampaignAssessmentParticipation };

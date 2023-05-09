@@ -1,7 +1,7 @@
-const { SendingEmailError, SendingEmailToInvalidDomainError } = require('../errors.js');
-const CertificationCenterInvitation = require('../models/CertificationCenterInvitation.js');
+import { SendingEmailError, SendingEmailToInvalidDomainError } from '../errors.js';
+import { CertificationCenterInvitation } from '../models/CertificationCenterInvitation.js';
 
-module.exports = async function createOrUpdateCertificationCenterInvitationForAdmin({
+const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
   email,
   certificationCenterId,
   locale,
@@ -45,3 +45,5 @@ module.exports = async function createOrUpdateCertificationCenterInvitationForAd
 
   return { isInvitationCreated, certificationCenterInvitation };
 };
+
+export { createOrUpdateCertificationCenterInvitationForAdmin };

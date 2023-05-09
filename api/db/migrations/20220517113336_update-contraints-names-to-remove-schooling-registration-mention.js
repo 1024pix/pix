@@ -45,7 +45,7 @@ const OLD_UNIQUE_ORGANIZATION_ID_STUDENT_NUMBER_CONSTRAINT_NAME =
 const NEW_UNIQUE_ORGANIZATION_ID_STUDENT_NUMBER_CONSTRAINT_NAME =
   'organization_learners_organizationid_studentnumber_unique';
 
-exports.up = async (knex) => {
+const up = async function(knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(
     `ALTER TABLE "${CAMPAIGN_PARTICIPATIONS_TABLE}" RENAME CONSTRAINT "${OLD_FOREIGN_KEY_IN_CAMPAIGN_PARTICIPATIONS_CONSTRAINT_NAME}" TO "${NEW_FOREIGN_KEY_IN_CAMPAIGN_PARTICIPATIONS_CONSTRAINT_NAME}";`
@@ -89,7 +89,7 @@ exports.up = async (knex) => {
   );
 };
 
-exports.down = async (knex) => {
+const down = async function(knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(
     `ALTER TABLE "${CAMPAIGN_PARTICIPATIONS_TABLE}" RENAME CONSTRAINT "${NEW_FOREIGN_KEY_IN_CAMPAIGN_PARTICIPATIONS_CONSTRAINT_NAME}" TO "${OLD_FOREIGN_KEY_IN_CAMPAIGN_PARTICIPATIONS_CONSTRAINT_NAME}";`
@@ -132,3 +132,5 @@ exports.down = async (knex) => {
     `ALTER TABLE "${ORGANIZATION_LEARNERS_TABLE}" RENAME CONSTRAINT "${NEW_UNIQUE_ORGANIZATION_ID_STUDENT_NUMBER_CONSTRAINT_NAME}" TO "${OLD_UNIQUE_ORGANIZATION_ID_STUDENT_NUMBER_CONSTRAINT_NAME}";`
   );
 };
+
+export { up, down };

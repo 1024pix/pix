@@ -1,10 +1,10 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(model) {
-    return new Serializer('member-identity', {
-      id: 'id',
-      attributes: ['firstName', 'lastName'],
-    }).serialize(model);
-  },
+const serialize = function (model) {
+  return new Serializer('member-identity', {
+    id: 'id',
+    attributes: ['firstName', 'lastName'],
+  }).serialize(model);
 };
+
+export { serialize };

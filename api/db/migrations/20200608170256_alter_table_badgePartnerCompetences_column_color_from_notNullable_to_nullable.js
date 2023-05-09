@@ -1,13 +1,15 @@
 const TABLE_NAME = 'badge-partner-competences';
 
-exports.up = (knex) => {
+const up = function(knex) {
   return knex.schema.alterTable(TABLE_NAME, function (table) {
     table.string('color').nullable().alter();
   });
 };
 
-exports.down = (knex) => {
+const down = function(knex) {
   return knex.schema.alterTable(TABLE_NAME, function (table) {
     table.string('color').notNullable().alter();
   });
 };
+
+export { up, down };

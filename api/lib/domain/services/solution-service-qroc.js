@@ -1,43 +1,41 @@
-const {
+import {
   isNumeric,
   splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,
-} = require('../../../lib/infrastructure/utils/string-utils.js');
-const { every, isEmpty, isString, map } = require('lodash');
-const { applyTreatments, applyPreTreatments } = require('./validation-treatments.js');
-const { validateAnswer } = require('./string-comparison-service.js');
-
-const AnswerStatus = require('../models/AnswerStatus.js');
-
-const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils.js');
+} from '../../../lib/infrastructure/utils/string-utils.js';
+import { every, isEmpty, isString, map } from 'lodash';
+import { applyTreatments, applyPreTreatments } from './validation-treatments.js';
+import { validateAnswer } from './string-comparison-service.js';
+import { AnswerStatus } from '../models/AnswerStatus.js';
+import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
 
-module.exports = {
-  match({ answer, challengeFormat, solution }) {
-    const solutionValue = solution.value;
-    const deactivations = solution.deactivations;
-    const qrocBlocksTypes = solution.qrocBlocksTypes || {};
-    const shouldApplyTreatments = qrocBlocksTypes[Object.keys(qrocBlocksTypes)[0]] === 'select' ? false : true;
+const match = function ({ answer, challengeFormat, solution }) {
+  const solutionValue = solution.value;
+  const deactivations = solution.deactivations;
+  const qrocBlocksTypes = solution.qrocBlocksTypes || {};
+  const shouldApplyTreatments = qrocBlocksTypes[Object.keys(qrocBlocksTypes)[0]] === 'select' ? false : true;
 
-    const isIncorrectAnswerFormat = !isString(answer);
-    const isIncorrectSolutionFormat = !isString(solutionValue) || isEmpty(solutionValue);
+  const isIncorrectAnswerFormat = !isString(answer);
+  const isIncorrectSolutionFormat = !isString(solutionValue) || isEmpty(solutionValue);
 
-    if (isIncorrectAnswerFormat || isIncorrectSolutionFormat) {
-      return AnswerStatus.KO;
-    }
+  if (isIncorrectAnswerFormat || isIncorrectSolutionFormat) {
+    return AnswerStatus.KO;
+  }
 
-    const solutions = splitIntoWordsAndRemoveBackspaces(solutionValue);
-    const areAllNumericSolutions = every(solutions, (solution) => {
-      return isNumeric(solution);
-    });
+  const solutions = splitIntoWordsAndRemoveBackspaces(solutionValue);
+  const areAllNumericSolutions = every(solutions, (solution) => {
+    return isNumeric(solution);
+  });
 
-    if (isNumeric(answer) && areAllNumericSolutions && challengeFormat === CHALLENGE_NUMBER_FORMAT) {
-      return _getAnswerStatusFromNumberMatching(answer, solutions);
-    }
+  if (isNumeric(answer) && areAllNumericSolutions && challengeFormat === CHALLENGE_NUMBER_FORMAT) {
+    return _getAnswerStatusFromNumberMatching(answer, solutions);
+  }
 
-    return _getAnswerStatusFromStringMatching(answer, solutions, deactivations, shouldApplyTreatments);
-  },
+  return _getAnswerStatusFromStringMatching(answer, solutions, deactivations, shouldApplyTreatments);
 };
+
+export { match };
 
 function _getAnswerStatusFromNumberMatching(answer, solutions) {
   const treatedSolutions = solutions.map((solution) => cleanStringAndParseFloat(solution));

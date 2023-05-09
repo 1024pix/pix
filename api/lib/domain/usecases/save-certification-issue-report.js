@@ -1,6 +1,6 @@
-const CertificationIssueReport = require('../models/CertificationIssueReport.js');
+import { CertificationIssueReport } from '../models/CertificationIssueReport.js';
 
-module.exports = async function saveCertificationIssueReport({
+const saveCertificationIssueReport = async function ({
   certificationIssueReportDTO,
   certificationIssueReportRepository,
   issueReportCategoryRepository,
@@ -16,3 +16,5 @@ module.exports = async function saveCertificationIssueReport({
 
   return certificationIssueReportRepository.save(certificationIssueReport);
 };
+
+export { saveCertificationIssueReport };

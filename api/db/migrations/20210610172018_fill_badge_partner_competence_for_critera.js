@@ -1,7 +1,7 @@
-const bluebird = require('bluebird');
-const _ = require('lodash');
+import bluebird from 'bluebird';
+import _ from 'lodash';
 
-exports.up = async function (knex) {
+const up = async function(knex) {
   const badgesAndPartnerCompetences = await knex('badges')
     .select('badges.id as badgeId', 'badge-partner-competences.id as partnerCompetenceId')
     .leftJoin('badge-criteria', 'badges.id', 'badge-criteria.badgeId')
@@ -25,6 +25,8 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = function () {
+const down = function() {
   return;
 };
+
+export { up, down };

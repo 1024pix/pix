@@ -1,30 +1,30 @@
-const _ = require('lodash');
-const hashInt = require('hash-int');
-const pseudoRandom = require('../../infrastructure/utils/pseudo-random');
+import _ from 'lodash';
+import hashInt from 'hash-int';
+import { pseudoRandom } from '../../infrastructure/utils/pseudo-random.js';
 const NON_EXISTING_ITEM = null;
 const VALIDATED_STATUS = 'validé';
 
-module.exports = {
-  pickChallenge({ skills, randomSeed, locale }) {
-    if (skills.length === 0) {
-      return NON_EXISTING_ITEM;
-    }
-    const keyForSkill = Math.abs(hashInt(randomSeed));
-    const keyForChallenge = Math.abs(hashInt(randomSeed + 1));
-    const chosenSkill = skills[keyForSkill % skills.length];
+const pickChallenge = function ({ skills, randomSeed, locale }) {
+  if (skills.length === 0) {
+    return NON_EXISTING_ITEM;
+  }
+  const keyForSkill = Math.abs(hashInt(randomSeed));
+  const keyForChallenge = Math.abs(hashInt(randomSeed + 1));
+  const chosenSkill = skills[keyForSkill % skills.length];
 
-    return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
-  },
-
-  chooseNextChallenge({ possibleChallenges, assessmentId }) {
-    const PROBABILITY_TO_BE_PICKED = 51;
-    const pseudoRandomContext = pseudoRandom.create(assessmentId);
-
-    const challengeIndex = pseudoRandomContext.binaryTreeRandom(PROBABILITY_TO_BE_PICKED, possibleChallenges.length);
-
-    return possibleChallenges[challengeIndex];
-  },
+  return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
 };
+
+const chooseNextChallenge = function ({ possibleChallenges, assessmentId }) {
+  const PROBABILITY_TO_BE_PICKED = 51;
+  const pseudoRandomContext = pseudoRandom.create(assessmentId);
+
+  const challengeIndex = pseudoRandomContext.binaryTreeRandom(PROBABILITY_TO_BE_PICKED, possibleChallenges.length);
+
+  return possibleChallenges[challengeIndex];
+};
+
+export { pickChallenge, chooseNextChallenge };
 
 function _pickLocaleChallengeAtIndex(challenges, locale, index) {
   const localeChallenges = _.filter(challenges, (challenge) => _.includes(challenge.locales, locale));

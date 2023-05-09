@@ -1,21 +1,22 @@
-const jsonwebtoken = require('jsonwebtoken');
-const querystring = require('querystring');
-const { v4: uuidv4 } = require('uuid');
+import jsonwebtoken from 'jsonwebtoken';
+import querystring from 'querystring';
+import { v4 as uuidv4 } from 'uuid';
 
-const {
+import {
   InvalidExternalAPIResponseError,
   OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
-} = require('../../errors.js');
-const AuthenticationMethod = require('../../models/AuthenticationMethod.js');
-const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent.js');
-const settings = require('../../../config.js');
-const httpAgent = require('../../../infrastructure/http/http-agent.js');
-const httpErrorsHelper = require('../../../infrastructure/http/errors-helper.js');
-const DomainTransaction = require('../../../infrastructure/DomainTransaction.js');
-const monitoringTools = require('../../../infrastructure/monitoring-tools.js');
-const { OIDC_ERRORS } = require('../../constants.js');
+} from '../../errors.js';
+
+import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
+import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
+import { settings } from '../../../config.js';
+import { httpAgent } from '../../../infrastructure/http/http-agent.js';
+import { httpErrorsHelper } from '../../../infrastructure/http/errors-helper.js';
+import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
+import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
+import { OIDC_ERRORS } from '../../constants.js';
 
 class OidcAuthenticationService {
   constructor({
@@ -223,4 +224,4 @@ class OidcAuthenticationService {
   }
 }
 
-module.exports = OidcAuthenticationService;
+export { OidcAuthenticationService };

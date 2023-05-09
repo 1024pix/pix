@@ -1,6 +1,6 @@
 const TABLE_NAME = 'finalized-sessions';
 
-exports.up = async (knex) => {
+const up = async function(knex) {
   await knex.schema.createTable(TABLE_NAME, (t) => {
     t.integer('sessionId').primary();
     t.boolean('isPublishable').notNullable();
@@ -11,6 +11,8 @@ exports.up = async (knex) => {
   });
 };
 
-exports.down = (knex) => {
+const down = function(knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
+
+export { up, down };

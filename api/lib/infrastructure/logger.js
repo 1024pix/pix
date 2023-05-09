@@ -1,6 +1,6 @@
-const pino = require('pino');
-const pretty = require('pino-pretty');
-const { logging: logSettings } = require('../config.js');
+import pino from 'pino';
+import pretty from 'pino-pretty';
+import { logging as logSettings } from '../config.js';
 
 let prettyPrint;
 if (logSettings.logForHumans) {
@@ -22,4 +22,4 @@ const logger = pino(
   prettyPrint
 );
 
-module.exports = logger;
+export { logger };

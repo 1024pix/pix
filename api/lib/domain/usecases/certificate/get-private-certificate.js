@@ -1,6 +1,6 @@
-const { NotFoundError } = require('../../errors.js');
+import { NotFoundError } from '../../errors.js';
 
-module.exports = async function getPrivateCertificate({ certificationId, userId, locale, certificateRepository }) {
+const getPrivateCertificate = async function ({ certificationId, userId, locale, certificateRepository }) {
   const privateCertificate = await certificateRepository.getPrivateCertificate(certificationId, { locale });
   if (privateCertificate.userId !== userId) {
     throw new NotFoundError();
@@ -8,3 +8,5 @@ module.exports = async function getPrivateCertificate({ certificationId, userId,
 
   return privateCertificate;
 };
+
+export { getPrivateCertificate };
