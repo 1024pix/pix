@@ -1,10 +1,6 @@
-const buildSkill = require('./build-skill');
+import { buildSkill } from './build-skill.js';
 
-module.exports = function BuildSkillCollection({
-  name = buildSkill.buildRandomTubeName(),
-  minLevel = 3,
-  maxLevel = 5,
-} = {}) {
+const BuildSkillCollection = function ({ name = buildSkill.buildRandomTubeName(), minLevel = 3, maxLevel = 5 } = {}) {
   const collection = [];
 
   for (let i = minLevel; i <= maxLevel; ++i) {
@@ -13,3 +9,5 @@ module.exports = function BuildSkillCollection({
 
   return collection;
 };
+
+export { BuildSkillCollection };

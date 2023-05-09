@@ -1,6 +1,6 @@
 const TABLE_NAME = 'flash-assessment-results';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.raw('alter table "flash-assessment-results" alter column id type bigint');
 
   await knex.schema.table(TABLE_NAME, (t) => {
@@ -22,7 +22,7 @@ const up = async function(knex) {
   });
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   await knex(TABLE_NAME)
     .whereIn(
       'answerId',

@@ -1,4 +1,4 @@
-const up = async function(knex) {
+const up = async function (knex) {
   await knex
     .with('all_target_profile_shares_ranked', (qb) => {
       qb.select([
@@ -18,7 +18,7 @@ const up = async function(knex) {
   return knex.schema.table('target-profile-shares', (table) => table.unique(['organizationId', 'targetProfileId']));
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   return knex.schema.table('target-profile-shares', (table) => table.dropUnique(['organizationId', 'targetProfileId']));
 };
 

@@ -1,6 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-
-const findAllTags = require('../../../../lib/domain/usecases/find-all-tags');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { findAllTags } from '../../../../lib/domain/usecases/find-all-tags.js';
 
 describe('Unit | UseCase | find-all-tags', function () {
   let tagRepository;

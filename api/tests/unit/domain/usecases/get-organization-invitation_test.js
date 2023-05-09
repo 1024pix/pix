@@ -1,11 +1,11 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getOrganizationInvitation = require('../../../../lib/domain/usecases/get-organization-invitation');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const {
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { getOrganizationInvitation } from '../../../../lib/domain/usecases/get-organization-invitation.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import {
   NotFoundError,
   AlreadyExistingInvitationError,
   CancelledInvitationError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | get-organization-invitation', function () {
   let organizationInvitationRepository;

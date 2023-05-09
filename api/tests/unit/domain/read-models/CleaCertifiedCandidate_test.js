@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const CleaCertifiedCandidate = require('../../../../lib/domain/read-models/CleaCertifiedCandidate');
+import { expect } from '../../../test-helper.js';
+import { CleaCertifiedCandidate } from '../../../../lib/domain/read-models/CleaCertifiedCandidate.js';
 
 describe('Unit | Domain | Models | CleaCertifiedCandidate', function () {
   describe('#isBornInAForeignCountry', function () {

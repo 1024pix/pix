@@ -1,10 +1,9 @@
-const { expect, databaseBuilder, catchErr, mockLearningContent } = require('../../../test-helper');
-const { NotFoundError, UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-
-const getCampaign = require('../../../../lib/domain/usecases/get-campaign');
-const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignReportRepository = require('../../../../lib/infrastructure/repositories/campaign-report-repository');
+import { expect, databaseBuilder, catchErr, mockLearningContent } from '../../../test-helper.js';
+import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { getCampaign } from '../../../../lib/domain/usecases/get-campaign.js';
+import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import * as campaignReportRepository from '../../../../lib/infrastructure/repositories/campaign-report-repository.js';
 
 describe('Integration | UseCase | get-campaign', function () {
   context('Error case', function () {

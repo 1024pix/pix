@@ -1,7 +1,10 @@
-const { v4: uuidv4 } = require('uuid');
-const RedisTemporaryStorage = require('../../../../lib/infrastructure/temporary-storage/RedisTemporaryStorage');
-const { expect } = require('../../../test-helper');
-const settings = require('../../../../lib/config');
+import uuid from 'uuid';
+
+const { v4 } = uuid;
+
+import { RedisTemporaryStorage } from '../../../../lib/infrastructure/temporary-storage/RedisTemporaryStorage.js';
+import { expect } from '../../../test-helper.js';
+import { settings } from '../../../../lib/config.js';
 const REDIS_URL = settings.redis.url;
 
 describe('Integration | Infrastructure | TemporaryStorage | RedisTemporaryStorage', function () {

@@ -1,6 +1,6 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-const userTutorialsController = require('../../../../lib/application/user-tutorials/user-tutorials-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import { userTutorialsController } from '../../../../lib/application/user-tutorials/user-tutorials-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Unit | Controller | User-tutorials', function () {
   describe('#add', function () {

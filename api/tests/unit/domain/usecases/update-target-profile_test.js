@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const { updateTargetProfile } = require('../../../../lib/domain/usecases/index.js');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr } from '../../../test-helper.js';
+import { updateTargetProfile } from '../../../../lib/domain/usecases/index.js';
+import { EntityValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | update-target-profile', function () {
   let targetProfileForUpdateRepository = null;

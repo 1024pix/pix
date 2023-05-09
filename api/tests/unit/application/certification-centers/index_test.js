@@ -1,13 +1,22 @@
-const { writeFile, stat, unlink } = require('fs').promises;
+import fs from 'fs';
 
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+const {
+  promises
+} = fs;
 
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const moduleUnderTest = require('../../../../lib/application/certification-centers');
-const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
-const FormData = require('form-data');
-const fs = require('fs');
-const streamToPromise = require('stream-to-promise');
+const {
+  writeFile,
+  stat,
+  unlink,
+} = promises;
+
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { moduleUnderTest } from '../../../../lib/application/certification-centers.js';
+import { certificationCenterController } from '../../../../lib/application/certification-centers/certification-center-controller.js';
+import FormData from 'form-data';
+import fs from 'fs';
+import streamToPromise from 'stream-to-promise';
 
 describe('Unit | Router | certification-center-router', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/session', function () {

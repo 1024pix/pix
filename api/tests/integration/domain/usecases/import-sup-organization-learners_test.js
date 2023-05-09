@@ -1,11 +1,11 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const iconv = require('iconv-lite');
+import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import iconv from 'iconv-lite';
 
-const importSupOrganizationLearner = require('../../../../lib/domain/usecases/import-sup-organization-learners');
-const supOrganizationLearnerRepository = require('../../../../lib/infrastructure/repositories/sup-organization-learner-repository');
-const SupOrganizationLearnerParser = require('../../../../lib/infrastructure/serializers/csv/sup-organization-learner-parser');
-const SupOrganizationLearnerImportHeader = require('../../../../lib/infrastructure/serializers/csv/sup-organization-learner-import-header');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { importSupOrganizationLearner } from '../../../../lib/domain/usecases/import-sup-organization-learners.js';
+import * as supOrganizationLearnerRepository from '../../../../lib/infrastructure/repositories/sup-organization-learner-repository.js';
+import { SupOrganizationLearnerParser } from '../../../../lib/infrastructure/serializers/csv/sup-organization-learner-parser.js';
+import { SupOrganizationLearnerImportHeader } from '../../../../lib/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 const i18n = getI18n();
 

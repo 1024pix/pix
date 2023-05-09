@@ -1,17 +1,16 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { authenticateUser } from '../../../../lib/domain/usecases/authenticate-user.js';
+import { User } from '../../../../lib/domain/models/User.js';
+import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
 
-const authenticateUser = require('../../../../lib/domain/usecases/authenticate-user');
-const User = require('../../../../lib/domain/models/User');
-const AdminMember = require('../../../../lib/domain/models/AdminMember');
-
-const {
+import {
   UserNotFoundError,
   MissingOrInvalidCredentialsError,
   ForbiddenAccess,
   UserShouldChangePasswordError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
-const appMessages = require('../../../../lib/domain/constants');
+import { appMessages } from '../../../../lib/domain/constants.js';
 
 describe('Unit | Application | UseCase | authenticate-user', function () {
   let refreshTokenService;

@@ -1,6 +1,6 @@
 const MAX_ROW_COUNT_FOR_SYNCHRONOUS_MIGRATION = 10000000;
 
-const up = async function(knex) {
+const up = async function (knex) {
   const nbRows = (await knex('knowledge-elements').max('id').first()).max;
 
   if (nbRows < MAX_ROW_COUNT_FOR_SYNCHRONOUS_MIGRATION) {
@@ -9,7 +9,7 @@ const up = async function(knex) {
   }
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   await knex.raw('DROP INDEX IF EXISTS "knowledge-elements_bigintId_index"');
 };
 

@@ -1,9 +1,7 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-
-const scorecardController = require('../../../../lib/application/scorecards/scorecard-controller');
-
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils.js');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import { scorecardController } from '../../../../lib/application/scorecards/scorecard-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 
 describe('Unit | Controller | scorecard-controller', function () {
   const authenticatedUserId = '12';

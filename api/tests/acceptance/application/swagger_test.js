@@ -1,5 +1,5 @@
-const { expect } = require('../../test-helper');
-const createServer = require('../../../server');
+import { expect } from '../../test-helper.js';
+import { createServer } from '../../../server.js';
 
 describe('Acceptance | Controller | swagger', function () {
   let server;

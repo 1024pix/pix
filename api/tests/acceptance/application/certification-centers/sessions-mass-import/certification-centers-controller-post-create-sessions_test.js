@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } = require('../../../../test-helper');
-const createServer = require('../../../../../server');
-const temporarySessionsStorageForMassImportService = require('../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
+import { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
+import { createServer } from '../../../../../server.js';
+import * as temporarySessionsStorageForMassImportService from '../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service.js';
 
 describe('Acceptance | Controller | certification-centers-controller-post-create-sessions', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/sessions/confirm-for-mass-import', function () {

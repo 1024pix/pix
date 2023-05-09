@@ -1,8 +1,8 @@
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
+import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 
-module.exports = {
-  commonBuilder,
-};
+const { ROLES } = PIX_ADMIN;
+
+export { commonBuilder };
 
 // IDS
 /// USERS

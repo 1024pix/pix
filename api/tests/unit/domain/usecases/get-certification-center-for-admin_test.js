@@ -1,6 +1,6 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const getCertificationCenterForAdmin = require('../../../../lib/domain/usecases/get-certification-center-for-admin');
-const CertificationCenterForAdmin = require('../../../../lib/domain/models/CertificationCenterForAdmin');
+import { expect, domainBuilder, sinon } from '../../../test-helper.js';
+import { getCertificationCenterForAdmin } from '../../../../lib/domain/usecases/get-certification-center-for-admin.js';
+import { CertificationCenterForAdmin } from '../../../../lib/domain/models/CertificationCenterForAdmin.js';
 
 describe('Unit | UseCase | get-certification-center-for-admin', function () {
   let certificationCenterForAdmin;

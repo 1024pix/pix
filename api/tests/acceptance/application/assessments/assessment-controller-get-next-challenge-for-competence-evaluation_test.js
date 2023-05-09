@@ -1,4 +1,4 @@
-const {
+import {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
@@ -6,10 +6,11 @@ const {
   learningContentBuilder,
   knex,
   sinon,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 
 const competenceId = 'recCompetence';
 const skillWeb1Id = 'recAcquisWeb1';

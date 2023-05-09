@@ -1,11 +1,11 @@
-const buildAnswer = require('./build-answer');
-const buildAssessment = require('./build-assessment');
-const buildUser = require('./build-user');
-const databaseBuffer = require('../database-buffer');
-const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
-const _ = require('lodash');
+import { buildAnswer } from './build-answer.js';
+import { buildAssessment } from './build-assessment.js';
+import { buildUser } from './build-user.js';
+import { databaseBuffer } from '../database-buffer.js';
+import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
+import _ from 'lodash';
 
-module.exports = function buildKnowledgeElement({
+const buildKnowledgeElement = function ({
   id = databaseBuffer.getNextId(),
   source = KnowledgeElement.SourceType.DIRECT,
   status = KnowledgeElement.StatusType.VALIDATED,
@@ -39,3 +39,5 @@ module.exports = function buildKnowledgeElement({
     values,
   });
 };
+
+export { buildKnowledgeElement };

@@ -1,6 +1,6 @@
-const { expect } = require('../../../../../test-helper');
-const serializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
-const TargetProfileForSpecifier = require('../../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier');
+import { expect } from '../../../../../test-helper.js';
+import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer.js';
+import { TargetProfileForSpecifier } from '../../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-for-specifier-serializer', function () {
   describe('#serialize', function () {

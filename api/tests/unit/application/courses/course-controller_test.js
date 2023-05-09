@@ -1,8 +1,6 @@
-const { expect, hFake, sinon, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-
-const Course = require('../../../../lib/domain/models/Course');
-
-const courseController = require('../../../../lib/application/courses/course-controller');
+import { expect, hFake, sinon, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { Course } from '../../../../lib/domain/models/Course.js';
+import { courseController } from '../../../../lib/application/courses/course-controller.js';
 
 describe('Unit | Controller | course-controller', function () {
   let courseServiceStub;

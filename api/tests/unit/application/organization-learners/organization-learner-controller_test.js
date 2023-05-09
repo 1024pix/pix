@@ -1,6 +1,6 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const organizationLearnerController = require('../../../../lib/application/organization-learners/organization-learner-controller');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { organizationLearnerController } from '../../../../lib/application/organization-learners/organization-learner-controller.js';
 
 describe('Unit | Application | Organization-Learner | organization-learner-controller', function () {
   describe('#getOrganizationLearnerActivity', function () {

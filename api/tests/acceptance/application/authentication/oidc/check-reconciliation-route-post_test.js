@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, knex } = require('../../../../test-helper');
-const createServer = require('../../../../../server');
-const jsonwebtoken = require('jsonwebtoken');
-const authenticationSessionService = require('../../../../../lib/domain/services/authentication/authentication-session-service');
+import { expect, databaseBuilder, knex } from '../../../../test-helper.js';
+import { createServer } from '../../../../../server.js';
+import jsonwebtoken from 'jsonwebtoken';
+import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
 
 describe('Acceptance | Application | Oidc | Routes', function () {
   describe('POST /api/oidc/user/check-reconciliation', function () {

@@ -1,22 +1,14 @@
-const {
-  domainBuilder,
-  expect,
-  generateValidRequestAuthorizationHeader,
-  hFake,
-  sinon,
-} = require('../../../test-helper');
+import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 
-const Organization = require('../../../../lib/domain/models/Organization');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const Membership = require('../../../../lib/domain/models/Membership');
-const ScoOrganizationParticipant = require('../../../../lib/domain/read-models/ScoOrganizationParticipant');
-const SupOrganizationParticipant = require('../../../../lib/domain/read-models/SupOrganizationParticipant');
-
-const organizationController = require('../../../../lib/application/organizations/organization-controller.js');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { Organization } from '../../../../lib/domain/models/Organization.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { ScoOrganizationParticipant } from '../../../../lib/domain/read-models/ScoOrganizationParticipant.js';
+import { SupOrganizationParticipant } from '../../../../lib/domain/read-models/SupOrganizationParticipant.js';
+import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {
   let request;

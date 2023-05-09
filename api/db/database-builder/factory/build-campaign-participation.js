@@ -1,13 +1,13 @@
-const buildCampaign = require('./build-campaign');
-const buildUser = require('./build-user');
-const buildOrganizationLearner = require('./build-organization-learner');
-const databaseBuffer = require('../database-buffer');
-const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
-const _ = require('lodash');
+import { buildCampaign } from './build-campaign.js';
+import { buildUser } from './build-user.js';
+import { buildOrganizationLearner } from './build-organization-learner.js';
+import { databaseBuffer } from '../database-buffer.js';
+import { CampaignParticipationStatuses } from '../../../lib/domain/models/CampaignParticipationStatuses.js';
+import _ from 'lodash';
 
 const { SHARED } = CampaignParticipationStatuses;
 
-module.exports = function buildCampaignParticipation({
+const buildCampaignParticipation = function ({
   id = databaseBuffer.getNextId(),
   campaignId,
   createdAt = new Date('2020-01-01'),
@@ -70,3 +70,5 @@ module.exports = function buildCampaignParticipation({
     isCertifiable,
   };
 };
+
+export { buildCampaignParticipation };

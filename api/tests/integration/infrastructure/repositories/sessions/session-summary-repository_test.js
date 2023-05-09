@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../../test-helper');
-const sessionSummaryRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-summary-repository');
-const _ = require('lodash');
+import { expect, databaseBuilder, domainBuilder } from '../../../../test-helper.js';
+import * as sessionSummaryRepository from '../../../../../lib/infrastructure/repositories/sessions/session-summary-repository.js';
+import _ from 'lodash';
 
 describe('Integration | Repository | Session Summary', function () {
   describe('#findPaginatedByCertificationCenterId', function () {

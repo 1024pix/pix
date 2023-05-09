@@ -1,8 +1,8 @@
-const { expect, EMPTY_BLANK_AND_NULL, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
-const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
-const { NO_EXAMINER_COMMENT } = require('../../../../../lib/domain/models/CertificationReport');
-const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
+import { expect, EMPTY_BLANK_AND_NULL, domainBuilder } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer.js';
+import { WrongDateFormatError } from '../../../../../lib/domain/errors.js';
+import { NO_EXAMINER_COMMENT } from '../../../../../lib/domain/models/CertificationReport.js';
+import { CertificationCourse } from '../../../../../lib/domain/models/CertificationCourse.js';
 
 describe('Unit | Serializer | JSONAPI | certification-serializer', function () {
   describe('#deserialize', function () {

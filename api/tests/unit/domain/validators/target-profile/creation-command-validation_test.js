@@ -1,7 +1,7 @@
-const { expect } = require('../../../../test-helper');
-const creationCommandValidator = require('../../../../../lib/domain/validators/target-profile/creation-command-validation');
-const { EntityValidationError } = require('../../../../../lib/domain/errors');
-const { categories } = require('../../../../../lib/domain/models/TargetProfile');
+import { expect } from '../../../../test-helper.js';
+import { creationCommandValidator } from '../../../../../lib/domain/validators/target-profile/creation-command-validation.js';
+import { EntityValidationError } from '../../../../../lib/domain/errors.js';
+import { categories } from '../../../../../lib/domain/models/TargetProfile.js';
 
 describe('Unit | Domain | Validators | target-profile/creationCommandValidator', function () {
   describe('#validate', function () {

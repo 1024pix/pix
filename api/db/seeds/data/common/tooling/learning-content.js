@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
-const { skillDatasource } = require('../../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+import _ from 'lodash';
+import * as competenceRepository from '../../../../../lib/infrastructure/repositories/competence-repository.js';
+import { skillDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
 
 let ALL_COMPETENCES, ALL_ACTIVE_SKILLS;
 
@@ -28,8 +28,4 @@ async function findActiveSkillsByTubeId(tubeId) {
   return _.filter(allSkills, { tubeId });
 }
 
-module.exports = {
-  getAllCompetences,
-  findActiveSkillsByCompetenceId,
-  findActiveSkillsByTubeId,
-};
+export { getAllCompetences, findActiveSkillsByCompetenceId, findActiveSkillsByTubeId };

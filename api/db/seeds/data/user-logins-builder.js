@@ -1,5 +1,5 @@
-const { DEFAULT_PASSWORD } = require('./users-builder');
-const { SCO_MIDDLE_SCHOOL_ID } = require('./organizations-sco-builder');
+import { DEFAULT_PASSWORD } from './users-builder.js';
+import { SCO_MIDDLE_SCHOOL_ID } from './organizations-sco-builder.js';
 
 function userLoginsBuilder({ databaseBuilder }) {
   _buildBlockedUser({ databaseBuilder });
@@ -62,6 +62,4 @@ function _buildTemporaryBlockedUser({ databaseBuilder }) {
   });
 }
 
-module.exports = {
-  userLoginsBuilder,
-};
+export { userLoginsBuilder };

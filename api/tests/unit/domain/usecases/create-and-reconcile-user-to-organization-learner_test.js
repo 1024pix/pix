@@ -1,15 +1,15 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 
-const {
+import {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   CampaignCodeError,
   EntityValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
   NotFoundError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', function () {
   const organizationId = 1;

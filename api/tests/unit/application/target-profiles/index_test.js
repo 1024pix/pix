@@ -1,7 +1,7 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
-const moduleUnderTest = require('../../../../lib/application/target-profiles');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { targetProfileController } from '../../../../lib/application/target-profiles/target-profile-controller.js';
+import { moduleUnderTest } from '../../../../lib/application/target-profiles.js';
 
 describe('Unit | Application | Target Profiles | Routes', function () {
   describe('GET /api/admin/target-profile-summaries', function () {

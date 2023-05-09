@@ -1,9 +1,9 @@
-const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const Membership = require('../../../../lib/domain/models/Membership');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const moduleUnderTest = require('../../../../lib/application/memberships');
-const { InvalidMembershipOrganizationRoleError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { moduleUnderTest } from '../../../../lib/application/memberships.js';
+import { InvalidMembershipOrganizationRoleError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Application | Memberships | membership-controller', function () {
   let httpTestServer;

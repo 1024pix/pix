@@ -1,14 +1,14 @@
-const { domainBuilder, expect, sinon, HttpTestServer } = require('../../../test-helper');
+import { domainBuilder, expect, sinon, HttpTestServer } from '../../../test-helper.js';
 
-const {
+import {
   ForbiddenAccess,
   InvalidTemporaryKeyError,
   PasswordResetDemandNotFoundError,
   UserNotFoundError,
-} = require('../../../../lib/domain/errors');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+} from '../../../../lib/domain/errors.js';
 
-const moduleUnderTest = require('../../../../lib/application/passwords');
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { moduleUnderTest } from '../../../../lib/application/passwords.js';
 
 describe('Integration | Application | Passwords | password-controller', function () {
   let httpTestServer;

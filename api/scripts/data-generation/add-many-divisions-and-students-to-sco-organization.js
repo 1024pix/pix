@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const randomString = require('randomstring');
-const OrganizationLearner = require('../../lib/domain/models/OrganizationLearner');
-const { OrganizationLearnersCouldNotBeSavedError } = require('../../lib/domain/errors');
-const { knex, disconnect } = require('../../db/knex-database-connection');
+import _ from 'lodash';
+import randomString from 'randomstring';
+import { OrganizationLearner } from '../../lib/domain/models/OrganizationLearner.js';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../lib/domain/errors.js';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
 
 function _buildOrganizationLearner(division, organizationId, iteration) {
   const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];
@@ -74,6 +74,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  addManyDivisionsAndStudentsToScoCertificationCenter,
-};
+export { addManyDivisionsAndStudentsToScoCertificationCenter };

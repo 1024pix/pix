@@ -1,7 +1,7 @@
-const buildArea = require('./build-area');
-const Framework = require('../../../../lib/domain/models/Framework');
+import { buildArea } from './build-area.js';
+import { Framework } from '../../../../lib/domain/models/Framework.js';
 
-module.exports = function buildFramework({ id = 'recFramework123', name = 'Mon super référentiel', areas } = {}) {
+const buildFramework = function ({ id = 'recFramework123', name = 'Mon super référentiel', areas } = {}) {
   areas = areas || [buildArea({ frameworkId: id })];
   const framework = new Framework({
     id,
@@ -14,3 +14,5 @@ module.exports = function buildFramework({ id = 'recFramework123', name = 'Mon s
   });
   return framework;
 };
+
+export { buildFramework };

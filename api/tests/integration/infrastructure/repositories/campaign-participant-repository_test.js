@@ -1,11 +1,11 @@
-const { expect, databaseBuilder, mockLearningContent, catchErr } = require('../../../test-helper');
-const { knex } = require('../../../../db/knex-database-connection');
-const campaignParticipantRepository = require('../../../../lib/infrastructure/repositories/campaign-participant-repository');
-const CampaignParticipant = require('../../../../lib/domain/models/CampaignParticipant');
-const CampaignToStartParticipation = require('../../../../lib/domain/models/CampaignToStartParticipation');
-const pick = require('lodash/pick');
-const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../../../lib/domain/errors');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import * as campaignParticipantRepository from '../../../../lib/infrastructure/repositories/campaign-participant-repository.js';
+import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
+import { CampaignToStartParticipation } from '../../../../lib/domain/models/CampaignToStartParticipation.js';
+import pick from 'lodash/pick';
+import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../../../lib/domain/errors.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 const campaignParticipationDBAttributes = [
   'id',
   'campaignId',

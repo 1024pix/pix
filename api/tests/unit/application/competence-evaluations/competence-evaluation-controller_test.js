@@ -1,6 +1,6 @@
-const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
-const competenceEvaluationController = require('../../../../lib/application/competence-evaluations/competence-evaluation-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { sinon, expect, domainBuilder, hFake } from '../../../test-helper.js';
+import { competenceEvaluationController } from '../../../../lib/application/competence-evaluations/competence-evaluation-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Unit | Application | Controller | Competence-Evaluation', function () {
   describe('#startOrResume', function () {

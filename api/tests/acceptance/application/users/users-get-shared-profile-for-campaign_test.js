@@ -1,11 +1,13 @@
-const _ = require('lodash');
-const {
+import _ from 'lodash';
+
+import {
   expect,
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profile', function () {
   const userId = 100;

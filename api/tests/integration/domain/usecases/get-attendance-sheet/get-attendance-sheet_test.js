@@ -1,12 +1,17 @@
-const { unlink, writeFile } = require('fs').promises;
-const _ = require('lodash');
-const { expect, databaseBuilder } = require('../../../../test-helper');
-const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
-const writeOdsUtils = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
-const sessionXmlService = require('../../../../../lib/domain/services/session-xml-service');
-const sessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-repository');
-const sessionForAttendanceSheetRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository');
-const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
+import fs from 'fs';
+
+const { promises } = fs;
+
+const { unlink, writeFile } = promises;
+
+import _ from 'lodash';
+import { expect, databaseBuilder } from '../../../../test-helper.js';
+import { readOdsUtils } from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
+import { writeOdsUtils } from '../../../../../lib/infrastructure/utils/ods/write-ods-utils.js';
+import * as sessionXmlService from '../../../../../lib/domain/services/session-xml-service.js';
+import * as sessionRepository from '../../../../../lib/infrastructure/repositories/sessions/session-repository.js';
+import * as sessionForAttendanceSheetRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository.js';
+import { getAttendanceSheet } from '../../../../../lib/domain/usecases/get-attendance-sheet.js';
 
 describe('Integration | UseCases | getAttendanceSheet', function () {
   describe('when certification center is not sco', function () {

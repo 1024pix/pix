@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const targetProfileSummaryForAdminRepository = require('../../../../lib/infrastructure/repositories/target-profile-summary-for-admin-repository');
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
+import * as targetProfileSummaryForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 
 describe('Integration | Repository | Target-profile-summary-for-admin', function () {
   describe('#findPaginatedFiltered', function () {

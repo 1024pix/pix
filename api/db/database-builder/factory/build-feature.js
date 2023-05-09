@@ -1,4 +1,4 @@
-const databaseBuffer = require('../database-buffer');
+import { databaseBuffer } from '../database-buffer.js';
 
 const buildFeature = function buildFeature({ id = databaseBuffer.getNextId(), key, description } = {}) {
   const values = {
@@ -13,4 +13,4 @@ const buildFeature = function buildFeature({ id = databaseBuffer.getNextId(), ke
   });
 };
 
-module.exports = buildFeature;
+export { buildFeature };

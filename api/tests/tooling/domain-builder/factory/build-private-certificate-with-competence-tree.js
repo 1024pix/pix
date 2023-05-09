@@ -1,8 +1,8 @@
-const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
-const buildAssessmentResult = require('./build-assessment-result');
-const buildResultCompetenceTree = require('./build-result-competence-tree');
+import { PrivateCertificate } from '../../../../lib/domain/models/PrivateCertificate.js';
+import { buildAssessmentResult } from './build-assessment-result.js';
+import { buildResultCompetenceTree } from './build-result-competence-tree.js';
 
-module.exports = function buildPrivateCertificate({
+const buildPrivateCertificate = function ({
   id = 1,
   assessmentResults = [buildAssessmentResult()],
   assessmentState = 'completed',
@@ -60,3 +60,5 @@ module.exports = function buildPrivateCertificate({
 
   return certificate;
 };
+
+export { buildPrivateCertificate };

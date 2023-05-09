@@ -1,7 +1,10 @@
-const { v4: uuidv4 } = require('uuid');
-const RedisClient = require('../../../../lib/infrastructure/utils/RedisClient');
-const config = require('../../../../lib/config');
-const { expect } = require('../../../test-helper');
+import uuid from 'uuid';
+
+const { v4 } = uuid;
+
+import { RedisClient } from '../../../../lib/infrastructure/utils/RedisClient.js';
+import { config } from '../../../../lib/config.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Utils | RedisClient', function () {
   it('stores and retrieve a value for a key', async function () {

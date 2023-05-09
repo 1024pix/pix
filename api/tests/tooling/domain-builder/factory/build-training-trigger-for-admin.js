@@ -1,8 +1,8 @@
-const buildTube = require('./build-tube');
-const TrainingTriggerForAdmin = require('../../../../lib/domain/read-models/TrainingTriggerForAdmin');
-const TrainingTriggerTube = require('../../../../lib/domain/models/TrainingTriggerTube');
+import { buildTube } from './build-tube.js';
+import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
+import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
 
-module.exports = function buildTrainingTriggerForAdmin({
+const buildTrainingTriggerForAdmin = function ({
   id = 1000,
   trainingId = 156,
   triggerTubes = [
@@ -29,3 +29,5 @@ module.exports = function buildTrainingTriggerForAdmin({
     thematics,
   });
 };
+
+export { buildTrainingTriggerForAdmin };

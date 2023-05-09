@@ -1,6 +1,6 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
-const { UserNotFoundError } = require('../../../../lib/domain/errors');
+import { expect, sinon, hFake } from '../../../test-helper.js';
+import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
+import { UserNotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Pre-handler | User Verification', function () {
   describe('#verifyById', function () {

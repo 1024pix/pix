@@ -1,9 +1,10 @@
-const { expect, sinon } = require('../../test-helper');
+import { expect, sinon } from '../../test-helper.js';
+import { buildCities, getCitiesWithDistricts } from '../../../scripts/certification/import-certification-cpf-cities.js';
+import lodash/noop from 'lodash/noop';
+
 const {
-  buildCities,
-  getCitiesWithDistricts,
-} = require('../../../scripts/certification/import-certification-cpf-cities');
-const { noop } = require('lodash/noop');
+  noop
+} = lodash/noop;
 
 describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
   beforeEach(function () {

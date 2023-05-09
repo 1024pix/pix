@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const { InvalidStageError } = require('../../../../../lib/domain/errors');
-const StageCollectionUpdate = require('../../../../../lib/domain/models/target-profile-management/StageCollectionUpdate');
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import { InvalidStageError } from '../../../../../lib/domain/errors.js';
+import { StageCollectionUpdate } from '../../../../../lib/domain/models/target-profile-management/StageCollectionUpdate.js';
 
 describe('Unit | Domain | Models | target-profile-management/StageCollectionUpdate', function () {
   describe('constructor', function () {

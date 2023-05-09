@@ -1,14 +1,14 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-const { expect, databaseBuilder, knex } = require('../../test-helper');
+import { expect, databaseBuilder, knex } from '../../test-helper.js';
+import { BookshelfOrganizationInvitation } from '../../../lib/infrastructure/orm-models/OrganizationInvitation.js';
 
-const BookshelfOrganizationInvitation = require('../../../lib/infrastructure/orm-models/OrganizationInvitation');
-const {
+import {
   getOrganizationByExternalId,
   buildInvitation,
   prepareDataForSending,
   sendJoinOrganizationInvitations,
-} = require('../../../scripts/send-invitations-to-sco-organizations');
+} from '../../../scripts/send-invitations-to-sco-organizations.js';
 
 describe('Integration | Scripts | send-invitations-to-sco-organizations.js', function () {
   describe('#getOrganizationByExternalId', function () {

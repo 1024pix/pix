@@ -1,10 +1,11 @@
-const OrganizationInvitedUser = require('../../../../lib/domain/models/OrganizationInvitedUser');
-const { expect, catchErr, domainBuilder } = require('../../../test-helper');
-const {
+import { OrganizationInvitedUser } from '../../../../lib/domain/models/OrganizationInvitedUser.js';
+import { expect, catchErr, domainBuilder } from '../../../test-helper.js';
+
+import {
   NotFoundError,
   AlreadyExistingMembershipError,
   AlreadyAcceptedOrCancelledInvitationError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | OrganizationInvitedUser', function () {
   describe('#acceptInvitation', function () {

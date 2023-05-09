@@ -1,10 +1,10 @@
-const { expect, knex } = require('../../../../test-helper');
-const { temporaryStorage } = require('../../../../../lib/infrastructure/temporary-storage');
-const authenticationMethodRepository = require('../../../../../lib/infrastructure/repositories/authentication-method-repository');
-const userToCreateRepository = require('../../../../../lib/infrastructure/repositories/user-to-create-repository');
-const PoleEmploiOidcAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service');
-const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
-const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
+import { expect, knex } from '../../../../test-helper.js';
+import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage.js';
+import * as authenticationMethodRepository from '../../../../../lib/infrastructure/repositories/authentication-method-repository.js';
+import * as userToCreateRepository from '../../../../../lib/infrastructure/repositories/user-to-create-repository.js';
+import * as PoleEmploiOidcAuthenticationService from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
+import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
+import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 

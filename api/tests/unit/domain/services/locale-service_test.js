@@ -1,6 +1,6 @@
-const { expect, catchErrSync } = require('../../../test-helper');
-const { LocaleFormatError, LocaleNotSupportedError } = require('../../../../lib/domain/errors');
-const { getCanonicalLocale } = require('../../../../lib/domain/services/locale-service');
+import { expect, catchErrSync } from '../../../test-helper.js';
+import { LocaleFormatError, LocaleNotSupportedError } from '../../../../lib/domain/errors.js';
+import { getCanonicalLocale } from '../../../../lib/domain/services/locale-service.js';
 
 describe('#getCanonicalLocale', function () {
   it('throws a LocaleFormatError error', function () {

@@ -1,7 +1,6 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-
-const campaignController = require('../../../../lib/application/campaigns-administration/campaign-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import { campaignController } from '../../../../lib/application/campaigns-administration/campaign-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Unit | Application | Controller | Campaign Administration', function () {
   describe('#archiveCampaigns', function () {

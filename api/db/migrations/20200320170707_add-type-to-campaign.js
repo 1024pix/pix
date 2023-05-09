@@ -1,7 +1,7 @@
 const TABLE_NAME = 'campaigns';
 const COLUMN_NAME = 'type';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema
     .table(TABLE_NAME, function (table) {
       table.string(COLUMN_NAME).notNullable().defaultTo('');
@@ -13,7 +13,7 @@ const up = function(knex) {
     });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn(COLUMN_NAME);
   });

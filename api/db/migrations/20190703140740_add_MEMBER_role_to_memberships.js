@@ -1,6 +1,6 @@
 const TABLE_NAME = 'memberships';
 
-const up = async function(knex) {
+const up = async function (knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(`
     WITH newroles AS (
@@ -13,7 +13,7 @@ const up = async function(knex) {
   `);
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex(TABLE_NAME).update({
     organizationRole: 'MEMBER',
   });

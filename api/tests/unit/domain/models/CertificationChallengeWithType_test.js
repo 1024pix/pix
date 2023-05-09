@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const CertificationChallengeWithType = require('../../../../lib/domain/models/CertificationChallengeWithType');
-const { Type } = require('../../../../lib/domain/models/Challenge');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { CertificationChallengeWithType } from '../../../../lib/domain/models/CertificationChallengeWithType.js';
+import { Type } from '../../../../lib/domain/models/Challenge.js';
 
 describe('Unit | Domain | Models | CertificationChallengeWithType', function () {
   describe('#constructor', function () {

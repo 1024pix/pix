@@ -1,6 +1,6 @@
 const TABLE_NAME = 'flash-assessment-results';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments().primary();
     t.integer('assessmentId').references('assessments.id').notNullable().unique();
@@ -9,7 +9,7 @@ const up = function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 

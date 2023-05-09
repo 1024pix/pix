@@ -1,5 +1,5 @@
-const Answer = require('../../../../lib/domain/models/Answer');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
+import { Answer } from '../../../../lib/domain/models/Answer.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 
 function buildAnswer({
   id = 123,
@@ -135,4 +135,4 @@ buildAnswer.focusedOut = function ({
   });
 };
 
-module.exports = buildAnswer;
+export { buildAnswer };

@@ -1,7 +1,7 @@
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const CampaignParticipationForUserManagement = require('../../../../lib/domain/read-models/CampaignParticipationForUserManagement');
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationForUserManagement } from '../../../../lib/domain/read-models/CampaignParticipationForUserManagement.js';
 
-module.exports = function buildCampaignParticipationForUserManagement({
+const buildCampaignParticipationForUserManagement = function ({
   id = 1,
   participantExternalId = 'un identifiant externe',
   status = CampaignParticipationStatuses.TO_SHARE,
@@ -32,3 +32,5 @@ module.exports = function buildCampaignParticipationForUserManagement({
     organizationLearnerLastName,
   });
 };
+
+export { buildCampaignParticipationForUserManagement };

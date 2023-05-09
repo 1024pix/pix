@@ -1,4 +1,4 @@
-const OrganizationPlacesLotManagement = require('../../../../lib/domain/read-models/OrganizationPlacesLotManagement');
+import { OrganizationPlacesLotManagement } from '../../../../lib/domain/read-models/OrganizationPlacesLotManagement.js';
 
 function buildOrganizationPlacesLotManagement({
   id,
@@ -26,4 +26,4 @@ function buildOrganizationPlacesLotManagement({
   });
 }
 
-module.exports = buildOrganizationPlacesLotManagement;
+export { buildOrganizationPlacesLotManagement };

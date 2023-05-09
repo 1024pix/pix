@@ -1,8 +1,8 @@
-const OrganizationLearnerParticipation = require('../../../../lib/domain/read-models/OrganizationLearnerParticipation');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { OrganizationLearnerParticipation } from '../../../../lib/domain/read-models/OrganizationLearnerParticipation.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
-module.exports = function buildOrganizationLearnerParticipation({
+const buildOrganizationLearnerParticipation = function ({
   id = '123',
   campaignType = CampaignTypes.ASSESSMENT,
   campaignName = 'Ma campagne',
@@ -19,3 +19,5 @@ module.exports = function buildOrganizationLearnerParticipation({
     status,
   });
 };
+
+export { buildOrganizationLearnerParticipation };

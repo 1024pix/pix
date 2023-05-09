@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const authorizeCertificationCandidateToStart = require('../../../../lib/domain/usecases/authorize-certification-candidate-to-start');
-const CertificationCandidateForSupervising = require('../../../../lib/domain/models/CertificationCandidateForSupervising');
+import { expect, sinon } from '../../../test-helper.js';
+import { authorizeCertificationCandidateToStart } from '../../../../lib/domain/usecases/authorize-certification-candidate-to-start.js';
+import { CertificationCandidateForSupervising } from '../../../../lib/domain/models/CertificationCandidateForSupervising.js';
 
 describe('Unit | Domain | Use Cases | authorize-certification-candidate-to-start', function () {
   let certificationCandidateForSupervisingRepository;

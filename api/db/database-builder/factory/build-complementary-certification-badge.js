@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const buildBadge = require('./build-badge');
-const buildComplementaryCertification = require('./build-complementary-certification');
-const databaseBuffer = require('../database-buffer');
+import _ from 'lodash';
+import { buildBadge } from './build-badge.js';
+import { buildComplementaryCertification } from './build-complementary-certification.js';
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildComplementaryCertificationBadge({
+const buildComplementaryCertificationBadge = function ({
   id = databaseBuffer.getNextId(),
   level = 1,
   complementaryCertificationId,
@@ -37,3 +37,5 @@ module.exports = function buildComplementaryCertificationBadge({
     values,
   });
 };
+
+export { buildComplementaryCertificationBadge };

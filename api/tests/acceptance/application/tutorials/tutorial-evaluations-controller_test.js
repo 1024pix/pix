@@ -1,12 +1,13 @@
-const {
+import {
   mockLearningContent,
   databaseBuilder,
   expect,
   knex,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
+import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
 
 describe('Acceptance | Controller | tutorial-evaluations-controller', function () {
   let server;

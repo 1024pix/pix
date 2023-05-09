@@ -1,7 +1,7 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-const tutorialEvaluationsController = require('../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import { tutorialEvaluationsController } from '../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
 
 describe('Unit | Controller | Tutorial-evaluations', function () {
   describe('#evaluate', function () {

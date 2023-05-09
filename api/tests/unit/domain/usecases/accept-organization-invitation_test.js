@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const acceptOrganizationInvitation = require('../../../../lib/domain/usecases/accept-organization-invitation');
-const OrganizationInvitedUser = require('../../../../lib/domain/models/OrganizationInvitedUser');
-const { AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { acceptOrganizationInvitation } from '../../../../lib/domain/usecases/accept-organization-invitation.js';
+import { OrganizationInvitedUser } from '../../../../lib/domain/models/OrganizationInvitedUser.js';
+import { AlreadyExistingMembershipError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | accept-organization-invitation', function () {
   let organizationInvitedUserRepository;

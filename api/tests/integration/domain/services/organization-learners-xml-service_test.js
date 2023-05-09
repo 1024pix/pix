@@ -1,6 +1,6 @@
-const { expect, catchErr } = require('../../../test-helper');
-const { SiecleXmlImportError } = require('../../../../lib/domain/errors');
-const organizationLearnersXmlService = require('../../../../lib/domain/services/organization-learners-xml-service');
+import { expect, catchErr } from '../../../test-helper.js';
+import { SiecleXmlImportError } from '../../../../lib/domain/errors.js';
+import * as organizationLearnersXmlService from '../../../../lib/domain/services/organization-learners-xml-service.js';
 
 describe('Integration | Services | organization-learnerz-xml-service', function () {
   describe('extractOrganizationLearnersInformationFromSIECLE', function () {

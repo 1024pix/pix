@@ -1,7 +1,7 @@
-const { expect } = require('../../../../test-helper');
-const createServer = require('../../../../../server');
-const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
-const querystring = require('querystring');
+import { expect } from '../../../../test-helper.js';
+import { createServer } from '../../../../../server.js';
+import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import querystring from 'querystring';
 
 describe('Acceptance | Route | oidc authentication url', function () {
   let server;

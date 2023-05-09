@@ -1,9 +1,5 @@
-const campaign = require('./campaign-tooling');
-const targetProfile = require('./target-profile-tooling');
-const training = require('./training-tooling');
+import { campaign } from './campaign-tooling.js';
+import { targetProfile } from './target-profile-tooling.js';
+import { training } from './training-tooling.js';
 
-module.exports = {
-  campaign,
-  targetProfile,
-  training,
-};
+export { campaign, targetProfile, training };

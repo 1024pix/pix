@@ -1,7 +1,9 @@
-const OrganizationsToAttachToTargetProfile = require('../../../../lib/domain/models/OrganizationsToAttachToTargetProfile');
+import { OrganizationsToAttachToTargetProfile } from '../../../../lib/domain/models/OrganizationsToAttachToTargetProfile.js';
 
-module.exports = function buildOrganizationsToAttachToTargetProfile({ id = 123 } = {}) {
+const buildOrganizationsToAttachToTargetProfile = function ({ id = 123 } = {}) {
   return new OrganizationsToAttachToTargetProfile({
     id,
   });
 };
+
+export { buildOrganizationsToAttachToTargetProfile };

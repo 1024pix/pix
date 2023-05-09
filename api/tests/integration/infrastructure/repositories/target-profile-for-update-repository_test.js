@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const targetProfileForUpdateRepository = require('../../../../lib/infrastructure/repositories/target-profile-for-update-repository');
+import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import * as targetProfileForUpdateRepository from '../../../../lib/infrastructure/repositories/target-profile-for-update-repository.js';
 
 describe('Integration | Repository | Target-profile-for-update', function () {
   describe('#update', function () {

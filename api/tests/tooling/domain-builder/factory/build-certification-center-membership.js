@@ -1,6 +1,6 @@
-const User = require('../../../../lib/domain/models/User');
-const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
-const buildCertificationCenter = require('./build-certification-center');
+import { User } from '../../../../lib/domain/models/User.js';
+import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import { buildCertificationCenter } from './build-certification-center.js';
 
 function _buildUser() {
   return new User({
@@ -11,7 +11,7 @@ function _buildUser() {
   });
 }
 
-module.exports = function buildCertificationCenterMembership({
+const buildCertificationCenterMembership = function ({
   id = 1,
   certificationCenter = buildCertificationCenter(),
   user = _buildUser(),
@@ -28,3 +28,5 @@ module.exports = function buildCertificationCenterMembership({
     isReferer,
   });
 };
+
+export { buildCertificationCenterMembership };

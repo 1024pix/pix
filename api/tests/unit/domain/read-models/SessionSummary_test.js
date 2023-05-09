@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const SessionSummary = require('../../../../lib/domain/read-models/SessionSummary');
+import { expect } from '../../../test-helper.js';
+import { SessionSummary } from '../../../../lib/domain/read-models/SessionSummary.js';
 
 describe('Unit | Domain | Read-Models | SessionSummary', function () {
   describe('#static from', function () {

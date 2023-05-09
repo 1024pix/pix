@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/private-certificate-serializer');
-const ResultCompetenceTree = require('../../../../../lib/domain/models/ResultCompetenceTree');
-const ResultCompetence = require('../../../../../lib/domain/models/ResultCompetence');
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/private-certificate-serializer.js';
+import { ResultCompetenceTree } from '../../../../../lib/domain/models/ResultCompetenceTree.js';
+import { ResultCompetence } from '../../../../../lib/domain/models/ResultCompetence.js';
 
 describe('Unit | Serializer | JSONAPI | private-certificate-serializer', function () {
   describe('#serialize', function () {

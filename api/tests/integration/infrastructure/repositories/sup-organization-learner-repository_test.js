@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, knex, domainBuilder } = require('../../../test-helper');
-const supOrganizationLearnerRepository = require('../../../../lib/infrastructure/repositories/sup-organization-learner-repository');
-const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
+import { expect, databaseBuilder, knex, domainBuilder } from '../../../test-helper.js';
+import * as supOrganizationLearnerRepository from '../../../../lib/infrastructure/repositories/sup-organization-learner-repository.js';
+import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
 
 describe('Integration | Infrastructure | Repository | sup-organization-learner-repository', function () {
   describe('#findOneByStudentNumber', function () {

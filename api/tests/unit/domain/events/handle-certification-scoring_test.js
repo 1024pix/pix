@@ -1,10 +1,10 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { handleCertificationScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const { CertificationComputeError } = require('../../../../lib/domain/errors');
-const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
-const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+const { handleCertificationScoring } = require('../../../../lib/domain/events.js')._forTestOnly.handlers;
+import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { CertificationComputeError } from '../../../../lib/domain/errors.js';
+import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
+import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
+import { CertificationScoringCompleted } from '../../../../lib/domain/events/CertificationScoringCompleted.js';
 
 describe('Unit | Domain | Events | handle-certification-scoring', function () {
   let scoringCertificationService;

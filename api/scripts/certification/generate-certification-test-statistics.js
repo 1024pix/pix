@@ -1,15 +1,17 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
 
-const _ = require('lodash');
+import _ from 'lodash';
 const fp = require('lodash/fp').convert({ cap: false });
-const bluebird = require('bluebird');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
-const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
-const placementProfileService = require('../../lib/domain/services/placement-profile-service');
-const certificationChallengeService = require('../../lib/domain/services/certification-challenges-service');
-const { FRENCH_FRANCE } = require('../../lib/domain/constants').LOCALE;
+import bluebird from 'bluebird';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
+import * as challengeRepository from '../../lib/infrastructure/repositories/challenge-repository.js';
+import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
+import * as certificationChallengeService from '../../lib/domain/services/certification-challenges-service.js';
+import { LOCALE } from '../../lib/domain/constants.js';
+
+const { FRENCH_FRANCE } = LOCALE;
 
 const USER_COUNT = parseInt(process.env.USER_COUNT) || 100;
 const USER_ID = parseInt(process.env.USER_ID) || null;
