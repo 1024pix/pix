@@ -1,9 +1,7 @@
-const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-
-const moduleUnderTest = require('../../../../lib/application/prescribers');
+import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { moduleUnderTest } from '../../../../lib/application/prescribers.js';
 
 describe('Integration | Application | Prescribers | prescriber-controller', function () {
   let sandbox;

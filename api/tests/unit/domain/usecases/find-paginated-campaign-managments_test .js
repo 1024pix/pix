@@ -1,6 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-
-const findPaginatedCampaignManagements = require('../../../../lib/domain/usecases/find-paginated-campaign-managements');
+import { expect, sinon } from '../../../test-helper.js';
+import { findPaginatedCampaignManagements } from '../../../../lib/domain/usecases/find-paginated-campaign-managements.js';
 
 describe('Unit | Domain | Use Cases | find-paginated-campaign-managments', function () {
   describe('#findPaginatedCampaignManagement', function () {

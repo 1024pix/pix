@@ -1,8 +1,8 @@
-const Membership = require('../../../../lib/domain/models/Membership');
-const Organization = require('../../../../lib/domain/models/Organization');
-const User = require('../../../../lib/domain/models/User');
-const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
-const Prescriber = require('../../../../lib/domain/read-models/Prescriber');
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { Organization } from '../../../../lib/domain/models/Organization.js';
+import { User } from '../../../../lib/domain/models/User.js';
+import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
+import { Prescriber } from '../../../../lib/domain/read-models/Prescriber.js';
 
 /*
  * /!\ We can not use standard entity builders because of bidirectional relationships (a.k.a. cyclic dependencies)
@@ -44,7 +44,7 @@ function _buildUserOrgaSettings() {
   });
 }
 
-module.exports = function buildPrescriber({
+const buildPrescriber = function ({
   id = 753,
   firstName = 'Jean',
   lastName = 'Forme',
@@ -65,3 +65,5 @@ module.exports = function buildPrescriber({
     userOrgaSettings,
   });
 };
+
+export { buildPrescriber };

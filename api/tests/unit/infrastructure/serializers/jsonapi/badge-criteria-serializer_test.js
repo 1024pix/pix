@@ -1,6 +1,6 @@
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/badge-criteria-serializer');
-const { expect } = require('../../../../test-helper');
-const BadgeCriterion = require('../../../../../lib/domain/models/BadgeCriterion');
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/badge-criteria-serializer.js';
+import { expect } from '../../../../test-helper.js';
+import { BadgeCriterion } from '../../../../../lib/domain/models/BadgeCriterion.js';
 
 describe('Unit | Serializer | JSONAPI | badge-criteria-serializer', function () {
   describe('#serialize', function () {

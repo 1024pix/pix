@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const Cache = require('../../../../lib/infrastructure/caches/Cache');
+import { expect } from '../../../test-helper.js';
+import { Cache } from '../../../../lib/infrastructure/caches/Cache.js';
 
 describe('Unit | Infrastructure | Caches | Cache', function () {
   const cacheInstance = new Cache();

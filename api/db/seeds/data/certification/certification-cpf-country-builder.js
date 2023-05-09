@@ -1,5 +1,4 @@
 function certificationCpfCountryBuilder({ databaseBuilder }) {
-
   databaseBuilder.factory.buildCertificationCpfCountry({
     code: '99401',
     commonName: 'CANADA',
@@ -31,4 +30,4 @@ function certificationCpfCountryBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = { certificationCpfCountryBuilder };
+export { certificationCpfCountryBuilder };

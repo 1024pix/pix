@@ -1,7 +1,7 @@
-const { expect, knex } = require('../../../test-helper');
-const JobQueue = require('../../../../lib/infrastructure/jobs/JobQueue');
-const Job = require('../../../../lib/infrastructure/jobs/JobPgBoss');
-const PgBoss = require('pg-boss');
+import { expect, knex } from '../../../test-helper.js';
+import { JobQueue } from '../../../../lib/infrastructure/jobs/JobQueue.js';
+import { Job } from '../../../../lib/infrastructure/jobs/JobPgBoss.js';
+import PgBoss from 'pg-boss';
 
 describe('Integration | Infrastructure | Jobs | JobQueue', function () {
   it('executes job when a job is added to the queue', async function () {

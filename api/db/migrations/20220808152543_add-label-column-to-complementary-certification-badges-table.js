@@ -20,7 +20,7 @@ const {
 
 import bluebird from 'bluebird';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.string(COLUMN_NAME);
   });
@@ -95,7 +95,7 @@ const up = async function(knex) {
   }
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN_NAME);
   });

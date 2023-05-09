@@ -1,4 +1,4 @@
-const up = function(knex) {
+const up = function (knex) {
   function table(table) {
     table.increments().primary();
     table.string('email').notNullable();
@@ -12,7 +12,7 @@ const up = function(knex) {
   return knex.schema.createTable('organizations', table);
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.dropTable('organizations');
 };
 

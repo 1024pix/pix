@@ -1,6 +1,6 @@
-const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
+import { CampaignParticipationResult } from '../../../../lib/domain/models/CampaignParticipationResult.js';
 
-module.exports = function buildCampaignParticipationResult({
+const buildCampaignParticipationResult = function ({
   id = 1,
   isCompleted = true,
   totalSkillsCount = 10,
@@ -17,3 +17,5 @@ module.exports = function buildCampaignParticipationResult({
     competenceResults,
   });
 };
+
+export { buildCampaignParticipationResult };

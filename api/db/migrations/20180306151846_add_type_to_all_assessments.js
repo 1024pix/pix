@@ -24,7 +24,7 @@ const TYPE_CERTIFICATION = 'CERTIFICATION';
 const TYPE_DEMO = 'DEMO';
 const TYPE_PREVIEW = 'PREVIEW';
 
-const up = function(knex) {
+const up = function (knex) {
   // XXX : Modify PREVIEW assessments
   return knex(TABLE_NAME_ASSESSMENTS)
     .select('id', 'courseId', 'type')
@@ -83,7 +83,7 @@ const up = function(knex) {
     });
 };
 
-const down = function() {
+const down = function () {
   return;
 };
 

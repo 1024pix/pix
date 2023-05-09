@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const getOrganizationMemberIdentities = require('../../../../lib/domain/usecases/get-organization-members-identity');
-const OrganizationMemberIdentity = require('../../../../lib/domain/models/OrganizationMemberIdentity');
+import { expect, sinon } from '../../../test-helper.js';
+import { getOrganizationMemberIdentities } from '../../../../lib/domain/usecases/get-organization-members-identity.js';
+import { OrganizationMemberIdentity } from '../../../../lib/domain/models/OrganizationMemberIdentity.js';
 
 describe('Unit | UseCase | get-organization-members', function () {
   let organizationMemberIdentityRepository;

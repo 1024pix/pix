@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 
 describe('Unit | Domain | Models | CampaignToJoin', function () {
   describe('#isAssessment', function () {

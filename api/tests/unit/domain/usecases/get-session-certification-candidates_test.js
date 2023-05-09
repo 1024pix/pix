@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const getSessionCertificationCandidates = require('../../../../lib/domain/usecases/get-session-certification-candidates');
+import { expect, sinon } from '../../../test-helper.js';
+import { getSessionCertificationCandidates } from '../../../../lib/domain/usecases/get-session-certification-candidates.js';
 
 describe('Unit | Domain | Use Cases | get-session-certification-candidates', function () {
   const sessionId = 'sessionId';

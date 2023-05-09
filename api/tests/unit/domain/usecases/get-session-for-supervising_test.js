@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getSessionForSupervising = require('../../../../lib/domain/usecases/get-session-for-supervising');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { getSessionForSupervising } from '../../../../lib/domain/usecases/get-session-for-supervising.js';
 
 describe('Unit | UseCase | get-session-for-supervising', function () {
   context('when the session exists', function () {

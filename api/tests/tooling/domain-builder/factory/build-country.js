@@ -1,10 +1,12 @@
-const { Country } = require('../../../../lib/domain/read-models/Country');
-const { normalizeAndSortChars } = require('../../../../lib/infrastructure/utils/string-utils');
+import { Country } from '../../../../lib/domain/read-models/Country.js';
+import { normalizeAndSortChars } from '../../../../lib/infrastructure/utils/string-utils.js';
 
-module.exports = function buildCountry({ code = '99345', name = 'TOGO', matcher = normalizeAndSortChars(name) } = {}) {
+const buildCountry = function ({ code = '99345', name = 'TOGO', matcher = normalizeAndSortChars(name) } = {}) {
   return new Country({
     code,
     name,
     matcher,
   });
 };
+
+export { buildCountry };

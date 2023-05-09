@@ -1,6 +1,5 @@
-const { expect } = require('../../test-helper');
-
-const HttpTestServer = require('../../tooling/server/http-test-server');
+import { expect } from '../../test-helper.js';
+import { HttpTestServer } from '../../tooling/server/http-test-server.js';
 
 describe('Unit | Tooling | Http-test-server', function () {
   describe('#constructor', function () {

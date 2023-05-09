@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const factory = require('./factory/index');
-const databaseBuffer = require('./database-buffer');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import { factory } from './factory/index.js';
+import { databaseBuffer } from './database-buffer.js';
 
-module.exports = class DatabaseBuilder {
+class DatabaseBuilder {
   constructor({ knex, emptyFirst = true }) {
     this.knex = knex;
     this.databaseBuffer = databaseBuffer;
@@ -178,4 +178,6 @@ module.exports = class DatabaseBuilder {
       table.isDirty = false;
     });
   }
-};
+}
+
+export { DatabaseBuilder };

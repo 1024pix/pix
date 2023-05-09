@@ -1,13 +1,14 @@
-const {
+import {
   expect,
   databaseBuilder,
   catchErr,
   mockLearningContent,
   domainBuilder,
   learningContentBuilder,
-} = require('../../../test-helper');
-const { NoSkillsInCampaignError, NotFoundError } = require('../../../../lib/domain/errors');
-const learningContentRepository = require('../../../../lib/infrastructure/repositories/learning-content-repository');
+} from '../../../test-helper.js';
+
+import { NoSkillsInCampaignError, NotFoundError } from '../../../../lib/domain/errors.js';
+import * as learningContentRepository from '../../../../lib/infrastructure/repositories/learning-content-repository.js';
 
 describe('Integration | Repository | learning-content', function () {
   let learningContent;

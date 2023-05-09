@@ -1,8 +1,8 @@
-const buildAssessmentResult = require('./build-assessment-result');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import { buildAssessmentResult } from './build-assessment-result.js';
+import { databaseBuffer } from '../database-buffer.js';
+import _ from 'lodash';
 
-module.exports = function buildCompetenceMark({
+const buildCompetenceMark = function ({
   id = databaseBuffer.getNextId(),
   level = 5,
   score = 42,
@@ -29,3 +29,5 @@ module.exports = function buildCompetenceMark({
     values,
   });
 };
+
+export { buildCompetenceMark };

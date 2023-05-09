@@ -1,6 +1,6 @@
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
 
-module.exports = function buildCompetenceMark({
+const buildCompetenceMark = function ({
   id,
   level = 2,
   score = 13,
@@ -19,3 +19,5 @@ module.exports = function buildCompetenceMark({
     assessmentResultId,
   });
 };
+
+export { buildCompetenceMark };

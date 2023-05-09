@@ -1,5 +1,5 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const getImportSessionComplementaryCertificationHabilitationsLabels = require('../../../../lib/domain/usecases/get-import-session-complementary-certification-habilitations-labels');
+import { sinon, expect, domainBuilder } from '../../../test-helper.js';
+import { getImportSessionComplementaryCertificationHabilitationsLabels } from '../../../../lib/domain/usecases/get-import-session-complementary-certification-habilitations-labels.js';
 
 describe('Unit | Usecase | get-import-session-complementary-certification-habilitations-labels', function () {
   it('should return the certification center  habilitations labels', async function () {

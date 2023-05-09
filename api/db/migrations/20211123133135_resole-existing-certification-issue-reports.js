@@ -1,4 +1,4 @@
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.raw(`UPDATE "certification-issue-reports"
                   SET  "resolvedAt" = NOW()
                   WHERE id IN
@@ -12,7 +12,7 @@ const up = async function(knex) {
                   )`);
 };
 
-const down = function() {
+const down = function () {
   return;
 };
 

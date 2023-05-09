@@ -1,9 +1,9 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
-const scorecardService = require('../../../../lib/domain/services/scorecard-service');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
+import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
+import * as scorecardService from '../../../../lib/domain/services/scorecard-service.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 

@@ -3,7 +3,7 @@ import { batch } from '../batch-processing.js';
 const TABLE_NAME_USER_ORGA_SETTINGS = 'user-orga-settings';
 const TABLE_NAME_MEMBERSHIPS = 'memberships';
 
-const up = function(knex) {
+const up = function (knex) {
   const subQuery = knex(TABLE_NAME_MEMBERSHIPS).min('id').groupBy('userId');
 
   return knex(TABLE_NAME_MEMBERSHIPS)
@@ -19,7 +19,7 @@ const up = function(knex) {
     });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   const subQuery = knex(TABLE_NAME_MEMBERSHIPS).min('id').groupBy('userId');
 
   return knex(TABLE_NAME_MEMBERSHIPS)

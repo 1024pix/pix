@@ -1,11 +1,12 @@
-const _ = require('lodash');
-const { DEFAULT_PASSWORD } = require('../users-builder');
-const {
+import _ from 'lodash';
+import { DEFAULT_PASSWORD } from '../users-builder.js';
+
+import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-} = require('../common/common-builder');
+} from '../common/common-builder.js';
 
 const SCO_COLLEGE_CERTIF_CENTER_ID = 1;
 const GREAT_OAK_CERTIF_CENTER_ID = 23;
@@ -34,7 +35,7 @@ const PIX_CLEA_V3_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 56;
 const PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 57;
 const PIX_EDU_1ER_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 58;
 
-const {
+import {
   PIX_EMPLOI_CLEA_BADGE_ID_V1,
   PIX_EMPLOI_CLEA_BADGE_ID_V2,
   PIX_EMPLOI_CLEA_BADGE_ID_V3,
@@ -50,7 +51,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE_BADGE_ID,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME_BADGE_ID,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID,
-} = require('../badges-builder');
+} from '../badges-builder.js';
 
 function certificationCentersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -287,7 +288,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
+export {
   certificationCentersBuilder,
   SCO_COLLEGE_CERTIF_CENTER_ID,
   SCO_COLLEGE_CERTIF_CENTER_NAME,

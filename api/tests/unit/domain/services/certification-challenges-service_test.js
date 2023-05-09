@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const { PIX_ORIGIN } = require('../../../../lib/domain/constants');
-const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
-const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
+import _ from 'lodash';
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { PIX_ORIGIN } from '../../../../lib/domain/constants.js';
+import { PlacementProfile } from '../../../../lib/domain/models/PlacementProfile.js';
+import * as certificationChallengesService from '../../../../lib/domain/services/certification-challenges-service.js';
 
 describe('Unit | Service | Certification Challenge Service', function () {
   const userId = 63731;

@@ -1,6 +1,6 @@
-const buildAssessment = require('./build-assessment');
-const buildCampaignParticipation = require('./build-campaign-participation');
-const buildUser = require('./build-user');
+const buildAssessment = require('./build-assessment.js');
+const buildCampaignParticipation = require('./build-campaign-participation.js');
+const buildUser = require('./build-user.js');
 
 module.exports = (user, campaignParticipation, withAssessment) => {
   const { id: userId } = buildUser(user);

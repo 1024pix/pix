@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const { expect, knex, domainBuilder, databaseBuilder, sinon } = require('../../../test-helper');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import _ from 'lodash';
+import { expect, knex, domainBuilder, databaseBuilder, sinon } from '../../../test-helper.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeElementSnapshotRepository from '../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

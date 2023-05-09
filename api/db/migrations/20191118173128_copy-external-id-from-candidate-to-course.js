@@ -1,4 +1,4 @@
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.raw(`
       UPDATE "public"."certification-courses" as cc
       SET "externalId" = joinCcAndCca."externalIdCertificationCandidate"
@@ -17,5 +17,5 @@ const up = async function(knex) {
     `);
 };
 
-const down = function() {};
+const down = function () {};
 export { up, down };

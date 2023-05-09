@@ -4,7 +4,7 @@ const TABLE_NAME = 'complementary-certification-badges';
 const MESSAGE_COLUMN_NAME = 'certificateMessage';
 const TEMP_MESSAGE_COLUMN_NAME = 'temporaryCertificateMessage';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.string(MESSAGE_COLUMN_NAME).nullable();
     table.string(TEMP_MESSAGE_COLUMN_NAME).nullable();
@@ -29,7 +29,7 @@ const up = async function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(MESSAGE_COLUMN_NAME);
     table.dropColumn(TEMP_MESSAGE_COLUMN_NAME);

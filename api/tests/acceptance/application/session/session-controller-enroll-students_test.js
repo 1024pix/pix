@@ -1,11 +1,6 @@
-const {
-  sinon,
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  knex,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { sinon, expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | session-controller-enrol-students-to-session', function () {
   let server;

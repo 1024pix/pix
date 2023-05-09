@@ -1,6 +1,6 @@
-const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/OrganizationLearnerForAdmin');
+import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 
-module.exports = function buildOrganizationLearnerForAdmin({
+const buildOrganizationLearnerForAdmin = function ({
   id = 123,
   firstName = 'Super',
   lastName = 'Yvette',
@@ -29,3 +29,5 @@ module.exports = function buildOrganizationLearnerForAdmin({
     organizationIsManagingStudents,
   });
 };
+
+export { buildOrganizationLearnerForAdmin };

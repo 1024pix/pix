@@ -1,6 +1,6 @@
-const CertificationCandidateForSupervising = require('../../../../lib/domain/models/CertificationCandidateForSupervising');
+import { CertificationCandidateForSupervising } from '../../../../lib/domain/models/CertificationCandidateForSupervising.js';
 
-module.exports = function buildCertificationCandidateForSupervising({
+const buildCertificationCandidateForSupervising = function ({
   id = 123,
   userId = 345,
   firstName = 'Monkey',
@@ -27,3 +27,5 @@ module.exports = function buildCertificationCandidateForSupervising({
     stillValidBadgeAcquisitions,
   });
 };
+
+export { buildCertificationCandidateForSupervising };

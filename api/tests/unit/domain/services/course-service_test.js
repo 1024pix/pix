@@ -1,6 +1,6 @@
-const courseService = require('../../../../lib/domain/services/course-service');
-const logger = require('../../../../lib/infrastructure/logger');
-const { expect, sinon } = require('../../../test-helper');
+import * as courseService from '../../../../lib/domain/services/course-service.js';
+import { logger } from '../../../../lib/infrastructure/logger.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Service | Course Service', function () {
   describe('#getCourse', function () {

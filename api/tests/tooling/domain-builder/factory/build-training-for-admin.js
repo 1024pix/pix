@@ -1,6 +1,6 @@
-const TrainingForAdmin = require('../../../../lib/domain/read-models/TrainingForAdmin');
+import { TrainingForAdmin } from '../../../../lib/domain/read-models/TrainingForAdmin.js';
 
-module.exports = function buildTrainingForAdmin({
+const buildTrainingForAdmin = function ({
   id = 'training1',
   title = 'Training 1',
   link = 'https://example.net',
@@ -27,3 +27,5 @@ module.exports = function buildTrainingForAdmin({
     trainingTriggers,
   });
 };
+
+export { buildTrainingForAdmin };

@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const acceptCertificationCenterInvitation = require('../../../../lib/domain/usecases/accept-certification-center-invitation');
-const CertificationCenterInvitedUser = require('../../../../lib/domain/models/CertificationCenterInvitedUser');
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
-const { AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { acceptCertificationCenterInvitation } from '../../../../lib/domain/usecases/accept-certification-center-invitation.js';
+import { CertificationCenterInvitedUser } from '../../../../lib/domain/models/CertificationCenterInvitedUser.js';
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { AlreadyExistingMembershipError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | accept-certification-center-invitation', function () {
   it('should throw an error if user is already member of the certification center', async function () {

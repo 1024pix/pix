@@ -1,10 +1,8 @@
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
-
-const { OrganizationLearnerAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
-
-const User = require('../../../../lib/domain/models/User');
-const UserToCreateRepository = require('../../../../lib/infrastructure/repositories/user-to-create-repository');
-const UserToCreate = require('../../../../lib/domain/models/UserToCreate');
+import { expect, knex, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
+import { User } from '../../../../lib/domain/models/User.js';
+import * as UserToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
+import { UserToCreate } from '../../../../lib/domain/models/UserToCreate.js';
 
 describe('Integration | Infrastructure | Repository | UserToCreateRepository', function () {
   describe('#create', function () {

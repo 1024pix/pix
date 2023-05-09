@@ -1,9 +1,11 @@
-const CertificationOfficer = require('../../../../lib/domain/models/CertificationOfficer');
+import { CertificationOfficer } from '../../../../lib/domain/models/CertificationOfficer.js';
 
-module.exports = function buildCertificationOfficer({ id = 123, firstName = 'Dean', lastName = 'Winchester' } = {}) {
+const buildCertificationOfficer = function ({ id = 123, firstName = 'Dean', lastName = 'Winchester' } = {}) {
   return new CertificationOfficer({
     id,
     firstName,
     lastName,
   });
 };
+
+export { buildCertificationOfficer };

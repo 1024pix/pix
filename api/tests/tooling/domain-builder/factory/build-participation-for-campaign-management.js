@@ -1,7 +1,7 @@
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const ParticipationForCampaignManagement = require('../../../../lib/domain/models/ParticipationForCampaignManagement');
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { ParticipationForCampaignManagement } from '../../../../lib/domain/models/ParticipationForCampaignManagement.js';
 
-module.exports = function buildParticipationForCampaignManagement({
+const buildParticipationForCampaignManagement = function ({
   id = 1,
   lastName = 'Un nom',
   firstName = 'Un prénom',
@@ -34,3 +34,5 @@ module.exports = function buildParticipationForCampaignManagement({
     deletedByLastName,
   });
 };
+
+export { buildParticipationForCampaignManagement };

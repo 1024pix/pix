@@ -1,6 +1,6 @@
-const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
-const identity = require('lodash/identity');
-const { SUP_UNIVERSITY_ID } = require('./organizations-sup-builder');
+import { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } from './organizations-pro-builder.js';
+import identity from 'lodash/identity';
+import { SUP_UNIVERSITY_ID } from './organizations-sup-builder.js';
 
 const skillIdsForSkillSet1 = [
   'recMOy4S8XnaWblYI',
@@ -247,7 +247,7 @@ function _buildTargetProfileOneCompetence(databaseBuilder) {
     category: 'COMPETENCES',
     ownerOrganizationId: PRO_COMPANY_ID,
     description:
-      'Ce profil cible permet d\'**évaluer** sur la compétence 5.1. Le résultat est exprimé en ***pourcentage***',
+      "Ce profil cible permet d'**évaluer** sur la compétence 5.1. Le résultat est exprimé en ***pourcentage***",
     comment: 'Privé : Contient la ***compétence 5.1***.',
   });
 
@@ -886,7 +886,7 @@ function _buildTargetProfileCnav(databaseBuilder) {
   });
 }
 
-module.exports = {
+export {
   targetProfilesBuilder,
   TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
   TARGET_PROFILE_ONE_COMPETENCE_ID,

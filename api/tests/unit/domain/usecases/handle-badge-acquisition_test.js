@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const handleBadgeAcquisition = require('../../../../lib/domain/usecases/handle-badge-acquisition');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { handleBadgeAcquisition } from '../../../../lib/domain/usecases/handle-badge-acquisition.js';
 
 describe('Unit | UseCase | handle-badge-acquisition', function () {
   let domainTransaction;

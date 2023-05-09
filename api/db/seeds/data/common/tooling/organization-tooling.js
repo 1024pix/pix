@@ -1,6 +1,4 @@
-module.exports = {
-  createOrganization,
-};
+export { createOrganization };
 
 /**
  * Fonction générique pour créer une organisation selon une configuration donnée.
@@ -142,7 +140,7 @@ function _buildOrganizationFeatures({ databaseBuilder, organizationId, featureId
     databaseBuilder.factory.buildOrganizationFeature({
       organizationId,
       featureId,
-    }),
+    })
   );
 }
 
@@ -151,7 +149,7 @@ function _buildOrganizationTags({ databaseBuilder, organizationId, tagIds }) {
     databaseBuilder.factory.buildOrganizationTag({
       organizationId,
       tagId,
-    }),
+    })
   );
 }
 
@@ -169,7 +167,7 @@ function _buildMemberships({ databaseBuilder, organizationId, adminUserId, membe
       userId: memberId,
       organizationId,
       organizationRole: 'MEMBER',
-    }),
+    })
   );
 }
 

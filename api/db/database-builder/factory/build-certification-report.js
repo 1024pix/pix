@@ -1,8 +1,8 @@
-const buildCertificationCourse = require('./build-certification-course');
-const CertificationReport = require('../../../lib/domain/models/CertificationReport');
-const _ = require('lodash');
+import { buildCertificationCourse } from './build-certification-course.js';
+import { CertificationReport } from '../../../lib/domain/models/CertificationReport.js';
+import _ from 'lodash';
 
-module.exports = function buildCertificationReport({
+const buildCertificationReport = function ({
   firstName = 'Bobby',
   lastName = 'Lapointe',
   isCompleted = true,
@@ -28,3 +28,5 @@ module.exports = function buildCertificationReport({
   };
   return values;
 };
+
+export { buildCertificationReport };

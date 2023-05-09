@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { expect, databaseBuilder, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo', function () {
   let server;

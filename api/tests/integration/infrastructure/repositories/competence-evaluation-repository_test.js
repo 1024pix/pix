@@ -1,10 +1,10 @@
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
-const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const competenceEvaluationRepository = require('../../../../lib/infrastructure/repositories/competence-evaluation-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const _ = require('lodash');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, knex, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import * as competenceEvaluationRepository from '../../../../lib/infrastructure/repositories/competence-evaluation-repository.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import _ from 'lodash';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Integration | Repository | Competence Evaluation', function () {
   const STARTED = 'started';

@@ -1,12 +1,8 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const learningContent = require('./learning-content');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import { learningContent } from './learning-content.js';
 
-module.exports = {
-  createTargetProfile,
-  createBadge,
-  createStages,
-};
+export { createTargetProfile, createBadge, createStages };
 let frameworkNames;
 const tubeIdsByFramework = {};
 /**
@@ -66,7 +62,7 @@ async function createTargetProfile({
           .uniq()
           .value();
       },
-      { concurrency: 3 },
+      { concurrency: 3 }
     );
     frameworkNames = Object.keys(tubeIdsByFramework);
   }
@@ -186,7 +182,7 @@ function createStages({
         value: null,
         isFirstSkill: true,
         shouldInsertPrescriberTitleAndDescription,
-      }),
+      })
     );
     --currentCountStages;
   }
@@ -210,7 +206,7 @@ function createStages({
         value,
         isFirstSkill: false,
         shouldInsertPrescriberTitleAndDescription,
-      }),
+      })
     );
   }
   return { stageIds };
@@ -246,7 +242,7 @@ function _createTargetProfile({
     databaseBuilder.factory.buildTargetProfileShare({
       targetProfileId,
       organizationId,
-    }),
+    })
   );
 }
 
@@ -307,7 +303,7 @@ function _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTar
     for (let i = 0; i < framework.countTubes; ++i) {
       const tubeId = _pickRandomTube(
         frameworkName,
-        cappedTubesDTO.map(({ id }) => id),
+        cappedTubesDTO.map(({ id }) => id)
       );
       if (tubeId) {
         const level = _.random(framework.minLevel, framework.maxLevel);

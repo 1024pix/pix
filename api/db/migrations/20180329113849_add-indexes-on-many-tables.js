@@ -9,7 +9,7 @@ const indexes = {
   snapshots: ['organizationId'],
 };
 
-const up = function(knex) {
+const up = function (knex) {
   const promises = Object.keys(indexes).map((tableForIndexes) => {
     return knex.schema.table(tableForIndexes, (table) => {
       indexes[tableForIndexes].forEach((column) => table.index(column));
@@ -18,7 +18,7 @@ const up = function(knex) {
   return Promise.all(promises);
 };
 
-const down = function(knex) {
+const down = function (knex) {
   const promises = Object.keys(indexes).map((tableForIndexes) => {
     return knex.schema.table(tableForIndexes, (table) => {
       indexes[tableForIndexes].forEach((column) => table.dropIndex(column));

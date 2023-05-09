@@ -1,9 +1,6 @@
-const learningContent = require('./learning-content');
+import { learningContent } from './learning-content.js';
 
-module.exports = {
-  createAssessmentCampaign,
-  createProfilesCollectionCampaign,
-};
+export { createAssessmentCampaign, createProfilesCollectionCampaign };
 
 /**
  * Fonction générique pour créer une campagne d'évaluation selon une configuration donnée.

@@ -1,5 +1,5 @@
-const { expect, knex } = require('../../../../test-helper');
-const SendSharedParticipationResultsToPoleEmploiJob = require('../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob');
+import { expect, knex } from '../../../../test-helper.js';
+import { SendSharedParticipationResultsToPoleEmploiJob } from '../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 
 describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationResultCalculation', function () {
   afterEach(async function () {

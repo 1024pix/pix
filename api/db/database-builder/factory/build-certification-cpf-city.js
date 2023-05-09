@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildCertificationCpfCity({
+const buildCertificationCpfCity = function ({
   id = databaseBuffer.getNextId(),
   name = 'PARIS 19',
   postalCode = '75019',
@@ -20,3 +20,5 @@ module.exports = function buildCertificationCpfCity({
     values,
   });
 };
+
+export { buildCertificationCpfCity };

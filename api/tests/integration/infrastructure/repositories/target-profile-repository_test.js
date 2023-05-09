@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const { expect, databaseBuilder, catchErr, knex, domainBuilder } = require('../../../test-helper');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../../../lib/domain/errors');
+import _ from 'lodash';
+import { expect, databaseBuilder, catchErr, knex, domainBuilder } from '../../../test-helper.js';
+import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
+import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { NotFoundError, ObjectValidationError, InvalidSkillSetError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {

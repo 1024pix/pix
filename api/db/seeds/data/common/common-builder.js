@@ -1,4 +1,6 @@
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
+import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+
+const { ROLES } = PIX_ADMIN;
 
 // IDS
 /// USERS
@@ -8,7 +10,7 @@ const PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 54;
 const PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 55;
 const REAL_PIX_SUPER_ADMIN = 90000;
 
-module.exports = {
+export {
   commonBuilder,
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,

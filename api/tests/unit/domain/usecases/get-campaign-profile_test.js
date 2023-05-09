@@ -1,7 +1,9 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getCampaignProfile = require('../../../../lib/domain/usecases/get-campaign-profile');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { getCampaignProfile } from '../../../../lib/domain/usecases/get-campaign-profile.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { LOCALE } from '../../../../lib/domain/constants.js';
+
+const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | UseCase | get-campaign-profile', function () {
   let campaignRepository, campaignProfileRepository;

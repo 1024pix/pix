@@ -1,5 +1,4 @@
-module.exports = function assessmentsBuilder({ databaseBuilder }) {
-
+const assessmentsBuilder = function ({ databaseBuilder }) {
   // PLACEMENT
   databaseBuilder.factory.buildAssessment({
     id: 1,
@@ -62,3 +61,5 @@ module.exports = function assessmentsBuilder({ databaseBuilder }) {
     state: 'started',
   });
 };
+
+export { assessmentsBuilder };

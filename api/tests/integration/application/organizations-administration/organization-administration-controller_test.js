@@ -1,7 +1,7 @@
-const { expect, hFake, databaseBuilder, knex } = require('../../../test-helper');
-const organizationAdministrationController = require('../../../../lib/application/organizations-administration/organization-administration-controller.js');
-const dragonLogo = require('../../../../db/seeds/src/dragonAndCoBase64');
-const apps = require('../../../../lib/domain/constants.js');
+import { expect, hFake, databaseBuilder, knex } from '../../../test-helper.js';
+import { organizationAdministrationController } from '../../../../lib/application/organizations-administration/organization-administration-controller.js';
+import { dragonLogo } from '../../../../db/seeds/src/dragonAndCoBase64.js';
+import { apps } from '../../../../lib/domain/constants.js';
 describe('Integration | Application | Controller | organization-administration-controller', function () {
   let organization;
   let featureId;

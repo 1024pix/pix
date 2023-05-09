@@ -1,15 +1,15 @@
 require('dotenv').config();
-const _ = require('lodash');
-const { knex, disconnect } = require('../../../db/knex-database-connection');
-const logger = require('../../../lib/infrastructure/logger');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+import _ from 'lodash';
+import { knex, disconnect } from '../../../db/knex-database-connection.js';
+import { logger } from '../../../lib/infrastructure/logger.js';
+import { cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 
 let allSkills;
 let allTubes;
 async function _cacheLearningContentData() {
-  const skillRepository = require('../../../lib/infrastructure/repositories/skill-repository');
+  import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
   allSkills = await skillRepository.list();
-  const tubeRepository = require('../../../lib/infrastructure/repositories/tube-repository');
+  import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
   allTubes = await tubeRepository.list();
 }
 
@@ -134,6 +134,4 @@ if (require.main === module) {
   main();
 }
 
-module.exports = {
-  doJob,
-};
+export { doJob };

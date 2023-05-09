@@ -1,5 +1,5 @@
-const revokeRefreshToken = require('../../../../lib/domain/usecases/revoke-refresh-token');
-const { expect, sinon } = require('../../../test-helper');
+import { revokeRefreshToken } from '../../../../lib/domain/usecases/revoke-refresh-token.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | revoke-refresh-token', function () {
   it('should revoke refresh token', async function () {

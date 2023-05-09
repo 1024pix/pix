@@ -1,10 +1,11 @@
-const tooling = require('../common/tooling');
-const {
+import { tooling } from '../common/tooling.js';
+
+import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-} = require('../common/common-builder');
+} from '../common/common-builder.js';
 
 const TEAM_CERTIFICATION_OFFSET_ID = 7000;
 // IDS
@@ -32,9 +33,7 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await databaseBuilder.commit();
 }
 
-module.exports = {
-  teamCertificationDataBuilder,
-};
+export { teamCertificationDataBuilder };
 
 function _createScoCertificationCenter({ databaseBuilder }) {
   databaseBuilder.factory.buildUser.withRawPassword({

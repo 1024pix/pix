@@ -1,18 +1,23 @@
 require('dotenv').config({
   path: `${__dirname}/../../../.env`,
 });
-const _ = require('lodash');
-const { performance } = require('perf_hooks');
-const XLSX = require('xlsx');
-const logger = require('../../../lib/infrastructure/logger');
-const { cache } = require('../../../lib/infrastructure/caches/learning-content-cache');
-const { knex, disconnect } = require('../../../db/knex-database-connection');
-const { normalizeAndRemoveAccents } = require('../../../lib/domain/services/validation-treatments');
-const { autoMigrateTargetProfile } = require('./common');
+import _ from 'lodash';
+import perf_hooks from 'perf_hooks';
+
+const {
+  performance
+} = perf_hooks;
+
+import XLSX from 'xlsx';
+import { logger } from '../../../lib/infrastructure/logger.js';
+import { cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { knex, disconnect } from '../../../db/knex-database-connection.js';
+import { normalizeAndRemoveAccents } from '../../../lib/domain/services/validation-treatments.js';
+import { autoMigrateTargetProfile } from './common.js';
 
 let allTubes;
 async function _cacheLearningContentData() {
-  const tubeRepository = require('../../../lib/infrastructure/repositories/tube-repository');
+  import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
   const tubes = await tubeRepository.list();
   allTubes = tubes.map((tube) => ({ ...tube, normalizedName: normalizeAndRemoveAccents(tube.name) }));
 }
@@ -311,4 +316,4 @@ async function main() {
   }
 })();
 
-module.exports = { doJob };
+export { doJob };

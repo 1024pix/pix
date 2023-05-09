@@ -1,15 +1,14 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
-const _ = require('lodash');
+import _ from 'lodash';
 const calculateScoringInformationForCompetence =
-  require('../lib/domain/services/scoring/scoring-service').calculateScoringInformationForCompetence;
-const buildKnowledgeElement = require('../db/database-builder/factory/build-knowledge-element');
-const tubeRepository = require('../lib/infrastructure/repositories/tube-repository');
-const skillRepository = require('../lib/infrastructure/repositories/skill-repository');
-const knowledgeElementRepository = require('../lib/infrastructure/repositories/knowledge-element-repository');
-const { cache } = require('../lib/infrastructure/caches/learning-content-cache');
-
-const { disconnect } = require('../db/knex-database-connection');
+  require('../lib/domain/services/scoring/scoring-service.js').calculateScoringInformationForCompetence;
+import { buildKnowledgeElement } from '../db/database-builder/factory/build-knowledge-element.js';
+import * as tubeRepository from '../lib/infrastructure/repositories/tube-repository.js';
+import * as skillRepository from '../lib/infrastructure/repositories/skill-repository.js';
+import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { cache } from '../lib/infrastructure/caches/learning-content-cache.js';
+import { disconnect } from '../db/knex-database-connection.js';
 
 async function getUserSkillsGroupedByTubeId(elements) {
   const ids = _.map(elements, (current) => current.skillId);
@@ -120,7 +119,7 @@ async function main(userId) {
   console.log(result);
 }
 
-module.exports = {
+export {
   compareUserScoreWithLatestRelease,
   getUserValidatedKnowledgeElements,
   getUserSkillsGroupedByTubeId,

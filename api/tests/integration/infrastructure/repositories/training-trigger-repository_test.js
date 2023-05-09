@@ -1,4 +1,4 @@
-const {
+import {
   expect,
   databaseBuilder,
   domainBuilder,
@@ -7,13 +7,14 @@ const {
   learningContentBuilder,
   sinon,
   catchErr,
-} = require('../../../test-helper');
-const trainingTriggerRepository = require('../../../../lib/infrastructure/repositories/training-trigger-repository');
-const { TrainingTrigger, TrainingTriggerTube } = require('../../../../lib/domain/models');
-const TrainingTriggerForAdmin = require('../../../../lib/domain/read-models/TrainingTriggerForAdmin');
-const _ = require('lodash');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const logger = require('../../../../lib/infrastructure/logger');
+} from '../../../test-helper.js';
+
+import * as trainingTriggerRepository from '../../../../lib/infrastructure/repositories/training-trigger-repository.js';
+import { TrainingTrigger, TrainingTriggerTube } from '../../../../lib/domain/models.js';
+import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
+import _ from 'lodash';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { logger } from '../../../../lib/infrastructure/logger.js';
 
 describe('Integration | Repository | training-trigger-repository', function () {
   let learningContent;

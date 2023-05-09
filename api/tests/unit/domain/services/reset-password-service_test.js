@@ -1,8 +1,8 @@
-const jsonwebtoken = require('jsonwebtoken');
-const crypto = require('crypto');
-const { sinon, expect } = require('../../../test-helper');
-const settings = require('../../../../lib/config');
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
+import jsonwebtoken from 'jsonwebtoken';
+import crypto from 'crypto';
+import { sinon, expect } from '../../../test-helper.js';
+import { settings } from '../../../../lib/config.js';
+import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
 
 describe('Unit | Service | Password Service', function () {
   describe('#generateTemporaryKey', function () {

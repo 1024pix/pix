@@ -1,6 +1,6 @@
-const { knex, expect, databaseBuilder } = require('../../../test-helper');
-const { main } = require('../../../../scripts/certification/get-cpf-import-status-from-xml');
-const { cpfImportStatus } = require('../../../../lib/domain/models/CertificationCourse');
+import { knex, expect, databaseBuilder } from '../../../test-helper.js';
+import { main } from '../../../../scripts/certification/get-cpf-import-status-from-xml.js';
+import { cpfImportStatus } from '../../../../lib/domain/models/CertificationCourse.js';
 
 describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml', function () {
   afterEach(async function () {

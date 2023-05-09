@@ -1,7 +1,6 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-
-const createServer = require('../../../../server');
-const Membership = require('../../../../lib/domain/models/Membership');
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { createServer } from '../../../../server.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Acceptance | Controller | sup-organization-learners', function () {
   let server;

@@ -1,10 +1,12 @@
-const { omit } = require('lodash');
+import lodash from 'lodash';
 
-const { expect, databaseBuilder, catchErr, sinon, knex } = require('../../../test-helper');
-const certificationCenterInvitedUserRepository = require('../../../../lib/infrastructure/repositories/certification-center-invited-user-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
-const CertificationCenterInvitedUser = require('../../../../lib/domain/models/CertificationCenterInvitedUser');
+const { omit } = lodash;
+
+import { expect, databaseBuilder, catchErr, sinon, knex } from '../../../test-helper.js';
+import * as certificationCenterInvitedUserRepository from '../../../../lib/infrastructure/repositories/certification-center-invited-user-repository.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { CertificationCenterInvitedUser } from '../../../../lib/domain/models/CertificationCenterInvitedUser.js';
 
 describe('Integration | Repository | CertificationCenterInvitedUserRepository', function () {
   describe('#get', function () {

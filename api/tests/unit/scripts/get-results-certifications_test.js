@@ -1,5 +1,8 @@
-const { expect } = require('chai');
-const getResultsCertifications = require('../../../scripts/certification/get-results-certifications');
+import chai from 'chai';
+
+const { expect } = chai;
+
+import { getResultsCertifications } from '../../../scripts/certification/get-results-certifications.js';
 
 describe('Unit | Scripts | get-results-certifications.js', function () {
   const HEADERS = [

@@ -4,7 +4,7 @@ const CAMPAIGN_PARTICIPATIONS = 'campaign-participations';
 const OLD_COLUMN_NAME = 'schoolingRegistrationId';
 const NEW_COLUMN_NAME = 'organizationLearnerId';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.table(ACCOUNT_RECOVERY_DEMANDS, (table) => table.renameColumn(OLD_COLUMN_NAME, NEW_COLUMN_NAME));
 
   await knex.schema.table(CERTIFICATION_CANDIDATES, (table) => {
@@ -19,7 +19,7 @@ const up = async function(knex) {
   });
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   await knex.schema.table(ACCOUNT_RECOVERY_DEMANDS, (table) => table.renameColumn(NEW_COLUMN_NAME, OLD_COLUMN_NAME));
 
   await knex.schema.table(CERTIFICATION_CANDIDATES, (table) => {

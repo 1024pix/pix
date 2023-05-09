@@ -1,7 +1,7 @@
-const { expect, sinon, HttpTestServer, knex } = require('../../../test-helper');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const userController = require('../../../../lib/application/users/user-controller');
-const moduleUnderTest = require('../../../../lib/application/users');
+import { expect, sinon, HttpTestServer, knex } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { userController } from '../../../../lib/application/users/user-controller.js';
+import { moduleUnderTest } from '../../../../lib/application/users.js';
 
 describe('Integration | Application | Users | Routes', function () {
   const methodGET = 'GET';

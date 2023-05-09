@@ -1,7 +1,7 @@
-const { knex, expect, databaseBuilder } = require('../../../test-helper');
-const badgeCriteriaRepository = require('../../../../lib/infrastructure/repositories/badge-criteria-repository');
-const omit = require('lodash/omit');
-const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
+import { knex, expect, databaseBuilder } from '../../../test-helper.js';
+import * as badgeCriteriaRepository from '../../../../lib/infrastructure/repositories/badge-criteria-repository.js';
+import omit from 'lodash/omit';
+import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
 
 describe('Integration | Repository | Badge Criteria Repository', function () {
   afterEach(async function () {

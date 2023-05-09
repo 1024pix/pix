@@ -1,16 +1,18 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const Membership = require('../../../../lib/domain/models/Membership');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const {
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+
+import {
   createOrUpdateOrganizationInvitation,
   createScoOrganizationInvitation,
   createProOrganizationInvitation,
-} = require('../../../../lib/domain/services/organization-invitation-service');
-const {
+} from '../../../../lib/domain/services/organization-invitation-service.js';
+
+import {
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-} = require('../../../../lib/domain/errors');
-const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
+} from '../../../../lib/domain/errors.js';
+import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
 
 describe('Unit | Service | Organization-Invitation Service', function () {
   const userEmailAddress = 'user@example.net';

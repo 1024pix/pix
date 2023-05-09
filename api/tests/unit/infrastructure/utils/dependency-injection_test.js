@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const { injectDependencies } = require('../../../../lib/infrastructure/utils/dependency-injection');
+import { expect } from '../../../test-helper.js';
+import { injectDependencies } from '../../../../lib/infrastructure/utils/dependency-injection.js';
 
 describe('Unit | Utils | #injectDependencies', function () {
   it('should inject dependencies by name', function () {

@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper.js');
-const OrganizationForAdmin = require('../../../../../lib/domain/models/organizations-administration/Organization.js');
+import { expect } from '../../../../test-helper.js';
+import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/Organization.js';
 
 describe('Unit | Domain | Models | OrganizationForAdmin', function () {
   describe('#archivistFullName', function () {

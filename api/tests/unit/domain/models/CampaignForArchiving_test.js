@@ -1,6 +1,6 @@
-const { expect, catchErr } = require('../../../test-helper');
-const Campaign = require('../../../../lib/domain/models/CampaignForArchiving');
-const { ArchivedCampaignError, ObjectValidationError } = require('../../../../lib/domain/errors');
+import { expect, catchErr } from '../../../test-helper.js';
+import { Campaign } from '../../../../lib/domain/models/CampaignForArchiving.js';
+import { ArchivedCampaignError, ObjectValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | CampaignForArchiving', function () {
   describe('#archive', function () {
