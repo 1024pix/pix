@@ -1,9 +1,8 @@
-import { fillIn, currentURL } from '@ember/test-helpers';
+import { fillIn, currentURL, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Password reset demand form', function (hooks) {
@@ -28,14 +27,19 @@ module('Acceptance | Password reset demand form', function (hooks) {
       email: 'brandone.martins@pix.com',
       password: '1024pix!',
     });
-    await visit('/mot-de-passe-oublie');
-    await fillIn('#email', 'brandone.martins@pix.com');
+    const screen = await visit('/mot-de-passe-oublie');
+    await fillIn(screen.getByRole('textbox', { name: 'obligatoire Adresse e-mail' }), 'brandone.martins@pix.com');
 
     // when
-    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
-
+    await click(screen.getByRole('button', { name: this.intl.t('pages.password-reset-demand.actions.reset') }));
     assert.strictEqual(currentURL(), '/mot-de-passe-oublie');
-    assert.dom('.password-reset-demand-form__body').exists();
+    assert
+      .dom(
+        screen.getByText(
+          'Un e-mail contenant la démarche à suivre afin de réinitialiser votre mot de passe vous a été envoyé à l’adresse e-mail brandone.martins@pix.com.'
+        )
+      )
+      .exists();
   });
 
   test('should stay in mot-passe-oublie page when sent email do not correspond to any existing user', async function (assert) {
@@ -48,10 +52,10 @@ module('Acceptance | Password reset demand form', function (hooks) {
       password: '1024pix!',
     });
     const screen = await visit('/mot-de-passe-oublie');
-    await fillIn('#email', 'unexisting@user.com');
+    await fillIn(screen.getByRole('textbox', { name: 'obligatoire Adresse e-mail' }), 'unexisting@user.com');
 
     // when
-    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
+    await click(screen.getByRole('button', { name: this.intl.t('pages.password-reset-demand.actions.reset') }));
 
     // then
     assert.strictEqual(currentURL(), '/mot-de-passe-oublie');

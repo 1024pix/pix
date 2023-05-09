@@ -8,14 +8,12 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'miragejs';
 
-import { clickByLabel } from '../../helpers/click-by-label';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
 import { authenticateByEmail } from '../../helpers/authentication';
 import { currentSession } from 'ember-simple-auth/test-support';
 import setupIntl from '../../helpers/setup-intl';
-import { t } from 'ember-intl/test-support';
 
 module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hooks) {
   setupApplicationTest(hooks);
@@ -41,11 +39,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
       test('should redirect to landing page', async function (assert) {
         // given
-        await visit('/campagnes');
+        const screen = await visit('/campagnes');
 
         // when
-        await fillIn('#campaign-code', campaign.code);
-        await clickByLabel(t('pages.fill-in-campaign-code.start'));
+        await fillIn(screen.getByRole('textbox', { name: 'Saisir votre code pour commencer.' }), campaign.code);
+        await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then
         assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
@@ -53,10 +51,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
       test('should redirect to an oidc authentication form when landing page has been seen', async function (assert) {
         // given
-        await visit(`/campagnes/${campaign.code}`);
+        const screen = await visit(`/campagnes/${campaign.code}`);
 
         // when
-        await clickByLabel('Je commence');
+        await click(screen.getByRole('button', { name: 'Je commence' }));
 
         // then
         sinon.assert.called(replaceLocationStub);
@@ -141,11 +139,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
         test('should redirect to landing page', async function (assert) {
           // given
-          await visit('/campagnes');
+          const screen = await visit('/campagnes');
 
           // when
-          await fillIn('#campaign-code', campaign.code);
-          await clickByLabel(t('pages.fill-in-campaign-code.start'));
+          await fillIn(screen.getByRole('textbox', { name: 'Saisir votre code pour commencer.' }), campaign.code);
+          await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
           // then
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
@@ -153,12 +151,12 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
         test('should begin campaign participation', async function (assert) {
           // given
-          await visit('/campagnes');
-          await fillIn('#campaign-code', campaign.code);
-          await clickByLabel(t('pages.fill-in-campaign-code.start'));
+          const screen = await visit('/campagnes');
+          await fillIn(screen.getByRole('textbox', { name: 'Saisir votre code pour commencer.' }), campaign.code);
+          await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
           // when
-          await clickByLabel('Je commence');
+          await click(screen.getByRole('button', { name: 'Je commence' }));
 
           // then
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -168,11 +166,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
       module('When user is logged in with another authentication method', function () {
         test('should redirect to landing page', async function (assert) {
           // given
-          await visit('/campagnes');
+          const screen = await visit('/campagnes');
 
           // when
-          await fillIn('#campaign-code', campaign.code);
-          await clickByLabel(t('pages.fill-in-campaign-code.start'));
+          await fillIn(screen.getByRole('textbox', { name: 'Saisir votre code pour commencer.' }), campaign.code);
+          await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
           // then
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
@@ -180,10 +178,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
         test('should redirect to oidc authentication form when landing page has been seen', async function (assert) {
           // given
-          await visit(`/campagnes/${campaign.code}`);
+          const screen = await visit(`/campagnes/${campaign.code}`);
 
           // when
-          await clickByLabel('Je commence');
+          await click(screen.getByRole('button', { name: 'Je commence' }));
 
           // then
           sinon.assert.called(replaceLocationStub);

@@ -1,9 +1,7 @@
-import { findAll, currentURL } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
-import { clickByLabel } from '../helpers/click-by-label';
-import { click, fillIn } from '@ember/test-helpers';
+import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -158,6 +156,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         // given
         const acquiredBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Yellow badge',
+          title: 'Yellow badge',
           imageUrl: '/images/badges/yellow.svg',
           message: 'Congrats, you won a Yellow badge',
           isAcquired: true,
@@ -166,6 +165,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         });
         const unacquiredDisplayedBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a green badge',
+          title: 'Green badge',
           imageUrl: '/images/badges/green.svg',
           message: 'Congrats, you won a Green badge',
           isAcquired: false,
@@ -175,6 +175,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         });
         const unacquiredHiddenBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a pink badge',
+          title: 'Pink badge',
           imageUrl: '/images/badges/pink.svg',
           message: 'Congrats, you won a pink badge',
           isAcquired: false,
@@ -187,10 +188,12 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         });
 
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+        const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        assert.strictEqual(findAll('.badge-card').length, 1);
+        assert.dom(screen.getByRole('heading', { name: 'Yellow badge' })).exists();
+        assert.dom(screen.queryByRole('heading', { name: 'Pink badge' })).doesNotExist();
+        assert.dom(screen.queryByRole('heading', { name: 'Green badge' })).doesNotExist();
       });
 
       module('when campaign has stages', function () {
@@ -258,22 +261,22 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // when
-        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
+        await click(screen.getByRole('button', { name: this.intl.t('pages.skill-review.actions.send') }));
 
         // then
         assert.ok(screen.getByText(this.intl.t('pages.skill-review.already-shared')));
-        assert.ok(screen.getByText(this.intl.t('pages.skill-review.actions.continue')));
+        assert.ok(screen.getByRole('link', { name: this.intl.t('pages.skill-review.actions.continue') }));
         assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.send-results')));
         assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.actions.improve')));
       });
 
       test('should redirect to default page on click', async function (assert) {
         // given
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
-        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
+        const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+        await click(screen.getByRole('button', { name: this.intl.t('pages.skill-review.actions.send') }));
 
         // when
-        await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
+        await click(screen.getByRole('link', { name: this.intl.t('pages.skill-review.actions.continue') }));
 
         // then
 
@@ -294,9 +297,9 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
     test('should redirect to default page on click when user is connected', async function (assert) {
       // given
       await authenticate(user);
-      await visit(`/campagnes/${campaignForNovice.code}`);
-      await clickByLabel(this.intl.t('pages.checkpoint.actions.next-page.results'));
-      await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
+      const screen = await visit(`/campagnes/${campaignForNovice.code}`);
+      await click(screen.getByRole('link', { name: this.intl.t('pages.checkpoint.actions.next-page.results') }));
+      await click(screen.getByRole('link', { name: this.intl.t('pages.skill-review.actions.continue') }));
 
       // then
       assert.strictEqual(currentURL(), '/accueil');
@@ -306,15 +309,15 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
       // given
       await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaignForNovice.code });
 
-      await visit(`/campagnes/${campaignForNovice.code}`);
-      await fillIn('#campaign-code', campaignForNovice.code);
-      await click('.fill-in-campaign-code__start-button');
+      const screen = await visit(`/campagnes/${campaignForNovice.code}`);
+      await fillIn(screen.getByRole('textbox', { name: 'Saisir votre code pour commencer.' }), campaignForNovice.code);
+      await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
       //TODO: locale is UNDEFINED after using visit
       this.intl.setLocale(['fr']);
 
-      await clickByLabel(this.intl.t('pages.checkpoint.actions.next-page.results'));
-      await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
+      await click(screen.getByRole('link', { name: this.intl.t('pages.checkpoint.actions.next-page.results') }));
+      await click(screen.getByRole('link', { name: this.intl.t('pages.skill-review.actions.continue') }));
 
       // then
       assert.strictEqual(currentURL(), '/inscription');

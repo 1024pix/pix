@@ -6,7 +6,6 @@ import { Response } from 'miragejs';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit, fillByLabel } from '@1024pix/ember-testing-library';
 import setupIntl from '../../helpers/setup-intl';
-import { clickByLabel } from '../../helpers/click-by-label';
 
 module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) {
   setupApplicationTest(hooks);
@@ -169,7 +168,9 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await click(
+        screen.getByRole('button', { name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button') })
+      );
 
       // then
       assert.strictEqual(currentURL(), '/accueil');
@@ -199,7 +200,9 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await click(
+        screen.getByRole('button', { name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button') })
+      );
 
       // then
       assert.ok(
@@ -234,7 +237,9 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await click(
+        screen.getByRole('button', { name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button') })
+      );
 
       // then
       assert.ok(
@@ -269,7 +274,9 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await click(
+        screen.getByRole('button', { name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button') })
+      );
 
       // then
       assert.ok(
@@ -304,7 +311,9 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await click(
+        screen.getByRole('button', { name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button') })
+      );
 
       // then
       assert.ok(
@@ -340,7 +349,9 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await click(
+        screen.getByRole('button', { name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button') })
+      );
 
       // then
       assert.ok(

@@ -2,7 +2,10 @@ import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
-import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
+import {
+  startCampaignwithTypeProfilesByCode,
+  startCampaignwithTypeProfilesByCodeAndExternalId,
+} from '../helpers/campaign';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'miragejs';
@@ -36,7 +39,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
           test('should redirect to send profile page after completion of external id', async function (assert) {
             // then
             campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: 'Adresse e-mail' });
-            const screen = await startCampaignByCode(campaign.code);
+            const screen = await startCampaignwithTypeProfilesByCode(campaign.code);
             await fillIn(screen.getByRole('textbox', { name: FIRST_NAME_INPUT_LABEL }), campaignParticipant.firstName);
             await fillIn(screen.getByRole('textbox', { name: LAST_NAME_INPUT_LABEL }), campaignParticipant.lastName);
             await fillIn(screen.getByRole('textbox', { name: EMAIL_INPUT_LABEL }), campaignParticipant.email);
@@ -62,7 +65,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
                 isRestricted: false,
                 idPixLabel: 'toto',
               });
-              const screen = await startCampaignByCodeAndExternalId(campaign.code);
+              const screen = await startCampaignwithTypeProfilesByCodeAndExternalId(campaign.code);
               await fillIn(
                 screen.getByRole('textbox', { name: FIRST_NAME_INPUT_LABEL }),
                 campaignParticipant.firstName
@@ -121,7 +124,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
         test('should redirect to send profile page after signup', async function (assert) {
           // given & when
           campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: null });
-          const screen = await startCampaignByCode(campaign.code);
+          const screen = await startCampaignwithTypeProfilesByCode(campaign.code);
           await fillIn(screen.getByRole('textbox', { name: FIRST_NAME_INPUT_LABEL }), campaignParticipant.firstName);
           await fillIn(screen.getByRole('textbox', { name: LAST_NAME_INPUT_LABEL }), campaignParticipant.lastName);
           await fillIn(screen.getByRole('textbox', { name: EMAIL_INPUT_LABEL }), campaignParticipant.email);
@@ -138,7 +141,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
         test('should redirect to send profile page after signup', async function (assert) {
           // given
           campaign = server.create('campaign', { type: PROFILES_COLLECTION });
-          const screen = await startCampaignByCodeAndExternalId(campaign.code);
+          const screen = await startCampaignwithTypeProfilesByCodeAndExternalId(campaign.code);
           await fillIn(screen.getByRole('textbox', { name: FIRST_NAME_INPUT_LABEL }), campaignParticipant.firstName);
           await fillIn(screen.getByRole('textbox', { name: LAST_NAME_INPUT_LABEL }), campaignParticipant.lastName);
           await fillIn(screen.getByRole('textbox', { name: EMAIL_INPUT_LABEL }), campaignParticipant.email);
@@ -257,7 +260,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
               type: PROFILES_COLLECTION,
               idPixLabel: 'nom de naissance de maman',
             });
-            const screen = await startCampaignByCode(campaign.code);
+            const screen = await startCampaignwithTypeProfilesByCode(campaign.code);
 
             // when
             await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
@@ -275,7 +278,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
               type: PROFILES_COLLECTION,
               idPixLabel: 'nom de naissance de maman',
             });
-            await startCampaignByCodeAndExternalId(campaign.code);
+            await startCampaignwithTypeProfilesByCodeAndExternalId(campaign.code);
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);

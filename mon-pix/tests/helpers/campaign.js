@@ -1,39 +1,51 @@
 import { click, fillIn } from '@ember/test-helpers';
-import { clickByLabel } from './click-by-label';
 import { visit } from '@1024pix/ember-testing-library';
 
-export async function startCampaignByCode(campaignCode) {
+export async function startCampaignwithTypeAssessmentByCode(campaignCode) {
   const screen = await visit(`/campagnes/${campaignCode}`);
-  await click('.campaign-landing-page__start-button');
+  await click(screen.getByRole('button', { name: 'Je commence' }));
   return screen;
 }
 
-export async function startCampaignByCodeAndExternalId(campaignCode, externalId = 'a73at01r3') {
+export async function startCampaignwithTypeProfilesByCode(campaignCode) {
+  const screen = await visit(`/campagnes/${campaignCode}`);
+  await click(screen.getByRole('button', { name: "C'est parti !" }));
+  return screen;
+}
+
+export async function startCampaignwithTypeAssessmentByCodeAndExternalId(campaignCode, externalId = 'a73at01r3') {
   const screen = await visit(`/campagnes/${campaignCode}?participantExternalId=${externalId}`);
-  await click('.campaign-landing-page__start-button');
+  await click(screen.getByRole('button', { name: 'Je commence' }));
+  return screen;
+}
+
+export async function startCampaignwithTypeProfilesByCodeAndExternalId(campaignCode, externalId = 'a73at01r3') {
+  const screen = await visit(`/campagnes/${campaignCode}?participantExternalId=${externalId}`);
+  await click(screen.getByRole('button', { name: "C'est parti !" }));
   return screen;
 }
 
 export async function resumeCampaignOfTypeAssessmentByCode(campaignCode, hasExternalParticipantId) {
-  await visit(`/campagnes/${campaignCode}`);
-  await clickByLabel('Je commence');
+  const screen = await visit(`/campagnes/${campaignCode}`);
+  await click(screen.getByRole('button', { name: 'Je commence' }));
   if (hasExternalParticipantId) {
-    await fillIn('#id-pix-label', 'monmail@truc.fr');
-    await clickByLabel('Continuer');
+    await fillIn(screen.getByRole('textbox', { name: 'email' }), 'monmail@truc.fr');
+    await click(screen.getByRole('button', { name: 'Continuer' }));
   }
-  await clickByLabel('Ignorer');
+  await click(screen.getByRole('button', { name: 'Ignorer' }));
 }
 
 export async function resumeCampaignOfTypeProfilesCollectionByCode(campaignCode, hasExternalParticipantId) {
-  await visit(`/campagnes/${campaignCode}`);
-  await clickByLabel("C'est parti !");
+  const screen = await visit(`/campagnes/${campaignCode}`);
+  await click(screen.getByRole('button', { name: "C'est parti !" }));
   if (hasExternalParticipantId) {
-    await fillIn('#id-pix-label', 'monmail@truc.fr');
-    await clickByLabel('Continuer');
+    await fillIn(screen.getByRole('textbox', { name: 'email' }), 'monmail@truc.fr');
+    await click(screen.getByRole('button', { name: 'Continuer' }));
   }
 }
 
 export async function completeCampaignOfTypeProfilesCollectionByCode(campaignCode) {
-  await visit(`/campagnes/${campaignCode}`);
-  await clickByLabel("J'envoie mon profil");
+  const screen = await visit(`/campagnes/${campaignCode}`);
+  const sendProfileButtons = screen.getAllByRole('button', { name: "J'envoie mon profil" });
+  await click(sendProfileButtons[0]);
 }

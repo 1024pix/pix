@@ -1,10 +1,9 @@
-import { currentURL, fillIn } from '@ember/test-helpers';
+import { currentURL, fillIn, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Reset Password Form', function (hooks) {
@@ -54,7 +53,7 @@ module('Acceptance | Reset Password Form', function (hooks) {
     await fillIn(passwordInput, 'newPass12345!');
 
     // when
-    await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
+    await click(screen.getByRole('button', { name: this.intl.t('pages.reset-password.actions.submit') }));
 
     // then
     assert.strictEqual(currentURL(), '/changer-mot-de-passe/brandone-reset-key');

@@ -6,7 +6,10 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'miragejs';
 
 import { authenticate, authenticateByGAR } from '../helpers/authentication';
-import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
+import {
+  startCampaignwithTypeAssessmentByCode,
+  startCampaignwithTypeAssessmentByCodeAndExternalId,
+} from '../helpers/campaign';
 import { currentSession } from 'ember-simple-auth/test-support';
 import ENV from 'mon-pix/config/environment';
 import setupIntl from '../helpers/setup-intl';
@@ -472,7 +475,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         test('should redirect to signin page', async function (assert) {
           // given & when
           const campaign = server.create('campaign');
-          await startCampaignByCode(campaign.code);
+          await startCampaignwithTypeAssessmentByCode(campaign.code);
 
           // then
           assert.strictEqual(currentURL(), '/inscription');
@@ -677,7 +680,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           test('should show the identifiant page after clicking on start button in landing page', async function (assert) {
             // given & when
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman' });
-            await startCampaignByCode(campaign.code);
+            await startCampaignwithTypeAssessmentByCode(campaign.code);
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/prescrit/identifiant`);
@@ -688,7 +691,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           test('should begin campaign participation', async function (assert) {
             // given & when
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman' });
-            await startCampaignByCodeAndExternalId(campaign.code);
+            await startCampaignwithTypeAssessmentByCodeAndExternalId(campaign.code);
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -700,7 +703,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         test('should begin campaign participation', async function (assert) {
           // given & when
           campaign = server.create('campaign', { idPixLabel: null });
-          await startCampaignByCode(campaign.code);
+          await startCampaignwithTypeAssessmentByCode(campaign.code);
 
           // then
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -711,7 +714,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         test('should begin campaign participation', async function (assert) {
           // given & when
           campaign = server.create('campaign', { idPixLabel: null });
-          await startCampaignByCodeAndExternalId(campaign.code);
+          await startCampaignwithTypeAssessmentByCodeAndExternalId(campaign.code);
 
           // then
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);

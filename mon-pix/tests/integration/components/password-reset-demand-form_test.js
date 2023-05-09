@@ -1,13 +1,11 @@
 /* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
 
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { fillIn } from '@ember/test-helpers';
+import { fillIn, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { resolve, reject } from 'rsvp';
 import Service from '@ember/service';
-import { clickByLabel } from '../../helpers/click-by-label';
 import { render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 
@@ -23,6 +21,7 @@ module('Integration | Component | password reset demand form', function (hooks) 
 
     // when
     const screen = await render(hbs`<PasswordResetDemandForm />`);
+
     // then
     assert.dom(screen.getByRole('img', { name: "Page d'accueil de Pix.org" })).exists();
     assert.dom(screen.getByRole('link', { name: "Page d'accueil de Pix.org" })).hasProperty('href', 'https://pix.org/');
@@ -46,14 +45,14 @@ module('Integration | Component | password reset demand form', function (hooks) 
     });
     this.owner.unregister('service:store');
     this.owner.register('service:store', storeStub);
-    await render(hbs`<PasswordResetDemandForm />`);
+    const screen = await render(hbs`<PasswordResetDemandForm />`);
 
     // when
-    await fillIn('#email', 'test@example.net');
-    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
+    await fillIn(screen.getByRole('textbox', { name: 'obligatoire Adresse e-mail' }), 'test@example.net');
+    await click(screen.getByRole('button', { name: this.intl.t('pages.password-reset-demand.actions.reset') }));
 
     // then
-    assert.dom('div[id="password-reset-demand-failed-message"]').exists();
+    assert.dom(screen.getByText('Cette adresse e-mail ne correspond à aucun compte')).exists();
   });
 
   test('should display success message when there is no error on password reset demand', async function (assert) {
@@ -69,15 +68,20 @@ module('Integration | Component | password reset demand form', function (hooks) 
     });
     this.owner.unregister('service:store');
     this.owner.register('service:store', storeStub);
-    await render(hbs`<PasswordResetDemandForm />`);
+    const screen = await render(hbs`<PasswordResetDemandForm />`);
 
     // when
-    await fillIn('#email', 'test@example.net');
-    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
+    await fillIn(screen.getByRole('textbox', { name: 'obligatoire Adresse e-mail' }), 'test@example.net');
+    await click(screen.getByRole('button', { name: this.intl.t('pages.password-reset-demand.actions.reset') }));
 
     // then
-    assert.dom('div[id="password-reset-demand-failed-message"]').doesNotExist();
-    assert.dom('.password-reset-demand-form__body').exists();
+    assert
+      .dom(
+        screen.getByText(
+          'Un e-mail contenant la démarche à suivre afin de réinitialiser votre mot de passe vous a été envoyé à l’adresse e-mail test@example.net.'
+        )
+      )
+      .exists();
   });
 
   test('should show error coming from errors service', async function (assert) {

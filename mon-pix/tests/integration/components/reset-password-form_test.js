@@ -2,10 +2,8 @@ import EmberObject from '@ember/object';
 import { resolve, reject } from 'rsvp';
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-// eslint-disable-next-line no-restricted-imports
-import { find, fillIn, triggerEvent } from '@ember/test-helpers';
+import { fillIn, triggerEvent, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { clickByLabel } from '../../helpers/click-by-label';
 import { render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 
@@ -79,7 +77,7 @@ module('Integration | Component | reset password form', function (hooks) {
         await fillIn(passwordInput, validPassword);
         await triggerEvent(passwordInput, 'change');
 
-        await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
+        await click(screen.getByRole('button', { name: this.intl.t('pages.reset-password.actions.submit') }));
 
         // then
         assert.true(isSaveMethodCalled);
@@ -101,13 +99,18 @@ module('Integration | Component | reset password form', function (hooks) {
         // when
         await fillIn(passwordInput, validPassword);
         await triggerEvent(passwordInput, 'change');
-        await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
+        await click(screen.getByRole('button', { name: this.intl.t('pages.reset-password.actions.submit') }));
 
         // then
         assert.true(isSaveMethodCalled);
         assert.deepEqual(this.user.password, validPassword);
-        assert.strictEqual(find(passwordInput).value, validPassword);
-        assert.dom('.form-textfield__message--error').exists();
+        assert
+          .dom(
+            screen.getByText(
+              'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'
+            )
+          )
+          .exists();
       });
     });
   });

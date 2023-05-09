@@ -2,7 +2,10 @@ import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
-import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
+import {
+  startCampaignwithTypeAssessmentByCode,
+  startCampaignwithTypeAssessmentByCodeAndExternalId,
+} from '../helpers/campaign';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import setupIntl from '../helpers/setup-intl';
@@ -37,7 +40,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           test('should redirect to assessment after completion of external id', async function (assert) {
             // given
             campaign = server.create('campaign', { idPixLabel: 'email', type: ASSESSMENT });
-            const screen = await startCampaignByCode(campaign.code);
+            const screen = await startCampaignwithTypeAssessmentByCode(campaign.code);
             await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
 
             // when
@@ -51,7 +54,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           test('should redirect to campaign presentation after cancel button', async function (assert) {
             // given
             campaign = server.create('campaign', { idPixLabel: 'email', type: ASSESSMENT });
-            const screen = await startCampaignByCode(campaign.code);
+            const screen = await startCampaignwithTypeAssessmentByCode(campaign.code);
             await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
 
             // when
@@ -67,7 +70,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             test('should redirect to assessment', async function (assert) {
               // given
               campaign = server.create('campaign', { isRestricted: false, idPixLabel: 'toto', type: ASSESSMENT });
-              const screen = await startCampaignByCodeAndExternalId(campaign.code);
+              const screen = await startCampaignwithTypeAssessmentByCodeAndExternalId(campaign.code);
               await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
 
               // when & then
@@ -114,7 +117,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
         test('should redirect to assessment after signup', async function (assert) {
           // given & when
           campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT });
-          const screen = await startCampaignByCode(campaign.code);
+          const screen = await startCampaignwithTypeAssessmentByCode(campaign.code);
           await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
 
           // then
@@ -126,7 +129,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
         test('should redirect to assessment after signup', async function (assert) {
           // given & when
           campaign = server.create('campaign', { type: ASSESSMENT });
-          const screen = await startCampaignByCodeAndExternalId(campaign.code);
+          const screen = await startCampaignwithTypeAssessmentByCodeAndExternalId(campaign.code);
           await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
 
           // then
@@ -198,7 +201,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           test('should go to the tutorial when the user fill in his id', async function (assert) {
             // given
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman', type: ASSESSMENT });
-            const screen = await startCampaignByCode(campaign.code);
+            const screen = await startCampaignwithTypeAssessmentByCode(campaign.code);
 
             // when
             await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
@@ -211,7 +214,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           test('should start the assessment when the user has seen tutorial', async function (assert) {
             // given
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman', type: ASSESSMENT });
-            const screen = await startCampaignByCode(campaign.code);
+            const screen = await startCampaignwithTypeAssessmentByCode(campaign.code);
 
             // when
             await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
@@ -229,7 +232,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             const externalId256Characters =
               '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
             campaign = server.create('campaign', { isRestricted: false, idPixLabel: 'toto', type: ASSESSMENT });
-            await startCampaignByCodeAndExternalId(campaign.code, externalId256Characters);
+            await startCampaignwithTypeAssessmentByCodeAndExternalId(campaign.code, externalId256Characters);
 
             // then
             assert.ok(currentURL().includes('/identifiant'));
@@ -242,7 +245,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman', type: ASSESSMENT });
 
             // when
-            await startCampaignByCodeAndExternalId(campaign.code);
+            await startCampaignwithTypeAssessmentByCodeAndExternalId(campaign.code);
 
             // then
             assert.ok(currentURL().includes('/didacticiel'));
@@ -251,7 +254,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           test('should start the assessment when the user has seen tutorial', async function (assert) {
             // given
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman', type: ASSESSMENT });
-            const screen = await startCampaignByCodeAndExternalId(campaign.code);
+            const screen = await startCampaignwithTypeAssessmentByCodeAndExternalId(campaign.code);
 
             // when
             await click(screen.getByRole('button', { name: this.intl.t('pages.tutorial.pass') }));
@@ -282,8 +285,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT });
           const screen = await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
 
-            // when
-            await click(screen.getByRole('button', { name: 'Je commence' }));
+          // when
+          await click(screen.getByRole('button', { name: 'Je commence' }));
 
           // then
           assert.ok(currentURL().includes('/didacticiel'));
