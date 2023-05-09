@@ -88,6 +88,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     id: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
     minimumReproducibilityRate: 75,
     minimumEarnedPix: null,
+    sessionExtraTime: 45,
   });
 
   databaseBuilder.factory.buildComplementaryCertification({
@@ -97,6 +98,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     minimumReproducibilityRate: 70,
     minimumEarnedPix: null,
     hasExternalJury: true,
+    sessionExtraTime: 45,
   });
 
   databaseBuilder.factory.buildComplementaryCertification({
@@ -106,6 +108,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     minimumReproducibilityRate: 70,
     minimumEarnedPix: null,
     hasExternalJury: true,
+    sessionExtraTime: 45,
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({

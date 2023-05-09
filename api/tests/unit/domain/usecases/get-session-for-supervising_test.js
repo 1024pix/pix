@@ -4,10 +4,13 @@ const { constants } = require('../../../../lib/domain/constants');
 const moment = require('moment');
 
 const START_DATETIME_STUB = new Date('2022-10-01T13:00:00Z');
+const COMPLEMENTARY_EXTRATIME_STUB = 45;
 const sessionForSupervisingRepository = { get: sinon.stub() };
 
-const expectedSessionEndDateTimeFromStartDateTime = (startDateTime, addedTime) => {
-  return moment(startDateTime).add(addedTime, 'minutes').toDate();
+const expectedSessionEndDateTimeFromStartDateTime = (startDateTime, extraMinutes = []) => {
+  const computedEndDateTime = moment(startDateTime);
+  extraMinutes.forEach((plusMinutes) => computedEndDateTime.add(plusMinutes, 'minutes'));
+  return computedEndDateTime.toDate();
 };
 
 describe('Unit | UseCase | get-session-for-supervising', function () {
@@ -16,41 +19,29 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
   });
 
   context('when the session exists', function () {
-    it('should fetch and return the session from repository', async function () {
-      // given
-      const expectedSession = domainBuilder.buildSessionForSupervising();
-      sessionForSupervisingRepository.get.resolves(expectedSession);
-
-      // when
-      const actualSession = await getSessionForSupervising({ sessionId: 1, sessionForSupervisingRepository });
-
-      // then
-      expect(actualSession).to.deep.equal(expectedSession);
-    });
-
     context('when there are candidates', function () {
-      context('when some candidates have no complementary certifications', function () {
-        it('should not compute a theorical end datetime if session has not started', async function () {
-          // given
-          const certificationCandidateNotStarted = domainBuilder.buildCertificationCandidateForSupervising();
-          delete certificationCandidateNotStarted.startDateTime;
+      it('should not compute a theorical end datetime if session has not started', async function () {
+        // given
+        const certificationCandidateNotStarted = domainBuilder.buildCertificationCandidateForSupervising();
+        delete certificationCandidateNotStarted.startDateTime;
 
-          const session = domainBuilder.buildSessionForSupervising({
-            certificationCandidates: [certificationCandidateNotStarted],
-          });
-          sessionForSupervisingRepository.get.resolves(session);
-
-          // when
-          const sessionForSupervising = await getSessionForSupervising({
-            sessionId: 1,
-            sessionForSupervisingRepository,
-          });
-          // then
-          expect(sessionForSupervising.certificationCandidates).to.have.lengthOf(1);
-          expect(sessionForSupervising.certificationCandidates[0].startDateTime).to.be.undefined;
-          expect(sessionForSupervising.certificationCandidates[0].theoricalEndDateTime).to.be.undefined;
+        const session = domainBuilder.buildSessionForSupervising({
+          certificationCandidates: [certificationCandidateNotStarted],
         });
+        sessionForSupervisingRepository.get.resolves(session);
 
+        // when
+        const sessionForSupervising = await getSessionForSupervising({
+          sessionId: 1,
+          sessionForSupervisingRepository,
+        });
+        // then
+        expect(sessionForSupervising.certificationCandidates).to.have.lengthOf(1);
+        expect(sessionForSupervising.certificationCandidates[0].startDateTime).to.be.undefined;
+        expect(sessionForSupervising.certificationCandidates[0].theoricalEndDateTime).to.be.undefined;
+      });
+
+      context('when the candidate has no complementary certifications', function () {
         it('should compute a theorical end datetime if session has started', async function () {
           // given
           const certificationCandidateWithNoComplementaryCertification =
@@ -101,6 +92,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                   userId: 1234,
                   startDateTime: START_DATETIME_STUB,
                   enrolledComplementaryCertification: 'une certif complémentaire',
+                  enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
                   stillValidBadgeAcquisitions: [],
                 }),
               ],
@@ -129,15 +121,58 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                   domainBuilder.buildCertificationCandidateForSupervising({
                     userId: 1234,
                     startDateTime: START_DATETIME_STUB,
-                    theoricalEndDateTime: expectedSessionEndDateTimeFromStartDateTime(
-                      START_DATETIME_STUB,
-                      constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES
-                    ),
+                    theoricalEndDateTime: expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
+                      constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
+                      COMPLEMENTARY_EXTRATIME_STUB,
+                    ]),
                     enrolledComplementaryCertification: 'une certif complémentaire',
+                    enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
                     stillValidBadgeAcquisitions: [stillValidBadgeAcquisition],
                   }),
                 ],
               })
+            );
+          });
+
+          it('should compute a theorical end datetime with extratime if eligible to complementary certification extratime', async function () {
+            const stillValidBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+              complementaryCertificationBadgeLabel: 'une certif complémentaire',
+            });
+
+            sessionForSupervisingRepository.get.resolves(
+              domainBuilder.buildSessionForSupervising({
+                certificationCandidates: [
+                  domainBuilder.buildCertificationCandidateForSupervising({
+                    userId: 1234,
+                    startDateTime: START_DATETIME_STUB,
+                    enrolledComplementaryCertification: 'une certif complémentaire',
+                    enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+                    stillValidBadgeAcquisitions: [],
+                  }),
+                ],
+              })
+            );
+
+            const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
+            certificationBadgesService.findStillValidBadgeAcquisitions
+              .withArgs({ userId: 1234 })
+              .resolves([stillValidBadgeAcquisition]);
+
+            // when
+            const actualSession = await getSessionForSupervising({
+              sessionId: 1,
+              sessionForSupervisingRepository,
+              certificationBadgesService,
+            });
+
+            // then
+            expect(actualSession.certificationCandidates).to.have.lengthOf(1);
+            expect(actualSession.certificationCandidates[0].startDateTime).to.deep.equal(START_DATETIME_STUB);
+            expect(actualSession.certificationCandidates[0].theoricalEndDateTime).to.deep.equal(
+              expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
+                constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
+                COMPLEMENTARY_EXTRATIME_STUB,
+              ])
             );
           });
         });
@@ -151,6 +186,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                   userId: 1234,
                   startDateTime: START_DATETIME_STUB,
                   enrolledComplementaryCertification: 'une certif complémentaire',
+                  enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
                   stillValidBadgeAcquisitions: [],
                 }),
               ],
@@ -177,15 +213,51 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                   domainBuilder.buildCertificationCandidateForSupervising({
                     userId: 1234,
                     startDateTime: START_DATETIME_STUB,
-                    theoricalEndDateTime: expectedSessionEndDateTimeFromStartDateTime(
-                      START_DATETIME_STUB,
-                      constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES
-                    ),
+                    theoricalEndDateTime: expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
+                      constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
+                    ]),
                     enrolledComplementaryCertification: 'une certif complémentaire',
+                    enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
                     stillValidBadgeAcquisitions: [],
                   }),
                 ],
               })
+            );
+          });
+
+          it('should not compute a theorical end datetime with extratime if not eligible to complementary certification extratime', async function () {
+            // given
+            sessionForSupervisingRepository.get.resolves(
+              domainBuilder.buildSessionForSupervising({
+                certificationCandidates: [
+                  domainBuilder.buildCertificationCandidateForSupervising({
+                    userId: 1234,
+                    startDateTime: START_DATETIME_STUB,
+                    enrolledComplementaryCertification: 'une certif complémentaire',
+                    enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+                    stillValidBadgeAcquisitions: [],
+                  }),
+                ],
+              })
+            );
+
+            const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
+            certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 1234 }).resolves([]);
+
+            // when
+            const actualSession = await getSessionForSupervising({
+              sessionId: 1,
+              sessionForSupervisingRepository,
+              certificationBadgesService,
+            });
+
+            // then
+            expect(actualSession.certificationCandidates).to.have.lengthOf(1);
+            expect(actualSession.certificationCandidates[0].startDateTime).to.deep.equal(START_DATETIME_STUB);
+            expect(actualSession.certificationCandidates[0].theoricalEndDateTime).to.deep.equal(
+              expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
+                constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
+              ])
             );
           });
         });
