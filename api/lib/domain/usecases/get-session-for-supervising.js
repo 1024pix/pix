@@ -14,7 +14,7 @@ module.exports = async function getSessionForSupervising({
       .map(_computeComplementaryCertificationEligibility(certificationBadgesService))
   );
 
-  sessionForSupervising.certificationCandidates.map(_computeTheoricalEndDateTime);
+  sessionForSupervising.certificationCandidates.forEach(_computeTheoricalEndDateTime);
 
   return sessionForSupervising;
 };
@@ -32,7 +32,13 @@ function _computeTheoricalEndDateTime(candidate) {
   if (!startDateTime.isValid()) {
     return;
   }
-  candidate.theoricalEndDateTime = startDateTime
-    .add(constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minutes')
-    .toDate();
+
+  startDateTime.add(constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minutes');
+
+  if (candidate.isStillEligibleToComplementaryCertification) {
+    const extraMinutes = candidate.enrolledComplementaryCertificationSessionExtraTime ?? 0;
+    startDateTime.add(extraMinutes, 'minutes');
+  }
+
+  candidate.theoricalEndDateTime = startDateTime.toDate();
 }

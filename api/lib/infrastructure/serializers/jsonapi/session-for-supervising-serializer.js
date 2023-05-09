@@ -9,6 +9,7 @@ const attributes = [
   'authorizedToStart',
   'assessmentStatus',
   'startDateTime',
+  'theoricalEndDateTime',
   'enrolledComplementaryCertification',
 ];
 
