@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const { isValidDate, convertDateValue } = require('../../../../lib/infrastructure/utils/date-utils');
+import { expect } from '../../../test-helper.js';
+import { isValidDate, convertDateValue } from '../../../../lib/infrastructure/utils/date-utils.js';
 
 describe('Unit | Utils | date-utils', function () {
   describe('#isValidDate', function () {

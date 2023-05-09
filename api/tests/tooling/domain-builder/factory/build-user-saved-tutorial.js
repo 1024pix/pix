@@ -1,6 +1,6 @@
-const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
+import { UserSavedTutorial } from '../../../../lib/domain/models/UserSavedTutorial.js';
 
-module.exports = function buildUserSavedTutorial({
+const buildUserSavedTutorial = function ({
   id = 111,
   userId = '4044',
   tutorialId = '111',
@@ -15,3 +15,5 @@ module.exports = function buildUserSavedTutorial({
     createdAt,
   });
 };
+
+export { buildUserSavedTutorial };

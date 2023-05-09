@@ -1,9 +1,9 @@
-const yargs = require('yargs');
-const bluebird = require('bluebird');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const knowledgeElementRepository = require('../../lib/infrastructure/repositories/knowledge-element-repository');
-const knowledgeElementSnapshotRepository = require('../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
-const { AlreadyExistingEntityError } = require('../../lib/domain/errors');
+import yargs from 'yargs';
+import bluebird from 'bluebird';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import { AlreadyExistingEntityError } from '../../lib/domain/errors.js';
 
 const DEFAULT_MAX_SNAPSHOT_COUNT = 5000;
 const DEFAULT_CONCURRENCY = 3;
@@ -114,7 +114,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  getEligibleCampaignParticipations,
-  generateKnowledgeElementSnapshots,
-};
+export { getEligibleCampaignParticipations, generateKnowledgeElementSnapshots };

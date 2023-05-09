@@ -1,7 +1,7 @@
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const CampaignToStartParticipation = require('../../../../lib/domain/models/CampaignToStartParticipation');
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignToStartParticipation } from '../../../../lib/domain/models/CampaignToStartParticipation.js';
 
-module.exports = function buildCampaignToStartParticipation({
+const buildCampaignToStartParticipation = function ({
   id = 1,
   idPixLabel = 'Un id pix label',
   archivedAt = null,
@@ -24,3 +24,5 @@ module.exports = function buildCampaignToStartParticipation({
     organizationId,
   });
 };
+
+export { buildCampaignToStartParticipation };

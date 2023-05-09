@@ -1,8 +1,6 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-
-const usecases = require('../../../../lib/domain/usecases/index.js');
-
-const prescriberController = require('../../../../lib/application/prescribers/prescriber-controller');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { prescriberController } from '../../../../lib/application/prescribers/prescriber-controller.js';
 
 describe('Unit | Controller | prescriber-controller', function () {
   describe('#get', function () {

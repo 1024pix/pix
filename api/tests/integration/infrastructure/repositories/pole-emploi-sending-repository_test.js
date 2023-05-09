@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const { expect, databaseBuilder, knex, domainBuilder } = require('../../../test-helper');
-const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
-const settings = require('../../../../lib/config');
+import _ from 'lodash';
+import { expect, databaseBuilder, knex, domainBuilder } from '../../../test-helper.js';
+import * as poleEmploiSendingRepository from '../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
+import { settings } from '../../../../lib/config.js';
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
 describe('Integration | Repository | PoleEmploiSending', function () {

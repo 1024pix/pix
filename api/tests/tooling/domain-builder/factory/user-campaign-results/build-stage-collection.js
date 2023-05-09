@@ -1,7 +1,7 @@
-const StageCollection = require('../../../../../lib/domain/models/user-campaign-results/StageCollection');
+import { StageCollection } from '../../../../../lib/domain/models/user-campaign-results/StageCollection.js';
 
 const buildStageCollection = function ({ campaignId, stages } = {}) {
   return new StageCollection({ campaignId, stages });
 };
 
-module.exports = buildStageCollection;
+export { buildStageCollection };

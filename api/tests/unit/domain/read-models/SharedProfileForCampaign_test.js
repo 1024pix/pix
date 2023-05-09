@@ -1,7 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-
-const SharedProfileForCampaign = require('../../../../lib/domain/read-models/SharedProfileForCampaign');
-const Scorecard = require('../../../../lib/domain/models/Scorecard');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { SharedProfileForCampaign } from '../../../../lib/domain/read-models/SharedProfileForCampaign.js';
+import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
 
 describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
   describe('#scorecards', function () {

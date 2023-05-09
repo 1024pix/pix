@@ -1,9 +1,9 @@
-const { catchErr, expect, domainBuilder, sinon } = require('../../../test-helper');
-const handleFinalizedSession = require('../../../../lib/domain/events/handle-session-finalized');
-const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
-const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
-const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
-const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
+import { catchErr, expect, domainBuilder, sinon } from '../../../test-helper.js';
+import { handleFinalizedSession } from '../../../../lib/domain/events/handle-session-finalized.js';
+import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
+import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult.js';
+import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
+import { FinalizedSession } from '../../../../lib/domain/models/FinalizedSession.js';
 
 const juryCertificationSummaryRepository = { findBySessionId: sinon.stub() };
 const finalizedSessionRepository = { save: sinon.stub() };

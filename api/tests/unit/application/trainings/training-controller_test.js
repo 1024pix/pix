@@ -1,8 +1,8 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-const trainingController = require('../../../../lib/application/trainings/training-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import { trainingController } from '../../../../lib/application/trainings/training-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | training-controller', function () {
   describe('#findPaginatedTrainingSummaries', function () {

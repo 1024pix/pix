@@ -2,7 +2,7 @@ const TABLE_NAME_TARGET_PROFILES = 'target-profiles';
 const TABLE_NAME_TARGET_PROFILES_SKILLS = 'target-profiles_skills';
 const TABLE_NAME_CAMPAIGNS = 'campaigns';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema
     .createTable(TABLE_NAME_TARGET_PROFILES, (t) => {
       t.increments().primary();
@@ -25,7 +25,7 @@ const up = function(knex) {
     });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema
     .table(TABLE_NAME_CAMPAIGNS, function (table) {
       table.dropColumn('targetProfileId');

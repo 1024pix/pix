@@ -1,10 +1,10 @@
-const pick = require('lodash/pick');
+import pick from 'lodash/pick';
 
-const { domainBuilder, expect, knex, nock } = require('../../../test-helper');
+import { domainBuilder, expect, knex, nock } from '../../../test-helper.js';
 
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
 
-const createServer = require('../../../../server');
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | users-controller', function () {
   let server;

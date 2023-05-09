@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | certification-report-controller', function () {
   let server, certificationCourseId, userId, sessionId, certificationCenterId;

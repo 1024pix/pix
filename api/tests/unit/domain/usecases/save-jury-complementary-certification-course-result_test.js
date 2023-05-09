@@ -1,8 +1,7 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-
-const saveJuryComplementaryCertificationCourseResult = require('../../../../lib/domain/usecases/save-jury-complementary-certification-course-result');
-const { NotFoundError, InvalidJuryLevelError } = require('../../../../lib/domain/errors');
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import { saveJuryComplementaryCertificationCourseResult } from '../../../../lib/domain/usecases/save-jury-complementary-certification-course-result.js';
+import { NotFoundError, InvalidJuryLevelError } from '../../../../lib/domain/errors.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 
 describe('Unit | UseCase | save-jury-complementary-certification-course-results', function () {
   describe('#saveJuryComplementaryCertificationCourseResult', function () {

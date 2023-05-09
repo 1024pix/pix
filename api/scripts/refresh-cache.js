@@ -1,11 +1,10 @@
-#! /usr/bin/env node
 'use strict';
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
-const logger = require('../lib/infrastructure/logger');
-const { learningContentCache } = require('../lib/infrastructure/caches/learning-content-cache');
+import { logger } from '../lib/infrastructure/logger.js';
+import { learningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
 
-const learningContentDatasource = require('../lib/infrastructure/datasources/learning-content/datasource');
+import * as learningContentDatasource from '../lib/infrastructure/datasources/learning-content/datasource.js';
 
 logger.info('Starting refreshing Learning Content');
 learningContentDatasource

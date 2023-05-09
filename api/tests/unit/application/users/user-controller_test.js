@@ -1,15 +1,12 @@
-const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
-
-const User = require('../../../../lib/domain/models/User');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
-const { getI18n } = require('../../../tooling/i18n/i18n');
-
-const usecases = require('../../../../lib/domain/usecases/index.js');
-
-const userController = require('../../../../lib/application/users/user-controller');
-const UserOrganizationForAdmin = require('../../../../lib/domain/read-models/UserOrganizationForAdmin');
+import { sinon, expect, domainBuilder, hFake } from '../../../test-helper.js';
+import { User } from '../../../../lib/domain/models/User.js';
+import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { userController } from '../../../../lib/application/users/user-controller.js';
+import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
 
 describe('Unit | Controller | user-controller', function () {
   let userSerializer;

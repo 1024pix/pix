@@ -1,7 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/progressions');
-const progressionController = require('../../../../lib/application/progressions/progression-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { moduleUnderTest } from '../../../../lib/application/progressions.js';
+import { progressionController } from '../../../../lib/application/progressions/progression-controller.js';
 
 describe('Unit | Router | progression-router', function () {
   describe('GET /api/progressions/{id}', function () {

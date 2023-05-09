@@ -1,10 +1,10 @@
-const { expect, databaseBuilder, sinon } = require('../../../test-helper');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
-const {
+import { expect, databaseBuilder, sinon } from '../../../test-helper.js';
+import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeElementSnapshotRepository from '../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
-} = require('../../../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns');
+} from '../../../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns.js';
 
 describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campaigns.js', function () {
   describe('#getEligibleCampaignParticipations', function () {

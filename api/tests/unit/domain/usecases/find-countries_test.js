@@ -1,5 +1,5 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const findCountries = require('../../../../lib/domain/usecases/find-countries');
+import { expect, domainBuilder, sinon } from '../../../test-helper.js';
+import { findCountries } from '../../../../lib/domain/usecases/find-countries.js';
 
 describe('Unit | UseCase | find-country', function () {
   let countryRepository;

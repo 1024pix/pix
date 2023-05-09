@@ -1,8 +1,8 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const participationsForUserManagementRepository = require('../../../../lib/infrastructure/repositories/participations-for-user-management-repository');
-const _ = require('lodash');
-const CampaignParticipationForUserManagement = require('../../../../lib/domain/read-models/CampaignParticipationForUserManagement');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, databaseBuilder } from '../../../test-helper.js';
+import * as participationsForUserManagementRepository from '../../../../lib/infrastructure/repositories/participations-for-user-management-repository.js';
+import _ from 'lodash';
+import { CampaignParticipationForUserManagement } from '../../../../lib/domain/read-models/CampaignParticipationForUserManagement.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

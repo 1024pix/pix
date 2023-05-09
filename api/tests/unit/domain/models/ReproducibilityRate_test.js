@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const { ReproducibilityRate } = require('../../../../lib/domain/models/ReproducibilityRate');
-const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } = require('../../../../lib/domain/constants');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { ReproducibilityRate } from '../../../../lib/domain/models/ReproducibilityRate.js';
+import { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } from '../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Models | ReproducibilityRate', function () {
   context('#static from', function () {

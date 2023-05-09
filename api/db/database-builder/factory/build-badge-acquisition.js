@@ -1,7 +1,7 @@
-const databaseBuffer = require('../database-buffer');
-const buildCampaignParticipation = require('./build-campaign-participation');
+import { databaseBuffer } from '../database-buffer.js';
+import { buildCampaignParticipation } from './build-campaign-participation.js';
 
-module.exports = function buildBadgeAcquisition({
+const buildBadgeAcquisition = function ({
   id = databaseBuffer.getNextId(),
   badgeId,
   userId,
@@ -19,3 +19,5 @@ module.exports = function buildBadgeAcquisition({
     },
   });
 };
+
+export { buildBadgeAcquisition };

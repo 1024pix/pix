@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getChallengeForPixAutoAnswer = require('../../../../lib/domain/usecases/get-challenge-for-pix-auto-answer');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { getChallengeForPixAutoAnswer } from '../../../../lib/domain/usecases/get-challenge-for-pix-auto-answer.js';
 
 describe('Unit | UseCase | get-challenge-answer-for-pix-button', function () {
   let assessment;

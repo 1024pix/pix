@@ -1,6 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const moduleUnderTest = require('../../../../lib/application/complementary-certification-course-results');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { moduleUnderTest } from '../../../../lib/application/complementary-certification-course-results.js';
 
 describe('Unit | Application | Complementary Certification Course Results | Route', function () {
   describe('POST /api/admin/complementary-certification-course-results', function () {

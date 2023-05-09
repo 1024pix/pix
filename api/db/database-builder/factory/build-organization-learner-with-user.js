@@ -1,9 +1,9 @@
-const buildOrganization = require('./build-organization');
-const buildUser = require('./build-user');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import { buildOrganization } from './build-organization.js';
+import { buildUser } from './build-user.js';
+import { databaseBuffer } from '../database-buffer.js';
+import _ from 'lodash';
 
-module.exports = function buildOrganizationLearnerWithUser({
+const buildOrganizationLearnerWithUser = function ({
   id = databaseBuffer.getNextId(),
   firstName = 'first-name',
   preferredLastName = 'pref-last-name',
@@ -56,3 +56,5 @@ module.exports = function buildOrganizationLearnerWithUser({
     values,
   });
 };
+
+export { buildOrganizationLearnerWithUser };

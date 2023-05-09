@@ -1,11 +1,11 @@
 const TABLE_NAME = 'target-profiles';
 const DEFAULT_IMAGE_URL = 'https://images.pix.fr/profil-cible/Illu_GEN.svg';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await updateWithDefaultImageUrl(knex);
 };
 
-const down = function() {
+const down = function () {
   return;
 };
 

@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const useCase = require('../../../../lib/application/usecases/checkPix1dEnabled');
-const settings = require('../../../../lib/config');
+import { expect, sinon } from '../../../test-helper.js';
+import { useCase } from '../../../../lib/application/usecases/checkPix1dEnabled.js';
+import { settings } from '../../../../lib/config.js';
 
 describe('Unit | Application | Use Case | checkPix1dEnabled', function () {
   it('should resolve true when the admin member has role super admin', async function () {

@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const { getCampaignUrl } = require('../../../../lib/infrastructure/utils/url-builder');
+import { expect } from '../../../test-helper.js';
+import { getCampaignUrl } from '../../../../lib/infrastructure/utils/url-builder.js';
 
 describe('Unit | Utils | url-builder', function () {
   describe('#getCampaignUrl', function () {

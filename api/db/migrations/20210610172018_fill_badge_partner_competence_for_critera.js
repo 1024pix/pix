@@ -1,7 +1,7 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-const up = async function(knex) {
+const up = async function (knex) {
   const badgesAndPartnerCompetences = await knex('badges')
     .select('badges.id as badgeId', 'badge-partner-competences.id as partnerCompetenceId')
     .leftJoin('badge-criteria', 'badges.id', 'badge-criteria.badgeId')
@@ -25,7 +25,7 @@ const up = async function(knex) {
   });
 };
 
-const down = function() {
+const down = function () {
   return;
 };
 

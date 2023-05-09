@@ -1,15 +1,15 @@
-const { expect, sinon, hFake, domainBuilder, catchErr } = require('../../../test-helper');
-const sessionController = require('../../../../lib/application/sessions/session-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const UserAlreadyLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate');
-const UserLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserLinkedToCertificationCandidate');
-const { SessionPublicationBatchResult } = require('../../../../lib/domain/models/SessionPublicationBatchResult');
-const logger = require('../../../../lib/infrastructure/logger');
-const { SessionPublicationBatchError } = require('../../../../lib/application/http-errors');
-const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results.js');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const events = require('../../../../lib/domain/events');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { expect, sinon, hFake, domainBuilder, catchErr } from '../../../test-helper.js';
+import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
+import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
+import { SessionPublicationBatchResult } from '../../../../lib/domain/models/SessionPublicationBatchResult.js';
+import { logger } from '../../../../lib/infrastructure/logger.js';
+import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
+import { certificationResultUtils } from '../../../../lib/infrastructure/utils/csv/certification-results.js';
+import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import { events } from '../../../../lib/domain/events.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Controller | sessionController', function () {
   let request;

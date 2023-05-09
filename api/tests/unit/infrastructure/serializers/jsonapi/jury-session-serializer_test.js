@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer');
+import { expect, sinon, domainBuilder } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
   describe('#serializeForPaginatedList()', function () {

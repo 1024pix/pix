@@ -1,23 +1,27 @@
-const { badges } = require('../../../constants');
-const {
+import { badges } from '../../../constants.js';
+
+import {
   CERTIFICATION_COURSE_SUCCESS_ID,
   CERTIFICATION_COURSE_FAILURE_ID,
   CERTIFICATION_COURSE_EDU_ID,
-} = require('./certification-courses-builder');
-const { PIX_DROIT_MAITRE_BADGE_ID } = require('../badges-builder');
-const { CERTIF_DROIT_USER5_ID } = require('./users');
-const {
+} from './certification-courses-builder.js';
+
+import { PIX_DROIT_MAITRE_BADGE_ID } from '../badges-builder.js';
+import { CERTIF_DROIT_USER5_ID } from './users.js';
+
+import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_CLEA_V3_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-} = require('./certification-centers-builder');
-const { participateToAssessmentCampaign } = require('../campaign-participations-builder');
-const { TARGET_PROFILE_PIX_DROIT_ID } = require('../target-profiles-builder');
-const { SUP_STUDENT_ASSOCIATED_ID, SUP_UNIVERSITY_ID } = require('../organizations-sup-builder');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+} from './certification-centers-builder.js';
+
+import { participateToAssessmentCampaign } from '../campaign-participations-builder.js';
+import { TARGET_PROFILE_PIX_DROIT_ID } from '../target-profiles-builder.js';
+import { SUP_STUDENT_ASSOCIATED_ID, SUP_UNIVERSITY_ID } from '../organizations-sup-builder.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 const { SHARED } = CampaignParticipationStatuses;
 
 function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
@@ -67,7 +71,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
       certificationCourseId: CERTIFICATION_COURSE_SUCCESS_ID,
       complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
       complementaryCertificationBadgeId: PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    },
+    }
   );
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseSuccessDroitId,
@@ -87,6 +91,4 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
-  complementaryCertificationCourseResultsBuilder,
-};
+export { complementaryCertificationCourseResultsBuilder };

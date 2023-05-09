@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const rememberUserHasSeenAssessmentInstructions = require('../../../../lib/domain/usecases/remember-user-has-seen-assessment-instructions');
+import { expect, sinon } from '../../../test-helper.js';
+import { rememberUserHasSeenAssessmentInstructions } from '../../../../lib/domain/usecases/remember-user-has-seen-assessment-instructions.js';
 
 describe('Unit | UseCase | remember-user-has-seen-assessment-instructions', function () {
   let userRepository;

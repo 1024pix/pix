@@ -1,6 +1,6 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
+import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
+import { createServer } from '../../../../server.js';
+import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
 
 describe('Acceptance | API | Certifications candidates', function () {
   describe('POST /api/certification-candidates/:id/authorize-to-start', function () {

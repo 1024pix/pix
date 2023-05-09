@@ -1,6 +1,6 @@
-const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
+import { CertificationAttestation } from '../../../../lib/domain/models/CertificationAttestation.js';
 
-module.exports = function buildCertificationAttestation({
+const buildCertificationAttestation = function ({
   id = 1,
   firstName = 'Jean',
   lastName = 'Bon',
@@ -35,3 +35,5 @@ module.exports = function buildCertificationAttestation({
     resultCompetenceTree,
   });
 };
+
+export { buildCertificationAttestation };

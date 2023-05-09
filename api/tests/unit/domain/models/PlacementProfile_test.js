@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
-const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { PlacementProfile } from '../../../../lib/domain/models/PlacementProfile.js';
+import { UserCompetence } from '../../../../lib/domain/models/UserCompetence.js';
 
 describe('Unit | Domain | Models | PlacementProfile', function () {
   describe('#constructor', function () {

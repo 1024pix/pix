@@ -1,5 +1,5 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
+import { createServer } from '../../../../server.js';
 
 describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', function () {
   let server;

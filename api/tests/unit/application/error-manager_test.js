@@ -1,6 +1,6 @@
-const { expect, hFake, sinon } = require('../../test-helper');
+import { expect, hFake, sinon } from '../../test-helper.js';
 
-const {
+import {
   AccountRecoveryDemandExpired,
   AdminMemberError,
   AlreadyRegisteredEmailAndUsernameError,
@@ -40,11 +40,11 @@ const {
   SendingEmailToInvalidEmailAddressError,
   LocaleFormatError,
   LocaleNotSupportedError,
-} = require('../../../lib/domain/errors');
-const { HttpErrors } = require('../../../lib/application/http-errors.js');
+} from '../../../lib/domain/errors.js';
 
-const { handle } = require('../../../lib/application/error-manager');
-const { SESSION_SUPERVISING } = require('../../../lib/domain/constants/session-supervising');
+import { HttpErrors } from '../../../lib/application/http-errors.js';
+import { handle } from '../../../lib/application/error-manager.js';
+import { SESSION_SUPERVISING } from '../../../lib/domain/constants/session-supervising.js';
 
 describe('Unit | Application | ErrorManager', function () {
   describe('#handle', function () {

@@ -12,7 +12,7 @@ const DEFAULT_ID = 'recSK0X22abcdefgh',
   DEFAULT_PIX_VALUE = 2.4,
   DEFAULT_TUBE_ID = 'recTU0X22abcdefgh';
 
-module.exports = function SkillLearningContentDataObjectFixture({
+const SkillLearningContentDataObjectFixture = function ({
   id = DEFAULT_ID,
   name = DEFAULT_NAME,
   hintEnUs = DEFAULT_HINT_EN_US,
@@ -41,3 +41,5 @@ module.exports = function SkillLearningContentDataObjectFixture({
     tubeId,
   };
 };
+
+export { SkillLearningContentDataObjectFixture };

@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
-const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { PrivateCertificate } from '../../../../lib/domain/models/PrivateCertificate.js';
+import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult.js';
 
 describe('Unit | Domain | Models | PrivateCertificate', function () {
   context('#static buildFrom', function () {

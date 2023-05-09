@@ -3,7 +3,7 @@ import { batch } from '../batch-processing.js';
 const TABLE_NAME_ASSESSMENT_RESULTS = 'assessment-results';
 const TABLE_NAME_MARKS = 'marks';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema
     .table(TABLE_NAME_MARKS, function (table) {
       table.integer('assessmentResultId').unsigned();
@@ -22,7 +22,7 @@ const up = function(knex) {
     });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.table(TABLE_NAME_MARKS, function (table) {
     table.dropColumn('assessmentResultId');
   });

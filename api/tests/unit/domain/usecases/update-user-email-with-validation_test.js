@@ -1,13 +1,14 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const {
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+
+import {
   AlreadyRegisteredEmailError,
   InvalidVerificationCodeError,
   UserNotAuthorizedToUpdateEmailError,
   EmailModificationDemandNotFoundOrExpiredError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
-const EmailModificationDemand = require('../../../../lib/domain/models/EmailModificationDemand');
-const updateUserEmailWithValidation = require('../../../../lib/domain/usecases/update-user-email-with-validation');
+import { EmailModificationDemand } from '../../../../lib/domain/models/EmailModificationDemand.js';
+import { updateUserEmailWithValidation } from '../../../../lib/domain/usecases/update-user-email-with-validation.js';
 
 describe('Unit | UseCase | update-user-email-with-validation', function () {
   let userEmailRepository;

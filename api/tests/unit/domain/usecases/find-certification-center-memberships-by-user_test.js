@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const findCertificationCenterMembershipsByUser = require('../../../../lib/domain/usecases/find-certification-center-memberships-by-user');
+import { expect, sinon } from '../../../test-helper.js';
+import { findCertificationCenterMembershipsByUser } from '../../../../lib/domain/usecases/find-certification-center-memberships-by-user.js';
 
 describe('Unit | UseCase | find-certification-center-memberships-by-user', function () {
   let certificationCenterMembershipRepository;

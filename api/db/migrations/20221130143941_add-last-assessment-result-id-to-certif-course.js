@@ -1,6 +1,6 @@
 const TABLE_NAME = 'certification-courses-last-assessment-results';
 
-const up = function(knex) {
+const up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, function (table) {
     table
       .integer('certificationCourseId')
@@ -11,7 +11,7 @@ const up = function(knex) {
   });
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };
 

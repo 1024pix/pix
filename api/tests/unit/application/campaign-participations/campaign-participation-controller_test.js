@@ -1,11 +1,13 @@
-const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
-const campaignParticipationController = require('../../../../lib/application/campaign-participations/campaign-participation-controller');
-const events = require('../../../../lib/domain/events/index.js');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
-const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+import { sinon, expect, domainBuilder, hFake } from '../../../test-helper.js';
+import { campaignParticipationController } from '../../../../lib/application/campaign-participations/campaign-participation-controller.js';
+import { events } from '../../../../lib/domain/events/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { CampaignParticipationResultsShared } from '../../../../lib/domain/events/CampaignParticipationResultsShared.js';
+import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { LOCALE } from '../../../../lib/domain/constants.js';
+
+const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | Application | Controller | Campaign-Participation', function () {
   describe('#shareCampaignResult', function () {

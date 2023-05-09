@@ -1,6 +1,6 @@
-const { expect, catchErr } = require('../../../test-helper');
-const CampaignForCreation = require('../../../../lib/domain/models/CampaignForCreation');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
+import { expect, catchErr } from '../../../test-helper.js';
+import { CampaignForCreation } from '../../../../lib/domain/models/CampaignForCreation.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 
 describe('Unit | Domain | Models | CampaignForCreation', function () {
   describe('#create', function () {

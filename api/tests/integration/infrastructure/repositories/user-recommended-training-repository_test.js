@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const userRecommendedTrainingRepository = require('../../../../lib/infrastructure/repositories/user-recommended-training-repository');
-const UserRecommendedTraining = require('../../../../lib/domain/read-models/UserRecommendedTraining');
+import _ from 'lodash';
+import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import * as userRecommendedTrainingRepository from '../../../../lib/infrastructure/repositories/user-recommended-training-repository.js';
+import { UserRecommendedTraining } from '../../../../lib/domain/read-models/UserRecommendedTraining.js';
 
 describe('Integration | Repository | user-recommended-training-repository', function () {
   describe('#save', function () {

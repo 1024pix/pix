@@ -1,6 +1,6 @@
-const CpfCertificationResult = require('../../../../lib/domain/read-models/CpfCertificationResult');
+import { CpfCertificationResult } from '../../../../lib/domain/read-models/CpfCertificationResult.js';
 
-module.exports = function buildCpfCertificationResult({
+const buildCpfCertificationResult = function ({
   id = 1234,
   firstName = 'John',
   lastName = 'Doe',
@@ -32,3 +32,5 @@ module.exports = function buildCpfCertificationResult({
     competenceMarks,
   });
 };
+
+export { buildCpfCertificationResult };

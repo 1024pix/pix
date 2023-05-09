@@ -1,7 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/courses');
-const courseController = require('../../../../lib/application/courses/course-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { moduleUnderTest } from '../../../../lib/application/courses.js';
+import { courseController } from '../../../../lib/application/courses/course-controller.js';
 
 describe('Unit | Router | course-router', function () {
   describe('GET /api/courses/{id}', function () {

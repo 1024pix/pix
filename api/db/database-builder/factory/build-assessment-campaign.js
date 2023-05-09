@@ -1,8 +1,10 @@
-const buildAssessmentCampaignForSkills = require('./build-assessment-campaign-for-skills');
-const CampaignTypes = require('../../../lib/domain/models/CampaignTypes');
+import { buildAssessmentCampaignForSkills } from './build-assessment-campaign-for-skills.js';
+import { CampaignTypes } from '../../../lib/domain/models/CampaignTypes.js';
 
-module.exports = function buildAssessmentCampaign(attributes, skills = [{ id: 'skill', name: 'skillName' }]) {
+const buildAssessmentCampaign = function (attributes, skills = [{ id: 'skill', name: 'skillName' }]) {
   attributes.type = CampaignTypes.ASSESSMENT;
 
   return buildAssessmentCampaignForSkills(attributes, skills);
 };
+
+export { buildAssessmentCampaign };

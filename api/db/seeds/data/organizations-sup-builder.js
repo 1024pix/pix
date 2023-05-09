@@ -1,6 +1,9 @@
-const Membership = require('../../../lib/domain/models/Membership');
-const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
-const { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } = require('./users-builder');
+import { Membership } from '../../../lib/domain/models/Membership.js';
+import { PIX_ADMIN } from '../../../lib/domain/constants.js';
+
+const { ROLES } = PIX_ADMIN;
+
+import { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } from './users-builder.js';
 
 const SUP_UNIVERSITY_ID = 2;
 const SUP_STUDENT_ASSOCIATED_ID = 888;
@@ -154,11 +157,10 @@ function organizationsSupBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
+export {
   organizationsSupBuilder,
   SUP_UNIVERSITY_ID,
   SUP_STUDENT_ASSOCIATED_ID,
   SUP_STUDENT_DISABLED_ID,
   SUP_STUDENT_CERTIFIABLE,
-
 };

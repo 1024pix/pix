@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const { deleteCampaignParticipationForAdmin } = require('../../../../lib/domain/usecases/index.js');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { deleteCampaignParticipationForAdmin } from '../../../../lib/domain/usecases/index.js';
+import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
 
 describe('Unit | UseCase | delete-campaign-participation-for-admin', function () {
   //given

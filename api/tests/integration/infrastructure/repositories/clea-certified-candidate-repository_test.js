@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const cleaCertifiedCandidateRepository = require('../../../../lib/infrastructure/repositories/clea-certified-candidate-repository');
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
+import * as cleaCertifiedCandidateRepository from '../../../../lib/infrastructure/repositories/clea-certified-candidate-repository.js';
 
 describe('Integration | Repository | clea-certified-candidate-repository', function () {
   describe('#getBySessionId', function () {

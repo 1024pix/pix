@@ -1,8 +1,8 @@
-const { TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE } = require('./target-profiles-builder');
+import { TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE } from './target-profiles-builder.js';
 
 function trainingBuilder({ databaseBuilder }) {
   const training1 = databaseBuilder.factory.buildTraining({
-    title: 'Apprendre en s\'amusant',
+    title: "Apprendre en s'amusant",
     link: 'http://www.example.net',
     type: 'webinaire',
     duration: '06:00:00',
@@ -32,7 +32,7 @@ function trainingBuilder({ databaseBuilder }) {
     locale: 'fr-fr',
   });
   const training5 = databaseBuilder.factory.buildTraining({
-    title: 'Manger bun\'s tous les midis',
+    title: "Manger bun's tous les midis",
     link: 'http://www.example5.net',
     type: 'webinaire',
     duration: '06:00:00',
@@ -157,6 +157,4 @@ function trainingBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
-  trainingBuilder,
-};
+export { trainingBuilder };

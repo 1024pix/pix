@@ -1,6 +1,4 @@
-const {
-  SUP_CERTIF_CENTER_ID,
-} = require('./certification-centers-builder');
+import { SUP_CERTIF_CENTER_ID } from './certification-centers-builder.js';
 
 function certificationCenterInvitationsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildCertificationCenterInvitation({
@@ -28,6 +26,4 @@ function certificationCenterInvitationsBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
-  certificationCenterInvitationsBuilder,
-};
+export { certificationCenterInvitationsBuilder };

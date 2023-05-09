@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
+import { expect } from '../../../test-helper.js';
 
-const recommendationService = require('./../../../../lib/domain/services/recommendation-service');
+import * as recommendationService from './../../../../lib/domain/services/recommendation-service.js';
 
 describe('Unit | Service | Campaign Recommendation Service', function () {
   describe('computeRecommendationScore', function () {

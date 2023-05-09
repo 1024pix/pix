@@ -1,10 +1,11 @@
-const {
+import {
   expect,
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-with-required-action', function () {
   describe('GET /api/admin/sessions/with-required-action', function () {

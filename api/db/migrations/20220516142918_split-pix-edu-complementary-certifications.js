@@ -6,7 +6,7 @@ const {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../constants.js').badges.keys;
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex('complementary-certifications').update({ name: 'Pix+ Édu 2nd degré' }).where({ name: 'Pix+ Édu' });
 
   const [{ id: pixEdu1erDegreComplementaryCertificationId }] = await knex('complementary-certifications')
@@ -36,7 +36,7 @@ const up = async function(knex) {
     );
 };
 
-const down = async function(knex) {
+const down = async function (knex) {
   const pixEdu1erDegreComplementaryCertificationCourseIds = await knex('complementary-certification-course-results')
     .select('complementaryCertificationCourseId')
     .distinct()

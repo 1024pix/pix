@@ -1,4 +1,4 @@
-const { knex, disconnect } = require('../../db/knex-database-connection');
+import { knex, disconnect } from '../../db/knex-database-connection.js';
 
 async function hideSkills() {
   await knex('organizations').where('showSkills', true).update({ showSkills: false });
@@ -23,6 +23,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  hideSkills,
-};
+export { hideSkills };

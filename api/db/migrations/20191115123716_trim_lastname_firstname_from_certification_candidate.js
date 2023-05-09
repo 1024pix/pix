@@ -1,5 +1,5 @@
-const up = async function(knex) {
-    await knex.raw(`
+const up = async function (knex) {
+  await knex.raw(`
         UPDATE "public"."certification-candidates"
         SET "firstName" = trim("firstName"),
             "lastName" = trim("lastName"),
@@ -15,5 +15,5 @@ const up = async function(knex) {
       `);
 };
 
-const down = function() {};
+const down = function () {};
 export { up, down };

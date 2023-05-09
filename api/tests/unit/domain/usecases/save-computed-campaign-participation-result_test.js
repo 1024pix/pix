@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const saveComputedCampaignParticipationResult = require('../../../../lib/domain/usecases/save-computed-campaign-participation-result');
+import { expect, sinon } from '../../../test-helper.js';
+import { saveComputedCampaignParticipationResult } from '../../../../lib/domain/usecases/save-computed-campaign-participation-result.js';
 
 describe('Unit | Domain | UseCases | SaveComputedCompaignParticipationResult', function () {
   it('should compute results and save', async function () {

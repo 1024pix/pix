@@ -1,10 +1,9 @@
-const _ = require('lodash');
-const { databaseBuilder, expect, catchErr, domainBuilder } = require('../../../../test-helper');
-const { NotFoundError } = require('../../../../../lib/domain/errors');
-const JurySession = require('../../../../../lib/domain/models/JurySession');
-const { statuses } = require('../../../../../lib/domain/models/JurySession');
-const CertificationOfficer = require('../../../../../lib/domain/models/CertificationOfficer');
-const jurySessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/jury-session-repository');
+import _ from 'lodash';
+import { databaseBuilder, expect, catchErr, domainBuilder } from '../../../../test-helper.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { JurySession, statuses } from '../../../../../lib/domain/models/JurySession.js';
+import { CertificationOfficer } from '../../../../../lib/domain/models/CertificationOfficer.js';
+import * as jurySessionRepository from '../../../../../lib/infrastructure/repositories/sessions/jury-session-repository.js';
 
 describe('Integration | Repository | JurySession', function () {
   describe('#get', function () {

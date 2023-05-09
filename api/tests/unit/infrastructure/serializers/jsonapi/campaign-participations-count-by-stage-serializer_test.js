@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer');
+import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-participations-count-by-stage-serializer', function () {
   describe('#serialize', function () {

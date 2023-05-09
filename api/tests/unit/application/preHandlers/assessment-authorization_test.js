@@ -1,5 +1,5 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const AssessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
+import { expect, sinon, hFake } from '../../../test-helper.js';
+import { AssessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
 
 describe('Unit | Pre-handler | Assessment Authorization', function () {
   describe('#verify', function () {

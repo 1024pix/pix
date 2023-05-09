@@ -1,8 +1,8 @@
-const Hapi = require('@hapi/hapi');
+import Hapi from '@hapi/hapi';
 
-const preResponseUtils = require('../../../lib/application/pre-response-utils');
-const { handleFailAction } = require('../../../lib/validate');
-const authentication = require('../../../lib/infrastructure/authentication');
+import { preResponseUtils } from '../../../lib/application/pre-response-utils.js';
+import { handleFailAction } from '../../../lib/validate.js';
+import { authentication } from '../../../lib/infrastructure/authentication.js';
 
 const routesConfig = {
   routes: {
@@ -62,4 +62,4 @@ class HttpTestServer {
   }
 }
 
-module.exports = HttpTestServer;
+export { HttpTestServer };

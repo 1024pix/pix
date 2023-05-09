@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 describe('Unit | Domain | Models | AssessmentResult', function () {
   describe('#buildAlgoErrorResult', function () {

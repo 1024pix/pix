@@ -1,13 +1,12 @@
-const { catchErr, databaseBuilder, expect, knex } = require('../../../test-helper');
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
-const mailService = require('../../../../lib/domain/services/mail-service');
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
-const resetPasswordDemandRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+import * as mailService from '../../../../lib/domain/services/mail-service.js';
+import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
+import * as resetPasswordDemandRepository from '../../../../lib/infrastructure/repositories/reset-password-demands-repository.js';
+import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
 
-const { UserNotFoundError } = require('../../../../lib/domain/errors');
-
-const createPasswordResetDemand = require('../../../../lib/domain/usecases/create-password-reset-demand');
+import { UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { createPasswordResetDemand } from '../../../../lib/domain/usecases/create-password-reset-demand.js';
 
 describe('Integration | UseCases | create-password-reset-demand', function () {
   const email = 'user@example.net';

@@ -1,9 +1,7 @@
-const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
-
-const { AlreadyExistingEntityError, NotFoundError } = require('../../../../lib/domain/errors');
-
-const Tag = require('../../../../lib/domain/models/Tag');
-const tagRepository = require('../../../../lib/infrastructure/repositories/tag-repository');
+import { expect, knex, domainBuilder, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { AlreadyExistingEntityError, NotFoundError } from '../../../../lib/domain/errors.js';
+import { Tag } from '../../../../lib/domain/models/Tag.js';
+import * as tagRepository from '../../../../lib/infrastructure/repositories/tag-repository.js';
 
 describe('Integration | Repository | TagRepository', function () {
   afterEach(async function () {

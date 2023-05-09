@@ -4,7 +4,7 @@ const ORGANIZATIONID_COLUMN = 'organizationId';
 const DISABLEDAT_COLUMN = 'disabledAt';
 const NEW_CONSTRAINT_NAME = 'memberships_userid_organizationid_disabledAt_unique';
 
-const up = async function(knex) {
+const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.dropUnique([USERID_COLUMN, ORGANIZATIONID_COLUMN]);
   });
@@ -14,7 +14,7 @@ const up = async function(knex) {
   );
 };
 
-const down = function(knex) {
+const down = function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropUnique(null, NEW_CONSTRAINT_NAME);
     table.unique([USERID_COLUMN, ORGANIZATIONID_COLUMN]);
