@@ -51,4 +51,34 @@ describe('Unit | Domain | Models | CorrectionBlockQROCMDep', function () {
       });
     });
   });
+
+  describe('set alternativeSolutions', function () {
+    let correctionBlock;
+    beforeEach(function () {
+      correctionBlock = new CorrectionBlockQROCMDep();
+    });
+
+    it('should throw if is null', function () {
+      expect(() => {
+        correctionBlock.alternativeSolutions = null;
+      }).to.throw();
+    });
+
+    it('should throw if is not an array', function () {
+      expect(() => {
+        correctionBlock.alternativeSolutions = 'not-array';
+      }).to.throw();
+    });
+
+    it('should throw if contains anything else than string', function () {
+      expect(() => {
+        correctionBlock.alternativeSolutions = ['not-array', 1];
+      }).to.throw();
+    });
+
+    it('should copy array in alternativeSolutions if is an array of strings', function () {
+      correctionBlock.alternativeSolutions = ['azeaze'];
+      expect(correctionBlock.alternativeSolutions).to.have.length(1);
+    });
+  });
 });
