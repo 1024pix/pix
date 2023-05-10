@@ -1,3 +1,5 @@
+const Joi = require('joi');
+
 class CorrectionBlockQROCMDep {
   /**
    * @type {boolean}
@@ -47,24 +49,14 @@ class CorrectionBlockQROCMDep {
    * @param {boolean} validated
    */
   #validateValidatedArgument(validated) {
-    if (typeof validated !== 'boolean') {
-      throw new Error('validated must be a boolean');
-    }
+    Joi.attempt(validated, Joi.boolean().required());
   }
 
   /**
    * @param {string[]} alternativeSolutions
    */
   #validateAlternativeSolutionsArgument(alternativeSolutions) {
-    if (!Array.isArray(alternativeSolutions)) {
-      throw new Error('alternativeSolutions must be an array');
-    }
-
-    for (const alternativeSolution of alternativeSolutions) {
-      if (typeof alternativeSolution !== 'string') {
-        throw new Error('alternativeSolutions must be an array of strings');
-      }
-    }
+    Joi.attempt(alternativeSolutions, Joi.array().required().items(Joi.string()));
   }
 }
 
