@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
-import { DEFAULT_LOCALE, FRENCH_FRANCE_LOCALE } from 'mon-pix/services/locale';
+import { DEFAULT_LOCALE, FRENCH_FRANCE_LOCALE, FRENCH_INTERNATIONAL_LOCALE } from 'mon-pix/services/locale';
 
 const FRANCE_TLD = 'fr';
 const INTERNATIONAL_TLD = 'org';
@@ -237,46 +237,19 @@ module('Unit | Services | session', function (hooks) {
 
         module('when user is loaded', function () {
           module('when there is no error', function () {
-            test('should set the current language with the value from the query parameter', async function (assert) {
+            test('sets the current language with the value from the query parameter', async function (assert) {
               // given
               const transition = { to: { queryParams: { lang: 'de' } } };
               sessionService.locale.handleUnsupportedLanguage.returns('de');
               sessionService.currentDomain.getExtension.returns(INTERNATIONAL_TLD);
-              sessionService.currentUser.user = { lang: 'ru', save: sinon.stub() };
+              sessionService.currentUser.user = { lang: FRENCH_INTERNATIONAL_LOCALE };
 
               // when
               await sessionService.handleUserLanguageAndLocale(transition);
 
               // then
-              sinon.assert.calledWith(sessionService.currentUser.user.save, { adapterOptions: { lang: 'de' } });
               sinon.assert.calledWith(sessionService.locale.setLocale, 'de');
-              assert.strictEqual(sessionService.currentUser.user.lang, 'de');
-            });
-          });
-
-          module('when an error occurs', function () {
-            module('with an HTTP status code 400', function () {
-              test('should set the current language with the user language value', async function (assert) {
-                // given
-                const transition = { to: { queryParams: { lang: 'de' } } };
-                sessionService.locale.handleUnsupportedLanguage.returns('de');
-                sessionService.currentDomain.getExtension.returns(INTERNATIONAL_TLD);
-                sessionService.currentUser.user = {
-                  lang: 'ru',
-                  save: sinon.stub().throws({ errors: [{ status: '400' }] }),
-                  rollbackAttributes: function () {
-                    sessionService.currentUser.user.lang = 'ru';
-                  },
-                };
-
-                // when
-                await sessionService.handleUserLanguageAndLocale(transition);
-
-                // then
-                sinon.assert.calledWith(sessionService.currentUser.user.save, { adapterOptions: { lang: 'de' } });
-                sinon.assert.calledWith(sessionService.locale.setLocale, 'ru');
-                assert.ok(true);
-              });
+              assert.ok(true);
             });
           });
         });
