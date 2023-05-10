@@ -41,7 +41,7 @@ describe('Integration | Repository | certification-center-for-admin', function (
           type: CertificationCenterForAdmin.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          complementaryCertifications: [],
+          complementaryCertification: null,
           dataProtectionOfficerFirstName: dataProtectionOfficer.firstName,
           dataProtectionOfficerLastName: dataProtectionOfficer.lastName,
           dataProtectionOfficerEmail: dataProtectionOfficer.email,

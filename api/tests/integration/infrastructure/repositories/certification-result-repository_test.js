@@ -830,7 +830,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       expect(certificationResults).to.deepEqualArray(expectedResult);
     });
 
-    it(`should return complementary certifications linked to the candidates`, async function () {
+    it(`should return complementary certification linked to the candidates`, async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const {

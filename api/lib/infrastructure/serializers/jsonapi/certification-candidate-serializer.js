@@ -31,7 +31,7 @@ const serialize = function (certificationCandidates) {
       'sex',
       'birthINSEECode',
       'birthPostalCode',
-      'complementaryCertifications',
+      'complementaryCertification',
       'billingMode',
       'prepaymentCode',
     ],

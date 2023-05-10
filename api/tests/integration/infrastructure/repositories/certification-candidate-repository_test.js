@@ -30,7 +30,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           birthdate: '1990-07-12',
           extraTimePercentage: '0.05',
           sessionId,
-          complementaryCertifications: [],
+          complementaryCertification: null,
         });
 
         // when
@@ -40,7 +40,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         });
 
         // then
-        const attributesToOmit = ['id', 'createdAt', 'complementaryCertifications', 'userId'];
+        const attributesToOmit = ['id', 'createdAt', 'complementaryCertification', 'userId'];
         expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deepEqualInstance(
           _.omit(certificationCandidate, attributesToOmit)
         );
@@ -62,7 +62,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
             birthdate: '1990-07-12',
             extraTimePercentage: '0.05',
             sessionId,
-            complementaryCertifications: [],
+            complementaryCertification: null,
           });
 
           const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
@@ -85,19 +85,17 @@ describe('Integration | Repository | CertificationCandidate', function () {
           return knex('complementary-certification-subscriptions').del();
         });
 
-        it('should save the complementary certification subscriptions', async function () {
+        it('should save the complementary certification subscription', async function () {
           // given
           const sessionId = databaseBuilder.factory.buildSession().id;
-          const firstComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
-          const secondComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+          const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
           await databaseBuilder.commit();
 
           const certificationCandidate = domainBuilder.buildCertificationCandidate.notPersisted({
             sessionId,
-            complementaryCertifications: [
-              domainBuilder.buildComplementaryCertification({ id: firstComplementaryCertificationId }),
-              domainBuilder.buildComplementaryCertification({ id: secondComplementaryCertificationId }),
-            ],
+            complementaryCertification: domainBuilder.buildComplementaryCertification({
+              id: complementaryCertificationId,
+            }),
           });
 
           // when
@@ -107,12 +105,14 @@ describe('Integration | Repository | CertificationCandidate', function () {
           });
 
           // then
-          const complementaryCertificationSubscriptionsInDB = await knex(
+          const [{ complementaryCertificationId: complementaryCertificationSubscriptionIdInDB }] = await knex(
             'complementary-certification-subscriptions'
-          ).where({
-            certificationCandidateId: savedCertificationCandidate.id,
-          });
-          expect(complementaryCertificationSubscriptionsInDB).to.have.lengthOf(2);
+          )
+            .select('complementaryCertificationId')
+            .where({
+              certificationCandidateId: savedCertificationCandidate.id,
+            });
+          expect(complementaryCertificationSubscriptionIdInDB).to.equal(complementaryCertificationId);
         });
       });
     });
@@ -293,17 +293,13 @@ describe('Integration | Repository | CertificationCandidate', function () {
       });
     });
 
-    context('when some returned candidates have complementary certification subscriptions', function () {
-      it('return ordered candidates with associated subscriptions', async function () {
+    context('when some returned candidates have complementary certification subscription', function () {
+      it('return ordered candidates with associated subscription', async function () {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const rockCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+Rock',
           key: 'ROCK',
-        });
-        const jazzCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'Pix+Jazz',
-          key: 'JAZZ',
         });
         const matthieuChedid = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Chedid',
@@ -329,10 +325,6 @@ describe('Integration | Repository | CertificationCandidate', function () {
           complementaryCertificationId: rockCertification.id,
           certificationCandidateId: louisChedid.id,
         });
-        databaseBuilder.factory.buildComplementaryCertificationSubscription({
-          complementaryCertificationId: jazzCertification.id,
-          certificationCandidateId: louisChedid.id,
-        });
 
         await databaseBuilder.commit();
 
@@ -347,21 +339,18 @@ describe('Integration | Repository | CertificationCandidate', function () {
         //        expect(firstCandidate);
         expect(firstCandidate.firstName).to.equal('Louis');
         expect(firstCandidate.lastName).to.equal('Chedid');
-        expect(firstCandidate.complementaryCertifications[0]).to.deepEqualInstance(
+        expect(firstCandidate.complementaryCertification).to.deepEqualInstance(
           new ComplementaryCertification({ id: rockCertification.id, label: 'Pix+Rock', key: 'ROCK' })
-        );
-        expect(firstCandidate.complementaryCertifications[1]).to.deepEqualInstance(
-          new ComplementaryCertification({ id: jazzCertification.id, label: 'Pix+Jazz', key: 'JAZZ' })
         );
         expect(secondCandidate.firstName).to.equal('Matthieu');
         expect(secondCandidate.lastName).to.equal('Chedid');
-        expect(secondCandidate.complementaryCertifications[0]).to.deepEqualInstance(
+        expect(secondCandidate.complementaryCertification).to.deepEqualInstance(
           new ComplementaryCertification({ id: rockCertification.id, label: 'Pix+Rock', key: 'ROCK' })
         );
 
         expect(thirdCandidate.firstName).to.equal('Hancock');
         expect(thirdCandidate.lastName).to.equal('Herbie');
-        expect(thirdCandidate.complementaryCertifications).to.deep.equal([]);
+        expect(thirdCandidate.complementaryCertification).to.equal(null);
       });
     });
 

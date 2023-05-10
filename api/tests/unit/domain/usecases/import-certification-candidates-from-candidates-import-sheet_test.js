@@ -77,11 +77,10 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           // given
           const sessionId = 'sessionId';
           const odsBuffer = 'buffer';
-          const complementaryCertifications = [
-            domainBuilder.buildComplementaryCertification(),
-            domainBuilder.buildComplementaryCertification(),
-          ];
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({ complementaryCertifications });
+          const complementaryCertification = domainBuilder.buildComplementaryCertification();
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            complementaryCertification,
+          });
           const certificationCandidates = [certificationCandidate];
 
           sessionRepository.isSco.resolves(false);
@@ -126,7 +125,6 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           });
           expect(certificationCandidateRepository.saveInSession).to.have.been.calledWith({
             certificationCandidate,
-            complementaryCertifications,
             sessionId,
             domainTransaction,
           });

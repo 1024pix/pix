@@ -50,19 +50,15 @@ const saveInSession = async function ({
 
     const [addedCertificationCandidate] = await insertCertificationCandidateQuery;
 
-    if (!_.isEmpty(certificationCandidate.complementaryCertifications)) {
-      const complementaryCertificationSubscriptionsToSave = certificationCandidate.complementaryCertifications.map(
-        (complementaryCertification) => {
-          return {
-            complementaryCertificationId: complementaryCertification.id,
-            certificationCandidateId: addedCertificationCandidate.id,
-          };
-        }
-      );
+    if (certificationCandidate.complementaryCertification) {
+        const complementaryCertificationSubscriptionToSave = {
+          complementaryCertificationId: certificationCandidate.complementaryCertification.id,
+          certificationCandidateId: addedCertificationCandidate.id,
+        };
 
       const insertComplementaryCertificationSubscriptionQuery = knex(
         'complementary-certification-subscriptions'
-      ).insert(complementaryCertificationSubscriptionsToSave);
+      ).insert(complementaryCertificationSubscriptionToSave);
 
       if (domainTransaction.knexTransaction) {
         insertComplementaryCertificationSubscriptionQuery.transacting(domainTransaction.knexTransaction);
@@ -114,28 +110,32 @@ const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
       'complementary-certifications.id'
     )
     .where({ sessionId, userId })
-    .groupBy('certification-candidates.id')
+    .groupBy('certification-candidates.id', 'complementary-certifications.id')
     .first();
   return certificationCandidate ? _toDomain(certificationCandidate) : undefined;
 };
 
 const findBySessionId = async function (sessionId) {
   const results = await knex
-    .select('certification-candidates.*')
-    .select({ complementaryCertifications: knex.raw(`json_agg("complementary-certifications".*)`) })
-    .from('certification-candidates')
-    .where({ 'certification-candidates.sessionId': sessionId })
-    .leftJoin(
-      'complementary-certification-subscriptions',
-      'certification-candidates.id',
-      'complementary-certification-subscriptions.certificationCandidateId'
-    )
-    .leftJoin(
-      'complementary-certifications',
-      'complementary-certification-subscriptions.complementaryCertificationId',
-      'complementary-certifications.id'
-    )
-    .groupBy('certification-candidates.id')
+    .select({
+        certificationCandidate: 'certification-candidates.*',
+        complementaryCertificationId: 'complementary-certifications.id',
+        complementaryCertificationKey: 'complementary-certifications.key',
+        complementaryCertificationLabel: 'complementary-certifications.label',
+      })
+      .from('certification-candidates')
+      .where({ 'certification-candidates.sessionId': sessionId })
+      .leftJoin(
+        'complementary-certification-subscriptions',
+        'certification-candidates.id',
+        'complementary-certification-subscriptions.certificationCandidateId'
+      )
+      .leftJoin(
+        'complementary-certifications',
+        'complementary-certification-subscriptions.complementaryCertificationId',
+        'complementary-certifications.id'
+      )
+      .groupBy('certification-candidates.id', 'complementary-certifications.id')
     .orderByRaw('LOWER("certification-candidates"."lastName") asc')
     .orderByRaw('LOWER("certification-candidates"."firstName") asc');
   return results.map(_toDomain);
@@ -261,12 +261,14 @@ function _adaptModelToDb(certificationCandidateToSave) {
 }
 
 function _toDomain(candidateData) {
-  const complementaryCertifications = candidateData.complementaryCertifications
-    .filter((certificationData) => certificationData !== null)
-    .map((certification) => new ComplementaryCertification(certification));
-
   return new CertificationCandidate({
     ...candidateData,
-    complementaryCertifications,
+    complementaryCertification: candidateData.complementaryCertificationId
+      ? new ComplementaryCertification({
+          id: candidateData.complementaryCertificationId,
+          key: candidateData.complementaryCertificationKey,
+          label: candidateData.complementaryCertificationLabel,
+        })
+      : null,
   });
 }

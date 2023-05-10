@@ -59,13 +59,6 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       const { hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre } =
         certificationCandidateData;
 
-      let complementaryCertificationSubscriptionsCount = 0;
-
-      [hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre].forEach(
-        (complementaryCertificationSubscription) =>
-          complementaryCertificationSubscription ? complementaryCertificationSubscriptionsCount++ : false
-      );
-
       if (birthINSEECode && birthINSEECode !== '99' && birthINSEECode.length < 5)
         certificationCandidateData.birthINSEECode = `0${birthINSEECode}`;
       if (birthPostalCode && birthPostalCode.length < 5)
@@ -80,7 +73,14 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         certificationCpfCountryRepository,
       });
 
-      if (complementaryCertificationSubscriptionsCount > 1) {
+      if (
+        _hasMoreThanOneComplementarySubscription({
+          hasCleaNumerique,
+          hasPixPlusDroit,
+          hasPixPlusEdu1erDegre,
+          hasPixPlusEdu2ndDegre,
+        })
+      ) {
         line = parseInt(line) + 1;
         throw new CertificationCandidatesImportError({
           message: `Ligne ${line} : Vous ne pouvez pas inscrire un candidat à plus d'une certification complémentaire.`,
@@ -96,7 +96,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       birthPostalCode = cpfBirthInformation.birthPostalCode;
       birthCity = cpfBirthInformation.birthCity;
 
-      const complementaryCertifications = await _buildComplementaryCertificationsForLine({
+      const complementaryCertification = await _buildComplementaryCertificationsForLine({
         hasCleaNumerique,
         hasPixPlusDroit,
         hasPixPlusEdu1erDegre,
@@ -116,7 +116,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         birthCity,
         sex,
         sessionId,
-        complementaryCertifications,
+        complementaryCertification,
         billingMode,
       });
 
@@ -129,6 +129,18 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       return certificationCandidate;
     }
   );
+}
+
+function _hasMoreThanOneComplementarySubscription({
+  hasCleaNumerique,
+  hasPixPlusDroit,
+  hasPixPlusEdu1erDegre,
+  hasPixPlusEdu2ndDegre,
+}) {
+  const isTrueCount = [hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre].filter(
+    (complementaryCertificationSubscription) => complementaryCertificationSubscription
+  ).length;
+  return isTrueCount > 1;
 }
 
 function _filterOutEmptyCandidateData(certificationCandidatesData) {
@@ -181,33 +193,25 @@ async function _buildComplementaryCertificationsForLine({
   hasPixPlusEdu2ndDegre,
   complementaryCertificationRepository,
 }) {
-  const complementaryCertifications = [];
   const complementaryCertificationsInDB = await complementaryCertificationRepository.findAll();
   if (hasCleaNumerique) {
-    complementaryCertifications.push(
-      complementaryCertificationsInDB.find((complementaryCertification) => complementaryCertification.key === CLEA)
+    return complementaryCertificationsInDB.find(
+      (complementaryCertification) => complementaryCertification.key === CLEA
     );
   }
   if (hasPixPlusDroit) {
-    complementaryCertifications.push(
-      complementaryCertificationsInDB.find(
-        (complementaryCertification) => complementaryCertification.key === PIX_PLUS_DROIT
-      )
+    return complementaryCertificationsInDB.find(
+      (complementaryCertification) => complementaryCertification.key === PIX_PLUS_DROIT
     );
   }
   if (hasPixPlusEdu1erDegre) {
-    complementaryCertifications.push(
-      complementaryCertificationsInDB.find(
-        (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_1ER_DEGRE
-      )
+    return complementaryCertificationsInDB.find(
+      (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_1ER_DEGRE
     );
   }
   if (hasPixPlusEdu2ndDegre) {
-    complementaryCertifications.push(
-      complementaryCertificationsInDB.find(
-        (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_2ND_DEGRE
-      )
+    return complementaryCertificationsInDB.find(
+      (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_2ND_DEGRE
     );
   }
-  return complementaryCertifications;
 }

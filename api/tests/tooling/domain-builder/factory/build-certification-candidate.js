@@ -21,7 +21,7 @@ const buildCertificationCandidate = function ({
   sessionId = 456,
   userId = 789,
   organizationLearnerId,
-  complementaryCertifications = [buildComplementaryCertification()],
+  complementaryCertification = buildComplementaryCertification(),
   billingMode = null,
   prepaymentCode = null,
 } = {}) {
@@ -45,7 +45,7 @@ const buildCertificationCandidate = function ({
     authorizedToStart,
     userId,
     organizationLearnerId,
-    complementaryCertifications,
+    complementaryCertification,
     billingMode,
     prepaymentCode,
   });
@@ -67,7 +67,7 @@ buildCertificationCandidate.pro = function ({
   externalId = 'externalId',
   authorizedToStart = false,
   sessionId = 456,
-  complementaryCertifications = [],
+  complementaryCertification = null,
   billingMode = 'FREE',
 }) {
   return new CertificationCandidate({
@@ -86,7 +86,7 @@ buildCertificationCandidate.pro = function ({
     externalId,
     extraTimePercentage,
     authorizedToStart,
-    complementaryCertifications,
+    complementaryCertification,
     billingMode,
   });
 };
@@ -107,7 +107,7 @@ buildCertificationCandidate.notPersisted = function ({
   externalId = 'externalId',
   authorizedToStart = false,
   sessionId = 456,
-  complementaryCertifications = [],
+  complementaryCertification = null,
 }) {
   return new CertificationCandidate({
     firstName,
@@ -125,7 +125,7 @@ buildCertificationCandidate.notPersisted = function ({
     externalId,
     extraTimePercentage,
     authorizedToStart,
-    complementaryCertifications,
+    complementaryCertification,
   });
 };
 
