@@ -57,6 +57,7 @@
         "pricing": "Pricing of Pix’s share"
       },
       "login": {
+        "choose-language-aria-label": "Select a language",
         "email": "Email address",
         "forgot-password": "Forgot your password?",
         "password": "Password"
