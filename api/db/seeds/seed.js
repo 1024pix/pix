@@ -47,6 +47,7 @@ const poleEmploiSendingsBuilder = require('./data/pole-emploi-sendings-builder')
 const { trainingBuilder } = require('./data/trainings-builder');
 const { commonBuilder } = require('./data/common/common-builder');
 const { teamContenuDataBuilder } = require('./data/team-contenu/data-builder');
+const { teamCertificationDataBuilder } = require('./data/team-certification/data-builder');
 const { fillCampaignSkills } = require('./data/fill-campaign-skills');
 const {
   addLastAssessmentResultCertificationCourse,
@@ -111,6 +112,7 @@ exports.seed = async (knex) => {
   userLoginsBuilder({ databaseBuilder });
 
   await teamContenuDataBuilder({ databaseBuilder });
+  await teamCertificationDataBuilder({ databaseBuilder });
 
   await databaseBuilder.commit();
   await databaseBuilder.fixSequences();
