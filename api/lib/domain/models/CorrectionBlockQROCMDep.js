@@ -48,7 +48,7 @@ class CorrectionBlockQROCMDep {
    */
   #validateValidatedArgument(validated) {
     if (typeof validated !== 'boolean') {
-      throw new Error('alternativeSolutions must be an array');
+      throw new Error('validated must be a boolean');
     }
   }
 
