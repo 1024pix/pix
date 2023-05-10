@@ -3,13 +3,12 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 
-const DEFAULT_LOCALE = 'fr';
-
 export default class LoginController extends Controller {
   @service intl;
   @service dayjs;
   @service currentDomain;
   @service router;
+  @service locale;
 
   @tracked selectedLanguage = this.intl.primaryLocale;
 
@@ -20,12 +19,7 @@ export default class LoginController extends Controller {
   @action
   onLanguageChange(value) {
     this.selectedLanguage = value;
-    this._setLocale(this.selectedLanguage);
+    this.locale.setLocale(this.selectedLanguage);
     this.router.replaceWith('login', { queryParams: { lang: null } });
-  }
-
-  _setLocale(language) {
-    this.intl.setLocale([language, DEFAULT_LOCALE]);
-    this.dayjs.setLocale(language);
   }
 }
