@@ -118,6 +118,16 @@ function _buildOrganizationLearners({ databaseBuilder, organizationId, configOrg
   const divisions = ['1ere A', '2nde B', 'Terminale C'];
   if (configOrganization && configOrganization.learnerCount > 0) {
     for (let index = 0; index < configOrganization.learnerCount; index++) {
+      const userId = databaseBuilder.factory.buildUser.withRawPassword({
+        firstName: `first-name${index}`,
+        lastName: `last-name${index}`,
+        email: `learneremail${organizationId}_${index}@example.net`,
+        cgu: true,
+        lastTermsOfServiceValidatedAt: new Date(),
+        mustValidateTermsOfService: false,
+        hasSeenAssessmentInstructions: true,
+        shouldChangePassword: false,
+      }).id;
       databaseBuilder.factory.buildOrganizationLearner({
         firstName: `first-name${index}`,
         lastName: `last-name${index}`,
@@ -132,6 +142,7 @@ function _buildOrganizationLearners({ databaseBuilder, organizationId, configOrg
         createdAt: new Date(),
         updatedAt: new Date(),
         organizationId,
+        userId,
       });
     }
   }
