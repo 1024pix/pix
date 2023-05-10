@@ -3,7 +3,8 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment');
-const { AssessmentEndedError } = require("../../../../lib/domain/errors");
+const { AssessmentEndedError } = require('../../../../lib/domain/errors');
+const config = require('../../../../lib/config');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
   describe('#get-next-challenge-for-campaign-assessment', function () {
@@ -29,7 +30,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       pickChallengeService = { pickChallenge: sinon.stub() };
     });
 
-    describe('when no assessment method is defined', () => {
+    describe('when no assessment method is defined', function () {
       it('should use smart-random algorithm', async function () {
         // given
         const smartRandomStub = {
@@ -56,40 +57,55 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
         // then
         expect(smartRandomStub.getPossibleSkillsForNextChallenge).to.have.been.called;
       });
-    })
+    });
 
     describe('when assessment method is flash', function () {
-      const firstSkill = domainBuilder.buildSkill({ id: 'First' });
-      const secondSkill = domainBuilder.buildSkill({ id: 'Second' });
-      const firstChallenge = domainBuilder.buildChallenge({
-        id: '1234',
-        difficulty: -5,
-        discriminant: -5,
-        skill: firstSkill,
-      });
-      const secondChallenge = domainBuilder.buildChallenge({
-        id: '5678',
-        difficulty: -5,
-        discriminant: -5,
-        skill: secondSkill,
-      });
-      const answerForFirstChallenge = domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: '1234' })
-      const locale = 'fr-fr';
+      let firstSkill;
+      let secondSkill;
+      let firstChallenge;
+      let secondChallenge;
+      let answerForFirstChallenge;
+      let locale;
 
-      // given
-      beforeEach(function() {
+      beforeEach(function () {
+        firstSkill = domainBuilder.buildSkill({ id: 'First' });
+        secondSkill = domainBuilder.buildSkill({ id: 'Second' });
+        firstChallenge = domainBuilder.buildChallenge({
+          id: '1234',
+          difficulty: -5,
+          discriminant: -5,
+          skill: firstSkill,
+        });
+        secondChallenge = domainBuilder.buildChallenge({
+          id: '5678',
+          difficulty: -5,
+          discriminant: -5,
+          skill: secondSkill,
+        });
+        answerForFirstChallenge = domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: '1234' });
+        locale = 'fr-fr';
         assessment.method = 'FLASH';
-      })
+      });
 
-      describe('when there are remaining challenges', function() {
+      describe('when there are remaining challenges', function () {
         it('should return the best next challenges', async function () {
           // given
           const dataFetcherStub = {
-            fetchForFlashCampaigns: sinon.stub().resolves({
+            fetchForFlashCampaigns: sinon.stub(),
+          };
+
+          dataFetcherStub.fetchForFlashCampaigns
+            .withArgs({
+              assessmentId: assessment.id,
+              answerRepository,
+              challengeRepository,
+              flashAssessmentResultRepository,
+              locale,
+            })
+            .resolves({
               allAnswers: [answerForFirstChallenge],
               challenges: [firstChallenge, secondChallenge],
-            }),
-          };
+            });
 
           // when
           const bestChallenge = await getNextChallengeForCampaignAssessment({
@@ -99,24 +115,33 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             pickChallengeService,
             assessment,
             locale,
-            flash,
             dataFetcher: dataFetcherStub,
           });
 
           // then
-          expect(bestChallenge).to.deep.equal(unansweredChallenge);
+          expect(bestChallenge).to.deep.equal(secondChallenge);
         });
       });
 
-      describe('when there is no challenge left', function() {
+      describe('when there is no challenge left', function () {
         it('should throw an AssessmentEndedError()', async function () {
           // given
           const dataFetcherStub = {
-            fetchForFlashCampaigns: sinon.stub().resolves({
+            fetchForFlashCampaigns: sinon.stub(),
+          };
+
+          dataFetcherStub.fetchForFlashCampaigns
+            .withArgs({
+              assessmentId: assessment.id,
+              answerRepository,
+              challengeRepository,
+              flashAssessmentResultRepository,
+              locale,
+            })
+            .resolves({
               allAnswers: [answerForFirstChallenge],
               challenges: [firstChallenge],
-            }),
-          };
+            });
 
           // when
           const getNextChallengePromise = getNextChallengeForCampaignAssessment({
@@ -126,12 +151,58 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             pickChallengeService,
             assessment,
             locale,
-            flash,
             dataFetcher: dataFetcherStub,
           });
 
           // then
-          expect(getNextChallengePromise).to.be.rejectedWith(new AssessmentEndedError());
+          return expect(getNextChallengePromise).to.be.rejectedWith(AssessmentEndedError);
+        });
+      });
+
+      describe('when the challenges to be asked number has been reached', function () {
+        let numberOfChallengesForFlashMethod;
+
+        beforeEach(function () {
+          numberOfChallengesForFlashMethod = config.features.numberOfChallengesForFlashMethod;
+          config.features.numberOfChallengesForFlashMethod = 1;
+        });
+
+        afterEach(function () {
+          config.features.numberOfChallengesForFlashMethod = numberOfChallengesForFlashMethod;
+        });
+
+        it('should throw an AssessmentEndedError()', async function () {
+          // given
+          const dataFetcherStub = {
+            fetchForFlashCampaigns: sinon.stub(),
+          };
+
+          dataFetcherStub.fetchForFlashCampaigns
+            .withArgs({
+              assessmentId: assessment.id,
+              answerRepository,
+              challengeRepository,
+              flashAssessmentResultRepository,
+              locale,
+            })
+            .resolves({
+              allAnswers: [answerForFirstChallenge],
+              challenges: [firstChallenge, secondChallenge],
+            });
+
+          // when
+          const getNextChallengePromise = getNextChallengeForCampaignAssessment({
+            challengeRepository,
+            answerRepository,
+            flashAssessmentResultRepository,
+            pickChallengeService,
+            assessment,
+            locale,
+            dataFetcher: dataFetcherStub,
+          });
+
+          // then
+          return expect(getNextChallengePromise).to.be.rejectedWith(AssessmentEndedError);
         });
       });
     });
