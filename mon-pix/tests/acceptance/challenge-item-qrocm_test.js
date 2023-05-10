@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-restricted-imports
-import { click, find, findAll, currentURL, fillIn, triggerEvent, visit } from '@ember/test-helpers';
+import { click, find, findAll, currentURL, fillIn, triggerEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   setupApplicationTest(hooks);
@@ -81,7 +81,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       test('should not be able to validate with the initial option', async function (assert) {
         // given
         server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
-        await visitScreen(`/assessments/${assessment.id}/challenges/0`);
+        await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // when
         await click(find('.challenge-actions__action-validate'));
@@ -94,7 +94,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       test('should not be able to validate the empty option', async function (assert) {
         // given
         server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
-        const screen = await visitScreen(`/assessments/${assessment.id}/challenges/0`);
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // when
         await clickByName('saladAriaLabel');
@@ -109,7 +109,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       test('should validate an option and redirect to next page', async function (assert) {
         // given
         server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
-        const screen = await visitScreen(`/assessments/${assessment.id}/challenges/0`);
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // when
         await clickByName('saladAriaLabel');
@@ -166,7 +166,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         });
 
         // when
-        const screen = await visitScreen(`/assessments/${assessment.id}/challenges/0`);
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // then
         assert.strictEqual(screen.getByLabelText('saladAriaLabel').innerText, 'mango');
