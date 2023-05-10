@@ -18,8 +18,20 @@ export default class CandidateInList extends Component {
   @service intl;
   @service featureToggles;
 
+  get isConfirmButtonToBeDisplayed() {
+    return (
+      !this.args.candidate.hasStarted &&
+      !this.args.candidate.hasCompleted &&
+      this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled
+    );
+  }
+
   get isCheckboxToBeDisplayed() {
-    return !this.args.candidate.hasStarted && !this.args.candidate.hasCompleted;
+    return (
+      !this.args.candidate.hasStarted &&
+      !this.args.candidate.hasCompleted &&
+      !this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled
+    );
   }
 
   get optionsMenuShouldBeDisplayed() {
@@ -31,6 +43,35 @@ export default class CandidateInList extends Component {
       this.args.candidate.complementaryCertification &&
       this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled
     );
+  }
+
+  get authorizationButtonLabel() {
+    const confirm = this.intl.t('pages.session-supervising.candidate-in-list.actions.confirm.label');
+    const cancel = this.intl.t('pages.session-supervising.candidate-in-list.actions.cancel-confirmation.label');
+
+    return this.args.candidate.authorizedToStart ? cancel : confirm;
+  }
+
+  get authorizationButtonAriaLabel() {
+    const candidateName = `${this.args.candidate.firstName} ${this.args.candidate.lastName}`;
+    const confirmAriaLabel = this.intl.t(
+      'pages.session-supervising.candidate-in-list.actions.confirm.extra-information',
+      {
+        candidate: candidateName,
+      }
+    );
+    const cancelAriaLabel = this.intl.t(
+      'pages.session-supervising.candidate-in-list.actions.cancel-confirmation.extra-information',
+      {
+        candidate: candidateName,
+      }
+    );
+
+    return this.args.candidate.authorizedToStart ? cancelAriaLabel : confirmAriaLabel;
+  }
+
+  get authorizationButtonBackgroundColor() {
+    return this.args.candidate.authorizedToStart ? 'transparent-dark' : 'blue';
   }
 
   @action
