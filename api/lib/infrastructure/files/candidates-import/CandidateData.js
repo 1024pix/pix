@@ -30,7 +30,7 @@ class CandidateData {
     userId = null,
     organizationLearnerId = null,
     number = null,
-    complementaryCertifications = null,
+    complementaryCertification = null,
     billingMode = null,
     prepaymentCode = null,
     i18n = null,
@@ -60,17 +60,17 @@ class CandidateData {
     this.organizationLearnerId = this._emptyStringIfNull(organizationLearnerId);
     this.billingMode = CertificationCandidate.translateBillingMode({ billingMode, translate: this.translate });
     this.prepaymentCode = this._emptyStringIfNull(prepaymentCode);
-    this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, CLEA);
+    this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(complementaryCertification, CLEA);
     this.pixPlusDroit = this._displayYesIfCandidateHasComplementaryCertification(
-      complementaryCertifications,
+      complementaryCertification,
       PIX_PLUS_DROIT
     );
     this.pixPlusEdu1erDegre = this._displayYesIfCandidateHasComplementaryCertification(
-      complementaryCertifications,
+      complementaryCertification,
       PIX_PLUS_EDU_1ER_DEGRE
     );
     this.pixPlusEdu2ndDegre = this._displayYesIfCandidateHasComplementaryCertification(
-      complementaryCertifications,
+      complementaryCertification,
       PIX_PLUS_EDU_2ND_DEGRE
     );
     this.count = number;
@@ -96,13 +96,11 @@ class CandidateData {
     }
   }
 
-  _displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, certificationKey) {
-    if (!complementaryCertifications) {
+  _displayYesIfCandidateHasComplementaryCertification(complementaryCertification, certificationKey) {
+    if (!complementaryCertification) {
       return '';
     }
-    const hasComplementaryCertification = complementaryCertifications.some(
-      (complementaryCertification) => complementaryCertification.key === certificationKey
-    );
+    const hasComplementaryCertification = complementaryCertification.key === certificationKey;
     return hasComplementaryCertification ? this.translate('candidate-list-template.yes') : '';
   }
 
