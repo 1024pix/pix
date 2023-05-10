@@ -45,9 +45,9 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       beforeEach(function () {
         const dbf = databaseBuilder.factory;
         sessionId = dbf.buildSession().id;
-        manyAsrCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
         startedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
         otherStartedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'DDD' });
+        manyAsrCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
 
         const manyAsrAssessmentId = dbf.buildAssessment({ certificationCourseId: manyAsrCertification.id }).id;
         dbf.buildAssessment({ certificationCourseId: startedCertification.id });
