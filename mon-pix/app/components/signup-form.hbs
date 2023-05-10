@@ -79,7 +79,7 @@
       </div>
 
       <div class="signup-form__cgu-container">
-        <p class="signup-form__cgu-label">
+        <PixCheckbox {{on "change" this.onChange}} aria-describedby="sign-up-cgu-error-message">
           {{t "common.cgu.accept"}}
           <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
             {{t "common.cgu.cgu"}}
@@ -89,14 +89,6 @@
             {{t "common.cgu.data-protection-policy"}}
           </a>
           {{t "common.cgu.pix"}}
-        </p>
-        <PixCheckbox
-          @id="checkbox"
-          @screenReaderOnly="true"
-          {{on "change" this.onChange}}
-          aria-describedby="sign-up-cgu-error-message"
-        >
-          {{t "common.cgu.label"}}
         </PixCheckbox>
       </div>
       <p class="sign-form__validation-error" aria-live="polite" role="alert" id="sign-up-cgu-error-message">
