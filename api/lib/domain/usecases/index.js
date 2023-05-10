@@ -174,7 +174,7 @@ import * as userRepository from '../../infrastructure/repositories/user-reposito
 import * as userService from '../../domain/services/user-service.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
-import * as participantResultsSharedRepository from '../../infrastructure/repositories/participant-results-shared-repository.js';
+import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 import * as organizationInvitationService from '../services/organization-invitation-service.js';
