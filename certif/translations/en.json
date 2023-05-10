@@ -294,6 +294,16 @@
     },
     "session-supervising": {
       "candidate-in-list": {
+        "actions": {
+          "cancel-confirmation": {
+            "extra-information": "Cancel the confirmation of attendance of the student {candidate}",
+            "label":"Cancel the confirmation"
+          },
+          "confirm": {
+            "extra-information": "Confirm the attendance of the student {candidate}",
+            "label":"Confirm the attendance"
+          }
+        },
         "candidate-options": "Candidate's options",
         "complementary-certification-enrolment": "{complementaryCertification} enrolment",
         "display-candidate-options": "Display the candidate's options",
@@ -319,7 +329,7 @@
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidate} other {candidates}} selected",
         "clear-field": "Clear the field",
-        "indicate-candidates-attendance": "Check off each candidate present in the room to allow them to start their Pix certification exam.",
+        "indicate-candidates-attendance": "Please confirm the attendance of each candidate to allow them to start their certification exam.",
         "no-candidate": "No candidate enrolled in this session",
         "search-candidate": "Search for a candidate"
       },

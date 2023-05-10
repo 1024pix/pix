@@ -41,6 +41,151 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       // then
       assert.dom(screen.getByText('Inscription à Super Certification Complémentaire')).exists();
     });
+
+    test('it renders the candidates information with a confirmation button', async function (assert) {
+      // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
+      }
+      this.owner.register('service:featureToggles', FeatureTogglesStub);
+      this.candidate = store.createRecord('certification-candidate-for-supervising', {
+        id: 123,
+        firstName: 'Gamora',
+        lastName: 'Zen Whoberi Ben Titan',
+        birthdate: '1984-05-28',
+        extraTimePercentage: '8',
+        authorizedToStart: false,
+        assessmentStatus: null,
+        complementaryCertification: null,
+      });
+
+      // when
+      const screen = await renderScreen(hbs`
+      <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+    `);
+
+      // then
+      assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
+      assert.dom(screen.getByText('28/05/1984 · Temps majoré : 8 %')).exists();
+      assert
+        .dom(
+          screen.queryByRole('button', {
+            name: "Annuler la confirmation de présence de l'élève Gamora Zen Whoberi Ben Titan",
+          })
+        )
+        .doesNotExist();
+      assert
+        .dom(screen.getByRole('button', { name: "Confirmer la présence de l'élève Gamora Zen Whoberi Ben Titan" }))
+        .exists();
+    });
+
+    module('when the candidate is authorized to start', function () {
+      test('it renders the cancel confirmation button', async function (assert) {
+        // given
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: 456,
+          firstName: 'Star',
+          lastName: 'Lord',
+          birthdate: '1983-06-28',
+          extraTimePercentage: '12',
+          authorizedToStart: true,
+          assessmentStatus: null,
+        });
+
+        // when
+        const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+      `);
+
+        // then
+        assert.dom(screen.getByText('Lord Star')).exists();
+        assert.dom(screen.getByText('28/06/1983 · Temps majoré : 12 %')).exists();
+        assert
+          .dom(screen.getByRole('button', { name: "Annuler la confirmation de présence de l'élève Star Lord" }))
+          .exists();
+        assert.dom(screen.queryByRole('button', { name: "Confirmer la présence de l'élève Star Lord" })).doesNotExist();
+      });
+    });
+
+    module('when the confirmation button is clicked', function () {
+      module('when the candidate is already authorized', function () {
+        test('it calls the argument callback with candidate and false', async function (assert) {
+          // given
+          class FeatureTogglesStub extends Service {
+            featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
+          }
+          this.owner.register('service:featureToggles', FeatureTogglesStub);
+          this.candidate = store.createRecord('certification-candidate-for-supervising', {
+            id: 123,
+            firstName: 'Toto',
+            lastName: 'Tutu',
+            birthdate: '1984-05-28',
+            extraTimePercentage: '8',
+            authorizedToStart: true,
+            assessmentResult: null,
+          });
+          this.toggleCandidate = sinon.spy();
+
+          const screen = await renderScreen(hbs`
+          <SessionSupervising::CandidateInList
+            @candidate={{this.candidate}}
+            @toggleCandidate={{this.toggleCandidate}}
+          />`);
+
+          const cancelButton = screen.getByRole('button', {
+            name: "Annuler la confirmation de présence de l'élève Toto Tutu",
+          });
+
+          // when
+          await click(cancelButton);
+
+          // then
+          sinon.assert.calledOnceWithExactly(this.toggleCandidate, this.candidate);
+          assert.ok(true);
+        });
+      });
+
+      module('when the candidate is not authorized', function () {
+        test('it calls the argument callback with candidate', async function (assert) {
+          // given
+          class FeatureTogglesStub extends Service {
+            featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
+          }
+          this.owner.register('service:featureToggles', FeatureTogglesStub);
+          this.candidate = store.createRecord('certification-candidate-for-supervising', {
+            id: 123,
+            firstName: 'Toto',
+            lastName: 'Tutu',
+            birthdate: '1984-05-28',
+            extraTimePercentage: '8',
+            authorizedToStart: false,
+            assessmentResult: null,
+          });
+          this.toggleCandidate = sinon.spy();
+
+          const screen = await renderScreen(hbs`
+          <SessionSupervising::CandidateInList
+            @candidate={{this.candidate}}
+            @toggleCandidate={{this.toggleCandidate}}
+          />
+        `);
+          const confirmationButton = screen.getByRole('button', {
+            name: "Confirmer la présence de l'élève Toto Tutu",
+          });
+
+          // when
+          await click(confirmationButton);
+
+          // then
+          sinon.assert.calledOnceWithExactly(this.toggleCandidate, this.candidate);
+          assert.ok(true);
+        });
+      });
+    });
   });
 
   test('it renders the candidates information with an unchecked checkbox', async function (assert) {
@@ -65,7 +210,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
     assert.dom(screen.getByText('28/05/1984 · Temps majoré : 8 %')).exists();
     assert.dom(screen.queryByText('Inscription à Super Certification Complémentaire')).doesNotExist();
-    assert.dom(screen.getByRole('checkbox', { name: 'Zen Whoberi Ben Titan Gamora' })).isNotChecked();
+    assert
+      .dom(screen.getByRole('checkbox', { name: "Confirmer la présence de l'élève Gamora Zen Whoberi Ben Titan" }))
+      .isNotChecked();
   });
 
   module('when the candidate is authorized to start', function () {
@@ -89,7 +236,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       // then
       assert.dom(screen.getByText('Lord Star')).exists();
       assert.dom(screen.getByText('28/06/1983 · Temps majoré : 12 %')).exists();
-      assert.dom(screen.getByRole('checkbox', { name: 'Lord Star' })).isChecked();
+      assert
+        .dom(screen.getByRole('checkbox', { name: "Annuler la confirmation de présence de l'élève Star Lord" }))
+        .isChecked();
     });
 
     test('it does not display neither "en cours" label nor the options menu button', async function (assert) {
