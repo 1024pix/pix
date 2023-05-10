@@ -33,7 +33,7 @@ import * as skillRepository from '../../infrastructure/repositories/skill-reposi
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as userRepository from '../../infrastructure/repositories/user-repository.js';
-import * as participantResultsSharedRepository from '../../infrastructure/repositories/participant-results-shared-repository.js';
+import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as finalizedSessionRepository from '../../infrastructure/repositories/sessions/finalized-session-repository.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
