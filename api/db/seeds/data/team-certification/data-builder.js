@@ -28,8 +28,8 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   _createScoCertificationCenter({ databaseBuilder });
   _createProOrganization({ databaseBuilder });
   _createProCertificationCenter({ databaseBuilder });
-
   await databaseBuilder.commit();
+  await _createScoSession({ databaseBuilder });
 }
 
 module.exports = {
@@ -161,6 +161,27 @@ function _createProOrganization({ databaseBuilder }) {
     adminUserId: PRO_ORGANIZATION_USER_ID,
     configOrganization: {
       learnerCount: 8,
+    },
+  });
+}
+
+async function _createScoSession({ databaseBuilder }) {
+  await tooling.session.createDraftScoSession({
+    databaseBuilder,
+    sessionId: TEAM_CERTIFICATION_OFFSET_ID,
+    organizationId: SCO_MANAGING_STUDENTS_ORGANIZATION_ID,
+    accessCode: 'SCOS12',
+    address: '1 rue Certification sco',
+    certificationCenter: 'Centre de certification sco managing students',
+    certificationCenterId: SCO_CERTIFICATION_CENTER_ID,
+    date: new Date(),
+    description: 'une description',
+    examiner: 'Un super examinateur',
+    room: '42',
+    time: '12:00',
+    createdAt: new Date(),
+    configSession: {
+      learnersToRegisterCount: 8,
     },
   });
 }
