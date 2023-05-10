@@ -10,6 +10,10 @@
     width: calc(100% - 32px);
   }
 
+  &__confirm-button {
+    margin-top: $pix-spacing-s;
+  }
+
   &__details {
     color: $pix-neutral-22;
     font-size: 0.75rem;

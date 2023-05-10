@@ -294,6 +294,16 @@
     },
     "session-supervising": {
       "candidate-in-list": {
+        "actions": {
+          "cancel-confirmation": {
+            "extra-information": "Annuler la confirmation de présence de l'élève {candidate}",
+            "label":"Annuler la confirmation"
+          },
+          "confirm": {
+            "extra-information": "Confirmer la présence de l'élève {candidate}",
+            "label":"Confirmer la présence"
+          }
+        },
         "candidate-options": "Options du candidat",
         "complementary-certification-enrolment": "Inscription à {complementaryCertification}",
         "display-candidate-options": "Afficher les options du candidat",
@@ -319,7 +329,7 @@
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}",
         "clear-field": "Vider le champ",
-        "indicate-candidates-attendance": "Cochez chaque candidat présent dans la salle de test pour l'autoriser à commencer son test de certification.",
+        "indicate-candidates-attendance": "Confirmez la présence de chaque candidat pour l'autoriser à commencer son test de certification.",
         "no-candidate": "Aucun candidat inscrit à cette session",
         "search-candidate": "Rechercher un candidat"
       },
