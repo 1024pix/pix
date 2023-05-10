@@ -191,7 +191,6 @@ const codeUtils = require('../../infrastructure/utils/code-utils.js');
 const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils.js');
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils.js');
 const sessionXmlService = require('../../domain/services/session-xml-service.js');
-const flash = require('../../domain/services/algorithm-methods/flash.js');
 const dataFetcher = require('../../domain/services/algorithm-methods/data-fetcher.js');
 
 function requirePoleEmploiNotifier() {
@@ -289,7 +288,6 @@ const dependencies = {
   encryptionService,
   flashAssessmentResultRepository,
   flashAlgorithmService,
-  flash,
   frameworkRepository,
   getCompetenceLevel,
   sessionForSupervisorKitRepository,
