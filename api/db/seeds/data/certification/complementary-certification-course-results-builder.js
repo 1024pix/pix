@@ -7,13 +7,16 @@ const {
 const { PIX_DROIT_MAITRE_BADGE_ID } = require('../badges-builder');
 const { CERTIF_DROIT_USER5_ID } = require('./users');
 const {
-  CLEA_COMPLEMENTARY_CERTIFICATION_ID,
-  PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-  PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_CLEA_V3_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
 } = require('./certification-centers-builder');
+
+const {
+  CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+} = require('../common/common-builder');
 const { participateToAssessmentCampaign } = require('../campaign-participations-builder');
 const { TARGET_PROFILE_PIX_DROIT_ID } = require('../target-profiles-builder');
 const { SUP_STUDENT_ASSOCIATED_ID, SUP_UNIVERSITY_ID } = require('../organizations-sup-builder');
