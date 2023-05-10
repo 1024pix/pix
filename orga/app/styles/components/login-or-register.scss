@@ -1,10 +1,17 @@
 .login-or-register {
   margin: 20px 0;
 
+  &__language-switcher {
+    @include device-is('mobile') {
+      margin-left: 22px;
+    }
+  }
+
   &__panel {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin-bottom: 16px;
     border-radius: 10px;
     align-items: center;
     padding: 20px 2px;
