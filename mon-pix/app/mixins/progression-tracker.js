@@ -1,7 +1,6 @@
 /* eslint ember/require-computed-property-dependencies: 0 */
 
-import { set } from '@ember/object';
-import EmberObject, { computed } from '@ember/object';
+import EmberObject, { computed, set } from '@ember/object';
 import Mixin from '@ember/object/mixin';
 
 const STEPS = {
