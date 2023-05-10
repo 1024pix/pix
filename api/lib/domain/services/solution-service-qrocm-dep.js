@@ -41,7 +41,7 @@ function formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
 }
 
 function getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments) {
-  return getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments).filter(({ status }) => status === 'ok')
+  return getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments).filter(({ validated }) => validated)
     .length;
 }
 
