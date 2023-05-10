@@ -4,4 +4,9 @@ export default class UserAccountLanguageRoute extends Route {
   model() {
     return this.modelFor('authenticated.user-account');
   }
+
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    controller.showLanguageUpdatedMessage = false;
+  }
 }
