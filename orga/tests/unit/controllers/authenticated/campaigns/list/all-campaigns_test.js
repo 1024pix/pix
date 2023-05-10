@@ -15,34 +15,6 @@ module('Unit | Controller | authenticated/campaigns/list/all-campaigns', functio
     controller = this.owner.lookup('controller:authenticated/campaigns/list/all-campaigns');
   });
 
-  module('#get isArchived', function () {
-    module('when status is archived', function () {
-      test('it should returns true', function (assert) {
-        // given
-        controller.status = 'archived';
-
-        // when
-        const isArchived = controller.isArchived;
-
-        // then
-        assert.true(isArchived);
-      });
-    });
-
-    module('when status is not archived', function () {
-      test('it should returns false', function (assert) {
-        // given
-        controller.status = null;
-
-        // when
-        const isArchived = controller.isArchived;
-
-        // then
-        assert.false(isArchived);
-      });
-    });
-  });
-
   module('#action goToCampaignPage', function () {
     test('it should call transitionToRoute with appropriate arguments', function (assert) {
       // given
@@ -100,38 +72,6 @@ module('Unit | Controller | authenticated/campaigns/list/all-campaigns', functio
 
         // then
         assert.strictEqual(controller.someField, undefined);
-      });
-    });
-  });
-
-  module('#get isClearFiltersButtonDisabled', function () {
-    module('when status is not archived', function () {
-      test('it should returns true', function (assert) {
-        // given
-        controller.status = null;
-        controller.name = '';
-        controller.ownerName = '';
-
-        // when
-        const isClearFiltersButtonDisabled = controller.isClearFiltersButtonDisabled;
-
-        // then
-        assert.true(isClearFiltersButtonDisabled);
-      });
-    });
-
-    module('when filters are not empty', function () {
-      test('it should returns false', function (assert) {
-        // given
-        controller.status = 'archived';
-        controller.name = 'Some';
-        controller.ownerName = '';
-
-        // when
-        const isClearFiltersButtonDisabled = controller.isClearFiltersButtonDisabled;
-
-        // then
-        assert.false(isClearFiltersButtonDisabled);
       });
     });
   });

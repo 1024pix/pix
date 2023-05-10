@@ -1,9 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { clickByName, render, fillByLabel } from '@1024pix/ember-testing-library';
-import { click } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
-import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Campaign::Results::AssessmentList', function (hooks) {
@@ -14,6 +12,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
     this.set('noop', sinon.stub());
+    this.set('groups', []);
+    this.set('badges', []);
+    this.set('stages', []);
+    this.set('divisions', []);
   });
 
   test('it should display a link to access to result page', async function (assert) {
@@ -39,6 +41,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
 />`
     );
 
@@ -77,6 +83,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
 />`
       );
 
@@ -108,6 +118,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
 />`
       );
 
@@ -139,6 +153,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
 />`
       );
 
@@ -169,6 +187,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @campaign={{this.campaign}}
   @participations={{this.participations}}
   @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
 />`
       );
 
@@ -198,6 +220,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
 />`
       );
 
@@ -228,44 +254,15 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
 />`
       );
 
       // then
       assert.contains('Résultats Thématiques');
-    });
-
-    test('it filters the participations when a thematic results is selected', async function (assert) {
-      // given
-      const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
-      const campaign = store.createRecord('campaign', {
-        type: 'ASSESSMENT',
-        targetProfileThematicResultCount: 1,
-        badges: [badge],
-      });
-
-      const participations = [{ firstName: 'John', lastName: 'Doe', masteryRate: 0.6, isShared: true }];
-      participations.meta = { rowCount: 1 };
-      const triggerFiltering = sinon.stub();
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('triggerFiltering', triggerFiltering);
-
-      // when
-      const screen = await render(
-        hbs`<Campaign::Results::AssessmentList
-  @campaign={{this.campaign}}
-  @participations={{this.participations}}
-  @onClickParticipant={{this.noop}}
-  @onFilter={{this.triggerFiltering}}
-/>`
-      );
-
-      await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.badges')));
-      await click(await screen.findByRole('checkbox', { name: 'Les bases' }));
-
-      // then
-      assert.ok(triggerFiltering.calledWith('badges', ['badge1']));
     });
   });
 
@@ -291,136 +288,16 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
 />`
       );
 
       // then
       assert.notContains('60%');
       assert.dom('.pix-stars').exists();
-    });
-  });
-
-  module('when user works for a SCO organization which manages students', function () {
-    class CurrentUserStub extends Service {
-      isSCOManagingStudents = true;
-    }
-
-    test('it filter the participations when a division is selected', async function (assert) {
-      this.owner.register('service:current-user', CurrentUserStub);
-
-      // given
-      const division = store.createRecord('division', {
-        id: 'd1',
-        name: 'd1',
-      });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-      });
-      campaign.set('divisions', [division]);
-
-      const participations = [{ firstName: 'John', lastName: 'Doe', masteryRate: 0.6 }];
-      participations.meta = { rowCount: 1 };
-      const triggerFiltering = sinon.stub();
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('triggerFiltering', triggerFiltering);
-
-      // when
-      const screen = await render(
-        hbs`<Campaign::Results::AssessmentList
-  @campaign={{this.campaign}}
-  @participations={{this.participations}}
-  @onClickParticipant={{this.noop}}
-  @onFilter={{this.triggerFiltering}}
-/>`
-      );
-
-      await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.divisions.placeholder')));
-      await click(await screen.findByRole('checkbox', { name: 'd1' }));
-
-      // then
-      assert.ok(triggerFiltering.calledWith('divisions', ['d1']));
-    });
-  });
-
-  module('when user reset current filters', function () {
-    class CurrentUserStub extends Service {
-      isSCOManagingStudents = true;
-    }
-
-    test('it calls the onResetFilter callback', async function (assert) {
-      this.owner.register('service:current-user', CurrentUserStub);
-
-      // given
-      const division = store.createRecord('division', {
-        id: 'd1',
-        name: 'd1',
-      });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-      });
-      campaign.set('divisions', [division]);
-
-      const participations = [{ firstName: 'John', lastName: 'Doe', masteryRate: 0.6 }];
-      participations.meta = { rowCount: 1 };
-      const resetFilters = sinon.stub();
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('resetFilters', resetFilters);
-
-      // when
-      await render(
-        hbs`<Campaign::Results::AssessmentList
-  @campaign={{this.campaign}}
-  @participations={{this.participations}}
-  @onClickParticipant={{this.noop}}
-  @onFilter={{this.noop}}
-  @onResetFilter={{this.resetFilters}}
-/>`
-      );
-      await clickByName('Effacer les filtres');
-
-      // then
-      assert.ok(resetFilters.called);
-    });
-  });
-
-  module('when user set a search filter', function () {
-    test('that in the fullname search input we will have the value that we put', async function (assert) {
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-      });
-      this.set('campaign', campaign);
-      this.set('searchFilter', 'chichi');
-      const screen = await render(
-        hbs`<Campaign::Results::AssessmentList
-  @campaign={{this.campaign}}
-  @searchFilter={{this.searchFilter}}
-  @onFilter={{this.noop}}
-/>`
-      );
-
-      // then
-      assert.dom(screen.getByLabelText('Recherche sur le nom et prénom')).hasValue('chichi');
-    });
-
-    test('that while filling the search input we will trigger the filtering', async function (assert) {
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-      });
-      const triggerFiltering = sinon.stub();
-      this.set('campaign', campaign);
-      this.set('triggerFiltering', triggerFiltering);
-      await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
-      );
-      await fillByLabel('Recherche sur le nom et prénom', 'Chichi');
-      // then
-      assert.ok(triggerFiltering.calledWith('search', 'Chichi'));
     });
   });
 });

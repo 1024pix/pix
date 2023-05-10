@@ -6,6 +6,17 @@ export default class ParticipationFilters extends Component {
   @service intl;
   @service currentUser;
 
+  get isClearFiltersButtonDisabled() {
+    return (
+      !this.args.selectedStatus &&
+      (!this.displaySearchFilter || !this.args.searchFilter) &&
+      (!this.displayDivisionFilter || this.args.selectedDivisions.length === 0) &&
+      (!this.displayGroupsFilter || this.args.selectedGroups.length === 0) &&
+      (!this.displayStagesFilter || this.args.selectedStages.length === 0) &&
+      (!this.displayBadgesFilter || this.args.selectedBadges.length === 0)
+    );
+  }
+
   get displayFilters() {
     return (
       this.displayStagesFilter ||

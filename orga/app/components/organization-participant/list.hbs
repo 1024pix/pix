@@ -1,28 +1,11 @@
-<PixFilterBanner
-  @title={{t "pages.organization-participants.filters.title"}}
-  class="participant-filter-banner hide-on-mobile"
-  aria-label={{t "pages.organization-participants.filters.aria-label"}}
-  @details={{t "pages.organization-participants.filters.participations-count" count=@participants.meta.rowCount}}
-  @clearFiltersLabel={{t "pages.organization-participants.filters.actions.clear"}}
-  @onClearFilters={{@onResetFilter}}
->
-  <Ui::SearchInputFilter
-    @field="fullName"
-    @value={{@fullName}}
-    @placeholder={{t "pages.organization-participants.filters.type.fullName.placeholder"}}
-    @ariaLabel={{t "pages.organization-participants.filters.type.fullName.title"}}
-    @triggerFiltering={{@triggerFiltering}}
-  />
-  <Ui::MultiSelectFilter
-    @field="certificability"
-    @title={{t "pages.organization-participants.filters.type.certificability.label"}}
-    @onSelect={{@triggerFiltering}}
-    @selectedOption={{@certificabilityFilter}}
-    @options={{@certificabilityOptions}}
-    @placeholder={{t "pages.organization-participants.filters.type.certificability.placeholder"}}
-    @emptyMessage=""
-  />
-</PixFilterBanner>
+<OrganizationParticipant::LearnerFilters
+  @learnersCount={{@participants.meta.rowCount}}
+  @fullName={{@fullName}}
+  @certificabilityFilter={{@certificabilityFilter}}
+  @triggerFiltering={{@triggerFiltering}}
+  @onResetFilter={{@onResetFilter}}
+/>
+
 <div class="panel">
   <table class="table content-text content-text--small">
     <caption class="screen-reader-only">{{t "pages.organization-participants.table.description"}}</caption>
