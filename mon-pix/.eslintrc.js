@@ -25,6 +25,7 @@ module.exports = {
   },
   rules: {
     'no-console': 'error',
+    'no-duplicate-imports': 'error',
     'no-restricted-imports': [
       'error',
       'lodash',
