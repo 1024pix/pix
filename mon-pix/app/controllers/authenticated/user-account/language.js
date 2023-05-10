@@ -1,13 +1,14 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 
 export default class UserAccountPersonalInformationController extends Controller {
   @service currentUser;
-  @service dayjs;
-  @service intl;
   @service currentDomain;
   @service locale;
+
+  @tracked shouldDisplayLanguageUpdatedMessage = false;
 
   @action
   async onLanguageChange(language) {
@@ -15,6 +16,11 @@ export default class UserAccountPersonalInformationController extends Controller
       await this.currentUser.user.save({ adapterOptions: { lang: language } });
 
       this.locale.setLocale(language);
+      this._displayLanguageUpdatedMessage();
     }
+  }
+
+  _displayLanguageUpdatedMessage() {
+    this.shouldDisplayLanguageUpdatedMessage = true;
   }
 }

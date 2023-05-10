@@ -1572,7 +1572,8 @@
       },
       "language": {
         "lang": "Language",
-        "menu-link-title": "Language"
+        "menu-link-title": "Choose my language",
+        "update-successful": "Your language has been updated!"
       },
       "personal-information": {
         "first-name": "First name",

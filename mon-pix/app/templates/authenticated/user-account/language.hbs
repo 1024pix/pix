@@ -4,4 +4,10 @@
     @selectedLanguage={{@model.lang}}
     @onLanguageChange={{this.onLanguageChange}}
   />
+
+  {{#if this.shouldDisplayLanguageUpdatedMessage}}
+    <PixMessage @type="success" @withIcon={{true}}>
+      {{t "pages.user-account.language.update-successful"}}
+    </PixMessage>
+  {{/if}}
 </div>
