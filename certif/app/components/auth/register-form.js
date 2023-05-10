@@ -41,10 +41,12 @@ class SignupFormValidation {
 }
 
 export default class RegisterForm extends Component {
+  @service currentDomain;
   @service intl;
-  @service url;
-  @service store;
+  @service locale;
   @service session;
+  @service store;
+  @service url;
 
   @tracked isLoading = false;
   @tracked firstName = null;
@@ -53,6 +55,7 @@ export default class RegisterForm extends Component {
   @tracked password = null;
   @tracked cguValidationMessage = null;
   @tracked errorMessage = null;
+  @tracked selectedLanguage = this.intl.primaryLocale;
   @tracked validation = new SignupFormValidation();
 
   get cguUrl() {
@@ -78,6 +81,7 @@ export default class RegisterForm extends Component {
       lastName: this.lastName,
       firstName: this.firstName,
       email: this.email,
+      lang: this.selectedLanguage,
       password: this.password,
       cgu: true,
     });
