@@ -1,5 +1,4 @@
 import { CertificationCandidateSubscription } from '../read-models/CertificationCandidateSubscription.js';
-import _ from 'lodash';
 
 const getCertificationCandidateSubscription = async function ({
   certificationCandidateId,
@@ -7,11 +6,11 @@ const getCertificationCandidateSubscription = async function ({
   certificationCandidateRepository,
   certificationCenterRepository,
 }) {
-  const certificationCandidate = await certificationCandidateRepository.getWithComplementaryCertifications(
+  const certificationCandidate = await certificationCandidateRepository.getWithComplementaryCertification(
     certificationCandidateId
   );
 
-  if (_.isEmpty(certificationCandidate.complementaryCertifications)) {
+  if (!certificationCandidate.complementaryCertification) {
     return new CertificationCandidateSubscription({
       id: certificationCandidateId,
       sessionId: certificationCandidate.sessionId,
@@ -28,20 +27,18 @@ const getCertificationCandidateSubscription = async function ({
     userId: certificationCandidate.userId,
   });
 
-  certificationCandidate.complementaryCertifications.forEach((registeredComplementaryCertification) => {
-    if (!certificationCenter.isHabilitated(registeredComplementaryCertification.key)) {
-      return;
-    }
+  if (certificationCenter.isHabilitated(certificationCandidate.complementaryCertification.key)) {
     const isSubscriptionEligible = certifiableBadgeAcquisitions.some(
-      ({ complementaryCertificationKey }) => complementaryCertificationKey === registeredComplementaryCertification.key
+      ({ complementaryCertificationKey }) =>
+        complementaryCertificationKey === certificationCandidate.complementaryCertification.key
     );
 
     if (isSubscriptionEligible) {
-      eligibleSubscriptions.push(registeredComplementaryCertification);
+      eligibleSubscriptions.push(certificationCandidate.complementaryCertification);
     } else {
-      nonEligibleSubscriptions.push(registeredComplementaryCertification);
+      nonEligibleSubscriptions.push(certificationCandidate.complementaryCertification);
     }
-  });
+  }
 
   return new CertificationCandidateSubscription({
     id: certificationCandidateId,
