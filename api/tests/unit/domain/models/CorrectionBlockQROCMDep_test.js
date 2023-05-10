@@ -76,6 +76,18 @@ describe('Unit | Domain | Models | CorrectionBlockQROCMDep', function () {
       }).to.throw();
     });
 
+    it('should throw if contains undefined', function () {
+      expect(() => {
+        correctionBlock.alternativeSolutions = ['not-array', undefined];
+      }).to.throw();
+    });
+
+    it('should throw if contains null', function () {
+      expect(() => {
+        correctionBlock.alternativeSolutions = ['not-array', null];
+      }).to.throw();
+    });
+
     it('should copy array in alternativeSolutions if is an array of strings', function () {
       correctionBlock.alternativeSolutions = ['azeaze'];
       expect(correctionBlock.alternativeSolutions).to.have.length(1);
