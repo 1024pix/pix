@@ -453,5 +453,6 @@ const configuration = (function () {
   return config;
 })();
 
+/////// test
 module.exports = configuration;
 /* eslint-enable node/no-process-env*/
