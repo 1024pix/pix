@@ -2,6 +2,8 @@ const _ = require('lodash');
 const learningContent = require('./learning-content');
 const generic = require('./generic');
 
+let verifCodeCount = 0;
+
 module.exports = {
   createSession,
   createDraftScoSession,
@@ -250,8 +252,18 @@ async function createPublishedScoSession({
     juryCommentedAt,
     supervisorPassword,
   });
+  databaseBuilder.factory.buildFinalizedSession({
+    sessionId,
+    isPublishable: true,
+    certificationCenterName: certificationCenter,
+    finalizedAt,
+    date,
+    time,
+    publishedAt,
+    assignedCertificationOfficerName: 'Mariah Carey',
+  });
 
-  const organizationLearners = await _registerOrganizationLearnersToSession({
+  const certificationCandidates = await _registerOrganizationLearnersToSession({
     databaseBuilder,
     sessionId,
     organizationId,
@@ -259,7 +271,8 @@ async function createPublishedScoSession({
     configSession,
   });
 
-  await _makeLearnersCertifiable(databaseBuilder, organizationLearners);
+  const profileData = await _makeCandidatesCertifiable(databaseBuilder, certificationCandidates);
+  await _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, profileData);
 
   return { sessionId };
 }
@@ -271,6 +284,7 @@ async function _registerOrganizationLearnersToSession({
   hasJoinSession,
   configSession,
 }) {
+  const certificationCandidates = [];
   if (configSession && configSession.learnersToRegisterCount > 0) {
     const extraTimePercentages = [null, 0.3, 0.5];
     const organizationLearners = await databaseBuilder
@@ -279,31 +293,31 @@ async function _registerOrganizationLearnersToSession({
       .limit(configSession.learnersToRegisterCount);
 
     organizationLearners.forEach((organizationLearner, index) => {
-      databaseBuilder.factory.buildCertificationCandidate({
-        firstName: organizationLearner.firstName,
-        lastName: organizationLearner.lastName,
-        sex: organizationLearner.sex,
-        birthPostalCode: null,
-        birthCityCode: null,
-        birthINSEECode: '75115',
-        birthCity: 'PARIS 15',
-        birthCountry: 'France',
-        email: `${organizationLearner.firstName}-${organizationLearner.lastName}@example.net`,
-        birthdate: '2000-01-04',
-        sessionId,
-        createdAt: new Date(),
-        extraTimePercentage: extraTimePercentages[index % extraTimePercentages.length],
-        userId: hasJoinSession ? organizationLearner.userId : null,
-        organizationLearnerId: organizationLearner.id,
-        authorizedToStart: false,
-        billingMode: null,
-        prepaymentCode: null,
-      });
+      certificationCandidates.push(
+        databaseBuilder.factory.buildCertificationCandidate({
+          firstName: organizationLearner.firstName,
+          lastName: organizationLearner.lastName,
+          sex: organizationLearner.sex,
+          birthPostalCode: null,
+          birthCityCode: null,
+          birthINSEECode: '75115',
+          birthCity: 'PARIS 15',
+          birthCountry: 'France',
+          email: `${organizationLearner.firstName}-${organizationLearner.lastName}@example.net`,
+          birthdate: '2000-01-04',
+          sessionId,
+          createdAt: new Date(),
+          extraTimePercentage: extraTimePercentages[index % extraTimePercentages.length],
+          userId: hasJoinSession ? organizationLearner.userId : null,
+          organizationLearnerId: organizationLearner.id,
+          authorizedToStart: false,
+          billingMode: null,
+          prepaymentCode: null,
+        }),
+      );
     });
-
-    return organizationLearners;
   }
-  return [];
+  return certificationCandidates;
 }
 
 function _buildSession({
@@ -358,24 +372,30 @@ function _buildSession({
   });
 }
 
-async function _makeLearnersCertifiable(databaseBuilder, organizationLearners) {
+async function _makeCandidatesCertifiable(databaseBuilder, certificationCandidates) {
+  const profileData = {};
   const pixCompetences = await learningContent.getCoreCompetences();
   const fiveCompetences = generic.pickRandomAmong(pixCompetences, 5);
-  const assessmentAndUserIds = organizationLearners.map((organizationLearner) => {
+  const assessmentAndUserIds = certificationCandidates.map((certificationCandidate) => {
     const assessmentId = databaseBuilder.factory.buildAssessment({
-      userId: organizationLearner.userId,
+      userId: certificationCandidate.userId,
       type: 'COMPETENCE_EVALUATION',
     }).id;
-    return { assessmentId, userId: organizationLearner.userId };
+    return { assessmentId, userId: certificationCandidate.userId };
   });
   for (const competence of fiveCompetences) {
+    profileData[competence.id] = { threeMostDifficultSkillsAndChallenges: [], pixScore: 0, competence };
     const skills = await learningContent.findActiveSkillsByCompetenceId(competence.id);
-    const orderedSkills = _.sortBy(skills, 'difficulty');
-    let currentSum = 0,
-      i = 0;
-    while (currentSum < 8) {
+    const orderedSkills = _.sortBy(skills, 'level');
+    let i = 0;
+    while (
+      orderedSkills[i] &&
+      (profileData[competence.id].pixScore < 8 ||
+        profileData[competence.id].threeMostDifficultSkillsAndChallenges.length < 3)
+    ) {
       const skill = orderedSkills[i];
       const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
+      profileData[competence.id].threeMostDifficultSkillsAndChallenges.push({ challenge, skill });
       assessmentAndUserIds.forEach(({ assessmentId, userId }) => {
         const answerId = databaseBuilder.factory.buildAnswer({
           value: 'dummy value',
@@ -399,8 +419,108 @@ async function _makeLearnersCertifiable(databaseBuilder, organizationLearners) {
           competenceId: skill.competenceId,
         });
       });
-      currentSum += skill.pixValue;
+      profileData[competence.id].pixScore += skill.pixValue;
       ++i;
+      if (profileData[competence.id].threeMostDifficultSkillsAndChallenges.length > 3)
+        profileData[competence.id].threeMostDifficultSkillsAndChallenges.splice(-3);
+    }
+    profileData[competence.id].pixScore = Math.ceil(profileData[competence.id].pixScore);
+  }
+
+  return profileData;
+}
+
+function _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, profileData) {
+  for (const certificationCandidate of certificationCandidates) {
+    const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+      userId: certificationCandidate.userId,
+      sessionId: certificationCandidate.sessionId,
+      firstName: certificationCandidate.firstName,
+      lastName: certificationCandidate.lastName,
+      birthdate: certificationCandidate.birthdate,
+      birthPostalCode: certificationCandidate.birthPostalCode,
+      birthINSEECode: certificationCandidate.birthINSEECode,
+      birthCountry: certificationCandidate.birthCountry,
+      sex: certificationCandidate.sex,
+      birthplace: certificationCandidate.birthCity,
+      externalId: certificationCandidate.externalId,
+      isV2Certification: true,
+      hasSeenEndTestScreen: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      completedAt: new Date(),
+      isPublished: true,
+      verificationCode: `P-${verifCodeCount}`.padEnd(10, 'A'),
+      maxReachableLevelOnCertificationDate: 6,
+      isCancelled: false,
+      abortReason: null,
+      cpfFilename: null,
+      cpfImportStatus: null,
+      pixCertificationStatus: 'validated',
+    }).id;
+    verifCodeCount++;
+    const assessmentId = databaseBuilder.factory.buildAssessment({
+      certificationCourseId,
+      userId: certificationCandidate.userId,
+      type: 'CERTIFICATION',
+      state: 'completed',
+    }).id;
+    let assessmentResultPixScore = 0;
+    for (const competenceData of Object.values(profileData)) {
+      assessmentResultPixScore += competenceData.pixScore;
+    }
+    const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+      pixScore: assessmentResultPixScore,
+      reproducibilityRate: 100,
+      status: 'validated',
+      emitter: 'PIX-ALGO',
+      commentForJury: '',
+      commentForCandidate: '',
+      commentForOrganization: '',
+      juryId: null,
+      assessmentId,
+      createdAt: new Date(),
+      certificationCourseId,
+    }).id;
+    databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+      certificationCourseId,
+      lastAssessmentResultId: assessmentResultId,
+    });
+
+    for (const competenceData of Object.values(profileData)) {
+      databaseBuilder.factory.buildCompetenceMark({
+        level: 1,
+        score: competenceData.pixScore,
+        area_code: `${competenceData.competence.index[0]}`,
+        competence_code: `${competenceData.competence.index}`,
+        competenceId: competenceData.competence.id,
+        assessmentResultId,
+        createdAt: new Date(),
+      });
+      for (const { challenge, skill } of competenceData.threeMostDifficultSkillsAndChallenges) {
+        databaseBuilder.factory.buildCertificationChallenge({
+          associatedSkillName: skill.name,
+          associatedSkillId: skill.id,
+          challengeId: challenge.id,
+          competenceId: skill.competenceId,
+          courseId: certificationCourseId,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          isNeutralized: false,
+          hasBeenSkippedAutomatically: false,
+          certifiableBadgeKey: null,
+        });
+        databaseBuilder.factory.buildAnswer({
+          value: 'dummy value',
+          result: 'ok',
+          assessmentId,
+          challengeId: challenge.id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          timeout: null,
+          resultDetails: 'dummy value',
+        });
+      }
     }
   }
 }
