@@ -42,7 +42,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               'assessment-status': Assessment.states.STARTED,
               'start-date-time': new Date('2022-10-01T13:37:00Z'),
               'theorical-end-date-time': new Date('2022-10-01T16:01:00Z'),
-              'enrolled-complementary-certification': 'Super Certification Complémentaire',
+              'enrolled-complementary-certification-label': 'Super Certification Complémentaire',
               'is-still-eligible-to-complementary-certification': true,
               'user-id': 6789,
             },
@@ -73,9 +73,13 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
             assessmentStatus: Assessment.states.STARTED,
             startDateTime: new Date('2022-10-01T13:37:00Z'),
             theoricalEndDateTime: new Date('2022-10-01T16:01:00Z'),
-            enrolledComplementaryCertification: 'Super Certification Complémentaire',
+            enrolledComplementaryCertification: domainBuilder.buildComplementaryCertificationForSupervising({
+              key: 'aKey',
+              label: 'Super Certification Complémentaire',
+            }),
             stillValidBadgeAcquisitions: [
               domainBuilder.buildCertifiableBadgeAcquisition({
+                complementaryCertificationKey: 'aKey',
                 complementaryCertificationBadgeLabel: 'Super Certification Complémentaire',
               }),
             ],

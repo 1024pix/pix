@@ -13,7 +13,6 @@ class CertificationCandidateForSupervising {
     startDateTime,
     theoricalEndDateTime,
     enrolledComplementaryCertification,
-    enrolledComplementaryCertificationSessionExtraTime,
     stillValidBadgeAcquisitions = [],
   } = {}) {
     this.id = id;
@@ -27,7 +26,6 @@ class CertificationCandidateForSupervising {
     this.startDateTime = startDateTime;
     this.theoricalEndDateTime = theoricalEndDateTime;
     this.enrolledComplementaryCertification = enrolledComplementaryCertification;
-    this.enrolledComplementaryCertificationSessionExtraTime = enrolledComplementaryCertificationSessionExtraTime;
     this.stillValidBadgeAcquisitions = stillValidBadgeAcquisitions;
   }
 
@@ -38,7 +36,7 @@ class CertificationCandidateForSupervising {
   get isStillEligibleToComplementaryCertification() {
     return this.stillValidBadgeAcquisitions.some(
       (stillValidBadgeAcquisition) =>
-        stillValidBadgeAcquisition.complementaryCertificationBadgeLabel === this.enrolledComplementaryCertification
+        stillValidBadgeAcquisition.complementaryCertificationKey === this.enrolledComplementaryCertification.key
     );
   }
 }
