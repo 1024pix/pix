@@ -46,7 +46,7 @@ export default class QrocmDepSolutionPanel extends Component {
       return this.args.solutionToDisplay;
     }
     const answersCount = this._inputCount;
-    const solutions = jsyaml.safeLoad(this.args.solution);
+    const solutions = jsyaml.load(this.args.solution);
     const solutionsKeys = Object.keys(solutions);
 
     const expectedAnswers = solutionsKeys.slice(0, answersCount).map((key) => {

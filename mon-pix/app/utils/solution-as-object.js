@@ -12,7 +12,7 @@ function transformSolutionsToString(solutionsAsObject) {
 }
 
 export default function solutionAsObject(yamlSolution) {
-  let solutionsAsObject = jsyaml.safeLoad(yamlSolution);
+  let solutionsAsObject = jsyaml.load(yamlSolution);
   solutionsAsObject = transformSolutionsToString(solutionsAsObject);
   return solutionsAsObject;
 }

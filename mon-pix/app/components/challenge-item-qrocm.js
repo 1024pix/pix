@@ -45,7 +45,7 @@ export default class ChallengeItemQrocm extends ChallengeItemGeneric {
   }
 
   _getAnswerValue() {
-    return jsyaml.safeDump(this.answersValue);
+    return jsyaml.dump(this.answersValue);
   }
 
   _getErrorMessage() {

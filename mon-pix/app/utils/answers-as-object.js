@@ -7,5 +7,5 @@ export default function answersAsObject(answer, inputKeys) {
       return answersObject;
     }, {});
   }
-  return jsyaml.safeLoad(answer);
+  return jsyaml.load(answer);
 }
