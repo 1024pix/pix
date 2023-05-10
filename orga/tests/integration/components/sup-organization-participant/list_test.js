@@ -25,15 +25,21 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   test('it should display the header labels', async function (assert) {
     // given
     this.set('students', []);
-    this.set('groups', []);
+    this.set('certificabilityFilter', []);
+    this.set('groupFilter', []);
+    this.set('searchFilter', null);
+    this.set('studentNumberFilter', null);
 
     // when
     const screen = await render(
       hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
-  @groups={{this.groups}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
 />`
     );
 
@@ -53,15 +59,21 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       { lastName: "L'asticot", firstName: 'Gogo', birthdate: new Date('2010-05-10') },
     ];
     this.set('students', students);
-    this.set('groups', []);
+    this.set('certificabilityFilter', []);
+    this.set('groupFilter', []);
+    this.set('searchFilter', null);
+    this.set('studentNumberFilter', null);
 
     // when
     await render(
       hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
-  @groups={{this.groups}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
 />`
     );
 
@@ -87,15 +99,21 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       },
     ];
     this.set('students', students);
-    this.set('groups', []);
+    this.set('certificabilityFilter', []);
+    this.set('groupFilter', []);
+    this.set('searchFilter', null);
+    this.set('studentNumberFilter', null);
 
     // when
     const screen = await render(
       hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
-  @groups={{this.groups}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
 />`
     );
     // then
@@ -118,14 +136,21 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     this.set('students', students);
     this.set('groups', []);
+    this.set('certificabilityFilter', []);
+    this.set('groupFilter', []);
+    this.set('searchFilter', null);
+    this.set('studentNumberFilter', null);
 
     // when
     await render(
       hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
-  @groups={{this.groups}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
 />`
     );
 
@@ -151,10 +176,22 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     ];
 
     this.set('students', students);
+    this.set('certificabilityFilter', []);
+    this.set('groupFilter', []);
+    this.set('searchFilter', null);
+    this.set('studentNumberFilter', null);
 
     // when
     await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
+      hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
     );
 
     // then
@@ -176,10 +213,22 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     ];
 
     this.set('students', students);
+    this.set('certificabilityFilter', []);
+    this.set('groupFilter', []);
+    this.set('searchFilter', null);
+    this.set('studentNumberFilter', null);
 
     // when
     await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
+      hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
     );
 
     // then
@@ -200,10 +249,22 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     ];
 
     this.set('students', students);
+    this.set('certificabilityFilter', []);
+    this.set('groupFilter', []);
+    this.set('searchFilter', null);
+    this.set('studentNumberFilter', null);
 
     // when
     await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
+      hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
     );
 
     // then
@@ -221,17 +282,22 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     ];
 
     this.set('students', students);
-
-    this.triggerFiltering = sinon.spy();
     this.set('groups', []);
+    this.set('certificabilityFilter', []);
+    this.set('groupFilter', []);
+    this.set('searchFilter', null);
+    this.set('studentNumberFilter', null);
 
     // when
     const screen = await render(
       hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
-  @onFilter={{this.triggerFiltering}}
-  @groups={{this.groups}}
+  @onFilter={{this.noop}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
 />`
     );
 
@@ -251,12 +317,21 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
 
+      // when
       await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.triggerFiltering}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
 />`
       );
 
@@ -273,14 +348,21 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
       this.set('groups', []);
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
 
       // when
       await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.triggerFiltering}}
-  @groups={{this.groups}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
 />`
       );
 
@@ -295,18 +377,29 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
+      this.set('groups', []);
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
 
       // when
-      const { getByPlaceholderText, findByRole } = await render(hbs`<SupOrganizationParticipant::List
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.triggerFiltering}}
-  @groups={{this.groups}}
   @onClickLearner={{this.noop}}
-/>`);
-      const select = await getByPlaceholderText('Rechercher par groupe');
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
+      );
+
+      const select = await screen.getByPlaceholderText('Rechercher par groupe');
       await click(select);
 
-      await findByRole('menu');
+      await screen.findByRole('menu');
 
       await clickByName('L1');
 
@@ -320,22 +413,29 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
-      this.set('certificability', []);
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
 
-      const { getByLabelText, findByRole } = await render(
+      // when
+      const screen = await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.triggerFiltering}}
-  @certificability={{this.certificability}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
 />`
       );
 
       // when
-      const select = await getByLabelText('Rechercher par certificabilité');
+      const select = await screen.getByLabelText('Rechercher par certificabilité');
       await click(select);
 
-      await findByRole('menu');
+      await screen.findByRole('menu');
 
       await clickByName('Certifiable');
 
@@ -353,12 +453,21 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       const sortByParticipationCount = sinon.spy();
 
       this.set('sortByParticipationCount', sortByParticipationCount);
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
 
+      // when
       const screen = await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
 />`
@@ -384,11 +493,20 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       this.set('sortByParticipationCount', sortByParticipationCount);
 
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+
       const screen = await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
 />`
@@ -413,11 +531,20 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       this.set('sortByParticipationCount', sortByParticipationCount);
 
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+
       const screen = await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
 />`
@@ -444,11 +571,20 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       this.set('sortByLastname', sortByLastname);
 
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+
       const screen = await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
   @lastnameSort={{this.lastnameSort}}
   @sortByLastname={{this.sortByLastname}}
 />`
@@ -474,11 +610,20 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       this.set('sortByLastname', sortByLastname);
 
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+
       const screen = await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
   @lastnameSort={{this.lastnameSort}}
   @sortByLastname={{this.sortByLastname}}
 />`
@@ -504,11 +649,20 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       this.set('sortByLastname', sortByLastname);
 
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+
       const screen = await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
   @lastnameSort={{this.lastnameSort}}
   @sortByLastname={{this.sortByLastname}}
 />`
@@ -531,14 +685,22 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       const students = [];
       students.meta = { participantCount: 1 };
       this.set('students', students);
-      this.set('groups', []);
+
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+
       // when
       await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
-  @groups={{this.groups}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
 />`
       );
 
@@ -553,14 +715,22 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       const students = [];
       students.meta = { participantCount: 0 };
       this.set('students', students);
-      this.set('groups', []);
+
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+
       // when
       await render(
         hbs`<SupOrganizationParticipant::List
   @students={{this.students}}
   @onFilter={{this.noop}}
-  @groups={{this.groups}}
   @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
 />`
       );
 

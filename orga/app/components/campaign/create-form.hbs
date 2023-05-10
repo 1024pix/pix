@@ -56,19 +56,21 @@
     <div class="form__field-with-info">
       <PixRadioButton
         name="campaign-goal"
-        @label={{t "pages.campaign-creation.purpose.assessment"}}
         @value="assess-participants"
         {{on "change" this.setCampaignGoal}}
         aria-describedby="campaign-goal-assessment-info"
-      />
+      >
+        {{t "pages.campaign-creation.purpose.assessment"}}
+      </PixRadioButton>
 
       <PixRadioButton
         name="campaign-goal"
-        @label={{t "pages.campaign-creation.purpose.profiles-collection"}}
         @value="collect-participants-profile"
         {{on "change" this.setCampaignGoal}}
         aria-describedby="campaign-goal-profiles-collection-info"
-      />
+      >
+        {{t "pages.campaign-creation.purpose.profiles-collection"}}
+      </PixRadioButton>
       {{#if @errors.type}}
         <div class="form__error error-message">
           {{display-campaign-errors @errors.type}}
@@ -141,19 +143,21 @@
       <div class="form__field-with-info" aria-labelledby="multiple-sendings-label" role="radiogroup">
         <PixRadioButton
           name="multiple-sendings-label"
-          @label={{t "pages.campaign-creation.no"}}
           @value="false"
           {{on "change" this.selectMultipleSendingsStatus}}
           aria-describedby="multiple-sendings-info"
-        />
+        >
+          {{t "pages.campaign-creation.no"}}
+        </PixRadioButton>
 
         <PixRadioButton
           name="multiple-sendings-label"
-          @label={{t "pages.campaign-creation.yes"}}
           @value="true"
           {{on "change" this.selectMultipleSendingsStatus}}
           aria-describedby="multiple-sendings-info"
-        />
+        >
+          {{t "pages.campaign-creation.yes"}}
+        </PixRadioButton>
 
         <div class="form__field-info" id="multiple-sendings-info">
           <span class="form__field-info-title">
@@ -171,18 +175,12 @@
       <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
       {{t "pages.campaign-creation.external-id-label.question-label"}}
     </p>
-    <PixRadioButton
-      name="external-id-label"
-      @label={{t "pages.campaign-creation.no"}}
-      @value="false"
-      {{on "change" this.doNotAskLabelIdPix}}
-    />
-    <PixRadioButton
-      name="external-id-label"
-      @label={{t "pages.campaign-creation.yes"}}
-      @value="true"
-      {{on "change" this.askLabelIdPix}}
-    />
+    <PixRadioButton name="external-id-label" @value="false" {{on "change" this.doNotAskLabelIdPix}}>
+      {{t "pages.campaign-creation.no"}}
+    </PixRadioButton>
+    <PixRadioButton name="external-id-label" @value="true" {{on "change" this.askLabelIdPix}}>
+      {{t "pages.campaign-creation.yes"}}
+    </PixRadioButton>
   </div>
 
   {{#if this.wantIdPix}}

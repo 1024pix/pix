@@ -6,6 +6,7 @@
     @details={{t "pages.campaign-results.filters.participations-count" count=@rowCount}}
     @clearFiltersLabel={{t "pages.campaign-results.filters.actions.clear"}}
     @onClearFilters={{@onResetFilter}}
+    @isClearFilterButtonDisabled={{this.isClearFiltersButtonDisabled}}
   >
     {{#if this.displayStatusFilter}}
       <PixSelect

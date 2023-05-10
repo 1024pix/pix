@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
@@ -20,12 +20,28 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
       // then
       assert.dom(screen.getByText('Aucune campagne')).exists();
+    });
+  });
+
+  module('Filter Banner', function () {
+    test('should display filter banner', async function (assert) {
+      const campaigns = [];
+      campaigns.meta = { rowCount: 0 };
+      this.set('campaigns', campaigns);
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+      );
+
+      // then
+      assert.dom(screen.getByText('Filtres')).exists();
     });
   });
 
@@ -42,7 +58,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
@@ -69,7 +85,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await renderScreen(
+      await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
@@ -98,7 +114,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
@@ -125,7 +141,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await renderScreen(
+      await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
@@ -156,7 +172,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
@@ -178,7 +194,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await renderScreen(
+      await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
@@ -200,42 +216,12 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await renderScreen(
+      await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
       // then
       assert.dom('[aria-label="Campagne"]').containsText('4');
-    });
-
-    test('it should display the placeholder of the filter by campaign field', async function (assert) {
-      // given
-      const campaigns = [];
-      campaigns.meta = { rowCount: 0 };
-      this.set('campaigns', campaigns);
-
-      // when
-      const screen = await renderScreen(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
-      );
-
-      // then
-      assert.dom(screen.getByPlaceholderText('Rechercher une campagne')).exists();
-    });
-
-    test('it should display the placeholder of the filter by owner field', async function (assert) {
-      // given
-      const campaigns = [];
-      campaigns.meta = { rowCount: 0 };
-      this.set('campaigns', campaigns);
-
-      // when
-      const screen = await renderScreen(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
-      );
-
-      // then
-      assert.dom(screen.getByPlaceholderText('Rechercher un propriétaire')).exists();
     });
 
     module('when showing current user campaign list', function () {
@@ -252,7 +238,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
         this.set('listOnlyCampaignsOfCurrentUser', true);
 
         // when
-        const screen = await renderScreen(
+        const screen = await render(
           hbs`<Campaign::List
   @campaigns={{this.campaigns}}
   @onFilter={{this.noop}}
@@ -264,66 +250,6 @@ module('Integration | Component | Campaign::List', function (hooks) {
         // then
         assert.dom(screen.queryByLabelText(this.intl.t('pages.campaigns-list.table.column.created-by'))).doesNotExist();
         assert.dom(screen.queryByLabelText('Dupont Alice')).doesNotExist();
-      });
-    });
-
-    module('clear filters button', function () {
-      test('it should be disabled when isClearFiltersButtonDisabled returns true which means that filters are empty', async function (assert) {
-        // given
-        this.set('isClearFiltersButtonDisabled', true);
-
-        const campaigns = [
-          { name: 'campagne 1', code: 'AAAAAA111', ownerFullName: 'Dupont Alice' },
-          { name: 'campagne 2', code: 'BBBBBB222', ownerFullName: 'Dupont Alice' },
-        ];
-        campaigns.meta = {
-          rowCount: 2,
-        };
-        this.set('campaigns', campaigns);
-        this.set('listOnlyCampaignsOfCurrentUser', true);
-
-        // when
-        const screen = await renderScreen(
-          hbs`<Campaign::List
-  @campaigns={{this.campaigns}}
-  @onFilter={{this.noop}}
-  @onClickCampaign={{this.noop}}
-  @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
-  @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}}
-/>`
-        );
-
-        // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasAttribute('disabled');
-      });
-
-      test('it should be enabled when isClearFiltersButtonDisabled returns false which means that one or some filters are used', async function (assert) {
-        // given
-        this.set('isClearFiltersButtonDisabled', false);
-
-        const campaigns = [
-          { name: 'campagne 1', code: 'AAAAAA111', ownerFullName: 'Dupont Alice' },
-          { name: 'campagne 2', code: 'BBBBBB222', ownerFullName: 'Dupont Alice' },
-        ];
-        campaigns.meta = {
-          rowCount: 2,
-        };
-        this.set('campaigns', campaigns);
-        this.set('listOnlyCampaignsOfCurrentUser', true);
-
-        // when
-        const screen = await renderScreen(
-          hbs`<Campaign::List
-  @campaigns={{this.campaigns}}
-  @onFilter={{this.noop}}
-  @onClickCampaign={{this.noop}}
-  @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
-  @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}}
-/>`
-        );
-
-        // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasNoAttribute('disabled');
       });
     });
   });
@@ -341,7 +267,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 
@@ -361,7 +287,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
       );
 

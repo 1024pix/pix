@@ -1,0 +1,45 @@
+<PixFilterBanner
+  @title={{t "pages.sup-organization-participants.filter.title"}}
+  class="participant-filter-banner hide-on-mobile"
+  aria-label={{t "pages.sup-organization-participants.filter.aria-label"}}
+  @details={{t "pages.sup-organization-participants.filter.students-count" count=@studentsCount}}
+  @clearFiltersLabel={{t "pages.sup-organization-participants.filter.actions.clear"}}
+  @onClearFilters={{@onResetFilter}}
+  @isClearFilterButtonDisabled={{this.isClearFiltersButtonDisabled}}
+>
+  <Ui::SearchInputFilter
+    @field="studentNumber"
+    @value={{@studentNumberFilter}}
+    @placeholder={{t "pages.sup-organization-participants.filter.student-number.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.student-number.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+  <Ui::SearchInputFilter
+    @field="search"
+    @value={{@searchFilter}}
+    @placeholder={{t "pages.sup-organization-participants.filter.search.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.search.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+  <Ui::MultiSelectFilter
+    @field="groups"
+    @title={{t "pages.sup-organization-participants.table.column.group"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@groupsFilter}}
+    @isLoading={{@isLoadingGroups}}
+    @options={{@groupsOptions}}
+    @placeholder={{t "pages.sup-organization-participants.filter.group.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.group.aria-label"}}
+    @emptyMessage={{t "pages.sup-organization-participants.filter.group.empty"}}
+  />
+
+  <Ui::MultiSelectFilter
+    @field="certificability"
+    @title={{t "pages.sup-organization-participants.filter.certificability.label"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@certificabilityFilter}}
+    @options={{this.certificabilityOptions}}
+    @placeholder={{t "pages.sup-organization-participants.filter.certificability.placeholder"}}
+    @emptyMessage=""
+  />
+</PixFilterBanner>

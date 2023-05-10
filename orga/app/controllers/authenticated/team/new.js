@@ -32,7 +32,7 @@ export default class NewController extends Controller {
         emails.length > 1
           ? this.intl.t('pages.team-new.success.multiple-invitations')
           : this.intl.t('pages.team-new.success.invitation', { email: emails[0] });
-      this.notifications.success(message);
+      this.notifications.sendSuccess(message);
     } catch (error) {
       this._handleResponseError(error);
     }
