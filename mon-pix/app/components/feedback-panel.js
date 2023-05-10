@@ -170,7 +170,6 @@ export default class FeedbackPanel extends Component {
     this.quickHelpInstructions = null;
     this._currentMajorCategory = null;
     this.displayTextBox = false;
-    this.tutorialContent = null;
     this.displayQuestionDropdown = false;
   }
 
