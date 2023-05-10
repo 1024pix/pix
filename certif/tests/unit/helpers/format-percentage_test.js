@@ -15,13 +15,13 @@ module('Unit | Helpers | format-percentage', function () {
 
   test('it renders a percentage when value is above 1', function (assert) {
     // given
-    const value = 33;
+    const value = 1.5;
 
     // when
     const result = formatPercentage([value]);
 
     // then
-    assert.strictEqual(result, '33 %');
+    assert.strictEqual(result, '150 %');
   });
 
   test('it renders a percentage symbol', function (assert) {
