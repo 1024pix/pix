@@ -1,13 +1,9 @@
-// eslint-disable-next-line no-restricted-imports
-import { click, fillIn, find } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import setupIntl from '../helpers/setup-intl';
-
-const TEXTAREA = '.feedback-panel__field--content';
-const DROPDOWN = '.pix-select-button';
 
 module('Acceptance | Giving feedback about a challenge', function (hooks) {
   setupApplicationTest(hooks);
@@ -44,7 +40,8 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
 
       test('should open the feedback form', function (assert) {
         // then
-        assert.dom('.feedback-panel__form').exists();
+        assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).hasAttribute('aria-expanded', 'true');
+        assert.dom(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' })).exists();
       });
 
       module('and the form is filled but not sent', function (hooks) {
@@ -65,12 +62,17 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
 
         module('and the challenge is skipped', function (hooks) {
           hooks.beforeEach(async function () {
-            await click('.challenge-actions__action-skip');
+            await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
           });
 
           test('should not display the feedback form', function (assert) {
             // then
-            assert.dom('.feedback-panel__form').doesNotExist();
+            assert
+              .dom(screen.getByRole('button', { name: 'Signaler un problème' }))
+              .hasAttribute('aria-expanded', 'false');
+            assert
+              .dom(screen.queryByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }))
+              .doesNotExist();
           });
 
           test('should always reset the feedback form between two consecutive challenges', async function (assert) {
@@ -96,25 +98,33 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
   });
 
   module('From the comparison modal at the end of the test', function (hooks) {
+    let screen;
     hooks.beforeEach(async function () {
       server.create('answer', 'skipped', { assessment, challenge: firstChallenge });
-      await visit(`/assessments/${assessment.id}/checkpoint`);
+      screen = await visit(`/assessments/${assessment.id}/checkpoint`);
     });
     test('should not display the feedback form', async function (assert) {
       // when
-      await click('.result-item__correction-button');
+      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      await screen.findByRole('dialog');
 
       // then
-      assert.dom('.feedback-panel__form').doesNotExist();
+      assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).hasAttribute('aria-expanded', 'false');
+      assert
+        .dom(screen.queryByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }))
+        .doesNotExist();
     });
 
     test('should be able to give feedback', async function (assert) {
       // when
-      await click('.result-item__correction-button');
-      await click('.feedback-panel__open-button');
+      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      await screen.findByRole('dialog');
+
+      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
       // then
-      assert.dom('.feedback-panel__form').exists();
+      assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).hasAttribute('aria-expanded', 'true');
+      assert.dom(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' })).exists();
     });
   });
 });
