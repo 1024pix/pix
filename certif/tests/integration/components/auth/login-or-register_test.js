@@ -1,6 +1,8 @@
-import { module, test } from 'qunit';
-import { hbs } from 'ember-cli-htmlbars';
 import { clickByName, render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
@@ -76,5 +78,48 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
     // then
     assert.dom(screen.getByRole('textbox', { name: emailInputLabelFromRegisterForm })).exists();
+  });
+
+  module('When domain is international tld (.org)', function () {
+    test('does display the language switcher', async function (assert) {
+      class CurrentDomainServiceStub extends Service {
+        get isFranceDomain() {
+          return false;
+        }
+
+        getExtension() {
+          return 'org';
+        }
+      }
+      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
+
+      // when
+      const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif'/>`);
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Français' })).exists();
+    });
+  });
+
+  module('When domain is french tld (.fr)', function () {
+    test('does not display the language switcher', async function (assert) {
+      // given
+      class CurrentDomainServiceStub extends Service {
+        get isFranceDomain() {
+          return true;
+        }
+
+        getExtension() {
+          return 'fr';
+        }
+      }
+      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
+
+      // when
+      const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif'/>`);
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Français' })).doesNotExist();
+    });
   });
 });
