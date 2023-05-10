@@ -22,6 +22,9 @@ const PRO_CERTIFICATION_CENTER_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
 /// EXTERNAL IDS
 const CERTIFICATION_SCO_MANAGING_STUDENTS_EXTERNAL_ID = 'CERTIFICATION_SCO_MANAGING_STUDENTS_EXTERNAL_ID';
 const PRO_EXTERNAL_ID = 'PRO_EXTERNAL_ID';
+// SESSION IDS
+const SCO_DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID;
+const SCO_PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 1;
 
 async function teamCertificationDataBuilder({ databaseBuilder }) {
   _createScoOrganization({ databaseBuilder });
@@ -30,6 +33,7 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   _createProCertificationCenter({ databaseBuilder });
   await databaseBuilder.commit();
   await _createScoSession({ databaseBuilder });
+  await _createPublishedScoSession({ databaseBuilder });
 }
 
 module.exports = {
@@ -168,7 +172,7 @@ function _createProOrganization({ databaseBuilder }) {
 async function _createScoSession({ databaseBuilder }) {
   await tooling.session.createDraftScoSession({
     databaseBuilder,
-    sessionId: TEAM_CERTIFICATION_OFFSET_ID,
+    sessionId: SCO_DRAFT_SESSION_ID,
     organizationId: SCO_MANAGING_STUDENTS_ORGANIZATION_ID,
     accessCode: 'SCOS12',
     address: '1 rue Certification sco',
@@ -180,6 +184,37 @@ async function _createScoSession({ databaseBuilder }) {
     room: '42',
     time: '12:00',
     createdAt: new Date(),
+    configSession: {
+      learnersToRegisterCount: 8,
+    },
+  });
+}
+
+async function _createPublishedScoSession({ databaseBuilder }) {
+  tooling.session.createPublishedScoSession({
+    databaseBuilder,
+    sessionId: SCO_PUBLISHED_SESSION_ID,
+    organizationId: SCO_MANAGING_STUDENTS_ORGANIZATION_ID,
+    accessCode: 'SCOS34',
+    address: '1 rue Certification sco',
+    certificationCenter: 'Centre de certification sco managing students',
+    certificationCenterId: SCO_CERTIFICATION_CENTER_ID,
+    date: new Date(),
+    description: 'une description',
+    examiner: 'Un super examinateur',
+    room: '42',
+    time: '12:00',
+    examinerGlobalComment: 'Session sans pb',
+    hasIncident: false,
+    hasJoiningIssue: false,
+    createdAt: new Date(),
+    finalizedAt: new Date(),
+    resultsSentToPrescriberAt: new Date(),
+    publishedAt: new Date(),
+    assignedCertificationOfficerId: null, // créer quelqu'un
+    juryComment: '',
+    juryCommentAuthorId: null, // mettre des gens
+    juryCommentedAt: new Date(),
     configSession: {
       learnersToRegisterCount: 8,
     },

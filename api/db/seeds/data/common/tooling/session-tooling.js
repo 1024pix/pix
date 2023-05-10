@@ -1,6 +1,11 @@
+const _ = require('lodash');
+const learningContent = require('./learning-content');
+const generic = require('./generic');
+
 module.exports = {
   createSession,
   createDraftScoSession,
+  createPublishedScoSession,
 };
 
 /**
@@ -155,13 +160,117 @@ async function createDraftScoSession({
     databaseBuilder,
     sessionId,
     organizationId,
+    hasJoinSession: false,
     configSession,
   });
 
   return { sessionId };
 }
 
-async function _registerOrganizationLearnersToSession({ databaseBuilder, sessionId, organizationId, configSession }) {
+/**
+ * Fonction générique pour créer une session SCO publiée selon une configuration donnée.
+ * Retourne l'ID de la session.
+ *
+ * @param {DatabaseBuilder} databaseBuilder
+ * @param {number} sessionId
+ * @param {string} accessCode
+ * @param {string} address
+ * @param {string} certificationCenter
+ * @param {number} certificationCenterId
+ * @param {Date} date
+ * @param {string} description
+ * @param {string} examiner
+ * @param {string} room
+ * @param {string} time
+ * @param {string} examinerGlobalComment
+ * @param {boolean} hasIncident
+ * @param {boolean} hasJoiningIssue
+ * @param {Date} createdAt
+ * @param {Date} finalizedAt
+ * @param {Date} resultsSentToPrescriberAt
+ * @param {Date} publishedAt
+ * @param {number} assignedCertificationOfficerId
+ * @param {string} juryComment
+ * @param {number} juryCommentAuthorId
+ * @param {Date} juryCommentedAt
+ * @param {number} organizationId
+ * @param {string} supervisorPassword
+ * @param configSession {learnersToRegisterCount: number }
+ * @returns {{sessionId: number}} sessionId
+ */
+async function createPublishedScoSession({
+  databaseBuilder,
+  sessionId,
+  accessCode,
+  address,
+  certificationCenter,
+  certificationCenterId,
+  date,
+  description,
+  examiner,
+  room,
+  time,
+  examinerGlobalComment,
+  hasIncident,
+  hasJoiningIssue,
+  createdAt,
+  finalizedAt,
+  resultsSentToPrescriberAt,
+  publishedAt,
+  assignedCertificationOfficerId,
+  juryComment,
+  juryCommentAuthorId,
+  juryCommentedAt,
+  organizationId,
+  supervisorPassword,
+  configSession,
+}) {
+  _buildSession({
+    databaseBuilder,
+    sessionId,
+    accessCode,
+    address,
+    certificationCenter,
+    certificationCenterId,
+    date,
+    description,
+    examiner,
+    room,
+    time,
+    examinerGlobalComment,
+    hasIncident,
+    hasJoiningIssue,
+    createdAt,
+    finalizedAt,
+    resultsSentToPrescriberAt,
+    publishedAt,
+    assignedCertificationOfficerId,
+    juryComment,
+    juryCommentAuthorId,
+    juryCommentedAt,
+    supervisorPassword,
+  });
+
+  const organizationLearners = await _registerOrganizationLearnersToSession({
+    databaseBuilder,
+    sessionId,
+    organizationId,
+    hasJoinSession: true,
+    configSession,
+  });
+
+  await _makeLearnersCertifiable(databaseBuilder, organizationLearners);
+
+  return { sessionId };
+}
+
+async function _registerOrganizationLearnersToSession({
+  databaseBuilder,
+  sessionId,
+  organizationId,
+  hasJoinSession,
+  configSession,
+}) {
   if (configSession && configSession.learnersToRegisterCount > 0) {
     const extraTimePercentages = [null, 0.3, 0.5];
     const organizationLearners = await databaseBuilder
@@ -184,14 +293,17 @@ async function _registerOrganizationLearnersToSession({ databaseBuilder, session
         sessionId,
         createdAt: new Date(),
         extraTimePercentage: extraTimePercentages[index % extraTimePercentages.length],
-        userId: null,
+        userId: hasJoinSession ? organizationLearner.userId : null,
         organizationLearnerId: organizationLearner.id,
         authorizedToStart: false,
         billingMode: null,
         prepaymentCode: null,
       });
     });
+
+    return organizationLearners;
   }
+  return [];
 }
 
 function _buildSession({
@@ -244,4 +356,51 @@ function _buildSession({
     juryCommentedAt,
     supervisorPassword,
   });
+}
+
+async function _makeLearnersCertifiable(databaseBuilder, organizationLearners) {
+  const pixCompetences = await learningContent.getCoreCompetences();
+  const fiveCompetences = generic.pickRandomAmong(pixCompetences, 5);
+  const assessmentAndUserIds = organizationLearners.map((organizationLearner) => {
+    const assessmentId = databaseBuilder.factory.buildAssessment({
+      userId: organizationLearner.userId,
+      type: 'COMPETENCE_EVALUATION',
+    }).id;
+    return { assessmentId, userId: organizationLearner.userId };
+  });
+  for (const competence of fiveCompetences) {
+    const skills = await learningContent.findActiveSkillsByCompetenceId(competence.id);
+    const orderedSkills = _.sortBy(skills, 'difficulty');
+    let currentSum = 0,
+      i = 0;
+    while (currentSum < 8) {
+      const skill = orderedSkills[i];
+      const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
+      assessmentAndUserIds.forEach(({ assessmentId, userId }) => {
+        const answerId = databaseBuilder.factory.buildAnswer({
+          value: 'dummy value',
+          result: 'ok',
+          assessmentId,
+          challengeId: challenge.id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          timeout: null,
+          resultDetails: 'dummy value',
+        }).id;
+        databaseBuilder.factory.buildKnowledgeElement({
+          source: 'direct',
+          status: 'validated',
+          answerId,
+          assessmentId,
+          skillId: skill.id,
+          createdAt: new Date(),
+          earnedPix: skill.pixValue,
+          userId,
+          competenceId: skill.competenceId,
+        });
+      });
+      currentSum += skill.pixValue;
+      ++i;
+    }
+  }
 }
