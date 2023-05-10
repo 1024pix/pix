@@ -1,4 +1,4 @@
-const jsonwebtoken = require('jsonwebtoken');
+const jose = require('jose')
 const compareSnapshotCommand = require('cypress-visual-regression/dist/command');
 
 function getLoginBody(username, password) {
@@ -70,42 +70,42 @@ Cypress.Commands.add('loginAdmin', (username, password) => {
   cy.wait(['@getCurrentUser']);
 });
 
-Cypress.Commands.add('loginExternalPlatformForTheFirstTime', () => {
-  const externalUserToken = jsonwebtoken.sign(
-    {
-      first_name: 'Daenerys',
-      last_name: 'Targaryen',
-      saml_id: 'SamlIdOfDaenerys',
-      source: 'external',
-    },
-    Cypress.env('AUTH_SECRET'),
-    { expiresIn: '1h' }
-  );
+Cypress.Commands.add('loginExternalPlatformForTheFirstTime', async () => {
+  const secret = new TextEncoder().encode(Cypress.env('AUTH_SECRET'));
+  const externalUserToken = await new jose.SignJWT({
+    first_name: 'Daenerys',
+    last_name: 'Targaryen',
+    saml_id: 'SamlIdOfDaenerys',
+    source: 'external',
+  })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setExpirationTime('1h')
+        .sign(secret)
 
-  cy.visitMonPix(`/campagnes/?externalUser=${externalUserToken}`);
+  return cy.visitMonPix(`/campagnes/?externalUser=${externalUserToken}`);
 });
 
-Cypress.Commands.add('loginExternalPlatformForTheSecondTime', () => {
+Cypress.Commands.add('loginExternalPlatformForTheSecondTime', async () => {
   cy.intercept('/api/users/me').as('getCurrentUser');
-  const token = jsonwebtoken.sign(
-    {
-      user_id: 1,
-      source: 'external',
-    },
-    Cypress.env('AUTH_SECRET'),
-    { expiresIn: '1h' }
-  );
-  cy.visitMonPix(`/connexion/gar#${token}`);
-  cy.wait(['@getCurrentUser']);
+
+  const secret = new TextEncoder().encode(Cypress.env('AUTH_SECRET'));
+  const token = await new jose.SignJWT({ user_id: 1, source: 'external'})
+        .setProtectedHeader({ alg: 'HS256' })
+        .setExpirationTime('1h')
+        .sign(secret);
+  await cy.visitMonPix(`/connexion/gar#${token}`);
+  await cy.wait(['@getCurrentUser']);
 });
 
-Cypress.Commands.add('loginWithAlmostExpiredToken', () => {
+Cypress.Commands.add('loginWithAlmostExpiredToken', async () => {
   cy.intercept('/api/users/me').as('getCurrentUser');
-  const token = jsonwebtoken.sign({ user_id: 1 }, Cypress.env('AUTH_SECRET'), {
-    expiresIn: '4s',
-  });
-  cy.visitMonPix(`/connexion/gar#${token}`);
-  cy.wait(['@getCurrentUser']);
+  const secret = new TextEncoder().encode(Cypress.env('AUTH_SECRET'));
+  const token = await new jose.SignJWT({ user_id: 1 })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setExpirationTime('4s')
+        .sign(secret);
+  await cy.visitMonPix(`/connexion/gar#${token}`);
+  await cy.wait(['@getCurrentUser']);
 });
 
 Cypress.Commands.add('visitMonPix', (url) => {
