@@ -191,10 +191,6 @@ describe('Acceptance | API | Certifications candidates', function () {
         certificationCandidateId: candidate.id,
         complementaryCertificationId: cleaComplementaryCertification.id,
       });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: candidate.id,
-        complementaryCertificationId: pixPlusDroitComplementaryCertification.id,
-      });
       await databaseBuilder.commit();
 
       const options = {
@@ -219,11 +215,6 @@ describe('Acceptance | API | Certifications candidates', function () {
               id: cleaComplementaryCertification.id,
               label: 'CléA Numérique',
               key: ComplementaryCertification.CLEA,
-            },
-            {
-              id: pixPlusDroitComplementaryCertification.id,
-              label: 'Pix+ Droit',
-              key: ComplementaryCertification.PIX_PLUS_DROIT,
             },
           ],
         },

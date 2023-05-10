@@ -51,10 +51,10 @@ const saveInSession = async function ({
     const [addedCertificationCandidate] = await insertCertificationCandidateQuery;
 
     if (certificationCandidate.complementaryCertification) {
-        const complementaryCertificationSubscriptionToSave = {
-          complementaryCertificationId: certificationCandidate.complementaryCertification.id,
-          certificationCandidateId: addedCertificationCandidate.id,
-        };
+      const complementaryCertificationSubscriptionToSave = {
+        complementaryCertificationId: certificationCandidate.complementaryCertification.id,
+        certificationCandidateId: addedCertificationCandidate.id,
+      };
 
       const insertComplementaryCertificationSubscriptionQuery = knex(
         'complementary-certification-subscriptions'
@@ -96,8 +96,12 @@ const isNotLinked = async function (certificationCandidateId) {
 
 const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
   const certificationCandidate = await knex
-    .select('certification-candidates.*')
-    .select({ complementaryCertifications: knex.raw(`json_agg("complementary-certifications".*)`) })
+    .select({
+      certificationCandidate: 'certification-candidates.*',
+      complementaryCertificationId: 'complementary-certifications.id',
+      complementaryCertificationKey: 'complementary-certifications.key',
+      complementaryCertificationLabel: 'complementary-certifications.label',
+    })
     .from('certification-candidates')
     .leftJoin(
       'complementary-certification-subscriptions',
@@ -118,24 +122,24 @@ const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
 const findBySessionId = async function (sessionId) {
   const results = await knex
     .select({
-        certificationCandidate: 'certification-candidates.*',
-        complementaryCertificationId: 'complementary-certifications.id',
-        complementaryCertificationKey: 'complementary-certifications.key',
-        complementaryCertificationLabel: 'complementary-certifications.label',
-      })
-      .from('certification-candidates')
-      .where({ 'certification-candidates.sessionId': sessionId })
-      .leftJoin(
-        'complementary-certification-subscriptions',
-        'certification-candidates.id',
-        'complementary-certification-subscriptions.certificationCandidateId'
-      )
-      .leftJoin(
-        'complementary-certifications',
-        'complementary-certification-subscriptions.complementaryCertificationId',
-        'complementary-certifications.id'
-      )
-      .groupBy('certification-candidates.id', 'complementary-certifications.id')
+      certificationCandidate: 'certification-candidates.*',
+      complementaryCertificationId: 'complementary-certifications.id',
+      complementaryCertificationKey: 'complementary-certifications.key',
+      complementaryCertificationLabel: 'complementary-certifications.label',
+    })
+    .from('certification-candidates')
+    .where({ 'certification-candidates.sessionId': sessionId })
+    .leftJoin(
+      'complementary-certification-subscriptions',
+      'certification-candidates.id',
+      'complementary-certification-subscriptions.certificationCandidateId'
+    )
+    .leftJoin(
+      'complementary-certifications',
+      'complementary-certification-subscriptions.complementaryCertificationId',
+      'complementary-certifications.id'
+    )
+    .groupBy('certification-candidates.id', 'complementary-certifications.id')
     .orderByRaw('LOWER("certification-candidates"."lastName") asc')
     .orderByRaw('LOWER("certification-candidates"."firstName") asc');
   return results.map(_toDomain);
@@ -193,10 +197,14 @@ const deleteBySessionId = async function ({ sessionId, domainTransaction = Domai
   await knexConn('certification-candidates').where({ sessionId }).del();
 };
 
-const getWithComplementaryCertifications = async function (id) {
+const getWithComplementaryCertification = async function (id) {
   const candidateData = await knex('certification-candidates')
-    .select('certification-candidates.*')
-    .select({ complementaryCertifications: knex.raw('json_agg("complementary-certifications".*)') })
+    .select({
+      certificationCandidate: 'certification-candidates.*',
+      complementaryCertificationId: 'complementary-certifications.id',
+      complementaryCertificationKey: 'complementary-certifications.key',
+      complementaryCertificationLabel: 'complementary-certifications.label',
+    })
     .leftJoin(
       'complementary-certification-subscriptions',
       'complementary-certification-subscriptions.certificationCandidateId',
@@ -208,7 +216,6 @@ const getWithComplementaryCertifications = async function (id) {
       'complementary-certification-subscriptions.complementaryCertificationId'
     )
     .where('certification-candidates.id', id)
-    .groupBy('certification-candidates.id')
     .first();
   return _toDomain(candidateData);
 };
@@ -225,7 +232,7 @@ export {
   doesLinkedCertificationCandidateInSessionExist,
   update,
   deleteBySessionId,
-  getWithComplementaryCertifications,
+  getWithComplementaryCertification,
 };
 
 function _buildCertificationCandidates(results) {
