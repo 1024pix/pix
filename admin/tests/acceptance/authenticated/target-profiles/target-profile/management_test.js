@@ -85,10 +85,10 @@ module('Acceptance | Target Profile Management', function (hooks) {
       // then
       assert.dom(screen.getByRole('heading', { name: 'Profil Cible Fantastix', level: 2 })).exists();
       assert.dom(screen.getByText('Thématiques')).exists();
-      assert.dom(screen.getByText('ID : 1')).exists();
-      assert.dom(screen.getByText('Public : Oui')).exists();
-      assert.dom(screen.getByText('Obsolète : Non')).exists();
-      assert.dom(screen.getByText('Parcours Accès Simplifié : Oui')).exists();
+      assert.dom(_findByNestedText(screen, 'ID : 1')).exists();
+      assert.dom(_findByNestedText(screen, 'Public : Oui')).exists();
+      assert.dom(_findByNestedText(screen, 'Obsolète : Non')).exists();
+      assert.dom(_findByNestedText(screen, 'Parcours Accès Simplifié : Oui')).exists();
       assert.dom(screen.getByText('456')).exists();
       assert.dom(screen.getByText('Top profil cible.')).exists();
       assert.dom(screen.getByText('Commentaire Privé.')).exists();
@@ -160,7 +160,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
       await clickByName('Oui, marquer comme accès simplifié');
 
       // then
-      assert.dom(screen.getByText('Parcours Accès Simplifié : Oui')).exists();
+      assert.dom(_findByNestedText(screen, 'Parcours Accès Simplifié : Oui')).exists();
     });
 
     test('it should outdate target profile', async function (assert) {
@@ -177,7 +177,14 @@ module('Acceptance | Target Profile Management', function (hooks) {
       await clickByName('Oui, marquer comme obsolète');
 
       // then
-      assert.dom(screen.getByText('Obsolète : Oui')).exists();
+      assert.dom(_findByNestedText(screen, 'Obsolète : Oui')).exists();
     });
   });
 });
+
+// workaround https://github.com/testing-library/dom-testing-library/issues/201#issuecomment-484890360
+function _findByNestedText(screen, text) {
+  return screen.getByText((content, element) => {
+    return element.textContent === text;
+  });
+}

@@ -19,35 +19,32 @@
         <TargetProfiles::Category @category={{@model.category}} />
       </div>
       <div class="page-section__container">
-        <div class="page-section__content">
-          <div>ID : {{@model.id}}</div>
-          <div>Date de création : {{format-date @model.createdAt}}</div>
-          <div>Public : {{this.isPublic}}</div>
-          <div>Parcours Accès Simplifié : {{this.isSimplifiedAccess}}</div>
-          <div>Obsolète : {{this.isOutdated}}</div>
-          <div>Organisation de référence :
+        <ul>
+          <li><span class="bold">ID : </span>{{@model.id}}</li>
+          <li><span class="bold">Date de création : </span>{{format-date @model.createdAt}}</li>
+          <li><span class="bold">Public : </span>{{this.isPublic}}</li>
+          <li><span class="bold">Parcours Accès Simplifié : </span>{{this.isSimplifiedAccess}}</li>
+          <li><span class="bold">Obsolète : </span>{{this.isOutdated}}</li>
+          <li><span class="bold">Organisation de référence : </span>
             <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
               {{@model.ownerOrganizationId}}
             </LinkTo>
-          </div>
+          </li>
           {{#if @model.description}}
-            <div>
-              Description :
+            <li>
+              <span class="bold">Description : </span>
               <MarkdownToHtml @markdown={{@model.description}} />
-            </div>
+            </li>
           {{/if}}
           {{#if @model.comment}}
-            <div>
-              Commentaire (usage interne) :
+            <li>
+              <span class="bold">Commentaire (usage interne) : </span>
               <MarkdownToHtml @markdown={{@model.comment}} />
-            </div>
+            </li>
           {{/if}}
-        </div>
-        <div class="page-section__content">
-          <div>
-            <img src={{@model.imageUrl}} role="img" alt="Profil cible" />
-          </div>
-        </div>
+        </ul>
+
+        <img src={{@model.imageUrl}} role="img" alt="Profil cible" />
       </div>
       <div class="target-profile__actions">
         <PixButton
