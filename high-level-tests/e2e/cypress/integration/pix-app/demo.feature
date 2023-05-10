@@ -9,7 +9,7 @@ Fonctionnalité: Demo
     Lorsque je vois l'épreuve "Combien font 2 + 2 ?"
     Et je clique sur "Je passe"
     Et je vois l'épreuve "Quel mot est synonyme de « regarder » ?"
-    Et je choisis la réponse "radio_3"
+    Et je clique sur "jouer"
     Et je clique sur "Je valide"
     Et je vois l'épreuve "quel est le verbe ?"
     Et je saisis "manger" dans le champ "Réponse :"

@@ -16,10 +16,7 @@
       </div>
     </div>
     <div class="login-or-register-oidc-form__cgu-container">
-      <PixCheckbox @id="checkbox" @screenReaderOnly="true" {{on "change" this.onChange}}>
-        {{t "common.cgu.label"}}
-      </PixCheckbox>
-      <p class="login-or-register-oidc-form__cgu-label">
+      <PixCheckbox {{on "change" this.onChange}}>
         {{t "common.cgu.accept"}}
         <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
           {{t "common.cgu.cgu"}}
@@ -29,7 +26,7 @@
           {{t "common.cgu.data-protection-policy"}}
         </a>
         {{t "common.cgu.pix"}}
-      </p>
+      </PixCheckbox>
     </div>
 
     {{#if this.registerError}}
