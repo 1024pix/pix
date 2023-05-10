@@ -83,7 +83,14 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
           it("should return the session with the candidates' eligibility", async function () {
             // given
             const stillValidBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+              complementaryCertificationKey: 'aKey',
               complementaryCertificationBadgeLabel: 'une certif complémentaire',
+            });
+
+            const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
+              key: 'aKey',
+              label: 'une certif complémentaire',
+              sessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
             });
 
             const retrievedSessionForSupervising = domainBuilder.buildSessionForSupervising({
@@ -91,8 +98,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                 domainBuilder.buildCertificationCandidateForSupervising({
                   userId: 1234,
                   startDateTime: START_DATETIME_STUB,
-                  enrolledComplementaryCertification: 'une certif complémentaire',
-                  enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+                  enrolledComplementaryCertification: complementaryCertification,
                   stillValidBadgeAcquisitions: [],
                 }),
               ],
@@ -125,8 +131,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                       constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
                       COMPLEMENTARY_EXTRATIME_STUB,
                     ]),
-                    enrolledComplementaryCertification: 'une certif complémentaire',
-                    enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+                    enrolledComplementaryCertification: complementaryCertification,
                     stillValidBadgeAcquisitions: [stillValidBadgeAcquisition],
                   }),
                 ],
@@ -136,7 +141,12 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
 
           it('should compute a theorical end datetime with extratime if eligible to complementary certification extratime', async function () {
             const stillValidBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-              complementaryCertificationBadgeLabel: 'une certif complémentaire',
+              complementaryCertificationKey: 'aKey',
+            });
+
+            const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
+              key: 'aKey',
+              sessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
             });
 
             sessionForSupervisingRepository.get.resolves(
@@ -145,8 +155,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                   domainBuilder.buildCertificationCandidateForSupervising({
                     userId: 1234,
                     startDateTime: START_DATETIME_STUB,
-                    enrolledComplementaryCertification: 'une certif complémentaire',
-                    enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+                    enrolledComplementaryCertification: complementaryCertification,
                     stillValidBadgeAcquisitions: [],
                   }),
                 ],
@@ -180,13 +189,13 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
         context('when some candidates are not eligible to complementary certifications', function () {
           it("should return the session with the candidates' non eligibility", async function () {
             // given
+            const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising();
             const retrievedSessionForSupervising = domainBuilder.buildSessionForSupervising({
               certificationCandidates: [
                 domainBuilder.buildCertificationCandidateForSupervising({
                   userId: 1234,
                   startDateTime: START_DATETIME_STUB,
-                  enrolledComplementaryCertification: 'une certif complémentaire',
-                  enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+                  enrolledComplementaryCertification: complementaryCertification,
                   stillValidBadgeAcquisitions: [],
                 }),
               ],
@@ -216,8 +225,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                     theoricalEndDateTime: expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
                       constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
                     ]),
-                    enrolledComplementaryCertification: 'une certif complémentaire',
-                    enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+                    enrolledComplementaryCertification: complementaryCertification,
                     stillValidBadgeAcquisitions: [],
                   }),
                 ],
@@ -227,14 +235,19 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
 
           it('should not compute a theorical end datetime with extratime if not eligible to complementary certification extratime', async function () {
             // given
+            const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
+              key: 'aKey',
+              label: 'une certif complémentaire',
+              sessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+            });
+
             sessionForSupervisingRepository.get.resolves(
               domainBuilder.buildSessionForSupervising({
                 certificationCandidates: [
                   domainBuilder.buildCertificationCandidateForSupervising({
                     userId: 1234,
                     startDateTime: START_DATETIME_STUB,
-                    enrolledComplementaryCertification: 'une certif complémentaire',
-                    enrolledComplementaryCertificationSessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+                    enrolledComplementaryCertification: complementaryCertification,
                     stillValidBadgeAcquisitions: [],
                   }),
                 ],

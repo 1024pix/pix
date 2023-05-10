@@ -36,7 +36,7 @@ function _computeTheoricalEndDateTime(candidate) {
   startDateTime.add(constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minutes');
 
   if (candidate.isStillEligibleToComplementaryCertification()) {
-    const extraMinutes = candidate.enrolledComplementaryCertificationSessionExtraTime ?? 0;
+    const extraMinutes = candidate.enrolledComplementaryCertification.sessionExtraTime ?? 0;
     startDateTime.add(extraMinutes, 'minutes');
   }
 

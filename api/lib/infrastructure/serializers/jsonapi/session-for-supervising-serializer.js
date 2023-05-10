@@ -20,6 +20,9 @@ module.exports = {
         currentSessionForSupervising.certificationCandidates.forEach((certificationCandidate) => {
           certificationCandidate.isStillEligibleToComplementaryCertification =
             certificationCandidate.isStillEligibleToComplementaryCertification();
+
+          certificationCandidate.enrolledComplementaryCertification =
+            certificationCandidate.enrolledComplementaryCertification?.label ?? null;
         });
         return currentSessionForSupervising;
       },

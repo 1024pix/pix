@@ -178,6 +178,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
       const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         label: 'Pix+ Édu 1er degré',
         key: 'EDU_1ER_DEGRE',
+        sessionExtraTime: 45,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
@@ -192,14 +193,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
       // then
       const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-        _.pick(item, [
-          'userId',
-          'sessionId',
-          'lastName',
-          'firstName',
-          'enrolledComplementaryCertification',
-          'enrolledComplementaryCertificationSessionExtraTime',
-        ])
+        _.pick(item, ['userId', 'sessionId', 'lastName', 'firstName', 'enrolledComplementaryCertification'])
       );
 
       expect(actualCandidates).to.have.deep.ordered.members([
@@ -207,15 +201,17 @@ describe('Integration | Repository | SessionForSupervising', function () {
           userId: 11111,
           lastName: 'Jackson',
           firstName: 'Janet',
-          enrolledComplementaryCertification: 'Pix+ Édu 1er degré',
-          enrolledComplementaryCertificationSessionExtraTime: 45,
+          enrolledComplementaryCertification: {
+            key: complementaryCertification.key,
+            label: complementaryCertification.label,
+            sessionExtraTime: complementaryCertification.sessionExtraTime,
+          },
         },
         {
           userId: 22222,
           lastName: 'Joplin',
           firstName: 'Janis',
           enrolledComplementaryCertification: null,
-          enrolledComplementaryCertificationSessionExtraTime: null,
         },
       ]);
     });

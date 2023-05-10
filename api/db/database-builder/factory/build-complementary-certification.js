@@ -10,7 +10,7 @@ function buildComplementaryCertification({
   minimumEarnedPix,
   hasComplementaryReferential = false,
   hasExternalJury = false,
-  sessionExtraTime = 45,
+  sessionExtraTime = 12,
 } = {}) {
   const values = {
     id,

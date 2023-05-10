@@ -12,7 +12,6 @@ module.exports = function buildCertificationCandidateForSupervising({
   startDateTime = new Date('2022-10-01T12:00:00Z'),
   theoricalEndDateTime,
   enrolledComplementaryCertification,
-  enrolledComplementaryCertificationSessionExtraTime,
   stillValidBadgeAcquisitions = [],
 } = {}) {
   return new CertificationCandidateForSupervising({
@@ -27,7 +26,6 @@ module.exports = function buildCertificationCandidateForSupervising({
     startDateTime,
     theoricalEndDateTime,
     enrolledComplementaryCertification,
-    enrolledComplementaryCertificationSessionExtraTime,
     stillValidBadgeAcquisitions,
   });
 };
