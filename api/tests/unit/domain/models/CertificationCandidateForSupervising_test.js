@@ -23,11 +23,15 @@ describe('Unit | Domain | Models | Certification Candidate for supervising', fun
         function () {
           it('Should return true', function () {
             // given
+            const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
+              key: 'aKey',
+            });
+
             const certificationCandidateForSupervising = domainBuilder.buildCertificationCandidateForSupervising({
-              enrolledComplementaryCertification: 'Une certif complémentaire',
+              enrolledComplementaryCertification: complementaryCertification,
               stillValidBadgeAcquisitions: [
                 domainBuilder.buildCertifiableBadgeAcquisition({
-                  complementaryCertificationBadgeLabel: 'Une certif complémentaire',
+                  complementaryCertificationKey: 'aKey',
                 }),
               ],
             });
@@ -47,8 +51,9 @@ describe('Unit | Domain | Models | Certification Candidate for supervising', fun
         function () {
           it('Should return false', function () {
             // given
+            const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising();
             const certificationCandidateForSupervising = domainBuilder.buildCertificationCandidateForSupervising({
-              enrolledComplementaryCertification: 'Une certif complémentaire',
+              enrolledComplementaryCertification: complementaryCertification,
               stillValidBadgeAcquisitions: [],
             });
 

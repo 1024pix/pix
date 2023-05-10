@@ -1,5 +1,7 @@
+const bluebird = require('bluebird');
 const moment = require('moment');
-const { constants } = require('../constants');
+const { constants: domainConstants } = require('../constants');
+const { constants: infraConstants } = require('../../infrastructure/constants.js');
 
 module.exports = async function getSessionForSupervising({
   sessionId,
@@ -8,10 +10,10 @@ module.exports = async function getSessionForSupervising({
 }) {
   const sessionForSupervising = await sessionForSupervisingRepository.get(sessionId);
 
-  await Promise.all(
-    sessionForSupervising.certificationCandidates
-      .filter((candidate) => candidate.enrolledComplementaryCertification)
-      .map(_computeComplementaryCertificationEligibility(certificationBadgesService))
+  await bluebird.map(
+    sessionForSupervising.certificationCandidates,
+    _computeComplementaryCertificationEligibility(certificationBadgesService),
+    { concurrency: infraConstants.CONCURRENCY_HEAVY_OPERATIONS }
   );
 
   sessionForSupervising.certificationCandidates.forEach(_computeTheoricalEndDateTime);
@@ -21,9 +23,11 @@ module.exports = async function getSessionForSupervising({
 
 function _computeComplementaryCertificationEligibility(certificationBadgesService) {
   return async (candidate) => {
-    candidate.stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-      userId: candidate.userId,
-    });
+    if (candidate.enrolledComplementaryCertification?.key) {
+      candidate.stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+        userId: candidate.userId,
+      });
+    }
   };
 }
 
@@ -33,10 +37,10 @@ function _computeTheoricalEndDateTime(candidate) {
     return;
   }
 
-  startDateTime.add(constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minutes');
+  startDateTime.add(domainConstants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minutes');
 
   if (candidate.isStillEligibleToComplementaryCertification) {
-    const extraMinutes = candidate.enrolledComplementaryCertificationSessionExtraTime ?? 0;
+    const extraMinutes = candidate.enrolledComplementaryCertification.sessionExtraTime ?? 0;
     startDateTime.add(extraMinutes, 'minutes');
   }
 

@@ -33,7 +33,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     test('should render the enrolled complementary certification name of the candidate if he passes one', async function (assert) {
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
         id: 123,
-        enrolledComplementaryCertification: 'Super Certification Complémentaire',
+        enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
       });
 
       // when
@@ -69,7 +69,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
       // then
       assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
-      assert.dom(screen.getByText('28/05/1984 · Temps majoré : 8 %')).exists();
+      assert.dom(screen.getByText('28/05/1984')).exists();
+      assert.dom(screen.queryByText('temps majoré')).doesNotExist();
       assert
         .dom(
           screen.queryByRole('button', {
@@ -106,11 +107,42 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
         // then
         assert.dom(screen.getByText('Lord Star')).exists();
-        assert.dom(screen.getByText('28/06/1983 · Temps majoré : 12 %')).exists();
+        assert.dom(screen.getByText('28/06/1983')).exists();
         assert
           .dom(screen.getByRole('button', { name: "Annuler la confirmation de présence de l'élève Star Lord" }))
           .exists();
         assert.dom(screen.queryByRole('button', { name: "Confirmer la présence de l'élève Star Lord" })).doesNotExist();
+      });
+
+      test('it does not render the time nor extra time', async function (assert) {
+        // given
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: 456,
+          firstName: 'Star',
+          lastName: 'Lord',
+          startDateTime: new Date('2022-10-19T14:30:15Z'),
+          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          extraTimePercentage: 12,
+          authorizedToStart: true,
+          assessmentStatus: null,
+        });
+
+        // when
+        const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+      `);
+
+        // then
+        assert
+          .dom(screen.getByRole('button', { name: "Annuler la confirmation de présence de l'élève Star Lord" }))
+          .exists();
+        assert.dom(screen.queryByText('Début :')).doesNotExist();
+        assert.dom(screen.queryByText('Fin théorique :')).doesNotExist();
+        assert.dom(screen.queryByText('+ temps majoré 12 %')).doesNotExist();
       });
     });
 
@@ -152,7 +184,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         });
       });
 
-      module('when the candidate is not authorized', function () {
+      module('when the candidate is not authorized to start', function () {
         test('it calls the argument callback with candidate', async function (assert) {
           // given
           class FeatureTogglesStub extends Service {
@@ -187,6 +219,35 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           sinon.assert.calledOnceWithExactly(this.toggleCandidate, this.candidate);
           assert.ok(true);
         });
+
+        test('it does not render the time nor extra time', async function (assert) {
+          // given
+          class FeatureTogglesStub extends Service {
+            featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
+          }
+          this.owner.register('service:featureToggles', FeatureTogglesStub);
+          this.candidate = store.createRecord('certification-candidate-for-supervising', {
+            id: 456,
+            firstName: 'Toto',
+            lastName: 'Tutu',
+            startDateTime: new Date('2022-10-19T14:30:15Z'),
+            theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+            extraTimePercentage: 12,
+            authorizedToStart: false,
+            assessmentStatus: null,
+          });
+
+          // when
+          const screen = await renderScreen(hbs`
+          <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+        `);
+
+          // then
+          assert.dom(screen.getByRole('button', { name: "Confirmer la présence de l'élève Toto Tutu" })).exists();
+          assert.dom(screen.queryByText('Début :')).doesNotExist();
+          assert.dom(screen.queryByText('Fin théorique :')).doesNotExist();
+          assert.dom(screen.queryByText('+ temps majoré 12 %')).doesNotExist();
+        });
       });
     });
 
@@ -196,7 +257,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           // given
           this.candidate = store.createRecord('certification-candidate-for-supervising', {
             id: 123,
-            enrolledComplementaryCertification: 'Super Certification Complémentaire',
+            enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
             userId: 678,
             isStillEligibleToComplementaryCertification: false,
           });
@@ -222,7 +283,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           // given
           this.candidate = store.createRecord('certification-candidate-for-supervising', {
             id: 123,
-            enrolledComplementaryCertification: 'Super Certification Complémentaire',
+            enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
             userId: 678,
             isStillEligibleToComplementaryCertification: true,
           });
@@ -249,7 +310,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         // given
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: 123,
-          enrolledComplementaryCertification: 'Super Certification Complémentaire',
+          enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
           isStillEligibleToComplementaryCertification: false,
         });
 
@@ -268,6 +329,93 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           .doesNotExist();
       });
     });
+
+    module('when the candidate has started the test', function () {
+      test('it renders the time and extra time', async function (assert) {
+        // given
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: 456,
+          startDateTime: new Date('2022-10-19T14:30:15Z'),
+          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          extraTimePercentage: 0.12,
+          authorizedToStart: false,
+          assessmentStatus: 'started',
+        });
+
+        // when
+        const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+      `);
+
+        // then
+        assert.dom(screen.getByText('En cours')).exists();
+        assert.dom(screen.getByText('Début :')).exists();
+        assert.dom(screen.getByText('Fin théorique :')).exists();
+        assert.dom(screen.getByText('+ temps majoré 12 %')).exists();
+      });
+    });
+
+    module('when the candidate has left the session and has been authorized to resume', function () {
+      test('it renders the time and extra time', async function (assert) {
+        // given
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: 456,
+          startDateTime: new Date('2022-10-19T14:30:15Z'),
+          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          extraTimePercentage: 0.12,
+          authorizedToStart: true,
+          assessmentStatus: 'started',
+        });
+
+        // when
+        const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+      `);
+
+        // then
+        assert.dom(screen.getByText('Autorisé à reprendre')).exists();
+        assert.dom(screen.getByText('Début :')).exists();
+        assert.dom(screen.getByText('Fin théorique :')).exists();
+        assert.dom(screen.getByText('+ temps majoré 12 %')).exists();
+      });
+    });
+
+    module('when the candidate has completed the test', function () {
+      test('it does not render the time nor extra time', async function (assert) {
+        // given
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isDifferentiatedTimeInvigilatorPortalEnabled: true };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: 456,
+          startDateTime: new Date('2022-10-19T14:30:15Z'),
+          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          extraTimePercentage: 12,
+          authorizedToStart: false,
+          assessmentStatus: 'completed',
+        });
+
+        // when
+        const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+      `);
+
+        // then
+        assert.dom(screen.getByText('Terminé')).exists();
+        assert.dom(screen.queryByText('Début :')).doesNotExist();
+        assert.dom(screen.queryByText('Fin théorique :')).doesNotExist();
+        assert.dom(screen.queryByText('+ temps majoré 12 %')).doesNotExist();
+      });
+    });
   });
 
   test('it renders the candidates information with an unchecked checkbox', async function (assert) {
@@ -280,7 +428,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       extraTimePercentage: 0.08,
       authorizedToStart: false,
       assessmentStatus: null,
-      enrolledComplementaryCertification: 'Super Certification Complémentaire',
+      enrolledComplementaryCertificationLabel: 'Super Certification Complémentaire',
     });
 
     // when
@@ -365,8 +513,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           extraTimePercentage: null,
           authorizedToStart: false,
           assessmentStatus: 'started',
-          // eslint-disable-next-line no-restricted-syntax
-          startDateTime: new Date('2022-10-19T14:30:15'),
+          startDateTime: new Date('2022-10-19T14:30:15Z'),
         });
 
         // when
@@ -379,7 +526,6 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         assert.dom(screen.getByText('28/07/1982')).exists();
         assert.dom(screen.getByText('En cours')).exists();
         assert.dom(screen.queryByText('Autorisé à reprendre')).doesNotExist();
-        assert.dom(screen.getByText('14:30')).exists();
         assert.dom(screen.queryByRole('checkbox', { name: 'Racoon Rocket' })).doesNotExist();
         assert
           .dom(
@@ -402,8 +548,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           extraTimePercentage: null,
           authorizedToStart: true,
           assessmentStatus: 'started',
-          // eslint-disable-next-line no-restricted-syntax
-          startDateTime: new Date('2022-10-19T14:30:15'),
+          startDateTime: new Date('2022-10-19T14:30:15Z'),
         });
 
         // when
