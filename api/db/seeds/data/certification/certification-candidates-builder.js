@@ -11,9 +11,7 @@ const {
   PIX_DROIT_SESSION_ID,
   COMPLEMENTARY_CERTIFICATIONS_SESSION_ID,
 } = require('./certification-sessions-builder');
-const {
-  SCO_STUDENT_ID: SCO_STUDENT_ORGANIZATION_LEARNER_ID,
-} = require('../organizations-sco-builder');
+const { SCO_STUDENT_ID: SCO_STUDENT_ORGANIZATION_LEARNER_ID } = require('../organizations-sco-builder');
 const {
   CERTIF_SUCCESS_USER_ID,
   CERTIF_FAILED_USER_ID,
@@ -24,7 +22,7 @@ const {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-} = require('./certification-centers-builder');
+} = require('../common/common-builder');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { BILLING_MODES } = require('../../../../lib/domain/models/CertificationCandidate');
 
