@@ -26,12 +26,16 @@ module.exports = {
     const rows = await knex
       .select(['certification-candidates.id'])
       .from('certification-candidates')
-      .join('organization-learners', 'organization-learners.id', 'certification-candidates.organizationLearnerId')
+      .join(
+        'view-active-organization-learners',
+        'view-active-organization-learners.id',
+        'certification-candidates.organizationLearnerId'
+      )
       .where({
-        'organization-learners.organizationId': organizationId,
-        'organization-learners.isDisabled': false,
+        'view-active-organization-learners.organizationId': organizationId,
+        'view-active-organization-learners.isDisabled': false,
       })
-      .whereRaw('LOWER("organization-learners"."division") = ?', division.toLowerCase())
+      .whereRaw('LOWER("view-active-organization-learners"."division") = ?', division.toLowerCase())
       .orderBy('certification-candidates.lastName', 'ASC')
       .orderBy('certification-candidates.firstName', 'ASC');
 

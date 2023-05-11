@@ -6,12 +6,12 @@ module.exports = {
     const result = await knex
       .select({
         id: 'certification-courses.id',
-        firstName: 'organization-learners.firstName',
-        middleName: 'organization-learners.middleName',
-        thirdName: 'organization-learners.thirdName',
-        lastName: 'organization-learners.lastName',
-        birthdate: 'organization-learners.birthdate',
-        nationalStudentId: 'organization-learners.nationalStudentId',
+        firstName: 'view-active-organization-learners.firstName',
+        middleName: 'view-active-organization-learners.middleName',
+        thirdName: 'view-active-organization-learners.thirdName',
+        lastName: 'view-active-organization-learners.lastName',
+        birthdate: 'view-active-organization-learners.birthdate',
+        nationalStudentId: 'view-active-organization-learners.nationalStudentId',
         date: 'certification-courses.createdAt',
         verificationCode: 'certification-courses.verificationCode',
         deliveredAt: 'sessions.publishedAt',
@@ -26,7 +26,11 @@ module.exports = {
         )`),
       })
       .from('certification-courses')
-      .innerJoin('organization-learners', 'organization-learners.userId', 'certification-courses.userId')
+      .innerJoin(
+        'view-active-organization-learners',
+        'view-active-organization-learners.userId',
+        'certification-courses.userId'
+      )
       .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
       .innerJoin(
         'certification-courses-last-assessment-results',
@@ -50,15 +54,21 @@ module.exports = {
       )
 
       .where({ 'certification-courses.isCancelled': false })
-      .where({ 'organization-learners.isDisabled': false })
+      .where({ 'view-active-organization-learners.isDisabled': false })
       .where(
-        'organization-learners.organizationId',
+        'view-active-organization-learners.organizationId',
         '=',
         knex.select('id').from('organizations').whereRaw('LOWER("externalId") = LOWER(?)', uai)
       )
 
       .groupBy(
-        'organization-learners.id',
+        'view-active-organization-learners.id',
+        'view-active-organization-learners.firstName',
+        'view-active-organization-learners.middleName',
+        'view-active-organization-learners.thirdName',
+        'view-active-organization-learners.lastName',
+        'view-active-organization-learners.birthdate',
+        'view-active-organization-learners.nationalStudentId',
         'certification-courses.id',
         'sessions.id',
         'assessments.id',

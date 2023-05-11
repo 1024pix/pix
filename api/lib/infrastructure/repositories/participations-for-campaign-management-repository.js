@@ -8,8 +8,8 @@ module.exports = {
     const query = knex('campaign-participations')
       .select({
         id: 'campaign-participations.id',
-        lastName: 'organization-learners.lastName',
-        firstName: 'organization-learners.firstName',
+        lastName: 'view-active-organization-learners.lastName',
+        firstName: 'view-active-organization-learners.firstName',
         userId: 'users.id',
         userFirstName: 'users.firstName',
         userLastName: 'users.lastName',
@@ -22,7 +22,11 @@ module.exports = {
         deletedByFirstName: 'deletedByUsers.firstName',
         deletedByLastName: 'deletedByUsers.lastName',
       })
-      .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+      .join(
+        'view-active-organization-learners',
+        'view-active-organization-learners.id',
+        'campaign-participations.organizationLearnerId'
+      )
       .leftJoin('users as deletedByUsers', 'deletedByUsers.id', 'campaign-participations.deletedBy')
       .innerJoin('users', 'users.id', 'campaign-participations.userId')
       .where('campaignId', campaignId)

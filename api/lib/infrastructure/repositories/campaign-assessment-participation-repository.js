@@ -23,8 +23,8 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
     .with('campaignAssessmentParticipation', (qb) => {
       qb.select([
         'campaign-participations.userId',
-        'organization-learners.firstName',
-        'organization-learners.lastName',
+        'view-active-organization-learners.firstName',
+        'view-active-organization-learners.lastName',
         'campaign-participations.id AS campaignParticipationId',
         'campaign-participations.campaignId',
         'campaign-participations.createdAt',
@@ -33,13 +33,17 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
         'campaign-participations.participantExternalId',
         'campaign-participations.masteryRate',
         'campaign-participations.validatedSkillsCount',
-        'organization-learners.id AS organizationLearnerId',
+        'view-active-organization-learners.id AS organizationLearnerId',
         'assessments.state AS assessmentState',
         _assessmentRankByCreationDate(),
       ])
         .from('campaign-participations')
         .join('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
-        .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+        .join(
+          'view-active-organization-learners',
+          'view-active-organization-learners.id',
+          'campaign-participations.organizationLearnerId'
+        )
         .where({
           'campaign-participations.id': campaignParticipationId,
           'campaign-participations.deletedAt': null,

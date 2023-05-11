@@ -134,22 +134,26 @@ async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
   const organizationLearner = { id: null, hasParticipated: false };
   const row = await domainTransaction
     .knexTransaction('campaigns')
-    .select({ id: 'organization-learners.id', campaignParticipationId: 'campaign-participations.id' })
-    .join('organization-learners', 'organization-learners.organizationId', 'campaigns.organizationId')
+    .select({ id: 'view-active-organization-learners.id', campaignParticipationId: 'campaign-participations.id' })
+    .join(
+      'view-active-organization-learners',
+      'view-active-organization-learners.organizationId',
+      'campaigns.organizationId'
+    )
     .leftJoin(
       'campaign-participations',
       function () {
-        this.on('campaign-participations.organizationLearnerId', 'organization-learners.id');
+        this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id');
         this.on('campaign-participations.campaignId', 'campaigns.id');
         this.on('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
         this.on('campaign-participations.isImproved', knex.raw('false'));
-        this.on('campaign-participations.userId', '!=', 'organization-learners.userId');
+        this.on('campaign-participations.userId', '!=', 'view-active-organization-learners.userId');
       },
-      'organization-learners.id'
+      'view-active-organization-learners.id'
     )
     .where({
       'campaigns.id': campaignId,
-      'organization-learners.userId': userId,
+      'view-active-organization-learners.userId': userId,
       isDisabled: false,
     })
     .first();

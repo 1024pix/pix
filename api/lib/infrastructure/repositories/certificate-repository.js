@@ -84,23 +84,32 @@ module.exports = {
 
   async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
     const certificationCourseDTOs = await _selectCertificationAttestations()
-      .select({ organizationLearnerId: 'organization-learners.id' })
+      .select({ organizationLearnerId: 'view-active-organization-learners.id' })
       .innerJoin('certification-candidates', function () {
         this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' }).andOn({
           'certification-candidates.userId': 'certification-courses.userId',
         });
       })
-      .innerJoin('organization-learners', 'organization-learners.id', 'certification-candidates.organizationLearnerId')
-      .innerJoin('organizations', 'organizations.id', 'organization-learners.organizationId')
+      .innerJoin(
+        'view-active-organization-learners',
+        'view-active-organization-learners.id',
+        'certification-candidates.organizationLearnerId'
+      )
+      .innerJoin('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
       .where({
-        'organization-learners.organizationId': organizationId,
-        'organization-learners.isDisabled': false,
+        'view-active-organization-learners.organizationId': organizationId,
+        'view-active-organization-learners.isDisabled': false,
       })
-      .whereRaw('LOWER("organization-learners"."division") = ?', division.toLowerCase())
+      .whereRaw('LOWER("view-active-organization-learners"."division") = ?', division.toLowerCase())
       .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
       .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
       .modify(_checkOrganizationIsScoIsManagingStudents)
-      .groupBy('organization-learners.id', 'certification-courses.id', 'sessions.id', 'assessment-results.id')
+      .groupBy(
+        'view-active-organization-learners.id',
+        'certification-courses.id',
+        'sessions.id',
+        'assessment-results.id'
+      )
       .orderBy('certification-courses.createdAt', 'DESC');
 
     const competenceTree = await competenceTreeRepository.get();

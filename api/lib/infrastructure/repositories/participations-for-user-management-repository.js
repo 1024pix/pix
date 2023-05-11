@@ -16,11 +16,15 @@ module.exports = {
         deletedBy: 'deletedByUsers.id',
         deletedByFirstName: 'deletedByUsers.firstName',
         deletedByLastName: 'deletedByUsers.lastName',
-        organizationLearnerFirstName: 'organization-learners.firstName',
-        organizationLearnerLastName: 'organization-learners.lastName',
+        organizationLearnerFirstName: 'view-active-organization-learners.firstName',
+        organizationLearnerLastName: 'view-active-organization-learners.lastName',
       })
       .innerJoin('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-      .innerJoin('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+      .innerJoin(
+        'view-active-organization-learners',
+        'view-active-organization-learners.id',
+        'campaign-participations.organizationLearnerId'
+      )
       .leftJoin('users as deletedByUsers', 'deletedByUsers.id', 'campaign-participations.deletedBy')
       .where('campaign-participations.userId', userId)
       .orderBy('campaignCode', 'asc')

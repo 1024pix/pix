@@ -57,13 +57,17 @@ module.exports = {
     const results = await knex('campaign-participations')
       .select([
         'campaign-participations.*',
-        'organization-learners.studentNumber',
-        'organization-learners.division',
-        'organization-learners.group',
-        'organization-learners.firstName',
-        'organization-learners.lastName',
+        'view-active-organization-learners.studentNumber',
+        'view-active-organization-learners.division',
+        'view-active-organization-learners.group',
+        'view-active-organization-learners.firstName',
+        'view-active-organization-learners.lastName',
       ])
-      .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+      .join(
+        'view-active-organization-learners',
+        'view-active-organization-learners.id',
+        'campaign-participations.organizationLearnerId'
+      )
       .where({ campaignId, isImproved: false, 'campaign-participations.deletedAt': null });
 
     return results.map(_rowToResult);
