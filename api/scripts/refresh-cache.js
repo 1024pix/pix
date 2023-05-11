@@ -1,5 +1,5 @@
-'use strict';
 import dotenv from 'dotenv';
+
 dotenv.config();
 import { logger } from '../lib/infrastructure/logger.js';
 import { learningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';

@@ -1,4 +1,3 @@
-'use strict';
 import * as url from 'url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -10,6 +9,7 @@ dotenv.config({ path: `${__dirname}/../../.env` });
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
 import lodash from 'lodash';
+
 const { maxBy } = lodash;
 import { logger } from '../../lib/infrastructure/logger.js';
 import { getNewSessionCode } from '../../lib/domain/services/session-code-service.js';
