@@ -7,7 +7,7 @@ module.exports = {
 
   rules: {
     'no-duplicate-landmark-elements': false,
-    'no-redundant-landmark-role': false,
+    'no-redundant-role': false,
     'no-html-comments': false,
     'no-bare-strings': ['Pix', '&nbsp;', '&#8226;', '.', '*', '1024', '/', '•', '-', '%'],
   },
