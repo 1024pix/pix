@@ -87,16 +87,16 @@ class Form extends Object.extend(Validations) {
 }
 
 export default class UserOverview extends Component {
+  @service accessControl;
+  @service notifications;
+
+  @tracked displayAnonymizeModal = false;
+  @tracked isEditionMode = false;
+
   languages = [
     { value: 'fr', label: 'Français' },
     { value: 'en', label: 'Anglais' },
   ];
-
-  @tracked isEditionMode = false;
-  @tracked displayAnonymizeModal = false;
-
-  @service notifications;
-  @service accessControl;
 
   constructor() {
     super(...arguments);
