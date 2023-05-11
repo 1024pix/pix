@@ -25,6 +25,7 @@ const AnswerCollectionForScoring = require('./AnswerCollectionForScoring.js');
 const AnswerStatus = require('./AnswerStatus.js');
 const Area = require('./Area.js');
 const Assessment = require('./Assessment.js');
+const AssessmentAlgorithm = require('./AssessmentAlgorithm.js');
 const AssessmentResult = require('./AssessmentResult.js');
 const Authentication = require('./Authentication.js');
 const AuthenticationMethod = require('./AuthenticationMethod.js');
@@ -176,6 +177,7 @@ module.exports = {
   AnswerStatus,
   Area,
   Assessment,
+  AssessmentAlgorithm,
   AssessmentResult,
   Authentication,
   AuthenticationMethod,

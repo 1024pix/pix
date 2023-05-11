@@ -213,6 +213,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
+            random: {},
           });
 
           // then
@@ -260,6 +261,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
+            random: {},
           });
 
           // then
