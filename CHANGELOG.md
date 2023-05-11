@@ -1,5 +1,40 @@
 # Pix Changelog
 
+## v3.352.0 (11/05/2023)
+
+
+### :rocket: Amélioration
+- [#6150](https://github.com/1024pix/pix/pull/6150) [FEATURE] Ordre aléatoire pour les propositions de QCU/QCM (PIX-7736)
+- [#6160](https://github.com/1024pix/pix/pull/6160) [FEATURE] Amélioration de message de validation de suppression d'une participation (PIX-5625)
+- [#6137](https://github.com/1024pix/pix/pull/6137) [FEATURE] Vérification de l'égilibité des candidats à une certif compl. dans l'espace surveillant (PIX-7833).
+- [#6177](https://github.com/1024pix/pix/pull/6177) [FEATURE] Suppression de toutes références à Gravitee (PIX-7940)
+- [#6096](https://github.com/1024pix/pix/pull/6096) [FEATURE] Afficher un bouton de confirmation de présence dans l'espace surveillant sur Pix Certif (PIX-7832)
+- [#6156](https://github.com/1024pix/pix/pull/6156) [FEATURE][MON-PIX] Ajouter le sélecteur de langue sur la page de présentation d'une campagne (PIX-7744)
+- [#6154](https://github.com/1024pix/pix/pull/6154) [FEATURE] Désactiver le bouton Effacer les filtres lorsqu'aucun fitre n'est activé (Pix-7970)
+- [#6104](https://github.com/1024pix/pix/pull/6104) [FEATURE] Amélioration de la page de détails des profils cibles (PIX-7907)
+- [#6078](https://github.com/1024pix/pix/pull/6078) [FEATURE] Améliorer les tests sur Pix App avec Testing Library (part 3) (PIX-7870).
+
+### :building_construction: Tech
+- [#6149](https://github.com/1024pix/pix/pull/6149) [TECH] Implementation d'un Domain Model CorrectionBlockQRCOMDep (PIX-8012)
+- [#6082](https://github.com/1024pix/pix/pull/6082) [TECH] Supprime la dépendance ember-cli-sri des apps embroider
+- [#6157](https://github.com/1024pix/pix/pull/6157) [TECH] Utilise exclusivement l'API history dans les apps Ember
+- [#6176](https://github.com/1024pix/pix/pull/6176) [TECH] Utiliser la méthode `visit` d'`ember-testing-library` plutôt que celle de `@ember/test-helpers` (PIX-8017)
+- [#6162](https://github.com/1024pix/pix/pull/6162) [TECH] montée de version pix-ui : 34.1.0 (PIX-7899)
+- [#6166](https://github.com/1024pix/pix/pull/6166) [TECH] Fournir des outils génériques et documentés orientés "Organisations" et "Centres de certification" (PIX-7995)
+
+### :bug: Correction
+- [#6193](https://github.com/1024pix/pix/pull/6193) [BUGFIX] Corrige la media query
+- [#6153](https://github.com/1024pix/pix/pull/6153) [BUGFIX] Erreur lors ajout individuel d'un 2ème candidat à une session de certification sur Pix Certif (PIX-7935).
+
+### :coffee: Autre
+- [#6131](https://github.com/1024pix/pix/pull/6131) [BUMP] Update dependency stylelint to v15 (mon-pix)
+- [#6169](https://github.com/1024pix/pix/pull/6169) [BUMP] Update dependency stylelint to v15 (admin)
+- [#6183](https://github.com/1024pix/pix/pull/6183) [BUMP] Update dependency ember-simple-auth to v5 (admin)
+- [#6164](https://github.com/1024pix/pix/pull/6164) [BUMP] Update dependency ember-simple-auth to v5 (orga)
+- [#6174](https://github.com/1024pix/pix/pull/6174) [BUMP] Update dependency ember-simple-auth to v5 (certif)
+- [#6168](https://github.com/1024pix/pix/pull/6168) [BUMP] Update eslint (major)
+- [#5995](https://github.com/1024pix/pix/pull/5995) [BUMP] Update dependency ember-simple-auth to v5 (mon-pix)
+
 ## v3.351.0 (09/05/2023)
 
 
