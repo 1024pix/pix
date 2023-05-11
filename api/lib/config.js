@@ -294,14 +294,14 @@ const configuration = (function () {
 
     apimRegisterApplicationsCredentials: [
       {
-        clientId: process.env.APIM_OSMOSE_CLIENT_ID || process.env.GRAVITEE_OSMOSE_CLIENT_ID,
-        clientSecret: process.env.APIM_OSMOSE_CLIENT_SECRET || process.env.GRAVITEE_OSMOSE_CLIENT_SECRET,
+        clientId: process.env.APIM_OSMOSE_CLIENT_ID,
+        clientSecret: process.env.APIM_OSMOSE_CLIENT_SECRET,
         scope: 'organizations-certifications-result',
         source: 'livretScolaire',
       },
       {
-        clientId: process.env.APIM_POLE_EMPLOI_CLIENT_ID || process.env.GRAVITEE_POLE_EMPLOI_CLIENT_ID,
-        clientSecret: process.env.APIM_POLE_EMPLOI_CLIENT_SECRET || process.env.GRAVITEE_POLE_EMPLOI_CLIENT_SECRET,
+        clientId: process.env.APIM_POLE_EMPLOI_CLIENT_ID,
+        clientSecret: process.env.APIM_POLE_EMPLOI_CLIENT_SECRET,
         scope: 'pole-emploi-participants-result',
         source: 'poleEmploi',
       },
