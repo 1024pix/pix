@@ -8,6 +8,7 @@ module.exports = {
   createSession,
   createDraftScoSession,
   createPublishedScoSession,
+  createDraftSession,
 };
 
 /**
@@ -170,6 +171,80 @@ async function createDraftScoSession({
 }
 
 /**
+ * Fonction générique pour créer une session avec candidats non démarrée selon une configuration donnée.
+ * Retourne l'ID de la session.
+ *
+ * @param {DatabaseBuilder} databaseBuilder
+ * @param {number} sessionId
+ * @param {string} accessCode
+ * @param {string} address
+ * @param {string} certificationCenter
+ * @param {number} certificationCenterId
+ * @param {Date} date
+ * @param {string} description
+ * @param {string} examiner
+ * @param {string} room
+ * @param {string} time
+ * @param {Date} createdAt
+ * @param {string} supervisorPassword
+ * @param configSession {candidatesToRegisterCount: number, registerToComplementaryCertifications : boolean }
+
+ * @returns {Promise<{sessionId: number}>} sessionId
+ */
+async function createDraftSession({
+  databaseBuilder,
+  sessionId,
+  accessCode,
+  address,
+  certificationCenter,
+  certificationCenterId,
+  date,
+  description,
+  examiner,
+  room,
+  time,
+  createdAt,
+  configSession,
+  supervisorPassword,
+}) {
+  _buildSession({
+    databaseBuilder,
+    sessionId,
+    accessCode,
+    address,
+    certificationCenter,
+    certificationCenterId,
+    date,
+    description,
+    examiner,
+    room,
+    time,
+    examinerGlobalComment: null,
+    hasIncident: false,
+    hasJoiningIssue: false,
+    createdAt,
+    finalizedAt: null,
+    resultsSentToPrescriberAt: null,
+    publishedAt: null,
+    assignedCertificationOfficerId: null,
+    juryComment: null,
+    juryCommentAuthorId: null,
+    juryCommentedAt: null,
+    supervisorPassword,
+  });
+
+  await _registerCandidatesToSession({
+    databaseBuilder,
+    sessionId,
+    hasJoinSession: false,
+    configSession,
+    certificationCenterId,
+  });
+
+  return { sessionId };
+}
+
+/**
  * Fonction générique pour créer une session SCO publiée selon une configuration donnée.
  * Retourne l'ID de la session.
  *
@@ -316,6 +391,69 @@ async function _registerOrganizationLearnersToSession({
         }),
       );
     });
+  }
+  return certificationCandidates;
+}
+
+async function _registerCandidatesToSession({
+  databaseBuilder,
+  sessionId,
+  hasJoinSession,
+  configSession,
+  certificationCenterId,
+}) {
+  const certificationCandidates = [];
+  if (configSession && configSession.candidatesToRegisterCount > 0) {
+    const extraTimePercentages = [null, 0.3, 0.5];
+    const billingModes = [{
+      billingMode: 'FREE',
+      prepaymentCode: null,
+    }, {
+      billingMode: 'PREPAID',
+      prepaymentCode: 'code',
+    }, {
+      billingMode: 'PAID',
+      prepaymentCode: null,
+    }];
+
+    const complementaryCertificationIds = [null];
+    if (configSession.registerToComplementaryCertifications) {
+      complementaryCertificationIds.push(...await databaseBuilder
+        .knex('complementary-certification-habilitations')
+        .pluck('complementaryCertificationId')
+        .where('certificationCenterId', certificationCenterId));
+    }
+
+    for (let i = 0; i < configSession.candidatesToRegisterCount; i++) {
+      const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: `firstname${i}-${sessionId}`,
+        lastName: `lastname${i}-${sessionId}`,
+        sex: 'F',
+        birthPostalCode: null,
+        birthCityCode: null,
+        birthINSEECode: '75115',
+        birthCity: 'PARIS 15',
+        birthCountry: 'France',
+        email: `firstname${i}-${sessionId}-lastname${i}-${sessionId}@example.net`,
+        birthdate: '2000-01-04',
+        sessionId,
+        createdAt: new Date(),
+        extraTimePercentage: extraTimePercentages[i % extraTimePercentages.length],
+        userId: hasJoinSession ? null : null,
+        organizationLearnerId: null,
+        authorizedToStart: false,
+        billingMode: billingModes[i % extraTimePercentages.length].billingMode,
+        prepaymentCode: billingModes[i % extraTimePercentages.length].prepaymentCode,
+      });
+
+      if (complementaryCertificationIds[i % complementaryCertificationIds.length]) {
+        databaseBuilder.factory.buildComplementaryCertificationSubscription({
+          complementaryCertificationId: complementaryCertificationIds[i % complementaryCertificationIds.length],
+          certificationCandidateId: certificationCandidate.id,
+        });
+      }
+      certificationCandidates.push(certificationCandidate);
+    }
   }
   return certificationCandidates;
 }
