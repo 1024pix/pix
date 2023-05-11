@@ -1,7 +1,6 @@
 // Usage: node add-tags-to-organizations.js path/file.csv
 // To use on file with columns |organizationId, tagName|
 
-'use strict';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -10,6 +9,7 @@ import * as tagRepository from '../lib/infrastructure/repositories/tag-repositor
 import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
 import { parseCsv } from './helpers/csvHelpers.js';
 import lodash from 'lodash';
+
 const { uniq } = lodash;
 import { disconnect } from '../db/knex-database-connection.js';
 

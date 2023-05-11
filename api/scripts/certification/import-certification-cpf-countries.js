@@ -2,7 +2,6 @@
 // File Millésime 2021 : Liste des pays et territoires étrangers au 01/01/2021
 // downloaded from https://www.data.gouv.fr/fr/datasets/code-officiel-geographique-cog/
 
-'use strict';
 import { parseCsv } from '../helpers/csvHelpers.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { normalizeAndSortChars } from '../../lib/infrastructure/utils/string-utils.js';
