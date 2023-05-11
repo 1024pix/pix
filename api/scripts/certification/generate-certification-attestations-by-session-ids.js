@@ -1,4 +1,3 @@
-'use strict';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -6,6 +5,7 @@ dotenv.config();
 import fs from 'fs';
 import bluebird from 'bluebird';
 import lodash from 'lodash';
+
 const { isEmpty, compact } = lodash;
 import { logger } from '../../lib/infrastructure/logger.js';
 import * as certificateRepository from '../../lib/infrastructure/repositories/certificate-repository.js';
