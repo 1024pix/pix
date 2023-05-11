@@ -9,7 +9,7 @@ const attributes = [
   'authorizedToStart',
   'assessmentStatus',
   'startDateTime',
-  'complementaryCertification',
+  'enrolledComplementaryCertification',
 ];
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
       certificationCandidates: {
         included: true,
         ref: 'id',
-        attributes: [...attributes],
+        attributes: [...attributes, 'isStillEligibleToComplementaryCertification', 'userId'],
       },
     }).serialize(sessions);
   },
