@@ -9,6 +9,7 @@ module.exports = {
   createDraftScoSession,
   createPublishedScoSession,
   createDraftSession,
+  createPublishedSession,
 };
 
 /**
@@ -352,6 +353,112 @@ async function createPublishedScoSession({
   return { sessionId };
 }
 
+/**
+ * Fonction générique pour créer une session publiée selon une configuration donnée.
+ * Retourne l'ID de la session.
+ *
+ * @param {DatabaseBuilder} databaseBuilder
+ * @param {number} sessionId
+ * @param {string} accessCode
+ * @param {string} address
+ * @param {string} certificationCenter
+ * @param {number} certificationCenterId
+ * @param {Date} date
+ * @param {string} description
+ * @param {string} examiner
+ * @param {string} room
+ * @param {string} time
+ * @param {string} examinerGlobalComment
+ * @param {boolean} hasIncident
+ * @param {boolean} hasJoiningIssue
+ * @param {Date} createdAt
+ * @param {Date} finalizedAt
+ * @param {Date} resultsSentToPrescriberAt
+ * @param {Date} publishedAt
+ * @param {number} assignedCertificationOfficerId
+ * @param {string} juryComment
+ * @param {number} juryCommentAuthorId
+ * @param {Date} juryCommentedAt
+ * @param {string} supervisorPassword
+ * @param configSession {candidatesToRegisterCount: number, registerToComplementaryCertifications : boolean }
+ * @returns {{sessionId: number}} sessionId
+ */
+async function createPublishedSession({
+  databaseBuilder,
+  sessionId,
+  accessCode,
+  address,
+  certificationCenter,
+  certificationCenterId,
+  date,
+  description,
+  examiner,
+  room,
+  time,
+  examinerGlobalComment,
+  hasIncident,
+  hasJoiningIssue,
+  createdAt,
+  finalizedAt,
+  resultsSentToPrescriberAt,
+  publishedAt,
+  assignedCertificationOfficerId,
+  juryComment,
+  juryCommentAuthorId,
+  juryCommentedAt,
+  supervisorPassword,
+  configSession,
+}) {
+  _buildSession({
+    databaseBuilder,
+    sessionId,
+    accessCode,
+    address,
+    certificationCenter,
+    certificationCenterId,
+    date,
+    description,
+    examiner,
+    room,
+    time,
+    examinerGlobalComment,
+    hasIncident,
+    hasJoiningIssue,
+    createdAt,
+    finalizedAt,
+    resultsSentToPrescriberAt,
+    publishedAt,
+    assignedCertificationOfficerId,
+    juryComment,
+    juryCommentAuthorId,
+    juryCommentedAt,
+    supervisorPassword,
+  });
+  databaseBuilder.factory.buildFinalizedSession({
+    sessionId,
+    isPublishable: true,
+    certificationCenterName: certificationCenter,
+    finalizedAt,
+    date,
+    time,
+    publishedAt,
+    assignedCertificationOfficerName: 'Mariah Carey',
+  });
+
+  const certificationCandidates = await _registerCandidatesToSession({
+    databaseBuilder,
+    sessionId,
+    hasJoinSession: true,
+    configSession,
+    certificationCenterId,
+  });
+
+  const profileData = await _makeCandidatesCertifiable(databaseBuilder, certificationCandidates);
+  await _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, profileData);
+
+  return { sessionId };
+}
+
 async function _registerOrganizationLearnersToSession({
   databaseBuilder,
   sessionId,
@@ -425,6 +532,14 @@ async function _registerCandidatesToSession({
     }
 
     for (let i = 0; i < configSession.candidatesToRegisterCount; i++) {
+      let userId = null;
+      if (hasJoinSession) {
+        userId = databaseBuilder.factory.buildUser.withRawPassword({
+          firstName: `firstname${i}-${sessionId}`,
+          lastName: `lastname${i}-${sessionId}`,
+          email: `firstname${i}-${sessionId}-lastname${i}-${sessionId}@example.net`,
+        }).id;
+      }
       const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
         firstName: `firstname${i}-${sessionId}`,
         lastName: `lastname${i}-${sessionId}`,
@@ -439,7 +554,7 @@ async function _registerCandidatesToSession({
         sessionId,
         createdAt: new Date(),
         extraTimePercentage: extraTimePercentages[i % extraTimePercentages.length],
-        userId: hasJoinSession ? null : null,
+        userId,
         organizationLearnerId: null,
         authorizedToStart: false,
         billingMode: billingModes[i % extraTimePercentages.length].billingMode,
