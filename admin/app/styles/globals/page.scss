@@ -50,10 +50,7 @@
   }
 
   .page-body {
-    top: 60px;
-    left: 80px;
-    right: 0;
-    bottom: 0;
+    inset: 60px 0 0 80px;
     padding: 10px;
 
     .page-section {
