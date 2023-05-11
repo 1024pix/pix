@@ -23,6 +23,7 @@ module.exports = function buildChallengeLearningContentDataObject({
   format = 'petit',
   illustrationAlt = "texte alternatif à l'image",
   locales = ['fr'],
+  shuffled = false,
 } = {}) {
   return {
     id,
@@ -46,5 +47,6 @@ module.exports = function buildChallengeLearningContentDataObject({
     illustrationAlt,
     format,
     locales,
+    shuffled,
   };
 };

@@ -3,11 +3,16 @@ import Component from '@glimmer/component';
 import labeledCheckboxes from 'mon-pix/utils/labeled-checkboxes';
 import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
 import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
+import { pshuffle } from 'mon-pix/utils/pshuffle';
 
 export default class QcuProposals extends Component {
   get labeledRadios() {
     const arrayOfProposals = proposalsAsArray(this.args.proposals);
-    return labeledCheckboxes(arrayOfProposals, valueAsArrayOfBoolean(this.args.answerValue));
+    const labeledCheckboxesList = labeledCheckboxes(arrayOfProposals, valueAsArrayOfBoolean(this.args.answerValue));
+    if (this.args.shuffled) {
+      pshuffle(labeledCheckboxesList, this.args.shuffleSeed);
+    }
+    return labeledCheckboxesList;
   }
 
   @action

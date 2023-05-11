@@ -24,22 +24,21 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
     test('should render challenge information and question', function (assert) {
       // then
+      const expectedProposals = [
+        '<p>1ere <em>possibilite</em></p>',
+        '<p>2eme <a href="/test" rel="noopener noreferrer" target="_blank">possibilite</a></p>',
+        '<p><img src="/images/pix-logo-blanc.svg" alt="3eme possibilite"></p>',
+        '<p>4eme possibilite</p>',
+      ];
+
+      const actualProposals = findAll('.proposal-text');
 
       assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), qcuChallenge.instruction);
       assert.dom('input[type=radio][name="radio"]').exists({ count: 4 });
-      assert.strictEqual(findAll('.proposal-text')[0].textContent.trim(), '1ere possibilite');
-      assert.strictEqual(findAll('.proposal-text')[0].innerHTML.trim(), '<p>1ere <em>possibilite</em></p>');
-      assert.strictEqual(findAll('.proposal-text')[1].textContent.trim(), '2eme possibilite');
-      assert.strictEqual(
-        findAll('.proposal-text')[1].innerHTML.trim(),
-        '<p>2eme <a href="/test" rel="noopener noreferrer" target="_blank">possibilite</a></p>'
-      );
-      assert.strictEqual(findAll('.proposal-text')[2].textContent.trim(), '');
-      assert.strictEqual(
-        findAll('.proposal-text')[2].innerHTML.trim(),
-        '<p><img src="/images/pix-logo-blanc.svg" alt="3eme possibilite"></p>'
-      );
-      assert.strictEqual(findAll('.proposal-text')[3].textContent.trim(), '4eme possibilite');
+      assert.strictEqual(actualProposals[0].innerHTML.trim(), expectedProposals[0]);
+      assert.strictEqual(actualProposals[1].innerHTML.trim(), expectedProposals[1]);
+      assert.strictEqual(actualProposals[2].innerHTML.trim(), expectedProposals[2]);
+      assert.strictEqual(actualProposals[3].innerHTML.trim(), expectedProposals[3]);
       assert.dom('.challenge-reponse__alert').doesNotExist();
     });
 

@@ -25,6 +25,7 @@ module.exports = function buildChallenge({
   successProbabilityThreshold,
   responsive = 'Smartphone/Tablette',
   focused = false,
+  shuffled = false,
   // includes
   answer,
   validator = new Validator(),
@@ -61,5 +62,6 @@ module.exports = function buildChallenge({
     // references
     competenceId,
     illustrationAlt,
+    shuffled,
   });
 };

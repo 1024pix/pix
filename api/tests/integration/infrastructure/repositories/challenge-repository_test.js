@@ -677,5 +677,6 @@ function _buildChallenge({ id, skill, status = 'validé' }) {
     alpha: 1,
     delta: 0,
     skill,
+    shuffled: false,
   };
 }

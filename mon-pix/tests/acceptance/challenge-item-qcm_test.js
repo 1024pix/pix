@@ -30,18 +30,18 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
 
       const proposalsText = findAll('.proposal-text');
 
-      assert.strictEqual(proposalsText[0].innerHTML.trim(), '<p><em>possibilite</em> 1, et/ou</p>');
-      assert.strictEqual(proposalsText[1].textContent.trim(), 'possibilite 2, et/ou');
-      assert.strictEqual(
-        proposalsText[1].innerHTML.trim(),
-        '<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a>, et/ou</p>'
-      );
-      assert.strictEqual(proposalsText[2].textContent.trim(), ', et/ou');
-      assert.strictEqual(
-        proposalsText[2].innerHTML.trim(),
-        '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3">, et/ou</p>'
-      );
-      assert.strictEqual(proposalsText[3].textContent.trim(), 'possibilite 4');
+      const expectedProposalsText = [
+        '<p><em>possibilite</em> 1, et/ou</p>',
+        '<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a>, et/ou</p>',
+        '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3">, et/ou</p>',
+        '<p>possibilite 4</p>',
+      ];
+
+      assert.strictEqual(proposalsText[0].innerHTML.trim(), expectedProposalsText[0]);
+      assert.strictEqual(proposalsText[1].innerHTML.trim(), expectedProposalsText[1]);
+      assert.strictEqual(proposalsText[2].innerHTML.trim(), expectedProposalsText[2]);
+      assert.strictEqual(proposalsText[3].innerHTML.trim(), expectedProposalsText[3]);
+
       assert.dom('.challenge-response__alert').doesNotExist();
     });
 
@@ -95,15 +95,22 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
     });
 
     test('should mark checkboxes corresponding to the answer and propose to continue', async function (assert) {
+      const expectedCheckboxes = [
+        { checked: false, disabled: true },
+        { checked: true, disabled: true },
+        { checked: false, disabled: true },
+        { checked: true, disabled: true },
+      ];
+
       // then
-      assert.false(findAll('input[type="checkbox"]')[0].checked);
-      assert.true(findAll('input[type="checkbox"]')[0].disabled);
-      assert.true(findAll('input[type="checkbox"]')[1].checked);
-      assert.true(findAll('input[type="checkbox"]')[1].disabled);
-      assert.false(findAll('input[type="checkbox"]')[2].checked);
-      assert.true(findAll('input[type="checkbox"]')[2].disabled);
-      assert.true(findAll('input[type="checkbox"]')[3].checked);
-      assert.true(findAll('input[type="checkbox"]')[3].disabled);
+      assert.strictEqual(expectedCheckboxes[0].checked, findAll('input[type="checkbox"]')[0].checked);
+      assert.strictEqual(expectedCheckboxes[0].disabled, findAll('input[type="checkbox"]')[0].disabled);
+      assert.strictEqual(expectedCheckboxes[1].checked, findAll('input[type="checkbox"]')[1].checked);
+      assert.strictEqual(expectedCheckboxes[1].disabled, findAll('input[type="checkbox"]')[1].disabled);
+      assert.strictEqual(expectedCheckboxes[2].checked, findAll('input[type="checkbox"]')[2].checked);
+      assert.strictEqual(expectedCheckboxes[2].disabled, findAll('input[type="checkbox"]')[2].disabled);
+      assert.strictEqual(expectedCheckboxes[3].checked, findAll('input[type="checkbox"]')[3].checked);
+      assert.strictEqual(expectedCheckboxes[3].disabled, findAll('input[type="checkbox"]')[3].disabled);
 
       assert.dom('.challenge-actions__action-continue').exists();
       assert.dom('.challenge-actions__action-validate').doesNotExist();

@@ -21,6 +21,7 @@ module.exports = {
         'autoReply',
         'alternativeInstruction',
         'focused',
+        'shuffled',
       ],
       transform: (record) => {
         const challenge = _.pickBy(record, (value) => !_.isUndefined(value));
