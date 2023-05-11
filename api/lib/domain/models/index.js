@@ -7,6 +7,7 @@ import { Area } from './Area.js';
 import { Assessment } from './Assessment.js';
 import { FlashAssessmentAlgorithm } from './FlashAssessmentAlgorithm.js';
 import { AssessmentResult } from './AssessmentResult.js';
+import { AssessmentSimulator } from './AssessmentSimulator.js';
 import { Authentication } from './Authentication.js';
 import { AuthenticationMethod } from './AuthenticationMethod.js';
 import { AuthenticationSessionContent } from './AuthenticationSessionContent.js';
@@ -159,6 +160,7 @@ export {
   Assessment,
   FlashAssessmentAlgorithm,
   AssessmentResult,
+  AssessmentSimulator,
   Authentication,
   AuthenticationMethod,
   AuthenticationSessionContent,
