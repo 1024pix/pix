@@ -72,7 +72,6 @@
     "ember-cli-mirage": "^2.4.0",
     "ember-cli-notifications": "^8.0.0",
     "ember-cli-sass": "^11.0.1",
-    "ember-cli-sri": "^2.1.1",
     "ember-composable-helpers": "^4.5.0",
     "ember-cookies": "^0.5.2",
     "ember-data": "^4.0.2",
