@@ -42,7 +42,7 @@ export default class ActivityController extends Controller {
   }
 
   @action
-  async deleteCampaignParticipant(campaignId, campaignParticipantActivity) {
+  async deleteCampaignParticipation(campaignId, campaignParticipantActivity) {
     try {
       await campaignParticipantActivity.destroyRecord({
         adapterOptions: { campaignId, campaignParticipationId: campaignParticipantActivity.id },
