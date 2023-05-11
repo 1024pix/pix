@@ -53,7 +53,20 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
       assert.dom('.challenge-response__alert').exists();
       assert.strictEqual(
         find('.challenge-response__alert').textContent.trim(),
-        'Pour valider, sélectionnez au moins une réponse. Sinon, passez.'
+        'Pour valider, sélectionnez au moins deux réponses. Sinon, passez.'
+      );
+    });
+
+    test('should display the alert box if user validates checking one checkbox', async function (assert) {
+      // when
+      await click(findAll('.proposal-text')[1]);
+      await click('.challenge-actions__action-validate');
+
+      // then
+      assert.dom('.challenge-response__alert').exists();
+      assert.strictEqual(
+        find('.challenge-response__alert').textContent.trim(),
+        'Pour valider, sélectionnez au moins deux réponses. Sinon, passez.'
       );
     });
 
@@ -71,6 +84,7 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
     test('should go to checkpoint when user validated', async function (assert) {
       // given
       await click(findAll('.proposal-text')[1]);
+      await click(findAll('.proposal-text')[2]);
 
       // when
       await click('.challenge-actions__action-validate');

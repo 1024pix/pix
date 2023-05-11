@@ -7,7 +7,7 @@ export default class ChallengeItemQcm extends ChallengeItemGeneric {
   checkedValues = new Set();
 
   _hasError() {
-    return this.checkedValues.size < 1;
+    return this.checkedValues.size < 2;
   }
 
   _getAnswerValue() {
