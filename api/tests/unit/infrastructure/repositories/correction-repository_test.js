@@ -21,6 +21,7 @@ describe('Unit | Repository | correction-repository', function () {
     const recordId = 'rec-challengeId';
     const userId = 'userId';
     const locale = 'en';
+    let fromDatasourceObject;
     let expectedHint;
     let expectedTutorials;
     let expectedLearningMoreTutorials;
@@ -31,6 +32,8 @@ describe('Unit | Repository | correction-repository', function () {
     const tutorialEvaluation3 = { id: 'tutorialEvaluationId3', userId, tutorialId: 'recTuto3' };
 
     beforeEach(function () {
+      fromDatasourceObject = sinon.stub();
+
       expectedHint = domainBuilder.buildHint({
         skillName: '@web1',
         value: 'Can we geo-locate a rabbit on the ice floe?',
@@ -101,18 +104,21 @@ describe('Unit | Repository | correction-repository', function () {
           skillId: 'recIdSkill003',
           solution: '1, 5',
           solutionToDisplay: '1',
+          type: 'QCM',
         });
         challengeDatasource.get.resolves(challengeDataObject);
+        const getSolutionStub = sinon.stub();
 
         // when
         const result = await correctionRepository.getByChallengeId({
           challengeId: recordId,
           userId,
           locale,
-          dependencies: { tutorialRepository },
+          dependencies: { tutorialRepository, fromDatasourceObject, getSolution: getSolutionStub },
         });
 
         // then
+        expect(getSolutionStub).not.to.have.been.called;
         expect(result).to.be.an.instanceof(Correction);
         expect(result).to.deep.equal(expectedCorrection);
         expect(challengeDatasource.get).to.have.been.calledWith(recordId);
@@ -128,17 +134,50 @@ describe('Unit | Repository | correction-repository', function () {
           skillId: 'recIdSkill003',
         });
         challengeDatasource.get.resolves(challengeDataObject);
+        const getSolutionStub = sinon.stub();
 
         // when
         const result = await correctionRepository.getByChallengeId({
           challengeId: recordId,
           userId,
           locale,
-          dependencies: { tutorialRepository },
+          dependencies: { tutorialRepository, fromDatasourceObject, getSolution: getSolutionStub },
         });
 
         // then
         expect(result.hint).to.deep.equal(expectedHint);
+      });
+
+      context('when challenge type is QROCM-dep', function () {
+        it('should call solution service and return solution blocks', async function () {
+          // given
+          challengeDataObject = ChallengeLearningContentDataObjectFixture({
+            skillId: 'recIdSkill003',
+            solution: '1, 5',
+            type: 'QROCM-dep',
+          });
+          challengeDatasource.get.resolves(challengeDataObject);
+
+          const answerValue = Symbol('answerValue');
+          const solution = Symbol('solution');
+          fromDatasourceObject.withArgs(challengeDataObject).returns(solution);
+          const getSolutionStub = sinon.stub();
+          const solutionBlocks = Symbol('solutionBlocks');
+          getSolutionStub.withArgs({ solution, answerValue }).returns(solutionBlocks);
+
+          // when
+          const correction = await correctionRepository.getByChallengeId({
+            challengeId: recordId,
+            answerValue,
+            userId,
+            locale,
+            dependencies: { tutorialRepository, fromDatasourceObject, getSolution: getSolutionStub },
+          });
+
+          // then
+          expect(getSolutionStub).to.have.been.calledWithExactly({ solution, answerValue });
+          expect(correction.solutionBlocks).to.equal(solutionBlocks);
+        });
       });
     });
   });
