@@ -25,7 +25,6 @@ async function teamContenuDataBuilder({ databaseBuilder }) {
   await databaseBuilder.commit();
   await _createAssessmentCampaign(databaseBuilder);
   await _createProfilesCollectionCampaign(databaseBuilder);
-  _createCertificationSession(databaseBuilder);
 }
 
 module.exports = {
@@ -88,34 +87,6 @@ function _createProCertificationCenter(databaseBuilder) {
   databaseBuilder.factory.buildCertificationCenterMembership({
     userId: PRO_CERTIFICATION_CENTER_USER_ID,
     certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
-  });
-}
-
-function _createCertificationSession(databaseBuilder) {
-  tooling.session.createSession({
-    databaseBuilder,
-    sessionId: 500,
-    accessCode: 'CONT39',
-    address: '3 rue du contenu',
-    certificationCenter: 'Centre de certif Contenu',
-    certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
-    date: '2020-01-15',
-    description: null,
-    examiner: 'Tata Yoyo',
-    room: 'B315',
-    time: '15:30:00',
-    examinerGlobalComment: '',
-    hasIncident: false,
-    hasJoiningIssue: false,
-    createdAt: new Date(),
-    finalizedAt: null,
-    resultsSentToPrescriberAt: null,
-    publishedAt: null,
-    assignedCertificationOfficerId: null,
-    juryComment: null,
-    juryCommentAuthorId: null,
-    juryCommentedAt: null,
-    supervisorPassword: 'PIX12',
   });
 }
 

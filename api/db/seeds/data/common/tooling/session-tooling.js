@@ -1,99 +1,26 @@
+// TODO : pour les certifs complémentaires HORS CLEA, sélectionner 4 épreuves par domaines PIX+
+// TODO : pour cléa, ne rien faire ?
+// TODO : perf
+
 const _ = require('lodash');
 const learningContent = require('./learning-content');
+const campaignTooling = require('./campaign-tooling');
 const generic = require('./generic');
+const {
+  CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+} = require('../common-builder');
 
 let verifCodeCount = 0;
 
 module.exports = {
-  createSession,
   createDraftScoSession,
   createPublishedScoSession,
   createDraftSession,
   createPublishedSession,
 };
-
-/**
- * Fonction générique pour créer une session selon une configuration donnée.
- * Retourne l'ID de la session.
- *
- * @param {DatabaseBuilder} databaseBuilder
- * @param {number} sessionId
- * @param {string} accessCode
- * @param {string} address
- * @param {string} certificationCenter
- * @param {number} certificationCenterId
- * @param {Date} date
- * @param {string} description
- * @param {string} examiner
- * @param {string} room
- * @param {string} time
- * @param {string} examinerGlobalComment
- * @param {boolean} hasIncident
- * @param {boolean} hasJoiningIssue
- * @param {Date} createdAt
- * @param {Date} finalizedAt
- * @param {Date} resultsSentToPrescriberAt
- * @param {Date} publishedAt
- * @param {number} assignedCertificationOfficerId
- * @param {string} juryComment
- * @param {number} juryCommentAuthorId
- * @param {Date} juryCommentedAt
- * @param {string} supervisorPassword
- * @returns {{sessionId: number}} sessionId
- */
-function createSession({
-  databaseBuilder,
-  sessionId,
-  accessCode,
-  address,
-  certificationCenter,
-  certificationCenterId,
-  date,
-  description,
-  examiner,
-  room,
-  time,
-  examinerGlobalComment,
-  hasIncident,
-  hasJoiningIssue,
-  createdAt,
-  finalizedAt,
-  resultsSentToPrescriberAt,
-  publishedAt,
-  assignedCertificationOfficerId,
-  juryComment,
-  juryCommentAuthorId,
-  juryCommentedAt,
-  supervisorPassword,
-}) {
-  _buildSession({
-    databaseBuilder,
-    sessionId,
-    accessCode,
-    address,
-    certificationCenter,
-    certificationCenterId,
-    date,
-    description,
-    examiner,
-    room,
-    time,
-    examinerGlobalComment,
-    hasIncident,
-    hasJoiningIssue,
-    createdAt,
-    finalizedAt,
-    resultsSentToPrescriberAt,
-    publishedAt,
-    assignedCertificationOfficerId,
-    juryComment,
-    juryCommentAuthorId,
-    juryCommentedAt,
-    supervisorPassword,
-  });
-
-  return { sessionId };
-}
 
 /**
  * Fonction générique pour créer une session sco avec candidats non démarrée selon une configuration donnée.
@@ -347,8 +274,8 @@ async function createPublishedScoSession({
     configSession,
   });
 
-  const profileData = await _makeCandidatesCertifiable(databaseBuilder, certificationCandidates);
-  await _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, profileData);
+  const { coreProfileData } = await _makeCandidatesCertifiable(databaseBuilder, certificationCandidates);
+  await _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, coreProfileData);
 
   return { sessionId };
 }
@@ -453,8 +380,17 @@ async function createPublishedSession({
     certificationCenterId,
   });
 
-  const profileData = await _makeCandidatesCertifiable(databaseBuilder, certificationCandidates);
-  await _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, profileData);
+  const { coreProfileData, complementaryCertificationsSkillsAndChallenges } = await _makeCandidatesCertifiable(
+    databaseBuilder,
+    certificationCandidates,
+  );
+  await _makeCandidatesPassCertification(
+    databaseBuilder,
+    sessionId,
+    certificationCandidates,
+    coreProfileData,
+    complementaryCertificationsSkillsAndChallenges,
+  );
 
   return { sessionId };
 }
@@ -512,23 +448,29 @@ async function _registerCandidatesToSession({
   const certificationCandidates = [];
   if (configSession && configSession.candidatesToRegisterCount > 0) {
     const extraTimePercentages = [null, 0.3, 0.5];
-    const billingModes = [{
-      billingMode: 'FREE',
-      prepaymentCode: null,
-    }, {
-      billingMode: 'PREPAID',
-      prepaymentCode: 'code',
-    }, {
-      billingMode: 'PAID',
-      prepaymentCode: null,
-    }];
+    const billingModes = [
+      {
+        billingMode: 'FREE',
+        prepaymentCode: null,
+      },
+      {
+        billingMode: 'PREPAID',
+        prepaymentCode: 'code',
+      },
+      {
+        billingMode: 'PAID',
+        prepaymentCode: null,
+      },
+    ];
 
     const complementaryCertificationIds = [null];
     if (configSession.registerToComplementaryCertifications) {
-      complementaryCertificationIds.push(...await databaseBuilder
-        .knex('complementary-certification-habilitations')
-        .pluck('complementaryCertificationId')
-        .where('certificationCenterId', certificationCenterId));
+      complementaryCertificationIds.push(
+        ...(await databaseBuilder
+          .knex('complementary-certification-habilitations')
+          .pluck('complementaryCertificationId')
+          .where('certificationCenterId', certificationCenterId)),
+      );
     }
 
     for (let i = 0; i < configSession.candidatesToRegisterCount; i++) {
@@ -561,11 +503,14 @@ async function _registerCandidatesToSession({
         prepaymentCode: billingModes[i % extraTimePercentages.length].prepaymentCode,
       });
 
+      certificationCandidate.complementaryCertificationSubscribedId = null;
       if (complementaryCertificationIds[i % complementaryCertificationIds.length]) {
         databaseBuilder.factory.buildComplementaryCertificationSubscription({
           complementaryCertificationId: complementaryCertificationIds[i % complementaryCertificationIds.length],
           certificationCandidateId: certificationCandidate.id,
         });
+        certificationCandidate.complementaryCertificationSubscribedId =
+          complementaryCertificationIds[i % complementaryCertificationIds.length];
       }
       certificationCandidates.push(certificationCandidate);
     }
@@ -626,7 +571,7 @@ function _buildSession({
 }
 
 async function _makeCandidatesCertifiable(databaseBuilder, certificationCandidates) {
-  const profileData = {};
+  const coreProfileData = {};
   const pixCompetences = await learningContent.getCoreCompetences();
   const fiveCompetences = generic.pickRandomAmong(pixCompetences, 5);
   const assessmentAndUserIds = certificationCandidates.map((certificationCandidate) => {
@@ -637,18 +582,18 @@ async function _makeCandidatesCertifiable(databaseBuilder, certificationCandidat
     return { assessmentId, userId: certificationCandidate.userId };
   });
   for (const competence of fiveCompetences) {
-    profileData[competence.id] = { threeMostDifficultSkillsAndChallenges: [], pixScore: 0, competence };
+    coreProfileData[competence.id] = { threeMostDifficultSkillsAndChallenges: [], pixScore: 0, competence };
     const skills = await learningContent.findActiveSkillsByCompetenceId(competence.id);
     const orderedSkills = _.sortBy(skills, 'level');
     let i = 0;
     while (
       orderedSkills[i] &&
-      (profileData[competence.id].pixScore < 8 ||
-        profileData[competence.id].threeMostDifficultSkillsAndChallenges.length < 3)
+      (coreProfileData[competence.id].pixScore < 8 ||
+        coreProfileData[competence.id].threeMostDifficultSkillsAndChallenges.length < 3)
     ) {
       const skill = orderedSkills[i];
       const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
-      profileData[competence.id].threeMostDifficultSkillsAndChallenges.push({ challenge, skill });
+      coreProfileData[competence.id].threeMostDifficultSkillsAndChallenges.push({ challenge, skill });
       assessmentAndUserIds.forEach(({ assessmentId, userId }) => {
         const answerId = databaseBuilder.factory.buildAnswer({
           value: 'dummy value',
@@ -672,18 +617,45 @@ async function _makeCandidatesCertifiable(databaseBuilder, certificationCandidat
           competenceId: skill.competenceId,
         });
       });
-      profileData[competence.id].pixScore += skill.pixValue;
+      coreProfileData[competence.id].pixScore += skill.pixValue;
       ++i;
-      if (profileData[competence.id].threeMostDifficultSkillsAndChallenges.length > 3)
-        profileData[competence.id].threeMostDifficultSkillsAndChallenges.splice(-3);
+      if (coreProfileData[competence.id].threeMostDifficultSkillsAndChallenges.length > 3)
+        coreProfileData[competence.id].threeMostDifficultSkillsAndChallenges.splice(-3);
     }
-    profileData[competence.id].pixScore = Math.ceil(profileData[competence.id].pixScore);
+    coreProfileData[competence.id].pixScore = Math.ceil(coreProfileData[competence.id].pixScore);
   }
 
-  return profileData;
+  const complementaryCertificationsSkillsAndChallenges = {};
+  for (const complementaryCertificationId of [
+    PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+    PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+  ]) {
+    const certificationCandidatesWithSubscription = certificationCandidates.filter(
+      (certificationCandidate) =>
+        certificationCandidate.complementaryCertificationSubscribedId === complementaryCertificationId,
+    );
+    if (certificationCandidatesWithSubscription.length > 0) {
+      complementaryCertificationsSkillsAndChallenges[complementaryCertificationId] =
+        await _makeCandidatesComplementaryCertificationCertifiable(
+          databaseBuilder,
+          complementaryCertificationId,
+          certificationCandidatesWithSubscription,
+        );
+    }
+  }
+
+  return { coreProfileData, complementaryCertificationsSkillsAndChallenges };
 }
 
-function _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, profileData) {
+function _makeCandidatesPassCertification(
+  databaseBuilder,
+  sessionId,
+  certificationCandidates,
+  coreProfileData,
+  complementaryCertificationsSkillsAndChallenges = {},
+) {
   for (const certificationCandidate of certificationCandidates) {
     const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
       userId: certificationCandidate.userId,
@@ -718,8 +690,49 @@ function _makeCandidatesPassCertification(databaseBuilder, sessionId, certificat
       type: 'CERTIFICATION',
       state: 'completed',
     }).id;
+
+    if (certificationCandidate.complementaryCertificationSubscribedId) {
+      const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+        certificationCourseId,
+        complementaryCertificationId: certificationCandidate.complementaryCertificationSubscribedId,
+        complementaryCertificationBadgeId:
+          certificationCandidate.complementaryCertificationBadgeInfo.complementaryCertificationBadgeId,
+      }).id;
+      for (const { challenge, skill } of complementaryCertificationsSkillsAndChallenges[
+        certificationCandidate.complementaryCertificationSubscribedId
+      ]) {
+        databaseBuilder.factory.buildCertificationChallenge({
+          associatedSkillName: skill.name,
+          associatedSkillId: skill.id,
+          challengeId: challenge.id,
+          competenceId: skill.competenceId,
+          courseId: certificationCourseId,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          isNeutralized: false,
+          hasBeenSkippedAutomatically: false,
+          certifiableBadgeKey: null,
+        });
+        databaseBuilder.factory.buildAnswer({
+          value: 'dummy value',
+          result: 'ok',
+          assessmentId,
+          challengeId: challenge.id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          timeout: null,
+          resultDetails: 'dummy value',
+        });
+      }
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        partnerKey: certificationCandidate.complementaryCertificationBadgeInfo.partnerKey,
+        acquired: true,
+        source: 'PIX',
+        complementaryCertificationCourseId,
+      });
+    }
     let assessmentResultPixScore = 0;
-    for (const competenceData of Object.values(profileData)) {
+    for (const competenceData of Object.values(coreProfileData)) {
       assessmentResultPixScore += competenceData.pixScore;
     }
     const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
@@ -739,8 +752,7 @@ function _makeCandidatesPassCertification(databaseBuilder, sessionId, certificat
       certificationCourseId,
       lastAssessmentResultId: assessmentResultId,
     });
-
-    for (const competenceData of Object.values(profileData)) {
+    for (const competenceData of Object.values(coreProfileData)) {
       databaseBuilder.factory.buildCompetenceMark({
         level: 1,
         score: competenceData.pixScore,
@@ -776,4 +788,89 @@ function _makeCandidatesPassCertification(databaseBuilder, sessionId, certificat
       }
     }
   }
+}
+
+async function _makeCandidatesComplementaryCertificationCertifiable(
+  databaseBuilder,
+  complementaryCertificationId,
+  certificationCandidates,
+) {
+  const targetProfileTubes = await databaseBuilder
+    .knex('complementary-certification-badges')
+    .select('target-profile_tubes.tubeId', 'target-profile_tubes.level', 'target-profile_tubes.targetProfileId')
+    .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
+    .join('target-profiles', 'target-profiles.id', 'badges.targetProfileId')
+    .join('target-profile_tubes', 'target-profile_tubes.targetProfileId', 'target-profiles.id')
+    .where({ complementaryCertificationId });
+  const { campaignId } = await campaignTooling.createAssessmentCampaign({
+    databaseBuilder,
+    targetProfileId: targetProfileTubes[0].targetProfileId,
+  });
+  const badgeAndComplementaryCertificationBadgeIds = await databaseBuilder
+    .knex('complementary-certification-badges')
+    .select({
+      badgeId: 'complementary-certification-badges.badgeId',
+      complementaryCertificationBadgeId: 'complementary-certification-badges.id',
+      partnerKey: 'badges.key',
+    })
+    .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
+    .where({ complementaryCertificationId });
+  const assessmentAndUserIds = certificationCandidates.map((certificationCandidate) => {
+    const assessmentId = databaseBuilder.factory.buildAssessment({
+      userId: certificationCandidate.userId,
+      type: 'COMPETENCE_EVALUATION',
+    }).id;
+    const {
+      badgeId: selectedBadgeId,
+      complementaryCertificationBadgeId,
+      partnerKey,
+    } = generic.pickOneRandomAmong(badgeAndComplementaryCertificationBadgeIds);
+    const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+      userId: certificationCandidate.userId,
+      campaignId,
+      state: 'SHARED',
+    }).id;
+    databaseBuilder.factory.buildBadgeAcquisition({
+      userId: certificationCandidate.userId,
+      badgeId: selectedBadgeId,
+      campaignParticipationId,
+    });
+    certificationCandidate.complementaryCertificationBadgeInfo = { complementaryCertificationBadgeId, partnerKey };
+    return { assessmentId, userId: certificationCandidate.userId };
+  });
+
+  const skillsAndChallenges = [];
+  for (const cappedTube of targetProfileTubes) {
+    let skills = await learningContent.findActiveSkillsByTubeId(cappedTube.tubeId);
+    skills = skills.filter((skill) => skill.level <= parseInt(cappedTube.level));
+    for (const skill of skills) {
+      const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
+      skillsAndChallenges.push({ challenge, skill });
+      assessmentAndUserIds.forEach(({ assessmentId, userId }) => {
+        const answerId = databaseBuilder.factory.buildAnswer({
+          value: 'dummy value',
+          result: 'ok',
+          assessmentId,
+          challengeId: challenge.id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          timeout: null,
+          resultDetails: 'dummy value',
+        }).id;
+        databaseBuilder.factory.buildKnowledgeElement({
+          source: 'direct',
+          status: 'validated',
+          answerId,
+          assessmentId,
+          skillId: skill.id,
+          createdAt: new Date(),
+          earnedPix: skill.pixValue,
+          userId,
+          competenceId: skill.competenceId,
+        });
+      });
+    }
+  }
+
+  return skillsAndChallenges;
 }
