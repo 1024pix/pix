@@ -1,6 +1,5 @@
-import { set } from '@ember/object';
+import { action, set } from '@ember/object';
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import dayjs from 'dayjs';
@@ -38,10 +37,27 @@ export default class CandidateInList extends Component {
     return this.args.candidate.hasStarted;
   }
 
-  get shouldDisplayComplementaryCertification() {
+  get shouldDisplayEnrolledComplementaryCertification() {
     return (
-      this.args.candidate.complementaryCertification &&
+      this.args.candidate.enrolledComplementaryCertification &&
       this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled
+    );
+  }
+
+  get shouldDisplayNonEligibilityWarning() {
+    return this._isReconciliated() && this._isNotEligibleToEnrolledComplementaryCertification();
+  }
+
+  _isNotEligibleToEnrolledComplementaryCertification() {
+    return (
+      !this.args.candidate.isStillEligibleToComplementaryCertification &&
+      this.args.candidate.enrolledComplementaryCertification
+    );
+  }
+
+  _isReconciliated() {
+    return (
+      this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled && this.args.candidate.userId
     );
   }
 

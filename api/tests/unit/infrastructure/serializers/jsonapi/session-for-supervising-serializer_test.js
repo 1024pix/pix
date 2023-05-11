@@ -1,6 +1,7 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
+const { CertificationCandidateForSupervising } = require('../../../../../lib/domain/models');
 
 describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', function () {
   describe('#serialize()', function () {
@@ -40,7 +41,9 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               'authorized-to-start': true,
               'assessment-status': Assessment.states.STARTED,
               'start-date-time': new Date('2022-10-01T13:37:00Z'),
-              'complementary-certification': 'Super Certification Complémentaire',
+              'enrolled-complementary-certification': 'Super Certification Complémentaire',
+              'is-still-eligible-to-complementary-certification': true,
+              'user-id': 6789,
             },
             id: '1234',
             type: 'certification-candidate-for-supervising',
@@ -58,8 +61,9 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
         time: '14:30',
         certificationCenterName: 'Toto',
         certificationCandidates: [
-          {
+          new CertificationCandidateForSupervising({
             id: 1234,
+            userId: 6789,
             firstName: 'toto',
             lastName: 'tata',
             birthdate: '28/05/1984',
@@ -67,8 +71,13 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
             authorizedToStart: true,
             assessmentStatus: Assessment.states.STARTED,
             startDateTime: new Date('2022-10-01T13:37:00Z'),
-            complementaryCertification: 'Super Certification Complémentaire',
-          },
+            enrolledComplementaryCertification: 'Super Certification Complémentaire',
+            stillValidBadgeAcquisitions: [
+              domainBuilder.buildCertifiableBadgeAcquisition({
+                complementaryCertificationBadgeLabel: 'Super Certification Complémentaire',
+              }),
+            ],
+          }),
         ],
       });
 

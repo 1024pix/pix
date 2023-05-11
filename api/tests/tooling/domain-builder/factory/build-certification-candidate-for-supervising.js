@@ -2,6 +2,7 @@ const CertificationCandidateForSupervising = require('../../../../lib/domain/mod
 
 module.exports = function buildCertificationCandidateForSupervising({
   id = 123,
+  userId = 345,
   firstName = 'Monkey',
   lastName = 'D Luffy',
   birthdate = '1997-07-22',
@@ -9,10 +10,12 @@ module.exports = function buildCertificationCandidateForSupervising({
   authorizedToStart = false,
   assessmentStatus = null,
   startDateTime = new Date('2022-10-01T12:00:00Z'),
-  complementaryCertification,
+  enrolledComplementaryCertification,
+  stillValidBadgeAcquisitions = [],
 } = {}) {
   return new CertificationCandidateForSupervising({
     id,
+    userId,
     firstName,
     lastName,
     birthdate,
@@ -20,6 +23,7 @@ module.exports = function buildCertificationCandidateForSupervising({
     authorizedToStart,
     assessmentStatus,
     startDateTime,
-    complementaryCertification,
+    enrolledComplementaryCertification,
+    stillValidBadgeAcquisitions,
   });
 };

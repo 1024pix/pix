@@ -52,18 +52,24 @@ describe('Integration | Repository | SessionForSupervising', function () {
         certificationCenterId: 1234,
       });
 
+      databaseBuilder.factory.buildUser({ id: 11111 });
       databaseBuilder.factory.buildCertificationCandidate({
+        userId: 11111,
         lastName: 'Jackson',
         firstName: 'Michael',
         sessionId: session.id,
         authorizedToStart: true,
       });
+      databaseBuilder.factory.buildUser({ id: 22222 });
       databaseBuilder.factory.buildCertificationCandidate({
+        userId: 22222,
         lastName: 'Stardust',
         firstName: 'Ziggy',
         sessionId: session.id,
       });
+      databaseBuilder.factory.buildUser({ id: 33333 });
       databaseBuilder.factory.buildCertificationCandidate({
+        userId: 33333,
         lastName: 'Jackson',
         firstName: 'Janet',
         sessionId: session.id,
@@ -95,10 +101,19 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
       // then
       const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-        _.pick(item, ['sessionId', 'lastName', 'firstName', 'authorizedToStart', 'assessmentStatus', 'startDateTime'])
+        _.pick(item, [
+          'userId',
+          'sessionId',
+          'lastName',
+          'firstName',
+          'authorizedToStart',
+          'assessmentStatus',
+          'startDateTime',
+        ])
       );
       expect(actualCandidates).to.have.deep.ordered.members([
         {
+          userId: 33333,
           lastName: 'Jackson',
           firstName: 'Janet',
           authorizedToStart: false,
@@ -106,6 +121,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           startDateTime: null,
         },
         {
+          userId: 11111,
           lastName: 'Jackson',
           firstName: 'Michael',
           authorizedToStart: true,
@@ -113,6 +129,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           startDateTime: null,
         },
         {
+          userId: 12345,
           lastName: 'Joplin',
           firstName: 'Janis',
           authorizedToStart: true,
@@ -120,6 +137,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           startDateTime: '2022-10-19T13:37:00+00:00',
         },
         {
+          userId: 22222,
           lastName: 'Stardust',
           firstName: 'Ziggy',
           authorizedToStart: false,
@@ -141,13 +159,17 @@ describe('Integration | Repository | SessionForSupervising', function () {
         certificationCenterId: 1234,
       });
 
+      databaseBuilder.factory.buildUser({ id: 11111 });
       const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+        userId: 11111,
         lastName: 'Jackson',
         firstName: 'Janet',
         sessionId: session.id,
       });
 
+      databaseBuilder.factory.buildUser({ id: 22222 });
       databaseBuilder.factory.buildCertificationCandidate({
+        userId: 22222,
         lastName: 'Joplin',
         firstName: 'Janis',
         sessionId: session.id,
@@ -170,19 +192,21 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
       // then
       const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-        _.pick(item, ['sessionId', 'lastName', 'firstName', 'complementaryCertification'])
+        _.pick(item, ['userId', 'sessionId', 'lastName', 'firstName', 'enrolledComplementaryCertification'])
       );
 
       expect(actualCandidates).to.have.deep.ordered.members([
         {
+          userId: 11111,
           lastName: 'Jackson',
           firstName: 'Janet',
-          complementaryCertification: 'Pix+ Édu 1er degré',
+          enrolledComplementaryCertification: 'Pix+ Édu 1er degré',
         },
         {
+          userId: 22222,
           lastName: 'Joplin',
           firstName: 'Janis',
-          complementaryCertification: null,
+          enrolledComplementaryCertification: null,
         },
       ]);
     });

@@ -3,6 +3,7 @@ const isNil = require('lodash/isNil');
 class CertificationCandidateForSupervising {
   constructor({
     id,
+    userId,
     firstName,
     lastName,
     birthdate,
@@ -10,9 +11,11 @@ class CertificationCandidateForSupervising {
     authorizedToStart,
     assessmentStatus,
     startDateTime,
-    complementaryCertification,
+    enrolledComplementaryCertification,
+    stillValidBadgeAcquisitions = [],
   } = {}) {
     this.id = id;
+    this.userId = userId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthdate = birthdate;
@@ -20,11 +23,19 @@ class CertificationCandidateForSupervising {
     this.authorizedToStart = authorizedToStart;
     this.assessmentStatus = assessmentStatus;
     this.startDateTime = startDateTime;
-    this.complementaryCertification = complementaryCertification;
+    this.enrolledComplementaryCertification = enrolledComplementaryCertification;
+    this.stillValidBadgeAcquisitions = stillValidBadgeAcquisitions;
   }
 
   authorizeToStart() {
     this.authorizedToStart = true;
+  }
+
+  get isStillEligibleToComplementaryCertification() {
+    return this.stillValidBadgeAcquisitions.some(
+      (stillValidBadgeAcquisition) =>
+        stillValidBadgeAcquisition.complementaryCertificationBadgeLabel === this.enrolledComplementaryCertification
+    );
   }
 }
 
