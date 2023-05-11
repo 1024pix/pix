@@ -2,7 +2,8 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 // eslint-disable-next-line no-restricted-imports
-import { visit, currentURL, find } from '@ember/test-helpers';
+import { currentURL, find } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { authenticate } from '../helpers/authentication';
 
 module('Acceptance | mes-formations', function (hooks) {

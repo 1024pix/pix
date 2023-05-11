@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-restricted-imports
-import { currentURL, find, findAll, visit } from '@ember/test-helpers';
+import { currentURL, find, findAll } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';

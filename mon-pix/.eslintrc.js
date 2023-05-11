@@ -30,9 +30,9 @@ module.exports = {
       'lodash',
       {
         name: '@ember/test-helpers',
-        importNames: ['render', 'find'],
+        importNames: ['render', 'visit', 'find'],
         message:
-          "Please import 'render' from '@1024pix/ember-testing-library'.\n 'find' should be replaced with '@1024pix/ember-testing-library' 'find...'/'get...'/'query...' methods to enforce accessible usages",
+          "Please import 'render' from '@1024pix/ember-testing-library'.\n Please import 'visit' from '@1024pix/ember-testing-library'.\n. 'find' should be replaced with '@1024pix/ember-testing-library' 'find...'/'get...'/'query...' methods to enforce accessible usages.",
       },
     ],
     'ember/avoid-leaking-state-in-ember-objects': 'off',

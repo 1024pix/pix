@@ -1,4 +1,5 @@
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
