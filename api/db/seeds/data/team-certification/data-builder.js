@@ -25,6 +25,7 @@ const PRO_EXTERNAL_ID = 'PRO_EXTERNAL_ID';
 // SESSION IDS
 const SCO_DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID;
 const SCO_PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 1;
+const DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
 
 async function teamCertificationDataBuilder({ databaseBuilder }) {
   _createScoOrganization({ databaseBuilder });
@@ -34,6 +35,7 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await databaseBuilder.commit();
   await _createScoSession({ databaseBuilder });
   await _createPublishedScoSession({ databaseBuilder });
+  await _createSession({ databaseBuilder });
 }
 
 module.exports = {
@@ -217,6 +219,27 @@ async function _createPublishedScoSession({ databaseBuilder }) {
     juryCommentedAt: new Date(),
     configSession: {
       learnersToRegisterCount: 8,
+    },
+  });
+}
+
+async function _createSession({ databaseBuilder }) {
+  await tooling.session.createDraftSession({
+    databaseBuilder,
+    sessionId: DRAFT_SESSION_ID,
+    accessCode: 'SCOS56',
+    address: '1 rue Certification',
+    certificationCenter: 'Centre de certification pro',
+    certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
+    date: new Date(),
+    description: 'une description',
+    examiner: 'Un super examinateur',
+    room: '42',
+    time: '12:00',
+    createdAt: new Date(),
+    configSession: {
+      candidatesToRegisterCount: 10,
+      registerToComplementaryCertifications: true,
     },
   });
 }
