@@ -5,15 +5,15 @@
       <Input
         @type="checkbox"
         id="checkbox_{{inc index}}"
-        @checked={{get labeledCheckbox 1}}
+        @checked={{labeledCheckbox.checked}}
         data-test="challenge-response-proposal-selector"
         name="{{inc index}}"
-        {{on "click" (fn this.checkboxClicked (inc index))}}
+        {{on "click" (fn this.checkboxClicked labeledCheckbox.value)}}
         disabled={{@isAnswerFieldDisabled}}
       />
 
       <label for="checkbox_{{inc index}}" class="label-checkbox-proposal">
-        <MarkdownToHtml @class="proposal-text" @markdown={{get labeledCheckbox 0}} />
+        <MarkdownToHtml @class="proposal-text" @markdown={{labeledCheckbox.label}} />
       </label>
     </p>
   {{/each}}
