@@ -29,34 +29,26 @@
         {{else}}
           <p>{{t "pages.challenge.feedback-panel.description"}}</p>
           <div class="feedback-panel__form-wrapper">
-            <form class="feedback-panel__form" {{on "submit" this.sendFeedback}}>
+            <form class="feedback-panel__form" {{on "submit" this.sendFeedback}} novalidate>
               <div class="feedback-panel__group">
                 <div class="feedback-panel__category-selection">
-                  <select
-                    class="feedback-panel__dropdown"
-                    {{on "change" this.displayCategoryOptions}}
-                    aria-label={{t "pages.challenge.feedback-panel.form.fields.detail-selection.aria-first"}}
-                  >
-                    <option value="" disabled selected>{{t
-                        "pages.challenge.feedback-panel.form.fields.category-selection.label"
-                      }}</option>
-                    {{#each this.categories as |category|}}
-                      <option value={{category.value}}>{{t category.name}}</option>
-                    {{/each}}
-                  </select>
+                  <PixSelect
+                    @label={{t "pages.challenge.feedback-panel.form.fields.detail-selection.aria-first"}}
+                    @screenReaderOnly={{true}}
+                    @placeholder={{t "pages.challenge.feedback-panel.form.fields.category-selection.label"}}
+                    @options={{this.categories}}
+                    @onChange={{this.displayCategoryOptions}}
+                    @value={{this._currentMajorCategory}}
+                  />
                   {{#if this.displayQuestionDropdown}}
-                    <select
-                      class="feedback-panel__dropdown"
-                      {{on "change" this.showFeedback}}
-                      aria-label={{t "pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary"}}
-                    >
-                      <option value="default" selected>{{t
-                          "pages.challenge.feedback-panel.form.fields.detail-selection.label"
-                        }}</option>
-                      {{#each this.nextCategory as |question index|}}
-                        <option value={{index}}>{{t question.name}}</option>
-                      {{/each}}
-                    </select>
+                    <PixSelect
+                      @label={{t "pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary"}}
+                      @screenReaderOnly={{true}}
+                      @placeholder={{t "pages.challenge.feedback-panel.form.fields.detail-selection.label"}}
+                      @onChange={{this.showFeedback}}
+                      @options={{this.nextCategories}}
+                      @value={{this._currentNextCategory}}
+                    />
                   {{/if}}
                   {{#if this.quickHelpInstructions}}
                     <div class="feedback-panel__quick-help">
@@ -71,22 +63,20 @@
                   <p class="feedback-panel__field-notice">
                     {{t "pages.challenge.feedback-panel.form.status.error.max-characters"}}
                   </p>
-                  <Textarea
-                    class="feedback-panel__field feedback-panel__field--content"
-                    @value={{this.content}}
-                    placeholder={{t "pages.challenge.feedback-panel.form.fields.detail-selection.label"}}
-                    maxlength="10000"
-                    rows="5"
-                    aria-label={{t
+                  <label class="screen-reader-only" for="feedback-panel__field">{{t
                       "pages.challenge.feedback-panel.form.fields.detail-selection.problem-suggestion-description"
-                    }}
+                    }}</label>
+                  <PixTextarea
+                    class="feedback-panel__field--content"
+                    @value={{this.content}}
+                    @id="feedback-panel__field"
+                    @maxlength="10000"
+                    rows="5"
+                    placeholder={{t "pages.challenge.feedback-panel.form.fields.detail-selection.label"}}
+                    @errorMessage={{this.emptyTextBoxMessageError}}
+                    required
                   />
                 </div>
-                {{#if this.emptyTextBoxMessageError}}
-                  <PixMessage class="feedback-panel__alert" @type="error" @withIcon={{true}}>
-                    {{this.emptyTextBoxMessageError}}
-                  </PixMessage>
-                {{/if}}
                 <PixButton @type="submit" @backgroundColor="grey" @isDisabled={{this.isSendButtonDisabled}}>
                   {{t "pages.challenge.feedback-panel.form.actions.submit"}}
                 </PixButton>
