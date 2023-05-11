@@ -123,11 +123,11 @@
     "sass": "^1.56.0",
     "showdown": "^2.1.0",
     "sinon": "^15.0.0",
-    "stylelint": "^14.14.0",
+    "stylelint": "^15.0.0",
     "stylelint-config-prettier": "^9.0.4",
     "stylelint-config-rational-order": "^0.1.2",
-    "stylelint-config-standard-scss": "^6.1.0",
-    "stylelint-order": "^5.0.0",
+    "stylelint-config-standard-scss": "^9.0.0",
+    "stylelint-order": "^6.0.0",
     "webpack": "^5.76.0",
     "xss": "^1.0.13"
   }
