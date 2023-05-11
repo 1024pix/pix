@@ -24,6 +24,11 @@ async function getCoreCompetences() {
   return allCompetences.filter((competence) => competence.origin === 'Pix');
 }
 
+async function getDroitCompetences() {
+  const allCompetences = await getAllCompetences();
+  return allCompetences.filter((competence) => competence.origin === 'Droit');
+}
+
 async function getAllActiveSkills() {
   if (!ALL_ACTIVE_SKILLS) {
     ALL_ACTIVE_SKILLS = await skillDatasource.findActive();
@@ -49,6 +54,7 @@ async function findFirstValidatedChallengeBySkillId(skillId) {
 module.exports = {
   getAllCompetences,
   getCoreCompetences,
+  getDroitCompetences,
   findActiveSkillsByCompetenceId,
   findActiveSkillsByTubeId,
   findFirstValidatedChallengeBySkillId,
