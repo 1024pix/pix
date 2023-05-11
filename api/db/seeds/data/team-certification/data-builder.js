@@ -26,6 +26,7 @@ const PRO_EXTERNAL_ID = 'PRO_EXTERNAL_ID';
 const SCO_DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID;
 const SCO_PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 1;
 const DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
+const PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 3;
 
 async function teamCertificationDataBuilder({ databaseBuilder }) {
   _createScoOrganization({ databaseBuilder });
@@ -36,6 +37,8 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createScoSession({ databaseBuilder });
   await _createPublishedScoSession({ databaseBuilder });
   await _createSession({ databaseBuilder });
+  await _createPublishedSession({ databaseBuilder });
+
 }
 
 module.exports = {
@@ -213,9 +216,9 @@ async function _createPublishedScoSession({ databaseBuilder }) {
     finalizedAt: new Date(),
     resultsSentToPrescriberAt: new Date(),
     publishedAt: new Date(),
-    assignedCertificationOfficerId: null, // créer quelqu'un
+    assignedCertificationOfficerId: null,
     juryComment: '',
-    juryCommentAuthorId: null, // mettre des gens
+    juryCommentAuthorId: null,
     juryCommentedAt: new Date(),
     configSession: {
       learnersToRegisterCount: 8,
@@ -239,6 +242,37 @@ async function _createSession({ databaseBuilder }) {
     createdAt: new Date(),
     configSession: {
       candidatesToRegisterCount: 10,
+      registerToComplementaryCertifications: true,
+    },
+  });
+}
+
+async function _createPublishedSession({ databaseBuilder }) {
+  tooling.session.createPublishedSession({
+    databaseBuilder,
+    sessionId: PUBLISHED_SESSION_ID,
+    accessCode: 'SCOS78',
+    address: '1 rue Certification pro',
+    certificationCenter: 'Centre de certification pro',
+    certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
+    date: new Date(),
+    description: 'une description',
+    examiner: 'Un super examinateur',
+    room: '42',
+    time: '12:00',
+    examinerGlobalComment: 'Session sans pb',
+    hasIncident: false,
+    hasJoiningIssue: false,
+    createdAt: new Date(),
+    finalizedAt: new Date(),
+    resultsSentToPrescriberAt: new Date(),
+    publishedAt: new Date(),
+    assignedCertificationOfficerId: null,
+    juryComment: '',
+    juryCommentAuthorId: null,
+    juryCommentedAt: new Date(),
+    configSession: {
+      candidatesToRegisterCount: 12,
       registerToComplementaryCertifications: true,
     },
   });
