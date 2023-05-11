@@ -89,14 +89,12 @@ class Form extends Object.extend(Validations) {
 export default class UserOverview extends Component {
   @service accessControl;
   @service notifications;
+  @service references;
 
   @tracked displayAnonymizeModal = false;
   @tracked isEditionMode = false;
 
-  languages = [
-    { value: 'fr', label: 'Français' },
-    { value: 'en', label: 'Anglais' },
-  ];
+  languages = this.references.availableLanguages;
 
   constructor() {
     super(...arguments);
