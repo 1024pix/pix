@@ -134,13 +134,13 @@ module.exports = {
       .join('users', 'users.id', 'authentication-methods.userId')
       .where({ userId });
 
-    const organizationLearnersDTO = await knex('organization-learners')
+    const organizationLearnersDTO = await knex('view-active-organization-learners')
       .select([
-        'organization-learners.*',
+        'view-active-organization-learners.*',
         'organizations.name AS organizationName',
         'organizations.isManagingStudents AS organizationIsManagingStudents',
       ])
-      .join('organizations', 'organizations.id', 'organization-learners.organizationId')
+      .join('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
       .where({ userId })
       .orderBy('id');
 
