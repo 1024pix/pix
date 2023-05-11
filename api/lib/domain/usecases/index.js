@@ -125,6 +125,7 @@ const pixAuthenticationService = require('../../domain/services/authentication/p
 const placementProfileService = require('../../domain/services/placement-profile-service.js');
 const poleEmploiSendingRepository = require('../../infrastructure/repositories/pole-emploi-sending-repository.js');
 const prescriberRepository = require('../../infrastructure/repositories/prescriber-repository.js');
+const random = require('../../infrastructure/utils/random');
 const resetPasswordService = require('../../domain/services/reset-password-service.js');
 const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository.js');
 const scoAccountRecoveryService = require('../services/sco-account-recovery-service.js');
@@ -353,6 +354,7 @@ const dependencies = {
   sessionValidator,
   smartRandom,
   settings,
+  random,
   readOdsUtils,
   sessionXmlService,
   skillRepository,

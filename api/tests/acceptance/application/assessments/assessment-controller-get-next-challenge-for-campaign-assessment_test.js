@@ -125,7 +125,12 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
         // then
         const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastQuestionDate');
         expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
-        expect(response.result.data.id).to.equal(firstChallengeId);
+        expect(response.result.data.id).to.be.oneOf([
+          firstChallengeId,
+          secondChallengeId,
+          thirdChallengeId,
+          otherChallengeId,
+        ]);
       });
     });
   });

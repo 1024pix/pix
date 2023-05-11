@@ -1,4 +1,3 @@
-const hashInt = require('hash-int');
 const { ObjectValidationError } = require('../errors.js');
 const Answer = require('./Answer.js');
 
@@ -146,8 +145,10 @@ class Assessment {
     return this.method === methods.SMART_RANDOM;
   }
 
-  chooseNextFlashChallenge(challenges) {
-    return challenges[Math.abs(hashInt(this.id)) % challenges.length];
+  chooseNextFlashChallenge({ challenges, randomAlgorithm }) {
+    const challengeIndex = randomAlgorithm(51, challenges.length, this.id).value;
+
+    return challenges[challengeIndex];
   }
 
   get hasLastQuestionBeenFocusedOut() {

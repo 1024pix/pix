@@ -10,6 +10,7 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   locale,
   dataFetcher,
   smartRandom,
+  random,
 }) {
   let algoResult;
 
@@ -27,7 +28,10 @@ module.exports = async function getNextChallengeForCampaignAssessment({
       throw new AssessmentEndedError();
     }
 
-    return assessment.chooseNextFlashChallenge(algoResult.possibleChallenges);
+    return assessment.chooseNextFlashChallenge({
+      challenges: algoResult.possibleChallenges,
+      randomAlgorithm: random.binaryTreeRandom,
+    });
   } else {
     const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
     algoResult = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });
