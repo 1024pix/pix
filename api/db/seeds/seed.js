@@ -1,4 +1,3 @@
-'use strict';
 import { DatabaseBuilder } from '../database-builder/database-builder.js';
 import { featuresBuilder } from './data/feature/feature-builder.js';
 import { answersBuilder } from './data/answers-builder.js';
