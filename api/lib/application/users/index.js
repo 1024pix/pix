@@ -251,6 +251,7 @@ exports.register = async function (server) {
                 email: Joi.string().email().allow(null).optional(),
                 username: Joi.string().allow(null).optional(),
                 lang: Joi.string().valid('fr', 'en'),
+                locale: Joi.string().allow(null).optional().valid('en', 'fr', 'fr-BE', 'fr-FR'),
               },
             },
           }),
