@@ -134,11 +134,11 @@
     </div>
   {{/if}}
 
-  {{#if this.isCampaignGoalProfileCollection}}
+  {{#if this.isMultipleSendingEnabled}}
     <div class="form__field">
       <p id="multiple-sendings-label" class="label">
         <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
-        {{t "pages.campaign-creation.multiple-sendings.question-label"}}
+        {{t this.multipleSendingWording.label}}
       </p>
       <div class="form__field-with-info" aria-labelledby="multiple-sendings-label" role="radiogroup">
         <PixRadioButton
@@ -164,7 +164,7 @@
             <FaIcon @icon="circle-info" class="form__field-info-icon" />
             <span>{{t "pages.campaign-creation.multiple-sendings.info-title"}}</span>
           </span>
-          <span class="form__field-info-message">{{t "pages.campaign-creation.multiple-sendings.info"}}</span>
+          <span class="form__field-info-message">{{t this.multipleSendingWording.info}}</span>
         </div>
       </div>
     </div>

@@ -53,6 +53,7 @@ module.exports = function buildPrescriber({
   areNewYearOrganizationLearnersImported = false,
   memberships = _buildMemberships(),
   userOrgaSettings = _buildUserOrgaSettings(),
+  enableMultipleSendingAssessment = false,
 } = {}) {
   return new Prescriber({
     id,
@@ -63,5 +64,6 @@ module.exports = function buildPrescriber({
     areNewYearOrganizationLearnersImported,
     memberships,
     userOrgaSettings,
+    enableMultipleSendingAssessment,
   });
 };
