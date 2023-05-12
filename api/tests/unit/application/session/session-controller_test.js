@@ -9,6 +9,7 @@ const { SessionPublicationBatchError } = require('../../../../lib/application/ht
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results.js');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const events = require('../../../../lib/domain/events');
+const { getI18n } = require('../../../tooling/i18n/i18n');
 
 describe('Unit | Controller | sessionController', function () {
   let request;
@@ -660,43 +661,37 @@ describe('Unit | Controller | sessionController', function () {
   });
 
   describe('#publish / #unpublish', function () {
-    let session;
-    let serializedSession;
-    let sessionId;
-
-    beforeEach(function () {
-      sessionId = 123;
-      session = Symbol('session');
-      serializedSession = Symbol('serializedSession');
-      request = {
-        params: {
-          id: sessionId,
-        },
-        payload: {
-          data: { attributes: {} },
-        },
-      };
-    });
-
     context('when publishing', function () {
-      beforeEach(function () {
-        request.payload.data.attributes.toPublish = true;
-        const usecaseResult = session;
+      it('should return the serialized session', async function () {
+        // given
+        const sessionId = 123;
+        const session = Symbol('session');
+        const serializedSession = Symbol('serializedSession');
+        const i18n = getI18n();
+        const sessionSerializer = { serialize: sinon.stub() };
         sinon
           .stub(usecases, 'publishSession')
           .withArgs({
             sessionId,
+            i18n,
           })
-          .resolves(usecaseResult);
-      });
-
-      it('should return the serialized session', async function () {
-        // given
-        const sessionSerializer = { serialize: sinon.stub() };
+          .resolves(session);
         sessionSerializer.serialize.withArgs({ session }).resolves(serializedSession);
 
         // when
-        const response = await sessionController.publish(request, hFake, { sessionSerializer });
+        const response = await sessionController.publish(
+          {
+            i18n,
+            params: {
+              id: sessionId,
+            },
+            payload: {
+              data: { attributes: { toPublish: true } },
+            },
+          },
+          hFake,
+          { sessionSerializer }
+        );
 
         // then
         expect(response).to.equal(serializedSession);
@@ -704,24 +699,34 @@ describe('Unit | Controller | sessionController', function () {
     });
 
     context('when unpublishing', function () {
-      beforeEach(function () {
-        request.payload.data.attributes.toPublish = false;
-        const usecaseResult = session;
+      it('should return the serialized session', async function () {
+        // given
+        const sessionId = 123;
+        const session = Symbol('session');
+        const serializedSession = Symbol('serializedSession');
+        const sessionSerializer = { serialize: sinon.stub() };
+
         sinon
           .stub(usecases, 'unpublishSession')
           .withArgs({
             sessionId,
           })
-          .resolves(usecaseResult);
-      });
-
-      it('should return the serialized session', async function () {
-        // given
-        const sessionSerializer = { serialize: sinon.stub() };
+          .resolves(session);
         sessionSerializer.serialize.withArgs({ session }).resolves(serializedSession);
 
         // when
-        const response = await sessionController.unpublish(request, hFake, { sessionSerializer });
+        const response = await sessionController.unpublish(
+          {
+            params: {
+              id: sessionId,
+            },
+            payload: {
+              data: { attributes: { toPublish: false } },
+            },
+          },
+          hFake,
+          { sessionSerializer }
+        );
 
         // then
         expect(response).to.equal(serializedSession);
