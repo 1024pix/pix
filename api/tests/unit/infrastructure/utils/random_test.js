@@ -1,6 +1,6 @@
 const { expect } = require('../../../test-helper');
-const { range } = require('lodash');
-const { binaryTreeRandom } = require('../../../../lib/infrastructure/utils/random');
+const { range, countBy } = require('lodash');
+const pseudoRandom = require('../../../../lib/infrastructure/utils/pseudo-random');
 
 describe('Unit | Infrastructure | Utils | Random', function () {
   describe('#binaryTreeRandom', function () {
@@ -10,21 +10,12 @@ describe('Unit | Infrastructure | Utils | Random', function () {
         const treeSize = 5;
         const seeds = range(0, sampleSize);
 
-        const results = seeds.map((seed) => binaryTreeRandom(50, treeSize, seed)).map(({ value }) => value);
+        const results = seeds.map((seed) => {
+          const randomContext = pseudoRandom.create(seed);
+          return randomContext.binaryTreeRandom(50, treeSize);
+        });
 
-        const resultDistribution = results.reduce(
-          (counts, value) => {
-            counts[value]++;
-            return counts;
-          },
-          {
-            0: 0,
-            1: 0,
-            2: 0,
-            3: 0,
-            4: 0,
-          }
-        );
+        const resultDistribution = countBy(results);
 
         const computeDistance = (value, expected) => Math.abs(value / sampleSize - expected / 100);
 

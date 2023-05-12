@@ -145,12 +145,6 @@ class Assessment {
     return this.method === methods.SMART_RANDOM;
   }
 
-  chooseNextFlashChallenge({ challenges, randomAlgorithm }) {
-    const challengeIndex = randomAlgorithm(51, challenges.length, this.id).value;
-
-    return challenges[challengeIndex];
-  }
-
   get hasLastQuestionBeenFocusedOut() {
     return this.lastQuestionState === Assessment.statesOfLastQuestion.FOCUSEDOUT;
   }
