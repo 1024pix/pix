@@ -45,9 +45,6 @@ const computeParticipationsResults = require('../../scripts/prod/compute-partici
 
 const poleEmploiSendingsBuilder = require('./data/pole-emploi-sendings-builder');
 const { trainingBuilder } = require('./data/trainings-builder');
-const { commonBuilder } = require('./data/common/common-builder');
-const { teamContenuDataBuilder } = require('./data/team-contenu/data-builder');
-const { teamCertificationDataBuilder } = require('./data/team-certification/data-builder');
 const { fillCampaignSkills } = require('./data/fill-campaign-skills');
 const {
   addLastAssessmentResultCertificationCourse,
@@ -55,7 +52,6 @@ const {
 
 exports.seed = async (knex) => {
   const databaseBuilder = new DatabaseBuilder({ knex });
-  commonBuilder({ databaseBuilder });
 
   // Feature list
   featuresBuilder({ databaseBuilder });
@@ -110,10 +106,6 @@ exports.seed = async (knex) => {
   poleEmploiSendingsBuilder({ databaseBuilder });
 
   userLoginsBuilder({ databaseBuilder });
-
-  await teamContenuDataBuilder({ databaseBuilder });
-  await teamCertificationDataBuilder({ databaseBuilder });
-
   await databaseBuilder.commit();
   await databaseBuilder.fixSequences();
   await fillCampaignSkills();
@@ -121,4 +113,16 @@ exports.seed = async (knex) => {
   const campaignParticipationData = await getEligibleCampaignParticipations(50000);
   await generateKnowledgeElementSnapshots(campaignParticipationData, 1);
   await computeParticipationsResults(10, false);
+
+  /* COMMENT ABOVE AND UNCOMMENT THIS FOR SEEDS EPIC
+  const { commonBuilder } = require('./data/common/common-builder');
+  const { teamContenuDataBuilder } = require('./data/team-contenu/data-builder');
+  const { teamCertificationDataBuilder } = require('./data/team-certification/data-builder');
+  const databaseBuilder = new DatabaseBuilder({ knex });
+  commonBuilder({ databaseBuilder });
+  await teamContenuDataBuilder({ databaseBuilder });
+  await teamCertificationDataBuilder({ databaseBuilder });
+  await databaseBuilder.commit();
+  await databaseBuilder.fixSequences();
+*/
 };
