@@ -84,6 +84,7 @@ class Form extends Object.extend(Validations) {
   @tracked email;
   @tracked username;
   @tracked lang;
+  @tracked locale;
 }
 
 export default class UserOverview extends Component {
@@ -95,6 +96,7 @@ export default class UserOverview extends Component {
   @tracked isEditionMode = false;
 
   languages = this.references.availableLanguages;
+  locales = this.references.availableLocales;
 
   constructor() {
     super(...arguments);
@@ -146,6 +148,10 @@ export default class UserOverview extends Component {
     return this.languages;
   }
 
+  get localeOptions() {
+    return this.locales;
+  }
+
   _formatValidatedTermsOfServiceText(date, hasValidatedTermsOfService) {
     const formattedDateText = date ? `, le ${dayjs(date).format('DD/MM/YYYY')}` : '';
     return hasValidatedTermsOfService ? `OUI${formattedDateText}` : 'NON';
@@ -157,6 +163,7 @@ export default class UserOverview extends Component {
     this.form.email = this.args.user.email;
     this.form.username = this.args.user.username;
     this.form.lang = this.args.user.lang;
+    this.form.locale = this.args.user.locale;
   }
 
   @action
@@ -185,6 +192,7 @@ export default class UserOverview extends Component {
     this.args.user.email = !this.form.email ? null : this.form.email.trim();
     this.args.user.username = !this.form.username ? null : this.form.username.trim();
     this.args.user.lang = this.form.lang;
+    this.args.user.locale = this.form.locale;
 
     try {
       await this.args.user.save();
@@ -222,5 +230,10 @@ export default class UserOverview extends Component {
   @action
   onChangeLanguage(language) {
     this.form.lang = language;
+  }
+
+  @action
+  onLocaleChange(locale) {
+    this.form.locale = locale;
   }
 }
