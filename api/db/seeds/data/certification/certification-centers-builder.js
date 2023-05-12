@@ -1,11 +1,5 @@
 const _ = require('lodash');
 const { DEFAULT_PASSWORD } = require('../users-builder');
-const {
-  CLEA_COMPLEMENTARY_CERTIFICATION_ID,
-  PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-  PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-  PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-} = require('../common/common-builder');
 
 const SCO_COLLEGE_CERTIF_CENTER_ID = 1;
 const GREAT_OAK_CERTIF_CENTER_ID = 23;
@@ -33,6 +27,10 @@ const AGRI_SCO_MANAGING_STUDENT_NAME = 'Centre AGRI des Anne-Etoiles';
 const PIX_CLEA_V3_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 56;
 const PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 57;
 const PIX_EDU_1ER_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 58;
+const CLEA_COMPLEMENTARY_CERTIFICATION_ID = 52;
+const PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID = 53;
+const PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 54;
+const PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 55;
 
 const {
   PIX_EMPLOI_CLEA_BADGE_ID_V1,
@@ -53,6 +51,9 @@ const {
 } = require('../badges-builder');
 
 function certificationCentersBuilder({ databaseBuilder }) {
+  databaseBuilder.factory.buildComplementaryCertification.clea({
+    id: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+  });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V1,
     level: 1,
@@ -79,6 +80,32 @@ function certificationCentersBuilder({ databaseBuilder }) {
     imageUrl: 'https://images.pix.fr/badges/CleA_Num_certif.svg',
     stickerUrl: 'https://images.pix.fr/stickers/macaron_clea.pdf',
     label: 'CléA Numérique',
+  });
+
+  databaseBuilder.factory.buildComplementaryCertification({
+    label: 'Pix+ Droit',
+    key: 'DROIT',
+    id: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+    minimumReproducibilityRate: 75,
+    minimumEarnedPix: null,
+  });
+
+  databaseBuilder.factory.buildComplementaryCertification({
+    label: 'Pix+ Édu 2nd degré',
+    key: 'EDU_2ND_DEGRE',
+    id: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    minimumReproducibilityRate: 70,
+    minimumEarnedPix: null,
+    hasExternalJury: true,
+  });
+
+  databaseBuilder.factory.buildComplementaryCertification({
+    label: 'Pix+ Édu 1er degré',
+    key: 'EDU_1ER_DEGRE',
+    id: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    minimumReproducibilityRate: 70,
+    minimumEarnedPix: null,
+    hasExternalJury: true,
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
