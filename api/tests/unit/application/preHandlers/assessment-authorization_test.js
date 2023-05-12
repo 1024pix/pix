@@ -1,7 +1,5 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const AssessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 
 describe('Unit | Pre-handler | Assessment Authorization', function () {
   describe('#verify', function () {
@@ -11,27 +9,37 @@ describe('Unit | Pre-handler | Assessment Authorization', function () {
         id: 8,
       },
     };
+    let requestResponseUtils;
+    let assessmentRepository;
+    let validationErrorSerializer;
 
     beforeEach(function () {
-      sinon.stub(tokenService, 'extractTokenFromAuthChain');
-      sinon.stub(tokenService, 'extractUserId');
-      sinon.stub(assessmentRepository, 'getByAssessmentIdAndUserId');
+      requestResponseUtils = {
+        extractUserIdFromRequest: sinon.stub(),
+      };
+      assessmentRepository = {
+        getByAssessmentIdAndUserId: sinon.stub(),
+      };
+      validationErrorSerializer = {
+        serialize: sinon.stub(),
+      };
     });
 
-    it('should get userId from token', function () {
+    it('should get userId from token', async function () {
       // given
-      tokenService.extractTokenFromAuthChain.returns('VALID_TOKEN');
-      tokenService.extractUserId.returns('userId');
+      requestResponseUtils.extractUserIdFromRequest.returns('userId');
       assessmentRepository.getByAssessmentIdAndUserId.resolves();
+      validationErrorSerializer.serialize.returns();
 
       // when
-      const promise = AssessmentAuthorization.verify(request, hFake);
+      await AssessmentAuthorization.verify(request, hFake, {
+        requestResponseUtils,
+        assessmentRepository,
+        validationErrorSerializer,
+      });
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(tokenService.extractUserId);
-        sinon.assert.calledWith(tokenService.extractUserId, request.headers.authorization);
-      });
+      expect(requestResponseUtils.extractUserIdFromRequest).to.have.been.calledWith(request);
     });
 
     describe('When assessment is linked to userId (userId exist)', function () {
@@ -39,11 +47,15 @@ describe('Unit | Pre-handler | Assessment Authorization', function () {
         // given
         const fetchedAssessment = {};
         const extractedUserId = 'userId';
-        tokenService.extractUserId.returns(extractedUserId);
+        requestResponseUtils.extractUserIdFromRequest.returns(extractedUserId);
         assessmentRepository.getByAssessmentIdAndUserId.resolves(fetchedAssessment);
 
         // when
-        const response = await AssessmentAuthorization.verify(request, hFake);
+        const response = await AssessmentAuthorization.verify(request, hFake, {
+          requestResponseUtils,
+          assessmentRepository,
+          validationErrorSerializer,
+        });
 
         // then
         sinon.assert.calledOnce(assessmentRepository.getByAssessmentIdAndUserId);
@@ -57,15 +69,18 @@ describe('Unit | Pre-handler | Assessment Authorization', function () {
         // given
         const fetchedAssessment = {};
         const extractedUserId = null;
-        tokenService.extractUserId.returns(extractedUserId);
+        requestResponseUtils.extractUserIdFromRequest.returns(extractedUserId);
         assessmentRepository.getByAssessmentIdAndUserId.resolves(fetchedAssessment);
 
         // when
-        const response = await AssessmentAuthorization.verify(request, hFake);
+        const response = await AssessmentAuthorization.verify(request, hFake, {
+          requestResponseUtils,
+          assessmentRepository,
+          validationErrorSerializer,
+        });
 
         // then
-        sinon.assert.calledOnce(assessmentRepository.getByAssessmentIdAndUserId);
-        sinon.assert.calledWith(assessmentRepository.getByAssessmentIdAndUserId, request.params.id, extractedUserId);
+        expect(assessmentRepository.getByAssessmentIdAndUserId).to.have.been.calledWith(request.params.id, null);
         expect(response).to.deep.equal(fetchedAssessment);
       });
     });
@@ -74,10 +89,15 @@ describe('Unit | Pre-handler | Assessment Authorization', function () {
       it('should take over the request and response with 401 status code', async function () {
         // given
         const extractedUserId = null;
-        tokenService.extractUserId.returns(extractedUserId);
+        requestResponseUtils.extractUserIdFromRequest.returns(extractedUserId);
         assessmentRepository.getByAssessmentIdAndUserId.rejects();
+
         // when
-        const response = await AssessmentAuthorization.verify(request, hFake);
+        const response = await AssessmentAuthorization.verify(request, hFake, {
+          requestResponseUtils,
+          assessmentRepository,
+          validationErrorSerializer,
+        });
 
         // then
         expect(response.statusCode).to.equal(401);
