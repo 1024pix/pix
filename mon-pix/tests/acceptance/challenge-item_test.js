@@ -3,11 +3,10 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
 import { authenticate } from '../helpers/authentication';
-// eslint-disable-next-line no-restricted-imports
-import { click, find, triggerEvent } from '@ember/test-helpers';
+import { click, triggerEvent } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 
-module('Acceptance | Displaying a challenge of any type', function (hooks) {
+module.only('Acceptance | Displaying a challenge of any type', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -39,19 +38,24 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
               assessment = server.create('assessment', 'ofCompetenceEvaluationType');
               server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
-
-              // when
-              await visit(`/assessments/${assessment.id}/challenges/0`);
             });
 
             test('should display a tooltip', async function (assert) {
+              // when
+              const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
               // then
-              assert.dom('.tooltip-tag__information').exists();
+              assert.dom(screen.getByRole('heading', { name: 'Mode Focus' })).exists();
+              assert.dom(screen.getByText('Restez sur cette page pour répondre !')).exists();
+              assert.dom(screen.getByRole('button', { name: "J'ai compris" })).exists();
             });
 
             test('should display an info alert with dashed border and overlay', async function (assert) {
+              // given
+              const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
               // when
-              const challengeItem = find('.challenge-item');
+              const challengeItem = screen.getByRole('article');
               await triggerEvent(challengeItem, 'mouseleave', { relatedTarget: challengeItem });
 
               // then
@@ -65,35 +69,54 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 // given
                 assessment = server.create('assessment', 'ofCompetenceEvaluationType');
                 server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
-
-                // when
-                await visit(`/assessments/${assessment.id}/challenges/0`);
-                await click('.tooltip-tag-information__button');
               });
 
               test('should hide a tooltip', async function (assert) {
+                // when
+                const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+                await click(screen.getByRole('button', { name: "J'ai compris" }));
+
                 // then
-                assert.dom('#challenge-statement-tag--tooltip').doesNotExist();
+                assert.dom(screen.queryByRole('heading', { name: 'Mode Focus' })).doesNotExist();
+                assert.dom(screen.queryByText('Restez sur cette page pour répondre !')).doesNotExist();
               });
 
               test('should enable input and buttons', async function (assert) {
+                // when
+                const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+                await click(screen.getByRole('button', { name: "J'ai compris" }));
+
                 // then
-                assert.notOk(find('.challenge-actions__action-skip').getAttribute('disabled'));
-                assert.notOk(find('.challenge-actions__action-validate').getAttribute('disabled'));
-                assert.notOk(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'));
+                assert
+                  .dom(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }))
+                  .doesNotHaveAttribute('disabled');
+                assert
+                  .dom(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }))
+                  .doesNotHaveAttribute('disabled');
+                assert.dom('[data-test="challenge-response-proposal-selector"]').doesNotHaveAttribute('disabled');
               });
 
               test('should display a warning alert', async function (assert) {
+                // given
+                const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+                await click(screen.getByRole('button', { name: "J'ai compris" }));
+
                 // when
                 await triggerEvent(document, 'focusedout');
 
                 // then
-                assert.dom('[data-test="alert-message-focused-out-of-window"]').exists();
+                assert
+                  .dom(
+                    screen.getByText(
+                      'Nous avons détecté un changement de page.En certification, votre réponse ne serait pas validée.'
+                    )
+                  )
+                  .exists();
               });
 
               test('should display an info alert with dashed border and overlay', async function (assert) {
                 // when
-                const challengeItem = find('.challenge-item');
+                const challengeItem = screen.getByRole('article');
                 await triggerEvent(challengeItem, 'mouseleave', { relatedTarget: challengeItem });
 
                 // then
@@ -104,7 +127,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
               test('should display only the warning alert when it has been triggered', async function (assert) {
                 // given
-                const challengeItem = find('.challenge-item');
+                const challengeItem = screen.getByRole('article');
                 await triggerEvent(challengeItem, 'mouseleave', { relatedTarget: challengeItem });
 
                 assert.dom('.challenge__info-alert--could-show').exists();
@@ -163,7 +186,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
             // when
             await visit(`/assessments/${assessment.id}/challenges/0`);
-            const challengeItem = find('.challenge-item');
+            const challengeItem = screen.getByRole('article');
             await triggerEvent(challengeItem, 'mouseleave');
 
             // then
@@ -415,8 +438,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               });
 
               // when
-              await visit(`/assessments/${assessment.id}/challenges/0`);
-              const challengeItem = find('.challenge-item');
+              const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+              const challengeItem = screen.getByRole('article');
               await triggerEvent(challengeItem, 'mouseleave');
 
               // then
@@ -446,21 +469,31 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               await authenticate(user);
               assessment = server.create('assessment', 'ofCompetenceEvaluationType');
               server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
-
-              // when
-              await visit(`/assessments/${assessment.id}/challenges/0`);
             });
 
             test('should not display instructions', async function (assert) {
+              // when
+              await visit(`/assessments/${assessment.id}/challenges/0`);
+
               // then
               assert.dom('.focused-challenge-instructions-action__confirmation-button').doesNotExist();
             });
 
             test('should not display a warning alert', async function (assert) {
+              // given
+              const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
               // when
               await triggerEvent(document, 'focusedout');
+
               // then
-              assert.dom('.challenge-actions__focused-out-of-window').doesNotExist();
+              assert
+                .dom(
+                  screen.queryByText(
+                    'Nous avons détecté un changement de page.En certification, votre réponse ne serait pas validée.'
+                  )
+                )
+                .doesNotExist();
             });
           });
         });
