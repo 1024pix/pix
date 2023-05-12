@@ -7,6 +7,7 @@ const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings.js');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
 const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors.js');
 const Prescriber = require('../../domain/read-models/Prescriber.js');
+const apps = require('../../domain/constants.js');
 
 function _toPrescriberDomain(bookshelfUser) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();
@@ -57,6 +58,24 @@ async function _getParticipantCount(prescriber) {
   prescriber.participantCount = allCounts;
 }
 
+async function _isMultipleSendingAssessmentEnabled(prescriber) {
+  const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
+
+  const availableFeatures = await knex('features')
+    .select('key')
+    .join('organization-features', function () {
+      this.on('features.id', 'organization-features.featureId').andOn(
+        'organization-features.organizationId',
+        currentOrganizationId
+      );
+    })
+    .pluck('key');
+
+  prescriber.enableMultipleSendingAssessment = availableFeatures.includes(
+    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT
+  );
+}
+
 module.exports = {
   async getPrescriber(userId) {
     try {
@@ -78,6 +97,7 @@ module.exports = {
 
       await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
       await _getParticipantCount(prescriber);
+      await _isMultipleSendingAssessmentEnabled(prescriber);
 
       return prescriber;
     } catch (err) {

@@ -26,6 +26,7 @@ describe('Acceptance | Controller | Prescriber-controller', function () {
           'are-new-year-organization-learners-imported': false,
           'participant-count': 0,
           lang: user.lang,
+          'enable-multiple-sending-assessment': false,
         },
         relationships: {
           memberships: {
