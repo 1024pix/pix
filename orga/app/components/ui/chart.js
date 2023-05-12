@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { Chart, registerables } from 'chart.js';
-import 'chartjs-adapter-date-fns';
+import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm.js';
 
 Chart.register(...registerables);
 
