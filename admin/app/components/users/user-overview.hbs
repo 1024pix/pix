@@ -89,6 +89,16 @@
             @hideDefaultOption={{true}}
           />
         </div>
+        <div class="form-field">
+          <PixSelect
+            @label="Locale :"
+            @placeholder={{"-- Sélectionnez une locale --"}}
+            @options={{this.localeOptions}}
+            @value={{this.form.locale}}
+            @onChange={{this.onLocaleChange}}
+            @hideDefaultOption={{true}}
+          />
+        </div>
         <div class="form-actions">
           <PixButton
             @size="small"
