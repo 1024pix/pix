@@ -351,8 +351,8 @@
     "certification-start": {
       "title": "Join a certification session",
       "access-code": "Access code sent by the invigilator",
-      "eligible-subscriptions": "You are registered for the following additional {itemCount, plural, one {certification}  other {certification(s)}} in combination with the Pix Certification:",
-      "non-eligible-subscriptions": "You are not eligible to {nonEligibleSubscription}. However, you can still take your Pix Certification{eligibleSubscriptionLength, plural, =0 {} other { and }}{eligibleSubscription}.",
+      "subscription": "You are registered for the following additional certification in combination with the Pix Certification:",
+      "non-eligible-subscription": "You are not eligible to {nonEligibleSubscription}. However, you can still take your Pix Certification.",
       "actions": {
         "submit": "Start my test"
       },
