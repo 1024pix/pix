@@ -89,6 +89,7 @@
 
     > button {
       width: auto;
+      max-width: 100%;
     }
 
     @include device-is('mobile') {
