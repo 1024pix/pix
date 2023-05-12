@@ -1,5 +1,5 @@
 const { AssessmentEndedError } = require('../errors.js');
-const AssessmentAlgorithm = require('../models/AssessmentAlgorithm');
+const FlashAssessmentAlgorithm = require('../models/FlashAssessmentAlgorithm');
 
 module.exports = async function getNextChallengeForCampaignAssessment({
   challengeRepository,
@@ -10,12 +10,14 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   locale,
   dataFetcher,
   smartRandom,
-  random,
+  pseudoRandom,
 }) {
   let algoResult;
 
   if (assessment.isFlash()) {
-    const inputValues = await dataFetcher.fetchForFlashCampaigns({
+    const pseudoRandomContext = pseudoRandom.create(assessment.id);
+
+    const { allAnswers, challenges, estimatedLevel } = await dataFetcher.fetchForFlashCampaigns({
       assessmentId: assessment.id,
       answerRepository,
       challengeRepository,
@@ -23,9 +25,12 @@ module.exports = async function getNextChallengeForCampaignAssessment({
       locale,
     });
 
-    const assessmentAlgorithm = new AssessmentAlgorithm({ assessment, randomAlgorithm: random.binaryTreeRandom });
+    const assessmentAlgorithm = new FlashAssessmentAlgorithm({
+      assessment,
+      randomAlgorithm: pseudoRandomContext.binaryTreeRandom.bind(pseudoRandomContext),
+    });
 
-    return assessmentAlgorithm.getNextChallenge({ ...inputValues });
+    return assessmentAlgorithm.getNextChallenge({ allAnswers, challenges, estimatedLevel });
   } else {
     const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
     algoResult = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });

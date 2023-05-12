@@ -105,8 +105,14 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             fetchForFlashCampaigns: sinon.stub(),
           };
 
-          const randomAlgoStub = {
-            binaryTreeRandom: sinon.stub(),
+          const pseudoRandomStub = {
+            create: () => {
+              const binaryTreeRandom = sinon.stub();
+              binaryTreeRandom.withArgs(51, 1).returns(0);
+              return {
+                binaryTreeRandom,
+              };
+            },
           };
 
           dataFetcherStub.fetchForFlashCampaigns
@@ -122,8 +128,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               challenges,
             });
 
-          randomAlgoStub.binaryTreeRandom.withArgs(51, 1, assessment.id).returns({ value: 0 });
-
           // when
           const bestChallenge = await getNextChallengeForCampaignAssessment({
             challengeRepository,
@@ -133,7 +137,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
-            random: randomAlgoStub,
+            pseudoRandom: pseudoRandomStub,
           });
 
           // then
@@ -144,8 +148,14 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       describe('when there are multiple remaining challenges', function () {
         it('should return the best next challenges', async function () {
           // given
-          const randomAlgoStub = {
-            binaryTreeRandom: sinon.stub(),
+          const pseudoRandomStub = {
+            create: () => {
+              const binaryTreeRandom = sinon.stub();
+              binaryTreeRandom.withArgs(51, 2).returns(1);
+              return {
+                binaryTreeRandom,
+              };
+            },
           };
 
           const dataFetcherStub = {
@@ -165,8 +175,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               challenges: [firstChallenge, secondChallenge, thirdChallenge],
             });
 
-          randomAlgoStub.binaryTreeRandom.withArgs(51, 2, assessment.id).returns({ value: 1 });
-
           // when
           const bestChallenge = await getNextChallengeForCampaignAssessment({
             challengeRepository,
@@ -176,7 +184,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
-            random: randomAlgoStub,
+            pseudoRandom: pseudoRandomStub,
           });
 
           // then
@@ -213,7 +221,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
-            random: {},
+            pseudoRandom: {
+              create: () => ({
+                binaryTreeRandom: () => {
+                  return 0;
+                },
+              }),
+            },
           });
 
           // then
@@ -261,7 +275,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
-            random: {},
+            pseudoRandom: {
+              create: () => ({
+                binaryTreeRandom: () => {
+                  return 0;
+                },
+              }),
+            },
           });
 
           // then
