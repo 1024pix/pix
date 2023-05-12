@@ -1,8 +1,4 @@
 .qcu-proposals {
-  & + .qcu-proposals {
-    margin-top: 0.5rem;
-  }
-
   a {
     color: $pix-primary;
     text-decoration: underline;
