@@ -3,22 +3,22 @@ const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 // IDS
 /// USERS
 const CLEA_COMPLEMENTARY_CERTIFICATION_ID = 52;
-const DROIT_COMPLEMENTARY_CERTIFICATION_ID = 53;
+const PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID = 53;
 const PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 54;
 const PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 55;
 const REAL_PIX_SUPER_ADMIN = 90000;
 
 // TARGET PROFILES
 const CLEA_TARGET_PROFILE_ID = 56;
-const DROIT_TARGET_PROFILE_ID = 59;
+const PIX_DROIT_TARGET_PROFILE_ID = 59;
 const PIX_EDU_1ER_DEGRE_TARGET_PROFILE_ID = 66;
 const PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID = 67;
 
 // CERTIFIABLE BADGES
 const CLEA_CERTIFIABLE_BADGE_ID = 57;
-const DROIT_INITIE_CERTIFIABLE_BADGE_ID = 60;
-const DROIT_MAITRE_CERTIFIABLE_BADGE_ID = 61;
-const DROIT_EXPERT_CERTIFIABLE_BADGE_ID = 62;
+const PIX_DROIT_INITIE_CERTIFIABLE_BADGE_ID = 60;
+const PIX_DROIT_MAITRE_CERTIFIABLE_BADGE_ID = 61;
+const PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID = 62;
 const PIX_EDU_1ER_DEGRE_INITIE_CERTIFIABLE_BADGE_ID = 68;
 const PIX_EDU_1ER_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID = 69;
 const PIX_EDU_2ND_DEGRE_INITIE_CERTIFIABLE_BADGE_ID = 70;
@@ -26,9 +26,9 @@ const PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID = 71;
 
 // COMPLEMENTARY CERTIFICATION BADGES
 const CLEA_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 58;
-const DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 63;
-const DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 64;
-const DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 65;
+const PIX_DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 63;
+const PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 64;
+const PIX_DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 65;
 const PIX_EDU_1ER_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 72;
 const PIX_EDU_1ER_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 73;
 const PIX_EDU_2ND_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 74;
@@ -37,25 +37,25 @@ const PIX_EDU_2ND_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 75;
 module.exports = {
   commonBuilder,
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
-  DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   CLEA_TARGET_PROFILE_ID,
-  DROIT_TARGET_PROFILE_ID,
+  PIX_DROIT_TARGET_PROFILE_ID,
   PIX_EDU_1ER_DEGRE_TARGET_PROFILE_ID,
   PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID,
   CLEA_CERTIFIABLE_BADGE_ID,
-  DROIT_INITIE_CERTIFIABLE_BADGE_ID,
-  DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
-  DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
+  PIX_DROIT_INITIE_CERTIFIABLE_BADGE_ID,
+  PIX_DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
+  PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
   PIX_EDU_1ER_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
   PIX_EDU_1ER_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
   PIX_EDU_2ND_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
   PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
   CLEA_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-  DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-  DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-  DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  PIX_DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  PIX_DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_2ND_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
@@ -245,12 +245,12 @@ function _createDroit(databaseBuilder) {
   databaseBuilder.factory.buildComplementaryCertification({
     label: 'Pix+ Droit',
     key: 'DROIT',
-    id: DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+    id: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
     minimumReproducibilityRate: 75,
     minimumEarnedPix: null,
   });
   databaseBuilder.factory.buildTargetProfile({
-    id: DROIT_TARGET_PROFILE_ID,
+    id: PIX_DROIT_TARGET_PROFILE_ID,
     imageUrl: 'https://images.pix.fr/profil-cible/Illu_GEN.svg',
     description: null,
     name: '[Pix+Droit] Prêt pour la certification',
@@ -401,17 +401,17 @@ function _createDroit(databaseBuilder) {
     { tubeId: 'recR24FjsvimWNmk', level: 8 },
     { tubeId: 'rec2lwNCubUyn4heA', level: 8 },
   ].map(({ tubeId, level }) => {
-    databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: DROIT_TARGET_PROFILE_ID, tubeId, level });
+    databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: PIX_DROIT_TARGET_PROFILE_ID, tubeId, level });
   });
 
   databaseBuilder.factory.buildBadge({
-    id: DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
-    targetProfileId: DROIT_TARGET_PROFILE_ID,
+    id: PIX_DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
+    targetProfileId: PIX_DROIT_TARGET_PROFILE_ID,
     message:
       'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Avancé. Vous avez fait preuve d\'une maîtrise des compétences numériques nécessaires à l\'exercice des métiers du droit dans tous les domaines. En perfectionnant encore vos compétences, vous pourrez obtenir le niveau Expert.',
     altMessage: 'Pix+Droit niveau Avancé',
-    imageUrl: 'https://images.pix.fr/badges/badge_pix-droit_silver%20copy.svg',
-    key: 'PIX_DROIT_MAITRE_CERTIF',
+    imageUrl: 'https://images.pix.fr/badges/badge_pix-PIX_DROIT_silver%20copy.svg',
+    key: 'PIX_PIX_DROIT_MAITRE_CERTIF',
     title: 'Pix+Droit niveau Avancé',
     isCertifiable: true,
     isAlwaysVisible: false,
@@ -462,7 +462,7 @@ function _createDroit(databaseBuilder) {
     },
   ].map(({ scope, threshold, cappedTubes, name }) => {
     databaseBuilder.factory.buildBadgeCriterion({
-      badgeId: DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
+      badgeId: PIX_DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
       scope,
       threshold,
       cappedTubes,
@@ -471,25 +471,25 @@ function _createDroit(databaseBuilder) {
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
-    id: DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    badgeId: DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
-    complementaryCertificationId: DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+    id: PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+    badgeId: PIX_DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
+    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
     level: 2,
     imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/avance.svg',
     label: 'Pix+ Droit Avancé',
     certificateMessage: null,
     temporaryCertificateMessage: null,
-    stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_avance.pdf',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_PIX_DROIT_avance.pdf',
   });
 
   databaseBuilder.factory.buildBadge({
-    id: DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
-    targetProfileId: DROIT_TARGET_PROFILE_ID,
+    id: PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
+    targetProfileId: PIX_DROIT_TARGET_PROFILE_ID,
     message:
       'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Expert. Les compétences numériques nécessaires à l\'exercice des métiers du droit n\'ont plus de secret pour vous.',
     altMessage: 'Pix+Droit niveau Expert',
-    imageUrl: 'https://images.pix.fr/badges/badge_pix-droit_gold%20copy.svg',
-    key: 'PIX_DROIT_EXPERT_CERTIF',
+    imageUrl: 'https://images.pix.fr/badges/badge_pix-PIX_DROIT_gold%20copy.svg',
+    key: 'PIX_PIX_DROIT_EXPERT_CERTIF',
     title: 'Pix+Droit niveau Expert',
     isCertifiable: true,
     isAlwaysVisible: false,
@@ -512,7 +512,7 @@ function _createDroit(databaseBuilder) {
     },
   ].map(({ scope, threshold, cappedTubes, name }) => {
     databaseBuilder.factory.buildBadgeCriterion({
-      badgeId: DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
+      badgeId: PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
       scope,
       threshold,
       cappedTubes,
@@ -521,25 +521,25 @@ function _createDroit(databaseBuilder) {
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
-    id: DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    badgeId: DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
-    complementaryCertificationId: DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+    id: PIX_DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+    badgeId: PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
+    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
     level: 3,
     imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
     label: 'Pix+ Droit Expert',
     certificateMessage: null,
     temporaryCertificateMessage: null,
-    stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_expert.pdf',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_PIX_DROIT_expert.pdf',
   });
 
   databaseBuilder.factory.buildBadge({
-    id: DROIT_INITIE_CERTIFIABLE_BADGE_ID,
-    targetProfileId: DROIT_TARGET_PROFILE_ID,
+    id: PIX_DROIT_INITIE_CERTIFIABLE_BADGE_ID,
+    targetProfileId: PIX_DROIT_TARGET_PROFILE_ID,
     message:
       'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Initié. Vous avez fait preuve d\'une maîtrise des compétences numériques nécessaires à l\'exercice des métiers du droit dans tous les domaines. En perfectionnant encore vos compétences, vous pourrez obtenir un niveau Avancé.',
     altMessage: 'Pix+Droit niveau Initié',
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Droit- Pret-certif_Bronze--Initie.svg',
-    key: 'PIX_DROIT_INITIE_CERTIF',
+    key: 'PIX_PIX_DROIT_INITIE_CERTIF',
     title: 'Pix+Droit niveau Initié',
     isCertifiable: true,
     isAlwaysVisible: false,
@@ -590,7 +590,7 @@ function _createDroit(databaseBuilder) {
     },
   ].map(({ scope, threshold, cappedTubes, name }) => {
     databaseBuilder.factory.buildBadgeCriterion({
-      badgeId: DROIT_INITIE_CERTIFIABLE_BADGE_ID,
+      badgeId: PIX_DROIT_INITIE_CERTIFIABLE_BADGE_ID,
       scope,
       threshold,
       cappedTubes,
@@ -599,15 +599,15 @@ function _createDroit(databaseBuilder) {
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
-    id: DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    badgeId: DROIT_INITIE_CERTIFIABLE_BADGE_ID,
-    complementaryCertificationId: DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+    id: PIX_DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+    badgeId: PIX_DROIT_INITIE_CERTIFIABLE_BADGE_ID,
+    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
     level: 1,
     imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/initie.svg',
     label: 'Pix+ Droit Initié',
     certificateMessage: null,
     temporaryCertificateMessage: null,
-    stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_initie.pdf',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_PIX_DROIT_initie.pdf',
   });
 }
 
