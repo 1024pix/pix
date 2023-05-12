@@ -10,13 +10,11 @@
 }
 
 .challenge-response {
-  margin: 4px;
-  font-size: 0.938rem;
-  background-color: $pix-neutral-10;
+  @extend %pix-body-m;
 
-  @include device-is('desktop') {
-    font-size: 1.25rem;
-  }
+  margin: 4px;
+  color: $pix-neutral-90;
+  background-color: $pix-neutral-10;
 
   label {
     font-weight: $font-normal;
@@ -100,9 +98,10 @@ form .challenge-response {
   }
 
   .challenge-response__instructions {
+    @extend %pix-body-s;
+
     margin-top: 0;
-    font-weight: $font-normal;
-    font-size: 1rem;
+    color: $pix-neutral-60;
 
     &:not(:last-child) {
       margin-bottom: 1rem;
