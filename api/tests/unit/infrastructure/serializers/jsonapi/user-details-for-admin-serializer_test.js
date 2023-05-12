@@ -212,10 +212,9 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
   });
 
   describe('#deserialize', function () {
-    let jsonUser;
-
-    beforeEach(function () {
-      jsonUser = {
+    it('converts JSON API data into a map object that contain attribute to patch', function () {
+      // given
+      const jsonUser = {
         data: {
           type: 'user',
           attributes: {
@@ -228,9 +227,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
           },
         },
       };
-    });
 
-    it('should convert JSON API data into a map object that contain attribute to patch', function () {
       // when
       const user = serializer.deserialize(jsonUser);
 
