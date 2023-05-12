@@ -28,6 +28,7 @@ const { organizationsProBuilder } = require('./data/organizations-pro-builder');
 const { organizationsScoBuilder } = require('./data/organizations-sco-builder');
 const { organizationsSupBuilder } = require('./data/organizations-sup-builder');
 const { organizationPlacesProBuilder } = require('./data/organization-places-pro-builder');
+const tagsBuilder = require('./data/tags-builder');
 const { badgesBuilder } = require('./data/badges-builder');
 const { targetProfilesBuilder } = require('./data/target-profiles-builder');
 const { usersBuilder } = require('./data/users-builder');
@@ -61,6 +62,7 @@ exports.seed = async (knex) => {
   pixAdminRolesBuilder({ databaseBuilder });
 
   // Organizations
+  tagsBuilder({ databaseBuilder });
   organizationsProBuilder({ databaseBuilder });
   organizationPlacesProBuilder({ databaseBuilder });
 
