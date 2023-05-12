@@ -1,7 +1,43 @@
-const { expect } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
 
 describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
+  let localeService;
+  let dependencies;
+
+  beforeEach(function () {
+    localeService = {
+      getCanonicalLocale: sinon.stub(),
+    };
+    dependencies = { localeService };
+  });
+
+  describe('constructor', function () {
+    it('accepts no locale', function () {
+      // given
+      const users = [
+        new UserDetailsForAdmin({ locale: '' }, dependencies),
+        new UserDetailsForAdmin({ locale: null }, dependencies),
+        new UserDetailsForAdmin({ locale: undefined }, dependencies),
+      ];
+
+      //then
+      expect(users.length).to.equal(3);
+    });
+
+    it('validates and canonicalizes the locale', function () {
+      // given
+      localeService.getCanonicalLocale.returns('fr-BE');
+
+      // when
+      const user = new UserDetailsForAdmin({ locale: 'fr-be' }, dependencies);
+
+      // then
+      expect(localeService.getCanonicalLocale).to.have.been.calledWith('fr-be');
+      expect(user.locale).to.equal('fr-BE');
+    });
+  });
+
   describe('#anonymisedByFullName', function () {
     it('should return the full name of user who anonymised the user', function () {
       // given
