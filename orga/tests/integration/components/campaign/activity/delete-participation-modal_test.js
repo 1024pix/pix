@@ -55,6 +55,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
             })
           )
           .exists();
+        assert.contains(this.intl.t('pages.campaign-activity.delete-participation-modal.text'));
         assert.contains(this.intl.t('pages.campaign-activity.delete-participation-modal.actions.cancel'));
         assert.contains(this.intl.t('pages.campaign-activity.delete-participation-modal.actions.confirmation'));
       });
@@ -90,7 +91,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
         });
       });
 
-      module('When the text is different according to the campaign type and the participation status', function () {
+      module('When the warning is different according to the campaign type and the participation status', function () {
         test('it is a started participation for an assessment campaign', async function (assert) {
           this.set('campaign.type', 'ASSESSMENT');
           this.set('participation.status', 'STARTED');
@@ -105,7 +106,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.contains(
             this.intl.t(
-              'pages.campaign-activity.delete-participation-modal.text.assessment-campaign-participation.started-participation'
+              'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.started-participation'
             )
           );
         });
@@ -124,7 +125,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.contains(
             this.intl.t(
-              'pages.campaign-activity.delete-participation-modal.text.assessment-campaign-participation.to-share-participation'
+              'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.to-share-participation'
             )
           );
         });
@@ -143,7 +144,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.contains(
             this.intl.t(
-              'pages.campaign-activity.delete-participation-modal.text.assessment-campaign-participation.shared-participation'
+              'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.shared-participation'
             )
           );
         });
@@ -162,7 +163,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.contains(
             this.intl.t(
-              'pages.campaign-activity.delete-participation-modal.text.profiles-collection-campaign-participation.to-share-participation'
+              'pages.campaign-activity.delete-participation-modal.warning.profiles-collection-campaign-participation.to-share-participation'
             )
           );
         });
@@ -181,7 +182,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.contains(
             this.intl.t(
-              'pages.campaign-activity.delete-participation-modal.text.profiles-collection-campaign-participation.shared-participation'
+              'pages.campaign-activity.delete-participation-modal.warning.profiles-collection-campaign-participation.shared-participation'
             )
           );
         });
