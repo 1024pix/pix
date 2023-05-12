@@ -22,7 +22,7 @@ const {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-} = require('../common/common-builder');
+} = require('./certification-centers-builder');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { BILLING_MODES } = require('../../../../lib/domain/models/CertificationCandidate');
 
