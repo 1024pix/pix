@@ -111,6 +111,7 @@ module.exports = {
         'email',
         'username',
         'lang',
+        'locale',
         'cgu',
         'pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted',
@@ -155,6 +156,7 @@ module.exports = {
       email: json.data.attributes.email,
       username: json.data.attributes.username,
       lang: json.data.attributes.lang,
+      locale: json.data.attributes.locale,
     });
   },
 };
