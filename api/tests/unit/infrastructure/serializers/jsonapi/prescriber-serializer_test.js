@@ -165,6 +165,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
           pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
           memberships: [membership],
           userOrgaSettings,
+          enableMultipleSendingAssessment: true,
         });
 
         const expectedPrescriberSerialized = createExpectedPrescriberSerialized({
@@ -203,6 +204,7 @@ function createExpectedPrescriberSerializedWithOneMoreField({
         'are-new-year-organization-learners-imported': prescriber.areNewYearOrganizationLearnersImported,
         'participant-count': prescriber.participantCount,
         lang: prescriber.lang,
+        'enable-multiple-sending-assessment': false,
       },
       relationships: {
         memberships: {
@@ -307,6 +309,7 @@ function createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSe
         'are-new-year-organization-learners-imported': prescriber.areNewYearOrganizationLearnersImported,
         'participant-count': prescriber.participantCount,
         lang: prescriber.lang,
+        'enable-multiple-sending-assessment': true,
       },
       relationships: {
         memberships: {
