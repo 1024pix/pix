@@ -1379,7 +1379,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
 
     describe('#updateUserDetailsForAdministration', function () {
-      it('should update firstName, lastName, email and username of the user', async function () {
+      it('updates firstName, lastName, email, username and locale of the user', async function () {
         // given
         const userInDb = databaseBuilder.factory.buildUser(userToInsert);
         databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
@@ -1394,6 +1394,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           lastName: 'nom_123',
           email: 'email_123@example.net',
           username: 'username_123',
+          locale: 'fr-FR',
         };
         await userRepository.updateUserDetailsForAdministration({
           id: userInDb.id,
@@ -1406,6 +1407,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(updatedUser.lastName).to.equal('nom_123');
         expect(updatedUser.email).to.equal('email_123@example.net');
         expect(updatedUser.username).to.equal('username_123');
+        expect(updatedUser.locale).to.equal('fr-FR');
       });
 
       it('should throw AlreadyExistingEntityError when username is already used', async function () {
