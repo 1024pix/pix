@@ -9,6 +9,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
 const Organization = require('../../../../lib/domain/models/Organization');
 const Tag = require('../../../../lib/domain/models/Tag');
+const apps = require('../../../../lib/domain/constants.js');
 
 describe('Integration | Infrastructure | Repository | Prescriber', function () {
   const userToInsert = {
@@ -323,6 +324,39 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
 
           // then
           expect(foundPrescriber.participantCount).to.equal(2);
+        });
+      });
+
+      describe('#enableMultipleSendingAssessment', function () {
+        it('should return activated feature for current organization', async function () {
+          // given
+          expectedPrescriber.userOrgaSettings = userOrgaSettings;
+          const feature = databaseBuilder.factory.buildFeature({
+            key: apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
+          });
+          databaseBuilder.factory.buildOrganizationFeature({ featureId: feature.id, organizationId: organization.id });
+          await databaseBuilder.commit();
+
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+          // then
+          expect(foundPrescriber.enableMultipleSendingAssessment).to.be.true;
+        });
+
+        it('should return deactivated feature for current organization', async function () {
+          // given
+          expectedPrescriber.userOrgaSettings = userOrgaSettings;
+          databaseBuilder.factory.buildFeature({
+            key: apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+          // then
+          expect(foundPrescriber.enableMultipleSendingAssessment).to.be.false;
         });
       });
     });

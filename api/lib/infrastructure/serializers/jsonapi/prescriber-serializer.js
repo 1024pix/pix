@@ -29,6 +29,7 @@ module.exports = {
         'lang',
         'memberships',
         'userOrgaSettings',
+        'enableMultipleSendingAssessment',
       ],
       memberships: {
         ref: 'id',
