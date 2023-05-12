@@ -6,6 +6,7 @@ const { SendingEmailToRefererError } = require('../errors.js');
 const logger = require('../../infrastructure/logger.js');
 
 async function publishSession({
+  i18n,
   publishedAt = new Date(),
   sessionId,
   certificationCenterRepository,
@@ -51,7 +52,11 @@ async function publishSession({
     }
   }
 
-  const emailingAttempts = await _sendPrescriberEmails(session, dependencies.mailService);
+  const emailingAttempts = await _sendPrescriberEmails({
+    session,
+    mailService: dependencies.mailService,
+    i18n,
+  });
   if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
     await sessionRepository.flagResultsAsSentToPrescriber({
       id: sessionId,
@@ -64,7 +69,7 @@ async function publishSession({
   }
 }
 
-async function _sendPrescriberEmails(session, mailService) {
+async function _sendPrescriberEmails({ session, mailService, i18n }) {
   const recipientEmails = _distinctCandidatesResultRecipientEmails(session.certificationCandidates);
 
   const emailingAttempts = [];
@@ -76,6 +81,7 @@ async function _sendPrescriberEmails(session, mailService) {
       certificationCenterName: session.certificationCenter,
       resultRecipientEmail: recipientEmail,
       daysBeforeExpiration: 30,
+      translate: i18n.__,
     });
     emailingAttempts.push(emailingAttempt);
   }
