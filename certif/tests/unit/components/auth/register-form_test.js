@@ -33,7 +33,7 @@ module('Unit | Component | register-form', (hooks) => {
         component.lastName = 'Ternational';
         component.email = incorrectEmail;
         component.password = 'Password123';
-        component.cgu = true;
+        component.isTermsOfServiceValidated = true;
 
         // when
         await component.register(eventStub);
@@ -61,7 +61,7 @@ module('Unit | Component | register-form', (hooks) => {
           certificationCenterInvitationId,
         };
 
-        component.cgu = cgu;
+        component.isTermsOfServiceValidated = cgu;
         component.email = email;
         component.firstName = firstName;
         component.lastName = lastName;
@@ -103,7 +103,7 @@ module('Unit | Component | register-form', (hooks) => {
         component.lastName = 'Ternational';
         component.email = 'alainternational@example.net';
         component.password = 'Password123';
-        component.cgu = true;
+        component.isTermsOfServiceValidated = true;
 
         // when
         await component.register(eventStub);
@@ -127,7 +127,7 @@ module('Unit | Component | register-form', (hooks) => {
           component.lastName = 'Ternational';
           component.email = 'alainternational@example.net';
           component.password = 'Password123';
-          component.cgu = true;
+          component.isTermsOfServiceValidated = true;
 
           // when
           await component.register(eventStub);
