@@ -1,5 +1,5 @@
 // TODO : pour les certifs complémentaires HORS CLEA, sélectionner 4 épreuves par domaines PIX+
-// TODO : pour cléa, ne rien faire ?
+// TODO : pour cléa, se débrouiller pour remplacer les épreuves selectionnées naturellement dans le socle pix par les épreuves les plus dures du TP par compétence
 // TODO : perf
 
 const _ = require('lodash');
