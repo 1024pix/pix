@@ -140,6 +140,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
       const modelObject = domainBuilder.buildUserDetailsForAdmin({
         organizationLearners: [domainBuilder.buildOrganizationLearnerForAdmin()],
         authenticationMethods: [{ id: 1, identityProvider: 'PIX' }],
+        locale: 'fr-FR',
       });
 
       // when
@@ -155,6 +156,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             username: modelObject.username,
             cgu: modelObject.cgu,
             lang: 'fr',
+            locale: 'fr-FR',
             'pix-orga-terms-of-service-accepted': modelObject.pixOrgaTermsOfServiceAccepted,
             'pix-certif-terms-of-service-accepted': modelObject.pixCertifTermsOfServiceAccepted,
           },
@@ -222,6 +224,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             email: 'lskywalker@deathstar.empire',
             username: 'luke.skywalker1212',
             lang: 'en',
+            locale: 'en',
           },
         },
       };
@@ -237,6 +240,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
       expect(user.email).to.equal('lskywalker@deathstar.empire');
       expect(user.username).to.equal('luke.skywalker1212');
       expect(user.lang).to.equal('en');
+      expect(user.locale).to.equal('en');
     });
   });
 });
