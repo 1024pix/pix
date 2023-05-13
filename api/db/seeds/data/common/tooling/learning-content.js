@@ -3,7 +3,8 @@ const competenceRepository = require('../../../../../lib/infrastructure/reposito
 const challengeRepository = require('../../../../../lib/infrastructure/repositories/challenge-repository');
 const { skillDatasource } = require('../../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 
-let ALL_COMPETENCES, ALL_ACTIVE_SKILLS, ALL_CHALLENGES;
+let ALL_COMPETENCES, ALL_ACTIVE_SKILLS, ALL_CHALLENGES, ACTIVE_SKILLS_BY_COMPETENCE, ACTIVE_SKILLS_BY_TUBE;
+let VALIDATED_CHALLENGES_BY_SKILL;
 
 async function getAllCompetences() {
   if (!ALL_COMPETENCES) {
@@ -24,11 +25,6 @@ async function getCoreCompetences() {
   return allCompetences.filter((competence) => competence.origin === 'Pix');
 }
 
-async function getDroitCompetences() {
-  const allCompetences = await getAllCompetences();
-  return allCompetences.filter((competence) => competence.origin === 'Droit');
-}
-
 async function getAllActiveSkills() {
   if (!ALL_ACTIVE_SKILLS) {
     ALL_ACTIVE_SKILLS = await skillDatasource.findActive();
@@ -37,24 +33,48 @@ async function getAllActiveSkills() {
 }
 
 async function findActiveSkillsByCompetenceId(competenceId) {
-  const allSkills = await getAllActiveSkills();
-  return _.filter(allSkills, { competenceId });
+  const activeSkillsByCompetence = await _getActiveSkillsByCompetence();
+  return activeSkillsByCompetence[competenceId] || [];
 }
 
 async function findActiveSkillsByTubeId(tubeId) {
-  const allSkills = await getAllActiveSkills();
-  return _.filter(allSkills, { tubeId });
+  const activeSkillsByTube = await _getActiveSkillsByTube();
+  return activeSkillsByTube[tubeId] || [];
 }
 
 async function findFirstValidatedChallengeBySkillId(skillId) {
-  const allChallenges = await getAllChallenges();
-  return _.find(allChallenges, { status: 'validé', skill: { id: skillId } });
+  const validatedChallengesBySkill = await _getValidatedChallengesBySkill();
+  return validatedChallengesBySkill[skillId][0] || null;
+}
+
+async function _getActiveSkillsByTube() {
+  if (!ACTIVE_SKILLS_BY_TUBE) {
+    const allSkills = await getAllActiveSkills();
+    ACTIVE_SKILLS_BY_TUBE = _.groupBy(allSkills, 'tubeId');
+  }
+  return ACTIVE_SKILLS_BY_TUBE;
+}
+
+async function _getActiveSkillsByCompetence() {
+  if (!ACTIVE_SKILLS_BY_COMPETENCE) {
+    const allSkills = await getAllActiveSkills();
+    ACTIVE_SKILLS_BY_COMPETENCE = _.groupBy(allSkills, 'competenceId');
+  }
+  return ACTIVE_SKILLS_BY_COMPETENCE;
+}
+
+async function _getValidatedChallengesBySkill() {
+  if (!VALIDATED_CHALLENGES_BY_SKILL) {
+    const allChallenges = await getAllChallenges();
+    const validatedChallenges = _.filter(allChallenges, { status: 'validé' });
+    VALIDATED_CHALLENGES_BY_SKILL = _.groupBy(validatedChallenges, (challenge) => challenge.skill.id);
+  }
+  return VALIDATED_CHALLENGES_BY_SKILL;
 }
 
 module.exports = {
   getAllCompetences,
   getCoreCompetences,
-  getDroitCompetences,
   findActiveSkillsByCompetenceId,
   findActiveSkillsByTubeId,
   findFirstValidatedChallengeBySkillId,
