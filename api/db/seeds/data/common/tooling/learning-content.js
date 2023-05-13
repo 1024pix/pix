@@ -9,6 +9,7 @@ let VALIDATED_CHALLENGES_BY_SKILL;
 async function getAllCompetences() {
   if (!ALL_COMPETENCES) {
     ALL_COMPETENCES = await competenceRepository.list();
+    ALL_COMPETENCES = _.filter(ALL_COMPETENCES, ({ origin }) => origin);
   }
   return ALL_COMPETENCES;
 }
@@ -18,6 +19,11 @@ async function getAllChallenges() {
     ALL_CHALLENGES = await challengeRepository.list();
   }
   return ALL_CHALLENGES;
+}
+
+async function findCompetence(competenceId) {
+  const allCompetences = await getAllCompetences();
+  return _.find(allCompetences, { id: competenceId });
 }
 
 async function getCoreCompetences() {
@@ -72,10 +78,19 @@ async function _getValidatedChallengesBySkill() {
   return VALIDATED_CHALLENGES_BY_SKILL;
 }
 
+async function findActiveSkillsByFrameworkName(frameworkName) {
+  const allCompetences = await getAllCompetences();
+  const competenceIds = _.filter(allCompetences, { origin: frameworkName }).map(({ id }) => id);
+  const activeSkills = await getAllActiveSkills();
+  return _.filter(activeSkills, (activeSkill) => competenceIds.includes(activeSkill.competenceId));
+}
+
 module.exports = {
   getAllCompetences,
   getCoreCompetences,
   findActiveSkillsByCompetenceId,
   findActiveSkillsByTubeId,
   findFirstValidatedChallengeBySkillId,
+  findCompetence,
+  findActiveSkillsByFrameworkName,
 };
