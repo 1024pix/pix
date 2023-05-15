@@ -13,7 +13,7 @@ module('Acceptance | Challenge', function (hooks) {
     const mission = this.server.create('mission');
     this.server.create('challenge');
     // when
-    await visit(`#/missions/${mission.id}`);
+    await visit(`/missions/${mission.id}`);
     await clickByText('Démarre ton épreuve');
     // then
     assert.strictEqual(currentURL(), `/assessments/1/challenges`);

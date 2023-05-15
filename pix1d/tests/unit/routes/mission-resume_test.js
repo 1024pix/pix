@@ -27,7 +27,7 @@ module('Unit | Route | MissionResumeRoute', function (hooks) {
 
       route.afterModel(assessment);
 
-      assert.ok(route.router.replaceWith.calledWith('assessment.resume', assessment));
+      assert.ok(route.router.replaceWith.calledWith('assessment.challenge', assessment));
     });
   });
 });

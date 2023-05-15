@@ -15,6 +15,6 @@ module('Acceptance | Mission', function (hooks) {
     // then
     assert.dom(screen.getByText(`Titre de la mission : ${mission.name}`)).exists();
     assert.dom(screen.getByText('Démarre ton épreuve')).exists();
-    assert.dom(`[href="#/missions/${mission.id}/resume"]`).exists();
+    assert.dom(`[href="/missions/${mission.id}/resume"]`).exists();
   });
 });
