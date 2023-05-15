@@ -311,7 +311,7 @@ function _buildCertificationCandidate({
   email = 'bob.leponge@la.mer',
   resultRecipientEmail = 'recipient@college.fr',
   externalId = 'an external id',
-  extraTimePercentage = 30,
+  extraTimePercentage = 0.3,
   isLinked = false,
   complementaryCertifications = [
     {
