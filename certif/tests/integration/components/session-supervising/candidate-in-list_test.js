@@ -56,7 +56,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         firstName: 'Gamora',
         lastName: 'Zen Whoberi Ben Titan',
         birthdate: '1984-05-28',
-        extraTimePercentage: '8',
+        extraTimePercentage: 0.08,
         authorizedToStart: false,
         assessmentStatus: null,
         complementaryCertification: null,
@@ -94,7 +94,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           firstName: 'Star',
           lastName: 'Lord',
           birthdate: '1983-06-28',
-          extraTimePercentage: '12',
+          extraTimePercentage: 0.12,
           authorizedToStart: true,
           assessmentStatus: null,
         });
@@ -127,7 +127,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             firstName: 'Toto',
             lastName: 'Tutu',
             birthdate: '1984-05-28',
-            extraTimePercentage: '8',
+            extraTimePercentage: 0.08,
             authorizedToStart: true,
             assessmentResult: null,
           });
@@ -164,7 +164,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             firstName: 'Toto',
             lastName: 'Tutu',
             birthdate: '1984-05-28',
-            extraTimePercentage: '8',
+            extraTimePercentage: 0.08,
             authorizedToStart: false,
             assessmentResult: null,
           });
@@ -277,7 +277,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       firstName: 'Gamora',
       lastName: 'Zen Whoberi Ben Titan',
       birthdate: '1984-05-28',
-      extraTimePercentage: '8',
+      extraTimePercentage: 0.08,
       authorizedToStart: false,
       assessmentStatus: null,
       enrolledComplementaryCertification: 'Super Certification Complémentaire',
@@ -312,7 +312,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         firstName: 'Star',
         lastName: 'Lord',
         birthdate: '1983-06-28',
-        extraTimePercentage: '12',
+        extraTimePercentage: 0.12,
         authorizedToStart: true,
         assessmentStatus: null,
       });
@@ -876,7 +876,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           firstName: 'Toto',
           lastName: 'Tutu',
           birthdate: '1984-05-28',
-          extraTimePercentage: '8',
+          extraTimePercentage: 0.08,
           authorizedToStart: true,
           assessmentResult: null,
         });
@@ -906,7 +906,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           firstName: 'Toto',
           lastName: 'Tutu',
           birthdate: '1984-05-28',
-          extraTimePercentage: '8',
+          extraTimePercentage: 0.08,
           authorizedToStart: false,
           assessmentResult: null,
         });
