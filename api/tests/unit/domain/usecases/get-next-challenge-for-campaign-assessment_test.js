@@ -117,15 +117,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             fetchForFlashCampaigns: sinon.stub(),
           };
 
-          const pseudoRandomStub = {
-            create: () => {
-              const binaryTreeRandom = sinon.stub();
-              binaryTreeRandom.withArgs(51, 1).returns(0);
-              return {
-                binaryTreeRandom,
-              };
-            },
-          };
+          const randomMethodStub = sinon.stub().returns(0);
 
           dataFetcherStub.fetchForFlashCampaigns
             .withArgs({
@@ -149,7 +141,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
-            pseudoRandom: pseudoRandomStub,
+            randomMethod: randomMethodStub,
           });
 
           // then
@@ -160,16 +152,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       describe('when there are multiple remaining challenges', function () {
         it('should return the best next challenges', async function () {
           // given
-          const pseudoRandomStub = {
-            create: () => {
-              const binaryTreeRandom = sinon.stub();
-              binaryTreeRandom.withArgs(51, 2).returns(1);
-              return {
-                binaryTreeRandom,
-              };
-            },
-          };
-
+          const randomMethodStub = sinon.stub().returns(1);
           const dataFetcherStub = {
             fetchForFlashCampaigns: sinon.stub(),
           };
@@ -196,7 +179,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
-            pseudoRandom: pseudoRandomStub,
+            randomMethod: randomMethodStub,
           });
 
           // then

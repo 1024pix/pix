@@ -10,13 +10,11 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   locale,
   dataFetcher,
   smartRandom,
-  pseudoRandom,
+  randomMethod,
 }) {
   let algoResult;
 
   if (assessment.isFlash()) {
-    const pseudoRandomContext = pseudoRandom.create(assessment.id);
-
     const { allAnswers, challenges, estimatedLevel } = await dataFetcher.fetchForFlashCampaigns({
       assessmentId: assessment.id,
       answerRepository,
@@ -27,7 +25,7 @@ module.exports = async function getNextChallengeForCampaignAssessment({
 
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
       assessment,
-      randomAlgorithm: pseudoRandomContext.binaryTreeRandom.bind(pseudoRandomContext),
+      randomMethod,
     });
 
     return assessmentAlgorithm.getNextChallenge({ allAnswers, challenges, estimatedLevel });
