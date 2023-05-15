@@ -5,7 +5,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
   describe('#get-next-challenge-for-pix1d', function () {
     context('should calculate the good activityChallengeIndex', function () {
       context('when there is no answer for the given assessmentId', function () {
-        it('should call the challengePix1dRepository with an activityChallengeIndex equals to 1 ', async function () {
+        it('should call the challengeRepository with an activityChallengeIndex equals to 1 ', async function () {
           const missionId = 'AZERTYUIO';
           const assessmentId = 'id_assessment';
           const DIDACTICIEL = 'didacticiel';
@@ -13,7 +13,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
 
           const assessmentRepository = { get: sinon.stub() };
           const answerRepository = { findByAssessment: sinon.stub() };
-          const challengePix1dRepository = { get: sinon.stub() };
+          const challengeRepository = { getForPix1D: sinon.stub() };
 
           assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
           answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
@@ -22,12 +22,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
           await getNextChallengeForPix1d({
             assessmentId,
             assessmentRepository,
-            challengePix1dRepository,
+            challengeRepository,
             answerRepository,
           });
 
           // then
-          expect(challengePix1dRepository.get).to.have.been.calledWith({
+          expect(challengeRepository.getForPix1D).to.have.been.calledWith({
             missionId,
             activityLevel: DIDACTICIEL,
             answerLength: 0,
@@ -35,7 +35,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         });
       });
       context('when there is an answer for the given assessmentId', function () {
-        it('should call the challengePix1dRepository with an activityChallengeIndex equals to 2 ', async function () {
+        it('should call the challengeRepository with an activityChallengeIndex equals to 2 ', async function () {
           const missionId = 'AZERTYUIO';
           const DIDACTICIEL = 'didacticiel';
           const assessmentId = 'id_assessment';
@@ -43,7 +43,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
 
           const assessmentRepository = { get: sinon.stub() };
           const answerRepository = { findByAssessment: sinon.stub() };
-          const challengePix1dRepository = { get: sinon.stub() };
+          const challengeRepository = { getForPix1D: sinon.stub() };
 
           assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
           answerRepository.findByAssessment.withArgs(assessmentId).resolves([answer]);
@@ -52,12 +52,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
           await getNextChallengeForPix1d({
             assessmentId,
             assessmentRepository,
-            challengePix1dRepository,
+            challengeRepository,
             answerRepository,
           });
 
           // then
-          expect(challengePix1dRepository.get).to.have.been.calledWith({
+          expect(challengeRepository.getForPix1D).to.have.been.calledWith({
             missionId,
             activityLevel: DIDACTICIEL,
             answerLength: 1,

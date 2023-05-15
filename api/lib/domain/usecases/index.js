@@ -66,7 +66,6 @@ import * as certificationCpfService from '../../domain/services/certification-cp
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import * as challengeForPixAutoAnswerRepository from '../../infrastructure/repositories/challenge-for-pix-auto-answer-repository.js';
-import * as challengePix1dRepository from '../../infrastructure/repositories/challenge-pix1d-repository.js';
 import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as competenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
@@ -272,7 +271,6 @@ const dependencies = {
   certificationResultRepository,
   challengeRepository,
   challengeForPixAutoAnswerRepository,
-  challengePix1dRepository,
   cleaCertifiedCandidateRepository,
   codeUtils,
   competenceEvaluationRepository,

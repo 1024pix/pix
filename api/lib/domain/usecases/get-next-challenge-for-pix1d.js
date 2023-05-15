@@ -2,12 +2,12 @@ module.exports = async function getNextChallengeForPix1d({
   assessmentId,
   assessmentRepository,
   answerRepository,
-  challengePix1dRepository,
+  challengeRepository,
 }) {
   const { missionId } = await assessmentRepository.get(assessmentId);
   const answers = await answerRepository.findByAssessment(assessmentId);
   const answerLength = answers.length;
-  return await challengePix1dRepository.get({
+  return await challengeRepository.getForPix1D({
     missionId,
     activityLevel: 'didacticiel',
     answerLength,
