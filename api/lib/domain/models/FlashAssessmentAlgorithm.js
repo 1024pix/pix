@@ -1,9 +1,9 @@
 const { AssessmentEndedError } = require('../errors');
 const { getPossibleNextChallenges } = require('../services/algorithm-methods/flash');
 
-class FlassAssessmentAlgorithm {
-  constructor({ randomAlgorithm }) {
-    this.randomAlgorithm = randomAlgorithm;
+class FlashAssessmentAlgorithm {
+  constructor({ randomMethod }) {
+    this.randomMethod = randomMethod;
   }
 
   getNextChallenge({ allAnswers, challenges, estimatedLevel }) {
@@ -21,10 +21,10 @@ class FlassAssessmentAlgorithm {
   }
 
   chooseNextChallenge(challenges) {
-    const challengeIndex = this.randomAlgorithm(51, challenges.length);
+    const challengeIndex = this.randomMethod(51, challenges.length);
 
     return challenges[challengeIndex];
   }
 }
 
-module.exports = FlassAssessmentAlgorithm;
+module.exports = FlashAssessmentAlgorithm;

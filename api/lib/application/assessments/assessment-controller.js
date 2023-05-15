@@ -183,7 +183,10 @@ async function _getChallengeByAssessmentType({ assessment, request, dependencies
   }
 
   if (assessment.isForCampaign()) {
-    return dependencies.usecases.getNextChallengeForCampaignAssessment({ assessment, locale });
+    const pseudoRandomContext = dependencies.pseudoRandom.create(assessment.id);
+    const randomMethod = pseudoRandomContext.binaryTreeRandom.bind(pseudoRandomContext);
+
+    return dependencies.usecases.getNextChallengeForCampaignAssessment({ assessment, locale, randomMethod });
   }
 
   if (assessment.isCompetenceEvaluation()) {
