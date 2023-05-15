@@ -7,6 +7,7 @@ import * as solutionAdapter from '../adapters/solution-adapter.js';
 import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { config } from '../../config.js';
+import { tubeDatasource } from '../datasources/learning-content/index.js';
 
 const get = async function (id) {
   try {
@@ -16,6 +17,35 @@ const get = async function (id) {
   } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
       throw new NotFoundError();
+    }
+    throw error;
+  }
+};
+
+const getForPix1D = async function ({ missionId, activityLevel, answerLength }) {
+  try {
+    const missionNamePrefix = await _getMissionNamePrefix(missionId);
+    if (missionNamePrefix.length === 0) {
+      throw new NotFoundError(`Aucune mission trouvée pour l'identifiant : ${missionId}`);
+    }
+    const skillNamePrefix = _getPix1dSkillNamePrefix(missionNamePrefix, activityLevel);
+    const skills = await skillDatasource.findBySkillNamePrefix(skillNamePrefix);
+    if (skills.length === 0) {
+      // Devrait être repris quand on récupèrera directement le challenge
+      throw new NotFoundError(`Aucune activité trouvée pour la mission : ${missionId} et le niveau ${activityLevel}`);
+    }
+    if (answerLength < skills.length) {
+      const [{ id: skillId }] = skills.filter((skill) => skill.name === `${skillNamePrefix}${answerLength + 1}`);
+      const challenge = await challengeDatasource.getBySkillId(skillId);
+      return _toDomain({ challengeDataObject: challenge });
+    }
+  } catch (error) {
+    if (error instanceof LearningContentResourceNotFound) {
+      throw new NotFoundError(
+        `Aucune activité trouvée pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${
+          answerLength + 1
+        }`
+      );
     }
     throw error;
   }
@@ -161,4 +191,14 @@ function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThr
     shuffled: challengeDataObject.shuffled,
     successProbabilityThreshold,
   });
+}
+
+function _getPix1dSkillNamePrefix(missionNamePrefix, activityLevel) {
+  return `${missionNamePrefix}_${activityLevel}`;
+}
+
+async function _getMissionNamePrefix(missionId) {
+  const [firstTube] = await tubeDatasource.findByThematicId(missionId);
+  const activityName = firstTube === undefined ? '' : firstTube.name;
+  return activityName.split('_')[0];
 }

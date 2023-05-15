@@ -12,11 +12,11 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-pix1d', func
 
       const assessmentRepository = { get: sinon.stub() };
       const answerRepository = { findByAssessment: sinon.stub() };
-      const challengePix1dRepository = { get: sinon.stub() };
+      const challengeRepository = { getForPix1D: sinon.stub() };
 
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
       answerRepository.findByAssessment.withArgs(assessmentId).resolves([]);
-      challengePix1dRepository.get
+      challengeRepository.getForPix1D
         .withArgs({ missionId, activityLevel: DIDACTICIEL, answerLength: 0 })
         .resolves(firstChallenge);
 
@@ -24,7 +24,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-pix1d', func
       const nextChallenge = await getNextChallengeForPix1d({
         assessmentId,
         assessmentRepository,
-        challengePix1dRepository,
+        challengeRepository,
         answerRepository,
       });
 
