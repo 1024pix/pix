@@ -10,7 +10,6 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   locale,
   dataFetcher,
   smartRandom,
-  randomMethod,
 }) {
   let algoResult;
 
@@ -23,12 +22,15 @@ module.exports = async function getNextChallengeForCampaignAssessment({
       locale,
     });
 
-    const assessmentAlgorithm = new FlashAssessmentAlgorithm({
-      assessment,
-      randomMethod,
+    const assessmentAlgorithm = new FlashAssessmentAlgorithm();
+
+    const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
+      allAnswers,
+      challenges,
+      estimatedLevel,
     });
 
-    return assessmentAlgorithm.getNextChallenge({ allAnswers, challenges, estimatedLevel });
+    return pickChallengeService.chooseNextChallenge({ possibleChallenges, assessmentId: assessment.id });
   } else {
     const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
     algoResult = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });

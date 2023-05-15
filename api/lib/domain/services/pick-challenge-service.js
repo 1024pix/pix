@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const hashInt = require('hash-int');
+const pseudoRandom = require('../../infrastructure/utils/pseudo-random');
 const NON_EXISTING_ITEM = null;
 const VALIDATED_STATUS = 'validé';
 
@@ -13,6 +14,15 @@ module.exports = {
     const chosenSkill = skills[keyForSkill % skills.length];
 
     return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
+  },
+
+  chooseNextChallenge({ possibleChallenges, assessmentId }) {
+    const PROBABILITY_TO_BE_PICKED = 51;
+    const pseudoRandomContext = pseudoRandom.create(assessmentId);
+
+    const challengeIndex = pseudoRandomContext.binaryTreeRandom(PROBABILITY_TO_BE_PICKED, possibleChallenges.length);
+
+    return possibleChallenges[challengeIndex];
   },
 };
 
