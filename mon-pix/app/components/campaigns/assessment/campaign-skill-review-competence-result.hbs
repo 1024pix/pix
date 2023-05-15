@@ -1,19 +1,23 @@
-<table class="default-table skill-review-competence__table">
+<table class="skill-review-competence__table">
   <caption class="sr-only">{{t "pages.skill-review.details.caption"}}</caption>
   <thead>
     <tr>
-      <th scope="col">{{t "pages.skill-review.details.header-skill"}}</th>
-      <th scope="col">{{t "pages.skill-review.details.header-result"}}</th>
+      <th class="skill-review-competence__column-header" scope="col">
+        {{t "pages.skill-review.details.header-skill"}}
+      </th>
+      <th class="skill-review-competence__column-header" scope="col">
+        {{t "pages.skill-review.details.header-result"}}
+      </th>
     </tr>
   </thead>
 
   <tbody>
     {{#if @showCleaCompetences}}
       {{#each @skillSetResults as |skillSet|}}
-        <tr>
-          <th scope="row">
+        <tr class="skill-review-competence__row">
+          <th scope="row" class="skill-review-competence__row-header">
             <span class="skill-review-competence__border" aria-hidden="true"></span>
-            <span>{{skillSet.name}}</span>
+            <span class="skill-review-competence__name">{{skillSet.name}}</span>
           </th>
           <td>
             <PixProgressGauge @value={{skillSet.masteryPercentage}} @tooltipText="{{skillSet.masteryPercentage}}%" />
@@ -23,12 +27,12 @@
     {{else}}
       {{#each @competenceResults as |competence|}}
         <tr class="skill-review-competence__row">
-          <th scope="row">
+          <th scope="row" class="skill-review-competence__row-header">
             <span
               class="skill-review-competence__border skill-review-competence__border--{{competence.areaColor}}"
               aria-hidden="true"
             ></span>
-            <span>{{competence.name}}</span>
+            <span class="skill-review-competence__name">{{competence.name}}</span>
           </th>
           <td>
             {{#if competence.flashPixScore}}
