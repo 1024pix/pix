@@ -1,7 +1,7 @@
 import { inject as service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 import get from 'lodash/get';
-import { DEFAULT_LOCALE, FRENCH_FRANCE_LOCALE } from 'mon-pix/services/locale';
+import { FRENCH_INTERNATIONAL_LOCALE, FRENCH_FRANCE_LOCALE } from 'mon-pix/services/locale';
 
 const FRANCE_TLD = 'fr';
 
@@ -92,7 +92,7 @@ export default class CurrentSessionService extends SessionService {
     const domain = this.currentDomain.getExtension();
 
     if (domain === FRANCE_TLD) {
-      await this.locale.setLocale(DEFAULT_LOCALE);
+      this.locale.setLocale(FRENCH_INTERNATIONAL_LOCALE);
 
       if (!this.locale.hasLocaleCookie()) {
         this.locale.setLocaleCookie(FRENCH_FRANCE_LOCALE);
@@ -100,31 +100,17 @@ export default class CurrentSessionService extends SessionService {
       return;
     }
 
-    if (isUserLoaded) {
-      if (localeFromQueryParam) {
-        this.currentUser.user.lang = localeFromQueryParam;
-        try {
-          await this.currentUser.user.save({ adapterOptions: { lang: this.currentUser.user.lang } });
-          await this.locale.setLocale(this.currentUser.user.lang);
-        } catch (error) {
-          const status = get(error, 'errors[0].status');
-          if (status === '400') {
-            this.currentUser.user.rollbackAttributes();
-            await this.locale.setLocale(this.currentUser.user.lang);
-          } else {
-            throw error;
-          }
-        }
-      } else {
-        await this.locale.setLocale(this.currentUser.user.lang);
-      }
-    } else {
-      if (localeFromQueryParam) {
-        await this.locale.setLocale(localeFromQueryParam);
-      } else {
-        await this.locale.setLocale(DEFAULT_LOCALE);
-      }
+    if (localeFromQueryParam) {
+      this.locale.setLocale(localeFromQueryParam);
+      return;
     }
+
+    if (isUserLoaded) {
+      this.locale.setLocale(this.currentUser.user.lang);
+      return;
+    }
+
+    this.locale.setLocale(FRENCH_INTERNATIONAL_LOCALE);
   }
 
   _getRouteAfterInvalidation() {
