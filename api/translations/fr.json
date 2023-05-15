@@ -134,6 +134,21 @@
     },
     "subject": "Invitation à rejoindre Pix Certif"
   },
+  "certification-result-email": {
+    "params": {
+      "FindOutMore": "En savoir plus sur",
+      "doNotReply": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
+      "download": "Télécharger les résultats",
+      "emailValidFor": "Ce lien est valable trente jours.",
+      "guidelines": "Les signalements rapportés par le centre de certifications ont bien été pris en compte - le cas échéant - dans le cadre du jury Pix. Vous trouverez des indications pour interpréter ces résultats ici.",
+      "guidelinesLinkName": "Interprétation des résultats prescripteur",
+      "overviewText": "Bonjour, voici les résultats des certifications que vous avez prescrites à vos publics",
+      "resultsAvailable": "Les résultats des certifications Pix que vous avez prescrites à vos publics sont disponibles.",
+      "subject": "[Pix] Certification session",
+      "viewResultsInProfile": "Les candidats peuvent consulter leur résultat depuis leur profil Pix."
+    },
+    "title": "Consultez les résultats de la session de certification n° {{ sessionId }} !"
+  },
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {

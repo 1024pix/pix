@@ -19,6 +19,10 @@ const PIX_NAME_EN = 'PIX - Noreply';
 const HELPDESK_FRENCH_FRANCE = 'https://support.pix.fr';
 const HELPDESK_ENGLISH_SPOKEN = 'https://support.pix.org/en/support/home';
 const HELPDESK_FRENCH_SPOKEN = 'https://support.pix.org';
+const PIX_HOME_NAME_INTERNATIONAL = `pix${settings.domain.tldOrg}`;
+const PIX_HOME_NAME_FRENCH_FRANCE = `pix${settings.domain.tldFr}`;
+const PIX_HOME_URL_ENGLISH_SPOKEN = `${settings.domain.pix + settings.domain.tldOrg}/en-gb`;
+const PIX_HOME_URL_FRENCH_FRANCE = `${settings.domain.pix + settings.domain.tldFr}`;
 
 const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
 const SCO_ACCOUNT_RECOVERY_TAG = 'SCO_ACCOUNT_RECOVERY';
@@ -83,9 +87,8 @@ function sendCertificationResultEmail({
   certificationCenterName,
   resultRecipientEmail,
   daysBeforeExpiration,
+  translate,
 }) {
-  const pixName = PIX_NAME_FR;
-  const formattedSessionDate = dayjs(sessionDate).locale('fr').format('DD/MM/YYYY');
   const token = tokenService.createCertificationResultsByRecipientEmailLinkToken({
     sessionId,
     resultRecipientEmail,
@@ -93,19 +96,33 @@ function sendCertificationResultEmail({
   });
   const link = `${settings.domain.pixApp + settings.domain.tldOrg}/api/sessions/download-results/${token}`;
 
-  const variables = {
+  const formattedSessionDate = dayjs(sessionDate).locale('fr').format('DD/MM/YYYY');
+
+  const templateParams = {
     link,
+    certificationCenterName,
     sessionId,
     sessionDate: formattedSessionDate,
-    certificationCenterName,
+    fr: {
+      ...frTranslations['certification-result-email'].params,
+      homeName: PIX_HOME_NAME_FRENCH_FRANCE,
+      homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
+      title: translate({ phrase: 'certification-result-email.title', locale: 'fr' }, { sessionId }),
+    },
+    en: {
+      ...enTranslations['certification-result-email'].params,
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrl: PIX_HOME_URL_ENGLISH_SPOKEN,
+      title: translate({ phrase: 'certification-result-email.title', locale: 'en' }, { sessionId }),
+    },
   };
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: pixName,
+    fromName: `${PIX_NAME_FR} / ${PIX_NAME_EN}`,
     to: email,
     template: mailer.certificationResultTemplateId,
-    variables,
+    variables: templateParams,
   });
 }
 

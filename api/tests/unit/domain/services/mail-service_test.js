@@ -123,9 +123,10 @@ describe('Unit | Service | MailService', function () {
   });
 
   describe('#sendCertificationResultEmail', function () {
-    it('should use mailer to send an email with given options', async function () {
+    it(`should call sendEmail with from, to, template, tags, ${FRENCH_FRANCE} and ${ENGLISH_SPOKEN} translations`, async function () {
       // given
       sinon.stub(settings.domain, 'pixApp').value('https://pix.app');
+      const translate = getI18n().__;
       const sessionDate = '2020-10-03';
       const sessionId = '3';
       const certificationCenterName = 'Vincennes';
@@ -134,18 +135,6 @@ describe('Unit | Service | MailService', function () {
       const tokenServiceStub = sinon.stub(tokenService, 'createCertificationResultsByRecipientEmailLinkToken');
       tokenServiceStub.withArgs({ sessionId, resultRecipientEmail, daysBeforeExpiration }).returns('token-1');
       const link = 'https://pix.app.org/api/sessions/download-results/token-1';
-      const expectedOptions = {
-        from: senderEmailAddress,
-        fromName: 'PIX - Ne pas répondre',
-        to: userEmailAddress,
-        template: 'test-certification-result-template-id',
-        variables: {
-          link,
-          sessionId,
-          certificationCenterName,
-          sessionDate: '03/10/2020',
-        },
-      };
 
       // when
       await mailService.sendCertificationResultEmail({
@@ -155,10 +144,36 @@ describe('Unit | Service | MailService', function () {
         certificationCenterName,
         resultRecipientEmail,
         daysBeforeExpiration,
+        translate,
       });
 
       // then
-      expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      const options = mailer.sendEmail.firstCall.args[0];
+
+      expect(options).to.deep.equal({
+        from: 'ne-pas-repondre@pix.fr',
+        fromName: 'PIX - Ne pas répondre / PIX - Noreply',
+        to: userEmailAddress,
+        template: 'test-certification-result-template-id',
+        variables: {
+          fr: {
+            ...mainTranslationsMapping.fr['certification-result-email'].params,
+            title: translate('certification-result-email.title', { sessionId }),
+            homeName: 'pix.fr',
+            homeUrl: 'https://pix.fr',
+          },
+          en: {
+            ...mainTranslationsMapping.en['certification-result-email'].params,
+            title: translate({ phrase: 'certification-result-email.title', locale: 'en' }, { sessionId }),
+            homeName: 'pix.org',
+            homeUrl: 'https://pix.org/en-gb',
+          },
+          link,
+          sessionId,
+          sessionDate: '03/10/2020',
+          certificationCenterName,
+        },
+      });
     });
   });
 
