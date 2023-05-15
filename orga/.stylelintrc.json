@@ -11,6 +11,7 @@
     "scss/no-global-function-names": null,
     "selector-no-vendor-prefix": null,
     "selector-pseudo-element-colon-notation": null,
-    "shorthand-property-no-redundant-values": null
+    "shorthand-property-no-redundant-values": null,
+    "media-feature-range-notation": "prefix"
   }
 }
