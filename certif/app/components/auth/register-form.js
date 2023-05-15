@@ -41,9 +41,7 @@ class SignupFormValidation {
 }
 
 export default class RegisterForm extends Component {
-  @service currentDomain;
   @service intl;
-  @service locale;
   @service session;
   @service store;
   @service url;
