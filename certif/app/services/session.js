@@ -6,8 +6,6 @@ export default class CurrentSessionService extends SessionService {
   @service currentDomain;
   @service currentUser;
   @service locale;
-  @service intl;
-  @service dayjs;
 
   _localeFromQueryParam;
 
