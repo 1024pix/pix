@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
-import { clickByName, render } from '@1024pix/ember-testing-library';
+import { clickByName, render, waitFor } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 
 module('Integration | Component | users | user-overview', function (hooks) {
@@ -228,7 +228,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         });
       });
 
-      test('should display the edit and cancel buttons', async function (assert) {
+      test('displays the edit and cancel buttons', async function (assert) {
         // given
         this.set('user', {
           firstName: 'John',
@@ -247,7 +247,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       });
 
-      test('should display user’s language, first name and last name in edit mode', async function (assert) {
+      test('displays user’s language, first name and last name in edit mode', async function (assert) {
         // given
         this.set('user', user);
 
@@ -258,10 +258,33 @@ module('Integration | Component | users | user-overview', function (hooks) {
         // then
         assert.dom(screen.getByRole('textbox', { name: 'Prénom :' })).hasValue(this.user.firstName);
         assert.dom(screen.getByRole('textbox', { name: 'Nom :' })).hasValue(this.user.lastName);
+
         await clickByName('Langue :');
         await screen.findByRole('listbox');
         assert.dom(screen.getByRole('option', { name: 'Français' })).exists();
         assert.dom(screen.getByRole('option', { name: 'Anglais' })).exists();
+
+        await clickByName('Locale :');
+        await waitFor(async () => {
+          await screen.findByRole('listbox');
+          assert.dom(screen.getByRole('option', { name: 'en' })).exists();
+          assert.dom(screen.getByRole('option', { name: 'fr' })).exists();
+          assert.dom(screen.getByRole('option', { name: 'fr-BE' })).exists();
+          assert.dom(screen.getByRole('option', { name: 'fr-FR' })).exists();
+        });
+      });
+
+      test('does not display user’s terms of service', async function (assert) {
+        // given
+        this.set('user', user);
+
+        // when
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+        await clickByName('Modifier');
+
+        // then
+        assert.dom(screen.queryByText('CGU Pix Orga validé :')).doesNotExist();
+        assert.dom(screen.queryByText('CGU Pix Certif validé :')).doesNotExist();
       });
 
       module('when user has an email only', function () {
@@ -346,19 +369,6 @@ module('Integration | Component | users | user-overview', function (hooks) {
           // then
           assert.dom(screen.queryByRole('textbox', { name: 'Adresse e-mail :' })).doesNotExist();
         });
-      });
-
-      test('should not display user’s terms of service', async function (assert) {
-        // given
-        this.set('user', user);
-
-        // when
-        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
-        await clickByName('Modifier');
-
-        // then
-        assert.dom(screen.queryByText('CGU Pix Orga validé :')).doesNotExist();
-        assert.dom(screen.queryByText('CGU Pix Certif validé :')).doesNotExist();
       });
     });
 
