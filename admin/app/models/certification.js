@@ -45,9 +45,9 @@ export default class Certification extends Model {
   @attr('boolean', { defaultValue: false }) isPublished;
   @belongsTo('complementary-certification-course-results-with-external')
   complementaryCertificationCourseResultsWithExternal;
+  @belongsTo('common-complementary-certification-course-result') commonComplementaryCertificationCourseResults;
 
   @hasMany('certification-issue-report') certificationIssueReports;
-  @hasMany('common-complementary-certification-course-result') commonComplementaryCertificationCourseResults;
 
   @computed('createdAt')
   get creationDate() {
@@ -72,7 +72,7 @@ export default class Certification extends Model {
 
   get hasComplementaryCertifications() {
     return (
-      Boolean(this.commonComplementaryCertificationCourseResults.length) ||
+      Boolean(this.commonComplementaryCertificationCourseResults) ||
       Boolean(this.complementaryCertificationCourseResultsWithExternal.get('pixResult'))
     );
   }

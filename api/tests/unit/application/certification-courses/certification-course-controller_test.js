@@ -130,7 +130,7 @@ describe('Unit | Controller | certification-course-controller', function () {
         commentForJury: 'comment jury',
         competenceMarks: [],
         certificationIssueReports: [],
-        commonComplementaryCertificationCourseResults: [],
+        commonComplementaryCertificationCourseResults: null,
         complementaryCertificationCourseResultsWithExternal: null,
       });
       const stubbedUsecase = sinon.stub(usecases, 'getJuryCertification');

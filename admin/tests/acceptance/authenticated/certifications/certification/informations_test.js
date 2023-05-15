@@ -455,20 +455,13 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('it displays common complementary certifications result', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-        const commonComplementaryCertificationCourseResults = [
-          server.create('common-complementary-certification-course-result', {
+        const commonComplementaryCertificationCourseResults = server.create(
+          'common-complementary-certification-course-result',
+          {
             label: 'CléA Numérique',
             status: 'Validée',
-          }),
-          server.create('common-complementary-certification-course-result', {
-            label: 'Pix+ Droit Maître',
-            status: 'Validée',
-          }),
-          server.create('common-complementary-certification-course-result', {
-            label: 'Pix+ Droit Expert',
-            status: 'Rejetée',
-          }),
-        ];
+          }
+        );
 
         certification.update({
           commonComplementaryCertificationCourseResults,
@@ -481,10 +474,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         assert.dom(screen.getByText('Certifications complémentaires')).exists();
         assert.dom(screen.queryByText('Résultats de la certification complémentaire Pix+ Edu :')).doesNotExist();
         assert.dom(screen.getByText('CléA Numérique :')).exists();
-        assert.dom(screen.getByText('Pix+ Droit Maître :')).exists();
-        assert.dom(screen.getByText('Pix+ Droit Expert :')).exists();
-        assert.strictEqual(screen.getAllByText('Validée').length, 2);
-        assert.strictEqual(screen.getAllByText('Rejetée').length, 1);
+        assert.dom(screen.getByText('Validée').exists());
       });
 
       test('it displays external complementary certifications', async function (assert) {

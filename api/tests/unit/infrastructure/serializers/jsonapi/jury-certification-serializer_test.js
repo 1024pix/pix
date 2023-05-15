@@ -39,20 +39,13 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
         commentForJury: 'ça va',
         competenceMarks,
         certificationIssueReports,
-        commonComplementaryCertificationCourseResults: [
+        commonComplementaryCertificationCourseResults:
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
             id: 12,
             partnerKey: 'BADGE_KEY_1',
             acquired: true,
             label: 'Badge Key 1',
           }),
-          domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
-            id: 14,
-            partnerKey: 'BADGE_KEY_2',
-            acquired: true,
-            label: 'Badge Key 2',
-          }),
-        ],
         complementaryCertificationCourseResultsWithExternal:
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
             complementaryCertificationCourseId: 1234,
@@ -119,16 +112,10 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
               ],
             },
             'common-complementary-certification-course-results': {
-              data: [
-                {
-                  id: '12',
-                  type: 'commonComplementaryCertificationCourseResults',
-                },
-                {
-                  id: '14',
-                  type: 'commonComplementaryCertificationCourseResults',
-                },
-              ],
+              data: {
+                id: '12',
+                type: 'commonComplementaryCertificationCourseResults',
+              },
             },
             'complementary-certification-course-results-with-external': {
               data: {
@@ -144,14 +131,6 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             id: '12',
             attributes: {
               label: 'Badge Key 1',
-              status: 'Validée',
-            },
-          },
-          {
-            type: 'commonComplementaryCertificationCourseResults',
-            id: '14',
-            attributes: {
-              label: 'Badge Key 2',
               status: 'Validée',
             },
           },

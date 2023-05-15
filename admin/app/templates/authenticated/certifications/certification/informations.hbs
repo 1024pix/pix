@@ -94,18 +94,14 @@
 
         {{#if this.certification.commonComplementaryCertificationCourseResults}}
           <ul class="certification-informations__card__list">
-            {{#each
-              this.certification.commonComplementaryCertificationCourseResults
-              as |commonComplementaryCertificationCourseResult|
-            }}
+            
               <li class="certification-informations__card__list-item">
                 <span class="certification-informations__card__list-label">
-                  {{commonComplementaryCertificationCourseResult.label}}
+                  {{this.certification.commonComplementaryCertificationCourseResults.label}}
                   :
                 </span>
-                {{commonComplementaryCertificationCourseResult.status}}
+                {{this.certification.commonComplementaryCertificationCourseResults.status}}
               </li>
-            {{/each}}
           </ul>
         {{/if}}
 
