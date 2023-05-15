@@ -1,9 +1,8 @@
-import { findAll, currentURL } from '@ember/test-helpers';
+import { findAll, currentURL, click, fillIn } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
-import { click, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { setupMirage } from 'ember-cli-mirage/test-support';
