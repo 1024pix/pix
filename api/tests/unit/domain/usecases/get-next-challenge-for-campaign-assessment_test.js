@@ -33,17 +33,28 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
     describe('when no assessment method is defined', function () {
       it('should use smart-random algorithm', async function () {
         // given
+        const locale = 'fr-fr';
+        const skill = domainBuilder.buildSkill();
+        const possibleSkillsForNextChallenge = [skill];
         const smartRandomStub = {
           getPossibleSkillsForNextChallenge: sinon
             .stub()
-            .resolves({ possibleSkillsForNextChallenge: [], hasAssessmentEnded: true }),
+            .returns({ possibleSkillsForNextChallenge, hasAssessmentEnded: false }),
         };
         const dataFetcherStub = {
           fetchForCampaigns: sinon.stub().resolves({}),
         };
 
+        const pickChallengeService = {
+          pickChallenge: sinon.stub(),
+        };
+
+        pickChallengeService.pickChallenge
+          .withArgs({ skills: possibleSkillsForNextChallenge, locale, randomSeed: assessment.id })
+          .returns(firstChallenge);
+
         // when
-        await getNextChallengeForCampaignAssessment({
+        const challenge = await getNextChallengeForCampaignAssessment({
           challengeRepository,
           answerRepository,
           flashAssessmentResultRepository,
@@ -52,10 +63,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           smartRandom: smartRandomStub,
           dataFetcher: dataFetcherStub,
           flash,
+          locale,
         });
 
         // then
-        expect(smartRandomStub.getPossibleSkillsForNextChallenge).to.have.been.called;
+        expect(challenge).to.deep.equal(firstChallenge);
       });
     });
 
