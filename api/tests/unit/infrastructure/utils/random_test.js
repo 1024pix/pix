@@ -19,11 +19,13 @@ describe('Unit | Infrastructure | Utils | Random', function () {
 
         const computeDistance = (value, expected) => Math.abs(value / sampleSize - expected / 100);
 
-        expect(computeDistance(resultDistribution[0], 50)).to.be.lessThan(0.01);
-        expect(computeDistance(resultDistribution[1], 25)).to.be.lessThan(0.01);
-        expect(computeDistance(resultDistribution[2], 12.5)).to.be.lessThan(0.01);
-        expect(computeDistance(resultDistribution[3], 6.25)).to.be.lessThan(0.01);
-        expect(computeDistance(resultDistribution[4], 6.25)).to.be.lessThan(0.01);
+        const RESULTS_AVERAGE_DISTRIBUTION = [50, 25, 12.5, 6.25, 6.25];
+
+        expect(computeDistance(resultDistribution[0], RESULTS_AVERAGE_DISTRIBUTION[0])).to.be.lessThan(0.01);
+        expect(computeDistance(resultDistribution[1], RESULTS_AVERAGE_DISTRIBUTION[1])).to.be.lessThan(0.01);
+        expect(computeDistance(resultDistribution[2], RESULTS_AVERAGE_DISTRIBUTION[2])).to.be.lessThan(0.01);
+        expect(computeDistance(resultDistribution[3], RESULTS_AVERAGE_DISTRIBUTION[3])).to.be.lessThan(0.01);
+        expect(computeDistance(resultDistribution[4], RESULTS_AVERAGE_DISTRIBUTION[4])).to.be.lessThan(0.01);
       });
     });
   });

@@ -27,7 +27,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       challengeRepository.get.withArgs('first_challenge').resolves(firstChallenge);
       challengeRepository.get.withArgs('second_challenge').resolves(secondChallenge);
       flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
-      pickChallengeService = { pickChallenge: sinon.stub() };
+      pickChallengeService = { pickChallenge: sinon.stub(), chooseNextChallenge: sinon.stub() };
     });
 
     describe('when no assessment method is defined', function () {
@@ -117,7 +117,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             fetchForFlashCampaigns: sinon.stub(),
           };
 
-          const randomMethodStub = sinon.stub().returns(0);
+          pickChallengeService.chooseNextChallenge
+            .withArgs({
+              possibleChallenges: [secondChallenge],
+              assessmentId: assessment.id,
+            })
+            .returns(secondChallenge);
 
           dataFetcherStub.fetchForFlashCampaigns
             .withArgs({
@@ -141,7 +146,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
-            randomMethod: randomMethodStub,
           });
 
           // then
@@ -152,7 +156,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       describe('when there are multiple remaining challenges', function () {
         it('should return the best next challenges', async function () {
           // given
-          const randomMethodStub = sinon.stub().returns(1);
           const dataFetcherStub = {
             fetchForFlashCampaigns: sinon.stub(),
           };
@@ -170,6 +173,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               challenges: [firstChallenge, secondChallenge, thirdChallenge],
             });
 
+          pickChallengeService.chooseNextChallenge
+            .withArgs({
+              possibleChallenges: [thirdChallenge, secondChallenge],
+              assessmentId: assessment.id,
+            })
+            .returns(secondChallenge);
+
           // when
           const bestChallenge = await getNextChallengeForCampaignAssessment({
             challengeRepository,
@@ -179,7 +189,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
-            randomMethod: randomMethodStub,
           });
 
           // then
