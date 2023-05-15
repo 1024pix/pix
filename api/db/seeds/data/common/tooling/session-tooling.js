@@ -111,7 +111,7 @@ async function createDraftScoSession({
  * @param {string} time
  * @param {Date} createdAt
  * @param {string} supervisorPassword
- * @param configSession {candidatesToRegisterCount: number, registerToComplementaryCertifications : boolean }
+ * @param configSession {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean }
 
  * @returns {Promise<{sessionId: number}>} sessionId
  */
@@ -303,7 +303,7 @@ async function createPublishedScoSession({
  * @param {number} juryCommentAuthorId
  * @param {Date} juryCommentedAt
  * @param {string} supervisorPassword
- * @param configSession {candidatesToRegisterCount: number, registerToComplementaryCertifications : boolean }
+ * @param configSession {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean }
  * @returns {{sessionId: number}} sessionId
  */
 async function createPublishedSession({
@@ -399,39 +399,65 @@ async function _registerOrganizationLearnersToSession({
   configSession,
 }) {
   const certificationCandidates = [];
-  if (configSession && configSession.learnersToRegisterCount > 0) {
+  if (_hasLearnersToRegister(configSession)) {
     const extraTimePercentages = [null, 0.3, 0.5];
-    const organizationLearners = await databaseBuilder
-      .knex('organization-learners')
-      .where({ organizationId })
-      .limit(configSession.learnersToRegisterCount);
+    const organizationLearners = await _buildOrganizationLearners(databaseBuilder, organizationId, configSession);
 
-    organizationLearners.forEach((organizationLearner, index) => {
-      certificationCandidates.push(
-        databaseBuilder.factory.buildCertificationCandidate({
-          firstName: organizationLearner.firstName,
-          lastName: organizationLearner.lastName,
-          sex: organizationLearner.sex,
-          birthPostalCode: null,
-          birthCityCode: null,
-          birthINSEECode: '75115',
-          birthCity: 'PARIS 15',
-          birthCountry: 'France',
-          email: `${organizationLearner.firstName}-${organizationLearner.lastName}@example.net`,
-          birthdate: '2000-01-04',
-          sessionId,
-          createdAt: new Date(),
-          extraTimePercentage: extraTimePercentages[index % extraTimePercentages.length],
-          userId: hasJoinSession ? organizationLearner.userId : null,
-          organizationLearnerId: organizationLearner.id,
-          authorizedToStart: false,
-          billingMode: null,
-          prepaymentCode: null,
-        }),
-      );
-    });
+    _addCertificationCandidatesToScoSession(
+      organizationLearners,
+      certificationCandidates,
+      databaseBuilder,
+      sessionId,
+      extraTimePercentages,
+      hasJoinSession,
+    );
   }
   return certificationCandidates;
+}
+
+function _addCertificationCandidatesToScoSession(
+  organizationLearners,
+  certificationCandidates,
+  databaseBuilder,
+  sessionId,
+  extraTimePercentages,
+  hasJoinSession,
+) {
+  organizationLearners.forEach((organizationLearner, index) => {
+    certificationCandidates.push(
+      databaseBuilder.factory.buildCertificationCandidate({
+        firstName: organizationLearner.firstName,
+        lastName: organizationLearner.lastName,
+        sex: organizationLearner.sex,
+        birthPostalCode: null,
+        birthCityCode: null,
+        birthINSEECode: '75115',
+        birthCity: 'PARIS 15',
+        birthCountry: 'France',
+        email: `${organizationLearner.firstName}-${organizationLearner.lastName}@example.net`,
+        birthdate: '2000-01-04',
+        sessionId,
+        createdAt: new Date(),
+        extraTimePercentage: extraTimePercentages[index % extraTimePercentages.length],
+        userId: hasJoinSession ? organizationLearner.userId : null,
+        organizationLearnerId: organizationLearner.id,
+        authorizedToStart: false,
+        billingMode: null,
+        prepaymentCode: null,
+      }),
+    );
+  });
+}
+
+async function _buildOrganizationLearners(databaseBuilder, organizationId, configSession) {
+  return await databaseBuilder
+    .knex('organization-learners')
+    .where({ organizationId })
+    .limit(configSession.learnersToRegisterCount);
+}
+
+function _hasLearnersToRegister(configSession) {
+  return configSession && configSession.learnersToRegisterCount > 0;
 }
 
 async function _registerCandidatesToSession({
@@ -442,7 +468,7 @@ async function _registerCandidatesToSession({
   certificationCenterId,
 }) {
   const certificationCandidates = [];
-  if (configSession && configSession.candidatesToRegisterCount > 0) {
+  if (_hasCertificationCandidatesToRegister(configSession)) {
     const extraTimePercentages = [null, 0.3, 0.5];
     const billingModes = [
       {
@@ -460,13 +486,12 @@ async function _registerCandidatesToSession({
     ];
 
     const complementaryCertificationIds = [null];
-    if (configSession.registerToComplementaryCertifications) {
-      complementaryCertificationIds.push(
-        ...(await databaseBuilder
-          .knex('complementary-certification-habilitations')
-          .pluck('complementaryCertificationId')
-          .where('certificationCenterId', certificationCenterId)),
-      );
+    if (configSession.hasComplementaryCertificationsToRegister) {
+      await _getComplementaryCertificationIdsFromCertificationCenterHabilitations({
+        complementaryCertificationIds,
+        databaseBuilder,
+        certificationCenterId,
+      });
     }
 
     for (let i = 0; i < configSession.candidatesToRegisterCount; i++) {
@@ -478,6 +503,12 @@ async function _registerCandidatesToSession({
           email: `firstname${i}-${sessionId}-lastname${i}-${sessionId}@example.net`,
         }).id;
       }
+
+      const { billingMode: randomBillingMode, prepaymentCode: randomPrepaymentCode } =
+        billingModes[i % extraTimePercentages.length];
+
+      const randomExtraTimePercentage = extraTimePercentages[i % extraTimePercentages.length];
+
       const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
         firstName: `firstname${i}-${sessionId}`,
         lastName: `lastname${i}-${sessionId}`,
@@ -491,27 +522,48 @@ async function _registerCandidatesToSession({
         birthdate: '2000-01-04',
         sessionId,
         createdAt: new Date(),
-        extraTimePercentage: extraTimePercentages[i % extraTimePercentages.length],
+        extraTimePercentage: randomExtraTimePercentage,
         userId,
         organizationLearnerId: null,
         authorizedToStart: false,
-        billingMode: billingModes[i % extraTimePercentages.length].billingMode,
-        prepaymentCode: billingModes[i % extraTimePercentages.length].prepaymentCode,
+        billingMode: randomBillingMode,
+        prepaymentCode: randomPrepaymentCode,
       });
 
       certificationCandidate.complementaryCertificationSubscribedId = null;
-      if (complementaryCertificationIds[i % complementaryCertificationIds.length]) {
+
+      const randomComplementaryCertificationId =
+        complementaryCertificationIds[i % complementaryCertificationIds.length];
+
+      // randomComplementaryCertificationId can be null
+      if (randomComplementaryCertificationId) {
         databaseBuilder.factory.buildComplementaryCertificationSubscription({
-          complementaryCertificationId: complementaryCertificationIds[i % complementaryCertificationIds.length],
+          complementaryCertificationId: randomComplementaryCertificationId,
           certificationCandidateId: certificationCandidate.id,
         });
-        certificationCandidate.complementaryCertificationSubscribedId =
-          complementaryCertificationIds[i % complementaryCertificationIds.length];
+        certificationCandidate.complementaryCertificationSubscribedId = randomComplementaryCertificationId;
       }
       certificationCandidates.push(certificationCandidate);
     }
   }
   return certificationCandidates;
+}
+
+async function _getComplementaryCertificationIdsFromCertificationCenterHabilitations({
+  complementaryCertificationIds,
+  databaseBuilder,
+  certificationCenterId,
+}) {
+  complementaryCertificationIds.push(
+    ...(await databaseBuilder
+      .knex('complementary-certification-habilitations')
+      .pluck('complementaryCertificationId')
+      .where('certificationCenterId', certificationCenterId)),
+  );
+}
+
+function _hasCertificationCandidatesToRegister(configSession) {
+  return configSession && configSession.candidatesToRegisterCount > 0;
 }
 
 function _buildSession({
@@ -768,7 +820,7 @@ function _makeCandidatesPassCertification(
   for (const certificationCandidate of certificationCandidates) {
     const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
       userId: certificationCandidate.userId,
-      sessionId: certificationCandidate.sessionId,
+      sessionId,
       firstName: certificationCandidate.firstName,
       lastName: certificationCandidate.lastName,
       birthdate: certificationCandidate.birthdate,

@@ -242,7 +242,7 @@ async function _createSession({ databaseBuilder }) {
     createdAt: new Date(),
     configSession: {
       candidatesToRegisterCount: 10,
-      registerToComplementaryCertifications: true,
+      hasComplementaryCertificationsToRegister: true,
     },
   });
 }
@@ -273,7 +273,7 @@ async function _createPublishedSession({ databaseBuilder }) {
     juryCommentedAt: new Date(),
     configSession: {
       candidatesToRegisterCount: 12,
-      registerToComplementaryCertifications: true,
+      hasComplementaryCertificationsToRegister: true,
     },
   });
 }
