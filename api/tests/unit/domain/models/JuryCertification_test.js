@@ -39,12 +39,11 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         ...juryCertificationBaseDTO,
       };
       const certificationIssueReports = [certificationIssueReport];
-      const commonComplementaryCertificationCourseResults = [
+      const commonComplementaryCertificationCourseResults =
         domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
           partnerKey: 'PIX_PARTNER_KEY',
           acquired: true,
-        }),
-      ];
+        });
 
       const competenceMarkDTOs = [
         {

@@ -133,7 +133,7 @@ module('Unit | Model | certification', function (hooks) {
       test('should return false', function (assert) {
         // given
         const complementaryCertificationCourseResultsWithExternal = null;
-        const commonComplementaryCertificationCourseResults = [];
+        const commonComplementaryCertificationCourseResults = null;
         const certification = store.createRecord('certification', {
           complementaryCertificationCourseResultsWithExternal,
           commonComplementaryCertificationCourseResults,
@@ -153,7 +153,7 @@ module('Unit | Model | certification', function (hooks) {
             pixResult: 'TOTO',
           }
         );
-        const commonComplementaryCertificationCourseResults = [];
+        const commonComplementaryCertificationCourseResults = null;
         const certification = store.createRecord('certification', {
           complementaryCertificationCourseResultsWithExternal,
           commonComplementaryCertificationCourseResults,
@@ -169,9 +169,9 @@ module('Unit | Model | certification', function (hooks) {
     test('should return true', function (assert) {
       // given
       const complementaryCertificationCourseResultsWithExternal = null;
-      const commonComplementaryCertificationCourseResults = [
-        store.createRecord('common-complementary-certification-course-result'),
-      ];
+      const commonComplementaryCertificationCourseResults = store.createRecord(
+        'common-complementary-certification-course-result'
+      );
       const certification = store.createRecord('certification', {
         complementaryCertificationCourseResultsWithExternal,
         commonComplementaryCertificationCourseResults,

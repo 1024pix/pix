@@ -166,14 +166,12 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         commentForJury: 'Un commentaire jury',
         competenceMarks: [expectedCompetenceMark],
         certificationIssueReports: [],
-        commonComplementaryCertificationCourseResults: [
-          {
-            acquired: true,
-            id: 123,
-            partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITHOUT_EXTERNAL_JURY',
-            label: 'Badge for complementary certification without external jury',
-          },
-        ],
+        commonComplementaryCertificationCourseResults: {
+          acquired: true,
+          id: 123,
+          partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITHOUT_EXTERNAL_JURY',
+          label: 'Badge for complementary certification without external jury',
+        },
         complementaryCertificationCourseResultsWithExternal: {
           complementaryCertificationCourseId: 456,
           externalSection: {

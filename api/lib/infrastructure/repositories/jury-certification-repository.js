@@ -115,7 +115,7 @@ async function _toDomainWithComplementaryCertifications({
     (certificationIssueReport) => new CertificationIssueReport({ ...certificationIssueReport })
   );
 
-  const [complementaryCertificationCourseResultsWithExternal, commonComplementaryCertificationCourseResults] =
+  const { complementaryCertificationCourseResultsWithExternal, commonComplementaryCertificationCourseResults } =
     _toComplementaryCertificationCourseResultForJuryCertification(
       complementaryCertificationCourseResultDTOs,
       badgeKeyAndLabelsGroupedByTargetProfile
@@ -143,13 +143,18 @@ function _toComplementaryCertificationCourseResultForJuryCertification(
       badgeKeyAndLabelsGroupedByTargetProfile
     );
 
+  if (commonComplementaryCertificationCourseResults.length > 1) {
+    throw new Error('There should not be more than one complementary certification result without jury');
+  }
   const commonComplementaryCertificationCourseResultsForJuryCertification =
     commonComplementaryCertificationCourseResults.map(ComplementaryCertificationCourseResultsForJuryCertification.from);
 
-  return [
-    complementaryCertificationCourseResultsForJuryCertificationWithExternal,
-    commonComplementaryCertificationCourseResultsForJuryCertification,
-  ];
+  return {
+    complementaryCertificationCourseResultsWithExternal:
+      complementaryCertificationCourseResultsForJuryCertificationWithExternal,
+    commonComplementaryCertificationCourseResults:
+      commonComplementaryCertificationCourseResultsForJuryCertification?.[0],
+  };
 }
 
 async function _getBadgeKeyAndLabelsGroupedByTargetProfile() {

@@ -358,12 +358,10 @@ describe('Acceptance | API | Certification Course', function () {
             data: [],
           },
           'common-complementary-certification-course-results': {
-            data: [
-              {
-                id: '456',
-                type: 'commonComplementaryCertificationCourseResults',
-              },
-            ],
+            data: {
+              id: '456',
+              type: 'commonComplementaryCertificationCourseResults',
+            },
           },
           'complementary-certification-course-results-with-external': {
             data: {
