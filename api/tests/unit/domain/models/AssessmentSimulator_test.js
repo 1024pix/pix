@@ -92,7 +92,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           .returns([challenge1]);
 
         pickChallenge.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
-        pickChallenge.withArgs({ possibleChallenges: [ challenge1] }).returns(challenge1);
+        pickChallenge.withArgs({ possibleChallenges: [challenge1] }).returns(challenge1);
 
         // when
         const { challenges, estimatedLevel } = new AssessmentSimulator({
