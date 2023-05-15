@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-restricted-imports
-import { click, find, findAll, currentURL } from '@ember/test-helpers';
+import { click, findAll, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
@@ -17,63 +16,65 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
   });
 
   module('When challenge is not already answered', function (hooks) {
+    let screen;
     hooks.beforeEach(async function () {
       // when
-      await visit(`/assessments/${assessment.id}/challenges/0`);
+      screen = await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    test('should render challenge information and question', function (assert) {
+    test('should render challenge information and question', async function (assert) {
       // then
-      assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), qcmChallenge.instruction);
+      assert
+        .dom(screen.queryByText("Un QCM propose plusieurs choix, l'utilisateur peut en choisir plusieurs"))
+        .exists();
 
-      assert.dom('input[type="checkbox"]').exists({ count: 4 });
+      assert.dom(screen.getByRole('checkbox', { name: 'possibilite 1, et/ou' })).exists();
+      assert.dom(screen.getByRole('checkbox', { name: 'possibilite 2 , et/ou' })).exists();
+      assert.dom(screen.getByRole('checkbox', { name: 'possibilite 3, et/ou' })).exists();
+      assert.dom(screen.getByRole('checkbox', { name: 'possibilite 4' })).exists();
 
-      const proposalsText = findAll('.proposal-text');
-
-      const expectedProposalsText = [
-        '<p><em>possibilite</em> 1, et/ou</p>',
-        '<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a>, et/ou</p>',
-        '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3">, et/ou</p>',
-        '<p>possibilite 4</p>',
-      ];
-
-      assert.strictEqual(proposalsText[0].innerHTML.trim(), expectedProposalsText[0]);
-      assert.strictEqual(proposalsText[1].innerHTML.trim(), expectedProposalsText[1]);
-      assert.strictEqual(proposalsText[2].innerHTML.trim(), expectedProposalsText[2]);
-      assert.strictEqual(proposalsText[3].innerHTML.trim(), expectedProposalsText[3]);
-
-      assert.dom('.challenge-response__alert').doesNotExist();
+      assert
+        .dom(screen.queryByText('Pour valider, sélectionnez au moins deux réponses. Sinon, passez.'))
+        .doesNotExist();
     });
 
     test('should display the alert box if user validates without checking a checkbox', async function (assert) {
       // when
-      await click('.challenge-actions__action-validate');
+      await click(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }));
 
       // then
-      assert.dom('.challenge-response__alert').exists();
-      assert.strictEqual(
-        find('.challenge-response__alert').textContent.trim(),
-        'Pour valider, sélectionnez au moins une réponse. Sinon, passez.'
-      );
+      assert.dom(screen.getByText('Pour valider, sélectionnez au moins deux réponses. Sinon, passez.')).exists();
+    });
+
+    test('should display the alert box if user validates checking one checkbox', async function (assert) {
+      // when
+      await click(screen.getByRole('checkbox', { name: 'possibilite 1, et/ou' }));
+      await click(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }));
+
+      // then
+      assert.dom(screen.getByText('Pour valider, sélectionnez au moins deux réponses. Sinon, passez.')).exists();
     });
 
     test('should hide the alert error after the user interact with checkboxes', async function (assert) {
       // given
-      await click('.challenge-actions__action-validate');
+      await click(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }));
 
       // when
-      await click(findAll('.proposal-text')[1]);
+      await click(screen.getByRole('checkbox', { name: 'possibilite 2 , et/ou' }));
 
       // then
-      assert.dom('.challenge-response__alert').doesNotExist();
+      assert
+        .dom(screen.queryByText('Pour valider, sélectionnez au moins deux réponses. Sinon, passez.'))
+        .doesNotExist();
     });
 
     test('should go to checkpoint when user validated', async function (assert) {
       // given
-      await click(findAll('.proposal-text')[1]);
+      await click(screen.getByRole('checkbox', { name: 'possibilite 2 , et/ou' }));
+      await click(screen.getByRole('checkbox', { name: 'possibilite 3, et/ou' }));
 
       // when
-      await click('.challenge-actions__action-validate');
+      await click(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }));
 
       // then
       assert.ok(currentURL().includes(`/assessments/${assessment.id}/checkpoint`));
@@ -81,6 +82,7 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
   });
 
   module('When challenge is already answered', function (hooks) {
+    let screen;
     hooks.beforeEach(async function () {
       // given
       server.create('answer', {
@@ -91,35 +93,28 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
       });
 
       // when
-      await visit(`/assessments/${assessment.id}/challenges/0`);
+      screen = await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
     test('should mark checkboxes corresponding to the answer and propose to continue', async function (assert) {
-      const expectedCheckboxes = [
-        { checked: false, disabled: true },
-        { checked: true, disabled: true },
-        { checked: false, disabled: true },
-        { checked: true, disabled: true },
-      ];
-
       // then
-      assert.strictEqual(expectedCheckboxes[0].checked, findAll('input[type="checkbox"]')[0].checked);
-      assert.strictEqual(expectedCheckboxes[0].disabled, findAll('input[type="checkbox"]')[0].disabled);
-      assert.strictEqual(expectedCheckboxes[1].checked, findAll('input[type="checkbox"]')[1].checked);
-      assert.strictEqual(expectedCheckboxes[1].disabled, findAll('input[type="checkbox"]')[1].disabled);
-      assert.strictEqual(expectedCheckboxes[2].checked, findAll('input[type="checkbox"]')[2].checked);
-      assert.strictEqual(expectedCheckboxes[2].disabled, findAll('input[type="checkbox"]')[2].disabled);
-      assert.strictEqual(expectedCheckboxes[3].checked, findAll('input[type="checkbox"]')[3].checked);
-      assert.strictEqual(expectedCheckboxes[3].disabled, findAll('input[type="checkbox"]')[3].disabled);
+      assert.false(screen.getByRole('checkbox', { name: 'possibilite 1, et/ou' }).checked);
+      assert.true(screen.getByRole('checkbox', { name: 'possibilite 1, et/ou' }).disabled);
+      assert.true(screen.getByRole('checkbox', { name: 'possibilite 2 , et/ou' }).checked);
+      assert.true(screen.getByRole('checkbox', { name: 'possibilite 2 , et/ou' }).disabled);
+      assert.false(screen.getByRole('checkbox', { name: 'possibilite 3, et/ou' }).checked);
+      assert.true(screen.getByRole('checkbox', { name: 'possibilite 3, et/ou' }).disabled);
+      assert.true(screen.getByRole('checkbox', { name: 'possibilite 4' }).checked);
+      assert.true(screen.getByRole('checkbox', { name: 'possibilite 4' }).disabled);
 
-      assert.dom('.challenge-actions__action-continue').exists();
-      assert.dom('.challenge-actions__action-validate').doesNotExist();
-      assert.dom('.challenge-actions__action-skip-text').doesNotExist();
+      assert.dom(screen.getByRole('button', { name: 'Poursuivre' })).exists();
+      assert.dom(screen.queryByRole('button', { name: 'Je valide et je vais à la prochaine question' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Je passe et je vais à la prochaine question' })).doesNotExist();
     });
   });
 
   module('When challenge is already answered and user wants to see answers', function (hooks) {
-    let correction, tutorial, learningMoreTutorial;
+    let correction, tutorial, learningMoreTutorial, screen;
     hooks.beforeEach(async function () {
       // given
       tutorial = server.create('tutorial');
@@ -139,25 +134,26 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
       });
 
       // when
-      await visit(`/assessments/${assessment.id}/checkpoint`);
+      screen = await visit(`/assessments/${assessment.id}/checkpoint`);
     });
 
     test('should show the result of previous challenge in checkpoint', async function (assert) {
       // then
+      assert.dom(screen.getByTitle('Réponse incorrecte')).exists();
 
-      assert.strictEqual(find('.result-item__icon').title, 'Réponse incorrecte');
+      assert.dom(screen.getByText("Un QCM propose plusieurs choix, l'utilisateur peut en choisir plusieurs")).exists();
 
-      assert.strictEqual(find('.result-item__instruction').textContent.trim(), qcmChallenge.instruction);
-
-      assert.strictEqual(find('.result-item__correction-button').textContent.trim(), 'Réponses et tutos');
+      assert.dom(screen.getByRole('button', { name: 'Réponses et tutos' })).exists();
     });
 
     test('should show details of challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
-      await click('.result-item__correction-button');
+      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
 
       // then
-      assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), qcmChallenge.instruction);
+      assert
+        .dom(screen.getAllByText("Un QCM propose plusieurs choix, l'utilisateur peut en choisir plusieurs")[0])
+        .exists();
 
       const goodAnswer = findAll('.qcm-proposal-label__answer-details')[0];
       const badAnswerFromUserResult = findAll('.qcm-proposal-label__answer-details')[1];
@@ -166,7 +162,8 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
       assert.strictEqual(goodAnswer.getAttribute('data-checked'), 'no');
       assert.strictEqual(badAnswerFromUserResult.getAttribute('data-goodness'), 'bad');
       assert.strictEqual(badAnswerFromUserResult.getAttribute('data-checked'), 'yes');
-      assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correction.hint));
+
+      assert.dom(screen.getByText('Cliquer sur 1')).exists();
 
       const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card')[0];
       const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-card')[0];
@@ -174,7 +171,8 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
       assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
       assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
 
-      assert.dom('.feedback-panel').exists();
+      await screen.findByRole('dialog');
+      assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).exists();
     });
   });
 });
