@@ -22,8 +22,6 @@ export default class LoginOrRegister extends Component {
     this.locale.setLocale(this.selectedLanguage);
     this.router.replaceWith('join', {
       queryParams: {
-        code: this.args.certificationCenterInvitationCode,
-        invitationId: this.args.certificationCenterInvitationId,
         lang: null,
       },
     });
