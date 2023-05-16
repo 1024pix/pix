@@ -1,8 +1,8 @@
 class ComplementaryCertificationForSupervising {
-  constructor({ label, key, sessionExtraTime }) {
+  constructor({ label, key, certificationExtraTime }) {
     this.label = label;
     this.key = key;
-    this.sessionExtraTime = sessionExtraTime;
+    this.certificationExtraTime = certificationExtraTime;
   }
 }
 

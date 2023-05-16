@@ -29,7 +29,7 @@ module.exports = {
             'complementaryCertification', json_build_object(
               'key', "complementary-certifications"."key",
               'label', "complementary-certifications"."label",
-              'sessionExtraTime', "complementary-certifications"."sessionExtraTime"
+              'certificationExtraTime', "complementary-certifications"."certificationExtraTime"
             )
           ) order by lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
       `),
