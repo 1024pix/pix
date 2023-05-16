@@ -4,10 +4,15 @@ const generic = require('./generic');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 const CompetenceEvaluation = require('../../../../../lib/domain/models/CompetenceEvaluation');
 const { PIX_COUNT_BY_LEVEL } = require('../../../../../lib/domain/constants');
+const UNREACHABLE_PIX_SCORE = 999999;
 
 module.exports = {
   createCertifiableProfile,
   createPerfectProfile,
+  getAnswersAndKnowledgeElementsForAdvancedProfile,
+  getAnswersAndKnowledgeElementsForBeginnerProfile,
+  getAnswersAndKnowledgeElementsForIntermediateProfile,
+  getAnswersAndKnowledgeElementsForPerfectProfile,
 };
 
 /**
@@ -16,17 +21,12 @@ module.exports = {
  * @param {number} userId
  * @returns {Promise<void>}
  */
-async function createCertifiableProfile({
-  databaseBuilder,
-  userId,
-}) {
-  const pixCompetences = await learningContent.getCoreCompetences();
-  const fiveRandomCompetences = generic.pickRandomAmong(pixCompetences, 5);
+async function createCertifiableProfile({ databaseBuilder, userId }) {
+  const answersAndKnowledgeElementsCollection = await getAnswersAndKnowledgeElementsForBeginnerProfile();
   _makeUserReachPixScoreForCompetences({
     databaseBuilder,
     userId,
-    competences: fiveRandomCompetences,
-    pixScoreByCompetence: PIX_COUNT_BY_LEVEL,
+    answersAndKnowledgeElementsCollection,
   });
 }
 
@@ -36,25 +36,119 @@ async function createCertifiableProfile({
  * @param {number} userId
  * @returns {Promise<void>}
  */
-async function createPerfectProfile({
-  databaseBuilder,
-  userId,
-}) {
-  const UNREACHABLE_PIX_SCORE = 99999999;
-  const pixCompetences = await learningContent.getCoreCompetences();
+async function createPerfectProfile({ databaseBuilder, userId }) {
+  const answersAndKnowledgeElementsCollection = await getAnswersAndKnowledgeElementsForPerfectProfile();
+
   _makeUserReachPixScoreForCompetences({
     databaseBuilder,
     userId,
-    competences: pixCompetences,
-    pixScoreByCompetence: UNREACHABLE_PIX_SCORE,
+    answersAndKnowledgeElementsCollection,
   });
 }
 
-function _makeCompetenceEvaluation({
-  databaseBuilder,
-  userId,
-  competenceId,
+const ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_BEGINNER_PROFILE = [];
+async function getAnswersAndKnowledgeElementsForBeginnerProfile() {
+  if (ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_BEGINNER_PROFILE.length === 0) {
+    const pixCompetences = await learningContent.getCoreCompetences();
+    const fiveRandomCompetences = generic.pickRandomAmong(pixCompetences, 5);
+
+    await _getAnswersAndKnowledgeElementsForProfile({
+      competences: fiveRandomCompetences,
+      answersAndKnowledgeElementsCollection: ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_BEGINNER_PROFILE,
+      pixScoreByCompetence: PIX_COUNT_BY_LEVEL,
+    });
+  }
+
+  return ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_BEGINNER_PROFILE;
+}
+
+const ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_INTERMEDIATE_PROFILE = [];
+async function getAnswersAndKnowledgeElementsForIntermediateProfile() {
+  if (ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_INTERMEDIATE_PROFILE.length === 0) {
+    const pixCompetences = await learningContent.getCoreCompetences();
+    const eightRandomCompetences = generic.pickRandomAmong(pixCompetences, 8);
+
+    await _getAnswersAndKnowledgeElementsForProfile({
+      competences: eightRandomCompetences,
+      answersAndKnowledgeElementsCollection: ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_INTERMEDIATE_PROFILE,
+      pixScoreByCompetence: PIX_COUNT_BY_LEVEL * 3,
+    });
+  }
+
+  return ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_INTERMEDIATE_PROFILE;
+}
+
+const ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_ADVANCED_PROFILE = [];
+async function getAnswersAndKnowledgeElementsForAdvancedProfile() {
+  if (ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_ADVANCED_PROFILE.length === 0) {
+    const pixCompetences = await learningContent.getCoreCompetences();
+    const twelveRandomCompetences = generic.pickRandomAmong(pixCompetences, 12);
+
+    await _getAnswersAndKnowledgeElementsForProfile({
+      competences: twelveRandomCompetences,
+      answersAndKnowledgeElementsCollection: ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_ADVANCED_PROFILE,
+      pixScoreByCompetence: PIX_COUNT_BY_LEVEL * 4,
+    });
+  }
+
+  return ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_ADVANCED_PROFILE;
+}
+
+const ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_PERFECT_PROFILE = [];
+async function getAnswersAndKnowledgeElementsForPerfectProfile() {
+  if (ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_PERFECT_PROFILE.length === 0) {
+    const pixCompetences = await learningContent.getCoreCompetences();
+
+    await _getAnswersAndKnowledgeElementsForProfile({
+      competences: pixCompetences,
+      answersAndKnowledgeElementsCollection: ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_PERFECT_PROFILE,
+      pixScoreByCompetence: UNREACHABLE_PIX_SCORE,
+    });
+  }
+
+  return ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_PERFECT_PROFILE;
+}
+
+async function _getAnswersAndKnowledgeElementsForProfile({
+  competences,
+  pixScoreByCompetence,
+  answersAndKnowledgeElementsCollection,
 }) {
+  for (const competence of competences) {
+    const skills = await learningContent.findActiveSkillsByCompetenceId(competence.id);
+    const orderedSkills = _.sortBy(skills, 'level');
+    let currentPixScore = 0;
+    for (const skill of orderedSkills) {
+      const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
+      const answerData = {
+        value: 'dummy value',
+        result: 'ok',
+        challengeId: challenge.id,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        timeout: null,
+        resultDetails: 'dummy value',
+      };
+
+      const keData = {
+        source: 'direct',
+        status: 'validated',
+        skillId: skill.id,
+        createdAt: new Date(),
+        earnedPix: skill.pixValue,
+        competenceId: skill.competenceId,
+      };
+      answersAndKnowledgeElementsCollection.push({ answerData, keData });
+
+      currentPixScore += skill.pixValue;
+      if (currentPixScore >= pixScoreByCompetence) {
+        break;
+      }
+    }
+  }
+}
+
+function _makeCompetenceEvaluation({ databaseBuilder, userId, competenceId }) {
   const assessmentId = databaseBuilder.factory.buildAssessment({
     userId,
     competenceId,
@@ -66,51 +160,29 @@ function _makeCompetenceEvaluation({
     competenceId,
     assessmentId,
     status: CompetenceEvaluation.statuses.STARTED,
-  },
-  );
+  });
   return assessmentId;
 }
 
-async function _makeUserReachPixScoreForCompetences({
-  databaseBuilder,
-  userId,
-  competences,
-  pixScoreByCompetence,
-}) {
-  for (const competence of competences) {
-    const assessmentId = _makeCompetenceEvaluation({ databaseBuilder, userId, competenceId: competence.id });
+function _makeUserReachPixScoreForCompetences({ databaseBuilder, userId, answersAndKnowledgeElementsCollection }) {
+  const answersAndKnowledgeElementsByCompetenceId = _.groupBy(
+    answersAndKnowledgeElementsCollection,
+    ({ keData }) => keData.competenceId,
+  );
+  for (const [competenceId, answersAndKnowledgeElements] of Object.entries(answersAndKnowledgeElementsByCompetenceId)) {
+    const assessmentId = _makeCompetenceEvaluation({ databaseBuilder, userId, competenceId });
 
-    const skills = await learningContent.findActiveSkillsByCompetenceId(competence.id);
-    const orderedSkills = _.sortBy(skills, 'level');
-    let currentPixScore = 0;
-    for (const skill of orderedSkills) {
-      const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
+    for (const { answerData, keData } of answersAndKnowledgeElements) {
       const answerId = databaseBuilder.factory.buildAnswer({
-        value: 'dummy value',
-        result: 'ok',
         assessmentId,
-        challengeId: challenge.id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        timeout: null,
-        resultDetails: 'dummy value',
+        ...answerData,
       }).id;
       databaseBuilder.factory.buildKnowledgeElement({
-        source: 'direct',
-        status: 'validated',
-        answerId,
         assessmentId,
-        skillId: skill.id,
-        createdAt: new Date(),
-        earnedPix: skill.pixValue,
         userId,
-        competenceId: skill.competenceId,
+        answerId,
+        ...keData,
       });
-
-      currentPixScore += skill.pixValue;
-      if (currentPixScore >= pixScoreByCompetence) {
-        break;
-      }
     }
   }
 }
