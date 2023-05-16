@@ -22,6 +22,7 @@ const getByChallengeId = async function ({
   const skill = await _getSkill(challenge);
   const hint = await _getHint({ skill, locale });
   const solution = dependencies.fromDatasourceObject(challenge);
+  let correctionBlocks;
 
   const tutorials = await _getTutorials({
     userId,
@@ -38,9 +39,8 @@ const getByChallengeId = async function ({
     tutorialRepository: dependencies.tutorialRepository,
   });
 
-  let solutionBlocks = [];
   if (challenge.type === Challenge.Type.QROCM_DEP) {
-    solutionBlocks = dependencies.getSolution({ solution, answerValue });
+    correctionBlocks = dependencies.getSolution({ solution, answerValue });
   }
 
   return new Correction({
@@ -50,7 +50,7 @@ const getByChallengeId = async function ({
     hint,
     tutorials,
     learningMoreTutorials: learningMoreTutorials,
-    solutionBlocks,
+    correctionBlocks,
   });
 };
 

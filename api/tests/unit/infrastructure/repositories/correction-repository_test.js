@@ -162,8 +162,8 @@ describe('Unit | Repository | correction-repository', function () {
           const solution = Symbol('solution');
           fromDatasourceObject.withArgs(challengeDataObject).returns(solution);
           const getSolutionStub = sinon.stub();
-          const solutionBlocks = Symbol('solutionBlocks');
-          getSolutionStub.withArgs({ solution, answerValue }).returns(solutionBlocks);
+          const correctionBlocks = Symbol('correctionBlocks');
+          getSolutionStub.withArgs({ solution, answerValue }).returns(correctionBlocks);
 
           // when
           const correction = await correctionRepository.getByChallengeId({
@@ -176,7 +176,7 @@ describe('Unit | Repository | correction-repository', function () {
 
           // then
           expect(getSolutionStub).to.have.been.calledWithExactly({ solution, answerValue });
-          expect(correction.solutionBlocks).to.equal(solutionBlocks);
+          expect(correction.correctionBlocks).to.equal(correctionBlocks);
         });
       });
     });
