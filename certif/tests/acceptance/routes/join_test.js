@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { currentURL, fillIn } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { visit, clickByName } from '@1024pix/ember-testing-library';
 import setupIntl from '../../helpers/setup-intl';
 
@@ -83,6 +83,87 @@ module('Acceptance | Routes | join', function (hooks) {
             })
           )
           .exists();
+      });
+    });
+
+    module('when current url does not contain french tld (.fr)', function () {
+      module('When accessing the login page with "Français" as default language', function () {
+        test('displays the login page with "Français" as selected language', async function (assert) {
+          // given
+          const certificationCenterInvitation = server.create('certification-center-invitation', {
+            id: 1,
+            certificationCenterName: 'Super Centre de Certif',
+          });
+          const path = `/rejoindre?code=ABCDEF123&invitationId=${certificationCenterInvitation.id}`;
+
+          // when
+          const screen = await visit(path);
+
+          // then
+          assert.strictEqual(currentURL(), path);
+          assert.dom(screen.getByRole('heading', { name: 'Je m’inscris', level: 1 })).exists();
+        });
+
+        module('When the user select "English" as his language', function () {
+          test('displays the login page with "English" as selected language', async function (assert) {
+            // given
+            const certificationCenterInvitation = server.create('certification-center-invitation', {
+              id: 1,
+              certificationCenterName: 'Super Centre de Certif',
+            });
+            const path = `/rejoindre?code=ABCDEF123&invitationId=${certificationCenterInvitation.id}`;
+
+            // when
+            const screen = await visit(path);
+            await click(screen.getByRole('button', { name: 'Français' }));
+            await screen.findByRole('listbox');
+            await click(screen.getByRole('option', { name: 'English' }));
+
+            // then
+            assert.strictEqual(currentURL(), path);
+            assert.dom(screen.getByRole('heading', { name: 'Sign up', level: 1 })).exists();
+          });
+        });
+      });
+
+      module('When accessing the login page with "English" as selected language', function () {
+        test('displays the login page with "English"', async function (assert) {
+          // given
+          const certificationCenterInvitation = server.create('certification-center-invitation', {
+            id: 1,
+            certificationCenterName: 'Super Centre de Certif',
+          });
+          const path = `/rejoindre?code=ABCDEF123&invitationId=${certificationCenterInvitation.id}&lang=en`;
+
+          // when
+          const screen = await visit(path);
+
+          // then
+          assert.strictEqual(currentURL(), path);
+          assert.dom(screen.getByRole('heading', { name: 'Sign up', level: 1 })).exists();
+        });
+
+        module('When the user select "Français" as his language', function () {
+          test('displays the login page with "Français" as selected language', async function (assert) {
+            // given
+            const certificationCenterInvitation = server.create('certification-center-invitation', {
+              id: 1,
+              certificationCenterName: 'Super Centre de Certif',
+            });
+            const path = `/rejoindre?invitationId=${certificationCenterInvitation.id}&code=ABCDEF123&lang=en`;
+            const pathWithoutLangParam = `/rejoindre?code=ABCDEF123&invitationId=${certificationCenterInvitation.id}`;
+
+            // when
+            const screen = await visit(path);
+            await click(screen.getByRole('button', { name: 'English' }));
+            await screen.findByRole('listbox');
+            await click(screen.getByRole('option', { name: 'Français' }));
+
+            // then
+            assert.strictEqual(currentURL(), pathWithoutLangParam);
+            assert.dom(screen.getByRole('heading', { name: 'Je m’inscris', level: 1 })).exists();
+          });
+        });
       });
     });
   });

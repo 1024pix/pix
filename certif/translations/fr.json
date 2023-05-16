@@ -57,6 +57,7 @@
         "pricing": "Tarification part Pix"
       },
       "login": {
+        "choose-language-aria-label": "Sélectionnez une langue",
         "email": "Adresse e-mail",
         "forgot-password": "Mot de passe oublié ?",
         "password": "Mot de passe"
