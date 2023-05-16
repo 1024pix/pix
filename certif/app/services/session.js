@@ -27,7 +27,7 @@ export default class CurrentSessionService extends SessionService {
     super.handleInvalidation('/connexion');
   }
 
-  async handleLocale({ isFranceDomain, localeFromQueryParam, userLocale }) {
+  handleLocale({ isFranceDomain, localeFromQueryParam, userLocale }) {
     if (localeFromQueryParam) {
       this._localeFromQueryParam = this.locale.handleUnsupportedLanguage(localeFromQueryParam);
     }
