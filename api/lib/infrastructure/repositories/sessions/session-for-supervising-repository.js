@@ -1,6 +1,7 @@
 const { knex } = require('../../../../db/knex-database-connection.js');
 const { NotFoundError } = require('../../../domain/errors.js');
 const CertificationCandidateForSupervising = require('../../../domain/models/CertificationCandidateForSupervising.js');
+const ComplementaryCertificationForSupervising = require('../../../domain/models/ComplementaryCertificationForSupervising.js');
 const SessionForSupervising = require('../../../domain/read-models/SessionForSupervising.js');
 
 module.exports = {
@@ -25,7 +26,11 @@ module.exports = {
             'authorizedToStart', "certification-candidates"."authorizedToStart",
             'assessmentStatus', "assessments"."state",
             'startDateTime', "certification-courses"."createdAt",
-            'enrolledComplementaryCertification', "complementary-certifications"."label"
+            'complementaryCertification', json_build_object(
+              'key', "complementary-certifications"."key",
+              'label', "complementary-certifications"."label",
+              'certificationExtraTime', "complementary-certifications"."certificationExtraTime"
+            )
           ) order by lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
       `),
       })
@@ -57,10 +62,23 @@ module.exports = {
   },
 };
 
+function _toDomainComplementaryCertification(complementaryCertification) {
+  if (complementaryCertification?.key) {
+    return new ComplementaryCertificationForSupervising(complementaryCertification);
+  }
+  return null;
+}
+
 function _toDomain(results) {
   const certificationCandidates = results.certificationCandidates
     .filter((candidate) => candidate?.id !== null)
-    .map((candidate) => new CertificationCandidateForSupervising({ ...candidate }));
+    .map(
+      (candidate) =>
+        new CertificationCandidateForSupervising({
+          ...candidate,
+          enrolledComplementaryCertification: _toDomainComplementaryCertification(candidate.complementaryCertification),
+        })
+    );
 
   return new SessionForSupervising({
     ...results,

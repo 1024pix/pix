@@ -16,18 +16,20 @@
     </div>
     <div class="session-supervising-candidate-in-list__details">
       {{dayjs-format @candidate.birthdate "DD/MM/YYYY"}}
-      {{#if @candidate.extraTimePercentage}}
-        ·
-        {{t "common.forms.certification-labels.extratime"}}
-        :
-        {{format-percentage @candidate.extraTimePercentage}}
-      {{/if}}
+      {{#unless this.shouldDisplayTheoricalEndDatetime}}
+        {{#if @candidate.extraTimePercentage}}
+          ·
+          {{t "common.forms.certification-labels.extratime"}}
+          :
+          {{format-percentage @candidate.extraTimePercentage}}
+        {{/if}}
+      {{/unless}}
       {{#if this.shouldDisplayEnrolledComplementaryCertification}}
         <p class="session-supervising-candidate-in-list-details__enrolment">
           <span class="session-supervising-candidate-in-list-details-enrolment__icon"><FaIcon @icon="award" /></span>
           {{t
             "pages.session-supervising.candidate-in-list.complementary-certification-enrolment"
-            complementaryCertification=@candidate.enrolledComplementaryCertification
+            complementaryCertification=@candidate.enrolledComplementaryCertificationLabel
           }}
         </p>
       {{/if}}
@@ -40,6 +42,32 @@
         >
           {{t "pages.session-supervising.candidate-in-list.complementary-certification-non-eligibility-warning"}}
         </PixMessage>
+      {{/if}}
+
+      {{#if this.shouldDisplayTheoricalEndDatetime}}
+        {{#if @candidate.hasStarted}}
+          <p class="session-supervising-candidate-in-list-details-time">
+            <FaIcon @icon="clock" @prefix="far" class="session-supervising-candidate-in-list-details-time__clock" />
+            <div class="session-supervising-candidate-in-list-details-time__text">
+              <span class="session-supervising-candidate-in-list-details-time__text__startdatetime">
+                {{t "pages.session-supervising.candidate-in-list.start-date-time"}}
+                <time>{{this.candidateStartTime}}</time>
+              </span>
+              <span class="session-supervising-candidate-in-list-details-time__text__end-date-time">
+                {{t "pages.session-supervising.candidate-in-list.end-date-time"}}
+                <time>{{this.candidateTheoricalEndDateTime}}</time>
+              </span>
+              {{#if @candidate.extraTimePercentage}}
+                <span class="session-supervising-candidate-in-list-details-time__text__extra-time-percentage">
+                  {{t
+                    "pages.session-supervising.candidate-in-list.extratime"
+                    extraTimePercentage=(format-percentage @candidate.extraTimePercentage)
+                  }}
+                </span>
+              {{/if}}
+            </div>
+          </p>
+        {{/if}}
       {{/if}}
 
     </div>
@@ -68,11 +96,13 @@
           {{t "common.forms.certification-labels.candidate-status.ongoing"}}
         </span>
       {{/if}}
-      <span class="session-supervising-candidate-in-list__start-time">{{t
-          "common.forms.certification-labels.candidate-status.start"
-        }}
-        :
-        <time>{{this.candidateStartTime}}</time></span>
+      {{#unless this.shouldDisplayTheoricalEndDatetime}}
+        <span class="session-supervising-candidate-in-list__start-time">
+          {{t "common.forms.certification-labels.candidate-status.start"}}
+          :
+          <time>{{this.candidateStartTime}}</time>
+        </span>
+      {{/unless}}
     {{/if}}
     {{#if @candidate.hasCompleted}}
       <span

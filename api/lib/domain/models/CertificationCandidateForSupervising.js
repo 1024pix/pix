@@ -11,6 +11,7 @@ class CertificationCandidateForSupervising {
     authorizedToStart,
     assessmentStatus,
     startDateTime,
+    theoricalEndDateTime,
     enrolledComplementaryCertification,
     stillValidBadgeAcquisitions = [],
   } = {}) {
@@ -23,6 +24,7 @@ class CertificationCandidateForSupervising {
     this.authorizedToStart = authorizedToStart;
     this.assessmentStatus = assessmentStatus;
     this.startDateTime = startDateTime;
+    this.theoricalEndDateTime = theoricalEndDateTime;
     this.enrolledComplementaryCertification = enrolledComplementaryCertification;
     this.stillValidBadgeAcquisitions = stillValidBadgeAcquisitions;
   }
@@ -34,7 +36,7 @@ class CertificationCandidateForSupervising {
   get isStillEligibleToComplementaryCertification() {
     return this.stillValidBadgeAcquisitions.some(
       (stillValidBadgeAcquisition) =>
-        stillValidBadgeAcquisition.complementaryCertificationBadgeLabel === this.enrolledComplementaryCertification
+        stillValidBadgeAcquisition.complementaryCertificationKey === this.enrolledComplementaryCertification.key
     );
   }
 }

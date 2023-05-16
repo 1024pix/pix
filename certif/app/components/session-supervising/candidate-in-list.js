@@ -39,9 +39,13 @@ export default class CandidateInList extends Component {
 
   get shouldDisplayEnrolledComplementaryCertification() {
     return (
-      this.args.candidate.enrolledComplementaryCertification &&
+      this.args.candidate.enrolledComplementaryCertificationLabel &&
       this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled
     );
+  }
+
+  get shouldDisplayTheoricalEndDatetime() {
+    return this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled;
   }
 
   get shouldDisplayNonEligibilityWarning() {
@@ -51,7 +55,7 @@ export default class CandidateInList extends Component {
   _isNotEligibleToEnrolledComplementaryCertification() {
     return (
       !this.args.candidate.isStillEligibleToComplementaryCertification &&
-      this.args.candidate.enrolledComplementaryCertification
+      this.args.candidate.enrolledComplementaryCertificationLabel
     );
   }
 
@@ -197,5 +201,10 @@ export default class CandidateInList extends Component {
   get candidateStartTime() {
     const startTime = dayjs(this.args.candidate.startDateTime).format('HH:mm');
     return startTime;
+  }
+
+  get candidateTheoricalEndDateTime() {
+    const theoricalEndDateTime = dayjs(this.args.candidate.theoricalEndDateTime).format('HH:mm');
+    return theoricalEndDateTime;
   }
 }

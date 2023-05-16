@@ -1,20 +1,19 @@
+const _ = require('lodash');
 const { Serializer } = require('jsonapi-serializer');
-
-const attributes = [
-  'id',
-  'firstName',
-  'lastName',
-  'birthdate',
-  'extraTimePercentage',
-  'authorizedToStart',
-  'assessmentStatus',
-  'startDateTime',
-  'enrolledComplementaryCertification',
-];
 
 module.exports = {
   serialize(sessions) {
     return new Serializer('sessionForSupervising', {
+      transform(currentSessionForSupervising) {
+        const cloneSession = _.cloneDeep(currentSessionForSupervising);
+
+        cloneSession.certificationCandidates.forEach((candidate) => {
+          candidate.enrolledComplementaryCertificationLabel =
+            candidate.enrolledComplementaryCertification?.label ?? null;
+        });
+
+        return cloneSession;
+      },
       attributes: [
         'room',
         'examiner',
@@ -29,7 +28,20 @@ module.exports = {
       certificationCandidates: {
         included: true,
         ref: 'id',
-        attributes: [...attributes, 'isStillEligibleToComplementaryCertification', 'userId'],
+        attributes: [
+          'id',
+          'userId',
+          'firstName',
+          'lastName',
+          'birthdate',
+          'extraTimePercentage',
+          'authorizedToStart',
+          'assessmentStatus',
+          'startDateTime',
+          'theoricalEndDateTime',
+          'enrolledComplementaryCertificationLabel',
+          'isStillEligibleToComplementaryCertification',
+        ],
       },
     }).serialize(sessions);
   },

@@ -35,7 +35,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
           firstName: 'Star',
           lastName: 'Lord',
           birthdate: '1983-06-28',
-          extraTimePercentage: '12',
+          extraTimePercentage: 12,
           authorizedToStart: false,
           assessmentStatus: null,
         }),
