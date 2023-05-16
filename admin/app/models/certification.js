@@ -72,7 +72,7 @@ export default class Certification extends Model {
 
   get hasComplementaryCertifications() {
     return (
-      Boolean(this.commonComplementaryCertificationCourseResults) ||
+      Boolean(this.commonComplementaryCertificationCourseResults.content) ||
       Boolean(this.complementaryCertificationCourseResultsWithExternal.get('pixResult'))
     );
   }

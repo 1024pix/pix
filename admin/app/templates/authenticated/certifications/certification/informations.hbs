@@ -90,18 +90,17 @@
   {{#if this.certification.hasComplementaryCertifications}}
     <div class="certification-informations__row">
       <div class="certification-informations__card">
-        <h2 class="certification-informations__card__title">Certifications complémentaires</h2>
+        <h2 class="certification-informations__card__title">Certification complémentaire</h2>
 
         {{#if this.certification.commonComplementaryCertificationCourseResults}}
           <ul class="certification-informations__card__list">
-            
-              <li class="certification-informations__card__list-item">
-                <span class="certification-informations__card__list-label">
-                  {{this.certification.commonComplementaryCertificationCourseResults.label}}
-                  :
-                </span>
-                {{this.certification.commonComplementaryCertificationCourseResults.status}}
-              </li>
+            <li class="certification-informations__card__list-item">
+              <span class="certification-informations__card__list-label">
+                {{this.certification.commonComplementaryCertificationCourseResults.label}}
+                :
+              </span>
+              {{this.certification.commonComplementaryCertificationCourseResults.status}}
+            </li>
           </ul>
         {{/if}}
 
