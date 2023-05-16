@@ -276,12 +276,6 @@ class CampaignTypeError extends DomainError {
   }
 }
 
-class UserNotAuthorizedToGetCertificationCoursesError extends DomainError {
-  constructor(message = "Cet utilisateur n'est pas autorisé à récupérer ces certification courses.") {
-    super(message);
-  }
-}
-
 class UserNotAuthorizedToGenerateUsernamePasswordError extends DomainError {
   constructor(message = "Cet utilisateur n'est pas autorisé à générer un identifiant et un mot de passe.") {
     super(message);
@@ -494,14 +488,22 @@ class CertificationCandidateOnFinalizedSessionError extends DomainError {
 }
 
 class CertificationCandidateAlreadyLinkedToUserError extends DomainError {
-  constructor(message = 'Ce candidat de certification a déjà été lié à un utilisateur.') {
+  constructor(message = 'At least one candidate is already linked to a user.') {
     super(message);
+    this.code = 'SESSION_STARTED_CANDIDATE_ALREADY_LINKED_TO_USER';
   }
 }
 
 class CertificationCandidateByPersonalInfoNotFoundError extends DomainError {
   constructor(message = "Aucun candidat de certification n'a été trouvé avec ces informations.") {
     super(message);
+  }
+}
+
+class CertificationCandidateNotFoundError extends DomainError {
+  constructor(message = 'No candidate found') {
+    super(message);
+    this.code = 'CANDIDATE_NOT_FOUND';
   }
 }
 
@@ -910,8 +912,9 @@ class AdminMemberError extends DomainError {
 }
 
 class SessionAlreadyFinalizedError extends DomainError {
-  constructor(message = 'Erreur, tentatives de finalisation multiples de la session.') {
+  constructor(message = 'Cannot finalize session more than once.') {
     super(message);
+    this.code = 'SESSION_ALREADY_FINALIZED';
   }
 }
 
@@ -922,18 +925,18 @@ class SessionWithIdAndInformationOnMassImportError extends DomainError {
 }
 
 class SessionWithoutStartedCertificationError extends DomainError {
-  constructor(
-    message = "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer."
-  ) {
+  constructor(message = "This session hasn't started, you can't finalise it. However, you can delete it.") {
     super(message);
+    this.code = 'SESSION_WITHOUT_STARTED_CERTIFICATION';
   }
 }
 
 class SessionWithAbortReasonOnCompletedCertificationCourseError extends DomainError {
   constructor(
-    message = 'Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.'
+    message = 'The field "Reason for abandonment" has been filled in for a candidate who has finished their certification exam in between. The session therefore can\'t be finalised. Please refresh the page before finalising.'
   ) {
     super(message);
+    this.code = 'SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE';
   }
 }
 
@@ -1362,6 +1365,7 @@ export {
   CertificationCandidateDeletionError,
   CertificationCandidateForbiddenDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
+  CertificationCandidateNotFoundError,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
   CertificationCandidatesImportError,
@@ -1479,7 +1483,6 @@ export {
   UserNotAuthorizedToCreateResourceError,
   UserNotAuthorizedToGenerateUsernamePasswordError,
   UserNotAuthorizedToGetCampaignResultsError,
-  UserNotAuthorizedToGetCertificationCoursesError,
   UserNotAuthorizedToRemoveAuthenticationMethod,
   UserNotAuthorizedToUpdateCampaignError,
   UserNotAuthorizedToUpdatePasswordError,

@@ -1,11 +1,10 @@
 import moment from 'moment';
-import { BadRequestError, SessionPublicationBatchError } from '../http-errors.js';
+import { SessionPublicationBatchError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { tokenService } from '../../domain/services/token-service.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
 import * as sessionValidator from '../../domain/validators/session-validator.js';
 import * as events from '../../domain/events/index.js';
-import { CertificationCandidateAlreadyLinkedToUserError } from '../../domain/errors.js';
 import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
 import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
 import * as certificationCandidateSerializer from '../../infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
@@ -242,14 +241,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function (r
   const odsBuffer = request.payload;
   const i18n = request.i18n;
 
-  try {
-    await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer, i18n });
-  } catch (err) {
-    if (err instanceof CertificationCandidateAlreadyLinkedToUserError) {
-      throw new BadRequestError(err.message);
-    }
-    throw err;
-  }
+  await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer, i18n });
 
   return null;
 };

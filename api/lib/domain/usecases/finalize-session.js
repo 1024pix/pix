@@ -27,7 +27,7 @@ const finalizeSession = async function ({
   const abortReasonCount = _countAbortReasons(certificationReports);
 
   if (isSessionAlreadyFinalized) {
-    throw new SessionAlreadyFinalizedError('Cannot finalize session more than once');
+    throw new SessionAlreadyFinalizedError();
   }
 
   if (hasNoStartedCertification) {
