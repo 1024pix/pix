@@ -27,7 +27,6 @@ function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DE
       possibleChallenges: [],
     };
   }
-
   const challengesWithReward = nonAnsweredChallenges.map((challenge) => {
     return {
       challenge,
@@ -35,20 +34,9 @@ function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DE
     };
   });
 
-  let maxReward = 0;
-  const possibleChallenges = challengesWithReward.reduce((acc, challengesWithReward) => {
-    if (challengesWithReward.reward > maxReward) {
-      acc = [challengesWithReward.challenge];
-      maxReward = challengesWithReward.reward;
-    } else if (challengesWithReward.reward === maxReward) {
-      acc.push(challengesWithReward.challenge);
-    }
-    return acc;
-  }, []);
-
   return {
     hasAssessmentEnded: false,
-    possibleChallenges,
+    possibleChallenges: _findBestPossibleChallenges(challengesWithReward),
   };
 }
 
@@ -133,6 +121,15 @@ function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, es
   ]);
 
   return pixScoreAndScoreByCompetence;
+}
+
+function _findBestPossibleChallenges(challengesWithReward) {
+  const MAX_NUMBER_OF_RETURNED_CHALLENGES = 5;
+  const orderedChallengesWithReward = orderBy(challengesWithReward, 'reward', 'desc');
+
+  const possibleChallengesWithReward = orderedChallengesWithReward.slice(0, MAX_NUMBER_OF_RETURNED_CHALLENGES);
+
+  return possibleChallengesWithReward.map(({ challenge }) => challenge);
 }
 
 function _getDirectSucceededChallenges({ allAnswers, challenges }) {

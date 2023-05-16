@@ -125,6 +125,7 @@ const pixAuthenticationService = require('../../domain/services/authentication/p
 const placementProfileService = require('../../domain/services/placement-profile-service.js');
 const poleEmploiSendingRepository = require('../../infrastructure/repositories/pole-emploi-sending-repository.js');
 const prescriberRepository = require('../../infrastructure/repositories/prescriber-repository.js');
+const pseudoRandom = require('../../infrastructure/utils/pseudo-random');
 const resetPasswordService = require('../../domain/services/reset-password-service.js');
 const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository.js');
 const scoAccountRecoveryService = require('../services/sco-account-recovery-service.js');
@@ -191,7 +192,6 @@ const codeUtils = require('../../infrastructure/utils/code-utils.js');
 const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils.js');
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils.js');
 const sessionXmlService = require('../../domain/services/session-xml-service.js');
-const flash = require('../../domain/services/algorithm-methods/flash.js');
 const dataFetcher = require('../../domain/services/algorithm-methods/data-fetcher.js');
 
 function requirePoleEmploiNotifier() {
@@ -289,7 +289,6 @@ const dependencies = {
   encryptionService,
   flashAssessmentResultRepository,
   flashAlgorithmService,
-  flash,
   frameworkRepository,
   getCompetenceLevel,
   sessionForSupervisorKitRepository,
@@ -355,6 +354,7 @@ const dependencies = {
   sessionValidator,
   smartRandom,
   settings,
+  pseudoRandom,
   readOdsUtils,
   sessionXmlService,
   skillRepository,

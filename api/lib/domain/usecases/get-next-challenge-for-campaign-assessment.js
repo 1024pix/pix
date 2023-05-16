@@ -1,4 +1,5 @@
 const { AssessmentEndedError } = require('../errors.js');
+const FlashAssessmentAlgorithm = require('../models/FlashAssessmentAlgorithm');
 
 module.exports = async function getNextChallengeForCampaignAssessment({
   challengeRepository,
@@ -9,25 +10,27 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   locale,
   dataFetcher,
   smartRandom,
-  flash,
 }) {
   let algoResult;
 
   if (assessment.isFlash()) {
-    const inputValues = await dataFetcher.fetchForFlashCampaigns({
+    const { allAnswers, challenges, estimatedLevel } = await dataFetcher.fetchForFlashCampaigns({
       assessmentId: assessment.id,
       answerRepository,
       challengeRepository,
       flashAssessmentResultRepository,
       locale,
     });
-    algoResult = flash.getPossibleNextChallenges({ ...inputValues });
 
-    if (algoResult.hasAssessmentEnded) {
-      throw new AssessmentEndedError();
-    }
+    const assessmentAlgorithm = new FlashAssessmentAlgorithm();
 
-    return assessment.chooseNextFlashChallenge(algoResult.possibleChallenges);
+    const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
+      allAnswers,
+      challenges,
+      estimatedLevel,
+    });
+
+    return pickChallengeService.chooseNextChallenge({ possibleChallenges, assessmentId: assessment.id });
   } else {
     const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
     algoResult = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });
