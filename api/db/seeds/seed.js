@@ -112,15 +112,14 @@ exports.seed = async (knex) => {
   await generateKnowledgeElementSnapshots(campaignParticipationData, 1);
   await computeParticipationsResults(10, false);
 
-  /* COMMENT ABOVE AND UNCOMMENT THIS FOR SEEDS EPIC
-  const { commonBuilder } = require('./data/common/common-builder');
-  const { teamContenuDataBuilder } = require('./data/team-contenu/data-builder');
-  const { teamCertificationDataBuilder } = require('./data/team-certification/data-builder');
-  const databaseBuilder = new DatabaseBuilder({ knex });
-  commonBuilder({ databaseBuilder });
-  await teamContenuDataBuilder({ databaseBuilder });
-  await teamCertificationDataBuilder({ databaseBuilder });
-  await databaseBuilder.commit();
-  await databaseBuilder.fixSequences();
-*/
+  // const { commonBuilder } = require('./data/common/common-builder');
+  // const { teamContenuDataBuilder } = require('./data/team-contenu/data-builder');
+  // const { teamCertificationDataBuilder } = require('./data/team-certification/data-builder');
+  // const databaseBuilder = new DatabaseBuilder({ knex });
+  // commonBuilder({ databaseBuilder });
+  // await teamContenuDataBuilder({ databaseBuilder });
+  // await teamCertificationDataBuilder({ databaseBuilder });
+  // await databaseBuilder.commit();
+  // await databaseBuilder.fixSequences();
+
 };

@@ -5,6 +5,8 @@ const TEAM_CONTENU_OFFSET_ID = 5000;
 /// USERS
 const PRO_ORGANIZATION_USER_ID = TEAM_CONTENU_OFFSET_ID;
 const PRO_CERTIFICATION_CENTER_USER_ID = TEAM_CONTENU_OFFSET_ID + 1;
+const CERTIFIABLE_USER_ID = TEAM_CONTENU_OFFSET_ID + 2;
+const PERFECT_PROFILE_USER_ID = TEAM_CONTENU_OFFSET_ID + 3;
 /// ORGAS
 const PRO_ORGANIZATION_ID = TEAM_CONTENU_OFFSET_ID;
 // TARGET PROFILES
@@ -25,6 +27,9 @@ async function teamContenuDataBuilder({ databaseBuilder }) {
   await databaseBuilder.commit();
   await _createAssessmentCampaign(databaseBuilder);
   await _createProfilesCollectionCampaign(databaseBuilder);
+
+  await _createCertifiableUser(databaseBuilder);
+  await _createPerfectProfileUser(databaseBuilder);
 }
 
 module.exports = {
@@ -234,6 +239,52 @@ async function _createDiverseTargetProfile(databaseBuilder) {
     cappedTubesDTO,
     type: 'THRESHOLD',
     countStages: 4,
+  });
+}
+
+async function _createCertifiableUser(databaseBuilder) {
+  const userId = databaseBuilder.factory.buildUser.withRawPassword({
+    id: CERTIFIABLE_USER_ID,
+    firstName: 'Certifiable',
+    lastName: 'Contenu',
+    email: 'certifiable-contenu-user@example.net',
+    cgu: true,
+    lang: 'fr',
+    lastTermsOfServiceValidatedAt: new Date(),
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
+    mustValidateTermsOfService: false,
+    pixOrgaTermsOfServiceAccepted: false,
+    pixCertifTermsOfServiceAccepted: false,
+    hasSeenAssessmentInstructions: false,
+    shouldChangePassword: false,
+  }).id;
+
+  await tooling.profile.createCertifiableProfile({
+    databaseBuilder,
+    userId,
+  });
+}
+
+async function _createPerfectProfileUser(databaseBuilder) {
+  const userId = databaseBuilder.factory.buildUser.withRawPassword({
+    id: PERFECT_PROFILE_USER_ID,
+    firstName: 'Perfect',
+    lastName: 'Profile User',
+    email: 'perfect-profile-user@example.net',
+    cgu: true,
+    lang: 'fr',
+    lastTermsOfServiceValidatedAt: new Date(),
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
+    mustValidateTermsOfService: false,
+    pixOrgaTermsOfServiceAccepted: false,
+    pixCertifTermsOfServiceAccepted: false,
+    hasSeenAssessmentInstructions: false,
+    shouldChangePassword: false,
+  }).id;
+
+  await tooling.profile.createPerfectProfile({
+    databaseBuilder,
+    userId,
   });
 }
 
