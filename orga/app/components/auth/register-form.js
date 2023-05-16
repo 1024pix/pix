@@ -54,6 +54,7 @@ export default class RegisterForm extends Component {
   @tracked cguValidationMessage = null;
   @tracked errorMessage = null;
   @tracked validation = new SignupFormValidation();
+  @tracked selectedLanguage = this.intl.primaryLocale;
 
   get cguUrl() {
     return this.url.cguUrl;
@@ -71,6 +72,7 @@ export default class RegisterForm extends Component {
       return;
     }
     this.isLoading = true;
+
     try {
       await this.store
         .createRecord('user', {
@@ -79,6 +81,7 @@ export default class RegisterForm extends Component {
           email: this.email,
           password: this.password,
           cgu: true,
+          lang: this.selectedLanguage,
         })
         .save();
 
@@ -87,6 +90,7 @@ export default class RegisterForm extends Component {
         this.args.organizationInvitationCode,
         this.email
       );
+
       await this._authenticate(this.email, this.password);
 
       this.password = null;
