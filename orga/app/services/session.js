@@ -1,6 +1,5 @@
 import { inject as service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
-import get from 'lodash/get';
 import { FRENCH_INTERNATIONAL_LOCALE, FRENCH_FRANCE_LOCALE } from 'pix-orga/services/locale';
 
 export default class CurrentSessionService extends SessionService {
@@ -28,7 +27,7 @@ export default class CurrentSessionService extends SessionService {
     await super.handleInvalidation(routeAfterInvalidation);
   }
 
-  async handleLocale({ isFranceDomain, localeFromQueryParam, userLocale }) {
+  handleLocale({ isFranceDomain, localeFromQueryParam, userLocale }) {
     this._localeFromQueryParam = this.locale.handleUnsupportedLanguage(localeFromQueryParam);
 
     if (isFranceDomain) {
@@ -42,32 +41,12 @@ export default class CurrentSessionService extends SessionService {
     }
 
     if (this._localeFromQueryParam) {
-      await this._updatePrescriberLanguage(this._localeFromQueryParam);
-
       this.locale.setLocale(this._localeFromQueryParam);
       return;
     }
 
     const locale = userLocale || FRENCH_INTERNATIONAL_LOCALE;
     this.locale.setLocale(locale);
-  }
-
-  async _updatePrescriberLanguage(lang) {
-    const prescriber = this.currentUser.prescriber;
-
-    if (!prescriber || prescriber.lang === lang) return;
-
-    try {
-      prescriber.lang = lang;
-      await prescriber.save({ adapterOptions: { lang } });
-    } catch (error) {
-      const status = get(error, 'errors[0].status');
-      if (status === '400') {
-        prescriber.rollbackAttributes();
-      } else {
-        throw error;
-      }
-    }
   }
 
   _getRouteAfterInvalidation() {
