@@ -206,14 +206,31 @@
 
 .skill-review-competence {
   &__table {
+    width: 100%;
+
     tr {
       height: 76px;
     }
   }
 
+  &__column-header {
+    text-align: left;
+  }
+
+  &__row-header {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: $pix-spacing-s $pix-spacing-s $pix-spacing-s 0;
+  }
+
+  &__name {
+    margin-left: $pix-spacing-s;
+    text-align: left;
+  }
+
   &__border {
-    margin-right: 1rem;
-    padding: 0.5rem 0;
+    padding: $pix-spacing-s 0;
     border-style: solid;
     border-width: 1.5px;
     border-radius: 1.5px;
