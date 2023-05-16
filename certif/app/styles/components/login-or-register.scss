@@ -1,4 +1,7 @@
 .login-or-register {
+  display: flex;
+  flex-direction: column;
+  gap: $pix-spacing-s;
   margin: 20px 0;
 
   &__panel {
@@ -17,10 +20,15 @@
       padding: 40px 100px;
     }
   }
+
+  &__language-switcher {
+    @include device-is('mobile') {
+      margin-left: $pix-spacing-s;
+    }
+  }
 }
 
 .login-or-register-panel {
-
   &__logo {
     margin: auto;
   }
@@ -76,7 +84,6 @@
 }
 
 .login-or-register-panel-form {
-
   &__expandable {
     display: flex;
     flex-direction: column;

@@ -1,6 +1,8 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+
+import { FRENCH_INTERNATIONAL_LOCALE } from 'pix-certif/services/locale';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import setupIntl from '../../../helpers/setup-intl';
 
@@ -23,8 +25,8 @@ module('Unit | Component | register-form', (hooks) => {
   });
 
   module('#register', () => {
-    module('when form is invalid', () => {
-      test('should not call the store', async function (assert) {
+    module('When form is invalid', () => {
+      test('does not call the store', async function (assert) {
         // given
         const incorrectEmail = 'alainternational';
         component.firstName = 'Alain';
@@ -41,29 +43,43 @@ module('Unit | Component | register-form', (hooks) => {
       });
     });
 
-    module('when form is valid', () => {
-      test('should create pix account, membership and validate invitation', async function (assert) {
+    module('When form is valid', () => {
+      test('creates pix account, membership and validate invitation', async function (assert) {
         // given
+        const certificationCenterInvitationCode = 'AZERTY123';
+        const certificationCenterInvitationId = 1234;
+        const cgu = true;
+        const email = 'alainternational@example.net';
         const firstName = 'Alain';
         const lastName = 'Ternational';
-        const email = 'alainternational@example.net';
         const password = 'Password123';
-        const cgu = true;
-        const certificationCenterInvitationId = 1234;
-        const certificationCenterInvitationCode = 'AZERTY123';
+        const selectedLanguage = FRENCH_INTERNATIONAL_LOCALE;
+
+        component.args = {
+          ...component.args,
+          certificationCenterInvitationCode,
+          certificationCenterInvitationId,
+        };
+
+        component.cgu = cgu;
+        component.email = email;
         component.firstName = firstName;
         component.lastName = lastName;
-        component.email = email;
+        component.selectedLanguage = selectedLanguage;
         component.password = password;
-        component.cgu = cgu;
-        component.args.certificationCenterInvitationId = certificationCenterInvitationId;
-        component.args.certificationCenterInvitationCode = certificationCenterInvitationCode;
 
         // when
         await component.register(eventStub);
 
         // then
-        sinon.assert.calledWith(component.store.createRecord, 'user', { firstName, lastName, password, email, cgu });
+        sinon.assert.calledWith(component.store.createRecord, 'user', {
+          cgu,
+          email,
+          firstName,
+          lastName,
+          lang: selectedLanguage,
+          password,
+        });
         sinon.assert.calledWith(component.store.createRecord, 'certification-center-invitation-response', {
           id: certificationCenterInvitationId,
           code: certificationCenterInvitationCode,
@@ -74,7 +90,7 @@ module('Unit | Component | register-form', (hooks) => {
     });
 
     module('error cases', () => {
-      test('should throw default error', async function (assert) {
+      test('Throws default error', async function (assert) {
         // given
         const deleteRecord = sinon.stub();
         component.store = {
@@ -97,8 +113,8 @@ module('Unit | Component | register-form', (hooks) => {
         sinon.assert.calledOnce(deleteRecord);
       });
 
-      module('when email already exists', () => {
-        test('should throw an error', async function (assert) {
+      module('When email already exists', () => {
+        test('Throws an error', async function (assert) {
           // given
           const deleteRecord = sinon.stub();
           component.store = {

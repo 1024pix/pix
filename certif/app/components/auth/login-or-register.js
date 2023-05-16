@@ -1,9 +1,31 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 
 export default class LoginOrRegister extends Component {
+  @service currentDomain;
+  @service locale;
+  @service intl;
+  @service router;
+
   @tracked displayRegisterForm = true;
+  @tracked selectedLanguage = this.intl.primaryLocale;
+
+  get isInternationalDomain() {
+    return !this.currentDomain.isFranceDomain;
+  }
+
+  @action
+  onLanguageChange(value) {
+    this.selectedLanguage = value;
+    this.locale.setLocale(this.selectedLanguage);
+    this.router.replaceWith('join', {
+      queryParams: {
+        lang: null,
+      },
+    });
+  }
 
   @action
   toggleFormsVisibility() {
