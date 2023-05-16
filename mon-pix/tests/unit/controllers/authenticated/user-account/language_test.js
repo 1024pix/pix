@@ -16,6 +16,7 @@ module('Unit | Controller | user-account/language', function (hooks) {
     controller = this.owner.lookup('controller:authenticated/user-account/language');
     controller.currentUser = { user: { save: userSaveStub } };
     controller.locale = { setLocale: setLocaleStub };
+    controller.set('shouldDisplayLanguageUpdatedMessage', false);
   });
 
   module('#onLanguageChange', function () {
@@ -32,6 +33,7 @@ module('Unit | Controller | user-account/language', function (hooks) {
         // then
         sinon.assert.calledWith(userSaveStub, { adapterOptions: { lang: language } });
         sinon.assert.calledWith(setLocaleStub, language);
+        assert.true(controller.shouldDisplayLanguageUpdatedMessage);
         assert.ok(true);
       });
     });
