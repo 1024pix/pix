@@ -68,6 +68,40 @@ module('Acceptance | join', function (hooks) {
         assert.strictEqual(currentURL(), '/connexion');
         assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
       });
+      module(
+        'When accessing the login page with "English" as selected language in url query params and select another language',
+        function () {
+          test('remains on join page whithout the query params', async function (assert) {
+            // given
+            const code = 'ABCDEFGH01';
+            const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+            const organizationInvitationId = server.create('organizationInvitation', {
+              organizationId,
+              email: 'random@email.com',
+              status: 'pending',
+              code,
+              organizationName: 'Le collège fou fou fou',
+            }).id;
+
+            // when
+            const screen = await visitScreen(
+              `/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`
+            );
+
+            assert
+              .dom(screen.getByText('You have been invited to join the organisation Le collège fou fou fou'))
+              .exists();
+
+            await click(screen.getByRole('button', { name: 'English' }));
+            await screen.findByRole('listbox');
+            await click(screen.getByRole('option', { name: 'Français' }));
+
+            // then
+            assert.strictEqual(currentURL(), `/rejoindre?code=${code}&invitationId=${organizationInvitationId}`);
+            assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+          });
+        }
+      );
     });
     module('when organization-invitation does not exist', function () {
       test('redirects user to login page', async function (assert) {
