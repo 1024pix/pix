@@ -29,93 +29,99 @@ module('Acceptance | join', function (hooks) {
   });
 
   module('When prescriber tries to go on join page', function () {
-    test('remains on join page when organization-invitation exists', async function (assert) {
-      // given
-      const code = 'ABCDEFGH01';
-      const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
-      const organizationInvitationId = server.create('organizationInvitation', {
-        organizationId,
-        email: 'random@email.com',
-        status: 'pending',
-        code,
-      }).id;
+    module('when organization-invitation exists', function () {
+      test('remains on join page', async function (assert) {
+        // given
+        const code = 'ABCDEFGH01';
+        const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+        const organizationInvitationId = server.create('organizationInvitation', {
+          organizationId,
+          email: 'random@email.com',
+          status: 'pending',
+          code,
+        }).id;
 
-      // when
-      await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+        // when
+        await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
-      // then
-      assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+        // then
+        assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+        assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+      });
     });
+    module('when organization-invitation exists but user tries to change language by url', function () {
+      test('redirects user to login page', async function (assert) {
+        // given
+        const code = 'ABCDEFGH01';
+        const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+        const organizationInvitationId = server.create('organizationInvitation', {
+          organizationId,
+          email: 'random@email.com',
+          status: 'pending',
+          code,
+        }).id;
 
-    test('redirects user to login page when organization-invitation exists but user tries to change language by url', async function (assert) {
-      // given
-      const code = 'ABCDEFGH01';
-      const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
-      const organizationInvitationId = server.create('organizationInvitation', {
-        organizationId,
-        email: 'random@email.com',
-        status: 'pending',
-        code,
-      }).id;
+        // when
+        await visit(`rejoindre?invitationId=${organizationInvitationId}&code=${code}?lang=en`);
 
-      // when
-      await visit(`rejoindre?invitationId=${organizationInvitationId}&code=${code}?lang=en`);
-
-      // then
-      assert.strictEqual(currentURL(), '/connexion');
-      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+        // then
+        assert.strictEqual(currentURL(), '/connexion');
+        assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+      });
     });
+    module('when organization-invitation does not exist', function () {
+      test('redirects user to login page', async function (assert) {
+        // when
+        await visit('rejoindre?invitationId=123456&code=FAKE999');
 
-    test('redirects user to login page when organization-invitation does not exist', async function (assert) {
-      // when
-      await visit('rejoindre?invitationId=123456&code=FAKE999');
-
-      // then
-      assert.strictEqual(currentURL(), '/connexion');
-      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+        // then
+        assert.strictEqual(currentURL(), '/connexion');
+        assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+      });
     });
+    module('when organization-invitation has already been accepted', function () {
+      test('redirects user to login page', async function (assert) {
+        // given
+        const code = 'ABCDEFGH01';
+        const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+        const organizationInvitationId = server.create('organizationInvitation', {
+          organizationId,
+          email: 'random@email.com',
+          status: 'accepted',
+          code,
+        }).id;
+        const expectedErrorMessage = this.intl.t('pages.login-form.invitation-already-accepted');
 
-    test('redirects user to login page when organization-invitation has already been accepted', async function (assert) {
-      // given
-      const code = 'ABCDEFGH01';
-      const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
-      const organizationInvitationId = server.create('organizationInvitation', {
-        organizationId,
-        email: 'random@email.com',
-        status: 'accepted',
-        code,
-      }).id;
-      const expectedErrorMessage = this.intl.t('pages.login-form.invitation-already-accepted');
+        // when
+        await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
-      // when
-      await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-
-      // then
-      assert.strictEqual(currentURL(), '/connexion');
-      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
-      assert.dom('.login-form__invitation-error').exists();
-      assert.dom('.login-form__invitation-error').hasText(expectedErrorMessage);
+        // then
+        assert.strictEqual(currentURL(), '/connexion');
+        assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+        assert.dom('.login-form__invitation-error').exists();
+        assert.dom('.login-form__invitation-error').hasText(expectedErrorMessage);
+      });
     });
+    module('when organization-invitation has been cancelled', function () {
+      test('redirects user to login page ', async function (assert) {
+        // given
+        const code = 'ABCDEFGH01';
+        const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+        const organizationInvitationId = server.create('organizationInvitation', {
+          organizationId,
+          email: 'random@email.com',
+          status: 'cancelled',
+          code,
+        }).id;
 
-    test('redirects user to login page when organization-invitation has been cancelled', async function (assert) {
-      // given
-      const code = 'ABCDEFGH01';
-      const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
-      const organizationInvitationId = server.create('organizationInvitation', {
-        organizationId,
-        email: 'random@email.com',
-        status: 'cancelled',
-        code,
-      }).id;
+        // when
+        await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
-      // when
-      await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-
-      // then
-      assert.strictEqual(currentURL(), '/connexion');
-      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
-      assert.contains(this.intl.t('pages.login-form.invitation-was-cancelled'));
+        // then
+        assert.strictEqual(currentURL(), '/connexion');
+        assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+        assert.contains(this.intl.t('pages.login-form.invitation-was-cancelled'));
+      });
     });
   });
 
