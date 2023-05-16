@@ -1,7 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
-
 import { tutorialAttributes } from './tutorial-attributes.js';
 
 const serialize = function (correction) {
@@ -19,8 +18,12 @@ const serialize = function (correction) {
         userSavedTutorial: { ...tutorial.userSavedTutorial },
         tutorialEvaluation: { ...tutorial.tutorialEvaluation },
       })),
+      correctionBlocks: correction.correctionBlocks.map((correctionBlock) => ({
+        validated: correctionBlock.validated,
+        alternativeSolutions: correctionBlock.alternativeSolutions,
+      })),
     }),
-    attributes: ['solution', 'solutionToDisplay', 'hint', 'tutorials', 'learningMoreTutorials'],
+    attributes: ['solution', 'solutionToDisplay', 'hint', 'tutorials', 'learningMoreTutorials', 'correctionBlocks'],
     tutorials: tutorialAttributes,
     learningMoreTutorials: tutorialAttributes,
     typeForAttribute(attribute) {
@@ -31,6 +34,8 @@ const serialize = function (correction) {
           return 'user-saved-tutorial';
         case 'learningMoreTutorials':
           return 'tutorials';
+        case 'correctionBlocks':
+          return 'correction-blocks';
         default:
           return attribute;
       }
