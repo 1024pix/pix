@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { CertificationCandidateNotFoundError } from '../../domain/errors.js';
 import { CertificationCandidateForSupervising } from '../../domain/models/CertificationCandidateForSupervising.js';
 
 const get = async function (certificationCandidateId) {
@@ -16,6 +16,11 @@ const get = async function (certificationCandidateId) {
     .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .where({ 'certification-candidates.id': certificationCandidateId })
     .first();
+
+  if (!result) {
+    throw new CertificationCandidateNotFoundError();
+  }
+
   return new CertificationCandidateForSupervising({ ...result });
 };
 
@@ -26,8 +31,8 @@ const update = async function (certificationCandidateForSupervising) {
     })
     .update({ authorizedToStart: certificationCandidateForSupervising.authorizedToStart });
 
-  if (result === 0) {
-    throw new NotFoundError('Aucun candidat trouvé');
+  if (!result) {
+    throw new CertificationCandidateNotFoundError();
   }
 };
 
