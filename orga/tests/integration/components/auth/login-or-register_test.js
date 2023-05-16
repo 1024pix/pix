@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
-import { render, click } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
-import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
@@ -13,7 +13,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
   hooks.beforeEach(function () {
     loginButton = this.intl.t('pages.login-or-register.login-form.button');
   });
-  test('it displays the organization name the user is invited to', async function (assert) {
+  test('displays the organization name the user is invited to', async function (assert) {
     // when
     const invitationMessage = this.intl.t('pages.login-or-register.title', { organizationName: 'Organization Aztec' });
 
@@ -23,7 +23,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
     assert.dom('.login-or-register-panel__invitation').hasText(`${invitationMessage}`);
   });
 
-  test('it toggles the register form by default', async function (assert) {
+  test('toggles the register form by default', async function (assert) {
     // when
     await render(hbs`<Auth::LoginOrRegister />`);
 
@@ -31,7 +31,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
     assert.dom('.register-form').exists();
   });
 
-  test('it toggles the login form on click on login button', async function (assert) {
+  test('toggles the login form on click on login button', async function (assert) {
     // given
     await render(hbs`<Auth::LoginOrRegister />`);
 
@@ -42,7 +42,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
     assert.dom('.login-form').exists();
   });
 
-  test('it toggles the register form on click on register button', async function (assert) {
+  test('toggles the register form on click on register button', async function (assert) {
     // given
     const registerButtonLabel = this.intl.t('pages.login-or-register.register-form.button');
 
@@ -73,7 +73,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
       this.owner.register('service:router', routerServiceStub);
 
       // when
-      const screen = await renderScreen(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec' />`);
+      const screen = await render(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec' />`);
 
       // then
       await click(screen.getByRole('button', { name: 'Français' }));
@@ -94,7 +94,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
       this.owner.register('service:currentDomain', CurrentDomainServiceStub);
 
       // when
-      const screen = await renderScreen(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec' />`);
+      const screen = await render(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec' />`);
 
       // then
       assert.dom(screen.getByText("Vous êtes invité(e) à rejoindre l'organisation Organization Aztec")).exists();

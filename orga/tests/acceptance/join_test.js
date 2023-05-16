@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import Response from 'ember-cli-mirage/response';
-import { visit, currentURL, click } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { currentURL, click } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -65,7 +65,7 @@ module('Acceptance | join', function (hooks) {
           }).id;
 
           // when
-          const screen = await visitScreen(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`);
+          const screen = await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`);
 
           assert
             .dom(screen.getByText('You have been invited to join the organisation Le collège fou fou fou'))
@@ -184,7 +184,7 @@ module('Acceptance | join', function (hooks) {
 
       test("redirects user to the terms-of-service page in the user's language even if another language selected in join page", async function (assert) {
         // given
-        const screen = await visitScreen(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+        const screen = await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
         await click(screen.getByRole('button', { name: 'Français' }));
         await screen.findByRole('listbox');
@@ -467,7 +467,7 @@ module('Acceptance | join', function (hooks) {
               code,
             }).id;
 
-            const screen = await visitScreen(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+            const screen = await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
             await click(screen.getByRole('button', { name: 'Français' }));
             await screen.findByRole('listbox');
             await click(screen.getByRole('option', { name: 'English' }));
