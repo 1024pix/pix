@@ -35,8 +35,6 @@ const { usersBuilder } = require('./data/users-builder');
 const { userLoginsBuilder } = require('./data/user-logins-builder');
 const pixAdminRolesBuilder = require('./data/pix-admin-roles-builder');
 const stagesBuilder = require('./data/stages-builder');
-const { certificationCpfCountryBuilder } = require('./data/certification/certification-cpf-country-builder');
-const { certificationCpfCityBuilder } = require('./data/certification/certification-cpf-city-builder');
 const { issueReportCategoriesBuilder } = require('./data/certification/issue-report-categories-builder');
 const {
   getEligibleCampaignParticipations,
@@ -90,8 +88,6 @@ exports.seed = async (knex) => {
   certificationScoresBuilder({ databaseBuilder });
   badgeAcquisitionBuilder({ databaseBuilder });
   complementaryCertificationCourseResultsBuilder({ databaseBuilder });
-  certificationCpfCountryBuilder({ databaseBuilder });
-  certificationCpfCityBuilder({ databaseBuilder });
   issueReportCategoriesBuilder({ databaseBuilder });
 
   // Éléments de parcours

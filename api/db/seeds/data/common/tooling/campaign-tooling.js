@@ -57,7 +57,7 @@ async function createAssessmentCampaign({
   multipleSendings,
   assessmentMethod,
 }) {
-  _buildCampaign({
+  const realCampaignId = _buildCampaign({
     databaseBuilder,
     campaignId,
     name,
@@ -87,11 +87,13 @@ async function createAssessmentCampaign({
     .select('tubeId', 'level')
     .where({ targetProfileId });
   for (const cappedTube of cappedTubes) {
-    const skillsForTube = await learningContent.findActiveSkillsByTubeId(cappedTube.id);
-    const skillsCapped = skillsForTube.filter((skill) => skill.difficulty <= parseInt(cappedTube.level));
-    skillsCapped.map((skill) => databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: skill.id }));
+    const skillsForTube = await learningContent.findActiveSkillsByTubeId(cappedTube.tubeId);
+    const skillsCapped = skillsForTube.filter((skill) => skill.level <= parseInt(cappedTube.level));
+    skillsCapped.map((skill) =>
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: realCampaignId, skillId: skill.id }),
+    );
   }
-  return { campaignId };
+  return { campaignId: realCampaignId };
 }
 
 /**
@@ -197,7 +199,7 @@ function _buildCampaign({
   multipleSendings,
   assessmentMethod,
 }) {
-  databaseBuilder.factory.buildCampaign({
+  return databaseBuilder.factory.buildCampaign({
     id: campaignId,
     name,
     code,
@@ -220,5 +222,5 @@ function _buildCampaign({
     customResultPageButtonUrl,
     multipleSendings,
     assessmentMethod,
-  });
+  }).id;
 }
