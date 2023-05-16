@@ -40,49 +40,54 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       });
 
       context('when there is no previous answer', function () {
-        it('should return the best next challenge', function () {
-          // given
-          const worstNextChallenge = domainBuilder.buildChallenge({
-            difficulty: -5,
-            discriminant: -5,
-          });
-          const bestNextChallenge = domainBuilder.buildChallenge({
-            difficulty: 1,
-            discriminant: 5,
-          });
-          const challenges = [worstNextChallenge, bestNextChallenge];
-          const allAnswers = [];
-
-          // when
-          const result = flash.getPossibleNextChallenges({ challenges, allAnswers, estimatedLevel: 0 });
-
-          // then
-          expect(result).to.deep.equal({
-            hasAssessmentEnded: false,
-            possibleChallenges: [bestNextChallenge],
-          });
-        });
-
-        it('should return every best next challenge', function () {
+        it('should return at most the five best next challenges', function () {
           // given
           const FirstSkill = domainBuilder.buildSkill({ id: 'First' });
           const SecondSkill = domainBuilder.buildSkill({ id: 'Second' });
-          const worstNextChallenge = domainBuilder.buildChallenge({
+          const firstChallenge = domainBuilder.buildChallenge({
             difficulty: -5,
             discriminant: -5,
             skill: FirstSkill,
+            id: 'rec123first',
           });
-          const bestNextChallenge = domainBuilder.buildChallenge({
+          const secondChallenge = domainBuilder.buildChallenge({
             difficulty: 1,
             discriminant: 5,
             skill: SecondSkill,
+            id: 'rec123second',
           });
-          const anotherBestNextChallenge = domainBuilder.buildChallenge({
+          const thirdChallenge = domainBuilder.buildChallenge({
+            difficulty: -5,
+            discriminant: -5,
+            skill: FirstSkill,
+            id: 'rec123third',
+          });
+          const fourthChallenge = domainBuilder.buildChallenge({
+            difficulty: -8,
+            discriminant: 5,
+            skill: SecondSkill,
+            id: 'rec123fourth',
+          });
+          const fifthChallenge = domainBuilder.buildChallenge({
             difficulty: 1,
             discriminant: 5,
-            skill: FirstSkill,
+            skill: SecondSkill,
+            id: 'rec123fifth',
           });
-          const challenges = [worstNextChallenge, bestNextChallenge, anotherBestNextChallenge];
+          const sixthChallenge = domainBuilder.buildChallenge({
+            difficulty: 1,
+            discriminant: 5,
+            skill: SecondSkill,
+            id: 'rec123sixth',
+          });
+          const challenges = [
+            firstChallenge,
+            secondChallenge,
+            thirdChallenge,
+            fourthChallenge,
+            fifthChallenge,
+            sixthChallenge,
+          ];
           const allAnswers = [];
 
           // when
@@ -91,7 +96,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           // then
           expect(result).to.deep.equal({
             hasAssessmentEnded: false,
-            possibleChallenges: [bestNextChallenge, anotherBestNextChallenge],
+            possibleChallenges: [secondChallenge, fifthChallenge, sixthChallenge, firstChallenge, thirdChallenge],
           });
         });
       });
@@ -130,7 +135,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           // then
           expect(result).to.deep.equal({
             hasAssessmentEnded: false,
-            possibleChallenges: [nonAnsweredBestNextChallenge],
+            possibleChallenges: [nonAnsweredBestNextChallenge, worstNextChallenge],
           });
         });
       });
