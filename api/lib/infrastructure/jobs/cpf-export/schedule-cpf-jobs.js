@@ -25,12 +25,7 @@ const scheduleCpfJobs = async function (pgBoss) {
 export { scheduleCpfJobs };
 
 async function _processJob(job, handler, params) {
-  try {
-    await handler({ ...params, job, logger: buildLogger(job) });
-    job.done();
-  } catch (error) {
-    job.done(error);
-  }
+  await handler({ ...params, job, logger: buildLogger(job) });
 }
 
 function buildLogger(job) {
