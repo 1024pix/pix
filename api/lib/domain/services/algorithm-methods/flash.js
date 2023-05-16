@@ -18,6 +18,7 @@ export {
   getEstimatedLevelAndErrorRate,
   getChallengesForNonAnsweredSkills,
   calculateTotalPixScoreAndScoreByCompetence,
+  getReward,
 };
 
 function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DEFAULT_ESTIMATED_LEVEL } = {}) {
@@ -32,7 +33,7 @@ function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DE
   const challengesWithReward = nonAnsweredChallenges.map((challenge) => {
     return {
       challenge,
-      reward: _getReward({ estimatedLevel, discriminant: challenge.discriminant, difficulty: challenge.difficulty }),
+      reward: getReward({ estimatedLevel, discriminant: challenge.discriminant, difficulty: challenge.difficulty }),
     };
   });
 
@@ -198,7 +199,7 @@ function _sumPixScoreAndScoreByCompetence(challenges) {
   return { pixScore, pixScoreByCompetence };
 }
 
-function _getReward({ estimatedLevel, discriminant, difficulty }) {
+function getReward({ estimatedLevel, discriminant, difficulty }) {
   const probability = _getProbability({ estimatedLevel, discriminant, difficulty });
   return probability * (1 - probability) * Math.pow(discriminant, 2);
 }

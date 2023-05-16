@@ -35,4 +35,4 @@ const register = async (server) => {
 };
 
 const name = 'scenario-simulator-api';
-export { register, name }
+export { register, name };

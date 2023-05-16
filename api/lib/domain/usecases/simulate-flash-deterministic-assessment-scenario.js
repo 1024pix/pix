@@ -25,4 +25,4 @@ export async function simulateFlashDeterministicAssessmentScenario({
   });
 
   return simulator.run();
-};
+}

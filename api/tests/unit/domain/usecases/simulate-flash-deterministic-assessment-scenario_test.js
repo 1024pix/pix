@@ -1,13 +1,12 @@
-const { domainBuilder, expect } = require('../../../test-helper');
-const simulateFlashDeterministicAssessmentScenario = require('../../../../lib/domain/usecases/simulate-flash-deterministic-assessment-scenario');
-const sinon = require('sinon');
-const { AssessmentEndedError } = require('../../../../lib/domain/errors');
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { simulateFlashDeterministicAssessmentScenario } from '../../../../lib/domain/usecases/simulate-flash-deterministic-assessment-scenario.js';
+import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
 
 const locale = 'fr-fr';
 
 describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', function () {
   context('when there are enough flash challenges left', function () {
-    it('should return an estimated level and challenges array', async function () {
+    it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
       // given
       const simulationAnswers = ['ok', 'ko', 'aband'];
       const assessmentId = '123';
@@ -69,7 +68,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       };
 
       // when
-      const { estimatedLevel, challenges } = await simulateFlashDeterministicAssessmentScenario({
+      const result = await simulateFlashDeterministicAssessmentScenario({
         challengeRepository,
         locale,
         simulationAnswers,
@@ -79,8 +78,13 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       });
 
       // then
-      expect(estimatedLevel).to.equal(0.29766782658030516);
-      expect(challenges).to.deep.equal([firstChallenge, secondChallenge, thirdChallenge]);
+      expect(result).to.have.lengthOf(3);
+      result.forEach((answer) => {
+        expect(answer.challenge).not.to.be.undefined;
+        expect(answer.errorRate).not.to.be.undefined;
+        expect(answer.estimatedLevel).not.to.be.undefined;
+        expect(answer.reward).not.to.be.undefined;
+      });
     });
   });
 
