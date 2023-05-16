@@ -2,35 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 550px;
-  background-color: $pix-neutral-0;
-  border-radius: 10px;
-  padding: 20px 30px;
-  margin: $pix-spacing-s 0;
-
-  @include device-is('tablet') {
-    padding: 40px 60px;
-  }
-
-  &__header {
-    text-align: center;
-  }
-
-  &__title {
-    @extend %pix-title-m;
-
-    font-family: $font-open-sans;
-    font-weight: $font-normal;
-    color: $pix-neutral-80;
-    margin-top: $pix-spacing-m;
-  }
+  max-width: 440px;
 
   &__information {
     @extend %pix-body-s;
 
     text-align: center;
     color: $pix-neutral-90;
-    margin-top: $pix-spacing-m;
+    margin-top: $pix-spacing-s;
   }
 
   &__error-message {
