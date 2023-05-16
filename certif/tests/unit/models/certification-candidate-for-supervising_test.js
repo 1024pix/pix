@@ -16,6 +16,7 @@ module('Unit | Model | certification-candidate-for-supervising', function (hooks
       authorizedToStart: true,
       assessmentStatus: 'started',
       startDateTime: new Date('2022-10-01T13:37:07Z'),
+      theoricalEndDateTime: new Date('2022-10-01T15:07:07Z'),
       complementaryCertification: 'Super Certification Complémentaire',
     };
 
@@ -149,6 +150,7 @@ module('Unit | Model | certification-candidate-for-supervising', function (hooks
       'authorizedToStart',
       'assessmentStatus',
       'startDateTime',
+      'theoricalEndDateTime',
       'complementaryCertification',
     ]);
   }

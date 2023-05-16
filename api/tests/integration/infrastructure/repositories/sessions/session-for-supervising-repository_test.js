@@ -178,6 +178,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
       const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         label: 'Pix+ Édu 1er degré',
         key: 'EDU_1ER_DEGRE',
+        certificationExtraTime: 45,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
@@ -200,7 +201,11 @@ describe('Integration | Repository | SessionForSupervising', function () {
           userId: 11111,
           lastName: 'Jackson',
           firstName: 'Janet',
-          enrolledComplementaryCertification: 'Pix+ Édu 1er degré',
+          enrolledComplementaryCertification: {
+            key: complementaryCertification.key,
+            label: complementaryCertification.label,
+            certificationExtraTime: complementaryCertification.certificationExtraTime,
+          },
         },
         {
           userId: 22222,

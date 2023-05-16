@@ -10,6 +10,7 @@ module.exports = function buildCertificationCandidateForSupervising({
   authorizedToStart = false,
   assessmentStatus = null,
   startDateTime = new Date('2022-10-01T12:00:00Z'),
+  theoricalEndDateTime,
   enrolledComplementaryCertification,
   stillValidBadgeAcquisitions = [],
 } = {}) {
@@ -23,6 +24,7 @@ module.exports = function buildCertificationCandidateForSupervising({
     authorizedToStart,
     assessmentStatus,
     startDateTime,
+    theoricalEndDateTime,
     enrolledComplementaryCertification,
     stillValidBadgeAcquisitions,
   });

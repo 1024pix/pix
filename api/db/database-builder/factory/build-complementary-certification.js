@@ -10,6 +10,7 @@ function buildComplementaryCertification({
   minimumEarnedPix,
   hasComplementaryReferential = false,
   hasExternalJury = false,
+  certificationExtraTime = 45,
 } = {}) {
   const values = {
     id,
@@ -20,6 +21,7 @@ function buildComplementaryCertification({
     minimumEarnedPix,
     hasComplementaryReferential,
     hasExternalJury,
+    certificationExtraTime,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'complementary-certifications',
@@ -33,6 +35,7 @@ buildComplementaryCertification.clea = function ({
   minimumEarnedPix = 70,
   hasComplementaryReferential = false,
   hasExternalJury = false,
+  certificationExtraTime = 0,
 }) {
   return buildComplementaryCertification({
     id,
@@ -43,6 +46,7 @@ buildComplementaryCertification.clea = function ({
     minimumEarnedPix,
     hasComplementaryReferential,
     hasExternalJury,
+    certificationExtraTime,
   });
 };
 

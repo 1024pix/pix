@@ -90,3 +90,41 @@
     margin-right: 5px;
   }
 }
+
+.session-supervising-candidate-in-list-details-time {
+  display: flex;
+  align-items: center;
+  margin-top: $pix-spacing-xs;
+  padding: $pix-spacing-xxs $pix-spacing-xs;
+  gap: $pix-spacing-xs;
+
+  background: #{$pix-neutral-0}#{1a};
+  border-radius: 8px;
+  color: $pix-neutral-0;
+
+  &__text {
+    flex-grow: 1;
+
+    &__end-date-time:before {
+      content: '|';
+      display: inline-block;
+      color: transparent;
+      width: 1px;
+      background-color: $pix-neutral-0;
+      border-radius: 25px;
+    }
+
+    @include device-is('mobile') {
+      display: flex;
+      flex-direction: column;
+
+      &__end-date-time:before {
+        content: none;
+      }
+    }
+
+    &__extra-time-percentage {
+      color: $pix-secondary-certif-30;
+    }
+  }
+}

@@ -66,6 +66,7 @@ const buildCompetenceMark = require('./build-competence-mark');
 const buildCompetenceResult = require('./build-competence-result');
 const buildCompetenceTree = require('./build-competence-tree');
 const buildComplementaryCertification = require('./build-complementary-certification');
+const buildComplementaryCertificationForSupervising = require('./build-complementary-certification-for-supervising');
 const buildComplementaryCertificationHabilitation = require('./build-complementary-certification-habilitation');
 const buildComplementaryCertificationScoringCriteria = require('./build-complementary-certification-scoring-criteria');
 const buildCountry = require('./build-country');
@@ -213,6 +214,7 @@ module.exports = {
   buildCompetenceResult,
   buildCompetenceTree,
   buildComplementaryCertification,
+  buildComplementaryCertificationForSupervising,
   buildComplementaryCertificationHabilitation,
   buildComplementaryCertificationScoringCriteria,
   buildCountry,
