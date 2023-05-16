@@ -1,5 +1,4 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
-import sinon from 'sinon';
+import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 import { AnswerStatus, AssessmentSimulator } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | Domain | Models | AssessmentSimulator', function () {
@@ -10,13 +9,19 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
         const answers = [];
         const algorithm = {
           getPossibleNextChallenges: sinon.stub(),
+          getEstimatedLevelAndErrorRate: sinon.stub(),
         };
 
+        algorithm.getEstimatedLevelAndErrorRate.returns({
+          estimatedLevel: 0,
+          errorRate: 0,
+        });
+
         // when
-        const { challenges } = new AssessmentSimulator({ answers, algorithm }).run();
+        const result = new AssessmentSimulator({ answers, algorithm }).run();
 
         // then
-        expect(challenges).to.be.empty;
+        expect(result).to.be.empty;
       });
     });
 
@@ -25,17 +30,30 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
         // given
         const answers = ['ok'];
         const expectedEstimatedLevel = 2;
+        const expectedErrorRate = 3;
+        const expectedReward = 4;
         const allChallenges = [domainBuilder.buildChallenge({ id: 'rec1' })];
         const algorithm = {
           getPossibleNextChallenges: ({ challenges }) => challenges,
           getEstimatedLevelAndErrorRate: () => ({
-            estimatedLevel: 2,
+            estimatedLevel: expectedEstimatedLevel,
+            errorRate: expectedErrorRate,
           }),
+          getReward: () => expectedReward,
         };
         const pickChallenge = ({ possibleChallenges }) => possibleChallenges[0];
 
+        const expectedResult = [
+          {
+            challenge: allChallenges[0],
+            estimatedLevel: expectedEstimatedLevel,
+            errorRate: expectedErrorRate,
+            reward: expectedReward,
+          },
+        ];
+
         // when
-        const { challenges, estimatedLevel } = new AssessmentSimulator({
+        const result = new AssessmentSimulator({
           answers,
           algorithm,
           challenges: allChallenges,
@@ -43,8 +61,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
         }).run();
 
         // then
-        expect(challenges).to.deep.equal([allChallenges[0]]);
-        expect(estimatedLevel).to.equal(expectedEstimatedLevel);
+        expect(result).to.deep.equal(expectedResult);
       });
     });
 
@@ -57,26 +74,41 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
         const answer1 = { challengeId: challenge2.id, result: answersForSimulator[0] };
         const answer2 = { challengeId: challenge1.id, result: answersForSimulator[1] };
         const allChallenges = [challenge1, challenge2];
-        const expectedEstimatedLevel = 4;
+        const initialEstimatedLevel = 0;
+        const expectedEstimatedLevels = [0.4, 0.1];
+        const expectedErrorRates = [0.2, 0.5];
+        const expectedRewards = [5, 6];
         const algorithm = {
           getPossibleNextChallenges: sinon.stub(),
           getEstimatedLevelAndErrorRate: sinon.stub(),
+          getReward: sinon.stub(),
         };
         const pickChallenge = sinon.stub();
+
+        algorithm.getEstimatedLevelAndErrorRate
+          .withArgs({
+            allAnswers: [],
+          })
+          .returns({
+            estimatedLevel: initialEstimatedLevel,
+          });
 
         algorithm.getEstimatedLevelAndErrorRate
           .withArgs({
             allAnswers: [sinon.match(answer1)],
             challenges: allChallenges,
           })
-          .returns({ estimatedLevel: 5 });
+          .returns({ estimatedLevel: expectedEstimatedLevels[0], errorRate: expectedErrorRates[0] });
 
         algorithm.getEstimatedLevelAndErrorRate
           .withArgs({
             allAnswers: [sinon.match(answer1), sinon.match(answer2)],
             challenges: allChallenges,
           })
-          .returns({ estimatedLevel: 4 });
+          .returns({
+            estimatedLevel: expectedEstimatedLevels[1],
+            errorRate: expectedErrorRates[1],
+          });
 
         algorithm.getPossibleNextChallenges
           .withArgs({
@@ -94,8 +126,39 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
         pickChallenge.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
         pickChallenge.withArgs({ possibleChallenges: [challenge1] }).returns(challenge1);
 
+        algorithm.getReward
+          .withArgs({
+            estimatedLevel: initialEstimatedLevel,
+            difficulty: challenge1.difficulty,
+            discriminant: challenge1.discriminant,
+          })
+          .returns(expectedRewards[0]);
+
+        algorithm.getReward
+          .withArgs({
+            estimatedLevel: expectedEstimatedLevels[0],
+            difficulty: challenge2.difficulty,
+            discriminant: challenge2.discriminant,
+          })
+          .returns(expectedRewards[1]);
+
         // when
-        const { challenges, estimatedLevel } = new AssessmentSimulator({
+        const expectedResult = [
+          {
+            challenge: challenge2,
+            estimatedLevel: expectedEstimatedLevels[0],
+            errorRate: expectedErrorRates[0],
+            reward: expectedRewards[0],
+          },
+          {
+            challenge: challenge1,
+            estimatedLevel: expectedEstimatedLevels[1],
+            errorRate: expectedErrorRates[1],
+            reward: expectedRewards[1],
+          },
+        ];
+
+        const result = new AssessmentSimulator({
           answers: answersForSimulator,
           algorithm,
           challenges: allChallenges,
@@ -103,8 +166,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
         }).run();
 
         // then
-        expect(challenges).to.deep.equal([challenge2, challenge1]);
-        expect(estimatedLevel).to.equal(expectedEstimatedLevel);
+        expect(result).to.deep.equal(expectedResult);
       });
     });
   });

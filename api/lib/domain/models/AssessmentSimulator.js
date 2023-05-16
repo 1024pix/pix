@@ -10,11 +10,11 @@ export class AssessmentSimulator {
 
   run() {
     const challengesAnswers = [];
-    const takenChallenges = [];
-    let estimatedLevel;
+    const result = [];
+    let estimatedLevel = this.algorithm.getEstimatedLevelAndErrorRate({ allAnswers: [] }).estimatedLevel;
 
     for (let i = 0; i < this.answers.length; i++) {
-      const result = this.answers[i];
+      const answer = this.answers[i];
       const possibleChallenges = this.algorithm.getPossibleNextChallenges({
         allAnswers: challengesAnswers,
         challenges: this.challenges,
@@ -22,18 +22,32 @@ export class AssessmentSimulator {
 
       const nextChallenge = this.pickChallenge({ possibleChallenges });
 
-      takenChallenges.push(nextChallenge);
-      challengesAnswers.push(new Answer({ result, challengeId: nextChallenge.id }));
+      challengesAnswers.push(new Answer({ result: answer, challengeId: nextChallenge.id }));
+
+      const reward = this.algorithm.getReward({
+        estimatedLevel,
+        difficulty: nextChallenge.difficulty,
+        discriminant: nextChallenge.discriminant,
+      });
 
       estimatedLevel = this.algorithm.getEstimatedLevelAndErrorRate({
         allAnswers: challengesAnswers,
         challenges: this.challenges,
       }).estimatedLevel;
+
+      const errorRate = this.algorithm.getEstimatedLevelAndErrorRate({
+        allAnswers: challengesAnswers,
+        challenges: this.challenges,
+      }).errorRate;
+
+      result.push({
+        challenge: nextChallenge,
+        errorRate,
+        estimatedLevel,
+        reward,
+      });
     }
 
-    return {
-      estimatedLevel,
-      challenges: takenChallenges,
-    };
+    return result;
   }
-};
+}
