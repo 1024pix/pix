@@ -471,10 +471,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         const screen = await visit(`/certifications/${certification.id}`);
 
         // then
-        assert.dom(screen.getByText('Certifications complémentaires')).exists();
+        assert.dom(screen.getByText('Certification complémentaire')).exists();
         assert.dom(screen.queryByText('Résultats de la certification complémentaire Pix+ Edu :')).doesNotExist();
         assert.dom(screen.getByText('CléA Numérique :')).exists();
-        assert.dom(screen.getByText('Validée').exists());
+        assert.dom(screen.getByText('Validée')).exists();
       });
 
       test('it displays external complementary certifications', async function (assert) {
