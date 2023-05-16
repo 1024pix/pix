@@ -4,6 +4,7 @@ const TEAM_CONTENU_OFFSET_ID = 5000;
 // IDS
 /// USERS
 const PRO_ORGANIZATION_USER_ID = TEAM_CONTENU_OFFSET_ID;
+const PRO_CERTIFICATION_CENTER_USER_ID = TEAM_CONTENU_OFFSET_ID + 1;
 /// ORGAS
 const PRO_ORGANIZATION_ID = TEAM_CONTENU_OFFSET_ID;
 // TARGET PROFILES
@@ -12,9 +13,12 @@ const TARGET_PROFILE_PIX_AND_MORE_ID = TEAM_CONTENU_OFFSET_ID + 1;
 // CAMPAIGNS
 const ASSESSMENT_CAMPAIGN_PIX_ID = TEAM_CONTENU_OFFSET_ID;
 const PROFILES_COLLECTION_CAMPAIGN_PIX_ID = TEAM_CONTENU_OFFSET_ID + 1;
+/// CERTIFICATION CENTERS
+const PRO_CERTIFICATION_CENTER_ID = TEAM_CONTENU_OFFSET_ID;
 
 async function teamContenuDataBuilder({ databaseBuilder }) {
   _createProOrganization(databaseBuilder);
+  _createProCertificationCenter(databaseBuilder);
   await _createCoreTargetProfile(databaseBuilder);
   await _createDiverseTargetProfile(databaseBuilder);
   await _createTraining(databaseBuilder);
@@ -55,6 +59,34 @@ function _createProOrganization(databaseBuilder) {
     userId: PRO_ORGANIZATION_USER_ID,
     organizationId: PRO_ORGANIZATION_ID,
     organizationRole: 'ADMIN',
+  });
+}
+
+function _createProCertificationCenter(databaseBuilder) {
+  databaseBuilder.factory.buildCertificationCenter({
+    id: PRO_CERTIFICATION_CENTER_ID,
+    type: 'PRO',
+    name: 'Centre de certif Contenu',
+  });
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: PRO_CERTIFICATION_CENTER_USER_ID,
+    firstName: 'Centre de certif PRO',
+    lastName: 'Contenu',
+    email: 'contenu-centre-pro@example.net',
+    cgu: true,
+    lang: 'fr',
+    lastTermsOfServiceValidatedAt: new Date(),
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
+    mustValidateTermsOfService: false,
+    pixOrgaTermsOfServiceAccepted: false,
+    pixCertifTermsOfServiceAccepted: false,
+    hasSeenAssessmentInstructions: false,
+    rawPassword: 'pix123',
+    shouldChangePassword: false,
+  });
+  databaseBuilder.factory.buildCertificationCenterMembership({
+    userId: PRO_CERTIFICATION_CENTER_USER_ID,
+    certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
   });
 }
 
