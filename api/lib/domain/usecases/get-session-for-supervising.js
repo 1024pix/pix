@@ -1,5 +1,5 @@
 const bluebird = require('bluebird');
-const moment = require('moment');
+const dayjs = require('dayjs');
 const { constants: domainConstants } = require('../constants');
 const { constants: infraConstants } = require('../../infrastructure/constants.js');
 
@@ -32,17 +32,17 @@ function _computeComplementaryCertificationEligibility(certificationBadgesServic
 }
 
 function _computeTheoricalEndDateTime(candidate) {
-  const startDateTime = moment(candidate.startDateTime || null);
+  const startDateTime = dayjs(candidate.startDateTime || null);
   if (!startDateTime.isValid()) {
     return;
   }
 
-  startDateTime.add(domainConstants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minutes');
+  let theoricalEndDateTime = startDateTime.add(domainConstants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minute');
 
   if (candidate.isStillEligibleToComplementaryCertification) {
-    const extraMinutes = candidate.enrolledComplementaryCertification.sessionExtraTime ?? 0;
-    startDateTime.add(extraMinutes, 'minutes');
+    const extraMinutes = candidate.enrolledComplementaryCertification.certificationExtraTime ?? 0;
+    theoricalEndDateTime = theoricalEndDateTime.add(extraMinutes, 'minute');
   }
 
-  candidate.theoricalEndDateTime = startDateTime.toDate();
+  candidate.theoricalEndDateTime = theoricalEndDateTime.toDate();
 }

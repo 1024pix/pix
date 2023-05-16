@@ -1,60 +1,33 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getSessionForSupervising = require('../../../../lib/domain/usecases/get-session-for-supervising');
 const { constants } = require('../../../../lib/domain/constants');
-const moment = require('moment');
+const dayjs = require('dayjs');
 
 const START_DATETIME_STUB = new Date('2022-10-01T13:00:00Z');
 const COMPLEMENTARY_EXTRATIME_STUB = 45;
 const sessionForSupervisingRepository = { get: sinon.stub() };
 
 const expectedSessionEndDateTimeFromStartDateTime = (startDateTime, extraMinutes = []) => {
-  const computedEndDateTime = moment(startDateTime);
-  extraMinutes.forEach((plusMinutes) => computedEndDateTime.add(plusMinutes, 'minutes'));
+  let computedEndDateTime = dayjs(startDateTime);
+  extraMinutes.forEach((plusMinutes) => {
+    computedEndDateTime = computedEndDateTime.add(plusMinutes, 'minute');
+  });
   return computedEndDateTime.toDate();
 };
 
 describe('Unit | UseCase | get-session-for-supervising', function () {
   context('when the session exists', function () {
     context('when there are candidates', function () {
-      it('should not compute a theorical end datetime if session has not started', async function () {
-        // given
-        const certificationCandidateNotStarted = domainBuilder.buildCertificationCandidateForSupervising();
-        delete certificationCandidateNotStarted.startDateTime;
-
-        const session = domainBuilder.buildSessionForSupervising({
-          certificationCandidates: [certificationCandidateNotStarted],
-        });
-        sessionForSupervisingRepository.get.resolves(session);
-
-        // when
-        const sessionForSupervising = await getSessionForSupervising({
-          sessionId: 1,
-          sessionForSupervisingRepository,
-        });
-        // then
-        expect(sessionForSupervising.certificationCandidates).to.have.lengthOf(1);
-        expect(sessionForSupervising.certificationCandidates[0].startDateTime).to.be.undefined;
-        expect(sessionForSupervising.certificationCandidates[0].theoricalEndDateTime).to.be.undefined;
-      });
-
-      context('when the candidate has no complementary certifications', function () {
-        it('should compute a theorical end datetime if session has started', async function () {
+      context('when the session has not started yet', function () {
+        it('should not compute a theorical end datetime', async function () {
           // given
-          const certificationCandidateWithNoComplementaryCertification =
-            domainBuilder.buildCertificationCandidateForSupervising({
-              complementaryCertification: undefined,
-              complementaryCertificationKey: undefined,
-            });
+          const certificationCandidateNotStarted = domainBuilder.buildCertificationCandidateForSupervising();
+          delete certificationCandidateNotStarted.startDateTime;
 
           const session = domainBuilder.buildSessionForSupervising({
-            certificationCandidates: [certificationCandidateWithNoComplementaryCertification],
+            certificationCandidates: [certificationCandidateNotStarted],
           });
           sessionForSupervisingRepository.get.resolves(session);
-          const expectedTheoricalEndDateTime = moment(
-            certificationCandidateWithNoComplementaryCertification.startDateTime
-          )
-            .add(constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minutes')
-            .toDate();
 
           // when
           const sessionForSupervising = await getSessionForSupervising({
@@ -63,14 +36,47 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
           });
           // then
           expect(sessionForSupervising.certificationCandidates).to.have.lengthOf(1);
-          expect(sessionForSupervising.certificationCandidates[0]).to.have.deep.property(
-            'startDateTime',
-            certificationCandidateWithNoComplementaryCertification.startDateTime
-          );
-          expect(sessionForSupervising.certificationCandidates[0]).to.have.deep.property(
-            'theoricalEndDateTime',
-            expectedTheoricalEndDateTime
-          );
+          expect(sessionForSupervising.certificationCandidates[0].startDateTime).to.be.undefined;
+          expect(sessionForSupervising.certificationCandidates[0].theoricalEndDateTime).to.be.undefined;
+        });
+      });
+
+      context('when the candidate has no complementary certifications', function () {
+        context('when the session has started', function () {
+          it('should compute a theorical end datetime', async function () {
+            // given
+            const certificationCandidateWithNoComplementaryCertification =
+              domainBuilder.buildCertificationCandidateForSupervising({
+                complementaryCertification: undefined,
+                complementaryCertificationKey: undefined,
+              });
+
+            const session = domainBuilder.buildSessionForSupervising({
+              certificationCandidates: [certificationCandidateWithNoComplementaryCertification],
+            });
+            sessionForSupervisingRepository.get.resolves(session);
+            const expectedTheoricalEndDateTime = dayjs(
+              certificationCandidateWithNoComplementaryCertification.startDateTime
+            )
+              .add(constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minute')
+              .toDate();
+
+            // when
+            const sessionForSupervising = await getSessionForSupervising({
+              sessionId: 1,
+              sessionForSupervisingRepository,
+            });
+            // then
+            expect(sessionForSupervising.certificationCandidates).to.have.lengthOf(1);
+            expect(sessionForSupervising.certificationCandidates[0]).to.have.deep.property(
+              'startDateTime',
+              certificationCandidateWithNoComplementaryCertification.startDateTime
+            );
+            expect(sessionForSupervising.certificationCandidates[0]).to.have.deep.property(
+              'theoricalEndDateTime',
+              expectedTheoricalEndDateTime
+            );
+          });
         });
       });
 
@@ -86,7 +92,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
               key: 'aKey',
               label: 'une certif complémentaire',
-              sessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+              certificationExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
             });
 
             const retrievedSessionForSupervising = domainBuilder.buildSessionForSupervising({
@@ -135,14 +141,14 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             );
           });
 
-          it('should compute a theorical end datetime with extratime if eligible to complementary certification extratime', async function () {
+          it('should compute a theorical end datetime with extratime', async function () {
             const stillValidBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
               complementaryCertificationKey: 'aKey',
             });
 
             const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
               key: 'aKey',
-              sessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+              certificationExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
             });
 
             sessionForSupervisingRepository.get.resolves(
@@ -229,12 +235,12 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             );
           });
 
-          it('should not compute a theorical end datetime with extratime if not eligible to complementary certification extratime', async function () {
+          it('should not compute a theorical end datetime with extratime', async function () {
             // given
             const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
               key: 'aKey',
               label: 'une certif complémentaire',
-              sessionExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
+              certificationExtraTime: COMPLEMENTARY_EXTRATIME_STUB,
             });
 
             sessionForSupervisingRepository.get.resolves(
