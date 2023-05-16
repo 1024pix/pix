@@ -9,18 +9,20 @@ class CorrectionBlockQROCMDep {
   /**
    * @type {string[]}
    */
-  #alternativeSolutions;
+  #alternativeSolutions = [];
 
   /**
    * @param {boolean} validated
-   * @param {string[]} alternativeSolutions
+   * @param {string[]} [alternativeSolutions]
    */
-  constructor(validated = false, alternativeSolutions = []) {
+  constructor(validated, alternativeSolutions) {
     this.#validateValidatedArgument(validated);
-    this.#validateAlternativeSolutionsArgument(alternativeSolutions);
-
     this.#validated = validated;
-    this.#alternativeSolutions = alternativeSolutions;
+
+    if (alternativeSolutions) {
+      this.#validateAlternativeSolutionsArgument(alternativeSolutions);
+      this.#alternativeSolutions = alternativeSolutions;
+    }
   }
 
   /**
