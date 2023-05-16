@@ -240,6 +240,15 @@
         "incident": "Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.",
         "title": "Informations complémentaires (facultatif)"
       },
+      "confirm-finalisation-modal": {
+        "actions": {
+          "confirm": "Confirmer la finalisation"
+        },
+        "end-of-test-screen": "La case \"Écran de fin du test vu\" n'est pas cochée pour {candidatesCount, plural,one {1 candidat} other {# candidats}}",
+        "information": "il ne vous sera plus possible de modifier ces informations par la suite. Un délai de traitement est nécessaire avant la mise à disposition des résultats par Pix (ce délai de traitement pouvant varier d'une session à l'autre).",
+        "title": "Finalisation de la session",
+        "warning": "Attention :"
+      },
       "issue-reports-modal": {
         "actions": {
           "add-reporting": "Ajouter un signalement",

@@ -33,7 +33,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
     assert
       .dom(
         screen.getByText(
-          "Un délai de traitement est nécessaire avant la mise à disposition des résultats par Pix (ce délai de traitement pouvant varier d'une session à l'autre)."
+          "il ne vous sera plus possible de modifier ces informations par la suite. Un délai de traitement est nécessaire avant la mise à disposition des résultats par Pix (ce délai de traitement pouvant varier d'une session à l'autre)."
         )
       )
       .exists();
@@ -60,7 +60,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       `);
 
       // then
-      assert.dom(screen.getByText('La case "Écran de fin du test vu" n\'est pas cochée pour 2 candidat(s)')).exists();
+      assert.dom(screen.getByText('La case "Écran de fin du test vu" n\'est pas cochée pour 2 candidats')).exists();
     });
   });
 
