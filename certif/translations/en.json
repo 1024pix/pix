@@ -305,6 +305,7 @@
           "labels": {
             "certification-number": "Certification No.",
             "end-of-test-screen": "End of test screen seen",
+            "end-of-test-screen-for-candidate": "Select end of test screen seen for the candidate {firstName} {lastName}",
             "reporting": "Reporting"
           },
           "reporting-count": "{reportingsCount, plural,one {1 reporting} other {# reportings}}"

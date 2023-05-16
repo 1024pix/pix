@@ -21,8 +21,12 @@ export default class CompletedReportsInformationStep extends Component {
     return this.certificationReportsAreNotEmpty && hasOneOrMoreCheck;
   }
 
-  get headerCheckboxStatus() {
-    return this.hasCheckedEverything ? 'checked' : this.hasCheckedSomething ? 'partial' : 'unchecked';
+  get hasCheckState() {
+    return this.hasCheckedSomething || this.hasCheckedEverything;
+  }
+
+  get hasPartialState() {
+    return !this.hasCheckedEverything && this.hasCheckedSomething;
   }
 
   @action
