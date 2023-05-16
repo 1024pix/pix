@@ -29,6 +29,9 @@ async function runJobs() {
   pgBoss.on('error', (err) => {
     logger.error({ event: 'pg-boss-error' }, err);
   });
+  pgBoss.on('wip', (data) => {
+    logger.info({ event: 'pg-boss-wip' }, data);
+  });
   await pgBoss.start();
   const jobQueue = new JobQueue(pgBoss);
   const monitoredJobQueue = new MonitoredJobQueue(jobQueue);
