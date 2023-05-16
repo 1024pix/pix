@@ -13,8 +13,15 @@
     margin-top: 20px;
   }
 
+  &__information {
+    @extend %pix-body-s;
+
+    text-align: center;
+    color: $pix-neutral-90;
+  }
+
   .input-container {
-    margin: 16px 2px 25px 2px;
+    margin: $pix-spacing-s 2px $pix-spacing-s 2px;
   }
 
   .pix-input-password > .pix-input__error-message {
