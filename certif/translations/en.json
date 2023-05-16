@@ -138,6 +138,21 @@
     }
   },
   "pages": {
+    "candidates": {
+      "add": {
+        "actions": {
+          "select": {
+            "label": "Select candidate {firstName} {lastName}"
+          },
+          "select-all": {
+            "label": "Select all candidates"
+          },
+          "selected": {
+            "label": "Candidate {firstName} {lastName} selected"
+          }
+        }
+      }
+    },
     "login": {
       "accessible-to": "Pix Certif is only accessible to Pix certification centres.",
       "actions": {

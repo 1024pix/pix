@@ -144,8 +144,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
         });
 
         module('when selecting some students', function () {
-          const checkboxSelector = 'button.checkbox';
-          const checkboxCheckedSelector = `${checkboxSelector}.checkbox--checked`;
+          const checkboxSelector = '.pix-checkbox__input';
 
           test('it should be possible to select 3 students', async function (assert) {
             // given
@@ -178,15 +177,15 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
             // when
-            await click(screen.getByRole('row', { name: '3B Lebouquetin Quentin 01/01/2000' }));
-            await click(screen.getByRole('row', { name: '3B Lemouton Quentdeux 01/01/2000' }));
-            await click(screen.getByRole('row', { name: '3B Lecabri Quenttrois 01/01/2000' }));
+            await click(screen.getByRole('checkbox', { name: 'Sélectionner le candidat Quentin Lebouquetin' }));
+            await click(screen.getByRole('checkbox', { name: 'Sélectionner le candidat Quentdeux Lemouton' }));
+            await click(screen.getByRole('checkbox', { name: 'Sélectionner le candidat Quenttrois Lecabri' }));
 
             // then
             const allRowLength = screen.getAllByRole('row').length;
             assert.strictEqual(allRowLength, DEFAULT_PAGE_SIZE + 1);
-            const checkboxChecked = document.querySelectorAll(checkboxCheckedSelector);
-            assert.strictEqual(checkboxChecked.length, 3);
+            const checkboxCheckedLength = screen.getAllByRole('checkbox', { checked: true }).length;
+            assert.strictEqual(checkboxCheckedLength, 4);
           });
 
           test('it should cancel students enrolment', async function (assert) {
@@ -292,8 +291,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
           const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
 
           // when
-          const checkboxSelector = 'button.checkbox';
-          const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
+          const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ');
           await click(firstCheckbox);
 
           // then
@@ -306,9 +304,8 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
           const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
 
           // when
-          const checkboxSelector = 'button.checkbox';
-          const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
-          const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
+          const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ');
+          const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ');
           await click(firstCheckbox);
           await click(secondCheckbox);
 
@@ -321,7 +318,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             // given
             const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
             const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
-            const toggleAllCheckBox = '.add-student-list__checker';
+            const toggleAllCheckBox = 'th .add-student-list__checker .pix-checkbox__input';
 
             // when
             await click(toggleAllCheckBox);
