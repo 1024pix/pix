@@ -5,6 +5,7 @@ export default class User extends Model {
   @attr('string') firstName;
   @attr('string') lastName;
   @attr('string') password;
+  @attr('string') lang;
   @attr('boolean') cgu;
   @attr('boolean') pixOrgaTermsOfServiceAccepted;
   @hasMany('membership') memberships;
