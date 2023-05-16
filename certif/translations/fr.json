@@ -305,6 +305,7 @@
           "labels": {
             "certification-number": "N° de certification",
             "end-of-test-screen": "Écran de fin du test vu",
+            "end-of-test-screen-for-candidate": "Sélectionner l'écran de fin du test vu pour le candidat {firstName} {lastName}",
             "reporting": "Signalement"
           },
           "reporting-count": "{reportingsCount, plural,one {1 signalement} other {# signalements}}"

@@ -19,18 +19,15 @@
         <th>{{t "pages.session-finalization.reporting.table.labels.reporting"}}</th>
         {{#if @shouldDisplayHasSeenEndTestScreenCheckbox}}
           <th>
-            <div class="session-finalization-reports-information-step__row">
-              <div
-                class="session-finalization-reports-information-step__checker"
-                {{on "click" (fn @onAllHasSeenEndTestScreenCheckboxesClicked this.hasCheckedSomething)}}
-              >
-                <CertifCheckbox
-                  data-test-id="finalization-report-all-candidates-have-seen-end-test-screen"
-                  @state={{this.headerCheckboxStatus}}
-                />
-              </div>
+            <PixCheckbox
+              data-test-id="finalization-report-all-candidates-have-seen-end-test-screen"
+              @isIndeterminate={{this.hasPartialState}}
+              @checked={{this.hasCheckState}}
+              @class="session-finalization-reports-information-step__checker"
+              {{on "click" (fn @onAllHasSeenEndTestScreenCheckboxesClicked this.hasCheckedEverything)}}
+            >
               {{t "pages.session-finalization.reporting.table.labels.end-of-test-screen"}}
-            </div>
+            </PixCheckbox>
           </th>
         {{/if}}
       </tr>
@@ -76,11 +73,19 @@
           </td>
           {{#if @shouldDisplayHasSeenEndTestScreenCheckbox}}
             <td>
-              <CertifCheckbox
+              <PixCheckbox
                 data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
-                @state={{if report.hasSeenEndTestScreen "checked" "unchecked"}}
+                @checked={{report.hasSeenEndTestScreen}}
                 {{on "click" (fn @onHasSeenEndTestScreenCheckboxClicked report)}}
-              />
+              >
+                <span class="screen-reader-only">
+                  {{t
+                    "pages.session-finalization.reporting.table.labels.end-of-test-screen-for-candidate"
+                    firstName=report.firstName
+                    lastName=report.lastName
+                  }}
+                </span>
+              </PixCheckbox>
             </td>
           {{/if}}
         </tr>

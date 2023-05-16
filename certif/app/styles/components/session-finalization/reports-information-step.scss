@@ -38,13 +38,10 @@
     }
   }
 
-  &__row {
-    display: flex;
-    align-items: center;
-  }
-
   &__checker {
-    margin-right: 16px;
+    .pix-checkbox__label {
+      font-size: 0.8125rem;
+    }
   }
 
   .finalization-report-examiner-comment {
