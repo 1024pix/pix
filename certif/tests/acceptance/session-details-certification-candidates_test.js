@@ -186,7 +186,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
         test('it should display the error message when uploading an invalid file', async function (assert) {
           // given
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+          const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           const file = new Blob(['foo'], { type: 'invalid-file' });
 
           // when
@@ -195,10 +195,13 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
           // then
           assert
-            .dom('[data-test-notification-message="error"]')
-            .hasText(
-              "Aucun candidat n’a été importé. Une erreur personnalisée. Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau."
-            );
+            .dom(
+              screen.getByText(
+                "Aucun candidat n’a été importé.La version du document est inconnue.Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
+                { exact: false }
+              )
+            )
+            .exists();
         });
 
         test('it should display the error message when uploading a file with validation error', async function (assert) {
@@ -218,7 +221,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
         test('it should display a specific error message when importing is forbidden', async function (assert) {
           // given
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+          const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           const file = new Blob(['foo'], { type: 'forbidden-import' });
 
           // when
@@ -227,8 +230,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
           // then
           assert
-            .dom('[data-test-notification-message="error"]')
-            .hasText("La session a débuté, il n'est plus possible de modifier la liste des candidats.");
+            .dom(
+              screen.getByText(
+                'La session a débuté, vous ne pouvez plus importer une liste de candidats.Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
+              )
+            )
+            .exists();
         });
 
         test('it should display a warning when the import is not allowed', async function (assert) {

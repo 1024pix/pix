@@ -483,12 +483,7 @@ module('Acceptance | Session Finalization', function (hooks) {
         this.server.put(
           `/sessions/${session.id}/finalization`,
           () => ({
-            errors: [
-              {
-                detail:
-                  "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer.",
-              },
-            ],
+            errors: [{ code: 'SESSION_WITHOUT_STARTED_CERTIFICATION' }],
           }),
           400
         );
@@ -522,7 +517,7 @@ module('Acceptance | Session Finalization', function (hooks) {
             () => ({
               errors: [
                 {
-                  detail: 'Perdu, essaie encore',
+                  code: 'SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE',
                   status: '409',
                 },
               ],
@@ -538,7 +533,13 @@ module('Acceptance | Session Finalization', function (hooks) {
           await waitForDialogClose();
 
           // then
-          assert.dom(screen.getByText('Perdu, essaie encore')).exists();
+          assert
+            .dom(
+              screen.getByText(
+                'Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.'
+              )
+            )
+            .exists();
           assert.dom(screen.queryByRole('heading', { name: 'Finalisation de la session' })).doesNotExist();
         });
       }
