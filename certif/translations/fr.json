@@ -138,6 +138,21 @@
     }
   },
   "pages": {
+    "candidates": {
+      "add": {
+        "actions": {
+          "select": {
+            "label": "Sélectionner le candidat {firstName} {lastName}"
+          },
+          "select-all": {
+            "label": "Sélectionner tous les candidats de la liste"
+          },
+          "selected": {
+            "label": "Candidat {firstName} {lastName} sélectionné"
+          }
+        }
+      }
+    },
     "login": {
       "accessible-to": "L'accès à Pix Certif est limité aux centres de certification Pix.",
       "actions": {

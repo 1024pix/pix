@@ -130,7 +130,7 @@ module('Integration | Component | add-student-list', function (hooks) {
       );
 
       // when
-      const firstStudentCheckbox = '.add-student-list__column-checkbox button:nth-of-type(1)';
+      const firstStudentCheckbox = '.add-student-list__column-checkbox input:nth-of-type(1)';
       await click(firstStudentCheckbox);
 
       // then
@@ -161,7 +161,7 @@ module('Integration | Component | add-student-list', function (hooks) {
       );
 
       // when
-      const firstStudentCheckbox = '.add-student-list__column-checkbox button:nth-of-type(1)';
+      const firstStudentCheckbox = '.add-student-list__column-checkbox input:nth-of-type(1)';
       await click(firstStudentCheckbox);
 
       // then
@@ -199,7 +199,7 @@ module('Integration | Component | add-student-list', function (hooks) {
         );
 
         // when
-        const selectAllCheckbox = '.add-student-list__checker';
+        const selectAllCheckbox = 'th .add-student-list__checker .pix-checkbox__input';
         await click(selectAllCheckbox);
 
         // then
@@ -229,7 +229,7 @@ module('Integration | Component | add-student-list', function (hooks) {
       );
 
       // when
-      const selectAllCheckbox = '.add-student-list__checker';
+      const selectAllCheckbox = 'th .add-student-list__checker .pix-checkbox__input';
       await click(selectAllCheckbox);
 
       // then
