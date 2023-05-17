@@ -10,15 +10,19 @@ module.exports = {
           'campaign-participations.*',
           'assessments.state',
           _assessmentRankByCreationDate(),
-          'organization-learners.firstName',
-          'organization-learners.lastName',
-          'organization-learners.studentNumber',
-          'organization-learners.division',
-          'organization-learners.group',
+          'view-active-organization-learners.firstName',
+          'view-active-organization-learners.lastName',
+          'view-active-organization-learners.studentNumber',
+          'view-active-organization-learners.division',
+          'view-active-organization-learners.group',
         ])
           .from('campaign-participations')
           .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
-          .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+          .join(
+            'view-active-organization-learners',
+            'view-active-organization-learners.id',
+            'campaign-participations.organizationLearnerId'
+          )
           .where({ campaignId, isImproved: false, 'campaign-participations.deletedAt': null });
       })
       .from('campaignParticipationWithUserAndRankedAssessment')

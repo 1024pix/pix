@@ -32,22 +32,22 @@ module.exports = {
     const knexConn = domainTransaction.knexTransaction || knex;
     const results = await knexConn
       .select({
-        nationalStudentId: 'organization-learners.nationalStudentId',
+        nationalStudentId: 'view-active-organization-learners.nationalStudentId',
         userId: 'users.id',
-        birthdate: 'organization-learners.birthdate',
-        organizationId: 'organization-learners.organizationId',
+        birthdate: 'view-active-organization-learners.birthdate',
+        organizationId: 'view-active-organization-learners.organizationId',
         updatedAt: 'users.updatedAt',
       })
       .count('certification-courses.id as certificationCount')
-      .from('organization-learners')
-      .join('users', 'users.id', 'organization-learners.userId')
+      .from('view-active-organization-learners')
+      .join('users', 'users.id', 'view-active-organization-learners.userId')
       .leftJoin('certification-courses', 'certification-courses.userId', 'users.id')
       .whereIn('nationalStudentId', nationalStudentIds)
       .groupBy(
-        'organization-learners.nationalStudentId',
+        'view-active-organization-learners.nationalStudentId',
         'users.id',
-        'organization-learners.organizationId',
-        'organization-learners.birthdate',
+        'view-active-organization-learners.organizationId',
+        'view-active-organization-learners.birthdate',
         'users.updatedAt'
       )
       .orderBy('users.id');

@@ -32,11 +32,15 @@ async function _areNewYearOrganizationLearnersImportedForPrescriber(prescriber) 
   const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
   const atLeastOneOrganizationLearner = await knex('organizations')
     .select('organizations.id')
-    .join('organization-learners', 'organization-learners.organizationId', 'organizations.id')
+    .join('view-active-organization-learners', 'view-active-organization-learners.organizationId', 'organizations.id')
     .where((qb) => {
       qb.where('organizations.id', currentOrganizationId);
       if (settings.features.newYearOrganizationLearnersImportDate) {
-        qb.where('organization-learners.createdAt', '>=', settings.features.newYearOrganizationLearnersImportDate);
+        qb.where(
+          'view-active-organization-learners.createdAt',
+          '>=',
+          settings.features.newYearOrganizationLearnersImportDate
+        );
       }
     })
     .first();
@@ -47,9 +51,9 @@ async function _areNewYearOrganizationLearnersImportedForPrescriber(prescriber) 
 async function _getParticipantCount(prescriber) {
   const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
 
-  const { count: allCounts } = await knex('organization-learners')
-    .count('organization-learners.id')
-    .leftJoin('users', 'users.id', 'organization-learners.userId')
+  const { count: allCounts } = await knex('view-active-organization-learners')
+    .count('view-active-organization-learners.id')
+    .leftJoin('users', 'users.id', 'view-active-organization-learners.userId')
     .where('isAnonymous', false)
     .where('organizationId', currentOrganizationId)
     .where('isDisabled', false)

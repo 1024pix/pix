@@ -34,8 +34,8 @@ function _getParticipantsResultList(campaignId, stageCollection, filters) {
 
 function _getParticipations(qb, campaignId, stageCollection, filters) {
   qb.select(
-    'organization-learners.firstName',
-    'organization-learners.lastName',
+    'view-active-organization-learners.firstName',
+    'view-active-organization-learners.lastName',
     'campaign-participations.participantExternalId',
     'campaign-participations.masteryRate',
     'campaign-participations.validatedSkillsCount',
@@ -43,7 +43,11 @@ function _getParticipations(qb, campaignId, stageCollection, filters) {
     'campaign-participations.userId'
   )
     .from('campaign-participations')
-    .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+    .join(
+      'view-active-organization-learners',
+      'view-active-organization-learners.id',
+      'campaign-participations.organizationLearnerId'
+    )
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.status', '=', SHARED)
     .where('campaign-participations.isImproved', '=', false)
@@ -58,7 +62,7 @@ function _getParticipations(qb, campaignId, stageCollection, filters) {
 function _filterByDivisions(queryBuilder, filters) {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
-    queryBuilder.whereRaw('LOWER("organization-learners"."division") = ANY(:divisionsLowerCase)', {
+    queryBuilder.whereRaw('LOWER("view-active-organization-learners"."division") = ANY(:divisionsLowerCase)', {
       divisionsLowerCase,
     });
   }
@@ -67,7 +71,7 @@ function _filterByDivisions(queryBuilder, filters) {
 function _filterByGroups(queryBuilder, filters) {
   if (filters.groups) {
     const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
-    queryBuilder.whereIn(knex.raw('LOWER("organization-learners"."group")'), groupsLowerCase);
+    queryBuilder.whereIn(knex.raw('LOWER("view-active-organization-learners"."group")'), groupsLowerCase);
   }
 }
 
@@ -76,12 +80,15 @@ function _filterBySearch(queryBuilder, filters) {
     const search = filters.search.trim().toLowerCase();
     queryBuilder.where(function () {
       this.where(
-        knex.raw(`CONCAT ("organization-learners"."firstName", ' ', "organization-learners"."lastName") <-> ?`, search),
+        knex.raw(
+          `CONCAT ("view-active-organization-learners"."firstName", ' ', "view-active-organization-learners"."lastName") <-> ?`,
+          search
+        ),
         '<=',
         0.8
       )
-        .orWhereILike('organization-learners.lastName', `%${search}%`)
-        .orWhereILike('organization-learners.firstName', `%${search}%`);
+        .orWhereILike('view-active-organization-learners.lastName', `%${search}%`)
+        .orWhereILike('view-active-organization-learners.firstName', `%${search}%`);
     });
   }
 }
