@@ -120,7 +120,7 @@ function _buildStartedCertification({ id, sessionId, isPublished, pixCertificati
 }
 
 function _buildCancelledCertification({ id, sessionId, isPublished }) {
-  _buildCertification({ id, sessionId, isPublished, isCancelled: true, status: null });
+  _buildCertification({ id, sessionId, isPublished, status: 'CANCELLED', isCancelled: true });
 }
 
 function _buildCertification({

@@ -28,12 +28,14 @@ const publishCertificationCoursesBySessionId = async function (sessionId) {
     throw new CertificationCourseNotPublishableError();
   }
 
-  const certificationDataToUpdate = certificationDTOs.map(({ certificationId, assessmentResultStatus }) => ({
-    id: certificationId,
-    pixCertificationStatus: assessmentResultStatus,
-    isPublished: true,
-    updatedAt: new Date(),
-  }));
+    const certificationDataToUpdate = certificationDTOs.map(
+      ({ certificationId, assessmentResultStatus, isCancelled }) => ({
+        id: certificationId,
+        pixCertificationStatus: _getPixCertificationStatus({ assessmentResultStatus, isCancelled }),
+        isPublished: true,
+        updatedAt: new Date(),
+      })
+    );
 
   // Trick to .batchUpdate(), which does not exist in knex per say
   await knex('certification-courses')
@@ -48,7 +50,9 @@ const unpublishCertificationCoursesBySessionId = async function (sessionId) {
     .update({ isPublished: false, pixCertificationStatus: null, updatedAt: new Date() });
 };
 
-export { publishCertificationCoursesBySessionId, unpublishCertificationCoursesBySessionId };
+function _getPixCertificationStatus({ assessmentResultStatus, isCancelled }) {
+  return isCancelled ? null : assessmentResultStatus;
+}
 
 function _hasCertificationInError(certificationDTOs) {
   return certificationDTOs.some((dto) => dto.assessmentResultStatus === status.ERROR);
@@ -57,3 +61,5 @@ function _hasCertificationInError(certificationDTOs) {
 function _hasCertificationWithNoAssessmentResultStatus(certificationDTOs) {
   return certificationDTOs.some((dto) => dto.assessmentResultStatus === null && !dto.isCancelled);
 }
+
+export { publishCertificationCoursesBySessionId, unpublishCertificationCoursesBySessionId };
