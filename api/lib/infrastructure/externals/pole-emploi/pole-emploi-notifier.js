@@ -4,16 +4,14 @@ const { get } = lodash;
 
 import moment from 'moment';
 import querystring from 'querystring';
-import { monitoringTools } from '../../monitoring-tools.js';
-import * as authenticationMethodRepository from '../../repositories/authentication-method-repository.js';
 import { AuthenticationMethod } from '../../../domain/models/AuthenticationMethod.js';
 import * as OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers.js';
-import { httpAgent } from '../../http/http-agent.js';
 import { config } from '../../../config.js';
 import { UnexpectedUserAccountError } from '../../../domain/errors.js';
-import * as httpErrorsHelper from '../../../infrastructure/http/errors-helper.js';
 
-const notify = async function (userId, payload) {
+const notify = async (userId, payload, dependencies) => {
+  const { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools } = dependencies;
+
   monitoringTools.logInfoWithCorrelationIds({
     event: 'participation-send-pole-emploi',
     'pole-emploi-action': 'send-results',
