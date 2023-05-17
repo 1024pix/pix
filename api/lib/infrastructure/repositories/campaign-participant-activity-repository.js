@@ -30,8 +30,8 @@ function _buildCampaignParticipationByParticipant(queryBuilder, campaignId, filt
     .select(
       'campaign-participations.id AS campaignParticipationId',
       'campaign-participations.userId',
-      'organization-learners.firstName',
-      'organization-learners.lastName',
+      'view-active-organization-learners.firstName',
+      'view-active-organization-learners.lastName',
       'campaign-participations.participantExternalId',
       'campaign-participations.sharedAt',
       'campaign-participations.status',
@@ -39,7 +39,11 @@ function _buildCampaignParticipationByParticipant(queryBuilder, campaignId, filt
     )
     .from('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+    .join(
+      'view-active-organization-learners',
+      'view-active-organization-learners.id',
+      'campaign-participations.organizationLearnerId'
+    )
     .modify(_filterParticipations, filters, campaignId);
 }
 
@@ -56,14 +60,19 @@ function _filterParticipations(queryBuilder, filters, campaignId) {
 
 function _filterBySearch(queryBuilder, filters) {
   if (filters.search) {
-    filterByFullName(queryBuilder, filters.search, 'organization-learners.firstName', 'organization-learners.lastName');
+    filterByFullName(
+      queryBuilder,
+      filters.search,
+      'view-active-organization-learners.firstName',
+      'view-active-organization-learners.lastName'
+    );
   }
 }
 
 function _filterByDivisions(queryBuilder, filters) {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
-    queryBuilder.whereRaw('LOWER("organization-learners"."division") = ANY(:divisionsLowerCase)', {
+    queryBuilder.whereRaw('LOWER("view-active-organization-learners"."division") = ANY(:divisionsLowerCase)', {
       divisionsLowerCase,
     });
   }
@@ -78,7 +87,7 @@ function _filterByStatus(queryBuilder, filters) {
 function _filterByGroup(queryBuilder, filters) {
   if (filters.groups) {
     const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
-    queryBuilder.whereIn(knex.raw('LOWER("organization-learners"."group")'), groupsLowerCase);
+    queryBuilder.whereIn(knex.raw('LOWER("view-active-organization-learners"."group")'), groupsLowerCase);
   }
 }
 

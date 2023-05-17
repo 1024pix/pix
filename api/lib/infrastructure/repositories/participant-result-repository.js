@@ -225,12 +225,12 @@ async function _isCampaignArchived(campaignId) {
 }
 
 async function _isOrganizationLearnerActive(userId, campaignId) {
-  const organizationLearner = await knex('organization-learners')
-    .select('organization-learners.isDisabled')
-    .join('organizations', 'organizations.id', 'organization-learners.organizationId')
+  const organizationLearner = await knex('view-active-organization-learners')
+    .select('view-active-organization-learners.isDisabled')
+    .join('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
     .join('campaigns', 'campaigns.organizationId', 'organizations.id')
     .where({ 'campaigns.id': campaignId })
-    .andWhere({ 'organization-learners.userId': userId })
+    .andWhere({ 'view-active-organization-learners.userId': userId })
     .first();
   return !organizationLearner?.isDisabled;
 }

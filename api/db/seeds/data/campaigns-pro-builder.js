@@ -365,6 +365,7 @@ function _buildParticipations({ databaseBuilder }) {
     { firstName: 'Antoine', lastName: 'Boiduvin', createdAt: new Date('2022-02-07') },
     { firstName: 'Brandone', lastName: 'Bro', createdAt: new Date('2022-02-07') },
     { firstName: 'Jean', lastName: 'Sérien', createdAt: new Date('2022-02-07') },
+    { firstName: 'Alex', lastName: 'Deleted', createdAt: new Date('2022-02-07'), deletedBy: 1, deletedAt: new Date('2023-05-01') },
   ] });
 
   _buildParticipationsInDifferentStatus({ databaseBuilder, user: users[0] });
@@ -377,7 +378,7 @@ function _buildParticipations({ databaseBuilder }) {
 function _buildUsers({ databaseBuilder, users }) {
   return users.map((user) => {
     const databaseUser = databaseBuilder.factory.buildUser.withRawPassword({ ...user, rawPassword: DEFAULT_PASSWORD });
-    databaseBuilder.factory.buildOrganizationLearner({ firstName: user.firstName + '-Prescrit', lastName: user.lastName + '-Prescrit', id: databaseUser.id, userId: databaseUser.id, organizationId: PRO_COMPANY_ID });
+    databaseBuilder.factory.buildOrganizationLearner({ firstName: user.firstName + '-Prescrit', lastName: user.lastName + '-Prescrit', id: databaseUser.id, userId: databaseUser.id, organizationId: PRO_COMPANY_ID, deletedBy: user.deletedBy, deletedAt: user.deletedAt });
     return databaseUser;
   });
 }

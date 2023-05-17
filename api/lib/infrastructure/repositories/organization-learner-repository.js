@@ -45,7 +45,7 @@ module.exports = {
   async findByIds({ ids }) {
     const rawOrganizationLearners = await knex
       .select('*')
-      .from('organization-learners')
+      .from('view-active-organization-learners')
       .whereIn('id', ids)
       .orderBy('id');
 
@@ -54,7 +54,7 @@ module.exports = {
 
   findByOrganizationId({ organizationId }, transaction = DomainTransaction.emptyTransaction()) {
     const knexConn = transaction.knexTransaction || knex;
-    return knexConn('organization-learners')
+    return knexConn('view-active-organization-learners')
       .where({ organizationId })
       .orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC')
       .then((organizationLearners) =>
@@ -64,7 +64,7 @@ module.exports = {
 
   async findByOrganizationIdAndUpdatedAtOrderByDivision({ organizationId, page, filter }) {
     const BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-08-15';
-    const query = knex('organization-learners')
+    const query = knex('view-active-organization-learners')
       .where({
         organizationId,
         isDisabled: false,
@@ -87,7 +87,7 @@ module.exports = {
   async findByUserId({ userId }) {
     const rawOrganizationLearners = await knex
       .select('*')
-      .from('organization-learners')
+      .from('view-active-organization-learners')
       .where({ userId })
       .orderBy('id');
 
@@ -95,10 +95,10 @@ module.exports = {
   },
 
   async isOrganizationLearnerIdLinkedToUserAndSCOOrganization({ userId, organizationLearnerId }) {
-    const exist = await knex('organization-learners')
-      .select('organization-learners.id')
-      .join('organizations', 'organization-learners.organizationId', 'organizations.id')
-      .where({ userId, type: 'SCO', 'organization-learners.id': organizationLearnerId })
+    const exist = await knex('view-active-organization-learners')
+      .select('view-active-organization-learners.id')
+      .join('organizations', 'view-active-organization-learners.organizationId', 'organizations.id')
+      .where({ userId, type: 'SCO', 'view-active-organization-learners.id': organizationLearnerId })
       .first();
 
     return Boolean(exist);
@@ -180,7 +180,7 @@ module.exports = {
   async findByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
     const rawOrganizationLearners = await knex
       .select('*')
-      .from('organization-learners')
+      .from('view-active-organization-learners')
       .where({ organizationId, birthdate, isDisabled: false })
       .orderBy('id');
 
@@ -219,9 +219,9 @@ module.exports = {
   },
 
   async getOrganizationLearnerForAdmin(organizationLearnerId) {
-    const organizationLearner = await knex('organization-learners')
+    const organizationLearner = await knex('view-active-organization-learners')
       .select(
-        'organization-learners.id as id',
+        'view-active-organization-learners.id as id',
         'firstName',
         'lastName',
         'birthdate',
@@ -229,13 +229,13 @@ module.exports = {
         'group',
         'organizationId',
         'organizations.name as organizationName',
-        'organization-learners.createdAt as createdAt',
-        'organization-learners.updatedAt as updatedAt',
+        'view-active-organization-learners.createdAt as createdAt',
+        'view-active-organization-learners.updatedAt as updatedAt',
         'isDisabled',
         'organizations.isManagingStudents as organizationIsManagingStudents'
       )
-      .innerJoin('organizations', 'organizations.id', 'organization-learners.organizationId')
-      .where({ 'organization-learners.id': organizationLearnerId })
+      .innerJoin('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
+      .where({ 'view-active-organization-learners.id': organizationLearnerId })
       .first();
 
     if (!organizationLearner) {
@@ -264,7 +264,7 @@ module.exports = {
     organizationId,
     domainTransaction = DomainTransaction.emptyTransaction(),
   }) {
-    const organizationLearner = await knex('organization-learners')
+    const organizationLearner = await knex('view-active-organization-learners')
       .transacting(domainTransaction)
       .where({ userId, organizationId })
       .first('*');
@@ -275,7 +275,7 @@ module.exports = {
   async get(organizationLearnerId) {
     const organizationLearner = await knex
       .select('*')
-      .from('organization-learners')
+      .from('view-active-organization-learners')
       .where({ id: organizationLearnerId })
       .first();
 
@@ -290,7 +290,7 @@ module.exports = {
       .where({ nationalStudentId, birthdate })
       .whereNotNull('userId')
       .select()
-      .from('organization-learners')
+      .from('view-active-organization-learners')
       .orderBy('updatedAt', 'desc')
       .first();
 
@@ -321,12 +321,12 @@ module.exports = {
   },
 
   async isActive({ userId, campaignId }) {
-    const learner = await knex('organization-learners')
-      .select('organization-learners.isDisabled')
-      .join('organizations', 'organizations.id', 'organization-learners.organizationId')
+    const learner = await knex('view-active-organization-learners')
+      .select('view-active-organization-learners.isDisabled')
+      .join('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
       .join('campaigns', 'campaigns.organizationId', 'organizations.id')
       .where({ 'campaigns.id': campaignId })
-      .andWhere({ 'organization-learners.userId': userId })
+      .andWhere({ 'view-active-organization-learners.userId': userId })
       .first();
     return !learner?.isDisabled;
   },

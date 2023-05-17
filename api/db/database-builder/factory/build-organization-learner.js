@@ -31,6 +31,8 @@ module.exports = function buildOrganizationLearner({
   updatedAt = new Date('2021-02-01'), // for BEGINNING_OF_THE_2020_SCHOOL_YEAR, can outdate very fast! ;)
   organizationId,
   userId,
+  deletedBy = null,
+  deletedAt = null,
 } = {}) {
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -63,6 +65,8 @@ module.exports = function buildOrganizationLearner({
     updatedAt,
     organizationId,
     userId,
+    deletedBy,
+    deletedAt,
   };
 
   return databaseBuffer.pushInsertable({

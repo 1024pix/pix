@@ -25,7 +25,7 @@ module.exports = {
         'birthdate', "certification-candidates"."birthdate",
         'externalId', "certification-candidates"."externalId",
         'extraTimePercentage', "certification-candidates"."extraTimePercentage",
-        'division', "organization-learners".division)
+        'division', "view-active-organization-learners".division)
         order by lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
         `),
       })
@@ -38,7 +38,11 @@ module.exports = {
         );
       })
       .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
-      .leftJoin('organization-learners', 'organization-learners.id', 'certification-candidates.organizationLearnerId')
+      .leftJoin(
+        'view-active-organization-learners',
+        'view-active-organization-learners.id',
+        'certification-candidates.organizationLearnerId'
+      )
       .groupBy('sessions.id', 'certification-centers.id', 'organizations.id')
       .where({ 'sessions.id': idSession })
       .first();
