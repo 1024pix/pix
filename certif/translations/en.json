@@ -274,6 +274,7 @@
         "table": {
           "labels": {
             "certification-number": "Certification No.",
+            "end-of-test-screen": "End of test screen seen",
             "reporting": "Reporting"
           },
           "reporting-count": "{reportingsCount, plural,one {1 reporting} other {# reportings}}"
