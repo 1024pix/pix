@@ -145,6 +145,10 @@ async function _createProfilesCollectionCampaign(databaseBuilder) {
     customResultPageButtonUrl: 'customResultPageButtonUrl',
     multipleSendings: false,
     assessmentMethod: 'SMART_RANDOM',
+    configCampaign: {
+      participantCount: 20,
+      profileDistribution: { beginner: 5, intermediate: 5, advanced: 9, perfect: 1 },
+    },
   });
 }
 

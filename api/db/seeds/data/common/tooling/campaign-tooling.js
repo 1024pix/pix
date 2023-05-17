@@ -1,4 +1,9 @@
+const _ = require('lodash');
+const dayjs = require('dayjs');
 const learningContent = require('./learning-content');
+const profileTooling = require('./profile-tooling');
+const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
+const Assessment = require('../../../../../lib/domain/models/Assessment');
 
 module.exports = {
   createAssessmentCampaign,
@@ -121,6 +126,7 @@ async function createAssessmentCampaign({
  * @param {string} customResultPageButtonUrl
  * @param {boolean} multipleSendings
  * @param {string} assessmentMethod
+ * @param configCampaign { participantCount: number, profileDistribution: { beginner: number, intermediate: number, advanced: number, perfect: number } }
  * @returns {Promise<{campaignId: number}>}
  */
 async function createProfilesCollectionCampaign({
@@ -145,6 +151,7 @@ async function createProfilesCollectionCampaign({
   customResultPageButtonUrl,
   multipleSendings,
   assessmentMethod,
+  configCampaign,
 }) {
   _buildCampaign({
     databaseBuilder,
@@ -171,6 +178,68 @@ async function createProfilesCollectionCampaign({
     multipleSendings,
     assessmentMethod,
   });
+  const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
+    databaseBuilder,
+    organizationId,
+    configCampaign.participantCount,
+  );
+  const profileDistribution = [
+    ...Array(configCampaign.profileDistribution.beginner || 0).fill('BEGINNER'),
+    ...Array(configCampaign.profileDistribution.intermediate || 0).fill('INTERMEDIATE'),
+    ...Array(configCampaign.profileDistribution.advanced || 0).fill('ADVANCED'),
+    ...Array(configCampaign.profileDistribution.perfect || 0).fill('PERFECT'),
+  ];
+  if (profileDistribution.length < configCampaign.length)
+    profileDistribution.push(...Array(configCampaign.length - profileDistribution.length).fill('BEGINNER'));
+
+  const sharedAt = new Date();
+  for (const { userId, organizationLearnerId } of userAndLearnerIds) {
+    const answersAndKnowledgeElementsForProfile = await _getProfile(profileDistribution.shift());
+    await profileTooling.getAnswersAndKnowledgeElementsForBeginnerProfile();
+    const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+      campaignId,
+      userId,
+      organizationLearnerId,
+      sharedAt,
+      validatedSkillsCount: answersAndKnowledgeElementsForProfile.length,
+      masteryRate: 1,
+      pixScore: _.floor(_.sumBy(answersAndKnowledgeElementsForProfile, ({ keData }) => keData.earnedPix)),
+      status: CampaignParticipationStatuses.SHARED,
+      isImproved: false,
+      isCertifiable: true,
+    }).id;
+    const assessmentId = databaseBuilder.factory.buildAssessment({
+      userId,
+      type: Assessment.types.CAMPAIGN,
+      state: Assessment.states.COMPLETED,
+      isImproving: false,
+      lastQuestionDate: new Date(),
+      lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+      competenceId: null,
+      campaignParticipationId,
+    }).id;
+    const keDataForSnapshot = [];
+    for (const { answerData, keData } of answersAndKnowledgeElementsForProfile) {
+      const answerId = databaseBuilder.factory.buildAnswer({
+        assessmentId,
+        answerData,
+      }).id;
+      keDataForSnapshot.push(
+        databaseBuilder.factory.buildKnowledgeElement({
+          assessmentId,
+          answerId,
+          userId,
+          ...keData,
+          createdAt: dayjs().subtract(1, 'day'),
+        }),
+      );
+    }
+    databaseBuilder.factory.buildKnowledgeElementSnapshot({
+      userId,
+      snappedAt: sharedAt,
+      snapshot: JSON.stringify(keDataForSnapshot),
+    });
+  }
   return { campaignId };
 }
 
@@ -223,4 +292,64 @@ function _buildCampaign({
     multipleSendings,
     assessmentMethod,
   }).id;
+}
+
+async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId, requiredParticipantCount) {
+  const userAndLearnerIds = [];
+  const existingReconciliatedOrganizationLearnerIds = await databaseBuilder
+    .knex('view-active-organization-learners')
+    .select({
+      organizationLearnerId: 'id',
+      userId: 'userId',
+    })
+    .where({ organizationId })
+    .whereNotNull('userId');
+  userAndLearnerIds.push(...existingReconciliatedOrganizationLearnerIds);
+  const learnersCountToCreate = requiredParticipantCount - userAndLearnerIds.length;
+  const offset = userAndLearnerIds.length;
+  const divisions = ['1ere A', '2nde B', 'Terminale C'];
+  for (let i = 0; i < learnersCountToCreate; ++i) {
+    const userId = databaseBuilder.factory.buildUser.withRawPassword({
+      firstName: `first-name${offset + i}`,
+      lastName: `last-name${offset + i}`,
+      email: `learneremail${organizationId}_${offset + i}@example.net`,
+      cgu: true,
+      lastTermsOfServiceValidatedAt: new Date(),
+      mustValidateTermsOfService: false,
+      hasSeenAssessmentInstructions: true,
+      shouldChangePassword: false,
+    }).id;
+    const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+      firstName: `first-name${offset + i}`,
+      lastName: `last-name${offset + i}`,
+      sex: 'M',
+      birthdate: '2000-01-01',
+      birthCity: null,
+      birthCityCode: '75115',
+      birthCountryCode: '100',
+      birthProvinceCode: null,
+      division: divisions[offset + (i % divisions.length)],
+      isDisabled: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      organizationId,
+      userId,
+    }).id;
+    userAndLearnerIds.push({ userId, organizationLearnerId });
+  }
+
+  return userAndLearnerIds;
+}
+
+async function _getProfile(profileName) {
+  let answersAndKnowledgeElements;
+  if (profileName === 'BEGINNER')
+    answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForBeginnerProfile();
+  if (profileName === 'INTERMEDIATE')
+    answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForIntermediateProfile();
+  if (profileName === 'ADVANCED')
+    answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForAdvancedProfile();
+  if (profileName === 'PERFECT')
+    answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForPerfectProfile();
+  return answersAndKnowledgeElements;
 }
