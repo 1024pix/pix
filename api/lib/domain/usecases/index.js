@@ -270,6 +270,7 @@ import { deactivateAdminMember } from './deactivate-admin-member.js';
 import { deleteCampaignParticipation } from './delete-campaign-participation.js';
 import { deleteCampaignParticipationForAdmin } from './delete-campaign-participation-for-admin.js';
 import { deleteCertificationIssueReport } from './delete-certification-issue-report.js';
+import { deleteOrganizationLearners } from './organization-learners-management/delete-organization-learners.js';
 import { deleteOrganizationPlaceLot } from './delete-organization-place-lot.js';
 import { deleteSession } from './delete-session.js';
 import { deleteSessionJuryComment } from './delete-session-jury-comment.js';
@@ -769,6 +770,7 @@ const usecasesWithoutInjectedDependencies = {
   deleteCampaignParticipation,
   deleteCampaignParticipationForAdmin,
   deleteCertificationIssueReport,
+  deleteOrganizationLearners,
   deleteOrganizationPlaceLot,
   deleteSession,
   deleteSessionJuryComment,
