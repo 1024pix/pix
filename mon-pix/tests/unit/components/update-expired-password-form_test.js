@@ -4,9 +4,11 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import setupIntl from '../../helpers/setup-intl';
 
 import ENV from '../../../config/environment';
+
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 const ERROR_PASSWORD_MESSAGE = 'pages.update-expired-password.fields.error';
@@ -29,7 +31,7 @@ module('Unit | Component | Update Expired Password Form', function (hooks) {
   let component;
 
   hooks.beforeEach(function () {
-    component = this.owner.lookup('component:update-expired-password-form');
+    component = createGlimmerComponent('component:update-expired-password-form');
   });
 
   module('#validatePassword', function () {
