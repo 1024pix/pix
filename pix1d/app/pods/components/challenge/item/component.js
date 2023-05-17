@@ -14,7 +14,7 @@ export default class Item extends Component {
   async answerValidated(challenge, assessment, answerValue) {
     const answer = this._createAnswer(challenge);
     answer.value = answerValue;
-    answer.assessmentId = assessment.id;
+    answer.assessment = assessment;
     try {
       await answer.save();
       if (answer.result === 'ok') {

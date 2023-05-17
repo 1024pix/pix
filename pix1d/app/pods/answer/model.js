@@ -4,6 +4,6 @@ export default class Answer extends Model {
   @attr('string') value;
   @attr('string') result;
   @attr('string') resultDetails;
-  @attr('string') assessmentId;
+  @belongsTo('assessment') assessment;
   @belongsTo('challenge') challenge;
 }

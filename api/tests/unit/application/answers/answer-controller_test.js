@@ -202,7 +202,7 @@ describe('Unit | Controller | answer-controller', function () {
     context('when answer does not exist', function () {
       let createdAnswer;
       let response;
-      let answerPix1dSerializer;
+      let answerSerializer;
       let deserializedAnswer;
       beforeEach(async function () {
         // given
@@ -216,7 +216,7 @@ describe('Unit | Controller | answer-controller', function () {
         deserializedAnswer.id = undefined;
         deserializedAnswer.timeSpent = undefined;
         createdAnswer = domainBuilder.buildAnswer({ assessmentId, id: answerId });
-        answerPix1dSerializer = {
+        answerSerializer = {
           serialize: sinon.stub().returns(serializedAnswer),
           deserialize: sinon.stub().returns(deserializedAnswer),
         };
@@ -224,7 +224,7 @@ describe('Unit | Controller | answer-controller', function () {
       it('should call the usecase to save the answer', async function () {
         usecases.correctAnswer.resolves(createdAnswer);
         await answerController.saveForPix1D(request, hFake, {
-          answerPix1dSerializer,
+          answerSerializer,
         });
 
         // then
@@ -235,17 +235,17 @@ describe('Unit | Controller | answer-controller', function () {
       it('should serialize the answer', async function () {
         usecases.correctAnswer.resolves(createdAnswer);
         await answerController.saveForPix1D(request, hFake, {
-          answerPix1dSerializer,
+          answerSerializer,
         });
 
         // then
-        expect(answerPix1dSerializer.serialize).to.have.been.calledWith(createdAnswer);
+        expect(answerSerializer.serialize).to.have.been.calledWith(createdAnswer);
       });
 
       it('should return the serialized answer', async function () {
         usecases.correctAnswer.resolves(createdAnswer);
         response = await answerController.saveForPix1D(request, hFake, {
-          answerPix1dSerializer,
+          answerSerializer,
         });
 
         // then
