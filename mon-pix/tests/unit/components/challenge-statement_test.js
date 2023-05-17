@@ -17,7 +17,7 @@ module('Unit | Component | challenge statement', function (hooks) {
         id: 'rec_123',
       });
 
-      const component = createGlimmerComponent('component:challenge-statement', { challenge });
+      const component = createGlimmerComponent('challenge-statement', { challenge });
 
       // when
       const challengeEmbedDocument = component.challengeEmbedDocument;
@@ -36,7 +36,7 @@ module('Unit | Component | challenge statement', function (hooks) {
         hasValidEmbedDocument: false,
       });
 
-      const component = createGlimmerComponent('component:challenge-statement', { challenge });
+      const component = createGlimmerComponent('challenge-statement', { challenge });
 
       // when
       const challengeEmbedDocument = component.challengeEmbedDocument;
@@ -50,7 +50,7 @@ module('Unit | Component | challenge statement', function (hooks) {
     test('should return empty array if no attachments', function (assert) {
       // given
       const challenge = EmberObject.create({});
-      const component = createGlimmerComponent('component:challenge-statement', { challenge });
+      const component = createGlimmerComponent('challenge-statement', { challenge });
 
       // when
       const orderedAttachments = component.orderedAttachments;
@@ -63,7 +63,7 @@ module('Unit | Component | challenge statement', function (hooks) {
       // given
       const attachments = ['https://dl.airtable.com/test.odp', 'https://dl.airtable.com/test.docx'];
       const challenge = EmberObject.create({ attachments });
-      const component = createGlimmerComponent('component:challenge-statement', { challenge });
+      const component = createGlimmerComponent('challenge-statement', { challenge });
 
       // when
       const orderedAttachments = component.orderedAttachments;
@@ -83,7 +83,7 @@ module('Unit | Component | challenge statement', function (hooks) {
         'https://dl.airtable.com/test6.docx',
       ];
       const challenge = EmberObject.create({ attachments });
-      const component = createGlimmerComponent('component:challenge-statement', { challenge });
+      const component = createGlimmerComponent('challenge-statement', { challenge });
 
       // when
       const orderedAttachments = component.orderedAttachments;

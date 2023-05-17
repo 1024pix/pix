@@ -17,7 +17,7 @@ module('Unit | Component | competence-card-default ', function (hooks) {
 
     test('calls competenceEvaluation service for improving', async function (assert) {
       // given
-      component = createGlimmerComponent('component:competence-card-default', { scorecard });
+      component = createGlimmerComponent('competence-card-default', { scorecard });
       competenceEvaluation = Service.create({ improve: sinon.stub() });
       component.currentUser = EmberObject.create({ user: { id: userId } });
       component.competenceEvaluation = competenceEvaluation;
@@ -37,7 +37,7 @@ module('Unit | Component | competence-card-default ', function (hooks) {
     hooks.beforeEach(function () {
       const competenceId = 'recCompetenceId';
       scorecard = EmberObject.create({ competenceId });
-      component = createGlimmerComponent('component:competence-card-default', { scorecard, interactive: true });
+      component = createGlimmerComponent('competence-card-default', { scorecard, interactive: true });
     });
 
     test('should return true when remaining days before improving are different than 0', function (assert) {

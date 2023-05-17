@@ -16,7 +16,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
   hooks.beforeEach(function () {
     onSubmitStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
-    component = createComponent('component:routes/campaigns/sco-form', {
+    component = createComponent('routes/campaigns/sco-form', {
       onSubmit: onSubmitStub,
       campaignCode: 123,
     });

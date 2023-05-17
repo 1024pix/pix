@@ -8,7 +8,7 @@ module('Unit | Component | User logged Menu', function (hooks) {
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:user-logged-menu');
+    component = createGlimmerComponent('user-logged-menu');
   });
 
   module('#toggleUserMenu', function () {

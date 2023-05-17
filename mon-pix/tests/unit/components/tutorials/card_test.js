@@ -15,7 +15,7 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
   };
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:tutorials/card', { tutorial });
+    component = createGlimmerComponent('tutorials/card', { tutorial });
     component.intl = intl;
   });
 

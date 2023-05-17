@@ -7,7 +7,7 @@ module('Unit | Component | form-textfield', function (hooks) {
 
   let component;
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:form-textfield');
+    component = createGlimmerComponent('form-textfield');
   });
 
   module('#textfieldType', function () {

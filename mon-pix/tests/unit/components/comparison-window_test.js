@@ -22,7 +22,7 @@ module('Unit | Component | comparison-window', function (hooks) {
 
   hooks.beforeEach(function () {
     answer = EmberObject.create();
-    component = createGlimmerComponent('component:comparison-window', { answer });
+    component = createGlimmerComponent('comparison-window', { answer });
   });
 
   module('#isAssessmentChallengeTypeQroc', function () {

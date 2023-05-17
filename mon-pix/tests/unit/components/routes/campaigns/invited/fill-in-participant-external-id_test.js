@@ -22,7 +22,7 @@ module('Unit | Component | routes/campaigns/invited/fill-in-participant-external
     onSubmitStub = sinon.stub();
     onCancelStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
-    component = createComponent('component:routes/campaigns/invited/fill-in-participant-external-id', {
+    component = createComponent('routes/campaigns/invited/fill-in-participant-external-id', {
       campaign,
       onSubmit: onSubmitStub,
       onCancel: onCancelStub,

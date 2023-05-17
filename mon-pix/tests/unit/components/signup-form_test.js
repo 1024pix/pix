@@ -23,21 +23,25 @@ module('Unit | Component | signup-form', function (hooks) {
       };
       authenticateUser = sinon.stub().resolves();
     }
+
     class CurrentDomainStub extends Service {
       getExtension = sinon.stub().returns('fr');
     }
+
     class CookiesStub extends Service {
       read = sinon.stub().returns();
     }
+
     class IntlStub extends Service {
       t = sinon.stub().returns('fr');
       get = sinon.stub().returns(['fr']);
     }
+
     this.owner.register('service:session', SessionStub);
     this.owner.register('service:currentDomain', CurrentDomainStub);
     this.owner.register('service:cookies', CookiesStub);
     this.owner.register('service:intl', IntlStub);
-    component = createGlimmerComponent('component:signup-form');
+    component = createGlimmerComponent('signup-form');
   });
 
   module('#signup', function () {

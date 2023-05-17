@@ -9,7 +9,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when ine or ina is empty', function () {
       test('should return false', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.ineIna = '';
 
         // when
@@ -23,7 +23,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when ine or ina is invalid', function () {
       test('should return false', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.ineIna = 'ABCDE';
 
         // when
@@ -37,7 +37,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when ine is valid', function () {
       test('should return true', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.ineIna = '123456789AA';
 
         // when
@@ -51,7 +51,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when ina is valid', function () {
       test('should return true', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.ineIna = '1234567890B';
 
         // when
@@ -67,7 +67,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when lastName is empty', function () {
       test('should return false', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.lastName = '';
 
         // when
@@ -81,7 +81,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when firstName is empty', function () {
       test('should return false', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.firstName = '';
 
         // when
@@ -95,7 +95,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when monthOfBirth is empty', function () {
       test('should return false', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.monthOfBirth = '';
 
         // when
@@ -109,7 +109,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when dayOfBirth is empty', function () {
       test('should return false', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.dayOfBirth = '';
 
         // when
@@ -123,7 +123,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when yearOfBirth is empty', function () {
       test('should return false', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.yearOfBirth = '';
 
         // when
@@ -137,7 +137,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when form is valid', function () {
       test('should return true', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.yearOfBirth = '2000';
         component.monthOfBirth = '05';
         component.dayOfBirth = '15';
@@ -158,7 +158,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when dayOfBirth is empty', function () {
       test('should return false', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.dayOfBirth = '';
 
         // when
@@ -172,7 +172,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when dayOfBirth is valid', function () {
       test('should return true', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.dayOfBirth = '5';
 
         // when
@@ -188,7 +188,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when monthOfBirth is empty', function () {
       test('should return false', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.monthOfBirth = '';
 
         // when
@@ -202,7 +202,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when monthOfBirth is valid', function () {
       test('should return true', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.monthOfBirth = '5';
 
         // when
@@ -218,7 +218,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when yearOfBirth is empty', function () {
       test('should return false', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.yearOfBirth = '';
 
         // when
@@ -232,7 +232,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
     module('when yearOfBirth is valid', function () {
       test('should return true', function (assert) {
         // given
-        const component = createGlimmerComponent('component:account-recovery/student-information-form');
+        const component = createGlimmerComponent('account-recovery/student-information-form');
         component.yearOfBirth = '2000';
 
         // when
@@ -247,7 +247,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
   module('#_formatBirthdate', function () {
     test('should return valid birthdate format', function (assert) {
       // given
-      const component = createGlimmerComponent('component:account-recovery/student-information-form');
+      const component = createGlimmerComponent('account-recovery/student-information-form');
       component.dayOfBirth = '2';
       component.monthOfBirth = '5';
       component.yearOfBirth = '2004';

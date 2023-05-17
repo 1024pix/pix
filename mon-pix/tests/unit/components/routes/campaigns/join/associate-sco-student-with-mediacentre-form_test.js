@@ -20,7 +20,7 @@ module('Unit | Component | routes/campaigns/join/associate-sco-student-with-medi
     storeStub = { createRecord: sinon.stub().returns(record) };
     sessionStub = { data: {}, get: sinon.stub(), set: sinon.stub() };
     onSubmitStub = sinon.stub();
-    component = createComponent('component:routes/campaigns/join/associate-sco-student-with-mediacentre-form', {
+    component = createComponent('routes/campaigns/join/associate-sco-student-with-mediacentre-form', {
       onSubmit: onSubmitStub,
       campaignCode: 123,
     });
@@ -43,7 +43,9 @@ module('Unit | Component | routes/campaigns/join/associate-sco-student-with-medi
 
     test('should create an external-user', async function (assert) {
       // given
-      storeStub.createRecord.returns({ unloadRecord: () => {} });
+      storeStub.createRecord.returns({
+        unloadRecord: () => {},
+      });
 
       // when
       await component.actions.submit.call(component, attributes);

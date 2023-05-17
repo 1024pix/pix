@@ -27,7 +27,7 @@ module('Unit | Component | QCM proposals', function (hooks) {
     });
 
     function initComponent() {
-      component = createGlimmerComponent('component:qcm-proposals', {
+      component = createGlimmerComponent('qcm-proposals', {
         answer,
         proposals,
         answerValue: answer.value,
