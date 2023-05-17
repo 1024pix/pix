@@ -297,8 +297,9 @@ module.exports = {
 
   async publish(request, h, dependencies = { sessionSerializer }) {
     const sessionId = request.params.id;
+    const i18n = request.i18n;
 
-    const session = await usecases.publishSession({ sessionId });
+    const session = await usecases.publishSession({ sessionId, i18n });
 
     return dependencies.sessionSerializer.serialize({ session });
   },
