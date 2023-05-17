@@ -6,13 +6,15 @@ import { UnexpectedUserAccountError } from '../../../../../lib/domain/errors.js'
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { notify } from '../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
-import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
-import * as authenticationMethodRepository from '../../../../../lib/infrastructure/repositories/authentication-method-repository.js';
-import * as monitoringTools from '../../../../../lib/infrastructure/monitoring-tools.js';
 
 describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function () {
   describe('#notify', function () {
     let clock;
+    let authenticationMethodRepository;
+    let httpAgent;
+    let httpErrorsHelper;
+    let monitoringTools;
+    let payload;
 
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
@@ -22,7 +24,6 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     const originPoleEmploiTokenUrl = settings.poleEmploi.tokenUrl;
 
     const userId = 123;
-    let payload;
     const code = 'someCode';
     const data = {
       access_token: 'accessToken',
@@ -37,11 +38,20 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
     beforeEach(function () {
       clock = sinon.useFakeTimers(Date.now());
-      sinon.stub(httpAgent, 'post');
-      sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
-      sinon.stub(authenticationMethodRepository, 'updateAuthenticationComplementByUserIdAndIdentityProvider');
-      sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-      sinon.stub(monitoringTools, 'logInfoWithCorrelationIds');
+      httpAgent = {
+        post: sinon.stub(),
+      };
+      httpErrorsHelper = {
+        serializeHttpErrorResponse: sinon.stub(),
+      };
+      authenticationMethodRepository = {
+        findOneByUserIdAndIdentityProvider: sinon.stub(),
+        updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
+      };
+      monitoringTools = {
+        logErrorWithCorrelationIds: sinon.stub(),
+        logInfoWithCorrelationIds: sinon.stub(),
+      };
 
       settings.poleEmploi.tokenUrl = 'someTokenUrlToPoleEmploi';
       settings.poleEmploi.sendingUrl = 'someSendingUrlToPoleEmploi';
@@ -52,10 +62,6 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       clock.restore();
       settings.poleEmploi.sendingUrl = originPoleEmploiSendingUrl;
       settings.poleEmploi.tokenUrl = originPoleEmploiTokenUrl;
-
-      httpAgent.post.restore();
-      authenticationMethodRepository.findOneByUserIdAndIdentityProvider.restore();
-      authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider.restore();
     });
 
     it('should throw an error if the user is not known as PoleEmploi user', async function () {
@@ -65,7 +71,12 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         .resolves(null);
 
       // when
-      const error = await catchErr(notify)(userId, payload);
+      const error = await catchErr(notify)(userId, payload, {
+        authenticationMethodRepository,
+        httpAgent,
+        httpErrorsHelper,
+        monitoringTools,
+      });
 
       // then
       expect(error).to.be.instanceOf(UnexpectedUserAccountError);
@@ -78,7 +89,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         const expiredDate = dayjs().add(10, 'm').toDate();
         const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
 
-        const expectedHearders = {
+        const expectedHeaders = {
           Authorization: `Bearer ${authenticationMethod.authenticationComplement.accessToken}`,
           'Content-type': 'application/json',
           Accept: 'application/json',
@@ -91,13 +102,13 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         httpAgent.post.resolves({ isSuccessful: true, code });
 
         // when
-        await notify(userId, payload);
+        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools });
 
         // then
         expect(httpAgent.post).to.have.been.calledWithExactly({
           url: settings.poleEmploi.sendingUrl,
           payload,
-          headers: expectedHearders,
+          headers: expectedHeaders,
           timeout: settings.partner.fetchTimeOut,
         });
       });
@@ -113,7 +124,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           .resolves(authenticationMethod);
         httpAgent.post.resolves({ isSuccessful: true, code });
         // when
-        await notify(userId, payload);
+        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools });
 
         // then
         expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
@@ -140,7 +151,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         httpAgent.post.resolves({ isSuccessful: true, code, data });
 
         // when
-        await notify(userId, payload);
+        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools });
 
         // then
         expect(httpAgent.post).to.have.been.calledWithExactly({
@@ -159,7 +170,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         httpAgent.post.resolves({ isSuccessful: true, code, data });
 
         // when
-        await notify(userId, payload);
+        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools });
 
         // then
         expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
@@ -184,7 +195,12 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           });
 
           // when
-          await notify(userId, payload);
+          await notify(userId, payload, {
+            authenticationMethodRepository,
+            httpAgent,
+            httpErrorsHelper,
+            monitoringTools,
+          });
 
           // then
           expect(
@@ -226,7 +242,12 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             .resolves({ isSuccessful: true, code });
 
           // when
-          await notify(userId, payload);
+          await notify(userId, payload, {
+            authenticationMethodRepository,
+            httpAgent,
+            httpErrorsHelper,
+            monitoringTools,
+          });
 
           // then
           expect(httpAgent.post).to.have.been.calledWithExactly({
@@ -261,7 +282,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
               timeout: settings.partner.fetchTimeOut,
             })
             .resolves(tokenResponse);
-
+          httpErrorsHelper.serializeHttpErrorResponse.returns(JSON.stringify(tokenResponse.data));
           monitoringTools.logErrorWithCorrelationIds.resolves();
 
           const expectedLoggerMessage = JSON.stringify(tokenResponse.data);
@@ -271,7 +292,12 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           };
 
           // when
-          const result = await notify(userId, payload);
+          const result = await notify(userId, payload, {
+            authenticationMethodRepository,
+            httpAgent,
+            httpErrorsHelper,
+            monitoringTools,
+          });
 
           // then
           expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
@@ -317,7 +343,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
               timeout: settings.partner.fetchTimeOut,
             })
             .resolves(httpResponse);
-
+          httpErrorsHelper.serializeHttpErrorResponse.returns(httpResponse.data);
           monitoringTools.logErrorWithCorrelationIds.resolves();
 
           const expectedLoggerMessage = httpResponse.data;
@@ -327,7 +353,12 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           };
 
           // when
-          const result = await notify(userId, payload);
+          const result = await notify(userId, payload, {
+            authenticationMethodRepository,
+            httpAgent,
+            httpErrorsHelper,
+            monitoringTools,
+          });
 
           // then
           expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
