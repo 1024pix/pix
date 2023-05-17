@@ -1,5 +1,52 @@
 # Pix Changelog
 
+## v3.353.0 (17/05/2023)
+
+
+### :rocket: Amélioration
+- [#6224](https://github.com/1024pix/pix/pull/6224) [FEATURE] Extraire la liste des PCs avec paliers par seuil à convertir en niveau depuis le fichier XLS fourni par le PRO (PIX-7860)
+- [#6201](https://github.com/1024pix/pix/pull/6201) [FEATURE] Modifier les requêtes en lecture pour utiliser la vue sur les prescrits actifs (PIX-7683)
+- [#6198](https://github.com/1024pix/pix/pull/6198) [FEATURE][ADMIN] Permettre la modification de la locale d'un utilisateur (PIX-7358)
+- [#6192](https://github.com/1024pix/pix/pull/6192) [FEATURE] Afficher l'heure de fin de session théorique pour le surveillant dans Pix Certif (PIX-7834)
+- [#6182](https://github.com/1024pix/pix/pull/6182) [FEATURE] Ajout language switcher sur la double mire de la page d'invitation pour rejoindre certif (PIX-7217)
+- [#6210](https://github.com/1024pix/pix/pull/6210) [FEATURE] Améliorer le responsive des résultats des compétences en fin de campagne sur Pix-App (PIX-7972)
+- [#6126](https://github.com/1024pix/pix/pull/6126) [FEATURE][ORGA] Ajout du language switcher sur la double mire de connexion/inscription avec invitation (PIX-7743)
+- [#6180](https://github.com/1024pix/pix/pull/6180) [FEATURE] Afficher une notification de confirmation lors du changement de langue sur Pix App > Mon compte (PIX-7893).
+- [#6188](https://github.com/1024pix/pix/pull/6188) [FEATURE] Ajout d'aléatoire dans le choix des épreuves de l'algorithme flash (PIX-7997).
+- [#6189](https://github.com/1024pix/pix/pull/6189) [FEATURE] Empêcher la validation si deux réponses ne sont pas cochés pour les QCM sur Pix-App (PIX-7973)
+- [#6197](https://github.com/1024pix/pix/pull/6197) [FEATURE] Amélioration de message de validation de suppression d'une participation (PIX-8049)
+- [#6146](https://github.com/1024pix/pix/pull/6146) [FEATURE] Permettre de sélectionner l'envoi multiple pour les campagnes d'évaluation dans pix orga (PIX-7473)
+- [#6181](https://github.com/1024pix/pix/pull/6181) [FEATURE] Uniformiser le formulaire de signalement sur Pix-App (PIX-7711)
+
+### :building_construction: Tech
+- [#6212](https://github.com/1024pix/pix/pull/6212) [TECH][Pix Orga] Ne pas modifier la langue de l'utilisateur quand le paramètre lang se trouve dans l'url (PIX-8009)
+- [#6219](https://github.com/1024pix/pix/pull/6219) [TECH] Fournir des outils génériques et documentés orientés "Profil Utilisateur" (PIX-7960)
+- [#6213](https://github.com/1024pix/pix/pull/6213) [TECH] Tracer les événements wip de pg-boss
+- [#6172](https://github.com/1024pix/pix/pull/6172) [TECH] Fournir des outils génériques et documentés orientés "sessions de certification" (PIX-7980)
+- [#6209](https://github.com/1024pix/pix/pull/6209) [TECH] Met à jour ember-cli-notifications pour corriger les tests dans le navigateur
+- [#6179](https://github.com/1024pix/pix/pull/6179) [TECH][MON-PIX] Ne pas modifier la langue de l'utilisateur quand le paramètre lang se trouve dans l'url (PIX-7851)
+- [#6208](https://github.com/1024pix/pix/pull/6208) [TECH] Utilise la version v1 de l'action notify-file-change
+- [#6178](https://github.com/1024pix/pix/pull/6178) [TECH] Éviter les imports dupliqués sur Pix App (PIX-8018)
+- [#6200](https://github.com/1024pix/pix/pull/6200) [TECH] Script pour récupérer des profil cibles / clés de lectures / certifications complémentaires depuis une base existante et transformer en dump pour les seeds (PIX-8059)
+- [#6195](https://github.com/1024pix/pix/pull/6195) [TECH] Améliorer les tests sur la vérification d'accès à un assessment.
+
+### :bug: Correction
+- [#6220](https://github.com/1024pix/pix/pull/6220) [BUGFIX] Corriger l'affichage de la partie "J'ai déjà un compte" sur la double mire Pix Orga (PIX-8086)
+- [#6173](https://github.com/1024pix/pix/pull/6173) [BUGFIX] Affichage du temps majoré dans la liste des candidats de Pix Certif. (PIX-8008)
+- [#6199](https://github.com/1024pix/pix/pull/6199) [BUGFIX] Améliorer le responsive du select dans le formulaire de signalement (PIX-8056)
+- [#6205](https://github.com/1024pix/pix/pull/6205) [BUGFIX] La notification de changement de configuration ne fonctionne toujours pas
+- [#6204](https://github.com/1024pix/pix/pull/6204) [BUGFIX] La notification de changement de configuration ne fonctionne plus
+- [#6203](https://github.com/1024pix/pix/pull/6203) [BUGFIX] L'envoi de message échoue car le nom du channel est utilisé à la place de l'identifiant
+
+### :coffee: Autre
+- [#6216](https://github.com/1024pix/pix/pull/6216) [BUMP] Update dependency uuid to v9 (test-algo)
+- [#6215](https://github.com/1024pix/pix/pull/6215) [BUMP] Update dependency uuid to v9 (api)
+- [#6207](https://github.com/1024pix/pix/pull/6207) [BUMP] Update dependency @1024pix/stylelint-config to v3 (admin)
+- [#6206](https://github.com/1024pix/pix/pull/6206) [BUMP] Update dependency @1024pix/stylelint-config to v3 (mon-pix)
+- [#6186](https://github.com/1024pix/pix/pull/6186) [BUMP] Update dependency stylelint to v15 (orga)
+- [#6187](https://github.com/1024pix/pix/pull/6187) [BUMP] Update dependency stylelint to v15 (pix1d)
+- [#6185](https://github.com/1024pix/pix/pull/6185) [BUMP] Update dependency stylelint to v15 (certif)
+
 ## v3.352.0 (11/05/2023)
 
 
