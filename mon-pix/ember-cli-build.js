@@ -44,5 +44,6 @@ module.exports = function (defaults) {
     staticAddonTestSupportTrees: true,
     staticAddonTrees: true,
     staticModifiers: true,
+    staticComponents: true,
   });
 };
