@@ -13,7 +13,6 @@
   @extend %pix-body-m;
 
   margin: 4px;
-  color: $pix-neutral-90;
   background-color: $pix-neutral-10;
 
   label {
@@ -40,18 +39,15 @@
   }
 
   &__proposal {
-    color: $pix-neutral-80;
-    font-size: 1.25rem;
+    width: auto;
 
     &--paragraph {
-      display: flex;
       width: 100%;
       height: auto;
       resize: vertical;
     }
 
     &--sentence {
-      display: flex;
       width: 100%;
     }
 
