@@ -1,7 +1,13 @@
 {{page-title (t "pages.login.title")}}
-<div class="login-page">
-  <LoginForm
-    @hasInvitationAlreadyBeenAccepted={{this.hasInvitationAlreadyBeenAccepted}}
-    @isInvitationCancelled={{this.isInvitationCancelled}}
-  />
-</div>
+<main class="login-page">
+  <div class="login-page__container">
+    <LoginForm
+      @hasInvitationAlreadyBeenAccepted={{this.hasInvitationAlreadyBeenAccepted}}
+      @isInvitationCancelled={{this.isInvitationCancelled}}
+    />
+
+    {{#if this.isInternationalDomain}}
+      <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
+    {{/if}}
+  </div>
+</main>
