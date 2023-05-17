@@ -77,12 +77,16 @@ describe('Unit | Application | Router | answer-router', function () {
             value: 'test',
             result: null,
             'result-details': null,
-            'assessment-id': '12345678',
           },
           relationships: {},
           challenge: {
             data: {
               id: 'hee',
+            },
+          },
+          assessment: {
+            data: {
+              id: '12345678',
             },
           },
           type: 'answers',
