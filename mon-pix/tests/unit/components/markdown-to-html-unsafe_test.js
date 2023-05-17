@@ -16,7 +16,7 @@ module('Unit | Component | markdown-to-html-unsafe', function (hooks) {
     ].forEach(({ markdown, expectedValue }) => {
       test(`${markdown} should return ${expectedValue}`, function (assert) {
         // when
-        component = createGlimmerComponent('component:markdown-to-html-unsafe', { markdown });
+        component = createGlimmerComponent('markdown-to-html-unsafe', { markdown });
 
         // then
         assert.strictEqual(component.html.string, expectedValue);
@@ -37,7 +37,7 @@ module('Unit | Component | markdown-to-html-unsafe', function (hooks) {
     ].forEach(({ markdown, expectedValue }) => {
       test(`${markdown} should not be transform and return ${expectedValue}`, function (assert) {
         // when
-        component = createGlimmerComponent('component:markdown-to-html-unsafe', { markdown });
+        component = createGlimmerComponent('markdown-to-html-unsafe', { markdown });
 
         // then
         assert.strictEqual(component.html.string, expectedValue);
@@ -50,7 +50,7 @@ module('Unit | Component | markdown-to-html-unsafe', function (hooks) {
     const html = '<a href="/test" rel="noopener noreferrer" target="_blank">Lien vers un site</a>';
 
     // when
-    component = createGlimmerComponent('component:markdown-to-html-unsafe', { markdown: html });
+    component = createGlimmerComponent('markdown-to-html-unsafe', { markdown: html });
 
     // then
     const expectedHtml = `<p>${html}</p>`;
@@ -64,7 +64,7 @@ module('Unit | Component | markdown-to-html-unsafe', function (hooks) {
       const extensions = 'remove-paragraph-tags';
 
       // when
-      component = createGlimmerComponent('component:markdown-to-html-unsafe', { markdown, extensions });
+      component = createGlimmerComponent('markdown-to-html-unsafe', { markdown, extensions });
 
       // then
       const expectedHtml = '<h1 id="title1">Title 1</h1>\nCeci est un paragraphe.\n<img src="/images.png" alt="img" />';

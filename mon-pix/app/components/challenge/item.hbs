@@ -9,17 +9,16 @@
 >
   <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
-  {{component
-    (get-challenge-component-class @challenge)
-    challenge=@challenge
-    answer=@answer
-    assessment=@assessment
-    timeoutChallenge=@timeoutChallenge
-    resetAllChallengeInfo=@resetAllChallengeInfo
-    resetChallengeInfoOnResume=@resetChallengeInfoOnResume
-    hasFocusedOutOfWindow=@hasFocusedOutOfWindow
-    answerValidated=this.answerValidated
-    resumeAssessment=this.resumeAssessment
-    isFocusedChallenge=this.isFocusedChallenge
-  }}
+  <this.challengeComponent
+    @challenge={{@challenge}}
+    @answer={{@answer}}
+    @assessment={{@assessment}}
+    @timeoutChallenge={{@timeoutChallenge}}
+    @resetAllChallengeInfo={{@resetAllChallengeInfo}}
+    @resetChallengeInfoOnResume={{@resetChallengeInfoOnResume}}
+    @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
+    @answerValidated={{this.answerValidated}}
+    @resumeAssessment={{this.resumeAssessment}}
+    @isFocusedChallenge={{this.isFocusedChallenge}}
+  />
 </article>

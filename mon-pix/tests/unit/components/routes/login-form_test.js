@@ -35,7 +35,7 @@ module('Unit | Component | routes/login-form', function (hooks) {
 
     addGarAuthenticationMethodToUserStub = sinon.stub();
 
-    component = createGlimmerComponent('component:routes/login-form');
+    component = createGlimmerComponent('routes/login-form');
     component.session = sessionStub;
     component.store = storeStub;
     component.router = routerStub;

@@ -9,7 +9,7 @@ module('Unit | Component | user-account | email-verification-code', function (ho
   module('#onSubmitCode', function () {
     test('should send entered code for verification and redirect to account page with successful message', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:user-account/email-verification-code');
+      const component = createGlimmerComponent('user-account/email-verification-code');
       const code = '918435';
       const verifyCode = sinon.stub();
       component.store = { createRecord: () => ({ verifyCode }) };
@@ -30,7 +30,7 @@ module('Unit | Component | user-account | email-verification-code', function (ho
 
     test('should update the user email when code verification is successful', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:user-account/email-verification-code');
+      const component = createGlimmerComponent('user-account/email-verification-code');
       const code = '918435';
       const newEmail = 'new-email@example.net';
       const verifyCode = sinon.stub().returns(newEmail);
@@ -51,13 +51,17 @@ module('Unit | Component | user-account | email-verification-code', function (ho
   module('#resendVerificationCodeByEmail', function () {
     test('should be loading while resending email', function (assert) {
       // given
-      const component = createGlimmerComponent('component:user-account/email-verification-code');
+      const component = createGlimmerComponent('user-account/email-verification-code');
       const newEmail = 'toto@example.net';
       const password = 'pix123';
       component.isResending = false;
       component.args.email = newEmail;
       component.args.password = password;
-      component.store = { createRecord: () => ({ sendNewEmail: () => new Promise(() => {}) }) };
+      component.store = {
+        createRecord: () => ({
+          sendNewEmail: () => new Promise(() => {}),
+        }),
+      };
 
       // when
       component.resendVerificationCodeByEmail();
@@ -68,7 +72,7 @@ module('Unit | Component | user-account | email-verification-code', function (ho
 
     test('should show success message after resending', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:user-account/email-verification-code');
+      const component = createGlimmerComponent('user-account/email-verification-code');
       const newEmail = 'toto@example.net';
       const password = 'pix123';
       component.isEmailSent = false;

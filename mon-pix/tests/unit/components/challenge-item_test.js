@@ -7,6 +7,31 @@ import createGlimmerComponent from '../../helpers/create-glimmer-component';
 module('Unit | Component | Challenge | Item', function (hooks) {
   setupTest(hooks);
 
+  module('#challengeComponent', function () {
+    [
+      { challengeType: 'QCU', expectedComponent: 'ChallengeItemQcu' },
+      { challengeType: 'QCUIMG', expectedComponent: 'ChallengeItemQcu' },
+      { challengeType: 'QCM', expectedComponent: 'ChallengeItemQcm' },
+      { challengeType: 'QCMIMG', expectedComponent: 'ChallengeItemQcm' },
+      { challengeType: 'QROC', expectedComponent: 'ChallengeItemQroc' },
+      { challengeType: 'QROCm', expectedComponent: 'ChallengeItemQrocm' },
+      { challengeType: 'QROCm-ind', expectedComponent: 'ChallengeItemQrocm' },
+      { challengeType: 'QROCm-dep', expectedComponent: 'ChallengeItemQrocm' },
+    ].forEach(({ challengeType, expectedComponent }) => {
+      test(`should render ${expectedComponent} component when challenge type is ${challengeType}`, function (assert) {
+        // given
+        const challenge = EmberObject.create({ type: challengeType });
+        const answer = EmberObject.create({});
+
+        // when
+        const component = createGlimmerComponent('challenge/item', { challenge, answer });
+
+        // then
+        assert.strictEqual(component.challengeComponent.name, expectedComponent);
+      });
+    });
+  });
+
   module('answerValidated', function (hooks) {
     let createRecordStub;
     let queryRecordStub;
@@ -29,7 +54,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
     module('when the answer is already known', function () {
       test('should not create a new answer', async function (assert) {
         // given
-        const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
+        const component = createGlimmerComponent('challenge/item', { challenge: challengeOne });
         component.router = { transitionTo: sinon.stub().returns() };
         component.store = {
           createRecord: createRecordStub,
@@ -51,7 +76,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
         // given
         createRecordStub.returns(answerToChallengeOne);
         queryRecordStub.resolves(nextChallenge);
-        const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
+        const component = createGlimmerComponent('challenge/item', { challenge: challengeOne });
         component.router = { transitionTo: sinon.stub().returns() };
         component.store = {
           createRecord: createRecordStub,
@@ -77,7 +102,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
       const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
       createRecordStub.returns(answerToChallengeOne);
       queryRecordStub.resolves(nextChallenge);
-      const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
+      const component = createGlimmerComponent('challenge/item', { challenge: challengeOne });
       component.router = { transitionTo: sinon.stub().returns() };
       component.store = {
         createRecord: createRecordStub,
@@ -104,7 +129,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
       const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
       createRecordStub.returns(answerToChallengeOne);
       queryRecordStub.resolves(nextChallenge);
-      const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
+      const component = createGlimmerComponent('challenge/item', { challenge: challengeOne });
       component.router = { transitionTo: sinon.stub().returns() };
       component.store = {
         createRecord: createRecordStub,
@@ -128,7 +153,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
       test('should redirect to assessment-resume route', async function (assert) {
         // given
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
-        const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
+        const component = createGlimmerComponent('challenge/item', { challenge: challengeOne });
         component.router = { transitionTo: sinon.stub().returns() };
         component.currentUser = { isAnonymous: false };
         component.store = {
@@ -162,7 +187,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
 
         test('should redirect to assessment-resume route with level up information', async function (assert) {
           //given
-          const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
+          const component = createGlimmerComponent('challenge/item', { challenge: challengeOne });
           component.router = { transitionTo: sinon.stub().returns() };
           component.currentUser = { user: { isAnonymous: false } };
           component.store = {
@@ -186,7 +211,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
         test('should redirect to assessment-resume route without level up information when user is anonymous', async function (assert) {
           //given
           const expectedQueryParams = { queryParams: {} };
-          const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
+          const component = createGlimmerComponent('challenge/item', { challenge: challengeOne });
           component.router = { transitionTo: sinon.stub().returns() };
           component.currentUser = { user: { isAnonymous: true } };
           component.store = {
@@ -209,7 +234,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
         test('should redirect to assessment-resume route without level up information when there is no currentUser', async function (assert) {
           //given
           const expectedQueryParams = { queryParams: {} };
-          const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
+          const component = createGlimmerComponent('challenge/item', { challenge: challengeOne });
           component.router = { transitionTo: sinon.stub().returns() };
           component.currentUser = { user: undefined };
           component.store = {
@@ -238,7 +263,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
         const error = { message: 'error' };
         answerToChallengeOne.save = sinon.stub().rejects(error);
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
-        const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
+        const component = createGlimmerComponent('challenge/item', { challenge: challengeOne });
         const transitionToStub = sinon.stub().returns();
         component.router = { transitionTo: transitionToStub };
 
@@ -270,7 +295,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
         const assessment = EmberObject.create({ answers: [answerToChallengeOne], certificationCourse });
 
         // when
-        const component = createGlimmerComponent('component:challenge/item', { challenge: challengeOne });
+        const component = createGlimmerComponent('challenge/item', { challenge: challengeOne });
         const transitionToStub = sinon.stub().returns();
         component.router = { transitionTo: transitionToStub };
 

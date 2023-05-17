@@ -12,7 +12,7 @@ module('Unit | Component | User-Tutorials | Filters | ItemCheckbox', function (h
 
     // then
     assert.throws(() => {
-      createGlimmerComponent('component:user-tutorials/filters/item-checkbox', componentParams);
+      createGlimmerComponent('user-tutorials/filters/item-checkbox', componentParams);
     }, 'ERROR in UserTutorials::Filters::ItemCheckbox component, you must provide @type params');
   });
 
@@ -25,7 +25,7 @@ module('Unit | Component | User-Tutorials | Filters | ItemCheckbox', function (h
           item: { id: 'competenceId1' },
           currentFilters: { competences: A(['competenceId1']) },
         };
-        const component = createGlimmerComponent('component:user-tutorials/filters/item-checkbox', componentParams);
+        const component = createGlimmerComponent('user-tutorials/filters/item-checkbox', componentParams);
 
         // when
         const result = component.isChecked;
@@ -43,7 +43,7 @@ module('Unit | Component | User-Tutorials | Filters | ItemCheckbox', function (h
           item: { id: 'competenceId1' },
           currentFilters: { competences: A([]) },
         };
-        const component = createGlimmerComponent('component:user-tutorials/filters/item-checkbox', componentParams);
+        const component = createGlimmerComponent('user-tutorials/filters/item-checkbox', componentParams);
 
         // when
         const result = component.isChecked;

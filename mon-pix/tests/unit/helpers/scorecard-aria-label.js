@@ -17,11 +17,12 @@ module('Unit | Helper | scorecard-aria-label', function (hooks) {
       class IntlServiceStub extends Service {
         t() {}
       }
+
       this.owner.register('service:intl', IntlServiceStub);
       intlServiceStub = this.owner.lookup('service:intl');
       sinon.spy(intlServiceStub, 't');
 
-      component = createGlimmerComponent('component:scorecard-aria-label');
+      component = createGlimmerComponent('scorecard-aria-label');
     });
 
     test('should return that competence is not started', async function (assert) {

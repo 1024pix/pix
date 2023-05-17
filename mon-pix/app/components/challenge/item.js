@@ -2,6 +2,11 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import ENV from 'mon-pix/config/environment';
+import { ensureSafeComponent } from '@embroider/util';
+import ChallengeItemQcm from '../challenge-item-qcm';
+import ChallengeItemQcu from '../challenge-item-qcu';
+import ChallengeItemQroc from '../challenge-item-qroc';
+import ChallengeItemQrocm from '../challenge-item-qrocm';
 
 const FOCUSEDOUT_EVENT_NAME = 'focusedout';
 const FOCUSEDOUT_INTERVAL = 1000;
@@ -16,6 +21,24 @@ export default class Item extends Component {
     if (this.isFocusedChallenge && !this.args.answer) {
       this._setFocusOutEventListener();
     }
+  }
+
+  get challengeComponent() {
+    let result;
+    const challenge = this.args.challenge;
+    const challengeType = challenge.get('type').toUpperCase();
+
+    if (['QCUIMG', 'QCU'].includes(challengeType)) {
+      result = ChallengeItemQcu;
+    } else if (['QCMIMG', 'QCM'].includes(challengeType)) {
+      result = ChallengeItemQcm;
+    } else if (['QROC'].includes(challengeType)) {
+      result = ChallengeItemQroc;
+    } else if (['QROCM', 'QROCM-IND', 'QROCM-DEP'].includes(challengeType)) {
+      result = ChallengeItemQrocm;
+    }
+
+    return ensureSafeComponent(result, this);
   }
 
   @action

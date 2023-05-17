@@ -8,7 +8,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:tutorial-panel');
+    component = createGlimmerComponent('tutorial-panel');
   });
 
   module('#shouldDisplayHint', function () {

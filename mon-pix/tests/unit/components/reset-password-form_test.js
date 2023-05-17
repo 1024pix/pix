@@ -11,7 +11,7 @@ module('Unit | Component | reset password form', function (hooks) {
 
   module('#validatePassword', function () {
     test('should set validation status to default, when component is rendered', function (assert) {
-      const component = createGlimmerComponent('component:reset-password-form');
+      const component = createGlimmerComponent('reset-password-form');
 
       assert.strictEqual(component.validation.status, 'default');
     });
@@ -19,7 +19,7 @@ module('Unit | Component | reset password form', function (hooks) {
     test('should set validation status to error, when there is an validation error on password field', async function (assert) {
       //given
       const userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix' };
-      const component = createGlimmerComponent('component:reset-password-form', { user: userWithBadPassword });
+      const component = createGlimmerComponent('reset-password-form', { user: userWithBadPassword });
 
       // when
       await component.validatePassword();
@@ -31,7 +31,7 @@ module('Unit | Component | reset password form', function (hooks) {
     test('should set validation status to default, when password is valid', async function (assert) {
       //given
       const userWithGoodPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0 #' };
-      const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
+      const component = createGlimmerComponent('reset-password-form', { user: userWithGoodPassword });
 
       // when
       await component.validatePassword();
@@ -52,7 +52,7 @@ module('Unit | Component | reset password form', function (hooks) {
     module('When user password is saved', function () {
       test('should update validation with success data', async function (assert) {
         // given
-        const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
+        const component = createGlimmerComponent('reset-password-form', { user: userWithGoodPassword });
 
         // when
         await component.handleResetPassword();
@@ -64,7 +64,7 @@ module('Unit | Component | reset password form', function (hooks) {
 
       test('should update hasSucceeded', async function (assert) {
         // given
-        const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
+        const component = createGlimmerComponent('reset-password-form', { user: userWithGoodPassword });
 
         // when
         await component.handleResetPassword();
@@ -75,7 +75,7 @@ module('Unit | Component | reset password form', function (hooks) {
 
       test('should reset password input', async function (assert) {
         // given
-        const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
+        const component = createGlimmerComponent('reset-password-form', { user: userWithGoodPassword });
 
         // when
         await component.handleResetPassword();
@@ -112,7 +112,7 @@ module('Unit | Component | reset password form', function (hooks) {
             password: 'Pix',
             save: () => reject({ errors: [{ status: testCase.status }] }),
           });
-          const component = createGlimmerComponent('component:reset-password-form', { user: userWithBadPassword });
+          const component = createGlimmerComponent('reset-password-form', { user: userWithBadPassword });
 
           // when
           await component.handleResetPassword();

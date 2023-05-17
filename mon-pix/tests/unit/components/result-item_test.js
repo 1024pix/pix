@@ -33,7 +33,7 @@ module('Unit | Component | result-item-component', function (hooks) {
     ) {
       test(`should returns undefined when answer provided is: ${answer.name}`, function (assert) {
         // when
-        component = createGlimmerComponent('component:result-item', { answer });
+        component = createGlimmerComponent('result-item', { answer });
 
         // then
         assert.notOk(component.resultItem);
@@ -54,7 +54,7 @@ module('Unit | Component | result-item-component', function (hooks) {
         const answerWithOkResult = { result: `${data.result}` };
 
         // when
-        component = createGlimmerComponent('component:result-item', { answer: answerWithOkResult });
+        component = createGlimmerComponent('result-item', { answer: answerWithOkResult });
 
         // then
         assert.strictEqual(component.resultItem.color, `${data.expectedColor}`);
@@ -74,7 +74,7 @@ module('Unit | Component | result-item-component', function (hooks) {
       test(`should return a tooltip text equal to ${data.expectedTooltip}`, function (assert) {
         // given
         const answerWithOkResult = { result: `${data.result}` };
-        component = createGlimmerComponent('component:result-item', { answer: answerWithOkResult });
+        component = createGlimmerComponent('result-item', { answer: answerWithOkResult });
 
         // when
         const tooltipText = component.resultTooltip;
@@ -118,7 +118,7 @@ module('Unit | Component | result-item-component', function (hooks) {
         const answer = EmberObject.create({ challenge });
 
         // when
-        component = createGlimmerComponent('component:result-item', { answer });
+        component = createGlimmerComponent('result-item', { answer });
 
         // then
         assert.strictEqual(component.validationImplementedForChallengeType, data.expected);

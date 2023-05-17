@@ -16,7 +16,7 @@ module('Unit | Component | Navbar Mobile Header Component', function (hooks) {
   module('When user is logged', function (hooks) {
     hooks.beforeEach(function () {
       this.owner.register('service:session', sessionStubResolve);
-      component = createGlimmerComponent('component:navbar-mobile-header');
+      component = createGlimmerComponent('navbar-mobile-header');
     });
 
     module('#isUserLogged', function () {
@@ -30,7 +30,7 @@ module('Unit | Component | Navbar Mobile Header Component', function (hooks) {
   module('When user is not logged', function (hooks) {
     hooks.beforeEach(function () {
       this.owner.register('service:session', sessionStubReject);
-      component = createGlimmerComponent('component:navbar-mobile-header');
+      component = createGlimmerComponent('navbar-mobile-header');
     });
 
     module('#isUserLogged', function () {

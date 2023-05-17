@@ -10,7 +10,7 @@ module('Unit | Component | action-chip', function (hooks) {
     test('should trigger the triggerAction when triggerAction is called and isTriggering is false', async function (assert) {
       // given
       const triggerAction = sinon.spy();
-      const component = createGlimmerComponent('component:action-chip', { triggerAction });
+      const component = createGlimmerComponent('action-chip', { triggerAction });
       component.isTriggering = false;
 
       // when
@@ -24,7 +24,7 @@ module('Unit | Component | action-chip', function (hooks) {
     test('should not trigger the triggerAction when triggerAction is called and isTriggering is true', async function (assert) {
       // given
       const triggerAction = sinon.spy();
-      const component = createGlimmerComponent('component:action-chip', { triggerAction });
+      const component = createGlimmerComponent('action-chip', { triggerAction });
       component.isTriggering = true;
 
       // when
