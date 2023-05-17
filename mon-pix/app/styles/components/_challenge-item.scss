@@ -54,6 +54,10 @@
     &--selector {
       display: inline-block;
     }
+
+    &--input {
+      margin: $pix-spacing-xs;
+    }
   }
 
   &__proposal-label {

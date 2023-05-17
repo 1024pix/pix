@@ -1,18 +1,25 @@
 .qrocm-proposal {
-
-  &__label {
+  &__input {
     display: inline;
   }
 
-  > input {
-    margin: $pix-spacing-xs;
+  .challenge-response__proposal--input {
+    display: inline-flex;
   }
 
-  input:first-of-type {
-    margin-top: 0;
+  &__input:first-of-type {
+    .challenge-response__proposal--input {
+      margin-top: 0;
+    }
   }
 
-  input:last-of-type {
-    margin-bottom: 0;
+  &__input:last-of-type {
+    .challenge-response__proposal--input {
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    display: inline;
   }
 }
