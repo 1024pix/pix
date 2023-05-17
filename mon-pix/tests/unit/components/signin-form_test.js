@@ -28,7 +28,7 @@ module('Unit | Component | signin-form', function (hooks) {
             },
           }),
         };
-        const component = createGlimmerComponent('component:signin-form');
+        const component = createGlimmerComponent('signin-form');
         component.session = sessionStub;
         component.args.updateExpiredPassword = sinon.stub();
         component.store = storeStub;
@@ -53,7 +53,7 @@ module('Unit | Component | signin-form', function (hooks) {
         const createRecordStub = sinon.stub();
         const queryRecordStub = sinon.stub().resolves(foundUser);
         const authenticateStub = sinon.stub().resolves();
-        const component = createGlimmerComponent('component:signin-form');
+        const component = createGlimmerComponent('signin-form');
         const sessionStub = Service.create({
           authenticateUser: authenticateStub,
         });

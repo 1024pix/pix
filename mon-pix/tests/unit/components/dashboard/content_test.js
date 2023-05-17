@@ -10,7 +10,7 @@ module('Unit | Component | Dashboard | Content', function (hooks) {
 
   hooks.beforeEach(function () {
     // given
-    component = createGlimmerComponent('component:dashboard/content');
+    component = createGlimmerComponent('dashboard/content');
   });
 
   module('#recommendedScorecards', function () {

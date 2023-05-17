@@ -8,7 +8,7 @@ module('Unit | Component | account-recovery | update-sco-record-form', function 
   module('#isSubmitButtonEnabled', function () {
     test('should return false if password is not valid and cgu are not accepted', function (assert) {
       // given
-      const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
+      const component = createGlimmerComponent('account-recovery/update-sco-record-form');
       component.password = 'Pass';
       component.cguAndProtectionPoliciesAccepted = false;
 
@@ -21,7 +21,7 @@ module('Unit | Component | account-recovery | update-sco-record-form', function 
 
     test('should return false if password is valid and cgu are not accepted', function (assert) {
       // given
-      const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
+      const component = createGlimmerComponent('account-recovery/update-sco-record-form');
       component.password = 'Password123';
       component.cguAndProtectionPoliciesAccepted = false;
 
@@ -34,7 +34,7 @@ module('Unit | Component | account-recovery | update-sco-record-form', function 
 
     test('should return true if password is valid and cgu are accepted', function (assert) {
       // given
-      const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
+      const component = createGlimmerComponent('account-recovery/update-sco-record-form');
       component.password = 'Password123';
       component.cguAndProtectionPoliciesAccepted = true;
 

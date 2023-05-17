@@ -8,7 +8,7 @@ module('Unit | Component | timeout-gauge-component ', function (hooks) {
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:timeout-gauge');
+    component = createGlimmerComponent('timeout-gauge');
   });
 
   module('#Test rendering Property', function () {

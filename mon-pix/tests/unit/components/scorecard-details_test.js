@@ -37,7 +37,7 @@ module('Unit | Component | scorecard-details ', function (hooks) {
 
       const tutorials = [tutorial_1, tutorial_2, tutorial_3];
       const scorecard = EmberObject.create({ tutorials });
-      const component = createGlimmerComponent('component:scorecard-details', { scorecard });
+      const component = createGlimmerComponent('scorecard-details', { scorecard });
 
       const expectedResult = [
         {
@@ -72,7 +72,7 @@ module('Unit | Component | scorecard-details ', function (hooks) {
       // given
       const tutorials = [];
       const scorecard = EmberObject.create({ tutorials });
-      const component = createGlimmerComponent('component:scorecard-details', { scorecard });
+      const component = createGlimmerComponent('scorecard-details', { scorecard });
 
       const expectedResult = [];
 
@@ -94,7 +94,7 @@ module('Unit | Component | scorecard-details ', function (hooks) {
 
     test('calls competenceEvaluation service for improving', async function (assert) {
       // given
-      component = createGlimmerComponent('component:scorecard-details', { scorecard });
+      component = createGlimmerComponent('scorecard-details', { scorecard });
       competenceEvaluation = Service.create({ improve: sinon.stub() });
       component.currentUser = EmberObject.create({ user: { id: userId } });
       component.competenceEvaluation = competenceEvaluation;

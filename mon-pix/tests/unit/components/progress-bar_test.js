@@ -10,7 +10,7 @@ module('Unit | Component | progress-bar', function (hooks) {
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:progress-bar');
+    component = createGlimmerComponent('progress-bar');
   });
 
   hooks.afterEach(function () {

@@ -13,7 +13,7 @@ module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
 
   module('When user is logged', function (hooks) {
     hooks.beforeEach(function () {
-      component = createGlimmerComponent('component:navbar-desktop-header');
+      component = createGlimmerComponent('navbar-desktop-header');
       component.session = sessionStubResolve;
       component.currentUser = currentUserStub;
     });
@@ -56,7 +56,7 @@ module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
 
   module('When user is not logged', function (hooks) {
     hooks.beforeEach(function () {
-      component = createGlimmerComponent('component:navbar-desktop-header');
+      component = createGlimmerComponent('navbar-desktop-header');
       component.session = sessionStubReject;
     });
 
@@ -89,7 +89,7 @@ module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
 
   module('When user comes from external platform', function (hooks) {
     hooks.beforeEach(function () {
-      component = createGlimmerComponent('component:navbar-desktop-header');
+      component = createGlimmerComponent('navbar-desktop-header');
       component.session = Service.create({
         isAuthenticated: false,
         data: {

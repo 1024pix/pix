@@ -31,7 +31,7 @@ module('Unit | Component | Update Expired Password Form', function (hooks) {
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:update-expired-password-form');
+    component = createGlimmerComponent('update-expired-password-form');
   });
 
   module('#validatePassword', function () {

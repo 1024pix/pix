@@ -14,7 +14,7 @@ module('Unit | Component | register-form', function (hooks) {
         const unloadRecordStub = sinon.stub();
         store.createRecord('sco-organization-learner', { unloadRecord: unloadRecordStub });
         store.createRecord('dependent-user', { unloadRecord: unloadRecordStub });
-        const component = createGlimmerComponent('component:routes/register-form');
+        const component = createGlimmerComponent('routes/register-form');
         component.firstName = 'Lili';
         component.lastName = 'Coptère';
         component.monthOfBirth = '05';
