@@ -103,6 +103,7 @@ async function createAssessmentCampaign({
       databaseBuilder.factory.buildCampaignSkill({ campaignId: realCampaignId, skillId: skill.id }),
     );
   }
+  const badgeIds = await databaseBuilder.knex('badges').pluck('id').where({ targetProfileId });
 
   const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
     databaseBuilder,
@@ -167,6 +168,13 @@ async function createAssessmentCampaign({
             createdAt: dayjs().subtract(1, 'day'),
           }),
         );
+      }
+      for (const badgeId of badgeIds) {
+        databaseBuilder.factory.buildBadgeAcquisition({
+          badgeId,
+          userId,
+          campaignParticipationId,
+        });
       }
     } else if (hasValidatedOneSkill) {
       const { answerData, keData } = answersAndKnowledgeElementsForProfile[0];
