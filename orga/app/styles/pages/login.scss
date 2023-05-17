@@ -6,5 +6,29 @@
   background: $pix-secondary-orga-gradient;
   align-items: center;
   justify-content: center;
-  padding: $pix-spacing-s;
+
+  &__header {
+    text-align: center;
+  }
+
+  &__title {
+    @extend %pix-title-m;
+
+    font-family: $font-open-sans;
+    font-weight: $font-normal;
+    color: $pix-neutral-80;
+    margin-top: $pix-spacing-m;
+  }
+
+  &__container {
+    background-color: $pix-neutral-0;
+    border-radius: 10px;
+    padding: $pix-spacing-xl 60px;
+    margin-bottom: $pix-spacing-s;
+
+    @include device-is('mobile') {
+      padding: $pix-spacing-xl $pix-spacing-s;
+      border-radius: 0px;
+    }
+  }
 }
