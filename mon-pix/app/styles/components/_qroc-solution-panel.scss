@@ -3,15 +3,7 @@
 }
 
 .correction-qroc-box-answer {
-  max-width: 100%;
-  height: 26px;
-  padding: 0 10px;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  background-color: $pix-neutral-0;
-  border: solid 1px $pix-neutral-20;
-  border-radius: 3px;
-  box-shadow: inset 0 1px 3px 0 rgb(0 0 0 / 15%);
+  width: auto;
 
   &--paragraph {
     width: 100%;
@@ -23,18 +15,27 @@
     width: 100%;
   }
 
+  &--input {
+    width: auto;
+  }
+
   &--correct {
-    color: $pix-success-70;
-    font-weight: $font-bold;
+    textarea, input {
+      color: $pix-success-70;
+      font-weight: $font-bold;
+    }
   }
 
   &--wrong {
-    color: $pix-neutral-80;
-    text-decoration: line-through;
+    textarea, input {
+      text-decoration: line-through;
+    }
   }
 
   &--aband {
-    color: $pix-neutral-80;
-    font-style: italic;
+    textarea, input {
+      color: $pix-neutral-80;
+      font-style: italic;
+    }
   }
 }
