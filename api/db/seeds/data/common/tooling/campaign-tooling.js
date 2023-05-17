@@ -2,6 +2,7 @@ const _ = require('lodash');
 const dayjs = require('dayjs');
 const learningContent = require('./learning-content');
 const profileTooling = require('./profile-tooling');
+const generic = require('./generic');
 const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 
@@ -36,6 +37,7 @@ module.exports = {
  * @param {string} customResultPageButtonUrl
  * @param {boolean} multipleSendings
  * @param {string} assessmentMethod
+ * @param configCampaign { participantCount: number }
  * @returns {Promise<{campaignId: number}>}
  */
 async function createAssessmentCampaign({
@@ -61,8 +63,9 @@ async function createAssessmentCampaign({
   customResultPageButtonUrl,
   multipleSendings,
   assessmentMethod,
+  configCampaign,
 }) {
-  const realCampaignId = _buildCampaign({
+  const { realCampaignId, realOrganizationId } = _buildCampaign({
     databaseBuilder,
     campaignId,
     name,
@@ -91,13 +94,104 @@ async function createAssessmentCampaign({
     .knex('target-profile_tubes')
     .select('tubeId', 'level')
     .where({ targetProfileId });
+  let skillCount = 0;
   for (const cappedTube of cappedTubes) {
     const skillsForTube = await learningContent.findActiveSkillsByTubeId(cappedTube.tubeId);
     const skillsCapped = skillsForTube.filter((skill) => skill.level <= parseInt(cappedTube.level));
+    skillCount += skillsCapped.length;
     skillsCapped.map((skill) =>
       databaseBuilder.factory.buildCampaignSkill({ campaignId: realCampaignId, skillId: skill.id }),
     );
   }
+
+  const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
+    databaseBuilder,
+    realOrganizationId,
+    configCampaign.participantCount,
+  );
+
+  const answersAndKnowledgeElementsForProfile = await _getProfile('PERFECT');
+  const sharedAt = new Date();
+  let i = 0;
+  for (const { userId, organizationLearnerId } of userAndLearnerIds) {
+    const isPerfect = Boolean(i % 2);
+    const hasValidatedOneSkill = isPerfect ? false : generic.pickOneRandomAmong([true, false]);
+    let validatedSkillsCount = 0,
+      masteryRate = 0,
+      pixScore = 0;
+    if (isPerfect) {
+      validatedSkillsCount = answersAndKnowledgeElementsForProfile.length;
+      masteryRate = 1;
+      pixScore = _.floor(_.sumBy(answersAndKnowledgeElementsForProfile, ({ keData }) => keData.earnedPix));
+    }
+    if (hasValidatedOneSkill) {
+      validatedSkillsCount = 1;
+      masteryRate = 1 / skillCount;
+      pixScore = _.floor(answersAndKnowledgeElementsForProfile[0].keData.earnedPix);
+    }
+    const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+      campaignId,
+      userId,
+      organizationLearnerId,
+      sharedAt,
+      validatedSkillsCount,
+      masteryRate,
+      pixScore,
+      status: CampaignParticipationStatuses.SHARED,
+      isImproved: false,
+      isCertifiable: true,
+    }).id;
+    const assessmentId = databaseBuilder.factory.buildAssessment({
+      userId,
+      type: Assessment.types.CAMPAIGN,
+      state: Assessment.states.COMPLETED,
+      isImproving: false,
+      lastQuestionDate: new Date(),
+      lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+      competenceId: null,
+      campaignParticipationId,
+    }).id;
+    const keDataForSnapshot = [];
+    if (isPerfect) {
+      for (const { answerData, keData } of answersAndKnowledgeElementsForProfile) {
+        const answerId = databaseBuilder.factory.buildAnswer({
+          assessmentId,
+          answerData,
+        }).id;
+        keDataForSnapshot.push(
+          databaseBuilder.factory.buildKnowledgeElement({
+            assessmentId,
+            answerId,
+            userId,
+            ...keData,
+            createdAt: dayjs().subtract(1, 'day'),
+          }),
+        );
+      }
+    } else if (hasValidatedOneSkill) {
+      const { answerData, keData } = answersAndKnowledgeElementsForProfile[0];
+      const answerId = databaseBuilder.factory.buildAnswer({
+        assessmentId,
+        answerData,
+      }).id;
+      keDataForSnapshot.push(
+        databaseBuilder.factory.buildKnowledgeElement({
+          assessmentId,
+          answerId,
+          userId,
+          ...keData,
+          createdAt: dayjs().subtract(1, 'day'),
+        }),
+      );
+    }
+    databaseBuilder.factory.buildKnowledgeElementSnapshot({
+      userId,
+      snappedAt: sharedAt,
+      snapshot: JSON.stringify(keDataForSnapshot),
+    });
+    ++i;
+  }
+
   return { campaignId: realCampaignId };
 }
 
@@ -153,7 +247,7 @@ async function createProfilesCollectionCampaign({
   assessmentMethod,
   configCampaign,
 }) {
-  _buildCampaign({
+  const { realCampaignId, realOrganizationId } = _buildCampaign({
     databaseBuilder,
     campaignId,
     name,
@@ -180,7 +274,7 @@ async function createProfilesCollectionCampaign({
   });
   const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
     databaseBuilder,
-    organizationId,
+    realOrganizationId,
     configCampaign.participantCount,
   );
   const profileDistribution = [
@@ -240,7 +334,7 @@ async function createProfilesCollectionCampaign({
       snapshot: JSON.stringify(keDataForSnapshot),
     });
   }
-  return { campaignId };
+  return { campaignId: realCampaignId };
 }
 
 function _buildCampaign({
@@ -268,7 +362,7 @@ function _buildCampaign({
   multipleSendings,
   assessmentMethod,
 }) {
-  return databaseBuilder.factory.buildCampaign({
+  const { id: realCampaignId, organizationId: realOrganizationId } = databaseBuilder.factory.buildCampaign({
     id: campaignId,
     name,
     code,
@@ -291,11 +385,18 @@ function _buildCampaign({
     customResultPageButtonUrl,
     multipleSendings,
     assessmentMethod,
-  }).id;
+  });
+  return { realCampaignId, realOrganizationId };
 }
 
+let emailIndex = 0;
 async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId, requiredParticipantCount) {
   const userAndLearnerIds = [];
+  // const { organizationId } = await databaseBuilder.knex('campaigns')
+  //   .select('organizationId')
+  //   .where({ id: campaignId })
+  //   .first();
+
   const existingReconciliatedOrganizationLearnerIds = await databaseBuilder
     .knex('view-active-organization-learners')
     .select({
@@ -306,13 +407,12 @@ async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId
     .whereNotNull('userId');
   userAndLearnerIds.push(...existingReconciliatedOrganizationLearnerIds);
   const learnersCountToCreate = requiredParticipantCount - userAndLearnerIds.length;
-  const offset = userAndLearnerIds.length;
   const divisions = ['1ere A', '2nde B', 'Terminale C'];
   for (let i = 0; i < learnersCountToCreate; ++i) {
     const userId = databaseBuilder.factory.buildUser.withRawPassword({
-      firstName: `first-name${offset + i}`,
-      lastName: `last-name${offset + i}`,
-      email: `learneremail${organizationId}_${offset + i}@example.net`,
+      firstName: `first-name${emailIndex}`,
+      lastName: `last-name${emailIndex}`,
+      email: `learneremail${organizationId}_${emailIndex}@example.net`,
       cgu: true,
       lastTermsOfServiceValidatedAt: new Date(),
       mustValidateTermsOfService: false,
@@ -320,15 +420,15 @@ async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId
       shouldChangePassword: false,
     }).id;
     const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
-      firstName: `first-name${offset + i}`,
-      lastName: `last-name${offset + i}`,
+      firstName: `first-name${emailIndex}`,
+      lastName: `last-name${emailIndex}`,
       sex: 'M',
       birthdate: '2000-01-01',
       birthCity: null,
       birthCityCode: '75115',
       birthCountryCode: '100',
       birthProvinceCode: null,
-      division: divisions[offset + (i % divisions.length)],
+      division: divisions[emailIndex + (i % divisions.length)],
       isDisabled: false,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -336,8 +436,8 @@ async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId
       userId,
     }).id;
     userAndLearnerIds.push({ userId, organizationLearnerId });
+    emailIndex++;
   }
-
   return userAndLearnerIds;
 }
 

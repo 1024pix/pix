@@ -119,6 +119,9 @@ async function _createAssessmentCampaign(databaseBuilder) {
     customResultPageButtonUrl: 'customResultPageButtonUrl',
     multipleSendings: false,
     assessmentMethod: 'SMART_RANDOM',
+    configCampaign: {
+      participantCount: 30,
+    },
   });
 }
 
