@@ -35,7 +35,7 @@ module('Integration | component | Campaigns | Evaluation | Skill Review', functi
       campaignParticipationResult: EmberObject.create({ id: 12345, hasReachedStage: false }),
     };
 
-    component = createGlimmerComponent('component:routes/campaigns/assessment/skill-review', {
+    component = createGlimmerComponent('routes/campaigns/assessment/skill-review', {
       model,
     });
 

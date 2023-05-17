@@ -23,8 +23,9 @@ module('Unit | Component | QCU proposals', function (hooks) {
     });
 
     function initComponent() {
-      component = createGlimmerComponent('component:qcu-proposals', { proposals, answerValue, shuffleSeed, shuffled });
+      component = createGlimmerComponent('qcu-proposals', { proposals, answerValue, shuffleSeed, shuffled });
     }
+
     module('when shuffled is false', function () {
       test('should return an array of [<proposal_text>, <boolean_answer>]', function (assert) {
         // Given

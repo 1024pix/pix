@@ -15,7 +15,7 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
   hooks.beforeEach(function () {
     storeStub = { createRecord: sinon.stub() };
     eventStub = { preventDefault: sinon.stub() };
-    component = createComponent('component:routes/campaigns/invited/associate-sup-student-form', {
+    component = createComponent('routes/campaigns/invited/associate-sup-student-form', {
       campaignCode: 123,
     });
     component.store = storeStub;

@@ -8,7 +8,7 @@ module('Unit | Component | timed-challenge-instructions', function (hooks) {
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:timed-challenge-instructions');
+    component = createGlimmerComponent('timed-challenge-instructions');
   });
 
   module('Component rendering', function () {

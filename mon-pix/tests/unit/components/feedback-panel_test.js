@@ -10,7 +10,7 @@ module('Unit | Component | feedback-panel', function (hooks) {
 
   hooks.beforeEach(function () {
     // given
-    component = createGlimmerComponent('component:feedback-panel');
+    component = createGlimmerComponent('feedback-panel');
   });
 
   module('#toggleFeedbackForm', function () {

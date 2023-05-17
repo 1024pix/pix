@@ -11,7 +11,7 @@ module('Unit | Component | User-Tutorials | Filters | Sidebar', function (hooks)
         // given
         const type = 'competences';
         const id = 'competenceId1';
-        const component = createGlimmerComponent('component:user-tutorials/filters/sidebar');
+        const component = createGlimmerComponent('user-tutorials/filters/sidebar');
 
         // when
         component.handleFilterChange(type, id);
@@ -26,7 +26,7 @@ module('Unit | Component | User-Tutorials | Filters | Sidebar', function (hooks)
         // given
         const type = 'competences';
         const id = 'competenceId1';
-        const component = createGlimmerComponent('component:user-tutorials/filters/sidebar');
+        const component = createGlimmerComponent('user-tutorials/filters/sidebar');
         component.filters[type].pushObject(id);
 
         // when
@@ -41,7 +41,7 @@ module('Unit | Component | User-Tutorials | Filters | Sidebar', function (hooks)
   module('#handleResetFilters', function () {
     test('should reset all filters', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:user-tutorials/filters/sidebar');
+      const component = createGlimmerComponent('user-tutorials/filters/sidebar');
       component.filters.competences = ['competence1', 'competence2'];
 
       // when

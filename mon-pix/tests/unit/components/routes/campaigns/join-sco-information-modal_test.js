@@ -19,7 +19,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
           };
 
           // when
-          const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+          const component = createComponent('routes/campaigns/join-sco-information-modal', {
             reconciliationError,
           });
 
@@ -34,7 +34,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
           };
 
           // when
-          const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+          const component = createComponent('routes/campaigns/join-sco-information-modal', {
             reconciliationError,
           });
 
@@ -49,7 +49,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
           };
 
           // when
-          const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+          const component = createComponent('routes/campaigns/join-sco-information-modal', {
             reconciliationError,
           });
 
@@ -66,7 +66,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
 
         test('should set is isInformationMode to false', function (assert) {
           // when
-          const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+          const component = createComponent('routes/campaigns/join-sco-information-modal', {
             reconciliationError,
           });
 
@@ -82,7 +82,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
           });
 
           // when
-          const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+          const component = createComponent('routes/campaigns/join-sco-information-modal', {
             reconciliationError,
           });
 
@@ -96,7 +96,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
             reconciliationError.meta.shortCode = 'R12';
 
             // when
-            const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+            const component = createComponent('routes/campaigns/join-sco-information-modal', {
               reconciliationError,
             });
 
@@ -111,7 +111,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
             reconciliationError.meta.shortCode = 'R13';
 
             // when
-            const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+            const component = createComponent('routes/campaigns/join-sco-information-modal', {
               reconciliationError,
             });
 
@@ -131,7 +131,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
 
       test('should set is isInformationMode to true', function (assert) {
         // when
-        const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+        const component = createComponent('routes/campaigns/join-sco-information-modal', {
           reconciliationWarning,
         });
 
@@ -147,7 +147,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
         });
 
         // when
-        const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
+        const component = createComponent('routes/campaigns/join-sco-information-modal', {
           reconciliationWarning,
         });
 
@@ -160,22 +160,27 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
   module('#goToCampaignConnectionForm', function () {
     test('should not redirect user to login page when session is invalidated', function (assert) {
       // given
-      const component = createComponent('component:routes/campaigns/join-sco-information-modal');
+      const component = createComponent('routes/campaigns/join-sco-information-modal');
       const invalidateStub = sinon.stub().resolves();
       const setStub = sinon.stub();
+
       class SessionStub extends Service {
         invalidate = invalidateStub;
         set = setStub;
       }
+
       this.owner.register('service:session', SessionStub);
 
       class CampaignStorageStub extends Service {
         set = sinon.stub();
       }
+
       this.owner.register('service:campaignStorage', CampaignStorageStub);
+
       class RouterStub extends Service {
         replaceWith = sinon.stub();
       }
+
       this.owner.register('service:router', RouterStub);
 
       // when

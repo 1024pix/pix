@@ -10,7 +10,7 @@ module('Unit | Component | account-recovery | backup-email-confirmation-form', f
     test('should call sendEmail', function (assert) {
       // given
       const sendEmail = sinon.stub();
-      const component = createGlimmerComponent('component:account-recovery/backup-email-confirmation-form', {
+      const component = createGlimmerComponent('account-recovery/backup-email-confirmation-form', {
         sendEmail,
       });
       component.email = 'john.doe@example.net';
@@ -29,7 +29,7 @@ module('Unit | Component | account-recovery | backup-email-confirmation-form', f
   module('#isSubmitButtonEnabled', function () {
     test('should return false if email is empty', function (assert) {
       // given
-      const component = createGlimmerComponent('component:account-recovery/backup-email-confirmation-form');
+      const component = createGlimmerComponent('account-recovery/backup-email-confirmation-form');
       component.email = '';
 
       // when
@@ -41,7 +41,7 @@ module('Unit | Component | account-recovery | backup-email-confirmation-form', f
 
     test('should return false if email is not valid', function (assert) {
       // given
-      const component = createGlimmerComponent('component:account-recovery/backup-email-confirmation-form');
+      const component = createGlimmerComponent('account-recovery/backup-email-confirmation-form');
       component.email = 'wrongemail';
 
       // when
@@ -53,7 +53,7 @@ module('Unit | Component | account-recovery | backup-email-confirmation-form', f
 
     test('should return true if email is valid', function (assert) {
       // given
-      const component = createGlimmerComponent('component:account-recovery/backup-email-confirmation-form');
+      const component = createGlimmerComponent('account-recovery/backup-email-confirmation-form');
       component.email = 'user@example.net';
 
       // when

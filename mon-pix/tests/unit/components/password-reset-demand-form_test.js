@@ -19,7 +19,7 @@ module('Unit | Component | password-reset-demand-form', function (hooks) {
         save: saveStub,
       });
 
-      component = createGlimmerComponent('component:password-reset-demand-form');
+      component = createGlimmerComponent('password-reset-demand-form');
       component.store = Service.create({
         createRecord: createRecordStub,
       });

@@ -14,7 +14,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
       const answer = { value: "smiley1: ':)' smiley2: ''", result: 'ko' };
 
-      const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { challenge, answer });
+      const component = createGlimmerComponent('qrocm-dep-solution-panel', { challenge, answer });
 
       const expectedBlocksData = [
         {
@@ -52,7 +52,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
   module('#answerIsCorrect', function () {
     test('should return true', function (assert) {
       //Given
-      const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { answer: { result: 'ok' } });
+      const component = createGlimmerComponent('qrocm-dep-solution-panel', { answer: { result: 'ok' } });
 
       //when
       const answerIsCorrect = component.answerIsCorrect;
@@ -63,7 +63,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
 
     test('should return false', function (assert) {
       //Given
-      const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { answer: { result: 'ko' } });
+      const component = createGlimmerComponent('qrocm-dep-solution-panel', { answer: { result: 'ko' } });
 
       //when
       const answerIsCorrect = component.answerIsCorrect;
@@ -77,7 +77,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
     test('should return the expected answers', function (assert) {
       //Given
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
-      const component = createGlimmerComponent('component:qrocm-dep-solution-panel', {
+      const component = createGlimmerComponent('qrocm-dep-solution-panel', {
         challenge,
         answer: { result: 'ko' },
         solution: 'groupe 1:\n- horizontalité\n- organisation plate\ngroupe 2:\n- cadre',
@@ -93,7 +93,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
     test('should return examples of good answers', function (assert) {
       //Given
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
-      const component = createGlimmerComponent('component:qrocm-dep-solution-panel', {
+      const component = createGlimmerComponent('qrocm-dep-solution-panel', {
         challenge,
         answer: { result: 'ko' },
         solution: 'groupe 1:\n- tag\n- slogan\ngroupe 2:\n- marche\n- sitting\ngroupe 3:\n- masque',

@@ -12,11 +12,13 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
   module('#register', function () {
     test('should create session', function (assert) {
       // given
-      const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+      const component = createGlimmerComponent('authentication/login-or-register-oidc');
       const authenticateStub = sinon.stub();
+
       class SessionStub extends Service {
         authenticate = authenticateStub;
       }
+
       this.owner.register('service:session', SessionStub);
       component.args.identityProviderSlug = 'super-idp';
       component.args.authenticationKey = 'super-key';
@@ -37,11 +39,13 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
     module('when authentication key has expired', function () {
       test('should display error', async function (assert) {
         // given
-        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/login-or-register-oidc');
         const authenticateStub = sinon.stub().rejects({ errors: [{ status: '401' }] });
+
         class SessionStub extends Service {
           authenticate = authenticateStub;
         }
+
         this.owner.register('service:session', SessionStub);
         component.args.identityProviderSlug = 'super-idp';
         component.args.authenticationKey = 'super-key';
@@ -61,7 +65,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
     module('when terms of service are not selected', function () {
       test('should display error', function (assert) {
         // given
-        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/login-or-register-oidc');
         component.isTermsOfServiceValidated = false;
 
         // when
@@ -80,13 +84,15 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       module('when invalid locale', function () {
         test('it displays the invalid locale error message', async function (assert) {
           // given
-          const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+          const component = createGlimmerComponent('authentication/login-or-register-oidc');
           const authenticateStub = sinon
             .stub()
             .rejects({ errors: [{ status: '400', code: 'INVALID_LOCALE_FORMAT', meta: { locale: 'zzzz' } }] });
+
           class SessionStub extends Service {
             authenticate = authenticateStub;
           }
+
           this.owner.register('service:session', SessionStub);
           component.args.identityProviderSlug = 'super-idp';
           component.args.authenticationKey = 'super-key';
@@ -106,13 +112,15 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       module('when locale is not supported', function () {
         test('it displays the unsupported locale error message', async function (assert) {
           // given
-          const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+          const component = createGlimmerComponent('authentication/login-or-register-oidc');
           const authenticateStub = sinon
             .stub()
             .rejects({ errors: [{ status: '400', code: 'LOCALE_NOT_SUPPORTED', meta: { locale: 'jp' } }] });
+
           class SessionStub extends Service {
             authenticate = authenticateStub;
           }
+
           this.owner.register('service:session', SessionStub);
           component.args.identityProviderSlug = 'super-idp';
           component.args.authenticationKey = 'super-key';
@@ -132,11 +140,13 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
 
     test('it should display detailed error', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+      const component = createGlimmerComponent('authentication/login-or-register-oidc');
       const authenticateStub = sinon.stub().rejects({ errors: [{ status: '500', detail: 'some detail' }] });
+
       class SessionStub extends Service {
         authenticate = authenticateStub;
       }
+
       this.owner.register('service:session', SessionStub);
       component.args.identityProviderSlug = 'super-idp';
       component.args.authenticationKey = 'super-key';
@@ -151,11 +161,13 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
 
     test('it should display generic error', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+      const component = createGlimmerComponent('authentication/login-or-register-oidc');
       const authenticateStub = sinon.stub().rejects({ errors: [{ status: '500' }] });
+
       class SessionStub extends Service {
         authenticate = authenticateStub;
       }
+
       this.owner.register('service:session', SessionStub);
       component.args.identityProviderSlug = 'super-idp';
       component.args.authenticationKey = 'super-key';
@@ -173,7 +185,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
     test('should trim on email validation', function (assert) {
       // given
       const emailWithSpaces = '   glace@aleau.net   ';
-      const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+      const component = createGlimmerComponent('authentication/login-or-register-oidc');
 
       // when
       component.validateEmail({ target: { value: emailWithSpaces } });
@@ -186,7 +198,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       test('should display error', function (assert) {
         // given
         const invalidEmail = 'glace@aleau';
-        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/login-or-register-oidc');
 
         // when
         component.validateEmail({ target: { value: invalidEmail } });
@@ -209,10 +221,12 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         hasLogoutUrl: false,
         source: 'oidc-externe',
       };
+
       class OidcIdentityProvidersStub extends Service {
         'oidc-partner' = oidcPartner;
         list = [oidcPartner];
       }
+
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
     });
 
@@ -220,7 +234,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       // given
       const email = 'glace.alo@example.net';
       const password = 'pix123';
-      const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+      const component = createGlimmerComponent('authentication/login-or-register-oidc');
       component.email = email;
       component.password = password;
       component.args.onLogin = sinon.stub();
@@ -240,7 +254,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
     module('when form is invalid', function () {
       test('should not request api for reconciliation', async function (assert) {
         // given
-        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/login-or-register-oidc');
         component.email = '';
         const eventStub = { preventDefault: sinon.stub() };
         component.args.onLogin = sinon.stub();
@@ -257,7 +271,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
     module('when authentication key has expired', function () {
       test('should display error', async function (assert) {
         // given
-        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/login-or-register-oidc');
         component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '401' }] });
         component.email = 'glace.alo@example.net';
         component.password = 'pix123';
@@ -277,7 +291,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
     module('when user is not found', function () {
       test('should display error', async function (assert) {
         // given
-        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/login-or-register-oidc');
         component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '404' }] });
         component.email = 'glace.alo@example.net';
         component.password = 'pix123';
@@ -297,7 +311,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
     module('when there is an account conflict', function () {
       test('should display error', async function (assert) {
         // given
-        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+        const component = createGlimmerComponent('authentication/login-or-register-oidc');
         component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '409' }] });
         component.email = 'glace.alo@example.net';
         component.password = 'pix123';
@@ -316,7 +330,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
 
     test('it should display generic error', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+      const component = createGlimmerComponent('authentication/login-or-register-oidc');
       component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '500' }] });
       component.email = 'glace.alo@example.net';
       component.password = 'pix123';

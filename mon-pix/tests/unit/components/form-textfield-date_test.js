@@ -8,7 +8,7 @@ module('Unit | Component | form-textfield-date', function (hooks) {
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:form-textfield-date');
+    component = createGlimmerComponent('form-textfield-date');
   });
 
   module('When validationStatus gets "default", Component computed property: ', function () {
