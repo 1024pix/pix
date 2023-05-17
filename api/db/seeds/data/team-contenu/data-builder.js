@@ -119,6 +119,9 @@ async function _createAssessmentCampaign(databaseBuilder) {
     customResultPageButtonUrl: 'customResultPageButtonUrl',
     multipleSendings: false,
     assessmentMethod: 'SMART_RANDOM',
+    configCampaign: {
+      participantCount: 30,
+    },
   });
 }
 
@@ -145,6 +148,10 @@ async function _createProfilesCollectionCampaign(databaseBuilder) {
     customResultPageButtonUrl: 'customResultPageButtonUrl',
     multipleSendings: false,
     assessmentMethod: 'SMART_RANDOM',
+    configCampaign: {
+      participantCount: 20,
+      profileDistribution: { beginner: 5, intermediate: 5, advanced: 9, perfect: 1 },
+    },
   });
 }
 
@@ -192,6 +199,20 @@ async function _createCoreTargetProfile(databaseBuilder) {
     message: '1 RT double critère Campaign & Tubes',
     title: '1 RT double critère Campaign & Tubes',
     key: 'SOME_KEY_FOR_RT_600',
+    isCertifiable: false,
+    isAlwaysVisible: false,
+    configBadge,
+  });
+  tooling.targetProfile.createBadge({
+    databaseBuilder,
+    targetProfileId,
+    cappedTubesDTO,
+    badgeId: 601,
+    altMessage: '1 RT simple critère Campaign',
+    imageUrl: 'some_other_image.svg',
+    message: '1 RT simple critère Campaign',
+    title: '1 RT simple critère Campaign',
+    key: 'SOME_KEY_FOR_RT_601',
     isCertifiable: false,
     isAlwaysVisible: false,
     configBadge,

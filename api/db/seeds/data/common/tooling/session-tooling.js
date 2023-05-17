@@ -721,6 +721,9 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
   const { campaignId } = await campaignTooling.createAssessmentCampaign({
     databaseBuilder,
     targetProfileId,
+    configCampaign: {
+      participantCount: 0,
+    },
   });
   const badgeAndComplementaryCertificationBadgeIds = await databaseBuilder
     .knex('complementary-certification-badges')
