@@ -7,6 +7,31 @@ import createGlimmerComponent from '../../helpers/create-glimmer-component';
 module('Unit | Component | Challenge | Item', function (hooks) {
   setupTest(hooks);
 
+  module('#challengeComponent', function () {
+    [
+      { challengeType: 'QCU', expectedComponent: 'ChallengeItemQcu' },
+      { challengeType: 'QCUIMG', expectedComponent: 'ChallengeItemQcu' },
+      { challengeType: 'QCM', expectedComponent: 'ChallengeItemQcm' },
+      { challengeType: 'QCMIMG', expectedComponent: 'ChallengeItemQcm' },
+      { challengeType: 'QROC', expectedComponent: 'ChallengeItemQroc' },
+      { challengeType: 'QROCm', expectedComponent: 'ChallengeItemQrocm' },
+      { challengeType: 'QROCm-ind', expectedComponent: 'ChallengeItemQrocm' },
+      { challengeType: 'QROCm-dep', expectedComponent: 'ChallengeItemQrocm' },
+    ].forEach(({ challengeType, expectedComponent }) => {
+      test(`should render ${expectedComponent} component when challenge type is ${challengeType}`, function (assert) {
+        // given
+        const challenge = EmberObject.create({ type: challengeType });
+        const answer = EmberObject.create({});
+
+        // when
+        const component = createGlimmerComponent('challenge/item', { challenge, answer });
+
+        // then
+        assert.strictEqual(component.challengeComponent.name, expectedComponent);
+      });
+    });
+  });
+
   module('answerValidated', function (hooks) {
     let createRecordStub;
     let queryRecordStub;
