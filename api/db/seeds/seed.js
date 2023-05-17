@@ -48,78 +48,78 @@ const { fillCampaignSkills } = require('./data/fill-campaign-skills');
 const {
   addLastAssessmentResultCertificationCourse,
 } = require('../../scripts/certification/fill-last-assessment-result-certification-course-table');
+const { commonBuilder } = require('./data/common/common-builder');
+const { teamContenuDataBuilder } = require('./data/team-contenu/data-builder');
+const { teamCertificationDataBuilder } = require('./data/team-certification/data-builder');
 
 exports.seed = async (knex) => {
+  const shouldUseNewSeeds = process.env.USE_NEW_SEEDS === 'true';
   const databaseBuilder = new DatabaseBuilder({ knex });
+  if (shouldUseNewSeeds) {
+    commonBuilder({ databaseBuilder });
+    await teamContenuDataBuilder({ databaseBuilder });
+    await teamCertificationDataBuilder({ databaseBuilder });
+    await databaseBuilder.commit();
+    await databaseBuilder.fixSequences();
+  } else {
+    // Feature list
+    featuresBuilder({ databaseBuilder });
 
-  // Feature list
-  featuresBuilder({ databaseBuilder });
+    // Users
+    usersBuilder({ databaseBuilder });
+    pixAdminRolesBuilder({ databaseBuilder });
 
-  // Users
-  usersBuilder({ databaseBuilder });
-  pixAdminRolesBuilder({ databaseBuilder });
+    // Organizations
+    tagsBuilder({ databaseBuilder });
+    organizationsProBuilder({ databaseBuilder });
+    organizationPlacesProBuilder({ databaseBuilder });
 
-  // Organizations
-  tagsBuilder({ databaseBuilder });
-  organizationsProBuilder({ databaseBuilder });
-  organizationPlacesProBuilder({ databaseBuilder });
+    organizationsScoBuilder({ databaseBuilder });
 
-  organizationsScoBuilder({ databaseBuilder });
+    organizationsSupBuilder({ databaseBuilder });
 
-  organizationsSupBuilder({ databaseBuilder });
+    // Target Profiles
+    targetProfilesBuilder({ databaseBuilder });
+    badgesBuilder({ databaseBuilder });
+    stagesBuilder({ databaseBuilder });
 
-  // Target Profiles
-  targetProfilesBuilder({ databaseBuilder });
-  badgesBuilder({ databaseBuilder });
-  stagesBuilder({ databaseBuilder });
+    // Trainings
+    trainingBuilder({ databaseBuilder });
 
-  // Trainings
-  trainingBuilder({ databaseBuilder });
+    // Certifications
+    certificationCentersBuilder({ databaseBuilder });
+    certificationCenterInvitationsBuilder({ databaseBuilder });
+    certificationUsersBuilder({ databaseBuilder });
+    certificationCenterMembershipsBuilder({ databaseBuilder });
+    await certificationUserProfilesBuilder({ databaseBuilder });
+    certificationSessionsBuilder({ databaseBuilder });
+    certificationCandidatesBuilder({ databaseBuilder });
+    await certificationCoursesBuilder({ databaseBuilder });
+    certificationScoresBuilder({ databaseBuilder });
+    badgeAcquisitionBuilder({ databaseBuilder });
+    complementaryCertificationCourseResultsBuilder({ databaseBuilder });
+    issueReportCategoriesBuilder({ databaseBuilder });
 
-  // Certifications
-  certificationCentersBuilder({ databaseBuilder });
-  certificationCenterInvitationsBuilder({ databaseBuilder });
-  certificationUsersBuilder({ databaseBuilder });
-  certificationCenterMembershipsBuilder({ databaseBuilder });
-  await certificationUserProfilesBuilder({ databaseBuilder });
-  certificationSessionsBuilder({ databaseBuilder });
-  certificationCandidatesBuilder({ databaseBuilder });
-  await certificationCoursesBuilder({ databaseBuilder });
-  certificationScoresBuilder({ databaseBuilder });
-  badgeAcquisitionBuilder({ databaseBuilder });
-  complementaryCertificationCourseResultsBuilder({ databaseBuilder });
-  issueReportCategoriesBuilder({ databaseBuilder });
+    // Éléments de parcours
+    campaignsProBuilder({ databaseBuilder });
+    campaignsSupBuilder({ databaseBuilder });
+    campaignsScoBuilder({ databaseBuilder });
+    assessmentsBuilder({ databaseBuilder });
+    answersBuilder({ databaseBuilder });
 
-  // Éléments de parcours
-  campaignsProBuilder({ databaseBuilder });
-  campaignsSupBuilder({ databaseBuilder });
-  campaignsScoBuilder({ databaseBuilder });
-  assessmentsBuilder({ databaseBuilder });
-  answersBuilder({ databaseBuilder });
+    // Éléments de parcours pour l'utilisateur Pix Aile
+    buildPixAileProfile({ databaseBuilder });
 
-  // Éléments de parcours pour l'utilisateur Pix Aile
-  buildPixAileProfile({ databaseBuilder });
+    // Création d'envois pole emploi
+    poleEmploiSendingsBuilder({ databaseBuilder });
 
-  // Création d'envois pole emploi
-  poleEmploiSendingsBuilder({ databaseBuilder });
-
-  userLoginsBuilder({ databaseBuilder });
-  await databaseBuilder.commit();
-  await databaseBuilder.fixSequences();
-  await fillCampaignSkills();
-  await addLastAssessmentResultCertificationCourse();
-  const campaignParticipationData = await getEligibleCampaignParticipations(50000);
-  await generateKnowledgeElementSnapshots(campaignParticipationData, 1);
-  await computeParticipationsResults(10, false);
-
-  // const { commonBuilder } = require('./data/common/common-builder');
-  // const { teamContenuDataBuilder } = require('./data/team-contenu/data-builder');
-  // const { teamCertificationDataBuilder } = require('./data/team-certification/data-builder');
-  // const databaseBuilder = new DatabaseBuilder({ knex });
-  // commonBuilder({ databaseBuilder });
-  // await teamContenuDataBuilder({ databaseBuilder });
-  // await teamCertificationDataBuilder({ databaseBuilder });
-  // await databaseBuilder.commit();
-  // await databaseBuilder.fixSequences();
-
+    userLoginsBuilder({ databaseBuilder });
+    await databaseBuilder.commit();
+    await databaseBuilder.fixSequences();
+    await fillCampaignSkills();
+    await addLastAssessmentResultCertificationCourse();
+    const campaignParticipationData = await getEligibleCampaignParticipations(50000);
+    await generateKnowledgeElementSnapshots(campaignParticipationData, 1);
+    await computeParticipationsResults(10, false);
+  }
 };
