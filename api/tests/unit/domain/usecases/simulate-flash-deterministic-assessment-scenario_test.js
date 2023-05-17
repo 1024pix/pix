@@ -84,6 +84,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         expect(answer.errorRate).not.to.be.undefined;
         expect(answer.estimatedLevel).not.to.be.undefined;
         expect(answer.reward).not.to.be.undefined;
+        expect(answer.answer).not.to.be.undefined;
       });
     });
   });

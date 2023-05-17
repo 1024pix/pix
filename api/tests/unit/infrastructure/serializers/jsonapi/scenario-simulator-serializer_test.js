@@ -12,11 +12,11 @@ describe('Unit | Serializer | JSONAPI | scenario-simulator-serializer', function
         discriminant: 0.5,
       });
       const scenarioSimulator = {
-        ...challenge,
+        challenge,
         reward: 2,
         estimatedLevel: 1,
         errorRate: 1.5,
-        simulationAnswer: 'ok',
+        answer: 'ok',
       };
 
       // when
@@ -29,7 +29,7 @@ describe('Unit | Serializer | JSONAPI | scenario-simulator-serializer', function
             'error-rate': 1.5,
             'estimated-level': 1,
             'minimum-capability': 0.6,
-            'simulation-answer': 'ok',
+            answer: 'ok',
             reward: 2,
           },
           id: '1',

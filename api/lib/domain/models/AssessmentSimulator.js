@@ -45,6 +45,7 @@ export class AssessmentSimulator {
         errorRate,
         estimatedLevel,
         reward,
+        answer,
       });
     }
 
