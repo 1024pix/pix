@@ -99,12 +99,6 @@ const getNextChallengeForPix1d = async function (request, h, dependencies = { ch
   return dependencies.challengeSerializer.serialize(challenge);
 };
 
-const completeAssessmentForPix1d = async function (request, h) {
-  const assessmentId = request.params.id;
-  await usecases.completeAssessmentForPix1d({ assessmentId });
-  return h.response({}).code(204);
-};
-
 const completeAssessment = async function (request) {
   const assessmentId = request.params.id;
   const locale = extractLocaleFromRequest(request);

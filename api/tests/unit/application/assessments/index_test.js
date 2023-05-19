@@ -64,37 +64,6 @@ describe('Unit | Application | Router | assessment-router', function () {
       expect(response.statusCode).to.equal(400);
     });
   });
-  describe('PATCH /api/pix1d/assessments/{id}', function () {
-    it('should return 204', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'checkPix1dActivated').returns('ok');
-      sinon
-        .stub(assessmentController, 'completeAssessmentForPix1d')
-        .callsFake((request, h) => h.response('ok').code(204));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/pix1d/assessments/1');
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-
-    it('should return 400', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'checkPix1dActivated').returns('ok');
-      sinon.stub(assessmentController, 'completeAssessmentForPix1d').rejects(new AssessmentEndedError());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/pix1d/assessments/1');
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
 
   describe('GET /api/assessments/{id}', function () {
     const method = 'GET';
