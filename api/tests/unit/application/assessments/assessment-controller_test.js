@@ -6,6 +6,23 @@ import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCom
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | assessment-controller', function () {
+  describe('#createForPix1d', function () {
+    it('should call the expected usecase', async function () {
+      const missionId = 'mission-id';
+      const assessmentSerializer = { serialize: sinon.stub() };
+      const createdAssessment = Symbol('created-assessment');
+      assessmentSerializer.serialize.withArgs(createdAssessment).resolves(Symbol('serialized-assessment'));
+      sinon.stub(usecases, 'createMissionAssessment').withArgs({ missionId }).resolves(createdAssessment);
+      const request = { payload: { missionId } };
+
+      const result = await assessmentController.createForPix1d(request, hFake, {
+        assessmentSerializer,
+      });
+
+      expect(result.statusCode).to.be.equal(201);
+      expect(assessmentSerializer.serialize).to.have.been.calledWith(createdAssessment);
+    });
+  });
   describe('#get', function () {
     const authenticatedUserId = '12';
     const locale = 'fr';
