@@ -64,12 +64,13 @@ export {
   PIX_EDU_2ND_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
 };
 
-function commonBuilder({ databaseBuilder }) {
+async function commonBuilder({ databaseBuilder }) {
   _createSuperAdmin(databaseBuilder);
   _createTags(databaseBuilder);
   _createComplementaryCertifications(databaseBuilder);
   _createCountries(databaseBuilder);
   _createCities(databaseBuilder);
+  await databaseBuilder.commit();
 }
 
 function _createSuperAdmin(databaseBuilder) {

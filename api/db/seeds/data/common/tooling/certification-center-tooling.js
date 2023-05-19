@@ -48,6 +48,7 @@ async function createCertificationCenter({
     complementaryCertificationIds,
   });
 
+  await databaseBuilder.commit();
   return { certificationCenterId };
 }
 

@@ -81,6 +81,8 @@ async function createTargetProfile({
     attachedOrganizationIds,
   });
   const cappedTubesDTO = _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTargetProfile });
+
+  await databaseBuilder.commit();
   return {
     targetProfileId,
     cappedTubesDTO,
@@ -111,9 +113,9 @@ async function createTargetProfile({
  *         threshold: number,
  *       },
  *     ]}
- * @returns {badgeId: number}
+ * @returns {Promise<{badgeId: number}>} badgeId
  */
-function createBadge({
+async function createBadge({
   databaseBuilder,
   badgeId,
   targetProfileId,
@@ -140,6 +142,7 @@ function createBadge({
     isAlwaysVisible,
   });
   _createBadgeCriteria({ databaseBuilder, badgeId, configBadge, cappedTubesDTO });
+  await databaseBuilder.commit();
   return {
     badgeId,
   };
@@ -159,9 +162,9 @@ function createBadge({
  * @param includeFirstSkill<boolean>
  * @param countStages<number>
  * @param shouldInsertPrescriberTitleAndDescription<boolean>
- * @returns {stageIds: Array<number>}
+ * @returns {Promise<{stageIds: *[]}>}
  */
-function createStages({
+async function createStages({
   databaseBuilder,
   targetProfileId,
   cappedTubesDTO,
@@ -209,6 +212,7 @@ function createStages({
       })
     );
   }
+  await databaseBuilder.commit();
   return { stageIds };
 }
 

@@ -109,6 +109,7 @@ async function createOrganization({
     configOrganization,
   });
 
+  await databaseBuilder.commit();
   return { organizationId };
 }
 

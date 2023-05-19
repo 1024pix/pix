@@ -197,6 +197,7 @@ async function createAssessmentCampaign({
     ++i;
   }
 
+  await databaseBuilder.commit();
   return { campaignId: realCampaignId };
 }
 
@@ -288,8 +289,8 @@ async function createProfilesCollectionCampaign({
     ...Array(configCampaign.profileDistribution.advanced || 0).fill('ADVANCED'),
     ...Array(configCampaign.profileDistribution.perfect || 0).fill('PERFECT'),
   ];
-  if (profileDistribution.length < configCampaign.length)
-    profileDistribution.push(...Array(configCampaign.length - profileDistribution.length).fill('BEGINNER'));
+  if (profileDistribution.length < configCampaign.participantCount)
+    profileDistribution.push(...Array(configCampaign.participantCount - profileDistribution.length).fill('BEGINNER'));
 
   const sharedAt = new Date();
   for (const { userId, organizationLearnerId } of userAndLearnerIds) {
@@ -339,6 +340,7 @@ async function createProfilesCollectionCampaign({
       snapshot: JSON.stringify(keDataForSnapshot),
     });
   }
+  await databaseBuilder.commit();
   return { campaignId: realCampaignId };
 }
 
@@ -397,10 +399,6 @@ function _buildCampaign({
 let emailIndex = 0;
 async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId, requiredParticipantCount) {
   const userAndLearnerIds = [];
-  // const { organizationId } = await databaseBuilder.knex('campaigns')
-  //   .select('organizationId')
-  //   .where({ id: campaignId })
-  //   .first();
 
   const existingReconciliatedOrganizationLearnerIds = await databaseBuilder
     .knex('view-active-organization-learners')
@@ -409,7 +407,8 @@ async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId
       userId: 'userId',
     })
     .where({ organizationId })
-    .whereNotNull('userId');
+    .whereNotNull('userId')
+    .limit(requiredParticipantCount);
   userAndLearnerIds.push(...existingReconciliatedOrganizationLearnerIds);
   const learnersCountToCreate = requiredParticipantCount - userAndLearnerIds.length;
   const divisions = ['1ere A', '2nde B', 'Terminale C'];
