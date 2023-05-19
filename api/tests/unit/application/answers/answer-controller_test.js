@@ -165,48 +165,9 @@ describe('Unit | Controller | answer-controller', function () {
       // given
       resultDetails = Symbol('resultDetails');
       result = Symbol('result');
-      serializedAnswer = {
-        data: {
-          type: 'answers',
-          id: answerId,
-          attributes: {
-            value: value,
-            'result-details': 'resultDetails_value',
-            timeout: null,
-            result: 'result_value',
-            'focused-out': null,
-            'assessment-id': assessmentId,
-          },
-          challenge: {
-            data: {
-              type: 'challenges',
-              id: challengeId,
-            },
-          },
-        },
-      };
+      serializedAnswer = Symbol('serialized-answer');
       request = {
-        payload: {
-          data: {
-            attributes: {
-              value: value,
-              result: result,
-              timeout: null,
-              'focused-out': null,
-              'result-details': resultDetails,
-              'assessment-id': assessmentId,
-            },
-            relationships: {
-              challenge: {
-                data: {
-                  type: 'challenges',
-                  id: challengeId,
-                },
-              },
-            },
-            type: 'answers',
-          },
-        },
+        payload: Symbol('request-payload'),
       };
 
       deserializedAnswer = domainBuilder.buildAnswer({
@@ -220,12 +181,12 @@ describe('Unit | Controller | answer-controller', function () {
       deserializedAnswer.timeSpent = undefined;
       createdAnswer = domainBuilder.buildAnswer({ assessmentId, id: answerId });
       answerSerializer = {
-        serialize: sinon.stub().returns(serializedAnswer),
-        deserialize: sinon.stub().returns(deserializedAnswer),
+        serialize: sinon.stub().withArgs(request.payload).returns(serializedAnswer),
+        deserialize: sinon.stub().withArgs(createdAnswer).returns(deserializedAnswer),
       };
     });
+
     it('should call the usecase to save the answer', async function () {
-      usecases.correctAnswer.resolves(createdAnswer);
       await answerController.saveForPix1D(request, hFake, {
         answerSerializer,
       });
@@ -234,15 +195,6 @@ describe('Unit | Controller | answer-controller', function () {
       expect(usecases.correctAnswer).to.have.been.calledWith({
         answer: deserializedAnswer,
       });
-    });
-    it('should serialize the answer', async function () {
-      usecases.correctAnswer.resolves(createdAnswer);
-      await answerController.saveForPix1D(request, hFake, {
-        answerSerializer,
-      });
-
-      // then
-      expect(answerSerializer.serialize).to.have.been.calledWith(createdAnswer);
     });
 
     it('should return the serialized answer', async function () {
