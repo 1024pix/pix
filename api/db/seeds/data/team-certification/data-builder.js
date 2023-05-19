@@ -34,7 +34,6 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createScoCertificationCenter({ databaseBuilder });
   await _createProOrganization({ databaseBuilder });
   await _createProCertificationCenter({ databaseBuilder });
-  await databaseBuilder.commit();
   await _createScoSession({ databaseBuilder });
   await _createPublishedScoSession({ databaseBuilder });
   await _createSession({ databaseBuilder });
