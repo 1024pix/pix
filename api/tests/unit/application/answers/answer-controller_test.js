@@ -151,107 +151,109 @@ describe('Unit | Controller | answer-controller', function () {
     const answerId = 1212;
     const assessmentId = 12;
     const challengeId = 'recdTpx4c0kPPDTtf';
-    const result = null;
+    let result;
     const value = 'NumA = "4"';
-    const resultDetails = null;
+    let resultDetails;
+    let createdAnswer;
 
-    const serializedAnswer = {
-      data: {
-        type: 'answers',
-        id: answerId,
-        attributes: {
-          value: value,
-          'result-details': 'resultDetails_value',
-          timeout: null,
-          result: 'result_value',
-          'focused-out': null,
-          'assessment-id': assessmentId,
-        },
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: challengeId,
-          },
-        },
-      },
-    };
-    const request = {
-      payload: {
+    let answerSerializer;
+    let deserializedAnswer;
+    let serializedAnswer;
+    let request;
+
+    beforeEach(async function () {
+      // given
+      resultDetails = Symbol('resultDetails');
+      result = Symbol('result');
+      serializedAnswer = {
         data: {
+          type: 'answers',
+          id: answerId,
           attributes: {
             value: value,
-            result: result,
+            'result-details': 'resultDetails_value',
             timeout: null,
+            result: 'result_value',
             'focused-out': null,
-            'result-details': resultDetails,
             'assessment-id': assessmentId,
           },
-          relationships: {
-            challenge: {
-              data: {
-                type: 'challenges',
-                id: challengeId,
-              },
+          challenge: {
+            data: {
+              type: 'challenges',
+              id: challengeId,
             },
           },
-          type: 'answers',
         },
-      },
-    };
+      };
+      request = {
+        payload: {
+          data: {
+            attributes: {
+              value: value,
+              result: result,
+              timeout: null,
+              'focused-out': null,
+              'result-details': resultDetails,
+              'assessment-id': assessmentId,
+            },
+            relationships: {
+              challenge: {
+                data: {
+                  type: 'challenges',
+                  id: challengeId,
+                },
+              },
+            },
+            type: 'answers',
+          },
+        },
+      };
 
-    context('when answer does not exist', function () {
-      let createdAnswer;
-      let response;
-      let answerSerializer;
-      let deserializedAnswer;
-      beforeEach(async function () {
-        // given
-        deserializedAnswer = domainBuilder.buildAnswer({
-          result,
-          resultDetails,
-          value,
-          assessmentId,
-          challengeId,
-        });
-        deserializedAnswer.id = undefined;
-        deserializedAnswer.timeSpent = undefined;
-        createdAnswer = domainBuilder.buildAnswer({ assessmentId, id: answerId });
-        answerSerializer = {
-          serialize: sinon.stub().returns(serializedAnswer),
-          deserialize: sinon.stub().returns(deserializedAnswer),
-        };
+      deserializedAnswer = domainBuilder.buildAnswer({
+        result,
+        resultDetails,
+        value,
+        assessmentId,
+        challengeId,
       });
-      it('should call the usecase to save the answer', async function () {
-        usecases.correctAnswer.resolves(createdAnswer);
-        await answerController.saveForPix1D(request, hFake, {
-          answerSerializer,
-        });
-
-        // then
-        expect(usecases.correctAnswer).to.have.been.calledWith({
-          answer: deserializedAnswer,
-        });
-      });
-      it('should serialize the answer', async function () {
-        usecases.correctAnswer.resolves(createdAnswer);
-        await answerController.saveForPix1D(request, hFake, {
-          answerSerializer,
-        });
-
-        // then
-        expect(answerSerializer.serialize).to.have.been.calledWith(createdAnswer);
+      deserializedAnswer.id = undefined;
+      deserializedAnswer.timeSpent = undefined;
+      createdAnswer = domainBuilder.buildAnswer({ assessmentId, id: answerId });
+      answerSerializer = {
+        serialize: sinon.stub().returns(serializedAnswer),
+        deserialize: sinon.stub().returns(deserializedAnswer),
+      };
+    });
+    it('should call the usecase to save the answer', async function () {
+      usecases.correctAnswer.resolves(createdAnswer);
+      await answerController.saveForPix1D(request, hFake, {
+        answerSerializer,
       });
 
-      it('should return the serialized answer', async function () {
-        usecases.correctAnswer.resolves(createdAnswer);
-        response = await answerController.saveForPix1D(request, hFake, {
-          answerSerializer,
-        });
-
-        // then
-        expect(response.source).to.deep.equal(serializedAnswer);
-        expect(response.statusCode).to.equal(201);
+      // then
+      expect(usecases.correctAnswer).to.have.been.calledWith({
+        answer: deserializedAnswer,
       });
+    });
+    it('should serialize the answer', async function () {
+      usecases.correctAnswer.resolves(createdAnswer);
+      await answerController.saveForPix1D(request, hFake, {
+        answerSerializer,
+      });
+
+      // then
+      expect(answerSerializer.serialize).to.have.been.calledWith(createdAnswer);
+    });
+
+    it('should return the serialized answer', async function () {
+      usecases.correctAnswer.resolves(createdAnswer);
+      const response = await answerController.saveForPix1D(request, hFake, {
+        answerSerializer,
+      });
+
+      // then
+      expect(response.source).to.deep.equal(serializedAnswer);
+      expect(response.statusCode).to.equal(201);
     });
   });
 
