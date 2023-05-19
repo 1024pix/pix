@@ -7,13 +7,13 @@ module.exports = async function getNextChallengeForPix1d({
 }) {
   const { missionId } = await assessmentRepository.get(assessmentId);
   const answers = await answerRepository.findByAssessment(assessmentId);
-  const answerLength = answers.length;
+  const challengeNumber = answers.length + 1;
 
   try {
     return await challengeRepository.getForPix1D({
       missionId,
       activityLevel: 'didacticiel',
-      answerLength,
+      challengeNumber,
     });
   } catch (error) {
     if (error instanceof NotFoundError) {

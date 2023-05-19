@@ -12,10 +12,10 @@ const skillDatasource = datasource.extend({
     return _.filter(skills, { status: ACTIVE_STATUS });
   },
 
-  async findBySkillNamePrefix(prefix) {
+  async findAllByName(name) {
     const skills = await this.list();
     const filteredSkills = _.filter(skills, function (skill) {
-      return _.startsWith(skill.name, prefix);
+      return _.isEqual(skill.name, name);
     });
     return filteredSkills;
   },
