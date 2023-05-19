@@ -142,7 +142,7 @@ describe('Integration | Repository | challenge-repository', function () {
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal(
-        'Aucune activité trouvée pour la mission : recCHAL1, le niveau didacticiel et le numéro 1'
+        'Aucun challenge trouvé pour la mission : recCHAL1, le niveau didacticiel et le numéro 1'
       );
     });
     it('should return the challenge with the correct activityLevel', async function () {

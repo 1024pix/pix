@@ -42,7 +42,7 @@ const getForPix1D = async function ({ missionId, activityLevel, answerLength }) 
   } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
       throw new NotFoundError(
-        `Aucune activité trouvée pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${
+        `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${
           answerLength + 1
         }`
       );

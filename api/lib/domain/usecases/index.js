@@ -438,7 +438,6 @@ import { changeUserLang } from './change-user-lang.js';
 import { checkScoAccountRecovery } from './check-sco-account-recovery.js';
 import { commentSessionAsJury } from './comment-session-as-jury.js';
 import { completeAssessment } from './complete-assessment.js';
-import { completeAssessmentForPix1d } from './complete-assessment-for-pix1d';
 import { computeCampaignAnalysis } from './compute-campaign-analysis.js';
 import { computeCampaignCollectiveResult } from './compute-campaign-collective-result.js';
 import { computeCampaignParticipationAnalysis } from './compute-campaign-participation-analysis.js';
@@ -731,7 +730,6 @@ const usecasesWithoutInjectedDependencies = {
   checkScoAccountRecovery,
   commentSessionAsJury,
   completeAssessment,
-  completeAssessmentForPix1d,
   computeCampaignAnalysis,
   computeCampaignCollectiveResult,
   computeCampaignParticipationAnalysis,

@@ -150,21 +150,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'PATCH',
-      path: '/api/pix1d/assessments/{id}',
-      config: {
-        auth: false,
-        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.assessmentId,
-          }),
-        },
-        handler: assessmentController.completeAssessmentForPix1d,
-        tags: ['api', 'pix1d', 'assessments'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/assessments/{id}/competence-evaluations',
       config: {

@@ -130,22 +130,6 @@ describe('Unit | Controller | assessment-controller', function () {
     });
   });
 
-  describe('#completeAssessmentForPix1d', function () {
-    it('should call the completeAssessment use case', async function () {
-      const assessmentId = 2;
-      const assessment = Symbol('completed-assessment');
-
-      sinon.stub(usecases, 'completeAssessmentForPix1d');
-      usecases.completeAssessmentForPix1d.resolves(assessment);
-
-      // when
-      await assessmentController.completeAssessmentForPix1d({ params: { id: assessmentId } }, hFake);
-
-      // then
-      expect(usecases.completeAssessmentForPix1d).to.have.been.calledWithExactly({ assessmentId });
-    });
-  });
-
   describe('#findCompetenceEvaluations', function () {
     it('should return the competence evaluations', async function () {
       // given
