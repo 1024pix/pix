@@ -49,19 +49,23 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
     });
   });
 
-  describe('#findBySkillNamePrefix', function () {
+  describe('#findAllByName', function () {
     it('should return the corresponding skills', async function () {
       // given
       const rawSkill1 = { id: 'recSkill1', name: '@rechercher_didacticiel1' };
-      const rawSkill2 = { id: 'recSkill2', name: '@rechercher_entrainement1' };
-      const rawSkill3 = { id: 'recSkill2', name: '@rechercher_didacticiel2' };
-      sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [rawSkill1, rawSkill2, rawSkill3] });
+      const rawSkill2 = { id: 'recSkill2', name: '@rechercher_didacticiel1' };
+      const rawSkill3 = { id: 'recSkill3', name: '@rechercher_entrainement1' };
+      const rawSkill4 = { id: 'recSkill4', name: '@rechercher_didacticiel2' };
+      const rawSkill5 = { id: 'recSkill5', name: '@rechercher_didacticiel12' };
+      sinon
+        .stub(lcms, 'getLatestRelease')
+        .resolves({ skills: [rawSkill1, rawSkill2, rawSkill3, rawSkill4, rawSkill5] });
 
       // when
-      const result = await skillDatasource.findBySkillNamePrefix('@rechercher_didacticiel');
+      const result = await skillDatasource.findAllByName('@rechercher_didacticiel1');
 
       // then
-      expect(result).to.deep.equal([rawSkill1, rawSkill3]);
+      expect(result).to.deep.equal([rawSkill1, rawSkill2]);
     });
 
     context('when there is no skill found', function () {
@@ -70,7 +74,7 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
         sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [] });
 
         // when
-        const result = await skillDatasource.findBySkillNamePrefix('@rechercher_validation');
+        const result = await skillDatasource.findAllByName('@rechercher_validation');
 
         // then
         expect(result).to.deep.equal([]);

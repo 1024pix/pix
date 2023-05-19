@@ -3,9 +3,9 @@ const getNextChallengeForPix1d = require('../../../../lib/domain/usecases/get-ne
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function () {
-  context('should calculate the good activityChallengeIndex', function () {
+  context('should calculate the good challenge number', function () {
     context('when there is no answer for the given assessmentId', function () {
-      it('should call the challengeRepository with an activityChallengeIndex equals to 1 ', async function () {
+      it('should call the challengeRepository with an challenge number equal to 1 ', async function () {
         const missionId = 'AZERTYUIO';
         const assessmentId = 'id_assessment';
         const DIDACTICIEL = 'didacticiel';
@@ -31,12 +31,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         expect(challengeRepository.getForPix1D).to.have.been.calledWith({
           missionId,
           activityLevel: DIDACTICIEL,
-          answerLength: 0,
+          challengeNumber: 1,
         });
       });
     });
     context('when there is an answer for the given assessmentId', function () {
-      it('should call the challengeRepository with an activityChallengeIndex equals to 2 ', async function () {
+      it('should call the challengeRepository with an challenge number equal to 2 ', async function () {
         const missionId = 'AZERTYUIO';
         const DIDACTICIEL = 'didacticiel';
         const assessmentId = 'id_assessment';
@@ -62,7 +62,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         expect(challengeRepository.getForPix1D).to.have.been.calledWith({
           missionId,
           activityLevel: DIDACTICIEL,
-          answerLength: 1,
+          challengeNumber: 2,
         });
       });
     });

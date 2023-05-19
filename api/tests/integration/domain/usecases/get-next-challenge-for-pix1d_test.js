@@ -17,7 +17,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-pix1d', func
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
       answerRepository.findByAssessment.withArgs(assessmentId).resolves([]);
       challengeRepository.getForPix1D
-        .withArgs({ missionId, activityLevel: DIDACTICIEL, answerLength: 0 })
+        .withArgs({ missionId, activityLevel: DIDACTICIEL, challengeNumber: 1 })
         .resolves(firstChallenge);
 
       // when

@@ -78,14 +78,14 @@ describe('Integration | Repository | challenge-repository', function () {
       const error = await catchErr(challengeRepository.getForPix1D)({
         missionId,
         activityLevel,
-        answerLength: 0,
+        challengeNumber: 1,
       });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal("Aucune mission trouvée pour l'identifiant : recCHAL1");
     });
-    it('should return an error when the activity is not found', async function () {
+    it('should return an error when the skill associated to the challenge is not found', async function () {
       // given
       const missionId = 'recCHAL1';
       const activityLevel = 'entrainement';
@@ -102,16 +102,17 @@ describe('Integration | Repository | challenge-repository', function () {
       const error = await catchErr(challengeRepository.getForPix1D)({
         missionId,
         activityLevel,
-        answerLength: 0,
+        challengeNumber: 1,
       });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal('Aucune activité trouvée pour la mission : recCHAL1 et le niveau entrainement');
+      expect(error.message).to.equal(
+        'Aucun challenge trouvé pour la mission : recCHAL1, le niveau entrainement et le numéro 1'
+      );
     });
     it('should return an error when the challenge is not found', async function () {
       // given
-      const answerLength = 0;
       const missionId = 'recCHAL1';
       const activityLevel = 'didacticiel';
       const tubeId = 'tubeId';
@@ -136,7 +137,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const error = await catchErr(challengeRepository.getForPix1D)({
         missionId,
         activityLevel,
-        answerLength,
+        challengeNumber: 1,
       });
 
       // then
@@ -148,7 +149,6 @@ describe('Integration | Repository | challenge-repository', function () {
     it('should return the challenge with the correct activityLevel', async function () {
       //given
       const missionId = 'recCHAL1';
-      const answerLength = 0;
       const activityLevel = 'entrainement';
       const activiteDidacticiel = _buildTube({
         id: 'activiteDidacticielId',
@@ -191,7 +191,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const actualChallenge = await challengeRepository.getForPix1D({
         missionId,
         activityLevel,
-        answerLength,
+        challengeNumber: 1,
       });
 
       // then
@@ -205,7 +205,6 @@ describe('Integration | Repository | challenge-repository', function () {
       const missionId = 'recCHAL1';
       const otherMissionId = 'recOTMI1';
       const activityLevel = 'entrainement';
-      const answerLength = 0;
 
       const activiteEntrainement = _buildTube({
         id: 'activiteEntrainementId',
@@ -248,7 +247,7 @@ describe('Integration | Repository | challenge-repository', function () {
       };
 
       // when
-      const actualChallenge = await challengeRepository.getForPix1D({ missionId, activityLevel, answerLength });
+      const actualChallenge = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
       expect(actualChallenge).to.be.instanceOf(Challenge);
@@ -260,7 +259,6 @@ describe('Integration | Repository | challenge-repository', function () {
       // given
       const missionId = 'recCHAL1';
       const activityLevel = 'didacticiel';
-      const answerLength = 0;
       const tubeId = 'tubeId';
       const tube = _buildTube({ id: tubeId, missionId, name: '@rechercher_didacticiel' });
       const skill = _buildSkill({ id: 'recSkill1', name: '@rechercher_didacticiel1', tubeId });
@@ -278,7 +276,7 @@ describe('Integration | Repository | challenge-repository', function () {
       domainBuilder.buildChallenge({ id: challenge.id, type: challenge.type });
 
       // when
-      const actualChallenge = await challengeRepository.getForPix1D({ missionId, activityLevel, answerLength });
+      const actualChallenge = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
 
