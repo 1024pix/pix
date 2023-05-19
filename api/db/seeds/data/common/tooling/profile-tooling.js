@@ -28,6 +28,8 @@ async function createCertifiableProfile({ databaseBuilder, userId }) {
     userId,
     answersAndKnowledgeElementsCollection,
   });
+
+  await databaseBuilder.commit();
 }
 
 /**
@@ -44,6 +46,8 @@ async function createPerfectProfile({ databaseBuilder, userId }) {
     userId,
     answersAndKnowledgeElementsCollection,
   });
+
+  await databaseBuilder.commit();
 }
 
 const ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_BEGINNER_PROFILE = [];
