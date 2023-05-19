@@ -24,10 +24,8 @@ async function teamContenuDataBuilder({ databaseBuilder }) {
   await _createCoreTargetProfile(databaseBuilder);
   await _createDiverseTargetProfile(databaseBuilder);
   await _createTraining(databaseBuilder);
-  await databaseBuilder.commit();
   await _createAssessmentCampaign(databaseBuilder);
   await _createProfilesCollectionCampaign(databaseBuilder);
-
   await _createCertifiableUser(databaseBuilder);
   await _createPerfectProfileUser(databaseBuilder);
 }
