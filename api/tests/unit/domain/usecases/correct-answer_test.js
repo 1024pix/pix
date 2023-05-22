@@ -18,10 +18,6 @@ describe('Unit | Domain | Use Cases | correct-answer', function () {
       format: 'grand',
     });
 
-    const dependencies = {
-      answerRepository,
-      challengeRepository,
-    };
     const correctedAnswer = new Answer({ ...answer, result: 'ok' });
     const savedAnswer = Symbol('answer');
 
@@ -30,7 +26,11 @@ describe('Unit | Domain | Use Cases | correct-answer', function () {
     answerRepository.save.withArgs(correctedAnswer).resolves(savedAnswer);
 
     // when
-    const result = await correctAnswer({ answer, ...dependencies });
+    const result = await correctAnswer({
+      answer,
+      answerRepository,
+      challengeRepository,
+    });
 
     // then
     expect(result).to.equal(savedAnswer);
