@@ -1,6 +1,8 @@
-const { orderBy, range, sortBy, sortedUniqBy, sumBy } = require('lodash');
+import lodash from 'lodash';
 
-const config = require('../../../config.js');
+const { orderBy, range, sortBy, sortedUniqBy, sumBy } = lodash;
+
+import { config } from '../../../config.js';
 
 const DEFAULT_ESTIMATED_LEVEL = 0;
 const START_OF_SAMPLES = -9;
@@ -11,7 +13,7 @@ const DEFAULT_PROBABILITY_TO_ANSWER = 1;
 const DEFAULT_ERROR_RATE = 5;
 const ERROR_RATE_CLASS_INTERVAL = 9 / 80;
 
-module.exports = {
+export {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
   getChallengesForNonAnsweredSkills,

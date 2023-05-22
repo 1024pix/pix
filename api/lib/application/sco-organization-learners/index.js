@@ -1,18 +1,20 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
 
-const { sendJsonApiError, UnprocessableEntityError, BadRequestError } = require('../http-errors.js');
-const scoOrganizationLearnerController = require('./sco-organization-learner-controller.js');
-const XRegExp = require('xregexp');
-const securityPreHandlers = require('../security-pre-handlers.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
-const { passwordValidationPattern } = require('../../config.js').account;
+import { sendJsonApiError, UnprocessableEntityError, BadRequestError } from '../http-errors.js';
+import { scoOrganizationLearnerController } from './sco-organization-learner-controller.js';
+import XRegExp from 'xregexp';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { config } from '../../config.js';
+
+const { passwordValidationPattern } = config.account;
 
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
 const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -264,4 +266,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'sco-organization-learners-api';
+const name = 'sco-organization-learners-api';
+export { register, name };

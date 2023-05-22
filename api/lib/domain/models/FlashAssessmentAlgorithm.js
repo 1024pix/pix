@@ -1,5 +1,5 @@
-const { AssessmentEndedError } = require('../errors');
-const { getPossibleNextChallenges } = require('../services/algorithm-methods/flash');
+import { AssessmentEndedError } from '../errors.js';
+import { getPossibleNextChallenges } from '../services/algorithm-methods/flash.js';
 
 class FlashAssessmentAlgorithm {
   getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel }) {
@@ -17,4 +17,4 @@ class FlashAssessmentAlgorithm {
   }
 }
 
-module.exports = FlashAssessmentAlgorithm;
+export { FlashAssessmentAlgorithm };

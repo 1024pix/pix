@@ -4,6 +4,4 @@ const SamlIdentityProviders = {
   },
 };
 
-module.exports = {
-  SamlIdentityProviders,
-};
+export { SamlIdentityProviders };

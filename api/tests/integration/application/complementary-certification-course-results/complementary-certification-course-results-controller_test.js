@@ -1,8 +1,8 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const { InvalidJuryLevelError } = require('../../../../lib/domain/errors');
-const moduleUnderTest = require('../../../../lib/application/complementary-certification-course-results');
+import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { InvalidJuryLevelError } from '../../../../lib/domain/errors.js';
+import * as moduleUnderTest from '../../../../lib/application/complementary-certification-course-results/index.js';
 
 describe('Integration | Application | complementary-certification-course-results | complementary-certification-course-results-controller', function () {
   let sandbox;

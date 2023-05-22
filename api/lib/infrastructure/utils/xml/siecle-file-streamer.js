@@ -1,17 +1,24 @@
-const { isObject, values } = require('lodash');
-const { FileValidationError, SiecleXmlImportError } = require('../../../domain/errors.js');
-const { logErrorWithCorrelationIds } = require('../../monitoring-tools.js');
-const fs = require('fs');
+import _ from 'lodash';
+
+const { isObject, values } = _;
+import { FileValidationError, SiecleXmlImportError } from '../../../domain/errors.js';
+import { logErrorWithCorrelationIds } from '../../monitoring-tools.js';
+import fs from 'fs';
+
 const fsPromises = fs.promises;
-const Path = require('path');
-const os = require('os');
-const { Buffer } = require('buffer');
-const StreamZip = require('node-stream-zip');
-const FileType = require('file-type');
-const iconv = require('iconv-lite');
-const sax = require('sax');
-const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
-const _ = require('lodash');
+import Path from 'path';
+import os from 'os';
+import buffer from 'buffer';
+
+const { xmlEncoding } = xmlBufferTostring;
+
+const { Buffer } = buffer;
+
+import StreamZip from 'node-stream-zip';
+import FileType from 'file-type';
+import iconv from 'iconv-lite';
+import sax from 'sax';
+import xmlBufferTostring from 'xml-buffer-tostring';
 
 /*
   https://github.com/1024pix/pix/pull/3470#discussion_r707319744
@@ -69,11 +76,13 @@ async function _isFileZipped(path) {
   const fileType = await FileType.fromFile(path);
   return isObject(fileType) && fileType.mime === ZIP;
 }
+
 function _createTempDir() {
   const tmpDir = os.tmpdir();
   const directory = Path.join(tmpDir, 'import-siecle-');
   return fsPromises.mkdtemp(directory);
 }
+
 async function _unzipFile(directory, path) {
   const extractedFileName = Path.join(directory, 'organization-learners.xml');
   const zip = new StreamZip.async({ file: path });
@@ -158,4 +167,4 @@ function getDecodingStream(encoding) {
   }
 }
 
-module.exports = SiecleFileStreamer;
+export { SiecleFileStreamer };

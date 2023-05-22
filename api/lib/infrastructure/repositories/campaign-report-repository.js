@@ -1,13 +1,12 @@
-const { knex } = require('../../../db/knex-database-connection.js');
-
-const CampaignReport = require('../../domain/read-models/CampaignReport.js');
-const TargetProfileForSpecifier = require('../../domain/read-models/campaign/TargetProfileForSpecifier.js');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
-const { fetchPage } = require('../utils/knex-utils.js');
-const { NotFoundError } = require('../../domain/errors.js');
-const _ = require('lodash');
-const { filterByFullName } = require('../utils/filter-utils.js');
-const campaignRepository = require('./campaign-repository.js');
+import { knex } from '../../../db/knex-database-connection.js';
+import { CampaignReport } from '../../domain/read-models/CampaignReport.js';
+import { TargetProfileForSpecifier } from '../../domain/read-models/campaign/TargetProfileForSpecifier.js';
+import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { fetchPage } from '../utils/knex-utils.js';
+import { NotFoundError } from '../../domain/errors.js';
+import _ from 'lodash';
+import { filterByFullName } from '../utils/filter-utils.js';
+import * as campaignRepository from './campaign-repository.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -28,116 +27,116 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName,
   }
 }
 
-module.exports = {
-  async get(id) {
-    const result = await knex('campaigns')
-      .select({
-        id: 'campaigns.id',
-        name: 'campaigns.name',
-        code: 'campaigns.code',
-        title: 'campaigns.title',
-        idPixLabel: 'campaigns.idPixLabel',
-        createdAt: 'campaigns.createdAt',
-        customLandingPageText: 'campaigns.customLandingPageText',
-        archivedAt: 'campaigns.archivedAt',
-        type: 'campaigns.type',
-        ownerId: 'users.id',
-        ownerLastName: 'users.lastName',
-        ownerFirstName: 'users.firstName',
-        targetProfileId: 'target-profiles.id',
-        targetProfileDescription: 'target-profiles.description',
-        targetProfileName: 'target-profiles.name',
-        multipleSendings: 'campaigns.multipleSendings',
-      })
-      .select(
-        knex.raw('ARRAY_AGG("badges"."id")  AS "badgeIds"'),
-        knex.raw('ARRAY_AGG("stages"."id")  AS "stageIds"'),
-        knex.raw(
-          '(SELECT COUNT(*) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) AS "participationsCount"'
-        ),
-        knex.raw(
-          '(SELECT COUNT(*) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) AS "sharedParticipationsCount"'
-        )
+const get = async function (id) {
+  const result = await knex('campaigns')
+    .select({
+      id: 'campaigns.id',
+      name: 'campaigns.name',
+      code: 'campaigns.code',
+      title: 'campaigns.title',
+      idPixLabel: 'campaigns.idPixLabel',
+      createdAt: 'campaigns.createdAt',
+      customLandingPageText: 'campaigns.customLandingPageText',
+      archivedAt: 'campaigns.archivedAt',
+      type: 'campaigns.type',
+      ownerId: 'users.id',
+      ownerLastName: 'users.lastName',
+      ownerFirstName: 'users.firstName',
+      targetProfileId: 'target-profiles.id',
+      targetProfileDescription: 'target-profiles.description',
+      targetProfileName: 'target-profiles.name',
+      multipleSendings: 'campaigns.multipleSendings',
+    })
+    .select(
+      knex.raw('ARRAY_AGG("badges"."id")  AS "badgeIds"'),
+      knex.raw('ARRAY_AGG("stages"."id")  AS "stageIds"'),
+      knex.raw(
+        '(SELECT COUNT(*) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) AS "participationsCount"'
+      ),
+      knex.raw(
+        '(SELECT COUNT(*) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) AS "sharedParticipationsCount"'
       )
-      .join('users', 'users.id', 'campaigns.ownerId')
-      .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
-      .leftJoin('badges', 'badges.targetProfileId', 'target-profiles.id')
-      .leftJoin('stages', 'stages.targetProfileId', 'target-profiles.id')
-      .where('campaigns.id', id)
-      .groupBy('campaigns.id', 'users.id', 'target-profiles.id')
-      .first();
+    )
+    .join('users', 'users.id', 'campaigns.ownerId')
+    .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
+    .leftJoin('badges', 'badges.targetProfileId', 'target-profiles.id')
+    .leftJoin('stages', 'stages.targetProfileId', 'target-profiles.id')
+    .where('campaigns.id', id)
+    .groupBy('campaigns.id', 'users.id', 'target-profiles.id')
+    .first();
 
-    if (!result) {
-      throw new NotFoundError(`La campagne d'id ${id} n'existe pas ou son accès est restreint`);
-    }
+  if (!result) {
+    throw new NotFoundError(`La campagne d'id ${id} n'existe pas ou son accès est restreint`);
+  }
 
-    const campaignReport = new CampaignReport({ ...result, id });
+  const campaignReport = new CampaignReport({ ...result, id });
 
-    if (campaignReport.isAssessment) {
-      const skills = await campaignRepository.findSkills({ campaignId: id, filterByStatus: 'all' });
+  if (campaignReport.isAssessment) {
+    const skills = await campaignRepository.findSkills({ campaignId: id, filterByStatus: 'all' });
 
-      const targetProfile = new TargetProfileForSpecifier({
-        id: result.targetProfileId,
-        name: result.targetProfileName,
-        tubeCount: _.uniqBy(skills, 'tubeId').length,
-        thematicResultCount: _.uniq(result.badgeIds).filter((id) => id).length,
-        hasStage: result.stageIds.some((stage) => stage),
-        description: result.targetProfileDescription,
-      });
-
-      campaignReport.setTargetProfileInformation(targetProfile);
-    }
-
-    return campaignReport;
-  },
-
-  async findMasteryRatesAndValidatedSkillsCount(campaignId) {
-    const results = await knex('campaign-participations')
-      .select('masteryRate', 'validatedSkillsCount')
-      .where('isImproved', false)
-      .andWhere('status', SHARED)
-      .andWhere('deletedAt', null)
-      .andWhere({ campaignId });
-
-    const aggregatedResults = {
-      masteryRates: [],
-      validatedSkillsCounts: [],
-    };
-
-    results.forEach((result) => {
-      aggregatedResults.masteryRates.push(Number(result.masteryRate));
-      aggregatedResults.validatedSkillsCounts.push(Number(result.validatedSkillsCount));
+    const targetProfile = new TargetProfileForSpecifier({
+      id: result.targetProfileId,
+      name: result.targetProfileName,
+      tubeCount: _.uniqBy(skills, 'tubeId').length,
+      thematicResultCount: _.uniq(result.badgeIds).filter((id) => id).length,
+      hasStage: result.stageIds.some((stage) => stage),
+      description: result.targetProfileDescription,
     });
 
-    return aggregatedResults;
-  },
+    campaignReport.setTargetProfileInformation(targetProfile);
+  }
 
-  async findPaginatedFilteredByOrganizationId({ organizationId, filter, page, userId }) {
-    const query = knex('campaigns')
-      .distinct('campaigns.id')
-      .select(
-        'campaigns.*',
-        'users.id AS "ownerId"',
-        'users.firstName AS ownerFirstName',
-        'users.lastName AS ownerLastName',
-        knex.raw(
-          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "campaigns"."id") AS "participationsCount"'
-        ),
-        knex.raw(
-          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'
-        )
-      )
-      .join('users', 'users.id', 'campaigns.ownerId')
-      .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
-      .where('campaigns.organizationId', organizationId)
-      .modify(_setSearchFiltersForQueryBuilder, filter, userId)
-      .orderBy('campaigns.createdAt', 'DESC');
-
-    const { results, pagination } = await fetchPage(query, page);
-    const atLeastOneCampaign = await knex('campaigns').select('id').where({ organizationId }).first(1);
-    const hasCampaigns = Boolean(atLeastOneCampaign);
-
-    const campaignReports = results.map((result) => new CampaignReport(result));
-    return { models: campaignReports, meta: { ...pagination, hasCampaigns } };
-  },
+  return campaignReport;
 };
+
+const findMasteryRatesAndValidatedSkillsCount = async function (campaignId) {
+  const results = await knex('campaign-participations')
+    .select('masteryRate', 'validatedSkillsCount')
+    .where('isImproved', false)
+    .andWhere('status', SHARED)
+    .andWhere('deletedAt', null)
+    .andWhere({ campaignId });
+
+  const aggregatedResults = {
+    masteryRates: [],
+    validatedSkillsCounts: [],
+  };
+
+  results.forEach((result) => {
+    aggregatedResults.masteryRates.push(Number(result.masteryRate));
+    aggregatedResults.validatedSkillsCounts.push(Number(result.validatedSkillsCount));
+  });
+
+  return aggregatedResults;
+};
+
+const findPaginatedFilteredByOrganizationId = async function ({ organizationId, filter, page, userId }) {
+  const query = knex('campaigns')
+    .distinct('campaigns.id')
+    .select(
+      'campaigns.*',
+      'users.id AS "ownerId"',
+      'users.firstName AS ownerFirstName',
+      'users.lastName AS ownerLastName',
+      knex.raw(
+        'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "campaigns"."id") AS "participationsCount"'
+      ),
+      knex.raw(
+        'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'
+      )
+    )
+    .join('users', 'users.id', 'campaigns.ownerId')
+    .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
+    .where('campaigns.organizationId', organizationId)
+    .modify(_setSearchFiltersForQueryBuilder, filter, userId)
+    .orderBy('campaigns.createdAt', 'DESC');
+
+  const { results, pagination } = await fetchPage(query, page);
+  const atLeastOneCampaign = await knex('campaigns').select('id').where({ organizationId }).first(1);
+  const hasCampaigns = Boolean(atLeastOneCampaign);
+
+  const campaignReports = results.map((result) => new CampaignReport(result));
+  return { models: campaignReports, meta: { ...pagination, hasCampaigns } };
+};
+
+export { get, findMasteryRatesAndValidatedSkillsCount, findPaginatedFilteredByOrganizationId };

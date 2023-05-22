@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const buildCertificationCandidate = require('./build-certification-candidate');
-const buildComplementaryCertification = require('./build-complementary-certification');
-const databaseBuffer = require('../database-buffer');
+import _ from 'lodash';
+import { buildCertificationCandidate } from './build-certification-candidate.js';
+import { buildComplementaryCertification } from './build-complementary-certification.js';
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildComplementaryCertificationSubscription({
+const buildComplementaryCertificationSubscription = function ({
   certificationCandidateId,
   complementaryCertificationId,
   createdAt = new Date('2020-01-01'),
@@ -25,3 +25,5 @@ module.exports = function buildComplementaryCertificationSubscription({
     values,
   });
 };
+
+export { buildComplementaryCertificationSubscription };

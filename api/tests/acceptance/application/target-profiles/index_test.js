@@ -1,4 +1,4 @@
-const {
+import {
   expect,
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
@@ -6,9 +6,11 @@ const {
   mockLearningContent,
   learningContentBuilder,
   MockDate,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const omit = require('lodash/omit');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
+import lodash from 'lodash';
+const { omit } = lodash;
 
 describe('Acceptance | Route | target-profiles', function () {
   let server;
@@ -168,7 +170,7 @@ describe('Acceptance | Route | target-profiles', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       user = databaseBuilder.factory.buildUser.withRole();

@@ -1,7 +1,7 @@
-const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
-const buildCertificationChallengeWithType = require('./build-certification-challenge-with-type');
+import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
+import { buildCertificationChallengeWithType } from './build-certification-challenge-with-type.js';
 
-module.exports = function buildCertificationAssessment({
+const buildCertificationAssessment = function ({
   id = 123,
   userId = 123,
   certificationCourseId = 123,
@@ -24,3 +24,5 @@ module.exports = function buildCertificationAssessment({
     certificationAnswersByDate,
   });
 };
+
+export { buildCertificationAssessment };

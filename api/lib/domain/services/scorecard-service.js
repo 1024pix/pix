@@ -1,8 +1,8 @@
-const Assessment = require('../models/Assessment.js');
-const CompetenceEvaluation = require('../models/CompetenceEvaluation.js');
-const KnowledgeElement = require('../models/KnowledgeElement.js');
-const Scorecard = require('../models/Scorecard.js');
-const _ = require('lodash');
+import { Assessment } from '../models/Assessment.js';
+import { CompetenceEvaluation } from '../models/CompetenceEvaluation.js';
+import { KnowledgeElement } from '../models/KnowledgeElement.js';
+import { Scorecard } from '../models/Scorecard.js';
+import _ from 'lodash';
 
 async function computeScorecard({
   userId,
@@ -160,8 +160,4 @@ function _computeResetSkillsNotIncludedInCampaign({ skillIds, resetSkillIds }) {
   return _(skillIds).intersection(resetSkillIds).isEmpty();
 }
 
-module.exports = {
-  resetScorecard,
-  computeScorecard,
-  _computeResetSkillsNotIncludedInCampaign,
-};
+export { resetScorecard, computeScorecard, _computeResetSkillsNotIncludedInCampaign };

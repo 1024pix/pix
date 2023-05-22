@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring.js');
-const { ReproducibilityRate } = require('../models/ReproducibilityRate.js');
+import _ from 'lodash';
+import { AnswerCollectionForScoring } from '../models/AnswerCollectionForScoring.js';
+import { ReproducibilityRate } from '../models/ReproducibilityRate.js';
 
 class CertificationDetails {
   constructor({
@@ -150,4 +150,4 @@ function _getCompetenceIndexForChallenge(certificationChallenge, competencesWith
   return competenceWithMark ? competenceWithMark.index : '';
 }
 
-module.exports = CertificationDetails;
+export { CertificationDetails };

@@ -1,14 +1,14 @@
-const _ = require('lodash');
-const CertificationContract = require('../../models/CertificationContract.js');
-const scoringService = require('./scoring-service.js');
-const placementProfileService = require('../placement-profile-service.js');
-const { CertifiedLevel } = require('../../models/CertifiedLevel.js');
-const { CertifiedScore } = require('../../models/CertifiedScore.js');
-const { ReproducibilityRate } = require('../../models/ReproducibilityRate.js');
-const CompetenceMark = require('../../models/CompetenceMark.js');
-const CertificationAssessmentScore = require('../../models/CertificationAssessmentScore.js');
-const AnswerCollectionForScoring = require('../../models/AnswerCollectionForScoring.js');
-const areaRepository = require('../../../infrastructure/repositories/area-repository.js');
+import _ from 'lodash';
+import { CertificationContract } from '../../models/CertificationContract.js';
+import * as scoringService from './scoring-service.js';
+import * as placementProfileService from '../placement-profile-service.js';
+import { CertifiedLevel } from '../../models/CertifiedLevel.js';
+import { CertifiedScore } from '../../models/CertifiedScore.js';
+import { ReproducibilityRate } from '../../models/ReproducibilityRate.js';
+import { CompetenceMark } from '../../models/CompetenceMark.js';
+import { CertificationAssessmentScore } from '../../models/CertificationAssessmentScore.js';
+import { AnswerCollectionForScoring } from '../../models/AnswerCollectionForScoring.js';
+import * as areaRepository from '../../../infrastructure/repositories/area-repository.js';
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(({ challengeId }) => _.some(certificationChallenges, { challengeId }));
@@ -129,36 +129,37 @@ async function _getTestedCompetences({ userId, limitDate, isV2Certification, pla
     .value();
 }
 
-module.exports = {
-  async calculateCertificationAssessmentScore({
-    certificationAssessment,
-    continueOnError,
-    dependencies = {
-      areaRepository,
-      placementProfileService,
-    },
-  }) {
-    // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
-    const testedCompetences = await _getTestedCompetences({
-      userId: certificationAssessment.userId,
-      limitDate: certificationAssessment.createdAt,
-      isV2Certification: certificationAssessment.isV2Certification,
-      placementProfileService: dependencies.placementProfileService,
-    });
+const calculateCertificationAssessmentScore = async function ({
+  certificationAssessment,
+  continueOnError,
 
-    // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
-    const matchingCertificationChallenges = _selectChallengesMatchingCompetences(
-      certificationAssessment.certificationChallenges,
-      testedCompetences
-    );
-
-    // map sur challenges filtre sur challenge Id
-    const matchingAnswers = _selectAnswersMatchingCertificationChallenges(
-      certificationAssessment.certificationAnswersByDate,
-      matchingCertificationChallenges
-    );
-
-    const allAreas = await dependencies.areaRepository.list();
-    return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, allAreas, continueOnError);
+  dependencies = {
+    areaRepository,
+    placementProfileService,
   },
+}) {
+  // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
+  const testedCompetences = await _getTestedCompetences({
+    userId: certificationAssessment.userId,
+    limitDate: certificationAssessment.createdAt,
+    isV2Certification: certificationAssessment.isV2Certification,
+    placementProfileService: dependencies.placementProfileService,
+  });
+
+  // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
+  const matchingCertificationChallenges = _selectChallengesMatchingCompetences(
+    certificationAssessment.certificationChallenges,
+    testedCompetences
+  );
+
+  // map sur challenges filtre sur challenge Id
+  const matchingAnswers = _selectAnswersMatchingCertificationChallenges(
+    certificationAssessment.certificationAnswersByDate,
+    matchingCertificationChallenges
+  );
+
+  const allAreas = await dependencies.areaRepository.list();
+  return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, allAreas, continueOnError);
 };
+
+export { calculateCertificationAssessmentScore };

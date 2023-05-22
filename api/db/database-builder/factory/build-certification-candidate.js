@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const buildSession = require('./build-session');
-const buildUser = require('./build-user');
-const databaseBuffer = require('../database-buffer');
+import _ from 'lodash';
+import { buildSession } from './build-session.js';
+import { buildUser } from './build-user.js';
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildCertificationCandidate({
+const buildCertificationCandidate = function ({
   id = databaseBuffer.getNextId(),
   firstName = 'first-name',
   lastName = 'last-name',
@@ -82,3 +82,5 @@ module.exports = function buildCertificationCandidate({
     prepaymentCode,
   };
 };
+
+export { buildCertificationCandidate };

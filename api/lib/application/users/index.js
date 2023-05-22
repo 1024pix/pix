@@ -1,15 +1,18 @@
-const Joi = require('joi');
-const XRegExp = require('xregexp');
-const securityPreHandlers = require('../security-pre-handlers.js');
-const userController = require('./user-controller.js');
-const { sendJsonApiError, BadRequestError } = require('../http-errors.js');
-const userVerification = require('../preHandlers/user-existence-verification.js');
-const { passwordValidationPattern } = require('../../config.js').account;
-const { EntityValidationError } = require('../../domain/errors.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
-const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers.js');
+import Joi from 'joi';
+import XRegExp from 'xregexp';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { userController } from './user-controller.js';
+import { sendJsonApiError, BadRequestError } from '../http-errors.js';
+import { userVerification } from '../preHandlers/user-existence-verification.js';
+import { config } from '../../config.js';
 
-exports.register = async function (server) {
+const { passwordValidationPattern } = config.account;
+
+import { EntityValidationError } from '../../domain/errors.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
+
+const register = async function (server) {
   const adminRoutes = [
     {
       method: 'GET',
@@ -970,4 +973,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'users-api';
+const name = 'users-api';
+export { register, name };

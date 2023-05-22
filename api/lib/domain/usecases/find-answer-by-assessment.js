@@ -1,11 +1,6 @@
-const { UserNotAuthorizedToAccessEntityError, EntityValidationError } = require('../errors.js');
+import { UserNotAuthorizedToAccessEntityError, EntityValidationError } from '../errors.js';
 
-module.exports = async function findAnswerByAssessment({
-  assessmentId,
-  userId,
-  answerRepository,
-  assessmentRepository,
-} = {}) {
+const findAnswerByAssessment = async function ({ assessmentId, userId, answerRepository, assessmentRepository } = {}) {
   const integerAssessmentId = parseInt(assessmentId);
   if (!Number.isFinite(integerAssessmentId)) {
     throw new EntityValidationError({
@@ -19,3 +14,5 @@ module.exports = async function findAnswerByAssessment({
   }
   return answerRepository.findByAssessment(integerAssessmentId);
 };
+
+export { findAnswerByAssessment };

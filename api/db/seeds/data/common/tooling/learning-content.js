@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
-const challengeRepository = require('../../../../../lib/infrastructure/repositories/challenge-repository');
-const { skillDatasource } = require('../../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+import _ from 'lodash';
+import * as competenceRepository from '../../../../../lib/infrastructure/repositories/competence-repository.js';
+import * as challengeRepository from '../../../../../lib/infrastructure/repositories/challenge-repository.js';
+import { skillDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
 
 let ALL_COMPETENCES, ALL_ACTIVE_SKILLS, ALL_CHALLENGES, ACTIVE_SKILLS_BY_COMPETENCE, ACTIVE_SKILLS_BY_TUBE;
 let VALIDATED_CHALLENGES_BY_SKILL;
@@ -85,7 +85,7 @@ async function findActiveSkillsByFrameworkName(frameworkName) {
   return _.filter(activeSkills, (activeSkill) => competenceIds.includes(activeSkill.competenceId));
 }
 
-module.exports = {
+export {
   getAllCompetences,
   getCoreCompetences,
   findActiveSkillsByCompetenceId,

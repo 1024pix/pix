@@ -1,4 +1,4 @@
-module.exports = function (chai, _utils) {
+const deepEqualArray = function (chai, _utils) {
   chai.Assertion.addMethod('deepEqualArray', function (referenceArray) {
     const assertedArray = this._obj;
 
@@ -26,3 +26,5 @@ function _assertArraysHaveSameLength(chai, array1, array2) {
 function _assertDeepEqualInstance(chai, instance1, instance2) {
   new chai.Assertion(instance1).to.deepEqualInstance(instance2);
 }
+
+export { deepEqualArray };

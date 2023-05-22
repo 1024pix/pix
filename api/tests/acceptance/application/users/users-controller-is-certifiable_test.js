@@ -1,11 +1,12 @@
-const {
+import {
   expect,
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
   mockLearningContent,
   learningContentBuilder,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | users-controller-is-certifiable', function () {
   let server;
@@ -17,7 +18,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
 
     user = databaseBuilder.factory.buildUser();
 
-    const learningContent = learningContentBuilder.buildLearningContent.fromAreas([
+    const learningContent = learningContentBuilder.fromAreas([
       {
         id: 'recvoGdo7z2z7pXWa',
         title_i18n: {

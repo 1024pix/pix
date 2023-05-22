@@ -1,13 +1,13 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection.js');
-const settings = require('../../config.js');
-const BookshelfUser = require('../orm-models/User.js');
-const BookshelfMembership = require('../orm-models/Membership.js');
-const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings.js');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
-const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors.js');
-const Prescriber = require('../../domain/read-models/Prescriber.js');
-const apps = require('../../domain/constants.js');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection.js';
+import { config } from '../../config.js';
+import { BookshelfUser } from '../orm-models/User.js';
+import { BookshelfMembership } from '../orm-models/Membership.js';
+import { BookshelfUserOrgaSettings } from '../orm-models/UserOrgaSettings.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+import { ForbiddenAccess, UserNotFoundError } from '../../domain/errors.js';
+import { Prescriber } from '../../domain/read-models/Prescriber.js';
+import * as apps from '../../domain/constants.js';
 
 function _toPrescriberDomain(bookshelfUser) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();
@@ -35,11 +35,11 @@ async function _areNewYearOrganizationLearnersImportedForPrescriber(prescriber) 
     .join('view-active-organization-learners', 'view-active-organization-learners.organizationId', 'organizations.id')
     .where((qb) => {
       qb.where('organizations.id', currentOrganizationId);
-      if (settings.features.newYearOrganizationLearnersImportDate) {
+      if (config.features.newYearOrganizationLearnersImportDate) {
         qb.where(
           'view-active-organization-learners.createdAt',
           '>=',
-          settings.features.newYearOrganizationLearnersImportDate
+          config.features.newYearOrganizationLearnersImportDate
         );
       }
     })
@@ -80,35 +80,35 @@ async function _isMultipleSendingAssessmentEnabled(prescriber) {
   );
 }
 
-module.exports = {
-  async getPrescriber(userId) {
-    try {
-      const prescriberFromDB = await BookshelfUser.where({ id: userId }).fetch({
-        columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
-        withRelated: [
-          { memberships: (qb) => qb.where({ disabledAt: null }).orderBy('id') },
-          'memberships.organization',
-          'userOrgaSettings',
-          'userOrgaSettings.currentOrganization',
-          'userOrgaSettings.currentOrganization.tags',
-        ],
-      });
-      const prescriber = _toPrescriberDomain(prescriberFromDB);
+const getPrescriber = async function (userId) {
+  try {
+    const prescriberFromDB = await BookshelfUser.where({ id: userId }).fetch({
+      columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
+      withRelated: [
+        { memberships: (qb) => qb.where({ disabledAt: null }).orderBy('id') },
+        'memberships.organization',
+        'userOrgaSettings',
+        'userOrgaSettings.currentOrganization',
+        'userOrgaSettings.currentOrganization.tags',
+      ],
+    });
+    const prescriber = _toPrescriberDomain(prescriberFromDB);
 
-      if (_.isEmpty(prescriber.memberships)) {
-        throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
-      }
-
-      await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
-      await _getParticipantCount(prescriber);
-      await _isMultipleSendingAssessmentEnabled(prescriber);
-
-      return prescriber;
-    } catch (err) {
-      if (err instanceof BookshelfUser.NotFoundError) {
-        throw new UserNotFoundError(`User not found for ID ${userId}`);
-      }
-      throw err;
+    if (_.isEmpty(prescriber.memberships)) {
+      throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
     }
-  },
+
+    await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
+    await _getParticipantCount(prescriber);
+    await _isMultipleSendingAssessmentEnabled(prescriber);
+
+    return prescriber;
+  } catch (err) {
+    if (err instanceof BookshelfUser.NotFoundError) {
+      throw new UserNotFoundError(`User not found for ID ${userId}`);
+    }
+    throw err;
+  }
 };
+
+export { getPrescriber };

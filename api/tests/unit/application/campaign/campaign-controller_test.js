@@ -1,10 +1,10 @@
-const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
+import { sinon, expect, domainBuilder, hFake, catchErr } from '../../../test-helper.js';
+import { campaignController } from '../../../../lib/application/campaigns/campaign-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { UserNotAuthorizedToAccessEntityError, ForbiddenAccess } from '../../../../lib/domain/errors.js';
+import { LOCALE } from '../../../../lib/domain/constants.js';
 
-const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
-
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const { UserNotAuthorizedToAccessEntityError, ForbiddenAccess } = require('../../../../lib/domain/errors');
-const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | Application | Controller | Campaign', function () {
   describe('#save', function () {

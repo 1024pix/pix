@@ -1,9 +1,11 @@
-const { Serializer } = require('jsonapi-serializer');
+import jsonapiSerializer from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(newEmail) {
-    return new Serializer('email-verification-codes', {
-      attributes: ['email'],
-    }).serialize(newEmail);
-  },
+const { Serializer } = jsonapiSerializer;
+
+const serialize = function (newEmail) {
+  return new Serializer('email-verification-codes', {
+    attributes: ['email'],
+  }).serialize(newEmail);
 };
+
+export { serialize };

@@ -1,4 +1,4 @@
-const fr = require('./fr');
-const en = require('./en');
+import fr from "./fr.json" assert {type:'json'};
+import en from "./en.json" assert {type:'json'};
 
-module.exports = { fr, en };
+export { fr, en };

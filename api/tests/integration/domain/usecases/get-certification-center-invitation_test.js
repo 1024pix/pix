@@ -1,11 +1,11 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases/index.js');
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
-const {
+import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import {
   NotFoundError,
   AlreadyExistingInvitationError,
   CancelledInvitationError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
 describe('Integration | API | getCertificationCenterInvitation', function () {
   describe('when an invitation exists', function () {
@@ -30,7 +30,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
       await databaseBuilder.commit();
 
       // when
-      const result = await useCases.getCertificationCenterInvitation({
+      const result = await usecases.getCertificationCenterInvitation({
         certificationCenterInvitationId: konohaInvitation.id,
         certificationCenterInvitationCode: 'PAIN999',
       });
@@ -62,7 +62,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(useCases.getCertificationCenterInvitation)({
+      const error = await catchErr(usecases.getCertificationCenterInvitation)({
         certificationCenterInvitationId: konohaInvitation.id,
         certificationCenterInvitationCode: 'WRONGCODE01',
       });
@@ -88,7 +88,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(useCases.getCertificationCenterInvitation)({
+      const error = await catchErr(usecases.getCertificationCenterInvitation)({
         certificationCenterInvitationId: killuaInvitation.id,
         certificationCenterInvitationCode: 'HXH456',
       });
@@ -114,7 +114,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(useCases.getCertificationCenterInvitation)({
+      const error = await catchErr(usecases.getCertificationCenterInvitation)({
         certificationCenterInvitationId: dekuInvitation.id,
         certificationCenterInvitationCode: 'MHA789',
       });

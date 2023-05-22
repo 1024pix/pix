@@ -1,29 +1,25 @@
-const { expect, domainBuilder, sinon, streamToPromise } = require('../../../test-helper');
-const { PassThrough } = require('stream');
-const proxyquire = require('proxyquire');
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
+import { expect, domainBuilder, sinon, streamToPromise } from '../../../test-helper.js';
+import stream from 'stream';
+
+const { PassThrough } = stream;
+
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const cpfCertificationXmlExportService = proxyquire(
-  '../../../../lib/domain/services/cpf-certification-xml-export-service',
-  {
-    uuid: {
-      v4: () => {
-        return '5d079a5d-0a4d-45ac-854d-256b01cacdfe';
-      },
-    },
-  }
-);
+import * as cpfCertificationXmlExportService from '../../../../lib/domain/services/cpf-certification-xml-export-service.js';
 
 describe('Unit | Services | cpf-certification-xml-export-service', function () {
   let clock;
+  let uuidService;
 
   beforeEach(function () {
     const now = dayjs('2022-02-01T10:43:27Z').tz('Europe/Paris').toDate();
     clock = sinon.useFakeTimers(now);
+    uuidService = { v4: sinon.stub() };
   });
 
   afterEach(function () {
@@ -33,6 +29,9 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
   describe('getXmlExport', function () {
     it('should return a writable stream with cpf certification results', async function () {
       // given
+
+      uuidService.v4.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
+
       const firstCpfCertificationResult = domainBuilder.buildCpfCertificationResult({
         id: 1234,
         firstName: 'Bart',
@@ -74,6 +73,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
       cpfCertificationXmlExportService.buildXmlExport({
         cpfCertificationResults: [firstCpfCertificationResult, secondCpfCertificationResult],
         writableStream,
+        uuidService,
       });
 
       //then

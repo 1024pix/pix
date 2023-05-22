@@ -1,25 +1,26 @@
-const _ = require('lodash');
-const { pipe } = require('lodash/fp');
-const randomString = require('randomstring');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../constants.js');
-const {
+import lodash from 'lodash';
+import fp from 'lodash/fp.js';
+
+const { pipe } = fp;
+import randomString from 'randomstring';
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
+
+import {
   AlreadyRegisteredUsernameError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
-} = require('../errors.js');
-const {
-  areTwoStringsCloseEnough,
-  isOneStringCloseEnoughFromMultipleStrings,
-} = require('./string-comparison-service.js');
-const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments.js');
+} from '../errors.js';
+
+import { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } from './string-comparison-service.js';
+import { normalizeAndRemoveAccents, removeSpecialCharacters } from './validation-treatments.js';
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
 const STRICT_MATCH_RATIO = 0;
 
 function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
   const standardizedUser = _standardizeUser(user);
-  const standardizedMatchingUserCandidates = _.map(matchingUserCandidates, _standardizeMatchingCandidate);
+  const standardizedMatchingUserCandidates = lodash.map(matchingUserCandidates, _standardizeMatchingCandidate);
 
   const foundUserId = _findMatchingCandidateId(
     standardizedMatchingUserCandidates,
@@ -51,7 +52,7 @@ async function findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser
     throw new NotFoundError('There were no organizationLearners matching with names');
   }
 
-  if (!_.isNil(organizationLearner.userId)) {
+  if (!lodash.isNil(organizationLearner.userId)) {
     throw new OrganizationLearnerAlreadyLinkedToUserError();
   }
   return organizationLearner;
@@ -67,7 +68,7 @@ async function findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
     birthdate,
   });
 
-  if (_.isEmpty(organizationLearners)) {
+  if (lodash.isEmpty(organizationLearners)) {
     throw new NotFoundError('There are no organization learners found');
   }
 
@@ -76,7 +77,7 @@ async function findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
     throw new NotFoundError('There were no organizationLearners matching with names');
   }
 
-  return _.find(organizationLearners, { id: organizationLearnerId });
+  return lodash.find(organizationLearners, { id: organizationLearnerId });
 }
 
 async function checkIfStudentHasAnAlreadyReconciledAccount(
@@ -85,7 +86,7 @@ async function checkIfStudentHasAnAlreadyReconciledAccount(
   obfuscationService,
   studentRepository
 ) {
-  if (!_.isNil(organizationLearner.userId)) {
+  if (!lodash.isNil(organizationLearner.userId)) {
     await _buildStudentReconciliationError(
       organizationLearner.userId,
       'IN_SAME_ORGANIZATION',
@@ -97,7 +98,7 @@ async function checkIfStudentHasAnAlreadyReconciledAccount(
   const student = await studentRepository.getReconciledStudentByNationalStudentId(
     organizationLearner.nationalStudentId
   );
-  if (_.get(student, 'account')) {
+  if (lodash.get(student, 'account')) {
     await _buildStudentReconciliationError(
       student.account.userId,
       'IN_OTHER_ORGANIZATION',
@@ -129,29 +130,29 @@ async function _buildStudentReconciliationError(userId, errorContext, userReposi
 }
 
 function _containsOneElement(arr) {
-  return _.size(arr) === 1;
+  return lodash.size(arr) === 1;
 }
 
 function _standardizeUser(reconciliationInfo) {
-  return _(reconciliationInfo).pick(['firstName', 'lastName']).mapValues(_standardize).value();
+  return lodash(reconciliationInfo).pick(['firstName', 'lastName']).mapValues(_standardize).value();
 }
 
 function _standardizeMatchingCandidate(matchingUserCandidate) {
-  return _(matchingUserCandidate)
+  return lodash(matchingUserCandidate)
     .pick(['id', 'firstName', 'middleName', 'thirdName', 'lastName', 'preferredLastName'])
     .mapValues(_standardize)
     .value();
 }
 
 function _standardize(propToStandardize) {
-  return _.isString(propToStandardize)
+  return lodash.isString(propToStandardize)
     ? pipe(normalizeAndRemoveAccents, removeSpecialCharacters)(propToStandardize)
     : propToStandardize;
 }
 
 function _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, maxAcceptableRatio) {
   return (
-    _(['firstName', 'middleName', 'thirdName'])
+    lodash(['firstName', 'middleName', 'thirdName'])
       .map(_findCandidatesMatchingWithUser(standardizedMatchingUserCandidates, standardizedUser, maxAcceptableRatio))
       .filter(_containsOneElement)
       .flatten()
@@ -227,7 +228,7 @@ async function createUsernameByUser({ user: { firstName, lastName, birthdate }, 
   return await generateUsernameUntilAvailable({ firstPart, secondPart, userRepository });
 }
 
-module.exports = {
+export {
   generateUsernameUntilAvailable,
   createUsernameByUser,
   findMatchingCandidateIdForGivenUser,

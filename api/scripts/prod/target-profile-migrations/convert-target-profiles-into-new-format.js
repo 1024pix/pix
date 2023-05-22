@@ -1,10 +1,12 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+
 dotenv.config();
-const _ = require('lodash');
-const { knex, disconnect } = require('../../../db/knex-database-connection');
-const logger = require('../../../lib/infrastructure/logger');
-const { learningContentCache } = require('../../../lib/infrastructure/caches/learning-content-cache');
-const { autoMigrateTargetProfile } = require('./common');
+import _ from 'lodash';
+import { knex, disconnect } from '../../../db/knex-database-connection.js';
+import { logger } from '../../../lib/infrastructure/logger.js';
+import { learningContentCache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { autoMigrateTargetProfile } from './common.js';
+import * as url from 'url';
 
 async function main() {
   try {
@@ -52,10 +54,10 @@ async function _convertTargetProfile(targetProfileId, trx) {
   return autoMigrateTargetProfile(targetProfileId, trx);
 }
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+if (isLaunchedFromCommandLine) {
   main();
 }
 
-module.exports = {
-  doJob,
-};
+export { doJob };

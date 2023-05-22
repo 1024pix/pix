@@ -4,4 +4,4 @@ class Group {
   }
 }
 
-module.exports = Group;
+export { Group };

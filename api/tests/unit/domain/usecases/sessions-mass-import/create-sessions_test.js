@@ -1,8 +1,8 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../../test-helper');
-const { NotFoundError } = require('../../../../../lib/domain/errors');
-const createSessions = require('../../../../../lib/domain/usecases/sessions-mass-import/create-sessions');
-const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
-const Session = require('../../../../../lib/domain/models/Session');
+import { expect, sinon, catchErr, domainBuilder } from '../../../../test-helper.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { createSessions } from '../../../../../lib/domain/usecases/sessions-mass-import/create-sessions.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { Session } from '../../../../../lib/domain/models/Session.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {
   let certificationCandidateRepository;
@@ -13,7 +13,10 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   beforeEach(function () {
     certificationCandidateRepository = { saveInSession: sinon.stub(), deleteBySessionId: sinon.stub() };
     sessionRepository = { save: sinon.stub() };
-    temporarySessionsStorageForMassImportService = { getByKeyAndUserId: sinon.stub(), delete: sinon.stub() };
+    temporarySessionsStorageForMassImportService = {
+      getByKeyAndUserId: sinon.stub(),
+      remove: sinon.stub(),
+    };
 
     dependencies = {
       certificationCandidateRepository,
@@ -188,7 +191,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       });
 
       // then
-      expect(temporarySessionsStorageForMassImportService.delete).to.have.been.calledOnceWith({
+      expect(temporarySessionsStorageForMassImportService.remove).to.have.been.calledOnceWith({
         cachedValidatedSessionsKey,
         userId,
       });

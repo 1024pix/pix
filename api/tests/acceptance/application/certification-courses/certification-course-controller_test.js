@@ -1,4 +1,4 @@
-const {
+import {
   expect,
   databaseBuilder,
   knex,
@@ -6,14 +6,13 @@ const {
   mockLearningContent,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const {
-  CertificationIssueReportCategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
+import { CertificationIssueReportCategory } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 
 describe('Acceptance | API | Certification Course', function () {
   let server;
@@ -58,7 +57,7 @@ describe('Acceptance | API | Certification Course', function () {
           },
         ];
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         databaseBuilder.factory.buildCertificationCourse({ id: 1234, isV2Certification: true });
@@ -133,7 +132,7 @@ describe('Acceptance | API | Certification Course', function () {
 
         const user = databaseBuilder.factory.buildUser({});
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         databaseBuilder.factory.buildCertificationCourse({ id: 1234, isV2Certification: true, userId: user.id });
@@ -535,7 +534,7 @@ describe('Acceptance | API | Certification Course', function () {
       userId = certificationCourse.userId;
       databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: certificationCourse.id,
-        category: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategory.OTHER,
         description: "il s'est enfuit de la session",
       });
 
@@ -841,7 +840,7 @@ describe('Acceptance | API | Certification Course', function () {
       context('when locale is fr-fr', function () {
         beforeEach(async function () {
           // given
-          const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+          const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
           mockLearningContent(learningContentObjects);
           certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
             sessionId,
@@ -902,7 +901,7 @@ describe('Acceptance | API | Certification Course', function () {
       context('when locale is en', function () {
         beforeEach(async function () {
           // given
-          const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+          const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
           mockLearningContent(learningContentObjects);
           certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
             sessionId,

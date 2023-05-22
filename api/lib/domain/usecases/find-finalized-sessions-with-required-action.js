@@ -1,3 +1,5 @@
-module.exports = function findFinalizedSessionsWithRequiredAction({ finalizedSessionRepository }) {
+const findFinalizedSessionsWithRequiredAction = function ({ finalizedSessionRepository }) {
   return finalizedSessionRepository.findFinalizedSessionsWithRequiredAction();
 };
+
+export { findFinalizedSessionsWithRequiredAction };

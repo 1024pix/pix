@@ -1,8 +1,7 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-
-const moduleUnderTest = require('../../../../lib/application/campaign-participations');
-const campaignParticipationController = require('../../../../lib/application/campaign-participations/campaign-participation-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { campaignParticipationController } from '../../../../lib/application/campaign-participations/campaign-participation-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/campaign-participations/index.js';
 
 describe('Unit | Application | Router | campaign-participation-router ', function () {
   describe('POST /api/campaign-participations', function () {

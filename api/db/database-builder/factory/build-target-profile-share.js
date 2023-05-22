@@ -1,9 +1,9 @@
-const buildOrganization = require('./build-organization');
-const buildTargetProfile = require('./build-target-profile');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import { buildOrganization } from './build-organization.js';
+import { buildTargetProfile } from './build-target-profile.js';
+import { databaseBuffer } from '../database-buffer.js';
+import _ from 'lodash';
 
-module.exports = function buildTargetProfileShare({
+const buildTargetProfileShare = function ({
   id = databaseBuffer.getNextId(),
   targetProfileId,
   organizationId,
@@ -23,3 +23,5 @@ module.exports = function buildTargetProfileShare({
     values,
   });
 };
+
+export { buildTargetProfileShare };

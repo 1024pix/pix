@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const endAssessmentBySupervisor = require('../../../../lib/domain/usecases/end-assessment-by-supervisor');
+import _ from 'lodash';
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { endAssessmentBySupervisor } from '../../../../lib/domain/usecases/end-assessment-by-supervisor.js';
 
 describe('Unit | UseCase | end-assessment-by-supervisor', function () {
   let assessmentRepository;

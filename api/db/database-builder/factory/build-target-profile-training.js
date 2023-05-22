@@ -1,10 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildTargetProfileTraining({
-  id = databaseBuffer.getNextId(),
-  trainingId,
-  targetProfileId,
-} = {}) {
+const buildTargetProfileTraining = function ({ id = databaseBuffer.getNextId(), trainingId, targetProfileId } = {}) {
   const values = {
     id,
     trainingId,
@@ -15,3 +11,5 @@ module.exports = function buildTargetProfileTraining({
     values,
   });
 };
+
+export { buildTargetProfileTraining };

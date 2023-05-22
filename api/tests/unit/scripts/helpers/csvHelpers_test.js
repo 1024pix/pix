@@ -1,16 +1,19 @@
-const { expect, catchErr } = require('../../../test-helper');
-const { NotFoundError, FileValidationError } = require('../../../../lib/domain/errors');
-const {
+import { expect, catchErr } from '../../../test-helper.js';
+import { NotFoundError, FileValidationError } from '../../../../lib/domain/errors.js';
+
+import {
   parseCsv,
   readCsvFile,
   parseCsvWithHeader,
   checkCsvHeader,
   parseCsvWithHeaderAndRequiredFields,
-} = require('../../../../scripts/helpers/csvHelpers');
-const {
-  batchOrganizationOptionsWithHeader,
-} = require('../../../../scripts/create-organizations-with-tags-and-target-profiles');
-const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
+} from '../../../../scripts/helpers/csvHelpers.js';
+
+import { batchOrganizationOptionsWithHeader } from '../../../../scripts/create-organizations-with-tags-and-target-profiles.js';
+import { UnprocessableEntityError } from '../../../../lib/application/http-errors.js';
+
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const notExistFilePath = 'notExist.csv';

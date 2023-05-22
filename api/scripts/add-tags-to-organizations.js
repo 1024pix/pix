@@ -1,29 +1,36 @@
 // Usage: node add-tags-to-organizations.js path/file.csv
 // To use on file with columns |organizationId, tagName|
 
-'use strict';
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+
 dotenv.config();
-const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
-const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
-const OrganizationTag = require('../lib/domain/models/OrganizationTag');
-const { parseCsv } = require('./helpers/csvHelpers');
-const uniq = require('lodash/uniq');
-const { disconnect } = require('../db/knex-database-connection');
+import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
+import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
+import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
+import { parseCsv } from './helpers/csvHelpers.js';
+import lodash from 'lodash';
+
+const { uniq } = lodash;
+import { disconnect } from '../db/knex-database-connection.js';
+
+import * as url from 'url';
+
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 function checkData({ csvData }) {
   return csvData
     .map(([organizationId, tagName]) => {
       if (!organizationId && !tagName) {
-        if (require.main === module) process.stdout.write('Found empty line in input file.');
+        if (isLaunchedFromCommandLine) process.stdout.write('Found empty line in input file.');
         return null;
       }
       if (!organizationId) {
-        if (require.main === module) process.stdout.write(`A line is missing an organizationId for tag ${tagName}`);
+        if (isLaunchedFromCommandLine) process.stdout.write(`A line is missing an organizationId for tag ${tagName}`);
         return null;
       }
       if (!tagName) {
-        if (require.main === module)
+        if (isLaunchedFromCommandLine)
           process.stdout.write(`A line is missing a tag name for organization id ${organizationId}`);
         return null;
       }
@@ -50,7 +57,7 @@ async function retrieveTagsByName({ checkedData }) {
 
 async function addTagsToOrganizations({ tagsByName, checkedData, dependencies = { organizationTagRepository } }) {
   for (let i = 0; i < checkedData.length; i++) {
-    if (require.main === module) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
+    if (isLaunchedFromCommandLine) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
 
     const { organizationId, tagName } = checkedData[i];
     const tagId = tagsByName.get(tagName).id;
@@ -61,20 +68,18 @@ async function addTagsToOrganizations({ tagsByName, checkedData, dependencies = 
     });
 
     if (!isExisting) {
-      if (require.main === module) process.stdout.write(`Adding tag: ${tagName} to organization: ${organizationId} `);
+      if (isLaunchedFromCommandLine) process.stdout.write(`Adding tag: ${tagName} to organization: ${organizationId} `);
 
       const organizationTag = new OrganizationTag({ organizationId, tagId });
       await dependencies.organizationTagRepository.create(organizationTag);
 
-      if (require.main === module) process.stdout.write('===> ✔');
+      if (isLaunchedFromCommandLine) process.stdout.write('===> ✔');
     } else {
-      if (require.main === module)
+      if (isLaunchedFromCommandLine)
         process.stdout.write(`Tag: ${tagName} already exists for organization: ${organizationId} `);
     }
   }
 }
-
-const isLaunchedFromCommandLine = require.main === module;
 
 async function main() {
   console.log('Starting script add-tags-to-organizations');
@@ -111,8 +116,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  addTagsToOrganizations,
-  retrieveTagsByName,
-  checkData,
-};
+export { addTagsToOrganizations, retrieveTagsByName, checkData };

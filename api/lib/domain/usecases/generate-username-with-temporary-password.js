@@ -1,7 +1,10 @@
-const isEmpty = require('lodash/isEmpty');
-const { UserNotAuthorizedToGenerateUsernamePasswordError } = require('../errors.js');
+import lodash from 'lodash';
 
-module.exports = async function generateUsernameWithTemporaryPassword({
+const { isEmpty } = lodash;
+
+import { UserNotAuthorizedToGenerateUsernamePasswordError } from '../errors.js';
+
+const generateUsernameWithTemporaryPassword = async function ({
   organizationLearnerId,
   organizationId,
   passwordGenerator,
@@ -46,6 +49,8 @@ module.exports = async function generateUsernameWithTemporaryPassword({
     return { username, generatedPassword };
   }
 };
+
+export { generateUsernameWithTemporaryPassword };
 
 function _checkIfStudentHasAccessToOrganization(organizationLearner, organizationId) {
   if (organizationLearner.organizationId !== organizationId) {

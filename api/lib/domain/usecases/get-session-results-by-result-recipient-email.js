@@ -1,6 +1,6 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-module.exports = async function getSessionResultsByResultRecipientEmail({
+const getSessionResultsByResultRecipientEmail = async function ({
   sessionId,
   resultRecipientEmail,
   sessionRepository,
@@ -18,3 +18,5 @@ module.exports = async function getSessionResultsByResultRecipientEmail({
 
   return { session, certificationResults };
 };
+
+export { getSessionResultsByResultRecipientEmail };

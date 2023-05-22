@@ -1,7 +1,7 @@
-const AssessmentResultController = require('./assessment-result-controller.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
+import { assessmentResultController } from './assessment-result-controller.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -18,11 +18,12 @@ exports.register = async (server) => {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: AssessmentResultController.save,
+        handler: assessmentResultController.save,
         tags: ['api'],
       },
     },
   ]);
 };
 
-exports.name = 'assessments-results-api';
+const name = 'assessments-results-api';
+export { register, name };

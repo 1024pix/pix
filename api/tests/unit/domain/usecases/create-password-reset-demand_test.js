@@ -1,8 +1,8 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+import { expect, sinon, catchErr } from '../../../test-helper.js';
+import { UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
-const { UserNotFoundError } = require('../../../../lib/domain/errors');
-
-const { createPasswordResetDemand } = require('../../../../lib/domain/usecases/index.js');
+const { createPasswordResetDemand } = usecases;
 
 describe('Unit | UseCase | create-password-reset-demand', function () {
   const email = 'user@example.net';

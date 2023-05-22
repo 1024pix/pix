@@ -1,10 +1,12 @@
-const { Serializer } = require('jsonapi-serializer');
+import jsonapiSerializer from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(groups) {
-    return new Serializer('groups', {
-      id: 'name',
-      attributes: ['name'],
-    }).serialize(groups);
-  },
+const { Serializer } = jsonapiSerializer;
+
+const serialize = function (groups) {
+  return new Serializer('groups', {
+    id: 'name',
+    attributes: ['name'],
+  }).serialize(groups);
 };
+
+export { serialize };

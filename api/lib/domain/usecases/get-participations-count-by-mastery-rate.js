@@ -1,5 +1,6 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
-module.exports = async function getParticipationsCountByMasteryRate({
+import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+
+const getParticipationsCountByMasteryRate = async function ({
   campaignId,
   userId,
   campaignParticipationsStatsRepository,
@@ -8,6 +9,8 @@ module.exports = async function getParticipationsCountByMasteryRate({
   await _checkUserPermission(campaignId, userId, campaignRepository);
   return campaignParticipationsStatsRepository.countParticipationsByMasteryRate({ campaignId });
 };
+
+export { getParticipationsCountByMasteryRate };
 
 async function _checkUserPermission(campaignId, userId, campaignRepository) {
   const hasAccess = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId);

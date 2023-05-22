@@ -1,6 +1,5 @@
-module.exports = async function getOrganizationLearner({
-  organizationLearnerId,
-  organizationLearnerFollowUpRepository,
-}) {
+const getOrganizationLearner = async function ({ organizationLearnerId, organizationLearnerFollowUpRepository }) {
   return organizationLearnerFollowUpRepository.get(organizationLearnerId);
 };
+
+export { getOrganizationLearner };

@@ -1,6 +1,6 @@
-const CertificationCandidateSubscription = require('../../../../lib/domain/read-models/CertificationCandidateSubscription');
+import { CertificationCandidateSubscription } from '../../../../lib/domain/read-models/CertificationCandidateSubscription.js';
 
-module.exports = function buildCertificationCandidateSubscription({
+const buildCertificationCandidateSubscription = function ({
   id = 1234,
   sessionId = 1234,
   eligibleSubscriptions = [],
@@ -13,3 +13,5 @@ module.exports = function buildCertificationCandidateSubscription({
     nonEligibleSubscriptions,
   });
 };
+
+export { buildCertificationCandidateSubscription };

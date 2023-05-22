@@ -1,4 +1,4 @@
-const { CsvColumn } = require('../csv-column.js');
+import { CsvColumn } from '../csv-column.js';
 
 class CampaignIdsCsvHeader {
   constructor() {
@@ -16,4 +16,4 @@ class CampaignIdsCsvHeader {
   }
 }
 
-module.exports = CampaignIdsCsvHeader;
+export { CampaignIdsCsvHeader };

@@ -1,7 +1,12 @@
-const { expect, catchErr } = require('../../../test-helper');
-const { FileValidationError } = require('../../../../lib/domain/errors');
-const { parseCsvWithHeader, checkCsvHeader } = require('../../../../lib/infrastructure/helpers/csv');
-const { isEmpty } = require('lodash');
+import { expect, catchErr } from '../../../test-helper.js';
+import { FileValidationError } from '../../../../lib/domain/errors.js';
+import { parseCsvWithHeader, checkCsvHeader } from '../../../../lib/infrastructure/helpers/csv.js';
+import lodash from 'lodash';
+
+const { isEmpty } = lodash;
+
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Infrastructure | Helpers | csv.js', function () {
   const emptyFilePath = `${__dirname}/files/organizations-empty-file.csv`;

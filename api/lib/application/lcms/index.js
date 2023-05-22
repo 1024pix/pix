@@ -1,7 +1,7 @@
-const securityPreHandlers = require('../security-pre-handlers.js');
-const LcmsController = require('./lcms-controller.js');
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { lcmsController } from './lcms-controller.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -13,7 +13,7 @@ exports.register = async function (server) {
             assign: 'hasRoleSuperAdmin',
           },
         ],
-        handler: LcmsController.createRelease,
+        handler: lcmsController.createRelease,
         tags: ['api', 'lcms'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
@@ -24,4 +24,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'lcms-api';
+const name = 'lcms-api';
+export { register, name };

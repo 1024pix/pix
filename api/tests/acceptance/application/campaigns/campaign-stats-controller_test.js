@@ -1,12 +1,12 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
+} from '../../../test-helper.js';
 
-const createServer = require('../../../../server');
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Campaign Stats Controller', function () {
   let server;
@@ -18,7 +18,7 @@ describe('Acceptance | API | Campaign Stats Controller', function () {
   describe('GET /api/campaigns/{id}/stats/participations-by-stage', function () {
     it('should return the campaign by id', async function () {
       // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
+      const learningContentObjects = learningContentBuilder.fromAreas([
         {
           id: 'recArea1',
           title_i18n: {

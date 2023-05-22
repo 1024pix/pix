@@ -1,8 +1,6 @@
-const { expect, catchErr } = require('../../../../test-helper');
-const authenticationRegistry = require('../../../../../lib/domain/services/authentication/authentication-service-registry');
-const PoleEmploiOidcAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service');
-const FwbOidcAuthenticationService = require('../../../../../lib/domain/services/authentication/fwb-oidc-authentication-service');
-const { InvalidIdentityProviderError } = require('../../../../../lib/domain/errors');
+import { expect, catchErr } from '../../../../test-helper.js';
+import * as authenticationRegistry from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
+import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Services | authentication registry', function () {
   describe('#lookupAuthenticationService', function () {
@@ -14,7 +12,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       const service = await authenticationRegistry.lookupAuthenticationService(identityProvider);
 
       // then
-      expect(service).to.be.an.instanceOf(PoleEmploiOidcAuthenticationService);
+      expect(service.identityProvider).to.equal('POLE_EMPLOI');
     });
 
     it('finds the identity provider service with hasLogoutUrl', async function () {
@@ -25,7 +23,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       const service = await authenticationRegistry.lookupAuthenticationService(identityProvider);
 
       // then
-      expect(service).to.be.an.instanceOf(FwbOidcAuthenticationService);
+      expect(service.identityProvider).to.equal('FWB');
       expect(service.hasLogoutUrl).to.be.true;
     });
 

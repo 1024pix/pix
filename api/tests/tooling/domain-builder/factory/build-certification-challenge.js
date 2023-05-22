@@ -1,5 +1,5 @@
-const buildSkill = require('./build-skill');
-const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
+import { buildSkill } from './build-skill.js';
+import { CertificationChallenge } from '../../../../lib/domain/models/CertificationChallenge.js';
 
 const buildCertificationChallenge = function ({
   id = 123,
@@ -60,4 +60,4 @@ buildCertificationChallenge.forPixPlusCertification = function ({
   });
 };
 
-module.exports = buildCertificationChallenge;
+export { buildCertificationChallenge };

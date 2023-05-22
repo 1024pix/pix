@@ -1,8 +1,8 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+import { expect, databaseBuilder } from '../../../test-helper.js';
 
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
-const Membership = require('../../../../lib/domain/models/Membership');
-const updateMembership = require('../../../../lib/domain/usecases/update-membership');
+import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { updateMembership } from '../../../../lib/domain/usecases/update-membership.js';
 
 describe('Integration | UseCases | update-membership', function () {
   it('should update membership', async function () {

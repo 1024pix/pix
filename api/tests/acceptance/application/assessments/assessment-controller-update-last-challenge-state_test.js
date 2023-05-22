@@ -1,13 +1,14 @@
-const {
+import {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
   learningContentBuilder,
   knex,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 const competenceId = 'recCompetence';
 const skillWeb2Id = 'recAcquisWeb2';
@@ -56,7 +57,7 @@ describe('Acceptance | API | assessment-controller-update-last-challenge-state',
 
   beforeEach(async function () {
     server = await createServer();
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+    const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
   });
 

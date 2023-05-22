@@ -1,15 +1,21 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+
 dotenv.config();
 
-const _ = require('lodash');
-const fp = require('lodash/fp').convert({ cap: false });
-const bluebird = require('bluebird');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
-const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
-const placementProfileService = require('../../lib/domain/services/placement-profile-service');
-const certificationChallengeService = require('../../lib/domain/services/certification-challenges-service');
-const { FRENCH_FRANCE } = require('../../lib/domain/constants').LOCALE;
+import _ from 'lodash';
+
+import originalFp from 'lodash/fp.js';
+
+const fp = originalFp.convert({ cap: false });
+import bluebird from 'bluebird';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
+import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
+import * as certificationChallengeService from '../../lib/domain/services/certification-challenges-service.js';
+import { LOCALE } from '../../lib/domain/constants.js';
+import * as url from 'url';
+
+const { FRENCH_FRANCE } = LOCALE;
 
 const USER_COUNT = parseInt(process.env.USER_COUNT) || 100;
 const USER_ID = parseInt(process.env.USER_ID) || null;
@@ -19,14 +25,6 @@ const USER_ID = parseInt(process.env.USER_ID) || null;
 //
 // Voir aussi :
 // - https://1024pix.atlassian.net/wiki/spaces/DEV/pages/1855422507/2020-09-28+G+n+rer+des+stats+sur+les+tests+de+certif
-
-function makeRefDataFaster() {
-  challengeRepository.list = _.memoize(challengeRepository.findOperative);
-  competenceRepository.list = _.memoize(competenceRepository.list);
-  competenceRepository.listPixCompetencesOnly = _.memoize(competenceRepository.listPixCompetencesOnly);
-}
-
-makeRefDataFaster();
 
 async function _retrieveUserIds() {
   const result = await knex.raw(
@@ -80,7 +78,8 @@ function updateProgress() {
   process.stderr.write('.');
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   let userIds;

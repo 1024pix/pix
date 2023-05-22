@@ -1,3 +1,5 @@
-module.exports = function findFinalizedSessionsToPublish({ finalizedSessionRepository }) {
+const findFinalizedSessionsToPublish = function ({ finalizedSessionRepository }) {
   return finalizedSessionRepository.findFinalizedSessionsToPublish();
 };
+
+export { findFinalizedSessionsToPublish };

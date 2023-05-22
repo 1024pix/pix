@@ -1,13 +1,12 @@
-// Usage: node create-assessment-campaigns.js path/file.csv
-// To use on file with columns |targetProfileId, name, externalId, title, customLandingPageText, creatorId|, those headers included
-const bluebird = require('bluebird');
-const _ = require('lodash');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const CampaignTypes = require('../../lib/domain/models/CampaignTypes');
-const campaignCodeGenerator = require('../../lib/domain/services/campaigns/campaign-code-generator');
-const campaignValidator = require('../../lib/domain/validators/campaign-validator');
-const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
-const { parseCsvWithHeader } = require('../helpers/csvHelpers');
+import bluebird from 'bluebird';
+import _ from 'lodash';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import { CampaignTypes } from '../../lib/domain/models/CampaignTypes.js';
+import * as campaignCodeGenerator from '../../lib/domain/services/campaigns/campaign-code-generator.js';
+import * as campaignValidator from '../../lib/domain/validators/campaign-validator.js';
+import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
+import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
+import * as url from 'url';
 
 function checkData(csvData) {
   return csvData.map(({ targetProfileId, name, externalId, title, customLandingPageText, creatorId }) => {
@@ -47,7 +46,7 @@ async function prepareCampaigns(campaignsData) {
 
     campaignValidator.validate(campaign);
     campaign.code = await campaignCodeGenerator.generate(campaignRepository);
-    if (require.main === module)
+    if (isLaunchedFromCommandLine)
       process.stdout.write(`Campagne ${campaign.name} pour l'organisation ${campaign.organizationId} ===> ✔\n`);
     return campaign;
   });
@@ -72,7 +71,8 @@ function createAssessmentCampaignsForSco(campaigns) {
   return knex.batchInsert('campaigns', campaigns);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const filePath = process.argv[2];
@@ -105,8 +105,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  prepareCampaigns,
-  checkData,
-  getByExternalIdFetchingIdOnly,
-};
+export { prepareCampaigns, checkData, getByExternalIdFetchingIdOnly };

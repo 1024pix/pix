@@ -1,32 +1,36 @@
-/* eslint-disable  no-restricted-syntax */
-const bluebird = require('bluebird');
-const checkIfUserIsBlockedUseCase = require('./usecases/checkIfUserIsBlocked.js');
-const checkAdminMemberHasRoleSuperAdminUseCase = require('./usecases/checkAdminMemberHasRoleSuperAdmin.js');
-const checkAdminMemberHasRoleCertifUseCase = require('./usecases/checkAdminMemberHasRoleCertif.js');
-const checkAdminMemberHasRoleSupportUseCase = require('./usecases/checkAdminMemberHasRoleSupport.js');
-const checkAdminMemberHasRoleMetierUseCase = require('./usecases/checkAdminMemberHasRoleMetier.js');
-const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization.js');
-const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents.js');
-const checkUserBelongsToLearnersOrganizationUseCase = require('./usecases/checkUserBelongsToLearnersOrganization.js');
-const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js');
-const checkUserBelongsToSupOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js');
-const checkUserOwnsCertificationCourseUseCase = require('./usecases/checkUserOwnsCertificationCourse.js');
-const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelongsToOrganization.js');
-const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization.js');
-const checkUserIsMemberOfAnOrganizationUseCase = require('./usecases/checkUserIsMemberOfAnOrganization.js');
-const checkUserIsMemberOfCertificationCenterUsecase = require('./usecases/checkUserIsMemberOfCertificationCenter.js');
-const checkUserIsMemberOfCertificationCenterSessionUsecase = require('./usecases/checkUserIsMemberOfCertificationCenterSession.js');
-const checkAuthorizationToManageCampaignUsecase = require('./usecases/checkAuthorizationToManageCampaign.js');
-const checkOrganizationIsScoAndManagingStudentUsecase = require('./usecases/checkOrganizationIsScoAndManagingStudent');
-const checkPix1dEnabled = require('./usecases/checkPix1dEnabled.js');
-const certificationIssueReportRepository = require('../infrastructure/repositories/certification-issue-report-repository.js');
-const organizationRepository = require('../infrastructure/repositories/organization-repository');
-const Organization = require('../../lib/domain/models/Organization.js');
-const { ForbiddenAccess, NotFoundError } = require('../..//lib/domain/errors.js');
-const apps = require('../..//lib/domain/constants.js');
+import bluebird from 'bluebird';
+import * as checkIfUserIsBlockedUseCase from './usecases/checkIfUserIsBlocked.js';
+import * as checkAdminMemberHasRoleSuperAdminUseCase from './usecases/checkAdminMemberHasRoleSuperAdmin.js';
+import * as checkAdminMemberHasRoleCertifUseCase from './usecases/checkAdminMemberHasRoleCertif.js';
+import * as checkAdminMemberHasRoleSupportUseCase from './usecases/checkAdminMemberHasRoleSupport.js';
+import * as checkAdminMemberHasRoleMetierUseCase from './usecases/checkAdminMemberHasRoleMetier.js';
+import * as checkUserIsAdminInOrganizationUseCase from './usecases/checkUserIsAdminInOrganization.js';
+import * as checkUserBelongsToOrganizationManagingStudentsUseCase from './usecases/checkUserBelongsToOrganizationManagingStudents.js';
+import * as checkUserBelongsToLearnersOrganizationUseCase from './usecases/checkUserBelongsToLearnersOrganization.js';
+import * as checkUserBelongsToScoOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js';
+import * as checkUserBelongsToSupOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js';
+import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
+import * as checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelongsToOrganization.js';
+import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
+import * as checkUserIsMemberOfAnOrganizationUseCase from './usecases/checkUserIsMemberOfAnOrganization.js';
+import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
+import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession.js';
+import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
+import * as checkOrganizationIsScoAndManagingStudentUsecase from './usecases/checkOrganizationIsScoAndManagingStudent.js';
+import * as checkPix1dEnabled from './usecases/checkPix1dEnabled.js';
+import * as certificationIssueReportRepository from '../infrastructure/repositories/certification-issue-report-repository.js';
+import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
+import { Organization } from '../../lib/domain/models/Organization.js';
+import { ForbiddenAccess, NotFoundError } from '../..//lib/domain/errors.js';
+import { PIX_ADMIN } from '../..//lib/domain/constants.js';
 
-const JSONAPIError = require('jsonapi-serializer').Error;
-const has = require('lodash/has');
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Error: JSONAPIError } = jsonapiSerializer;
+
+const { has } = lodash;
+
+import lodash from 'lodash';
 
 function _replyForbiddenError(h) {
   const errorHttpStatusCode = 403;
@@ -72,7 +76,7 @@ async function checkAdminMemberHasRoleSuperAdmin(
   try {
     const hasRoleSuperAdmin = await dependencies.checkAdminMemberHasRoleSuperAdminUseCase.execute(userId);
     if (!hasRoleSuperAdmin) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {
@@ -90,7 +94,7 @@ async function checkAdminMemberHasRoleCertif(request, h, dependencies = { checkA
   try {
     const hasRoleCertif = await dependencies.checkAdminMemberHasRoleCertifUseCase.execute(userId);
     if (!hasRoleCertif) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {
@@ -108,7 +112,7 @@ async function checkAdminMemberHasRoleSupport(request, h, dependencies = { check
   try {
     const hasRoleSupport = await dependencies.checkAdminMemberHasRoleSupportUseCase.execute(userId);
     if (!hasRoleSupport) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {
@@ -126,7 +130,7 @@ async function checkAdminMemberHasRoleMetier(request, h, dependencies = { checkA
   try {
     const hasRoleMetier = await dependencies.checkAdminMemberHasRoleMetierUseCase.execute(userId);
     if (!hasRoleMetier) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {
@@ -140,7 +144,10 @@ function checkRequestedUserIsAuthenticatedUser(request, h) {
   }
 
   const authenticatedUserId = request.auth.credentials.userId;
-  const requestedUserId = parseInt(request.params.userId) || parseInt(request.params.id);
+
+  // We cannot guarantee that callers will enforce the type to be an integer upstream
+  // eslint-disable-next-line no-restricted-syntax
+  const requestedUserId = request.params.userId || parseInt(request.params.id);
 
   return authenticatedUserId === requestedUserId ? h.response(true) : _replyForbiddenError(h);
 }
@@ -156,7 +163,7 @@ function checkUserIsAdminInOrganization(request, h, dependencies = { checkUserIs
   const organizationId =
     request.path && request.path.includes('memberships')
       ? request.payload.data.relationships.organization.data.id
-      : parseInt(request.params.id);
+      : request.params.id;
 
   return dependencies.checkUserIsAdminInOrganizationUseCase
     .execute(userId, organizationId)
@@ -179,7 +186,7 @@ function checkUserIsMemberOfCertificationCenter(
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationCenterId = parseInt(request.params.certificationCenterId);
+  const certificationCenterId = request.params.certificationCenterId;
 
   return dependencies.checkUserIsMemberOfCertificationCenterUsecase
     .execute(userId, certificationCenterId)
@@ -202,7 +209,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIss
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationIssueReportId = parseInt(request.params.id);
+  const certificationIssueReportId = request.params.id;
 
   try {
     const certificationIssueReport = await dependencies.certificationIssueReportRepository.get(
@@ -230,7 +237,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationCou
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationCourseId = parseInt(request.params.id);
+  const certificationCourseId = request.params.id;
 
   try {
     const isMemberOfSession = await dependencies.checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
@@ -253,7 +260,7 @@ async function checkUserBelongsToOrganizationManagingStudents(
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   try {
     if (await dependencies.checkUserBelongsToOrganizationManagingStudentsUseCase.execute(userId, organizationId)) {
@@ -275,7 +282,7 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id) || parseInt(request.payload.data.attributes['organization-id']);
+  const organizationId = request.params.id || request.payload.data.attributes['organization-id'];
 
   let belongsToScoOrganizationAndManageStudents;
   try {
@@ -306,8 +313,7 @@ async function checkCertificationCenterIsNotScoManagingStudents(
   }
 
   const certificationCenterId =
-    parseInt(request?.params?.certificationCenterId) ||
-    parseInt(request?.payload?.data?.attributes?.certificationCenterId);
+    request?.params?.certificationCenterId || request?.payload?.data?.attributes?.certificationCenterId;
 
   let organizationId;
 
@@ -344,7 +350,7 @@ async function checkUserBelongsToSupOrganizationAndManagesStudents(
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id) || parseInt(request.payload.data.attributes['organization-id']);
+  const organizationId = request.params.id || request.payload.data.attributes['organization-id'];
 
   let belongsToSupOrganizationAndManageStudents;
   try {
@@ -367,7 +373,7 @@ async function checkUserIsAdminInSCOOrganizationManagingStudents(
   dependencies = { checkUserIsAdminAndManagingStudentsForOrganization }
 ) {
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   if (
     await dependencies.checkUserIsAdminAndManagingStudentsForOrganization.execute(
@@ -387,7 +393,7 @@ async function checkUserIsAdminInSUPOrganizationManagingStudents(
   dependencies = { checkUserIsAdminAndManagingStudentsForOrganization }
 ) {
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   if (
     await dependencies.checkUserIsAdminAndManagingStudentsForOrganization.execute(
@@ -412,7 +418,7 @@ async function checkUserBelongsToLearnersOrganization(
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationLearnerId = parseInt(request.params.id);
+  const organizationLearnerId = request.params.id;
 
   let belongsToLearnersOrganization;
 
@@ -436,7 +442,7 @@ async function checkUserBelongsToOrganization(request, h, dependencies = { check
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   const belongsToOrganization = await dependencies.checkUserBelongsToOrganizationUseCase.execute(
     userId,
@@ -495,6 +501,7 @@ function adminMemberHasAtLeastOneAccessOf(securityChecks) {
     return hasAccess ? hasAccess : _replyForbiddenError(h);
   };
 }
+
 async function checkPix1dActivated(request, h, dependencies = { checkPix1dEnabled }) {
   const isPix1dEnabled = await dependencies.checkPix1dEnabled.execute();
 
@@ -512,7 +519,7 @@ async function checkUserOwnsCertificationCourse(
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationCourseId = parseInt(request.params.id);
+  const certificationCourseId = request.params.id;
 
   try {
     const ownsCertificationCourse = await dependencies.checkUserOwnsCertificationCourseUseCase.execute({
@@ -529,9 +536,7 @@ function _noOrganizationFound(error) {
   return error instanceof NotFoundError;
 }
 
-/* eslint-enable no-restricted-syntax */
-
-module.exports = {
+const securityPreHandlers = {
   checkIfUserIsBlocked,
   checkPix1dActivated,
   checkRequestedUserIsAuthenticatedUser,
@@ -547,7 +552,7 @@ module.exports = {
   checkAuthorizationToManageCampaign,
   checkUserIsAdminInSCOOrganizationManagingStudents,
   checkUserIsAdminInSUPOrganizationManagingStudents,
-  checkUserBelongsToLearnersOrganization: checkUserBelongsToLearnersOrganization,
+  checkUserBelongsToLearnersOrganization,
   checkUserBelongsToOrganization,
   checkUserIsMemberOfAnOrganization,
   checkUserIsMemberOfCertificationCenter,
@@ -556,3 +561,5 @@ module.exports = {
   checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
   adminMemberHasAtLeastOneAccessOf,
 };
+
+export { securityPreHandlers };

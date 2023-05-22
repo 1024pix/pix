@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const Competence = require('../../../../lib/domain/models/Competence');
+import { expect } from '../../../test-helper.js';
+import { Competence } from '../../../../lib/domain/models/Competence.js';
 
 describe('Unit | Domain | Models | Competence', function () {
   describe('@reference', function () {

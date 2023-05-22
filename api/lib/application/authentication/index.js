@@ -1,11 +1,11 @@
-const Joi = require('joi');
-const { sendJsonApiError, BadRequestError } = require('../http-errors.js');
-const AuthenticationController = require('./authentication-controller.js');
-const responseAuthenticationObjectDoc = require('../../infrastructure/open-api-doc/authentication/response-authentication-doc.js');
-const responseErrorObjectDoc = require('../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
+import Joi from 'joi';
+import { sendJsonApiError, BadRequestError } from '../http-errors.js';
+import { authenticationController as AuthenticationController } from './authentication-controller.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { responseAuthenticationDoc } from '../../infrastructure/open-api-doc/authentication/response-authentication-doc.js';
+import { responseObjectErrorDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -72,9 +72,9 @@ exports.register = async (server) => {
         response: {
           failAction: 'log',
           status: {
-            200: responseAuthenticationObjectDoc,
-            401: responseErrorObjectDoc,
-            403: responseErrorObjectDoc,
+            200: responseAuthenticationDoc,
+            401: responseObjectErrorDoc,
+            403: responseObjectErrorDoc,
           },
         },
         handler: AuthenticationController.authenticateApplication,
@@ -155,4 +155,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'authentication-api';
+const name = 'authentication-api';
+export { register, name };

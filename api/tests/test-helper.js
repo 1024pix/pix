@@ -1,34 +1,53 @@
-require('dotenv').config({ path: `${__dirname}/../.env` });
-const _ = require('lodash');
-const MockDate = require('mockdate');
-const chai = require('chai');
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable node/no-unpublished-import */
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as domainBuilder from './tooling/domain-builder/factory/index.js';
+import { HttpTestServer } from './tooling/server/http-test-server.js';
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: `${__dirname}/../.env` });
+import _ from 'lodash';
+import MockDate from 'mockdate';
+import chai from 'chai';
+
 const expect = chai.expect;
-const sinon = require('sinon');
-chai.use(require('chai-as-promised'));
-chai.use(require('chai-sorted'));
-chai.use(require('sinon-chai'));
-const customChaiHelpers = require('./tooling/chai-custom-helpers/index');
+import sinon from 'sinon';
+import chaiAsPromised from 'chai-as-promised';
+import chaiSorted from 'chai-sorted';
+import sinonChai from 'sinon-chai';
+
+chai.use(chaiAsPromised);
+chai.use(chaiSorted);
+chai.use(sinonChai);
+import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
+
 _.each(customChaiHelpers, chai.use);
-const { learningContentCache } = require('../lib/infrastructure/caches/learning-content-cache');
+import { learningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
 
-const { apimRegisterApplicationsCredentials, jwtConfig } = require('../lib/config');
+import { config } from '../lib/config.js';
+const { apimRegisterApplicationsCredentials, jwtConfig } = config;
+import { knex, disconnect } from '../db/knex-database-connection.js';
+import { DatabaseBuilder } from '../db/database-builder/database-builder.js';
 
-const { knex, disconnect } = require('../db/knex-database-connection');
-
-const DatabaseBuilder = require('../db/database-builder/database-builder');
 const databaseBuilder = new DatabaseBuilder({ knex });
 
-const nock = require('nock');
+import nock from 'nock';
+
 nock.disableNetConnect();
 
-const learningContentBuilder = require('./tooling/learning-content-builder');
+import { buildLearningContent as learningContentBuilder } from './tooling/learning-content-builder/index.js';
 
-const tokenService = require('../lib/domain/services/token-service');
-const Membership = require('../lib/domain/models/Membership');
+import * as tokenService from '../lib/domain/services/token-service.js';
+import { Membership } from '../lib/domain/models/Membership.js';
+
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
-const { ROLES } = require('../lib/domain/constants').PIX_ADMIN;
-const { createTempFile, removeTempFile } = require('./tooling/temporary-file');
+import { PIX_ADMIN } from '../lib/domain/constants.js';
+
+const { ROLES } = PIX_ADMIN;
+import { createTempFile, removeTempFile } from './tooling/temporary-file.js';
 
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
@@ -41,6 +60,7 @@ afterEach(function () {
 after(function () {
   return disconnect();
 });
+
 /* eslint-enable mocha/no-top-level-hooks */
 
 function generateValidRequestAuthorizationHeader(userId = 1234, source = 'pix') {
@@ -241,17 +261,18 @@ global.chaiErr = function globalErr(fn, val) {
   throw new chai.AssertionError('Expected an error');
 };
 
+const testErr = new Error('Fake Error');
 // eslint-disable-next-line mocha/no-exports
-module.exports = {
+export {
   EMPTY_BLANK_AND_NULL,
   expect,
-  domainBuilder: require('./tooling/domain-builder/factory'),
+  domainBuilder,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   generateValidRequestAuthorizationHeaderForApplication,
   generateIdTokenForExternalUser,
   hFake,
-  HttpTestServer: require('./tooling/server/http-test-server'),
+  HttpTestServer,
   insertOrganizationUserWithRoleAdmin,
   insertUserWithRoleSuperAdmin,
   insertUserWithRoleCertif,
@@ -262,7 +283,7 @@ module.exports = {
   streamToPromise,
   catchErr,
   catchErrSync,
-  testErr: new Error('Fake Error'),
+  testErr,
   mockLearningContent,
   learningContentBuilder,
   createTempFile,

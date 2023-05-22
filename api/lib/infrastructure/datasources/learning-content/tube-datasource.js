@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const datasource = require('./datasource.js');
+import _ from 'lodash';
+import * as datasource from './datasource.js';
 
 const tubeDatasource = datasource.extend({
   modelName: 'tubes',
@@ -15,4 +15,4 @@ const tubeDatasource = datasource.extend({
   },
 });
 
-module.exports = { tubeDatasource };
+export { tubeDatasource };

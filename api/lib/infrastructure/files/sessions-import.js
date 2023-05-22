@@ -1,6 +1,9 @@
-const { Parser } = require('json2csv');
-const { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../utils/csv/sessions-import.js');
-const omit = require('lodash/omit');
+import { Parser } from 'json2csv';
+
+const { omit } = lodash;
+
+import { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } from '../utils/csv/sessions-import.js';
+import lodash from 'lodash';
 
 function getHeaders({ habilitationLabels, shouldDisplayBillingModeColumns = true }) {
   const complementaryCertificationsHeaders = _getComplementaryCertificationsHeaders(habilitationLabels);
@@ -27,4 +30,4 @@ function _getHeadersAsArray(complementaryCertificationsHeaders = [], shouldDispl
   return [...csvHeaders, ...complementaryCertificationsHeaders];
 }
 
-module.exports = { getHeaders };
+export { getHeaders };

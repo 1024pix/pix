@@ -1,4 +1,4 @@
-module.exports = async function addTutorialToUser({
+const addTutorialToUser = async function ({
   tutorialRepository,
   skillRepository,
   userSavedTutorialRepository,
@@ -11,3 +11,5 @@ module.exports = async function addTutorialToUser({
 
   return userSavedTutorialRepository.addTutorial({ userId, tutorialId, skillId });
 };
+
+export { addTutorialToUser };

@@ -1,8 +1,8 @@
-module.exports = {
-  async notify() {
-    return {
-      isSuccessful: false,
-      code: 'SENDING-DISABLED',
-    };
-  },
+const notify = async function () {
+  return {
+    isSuccessful: false,
+    code: 'SENDING-DISABLED',
+  };
 };
+
+export { notify };

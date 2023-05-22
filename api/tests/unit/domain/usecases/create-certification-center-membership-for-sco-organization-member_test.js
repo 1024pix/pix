@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const {
-  createCertificationCenterMembershipForScoOrganizationMember,
-} = require('../../../../lib/domain/usecases/index.js');
-const Membership = require('../../../../lib/domain/models/Membership');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+
+const { createCertificationCenterMembershipForScoOrganizationMember } = usecases;
 
 describe('Unit | UseCase | create-certification-center-membership-for-sco-organization-member', function () {
   let membershipRepository;

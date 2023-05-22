@@ -1,6 +1,6 @@
-const { expect, hFake } = require('../../test-helper');
+import { expect, hFake } from '../../test-helper.js';
 
-const {
+import {
   BadRequestError,
   ConflictError,
   ForbiddenError,
@@ -10,11 +10,10 @@ const {
   PreconditionFailedError,
   UnauthorizedError,
   UnprocessableEntityError,
-} = require('../../../lib/application/http-errors');
+} from '../../../lib/application/http-errors.js';
 
-const { EntityValidationError } = require('../../../lib/domain/errors');
-
-const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-response-utils');
+import { EntityValidationError } from '../../../lib/domain/errors.js';
+import { handleDomainAndHttpErrors } from '../../../lib/application/pre-response-utils.js';
 
 describe('Integration | Application | PreResponse-utils', function () {
   describe('#handleDomainAndHttpErrors', function () {

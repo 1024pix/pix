@@ -1,9 +1,9 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const campaignManagementRepository = require('../../../../lib/infrastructure/repositories/campaign-management-repository');
-const _ = require('lodash');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const { knex } = require('../../../../lib/infrastructure/bookshelf');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, databaseBuilder } from '../../../test-helper.js';
+import * as campaignManagementRepository from '../../../../lib/infrastructure/repositories/campaign-management-repository.js';
+import _ from 'lodash';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { knex } from '../../../../lib/infrastructure/bookshelf.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 

@@ -1,4 +1,4 @@
-const {
+import {
   expect,
   databaseBuilder,
   learningContentBuilder,
@@ -6,8 +6,9 @@ const {
   domainBuilder,
   knex,
   sinon,
-} = require('../../test-helper');
-const {
+} from '../../test-helper.js';
+
+import {
   getAllUserSavedTutorialsWithoutSkillId,
   getAllTutorials,
   getAllSkills,
@@ -15,10 +16,11 @@ const {
   associateSkillsToTutorial,
   getMostRelevantSkillId,
   main,
-} = require('../../../scripts/fill-skill-id-in-user-saved-tutorials');
-const UserSavedTutorial = require('../../../lib/domain/models/UserSavedTutorial');
-const UserSavedTutorialWithTutorial = require('../../../lib/domain/models/UserSavedTutorialWithTutorial');
-const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
+} from '../../../scripts/fill-skill-id-in-user-saved-tutorials.js';
+
+import { UserSavedTutorial } from '../../../lib/domain/models/UserSavedTutorial.js';
+import { UserSavedTutorialWithTutorial } from '../../../lib/domain/models/UserSavedTutorialWithTutorial.js';
+import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
 
 describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', function () {
   describe('#main', function () {
@@ -27,7 +29,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
 
       beforeEach(function () {
         sinon.stub(console, 'log');
-        learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
+        learningContentObjects = learningContentBuilder.fromAreas([
           {
             id: 'recArea1',
             title_i18n: {
@@ -228,7 +230,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
   describe('#getAllTutorials', function () {
     it('should retrieve all tutorials', async function () {
       // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
+      const learningContentObjects = learningContentBuilder.fromAreas([
         {
           id: 'recArea1',
           title_i18n: {
@@ -333,7 +335,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
   describe('#getAllSkills', function () {
     it('should retrieve all skills', async function () {
       // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
+      const learningContentObjects = learningContentBuilder.fromAreas([
         {
           id: 'recArea1',
           title_i18n: {

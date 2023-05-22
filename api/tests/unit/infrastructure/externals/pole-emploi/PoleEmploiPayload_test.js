@@ -1,5 +1,5 @@
-const PoleEmploiPayload = require('../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload');
-const { expect, domainBuilder } = require('../../../../test-helper');
+import { PoleEmploiPayload } from '../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
+import { expect, domainBuilder } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', function () {
   let user;

@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const settings = require('../../../../lib/config');
+import { expect } from '../../../test-helper.js';
+import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { config as settings } from '../../../../lib/config.js';
 
 describe('Integration | Domain | Services | TokenService', function () {
   describe('#createAccessTokenForSaml', function () {

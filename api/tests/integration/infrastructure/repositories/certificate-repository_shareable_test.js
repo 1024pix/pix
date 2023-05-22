@@ -1,13 +1,14 @@
-const {
+import {
   expect,
   databaseBuilder,
   domainBuilder,
   catchErr,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const certificateRepository = require('../../../../lib/infrastructure/repositories/certificate-repository');
+} from '../../../test-helper.js';
+
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as certificateRepository from '../../../../lib/infrastructure/repositories/certificate-repository.js';
 
 describe('Integration | Infrastructure | Repository | Shareable Certificate', function () {
   const minimalLearningContent = [
@@ -304,7 +305,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           framework: null,
         });
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
+        const learningContentObjects = learningContentBuilder.fromAreas([
           {
             ...area1,
             title_i18n: { fr: area1.title, en: 'title en' },
@@ -416,7 +417,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           framework: null,
         });
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
+        const learningContentObjects = learningContentBuilder.fromAreas([
           {
             ...area1,
             title_i18n: { fr: area1.title, en: 'title en' },
@@ -484,7 +485,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           hasExternalJury: true,
         }).id;
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(minimalLearningContent);
         mockLearningContent(learningContentObjects);
         const userId = databaseBuilder.factory.buildUser().id;
         const shareableCertificateData = {

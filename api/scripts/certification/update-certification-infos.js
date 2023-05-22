@@ -1,8 +1,15 @@
-require('dotenv').config({ path: `${__dirname}/../.env` });
+import * as url from 'url';
 
-const bluebird = require('bluebird');
-const { readFile } = require('fs/promises');
-const logger = require('../../lib/infrastructure/logger');
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: `${__dirname}/../.env` });
+
+import bluebird from 'bluebird';
+
+import { readFile } from 'fs/promises';
+
+import { logger } from '../../lib/infrastructure/logger.js';
 // Usage: node scripts/update-certifications-infos path/data.csv path/sessionsId.csv
 // data.csv
 // #externalId,birthdate,birthINSEECode,birthPostalCode,birthCity,birthCountry
@@ -10,10 +17,10 @@ const logger = require('../../lib/infrastructure/logger');
 // sessionsId.csv
 // 1,12,30
 
-('use strict');
-const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const values = require('lodash/values');
+import { parseCsv, checkCsvHeader } from '../helpers/csvHelpers.js';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import lodash from 'lodash';
+const { values } = lodash;
 
 const headers = {
   externalId: 'externalId',
@@ -107,7 +114,8 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
   logger.info('Done.');
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const dataFilePath = process.argv[2];
@@ -128,7 +136,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  updateCertificationInfos,
-  headers,
-};
+export { updateCertificationInfos, headers };

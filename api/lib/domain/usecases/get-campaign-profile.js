@@ -1,6 +1,6 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
+import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
 
-module.exports = async function getCampaignProfile({
+const getCampaignProfile = async function ({
   userId,
   campaignId,
   campaignParticipationId,
@@ -14,3 +14,5 @@ module.exports = async function getCampaignProfile({
 
   return campaignProfileRepository.findProfile({ campaignId, campaignParticipationId, locale });
 };
+
+export { getCampaignProfile };

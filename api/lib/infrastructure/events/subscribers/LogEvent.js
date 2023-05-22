@@ -1,4 +1,4 @@
-const Event = require('../../../domain/events/CampaignParticipationResultsShared.js');
+import { CampaignParticipationResultsShared } from '../../../domain/events/CampaignParticipationResultsShared.js';
 
 class LogEvent {
   constructor({ monitoringTools }) {
@@ -15,6 +15,6 @@ class LogEvent {
   }
 }
 
-LogEvent.event = Event;
+LogEvent.event = CampaignParticipationResultsShared;
 
-module.exports = LogEvent;
+export { LogEvent };

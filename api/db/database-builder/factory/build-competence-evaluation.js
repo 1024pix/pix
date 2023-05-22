@@ -1,10 +1,10 @@
-const buildAssessment = require('./build-assessment');
-const buildUser = require('./build-user');
-const databaseBuffer = require('../database-buffer');
-const CompetenceEvaluation = require('../../../lib/domain/models/CompetenceEvaluation');
-const _ = require('lodash');
+import { buildAssessment } from './build-assessment.js';
+import { buildUser } from './build-user.js';
+import { databaseBuffer } from '../database-buffer.js';
+import { CompetenceEvaluation } from '../../../lib/domain/models/CompetenceEvaluation.js';
+import _ from 'lodash';
 
-module.exports = function buildCompetenceEvaluation({
+const buildCompetenceEvaluation = function ({
   id = databaseBuffer.getNextId(),
   assessmentId,
   competenceId = 'recABC123',
@@ -31,3 +31,5 @@ module.exports = function buildCompetenceEvaluation({
     values,
   });
 };
+
+export { buildCompetenceEvaluation };

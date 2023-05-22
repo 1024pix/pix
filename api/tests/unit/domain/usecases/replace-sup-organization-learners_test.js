@@ -1,6 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-
-const replaceSupOrganizationLearners = require('../../../../lib/domain/usecases/replace-sup-organization-learner');
+import { expect, sinon } from '../../../test-helper.js';
+import { replaceSupOrganizationLearners } from '../../../../lib/domain/usecases/replace-sup-organization-learner.js';
 
 describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
   it('parses the csv received and replace the SupOrganizationLearner', async function () {

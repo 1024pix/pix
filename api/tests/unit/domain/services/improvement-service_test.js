@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const _ = require('lodash');
-const improvementService = require('../../../../lib/domain/services/improvement-service');
-const { constants } = require('../../../../lib/domain/constants');
+import { expect, domainBuilder, sinon } from '../../../test-helper.js';
+import _ from 'lodash';
+import * as improvementService from '../../../../lib/domain/services/improvement-service.js';
+import { constants } from '../../../../lib/domain/constants.js';
 
 describe('Unit | Service | ImprovementService', function () {
   describe('#filterKnowledgeElementsIfImproving', function () {
@@ -29,7 +29,7 @@ describe('Unit | Service | ImprovementService', function () {
 
       beforeEach(function () {
         originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
-        constants['MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING'] = 3;
+        sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING').value(3);
         const assessmentDate = '2020-07-30';
 
         assessment = domainBuilder.buildAssessment.ofTypeCampaign({
@@ -46,7 +46,7 @@ describe('Unit | Service | ImprovementService', function () {
       });
 
       afterEach(function () {
-        constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = originalConstantValue;
+        sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING').value(originalConstantValue);
       });
 
       it('should return the same list of knowledge-elements if assessment is not improving', function () {

@@ -1,4 +1,4 @@
-module.exports = async function findPaginatedTrainingSummaries({ filter, page, trainingRepository }) {
+const findPaginatedTrainingSummaries = async function ({ filter, page, trainingRepository }) {
   const { trainings, pagination } = await trainingRepository.findPaginatedSummaries({ filter, page });
 
   return {
@@ -6,3 +6,5 @@ module.exports = async function findPaginatedTrainingSummaries({ filter, page, t
     meta: { pagination },
   };
 };
+
+export { findPaginatedTrainingSummaries };

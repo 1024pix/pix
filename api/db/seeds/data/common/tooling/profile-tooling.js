@@ -1,12 +1,12 @@
-const _ = require('lodash');
-const learningContent = require('./learning-content');
-const generic = require('./generic');
-const Assessment = require('../../../../../lib/domain/models/Assessment');
-const CompetenceEvaluation = require('../../../../../lib/domain/models/CompetenceEvaluation');
-const { PIX_COUNT_BY_LEVEL } = require('../../../../../lib/domain/constants');
+import _ from 'lodash';
+import * as learningContent from './learning-content.js';
+import * as generic from './generic.js';
+import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
+import { CompetenceEvaluation } from '../../../../../lib/domain/models/CompetenceEvaluation.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../../lib/domain/constants.js';
 const UNREACHABLE_PIX_SCORE = 999999;
 
-module.exports = {
+export {
   createCertifiableProfile,
   createPerfectProfile,
   getAnswersAndKnowledgeElementsForAdvancedProfile,
@@ -167,7 +167,7 @@ function _makeCompetenceEvaluation({ databaseBuilder, userId, competenceId }) {
 function _makeUserReachPixScoreForCompetences({ databaseBuilder, userId, answersAndKnowledgeElementsCollection }) {
   const answersAndKnowledgeElementsByCompetenceId = _.groupBy(
     answersAndKnowledgeElementsCollection,
-    ({ keData }) => keData.competenceId,
+    ({ keData }) => keData.competenceId
   );
   for (const [competenceId, answersAndKnowledgeElements] of Object.entries(answersAndKnowledgeElementsByCompetenceId)) {
     const assessmentId = _makeCompetenceEvaluation({ databaseBuilder, userId, competenceId });

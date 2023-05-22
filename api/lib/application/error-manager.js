@@ -1,15 +1,19 @@
-const _ = require('lodash');
-const JSONAPIError = require('jsonapi-serializer').Error;
-const { HttpErrors } = require('./http-errors.js');
-const DomainErrors = require('../domain/errors.js');
-const errorSerializer = require('../infrastructure/serializers/jsonapi/error-serializer.js');
-const { extractLocaleFromRequest } = require('../infrastructure/utils/request-response-utils.js');
-const translations = require('../../translations/index.js');
+import _ from 'lodash';
+import jsonapiSerializer from 'jsonapi-serializer';
+const { Error: JSONAPIError } = jsonapiSerializer;
+
+import { HttpErrors } from './http-errors.js';
+import * as DomainErrors from '../domain/errors.js';
+import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
+import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils.js';
+import * as translations from '../../translations/index.js';
 
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
 
 function translateMessage(locale, key) {
+  // eslint-disable-next-line import/namespace
   if (translations[locale]['entity-validation-errors'][key]) {
+    // eslint-disable-next-line import/namespace
     return translations[locale]['entity-validation-errors'][key];
   }
   return key;
@@ -524,4 +528,4 @@ function handle(request, h, error) {
   return h.response(errorSerializer.serialize(httpError)).code(httpError.status);
 }
 
-module.exports = { handle };
+export { handle };

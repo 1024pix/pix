@@ -1,4 +1,4 @@
-module.exports = function getNextChallengeForCertification({
+const getNextChallengeForCertification = function ({
   certificationChallengeRepository,
   challengeRepository,
   assessment,
@@ -9,3 +9,5 @@ module.exports = function getNextChallengeForCertification({
       return challengeRepository.get(certificationChallenge.challengeId);
     });
 };
+
+export { getNextChallengeForCertification };

@@ -1,13 +1,8 @@
-const { AssessmentEndedError } = require('../errors.js');
-const _ = require('../../infrastructure/utils/lodash-utils.js');
-const logger = require('../../infrastructure/logger.js');
+import { AssessmentEndedError } from '../errors.js';
+import { _ } from '../../infrastructure/utils/lodash-utils.js';
+import { logger } from '../../infrastructure/logger.js';
 
-module.exports = function getNextChallengeForDemo({
-  assessment,
-  answerRepository,
-  challengeRepository,
-  courseRepository,
-}) {
+const getNextChallengeForDemo = function ({ assessment, answerRepository, challengeRepository, courseRepository }) {
   const courseId = assessment.courseId;
 
   const logContext = {
@@ -36,6 +31,8 @@ module.exports = function getNextChallengeForDemo({
     })
     .then(challengeRepository.get);
 };
+
+export { getNextChallengeForDemo };
 
 function _selectNextChallengeId(course, answers) {
   const courseChallengeIds = course.challenges;

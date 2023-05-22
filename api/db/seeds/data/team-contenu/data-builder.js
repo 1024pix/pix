@@ -1,4 +1,4 @@
-const tooling = require('../common/tooling');
+import * as tooling from '../common/tooling/index.js';
 
 const TEAM_CONTENU_OFFSET_ID = 5000;
 // IDS
@@ -32,9 +32,7 @@ async function teamContenuDataBuilder({ databaseBuilder }) {
   await _createPerfectProfileUser(databaseBuilder);
 }
 
-module.exports = {
-  teamContenuDataBuilder,
-};
+export { teamContenuDataBuilder };
 
 function _createProOrganization(databaseBuilder) {
   databaseBuilder.factory.buildOrganization({

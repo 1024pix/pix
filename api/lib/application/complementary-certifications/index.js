@@ -1,7 +1,7 @@
-const complementaryCertificationController = require('./complementary-certification-controller.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
+import { complementaryCertificationController } from './complementary-certification-controller.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -30,4 +30,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'complementary-certifications-api';
+const name = 'complementary-certifications-api';
+export { register, name };

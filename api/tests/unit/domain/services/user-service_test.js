@@ -1,10 +1,10 @@
-const omit = require('lodash/omit');
+import lodash from 'lodash';
+const { omit } = lodash;
 
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-
-const userService = require('../../../../lib/domain/services/user-service');
+import * as userService from '../../../../lib/domain/services/user-service.js';
 
 describe('Unit | Service | user-service', function () {
   let domainTransaction;

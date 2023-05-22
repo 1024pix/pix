@@ -1,14 +1,11 @@
-const _ = require('lodash');
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const deleteCertificationIssueReport = require('../../../../lib/domain/usecases/delete-certification-issue-report');
-const { ForbiddenAccess } = require('../../../../lib/domain/errors');
+import _ from 'lodash';
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import { deleteCertificationIssueReport } from '../../../../lib/domain/usecases/delete-certification-issue-report.js';
+import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | delete-certification-issue-report', function () {
   const certificationCourseRepository = { get: () => _.noop() };
-  const certificationIssueReportRepository = {
-    delete: () => _.noop(),
-    get: () => _.noop(),
-  };
+  let certificationIssueReportRepository;
   const sessionRepository = { isFinalized: () => _.noop() };
   const certificationIssueReportId = 456;
   const userId = 789;
@@ -24,8 +21,10 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
     certificationCourseRepository.get
       .withArgs(certificationIssueReport.certificationCourseId)
       .resolves(certificationCourse);
-    sinon.stub(certificationIssueReportRepository, 'delete');
-    sinon.stub(certificationIssueReportRepository, 'get');
+    certificationIssueReportRepository = {
+      remove: sinon.stub(),
+      get: sinon.stub(),
+    };
     certificationIssueReportRepository.get.withArgs(certificationIssueReportId).resolves(certificationIssueReport);
     sinon.stub(sessionRepository, 'isFinalized');
   });
@@ -51,7 +50,7 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
     // given
     const deletionResult = Symbol('someValue');
     sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
-    certificationIssueReportRepository.delete.withArgs(certificationIssueReportId).resolves(deletionResult);
+    certificationIssueReportRepository.remove.withArgs(certificationIssueReportId).resolves(deletionResult);
 
     // when
     const actualDeletionResult = await deleteCertificationIssueReport({

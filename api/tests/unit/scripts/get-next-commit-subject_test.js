@@ -1,5 +1,5 @@
-const { expect } = require('../../test-helper');
-const getNextCommitSubject = require('../../../scripts/get-next-commit-subject');
+import { expect } from '../../test-helper.js';
+import { getNextCommitSubject } from '../../../scripts/get-next-commit-subject.js';
 
 describe('get-next-commit-subject', function () {
   const commitSubject = 'Add a user repository';

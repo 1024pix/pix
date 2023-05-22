@@ -1,7 +1,7 @@
-const { expect, domainBuilder, catchErr, mockLearningContent } = require('../../../test-helper');
-const Course = require('../../../../lib/domain/models/Course');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
+import { expect, domainBuilder, catchErr, mockLearningContent } from '../../../test-helper.js';
+import { Course } from '../../../../lib/domain/models/Course.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as courseRepository from '../../../../lib/infrastructure/repositories/course-repository.js';
 
 describe('Integration | Repository | course-repository', function () {
   describe('#get', function () {

@@ -1,10 +1,10 @@
-const { sinon, expect, catchErr } = require('../../../test-helper');
+import { sinon, expect, catchErr } from '../../../test-helper.js';
+import { deleteUnassociatedBadge } from '../../../../lib/domain/usecases/delete-unassociated-badge.js';
 
-const deleteUnassociatedBadge = require('../../../../lib/domain/usecases/delete-unassociated-badge');
-const {
+import {
   AcquiredBadgeForbiddenDeletionError,
   CertificationBadgeForbiddenDeletionError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | delete-unassociated-badge', function () {
   let badgeId;
@@ -14,7 +14,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
     badgeId = 'badgeId';
     badgeRepository = {
       isAssociated: sinon.stub(),
-      delete: sinon.stub(),
+      remove: sinon.stub(),
       isRelatedToCertification: sinon.stub(),
     };
   });
@@ -22,7 +22,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
   context('When the badge is not associated to a badge acquisition', function () {
     beforeEach(function () {
       badgeRepository.isAssociated.withArgs(badgeId).resolves(false);
-      badgeRepository.delete.withArgs(badgeId).resolves(true);
+      badgeRepository.remove.withArgs(badgeId).resolves(true);
     });
 
     it('should delete the badge', async function () {
@@ -57,7 +57,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
   context('When the badge is related to a certification', function () {
     beforeEach(function () {
       badgeRepository.isRelatedToCertification.withArgs(badgeId).resolves(true);
-      badgeRepository.delete.withArgs(badgeId).resolves(true);
+      badgeRepository.remove.withArgs(badgeId).resolves(true);
     });
 
     it('should not delete the badge', async function () {
@@ -75,7 +75,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
   context('When the badge is not related to a certification', function () {
     beforeEach(function () {
       badgeRepository.isRelatedToCertification.withArgs(badgeId).resolves(false);
-      badgeRepository.delete.withArgs(badgeId).resolves(true);
+      badgeRepository.remove.withArgs(badgeId).resolves(true);
     });
 
     it('should delete the badge', async function () {

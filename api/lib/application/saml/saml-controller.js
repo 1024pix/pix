@@ -1,38 +1,40 @@
-const saml = require('../../infrastructure/saml.js');
-const usecases = require('../../domain/usecases/index.js');
-const logger = require('../../infrastructure/logger.js');
-const tokenService = require('../../domain/services/token-service.js');
-const settings = require('../../config.js');
+import * as saml from '../../infrastructure/saml.js';
+import { usecases } from '../../domain/usecases/index.js';
+import { logger } from '../../infrastructure/logger.js';
+import { tokenService } from '../../domain/services/token-service.js';
+import { config } from '../../config.js';
 
-module.exports = {
-  metadata(request, h) {
-    return h.response(saml.getServiceProviderMetadata()).type('application/xml');
-  },
-
-  login(request, h) {
-    return h.redirect(saml.createLoginRequest());
-  },
-
-  assert: async function (request, h) {
-    let userAttributes;
-    try {
-      userAttributes = await saml.parsePostResponse(request.payload);
-    } catch (e) {
-      logger.error({ e }, 'SAML: Error while parsing post response');
-      return h.response(e.toString()).code(400);
-    }
-
-    try {
-      const redirectionUrl = await usecases.getExternalAuthenticationRedirectionUrl({
-        userAttributes,
-        tokenService,
-        settings,
-      });
-
-      return h.redirect(redirectionUrl);
-    } catch (e) {
-      logger.error({ e }, 'SAML: Error while get external authentication redirection url');
-      return h.response(e.toString()).code(500);
-    }
-  },
+const metadata = function (request, h) {
+  return h.response(saml.getServiceProviderMetadata()).type('application/xml');
 };
+
+const login = function (request, h) {
+  return h.redirect(saml.createLoginRequest());
+};
+
+const assert = async function (request, h) {
+  let userAttributes;
+  try {
+    userAttributes = await saml.parsePostResponse(request.payload);
+  } catch (e) {
+    logger.error({ e }, 'SAML: Error while parsing post response');
+    return h.response(e.toString()).code(400);
+  }
+
+  try {
+    const redirectionUrl = await usecases.getExternalAuthenticationRedirectionUrl({
+      userAttributes,
+      tokenService,
+      config,
+    });
+
+    return h.redirect(redirectionUrl);
+  } catch (e) {
+    logger.error({ e }, 'SAML: Error while get external authentication redirection url');
+    return h.response(e.toString()).code(500);
+  }
+};
+
+const samlController = { metadata, login, assert };
+
+export { samlController };

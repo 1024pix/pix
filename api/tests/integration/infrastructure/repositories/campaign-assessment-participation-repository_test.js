@@ -1,10 +1,10 @@
-const { expect, databaseBuilder, mockLearningContent, knex, catchErr } = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
-const campaignAssessmentParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-repository');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { CampaignAssessmentParticipation } from '../../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
+import * as campaignAssessmentParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-repository.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

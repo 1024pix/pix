@@ -1,15 +1,14 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const bcrypt = require('bcrypt');
-const settings = require('../../../../lib/config');
-
-const { ForbiddenAccess, UserNotFoundError } = require('../../../../lib/domain/errors');
-const prescriberRepository = require('../../../../lib/infrastructure/repositories/prescriber-repository');
-const Prescriber = require('../../../../lib/domain/read-models/Prescriber');
-const Membership = require('../../../../lib/domain/models/Membership');
-const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
-const Organization = require('../../../../lib/domain/models/Organization');
-const Tag = require('../../../../lib/domain/models/Tag');
-const apps = require('../../../../lib/domain/constants.js');
+import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
+import bcrypt from 'bcrypt';
+import { config as settings } from '../../../../lib/config.js';
+import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors.js';
+import * as prescriberRepository from '../../../../lib/infrastructure/repositories/prescriber-repository.js';
+import { Prescriber } from '../../../../lib/domain/read-models/Prescriber.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
+import { Organization } from '../../../../lib/domain/models/Organization.js';
+import { Tag } from '../../../../lib/domain/models/Tag.js';
+import * as apps from '../../../../lib/domain/constants.js';
 
 describe('Integration | Infrastructure | Repository | Prescriber', function () {
   const userToInsert = {

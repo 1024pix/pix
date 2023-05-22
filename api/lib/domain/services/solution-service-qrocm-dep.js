@@ -1,11 +1,10 @@
-const jsYaml = require('js-yaml');
-const { applyPreTreatments, applyTreatments } = require('./validation-treatments.js');
-const { YamlParsingError } = require('../../domain/errors.js');
-const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils.js');
-const { validateAnswer } = require('./string-comparison-service.js');
-
-const AnswerStatus = require('../models/AnswerStatus.js');
-const CorrectionBlockQROCMDep = require('../models/CorrectionBlockQROCMDep.js');
+import jsYaml from 'js-yaml';
+import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
+import { YamlParsingError } from '../../domain/errors.js';
+import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
+import { validateAnswer } from './string-comparison-service.js';
+import { AnswerStatus } from '../models/AnswerStatus.js';
+import { CorrectionBlockQROCMDep } from '../models/CorrectionBlockQROCMDep.js';
 
 function applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return Object.fromEntries(
@@ -95,57 +94,59 @@ function treatAnswersAndSolutions(deactivations, solutions, answers) {
   return { enabledTreatments, treatedSolutions, treatedAnswers };
 }
 
-module.exports = {
-  match({
-    answerValue,
-    solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
-    dependencies = {
-      applyPreTreatments,
-      convertYamlToJsObjects,
-      getEnabledTreatments,
-      treatAnswersAndSolutions,
-    },
-  }) {
-    // Input checking
-    if (typeof answerValue !== 'string' || !answerValue.length || !String(yamlSolution).includes('\n')) {
-      return AnswerStatus.KO;
-    }
+const match = function ({
+  answerValue,
+  solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
 
-    // Pre-Treatments
-    const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
-    const { answers, solutions, scoring } = dependencies.convertYamlToJsObjects(
-      preTreatedAnswers,
-      yamlSolution,
-      yamlScoring
-    );
-    const { enabledTreatments, treatedSolutions, treatedAnswers } = dependencies.treatAnswersAndSolutions(
-      deactivations,
-      solutions,
-      answers
-    );
-    const numberOfGoodAnswers = getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
-
-    return formatResult(scoring, numberOfGoodAnswers, Object.keys(answers).length);
+  dependencies = {
+    applyPreTreatments,
+    convertYamlToJsObjects,
+    getEnabledTreatments,
+    treatAnswersAndSolutions,
   },
+}) {
+  // Input checking
+  if (typeof answerValue !== 'string' || !answerValue.length || !String(yamlSolution).includes('\n')) {
+    return AnswerStatus.KO;
+  }
 
-  getSolution({
-    answerValue,
-    solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
-    dependencies = {
-      applyPreTreatments,
-      convertYamlToJsObjects,
-      treatAnswersAndSolutions,
-    },
-  }) {
-    // Pre-Treatments
-    const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
-    const { answers, solutions } = dependencies.convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring);
-    const { enabledTreatments, treatedSolutions, treatedAnswers } = dependencies.treatAnswersAndSolutions(
-      deactivations,
-      solutions,
-      answers
-    );
+  // Pre-Treatments
+  const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
+  const { answers, solutions, scoring } = dependencies.convertYamlToJsObjects(
+    preTreatedAnswers,
+    yamlSolution,
+    yamlScoring
+  );
+  const { enabledTreatments, treatedSolutions, treatedAnswers } = dependencies.treatAnswersAndSolutions(
+    deactivations,
+    solutions,
+    answers
+  );
+  const numberOfGoodAnswers = getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
 
-    return getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments);
-  },
+  return formatResult(scoring, numberOfGoodAnswers, Object.keys(answers).length);
 };
+
+const getSolution = function ({
+  answerValue,
+  solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
+
+  dependencies = {
+    applyPreTreatments,
+    convertYamlToJsObjects,
+    treatAnswersAndSolutions,
+  },
+}) {
+  // Pre-Treatments
+  const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
+  const { answers, solutions } = dependencies.convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring);
+  const { enabledTreatments, treatedSolutions, treatedAnswers } = dependencies.treatAnswersAndSolutions(
+    deactivations,
+    solutions,
+    answers
+  );
+
+  return getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments);
+};
+
+export { match, getSolution };

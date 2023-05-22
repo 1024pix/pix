@@ -1,11 +1,11 @@
-const { domainBuilder, expect, sinon } = require('../../../../test-helper');
-const validateSessions = require('../../../../../lib/domain/usecases/sessions-mass-import/validate-sessions');
-const Session = require('../../../../../lib/domain/models/Session');
-const { CpfBirthInformationValidation } = require('../../../../../lib/domain/services/certification-cpf-service');
-const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
-const { CERTIFICATION_SESSIONS_ERRORS } = require('../../../../../lib/domain/constants/sessions-errors');
-const SessionMassImportReport = require('../../../../../lib/domain/models/SessionMassImportReport');
-const { getI18n } = require('../../../../tooling/i18n/i18n');
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
+import { validateSessions } from '../../../../../lib/domain/usecases/sessions-mass-import/validate-sessions.js';
+import { Session } from '../../../../../lib/domain/models/Session.js';
+import { CpfBirthInformationValidation } from '../../../../../lib/domain/services/certification-cpf-service.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
+import { SessionMassImportReport } from '../../../../../lib/domain/models/SessionMassImportReport.js';
+import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Unit | UseCase | sessions-mass-import | validate-sessions', function () {
   let accessCode;
@@ -13,13 +13,11 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   let certificationCenterName;
   let certificationCenter;
   let certificationCenterRepository;
-  let certificationCandidateRepository;
   let certificationCourseRepository;
   let complementaryCertificationRepository;
   // eslint-disable-next-line mocha/no-setup-in-describe
   const i18n = getI18n();
   let sessionCodeService;
-
   let sessionsImportValidationService;
   let temporarySessionsStorageForMassImportService;
 
@@ -216,7 +214,6 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           userId,
           certificationCenterId,
           certificationCenterRepository,
-          certificationCandidateRepository,
           certificationCourseRepository,
           sessionCodeService,
           i18n,
@@ -384,11 +381,13 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           ],
         });
 
+        certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
+
         // when
         const sessionsMassImportReport = await validateSessions({
           sessions,
-          certificationCenterId,
           certificationCenterRepository,
+          certificationCenterId,
           sessionCodeService,
           i18n,
           sessionsImportValidationService,

@@ -1,6 +1,6 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const userEmailRepository = require('../../../../lib/infrastructure/repositories/user-email-repository');
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { createServer } from '../../../../server.js';
+import * as userEmailRepository from '../../../../lib/infrastructure/repositories/user-email-repository.js';
 
 describe('Acceptance | Route | Users', function () {
   describe('POST /api/users/{id}/update-email', function () {

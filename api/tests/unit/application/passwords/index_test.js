@@ -1,7 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/passwords');
-const passwordController = require('../../../../lib/application/passwords/password-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { passwordController } from '../../../../lib/application/passwords/password-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/passwords/index.js';
 
 describe('Unit | Router | Password router', function () {
   describe('POST /api/password-reset-demands', function () {

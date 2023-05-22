@@ -1,9 +1,7 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
-
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-
-const { prepareCampaigns, checkData } = require('../../../../scripts/prod/create-profiles-collection-campaigns');
+import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { prepareCampaigns, checkData } from '../../../../scripts/prod/create-profiles-collection-campaigns.js';
 
 describe('Integration | Scripts | create-profile-collection-campaigns', function () {
   describe('#prepareCampaigns', function () {

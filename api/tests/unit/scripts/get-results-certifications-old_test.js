@@ -1,12 +1,14 @@
-const { expect } = require('chai');
+import chai from 'chai';
 
-const {
+const { expect } = chai;
+
+import {
   parseArgs,
   toCSVRow,
   buildRequestObject,
   findCompetence,
   HEADERS,
-} = require('../../../scripts/certification/get-results-certifications-old');
+} from '../../../scripts/certification/get-results-certifications-old.js';
 
 describe('Get Result Certifications Script OLD', function () {
   describe('parseArgs', function () {

@@ -1,7 +1,7 @@
-const _map = require('lodash/map');
-const _omit = require('lodash/omit');
+import lodash from 'lodash';
+const { map: _map, omit: _omit } = lodash;
 
-const {
+import {
   expect,
   knex,
   learningContentBuilder,
@@ -10,15 +10,14 @@ const {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   sinon,
-} = require('../../../test-helper');
+} from '../../../test-helper.js';
 
-const createServer = require('../../../../server');
-
-const Membership = require('../../../../lib/domain/models/Membership');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
+import { createServer } from '../../../../server.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 
 describe('Acceptance | Application | organization-controller', function () {
   let server;
@@ -1537,7 +1536,7 @@ describe('Acceptance | Application | organization-controller', function () {
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         user = databaseBuilder.factory.buildUser({});
@@ -1821,7 +1820,7 @@ describe('Acceptance | Application | organization-controller', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 

@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const updateCertificationCenterReferer = require('../../../../lib/domain/usecases/update-certification-center-referer');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { updateCertificationCenterReferer } from '../../../../lib/domain/usecases/update-certification-center-referer.js';
 
 describe('Unit | UseCase | update-certification-center-referer', function () {
   context('when there is already a referer', function () {

@@ -1,6 +1,8 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const { deleteCampaignParticipationForAdmin } = require('../../../../lib/domain/usecases/index.js');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
+
+const { deleteCampaignParticipationForAdmin } = usecases;
 
 describe('Unit | UseCase | delete-campaign-participation-for-admin', function () {
   //given
@@ -21,7 +23,7 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
     };
     const campaignParticipationRepository = {
       getAllCampaignParticipationsInCampaignForASameLearner: sinon.stub(),
-      delete: sinon.stub(),
+      remove: sinon.stub(),
     };
     const campaignParticipationId = 1234;
     const domainTransaction = Symbol('domainTransaction');
@@ -64,14 +66,14 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
     });
 
     //then
-    expect(campaignParticipationRepository.delete).to.have.been.calledTwice;
+    expect(campaignParticipationRepository.remove).to.have.been.calledTwice;
     campaignParticipations.forEach((campaignParticipation) => {
       const deletedCampaignParticipation = new CampaignParticipation({
         ...campaignParticipation,
         deletedAt: now,
         deletedBy: ownerId,
       });
-      expect(campaignParticipationRepository.delete).to.have.been.calledWithExactly({
+      expect(campaignParticipationRepository.remove).to.have.been.calledWithExactly({
         id: deletedCampaignParticipation.id,
         deletedAt: deletedCampaignParticipation.deletedAt,
         deletedBy: deletedCampaignParticipation.deletedBy,

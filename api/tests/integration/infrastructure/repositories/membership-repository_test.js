@@ -1,10 +1,10 @@
-const { expect, knex, databaseBuilder, catchErr, sinon } = require('../../../test-helper');
-const _ = require('lodash');
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
-const { MembershipCreationError, MembershipUpdateError, NotFoundError } = require('../../../../lib/domain/errors');
-const Membership = require('../../../../lib/domain/models/Membership');
-const Organization = require('../../../../lib/domain/models/Organization');
-const User = require('../../../../lib/domain/models/User');
+import { expect, knex, databaseBuilder, catchErr, sinon } from '../../../test-helper.js';
+import _ from 'lodash';
+import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
+import { MembershipCreationError, MembershipUpdateError, NotFoundError } from '../../../../lib/domain/errors.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { Organization } from '../../../../lib/domain/models/Organization.js';
+import { User } from '../../../../lib/domain/models/User.js';
 
 describe('Integration | Infrastructure | Repository | membership-repository', function () {
   let clock;

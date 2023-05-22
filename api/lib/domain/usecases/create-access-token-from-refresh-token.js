@@ -1,3 +1,5 @@
-module.exports = async function createAccessTokenFromRefreshToken({ refreshToken, refreshTokenService }) {
+const createAccessTokenFromRefreshToken = async function ({ refreshToken, refreshTokenService }) {
   return refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken });
 };
+
+export { createAccessTokenFromRefreshToken };

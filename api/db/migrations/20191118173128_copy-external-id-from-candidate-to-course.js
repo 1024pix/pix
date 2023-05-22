@@ -1,9 +1,9 @@
-exports.up = async function (knex) {
+const up = async function (knex) {
   await knex.raw(`
       UPDATE "public"."certification-courses" as cc
       SET "externalId" = joinCcAndCca."externalIdCertificationCandidate"
       FROM
-      ( SELECT 
+      ( SELECT
              cc."id" AS "idCertificationCourse",
              cca."externalId" AS "externalIdCertificationCandidate"
       FROM "public"."certification-courses" AS cc
@@ -12,11 +12,10 @@ exports.up = async function (knex) {
       AND cc."sessionId" = cca."sessionId"
       WHERE cca."externalId" IS NOT NULL
         AND cc."externalId" IS  NULL ) as joinCcAndCca
-        
+
       WHERE cc."id" = joinCcAndCca."idCertificationCourse";
     `);
 };
-
-exports.down = function () {
-  // no rollback for this case
-};
+// eslint-disable-next-line no-empty-function
+const down = function () {};
+export { up, down };

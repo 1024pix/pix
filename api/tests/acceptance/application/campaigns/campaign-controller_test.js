@@ -1,21 +1,21 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
+} from '../../../test-helper.js';
 
-const settings = require('../../../../lib/config');
-const Membership = require('../../../../lib/domain/models/Membership');
-const createServer = require('../../../../server');
+import { config as settings } from '../../../../lib/config.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Campaign Controller', function () {
   let campaign;
@@ -136,7 +136,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
@@ -250,7 +250,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
@@ -339,7 +339,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
@@ -437,7 +437,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           },
         ];
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 
@@ -579,7 +579,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           },
         ];
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 
@@ -691,7 +691,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       // when
@@ -815,7 +815,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       // when
@@ -882,7 +882,7 @@ describe('Acceptance | API | Campaign Controller', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
@@ -1297,7 +1297,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 

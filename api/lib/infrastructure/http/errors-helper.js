@@ -21,6 +21,4 @@ function serializeHttpErrorResponse(response, customMessage) {
   return dataToLog;
 }
 
-module.exports = {
-  serializeHttpErrorResponse,
-};
+export { serializeHttpErrorResponse };

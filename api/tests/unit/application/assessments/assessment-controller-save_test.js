@@ -1,8 +1,6 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-
-const controller = require('../../../../lib/application/assessments/assessment-controller');
-
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import { assessmentController as controller } from '../../../../lib/application/assessments/assessment-controller.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 describe('Unit | Controller | assessment-controller-save', function () {
   describe('#save', function () {

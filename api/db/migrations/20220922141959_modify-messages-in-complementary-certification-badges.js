@@ -1,4 +1,6 @@
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
+import { badges } from '../constants.js';
+
 const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
@@ -10,12 +12,9 @@ const {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../constants').badges.keys;
-/**
- * @param { import('knex').Knex } knex
- * @returns { Promise<void> }
- */
-exports.up = async function (knex) {
+} = badges.keys;
+
+const up = async function (knex) {
   const badges = await knex('complementary-certification-badges')
     .select('complementary-certification-badges.id', 'key')
     .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
@@ -61,11 +60,6 @@ exports.up = async function (knex) {
       .where({ id });
   });
 };
-
-/**
- * @param { import('knex').Knex } knex
- * @returns { Promise<void> }
- */
-exports.down = function () {
-  // do nothing.
-};
+// eslint-disable-next-line no-empty-function
+const down = function () {};
+export { up, down };

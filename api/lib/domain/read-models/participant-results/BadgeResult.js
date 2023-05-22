@@ -1,4 +1,4 @@
-const SkillSetResult = require('./SkillSetResult.js');
+import { SkillSetResult } from './SkillSetResult.js';
 
 class BadgeResult {
   constructor(badge, participationResults) {
@@ -27,4 +27,4 @@ function _buildSkillSetResult(badgeCompetence, knowledgeElements) {
   return new SkillSetResult(badgeCompetence, competenceKnowledgeElements);
 }
 
-module.exports = BadgeResult;
+export { BadgeResult };

@@ -1,4 +1,4 @@
-module.exports = function getPaginatedParticipantsForAnOrganization({
+const getPaginatedParticipantsForAnOrganization = function ({
   organizationId,
   filters,
   page,
@@ -12,3 +12,5 @@ module.exports = function getPaginatedParticipantsForAnOrganization({
     page,
   });
 };
+
+export { getPaginatedParticipantsForAnOrganization };

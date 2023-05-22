@@ -1,6 +1,5 @@
-const { domainBuilder, expect, sinon } = require('../../../test-helper');
-
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Unit | UseCase | find-certification-center-memberships-by-certification-center', function () {
   it('should result certification-center-memberships by certification center id', async function () {

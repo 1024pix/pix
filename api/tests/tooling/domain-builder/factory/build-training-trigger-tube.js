@@ -1,10 +1,12 @@
-const buildTube = require('./build-tube');
-const TrainingTriggerTube = require('../../../../lib/domain/models/TrainingTriggerTube');
+import { buildTube } from './build-tube.js';
+import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
 
-module.exports = function buildTrainingTriggerTube({ id = 1000, tube = buildTube(), level = 8 } = {}) {
+const buildTrainingTriggerTube = function ({ id = 1000, tube = buildTube(), level = 8 } = {}) {
   return new TrainingTriggerTube({
     id,
     tube,
     level,
   });
 };
+
+export { buildTrainingTriggerTube };

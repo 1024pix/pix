@@ -1,14 +1,12 @@
-#!/usr/bin/env node
-
 // Usage: node import-certification-cpf-countries.js path/file.csv
 // File Millésime 2021 : Liste des pays et territoires étrangers au 01/01/2021
 // downloaded from https://www.data.gouv.fr/fr/datasets/code-officiel-geographique-cog/
 
-'use strict';
-const { parseCsv } = require('../helpers/csvHelpers');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const { normalizeAndSortChars } = require('../../lib/infrastructure/utils/string-utils');
-const _ = require('lodash');
+import { parseCsv } from '../helpers/csvHelpers.js';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import { normalizeAndSortChars } from '../../lib/infrastructure/utils/string-utils.js';
+import _ from 'lodash';
+import * as url from 'url';
 
 const CURRENT_NAME_COLUMN = 'LIBCOG';
 const ALTERNATIVE_NAME_COLUMN = 'LIBENR';
@@ -75,7 +73,8 @@ function checkTransformUnicity(countries) {
   if (hasError) throw new Error('There are more than 1 transformed name with distinct code');
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main(filePath) {
   console.log('Starting script import-certification-cpf-countries');
@@ -121,7 +120,4 @@ async function main(filePath) {
   }
 })();
 
-module.exports = {
-  buildCountries,
-  checkTransformUnicity,
-};
+export { buildCountries, checkTransformUnicity };

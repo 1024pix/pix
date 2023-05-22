@@ -1,10 +1,14 @@
-const dotenv = require('dotenv');
-dotenv.config();
-const { performance } = require('perf_hooks');
-const logger = require('../lib/infrastructure/logger');
-const { cache } = require('../lib/infrastructure/caches/learning-content-cache');
+import dotenv from 'dotenv';
 
-const { knex, disconnect } = require('../db/knex-database-connection');
+dotenv.config();
+import perf_hooks from 'perf_hooks';
+import * as url from 'url';
+
+const { performance } = perf_hooks;
+
+import { logger } from '../lib/infrastructure/logger.js';
+import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
+import { knex, disconnect } from '../db/knex-database-connection.js';
 
 const doSomething = async ({ throwError }) => {
   if (throwError) {
@@ -14,7 +18,9 @@ const doSomething = async ({ throwError }) => {
   return data;
 };
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+const __filename = modulePath;
 
 async function main() {
   const startTime = performance.now();
@@ -39,4 +45,4 @@ async function main() {
   }
 })();
 
-module.exports = { doSomething };
+export { doSomething };

@@ -1,4 +1,4 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -6,8 +6,9 @@ const {
   knex,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | training-controller', function () {
   let server;
@@ -66,7 +67,7 @@ describe('Acceptance | Controller | training-controller', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
@@ -370,7 +371,7 @@ describe('Acceptance | Controller | training-controller', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder(learningContent);
       mockLearningContent(learningContentObjects);
     });
 

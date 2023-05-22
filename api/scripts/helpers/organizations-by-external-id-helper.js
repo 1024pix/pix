@@ -1,4 +1,4 @@
-const organizationRepository = require('../../lib/infrastructure/repositories/organization-repository');
+import * as organizationRepository from '../../lib/infrastructure/repositories/organization-repository.js';
 
 function organizeOrganizationsByExternalId(organizations) {
   const organizationsByExternalId = {};
@@ -12,14 +12,11 @@ function organizeOrganizationsByExternalId(organizations) {
   return organizationsByExternalId;
 }
 
-function findOrganizationsByExternalIds({ checkedData }) {
+function findOrganizationsByExternalIds({ checkedData }, injectedOrganizationRepository = organizationRepository) {
   const externalIds = checkedData.map((data) => data.externalId);
-  return organizationRepository.findByExternalIdsFetchingIdsOnly(externalIds).then((organizations) => {
+  return injectedOrganizationRepository.findByExternalIdsFetchingIdsOnly(externalIds).then((organizations) => {
     return organizations.map((organization) => ({ id: organization.id, externalId: organization.externalId }));
   });
 }
 
-module.exports = {
-  findOrganizationsByExternalIds,
-  organizeOrganizationsByExternalId,
-};
+export { findOrganizationsByExternalIds, organizeOrganizationsByExternalId };

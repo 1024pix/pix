@@ -1,6 +1,4 @@
-module.exports = {
-  createCertificationCenter,
-};
+export { createCertificationCenter };
 
 /**
  * Fonction générique pour créer un centre de certification selon une configuration donnée.
@@ -62,7 +60,7 @@ function _buildCertificationCenterHabilitations({
     databaseBuilder.factory.buildComplementaryCertificationHabilitation({
       certificationCenterId,
       complementaryCertificationId,
-    }),
+    })
   );
 }
 
@@ -73,7 +71,7 @@ function _buildCertificationCenterMemberships({ databaseBuilder, certificationCe
       certificationCenterId,
       createdAt: new Date(),
       isReferer: false,
-    }),
+    })
   );
 }
 

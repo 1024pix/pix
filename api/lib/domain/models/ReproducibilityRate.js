@@ -1,4 +1,4 @@
-const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } = require('../constants.js');
+import { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } from '../constants.js';
 
 class ReproducibilityRate {
   constructor(value) {
@@ -19,6 +19,4 @@ class ReproducibilityRate {
   }
 }
 
-module.exports = {
-  ReproducibilityRate,
-};
+export { ReproducibilityRate };

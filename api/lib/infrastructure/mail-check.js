@@ -1,10 +1,12 @@
-const { Resolver } = require('node:dns').promises;
+import { promises } from 'node:dns';
+
+const { Resolver } = promises;
 
 const resolver = new Resolver();
 
-module.exports = {
-  checkDomainIsValid(emailAddress) {
-    const domain = emailAddress.replace(/.*@/g, '');
-    return resolver.resolveMx(domain).then(() => true);
-  },
+const checkDomainIsValid = function (emailAddress) {
+  const domain = emailAddress.replace(/.*@/g, '');
+  return resolver.resolveMx(domain).then(() => true);
 };
+
+export { checkDomainIsValid };

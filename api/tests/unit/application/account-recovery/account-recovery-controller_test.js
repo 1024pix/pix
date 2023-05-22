@@ -1,9 +1,7 @@
-const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
-
-const accountRecoveryController = require('../../../../lib/application/account-recovery/account-recovery-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
+import { accountRecoveryController } from '../../../../lib/application/account-recovery/account-recovery-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | account-recovery-controller', function () {
   describe('#sendEmailForAccountRecovery', function () {
@@ -32,14 +30,22 @@ describe('Unit | Controller | account-recovery-controller', function () {
         },
       };
 
-      sinon
-        .stub(studentInformationForAccountRecoverySerializer, 'deserialize')
-        .withArgs(request.payload)
-        .resolves(studentInformation);
       sinon.stub(usecases, 'sendEmailForAccountRecovery').resolves();
 
+      const studentInformationForAccountRecoverySerializerStub = {
+        deserialize: sinon.stub(),
+      };
+
+      studentInformationForAccountRecoverySerializerStub.deserialize
+        .withArgs(request.payload)
+        .resolves(studentInformation);
+
+      const dependencies = {
+        studentInformationForAccountRecoverySerializer: studentInformationForAccountRecoverySerializerStub,
+      };
+
       // when
-      const response = await accountRecoveryController.sendEmailForAccountRecovery(request, hFake);
+      const response = await accountRecoveryController.sendEmailForAccountRecovery(request, hFake, dependencies);
 
       // then
       expect(usecases.sendEmailForAccountRecovery).calledWith({ studentInformation });

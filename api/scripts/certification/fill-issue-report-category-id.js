@@ -1,8 +1,11 @@
-const logger = require('../../lib/infrastructure/logger');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const bluebird = require('bluebird');
+import { logger } from '../../lib/infrastructure/logger.js';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import bluebird from 'bluebird';
+import * as url from 'url';
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+const __filename = modulePath;
 
 async function _getIdCategorySubcategoryFromCertificationIssueReport() {
   return knex('certification-issue-reports').select('id', 'category', 'subcategory');
@@ -43,7 +46,7 @@ async function main() {
   }
 })();
 
-module.exports = { main };
+export { main };
 
 async function _updateIssueReportsWithCategoryId(certificationIssueReports, categories) {
   let count = 0;

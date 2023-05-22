@@ -1,9 +1,8 @@
-const OrganizationLearner = require('../../../domain/models/OrganizationLearner.js');
-const { checkValidation } = require('../../../domain/validators/organization-learner-validator.js');
-
-const { CsvOrganizationLearnerParser } = require('./csv-learner-parser.js');
-const { CsvImportError, DomainError } = require('../../../domain/errors.js');
-const OrganizationLearnerImportHeader = require('./organization-learner-import-header.js');
+import { OrganizationLearner } from '../../../domain/models/OrganizationLearner.js';
+import { checkValidation } from '../../../domain/validators/organization-learner-validator.js';
+import { CsvOrganizationLearnerParser } from './csv-learner-parser.js';
+import { CsvImportError, DomainError } from '../../../domain/errors.js';
+import { OrganizationLearnerImportHeader } from './organization-learner-import-header.js';
 
 const ERRORS = {
   IDENTIFIER_UNIQUE: 'IDENTIFIER_UNIQUE',
@@ -91,4 +90,4 @@ class OrganizationLearnerParser extends CsvOrganizationLearnerParser {
   }
 }
 
-module.exports = OrganizationLearnerParser;
+export { OrganizationLearnerParser };

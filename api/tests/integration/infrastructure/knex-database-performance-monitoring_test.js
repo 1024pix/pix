@@ -1,8 +1,7 @@
-const { expect, sinon } = require('../../test-helper');
-const knexDatabaseConnection = require('../../../db/knex-database-connection');
-const knex = knexDatabaseConnection.knex;
-const { asyncLocalStorageForTests: asyncLocalStorage } = require('../../../lib/infrastructure/monitoring-tools.js');
-const config = require('../../../lib/config');
+import { expect, sinon } from '../../test-helper.js';
+import { knex } from '../../../db/knex-database-connection.js';
+import { asyncLocalStorage } from '../../../lib/infrastructure/monitoring-tools.js';
+import { config } from '../../../lib/config.js';
 const selectQuery = knex.raw('SELECT 1 as value');
 
 describe('Integration | Infrastructure | knex-database-performance-monitoring', function () {

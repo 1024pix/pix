@@ -1,8 +1,8 @@
-const buildAssessment = require('./build-assessment');
-const buildCampaignParticipation = require('./build-campaign-participation');
-const buildUser = require('./build-user');
+import { buildAssessment } from './build-assessment.js';
+import { buildCampaignParticipation } from './build-campaign-participation.js';
+import { buildUser } from './build-user.js';
 
-module.exports = (user, campaignParticipation, withAssessment) => {
+const buildCampaignParticipationWithUser = (user, campaignParticipation, withAssessment) => {
   const { id: userId } = buildUser(user);
   const campaignParticipationCreated = buildCampaignParticipation({ userId, ...campaignParticipation });
   if (withAssessment) {
@@ -10,3 +10,5 @@ module.exports = (user, campaignParticipation, withAssessment) => {
   }
   return campaignParticipationCreated;
 };
+
+export { buildCampaignParticipationWithUser };

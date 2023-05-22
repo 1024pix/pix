@@ -1,4 +1,6 @@
-const { Client } = require('pg');
+import pg from 'pg';
+
+const { Client } = pg;
 
 class PgClient {
   constructor(databaseUrl) {
@@ -29,4 +31,4 @@ class PgClient {
   }
 }
 
-module.exports = PgClient;
+export { PgClient };

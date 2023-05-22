@@ -1,12 +1,15 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const { beginCampaignParticipationImprovement } = require('../../../../lib/domain/usecases/index.js');
-const {
+import {
   AlreadySharedCampaignParticipationError,
   UserNotAuthorizedToAccessEntityError,
-} = require('../../../../lib/domain/errors');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+} from '../../../../lib/domain/errors.js';
+
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+
+const { beginCampaignParticipationImprovement } = usecases;
 
 describe('Unit | Usecase | begin-campaign-participation-improvement', function () {
   let dependencies;

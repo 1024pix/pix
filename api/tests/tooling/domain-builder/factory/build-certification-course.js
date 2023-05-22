@@ -1,9 +1,7 @@
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
-const buildAssessment = require('./build-assessment');
-const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const {
-  CertificationIssueReportCategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
+import { buildAssessment } from './build-assessment.js';
+import { CertificationIssueReport } from '../../../../lib/domain/models/CertificationIssueReport.js';
+import { CertificationIssueReportCategory } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 function buildCertificationCourse({
   id = 123,
@@ -38,7 +36,7 @@ function buildCertificationCourse({
       new CertificationIssueReport({
         id: 159,
         certificationCourseId: id,
-        category: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategory.OTHER,
         description: examinerComment,
       })
     );
@@ -126,4 +124,4 @@ buildCertificationCourse.unpersisted = function ({
   });
 };
 
-module.exports = buildCertificationCourse;
+export { buildCertificationCourse };

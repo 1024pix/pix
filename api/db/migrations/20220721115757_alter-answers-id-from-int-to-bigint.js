@@ -9,7 +9,7 @@ const changeAnswerIdTypeToBigint = async (knex) => {
   });
 };
 
-exports.up = async function (knex) {
+const up = async function (knex) {
   const { rows: answersCheckDataTypeQueryResult } = await knex.raw(`
   SELECT "column_name","data_type"
   FROM "information_schema"."columns"
@@ -33,7 +33,6 @@ exports.up = async function (knex) {
     }
   }
 };
-
-exports.down = function () {
-  // no need for rollback
-};
+// eslint-disable-next-line no-empty-function
+const down = function () {};
+export { up, down };

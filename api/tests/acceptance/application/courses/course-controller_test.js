@@ -1,11 +1,12 @@
-const {
+import {
   expect,
   nock,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
   learningContentBuilder,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Courses', function () {
   let server;
@@ -47,7 +48,7 @@ describe('Acceptance | API | Courses', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 

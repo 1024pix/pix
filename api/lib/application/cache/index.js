@@ -1,7 +1,7 @@
-const securityPreHandlers = require('../security-pre-handlers.js');
-const CacheController = require('./cache-controller.js');
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { cacheController } from './cache-controller.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'PATCH',
@@ -13,7 +13,7 @@ exports.register = async function (server) {
             assign: 'hasRoleSuperAdmin',
           },
         ],
-        handler: CacheController.refreshCacheEntry,
+        handler: cacheController.refreshCacheEntry,
         tags: ['api', 'cache'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
@@ -32,7 +32,7 @@ exports.register = async function (server) {
             assign: 'hasRoleSuperAdmin',
           },
         ],
-        handler: CacheController.refreshCacheEntries,
+        handler: cacheController.refreshCacheEntries,
         tags: ['api', 'cache'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
@@ -43,4 +43,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'cache-api';
+const name = 'cache-api';
+export { register, name };

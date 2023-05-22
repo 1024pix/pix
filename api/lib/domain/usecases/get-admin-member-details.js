@@ -1,6 +1,6 @@
-const { NotFoundError } = require('../errors.js');
+import { NotFoundError } from '../errors.js';
 
-module.exports = async function getAdminMemberDetails({ adminMemberRepository, userId }) {
+const getAdminMemberDetails = async function ({ adminMemberRepository, userId }) {
   const adminMemberDetail = await adminMemberRepository.get({ userId });
 
   if (!adminMemberDetail) {
@@ -9,3 +9,5 @@ module.exports = async function getAdminMemberDetails({ adminMemberRepository, u
 
   return adminMemberDetail;
 };
+
+export { getAdminMemberDetails };

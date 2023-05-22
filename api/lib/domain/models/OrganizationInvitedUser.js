@@ -1,7 +1,10 @@
-const { AlreadyExistingMembershipError } = require('../../domain/errors.js');
-const { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } = require('../errors.js');
-const { roles } = require('./Membership.js');
-const OrganizationInvitation = require('./OrganizationInvitation.js');
+import {
+  AlreadyExistingMembershipError,
+  NotFoundError,
+  AlreadyAcceptedOrCancelledInvitationError,
+} from '../../domain/errors.js';
+import { roles } from './Membership.js';
+import { OrganizationInvitation } from './OrganizationInvitation.js';
 
 class OrganizationInvitedUser {
   constructor({ userId, invitation, currentRole, organizationHasMemberships, currentMembershipId, status } = {}) {
@@ -42,4 +45,4 @@ class OrganizationInvitedUser {
   }
 }
 
-module.exports = OrganizationInvitedUser;
+export { OrganizationInvitedUser };

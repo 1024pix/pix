@@ -1,8 +1,9 @@
-const Joi = require('joi');
-const { first } = require('lodash');
-const { EntityValidationError } = require('../errors.js');
-const CampaignTypes = require('../models/CampaignTypes.js');
+import Joi from 'joi';
+import lodash from 'lodash';
+import { EntityValidationError } from '../errors.js';
+import { CampaignTypes } from '../models/CampaignTypes.js';
 
+const { first } = lodash;
 const schema = Joi.object({
   type: Joi.string()
     .valid(CampaignTypes.ASSESSMENT, CampaignTypes.PROFILES_COLLECTION)
@@ -78,4 +79,4 @@ function validate(campaign) {
   return true;
 }
 
-module.exports = validate;
+export { validate };

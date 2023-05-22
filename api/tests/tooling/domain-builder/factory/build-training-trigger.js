@@ -1,8 +1,8 @@
-const buildTube = require('./build-tube');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
-const TrainingTriggerTube = require('../../../../lib/domain/models/TrainingTriggerTube');
+import { buildTube } from './build-tube.js';
+import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
+import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
 
-module.exports = function buildTrainingTrigger({
+const buildTrainingTrigger = function ({
   id = 1000,
   trainingId = 156,
   triggerTubes = [
@@ -29,3 +29,5 @@ module.exports = function buildTrainingTrigger({
     thematics,
   });
 };
+
+export { buildTrainingTrigger };

@@ -1,5 +1,6 @@
-const _ = require('lodash');
-const {
+import _ from 'lodash';
+
+import {
   ASSESSMENT_SUCCESS_IN_SESSION_TO_FINALIZE_ID,
   ASSESSMENT_FAILURE_IN_SESSION_TO_FINALIZE_ID,
   ASSESSMENT_SUCCESS_IN_NO_PROBLEM_FINALIZED_SESSION_ID,
@@ -11,13 +12,14 @@ const {
   ASSESSMENT_SUCCESS_PUBLISHED_SESSION_SCO_ID,
   ASSESSMENT_FAILURE_PUBLISHED_SESSION_ID,
   ASSESSMENT_SUCCESS_EDU_PUBLISHED_SESSION_ID,
-} = require('./certification-courses-builder');
-const {
+} from './certification-courses-builder.js';
+
+import {
   CERTIFICATION_FAILURE_ANSWERS_DATA,
   CERTIFICATION_SUCCESS_ANSWERS_DATA,
   CERTIFICATION_FAILURE_COMPETENCE_MARKS_DATA,
   CERTIFICATION_SUCCESS_COMPETENCE_MARKS_DATA,
-} = require('./certification-data');
+} from './certification-data.js';
 
 function certificationScoresBuilder({ databaseBuilder }) {
   // Each certification present the same scores per user.
@@ -35,7 +37,7 @@ function certificationScoresBuilder({ databaseBuilder }) {
     ],
     (assessmentId) => {
       _buildSuccessScore(databaseBuilder, createdAt, assessmentId);
-    },
+    }
   );
   _.each(
     [
@@ -46,7 +48,8 @@ function certificationScoresBuilder({ databaseBuilder }) {
     ],
     (assessmentId) => {
       _buildFailureScore(databaseBuilder, createdAt, assessmentId);
-    });
+    }
+  );
 
   // Special case : build answers only, has for this one, the assessment has not been completed
   _buildAnswers({
@@ -74,8 +77,16 @@ function _addTenSeconds(date) {
 function _buildSuccessScore(databaseBuilder, createdAt, assessmentId) {
   _buildAnswers({ answerData: CERTIFICATION_SUCCESS_ANSWERS_DATA, databaseBuilder, assessmentId, createdAt });
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    level: null, pixScore: 518, emitter: 'PIX-ALGO', status: 'validated', commentForJury: null,
-    commentForCandidate: null, commentForOrganization: null, juryId: null, assessmentId, createdAt,
+    level: null,
+    pixScore: 518,
+    emitter: 'PIX-ALGO',
+    status: 'validated',
+    commentForJury: null,
+    commentForCandidate: null,
+    commentForOrganization: null,
+    juryId: null,
+    assessmentId,
+    createdAt,
   }).id;
   _.each(CERTIFICATION_SUCCESS_COMPETENCE_MARKS_DATA, (competenceMarkData) => {
     databaseBuilder.factory.buildCompetenceMark({ ...competenceMarkData, assessmentResultId, createdAt });
@@ -85,12 +96,20 @@ function _buildSuccessScore(databaseBuilder, createdAt, assessmentId) {
 function _buildFailureScore(databaseBuilder, createdAt, assessmentId) {
   _buildAnswers({ answerData: CERTIFICATION_FAILURE_ANSWERS_DATA, databaseBuilder, assessmentId, createdAt });
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    level: -1, pixScore: 0, emitter: 'PIX-ALGO', status: 'rejected', commentForJury: null,
-    commentForCandidate: null, commentForOrganization: null, juryId: null, assessmentId, createdAt,
+    level: -1,
+    pixScore: 0,
+    emitter: 'PIX-ALGO',
+    status: 'rejected',
+    commentForJury: null,
+    commentForCandidate: null,
+    commentForOrganization: null,
+    juryId: null,
+    assessmentId,
+    createdAt,
   }).id;
   _.each(CERTIFICATION_FAILURE_COMPETENCE_MARKS_DATA, (competenceMarkData) => {
     databaseBuilder.factory.buildCompetenceMark({ ...competenceMarkData, assessmentResultId, createdAt });
   });
 }
 
-module.exports = certificationScoresBuilder;
+export { certificationScoresBuilder };

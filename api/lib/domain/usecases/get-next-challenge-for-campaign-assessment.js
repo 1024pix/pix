@@ -1,7 +1,7 @@
-const { AssessmentEndedError } = require('../errors.js');
-const FlashAssessmentAlgorithm = require('../models/FlashAssessmentAlgorithm');
+import { AssessmentEndedError } from '../errors.js';
+import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js';
 
-module.exports = async function getNextChallengeForCampaignAssessment({
+const getNextChallengeForCampaignAssessment = async function ({
   challengeRepository,
   answerRepository,
   flashAssessmentResultRepository,
@@ -46,3 +46,5 @@ module.exports = async function getNextChallengeForCampaignAssessment({
     });
   }
 };
+
+export { getNextChallengeForCampaignAssessment };

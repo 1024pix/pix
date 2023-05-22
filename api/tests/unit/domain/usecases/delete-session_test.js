@@ -1,12 +1,12 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const deleteSession = require('../../../../lib/domain/usecases/delete-session');
-const { SessionStartedDeletionError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { deleteSession } from '../../../../lib/domain/usecases/delete-session.js';
+import { SessionStartedDeletionError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | delete-session', function () {
   context('when there are no certification courses', function () {
     it('should delete the session', async function () {
       // given
-      const sessionRepository = { delete: sinon.stub() };
+      const sessionRepository = { remove: sinon.stub() };
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
       certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
 
@@ -18,14 +18,14 @@ describe('Unit | UseCase | delete-session', function () {
       });
 
       // then
-      expect(sessionRepository.delete).to.have.been.calledWithExactly(123);
+      expect(sessionRepository.remove).to.have.been.calledWithExactly(123);
     });
   });
 
   context('when there are certification courses', function () {
     it('should throw SessionStartedDeletionError error', async function () {
       // given
-      const sessionRepository = { delete: sinon.stub() };
+      const sessionRepository = { remove: sinon.stub() };
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
       certificationCourseRepository.findCertificationCoursesBySessionId.resolves([
         domainBuilder.buildCertificationCourse({ sessionId: 123 }),
@@ -40,7 +40,7 @@ describe('Unit | UseCase | delete-session', function () {
 
       // then
       expect(error).to.be.instanceOf(SessionStartedDeletionError);
-      expect(sessionRepository.delete).to.not.have.been.called;
+      expect(sessionRepository.remove).to.not.have.been.called;
     });
   });
 });

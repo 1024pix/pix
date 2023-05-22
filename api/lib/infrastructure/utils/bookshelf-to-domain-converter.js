@@ -1,10 +1,7 @@
-const _ = require('lodash');
-const Models = require('../../domain/models/index.js');
+import _ from 'lodash';
+import * as Models from '../../domain/models/index.js';
 
-module.exports = {
-  buildDomainObjects,
-  buildDomainObject,
-};
+export { buildDomainObjects, buildDomainObject };
 
 function buildDomainObjects(BookshelfClass, bookshelfObjects) {
   return bookshelfObjects.map((bookshelfObject) => buildDomainObject(BookshelfClass, bookshelfObject));
@@ -18,6 +15,7 @@ function buildDomainObject(BookshelfClass, bookshelfObject) {
 }
 
 function _buildDomainObject(BookshelfClass, bookshelfObjectJson) {
+  // eslint-disable-next-line import/namespace
   const Model = Models[BookshelfClass.modelName];
   const domainObject = new Model();
 

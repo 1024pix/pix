@@ -1,16 +1,18 @@
-const { cpf } = require('../../config.js');
-const { create, fragment } = require('xmlbuilder2');
-const { v4: uuidv4 } = require('uuid');
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
+import { config } from '../../config.js';
+import xmlbuilder2 from 'xmlbuilder2';
+
+const { create, fragment } = xmlbuilder2;
+
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const schemaVersion = '1.0.0';
-
+const { cpf } = config;
 // prettier-ignore
-async function buildXmlExport({ cpfCertificationResults, writableStream, opts = {}}) {
+async function buildXmlExport({ cpfCertificationResults, writableStream, opts = {}, uuidService}) {
   const overrideOpts = { allowEmptyTags: true, };
   const PLACEHOLDER = 'PLACEHOLDER';
   const formatedDate = dayjs().tz('Europe/Paris').format('YYYY-MM-DDThh:mm:ss') + '+01:00';
@@ -19,7 +21,7 @@ async function buildXmlExport({ cpfCertificationResults, writableStream, opts = 
       'xmlns:cpf': `urn:cdc:cpf:pc5:schema:${schemaVersion}`,
       'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
     })
-      .ele('cpf:idFlux').txt(uuidv4()).up()
+      .ele('cpf:idFlux').txt(uuidService.v4()).up()
       .ele('cpf:horodatage').txt(formatedDate).up()
       .ele('cpf:emetteur')
         .ele('cpf:idClient').txt(cpf.idClient).up()
@@ -143,7 +145,7 @@ async function buildXmlExport({ cpfCertificationResults, writableStream, opts = 
     }
     communeNaissance
             .up()
-    
+
     details
           .ele('cpf:libelleCommuneNaissance').txt(birthplace)
           .up()
@@ -161,14 +163,12 @@ async function buildXmlExport({ cpfCertificationResults, writableStream, opts = 
       .up();
     await _write(writableStream, line.end({ ...opts, ...overrideOpts,  }));
   }
-  
+
   await _write(writableStream, headerClosingTag);
   writableStream.end();
 }
 
-module.exports = {
-  buildXmlExport,
-};
+export { buildXmlExport };
 
 function _write(writableStream, data) {
   return new Promise((resolve) => {

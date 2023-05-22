@@ -1,6 +1,6 @@
-const Area = require('../../../../lib/domain/models/Area');
+import { Area } from '../../../../lib/domain/models/Area.js';
 
-module.exports = function buildArea({
+const buildArea = function ({
   id = 'recArea123',
   code = 5,
   title = 'Super domaine',
@@ -24,3 +24,5 @@ module.exports = function buildArea({
   });
   return area;
 };
+
+export { buildArea };

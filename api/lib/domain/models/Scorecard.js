@@ -1,9 +1,14 @@
-const _ = require('lodash');
-const Assessment = require('./Assessment.js');
-const CompetenceEvaluation = require('./CompetenceEvaluation.js');
-const KnowledgeElement = require('./KnowledgeElement.js');
-const { constants } = require('../constants.js');
-const scoringService = require('../services/scoring/scoring-service.js');
+import _ from 'lodash';
+import { Assessment } from './Assessment.js';
+import { CompetenceEvaluation } from './CompetenceEvaluation.js';
+import { KnowledgeElement } from './KnowledgeElement.js';
+import {
+  MINIMUM_DELAY_IN_DAYS_FOR_RESET,
+  MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
+  PIX_COUNT_BY_LEVEL,
+  MAX_REACHABLE_LEVEL,
+} from '../constants.js';
+import * as scoringService from '../services/scoring/scoring-service.js';
 
 const statuses = {
   NOT_STARTED: 'NOT_STARTED',
@@ -27,6 +32,7 @@ class Scorecard {
     remainingDaysBeforeReset,
     remainingDaysBeforeImproving,
     tutorials,
+    maxReachableLevel = MAX_REACHABLE_LEVEL,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -42,6 +48,7 @@ class Scorecard {
     this.remainingDaysBeforeReset = remainingDaysBeforeReset;
     this.remainingDaysBeforeImproving = remainingDaysBeforeImproving;
     this.tutorials = tutorials;
+    this.maxReachableLevel = maxReachableLevel;
   }
 
   static parseId(scorecardId) {
@@ -85,16 +92,14 @@ class Scorecard {
 
   static computeRemainingDaysBeforeReset(knowledgeElements) {
     const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
-    const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
+    const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
 
   static computeRemainingDaysBeforeImproving(knowledgeElements) {
     const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
-    const remainingDaysToWait = Math.ceil(
-      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING - daysSinceLastKnowledgeElement
-    );
+    const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING - daysSinceLastKnowledgeElement);
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
@@ -108,7 +113,7 @@ class Scorecard {
   }
 
   get isMaxLevel() {
-    return this.level >= constants.MAX_REACHABLE_LEVEL;
+    return this.level >= this.maxReachableLevel;
   }
 
   get isNotStarted() {
@@ -148,11 +153,11 @@ class Scorecard {
   }
 
   get percentageAheadOfNextLevel() {
-    return (this.pixScoreAheadOfNextLevel / constants.PIX_COUNT_BY_LEVEL) * 100;
+    return (this.pixScoreAheadOfNextLevel / PIX_COUNT_BY_LEVEL) * 100;
   }
 
   get remainingPixToNextLevel() {
-    return constants.PIX_COUNT_BY_LEVEL - this.pixScoreAheadOfNextLevel;
+    return PIX_COUNT_BY_LEVEL - this.pixScoreAheadOfNextLevel;
   }
 }
 
@@ -169,4 +174,4 @@ function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
 
 Scorecard.statuses = statuses;
 
-module.exports = Scorecard;
+export { Scorecard };

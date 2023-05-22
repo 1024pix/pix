@@ -1,9 +1,12 @@
-const logger = require('../../logger.js');
-const { FileValidationError } = require('../../../../lib/domain/errors.js');
-const { convertDateValue } = require('../../utils/date-utils.js');
-const { headers, emptySession, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../../utils/csv/sessions-import.js');
-const { isEmpty } = require('lodash');
-const { checkCsvHeader, parseCsvWithHeader } = require('../../helpers/csv.js');
+import { logger } from '../../logger.js';
+import { FileValidationError } from '../../../../lib/domain/errors.js';
+import { convertDateValue } from '../../utils/date-utils.js';
+import { headers, emptySession, COMPLEMENTARY_CERTIFICATION_SUFFIX } from '../../utils/csv/sessions-import.js';
+import lodash from 'lodash';
+
+const { isEmpty } = lodash;
+
+import { checkCsvHeader, parseCsvWithHeader } from '../../helpers/csv.js';
 
 function _csvFormulaEscapingPrefix(data) {
   const mayBeInterpretedAsFormula = /^[-@=+]/.test(data);
@@ -337,8 +340,4 @@ function serializeLine(lineArray) {
   return lineArray.map(_csvSerializeValue).join(';') + '\n';
 }
 
-module.exports = {
-  serializeLine,
-  deserializeForSessionsImport,
-  deserializeForOrganizationsImport,
-};
+export { serializeLine, deserializeForSessionsImport, deserializeForOrganizationsImport };

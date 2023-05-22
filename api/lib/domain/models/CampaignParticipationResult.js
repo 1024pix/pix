@@ -1,7 +1,7 @@
-const campaignParticipationService = require('../services/campaign-participation-service.js');
-const CompetenceResult = require('./CompetenceResult.js');
+import * as campaignParticipationService from '../services/campaign-participation-service.js';
+import { CompetenceResult } from './CompetenceResult.js';
 
-const _ = require('lodash');
+import _ from 'lodash';
 
 class CampaignParticipationResult {
   constructor({
@@ -117,4 +117,4 @@ function _getTestedCompetenceResults(competence, area, targetedKnowledgeElements
   });
 }
 
-module.exports = CampaignParticipationResult;
+export { CampaignParticipationResult };

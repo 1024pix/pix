@@ -1,16 +1,16 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { authenticateExternalUser } from '../../../../lib/domain/usecases/authenticate-external-user.js';
 
-const authenticateExternalUser = require('../../../../lib/domain/usecases/authenticate-external-user');
-
-const {
+import {
   MissingOrInvalidCredentialsError,
   UserNotFoundError,
   PasswordNotMatching,
   UnexpectedUserAccountError,
   UserShouldChangePasswordError,
   UserAlreadyExistsWithAuthenticationMethodError,
-} = require('../../../../lib/domain/errors');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+} from '../../../../lib/domain/errors.js';
+
+import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 
 describe('Unit | Application | UseCase | authenticate-external-user', function () {
   let tokenService;

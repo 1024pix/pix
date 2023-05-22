@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
+import { expect } from '../../../test-helper.js';
+import { CertificationChallenge } from '../../../../lib/domain/models/CertificationChallenge.js';
 
 describe('Unit | Domain | Models | CertificationChallenge', function () {
   describe('#static createForPixCertification', function () {

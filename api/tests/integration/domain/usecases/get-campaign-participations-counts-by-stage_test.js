@@ -1,12 +1,13 @@
-const {
+import {
   expect,
   catchErr,
   databaseBuilder,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } = require('../../../../lib/domain/errors');
+} from '../../../test-helper.js';
+
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } from '../../../../lib/domain/errors.js';
 
 describe('Integration | UseCase | get-campaign-participations-counts-by-stage', function () {
   let organizationId;
@@ -15,7 +16,7 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
   let stage1, stage2, stage3;
 
   beforeEach(async function () {
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
+    const learningContentObjects = learningContentBuilder.fromAreas([
       {
         id: 'recArea1',
         title_i18n: {

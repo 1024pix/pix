@@ -1,7 +1,7 @@
-const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
-const buildCertificationIssueReport = require('./build-certification-issue-report');
+import { CertificationReport } from '../../../../lib/domain/models/CertificationReport.js';
+import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 
-module.exports = function buildCertificationReport({
+const buildCertificationReport = function ({
   id = 'CertificationReport:456',
   firstName = 'Tiffany',
   lastName = 'Schwarzenegger',
@@ -26,3 +26,5 @@ module.exports = function buildCertificationReport({
     abortReason,
   });
 };
+
+export { buildCertificationReport };

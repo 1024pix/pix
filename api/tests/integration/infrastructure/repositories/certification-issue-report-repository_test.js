@@ -1,11 +1,11 @@
-const _ = require('lodash');
-const { expect, domainBuilder, databaseBuilder, knex } = require('../../../test-helper');
-const certificationIssueReportRepository = require('../../../../lib/infrastructure/repositories/certification-issue-report-repository');
-const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const {
-  CertificationIssueReportCategories,
+import _ from 'lodash';
+import { expect, domainBuilder, databaseBuilder, knex } from '../../../test-helper.js';
+import * as certificationIssueReportRepository from '../../../../lib/infrastructure/repositories/certification-issue-report-repository.js';
+import { CertificationIssueReport } from '../../../../lib/domain/models/CertificationIssueReport.js';
+import {
+  CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 describe('Integration | Repository | Certification Issue Report', function () {
   afterEach(async function () {
@@ -23,7 +23,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           id: undefined,
           certificationCourseId,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           categoryId: null,
           description: 'Un gros problème',
           subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
@@ -38,7 +38,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
         // then
         const expectedSavedCertificationIssueReport = domainBuilder.buildCertificationIssueReport({
           certificationCourseId,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           categoryId: null,
           description: 'Un gros problème',
           isActionRequired: true,
@@ -61,16 +61,16 @@ describe('Integration | Repository | Certification Issue Report', function () {
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
         databaseBuilder.factory.buildIssueReportCategory({
           id: 123,
-          name: CertificationIssueReportCategories.IN_CHALLENGE,
+          name: CertificationIssueReportCategory.IN_CHALLENGE,
         });
         const categoryId = databaseBuilder.factory.buildIssueReportCategory({
           issueReportCategoryId: 2,
-          name: CertificationIssueReportCategories.IMAGE_NOT_DISPLAYING,
+          name: CertificationIssueReportCategory.IMAGE_NOT_DISPLAYING,
         }).id;
         const certificationIssueReport = databaseBuilder.factory.buildCertificationIssueReport({
           id: 1234,
           certificationCourseId,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           categoryId,
           description: 'Un gros problème',
           subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
@@ -94,7 +94,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
         const expectedSavedCertificationIssueReport = domainBuilder.buildCertificationIssueReport({
           id: 1234,
           certificationCourseId,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           categoryId,
           description: 'Un gros problème',
           isActionRequired: true,
@@ -117,7 +117,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
       await databaseBuilder.commit();
 
       // when
-      await certificationIssueReportRepository.delete(certificationIssueReportToDeleteId);
+      await certificationIssueReportRepository.remove(certificationIssueReportToDeleteId);
 
       // then
       const exists = await knex('certification-issue-reports')
@@ -151,22 +151,22 @@ describe('Integration | Repository | Certification Issue Report', function () {
       // given
       const targetCertificationCourse = databaseBuilder.factory.buildCertificationCourse();
       const categoryId = databaseBuilder.factory.buildIssueReportCategory({
-        name: CertificationIssueReportCategories.OTHER,
+        name: CertificationIssueReportCategory.OTHER,
       }).id;
       const otherCertificationCourse = databaseBuilder.factory.buildCertificationCourse();
       const issueReportForTargetCourse1 = databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: targetCertificationCourse.id,
-        category: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategory.OTHER,
         categoryId,
       });
       const issueReportForTargetCourse2 = databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: targetCertificationCourse.id,
-        category: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategory.OTHER,
         categoryId,
       });
       databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: otherCertificationCourse.id,
-        category: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategory.OTHER,
         categoryId,
       });
       await databaseBuilder.commit();

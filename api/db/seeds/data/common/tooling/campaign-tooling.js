@@ -1,15 +1,12 @@
-const _ = require('lodash');
-const dayjs = require('dayjs');
-const learningContent = require('./learning-content');
-const profileTooling = require('./profile-tooling');
-const generic = require('./generic');
-const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
-const Assessment = require('../../../../../lib/domain/models/Assessment');
+import _ from 'lodash';
+import dayjs from 'dayjs';
+import * as learningContent from './learning-content.js';
+import * as profileTooling from './profile-tooling.js';
+import * as generic from './generic.js';
+import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
 
-module.exports = {
-  createAssessmentCampaign,
-  createProfilesCollectionCampaign,
-};
+export { createAssessmentCampaign, createProfilesCollectionCampaign };
 
 /**
  * Fonction générique pour créer une campagne d'évaluation selon une configuration donnée.
@@ -100,7 +97,7 @@ async function createAssessmentCampaign({
     const skillsCapped = skillsForTube.filter((skill) => skill.level <= parseInt(cappedTube.level));
     skillCount += skillsCapped.length;
     skillsCapped.map((skill) =>
-      databaseBuilder.factory.buildCampaignSkill({ campaignId: realCampaignId, skillId: skill.id }),
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: realCampaignId, skillId: skill.id })
     );
   }
   const badgeIds = await databaseBuilder.knex('badges').pluck('id').where({ targetProfileId });
@@ -108,7 +105,7 @@ async function createAssessmentCampaign({
   const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
     databaseBuilder,
     realOrganizationId,
-    configCampaign.participantCount,
+    configCampaign.participantCount
   );
 
   const answersAndKnowledgeElementsForProfile = await _getProfile('PERFECT');
@@ -166,7 +163,7 @@ async function createAssessmentCampaign({
             userId,
             ...keData,
             createdAt: dayjs().subtract(1, 'day'),
-          }),
+          })
         );
       }
       for (const badgeId of badgeIds) {
@@ -189,7 +186,7 @@ async function createAssessmentCampaign({
           userId,
           ...keData,
           createdAt: dayjs().subtract(1, 'day'),
-        }),
+        })
       );
     }
     databaseBuilder.factory.buildKnowledgeElementSnapshot({
@@ -283,7 +280,7 @@ async function createProfilesCollectionCampaign({
   const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
     databaseBuilder,
     realOrganizationId,
-    configCampaign.participantCount,
+    configCampaign.participantCount
   );
   const profileDistribution = [
     ...Array(configCampaign.profileDistribution.beginner || 0).fill('BEGINNER'),
@@ -333,7 +330,7 @@ async function createProfilesCollectionCampaign({
           userId,
           ...keData,
           createdAt: dayjs().subtract(1, 'day'),
-        }),
+        })
       );
     }
     databaseBuilder.factory.buildKnowledgeElementSnapshot({

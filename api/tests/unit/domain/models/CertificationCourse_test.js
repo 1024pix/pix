@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { EntityValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | CertificationCourse', function () {
   describe('#cancel #isCancelled', function () {

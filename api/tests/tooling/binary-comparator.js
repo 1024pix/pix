@@ -1,5 +1,7 @@
-const { readFile } = require('fs/promises');
-const { createHash } = require('crypto');
+import { readFile } from 'fs/promises';
+import crypto from 'crypto';
+
+const { createHash } = crypto;
 
 function _hash(buffer) {
   const h = createHash('sha1');
@@ -17,6 +19,4 @@ async function isSameBinary(referencePath, buffer) {
   return expectedHash == actualHash;
 }
 
-module.exports = {
-  isSameBinary,
-};
+export { isSameBinary };

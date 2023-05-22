@@ -1,10 +1,8 @@
-const { expect, databaseBuilder } = require('../../test-helper');
+import { expect, databaseBuilder } from '../../test-helper.js';
+import { knex, emptyAllTables } from '../../../db/knex-database-connection.js';
 
-const knexDatabaseConnection = require('../../../db/knex-database-connection');
-const knex = knexDatabaseConnection.knex;
-
-const { UserNotFoundError } = require('../../../lib/domain/errors');
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
+import { UserNotFoundError } from '../../../lib/domain/errors.js';
+import * as userRepository from '../../../lib/infrastructure/repositories/user-repository.js';
 
 describe('Integration | Infrastructure | knex-database-connection', function () {
   it('should connect to the database', async function () {
@@ -21,7 +19,7 @@ describe('Integration | Infrastructure | knex-database-connection', function () 
     await databaseBuilder.commit();
 
     // when
-    await knexDatabaseConnection.emptyAllTables();
+    await emptyAllTables();
 
     // then
     await expect(userRepository.get(id)).to.be.rejectedWith(UserNotFoundError);

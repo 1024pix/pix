@@ -10,5 +10,4 @@ class CampaignAuthorization {
   }
 }
 
-module.exports = CampaignAuthorization;
-module.exports.prescriberRoles = prescriberRoles;
+export { CampaignAuthorization, prescriberRoles };

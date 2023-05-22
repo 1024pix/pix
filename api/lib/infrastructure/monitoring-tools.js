@@ -1,14 +1,20 @@
-const Request = require('@hapi/hapi/lib/request');
-const settings = require('../config.js');
-const { get, set, update, omit } = require('lodash');
-const logger = require('../infrastructure/logger.js');
-const requestUtils = require('../infrastructure/utils/request-response-utils.js');
+import Request from '@hapi/hapi/lib/request.js';
 
-const { AsyncLocalStorage } = require('async_hooks');
+import { config } from '../config.js';
+import lodash from 'lodash';
+
+const { get, set, update, omit } = lodash;
+import { logger } from '../infrastructure/logger.js';
+import * as requestResponseUtils from '../infrastructure/utils/request-response-utils.js';
+
+import async_hooks from 'async_hooks';
+
+const { AsyncLocalStorage } = async_hooks;
+
 const asyncLocalStorage = new AsyncLocalStorage();
 
 function getCorrelationContext() {
-  if (!settings.hapi.enableRequestMonitoring) {
+  if (!config.hapi.enableRequestMonitoring) {
     return {};
   }
   const context = asyncLocalStorage.getStore();
@@ -43,7 +49,7 @@ function logErrorWithCorrelationIds(data) {
 
 function extractUserIdFromRequest(request) {
   let userId = get(request, 'auth.credentials.userId');
-  if (!userId && get(request, 'headers.authorization')) userId = requestUtils.extractUserIdFromRequest(request);
+  if (!userId && get(request, 'headers.authorization')) userId = requestResponseUtils.extractUserIdFromRequest(request);
   return userId || '-';
 }
 
@@ -82,7 +88,7 @@ function pushInContext(path, value) {
 }
 
 function installHapiHook() {
-  if (!settings.hapi.enableRequestMonitoring) return;
+  if (!config.hapi.enableRequestMonitoring) return;
 
   const originalMethod = Request.prototype._execute;
 
@@ -97,7 +103,7 @@ function installHapiHook() {
   };
 }
 
-module.exports = {
+const monitoringTools = {
   extractUserIdFromRequest,
   getContext,
   getInContext,
@@ -107,5 +113,19 @@ module.exports = {
   logInfoWithCorrelationIds,
   pushInContext,
   setInContext,
-  asyncLocalStorageForTests: asyncLocalStorage,
+  asyncLocalStorage,
+};
+
+export {
+  monitoringTools,
+  extractUserIdFromRequest,
+  getContext,
+  getInContext,
+  incrementInContext,
+  installHapiHook,
+  logErrorWithCorrelationIds,
+  logInfoWithCorrelationIds,
+  pushInContext,
+  setInContext,
+  asyncLocalStorage,
 };

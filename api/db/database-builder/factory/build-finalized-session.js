@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildFinalizedSession({
+const buildFinalizedSession = function ({
   sessionId = databaseBuffer.getNextId(),
   certificationCenterName = 'Centre de certif PIX',
   finalizedAt = new Date('2020-01-01'),
@@ -26,3 +26,5 @@ module.exports = function buildFinalizedSession({
     values,
   });
 };
+
+export { buildFinalizedSession };

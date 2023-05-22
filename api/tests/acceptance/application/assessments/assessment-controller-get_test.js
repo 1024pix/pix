@@ -1,7 +1,10 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
+import { createServer } from '../../../../server.js';
+import { LOCALE } from '../../../../lib/domain/constants.js';
+
+const { FRENCH_SPOKEN } = LOCALE;
+
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 describe('Acceptance | API | assessment-controller-get', function () {
   let server;

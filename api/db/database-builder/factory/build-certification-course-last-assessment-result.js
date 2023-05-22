@@ -1,9 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import { databaseBuffer } from '../database-buffer.js';
 
-module.exports = function buildCertificationCourseLastAssessmentResult({
-  certificationCourseId,
-  lastAssessmentResultId,
-} = {}) {
+const buildCertificationCourseLastAssessmentResult = function ({ certificationCourseId, lastAssessmentResultId } = {}) {
   const values = {
     certificationCourseId,
     lastAssessmentResultId,
@@ -13,3 +10,5 @@ module.exports = function buildCertificationCourseLastAssessmentResult({
     values,
   });
 };
+
+export { buildCertificationCourseLastAssessmentResult };

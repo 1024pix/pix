@@ -1,11 +1,12 @@
-const createServer = require('../../../../server');
-const {
+import { createServer } from '../../../../server.js';
+
+import {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
-} = require('../../../test-helper');
+} from '../../../test-helper.js';
 
 describe('Acceptance | API | Badges', function () {
   let server, options, userId, badge;

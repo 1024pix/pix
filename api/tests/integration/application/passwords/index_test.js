@@ -1,8 +1,6 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/passwords');
-
-const passwordController = require('../../../../lib/application/passwords/password-controller');
+import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
+import { passwordController } from '../../../../lib/application/passwords/password-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/passwords/index.js';
 
 describe('Integration | Application | Password | Routes', function () {
   let httpTestServer;

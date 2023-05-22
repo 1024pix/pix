@@ -1,10 +1,10 @@
-const Assessment = require('../../../lib/domain/models/Assessment');
-const buildAssessment = require('./build-assessment');
-const buildOrganization = require('./build-organization');
-const buildCampaignParticipation = require('./build-campaign-participation');
-const buildCampaign = require('./build-campaign');
+import { Assessment } from '../../../lib/domain/models/Assessment.js';
+import { buildAssessment } from './build-assessment.js';
+import { buildOrganization } from './build-organization.js';
+import { buildCampaignParticipation } from './build-campaign-participation.js';
+import { buildCampaign } from './build-campaign.js';
 
-module.exports = function buildCampaignParticipationElementsForOverview({
+const buildCampaignParticipationElementsForOverview = function ({
   userId,
   index,
   lastAssessmentState,
@@ -52,3 +52,5 @@ module.exports = function buildCampaignParticipationElementsForOverview({
     organization,
   };
 };
+
+export { buildCampaignParticipationElementsForOverview };

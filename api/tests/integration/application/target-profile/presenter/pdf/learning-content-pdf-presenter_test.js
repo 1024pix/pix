@@ -1,7 +1,11 @@
-const { domainBuilder, expect, MockDate } = require('../../../../../test-helper');
-const { isSameBinary } = require('../../../../../tooling/binary-comparator');
-const learningContentPDFPresenter = require('../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter');
-const { addRandomSuffix } = require('pdf-lib/cjs/utils');
+import { domainBuilder, expect, MockDate, sinon } from '../../../../../test-helper.js';
+import { isSameBinary } from '../../../../../tooling/binary-comparator.js';
+import * as learningContentPDFPresenter from '../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter.js';
+import { writeFile } from 'fs/promises';
+import * as url from 'url';
+import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const REWRITE_REFERENCE_FILE = false;
 
@@ -14,7 +18,6 @@ describe('Integration | Application | Target-Profiles | Presenter | PDF | Learni
   });
 
   afterEach(function () {
-    _restorePdfLib();
     MockDate.reset();
   });
 
@@ -64,7 +67,6 @@ describe('Integration | Application | Target-Profiles | Presenter | PDF | Learni
 async function _writeFile(buffer, outputFilename) {
   // Note: to update the reference pdf, set REWRITE_REFERENCE_FILE to true.
   if (REWRITE_REFERENCE_FILE) {
-    const { writeFile } = require('fs/promises');
     await writeFile(`${__dirname}/${outputFilename}`, buffer);
   }
 }
@@ -83,11 +85,7 @@ function _makePdfLibPredictable() {
     return prefix + '-' + Math.floor(suffix);
   }
 
-  require('pdf-lib/cjs/utils').addRandomSuffix = autoIncrementSuffixByPrefix;
-}
-
-function _restorePdfLib() {
-  require('pdf-lib/cjs/utils').addRandomSuffix = addRandomSuffix;
+  sinon.stub(pdfLibUtils, 'addRandomSuffix').callsFake(autoIncrementSuffixByPrefix);
 }
 
 function _buildRichLearningContent() {

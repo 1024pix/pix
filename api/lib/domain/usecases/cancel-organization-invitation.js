@@ -1,9 +1,6 @@
-const { UncancellableOrganizationInvitationError } = require('../../domain/errors.js');
+import { UncancellableOrganizationInvitationError } from '../../domain/errors.js';
 
-module.exports = async function cancelOrganizationInvitation({
-  organizationInvitationId,
-  organizationInvitationRepository,
-}) {
+const cancelOrganizationInvitation = async function ({ organizationInvitationId, organizationInvitationRepository }) {
   const foundOrganizationInvitation = await organizationInvitationRepository.get(organizationInvitationId);
 
   if (!foundOrganizationInvitation.isPending) {
@@ -12,3 +9,5 @@ module.exports = async function cancelOrganizationInvitation({
 
   return await organizationInvitationRepository.markAsCancelled({ id: organizationInvitationId });
 };
+
+export { cancelOrganizationInvitation };

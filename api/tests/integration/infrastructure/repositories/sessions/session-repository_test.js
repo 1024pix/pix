@@ -1,9 +1,8 @@
-const { databaseBuilder, expect, knex, domainBuilder, catchErr } = require('../../../../test-helper');
-const _ = require('lodash');
-const { NotFoundError } = require('../../../../../lib/domain/errors');
-const Session = require('../../../../../lib/domain/models/Session');
-const { statuses } = require('../../../../../lib/domain/models/Session');
-const sessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-repository');
+import { databaseBuilder, expect, knex, domainBuilder, catchErr } from '../../../../test-helper.js';
+import _ from 'lodash';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { Session, statuses } from '../../../../../lib/domain/models/Session.js';
+import * as sessionRepository from '../../../../../lib/infrastructure/repositories/sessions/session-repository.js';
 
 describe('Integration | Repository | Session', function () {
   describe('#save', function () {
@@ -556,7 +555,7 @@ describe('Integration | Repository | Session', function () {
           await databaseBuilder.commit();
 
           // when
-          await sessionRepository.delete(sessionId);
+          await sessionRepository.remove(sessionId);
 
           // then
           const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -582,7 +581,7 @@ describe('Integration | Repository | Session', function () {
             await databaseBuilder.commit();
 
             // when
-            await sessionRepository.delete(sessionId);
+            await sessionRepository.remove(sessionId);
 
             // then
             const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -605,7 +604,7 @@ describe('Integration | Repository | Session', function () {
           await databaseBuilder.commit();
 
           // when
-          await sessionRepository.delete(sessionId);
+          await sessionRepository.remove(sessionId);
 
           // then
           const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -623,7 +622,7 @@ describe('Integration | Repository | Session', function () {
           await databaseBuilder.commit();
 
           // when
-          await sessionRepository.delete(sessionId);
+          await sessionRepository.remove(sessionId);
 
           // then
           const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -638,7 +637,7 @@ describe('Integration | Repository | Session', function () {
         const sessionId = 123456;
 
         // when
-        const error = await catchErr(sessionRepository.delete)(sessionId);
+        const error = await catchErr(sessionRepository.remove)(sessionId);
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);

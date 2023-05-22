@@ -1,11 +1,12 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const findAssociationBetweenUserAndOrganizationLearner = require('../../../../lib/domain/usecases/find-association-between-user-and-organization-learner.js');
-const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
-const {
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { findAssociationBetweenUserAndOrganizationLearner } from '../../../../lib/domain/usecases/find-association-between-user-and-organization-learner.js';
+import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
+
+import {
   CampaignCodeError,
   UserNotAuthorizedToAccessEntityError,
   OrganizationLearnerDisabledError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | find-association-between-user-and-organization-learner', function () {
   let organizationLearnerReceivedStub;
