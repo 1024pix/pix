@@ -257,7 +257,7 @@ module('Acceptance | Session Finalization', function (hooks) {
             // then
             assert.dom(screen.getByText(MODAL_TITLE)).exists();
             assert
-              .dom(screen.getByText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)'))
+              .dom(screen.getByText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat'))
               .exists();
           });
         });
@@ -327,7 +327,7 @@ module('Acceptance | Session Finalization', function (hooks) {
               // then
               assert.dom(screen.getByText(MODAL_TITLE)).exists();
               assert
-                .dom(screen.getByText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)'))
+                .dom(screen.getByText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat'))
                 .exists();
             });
           });

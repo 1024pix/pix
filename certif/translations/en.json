@@ -240,6 +240,15 @@
         "incident": "Despite an incident having occurred during the session, the candidates have been able to finish their Pix certification exam. Additional time has been granted to at least one of the candidates.",
         "title": "Additional information (optional)"
       },
+      "confirm-finalisation-modal": {
+        "actions": {
+          "confirm": "Confirm the finalisation"
+        },
+        "end-of-test-screen": "The “End of test screen seen” box isn’t ticked for {candidatesCount, plural,one {1 candidate} other {# candidates}}",
+        "information": "you won’t be able to edit these informations thereafter. Processing time is needed before the results can be made available by Pix (this processing time may vary from one session to another).",
+        "title": "Session finalisation",
+        "warning": "Warning :"
+      },
       "issue-reports-modal": {
         "actions": {
           "add-reporting": "Add a reporting",
@@ -265,6 +274,7 @@
         "table": {
           "labels": {
             "certification-number": "Certification No.",
+            "end-of-test-screen": "End of test screen seen",
             "reporting": "Reporting"
           },
           "reporting-count": "{reportingsCount, plural,one {1 reporting} other {# reportings}}"
