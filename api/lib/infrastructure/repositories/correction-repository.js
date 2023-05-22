@@ -10,6 +10,7 @@ import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { getSolution } from '../../domain/services/solution-service-qrocm-dep.js';
 import { Challenge } from '../../domain/models/Challenge';
 import { fromDatasourceObject } from '../adapters/solution-adapter';
+import { Answer } from '../../domain/models/Answer';
 
 const getByChallengeId = async function ({
   challengeId,
@@ -39,7 +40,7 @@ const getByChallengeId = async function ({
     tutorialRepository: dependencies.tutorialRepository,
   });
 
-  if (challenge.type === Challenge.Type.QROCM_DEP) {
+  if (challenge.type === Challenge.Type.QROCM_DEP && answerValue !== Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
     correctionBlocks = dependencies.getSolution({ solution, answerValue });
   }
 
@@ -53,7 +54,6 @@ const getByChallengeId = async function ({
     correctionBlocks,
   });
 };
-
 export { getByChallengeId };
 
 async function _getHint({ skill, locale }) {
