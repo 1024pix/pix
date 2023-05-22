@@ -10,6 +10,7 @@ import * as url from 'url';
 
 import { AttestationViewModel } from './AttestationViewModel.js';
 import { CertificationAttestationGenerationError } from '../../../domain/errors.js';
+import { logger } from '../../logger.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const fonts = {
@@ -98,7 +99,8 @@ async function _embedCertificationImage(pdfDocument, certificationImagePath) {
     response = await axios.get(certificationImagePath, {
       responseType: 'arraybuffer',
     });
-  } catch (_) {
+  } catch (error) {
+    logger.error(error);
     throw new CertificationAttestationGenerationError();
   }
   const [page] = await pdfDocument.embedPdf(response.data);
