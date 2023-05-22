@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.354.0 (22/05/2023)
+
+
+### :rocket: Amélioration
+- [#6221](https://github.com/1024pix/pix/pull/6221) [FEATURE] Traduire la modale de confirmation de finalisation de session sur Pix Certif (PIX-8012).
+- [#6196](https://github.com/1024pix/pix/pull/6196) [FEATURE] Traduire le mail des résultats de certification en anglais (PIX-6687).
+
+### :building_construction: Tech
+- [#6222](https://github.com/1024pix/pix/pull/6222) [TECH] [Pix Orga] Aligner la double mire sur la maquette et nos standards (PIX-8073)
+- [#6230](https://github.com/1024pix/pix/pull/6230) [TECH] Pouvoir switcher entre vieilles et nouvelles seeds grâce à une variable d'environnement (PIX-8104)
+- [#6227](https://github.com/1024pix/pix/pull/6227) [TECH] Activer l'option composants statiques d'embroider sur Pix App
+- [#6228](https://github.com/1024pix/pix/pull/6228) [TECH] Enrichir les outils "Campagnes" afin de permettre la création à la volée de participants (PIX-7961)
+
+### :bug: Correction
+- [#6236](https://github.com/1024pix/pix/pull/6236) [BUGFIX] Affichage de la bonne réponse dans le panneau de correction (PIX-8110)
+- [#6231](https://github.com/1024pix/pix/pull/6231) [BUGFIX] Corriger à nouveau la taille du logo Pix sur les pages d'épreuve de Certification (PIX-8033).
+
 ## v3.353.0 (17/05/2023)
 
 
