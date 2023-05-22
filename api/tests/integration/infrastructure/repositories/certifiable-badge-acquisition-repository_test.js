@@ -9,7 +9,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
         //given
         const user = databaseBuilder.factory.buildUser();
         const acquiredBadge = databaseBuilder.factory.buildBadge.certifiable({
-          key: 'PIX_DROIT_MAITRE_CERTIF',
+          key: 'PIX_DROIT_AVANCE_CERTIF',
         });
         const { id: campaignParticipationId, campaignId } = databaseBuilder.factory.buildCampaignParticipation();
         databaseBuilder.factory.buildBadgeAcquisition({
@@ -59,7 +59,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           const user = databaseBuilder.factory.buildUser();
           const { id: campaignParticipationId, campaignId } = databaseBuilder.factory.buildCampaignParticipation();
           const acquiredBadge = databaseBuilder.factory.buildBadge.certifiable({
-            key: 'PIX_DROIT_MAITRE_CERTIF',
+            key: 'PIX_DROIT_AVANCE_CERTIF',
           });
           databaseBuilder.factory.buildBadgeAcquisition({
             badgeId: acquiredBadge.id,
@@ -101,7 +101,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
         //given
         const user = databaseBuilder.factory.buildUser();
         const acquiredBadge = databaseBuilder.factory.buildBadge.certifiable({
-          key: 'PIX_DROIT_MAITRE_CERTIF',
+          key: 'PIX_DROIT_AVANCE_CERTIF',
         });
         const { id: latestCampaignParticipationId, campaignId: latestCampaignId } =
           databaseBuilder.factory.buildCampaignParticipation();

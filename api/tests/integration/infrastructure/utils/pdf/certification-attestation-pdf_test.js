@@ -17,9 +17,9 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       .get('/stickers/macaron_clea.pdf')
       // eslint-disable-next-line no-sync
       .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_clea.pdf`))
-      .get('/stickers/macaron_droit_maitre.pdf')
+      .get('/stickers/macaron_droit_avance.pdf')
       // eslint-disable-next-line no-sync
-      .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_droit_maitre.pdf`))
+      .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_droit_avance.pdf`))
       .get('/stickers/macaron_edu_2nd_initie.pdf')
       // eslint-disable-next-line no-sync
       .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_edu_2nd_initie.pdf`))
@@ -42,7 +42,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
           message: null,
         },
         {
-          stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_maitre.pdf',
+          stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_avance.pdf',
           message: null,
         },
       ],
@@ -167,7 +167,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
             message: null,
           },
           {
-            stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_maitre.pdf',
+            stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_avance.pdf',
             message: null,
           },
         ],

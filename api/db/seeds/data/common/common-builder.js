@@ -1,6 +1,6 @@
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
-
-const { ROLES } = PIX_ADMIN;
+import { badges } from '../../../constants.js';
+const ROLES = { PIX_ADMIN };
 
 // IDS
 /// USERS
@@ -19,7 +19,7 @@ const PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID = 67;
 // CERTIFIABLE BADGES
 const CLEA_CERTIFIABLE_BADGE_ID = 57;
 const PIX_DROIT_INITIE_CERTIFIABLE_BADGE_ID = 60;
-const PIX_DROIT_MAITRE_CERTIFIABLE_BADGE_ID = 61;
+const PIX_DROIT_AVANCE_CERTIFIABLE_BADGE_ID = 61;
 const PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID = 62;
 const PIX_EDU_1ER_DEGRE_INITIE_CERTIFIABLE_BADGE_ID = 68;
 const PIX_EDU_1ER_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID = 69;
@@ -29,7 +29,7 @@ const PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID = 71;
 // COMPLEMENTARY CERTIFICATION BADGES
 const CLEA_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 58;
 const PIX_DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 63;
-const PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 64;
+const PIX_DROIT_AVANCE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 64;
 const PIX_DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 65;
 const PIX_EDU_1ER_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 72;
 const PIX_EDU_1ER_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 73;
@@ -48,7 +48,7 @@ export {
   PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID,
   CLEA_CERTIFIABLE_BADGE_ID,
   PIX_DROIT_INITIE_CERTIFIABLE_BADGE_ID,
-  PIX_DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
+  PIX_DROIT_AVANCE_CERTIFIABLE_BADGE_ID,
   PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
   PIX_EDU_1ER_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
   PIX_EDU_1ER_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
@@ -56,7 +56,7 @@ export {
   PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
   CLEA_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-  PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  PIX_DROIT_AVANCE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
@@ -188,7 +188,7 @@ function _createClea(databaseBuilder) {
     message:
       'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
     altMessage: 'Prêt pour le CléA numérique',
-    key: 'PIX_EMPLOI_CLEA_V4',
+    key: badges.keys.PIX_EMPLOI_CLEA_V4,
     imageUrl: 'https://images.pix.fr/badges/Logos_badge_Prêt-CléA_Num NEW 2020.svg',
     title: 'Prêt pour le CléA numérique',
     isCertifiable: true,
@@ -410,13 +410,13 @@ function _createDroit(databaseBuilder) {
   });
 
   databaseBuilder.factory.buildBadge({
-    id: PIX_DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
+    id: PIX_DROIT_AVANCE_CERTIFIABLE_BADGE_ID,
     targetProfileId: PIX_DROIT_TARGET_PROFILE_ID,
     message:
       "Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Avancé. Vous avez fait preuve d'une maîtrise des compétences numériques nécessaires à l'exercice des métiers du droit dans tous les domaines. En perfectionnant encore vos compétences, vous pourrez obtenir le niveau Expert.",
     altMessage: 'Pix+Droit niveau Avancé',
     imageUrl: 'https://images.pix.fr/badges/badge_pix-PIX_DROIT_silver%20copy.svg',
-    key: 'PIX_PIX_DROIT_MAITRE_CERTIF',
+    key: badges.keys.PIX_DROIT_AVANCE_CERTIF,
     title: 'Pix+Droit niveau Avancé',
     isCertifiable: true,
     isAlwaysVisible: false,
@@ -428,46 +428,46 @@ function _createDroit(databaseBuilder) {
       threshold: 70,
       cappedTubes:
         '[{"id":"reccqGUKgzIOK8f9U","level":4},{"id":"rec4RO6t7qai3ODuJ","level":5},{"id":"recBbCIEKgrQi7eb6","level":6},{"id":"recsoZIZxVEr3h2og","level":5},{"id":"recYmSqXBdRWCbTL6","level":6},{"id":"recqjSAxTnNej5zSQ","level":6},{"id":"rec5D8oOcnSVc1wb5","level":6},{"id":"recPOjwrHFhM21yGE","level":5},{"id":"recpe7Y8Wq2D56q6I","level":7},{"id":"recYwQBNHPtwEIchq","level":4},{"id":"reco9L9TNFYvZ4Bt6","level":6},{"id":"recpQLhHdOTQAx6UL","level":7},{"id":"reckFeg9YextW6q9P","level":6},{"id":"recS1VZiU2ZNQEJey","level":6},{"id":"recIEuCfChJpc8UyH","level":6},{"id":"recjNL8mBDttF4lPC","level":4},{"id":"recqIeeEoWE0siJz8","level":4},{"id":"recl6FCNC8DBsclHV","level":4},{"id":"recfRTGX0vJNzhApQ","level":6},{"id":"recN4ik49NYTUUbVm","level":5},{"id":"recwanhWqP3VMPic1","level":5},{"id":"recps4jQoK8zCW5wI","level":5},{"id":"reczOjAWmveW8RSkv","level":6},{"id":"recnIng2Rdw0drI7N","level":4},{"id":"rec1gP2RFbGcAaKC3","level":5},{"id":"recxZXtOPOhkPh1lv","level":4},{"id":"recXz8qMNXvEwIPlO","level":5},{"id":"recMaijlrK3flRbBs","level":3},{"id":"recf4znvmRGaGBUNQ","level":5},{"id":"rec4rdlxGTmlbrNLb","level":6},{"id":"recy4WSQsbpvLjL1g","level":5},{"id":"recRRCalqd5y2CyVD","level":6},{"id":"recpcdzdxDsnCjXZ6","level":4},{"id":"recBYMZcjBilDqnq6","level":5},{"id":"recVpHG0NDURRRycg","level":5},{"id":"recyNCBKtjN1MN1mZ","level":5},{"id":"recBVgidqYpPfWMeu","level":4},{"id":"recb576QI4qODr9EQ","level":5},{"id":"recH9oeseHQA74aZJ","level":4},{"id":"recjVAjbPUINn8yws","level":4},{"id":"recZfuVlR27qVXcAt","level":4},{"id":"reco6VV9D3Zm0jHo9","level":5},{"id":"rec7xyIH2SyMeWh0Y","level":3},{"id":"recwTYcY432rb0SGA","level":5},{"id":"receqqprQt5h6k5mT","level":6},{"id":"recEC0V9qBbLSqHhx","level":5},{"id":"recZuHNGEtpCbBPUD","level":5},{"id":"reciWLZDyQmXNn6lc","level":4},{"id":"recbH7WZIRE41pyVE","level":6},{"id":"rec1Z5gkirQNvtjrK","level":5},{"id":"recd3rYCdpWLtHXLk","level":6},{"id":"recTNeDmFIhhWQZi9","level":4},{"id":"recwDOoEMBYSmwF4H","level":3},{"id":"recHMYN8ZwOUX63ck","level":5},{"id":"recuvo92yAymf7l3r","level":5},{"id":"recFj3ODyi6whwFzk","level":3},{"id":"recwoTBW9eVqCl7Vd","level":5},{"id":"recGTIO2R0edgARcA","level":3},{"id":"recJmEjTV9NacUqZ8","level":5},{"id":"recgkzKSGhyw1Gwtz","level":6},{"id":"recIMsNGpsxv2GSCI","level":6},{"id":"rec38YpXqa8RtM1Yy","level":6},{"id":"recVyULQAf8zFXjCg","level":5},{"id":"recTVcQOH3zhL8h29","level":7},{"id":"recdd0tt0BaQxeSj5","level":6},{"id":"recgPVFxgVPDUkQWX","level":5},{"id":"reczBuVhH7fuC4u3k","level":6},{"id":"rec5hclRSqG7gpadZ","level":6},{"id":"recY3xrzPegD40fkO","level":5},{"id":"recPS09GOFlMbp6dF","level":5},{"id":"recdm5W4IJMW07SzW","level":4},{"id":"recf0RoWlVKSMke8l","level":6},{"id":"recgrxoIilcw9uj0U","level":5},{"id":"rec8lYF4iaCcI6Stl","level":6},{"id":"recpz9gZET6VJFeen","level":5},{"id":"recG7E3zypAJD3S05","level":5},{"id":"rece5w6NqPCDo87zS","level":4},{"id":"recYFCpGlmwQwAONl","level":5},{"id":"recpP9Uaz1x6qq95e","level":4},{"id":"rectTJBNUL6lz0sEJ","level":4},{"id":"rec1qBTb7CtGB0GmO","level":6},{"id":"recZOEoQzjBUQR9hw","level":5},{"id":"rechtUc7ZgECYIPJD","level":3},{"id":"rec2Vi2Bg4LdMmEjd","level":2},{"id":"recW9R9lBG3faLOzL","level":4},{"id":"recbz4xiCLHV8IpIQ","level":6},{"id":"recfqLvN8H2ZHuolK","level":6},{"id":"recqkCYIBRlqH7IoT","level":6},{"id":"recMvKBYMz7qjPn5o","level":4},{"id":"recDXjekxwm1Nh77T","level":4},{"id":"recvalrsm02e63lw4","level":5},{"id":"recT17TO1XinYCD95","level":6},{"id":"recdj5xs1qIji4Ov1","level":5},{"id":"recPXUEpkQWNTNtIy","level":6},{"id":"rec1cPa44IY0W7opU","level":6},{"id":"recw2N2l25dhAvKEk","level":6}]',
-      name: 'Pix+ Droit Acquis Pix - Maitre',
+      name: 'Pix+ Droit Acquis Pix - Avancé',
     },
     {
       scope: 'CappedTubes',
       threshold: 60,
       cappedTubes:
         '[{"id":"recUdaazeg9ab1x8","level":5},{"id":"rec1kppf5qSULXL88","level":5},{"id":"rec23TMwZJMWYrLLB","level":3},{"id":"rec1xrHLjM3wKKBQw","level":5},{"id":"rec1zfqGYUlb9kpc7","level":5},{"id":"rec1iJyutGqz908KP","level":5},{"id":"rec1yOOnDKBhlFQCI","level":5},{"id":"recOhQQlfrVd0BRi","level":5},{"id":"rec1kv8fMxTH78n3N","level":4},{"id":"rec1JqLswIdY95dN3","level":3},{"id":"rec2QhdQyHvT2cBj8","level":4},{"id":"rec1fXDQN6aZ0ViRG","level":4},{"id":"rec250gcsxlgbZn5X","level":4},{"id":"rec1HGzIiFxjlUxNB","level":4},{"id":"rec2UnGTFHI3r9X3X","level":5},{"id":"rec1rIR8Hclrsf0hl","level":4},{"id":"rec2wTqyy3zktkbxV","level":5},{"id":"rec2xdZagxRWcwDhV","level":3},{"id":"rec1UPUQezJx8za0f","level":5},{"id":"recX2jhH6LhKZEJ7","level":5},{"id":"rec1MpmrTmc1UCjQK","level":4},{"id":"rec2CYg3zJ9YgWgUb","level":4},{"id":"rec1F7qIWWrzF8Xw7","level":4},{"id":"rec1eOLUhvXknmwpI","level":5},{"id":"rec2LMAxDvFwNtp0i","level":5},{"id":"rec1hjijhETLVEwzT","level":3},{"id":"rec2W69xY3ur09POW","level":4},{"id":"rec1qf3vKmtVpSxV5","level":5},{"id":"rec1hB329odC48vly","level":4},{"id":"reci4a7xQ6WHIS2Yj","level":5},{"id":"rec1EG7WD94hbrS0H","level":5},{"id":"rec2jUsAg9mBoYvI2","level":4},{"id":"rec2FOwJDYa0MIkQC","level":5},{"id":"rec2ivYOe3ngcFkdj","level":4},{"id":"rec1xDldqZ9YxvCia","level":5},{"id":"rec1BJz3VsSR2Uisa","level":4},{"id":"rec1oMAncy43788q1","level":5},{"id":"rec1NzNK4W4H4pfoT","level":5},{"id":"rec1lNAycEstOUzJf","level":5},{"id":"rec1xvCPKkkX7AUe9","level":5},{"id":"recLpYKlAA1oFGLn","level":5},{"id":"rec1uICWmlljuT5V5","level":5},{"id":"rec2cpjZvMs9zvN5T","level":5},{"id":"recR24FjsvimWNmk","level":4},{"id":"rec2lwNCubUyn4heA","level":5}]',
-      name: 'Pix+ Droit Droit - Maitre',
+      name: 'Pix+ Droit Droit - Avancé',
     },
     {
       scope: 'CappedTubes',
       threshold: 40,
       cappedTubes:
         '[{"id":"recUdaazeg9ab1x8","level":5},{"id":"rec1kppf5qSULXL88","level":5},{"id":"rec23TMwZJMWYrLLB","level":3},{"id":"rec1xrHLjM3wKKBQw","level":5},{"id":"rec1zfqGYUlb9kpc7","level":5},{"id":"rec1iJyutGqz908KP","level":5},{"id":"rec1yOOnDKBhlFQCI","level":5},{"id":"recOhQQlfrVd0BRi","level":5}]',
-      name: 'Pix+ Droit Acquis D1 - Maitre',
+      name: 'Pix+ Droit Acquis D1 - Avancé',
     },
     {
       scope: 'CappedTubes',
       threshold: 40,
       cappedTubes:
         '[{"id":"rec1kv8fMxTH78n3N","level":4},{"id":"rec1JqLswIdY95dN3","level":3},{"id":"rec2QhdQyHvT2cBj8","level":4},{"id":"rec1fXDQN6aZ0ViRG","level":4},{"id":"rec250gcsxlgbZn5X","level":4},{"id":"rec1HGzIiFxjlUxNB","level":4},{"id":"rec2UnGTFHI3r9X3X","level":5},{"id":"rec1rIR8Hclrsf0hl","level":4}]',
-      name: 'Pix+ Droit D2 Maitre',
+      name: 'Pix+ Droit D2 Avancé',
     },
     {
       scope: 'CappedTubes',
       threshold: 40,
       cappedTubes:
         '[{"id":"rec2wTqyy3zktkbxV","level":5},{"id":"rec2xdZagxRWcwDhV","level":3},{"id":"rec1UPUQezJx8za0f","level":5},{"id":"recX2jhH6LhKZEJ7","level":5},{"id":"rec1MpmrTmc1UCjQK","level":4},{"id":"rec2CYg3zJ9YgWgUb","level":4},{"id":"rec1F7qIWWrzF8Xw7","level":4},{"id":"rec1eOLUhvXknmwpI","level":5},{"id":"rec2LMAxDvFwNtp0i","level":5},{"id":"rec1hjijhETLVEwzT","level":3},{"id":"rec2W69xY3ur09POW","level":4},{"id":"rec1qf3vKmtVpSxV5","level":5},{"id":"rec1hB329odC48vly","level":4},{"id":"reci4a7xQ6WHIS2Yj","level":5},{"id":"rec1EG7WD94hbrS0H","level":5},{"id":"rec2jUsAg9mBoYvI2","level":4},{"id":"rec2FOwJDYa0MIkQC","level":5}]',
-      name: 'Pix+ Droit D3 - Maitre',
+      name: 'Pix+ Droit D3 - Avancé',
     },
     {
       scope: 'CappedTubes',
       threshold: 40,
       cappedTubes:
         '[{"id":"rec2ivYOe3ngcFkdj","level":4},{"id":"rec1xDldqZ9YxvCia","level":5},{"id":"rec1BJz3VsSR2Uisa","level":4},{"id":"rec1oMAncy43788q1","level":5},{"id":"rec1NzNK4W4H4pfoT","level":5},{"id":"rec1lNAycEstOUzJf","level":5},{"id":"rec1xvCPKkkX7AUe9","level":5},{"id":"recLpYKlAA1oFGLn","level":5},{"id":"rec1uICWmlljuT5V5","level":5},{"id":"rec2cpjZvMs9zvN5T","level":5},{"id":"recR24FjsvimWNmk","level":4},{"id":"rec2lwNCubUyn4heA","level":5}]',
-      name: 'Pix+ Droit D4 - Maitre',
+      name: 'Pix+ Droit D4 - Avancé',
     },
   ].map(({ scope, threshold, cappedTubes, name }) => {
     databaseBuilder.factory.buildBadgeCriterion({
-      badgeId: PIX_DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
+      badgeId: PIX_DROIT_AVANCE_CERTIFIABLE_BADGE_ID,
       scope,
       threshold,
       cappedTubes,
@@ -476,8 +476,8 @@ function _createDroit(databaseBuilder) {
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
-    id: PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    badgeId: PIX_DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
+    id: PIX_DROIT_AVANCE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+    badgeId: PIX_DROIT_AVANCE_CERTIFIABLE_BADGE_ID,
     complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
     level: 2,
     imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/avance.svg',
@@ -494,7 +494,7 @@ function _createDroit(databaseBuilder) {
       "Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Expert. Les compétences numériques nécessaires à l'exercice des métiers du droit n'ont plus de secret pour vous.",
     altMessage: 'Pix+Droit niveau Expert',
     imageUrl: 'https://images.pix.fr/badges/badge_pix-PIX_DROIT_gold%20copy.svg',
-    key: 'PIX_PIX_DROIT_EXPERT_CERTIF',
+    key: badges.keys.PIX_DROIT_EXPERT_CERTIF,
     title: 'Pix+Droit niveau Expert',
     isCertifiable: true,
     isAlwaysVisible: false,
@@ -544,7 +544,7 @@ function _createDroit(databaseBuilder) {
       "Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Initié. Vous avez fait preuve d'une maîtrise des compétences numériques nécessaires à l'exercice des métiers du droit dans tous les domaines. En perfectionnant encore vos compétences, vous pourrez obtenir un niveau Avancé.",
     altMessage: 'Pix+Droit niveau Initié',
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Droit- Pret-certif_Bronze--Initie.svg',
-    key: 'PIX_PIX_DROIT_INITIE_CERTIF',
+    key: badges.keys.PIX_DROIT_INITIE_CERTIF,
     title: 'Pix+Droit niveau Initié',
     isCertifiable: true,
     isAlwaysVisible: false,
@@ -619,7 +619,7 @@ function _createDroit(databaseBuilder) {
 function _createPixEdu1erDegre(databaseBuilder) {
   databaseBuilder.factory.buildComplementaryCertification({
     label: 'Pix+ Édu 1er degré',
-    key: 'EDU_1ER_DEGRE',
+    key: badges.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
     id: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     minimumReproducibilityRate: 70,
     minimumEarnedPix: null,
@@ -771,7 +771,7 @@ function _createPixEdu1erDegre(databaseBuilder) {
     message:
       'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Édu de niveau Initié (entrée dans le métier).',
     altMessage: 'Pix+Édu niveau Initié (entrée dans le métier)',
-    key: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE',
+    key: badges.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-Initie-PREMIER-DEGRE.svg',
     title: 'Pix+Édu niveau Initié (entrée dans le métier)',
     isCertifiable: true,
@@ -822,7 +822,7 @@ function _createPixEdu1erDegre(databaseBuilder) {
     message:
       'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Édu de niveau Confirmé.',
     altMessage: 'Pix+Édu niveau Confirmé',
-    key: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
+    key: badges.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-Confirme-PREMIER-DEGRE.svg',
     title: 'Pix+Édu niveau Confirmé',
     isCertifiable: true,
@@ -871,7 +871,7 @@ function _createPixEdu1erDegre(databaseBuilder) {
 function _createPixEdu2emeDegre(databaseBuilder) {
   databaseBuilder.factory.buildComplementaryCertification({
     label: 'Pix+ Édu 2nd degré',
-    key: 'EDU_2ND_DEGRE',
+    key: badges.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
     id: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     minimumReproducibilityRate: 70,
     minimumEarnedPix: null,
@@ -1022,7 +1022,7 @@ function _createPixEdu2emeDegre(databaseBuilder) {
       'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Édu de niveau Initié (entrée dans le métier).',
     altMessage: 'Pix+Édu niveau Initié (entrée dans le métier)',
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie.svg',
-    key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE',
+    key: badges.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
     title: 'Pix+Édu niveau Initié (entrée dans le métier)',
     isCertifiable: true,
     isAlwaysVisible: false,
@@ -1072,7 +1072,7 @@ function _createPixEdu2emeDegre(databaseBuilder) {
     message:
       'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Édu de niveau Confirmé.',
     altMessage: 'Pix+Édu niveau Confirmé',
-    key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
+    key: badges.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme.svg',
     title: 'Pix+Édu niveau Confirmé',
     isCertifiable: true,
