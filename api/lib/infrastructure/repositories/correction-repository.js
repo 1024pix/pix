@@ -5,12 +5,12 @@ import { Hint } from '../../domain/models/Hint.js';
 import { challengeDatasource } from '../datasources/learning-content/challenge-datasource.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
 import * as tutorialRepository from './tutorial-repository.js';
-const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { getSolution } from '../../domain/services/solution-service-qrocm-dep.js';
-import { Challenge } from '../../domain/models/Challenge';
-import { fromDatasourceObject } from '../adapters/solution-adapter';
-import { Answer } from '../../domain/models/Answer';
+import { Challenge } from '../../domain/models/Challenge.js';
+import { fromDatasourceObject } from '../adapters/solution-adapter.js';
+import { Answer } from '../../domain/models/Answer.js';
+const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 
 const getByChallengeId = async function ({
   challengeId,
