@@ -357,16 +357,16 @@ describe('Acceptance | API | Certification Course', function () {
           'certification-issue-reports': {
             data: [],
           },
-          'common-complementary-certification-course-results': {
+          'common-complementary-certification-course-result': {
             data: {
               id: '456',
               type: 'commonComplementaryCertificationCourseResults',
             },
           },
-          'complementary-certification-course-results-with-external': {
+          'complementary-certification-course-result-with-external': {
             data: {
               id: '654',
-              type: 'complementaryCertificationCourseResultsWithExternals',
+              type: 'complementaryCertificationCourseResultWithExternals',
             },
           },
         },
@@ -382,7 +382,7 @@ describe('Acceptance | API | Certification Course', function () {
         },
         {
           id: '654',
-          type: 'complementaryCertificationCourseResultsWithExternals',
+          type: 'complementaryCertificationCourseResultWithExternals',
           attributes: {
             'allowed-external-levels': [
               {

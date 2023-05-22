@@ -3,7 +3,7 @@ const complementaryCertificationStatus = {
   REJECTED: 'Rejetée',
 };
 
-class ComplementaryCertificationCourseResultsForJuryCertification {
+class ComplementaryCertificationCourseResultForJuryCertification {
   constructor({ id, partnerKey, acquired, label }) {
     this.id = id;
     this.partnerKey = partnerKey;
@@ -12,7 +12,7 @@ class ComplementaryCertificationCourseResultsForJuryCertification {
   }
 
   static from({ id, partnerKey, acquired, label }) {
-    return new ComplementaryCertificationCourseResultsForJuryCertification({ id, partnerKey, acquired, label });
+    return new ComplementaryCertificationCourseResultForJuryCertification({ id, partnerKey, acquired, label });
   }
 
   get status() {
@@ -20,6 +20,6 @@ class ComplementaryCertificationCourseResultsForJuryCertification {
   }
 }
 
-ComplementaryCertificationCourseResultsForJuryCertification.statuses = complementaryCertificationStatus;
+ComplementaryCertificationCourseResultForJuryCertification.statuses = complementaryCertificationStatus;
 
-export { ComplementaryCertificationCourseResultsForJuryCertification };
+export { ComplementaryCertificationCourseResultForJuryCertification };

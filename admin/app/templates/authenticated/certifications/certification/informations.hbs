@@ -92,19 +92,19 @@
       <div class="certification-informations__card">
         <h2 class="certification-informations__card__title">Certification complémentaire</h2>
 
-        {{#if this.certification.commonComplementaryCertificationCourseResults}}
+        {{#if this.certification.commonComplementaryCertificationCourseResult}}
           <ul class="certification-informations__card__list">
             <li class="certification-informations__card__list-item">
               <span class="certification-informations__card__list-label">
-                {{this.certification.commonComplementaryCertificationCourseResults.label}}
+                {{this.certification.commonComplementaryCertificationCourseResult.label}}
                 :
               </span>
-              {{this.certification.commonComplementaryCertificationCourseResults.status}}
+              {{this.certification.commonComplementaryCertificationCourseResult.status}}
             </li>
           </ul>
         {{/if}}
 
-        {{#if this.certification.complementaryCertificationCourseResultsWithExternal}}
+        {{#if this.certification.complementaryCertificationCourseResultWithExternal}}
           <section class="certification-informations__pix-edu">
             <h2 class="certification-informations__pix-edu__title">Résultats de la certification complémentaire Pix+ Edu
               :</h2>
@@ -112,7 +112,7 @@
               <div class="certification-informations__card certification-informations__card--pix-edu">
                 <p>VOLET PIX</p>
                 <p class="certification-informations__card__score">
-                  {{this.certification.complementaryCertificationCourseResultsWithExternal.pixResult}}
+                  {{this.certification.complementaryCertificationCourseResultWithExternal.pixResult}}
                 </p>
               </div>
               <div class="certification-informations__card certification-informations__card--pix-edu">
@@ -152,7 +152,7 @@
                 {{else}}
                   <div class="certification-informations__pix-edu__row__jury-level">
                     <p class="certification-informations__card__score">
-                      {{this.certification.complementaryCertificationCourseResultsWithExternal.externalResult}}
+                      {{this.certification.complementaryCertificationCourseResultWithExternal.externalResult}}
                     </p>
                     {{#if this.shouldDisplayJuryLevelEditButton}}
                       <button
@@ -171,7 +171,7 @@
                 <p>NIVEAU FINAL</p>
                 <p
                   class="certification-informations__card__score"
-                >{{this.certification.complementaryCertificationCourseResultsWithExternal.finalResult}}</p>
+                >{{this.certification.complementaryCertificationCourseResultWithExternal.finalResult}}</p>
               </div>
             </div>
           </section>

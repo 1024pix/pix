@@ -3,8 +3,8 @@ import { NotFoundError } from '../../domain/errors.js';
 import _ from 'lodash';
 import { JuryCertification } from '../../domain/models/JuryCertification.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
-import { ComplementaryCertificationCourseResultsForJuryCertification } from '../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification.js';
-import { ComplementaryCertificationCourseResultsForJuryCertificationWithExternal } from '../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal.js';
+import { ComplementaryCertificationCourseResultForJuryCertification } from '../../domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
+import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal } from '../../domain/read-models/ComplementaryCertificationCourseResultForJuryCertificationWithExternal.js';
 
 const get = async function (certificationCourseId) {
   const juryCertificationDTO = await _selectJuryCertifications()
@@ -115,7 +115,7 @@ async function _toDomainWithComplementaryCertifications({
     (certificationIssueReport) => new CertificationIssueReport({ ...certificationIssueReport })
   );
 
-  const { complementaryCertificationCourseResultsWithExternal, commonComplementaryCertificationCourseResults } =
+  const { complementaryCertificationCourseResultWithExternal, commonComplementaryCertificationCourseResult } =
     _toComplementaryCertificationCourseResultForJuryCertification(
       complementaryCertificationCourseResultDTOs,
       badgeKeyAndLabelsGroupedByTargetProfile
@@ -125,8 +125,8 @@ async function _toDomainWithComplementaryCertifications({
     juryCertificationDTO,
     certificationIssueReports,
     competenceMarkDTOs,
-    complementaryCertificationCourseResultsWithExternal,
-    commonComplementaryCertificationCourseResults,
+    complementaryCertificationCourseResultWithExternal,
+    commonComplementaryCertificationCourseResult,
   });
 }
 
@@ -134,26 +134,25 @@ function _toComplementaryCertificationCourseResultForJuryCertification(
   complementaryCertificationCourseResults,
   badgeKeyAndLabelsGroupedByTargetProfile
 ) {
-  const [complementaryCertificationCourseResultsWithExternal, commonComplementaryCertificationCourseResults] =
+  const [complementaryCertificationCourseResultWithExternal, commonComplementaryCertificationCourseResult] =
     _.partition(complementaryCertificationCourseResults, 'hasExternalJury');
 
   const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
-    ComplementaryCertificationCourseResultsForJuryCertificationWithExternal.from(
-      complementaryCertificationCourseResultsWithExternal,
+    ComplementaryCertificationCourseResultForJuryCertificationWithExternal.from(
+      complementaryCertificationCourseResultWithExternal,
       badgeKeyAndLabelsGroupedByTargetProfile
     );
 
-  if (commonComplementaryCertificationCourseResults.length > 1) {
+  if (commonComplementaryCertificationCourseResult.length > 1) {
     throw new Error('There should not be more than one complementary certification result without jury');
   }
-  const commonComplementaryCertificationCourseResultsForJuryCertification =
-    commonComplementaryCertificationCourseResults.map(ComplementaryCertificationCourseResultsForJuryCertification.from);
+  const commonComplementaryCertificationCourseResultForJuryCertification =
+    commonComplementaryCertificationCourseResult.map(ComplementaryCertificationCourseResultForJuryCertification.from);
 
   return {
-    complementaryCertificationCourseResultsWithExternal:
+    complementaryCertificationCourseResultWithExternal:
       complementaryCertificationCourseResultsForJuryCertificationWithExternal,
-    commonComplementaryCertificationCourseResults:
-      commonComplementaryCertificationCourseResultsForJuryCertification?.[0],
+    commonComplementaryCertificationCourseResult: commonComplementaryCertificationCourseResultForJuryCertification?.[0],
   };
 }
 

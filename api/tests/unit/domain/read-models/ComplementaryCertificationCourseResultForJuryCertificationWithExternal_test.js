@@ -1,8 +1,8 @@
-import { ComplementaryCertificationCourseResultsForJuryCertificationWithExternal } from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal.js';
+import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal } from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultForJuryCertificationWithExternal.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
 
-describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJuryCertificationWithExternal', function () {
+describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJuryCertificationWithExternal', function () {
   describe('#finalResult', function () {
     context('when external section is not scored yet', function () {
       it('should return "En attente volet jury" ', function () {
@@ -81,7 +81,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
   describe('#from', function () {
     it('should return a PixEduComplementaryCertificationCourseResultForJuryCertification', function () {
       // given
-      const complementaryCertificationCourseResultsWithExternal = [
+      const complementaryCertificationCourseResultWithExternal = [
         domainBuilder.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 1234,
           partnerKey: 'KEY_1',
@@ -107,14 +107,14 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
       ];
 
       // when
-      const result = ComplementaryCertificationCourseResultsForJuryCertificationWithExternal.from(
-        complementaryCertificationCourseResultsWithExternal,
+      const result = ComplementaryCertificationCourseResultForJuryCertificationWithExternal.from(
+        complementaryCertificationCourseResultWithExternal,
         badgeKeyAndLabelsGroupedByTargetProfile
       );
 
       // then
       expect(result).to.deepEqualInstance(
-        new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
+        new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
           pixAcquired: true,
           externalAcquired: false,
           pixPartnerKey: 'KEY_1',
@@ -133,11 +133,11 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
     context('when pix section is not evaluated', function () {
       it('should return null', function () {
         // given
-        const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
-          new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({});
+        const complementaryCertificationCourseResultForJuryCertificationWithExternal =
+          new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({});
 
         // when
-        const pixResult = complementaryCertificationCourseResultsForJuryCertificationWithExternal.pixResult;
+        const pixResult = complementaryCertificationCourseResultForJuryCertificationWithExternal.pixResult;
 
         // then
         expect(pixResult).to.be.null;
@@ -147,15 +147,15 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
     context('when pix section is evaluated', function () {
       it(`should return the pix label`, function () {
         // given
-        const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
-          new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
+        const complementaryCertificationCourseResultForJuryCertificationWithExternal =
+          new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
             pixPartnerKey: 'KEY',
             pixLabel: 'Key label',
             pixAcquired: true,
           });
 
         // when
-        const pixResult = complementaryCertificationCourseResultsForJuryCertificationWithExternal.pixResult;
+        const pixResult = complementaryCertificationCourseResultForJuryCertificationWithExternal.pixResult;
 
         // then
         expect(pixResult).to.equal('Key label');
@@ -167,14 +167,14 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
     context('when pix section is not acquired', function () {
       it('should return "-"', function () {
         // given
-        const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
-          new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
+        const complementaryCertificationCourseResultForJuryCertificationWithExternal =
+          new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
             pixPartnerKey: 'KEY',
             pixAcquired: false,
           });
 
         // when
-        const externalResult = complementaryCertificationCourseResultsForJuryCertificationWithExternal.externalResult;
+        const externalResult = complementaryCertificationCourseResultForJuryCertificationWithExternal.externalResult;
 
         // then
         expect(externalResult).to.equal('-');
@@ -184,14 +184,14 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
     context('when pix section is acquired and external section is not yet evaluated', function () {
       it('should return "En attente"', function () {
         // given
-        const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
-          new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
+        const complementaryCertificationCourseResultForJuryCertificationWithExternal =
+          new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
             pixPartnerKey: 'KEY',
             pixAcquired: true,
           });
 
         // when
-        const externalResult = complementaryCertificationCourseResultsForJuryCertificationWithExternal.externalResult;
+        const externalResult = complementaryCertificationCourseResultForJuryCertificationWithExternal.externalResult;
 
         // then
         expect(externalResult).to.equal('En attente');
@@ -202,8 +202,8 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
       context('when acquired is true', function () {
         it(`should return the external label`, function () {
           // given
-          const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
-            new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
+          const complementaryCertificationCourseResultForJuryCertificationWithExternal =
+            new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
               pixPartnerKey: 'KEY_1',
               pixAcquired: true,
               externalPartnerKey: 'KEY_2',
@@ -212,7 +212,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
             });
 
           // when
-          const externalResult = complementaryCertificationCourseResultsForJuryCertificationWithExternal.externalResult;
+          const externalResult = complementaryCertificationCourseResultForJuryCertificationWithExternal.externalResult;
 
           // then
           expect(externalResult).to.equal('Key 2 label');
@@ -222,8 +222,8 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
       context('when acquired is false', function () {
         it(`should return Rejetée`, function () {
           // given
-          const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
-            new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
+          const complementaryCertificationCourseResultForJuryCertificationWithExternal =
+            new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
               pixPartnerKey: 'KEY_1',
               pixAcquired: true,
               externalPartnerKey: 'KEY_2',
@@ -231,7 +231,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
             });
 
           // when
-          const externalResult = complementaryCertificationCourseResultsForJuryCertificationWithExternal.externalResult;
+          const externalResult = complementaryCertificationCourseResultForJuryCertificationWithExternal.externalResult;
 
           // then
           expect(externalResult).to.equal('Rejetée');
