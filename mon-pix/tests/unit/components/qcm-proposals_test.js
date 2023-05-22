@@ -42,9 +42,9 @@ module('Unit | Component | QCM proposals', function (hooks) {
       test('should return', function (assert) {
         // Given
         const expectedLabeledRadios = [
-          { checked: false, label: 'prop 1', value: 1 },
-          { checked: true, label: 'prop 2', value: 2 },
-          { checked: false, label: 'prop 3', value: 3 },
+          { checked: false, label: 'prop 1', value: 1, index: 0 },
+          { checked: true, label: 'prop 2', value: 2, index: 1 },
+          { checked: false, label: 'prop 3', value: 3, index: 2 },
         ];
         initComponent.call(this);
 
@@ -64,9 +64,9 @@ module('Unit | Component | QCM proposals', function (hooks) {
       test('should return', function (assert) {
         // Given
         const expectedLabeledRadios = [
-          { checked: false, label: 'prop 1', value: 1 },
-          { checked: true, label: 'prop 2', value: 2 },
-          { checked: false, label: 'prop 3', value: 3 },
+          { checked: false, label: 'prop 1', value: 1, index: 0 },
+          { checked: true, label: 'prop 2', value: 2, index: 1 },
+          { checked: false, label: 'prop 3', value: 3, index: 2 },
         ];
         pshuffle(expectedLabeledRadios, shuffleSeed);
         initComponent.call(this);
