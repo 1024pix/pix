@@ -43,9 +43,9 @@ export default class Certification extends Model {
   @attr() pixScore;
   @attr() competencesWithMark;
   @attr('boolean', { defaultValue: false }) isPublished;
-  @belongsTo('complementary-certification-course-results-with-external')
-  complementaryCertificationCourseResultsWithExternal;
-  @belongsTo('common-complementary-certification-course-result') commonComplementaryCertificationCourseResults;
+  @belongsTo('complementary-certification-course-result-with-external')
+  complementaryCertificationCourseResultWithExternal;
+  @belongsTo('common-complementary-certification-course-result') commonComplementaryCertificationCourseResult;
 
   @hasMany('certification-issue-report') certificationIssueReports;
 
@@ -72,8 +72,8 @@ export default class Certification extends Model {
 
   get hasComplementaryCertifications() {
     return (
-      Boolean(this.commonComplementaryCertificationCourseResults.content) ||
-      Boolean(this.complementaryCertificationCourseResultsWithExternal.get('pixResult'))
+      Boolean(this.commonComplementaryCertificationCourseResult.content) ||
+      Boolean(this.complementaryCertificationCourseResultWithExternal.get('pixResult'))
     );
   }
 

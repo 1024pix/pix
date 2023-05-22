@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | ComplementaryCertificationCourseResultsWithExternal', function (hooks) {
+module('Unit | Model | complementaryCertificationCourseResultWithExternal', function (hooks) {
   setupTest(hooks);
 
   module('#isExternalResultEditable', function () {
@@ -9,15 +9,15 @@ module('Unit | Model | ComplementaryCertificationCourseResultsWithExternal', fun
       test('it returns false', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const complementaryCertificationCourseResultsWithExternal = store.createRecord(
-          'complementary-certification-course-results-with-external',
+        const complementaryCertificationCourseResultWithExternal = store.createRecord(
+          'complementary-certification-course-result-with-external',
           {
             pixResult: 'Rejetée',
           }
         );
 
         // when
-        const isExternalResultEditable = complementaryCertificationCourseResultsWithExternal.isExternalResultEditable;
+        const isExternalResultEditable = complementaryCertificationCourseResultWithExternal.isExternalResultEditable;
 
         // then
         assert.false(isExternalResultEditable);
@@ -29,15 +29,15 @@ module('Unit | Model | ComplementaryCertificationCourseResultsWithExternal', fun
     test('it returns true', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const complementaryCertificationCourseResultsWithExternal = store.createRecord(
-        'complementary-certification-course-results-with-external',
+      const complementaryCertificationCourseResultWithExternal = store.createRecord(
+        'complementary-certification-course-result-with-external',
         {
           pixResult: 'Trop bien',
         }
       );
 
       // when
-      const isExternalResultEditable = complementaryCertificationCourseResultsWithExternal.isExternalResultEditable;
+      const isExternalResultEditable = complementaryCertificationCourseResultWithExternal.isExternalResultEditable;
 
       // then
       assert.true(isExternalResultEditable);

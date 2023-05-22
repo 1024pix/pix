@@ -95,7 +95,7 @@ import { buildOrganizationTag } from './build-organization-tag.js';
 import { buildParticipationForCampaignManagement } from './build-participation-for-campaign-management.js';
 import { buildComplementaryCertificationCourseResult } from './build-complementary-certification-course-result.js';
 import { buildComplementaryCertificationCourseResultForJuryCertification } from './build-complementary-certification-course-result-for-certification.js';
-import { buildPixEduComplementaryCertificationCourseResultsForJuryCertificationWithExternal as buildComplementaryCertificationCourseResultForJuryCertificationWithExternal } from './build-complementary-certification-course-result-for-certification-with-external.js';
+import { buildComplementaryCertificationCourseResultForJuryCertificationWithExternal } from './build-complementary-certification-course-result-for-certification-with-external.js';
 import { buildComplementaryCertificationScoringWithoutComplementaryReferential } from './build-complementary-certification-scoring-without-complementary-referential.js';
 import { buildComplementaryCertificationScoringWithComplementaryReferential } from './build-pix-plus-certification-scoring.js';
 import { buildPlacementProfile } from './build-placement-profile.js';
