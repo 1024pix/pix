@@ -1,5 +1,5 @@
 <div class="qcu-solution-panel rounded-panel rounded-panel__row">
-  {{#each this.labeledRadios as |labeledItemRadio index|}}
+  {{#each this.labeledRadios as |labeledItemRadio|}}
     <p class="qcu-solution-panel__proposal-item">
       <span class="qcu-solution-panel__radio-button">
         {{#if labeledItemRadio.checked}}
@@ -34,7 +34,7 @@
       </span>
       <MarkdownToHtml
         @class="qcu-solution-panel__proposition"
-        data-goodness="{{if (get this.solutionArray (concat index)) 'good' 'bad'}}"
+        data-goodness="{{if (get this.solutionArray labeledItemRadio.index) 'good' 'bad'}}"
         data-checked={{if labeledItemRadio.checked "yes" "no"}}
         @markdown="{{labeledItemRadio.label}}"
       />
