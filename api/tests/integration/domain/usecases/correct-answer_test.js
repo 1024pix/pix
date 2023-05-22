@@ -21,12 +21,13 @@ describe('Integration | UseCases | correct-answer', function () {
       challengeId: challenge.id,
       assessmentId,
     });
-    const dependencies = { challengeRepository, answerRepository };
 
     // when
-    const record = await correctAnswer({ answer, ...dependencies });
+    const record = await correctAnswer({ answer, challengeRepository, answerRepository });
+
     // For cleanup purpose
     createdAnswerRecordId = record.id;
+
     const savedAnswer = await knex('answers').where({ id: record.id }).first();
 
     // then
