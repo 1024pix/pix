@@ -38,7 +38,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     registerButtonLabel = this.intl.t('pages.login-or-register.register-form.fields.button.label');
   });
 
-  test('it renders', async function (assert) {
+  test('renders', async function (assert) {
     // when
     await renderScreen(hbs`<Auth::RegisterForm />`);
 
@@ -54,7 +54,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     assert.dom(screen.getByText('Tous les champs sont obligatoires.')).exists();
   });
 
-  test('it should display legal mentions with related links', async function (assert) {
+  test('displays legal mentions with related links', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
     service.currentDomain = { isFranceDomain: true };
@@ -101,7 +101,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       };
     });
 
-    test('it should call authentication service with appropriate parameters, when all things are ok and form is submitted', async function (assert) {
+    test('calls authentication service with appropriate parameters, when all things are ok and form is submitted', async function (assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await renderScreen(hbs`<Auth::RegisterForm @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`);
@@ -123,7 +123,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     });
   });
 
-  module('errors management', function (hooks) {
+  module('error management', function (hooks) {
     let spy, screen;
 
     hooks.beforeEach(async function () {
@@ -140,7 +140,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     });
 
     module('When first name is not valid', () => {
-      test('it should prevent submission and display error message', async function (assert) {
+      test('prevents submission and display error message', async function (assert) {
         // given
         await fillByLabel(firstNameInputLabel, '');
 
@@ -154,7 +154,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     });
 
     module('When last name is not valid', () => {
-      test('it should prevent submission and display error message', async function (assert) {
+      test('prevents submission and display error message', async function (assert) {
         // given
         await fillByLabel(lastNameInputLabel, '');
 
@@ -168,7 +168,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     });
 
     module('When email is not valid', () => {
-      test('it should prevent submission and display error message', async function (assert) {
+      test('prevents submission and display error message', async function (assert) {
         // given
         await fillByLabel(emailInputLabel, 'email');
 
@@ -182,7 +182,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     });
 
     module('When password is not valid', () => {
-      test('it should prevent submission and display error message', async function (assert) {
+      test('prevents submission and display error message', async function (assert) {
         // given
         await fillByLabel(passwordInputLabel, '');
 
@@ -196,7 +196,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     });
 
     module('When cgu have not been accepted', () => {
-      test('it should prevent submission', async function (assert) {
+      test('prevents submission', async function (assert) {
         // given
         await clickByName(cguAriaLabel);
 
@@ -204,7 +204,6 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await clickByName(registerButtonLabel);
 
         // then
-        // assert.strictEqual
         assert.strictEqual(spy.callCount, 0);
       });
     });

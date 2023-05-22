@@ -1,5 +1,9 @@
 .login-or-register {
-  margin: 20px 0;
+  margin: $pix-spacing-m 0;
+
+  @include device-is('mobile') {
+    margin: 12px 0;
+  }
 
   &__language-switcher {
     @include device-is('mobile') {
@@ -11,7 +15,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 16px;
+    margin-bottom: $pix-spacing-s;
     border-radius: 10px;
     align-items: center;
     padding: 20px 2px;
@@ -21,7 +25,7 @@
     }
 
     @include device-is('large-screen') {
-      padding: 40px 100px;
+      padding: $pix-spacing-xl 100px;
     }
   }
 }
@@ -69,6 +73,10 @@
 
     .form-title {
       margin: $pix-spacing-m 0;
+
+      @include device-is('mobile') {
+        text-align: center;
+      }
     }
   }
 
