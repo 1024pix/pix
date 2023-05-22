@@ -2,7 +2,7 @@ const { expect, knex, domainBuilder, sinon, databaseBuilder } = require('../../.
 const correctAnswer = require('../../../../lib/domain/usecases/correct-answer');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
-describe('Integration | UseCases | create-answer', function () {
+describe('Integration | UseCases | correct-answer', function () {
   let createdAnswerRecordId;
   afterEach(async function () {
     await knex('answers').where({ id: createdAnswerRecordId }).delete();

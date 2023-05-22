@@ -3,7 +3,7 @@ const Answer = require('../../../../lib/domain/models/Answer');
 const correctAnswer = require('../../../../lib/domain/usecases/correct-answer');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 
-describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', function () {
+describe('Unit | Domain | Use Cases | correct-answer', function () {
   it('should save the answer', async function () {
     const challengeRepository = { get: sinon.stub() };
     const answerRepository = { save: sinon.stub() };
