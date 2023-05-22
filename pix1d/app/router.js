@@ -16,7 +16,6 @@ Router.map(function () {
 
   this.route('assessment', { path: '/assessments/:assessment_id' }, function () {
     this.route('resume');
-    this.route('checkpoint');
     this.route('results');
     this.route('challenge', { path: '/challenges' });
   });

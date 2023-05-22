@@ -18,7 +18,7 @@ export default class Item extends Component {
     try {
       await answer.save();
       if (answer.result === 'ok') {
-        this.router.transitionTo('assessment.checkpoint');
+        this.router.transitionTo('assessment.resume', answer.assessment);
       }
     } catch (error) {
       answer.rollbackAttributes();
