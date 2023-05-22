@@ -1,23 +1,24 @@
 // Usage: node create-organizations-with-tags-and-target-profiles.js path/file.csv
 // To use on file with columns |type, externalId, name, provinceCode, credit, emailInvitations, emailForSCOActivation, organizationInvitationRole, locale, tags, createdBy, targetProfiles, isManagingStudents, identityProviderForCampaigns, DPOFirstName, DPOLastName, DPOEmail|
 
-'use strict';
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+
 dotenv.config();
 
-const { checkCsvHeader, parseCsvWithHeader } = require('./helpers/csvHelpers');
+import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
+import { temporaryStorage } from '../lib/infrastructure/temporary-storage/index.js';
+import { createOrganizationsWithTagsAndTargetProfiles } from '../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
+import { DomainTransaction as domainTransaction } from '../lib/infrastructure/DomainTransaction.js';
+import * as organizationInvitationRepository from '../lib/infrastructure/repositories/organization-invitation-repository.js';
+import * as organizationRepository from '../lib/infrastructure/repositories/organization-repository.js';
+import * as dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
+import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
+import * as targetProfileShareRepository from '../lib/infrastructure/repositories/target-profile-share-repository.js';
+import { disconnect } from '../db/knex-database-connection.js';
+import lodash from 'lodash';
 
-const { temporaryStorage } = require('../lib/infrastructure/temporary-storage/index.js');
-const createOrganizationsWithTagsAndTargetProfiles = require('../lib/domain/usecases/create-organizations-with-tags-and-target-profiles');
-const domainTransaction = require('../lib/infrastructure/DomainTransaction');
-const organizationInvitationRepository = require('../lib/infrastructure/repositories/organization-invitation-repository');
-const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
-const dataProtectionOfficerRepository = require('../lib/infrastructure/repositories/data-protection-officer-repository');
-const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
-const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
-const targetProfileShareRepository = require('../lib/infrastructure/repositories/target-profile-share-repository');
-const { disconnect } = require('../db/knex-database-connection');
-const { isEmpty } = require('lodash');
+const { isEmpty } = lodash;
 
 const REQUIRED_FIELD_NAMES = [
   'type',
@@ -112,7 +113,10 @@ async function createOrganizationWithTagsAndTargetProfiles(filePath) {
   });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+import * as url from 'url';
+
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Starting creating PRO organizations with tags and target profiles.');
@@ -137,7 +141,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  createOrganizationWithTagsAndTargetProfiles,
-  batchOrganizationOptionsWithHeader,
-};
+export { createOrganizationWithTagsAndTargetProfiles, batchOrganizationOptionsWithHeader };

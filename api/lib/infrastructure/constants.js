@@ -1,8 +1,8 @@
-const settings = require('../config.js');
+import { config } from '../config.js';
 
-const CONCURRENCY_HEAVY_OPERATIONS = settings.infra.concurrencyForHeavyOperations;
-const CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING = settings.infra.chunkSizeForCampaignResultProcessing;
-const ORGANIZATION_LEARNER_CHUNK_SIZE = settings.infra.chunkSizeForOrganizationLearnerDataProcessing;
+const CONCURRENCY_HEAVY_OPERATIONS = config.infra.concurrencyForHeavyOperations;
+const CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING = config.infra.chunkSizeForCampaignResultProcessing;
+const ORGANIZATION_LEARNER_CHUNK_SIZE = config.infra.chunkSizeForOrganizationLearnerDataProcessing;
 
 const constants = {
   CONCURRENCY_HEAVY_OPERATIONS,
@@ -10,7 +10,7 @@ const constants = {
   ORGANIZATION_LEARNER_CHUNK_SIZE,
 };
 
-module.exports = {
+export {
   constants,
   CONCURRENCY_HEAVY_OPERATIONS,
   CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,

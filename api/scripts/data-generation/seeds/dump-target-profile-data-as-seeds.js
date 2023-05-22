@@ -1,9 +1,17 @@
-require('dotenv').config({ path: `${__dirname}/../../../.env` });
-const yargs = require('yargs');
-const { hideBin } = require('yargs/helpers');
-const { knex, disconnect } = require('../../../db/knex-database-connection');
-const logger = require('../../../lib/infrastructure/logger');
-const { learningContentCache } = require('../../../lib/infrastructure/caches/learning-content-cache');
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as dotenv from 'dotenv';
+
+dotenv.config({
+  path: `${__dirname}/../../../.env`,
+});
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+
+import { knex, disconnect } from '../../../db/knex-database-connection.js';
+import { logger } from '../../../lib/infrastructure/logger.js';
+import { learningContentCache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 
 async function main() {
   try {
@@ -138,10 +146,10 @@ function escapedOrNull(value) {
   return value === null ? null : `\`${value}\``;
 }
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+if (isLaunchedFromCommandLine) {
   main();
 }
 
-module.exports = {
-  doJob,
-};
+export { doJob };

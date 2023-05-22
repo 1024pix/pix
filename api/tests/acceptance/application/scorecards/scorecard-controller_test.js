@@ -1,14 +1,17 @@
-const {
+import {
   databaseBuilder,
   expect,
   knex,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
-} = require('../../../test-helper');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+} from '../../../test-helper.js';
 
-const createServer = require('../../../../server');
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { LOCALE } from '../../../../lib/domain/constants.js';
+
+const { FRENCH_SPOKEN } = LOCALE;
+
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | scorecard-controller', function () {
   let options;

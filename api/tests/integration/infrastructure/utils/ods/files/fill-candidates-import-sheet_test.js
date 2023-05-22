@@ -1,16 +1,24 @@
-const { unlink, writeFile } = require('fs').promises;
-const _ = require('lodash');
-const { expect, databaseBuilder } = require('../../../../../test-helper');
-const readOdsUtils = require('../../../../../../lib/infrastructure/utils/ods/read-ods-utils');
-const fillCandidatesImportSheet = require('../../../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet');
-const usecases = require('../../../../../../lib/domain/usecases/index.js');
-const {
+import fs from 'fs';
+
+const { promises } = fs;
+
+const { unlink, writeFile } = promises;
+
+import _ from 'lodash';
+import { expect, databaseBuilder } from '../../../../../test-helper.js';
+import * as readOdsUtils from '../../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
+import { fillCandidatesImportSheet } from '../../../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
+import { usecases } from '../../../../../../lib/domain/usecases/index.js';
+import {
   PIX_PLUS_DROIT,
   CLEA,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} = require('../../../../../../lib/domain/models/ComplementaryCertification');
-const { getI18n } = require('../../../../../tooling/i18n/i18n');
+} from '../../../../../../lib/domain/models/ComplementaryCertification.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
+
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet', function () {
   let i18n;

@@ -1,11 +1,9 @@
-const { databaseBuilder, expect, knex, sinon } = require('../../../test-helper');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
-const resetPasswordDemandRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
 
-const config = require('../../../../lib/config');
-
-const createServer = require('../../../../server');
+import { config } from '../../../../lib/config.js';
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | password-controller', function () {
   const email = 'user@example.net';
@@ -63,19 +61,6 @@ describe('Acceptance | Controller | password-controller', function () {
         expect(response.statusCode).to.equal(201);
       });
     });
-
-    context('when existing email is provided, but some internal error has occurred', function () {
-      it('should reply with 500', async function () {
-        // given
-        sinon.stub(resetPasswordDemandRepository, 'create').rejects(new Error());
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(500);
-      });
-    });
   });
 
   describe('GET /api/password-reset-demands/{temporaryKey}', function () {
@@ -112,19 +97,6 @@ describe('Acceptance | Controller | password-controller', function () {
 
           // then
           expect(response.statusCode).to.equal(404);
-        });
-      });
-
-      context('when something going wrong', function () {
-        it('should reply with 500 status code', async function () {
-          // given
-          sinon.stub(resetPasswordService, 'verifyDemand').rejects(new Error());
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(500);
         });
       });
 

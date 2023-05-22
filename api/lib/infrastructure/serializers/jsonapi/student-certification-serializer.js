@@ -1,10 +1,12 @@
-const { Serializer } = require('jsonapi-serializer');
+import jsonapiSerializer from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(students, pagination) {
-    return new Serializer('students', {
-      attributes: ['lastName', 'firstName', 'birthdate', 'division', 'isEnrolled'],
-      meta: pagination,
-    }).serialize(students);
-  },
+const { Serializer } = jsonapiSerializer;
+
+const serialize = function (students, pagination) {
+  return new Serializer('students', {
+    attributes: ['lastName', 'firstName', 'birthdate', 'division', 'isEnrolled'],
+    meta: pagination,
+  }).serialize(students);
 };
+
+export { serialize };

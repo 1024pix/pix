@@ -1,14 +1,15 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const {
-  CertificationIssueReportCategories,
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { CertificationIssueReport } from '../../../../lib/domain/models/CertificationIssueReport.js';
+import {
+  CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const {
+} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+
+import {
   InvalidCertificationIssueReportForSaving,
   DeprecatedCertificationIssueReportSubcategoryError,
   DeprecatedCertificationIssueReportCategoryError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors.js';
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';
@@ -23,7 +24,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       beforeEach(function () {
         certificationIssueReportDTO = {
           certificationCourseId: 123,
-          category: CertificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE,
+          category: CertificationIssueReportCategory.NON_BLOCKING_TECHNICAL_ISSUE,
           description: 'Une description obligatoire',
         };
       });
@@ -61,7 +62,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       beforeEach(function () {
         certificationIssueReportDTO = {
           certificationCourseId: 123,
-          category: CertificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE,
+          category: CertificationIssueReportCategory.NON_BLOCKING_CANDIDATE_ISSUE,
           description: 'Une description obligatoire',
         };
       });
@@ -99,7 +100,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       beforeEach(function () {
         certificationIssueReportDTO = {
           certificationCourseId: 123,
-          category: CertificationIssueReportCategories.SIGNATURE_ISSUE,
+          category: CertificationIssueReportCategory.SIGNATURE_ISSUE,
           description: 'Une description obligatoire',
         };
       });
@@ -127,7 +128,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       beforeEach(function () {
         certificationIssueReportDTO = {
           certificationCourseId: 123,
-          category: CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
+          category: CertificationIssueReportCategory.CANDIDATE_INFORMATIONS_CHANGES,
           description: 'Une description obligatoire',
           subcategory: CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
         };
@@ -181,7 +182,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       beforeEach(function () {
         certificationIssueReportDTO = {
           certificationCourseId: 123,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
           questionNumber: 5,
         };
@@ -231,7 +232,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
             const createIssueReport = () =>
               CertificationIssueReport.create({
                 ...certificationIssueReportDTO,
-                category: CertificationIssueReportCategories.IN_CHALLENGE,
+                category: CertificationIssueReportCategory.IN_CHALLENGE,
                 subcategory: CertificationIssueReportSubcategories.LINK_NOT_WORKING,
               });
 
@@ -277,7 +278,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       it('should be valid', function () {
         const certificationIssueReportDTO = {
           certificationCourseId: 123,
-          category: CertificationIssueReportCategories.FRAUD,
+          category: CertificationIssueReportCategory.FRAUD,
         };
 
         expect(() => CertificationIssueReport.create(certificationIssueReportDTO)).not.to.throw();
@@ -290,7 +291,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       beforeEach(function () {
         certificationIssueReportDTO = {
           certificationCourseId: 123,
-          category: CertificationIssueReportCategories.TECHNICAL_PROBLEM,
+          category: CertificationIssueReportCategory.TECHNICAL_PROBLEM,
           description: 'Une description obligatoire',
         };
       });

@@ -1,6 +1,5 @@
-#! /usr/bin/env node
-
-const request = require('request-promise-native');
+import request from 'request-promise-native';
+import * as url from 'url';
 
 function parseArgs(argv) {
   return argv.slice(3);
@@ -46,7 +45,10 @@ function main() {
 
 /*=================== tests =============================*/
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+
+if (isLaunchedFromCommandLine) {
   console.log('Start script : ');
   main();
 }

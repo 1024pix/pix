@@ -1,10 +1,8 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
-const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
-const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
-const {
-  CertificationIssueReportCategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+import { expect, domainBuilder } from '../../../test-helper.js';
+import { FinalizedSession } from '../../../../lib/domain/models/FinalizedSession.js';
+import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
+import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult.js';
+import { CertificationIssueReportCategory } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | Domain | Models | FinalizedSession', function () {
   context('#isPublishable', function () {
@@ -333,7 +331,7 @@ function _noneWithRequiredActionButSomeErrorStatus() {
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
-          category: CertificationIssueReportCategories.SIGNATURE_ISSUE,
+          category: CertificationIssueReportCategory.SIGNATURE_ISSUE,
         }),
       ],
     }),
@@ -355,7 +353,7 @@ function _noneWithRequiredActionButSomeStartedStatus() {
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
-          category: CertificationIssueReportCategories.SIGNATURE_ISSUE,
+          category: CertificationIssueReportCategory.SIGNATURE_ISSUE,
         }),
       ],
     }),
@@ -377,7 +375,7 @@ function _someWithUnresolvedRequiredActionButNoErrorOrStartedStatus() {
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
-          category: CertificationIssueReportCategories.FRAUD,
+          category: CertificationIssueReportCategory.FRAUD,
           resolvedAt: null,
           resolution: null,
         }),
@@ -401,7 +399,7 @@ function _someWithResolvedRequiredActionButNoErrorOrStartedStatus() {
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
-          category: CertificationIssueReportCategories.FRAUD,
+          category: CertificationIssueReportCategory.FRAUD,
           resolvedAt: new Date('2020-01-01'),
           resolution: 'des points gratos offerts',
         }),
@@ -425,7 +423,7 @@ function _someWhichAreUnfinishedButHaveNoAbortReason() {
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
-          category: CertificationIssueReportCategories.FRAUD,
+          category: CertificationIssueReportCategory.FRAUD,
           resolvedAt: new Date('2020-01-01'),
           resolution: 'des points gratos offerts',
         }),

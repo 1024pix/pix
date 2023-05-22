@@ -1,29 +1,29 @@
-const { knex } = require('../../../db/knex-database-connection.js');
-const CampaignTypes = require('../../domain/models/CampaignTypes.js');
-const CampaignParticipationOverview = require('../../domain/read-models/CampaignParticipationOverview.js');
-const { fetchPage } = require('../utils/knex-utils.js');
-const bluebird = require('bluebird');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
-const stageCollectionRepository = require('./user-campaign-results/stage-collection-repository');
+import { knex } from '../../../db/knex-database-connection.js';
+import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
+import { CampaignParticipationOverview } from '../../domain/read-models/CampaignParticipationOverview.js';
+import { fetchPage } from '../utils/knex-utils.js';
+import bluebird from 'bluebird';
+import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
 
-module.exports = {
-  async findByUserIdWithFilters({ userId, states, page }) {
-    const queryBuilder = _findByUserId({ userId });
+const findByUserIdWithFilters = async function ({ userId, states, page }) {
+  const queryBuilder = _findByUserId({ userId });
 
-    if (states && states.length > 0) {
-      _filterByStates(queryBuilder, states);
-    }
+  if (states && states.length > 0) {
+    _filterByStates(queryBuilder, states);
+  }
 
-    const { results, pagination } = await fetchPage(queryBuilder, page);
+  const { results, pagination } = await fetchPage(queryBuilder, page);
 
-    const campaignParticipationOverviews = await _toReadModel(results);
+  const campaignParticipationOverviews = await _toReadModel(results);
 
-    return {
-      campaignParticipationOverviews,
-      pagination,
-    };
-  },
+  return {
+    campaignParticipationOverviews,
+    pagination,
+  };
 };
+
+export { findByUserIdWithFilters };
 
 function _findByUserId({ userId }) {
   return knex

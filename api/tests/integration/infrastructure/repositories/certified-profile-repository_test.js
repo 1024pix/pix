@@ -1,8 +1,8 @@
-const { expect, databaseBuilder, mockLearningContent, domainBuilder, catchErr } = require('../../../test-helper');
-const { CertifiedProfile } = require('../../../../lib/domain/read-models/CertifiedProfile');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, databaseBuilder, mockLearningContent, domainBuilder, catchErr } from '../../../test-helper.js';
+import { CertifiedProfile } from '../../../../lib/domain/read-models/CertifiedProfile.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import * as certifiedProfileRepository from '../../../../lib/infrastructure/repositories/certified-profile-repository.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | Certified Profile', function () {
   describe('#get', function () {

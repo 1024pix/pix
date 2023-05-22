@@ -1,22 +1,18 @@
-const _ = require('lodash');
-const learningContent = require('./learning-content');
-const campaignTooling = require('./campaign-tooling');
-const generic = require('./generic');
-const {
+import _ from 'lodash';
+import * as learningContent from './learning-content.js';
+import * as campaignTooling from './campaign-tooling.js';
+import * as generic from './generic.js';
+
+import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-} = require('../common-builder');
+} from '../common-builder.js';
 
 let verifCodeCount = 0;
 
-module.exports = {
-  createDraftScoSession,
-  createPublishedScoSession,
-  createDraftSession,
-  createPublishedSession,
-};
+export { createDraftScoSession, createPublishedScoSession, createDraftSession, createPublishedSession };
 
 /**
  * Fonction générique pour créer une session sco avec candidats non démarrée selon une configuration donnée.
@@ -378,14 +374,14 @@ async function createPublishedSession({
 
   const { coreProfileData, complementaryCertificationsProfileData } = await _makeCandidatesCertifiable(
     databaseBuilder,
-    certificationCandidates,
+    certificationCandidates
   );
   await _makeCandidatesPassCertification(
     databaseBuilder,
     sessionId,
     certificationCandidates,
     coreProfileData,
-    complementaryCertificationsProfileData,
+    complementaryCertificationsProfileData
   );
 
   return { sessionId };
@@ -409,7 +405,7 @@ async function _registerOrganizationLearnersToSession({
       databaseBuilder,
       sessionId,
       extraTimePercentages,
-      hasJoinSession,
+      hasJoinSession
     );
   }
   return certificationCandidates;
@@ -421,7 +417,7 @@ function _addCertificationCandidatesToScoSession(
   databaseBuilder,
   sessionId,
   extraTimePercentages,
-  hasJoinSession,
+  hasJoinSession
 ) {
   organizationLearners.forEach((organizationLearner, index) => {
     certificationCandidates.push(
@@ -444,7 +440,7 @@ function _addCertificationCandidatesToScoSession(
         authorizedToStart: false,
         billingMode: null,
         prepaymentCode: null,
-      }),
+      })
     );
   });
 }
@@ -558,7 +554,7 @@ async function _getComplementaryCertificationIdsFromCertificationCenterHabilitat
     ...(await databaseBuilder
       .knex('complementary-certification-habilitations')
       .pluck('complementaryCertificationId')
-      .where('certificationCenterId', certificationCenterId)),
+      .where('certificationCenterId', certificationCenterId))
   );
 }
 
@@ -623,7 +619,7 @@ async function _makeCandidatesCertifiable(databaseBuilder, certificationCandidat
     coreProfileData: await _makeCandidatesCoreCertifiable(databaseBuilder, certificationCandidates),
     complementaryCertificationsProfileData: await _makeCandidatesComplementaryCertifiable(
       databaseBuilder,
-      certificationCandidates,
+      certificationCandidates
     ),
   };
 }
@@ -675,7 +671,7 @@ async function _makeCandidatesCoreCertifiable(databaseBuilder, certificationCand
     }
     coreProfileData[competence.id].threeMostDifficultSkillsAndChallenges = _.takeRight(
       coreProfileData[competence.id].threeMostDifficultSkillsAndChallenges,
-      3,
+      3
     );
     coreProfileData[competence.id].pixScore = Math.ceil(coreProfileData[competence.id].pixScore);
   }
@@ -692,7 +688,7 @@ async function _makeCandidatesComplementaryCertifiable(databaseBuilder, certific
   ]) {
     const certificationCandidatesWithSubscription = certificationCandidates.filter(
       (certificationCandidate) =>
-        certificationCandidate.complementaryCertificationSubscribedId === complementaryCertificationId,
+        certificationCandidate.complementaryCertificationSubscribedId === complementaryCertificationId
     );
     if (certificationCandidatesWithSubscription.length > 0) {
       complementaryCertificationsProfileData[complementaryCertificationId] =
@@ -700,7 +696,7 @@ async function _makeCandidatesComplementaryCertifiable(databaseBuilder, certific
           databaseBuilder,
           complementaryCertificationId,
           frameworkName,
-          certificationCandidatesWithSubscription,
+          certificationCandidatesWithSubscription
         );
     }
   }
@@ -711,7 +707,7 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
   databaseBuilder,
   complementaryCertificationId,
   frameworkName,
-  certificationCandidates,
+  certificationCandidates
 ) {
   const [targetProfileId] = await databaseBuilder
     .knex('complementary-certification-badges')
@@ -802,11 +798,11 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
   for (const [areaId, { fourMostDifficultSkillsAndChallenges }] of Object.entries(complementaryProfileData)) {
     complementaryProfileData[areaId].fourMostDifficultSkillsAndChallenges = _.orderBy(
       fourMostDifficultSkillsAndChallenges,
-      ({ skill }) => skill.level,
+      ({ skill }) => skill.level
     );
     complementaryProfileData[areaId].fourMostDifficultSkillsAndChallenges = _.takeRight(
       complementaryProfileData[areaId].fourMostDifficultSkillsAndChallenges,
-      4,
+      4
     );
   }
 
@@ -818,7 +814,7 @@ function _makeCandidatesPassCertification(
   sessionId,
   certificationCandidates,
   coreProfileData,
-  complementaryCertificationsProfileData,
+  complementaryCertificationsProfileData
 ) {
   for (const certificationCandidate of certificationCandidates) {
     const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({

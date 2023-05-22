@@ -1,5 +1,5 @@
-const { sinon, expect } = require('../../../test-helper');
-const findTargetProfileSummariesForTraining = require('../../../../lib/domain/usecases/find-paginated-target-profile-training-summaries');
+import { sinon, expect } from '../../../test-helper.js';
+import { findPaginatedTargetProfileTrainingSummaries as findPaginatedTargetProfileTrainings } from '../../../../lib/domain/usecases/find-paginated-target-profile-training-summaries.js';
 
 describe('Unit | UseCase | findPaginatedTargetProfileTrainingSummaries', function () {
   it('should call the repository with the right arguments and return summaries', async function () {
@@ -13,7 +13,7 @@ describe('Unit | UseCase | findPaginatedTargetProfileTrainingSummaries', functio
     trainingRepository.findPaginatedSummariesByTargetProfileId.resolves(response);
 
     // when
-    const result = await findTargetProfileSummariesForTraining({
+    const result = await findPaginatedTargetProfileTrainings({
       targetProfileId,
       page,
       trainingRepository,

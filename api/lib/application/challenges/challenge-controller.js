@@ -1,9 +1,11 @@
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository.js');
-const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer.js');
+import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
+import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';
 
-module.exports = {
-  async get(request, h, dependencies = { challengeRepository, challengeSerializer }) {
-    const challenge = await dependencies.challengeRepository.get(request.params.id);
-    return dependencies.challengeSerializer.serialize(challenge);
-  },
+const get = async function (request, h, dependencies = { challengeRepository, challengeSerializer }) {
+  const challenge = await dependencies.challengeRepository.get(request.params.id);
+  return dependencies.challengeSerializer.serialize(challenge);
 };
+
+const challengeController = { get };
+
+export { challengeController };

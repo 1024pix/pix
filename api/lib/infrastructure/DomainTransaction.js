@@ -1,4 +1,4 @@
-const { knex } = require('../../db/knex-database-connection.js');
+import { knex } from '../../db/knex-database-connection.js';
 
 class DomainTransaction {
   constructor(knexTransaction) {
@@ -15,4 +15,4 @@ class DomainTransaction {
     return new DomainTransaction(null);
   }
 }
-module.exports = DomainTransaction;
+export { DomainTransaction };

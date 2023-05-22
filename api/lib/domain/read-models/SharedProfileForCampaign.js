@@ -1,6 +1,8 @@
-const map = require('lodash/map');
-const isEmpty = require('lodash/isEmpty');
-const Scorecard = require('../models/Scorecard.js');
+import lodash from 'lodash';
+
+const { map, isEmpty } = lodash;
+
+import { Scorecard } from '../models/Scorecard.js';
 
 class SharedProfileForCampaign {
   constructor({
@@ -49,4 +51,4 @@ class SharedProfileForCampaign {
   }
 }
 
-module.exports = SharedProfileForCampaign;
+export { SharedProfileForCampaign };

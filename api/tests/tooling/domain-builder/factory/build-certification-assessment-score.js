@@ -1,6 +1,6 @@
-const CertificationAssessmentScore = require('../../../../lib/domain/models/CertificationAssessmentScore');
+import { CertificationAssessmentScore } from '../../../../lib/domain/models/CertificationAssessmentScore.js';
 
-module.exports = function buildCertificationAssessmentScore({
+const buildCertificationAssessmentScore = function ({
   competenceMarks = [],
   percentageCorrectAnswers = 0,
   hasEnoughNonNeutralizedChallengesToBeTrusted = true,
@@ -11,3 +11,5 @@ module.exports = function buildCertificationAssessmentScore({
     hasEnoughNonNeutralizedChallengesToBeTrusted,
   });
 };
+
+export { buildCertificationAssessmentScore };

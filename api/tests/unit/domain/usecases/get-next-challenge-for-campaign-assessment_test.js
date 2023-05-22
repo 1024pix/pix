@@ -1,10 +1,9 @@
-const flash = require('../../../../lib/domain/services/algorithm-methods/flash');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment');
-const { AssessmentEndedError } = require('../../../../lib/domain/errors');
-const config = require('../../../../lib/config');
+import * as flash from '../../../../lib/domain/services/algorithm-methods/flash.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
+import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import { config } from '../../../../lib/config.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
   describe('#get-next-challenge-for-campaign-assessment', function () {

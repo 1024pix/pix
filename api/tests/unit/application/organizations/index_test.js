@@ -1,11 +1,10 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const organizationController = require('../../../../lib/application/organizations/organization-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const identifiersType = require('../../../../lib/domain/types/identifiers-type');
-const moduleUnderTest = require('../../../../lib/application/organizations');
-const organizationPlacesCategories = require('../../../../lib/domain/constants/organization-places-categories');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
+import * as organizationPlacesCategories from '../../../../lib/domain/constants/organization-places-categories.js';
 
 describe('Unit | Router | organization-router', function () {
   describe('GET /api/admin/organizations', function () {

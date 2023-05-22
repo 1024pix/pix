@@ -1,12 +1,16 @@
-'use strict';
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+
 dotenv.config();
 
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const { disconnect } = require('../db/knex-database-connection');
-const { parseCsvWithHeader } = require('./helpers/csvHelpers');
-const authenticationMethodRepository = require('../lib/infrastructure/repositories/authentication-method-repository');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import { disconnect } from '../db/knex-database-connection.js';
+import { parseCsvWithHeader } from './helpers/csvHelpers.js';
+import * as authenticationMethodRepository from '../lib/infrastructure/repositories/authentication-method-repository.js';
+import * as url from 'url';
+
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function cleanAnonymizedAuthenticationMethods({ arrayOfAnonymizedUsersIds }) {
   const anonymizedUserIdsWithAuthenticationMethodsDeleted = [];
@@ -20,8 +24,6 @@ async function cleanAnonymizedAuthenticationMethods({ arrayOfAnonymizedUsersIds 
   });
   return anonymizedUserIdsWithAuthenticationMethodsDeleted;
 }
-
-const isLaunchedFromCommandLine = require.main === module;
 
 async function main() {
   console.log('Starting deleting anonymized users authentication methods');
@@ -60,4 +62,4 @@ async function main() {
   }
 })();
 
-module.exports = { cleanAnonymizedAuthenticationMethods };
+export { cleanAnonymizedAuthenticationMethods };

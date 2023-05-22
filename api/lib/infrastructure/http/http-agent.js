@@ -1,8 +1,9 @@
-// eslint-disable-next-line no-restricted-modules
-const axios = require('axios');
-const { performance } = require('perf_hooks');
+import axios from 'axios';
+import perf_hooks from 'perf_hooks';
 
-const monitoringTools = require('../monitoring-tools.js');
+const { performance } = perf_hooks;
+
+import { monitoringTools } from '../monitoring-tools.js';
 
 class HttpResponse {
   constructor({ code, data, isSuccessful }) {
@@ -12,7 +13,7 @@ class HttpResponse {
   }
 }
 
-const HttpAgent = {
+const httpAgent = {
   async post({ url, payload, headers, timeout }) {
     const startTime = performance.now();
     let responseTime = null;
@@ -114,4 +115,4 @@ const HttpAgent = {
   },
 };
 
-module.exports = HttpAgent;
+export { httpAgent };

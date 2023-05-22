@@ -1,7 +1,9 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const moduleUnderTest = require('../../../../lib/application/answers');
-const answerController = require('../../../../lib/application/answers/answer-controller');
-const { features } = require('../../../../lib/config');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import * as moduleUnderTest from '../../../../lib/application/answers/index.js';
+import { answerController } from '../../../../lib/application/answers/answer-controller.js';
+import { config } from '../../../../lib/config.js';
+
+const { features } = config;
 
 describe('Unit | Application | Router | answer-router', function () {
   describe('POST /api/answers', function () {

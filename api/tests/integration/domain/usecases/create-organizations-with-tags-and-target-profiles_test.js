@@ -1,25 +1,29 @@
-const { catchErr, expect, databaseBuilder, knex } = require('../../../test-helper');
-const { omit } = require('lodash');
+import { catchErr, expect, databaseBuilder, knex } from '../../../test-helper.js';
+import lodash from 'lodash';
 
-const domainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const organizationInvitationRepository = require('../../../../lib/infrastructure/repositories/organization-invitation-repository');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const organizationTagRepository = require('../../../../lib/infrastructure/repositories/organization-tag-repository');
-const targetProfileShareRepository = require('../../../../lib/infrastructure/repositories/target-profile-share-repository');
-const dataProtectionOfficerRepository = require('../../../../lib/infrastructure/repositories/data-protection-officer-repository');
-const tagRepository = require('../../../../lib/infrastructure/repositories/tag-repository');
-const organizationValidator = require('../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js');
-const organizationInvitationService = require('../../../../lib/domain/services/organization-invitation-service.js');
-const {
+const { omit } = lodash;
+
+import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
+import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
+import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
+import * as targetProfileShareRepository from '../../../../lib/infrastructure/repositories/target-profile-share-repository.js';
+import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import * as tagRepository from '../../../../lib/infrastructure/repositories/tag-repository.js';
+import * as organizationValidator from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
+import * as organizationInvitationService from '../../../../lib/domain/services/organization-invitation-service.js';
+
+import {
   OrganizationTagNotFound,
   ManyOrganizationsFoundError,
   OrganizationAlreadyExistError,
   EntityValidationError,
   ObjectValidationError,
   TargetProfileInvalidError,
-} = require('../../../../lib/domain/errors');
-const createOrganizationsWithTagsAndTargetProfiles = require('../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles');
-const Membership = require('../../../../lib/domain/models/Membership');
+} from '../../../../lib/domain/errors.js';
+
+import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Integration | UseCases | create-organizations-with-tags-and-target-profiles', function () {
   let userId;

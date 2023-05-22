@@ -1,6 +1,8 @@
-const { expect, catchErr } = require('../../../test-helper');
-const { FileValidationError, NotFoundError } = require('../../../../lib/domain/errors');
-const { checkCsvHeader } = require('../../../../scripts/helpers/csvHelpers');
+import { expect, catchErr } from '../../../test-helper.js';
+import { FileValidationError, NotFoundError } from '../../../../lib/domain/errors.js';
+import { checkCsvHeader } from '../../../../scripts/helpers/csvHelpers.js';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Scripts | Helpers | csvHelpers.js', function () {
   const withValidHeaderFilePath = `${__dirname}/files/withValidHeader-test.csv`;

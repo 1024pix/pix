@@ -1,6 +1,6 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const Feedback = require('../../../../lib/infrastructure/orm-models/Feedback');
+import { expect, knex, databaseBuilder } from '../../../test-helper.js';
+import { createServer } from '../../../../server.js';
+import { Feedback } from '../../../../lib/infrastructure/orm-models/Feedback.js';
 
 describe('Acceptance | Controller | feedback-controller', function () {
   let server;

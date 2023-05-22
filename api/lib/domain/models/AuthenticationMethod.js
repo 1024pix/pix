@@ -1,7 +1,7 @@
-const BaseJoi = require('joi');
-const JoiDate = require('@joi/date');
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-const { validateEntity } = require('../validators/entity-validator.js');
+import { validateEntity } from '../validators/entity-validator.js';
 
 const identityProviders = {
   PIX: 'PIX',
@@ -118,4 +118,4 @@ AuthenticationMethod.identityProviders = identityProviders;
 AuthenticationMethod.PixAuthenticationComplement = PixAuthenticationComplement;
 AuthenticationMethod.OidcAuthenticationComplement = OidcAuthenticationComplement;
 AuthenticationMethod.GARAuthenticationComplement = GARAuthenticationComplement;
-module.exports = AuthenticationMethod;
+export { AuthenticationMethod };

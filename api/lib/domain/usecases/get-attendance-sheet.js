@@ -1,14 +1,18 @@
-const _ = require('lodash');
-const moment = require('moment');
-const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
-const {
+import _ from 'lodash';
+import moment from 'moment';
+import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+
+import {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
-} = require('./../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders.js');
+} from './../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders.js';
 
-module.exports = async function getAttendanceSheet({
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+const getAttendanceSheet = async function ({
   userId,
   sessionId,
   sessionRepository,
@@ -39,6 +43,8 @@ module.exports = async function getAttendanceSheet({
     odsFilePath,
   });
 };
+
+export { getAttendanceSheet };
 
 function _updateXmlWithSession(stringifiedXml, session, sessionXmlService) {
   const sessionData = _.transform(session, _transformSessionIntoAttendanceSheetSessionData);

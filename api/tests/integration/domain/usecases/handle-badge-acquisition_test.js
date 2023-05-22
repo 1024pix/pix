@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases/index.js');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Integration | Usecase | Handle Badge Acquisition', function () {
   let userId, assessment, badgeCompleted;
@@ -103,7 +103,7 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
         type: Assessment.types.CAMPAIGN,
       });
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder(learningContent);
       mockLearningContent(learningContentObjects);
 
       return databaseBuilder.commit();
@@ -117,7 +117,7 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
       it('should not affect the database', async function () {
         await DomainTransaction.execute(async (domainTransaction) => {
           // when
-          await useCases.handleBadgeAcquisition({
+          await usecases.handleBadgeAcquisition({
             assessment,
             domainTransaction,
           });

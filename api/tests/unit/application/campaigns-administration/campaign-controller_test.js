@@ -1,13 +1,12 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-
-const campaignController = require('../../../../lib/application/campaigns-administration/campaign-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import { campaignController } from '../../../../lib/application/campaigns-administration/campaign-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Unit | Application | Controller | Campaign Administration', function () {
   describe('#archiveCampaigns', function () {
     let csvCampaignsIdsParserStub;
     beforeEach(function () {
-      sinon.stub(usecases, 'campaignAdministrationArchiveCampaign');
+      sinon.stub(usecases, 'archiveCampaigns');
       csvCampaignsIdsParserStub = { extractCampaignsIds: sinon.stub() };
     });
 
@@ -19,7 +18,7 @@ describe('Unit | Application | Controller | Campaign Administration', function (
       const request = { auth: { credentials: { userId } }, payload: path };
 
       csvCampaignsIdsParserStub.extractCampaignsIds.withArgs(path).returns(ids);
-      usecases.campaignAdministrationArchiveCampaign.withArgs({ userId, ids });
+      usecases.archiveCampaigns.withArgs({ userId, ids });
 
       // when
       const response = await campaignController.archiveCampaigns(request, hFake, {

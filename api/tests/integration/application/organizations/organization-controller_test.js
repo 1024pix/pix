@@ -1,14 +1,12 @@
-const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const ScoOrganizationParticipant = require('../../../../lib/domain/read-models/ScoOrganizationParticipant');
-const SupOrganizationParticipant = require('../../../../lib/domain/read-models/SupOrganizationParticipant');
-const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-
-const moduleUnderTest = require('../../../../lib/application/organizations');
-const { NoCertificationAttestationForDivisionError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { ScoOrganizationParticipant } from '../../../../lib/domain/read-models/ScoOrganizationParticipant.js';
+import { SupOrganizationParticipant } from '../../../../lib/domain/read-models/SupOrganizationParticipant.js';
+import { getCertificationAttestationsPdf as certificationAttestationPdf } from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
+import { NoCertificationAttestationForDivisionError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Application | Organizations | organization-controller', function () {
   let sandbox;
@@ -23,8 +21,8 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'findCertificationAttestationsForDivision');
-    sandbox.stub(usecases, 'findGroupsByOrganization');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
+    sandbox.stub(usecases, 'findGroupsByOrganization');
     sandbox.stub(usecases, 'getPaginatedParticipantsForAnOrganization');
     sandbox.stub(usecases, 'findOrganizationPlacesLot');
 

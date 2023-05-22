@@ -1,6 +1,6 @@
-const solutionServiceQCM = require('../services/solution-service-qcm.js');
-const Validation = require('./Validation.js');
-const Validator = require('./Validator.js');
+import * as solutionServiceQCM from '../services/solution-service-qcm.js';
+import { Validation } from './Validation.js';
+import { Validator } from './Validator.js';
 
 /**
  * Traduction: Vérificateur de réponse pour un QCM
@@ -21,4 +21,4 @@ class ValidatorQCM extends Validator {
   }
 }
 
-module.exports = ValidatorQCM;
+export { ValidatorQCM };

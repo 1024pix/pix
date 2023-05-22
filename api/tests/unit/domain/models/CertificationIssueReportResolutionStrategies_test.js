@@ -1,20 +1,18 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const {
-  CertificationIssueReportCategories,
+import { expect, domainBuilder, sinon } from '../../../test-helper.js';
+import {
+  CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const CertificationIssueReportResolutionAttempt = require('../../../../lib/domain/models/CertificationIssueReportResolutionAttempt');
-const {
+} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { CertificationIssueReportResolutionAttempt } from '../../../../lib/domain/models/CertificationIssueReportResolutionAttempt.js';
+import {
   CertificationIssueReportResolutionStrategies,
-} = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
-const {
   neutralizeWithoutCheckingStrategy,
   neutralizeIfImageOrEmbedStrategy,
   neutralizeIfAttachmentStrategy,
   neutralizeIfTimedChallengeStrategy,
   neutralizeOrValidateIfFocusedChallengeStrategy,
   doNotResolveStrategy,
-} = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
+} from '../../../../lib/domain/models/CertificationIssueReportResolutionStrategies.js';
 
 describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies', function () {
   context('#NEUTRALIZE_WITHOUT_CHECKING', function () {
@@ -29,7 +27,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -59,7 +57,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -90,7 +88,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -120,7 +118,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -154,7 +152,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
             subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
           const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
@@ -189,7 +187,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
             subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
           const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
@@ -226,7 +224,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
             subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
           const challengeWithEmbed = domainBuilder.buildChallenge({ embedUrl: 'embed_url' });
@@ -261,7 +259,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
             subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
           const challengeWithEmbed = domainBuilder.buildChallenge({ embedUrl: 'embed_url' });
@@ -293,7 +291,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -321,7 +319,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -350,7 +348,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const challengeWithoutIllustrationAndEmbed = domainBuilder.buildChallenge({
@@ -390,7 +388,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const challengeWithoutIllustration = domainBuilder.buildChallenge({ illustrationUrl: null });
@@ -431,7 +429,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
@@ -466,7 +464,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
@@ -504,7 +502,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const challengeWithAttachment = domainBuilder.buildChallenge({
@@ -541,7 +539,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
 
@@ -576,7 +574,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -604,7 +602,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -633,7 +631,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const challengeWithoutAttachment = domainBuilder.buildChallenge({ attachments: [] });
@@ -667,7 +665,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const challengeWithoutAttachment = domainBuilder.buildChallenge({ attachments: [] });
@@ -708,7 +706,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const challengeWithAttachment = domainBuilder.buildChallenge({
@@ -745,7 +743,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const challengeWithAttachment = domainBuilder.buildChallenge({
@@ -785,7 +783,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const timedChallenge = domainBuilder.buildChallenge({
@@ -822,7 +820,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
 
@@ -857,7 +855,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -885,7 +883,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -914,7 +912,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const notTimedChallenge = domainBuilder.buildChallenge({});
@@ -948,7 +946,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const notTimedChallenge = domainBuilder.buildChallenge({});
@@ -989,7 +987,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const timedChallenge = domainBuilder.buildChallenge({
@@ -1026,7 +1024,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const timedChallenge = domainBuilder.buildChallenge({
@@ -1069,7 +1067,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
             subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
-            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
           const focusedChallenge = domainBuilder.buildChallenge({ focused: true });
@@ -1106,7 +1104,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
             subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
-            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
 
@@ -1150,7 +1148,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
             subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
-            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
           const focusedChallenge = domainBuilder.buildChallenge({ focused: true });
@@ -1187,7 +1185,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
             subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
-            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
 
@@ -1224,7 +1222,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -1252,7 +1250,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
@@ -1282,7 +1280,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const notFocusedChallenge = domainBuilder.buildChallenge({ focused: false });
@@ -1316,7 +1314,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
         const notFocusedChallenge = domainBuilder.buildChallenge({ focused: false });
@@ -1355,7 +1353,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
         subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
-        category: CertificationIssueReportCategories.IN_CHALLENGE,
+        category: CertificationIssueReportCategory.IN_CHALLENGE,
         questionNumber: 1,
       });
 
@@ -1375,7 +1373,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
         subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
-        category: CertificationIssueReportCategories.IN_CHALLENGE,
+        category: CertificationIssueReportCategory.IN_CHALLENGE,
         questionNumber: 1,
       });
 

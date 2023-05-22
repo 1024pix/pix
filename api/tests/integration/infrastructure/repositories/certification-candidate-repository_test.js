@@ -1,12 +1,12 @@
-const { databaseBuilder, expect, knex, domainBuilder, catchErr } = require('../../../test-helper');
-const BookshelfCertificationCandidate = require('../../../../lib/infrastructure/orm-models/CertificationCandidate');
-const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
-const {
+import { databaseBuilder, expect, knex, domainBuilder, catchErr } from '../../../test-helper.js';
+import { BookshelfCertificationCandidate } from '../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
+import * as certificationCandidateRepository from '../../../../lib/infrastructure/repositories/certification-candidate-repository.js';
+import {
   NotFoundError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
-} = require('../../../../lib/domain/errors');
-const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
-const _ = require('lodash');
+} from '../../../../lib/domain/errors.js';
+import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import _ from 'lodash';
 
 describe('Integration | Repository | CertificationCandidate', function () {
   describe('#saveInSession', function () {
@@ -175,7 +175,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
       it('should return true when deletion goes well', async function () {
         // when
-        const isDeleted = await certificationCandidateRepository.delete(certificationCandidateToDeleteId);
+        const isDeleted = await certificationCandidateRepository.remove(certificationCandidateToDeleteId);
 
         // then
         expect(isDeleted).to.be.true;
@@ -184,7 +184,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
       it('should delete a single row in the table', async function () {
         const nbCertifCandidatesBeforeDeletion = await BookshelfCertificationCandidate.count();
         // when
-        await certificationCandidateRepository.delete(certificationCandidateToDeleteId);
+        await certificationCandidateRepository.remove(certificationCandidateToDeleteId);
         const nbCertifCandidatesAfterDeletion = await BookshelfCertificationCandidate.count();
 
         // then
@@ -204,7 +204,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         await databaseBuilder.commit();
 
         // when
-        const isDeleted = await certificationCandidateRepository.delete(certificationCandidateId);
+        const isDeleted = await certificationCandidateRepository.remove(certificationCandidateId);
 
         // then
         const complementaryCertificationSubscriptions = await knex

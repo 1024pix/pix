@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const updateCampaign = require('../../../../lib/domain/usecases/update-campaign');
-const { UserNotAuthorizedToUpdateResourceError, EntityValidationError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import { updateCampaign } from '../../../../lib/domain/usecases/update-campaign.js';
+import { UserNotAuthorizedToUpdateResourceError, EntityValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | update-campaign', function () {
   let originalCampaign;

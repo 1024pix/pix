@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const getCertificationCandidate = require('../../../../lib/domain/usecases/get-certification-candidate');
+import { expect, sinon } from '../../../test-helper.js';
+import { getCertificationCandidate } from '../../../../lib/domain/usecases/get-certification-candidate.js';
 
 describe('Unit | Domain | Use Cases | get-certification-candidate', function () {
   it('should get the certification candidate', async function () {

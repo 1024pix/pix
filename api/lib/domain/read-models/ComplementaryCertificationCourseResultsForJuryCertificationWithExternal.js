@@ -1,5 +1,10 @@
-const minBy = require('lodash/minBy');
-const { EXTERNAL, PIX } = require('../models/ComplementaryCertificationCourseResult.js').sources;
+import lodash from 'lodash';
+
+const { minBy } = lodash;
+
+import { sources } from '../models/ComplementaryCertificationCourseResult.js';
+
+const { EXTERNAL, PIX } = sources;
 
 class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
   constructor({
@@ -98,4 +103,4 @@ class Section {
   }
 }
 
-module.exports = ComplementaryCertificationCourseResultsForJuryCertificationWithExternal;
+export { ComplementaryCertificationCourseResultsForJuryCertificationWithExternal };

@@ -1,9 +1,9 @@
-const { expect, sinon, domainBuilder, catchErr, hFake } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/application/http-errors');
-const {
+import { expect, sinon, domainBuilder, catchErr, hFake } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../lib/application/http-errors.js';
+import {
   verifyCertificationSessionAuthorization,
   verifySessionAuthorization,
-} = require('../../../../lib/application/preHandlers/authorization');
+} from '../../../../lib/application/preHandlers/authorization.js';
 
 describe('Unit | Pre-handler | Authorization', function () {
   const userId = 1;

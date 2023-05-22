@@ -1,7 +1,7 @@
-const buildArea = require('./build-area');
-const Scorecard = require('../../../../lib/domain/models/Scorecard');
+import { buildArea } from './build-area.js';
+import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
 
-module.exports = function buildUserScorecard({
+const buildUserScorecard = function ({
   id = 'recCOMP123_789',
   // attributes
   name = 'Mener une troupe à la bataille',
@@ -38,3 +38,5 @@ module.exports = function buildUserScorecard({
     tutorials,
   });
 };
+
+export { buildUserScorecard };

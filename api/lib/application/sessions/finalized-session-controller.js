@@ -1,15 +1,20 @@
-const usecases = require('../../domain/usecases/index.js');
-const toBePublishedSessionSerializer = require('../../infrastructure/serializers/jsonapi/to-be-published-session-serializer.js');
-const withRequiredActionSessionSerializer = require('../../infrastructure/serializers/jsonapi/with-required-action-session-serializer.js');
+import { usecases } from '../../domain/usecases/index.js';
+import * as toBePublishedSessionSerializer from '../../infrastructure/serializers/jsonapi/to-be-published-session-serializer.js';
+import * as withRequiredActionSessionSerializer from '../../infrastructure/serializers/jsonapi/with-required-action-session-serializer.js';
 
-module.exports = {
-  async findFinalizedSessionsToPublish(request, h, dependencies = { toBePublishedSessionSerializer }) {
-    const finalizedSessionsToPublish = await usecases.findFinalizedSessionsToPublish();
-    return dependencies.toBePublishedSessionSerializer.serialize(finalizedSessionsToPublish);
-  },
-
-  async findFinalizedSessionsWithRequiredAction(request, h, dependencies = { withRequiredActionSessionSerializer }) {
-    const finalizedSessionsWithRequiredAction = await usecases.findFinalizedSessionsWithRequiredAction();
-    return dependencies.withRequiredActionSessionSerializer.serialize(finalizedSessionsWithRequiredAction);
-  },
+const findFinalizedSessionsToPublish = async function (request, h, dependencies = { toBePublishedSessionSerializer }) {
+  const finalizedSessionsToPublish = await usecases.findFinalizedSessionsToPublish();
+  return dependencies.toBePublishedSessionSerializer.serialize(finalizedSessionsToPublish);
 };
+
+const findFinalizedSessionsWithRequiredAction = async function (
+  request,
+  h,
+  dependencies = { withRequiredActionSessionSerializer }
+) {
+  const finalizedSessionsWithRequiredAction = await usecases.findFinalizedSessionsWithRequiredAction();
+  return dependencies.withRequiredActionSessionSerializer.serialize(finalizedSessionsWithRequiredAction);
+};
+
+const finalizedSessionController = { findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };
+export { finalizedSessionController };

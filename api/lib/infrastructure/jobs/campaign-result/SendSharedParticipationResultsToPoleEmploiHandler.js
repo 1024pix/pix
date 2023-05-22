@@ -1,5 +1,5 @@
-const Job = require('./SendSharedParticipationResultsToPoleEmploiJob.js');
-const usecases = require('../../../domain/usecases/index.js');
+import { SendSharedParticipationResultsToPoleEmploiJob } from './SendSharedParticipationResultsToPoleEmploiJob.js';
+import { usecases } from '../../../domain/usecases/index.js';
 
 class SendSharedParticipationResultsToPoleEmploiHandler {
   async handle(event) {
@@ -9,8 +9,8 @@ class SendSharedParticipationResultsToPoleEmploiHandler {
   }
 
   get name() {
-    return Job.name;
+    return SendSharedParticipationResultsToPoleEmploiJob.name;
   }
 }
 
-module.exports = SendSharedParticipationResultsToPoleEmploiHandler;
+export { SendSharedParticipationResultsToPoleEmploiHandler };

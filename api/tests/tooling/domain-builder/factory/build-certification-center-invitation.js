@@ -1,6 +1,6 @@
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 
-module.exports = function buildCertificationCenterInvitation({
+const buildCertificationCenterInvitation = function ({
   id = 123,
   certificationCenterId = 456,
   email = 'userInvited@example.net',
@@ -19,3 +19,5 @@ module.exports = function buildCertificationCenterInvitation({
     updatedAt,
   });
 };
+
+export { buildCertificationCenterInvitation };

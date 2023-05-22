@@ -7,4 +7,4 @@ class Event {
   }
 }
 
-module.exports = Event;
+export { Event };

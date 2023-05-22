@@ -1,4 +1,4 @@
-module.exports = async function getFrameworkAreas({
+const getFrameworkAreas = async function ({
   frameworkId,
   frameworkName,
   locale,
@@ -24,3 +24,5 @@ module.exports = async function getFrameworkAreas({
 
   return { areas: areasWithCompetences, thematics, tubes };
 };
+
+export { getFrameworkAreas };

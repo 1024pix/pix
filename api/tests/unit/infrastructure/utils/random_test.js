@@ -1,6 +1,9 @@
-const { expect } = require('../../../test-helper');
-const { range, countBy } = require('lodash');
-const pseudoRandom = require('../../../../lib/infrastructure/utils/pseudo-random');
+import { expect } from '../../../test-helper.js';
+import lodash from 'lodash';
+
+const { range, countBy } = lodash;
+
+import * as pseudoRandom from '../../../../lib/infrastructure/utils/pseudo-random.js';
 
 describe('Unit | Infrastructure | Utils | Random', function () {
   describe('#binaryTreeRandom', function () {

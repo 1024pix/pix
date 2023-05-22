@@ -1,13 +1,16 @@
-const Training = require('../../domain/models/Training.js');
-const TrainingSummary = require('../../domain/read-models/TrainingSummary.js');
-const { knex } = require('../../../db/knex-database-connection.js');
-const { NotFoundError } = require('../../domain/errors.js');
-const DomainTransaction = require('../DomainTransaction.js');
-const UserRecommendedTraining = require('../../domain/read-models/UserRecommendedTraining.js');
-const { fetchPage } = require('../utils/knex-utils.js');
-const pick = require('lodash/pick');
-const trainingTriggerRepository = require('./training-trigger-repository.js');
-const TrainingForAdmin = require('../../domain/read-models/TrainingForAdmin');
+import { Training } from '../../domain/models/Training.js';
+import { TrainingSummary } from '../../domain/read-models/TrainingSummary.js';
+import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../domain/errors.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { UserRecommendedTraining } from '../../domain/read-models/UserRecommendedTraining.js';
+import { fetchPage } from '../utils/knex-utils.js';
+import lodash from 'lodash';
+
+const { pick } = lodash;
+
+import * as trainingTriggerRepository from './training-trigger-repository.js';
+import { TrainingForAdmin } from '../../domain/read-models/TrainingForAdmin.js';
 const TABLE_NAME = 'trainings';
 
 async function get({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -167,7 +170,7 @@ async function findPaginatedByUserId({
   return { userRecommendedTrainings, pagination };
 }
 
-module.exports = {
+export {
   get,
   getWithTriggersForAdmin,
   findPaginatedSummaries,

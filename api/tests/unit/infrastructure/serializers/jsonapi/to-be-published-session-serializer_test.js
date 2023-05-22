@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer');
-const FinalizedSession = require('../../../../../lib/domain/models/FinalizedSession');
+import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer.js';
+import { FinalizedSession } from '../../../../../lib/domain/models/FinalizedSession.js';
 
 describe('Unit | Serializer | JSONAPI | to-be-published-session-serializer', function () {
   describe('#serialize()', function () {

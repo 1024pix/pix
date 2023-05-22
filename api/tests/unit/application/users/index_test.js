@@ -1,10 +1,9 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
-const userController = require('../../../../lib/application/users/user-controller');
-const moduleUnderTest = require('../../../../lib/application/users');
-const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
+import { userController } from '../../../../lib/application/users/user-controller.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as moduleUnderTest from '../../../../lib/application/users/index.js';
 
 describe('Unit | Router | user-router', function () {
   describe('POST /api/users', function () {

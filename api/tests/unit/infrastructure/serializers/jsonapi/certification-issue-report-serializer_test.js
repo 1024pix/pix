@@ -1,10 +1,10 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-issue-report-serializer');
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-issue-report-serializer.js';
 
-const {
-  CertificationIssueReportCategories,
+import {
+  CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
+} from '../../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | Serializer | JSONAPI | certification-issue-report-serializer', function () {
   describe('#serialize()', function () {
@@ -68,7 +68,7 @@ describe('Unit | Serializer | JSONAPI | certification-issue-report-serializer', 
       // then
       const expectedCertificationIssueReport = {
         certificationCourseId,
-        category: CertificationIssueReportCategories.IN_CHALLENGE,
+        category: CertificationIssueReportCategory.IN_CHALLENGE,
         description,
         subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
         questionNumber,

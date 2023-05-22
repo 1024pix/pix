@@ -1,4 +1,4 @@
-const { statuses } = require('./Session.js');
+import { statuses } from './Session.js';
 
 class JurySession {
   constructor({
@@ -63,5 +63,4 @@ class JurySession {
   }
 }
 
-module.exports = JurySession;
-module.exports.statuses = statuses;
+export { JurySession, statuses };

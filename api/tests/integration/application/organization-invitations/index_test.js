@@ -1,19 +1,17 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/organization-invitations/index');
-
-const organisationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { organizationInvitationController } from '../../../../lib/application/organization-invitations/organization-invitation-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/organization-invitations/index.js';
 
 describe('Integration | Application | Organization-invitations | Routes', function () {
   let httpTestServer;
 
   beforeEach(async function () {
     sinon
-      .stub(organisationInvitationController, 'acceptOrganizationInvitation')
+      .stub(organizationInvitationController, 'acceptOrganizationInvitation')
       .callsFake((request, h) => h.response().code(204));
-    sinon.stub(organisationInvitationController, 'sendScoInvitation').callsFake((request, h) => h.response().code(201));
+    sinon.stub(organizationInvitationController, 'sendScoInvitation').callsFake((request, h) => h.response().code(201));
     sinon
-      .stub(organisationInvitationController, 'getOrganizationInvitation')
+      .stub(organizationInvitationController, 'getOrganizationInvitation')
       .callsFake((request, h) => h.response().code(200));
 
     httpTestServer = new HttpTestServer();

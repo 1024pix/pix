@@ -1,6 +1,6 @@
-const { expect, domainBuilder, mockLearningContent, catchErr } = require('../../../test-helper');
-const frameworkRepository = require('../../../../lib/infrastructure/repositories/framework-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, domainBuilder, mockLearningContent, catchErr } from '../../../test-helper.js';
+import * as frameworkRepository from '../../../../lib/infrastructure/repositories/framework-repository.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | framework-repository', function () {
   const framework0 = {

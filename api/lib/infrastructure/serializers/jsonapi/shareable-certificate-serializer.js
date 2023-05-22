@@ -1,4 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
 
 const typeForAttribute = (attribute) => {
   if (attribute === 'resultCompetenceTree') {
@@ -44,12 +46,12 @@ const attributes = [
   'maxReachableLevelOnCertificationDate',
 ];
 
-module.exports = {
-  serialize(certificate) {
-    return new Serializer('certifications', {
-      typeForAttribute,
-      attributes,
-      resultCompetenceTree,
-    }).serialize(certificate);
-  },
+const serialize = function (certificate) {
+  return new Serializer('certifications', {
+    typeForAttribute,
+    attributes,
+    resultCompetenceTree,
+  }).serialize(certificate);
 };
+
+export { serialize };

@@ -1,11 +1,12 @@
-const {
+import {
   expect,
   databaseBuilder,
   domainBuilder,
   generateValidRequestAuthorizationHeader,
   knex,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | session-for-supervising-controller-supervise', function () {
   let server;

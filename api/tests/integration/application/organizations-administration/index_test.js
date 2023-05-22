@@ -1,13 +1,14 @@
-const {
+import {
   expect,
   sinon,
   HttpTestServer,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
-const organizationAdministrationController = require('../../../../lib/application/organizations-administration/organization-administration-controller');
-const moduleUnderTest = require('../../../../lib/application/organizations-administration');
-const { logo3Mb } = require('./_files/logo-3mb');
+} from '../../../test-helper.js';
+
+import { organizationAdministrationController } from '../../../../lib/application/organizations-administration/organization-administration-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/organizations-administration/index.js';
+import { logo3Mb } from './_files/logo-3mb.js';
 
 describe('Integration | Application | Organization Administration | Routes', function () {
   describe('PATCH /api/admin/organizations/{:id}', function () {

@@ -1,13 +1,13 @@
-const tokenService = require('./token-service.js');
-const settings = require('../../config.js');
+import { tokenService } from './token-service.js';
+import { config } from '../../config.js';
 
-module.exports = {
-  generateResultsLink(sessionId) {
-    const daysBeforeExpiration = 30;
+const generateResultsLink = function (sessionId) {
+  const daysBeforeExpiration = 30;
 
-    const token = tokenService.createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration });
-    const link = `${settings.domain.pixApp + settings.domain.tldOrg}/api/sessions/download-all-results/${token}`;
+  const token = tokenService.createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration });
+  const link = `${config.domain.pixApp + config.domain.tldOrg}/api/sessions/download-all-results/${token}`;
 
-    return link;
-  },
+  return link;
 };
+
+export { generateResultsLink };

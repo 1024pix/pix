@@ -1,5 +1,5 @@
-const settings = require('../../../config.js');
-const OidcAuthenticationService = require('./oidc-authentication-service.js');
+import { config } from '../../../config.js';
+import { OidcAuthenticationService } from './oidc-authentication-service.js';
 
 class CnavOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
@@ -9,15 +9,15 @@ class CnavOidcAuthenticationService extends OidcAuthenticationService {
       slug: 'cnav',
       organizationName: 'CNAV',
       hasLogoutUrl: false,
-      jwtOptions: { expiresIn: settings.cnav.accessTokenLifespanMs / 1000 },
-      clientSecret: settings.cnav.clientSecret,
-      clientId: settings.cnav.clientId,
-      tokenUrl: settings.cnav.tokenUrl,
-      authenticationUrl: settings.cnav.authenticationUrl,
+      jwtOptions: { expiresIn: config.cnav.accessTokenLifespanMs / 1000 },
+      clientSecret: config.cnav.clientSecret,
+      clientId: config.cnav.clientId,
+      tokenUrl: config.cnav.tokenUrl,
+      authenticationUrl: config.cnav.authenticationUrl,
       authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
-      userInfoUrl: settings.cnav.userInfoUrl,
+      userInfoUrl: config.cnav.userInfoUrl,
     });
   }
 }
 
-module.exports = CnavOidcAuthenticationService;
+export { CnavOidcAuthenticationService };

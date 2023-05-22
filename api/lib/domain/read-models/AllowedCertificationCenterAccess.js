@@ -1,5 +1,5 @@
-const { features } = require('../../config.js');
-
+import { config } from '../../config.js';
+const { features } = config;
 class AllowedCertificationCenterAccess {
   constructor({
     id,
@@ -79,4 +79,4 @@ class AllowedCertificationCenterAccess {
   }
 }
 
-module.exports = AllowedCertificationCenterAccess;
+export { AllowedCertificationCenterAccess };

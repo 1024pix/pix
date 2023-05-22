@@ -1,4 +1,4 @@
-extends: ../../../.eslintrc.yaml
+extends: ../../.eslintrc.yaml
 
 rules:
   no-restricted-syntax: off

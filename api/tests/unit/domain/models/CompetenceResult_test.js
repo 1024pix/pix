@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const CompetenceResult = require('../../../../lib/domain/models/CompetenceResult');
+import { expect } from '../../../test-helper.js';
+import { CompetenceResult } from '../../../../lib/domain/models/CompetenceResult.js';
 
 describe('Unit | Domain | Models | CompetenceResult', function () {
   describe('#masteryPercentage', function () {

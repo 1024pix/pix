@@ -1,6 +1,6 @@
-const SessionForSupervisorKit = require('../../../../lib/domain/read-models/SessionForSupervisorKit');
+import { SessionForSupervisorKit } from '../../../../lib/domain/read-models/SessionForSupervisorKit.js';
 
-module.exports = function buildSessionForSupervisorKit({
+const buildSessionForSupervisorKit = function ({
   id = 123,
   examiner = 'Sherlock Holmes',
   address = '22b Baker Street',
@@ -21,3 +21,5 @@ module.exports = function buildSessionForSupervisorKit({
     supervisorPassword,
   });
 };
+
+export { buildSessionForSupervisorKit };

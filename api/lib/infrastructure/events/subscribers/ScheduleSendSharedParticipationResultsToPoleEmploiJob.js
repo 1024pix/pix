@@ -1,4 +1,4 @@
-const Event = require('../../../domain/events/CampaignParticipationResultsShared.js');
+import { CampaignParticipationResultsShared } from '../../../domain/events/CampaignParticipationResultsShared.js';
 
 class ScheduleParticipationResultCalculationJob {
   constructor({ sendSharedParticipationResultsToPoleEmploiJob }) {
@@ -14,6 +14,6 @@ class ScheduleParticipationResultCalculationJob {
   }
 }
 
-ScheduleParticipationResultCalculationJob.event = Event;
+ScheduleParticipationResultCalculationJob.event = CampaignParticipationResultsShared;
 
-module.exports = ScheduleParticipationResultCalculationJob;
+export { ScheduleParticipationResultCalculationJob as ScheduleSendSharedParticipationResultsToPoleEmploiJob };

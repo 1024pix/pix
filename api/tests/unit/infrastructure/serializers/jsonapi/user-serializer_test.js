@@ -1,8 +1,7 @@
-const { expect, catchErrSync } = require('../../../../test-helper');
-
-const User = require('../../../../../lib/domain/models/User');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-const { LocaleFormatError, LocaleNotSupportedError } = require('../../../../../lib/domain/errors');
+import { expect, catchErrSync } from '../../../../test-helper.js';
+import { User } from '../../../../../lib/domain/models/User.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-serializer.js';
+import { LocaleFormatError, LocaleNotSupportedError } from '../../../../../lib/domain/errors.js';
 
 describe('Unit | Serializer | JSONAPI | user-serializer', function () {
   describe('#serialize', function () {

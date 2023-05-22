@@ -1,22 +1,25 @@
-const { _ } = require('lodash');
-const { knex } = require('../../../db/knex-database-connection.js');
-const bluebird = require('bluebird');
-const CertificationCourseBookshelf = require('../orm-models/CertificationCourse.js');
-const AssessmentBookshelf = require('../orm-models/Assessment.js');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
-const DomainTransaction = require('../DomainTransaction.js');
-const CertificationCourse = require('../../domain/models/CertificationCourse.js');
-const { NotFoundError } = require('../../domain/errors.js');
-const certificationChallengeRepository = require('./certification-challenge-repository.js');
-const CertificationIssueReport = require('../../domain/models/CertificationIssueReport.js');
-const ComplementaryCertificationCourse = require('../../domain/models/ComplementaryCertificationCourse.js');
-const Bookshelf = require('../bookshelf.js');
+import lodash from 'lodash';
+
+const { _ } = lodash;
+
+import { knex } from '../../../db/knex-database-connection.js';
+import bluebird from 'bluebird';
+import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';
+import { BookshelfAssessment } from '../orm-models/Assessment.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
+import { NotFoundError } from '../../domain/errors.js';
+import * as certificationChallengeRepository from './certification-challenge-repository.js';
+import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
+import { ComplementaryCertificationCourse } from '../../domain/models/ComplementaryCertificationCourse.js';
+import { Bookshelf } from '../bookshelf.js';
 
 async function save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
   const certificationCourseToSaveDTO = _adaptModelToDb(certificationCourse);
   const options = { transacting: domainTransaction.knexTransaction };
-  const savedCertificationCourseDTO = await new CertificationCourseBookshelf(certificationCourseToSaveDTO).save(
+  const savedCertificationCourseDTO = await new BookshelfCertificationCourse(certificationCourseToSaveDTO).save(
     null,
     options
   );
@@ -54,7 +57,7 @@ async function changeCompletionDate(
   completedAt = null,
   domainTransaction = DomainTransaction.emptyTransaction()
 ) {
-  const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, completedAt });
+  const certificationCourseBookshelf = new BookshelfCertificationCourse({ id: certificationCourseId, completedAt });
   const savedCertificationCourse = await certificationCourseBookshelf.save(null, {
     transacting: domainTransaction.knexTransaction,
   });
@@ -63,12 +66,12 @@ async function changeCompletionDate(
 
 async function get(id) {
   try {
-    const certificationCourseBookshelf = await CertificationCourseBookshelf.where({ id }).fetch({
+    const certificationCourseBookshelf = await BookshelfCertificationCourse.where({ id }).fetch({
       withRelated: ['assessment', 'challenges', 'certificationIssueReports', 'complementaryCertificationCourses'],
     });
     return toDomain(certificationCourseBookshelf);
   } catch (bookshelfError) {
-    if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
+    if (bookshelfError instanceof BookshelfCertificationCourse.NotFoundError) {
       throw new NotFoundError(`Certification course of id ${id} does not exist.`);
     }
     throw bookshelfError;
@@ -89,7 +92,7 @@ async function findOneCertificationCourseByUserIdAndSessionId({
   sessionId,
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
-  const certificationCourse = await CertificationCourseBookshelf.where({ userId, sessionId })
+  const certificationCourse = await BookshelfCertificationCourse.where({ userId, sessionId })
     .orderBy('createdAt', 'desc')
     .fetch({
       require: false,
@@ -101,12 +104,12 @@ async function findOneCertificationCourseByUserIdAndSessionId({
 
 async function update(certificationCourse) {
   const certificationCourseData = _pickUpdatableProperties(certificationCourse);
-  const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseData);
+  const certificationCourseBookshelf = new BookshelfCertificationCourse(certificationCourseData);
   try {
     const certificationCourse = await certificationCourseBookshelf.save();
     return toDomain(certificationCourse);
   } catch (err) {
-    if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
+    if (err instanceof BookshelfCertificationCourse.NoRowsUpdatedError) {
       throw new NotFoundError(`No rows updated for certification course of id ${certificationCourse.getId()}.`);
     }
     throw err;
@@ -123,7 +126,7 @@ async function isVerificationCodeAvailable(verificationCode) {
 }
 
 async function findCertificationCoursesBySessionId({ sessionId }) {
-  const bookshelfCertificationCourses = await CertificationCourseBookshelf.where({ sessionId }).fetchAll();
+  const bookshelfCertificationCourses = await BookshelfCertificationCourse.where({ sessionId }).fetchAll();
   return bookshelfCertificationCourses.map(toDomain);
 }
 
@@ -133,7 +136,7 @@ function toDomain(bookshelfCertificationCourse) {
   }
 
   const assessment = bookshelfToDomainConverter.buildDomainObject(
-    AssessmentBookshelf,
+    BookshelfAssessment,
     bookshelfCertificationCourse.related('assessment')
   );
   const dbCertificationCourse = bookshelfCertificationCourse.toJSON();
@@ -174,7 +177,7 @@ function toDomain(bookshelfCertificationCourse) {
   });
 }
 
-module.exports = {
+export {
   save,
   changeCompletionDate,
   get,

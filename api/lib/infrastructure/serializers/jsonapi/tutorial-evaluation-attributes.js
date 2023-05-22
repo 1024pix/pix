@@ -4,4 +4,4 @@ const tutorialEvaluationAttributes = {
   attributes: ['id', 'userId', 'tutorialId', 'status'],
 };
 
-module.exports = tutorialEvaluationAttributes;
+export { tutorialEvaluationAttributes };

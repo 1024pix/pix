@@ -1,16 +1,17 @@
 // Usage: BASE_URL=... PIXMASTER_EMAIL=... PIXMASTER_PASSWORD=... node update-sco-organizations-with-is-managing-students-to-true.js path/file.csv
 // To use on file with columns |externalId|
 
-'use strict';
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+
 dotenv.config();
-const { disconnect } = require('../db/knex-database-connection');
-const request = require('request-promise-native');
-const {
+import { disconnect } from '../db/knex-database-connection.js';
+import request from 'request-promise-native';
+import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
-} = require('./helpers/organizations-by-external-id-helper');
-const { parseCsv } = require('./helpers/csvHelpers');
+} from './helpers/organizations-by-external-id-helper.js';
+import { parseCsv } from './helpers/csvHelpers.js';
+import * as url from 'url';
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
@@ -20,7 +21,7 @@ function checkData({ csvData }) {
       const [externalIdLowerCase] = data;
 
       if (!externalIdLowerCase) {
-        if (require.main === module) process.stdout.write('Found empty line in input file.');
+        if (isLaunchedFromCommandLine) process.stdout.write('Found empty line in input file.');
         return null;
       }
       const externalId = externalIdLowerCase.toUpperCase();
@@ -32,7 +33,7 @@ function checkData({ csvData }) {
 
 async function updateOrganizations({ accessToken, organizationsByExternalId, checkedData }) {
   for (let i = 0; i < checkedData.length; i++) {
-    if (require.main === module) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
+    if (isLaunchedFromCommandLine) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
 
     const { externalId } = checkedData[i];
     const organization = organizationsByExternalId[externalId];
@@ -81,7 +82,8 @@ function _buildPatchOrganizationRequestObject(accessToken, organization) {
   };
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Starting setting is-managing-students to true.');
@@ -123,7 +125,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  checkData,
-  updateOrganizations,
-};
+export { checkData, updateOrganizations };

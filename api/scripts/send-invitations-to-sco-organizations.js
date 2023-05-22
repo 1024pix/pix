@@ -1,17 +1,16 @@
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
 
-const { NotFoundError } = require('../lib/domain/errors');
+import { NotFoundError } from '../lib/domain/errors.js';
+import { parseCsvWithHeader } from '../scripts/helpers/csvHelpers.js';
+import { disconnect } from '../db/knex-database-connection.js';
 
-const { parseCsvWithHeader } = require('../scripts/helpers/csvHelpers');
-const { disconnect } = require('../db/knex-database-connection');
+import * as bookshelfToDomainConverter from '../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { BookshelfOrganization } from '../lib/infrastructure/orm-models/Organization.js';
 
-const bookshelfToDomainConverter = require('../lib/infrastructure/utils/bookshelf-to-domain-converter');
-const BookshelfOrganization = require('../lib/infrastructure/orm-models/Organization');
-
-const organizationInvitationService = require('../lib/domain/services/organization-invitation-service');
-
-const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
-const organizationInvitationRepository = require('../lib/infrastructure/repositories/organization-invitation-repository');
+import * as organizationInvitationService from '../lib/domain/services/organization-invitation-service.js';
+import * as organizationRepository from '../lib/infrastructure/repositories/organization-repository.js';
+import * as organizationInvitationRepository from '../lib/infrastructure/repositories/organization-invitation-repository.js';
+import * as url from 'url';
 
 const TAGS = ['JOIN_ORGA'];
 
@@ -40,7 +39,7 @@ async function prepareDataForSending(objectsFromFile) {
 
 async function sendJoinOrganizationInvitations(invitations, tags) {
   return bluebird.mapSeries(invitations, ({ organizationId, email }, index) => {
-    if (require.main === module) {
+    if (isLaunchedFromCommandLine) {
       process.stdout.write(`${index}/${invitations.length}\r`);
     }
 
@@ -54,7 +53,8 @@ async function sendJoinOrganizationInvitations(invitations, tags) {
   });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Start sending "join SCO organization" invitations to users.');
@@ -89,9 +89,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  getOrganizationByExternalId,
-  buildInvitation,
-  prepareDataForSending,
-  sendJoinOrganizationInvitations,
-};
+export { getOrganizationByExternalId, buildInvitation, prepareDataForSending, sendJoinOrganizationInvitations };

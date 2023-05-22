@@ -1,21 +1,24 @@
-const LearningContentDatasources = require('../../infrastructure/datasources/learning-content/index.js');
-const learningContentDatasource = require('../../infrastructure/datasources/learning-content/datasource.js');
-const logger = require('../../infrastructure/logger.js');
-const _ = require('lodash');
+import * as LearningContentDatasources from '../../infrastructure/datasources/learning-content/index.js';
+import * as learningContentDatasource from '../../infrastructure/datasources/learning-content/datasource.js';
+import { logger } from '../../infrastructure/logger.js';
+import _ from 'lodash';
 
-module.exports = {
-  refreshCacheEntries(_, h, dependencies = { learningContentDatasource }) {
-    dependencies.learningContentDatasource
-      .refreshLearningContentCacheRecords()
-      .catch((e) => logger.error('Error while reloading cache', e));
-    return h.response({}).code(202);
-  },
-
-  refreshCacheEntry(request) {
-    const updatedRecord = request.payload;
-    const recordId = request.params.id;
-    const datasource =
-      LearningContentDatasources[_.findKey(LearningContentDatasources, { modelName: request.params.model })];
-    return datasource.refreshLearningContentCacheRecord(recordId, updatedRecord).then(() => null);
-  },
+const refreshCacheEntries = function (_, h, dependencies = { learningContentDatasource }) {
+  dependencies.learningContentDatasource
+    .refreshLearningContentCacheRecords()
+    .catch((e) => logger.error('Error while reloading cache', e));
+  return h.response({}).code(202);
 };
+
+const refreshCacheEntry = function (request) {
+  const updatedRecord = request.payload;
+  const recordId = request.params.id;
+  const datasource =
+    // eslint-disable-next-line import/namespace
+    LearningContentDatasources[_.findKey(LearningContentDatasources, { modelName: request.params.model })];
+  return datasource.refreshLearningContentCacheRecord(recordId, updatedRecord).then(() => null);
+};
+
+const cacheController = { refreshCacheEntries, refreshCacheEntry };
+
+export { cacheController };

@@ -1,18 +1,12 @@
-const { expect, learningContentBuilder, mockLearningContent } = require('../../test-helper');
-const { areaDatasource } = require('../../../lib/infrastructure/datasources/learning-content/area-datasource');
-const {
-  competenceDatasource,
-} = require('../../../lib/infrastructure/datasources/learning-content/competence-datasource');
-const { thematicDatasource } = require('../../../lib/infrastructure/datasources/learning-content/thematic-datasource');
-const { tubeDatasource } = require('../../../lib/infrastructure/datasources/learning-content/tube-datasource');
-const { skillDatasource } = require('../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const {
-  challengeDatasource,
-} = require('../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
-const { courseDatasource } = require('../../../lib/infrastructure/datasources/learning-content/course-datasource');
-const {
-  frameworkDatasource,
-} = require('../../../lib/infrastructure/datasources/learning-content/framework-datasource');
+import { expect, learningContentBuilder, mockLearningContent } from '../../test-helper.js';
+import { areaDatasource } from '../../../lib/infrastructure/datasources/learning-content/area-datasource.js';
+import { competenceDatasource } from '../../../lib/infrastructure/datasources/learning-content/competence-datasource.js';
+import { thematicDatasource } from '../../../lib/infrastructure/datasources/learning-content/thematic-datasource.js';
+import { tubeDatasource } from '../../../lib/infrastructure/datasources/learning-content/tube-datasource.js';
+import { skillDatasource } from '../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
+import { challengeDatasource } from '../../../lib/infrastructure/datasources/learning-content/challenge-datasource.js';
+import { courseDatasource } from '../../../lib/infrastructure/datasources/learning-content/course-datasource.js';
+import { frameworkDatasource } from '../../../lib/infrastructure/datasources/learning-content/framework-datasource.js';
 
 describe('Integration | buildLearningContent', function () {
   it('builds areas and frameworks', async function () {
@@ -50,7 +44,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -117,7 +111,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -215,7 +209,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -276,7 +270,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -336,7 +330,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -401,7 +395,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -442,7 +436,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then

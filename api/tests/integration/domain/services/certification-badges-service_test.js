@@ -1,13 +1,14 @@
-const {
+import {
   expect,
   databaseBuilder,
   mockLearningContent,
   learningContentBuilder,
   domainBuilder,
-} = require('../../../test-helper');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+} from '../../../test-helper.js';
 
-const certificationBadgesService = require('../../../../lib/domain/services/certification-badges-service');
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+
+import * as certificationBadgesService from '../../../../lib/domain/services/certification-badges-service.js';
 
 const listSkill = ['web1', 'web2', 'web3', 'web4'];
 const learningContent = [
@@ -93,7 +94,7 @@ describe('Integration | Service | Certification-Badges Service', function () {
         threshold: 40,
       });
       await databaseBuilder.commit();
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       // when

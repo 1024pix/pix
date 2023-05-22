@@ -1,6 +1,7 @@
-const buildCampaignParticipation = require('./build-campaign-participation');
-const isUndefined = require('lodash/isUndefined');
-const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
+import { buildCampaignParticipation } from './build-campaign-participation.js';
+import lodash from 'lodash';
+const { isUndefined } = lodash;
+import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
 
 const buildPoleEmploiSending = function ({
   type = PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_SHARING,
@@ -24,4 +25,4 @@ const buildPoleEmploiSending = function ({
   });
 };
 
-module.exports = buildPoleEmploiSending;
+export { buildPoleEmploiSending };

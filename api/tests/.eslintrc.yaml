@@ -6,3 +6,5 @@ env:
 rules:
   no-console:
     - error
+  mocha/no-setup-in-describe:
+    - warn

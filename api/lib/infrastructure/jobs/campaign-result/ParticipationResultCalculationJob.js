@@ -1,11 +1,9 @@
-const Job = require('../JobPgBoss.js');
+import { JobPgBoss } from '../JobPgBoss.js';
 
-class ParticipationResultCalculationJob extends Job {
+class ParticipationResultCalculationJob extends JobPgBoss {
   constructor(queryBuilder) {
     super({ name: 'ParticipationResultCalculationJob', retryLimit: 3 }, queryBuilder);
   }
 }
 
-ParticipationResultCalculationJob.name = 'ParticipationResultCalculationJob';
-
-module.exports = ParticipationResultCalculationJob;
+export { ParticipationResultCalculationJob };

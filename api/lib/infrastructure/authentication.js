@@ -1,8 +1,11 @@
-const { find } = require('lodash');
-const boom = require('@hapi/boom');
+import lodash from 'lodash';
 
-const tokenService = require('../domain/services/token-service.js');
-const config = require('../../lib/config.js');
+const { find } = lodash;
+
+import boom from '@hapi/boom';
+
+import { tokenService } from '../domain/services/token-service.js';
+import { config } from '../../lib/config.js';
 
 async function _checkIsAuthenticated(request, h, { key, validate }) {
   if (!request.headers.authorization) {
@@ -49,7 +52,7 @@ function validateClientApplication(decoded) {
   return { isValid: true, credentials: { client_id: decoded.clientId, scope: decoded.scope, source: decoded.source } };
 }
 
-const autentication = {
+const authentication = {
   schemeName: 'jwt-scheme',
 
   scheme(_, { key, validate }) {
@@ -83,4 +86,4 @@ const autentication = {
   defaultStrategy: 'jwt-user',
 };
 
-module.exports = autentication;
+export { authentication };

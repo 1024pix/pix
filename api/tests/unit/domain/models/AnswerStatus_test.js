@@ -1,5 +1,8 @@
-const { expect } = require('chai');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
+import chai from 'chai';
+
+const { expect } = chai;
+
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 
 describe('AnswerStatus', function () {
   context('AnswerStatus#isOK', function () {

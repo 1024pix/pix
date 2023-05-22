@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../../test-helper');
-const { areaDatasource } = require('../../../../../lib/infrastructure/datasources/learning-content/area-datasource');
-const lcms = require('../../../../../lib/infrastructure/lcms');
+import { expect, sinon } from '../../../../test-helper.js';
+import { areaDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/area-datasource.js';
+import { lcms } from '../../../../../lib/infrastructure/lcms.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource', function () {
   describe('#findByRecordIds', function () {

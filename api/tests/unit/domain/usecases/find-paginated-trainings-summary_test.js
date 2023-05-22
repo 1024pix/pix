@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const findPaginatedTrainingSummaries = require('../../../../lib/domain/usecases/find-paginated-training-summaries');
+import { expect, sinon } from '../../../test-helper.js';
+import { findPaginatedTrainingSummaries } from '../../../../lib/domain/usecases/find-paginated-training-summaries.js';
 
 describe('Unit | UseCase | find-paginated-training-summaries', function () {
   it('should find filtered training summaries with pagination', async function () {

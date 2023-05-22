@@ -1,5 +1,5 @@
-const { expect } = require('../../test-helper');
-const { BaseHttpError, MissingQueryParamError } = require('../../../lib/application/http-errors');
+import { expect } from '../../test-helper.js';
+import { BaseHttpError, MissingQueryParamError } from '../../../lib/application/http-errors.js';
 
 describe('Unit | Application | HTTP Errors', function () {
   describe('#BaseHttpError', function () {

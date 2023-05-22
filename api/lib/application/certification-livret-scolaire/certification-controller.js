@@ -1,10 +1,12 @@
-const { getCertificationsResultsForLS } = require('../../domain/usecases/index.js');
-const certificationsResultsForLsSerializer = require('../../infrastructure/serializers/jsonapi/certifications-livret-scolaire/certification-ls-serializer.js');
+import { usecases } from '../../domain/usecases/index.js';
+import * as certificationsResultsForLsSerializer from '../../infrastructure/serializers/jsonapi/certifications-livret-scolaire/certification-ls-serializer.js';
 
-module.exports = {
-  async getCertificationsByOrganizationUAI(request) {
-    const uai = request.params.uai;
-    const certifications = await getCertificationsResultsForLS({ uai });
-    return certificationsResultsForLsSerializer.serialize(certifications);
-  },
+const getCertificationsByOrganizationUAI = async function (request) {
+  const uai = request.params.uai;
+  const certifications = await usecases.getCertificationsResultsForLS({ uai });
+  return certificationsResultsForLsSerializer.serialize(certifications);
 };
+
+const certificationController = { getCertificationsByOrganizationUAI };
+
+export { certificationController };

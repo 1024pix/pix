@@ -1,5 +1,6 @@
-const { parseAsync } = require('json2csv');
-const { CsvParsingError } = require('../../../../lib/domain/errors.js');
+import { parseAsync } from 'json2csv';
+
+import { CsvParsingError } from '../../../../lib/domain/errors.js';
 
 async function getCsvContent({ data, delimiter = ';', eol = '\n', fileHeaders, withBOM = true }) {
   try {
@@ -11,6 +12,4 @@ async function getCsvContent({ data, delimiter = ';', eol = '\n', fileHeaders, w
   }
 }
 
-module.exports = {
-  getCsvContent,
-};
+export { getCsvContent };

@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const { notify } = require('../../../../../lib/infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier');
+import { expect } from '../../../../test-helper.js';
+import { notify } from '../../../../../lib/infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 
 describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function () {
   describe('#notify', function () {

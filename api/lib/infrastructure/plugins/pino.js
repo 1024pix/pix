@@ -1,8 +1,8 @@
-const config = require('../../config.js');
-const monitoringTools = require('../monitoring-tools.js');
-const hapiPino = require('hapi-pino');
-const logger = require('../logger.js');
-const crypto = require('crypto');
+import { config } from '../../config.js';
+import { monitoringTools } from '../monitoring-tools.js';
+import hapiPino from 'hapi-pino';
+import { logger } from '../logger.js';
+import crypto from 'crypto';
 
 function logObjectSerializer(req) {
   const enhancedReq = {
@@ -37,7 +37,4 @@ const options = {
   logQueryParams: true,
 };
 
-module.exports = {
-  plugin,
-  options,
-};
+export { plugin, options };

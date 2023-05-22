@@ -4,7 +4,7 @@ const COLUMN_CERTIFICATION_EXTRATIME = 'certificationExtraTime';
 const VALUE_PIXPLUS_KEYS = ['DROIT', 'EDU_1ER_DEGRE', 'EDU_2ND_DEGRE'];
 const VALUE_PIX_PLUS_EXTRATIME_MINUTES = 45;
 
-exports.up = async function (knex) {
+const up = async function (knex) {
   await knex.schema.table(TABLE_COMPLEMENTARY_CERTIFICATIONS, function (table) {
     table.integer(COLUMN_CERTIFICATION_EXTRATIME).defaultTo(0).notNullable();
   });
@@ -14,8 +14,10 @@ exports.up = async function (knex) {
     .update({ [COLUMN_CERTIFICATION_EXTRATIME]: VALUE_PIX_PLUS_EXTRATIME_MINUTES });
 };
 
-exports.down = async function (knex) {
+const down = async function (knex) {
   await knex.schema.table(TABLE_COMPLEMENTARY_CERTIFICATIONS, function (table) {
     table.dropColumn(COLUMN_CERTIFICATION_EXTRATIME);
   });
 };
+
+export { up, down };

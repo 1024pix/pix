@@ -1,4 +1,4 @@
-const localeService = require('../services/locale-service');
+import * as localeService from '../services/locale-service.js';
 
 class UserDetailsForAdmin {
   constructor(
@@ -65,4 +65,4 @@ class UserDetailsForAdmin {
   }
 }
 
-module.exports = UserDetailsForAdmin;
+export { UserDetailsForAdmin };

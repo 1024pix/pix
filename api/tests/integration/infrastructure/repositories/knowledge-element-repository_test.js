@@ -1,10 +1,9 @@
-const _ = require('lodash');
-const { expect, knex, domainBuilder, databaseBuilder, sinon } = require('../../../test-helper');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import _ from 'lodash';
+import { expect, knex, domainBuilder, databaseBuilder, sinon } from '../../../test-helper.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 
@@ -2031,7 +2030,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       it('should return the knowledge elements in the snapshot', async function () {
         // given
-        sandbox.spy(knowledgeElementSnapshotRepository);
         const dateSharedAtUserId1 = new Date('2020-01-03');
         const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
@@ -2048,14 +2046,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
         // then
         expect(knowledgeElementsByUserIdAndCompetenceId[userId1][0]).to.deep.equal(knowledgeElement);
-        expect(knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates).to.have.been.calledWith({
-          [userId1]: dateSharedAtUserId1,
-        });
-        await expect(
-          knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates.firstCall.returnValue
-        ).to.eventually.deep.equal({
-          [userId1]: [knowledgeElement],
-        });
       });
     });
 

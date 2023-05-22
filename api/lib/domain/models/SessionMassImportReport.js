@@ -35,4 +35,4 @@ class SessionMassImportReport {
   }
 }
 
-module.exports = SessionMassImportReport;
+export { SessionMassImportReport };

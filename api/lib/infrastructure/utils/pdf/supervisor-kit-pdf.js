@@ -1,6 +1,12 @@
-const { PDFDocument, rgb } = require('pdf-lib');
-const { readFile } = require('fs/promises');
-const pdfLibFontkit = require('@pdf-lib/fontkit');
+import { readFile } from 'fs/promises';
+
+import { PDFDocument, rgb } from 'pdf-lib';
+
+import pdfLibFontkit from '@pdf-lib/fontkit';
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 const MAX_SESSION_DETAIL_WIDTH = 155;
 const SESSION_DETAIL_FONT_SIZE = 7;
 const SESSION_DETAIL_LINE_HEIGHT = 8;
@@ -175,6 +181,4 @@ function _toArrayOfFixedWidthConservingWords(str, font, maxWidth) {
   return result.map((str) => str.trim());
 }
 
-module.exports = {
-  getSupervisorKitPdfBuffer,
-};
+export { getSupervisorKitPdfBuffer };

@@ -1,10 +1,14 @@
-const { isEmpty, isNil, pick } = require('lodash');
-const OidcIdentityProviders = require('../constants/oidc-identity-providers.js');
-const config = require('../../config.js');
+import lodash from 'lodash';
 
-module.exports = function getIdentityProviders() {
+const { isEmpty, isNil, pick } = lodash;
+
+import * as OidcIdentityProviders from '../constants/oidc-identity-providers.js';
+import { config } from '../../config.js';
+
+const getIdentityProviders = function () {
   return Object.keys(OidcIdentityProviders)
     .map((oidcIdentityProviderKey) => {
+      // eslint-disable-next-line import/namespace
       const { configKey, propertyPathsToPick, service } = OidcIdentityProviders[oidcIdentityProviderKey];
 
       const providerConfig = pick(config[configKey], propertyPathsToPick);
@@ -24,3 +28,5 @@ module.exports = function getIdentityProviders() {
     })
     .filter((identityProvider) => !isEmpty(identityProvider));
 };
+
+export { getIdentityProviders };

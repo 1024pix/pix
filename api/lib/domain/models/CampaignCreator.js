@@ -1,6 +1,6 @@
-const CampaignForCreation = require('./CampaignForCreation.js');
-const CampaignTypes = require('./CampaignTypes.js');
-const { UserNotAuthorizedToCreateCampaignError } = require('../errors.js');
+import { CampaignForCreation } from './CampaignForCreation.js';
+import { CampaignTypes } from './CampaignTypes.js';
+import { UserNotAuthorizedToCreateCampaignError } from '../errors.js';
 
 class CampaignCreator {
   constructor(availableTargetProfileIds) {
@@ -26,4 +26,4 @@ function _checkAssessmentCampaignCreationAllowed(targetProfileId, availableTarge
   }
 }
 
-module.exports = CampaignCreator;
+export { CampaignCreator };

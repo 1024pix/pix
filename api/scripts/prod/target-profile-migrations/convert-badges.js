@@ -1,15 +1,19 @@
-require('dotenv').config();
-const _ = require('lodash');
-const { knex, disconnect } = require('../../../db/knex-database-connection');
-const logger = require('../../../lib/infrastructure/logger');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+import _ from 'lodash';
+import { knex, disconnect } from '../../../db/knex-database-connection.js';
+import { logger } from '../../../lib/infrastructure/logger.js';
+import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
+import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
+import * as url from 'url';
 
 let allSkills;
 let allTubes;
+
 async function _cacheLearningContentData() {
-  const skillRepository = require('../../../lib/infrastructure/repositories/skill-repository');
   allSkills = await skillRepository.list();
-  const tubeRepository = require('../../../lib/infrastructure/repositories/tube-repository');
   allTubes = await tubeRepository.list();
 }
 
@@ -130,10 +134,11 @@ async function _deleteSkillSetCriteria(badgeId, trx) {
   await trx('badge-criteria').where({ badgeId, scope: 'SkillSet' }).del();
 }
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+
+if (isLaunchedFromCommandLine) {
   main();
 }
 
-module.exports = {
-  doJob,
-};
+export { doJob };

@@ -1,5 +1,8 @@
-const sumBy = require('lodash/sumBy');
-const categories = require('../constants/organization-places-categories.js');
+import lodash from 'lodash';
+
+const { sumBy } = lodash;
+
+import * as categories from '../constants/organization-places-categories.js';
 
 const categoriesByCode = {
   [categories.T0]: categories.FREE_RATE,
@@ -29,4 +32,4 @@ class OrganizationPlacesCapacity {
   }
 }
 
-module.exports = OrganizationPlacesCapacity;
+export { OrganizationPlacesCapacity };

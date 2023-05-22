@@ -1,13 +1,15 @@
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const bluebird = require('bluebird');
-const handleAutoJury = require('../../lib/domain/events/handle-auto-jury');
-const certificationIssueReportRepository = require('../../lib/infrastructure/repositories/certification-issue-report-repository');
-const certificationAssessmentRepository = require('../../lib/infrastructure/repositories/certification-assessment-repository');
-const certificationCourseRepository = require('../../lib/infrastructure/repositories/certification-course-repository');
-const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
-const logger = require('../../lib/infrastructure/logger');
-const SessionFinalized = require('../../lib/domain/events/SessionFinalized');
-const { eventDispatcher } = require('../../lib/domain/events/index.js');
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import bluebird from 'bluebird';
+import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';
+import * as certificationIssueReportRepository from '../../lib/infrastructure/repositories/certification-issue-report-repository.js';
+import * as certificationAssessmentRepository from '../../lib/infrastructure/repositories/certification-assessment-repository.js';
+import * as certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository.js';
+import * as challengeRepository from '../../lib/infrastructure/repositories/challenge-repository.js';
+import { logger } from '../../lib/infrastructure/logger.js';
+import { SessionFinalized } from '../../lib/domain/events/SessionFinalized.js';
+import { eventDispatcher } from '../../lib/domain/events/index.js';
+import * as url from 'url';
+
 const IS_FROM_SCRATCH = process.env.IS_FROM_SCRATCH === 'true';
 const AUDIT_TABLE = 'autojury-script-audit';
 
@@ -138,7 +140,8 @@ async function _toRetry(sessionId, error) {
     .where({ sessionId });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   let finalizedSessionEvents;

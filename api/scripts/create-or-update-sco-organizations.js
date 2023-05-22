@@ -1,18 +1,19 @@
 // Usage: BASE_URL=... PIXMASTER_EMAIL=... PIXMASTER_PASSWORD=... node create-or-update-sco-organizations.js path/file.csv
 // To use on file with columns |externalId, name|
 
-'use strict';
-const dotenv = require('dotenv');
-dotenv.config();
-const request = require('request-promise-native');
+import dotenv from 'dotenv';
 
-const logoUrl = require('./logo/default-sco-organization-logo-base64');
-const {
+dotenv.config();
+import request from 'request-promise-native';
+
+import { logoUrl } from './logo/default-sco-organization-logo-base64.js';
+import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
-} = require('./helpers/organizations-by-external-id-helper');
-const { parseCsv } = require('./helpers/csvHelpers');
-const { disconnect } = require('../db/knex-database-connection');
+} from './helpers/organizations-by-external-id-helper.js';
+import { parseCsv } from './helpers/csvHelpers.js';
+import { disconnect } from '../db/knex-database-connection.js';
+import * as url from 'url';
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
@@ -22,15 +23,15 @@ function checkData({ csvData }) {
       const [externalIdLowerCase, name] = data;
 
       if (!externalIdLowerCase && !name) {
-        if (require.main === module) process.stdout.write('Found empty line in input file.');
+        if (isLaunchedFromCommandLine) process.stdout.write('Found empty line in input file.');
         return null;
       }
       if (!externalIdLowerCase) {
-        if (require.main === module) process.stdout.write(`A line is missing an externalId for name ${name}`);
+        if (isLaunchedFromCommandLine) process.stdout.write(`A line is missing an externalId for name ${name}`);
         return null;
       }
       if (!name) {
-        if (require.main === module)
+        if (isLaunchedFromCommandLine)
           process.stdout.write(`A line is missing a name for external id ${externalIdLowerCase}`);
         return null;
       }
@@ -43,7 +44,7 @@ function checkData({ csvData }) {
 
 async function createOrUpdateOrganizations({ accessToken, organizationsByExternalId, checkedData }) {
   for (let i = 0; i < checkedData.length; i++) {
-    if (require.main === module) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
+    if (isLaunchedFromCommandLine) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
 
     const { externalId, name } = checkedData[i];
     const organization = organizationsByExternalId[externalId];
@@ -126,7 +127,8 @@ function _buildPostOrganizationRequestObject(accessToken, organization) {
   };
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Starting creating or updating SCO organizations.');
@@ -169,7 +171,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  checkData,
-  createOrUpdateOrganizations,
-};
+export { checkData, createOrUpdateOrganizations };

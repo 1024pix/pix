@@ -1,7 +1,7 @@
-const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
-const certificationCenterInvitationController = require('../../../../lib/application/certification-center-invitations/certification-center-invitation-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
+import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
+import { certificationCenterInvitationController } from '../../../../lib/application/certification-center-invitations/certification-center-invitation-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 
 describe('Unit | Application | Certification-center-Invitations | Certification-center-invitation-controller', function () {
   describe('#acceptCertificationCenterInvitation', function () {

@@ -1,6 +1,6 @@
-const { domainBuilder, expect } = require('../../../../test-helper');
-const SkillSetResult = require('../../../../../lib/domain/read-models/participant-results/SkillSetResult');
-const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
+import { domainBuilder, expect } from '../../../../test-helper.js';
+import { SkillSetResult } from '../../../../../lib/domain/read-models/participant-results/SkillSetResult.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 
 describe('Unit | Domain | Read-Models | ParticipantResults | SkillSetResult', function () {
   it('computes the result for the given competence', function () {

@@ -1,5 +1,6 @@
-const isNil = require('lodash/isNil');
+import lodash from 'lodash';
 
+const { isNil } = lodash;
 class CertificationCandidateForSupervising {
   constructor({
     id,
@@ -41,4 +42,4 @@ class CertificationCandidateForSupervising {
   }
 }
 
-module.exports = CertificationCandidateForSupervising;
+export { CertificationCandidateForSupervising };

@@ -1,8 +1,8 @@
-const { expect, sinon } = require('../../../test-helper');
+import { expect, sinon } from '../../../test-helper.js';
 
-const service = require('../../../../lib/domain/services/assessment-result-service');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+import * as service from '../../../../lib/domain/services/assessment-result-service.js';
+import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
 
 describe('Unit | Domain | Services | assessment-results', function () {
   describe('#save', function () {

@@ -9,7 +9,7 @@ const DEFAULT_ID = 'recSK0X22abcdefgh',
   DEFAULT_VERSION = 1,
   DEFAULT_LEVEL = 1;
 
-module.exports = function ({
+const buildSkillLearningContentDataObject = function ({
   id = DEFAULT_ID,
   name = DEFAULT_NAME,
   hint = DEFAULT_HINT,
@@ -34,3 +34,5 @@ module.exports = function ({
     level,
   };
 };
+
+export { buildSkillLearningContentDataObject };

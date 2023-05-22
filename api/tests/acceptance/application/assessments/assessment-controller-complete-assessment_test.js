@@ -1,15 +1,16 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
   mockLearningContent,
   learningContentBuilder,
-} = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const createServer = require('../../../../server');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
+} from '../../../test-helper.js';
+
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
+import { createServer } from '../../../../server.js';
+import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
   let options;
@@ -150,7 +151,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
   ];
 
   beforeEach(async function () {
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+    const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
 
     server = await createServer();

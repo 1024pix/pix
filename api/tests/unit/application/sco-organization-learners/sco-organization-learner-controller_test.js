@@ -1,8 +1,6 @@
-const { expect, hFake, sinon } = require('../../../test-helper');
-
-const usecases = require('../../../../lib/domain/usecases/index.js');
-
-const scoOrganizationLearnerController = require('../../../../lib/application/sco-organization-learners/sco-organization-learner-controller');
+import { expect, hFake, sinon } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { scoOrganizationLearnerController } from '../../../../lib/application/sco-organization-learners/sco-organization-learner-controller.js';
 
 describe('Unit | Application | Controller | sco-organization-learner', function () {
   describe('#createUserAndReconcileToOrganizationLearnerFromExternalUser', function () {

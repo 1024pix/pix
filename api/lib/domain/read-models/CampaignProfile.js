@@ -1,5 +1,5 @@
-const CampaignProfileCompetence = require('./CampaignProfileCompetence.js');
-const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses.js');
+import { CampaignProfileCompetence } from './CampaignProfileCompetence.js';
+import { CampaignParticipationStatuses } from '../models/CampaignParticipationStatuses.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -71,4 +71,4 @@ class CampaignProfile {
   }
 }
 
-module.exports = CampaignProfile;
+export { CampaignProfile };

@@ -1,6 +1,6 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
+import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
 
-module.exports = async function findCampaignProfilesCollectionParticipationSummaries({
+const findCampaignProfilesCollectionParticipationSummaries = async function ({
   userId,
   campaignId,
   page,
@@ -13,3 +13,5 @@ module.exports = async function findCampaignProfilesCollectionParticipationSumma
   }
   return campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId, page, filters);
 };
+
+export { findCampaignProfilesCollectionParticipationSummaries };

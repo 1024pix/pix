@@ -1,4 +1,4 @@
-const OrganizationPlacesLot = require('../../../../lib/domain/models/OrganizationPlacesLot');
+import { OrganizationPlacesLot } from '../../../../lib/domain/models/OrganizationPlacesLot.js';
 
 function buildOrganizationPlacesLot({
   id = 1,
@@ -22,4 +22,4 @@ function buildOrganizationPlacesLot({
   });
 }
 
-module.exports = buildOrganizationPlacesLot;
+export { buildOrganizationPlacesLot };

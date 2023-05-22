@@ -1,15 +1,15 @@
-const dotenv = require('dotenv');
-dotenv.config();
-const _ = require('lodash');
-const calculateScoringInformationForCompetence =
-  require('../lib/domain/services/scoring/scoring-service').calculateScoringInformationForCompetence;
-const buildKnowledgeElement = require('../db/database-builder/factory/build-knowledge-element');
-const tubeRepository = require('../lib/infrastructure/repositories/tube-repository');
-const skillRepository = require('../lib/infrastructure/repositories/skill-repository');
-const knowledgeElementRepository = require('../lib/infrastructure/repositories/knowledge-element-repository');
-const { cache } = require('../lib/infrastructure/caches/learning-content-cache');
+import dotenv from 'dotenv';
+import * as url from 'url';
 
-const { disconnect } = require('../db/knex-database-connection');
+dotenv.config();
+import _ from 'lodash';
+import { calculateScoringInformationForCompetence } from '../lib/domain/services/scoring/scoring-service.js';
+import { buildKnowledgeElement } from '../db/database-builder/factory/build-knowledge-element.js';
+import * as tubeRepository from '../lib/infrastructure/repositories/tube-repository.js';
+import * as skillRepository from '../lib/infrastructure/repositories/skill-repository.js';
+import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
+import { disconnect } from '../db/knex-database-connection.js';
 
 async function getUserSkillsGroupedByTubeId(elements) {
   const ids = _.map(elements, (current) => current.skillId);
@@ -120,7 +120,7 @@ async function main(userId) {
   console.log(result);
 }
 
-module.exports = {
+export {
   compareUserScoreWithLatestRelease,
   getUserValidatedKnowledgeElements,
   getUserSkillsGroupedByTubeId,
@@ -128,4 +128,10 @@ module.exports = {
   getTubeByIds,
 };
 
-main(parseInt(process.argv[2]));
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+async () => {
+  if (isLaunchedFromCommandLine) {
+    await main(parseInt(process.argv[2]));
+  }
+};

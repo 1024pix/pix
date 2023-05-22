@@ -1,9 +1,8 @@
-const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const Membership = require('../../../../lib/domain/models/Membership');
-const SupOrganizationLearnerImportHeader = require('../../../../lib/infrastructure/serializers/csv/sup-organization-learner-import-header');
-
-const { getI18n } = require('../../../../tests/tooling/i18n/i18n');
-const createServer = require('../../../../server');
+import { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { SupOrganizationLearnerImportHeader } from '../../../../lib/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
+import { getI18n } from '../../../../tests/tooling/i18n/i18n.js';
+import { createServer } from '../../../../server.js';
 
 const i18n = getI18n();
 const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeader(i18n).columns

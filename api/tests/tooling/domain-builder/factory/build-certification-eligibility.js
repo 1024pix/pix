@@ -1,6 +1,6 @@
-const CertificationEligibility = require('../../../../lib/domain/read-models/CertificationEligibility');
+import { CertificationEligibility } from '../../../../lib/domain/read-models/CertificationEligibility.js';
 
-module.exports = function buildCertificationEligibility({
+const buildCertificationEligibility = function ({
   id = 123,
   pixCertificationEligible = false,
   eligibleComplementaryCertifications = [],
@@ -11,3 +11,5 @@ module.exports = function buildCertificationEligibility({
     eligibleComplementaryCertifications,
   });
 };
+
+export { buildCertificationEligibility };

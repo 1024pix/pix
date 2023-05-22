@@ -1,3 +1,5 @@
-module.exports = async function getCampaignManagement({ campaignId, campaignManagementRepository }) {
+const getCampaignManagement = async function ({ campaignId, campaignManagementRepository }) {
   return campaignManagementRepository.get(campaignId);
 };
+
+export { getCampaignManagement };

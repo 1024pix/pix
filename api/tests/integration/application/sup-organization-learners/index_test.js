@@ -1,8 +1,7 @@
-const { expect, sinon, HttpTestServer, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-
-const supOrganizationLearnerController = require('../../../../lib/application/sup-organization-learners/sup-organization-learner-controller');
-const moduleUnderTest = require('../../../../lib/application/sup-organization-learners');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+import { expect, sinon, HttpTestServer, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { supOrganizationLearnerController } from '../../../../lib/application/sup-organization-learners/sup-organization-learner-controller.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import * as moduleUnderTest from '../../../../lib/application/sup-organization-learners/index.js';
 
 describe('Integration | Application | Route | sup-organization-learners', function () {
   let httpTestServer;

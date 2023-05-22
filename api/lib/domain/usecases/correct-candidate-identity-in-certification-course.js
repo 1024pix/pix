@@ -1,6 +1,6 @@
-const { CpfBirthInformationValidationError } = require('../errors');
+import { CpfBirthInformationValidationError } from '../errors.js';
 
-module.exports = async function correctCandidateIdentityInCertificationCourse({
+const correctCandidateIdentityInCertificationCourse = async function ({
   command: {
     certificationCourseId,
     firstName,
@@ -12,6 +12,7 @@ module.exports = async function correctCandidateIdentityInCertificationCourse({
     birthPostalCode,
     birthINSEECode,
   },
+
   certificationCourseRepository,
   certificationCpfService,
   certificationCpfCountryRepository,
@@ -41,3 +42,5 @@ module.exports = async function correctCandidateIdentityInCertificationCourse({
 
   await certificationCourseRepository.update(certificationCourse);
 };
+
+export { correctCandidateIdentityInCertificationCourse };

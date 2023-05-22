@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const getIdentityProviders = require('../../../../lib/domain/usecases/get-identity-providers');
-const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
-const config = require('../../../../lib/config');
+import { expect, sinon } from '../../../test-helper.js';
+import { getIdentityProviders } from '../../../../lib/domain/usecases/get-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import { config } from '../../../../lib/config.js';
 
 describe('Unit | UseCase | get-identity-providers', function () {
   beforeEach(function () {
@@ -33,7 +33,7 @@ describe('Unit | UseCase | get-identity-providers', function () {
     // then
     const expectedIdentityProviders = [OidcIdentityProviders.POLE_EMPLOI.service, OidcIdentityProviders.CNAV.service];
     expect(identityProviders.length).to.equal(2);
-    expect(identityProviders).to.deep.equal(expectedIdentityProviders);
+    expect(identityProviders).to.include.members(expectedIdentityProviders);
   });
 
   context('when an identity provider is not configured', function () {

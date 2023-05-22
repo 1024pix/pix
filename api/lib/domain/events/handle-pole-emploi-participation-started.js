@@ -1,7 +1,7 @@
-const { checkEventTypes } = require('./check-event-types.js');
-const CampaignParticipationStarted = require('./CampaignParticipationStarted.js');
-const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js');
-const PoleEmploiSending = require('../models/PoleEmploiSending.js');
+import { checkEventTypes } from './check-event-types.js';
+import { CampaignParticipationStarted } from './CampaignParticipationStarted.js';
+import { PoleEmploiPayload } from '../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
+import { PoleEmploiSending } from '../models/PoleEmploiSending.js';
 
 const eventTypes = [CampaignParticipationStarted];
 
@@ -48,4 +48,4 @@ async function handlePoleEmploiParticipationStarted({
 }
 
 handlePoleEmploiParticipationStarted.eventTypes = eventTypes;
-module.exports = handlePoleEmploiParticipationStarted;
+export { handlePoleEmploiParticipationStarted };

@@ -1,4 +1,4 @@
-const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
+import { PrivateCertificate } from '../../../../lib/domain/models/PrivateCertificate.js';
 
 const buildPrivateCertificate = function ({
   id = 1,
@@ -235,4 +235,4 @@ buildPrivateCertificate.started = function ({
   });
 };
 
-module.exports = buildPrivateCertificate;
+export { buildPrivateCertificate };

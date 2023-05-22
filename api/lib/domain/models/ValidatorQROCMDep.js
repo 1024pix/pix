@@ -1,6 +1,6 @@
-const solutionServiceQROCMDep = require('../services/solution-service-qrocm-dep.js');
-const Validation = require('./Validation.js');
-const Validator = require('./Validator.js');
+import * as solutionServiceQROCMDep from '../services/solution-service-qrocm-dep.js';
+import { Validation } from './Validation.js';
+import { Validator } from './Validator.js';
 
 /**
  * Traduction: Vérificateur de réponse pour un QROCM Dep
@@ -24,4 +24,4 @@ class ValidatorQROCMDep extends Validator {
   }
 }
 
-module.exports = ValidatorQROCMDep;
+export { ValidatorQROCMDep };

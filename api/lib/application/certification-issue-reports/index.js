@@ -1,9 +1,9 @@
-const Joi = require('joi');
-const certificationIssueReportController = require('./certification-issue-report-controller.js');
-const identifiersType = require('../../domain/types/identifiers-type.js');
-const securityPreHandlers = require('../security-pre-handlers.js');
+import Joi from 'joi';
+import { certificationIssueReportController } from './certification-issue-report-controller.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
 
-exports.register = async (server) => {
+const register = async function (server) {
   server.route([
     {
       method: 'DELETE',
@@ -72,4 +72,5 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'certification-issue-reports-api';
+const name = 'certification-issue-reports-api';
+export { register, name };

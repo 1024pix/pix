@@ -1,4 +1,4 @@
-const datasource = require('./datasource.js');
+import * as datasource from './datasource.js';
 
 const thematicDatasource = datasource.extend({
   modelName: 'thematics',
@@ -14,4 +14,4 @@ const thematicDatasource = datasource.extend({
   },
 });
 
-module.exports = { thematicDatasource };
+export { thematicDatasource };

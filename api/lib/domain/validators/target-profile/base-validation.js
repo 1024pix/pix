@@ -1,7 +1,10 @@
-const Joi = require('joi');
-const { first } = require('lodash');
-const { EntityValidationError } = require('../../errors.js');
-const TargetProfile = require('../../models/TargetProfile.js');
+import Joi from 'joi';
+import lodash from 'lodash';
+
+const { first } = lodash;
+
+import { EntityValidationError } from '../../errors.js';
+import { TargetProfile } from '../../models/TargetProfile.js';
 
 const categories = TargetProfile.categories;
 
@@ -43,7 +46,4 @@ function validate(targetProfile) {
   return true;
 }
 
-module.exports = {
-  validate,
-  schema,
-};
+export { validate, schema };

@@ -1,23 +1,25 @@
 // Usage: scalingo scalingo --region osc-secnum-fr1 -a pix-api-production run --file file.csv node scripts/create-or-update-sco-agri-organizations.js /tmp/uploads/file.csv
 // To use on file with columns |externalId, name, email| (email is optional)
 
-'use strict';
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+
 dotenv.config();
 
-const logoUrl = require('./logo/default-sco-agri-organization-logo-base64');
-const {
+import { logoUrl } from './logo/default-sco-agri-organization-logo-base64.js';
+import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
-} = require('./helpers/organizations-by-external-id-helper');
-const { parseCsv } = require('./helpers/csvHelpers');
-const Organization = require('../lib/domain/models/Organization');
-const Tag = require('../lib/domain/models/Tag');
-const OrganizationTag = require('../lib/domain/models/OrganizationTag');
-const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
-const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
-const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
-const { disconnect } = require('../db/knex-database-connection');
+} from './helpers/organizations-by-external-id-helper.js';
+import { parseCsv } from './helpers/csvHelpers.js';
+import { Organization } from '../lib/domain/models/Organization.js';
+import { Tag } from '../lib/domain/models/Tag.js';
+import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
+import * as organizationRepository from '../lib/infrastructure/repositories/organization-repository.js';
+import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
+import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
+import { disconnect } from '../db/knex-database-connection.js';
+
+import * as url from 'url';
 
 const TAG_NAME = 'AGRICULTURE';
 
@@ -27,15 +29,15 @@ function checkData({ csvData }) {
       const [externalIdLowerCase, name, email] = data;
 
       if (!externalIdLowerCase && !name) {
-        if (require.main === module) process.stdout.write('Found empty line in input file.');
+        if (isLaunchedFromCommandLine) process.stdout.write('Found empty line in input file.');
         return null;
       }
       if (!externalIdLowerCase) {
-        if (require.main === module) process.stdout.write(`A line is missing an externalId for name ${name}`);
+        if (isLaunchedFromCommandLine) process.stdout.write(`A line is missing an externalId for name ${name}`);
         return null;
       }
       if (!name) {
-        if (require.main === module)
+        if (isLaunchedFromCommandLine)
           process.stdout.write(`A line is missing a name for external id ${externalIdLowerCase}`);
         return null;
       }
@@ -57,7 +59,7 @@ function checkData({ csvData }) {
 async function createOrUpdateOrganizations({ organizationsByExternalId, checkedData }) {
   const createdOrUpdatedOrganizations = [];
   for (let i = 0; i < checkedData.length; i++) {
-    if (require.main === module) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
+    if (isLaunchedFromCommandLine) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
 
     const { externalId, name, email } = checkedData[i];
     let organization = organizationsByExternalId[externalId];
@@ -104,7 +106,8 @@ async function addTag(organizations) {
   }
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Starting creating or updating SCO AGRICULTURE organizations.');
@@ -147,8 +150,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  addTag,
-  checkData,
-  createOrUpdateOrganizations,
-};
+export { addTag, checkData, createOrUpdateOrganizations };

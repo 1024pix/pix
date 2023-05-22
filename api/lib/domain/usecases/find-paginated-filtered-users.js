@@ -1,3 +1,5 @@
-module.exports = function findPaginatedFilteredUsers({ filter, page, userRepository }) {
+const findPaginatedFilteredUsers = function ({ filter, page, userRepository }) {
   return userRepository.findPaginatedFiltered({ filter, page });
 };
+
+export { findPaginatedFilteredUsers };

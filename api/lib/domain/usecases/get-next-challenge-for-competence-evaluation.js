@@ -1,8 +1,7 @@
-const { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } = require('../errors.js');
+import { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import * as dataFetcher from '../services/algorithm-methods/data-fetcher.js';
 
-const dataFetcher = require('../services/algorithm-methods/data-fetcher.js');
-
-module.exports = async function getNextChallengeForCompetenceEvaluation({
+const getNextChallengeForCompetenceEvaluation = async function ({
   pickChallengeService,
   assessment,
   userId,
@@ -27,6 +26,8 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
     locale: locale,
   });
 };
+
+export { getNextChallengeForCompetenceEvaluation };
 
 function _checkIfAssessmentBelongsToUser(assessment, userId) {
   if (assessment.userId !== userId) {

@@ -1,7 +1,6 @@
-const { sinon, expect, catchErr } = require('../../../test-helper');
-
-const deleteUnlinkedCertificationCandidate = require('../../../../lib/domain/usecases/delete-unlinked-certification-candidate');
-const { CertificationCandidateForbiddenDeletionError } = require('../../../../lib/domain/errors');
+import { sinon, expect, catchErr } from '../../../test-helper.js';
+import { deleteUnlinkedCertificationCandidate } from '../../../../lib/domain/usecases/delete-unlinked-certification-candidate.js';
+import { CertificationCandidateForbiddenDeletionError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | delete-unlinked-sertification-candidate', function () {
   let certificationCandidateId;
@@ -11,14 +10,14 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', function ()
     certificationCandidateId = 'dummy certification candidate id';
     certificationCandidateRepository = {
       isNotLinked: sinon.stub(),
-      delete: sinon.stub(),
+      remove: sinon.stub(),
     };
   });
 
   context('When the certification candidate is not linked to a user', function () {
     beforeEach(function () {
       certificationCandidateRepository.isNotLinked.withArgs(certificationCandidateId).resolves(true);
-      certificationCandidateRepository.delete.withArgs(certificationCandidateId).resolves(true);
+      certificationCandidateRepository.remove.withArgs(certificationCandidateId).resolves(true);
     });
 
     it('should delete the certification candidate', async function () {

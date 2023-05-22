@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const archiveOrganization = require('../../../../lib/domain/usecases/archive-organization');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { archiveOrganization } from '../../../../lib/domain/usecases/archive-organization.js';
 
 describe('Unit | UseCase | archive-organization', function () {
   it('should archive the organization', async function () {

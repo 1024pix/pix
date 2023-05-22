@@ -1,4 +1,4 @@
-module.exports = async function findDivisionsByOrganization({ organizationId, divisionRepository }) {
+const findDivisionsByOrganization = async function ({ organizationId, divisionRepository }) {
   const divisionsOrderedByPostgres = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({
     organizationId,
   });
@@ -7,3 +7,5 @@ module.exports = async function findDivisionsByOrganization({ organizationId, di
   );
   return divisionsOrderedByName;
 };
+
+export { findDivisionsByOrganization };

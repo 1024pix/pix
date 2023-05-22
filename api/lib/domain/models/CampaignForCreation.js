@@ -1,4 +1,4 @@
-const validate = require('../validators/campaign-creation-validator.js');
+import { validate } from '../validators/campaign-creation-validator.js';
 class CampaignForCreation {
   constructor({
     name,
@@ -28,4 +28,4 @@ class CampaignForCreation {
   }
 }
 
-module.exports = CampaignForCreation;
+export { CampaignForCreation };

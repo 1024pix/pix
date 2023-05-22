@@ -1,4 +1,4 @@
-const { status: assessmentResultStatuses } = require('./AssessmentResult.js');
+import { status as assessmentResultStatuses } from './AssessmentResult.js';
 
 const status = {
   REJECTED: 'rejected',
@@ -104,4 +104,4 @@ function _computeStatus(assessmentResultStatus, isCancelled) {
 
 PrivateCertificate.status = status;
 
-module.exports = PrivateCertificate;
+export { PrivateCertificate };

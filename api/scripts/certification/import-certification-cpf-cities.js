@@ -1,9 +1,7 @@
-#!/usr/bin/env node
-// eslint-disable-file node/no-process-exit
+import dotenv from 'dotenv';
 
-const dotenv = require('dotenv');
 dotenv.config();
-const logger = require('../../lib/infrastructure/logger');
+import { logger } from '../../lib/infrastructure/logger.js';
 
 /**
  * Usage: node scripts/import-certification-cpf-cities path/file.csv
@@ -14,11 +12,11 @@ const logger = require('../../lib/infrastructure/logger');
  * File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/ (Export au format CSV)
  **/
 
-('use strict');
-const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const uniqBy = require('lodash/uniqBy');
-const values = require('lodash/values');
+import { parseCsv, checkCsvHeader } from '../helpers/csvHelpers.js';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import lodash from 'lodash';
+const { uniqBy, values } = lodash;
+import * as url from 'url';
 
 const wordsToReplace = [
   {
@@ -393,7 +391,8 @@ function _buildCityNameWithWordReplaced(cityName) {
   return cityName.replace(entry.regex, ` ${entry.value} `).trim();
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main(filePath) {
   logger.info('Starting script import-certification-cpf-cities');
@@ -443,7 +442,4 @@ async function main(filePath) {
   }
 })();
 
-module.exports = {
-  buildCities,
-  getCitiesWithDistricts,
-};
+export { buildCities, getCitiesWithDistricts };

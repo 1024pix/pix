@@ -1,5 +1,7 @@
-const { expect } = require('../../test-helper');
-const { getCpfImportResults } = require('../../../scripts/certification/get-cpf-import-status-from-xml');
+import { expect } from '../../test-helper.js';
+import { getCpfImportResults } from '../../../scripts/certification/get-cpf-import-status-from-xml.js';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('UNIT | Scripts | Certification | get-cpf-import-status-from-xml', function () {
   describe('#getCpfImportResults', function () {

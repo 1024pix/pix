@@ -1,4 +1,5 @@
-const { rgb } = require('pdf-lib');
+import { rgb } from 'pdf-lib';
+
 const colorToRgb = {
   jaffa: rgb(0.949, 0.274, 0.27),
   emerald: rgb(0.102, 0.549, 0.537),
@@ -20,69 +21,42 @@ const lighterColorToRgb = {
 const DEFAULT_COLOR = 'jaffa';
 const DEFAULT_BACKGROUND = rgb(0.93, 0.93, 0.93);
 
-module.exports = {
-  /**
-   * @param color {string}
-   * @return {RGB}
-   */
-  findRGBColor(color = DEFAULT_COLOR) {
-    let rgbColor = colorToRgb[color];
-    if (!rgbColor) {
-      rgbColor = colorToRgb[DEFAULT_COLOR];
-    }
-    return rgbColor;
-  },
-  /**
-   * @param color {string}
-   * @return {RGB}
-   */
-  findLighterShadeRGBColor(color = DEFAULT_COLOR) {
-    let rgbColor = lighterColorToRgb[color];
-    if (!rgbColor) {
-      rgbColor = lighterColorToRgb[DEFAULT_COLOR];
-    }
-    return rgbColor;
-  },
-  /**
-   * @return {RGB}
-   */
-  get legalMentionColor() {
-    return colorToRgb['black'];
-  },
-  /**
-   * @return {RGB}
-   */
-  get coverPageTitleColor() {
-    return colorToRgb['white'];
-  },
-  /**
-   * @return {RGB}
-   */
-  get coverPageLegalMentionColor() {
-    return colorToRgb['white'];
-  },
-  /**
-   * @return {RGB}
-   */
-  get coverPageVersionColor() {
-    return colorToRgb['white'];
-  },
-  /**
-   * @return {RGB}
-   */
-  get competenceBackground() {
-    return DEFAULT_BACKGROUND;
-  },
-  /**
-   * @return {RGB}
-   */
-  get thematicBackground() {
-    return DEFAULT_BACKGROUND;
-  },
-  /**
-   * @return {RGB}
-   */
-  get tubeBackground() {
-    return rgb(0.89, 0.89, 0.89);
-  },
+const findRGBColor = function (color = DEFAULT_COLOR) {
+  let rgbColor = colorToRgb[color];
+  if (!rgbColor) {
+    rgbColor = colorToRgb[DEFAULT_COLOR];
+  }
+  return rgbColor;
+};
+
+const findLighterShadeRGBColor = function (color = DEFAULT_COLOR) {
+  let rgbColor = lighterColorToRgb[color];
+  if (!rgbColor) {
+    rgbColor = lighterColorToRgb[DEFAULT_COLOR];
+  }
+  return rgbColor;
+};
+
+const legalMentionColor = colorToRgb['black'];
+const coverPageTitleColor = colorToRgb['white'];
+const coverPageLegalMentionColor = colorToRgb['white'];
+
+const coverPageVersionColor = colorToRgb['white'];
+
+const competenceBackground = DEFAULT_BACKGROUND;
+
+const thematicBackground = DEFAULT_BACKGROUND;
+
+const tubeBackground = rgb(0.89, 0.89, 0.89);
+
+export {
+  findRGBColor,
+  findLighterShadeRGBColor,
+  legalMentionColor,
+  coverPageTitleColor,
+  coverPageLegalMentionColor,
+  coverPageVersionColor,
+  competenceBackground,
+  thematicBackground,
+  tubeBackground,
 };

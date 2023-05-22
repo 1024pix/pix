@@ -1,4 +1,5 @@
-const { runInContext } = require('lodash');
+import pkg from 'lodash';
+const { runInContext } = pkg;
 const _ = runInContext();
 _.mixin({
   /*
@@ -72,4 +73,4 @@ _.mixin({
   },
 });
 
-module.exports = _;
+export { _ };

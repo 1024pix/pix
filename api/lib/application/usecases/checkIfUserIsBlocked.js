@@ -1,14 +1,14 @@
-const { UserIsTemporaryBlocked, UserIsBlocked } = require('../../domain/errors.js');
-const userLoginRepository = require('../../infrastructure/repositories/user-login-repository.js');
+import { UserIsTemporaryBlocked, UserIsBlocked } from '../../domain/errors.js';
+import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
 
-module.exports = {
-  async execute(username) {
-    const foundUserLogin = await userLoginRepository.findByUsername(username);
-    if (foundUserLogin?.isUserMarkedAsBlocked()) {
-      throw new UserIsBlocked();
-    }
-    if (foundUserLogin?.isUserMarkedAsTemporaryBlocked()) {
-      throw new UserIsTemporaryBlocked();
-    }
-  },
+const execute = async function (username) {
+  const foundUserLogin = await userLoginRepository.findByUsername(username);
+  if (foundUserLogin?.isUserMarkedAsBlocked()) {
+    throw new UserIsBlocked();
+  }
+  if (foundUserLogin?.isUserMarkedAsTemporaryBlocked()) {
+    throw new UserIsTemporaryBlocked();
+  }
 };
+
+export { execute };

@@ -1,18 +1,19 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const {
-  CertificationIssueReportCategories,
+} from '../../../test-helper.js';
+
+import { createServer } from '../../../../server.js';
+import {
+  CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
+} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
 
 describe('Acceptance | Controller | sessions-controller', function () {
   let options;
@@ -149,7 +150,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         const userId = databaseBuilder.factory.buildUser().id;
@@ -167,7 +168,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
         const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
         databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           description: '',
           subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
           questionNumber: 1,
@@ -265,7 +266,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         const userId = databaseBuilder.factory.buildUser().id;
@@ -286,7 +287,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
         const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
         databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           description: '',
           subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
           questionNumber: 1,
@@ -371,7 +372,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         const userId = databaseBuilder.factory.buildUser().id;
@@ -394,7 +395,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
         const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId, userId }).id;
         databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           description: '',
           subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
           questionNumber: 1,

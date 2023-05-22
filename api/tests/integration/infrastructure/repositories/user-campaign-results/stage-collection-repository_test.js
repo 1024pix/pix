@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, learningContentBuilder, mockLearningContent } = require('../../../../test-helper');
-const stageCollectionRepository = require('../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js');
+import { expect, databaseBuilder, learningContentBuilder, mockLearningContent } from '../../../../test-helper.js';
+import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 
 const competenceId = 'recCompetence';
 const learningContent = [
@@ -49,7 +49,7 @@ describe('Integration | Infrastructure | Repository | stage-collection-repositor
     let campaignId;
 
     beforeEach(async function () {
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', targetProfileId }).id;

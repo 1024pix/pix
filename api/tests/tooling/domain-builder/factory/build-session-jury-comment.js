@@ -1,4 +1,4 @@
-const SessionJuryComment = require('../../../../lib/domain/models/SessionJuryComment');
+import { SessionJuryComment } from '../../../../lib/domain/models/SessionJuryComment.js';
 
 const buildSessionJuryComment = function ({
   id = 123,
@@ -14,4 +14,4 @@ const buildSessionJuryComment = function ({
   });
 };
 
-module.exports = buildSessionJuryComment;
+export { buildSessionJuryComment };

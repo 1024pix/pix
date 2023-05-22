@@ -1,10 +1,9 @@
-const { expect, sinon, domainBuilder } = require('../../../../test-helper');
-const sessionsImportValidationService = require('../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service');
-const { CpfBirthInformationValidation } = require('../../../../../lib/domain/services/certification-cpf-service');
-const {
-  CERTIFICATION_CANDIDATES_ERRORS,
-} = require('../../../../../lib/domain/constants/certification-candidates-errors');
-const noop = require('lodash/noop');
+import { expect, sinon, domainBuilder } from '../../../../test-helper.js';
+import * as sessionsImportValidationService from '../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service.js';
+import { CpfBirthInformationValidation } from '../../../../../lib/domain/services/certification-cpf-service.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
+import lodash from 'lodash';
+const { noop } = lodash;
 
 describe('Unit | Service | sessions import validation Service', function () {
   describe('#validateSession', function () {

@@ -1,9 +1,12 @@
-const { SiecleXmlImportError } = require('../../../domain/errors.js');
-const xml2js = require('xml2js');
-const saxPath = require('saxpath');
-const { isEmpty, isUndefined } = require('lodash');
-const SiecleFileStreamer = require('../../utils/xml/siecle-file-streamer.js');
-const XMLOrganizationLearnerSet = require('./xml-organization-learner-set.js');
+import { SiecleXmlImportError } from '../../../domain/errors.js';
+import xml2js from 'xml2js';
+import saxPath from 'saxpath';
+import lodash from 'lodash';
+
+const { isEmpty, isUndefined } = lodash;
+
+import { SiecleFileStreamer } from '../../utils/xml/siecle-file-streamer.js';
+import { XMLOrganizationLearnersSet } from './xml-organization-learner-set.js';
 
 const ERRORS = {
   UAI_MISMATCHED: 'UAI_MISMATCHED',
@@ -18,7 +21,7 @@ class SiecleParser {
   constructor(organization, path) {
     this.organization = organization;
     this.path = path;
-    this.organizationLearnersSet = new XMLOrganizationLearnerSet();
+    this.organizationLearnersSet = new XMLOrganizationLearnersSet();
   }
 
   async parse() {
@@ -107,4 +110,4 @@ function _isImportable(studentData) {
   return isStudentNotLeftOrganizationLearner && isStudentNotYetArrivedOrganizationLearner;
 }
 
-module.exports = SiecleParser;
+export { SiecleParser };

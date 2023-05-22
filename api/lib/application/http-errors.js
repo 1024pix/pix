@@ -1,4 +1,6 @@
-const JSONAPIError = require('jsonapi-serializer').Error;
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Error: JSONAPIError } = jsonapiSerializer;
 
 class BaseHttpError extends Error {
   constructor(message) {
@@ -176,7 +178,7 @@ const HttpErrors = {
   TooManyRequestsError,
 };
 
-module.exports = {
+export {
   HttpErrors,
   BadRequestError,
   BaseHttpError,

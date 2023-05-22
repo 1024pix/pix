@@ -1,9 +1,18 @@
-const types = require('pg').types;
-const { get } = require('lodash');
-const logger = require('../lib/infrastructure/logger');
-const monitoringTools = require('../lib/infrastructure/monitoring-tools');
-const { logging } = require('../lib/config');
-const { performance } = require('perf_hooks');
+import pg from 'pg';
+
+const types = pg.types;
+import _ from 'lodash';
+
+const { get } = _;
+import { logger } from '../lib/infrastructure/logger.js';
+import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
+import { config } from '../lib/config.js';
+import perf_hooks from 'perf_hooks';
+
+const { performance } = perf_hooks;
+
+import Knex from 'knex';
+import QueryBuilder from 'knex/lib/query/querybuilder.js';
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
 But, when dealing with dates with no time (such as birthdate for example), we want to
@@ -23,18 +32,16 @@ Links :
  */
 types.setTypeParser(types.builtins.INT8, (value) => parseInt(value));
 
-const _ = require('lodash');
+import * as knexConfigs from './knexfile.js';
 
-const knexConfigs = require('./knexfile');
-const { environment } = require('../lib/config');
+const { logging, environment } = config;
+const knexConfig = knexConfigs.default[environment];
+const configuredKnex = Knex(knexConfig);
 
 /* QueryBuilder Extension */
-const Knex = require('knex');
-const QueryBuilder = require('knex/lib/query/querybuilder');
-
 try {
   Knex.QueryBuilder.extend('whereInArray', function (column, values) {
-    return this.where(column, knex.raw('any(?)', [values]));
+    return this.where(column, configuredKnex.raw('any(?)', [values]));
   });
 } catch (e) {
   if (e.message !== "Can't extend QueryBuilder with existing method ('whereInArray').") {
@@ -42,9 +49,6 @@ try {
   }
 }
 /* -------------------- */
-
-const knexConfig = knexConfigs[environment];
-const knex = require('knex')(knexConfig);
 
 const originalToSQL = QueryBuilder.prototype.toSQL;
 QueryBuilder.prototype.toSQL = function () {
@@ -55,14 +59,14 @@ QueryBuilder.prototype.toSQL = function () {
   return ret;
 };
 
-knex.on('query', function (data) {
+configuredKnex.on('query', function (data) {
   if (logging.enableKnexPerformanceMonitoring) {
     const queryId = data.__knexQueryUid;
     monitoringTools.setInContext(`knexQueryStartTimes.${queryId}`, performance.now());
   }
 });
 
-knex.on('query-response', function (response, data) {
+configuredKnex.on('query-response', function (response, data) {
   monitoringTools.incrementInContext('metrics.knexQueryCount');
   if (logging.enableKnexPerformanceMonitoring) {
     const queryStartedTime = monitoringTools.getInContext(`knexQueryStartTimes.${data.__knexQueryUid}`);
@@ -74,10 +78,10 @@ knex.on('query-response', function (response, data) {
 });
 
 async function disconnect() {
-  return knex.destroy();
+  return configuredKnex.destroy();
 }
 
-const _databaseName = knex.client.database();
+const _databaseName = configuredKnex.client.database();
 
 const _dbSpecificQueries = {
   listTablesQuery:
@@ -88,7 +92,7 @@ const _dbSpecificQueries = {
 async function listAllTableNames() {
   const bindings = [_databaseName];
 
-  const resultSet = await knex.raw(
+  const resultSet = await configuredKnex.raw(
     'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?',
     bindings
   );
@@ -110,11 +114,7 @@ async function emptyAllTables() {
 
   const query = _dbSpecificQueries.emptyTableQuery;
   // eslint-disable-next-line knex/avoid-injections
-  return knex.raw(`${query}${tables}`);
+  return configuredKnex.raw(`${query}${tables}`);
 }
 
-module.exports = {
-  knex,
-  disconnect,
-  emptyAllTables,
-};
+export { configuredKnex as knex, disconnect, emptyAllTables };

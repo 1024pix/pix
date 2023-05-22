@@ -1,10 +1,12 @@
-const { Serializer } = require('jsonapi-serializer');
+import jsonapiSerializer from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(targetProfiles, meta) {
-    return new Serializer('target-profile', {
-      attributes: ['name', 'tubeCount', 'thematicResultCount', 'hasStage', 'description', 'category'],
-      meta,
-    }).serialize(targetProfiles);
-  },
+const { Serializer } = jsonapiSerializer;
+
+const serialize = function (targetProfiles, meta) {
+  return new Serializer('target-profile', {
+    attributes: ['name', 'tubeCount', 'thematicResultCount', 'hasStage', 'description', 'category'],
+    meta,
+  }).serialize(targetProfiles);
 };
+
+export { serialize };

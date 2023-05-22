@@ -1,13 +1,13 @@
-const { sinon, expect, catchErr, domainBuilder } = require('../../../test-helper');
-const handleAutoJury = require('../../../../lib/domain/events/handle-auto-jury');
-const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized');
-const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
-const CertificationJuryDone = require('../../../../lib/domain/events/CertificationJuryDone');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const {
+import { sinon, expect, catchErr, domainBuilder } from '../../../test-helper.js';
+import { handleAutoJury } from '../../../../lib/domain/events/handle-auto-jury.js';
+import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
+import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
+import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import {
   CertificationIssueReportSubcategories,
-  CertificationIssueReportCategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+  CertificationIssueReportCategory,
+} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | Domain | Events | handle-auto-jury', function () {
   it('fails when event is not of correct type', async function () {
@@ -49,12 +49,12 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
     });
     const certificationCourse = domainBuilder.buildCertificationCourse();
     const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-      category: CertificationIssueReportCategories.IN_CHALLENGE,
+      category: CertificationIssueReportCategory.IN_CHALLENGE,
       subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
       questionNumber: 1,
     });
     const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({
-      category: CertificationIssueReportCategories.FRAUD,
+      category: CertificationIssueReportCategory.FRAUD,
       subcategory: undefined,
       questionNumber: 1,
     });
@@ -170,7 +170,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
     });
     const certificationCourse = domainBuilder.buildCertificationCourse();
     const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({
-      category: CertificationIssueReportCategories.IN_CHALLENGE,
+      category: CertificationIssueReportCategory.IN_CHALLENGE,
       subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
       questionNumber: 1,
     });
@@ -593,7 +593,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
       const certificationCourse = domainBuilder.buildCertificationCourse({ id: 4567, sessionId: 1234 });
       const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({
-        category: CertificationIssueReportCategories.FRAUD,
+        category: CertificationIssueReportCategory.FRAUD,
         subcategory: null,
         questionNumber: 1,
       });
@@ -659,12 +659,12 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
       const certificationCourse = domainBuilder.buildCertificationCourse({ id: 4567, sessionId: 1234 });
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-        category: CertificationIssueReportCategories.IN_CHALLENGE,
+        category: CertificationIssueReportCategory.IN_CHALLENGE,
         subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
         questionNumber: 1,
       });
       const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({
-        category: CertificationIssueReportCategories.IN_CHALLENGE,
+        category: CertificationIssueReportCategory.IN_CHALLENGE,
         subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
         questionNumber: 1,
       });

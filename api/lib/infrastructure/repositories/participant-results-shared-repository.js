@@ -1,8 +1,8 @@
-const { knex } = require('../../../db/knex-database-connection.js');
-const ParticipantResultsShared = require('../../../lib/domain/models/ParticipantResultsShared.js');
-const placementProfileService = require('../../domain/services/placement-profile-service.js');
-const competenceRepository = require('./competence-repository.js');
-const campaignRepository = require('./campaign-repository.js');
+import { knex } from '../../../db/knex-database-connection.js';
+import { ParticipantResultsShared } from '../../../lib/domain/models/ParticipantResultsShared.js';
+import * as placementProfileService from '../../domain/services/placement-profile-service.js';
+import * as competenceRepository from './competence-repository.js';
+import * as campaignRepository from './campaign-repository.js';
 
 async function _fetchKnowledgeElements(campaignParticipationId) {
   const { snapshot: knowledgeElements } = await knex('campaign-participations')
@@ -55,4 +55,4 @@ const participantResultsSharedRepository = {
   },
 };
 
-module.exports = participantResultsSharedRepository;
+export { participantResultsSharedRepository };

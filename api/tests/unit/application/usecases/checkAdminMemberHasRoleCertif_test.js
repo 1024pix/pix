@@ -1,10 +1,11 @@
-const { expect, sinon } = require('../../../test-helper');
-const useCase = require('../../../../lib/application/usecases/checkAdminMemberHasRoleCertif');
-const tokenService = require('../../../../lib/domain/services/token-service');
+import { expect, sinon } from '../../../test-helper.js';
+import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import * as useCase from '../../../../lib/application/usecases/checkAdminMemberHasRoleCertif.js';
 
 describe('Unit | Application | Use Case | checkAdminMemberHasRoleCertifUseCase', function () {
   const userId = '1234';
   let adminMemberRepositoryStub;
+
   beforeEach(function () {
     sinon.stub(tokenService, 'extractUserId').resolves(userId);
     adminMemberRepositoryStub = {

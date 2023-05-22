@@ -1,6 +1,5 @@
-#! /usr/bin/env node
-/* eslint no-console: ["off"] */
-const PgClient = require('./PgClient');
+import { PgClient } from './PgClient.js';
+import * as url from 'url';
 
 async function initialize() {
   const client = await PgClient.getClient(process.env.DATABASE_URL);
@@ -87,11 +86,10 @@ class ScriptQueryBuilder {
 
 /*=================== tests =============================*/
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+if (isLaunchedFromCommandLine) {
   main();
 }
 
-module.exports = {
-  ScriptQueryBuilder,
-  AssessmentEraser,
-};
+export { ScriptQueryBuilder, AssessmentEraser };

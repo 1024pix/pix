@@ -1,7 +1,7 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer');
-const CampaignParticipantActivity = require('../../../../../lib/domain/read-models/CampaignParticipantActivity');
-const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
+import { CampaignParticipantActivity } from '../../../../../lib/domain/read-models/CampaignParticipantActivity.js';
+import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 

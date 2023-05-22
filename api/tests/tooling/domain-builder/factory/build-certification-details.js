@@ -1,7 +1,7 @@
-const CertificationDetails = require('../../../../lib/domain/read-models/CertificationDetails');
-const { states } = require('../../../../lib/domain/models/CertificationAssessment');
+import { CertificationDetails } from '../../../../lib/domain/read-models/CertificationDetails.js';
+import { states } from '../../../../lib/domain/models/CertificationAssessment.js';
 
-module.exports = function buildCertificationDetails({
+const buildCertificationDetails = function ({
   id = 123,
   userId = 456,
   createdAt = new Date('2020-01-01'),
@@ -43,3 +43,5 @@ module.exports = function buildCertificationDetails({
     listChallengesAndAnswers,
   });
 };
+
+export { buildCertificationDetails };

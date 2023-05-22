@@ -1,12 +1,14 @@
-const { Serializer } = require('jsonapi-serializer');
+import jsonapiSerializer from 'jsonapi-serializer';
 
-module.exports = {
-  serialize(features) {
-    return new Serializer('feature-toggles', {
-      transform(features) {
-        return { id: 0, ...features };
-      },
-      attributes: Object.keys(features),
-    }).serialize(features);
-  },
+const { Serializer } = jsonapiSerializer;
+
+const serialize = function (features) {
+  return new Serializer('feature-toggles', {
+    transform(features) {
+      return { id: 0, ...features };
+    },
+    attributes: Object.keys(features),
+  }).serialize(features);
 };
+
+export { serialize };

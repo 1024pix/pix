@@ -1,5 +1,5 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const sessionSupervisorAuthorization = require('../../../../lib/application/preHandlers/session-supervisor-authorization');
+import { expect, sinon, hFake } from '../../../test-helper.js';
+import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
 
 describe('Unit | Pre-handler | Supervisor Authorization', function () {
   let supervisorAccessRepository;

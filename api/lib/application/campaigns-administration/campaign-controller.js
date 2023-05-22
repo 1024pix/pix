@@ -1,16 +1,18 @@
-const usecases = require('../../domain/usecases/index.js');
-const csvCampaignsIdsParser = require('../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser.js');
+import { usecases } from '../../domain/usecases/index.js';
+import * as csvCampaignsIdsParser from '../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser.js';
 
-module.exports = {
-  async archiveCampaigns(request, h, dependencies = { csvCampaignsIdsParser }) {
-    const { userId } = request.auth.credentials;
-    const campaignIds = await dependencies.csvCampaignsIdsParser.extractCampaignsIds(request.payload.path);
+const archiveCampaigns = async function (request, h, dependencies = { csvCampaignsIdsParser }) {
+  const { userId } = request.auth.credentials;
+  const campaignIds = await dependencies.csvCampaignsIdsParser.extractCampaignsIds(request.payload.path);
 
-    await usecases.campaignAdministrationArchiveCampaign({
-      userId,
-      campaignIds,
-    });
+  await usecases.archiveCampaigns({
+    userId,
+    campaignIds,
+  });
 
-    return h.response(null).code(204);
-  },
+  return h.response(null).code(204);
 };
+
+const campaignController = { archiveCampaigns };
+
+export { campaignController };

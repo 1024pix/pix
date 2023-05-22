@@ -1,8 +1,8 @@
-const Bookshelf = require('../bookshelf.js');
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'FinalizedSession';
 
-module.exports = Bookshelf.model(
+const BookshelfFinalizedSession = Bookshelf.model(
   modelName,
   {
     tableName: 'finalized-sessions',
@@ -18,3 +18,5 @@ module.exports = Bookshelf.model(
     modelName,
   }
 );
+
+export { BookshelfFinalizedSession };

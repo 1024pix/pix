@@ -22,4 +22,4 @@ class StudentForEnrolment {
   }
 }
 
-module.exports = StudentForEnrolment;
+export { StudentForEnrolment };

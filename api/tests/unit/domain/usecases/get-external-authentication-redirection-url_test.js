@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const User = require('../../../../lib/domain/models/User');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const getExternalAuthenticationRedirectionUrl = require('../../../../lib/domain/usecases/get-external-authentication-redirection-url');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { User } from '../../../../lib/domain/models/User.js';
+import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { getExternalAuthenticationRedirectionUrl } from '../../../../lib/domain/usecases/get-external-authentication-redirection-url.js';
 
 describe('Unit | UseCase | get-external-authentication-redirection-url', function () {
   let userRepository;
@@ -53,7 +53,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userAttributes,
         userRepository,
         tokenService,
-        settings: samlSettings,
+        config: samlSettings,
       });
 
       // then
@@ -99,7 +99,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userRepository,
         authenticationMethodRepository,
         tokenService,
-        settings: samlSettings,
+        config: samlSettings,
       });
 
       // then
@@ -128,7 +128,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userRepository,
         authenticationMethodRepository,
         tokenService,
-        settings: samlSettings,
+        config: samlSettings,
       });
 
       // then
@@ -159,7 +159,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userRepository,
           authenticationMethodRepository,
           tokenService,
-          settings: samlSettings,
+          config: samlSettings,
         });
 
         // then
@@ -194,7 +194,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userRepository,
           authenticationMethodRepository,
           tokenService,
-          settings: samlSettings,
+          config: samlSettings,
         });
 
         // then
@@ -229,7 +229,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userRepository,
           authenticationMethodRepository,
           tokenService,
-          settings: samlSettings,
+          config: samlSettings,
         });
 
         // then
@@ -264,7 +264,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userRepository,
           authenticationMethodRepository,
           tokenService,
-          settings: samlSettings,
+          config: samlSettings,
         });
 
         // then

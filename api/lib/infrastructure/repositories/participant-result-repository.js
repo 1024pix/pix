@@ -1,44 +1,42 @@
-const { knex } = require('../../../db/knex-database-connection.js');
-const _ = require('lodash');
-const Assessment = require('../../domain/models/Assessment.js');
-const AssessmentResult = require('../../domain/read-models/participant-results/AssessmentResult.js');
-const competenceRepository = require('./competence-repository.js');
-const answerRepository = require('./answer-repository.js');
-const challengeRepository = require('./challenge-repository.js');
-const areaRepository = require('./area-repository.js');
-const knowledgeElementRepository = require('./knowledge-element-repository.js');
-const flashAssessmentResultRepository = require('./flash-assessment-result-repository.js');
-const campaignRepository = require('./campaign-repository.js');
-const stageCollectionRepository = require('./user-campaign-results/stage-collection-repository.js');
-const flash = require('../../domain/services/algorithm-methods/flash.js');
-const dataFetcher = require('../../domain/services/algorithm-methods/data-fetcher.js');
-const { NotFoundError } = require('../../domain/errors.js');
+import { knex } from '../../../db/knex-database-connection.js';
+import _ from 'lodash';
+import { Assessment } from '../../domain/models/Assessment.js';
+import { AssessmentResult } from '../../domain/read-models/participant-results/AssessmentResult.js';
+import * as competenceRepository from './competence-repository.js';
+import * as answerRepository from './answer-repository.js';
+import * as challengeRepository from './challenge-repository.js';
+import * as areaRepository from './area-repository.js';
+import * as knowledgeElementRepository from './knowledge-element-repository.js';
+import * as flashAssessmentResultRepository from './flash-assessment-result-repository.js';
+import * as campaignRepository from './campaign-repository.js';
+import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
+import * as flash from '../../domain/services/algorithm-methods/flash.js';
+import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetcher.js';
+import { NotFoundError } from '../../domain/errors.js';
 
-const ParticipantResultRepository = {
-  async getByUserIdAndCampaignId({ userId, campaignId, badges, locale }) {
-    const participationResults = await _getParticipationResults(userId, campaignId, locale);
-    let flashScoringResults;
-    if (participationResults.isFlash) {
-      flashScoringResults = await _getFlashScoringResults(participationResults.assessmentId, locale);
-    }
-    const isCampaignMultipleSendings = await _isCampaignMultipleSendings(campaignId);
-    const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
-    const isCampaignArchived = await _isCampaignArchived(campaignId);
-    const competences = await _findTargetedCompetences(campaignId, locale);
-    const badgeResultsDTO = await _getBadgeResults(badges);
-    const stageCollection = await _getStageCollection(campaignId);
+const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, locale }) {
+  const participationResults = await _getParticipationResults(userId, campaignId, locale);
+  let flashScoringResults;
+  if (participationResults.isFlash) {
+    flashScoringResults = await _getFlashScoringResults(participationResults.assessmentId, locale);
+  }
+  const isCampaignMultipleSendings = await _isCampaignMultipleSendings(campaignId);
+  const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
+  const isCampaignArchived = await _isCampaignArchived(campaignId);
+  const competences = await _findTargetedCompetences(campaignId, locale);
+  const badgeResultsDTO = await _getBadgeResults(badges);
+  const stageCollection = await _getStageCollection(campaignId);
 
-    return new AssessmentResult({
-      participationResults,
-      competences,
-      badgeResultsDTO,
-      stageCollection,
-      isCampaignMultipleSendings,
-      isOrganizationLearnerActive,
-      isCampaignArchived,
-      flashScoringResults,
-    });
-  },
+  return new AssessmentResult({
+    participationResults,
+    competences,
+    badgeResultsDTO,
+    stageCollection,
+    isCampaignMultipleSendings,
+    isOrganizationLearnerActive,
+    isCampaignArchived,
+    flashScoringResults,
+  });
 };
 
 async function _getParticipationResults(userId, campaignId) {
@@ -235,4 +233,4 @@ async function _isOrganizationLearnerActive(userId, campaignId) {
   return !organizationLearner?.isDisabled;
 }
 
-module.exports = ParticipantResultRepository;
+export { getByUserIdAndCampaignId };

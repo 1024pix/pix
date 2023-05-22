@@ -1,10 +1,10 @@
-const AnswerStatus = require('../models/AnswerStatus.js');
+import { AnswerStatus } from '../models/AnswerStatus.js';
 
-module.exports = {
-  match(answer, solution) {
-    if (answer === solution) {
-      return AnswerStatus.OK;
-    }
-    return AnswerStatus.KO;
-  },
+const match = function (answer, solution) {
+  if (answer === solution) {
+    return AnswerStatus.OK;
+  }
+  return AnswerStatus.KO;
 };
+
+export { match };

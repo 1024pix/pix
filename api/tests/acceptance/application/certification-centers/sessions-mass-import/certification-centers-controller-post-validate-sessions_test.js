@@ -1,12 +1,15 @@
-const {
+import {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   knex,
   sinon,
-} = require('../../../../test-helper');
-const createServer = require('../../../../../server');
-const { omit } = require('lodash');
+} from '../../../../test-helper.js';
+
+import { createServer } from '../../../../../server.js';
+import lodash from 'lodash';
+
+const { omit } = lodash;
 
 describe('Acceptance | Controller | certification-centers-controller-post-validate-sessions', function () {
   let server;

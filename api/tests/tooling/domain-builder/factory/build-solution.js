@@ -1,6 +1,6 @@
-const Solution = require('../../../../lib/domain/models/Solution');
+import { Solution } from '../../../../lib/domain/models/Solution.js';
 
-module.exports = function buildSolution({
+const buildSolution = function ({
   id = 'recCHAL123',
   type = 'QCM',
   value = '1',
@@ -19,3 +19,5 @@ module.exports = function buildSolution({
     scoring,
   });
 };
+
+export { buildSolution };

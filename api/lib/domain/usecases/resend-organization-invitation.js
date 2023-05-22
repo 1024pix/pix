@@ -1,4 +1,4 @@
-module.exports = async function resendOrganizationInvitation({
+const resendOrganizationInvitation = async function ({
   organizationId,
   email,
   locale,
@@ -14,3 +14,5 @@ module.exports = async function resendOrganizationInvitation({
     locale,
   });
 };
+
+export { resendOrganizationInvitation };

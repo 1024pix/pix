@@ -1,15 +1,17 @@
-const _ = require('lodash');
-const yargs = require('yargs');
-const unpublishSession = require('../../lib/domain/usecases/unpublish-session');
-const publishSession = require('../../lib/domain/usecases/publish-session');
-const finalizedSessionRepository = require('../../lib/infrastructure/repositories/sessions/finalized-session-repository');
-const sessionRepository = require('../../lib/infrastructure/repositories/sessions/session-repository');
-const certificationRepository = require('../../lib/infrastructure/repositories/certification-repository');
-const sessionPublicationService = require('../../lib/domain/services/session-publication-service');
-const { parseCsvWithHeader } = require('../helpers/csvHelpers');
-const { knex, disconnect } = require('../../db/knex-database-connection');
+import _ from 'lodash';
+import yargs from 'yargs';
+import { unpublishSession } from '../../lib/domain/usecases/unpublish-session.js';
+import { publishSession } from '../../lib/domain/usecases/publish-session.js';
+import * as finalizedSessionRepository from '../../lib/infrastructure/repositories/sessions/finalized-session-repository.js';
+import * as sessionRepository from '../../lib/infrastructure/repositories/sessions/session-repository.js';
+import * as certificationRepository from '../../lib/infrastructure/repositories/certification-repository.js';
+import * as sessionPublicationService from '../../lib/domain/services/session-publication-service.js';
+import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import * as url from 'url';
 
 let progression = 0;
+
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
@@ -168,7 +170,8 @@ async function _findAlreadyPublishedSessions(sessionIdsToPublish) {
   return _.map(results, 'id');
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const commandLineArgs = yargs

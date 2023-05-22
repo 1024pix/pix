@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const BadgeResult = require('../../../../../lib/domain/read-models/participant-results/BadgeResult');
-const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import { BadgeResult } from '../../../../../lib/domain/read-models/participant-results/BadgeResult.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 
 describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', function () {
   it('computes the badges results', function () {

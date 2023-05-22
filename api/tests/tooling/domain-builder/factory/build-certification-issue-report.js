@@ -1,14 +1,14 @@
-const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const {
-  CertificationIssueReportCategories,
+import { CertificationIssueReport } from '../../../../lib/domain/models/CertificationIssueReport.js';
+import {
+  CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 const buildCertificationIssueReport = function ({
   id = 123,
   certificationCourseId,
   categoryId,
-  category = CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
+  category = CertificationIssueReportCategory.CANDIDATE_INFORMATIONS_CHANGES,
   subcategory = CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
   description = 'Une super description',
   questionNumber = null,
@@ -48,7 +48,7 @@ buildCertificationIssueReport.impactful = function ({
     resolvedAt,
     resolution,
     categoryId,
-    category: CertificationIssueReportCategories.FRAUD,
+    category: CertificationIssueReportCategory.FRAUD,
     subcategory: null,
     hasBeenAutomaticallyResolved,
   });
@@ -72,10 +72,10 @@ buildCertificationIssueReport.notImpactful = function ({
     resolvedAt,
     resolution,
     categoryId,
-    category: CertificationIssueReportCategories.SIGNATURE_ISSUE,
+    category: CertificationIssueReportCategory.SIGNATURE_ISSUE,
     subcategory: null,
     hasBeenAutomaticallyResolved,
   });
 };
 
-module.exports = buildCertificationIssueReport;
+export { buildCertificationIssueReport };

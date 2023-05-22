@@ -1,6 +1,6 @@
-const logger = require('../../infrastructure/logger.js');
-const Answer = require('./Answer.js');
-const AnswerStatus = require('./AnswerStatus.js');
+import { logger } from '../../infrastructure/logger.js';
+import { Answer } from './Answer.js';
+import { AnswerStatus } from './AnswerStatus.js';
 
 /**
  * Traduction: Correcteur
@@ -76,4 +76,4 @@ class Examiner {
   }
 }
 
-module.exports = Examiner;
+export { Examiner };

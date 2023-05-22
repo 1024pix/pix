@@ -1,14 +1,19 @@
-require('dotenv').config({ path: `${__dirname}/../.env` });
-const logger = require('../../lib/infrastructure/logger');
-const usecases = require('../../lib/domain/usecases/index.js');
-const { cache } = require('../../lib/infrastructure/caches/learning-content-cache');
-const placementProfileService = require('../../lib/domain/services/placement-profile-service');
-const certificationBadgesService = require('../../lib/domain/services/certification-badges-service');
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: `${__dirname}/../.env` });
+
+import { logger } from '../../lib/infrastructure/logger.js';
+import { usecases } from '../../lib/domain/usecases/index.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
+import * as certificationBadgesService from '../../lib/domain/services/certification-badges-service.js';
 // Usage: node scripts/get-certifications-eligibility 1234
 
-('use strict');
-const { disconnect } = require('../../db/knex-database-connection');
-const temporaryStorage = require('../../lib/infrastructure/temporary-storage/index');
+import { disconnect } from '../../db/knex-database-connection.js';
+import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 
 async function getUserCertificationsEligibility(userId) {
   logger.info('Starting script get-user-certifications-eligibility');
@@ -26,7 +31,8 @@ async function getUserCertificationsEligibility(userId) {
   console.log(`COMPLEMENTAIRES: ${complementaires}`);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const userId = process.argv[2];
@@ -48,6 +54,4 @@ async function main() {
   }
 })();
 
-module.exports = {
-  getUserCertificationsEligibility,
-};
+export { getUserCertificationsEligibility };

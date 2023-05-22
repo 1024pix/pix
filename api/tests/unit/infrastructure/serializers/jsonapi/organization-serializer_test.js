@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
-const Organization = require('../../../../../lib/domain/models/Organization');
-const Tag = require('../../../../../lib/domain/models/Tag');
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-serializer.js';
+import { Organization } from '../../../../../lib/domain/models/Organization.js';
+import { Tag } from '../../../../../lib/domain/models/Tag.js';
 
 describe('Unit | Serializer | organization-serializer', function () {
   describe('#serialize', function () {

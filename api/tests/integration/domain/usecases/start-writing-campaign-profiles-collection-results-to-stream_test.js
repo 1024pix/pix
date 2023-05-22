@@ -1,15 +1,17 @@
-const { PassThrough } = require('stream');
-const { expect, mockLearningContent, databaseBuilder, streamToPromise } = require('../../../test-helper');
+import stream from 'stream';
 
-const startWritingCampaignProfilesCollectionResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');
+const { PassThrough } = stream;
 
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { expect, mockLearningContent, databaseBuilder, streamToPromise } from '../../../test-helper.js';
+import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
+
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
+import * as competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository.js';
+import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
+import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {
   describe('#startWritingCampaignProfilesCollectionResultsToStream', function () {

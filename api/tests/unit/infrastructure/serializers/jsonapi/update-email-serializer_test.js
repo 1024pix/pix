@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer');
+import { expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | update-email-serializer', function () {
   describe('#serialize()', function () {

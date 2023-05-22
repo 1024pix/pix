@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const certificationCourseRepository = require('../../../lib/infrastructure/repositories/certification-course-repository.js');
-const { CertificateVerificationCodeGenerationTooManyTrials } = require('../../../lib/domain/errors.js');
-const config = require('../../config.js');
+import _ from 'lodash';
+import * as certificationCourseRepository from '../../../lib/infrastructure/repositories/certification-course-repository.js';
+import { CertificateVerificationCodeGenerationTooManyTrials } from '../../../lib/domain/errors.js';
+import { config } from '../../config.js';
 
 const availableCharacters =
   `${config.availableCharacterForCode.numbers}${config.availableCharacterForCode.letters}`.split('');
@@ -16,16 +16,16 @@ function _randomCharacter() {
   return _.sample(availableCharacters);
 }
 
-module.exports = {
-  async generateCertificateVerificationCode({
-    generateCode = _generateCode,
-    dependencies = { certificationCourseRepository },
-  } = {}) {
-    for (let i = 0; i < NB_OF_TRIALS; i++) {
-      const code = generateCode();
-      const isCodeAvailable = await dependencies.certificationCourseRepository.isVerificationCodeAvailable(code);
-      if (isCodeAvailable) return code;
-    }
-    throw new CertificateVerificationCodeGenerationTooManyTrials(NB_OF_TRIALS);
-  },
+const generateCertificateVerificationCode = async function ({
+  generateCode = _generateCode,
+  dependencies = { certificationCourseRepository },
+} = {}) {
+  for (let i = 0; i < NB_OF_TRIALS; i++) {
+    const code = generateCode();
+    const isCodeAvailable = await dependencies.certificationCourseRepository.isVerificationCodeAvailable(code);
+    if (isCodeAvailable) return code;
+  }
+  throw new CertificateVerificationCodeGenerationTooManyTrials(NB_OF_TRIALS);
 };
+
+export { generateCertificateVerificationCode };

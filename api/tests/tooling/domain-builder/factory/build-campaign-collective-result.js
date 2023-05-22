@@ -1,7 +1,7 @@
-const buildCampaignLearningContent = require('./build-campaign-learning-content');
-const CampaignCollectiveResult = require('../../../../lib/domain/read-models/CampaignCollectiveResult');
+import { buildCampaignLearningContent } from './build-campaign-learning-content.js';
+import { CampaignCollectiveResult } from '../../../../lib/domain/read-models/CampaignCollectiveResult.js';
 
-module.exports = function buildCampaignCollectiveResult({
+const buildCampaignCollectiveResult = function ({
   id = 123,
   campaignLearningContent = buildCampaignLearningContent(),
   participantsValidatedKECountByCompetenceId = [],
@@ -18,3 +18,5 @@ module.exports = function buildCampaignCollectiveResult({
 
   return campaignCollectiveResult;
 };
+
+export { buildCampaignCollectiveResult };

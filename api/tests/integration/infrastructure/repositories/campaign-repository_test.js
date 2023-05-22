@@ -1,4 +1,4 @@
-const {
+import {
   expect,
   domainBuilder,
   databaseBuilder,
@@ -6,13 +6,13 @@ const {
   mockLearningContent,
   sinon,
   catchErr,
-} = require('../../../test-helper');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const Campaign = require('../../../../lib/domain/models/Campaign');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const _ = require('lodash');
+} from '../../../test-helper.js';
+
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import { Campaign } from '../../../../lib/domain/models/Campaign.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import _ from 'lodash';
 
 describe('Integration | Repository | Campaign', function () {
   describe('#isCodeAvailable', function () {
@@ -277,8 +277,9 @@ describe('Integration | Repository | Campaign', function () {
 
       it('should not save anything if something goes wrong between campaign creation and skills computation', async function () {
         // given
-        const findActiveStub = sinon.stub(skillRepository, 'findActiveByTubeId');
-        findActiveStub.rejects(new Error('Forcing rollback'));
+        const skillRepository = {
+          findActiveByTubeId: sinon.stub().rejects(new Error('Forcing rollback')),
+        };
         const learningContent = {
           areas: [{ id: 'recArea1', competenceIds: ['recCompetence1'] }],
           competences: [
@@ -327,7 +328,7 @@ describe('Integration | Repository | Campaign', function () {
         };
 
         // when
-        await catchErr(campaignRepository.save)(campaignToSave);
+        await catchErr(campaignRepository.save)(campaignToSave, { skillRepository });
 
         // then
         const skillIds = await knex('campaign_skills').pluck('skillId');

@@ -1,13 +1,13 @@
-const AuthenticationMethod = require('../models/AuthenticationMethod.js');
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
-module.exports = async function getExternalAuthenticationRedirectionUrl({
+const getExternalAuthenticationRedirectionUrl = async function ({
   userAttributes,
   userRepository,
   authenticationMethodRepository,
   tokenService,
-  settings,
+  config,
 }) {
-  const { attributeMapping } = settings.saml;
+  const { attributeMapping } = config.saml;
   const externalUser = {
     firstName: userAttributes[attributeMapping.firstName],
     lastName: userAttributes[attributeMapping.lastName],
@@ -28,6 +28,8 @@ module.exports = async function getExternalAuthenticationRedirectionUrl({
 
   return _getUrlForReconciliationPage({ tokenService, externalUser });
 };
+
+export { getExternalAuthenticationRedirectionUrl };
 
 async function _getUrlWithAccessToken({
   user,

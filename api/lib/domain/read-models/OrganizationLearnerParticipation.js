@@ -10,4 +10,4 @@ class OrganizationLearnerParticipation {
   }
 }
 
-module.exports = OrganizationLearnerParticipation;
+export { OrganizationLearnerParticipation };

@@ -1,5 +1,8 @@
-const { expect, nock } = require('../../../test-helper');
-const script = require('../../../../scripts/certification/import-certifications-from-csv');
+import { expect, nock } from '../../../test-helper.js';
+import * as script from '../../../../scripts/certification/import-certifications-from-csv.js';
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Acceptance | Scripts | import-certifications-from-csv.js', function () {
   describe('#assertFileValidity', function () {

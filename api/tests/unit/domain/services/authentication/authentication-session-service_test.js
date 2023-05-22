@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const authenticationSessionService = require('../../../../../lib/domain/services/authentication/authentication-session-service');
+import { expect } from '../../../../test-helper.js';
+import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
 
 describe('Unit | Domain | Services | authentication session', function () {
   describe('#getByKey', function () {

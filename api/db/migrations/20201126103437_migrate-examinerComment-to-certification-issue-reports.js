@@ -1,8 +1,9 @@
-const { CertificationIssueReportCategories } = require('../../lib/domain/models/CertificationIssueReportCategory');
+import { CertificationIssueReportCategory } from '../../lib/domain/models/CertificationIssueReportCategory.js';
+
 const CERTIFICATION_COURSES = 'certification-courses';
 const CERTIFICATION_ISSUE_REPORTS = 'certification-issue-reports';
 
-exports.up = async (knex) => {
+const up = async function (knex) {
   const certificationCoursesWithExaminerComment = await knex(CERTIFICATION_COURSES)
     .select('id', 'examinerComment')
     .whereNotNull('examinerComment');
@@ -11,14 +12,14 @@ exports.up = async (knex) => {
     return {
       certificationCourseId: id,
       description: examinerComment,
-      category: CertificationIssueReportCategories.OTHER,
+      category: CertificationIssueReportCategory.OTHER,
     };
   });
 
   return knex.batchInsert(CERTIFICATION_ISSUE_REPORTS, reportsToInsert);
 };
 
-exports.down = async (knex) => {
+const down = async function (knex) {
   const certificationCoursesWithExaminerComment = await knex(CERTIFICATION_COURSES)
     .select('id')
     .whereNotNull('examinerComment');
@@ -27,3 +28,5 @@ exports.down = async (knex) => {
 
   return knex(CERTIFICATION_ISSUE_REPORTS).whereIn('certificationCourseId', idsToDelete).delete();
 };
+
+export { up, down };

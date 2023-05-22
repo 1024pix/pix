@@ -1,18 +1,20 @@
-#! /usr/bin/env node
 /* eslint no-console: ["off"] */
-'use strict';
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+
 dotenv.config();
-const yargs = require('yargs');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const bluebird = require('bluebird');
-const certificationRepository = require('../../lib/infrastructure/repositories/certification-repository');
-const verifyCertificateCodeService = require('../../lib/domain/services/verify-certificate-code-service');
+import yargs from 'yargs';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import bluebird from 'bluebird';
+import * as certificationRepository from '../../lib/infrastructure/repositories/certification-repository.js';
+import * as verifyCertificateCodeService from '../../lib/domain/services/verify-certificate-code-service.js';
+import * as url from 'url';
+
 const uniqueConstraintViolationCode = '23505';
 const DEFAULT_COUNT = 20000;
 const DEFAULT_CONCURRENCY = 1;
 
 let progression = 0;
+
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
@@ -83,10 +85,12 @@ function _findEligibleCertifications(count) {
 
 async function _generateVerificationCode(certificationId) {
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
+  // eslint-disable-next-line import/namespace
   return certificationRepository.saveVerificationCode(certificationId, verificationCode);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Validation des arguments...');

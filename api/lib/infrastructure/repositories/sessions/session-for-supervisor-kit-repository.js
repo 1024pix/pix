@@ -1,26 +1,26 @@
-const { knex } = require('../../../../db/knex-database-connection.js');
-const SessionForSupervisorKit = require('../../../domain/read-models/SessionForSupervisorKit.js');
+import { knex } from '../../../../db/knex-database-connection.js';
+import { SessionForSupervisorKit } from '../../../domain/read-models/SessionForSupervisorKit.js';
 
-module.exports = {
-  async get(idSession) {
-    const results = await knex
-      .select(
-        'sessions.id',
-        'sessions.date',
-        'sessions.time',
-        'sessions.address',
-        'sessions.room',
-        'sessions.examiner',
-        'sessions.accessCode',
-        'sessions.supervisorPassword'
-      )
-      .from('sessions')
-      .where({ 'sessions.id': idSession })
-      .first();
+const get = async function (idSession) {
+  const results = await knex
+    .select(
+      'sessions.id',
+      'sessions.date',
+      'sessions.time',
+      'sessions.address',
+      'sessions.room',
+      'sessions.examiner',
+      'sessions.accessCode',
+      'sessions.supervisorPassword'
+    )
+    .from('sessions')
+    .where({ 'sessions.id': idSession })
+    .first();
 
-    return _toDomain(results);
-  },
+  return _toDomain(results);
 };
+
+export { get };
 
 function _toDomain(results) {
   return new SessionForSupervisorKit({

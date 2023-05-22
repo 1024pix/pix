@@ -1,19 +1,24 @@
-require('dotenv').config({ path: `${__dirname}/../../.env` });
+import * as url from 'url';
 
-const _ = require('lodash');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const { learningContentCache: cache } = require('../../lib/infrastructure/caches/learning-content-cache');
-const moment = require('moment');
-const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
-const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
-const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
-const CampaignParticipationStatuses = require('../../lib/domain/models/CampaignParticipationStatuses');
-const computeParticipationResults = require('../prod/compute-participation-results');
-const {
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: `${__dirname}/../../.env` });
+
+import _ from 'lodash';
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import moment from 'moment';
+import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
+import * as skillRepository from '../../lib/infrastructure/repositories/skill-repository.js';
+import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
+import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
+import { computeParticipantResultsShared as computeParticipationResults } from '../prod/compute-participation-results.js';
+import {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
-} = require('../prod/generate-knowledge-element-snapshots-for-campaigns');
-const { generate } = require('../../lib/domain/services/campaigns/campaign-code-generator');
+} from '../prod/generate-knowledge-element-snapshots-for-campaigns.js';
+import { generate } from '../../lib/domain/services/campaigns/campaign-code-generator.js';
 
 const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
@@ -539,7 +544,8 @@ async function generateCampaignWithParticipants({
   );
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const commandLineArgs = process.argv.slice(2);
@@ -574,4 +580,4 @@ async function main() {
   }
 })();
 
-module.exports = { generateCampaignWithParticipants };
+export { generateCampaignWithParticipants };

@@ -1,7 +1,7 @@
-const databaseBuffer = require('../database-buffer');
-const { normalizeAndSortChars } = require('../../../lib/infrastructure/utils/string-utils');
+import { databaseBuffer } from '../database-buffer.js';
+import { normalizeAndSortChars } from '../../../lib/infrastructure/utils/string-utils.js';
 
-module.exports = function buildCertificationCpfCountry({
+const buildCertificationCpfCountry = function ({
   id = databaseBuffer.getNextId(),
   code = '99123',
   commonName = 'FILÉKISTANIE',
@@ -22,3 +22,5 @@ module.exports = function buildCertificationCpfCountry({
     values,
   });
 };
+
+export { buildCertificationCpfCountry };

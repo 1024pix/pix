@@ -1,8 +1,8 @@
-const { expect } = require('../../../../test-helper');
-const Assessment = require('../../../../../lib/domain/models/Assessment');
-const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
-const CampaignAssessmentParticipation = require('../../../../../lib/domain/read-models/CampaignAssessmentParticipation');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer');
+import { expect } from '../../../../test-helper.js';
+import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
+import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignAssessmentParticipation } from '../../../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serializer', function () {
   describe('#serialize()', function () {

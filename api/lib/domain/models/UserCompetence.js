@@ -1,6 +1,6 @@
-const { MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY } = require('../constants.js');
+import { MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY } from '../constants.js';
 
-const _ = require('lodash');
+import _ from 'lodash';
 
 class UserCompetence {
   constructor({ id, index, name, areaId, pixScore, estimatedLevel, skills = [] } = {}) {
@@ -33,4 +33,4 @@ class UserCompetence {
   }
 }
 
-module.exports = UserCompetence;
+export { UserCompetence };

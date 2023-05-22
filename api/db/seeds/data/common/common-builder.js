@@ -1,4 +1,6 @@
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
+import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+
+const { ROLES } = PIX_ADMIN;
 
 // IDS
 /// USERS
@@ -34,7 +36,7 @@ const PIX_EDU_1ER_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 73;
 const PIX_EDU_2ND_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 74;
 const PIX_EDU_2ND_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 75;
 
-module.exports = {
+export {
   commonBuilder,
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
@@ -410,7 +412,7 @@ function _createDroit(databaseBuilder) {
     id: PIX_DROIT_MAITRE_CERTIFIABLE_BADGE_ID,
     targetProfileId: PIX_DROIT_TARGET_PROFILE_ID,
     message:
-      'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Avancé. Vous avez fait preuve d\'une maîtrise des compétences numériques nécessaires à l\'exercice des métiers du droit dans tous les domaines. En perfectionnant encore vos compétences, vous pourrez obtenir le niveau Expert.',
+      "Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Avancé. Vous avez fait preuve d'une maîtrise des compétences numériques nécessaires à l'exercice des métiers du droit dans tous les domaines. En perfectionnant encore vos compétences, vous pourrez obtenir le niveau Expert.",
     altMessage: 'Pix+Droit niveau Avancé',
     imageUrl: 'https://images.pix.fr/badges/badge_pix-PIX_DROIT_silver%20copy.svg',
     key: 'PIX_PIX_DROIT_MAITRE_CERTIF',
@@ -488,7 +490,7 @@ function _createDroit(databaseBuilder) {
     id: PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
     targetProfileId: PIX_DROIT_TARGET_PROFILE_ID,
     message:
-      'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Expert. Les compétences numériques nécessaires à l\'exercice des métiers du droit n\'ont plus de secret pour vous.',
+      "Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Expert. Les compétences numériques nécessaires à l'exercice des métiers du droit n'ont plus de secret pour vous.",
     altMessage: 'Pix+Droit niveau Expert',
     imageUrl: 'https://images.pix.fr/badges/badge_pix-PIX_DROIT_gold%20copy.svg',
     key: 'PIX_PIX_DROIT_EXPERT_CERTIF',
@@ -538,7 +540,7 @@ function _createDroit(databaseBuilder) {
     id: PIX_DROIT_INITIE_CERTIFIABLE_BADGE_ID,
     targetProfileId: PIX_DROIT_TARGET_PROFILE_ID,
     message:
-      'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Initié. Vous avez fait preuve d\'une maîtrise des compétences numériques nécessaires à l\'exercice des métiers du droit dans tous les domaines. En perfectionnant encore vos compétences, vous pourrez obtenir un niveau Avancé.',
+      "Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Initié. Vous avez fait preuve d'une maîtrise des compétences numériques nécessaires à l'exercice des métiers du droit dans tous les domaines. En perfectionnant encore vos compétences, vous pourrez obtenir un niveau Avancé.",
     altMessage: 'Pix+Droit niveau Initié',
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Droit- Pret-certif_Bronze--Initie.svg',
     key: 'PIX_PIX_DROIT_INITIE_CERTIF',
@@ -1238,4 +1240,3 @@ function _createCities(databaseBuilder) {
     INSEECode: '97101',
   });
 }
-

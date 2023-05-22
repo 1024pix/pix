@@ -1,21 +1,31 @@
-require('dotenv').config({
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as dotenv from 'dotenv';
+
+dotenv.config({
   path: `${__dirname}/../../../.env`,
 });
-const _ = require('lodash');
-const { performance } = require('perf_hooks');
-const XLSX = require('xlsx');
-const logger = require('../../../lib/infrastructure/logger');
-const { cache } = require('../../../lib/infrastructure/caches/learning-content-cache');
-const { knex, disconnect } = require('../../../db/knex-database-connection');
-const { normalizeAndRemoveAccents } = require('../../../lib/domain/services/validation-treatments');
-const { autoMigrateTargetProfile } = require('./common');
+import _ from 'lodash';
+import perf_hooks from 'perf_hooks';
+
+const { performance } = perf_hooks;
+
+import XLSX from 'xlsx';
+import { logger } from '../../../lib/infrastructure/logger.js';
+import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { knex, disconnect } from '../../../db/knex-database-connection.js';
+import { normalizeAndRemoveAccents } from '../../../lib/domain/services/validation-treatments.js';
+import { autoMigrateTargetProfile } from './common.js';
+import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
 
 let allTubes;
+
 async function _cacheLearningContentData() {
-  const tubeRepository = require('../../../lib/infrastructure/repositories/tube-repository');
   const tubes = await tubeRepository.list();
   allTubes = tubes.map((tube) => ({ ...tube, normalizedName: normalizeAndRemoveAccents(tube.name) }));
 }
+
 const report = [];
 
 async function doJob(mainFile, multiFormFiles, dryRun) {
@@ -284,7 +294,9 @@ function _checkIfTPHasUnexpectedMultiformInstructions(id, multiFormData) {
     throw new Error(`Une feuille d'instructions "multiforme" existe pour ce profil cible.`);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+const __filename = modulePath;
 
 async function main() {
   const startTime = performance.now();
@@ -311,4 +323,4 @@ async function main() {
   }
 })();
 
-module.exports = { doJob };
+export { doJob };

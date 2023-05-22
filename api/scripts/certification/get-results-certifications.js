@@ -1,10 +1,8 @@
-#! /usr/bin/env node
-
-const fileSystem = require('fs');
-
-const request = require('request-promise-native');
-const json2csv = require('json2csv');
-const moment = require('moment-timezone');
+import fileSystem from 'fs';
+import request from 'request-promise-native';
+import json2csv from 'json2csv';
+import moment from 'moment-timezone';
+import * as url from 'url';
 
 const HEADERS = [
   'ID de certification',
@@ -181,13 +179,10 @@ function main() {
     });
 }
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+if (isLaunchedFromCommandLine) {
   main();
 }
 
-module.exports = {
-  buildCertificationRequest,
-  toCSVRow,
-  findCompetence,
-  buildSessionRequest,
-};
+export { buildCertificationRequest, toCSVRow, findCompetence, buildSessionRequest };
