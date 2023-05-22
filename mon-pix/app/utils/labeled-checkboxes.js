@@ -35,6 +35,7 @@ export default function labeledCheckboxes(proposals, userAnswers) {
   return proposals.map((s, i) => ({
     label: s,
     value: i + 1,
+    index: i,
     checked: definedUserAnswers[i] ?? false,
   }));
 }
