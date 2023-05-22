@@ -1,7 +1,7 @@
 import { expect, knex } from '../../../../test-helper.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from '../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 
-describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationResultCalculation', function () {
+describe('Integration | Infrastructure | Jobs | CampaignResult | SendSharedParticipationResultsToPoleEmploiJob', function () {
   afterEach(async function () {
     await knex('pgboss.job').delete();
   });
@@ -12,7 +12,7 @@ describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationRe
 
       await job.schedule({ params: 12 });
 
-      const jobBDD = await knex('pgboss.job').where({ name: 'SendSharedParticipationResultsToPoleEmploi' }).first();
+      const jobBDD = await knex('pgboss.job').where({ name: 'SendSharedParticipationResultsToPoleEmploiJob' }).first();
 
       expect(jobBDD.retrylimit).to.equal(0);
       expect(jobBDD.data).to.deep.equal({ params: 12 });
