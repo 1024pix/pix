@@ -1,28 +1,24 @@
-import * as url from 'url';
-
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import { fileURLToPath } from 'url';
 import * as dotenv from 'dotenv';
+import { resolve } from 'path';
+import { readFile, writeFile } from 'fs/promises';
+import { performance } from 'perf_hooks';
+import { read as readXlsx, utils as xlsxUtils } from 'xlsx';
+
+import { logger } from '../../../lib/infrastructure/logger.js';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 dotenv.config({
   path: `${__dirname}/../../../.env`,
 });
-import path from 'path';
-import { writeFile } from 'fs/promises';
-
-const { performance } = perf_hooks;
-
-const { resolve } = path;
-
-import perf_hooks from 'perf_hooks';
-import XLSX from 'xlsx';
-import { logger } from '../../../lib/infrastructure/logger.js';
 
 async function doJob(multiFormFiles) {
-  const targetProfiles = Object.entries(
-    multiFormFiles
-      .flatMap((multiFormFile) => parseMultiformFileStage(multiFormFile))
-      .reduce((acc, data) => ({ ...acc, ...data }))
-  )
+  const multiFormDatas = await Promise.all(
+    multiFormFiles.map((multiFormFile) => parseMultiformFileStage(multiFormFile))
+  );
+
+  const targetProfiles = Object.entries(multiFormDatas.flat().reduce((acc, data) => ({ ...acc, ...data })))
     .map(([id, stages]) => ({
       id: parseInt(id),
       stages,
@@ -37,12 +33,13 @@ async function doJob(multiFormFiles) {
   logger.info(`Wrote ${outputFile}`);
 }
 
-function parseMultiformFileStage(file) {
-  const workbook = XLSX.readFile(file);
+async function parseMultiformFileStage(file) {
+  const buf = await readFile(file);
+  const workbook = readXlsx(buf);
 
   return Object.fromEntries(
     Object.entries(workbook.Sheets).map(([tab, sheet]) => {
-      const rowValues = XLSX.utils.sheet_to_json(sheet, { header: ['stage', 'level'], range: 1 });
+      const rowValues = xlsxUtils.sheet_to_json(sheet, { header: ['stage', 'level'], range: 1 });
       // Find index where we can find the "Palier" header in file
       let stageStartIndex = 0;
       for (stageStartIndex; stageStartIndex < rowValues.length; ++stageStartIndex) {
@@ -74,14 +71,13 @@ function containsOnlyLevelStages(stageRows) {
   );
   return levelStageRows.length === stageRows.length;
 }
-const modulePath = url.fileURLToPath(import.meta.url);
-const __filename = modulePath;
+const modulePath = fileURLToPath(import.meta.url);
 
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const startTime = performance.now();
-  logger.info(`Script ${__filename} has started`);
+  logger.info(`Script ${modulePath} has started`);
   const [, , ...files] = process.argv;
   await doJob(files);
   const endTime = performance.now();
