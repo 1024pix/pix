@@ -47,28 +47,23 @@ function getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatme
 function getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments) {
   const remainingUnmatchedSolutions = new Map(Object.entries(treatedSolutions));
 
-  return Object.values(treatedAnswers)
-    .map((answer) => {
-      for (const [solutionGroup, acceptedSolutions] of remainingUnmatchedSolutions) {
-        const status = validateAnswer(answer, acceptedSolutions, useLevenshteinRatio(enabledTreatments));
-
-        if (status) {
-          remainingUnmatchedSolutions.delete(solutionGroup);
-
-          return new CorrectionBlockQROCMDep(true, []);
-        }
+  const correctionBlocksWithoutAlternativeSolutions = Object.values(treatedAnswers).map((answer) => {
+    for (const [solutionGroup, acceptedSolutions] of remainingUnmatchedSolutions) {
+      const status = validateAnswer(answer, acceptedSolutions, useLevenshteinRatio(enabledTreatments));
+      if (status) {
+        remainingUnmatchedSolutions.delete(solutionGroup);
+        return new CorrectionBlockQROCMDep(true, []);
       }
+    }
+    return new CorrectionBlockQROCMDep(false, []);
+  });
 
-      return new CorrectionBlockQROCMDep(false, []);
-    })
-    .map((correctionBlock) => {
-      if (!correctionBlock.validated) {
-        correctionBlock.alternativeSolutions = getAlternativeSolutions(remainingUnmatchedSolutions);
-        return correctionBlock;
-      }
+  const alternativesSolutions = getAlternativeSolutions(remainingUnmatchedSolutions);
 
-      return correctionBlock;
-    });
+  return correctionBlocksWithoutAlternativeSolutions.map((correctionBlock) => {
+    correctionBlock.alternativeSolutions = correctionBlock.validated ? [] : alternativesSolutions;
+    return correctionBlock;
+  });
 }
 
 function getAlternativeSolutions(remainingUnmatchedSolutions) {
