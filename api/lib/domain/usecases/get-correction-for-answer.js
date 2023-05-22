@@ -19,7 +19,12 @@ const getCorrectionForAnswer = async function ({
 
   _validateCorrectionIsAccessible(assessment);
 
-  return correctionRepository.getByChallengeId({ challengeId: answer.challengeId, userId, locale });
+  return correctionRepository.getByChallengeId({
+    challengeId: answer.challengeId,
+    answerValue: answer.value,
+    userId,
+    locale,
+  });
 };
 
 export { getCorrectionForAnswer };

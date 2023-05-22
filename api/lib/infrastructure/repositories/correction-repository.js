@@ -5,13 +5,25 @@ import { Hint } from '../../domain/models/Hint.js';
 import { challengeDatasource } from '../datasources/learning-content/challenge-datasource.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
 import * as tutorialRepository from './tutorial-repository.js';
-const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
+import { getSolution } from '../../domain/services/solution-service-qrocm-dep.js';
+import { Challenge } from '../../domain/models/Challenge.js';
+import { fromDatasourceObject } from '../adapters/solution-adapter.js';
+import { Answer } from '../../domain/models/Answer.js';
+const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 
-const getByChallengeId = async function ({ challengeId, userId, locale, dependencies = { tutorialRepository } } = {}) {
+const getByChallengeId = async function ({
+  challengeId,
+  answerValue,
+  userId,
+  locale,
+  dependencies = { tutorialRepository, fromDatasourceObject, getSolution },
+} = {}) {
   const challenge = await challengeDatasource.get(challengeId);
   const skill = await _getSkill(challenge);
   const hint = await _getHint({ skill, locale });
+  const solution = dependencies.fromDatasourceObject(challenge);
+  let correctionBlocks;
 
   const tutorials = await _getTutorials({
     userId,
@@ -28,6 +40,10 @@ const getByChallengeId = async function ({ challengeId, userId, locale, dependen
     tutorialRepository: dependencies.tutorialRepository,
   });
 
+  if (challenge.type === Challenge.Type.QROCM_DEP && answerValue !== Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
+    correctionBlocks = dependencies.getSolution({ solution, answerValue });
+  }
+
   return new Correction({
     id: challenge.id,
     solution: challenge.solution,
@@ -35,9 +51,9 @@ const getByChallengeId = async function ({ challengeId, userId, locale, dependen
     hint,
     tutorials,
     learningMoreTutorials: learningMoreTutorials,
+    correctionBlocks,
   });
 };
-
 export { getByChallengeId };
 
 async function _getHint({ skill, locale }) {

@@ -19,7 +19,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', function () {
     sinon.stub(answerRepository, 'get');
     sinon.stub(correctionRepository, 'getByChallengeId');
 
-    answer = new Answer({ assessmentId, challengeId: 12 });
+    answer = new Answer({ assessmentId, challengeId: 12, value: 'lareponse' });
     answerRepository.get.withArgs(answerId).resolves(answer);
   });
 
@@ -59,7 +59,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', function () {
 
         const correction = Symbol('A correction');
         correctionRepository.getByChallengeId
-          .withArgs({ challengeId, userId: assessment.userId, locale })
+          .withArgs({ challengeId, answerValue: answer.value, userId: assessment.userId, locale })
           .resolves(correction);
 
         // when
@@ -88,7 +88,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', function () {
 
         const correction = Symbol('A correction');
         correctionRepository.getByChallengeId
-          .withArgs({ challengeId, userId: assessment.userId, locale })
+          .withArgs({ challengeId, answerValue: answer.value, userId: assessment.userId, locale })
           .resolves(correction);
 
         // when
@@ -115,7 +115,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', function () {
 
       const correction = Symbol('A correction');
       correctionRepository.getByChallengeId
-        .withArgs({ challengeId, userId: assessment.userId, locale })
+        .withArgs({ challengeId, answerValue: answer.value, userId: assessment.userId, locale })
         .resolves(correction);
 
       // when

@@ -4,19 +4,17 @@ import { expect } from '../../../test-helper.js';
 describe('Unit | Domain | Models | CorrectionBlockQROCMDep', function () {
   describe('#constructor', function () {
     describe('when not passing parameters', function () {
-      it('should have a validated key that equals false', function () {
-        const correctionBlock = new CorrectionBlockQROCMDep();
-        expect(correctionBlock.validated).to.equal(false);
-      });
-
-      it('should have a alternativeSolutions key which is an empty array', function () {
-        const correctionBlock = new CorrectionBlockQROCMDep();
-        expect(correctionBlock.alternativeSolutions).to.have.length(0);
+      it('should throw an error', function () {
+        expect(() => new CorrectionBlockQROCMDep()).to.throw();
       });
     });
 
     describe('when passing parameters', function () {
       describe('validated param', function () {
+        it('should throw if is undefined', function () {
+          expect(() => new CorrectionBlockQROCMDep()).to.throw();
+        });
+
         it('should throw if is null', function () {
           expect(() => new CorrectionBlockQROCMDep(null)).to.throw();
         });
@@ -32,10 +30,6 @@ describe('Unit | Domain | Models | CorrectionBlockQROCMDep', function () {
       });
 
       describe('alternativeSolutions param', function () {
-        it('should throw if is null', function () {
-          expect(() => new CorrectionBlockQROCMDep(true, null)).to.throw();
-        });
-
         it('should throw if is not an array', function () {
           expect(() => new CorrectionBlockQROCMDep(true, 'not-array')).to.throw();
         });
@@ -55,7 +49,7 @@ describe('Unit | Domain | Models | CorrectionBlockQROCMDep', function () {
   describe('set alternativeSolutions', function () {
     let correctionBlock;
     beforeEach(function () {
-      correctionBlock = new CorrectionBlockQROCMDep();
+      correctionBlock = new CorrectionBlockQROCMDep(true);
     });
 
     it('should throw if is null', function () {

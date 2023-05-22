@@ -10,6 +10,147 @@ import { LOCALE } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
+const buildOptions = (answerId, userId) => ({
+  method: 'GET',
+  url: `/api/answers/${answerId}/correction`,
+  headers: {
+    authorization: generateValidRequestAuthorizationHeader(userId),
+    'accept-language': FRENCH_FRANCE,
+  },
+});
+const solution = 'l1:\n- chien\n- chat\n- cochon\nl2:\n- pigeon\n- poulet\n- veau';
+
+const buildExpectedBody = (correctionBlocks) => ({
+  data: {
+    attributes: {
+      hint: 'Animaux ?',
+      solution,
+      'solution-to-display': 'Des animaux rigolos',
+      'correction-blocks': correctionBlocks,
+    },
+    id: 'q_second_challenge',
+    relationships: {
+      'learning-more-tutorials': {
+        data: [],
+      },
+      tutorials: {
+        data: [
+          {
+            id: 'french-tutorial-id',
+            type: 'tutorials',
+          },
+        ],
+      },
+    },
+    type: 'corrections',
+  },
+  included: [
+    {
+      attributes: {
+        id: 10002,
+        status: 'LIKED',
+        'tutorial-id': 'french-tutorial-id',
+        'user-id': 111,
+      },
+      id: '10002',
+      type: 'tutorial-evaluation',
+    },
+    {
+      attributes: {
+        id: 10001,
+        'tutorial-id': 'french-tutorial-id',
+        'user-id': 111,
+      },
+      id: '10001',
+      type: 'user-saved-tutorial',
+    },
+    {
+      attributes: {
+        duration: '00:03:31',
+        format: 'vidéo',
+        id: 'french-tutorial-id',
+        link: 'http://www.example.com/this-is-an-example.html',
+        'skill-id': 'q_first_acquis',
+        source: 'Source Example, Example',
+        title: 'Communiquer',
+      },
+      id: 'french-tutorial-id',
+      relationships: {
+        'tutorial-evaluation': {
+          data: {
+            id: '10002',
+            type: 'tutorial-evaluation',
+          },
+        },
+        'user-saved-tutorial': {
+          data: {
+            id: '10001',
+            type: 'user-saved-tutorial',
+          },
+        },
+      },
+      type: 'tutorials',
+    },
+  ],
+});
+
+const learningContent = {
+  challenges: [
+    {
+      id: 'q_first_challenge',
+      status: 'validé',
+      competenceId: 'competence_id',
+      solution: 'fromage',
+      solutionToDisplay: 'camembert',
+      skillId: 'q_first_acquis',
+      type: 'QCM',
+    },
+    {
+      id: 'q_second_challenge',
+      status: 'validé',
+      competenceId: 'competence_id',
+      solution: solution,
+      solutionToDisplay: 'Des animaux rigolos',
+      skillId: 'q_first_acquis',
+      type: 'QROCM-dep',
+    },
+  ],
+  tutorials: [
+    {
+      id: 'english-tutorial-id',
+      locale: 'en-us',
+      duration: '00:00:54',
+      format: 'video',
+      link: 'https://tuto.com',
+      source: 'tuto.com',
+      title: 'tuto1',
+    },
+    {
+      id: 'french-tutorial-id',
+      locale: 'fr-fr',
+      duration: '00:03:31',
+      format: 'vidéo',
+      link: 'http://www.example.com/this-is-an-example.html',
+      source: 'Source Example, Example',
+      title: 'Communiquer',
+    },
+  ],
+  skills: [
+    {
+      id: 'q_first_acquis',
+      name: '@web3',
+      hint_i18n: {
+        fr: 'Animaux ?',
+        en: 'Animals ?',
+      },
+      hintStatus: 'Validé',
+      competenceId: 'recABCD',
+      tutorialIds: ['english-tutorial-id', 'french-tutorial-id'],
+      learningMoreTutorialIds: [],
+    },
+  ],
+};
+
 describe('Acceptance | Controller | answer-controller-get-correction', function () {
   let server;
 
@@ -21,7 +162,6 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
     let assessment = null;
     let answer = null;
     let userId;
-
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser({ id: 111 }).id;
       assessment = databaseBuilder.factory.buildAssessment({
@@ -29,74 +169,23 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
         state: 'completed',
         userId,
       });
-
       answer = databaseBuilder.factory.buildAnswer({
         value: 'any good answer',
         result: 'ok',
         challengeId: 'q_first_challenge',
         assessmentId: assessment.id,
       });
-
       databaseBuilder.factory.buildUserSavedTutorial({
         id: 10001,
         userId,
         tutorialId: 'french-tutorial-id',
       });
-
       databaseBuilder.factory.buildTutorialEvaluation({
         id: 10002,
         userId,
         tutorialId: 'french-tutorial-id',
       });
-
       await databaseBuilder.commit();
-
-      const learningContent = {
-        challenges: [
-          {
-            id: 'q_first_challenge',
-            status: 'validé',
-            competenceId: 'competence_id',
-            solution: 'fromage',
-            solutionToDisplay: 'camembert',
-            skillId: 'q_first_acquis',
-          },
-        ],
-        tutorials: [
-          {
-            id: 'english-tutorial-id',
-            locale: 'en-us',
-            duration: '00:00:54',
-            format: 'video',
-            link: 'https://tuto.com',
-            source: 'tuto.com',
-            title: 'tuto1',
-          },
-          {
-            id: 'french-tutorial-id',
-            locale: 'fr-fr',
-            duration: '00:03:31',
-            format: 'vidéo',
-            link: 'http://www.example.com/this-is-an-example.html',
-            source: 'Source Example, Example',
-            title: 'Communiquer',
-          },
-        ],
-        skills: [
-          {
-            id: 'q_first_acquis',
-            name: '@web3',
-            hint_i18n: {
-              fr: 'Geolocaliser ?',
-              en: 'Geolocate ?',
-            },
-            hintStatus: 'Validé',
-            competenceId: 'recABCD',
-            tutorialIds: ['english-tutorial-id', 'french-tutorial-id'],
-            learningMoreTutorialIds: [],
-          },
-        ],
-      };
       mockLearningContent(learningContent);
     });
 
@@ -117,9 +206,10 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
             id: 'q_first_challenge',
             type: 'corrections',
             attributes: {
+              'correction-blocks': [],
               solution: 'fromage',
               'solution-to-display': 'camembert',
-              hint: 'Geolocaliser ?',
+              hint: 'Animaux ?',
             },
             relationships: {
               tutorials: {
@@ -191,6 +281,85 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal(expectedBody);
+      });
+    });
+
+    context('when challenge is a QROCM-dep type', function () {
+      context('when the answer is valid', function () {
+        it('should return expected correction block', async function () {
+          // given
+          answer = databaseBuilder.factory.buildAnswer({
+            value: 'l1: cochon \nl2: pigeon',
+            result: 'ok',
+            challengeId: 'q_second_challenge',
+            assessmentId: assessment.id,
+          });
+          await databaseBuilder.commit();
+          // when
+          const response = await server.inject(buildOptions(answer.id, userId));
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result).to.deep.equal(
+            buildExpectedBody([
+              {
+                validated: true,
+                alternativeSolutions: [],
+              },
+              {
+                validated: true,
+                alternativeSolutions: [],
+              },
+            ])
+          );
+        });
+      });
+
+      context('when the answer is false', function () {
+        it('should return expected correction block', async function () {
+          // given
+          answer = databaseBuilder.factory.buildAnswer({
+            value: 'l1: certainement_pas_une_bonne_réponse \nl2: chien',
+            result: 'ko',
+            challengeId: 'q_second_challenge',
+            assessmentId: assessment.id,
+          });
+
+          await databaseBuilder.commit();
+          const expectedBody = buildExpectedBody([
+            {
+              validated: false,
+              alternativeSolutions: ['pigeon'],
+            },
+            {
+              alternativeSolutions: [],
+              validated: true,
+            },
+          ]);
+          // when
+          const response = await server.inject(buildOptions(answer.id, userId));
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result).to.deep.equal(expectedBody);
+        });
+      });
+
+      context('when the answer is skipped', function () {
+        it('should return expected correction block', async function () {
+          // given
+          answer = databaseBuilder.factory.buildAnswer({
+            value: '#ABAND#',
+            result: 'ko',
+            challengeId: 'q_second_challenge',
+            assessmentId: assessment.id,
+          });
+          await databaseBuilder.commit();
+          const expectedBody = buildExpectedBody([]);
+          // when
+          const response = await server.inject(buildOptions(answer.id, userId));
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result).to.deep.equal(expectedBody);
+        });
       });
     });
 
