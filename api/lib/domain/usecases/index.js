@@ -555,6 +555,7 @@ import { getCampaignParticipationsCountsByStatus } from './get-campaign-particip
 import { getCampaignProfile } from './get-campaign-profile.js';
 import { getCandidateImportSheetData } from './get-candidate-import-sheet-data.js';
 import { getCertificationAttestation } from './certificate/get-certification-attestation.js';
+import { getCertificationAttestationsForSession } from './certificate/get-certification-attestations-for-session.js';
 import { getCertificationCandidate } from './get-certification-candidate.js';
 import { getCertificationCandidateSubscription } from './get-certification-candidate-subscription.js';
 import { getCertificationCenter } from './get-certification-center.js';
@@ -842,6 +843,7 @@ const usecasesWithoutInjectedDependencies = {
   getCampaignProfile,
   getCandidateImportSheetData,
   getCertificationAttestation,
+  getCertificationAttestationsForSession,
   getCertificationCandidate,
   getCertificationCandidateSubscription,
   getCertificationCenter,

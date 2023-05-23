@@ -140,11 +140,28 @@
           </PixButton>
         </div>
 
-        {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
-          <PixButton size="small" @triggerAction={{this.tagSessionAsSentToPrescriber}} @backgroundColor="grey">
-            Résultats transmis au prescripteur
+        <div class="session-info__published-buttons">
+          <PixButton
+            @triggerAction={{this.downloadPDFAttestations}}
+            @backgroundColor="grey"
+            class="session-info__download-button"
+            @isDisabled={{not this.sessionModel.isPublished}}
+            @iconBefore="file-arrow-down"
+          >
+            Télécharger les attestations
           </PixButton>
-        {{/if}}
+
+          {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
+            <PixButton
+              size="small"
+              @triggerAction={{this.tagSessionAsSentToPrescriber}}
+              @backgroundColor="grey"
+              class="session-info__download-button"
+            >
+              Résultats transmis au prescripteur
+            </PixButton>
+          {{/if}}
+        </div>
       </div>
     {{/if}}
   </div>

@@ -17,6 +17,7 @@ import * as requestResponseUtils from '../../infrastructure/utils/request-respon
 import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
 import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import * as supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
+import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import lodash from 'lodash';
 
 const { trim } = lodash;
@@ -203,6 +204,29 @@ const getSessionResultsToDownload = async function (
     .header('Content-Disposition', `attachment; filename=${fileName}`);
 };
 
+const getCertificationPDFAttestationsForSession = async function (
+  request,
+  h,
+  dependencies = { certificationAttestationPdf }
+) {
+  const sessionId = request.params.id;
+  const isFrenchDomainExtension = request.query.isFrenchDomainExtension;
+  const attestations = await usecases.getCertificationAttestationsForSession({
+    sessionId,
+  });
+
+  const { buffer } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
+    certificates: attestations,
+    isFrenchDomainExtension,
+  });
+
+  const fileName = `attestation-pix-session-${sessionId}.pdf`;
+  return h
+    .response(buffer)
+    .header('Content-Disposition', `attachment; filename=${fileName}`)
+    .header('Content-Type', 'application/pdf');
+};
+
 const getSessionResultsByRecipientEmail = async function (
   request,
   h,
@@ -380,6 +404,7 @@ const sessionController = {
   getSupervisorKitPdf,
   getCandidatesImportSheet,
   getCertificationCandidates,
+  getCertificationPDFAttestationsForSession,
   addCertificationCandidate,
   deleteCertificationCandidate,
   getJuryCertificationSummaries,

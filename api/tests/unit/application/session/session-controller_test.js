@@ -1078,6 +1078,67 @@ describe('Unit | Controller | sessionController', function () {
       expect(response.headers['Content-Disposition']).to.contains(`attachment; filename=kit-surveillant-1.pdf`);
     });
   });
+
+  describe('#getSessionPDFAttestations', function () {
+    it('should return an attestation in PDF binary format', async function () {
+      // given
+      const certificationAttestationPdf = {
+        getCertificationAttestationsPdfBuffer: sinon.stub(),
+      };
+      const session = domainBuilder.buildSession.finalized({ id: 12 });
+      domainBuilder.buildCertificationCourse({
+        id: 1,
+        sessionId: 12,
+        userId: 1,
+        completedAt: '2020-01-01',
+      });
+      domainBuilder.buildCertificationCourse({
+        id: 2,
+        sessionId: 12,
+        userId: 2,
+        completedAt: '2020-01-01',
+      });
+      domainBuilder.buildCertificationCourse({
+        id: 3,
+        sessionId: 12,
+        userId: 3,
+        completedAt: '2020-01-01',
+      });
+      const certification1 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 1 });
+      const certification2 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 2 });
+      const certification3 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 3 });
+      const attestationPDF = 'binary string';
+      const userId = 1;
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: session.id },
+        query: { isFrenchDomainExtension: true },
+      };
+
+      sinon
+        .stub(usecases, 'getCertificationAttestationsForSession')
+        .withArgs({
+          sessionId: session.id,
+        })
+        .resolves([certification1, certification2, certification3]);
+
+      certificationAttestationPdf.getCertificationAttestationsPdfBuffer
+        .withArgs({ certificates: [certification1, certification2, certification3], isFrenchDomainExtension: true })
+        .resolves({ buffer: attestationPDF });
+
+      // when
+      const response = await sessionController.getCertificationPDFAttestationsForSession(request, hFake, {
+        certificationAttestationPdf,
+      });
+
+      // then
+      expect(response.source).to.deep.equal(attestationPDF);
+      expect(response.headers['Content-Disposition']).to.contains(
+        'attachment; filename=attestation-pix-session-12.pdf'
+      );
+    });
+  });
 });
 
 function buildRequest(sessionId, userId, firstName, lastName, birthdate) {
