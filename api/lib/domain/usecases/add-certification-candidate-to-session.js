@@ -8,7 +8,7 @@ import {
 const addCertificationCandidateToSession = async function ({
   sessionId,
   certificationCandidate,
-  complementaryCertifications,
+  complementaryCertification,
   sessionRepository,
   certificationCandidateRepository,
   certificationCpfService,
@@ -55,7 +55,7 @@ const addCertificationCandidateToSession = async function ({
 
   certificationCandidate.updateBirthInformation(cpfBirthInformation);
 
-  certificationCandidate.complementaryCertifications = complementaryCertifications;
+  certificationCandidate.complementaryCertification = complementaryCertification;
 
   return await certificationCandidateRepository.saveInSession({
     certificationCandidate,

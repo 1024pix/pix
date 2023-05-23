@@ -11,7 +11,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
       findStillValidBadgeAcquisitions: sinon.stub(),
     };
     certificationCandidateRepository = {
-      getWithComplementaryCertifications: sinon.stub(),
+      getWithComplementaryCertification: sinon.stub(),
     };
 
     certificationCenterRepository = {
@@ -37,20 +37,20 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           complementaryCertification,
         });
 
-        const candidateWithComplementaryCertifications = domainBuilder.buildCertificationCandidate({
+        const candidateWithComplementaryCertification = domainBuilder.buildCertificationCandidate({
           id: certificationCandidateId,
           userId,
           sessionId,
-          complementaryCertifications: [complementaryCertification],
+          complementaryCertification,
         });
 
         const certificationCenter = domainBuilder.buildCertificationCenter({
           habilitations: [],
         });
 
-        certificationCandidateRepository.getWithComplementaryCertifications
+        certificationCandidateRepository.getWithComplementaryCertification
           .withArgs(certificationCandidateId)
-          .resolves(candidateWithComplementaryCertifications);
+          .resolves(candidateWithComplementaryCertification);
 
         certificationCenterRepository.getBySessionId.withArgs(sessionId).resolves(certificationCenter);
 
@@ -71,8 +71,8 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           domainBuilder.buildCertificationCandidateSubscription({
             id: certificationCandidateId,
             sessionId,
-            eligibleSubscriptions: [],
-            nonEligibleSubscriptions: [],
+            eligibleSubscription: null,
+            nonEligibleSubscription: null,
           })
         );
       });
@@ -101,15 +101,15 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           complementaryCertification,
         });
 
-        const candidateWithoutComplementaryCertifications = domainBuilder.buildCertificationCandidate({
+        const candidateWithoutComplementaryCertification = domainBuilder.buildCertificationCandidate({
           id: certificationCandidateId,
           userId,
           sessionId,
-          complementaryCertifications: [],
+          complementaryCertification: null,
         });
-        certificationCandidateRepository.getWithComplementaryCertifications
+        certificationCandidateRepository.getWithComplementaryCertification
           .withArgs(certificationCandidateId)
-          .resolves(candidateWithoutComplementaryCertifications);
+          .resolves(candidateWithoutComplementaryCertification);
 
         certificationCenterRepository.getBySessionId.withArgs(sessionId).resolves(certificationCenter);
 
@@ -130,67 +130,10 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           domainBuilder.buildCertificationCandidateSubscription({
             id: certificationCandidateId,
             sessionId,
-            eligibleSubscriptions: [],
-            nonEligibleSubscriptions: [],
+            eligibleSubscription: null,
+            nonEligibleSubscription: null,
           })
         );
-      });
-    });
-
-    context('when the candidate is registered to several complementary certifications', function () {
-      context('when the candidate is eligible to only one complementary certification', function () {
-        it('should return the candidate with one eligible and one non eligible complementary certifications', async function () {
-          // given
-          const certificationCandidateId = 123;
-          const userId = 456;
-          const sessionId = 789;
-
-          const complementaryCertification1 = domainBuilder.buildComplementaryCertification({ key: 'PIX+1' });
-          const complementaryCertification2 = domainBuilder.buildComplementaryCertification({ key: 'PIX+2' });
-
-          const certificationCenter = domainBuilder.buildCertificationCenter({
-            habilitations: [complementaryCertification1, complementaryCertification2],
-          });
-
-          const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-            badgeKey: 'PIX+_BADGE',
-            complementaryCertificationKey: complementaryCertification1.key,
-          });
-
-          const candidateWithComplementaryCertifications = domainBuilder.buildCertificationCandidate({
-            id: certificationCandidateId,
-            userId,
-            sessionId,
-            complementaryCertifications: [complementaryCertification1, complementaryCertification2],
-          });
-          certificationCandidateRepository.getWithComplementaryCertifications
-            .withArgs(certificationCandidateId)
-            .resolves(candidateWithComplementaryCertifications);
-
-          certificationCenterRepository.getBySessionId.withArgs(sessionId).resolves(certificationCenter);
-
-          certificationBadgesService.findStillValidBadgeAcquisitions
-            .withArgs({ userId })
-            .resolves([certifiableBadgeAcquisition]);
-
-          // when
-          const certificationCandidateSubscription = await getCertificationCandidateSubscription({
-            certificationCandidateId,
-            certificationBadgesService,
-            certificationCandidateRepository,
-            certificationCenterRepository,
-          });
-
-          // then
-          expect(certificationCandidateSubscription).to.deep.equal(
-            domainBuilder.buildCertificationCandidateSubscription({
-              id: certificationCandidateId,
-              sessionId,
-              eligibleSubscriptions: [complementaryCertification1],
-              nonEligibleSubscriptions: [complementaryCertification2],
-            })
-          );
-        });
       });
     });
   });

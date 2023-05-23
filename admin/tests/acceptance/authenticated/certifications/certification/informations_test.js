@@ -321,8 +321,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         test('should be possible to update jury level', async function (assert) {
           //given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          const complementaryCertificationCourseResultsWithExternal = server.create(
-            'complementary-certification-course-results-with-external',
+          const complementaryCertificationCourseResultWithExternal = server.create(
+            'complementary-certification-course-result-with-external',
             {
               complementaryCertificationCourseId: 1234,
               pixResult: 'Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)',
@@ -337,14 +337,14 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             }
           );
           certification.update({
-            complementaryCertificationCourseResultsWithExternal,
+            complementaryCertificationCourseResultWithExternal,
           });
 
           this.server.post('/admin/complementary-certification-course-results', (schema) => {
-            const complementaryCertificationCourseResultsWithExternal =
-              schema.complementaryCertificationCourseResultsWithExternals.first();
+            const complementaryCertificationCourseResultWithExternal =
+              schema.complementaryCertificationCourseResultWithExternals.first();
 
-            complementaryCertificationCourseResultsWithExternal.update({
+            complementaryCertificationCourseResultWithExternal.update({
               externalResult: 'Pix+ Édu Initiale 1er degré Confirmé',
               finalResult: 'Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)',
             });
@@ -390,8 +390,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             }),
           ];
           const session = server.create('session', { id: 321, juryCertificationSummaries });
-          const complementaryCertificationCourseResultsWithExternal1 = server.create(
-            'complementary-certification-course-results-with-external',
+          const complementaryCertificationCourseResultWithExternal1 = server.create(
+            'complementary-certification-course-result-with-external',
             {
               complementaryCertificationCourseId: 1234,
               pixResult: 'Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)',
@@ -409,12 +409,12 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             id: 398,
             sessionId: session.id,
             userId: 777,
-            complementaryCertificationCourseResultsWithExternal: complementaryCertificationCourseResultsWithExternal1,
+            complementaryCertificationCourseResultWithExternal: complementaryCertificationCourseResultWithExternal1,
             competencesWithMark: [],
           });
 
-          const complementaryCertificationCourseResultsWithExternal2 = server.create(
-            'complementary-certification-course-results-with-external',
+          const complementaryCertificationCourseResultWithExternal2 = server.create(
+            'complementary-certification-course-result-with-external',
             {
               complementaryCertificationCourseId: 5678,
               pixResult: 'Pix+ Édu Initiale 2nd degré Initié (entrée dans le métier)',
@@ -432,7 +432,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             id: 456,
             userId: 666,
             sessionId: session.id,
-            complementaryCertificationCourseResultsWithExternal: complementaryCertificationCourseResultsWithExternal2,
+            complementaryCertificationCourseResultWithExternal: complementaryCertificationCourseResultWithExternal2,
             competencesWithMark: [],
           });
 
@@ -455,43 +455,33 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       test('it displays common complementary certifications result', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-        const commonComplementaryCertificationCourseResults = [
-          server.create('common-complementary-certification-course-result', {
+        const commonComplementaryCertificationCourseResult = server.create(
+          'common-complementary-certification-course-result',
+          {
             label: 'CléA Numérique',
             status: 'Validée',
-          }),
-          server.create('common-complementary-certification-course-result', {
-            label: 'Pix+ Droit Maître',
-            status: 'Validée',
-          }),
-          server.create('common-complementary-certification-course-result', {
-            label: 'Pix+ Droit Expert',
-            status: 'Rejetée',
-          }),
-        ];
+          }
+        );
 
         certification.update({
-          commonComplementaryCertificationCourseResults,
+          commonComplementaryCertificationCourseResult,
         });
 
         // when
         const screen = await visit(`/certifications/${certification.id}`);
 
         // then
-        assert.dom(screen.getByText('Certifications complémentaires')).exists();
+        assert.dom(screen.getByText('Certification complémentaire')).exists();
         assert.dom(screen.queryByText('Résultats de la certification complémentaire Pix+ Edu :')).doesNotExist();
         assert.dom(screen.getByText('CléA Numérique :')).exists();
-        assert.dom(screen.getByText('Pix+ Droit Maître :')).exists();
-        assert.dom(screen.getByText('Pix+ Droit Expert :')).exists();
-        assert.strictEqual(screen.getAllByText('Validée').length, 2);
-        assert.strictEqual(screen.getAllByText('Rejetée').length, 1);
+        assert.dom(screen.getByText('Validée')).exists();
       });
 
       test('it displays external complementary certifications', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-        const complementaryCertificationCourseResultsWithExternal = server.create(
-          'complementary-certification-course-results-with-external',
+        const complementaryCertificationCourseResultWithExternal = server.create(
+          'complementary-certification-course-result-with-external',
           {
             complementaryCertificationCourseId: 1234,
             pixResult: 'Pix+ Édu Initié (entrée dans le métier)',
@@ -500,7 +490,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           }
         );
         certification.update({
-          complementaryCertificationCourseResultsWithExternal,
+          complementaryCertificationCourseResultWithExternal,
         });
 
         // when

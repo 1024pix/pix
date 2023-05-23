@@ -14,7 +14,7 @@ const buildJuryCertificationSummary = function ({
   isCancelled = false,
   isEndedBySupervisor = false,
   hasSeenEndTestScreen = true,
-  complementaryCertificationTakenLabels = [],
+  complementaryCertificationTakenLabel,
   certificationIssueReports = [],
 } = {}) {
   return new JuryCertificationSummary({
@@ -30,7 +30,7 @@ const buildJuryCertificationSummary = function ({
     isCancelled,
     isEndedBySupervisor,
     hasSeenEndTestScreen,
-    complementaryCertificationTakenLabels,
+    complementaryCertificationTakenLabel,
     certificationIssueReports,
   });
 };

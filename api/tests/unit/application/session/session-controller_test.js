@@ -229,17 +229,17 @@ describe('Unit | Controller | sessionController', function () {
     const certificationCandidate = 'candidate';
     const addedCertificationCandidate = 'addedCandidate';
     const certificationCandidateJsonApi = 'addedCandidateJSONApi';
-    let complementaryCertifications;
+    let complementaryCertification;
 
     beforeEach(function () {
       // given
-      complementaryCertifications = Symbol('complementaryCertifications');
+      complementaryCertification = Symbol('complementaryCertification');
       request = {
         params: { id: sessionId },
         payload: {
           data: {
             attributes: {
-              'complementary-certifications': complementaryCertifications,
+              'complementary-certification': complementaryCertification,
             },
           },
         },
@@ -249,7 +249,7 @@ describe('Unit | Controller | sessionController', function () {
         .withArgs({
           sessionId,
           certificationCandidate,
-          complementaryCertifications,
+          complementaryCertification,
         })
         .resolves(addedCertificationCandidate);
     });

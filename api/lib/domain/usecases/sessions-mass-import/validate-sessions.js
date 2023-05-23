@@ -123,12 +123,12 @@ async function _createValidCertificationCandidates({
     } else {
       domainCertificationCandidate.updateBirthInformation(cpfBirthInformation);
 
-      if (domainCertificationCandidate.complementaryCertifications.length) {
+      if (domainCertificationCandidate.complementaryCertification) {
         const complementaryCertification = await complementaryCertificationRepository.getByLabel({
-          label: domainCertificationCandidate.complementaryCertifications[0],
+          label: domainCertificationCandidate.complementaryCertification,
         });
 
-        domainCertificationCandidate.complementaryCertifications = [complementaryCertification];
+        domainCertificationCandidate.complementaryCertification = complementaryCertification;
       }
     }
 

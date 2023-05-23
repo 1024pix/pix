@@ -1,6 +1,6 @@
-import { ComplementaryCertificationCourseResultsForJuryCertificationWithExternal } from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal.js';
+import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal } from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultForJuryCertificationWithExternal.js';
 
-const buildPixEduComplementaryCertificationCourseResultsForJuryCertificationWithExternal = function ({
+const buildComplementaryCertificationCourseResultForJuryCertificationWithExternal = function ({
   complementaryCertificationCourseId = 456,
   pixPartnerKey = 'PIX_PARTNER_KEY',
   pixLabel = 'Pix+ Édu 1er degré Avancé',
@@ -12,7 +12,7 @@ const buildPixEduComplementaryCertificationCourseResultsForJuryCertificationWith
   externalLevel = 1,
   allowedExternalLevels = [],
 } = {}) {
-  return new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
+  return new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
     complementaryCertificationCourseId,
     pixPartnerKey,
     pixLabel,
@@ -26,4 +26,4 @@ const buildPixEduComplementaryCertificationCourseResultsForJuryCertificationWith
   });
 };
 
-export { buildPixEduComplementaryCertificationCourseResultsForJuryCertificationWithExternal };
+export { buildComplementaryCertificationCourseResultForJuryCertificationWithExternal };

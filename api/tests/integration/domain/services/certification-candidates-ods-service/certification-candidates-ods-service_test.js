@@ -218,7 +218,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           authorizedToStart: undefined,
           userId: undefined,
           organizationLearnerId: null,
-          complementaryCertifications: [],
+          complementaryCertification: null,
           billingMode: null,
           prepaymentCode: null,
           sessionId,
@@ -241,7 +241,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           authorizedToStart: undefined,
           userId: undefined,
           organizationLearnerId: null,
-          complementaryCertifications: [],
+          complementaryCertification: null,
           billingMode: null,
           prepaymentCode: null,
           sessionId,
@@ -370,9 +370,9 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             extraTimePercentage: 0.15,
             sessionId,
             billingMode: 'FREE',
-            complementaryCertifications: [
-              domainBuilder.buildComplementaryCertification(pixPlusEdu1erDegreComplementaryCertification),
-            ],
+            complementaryCertification: domainBuilder.buildComplementaryCertification(
+              pixPlusEdu1erDegreComplementaryCertification
+            ),
           },
           {
             lastName: 'Jackson',
@@ -389,9 +389,9 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             extraTimePercentage: null,
             sessionId,
             billingMode: 'FREE',
-            complementaryCertifications: [
-              domainBuilder.buildComplementaryCertification(pixPlusDroitComplementaryCertification),
-            ],
+            complementaryCertification: domainBuilder.buildComplementaryCertification(
+              pixPlusDroitComplementaryCertification
+            ),
           },
           {
             lastName: 'Jackson',
@@ -408,9 +408,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             extraTimePercentage: 0.6,
             sessionId,
             billingMode: 'FREE',
-            complementaryCertifications: [
-              domainBuilder.buildComplementaryCertification(cleaComplementaryCertification),
-            ],
+            complementaryCertification: domainBuilder.buildComplementaryCertification(cleaComplementaryCertification),
           },
           {
             lastName: 'Mercury',
@@ -427,9 +425,9 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             extraTimePercentage: 1.5,
             sessionId,
             billingMode: 'FREE',
-            complementaryCertifications: [
-              domainBuilder.buildComplementaryCertification(pixPlusEdu2ndDegreComplementaryCertification),
-            ],
+            complementaryCertification: domainBuilder.buildComplementaryCertification(
+              pixPlusEdu2ndDegreComplementaryCertification
+            ),
           },
         ],
         (candidate) => new CertificationCandidate(candidate)
@@ -656,7 +654,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           authorizedToStart: undefined,
           userId: undefined,
           organizationLearnerId: null,
-          complementaryCertifications: [],
+          complementaryCertification: null,
           billingMode: null,
           prepaymentCode: null,
           sessionId,
@@ -679,7 +677,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           authorizedToStart: undefined,
           userId: undefined,
           organizationLearnerId: null,
-          complementaryCertifications: [],
+          complementaryCertification: null,
           billingMode: null,
           prepaymentCode: null,
           sessionId,

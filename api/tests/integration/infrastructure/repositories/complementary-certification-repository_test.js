@@ -60,7 +60,7 @@ describe('Integration | Repository | complementary-certification-repository', fu
       });
     });
 
-    describe('when there are no complementary certifications', function () {
+    describe('when there are no complementary certification', function () {
       it('should return an empty array', async function () {
         // given when
         const complementaryCertifications = await complementaryCertificationRepository.findAll();

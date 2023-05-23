@@ -6,7 +6,7 @@ import { sources } from '../models/ComplementaryCertificationCourseResult.js';
 
 const { EXTERNAL, PIX } = sources;
 
-class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
+class ComplementaryCertificationCourseResultForJuryCertificationWithExternal {
   constructor({
     complementaryCertificationCourseId,
     pixPartnerKey,
@@ -35,14 +35,14 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
     this.allowedExternalLevels = allowedExternalLevels;
   }
 
-  static from(complementaryCertificationCourseResultsWithExternal, badgeKeyAndLabelsGroupedByTargetProfile) {
-    if (!complementaryCertificationCourseResultsWithExternal.length) {
+  static from(complementaryCertificationCourseResultWithExternal, badgeKeyAndLabelsGroupedByTargetProfile) {
+    if (!complementaryCertificationCourseResultWithExternal.length) {
       return;
     }
-    const pixComplementaryCertificationCourseResult = complementaryCertificationCourseResultsWithExternal.find(
+    const pixComplementaryCertificationCourseResult = complementaryCertificationCourseResultWithExternal.find(
       ({ source }) => source === PIX
     );
-    const externalComplementaryCertificationCourseResult = complementaryCertificationCourseResultsWithExternal.find(
+    const externalComplementaryCertificationCourseResult = complementaryCertificationCourseResultWithExternal.find(
       ({ source }) => source === EXTERNAL
     );
 
@@ -54,9 +54,9 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
       allowedExternalLevels = filteredBadges.map(({ key, label }) => ({ label, value: key }));
     }
 
-    return new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
+    return new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
       complementaryCertificationCourseId:
-        complementaryCertificationCourseResultsWithExternal[0].complementaryCertificationCourseId,
+        complementaryCertificationCourseResultWithExternal[0].complementaryCertificationCourseId,
       pixPartnerKey: pixComplementaryCertificationCourseResult?.partnerKey,
       pixLabel: pixComplementaryCertificationCourseResult?.label,
       pixAcquired: pixComplementaryCertificationCourseResult?.acquired,
@@ -103,4 +103,4 @@ class Section {
   }
 }
 
-export { ComplementaryCertificationCourseResultsForJuryCertificationWithExternal };
+export { ComplementaryCertificationCourseResultForJuryCertificationWithExternal };

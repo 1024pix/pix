@@ -1,16 +1,16 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { ComplementaryCertificationCourseResultsForJuryCertification } from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification.js';
+import { ComplementaryCertificationCourseResultForJuryCertification } from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
 
-describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJuryCertification', function () {
+describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJuryCertification', function () {
   describe('#status', function () {
     describe('when the complementary certification course result is acquired', function () {
       it('should return Validée', function () {
         // given
-        const complementaryCertificationCourseResultsForJuryCertification =
-          new ComplementaryCertificationCourseResultsForJuryCertification({ acquired: true });
+        const complementaryCertificationCourseResultForJuryCertification =
+          new ComplementaryCertificationCourseResultForJuryCertification({ acquired: true });
 
         // when
-        const status = complementaryCertificationCourseResultsForJuryCertification.status;
+        const status = complementaryCertificationCourseResultForJuryCertification.status;
 
         // then
         expect(status).to.equal('Validée');
@@ -20,11 +20,11 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
     describe('when the complementary certification course result is not acquired', function () {
       it('should return Rejetée', function () {
         // given
-        const complementaryCertificationCourseResultsForJuryCertification =
-          new ComplementaryCertificationCourseResultsForJuryCertification({ acquired: false });
+        const complementaryCertificationCourseResultForJuryCertification =
+          new ComplementaryCertificationCourseResultForJuryCertification({ acquired: false });
 
         // when
-        const status = complementaryCertificationCourseResultsForJuryCertification.status;
+        const status = complementaryCertificationCourseResultForJuryCertification.status;
 
         // then
         expect(status).to.equal('Rejetée');
@@ -33,7 +33,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
   });
 
   describe('#from', function () {
-    it('should return an instance of ComplementaryCertificationCourseResultsForJuryCertification', function () {
+    it('should return an instance of ComplementaryCertificationCourseResultForJuryCertification', function () {
       // given
       const id = 121;
       const partnerKey = 'KEY';
@@ -41,7 +41,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
       const label = 'label';
 
       // when
-      const result = ComplementaryCertificationCourseResultsForJuryCertification.from({
+      const result = ComplementaryCertificationCourseResultForJuryCertification.from({
         id,
         partnerKey,
         acquired,

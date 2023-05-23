@@ -52,9 +52,11 @@ const certificationCandidateValidationJoiSchema = Joi.object({
       'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_REQUIRED.code,
     }),
   }),
-  complementaryCertifications: Joi.array().max(1).required().messages({
-    'array.max': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
-  }),
+  complementaryCertification: Joi.object({
+    id: Joi.number().required(),
+    label: Joi.string().required().empty(null),
+    key: Joi.string().required().empty(null),
+  }).allow(null),
   billingMode: Joi.when('$isSco', {
     is: false,
     then: Joi.string()
@@ -101,7 +103,11 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   sessionId: Joi.number().required(),
   userId: Joi.any().allow(null).optional(),
   organizationLearnerId: Joi.any().allow(null).optional(),
-  complementaryCertifications: Joi.array(),
+  complementaryCertification: Joi.object({
+    id: Joi.number().required(),
+    label: Joi.string().required().empty(null),
+    key: Joi.string().required().empty(null),
+  }).allow(null),
   billingMode: Joi.string()
     .valid(...Object.values(BILLING_MODES))
     .empty(null),
@@ -129,7 +135,7 @@ class CertificationCandidate {
     sessionId,
     userId,
     organizationLearnerId = null,
-    complementaryCertifications = [],
+    complementaryCertification = null,
     billingMode = null,
     prepaymentCode = null,
   } = {}) {
@@ -152,7 +158,7 @@ class CertificationCandidate {
     this.sessionId = sessionId;
     this.userId = userId;
     this.organizationLearnerId = organizationLearnerId;
-    this.complementaryCertifications = complementaryCertifications;
+    this.complementaryCertification = complementaryCertification;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
   }
@@ -246,7 +252,7 @@ class CertificationCandidate {
   }
 
   isGranted(key) {
-    return this.complementaryCertifications.some((comp) => comp.key === key);
+    return this.complementaryCertification.key === key;
   }
 
   isBillingModePrepaid() {

@@ -44,7 +44,7 @@ export default class CertificationCandidatesController extends Controller {
     await this.reloadCertificationCandidate();
   }
 
-  get shouldDisplayComplementaryCertifications() {
+  get shouldDisplayComplementaryCertificationsHabilitations() {
     return this.currentUser.currentAllowedCertificationCenterAccess.hasHabilitations;
   }
 

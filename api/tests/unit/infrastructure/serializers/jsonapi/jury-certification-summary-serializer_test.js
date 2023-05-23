@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         certificationIssueReports: [issueReport],
         hasSeenEndTestScreen: false,
         isFlaggedAborted: false,
-        complementaryCertificationTakenLabels: ['CléA Numérique', 'Pix+ Droit Maître', 'Pix+ Édu 2nd degré Avancé'],
+        complementaryCertificationTakenLabel: 'CléA Numérique',
       });
 
       expectedJsonApi = {
@@ -47,11 +47,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
             'number-of-certification-issue-reports-with-required-action': 1,
             'has-seen-end-test-screen': modelJuryCertifSummary.hasSeenEndTestScreen,
             'is-flagged-aborted': false,
-            'complementary-certification-taken-labels': [
-              'CléA Numérique',
-              'Pix+ Droit Maître',
-              'Pix+ Édu 2nd degré Avancé',
-            ],
+            'complementary-certification-taken-label': 'CléA Numérique',
           },
         },
       };

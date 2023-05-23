@@ -54,11 +54,11 @@ const getWithCertificationCandidates = async function (sessionId) {
   }
 
   const certificationCandidates = await knex
-    .select('certification-candidates.*')
     .select({
-      complementaryCertifications: knex.raw(`
-      json_agg(json_build_object('id', "complementary-certifications"."id", 'label', "complementary-certifications"."label", 'key', "complementary-certifications"."key"))
-      `),
+      certificationCandidate: 'certification-candidates.*',
+      complementaryCertificationId: 'complementary-certifications.id',
+      complementaryCertificationKey: 'complementary-certifications.key',
+      complementaryCertificationLabel: 'complementary-certifications.label',
     })
     .from('certification-candidates')
     .leftJoin(
@@ -71,7 +71,7 @@ const getWithCertificationCandidates = async function (sessionId) {
       'complementary-certifications.id',
       'complementary-certification-subscriptions.complementaryCertificationId'
     )
-    .groupBy('certification-candidates.id')
+    .groupBy('certification-candidates.id', 'complementary-certifications.id')
     .where({ sessionId })
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
 
@@ -231,14 +231,25 @@ function _toDomain(results) {
       (candidateData) =>
         new CertificationCandidate({
           ...candidateData,
-          complementaryCertifications: candidateData.complementaryCertifications.filter(
-            (complementaryCertification) => complementaryCertification.id != null
-          ),
+          complementaryCertification: _buildComplementaryCertification({
+            id: candidateData.complementaryCertificationId,
+            key: candidateData.complementaryCertificationKey,
+            label: candidateData.complementaryCertificationLabel,
+          }),
         })
     );
 
   return new Session({
     ...results,
     certificationCandidates: toDomainCertificationCandidates,
+  });
+}
+
+function _buildComplementaryCertification({ id, key, label }) {
+  if (!id) return null;
+  return new ComplementaryCertification({
+    id,
+    key,
+    label,
   });
 }

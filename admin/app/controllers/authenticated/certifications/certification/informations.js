@@ -84,7 +84,7 @@ export default class CertificationInformationsController extends Controller {
 
   get juryLevelOptions() {
     return [
-      ...this.certification.complementaryCertificationCourseResultsWithExternal.get('allowedExternalLevels'),
+      ...this.certification.complementaryCertificationCourseResultWithExternal.get('allowedExternalLevels'),
       { value: 'REJECTED', label: 'Rejetée' },
     ];
   }
@@ -272,7 +272,7 @@ export default class CertificationInformationsController extends Controller {
     if (!this.selectedJuryLevel) return;
     this.certification.editJuryLevel({
       juryLevel: this.selectedJuryLevel,
-      complementaryCertificationCourseId: this.certification.complementaryCertificationCourseResultsWithExternal.get(
+      complementaryCertificationCourseId: this.certification.complementaryCertificationCourseResultWithExternal.get(
         'complementaryCertificationCourseId'
       ),
     });
@@ -283,7 +283,7 @@ export default class CertificationInformationsController extends Controller {
   }
 
   get shouldDisplayJuryLevelEditButton() {
-    return this.certification.complementaryCertificationCourseResultsWithExternal.get('isExternalResultEditable');
+    return this.certification.complementaryCertificationCourseResultWithExternal.get('isExternalResultEditable');
   }
 
   @action editJury() {

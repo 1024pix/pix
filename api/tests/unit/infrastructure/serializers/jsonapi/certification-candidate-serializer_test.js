@@ -10,13 +10,11 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
     certificationCandidate = domainBuilder.buildCertificationCandidate({
       organizationLearnerId: 1,
       billingMode: 'PAID',
-      complementaryCertifications: [
-        domainBuilder.buildComplementaryCertification({
-          id: 2,
-          label: 'Pix+Patisserie',
-          key: 'PATISSERIE',
-        }),
-      ],
+      complementaryCertification: domainBuilder.buildComplementaryCertification({
+        id: 2,
+        label: 'Pix+Patisserie',
+        key: 'PATISSERIE',
+      }),
     });
   });
 
@@ -45,13 +43,11 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
             'is-linked': !_.isNil(certificationCandidate.userId),
             'organization-learner-id': 1,
             sex: certificationCandidate.sex,
-            'complementary-certifications': [
-              {
-                id: 2,
-                label: 'Pix+Patisserie',
-                key: 'PATISSERIE',
-              },
-            ],
+            'complementary-certification': {
+              id: 2,
+              label: 'Pix+Patisserie',
+              key: 'PATISSERIE',
+            },
           },
         },
       };

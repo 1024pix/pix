@@ -166,8 +166,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             this.server.create('certification-candidate-subscription', {
               id: 1,
               sessionId: 1,
-              eligibleSubscriptions: [],
-              nonEligibleSubscriptions: [],
+              eligibleSubscription: null,
+              nonEligibleSubscription: null,
             });
 
             // when
@@ -193,8 +193,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             this.server.create('certification-candidate-subscription', {
               id: 2,
               sessionId: 1,
-              eligibleSubscriptions: [],
-              nonEligibleSubscriptions: [],
+              eligibleSubscription: null,
+              nonEligibleSubscription: null,
             });
 
             // when
@@ -234,8 +234,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             this.server.create('certification-candidate-subscription', {
               id: 2,
               sessionId: 1,
-              eligibleSubscriptions: [],
-              nonEligibleSubscriptions: [],
+              eligibleSubscription: null,
+              nonEligibleSubscription: null,
             });
           });
 
@@ -357,8 +357,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         this.server.create('certification-candidate-subscription', {
           id: 2,
           sessionId: 1,
-          eligibleSubscriptions: [],
-          nonEligibleSubscriptions: [],
+          eligibleSubscription: null,
+          nonEligibleSubscription: null,
         });
 
         await authenticate(user);
@@ -432,8 +432,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             server.create('certification-candidate-subscription', {
               id: 2,
               sessionId: 1,
-              eligibleSubscriptions: [],
-              nonEligibleSubscriptions: [],
+              eligibleSubscription: null,
+              nonEligibleSubscription: null,
             });
 
             await authenticate(user);

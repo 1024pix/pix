@@ -45,9 +45,9 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       beforeEach(function () {
         const dbf = databaseBuilder.factory;
         sessionId = dbf.buildSession().id;
-        manyAsrCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
         startedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
         otherStartedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'DDD' });
+        manyAsrCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
 
         const manyAsrAssessmentId = dbf.buildAssessment({ certificationCourseId: manyAsrCertification.id }).id;
         dbf.buildAssessment({ certificationCourseId: startedCertification.id });
@@ -106,7 +106,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
               resolution: null,
             }),
           ],
-          complementaryCertificationTakenLabels: [],
+          complementaryCertificationTakenLabel: null,
         });
         expect(juryCertificationSummaries).to.have.length(3);
         expect(juryCertificationSummaries[0]).to.deepEqualInstance(expectedJuryCertificationSummary);
@@ -272,7 +272,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
 
       // then
       expect(juryCertificationSummaries).to.have.lengthOf(1);
-      expect(juryCertificationSummaries[0].complementaryCertificationTakenLabels[0]).to.equal('PARTNER_LABEL');
+      expect(juryCertificationSummaries[0].complementaryCertificationTakenLabel).to.equal('PARTNER_LABEL');
     });
   });
 
@@ -373,7 +373,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         expect(juryCertificationSummary.completedAt).to.deep.equal(manyAsrCertification.completedAt);
         expect(juryCertificationSummary.isPublished).to.equal(manyAsrCertification.isPublished);
         expect(juryCertificationSummary.hasSeendEndTestScreen).to.equal(manyAsrCertification.hasSeendEndTestScreen);
-        expect(juryCertificationSummary.complementaryCertificationTakenLabels[0]).to.equal(label);
+        expect(juryCertificationSummary.complementaryCertificationTakenLabel).to.equal(label);
         expect(juryCertificationSummary.certificationIssueReports).to.deep.equal([
           new CertificationIssueReport({
             id: issueReport1.id,
