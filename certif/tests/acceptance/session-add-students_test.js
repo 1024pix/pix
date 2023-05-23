@@ -267,7 +267,6 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
       });
 
       module('when there are enrolled students', function (hooks) {
-        const rowSelector = '.add-student-list table tbody tr';
         let sessionWithEnrolledStudent;
 
         hooks.beforeEach(async () => {
@@ -275,57 +274,62 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
           sessionWithEnrolledStudent = server.create('session', {
             certificationCenterId: allowedCertificationCenterAccess.id,
           });
-          server.create('student', { isSelected: false, isEnrolled: false });
-          const enrolledStudent = server.create('student', { isSelected: false, isEnrolled: true });
+          server.create('student', {
+            isSelected: false,
+            isEnrolled: false,
+            firstName: 'Jean',
+            lastName: 'NotEnrolled',
+          });
+          const enrolledStudent = server.create('student', {
+            isSelected: false,
+            isEnrolled: true,
+            firstName: 'Jean',
+            lastName: 'Enrolled',
+          });
           server.create('certification-candidate', {
             organizationLearnerId: enrolledStudent.id,
             sessionId: sessionWithEnrolledStudent.id,
           });
-          const screen = await visitScreen(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
-          await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
         });
 
         test('it should show label accordingly', async function (assert) {
           // given
-          const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
-          const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
+          const screen = await visitScreen(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
+          await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
           // when
-          const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ');
-          await click(firstCheckbox);
+          await click(screen.getByRole('checkbox', { name: 'Sélectionner le candidat Jean NotEnrolled' }));
 
           // then
-          assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà inscrit(s) à la session');
-          assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
+          assert.dom(screen.getByText('1 candidat(s) déjà inscrit(s) à la session')).exists();
+          assert.dom(screen.getByText('1 candidat(s) sélectionné(s)')).exists();
         });
 
         test('it should be impossible to select enrolled student', async function (assert) {
           // given
-          const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
+          const screen = await visitScreen(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
 
           // when
-          const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ');
-          const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ');
-          await click(firstCheckbox);
-          await click(secondCheckbox);
+          await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
           // then
-          assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
+          assert
+            .dom(screen.getByRole('checkbox', { name: 'Candidat Jean Enrolled sélectionné' }))
+            .hasAttribute('disabled');
         });
 
         module('when toggle all click', function () {
           test('it should still show "1 candidat sélectionné | 1 candidat déjà ajouté à la session"', async function (assert) {
             // given
-            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
-            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
-            const toggleAllCheckBox = 'th .add-student-list__checker .pix-checkbox__input';
+            const screen = await visitScreen(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
+            await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
             // when
-            await click(toggleAllCheckBox);
+            await click(screen.getByRole('checkbox', { name: 'Sélectionner tous les candidats de la liste' }));
 
             // then
-            assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà inscrit(s) à la session');
-            assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
+            assert.dom(screen.getByText('1 candidat(s) déjà inscrit(s) à la session')).exists();
+            assert.dom(screen.getByText('1 candidat(s) sélectionné(s)')).exists();
           });
         });
       });

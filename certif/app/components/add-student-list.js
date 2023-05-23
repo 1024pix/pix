@@ -14,6 +14,11 @@ export default class AddStudentList extends Component {
 
   @tracked selectedDivisions = this.args.selectedDivisions;
 
+  get isDisabled() {
+    const areStudentsAllEnrolled = this.args.studentList.every((student) => student.isEnrolled);
+    return !!areStudentsAllEnrolled;
+  }
+
   get hasCheckState() {
     return this._hasCheckedSomething();
   }

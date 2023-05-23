@@ -29,6 +29,7 @@
                 @isIndeterminate={{this.hasPartialState}}
                 @checked={{this.hasCheckState}}
                 {{on "click" this.toggleAllItems}}
+                disabled={{this.isDisabled}}
               >
                 <span class="screen-reader-only">{{t "pages.candidates.add.actions.select-all.label"}}</span>
               </PixCheckbox>
