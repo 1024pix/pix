@@ -69,7 +69,7 @@ module('Integration | Component | menu-bar', function (hooks) {
         currentUser.adminMember = { isSuperAdmin: true };
 
         // when
-        const screen = await render(hbs`{{menu-bar}}`);
+        const screen = await render(hbs`<MenuBar />`);
 
         // then
         assert.dom(screen.getByRole('link', { name: 'Contenus formatifs' })).exists();
@@ -83,7 +83,7 @@ module('Integration | Component | menu-bar', function (hooks) {
         currentUser.adminMember = { isCertif: true };
 
         // when
-        const screen = await render(hbs`{{menu-bar}}`);
+        const screen = await render(hbs`<MenuBar />`);
 
         // then
         assert.dom(screen.queryByRole('link', { name: 'Contenus formatifs' })).doesNotExist();
