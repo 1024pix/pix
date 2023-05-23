@@ -16,7 +16,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
     // when
     const screen = await render(
-      hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}}/>`
+      hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}} />`
     );
 
     // then
@@ -145,7 +145,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
         const invalidPassword = 'invalidpassword';
 
         const screen = await render(
-          hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}}/>`
+          hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}} />`
         );
         const passwordInput = screen.getByLabelText(
           this.intl.t('pages.account-recovery.update-sco-record.form.password-label')

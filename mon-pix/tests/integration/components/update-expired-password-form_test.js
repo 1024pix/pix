@@ -8,6 +8,7 @@ import { render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 import ENV from '../../../config/environment';
+
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 const PASSWORD_INPUT_LABEL = '* Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)';
@@ -17,7 +18,7 @@ module('Integration | Component | update-expired-password-form', function (hooks
 
   test('renders elements', async function (assert) {
     // given / when
-    const screen = await render(hbs`{{update-expired-password-form}}`);
+    const screen = await render(hbs`<UpdateExpiredPasswordForm />`);
 
     //then
     assert.dom(screen.getByRole('heading', { name: 'Réinitialiser le mot de passe' })).exists();

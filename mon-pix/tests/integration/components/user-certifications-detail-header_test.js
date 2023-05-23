@@ -33,7 +33,7 @@ module('Integration | Component | user certifications detail header', function (
       this.set('certification', certification);
 
       // when
-      screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
+      screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
     });
 
     test('should show the certification published date', function (assert) {
@@ -81,7 +81,7 @@ module('Integration | Component | user certifications detail header', function (
       this.set('certification', certification);
 
       // when
-      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
+      const screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
 
       // then
       assert.notOk(screen.queryByText('Né(e) le 22 janvier 2000 à Paris'));
@@ -120,7 +120,9 @@ module('Integration | Component | user certifications detail header', function (
         this.set('certification', certification);
 
         // when
-        const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
+        const screen = await renderScreen(
+          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`
+        );
 
         // then
         assert.ok(
@@ -152,7 +154,9 @@ module('Integration | Component | user certifications detail header', function (
         this.set('certification', certification);
 
         // when
-        const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
+        const screen = await renderScreen(
+          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`
+        );
 
         // then
         assert.notOk(
@@ -191,7 +195,7 @@ module('Integration | Component | user certifications detail header', function (
       });
       this.set('certification', certification);
 
-      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
+      const screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
 
       // when
       await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
@@ -235,7 +239,7 @@ module('Integration | Component | user certifications detail header', function (
       this.set('certification', certification);
 
       // when
-      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
+      const screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
 
       // then
       assert.notOk(
@@ -273,7 +277,7 @@ module('Integration | Component | user certifications detail header', function (
       });
       this.set('certification', certification);
 
-      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
+      const screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
 
       // when
       await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
@@ -319,7 +323,7 @@ module('Integration | Component | user certifications detail header', function (
       });
       this.set('certification', certification);
 
-      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=this.certification}}`);
+      const screen = await renderScreen(hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`);
 
       // when
       await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
