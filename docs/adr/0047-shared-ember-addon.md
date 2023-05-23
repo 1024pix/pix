@@ -67,7 +67,8 @@ La responsabilité de la mise à jour incombe à l'équipe/développeur qui fait
 **Inconvénient(s) :**
 
 * Publier sur un dépôt NPM demande une action supplémentaire
-* Action supplémentaire (montée de version) à réaliser pour bénéficier de corrections ou de nouvelles fonctionnalités et nécessité d'effectuer des tests de non-régression
+* Action supplémentaire (montée de version) à réaliser pour bénéficier de corrections ou de nouvelles fonctionnalités
+* Nécessité d'effectuer des tests de non-régression approfondis à chaque montée de version
 
 ### Solution n°4 : Mono-repo Shared Addon
 
@@ -89,7 +90,7 @@ La responsabilité de la mise à jour de tout le code incombe à l'équipe/déve
 **Inconvénient(s) :**
 
 * Montée de version synchrone, forcée pour toutes les équipes
-* Aucune action supplémentaire à accomplir pour avoir la dernière version du code
+* Si le développement de l'addon est problématique sur une application, ce sont toutes les applications qui sont bloquées
 
 
 ## Décision
