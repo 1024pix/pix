@@ -11,6 +11,7 @@ export default class IndexController extends Controller {
   @service currentUser;
   @service accessControl;
   @service session;
+  @service fileSaver;
 
   @alias('model') sessionModel;
 
@@ -67,6 +68,18 @@ export default class IndexController extends Controller {
       this._displayErrorTooltip();
     }
     window.setTimeout(() => this._hideTooltip(), 2000);
+  }
+
+  @action
+  async downloadPDFAttestations() {
+    const sessionId = this.model.id;
+    const url = `/api/admin/sessions/${sessionId}/attestations`;
+    const token = this.session.data.authenticated.access_token;
+    try {
+      await this.fileSaver.save({ url, token });
+    } catch (error) {
+      this.notifications.error("Une erreur est survenue, les attestations n'ont pas pu être téléchargées.");
+    }
   }
 
   @action
