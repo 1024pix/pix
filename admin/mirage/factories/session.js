@@ -5,11 +5,11 @@ import { CREATED, FINALIZED, IN_PROCESS, PROCESSED } from 'pix-admin/models/sess
 
 export default Factory.extend({
   certificationCenterName() {
-    return faker.company.companyName();
+    return faker.company.name();
   },
 
   certificationCenterExternalId() {
-    return faker.company.companyName();
+    return faker.company.name();
   },
 
   certificationCenterType() {
@@ -21,7 +21,7 @@ export default Factory.extend({
   },
 
   address() {
-    return faker.address.streetName();
+    return faker.location.street();
   },
 
   room() {
@@ -29,7 +29,7 @@ export default Factory.extend({
   },
 
   examiner() {
-    return faker.company.companyName();
+    return faker.company.name();
   },
 
   date() {
