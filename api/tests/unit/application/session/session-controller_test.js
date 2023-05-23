@@ -1108,7 +1108,6 @@ describe('Unit | Controller | sessionController', function () {
       const certification2 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 2 });
       const certification3 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 3 });
       const attestationPDF = 'binary string';
-      const fileName = 'attestation-pix-session-12.pdf';
       const userId = 1;
 
       const request = {
@@ -1126,7 +1125,7 @@ describe('Unit | Controller | sessionController', function () {
 
       certificationAttestationPdf.getCertificationAttestationsPdfBuffer
         .withArgs({ certificates: [certification1, certification2, certification3], isFrenchDomainExtension: true })
-        .resolves({ buffer: attestationPDF, fileName });
+        .resolves({ buffer: attestationPDF });
 
       // when
       const response = await sessionController.getCertificationPDFAttestationsForSession(request, hFake, {

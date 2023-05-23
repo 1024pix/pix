@@ -416,7 +416,7 @@ const register = async function (server) {
         notes: [
           '- **Route accessible par un user Admin**\n' +
             "- Récupération des attestations de certification d'une session au format PDF" +
-            ' via un id de certification et un user id',
+            ' via un id de session et un user id',
         ],
         tags: ['api', 'certifications', 'PDF'],
       },
