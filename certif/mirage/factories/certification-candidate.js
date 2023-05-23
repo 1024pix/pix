@@ -16,7 +16,7 @@ export default Factory.extend({
   },
 
   birthCity() {
-    return faker.address.city();
+    return faker.location.city();
   },
 
   birthProvinceCode() {
@@ -24,7 +24,7 @@ export default Factory.extend({
   },
 
   birthCountry() {
-    return faker.address.country();
+    return faker.location.country();
   },
 
   email() {
