@@ -14,6 +14,15 @@
       "validate": "Valider"
     },
     "api-error-messages": {
+      "CANDIDATE_NOT_FOUND": "Une erreur est survenue, le candidat {firstName} {lastName} n'a pas été trouvé.",
+      "INVALID_DOCUMENT": "Aucun candidat n’a été importé.<br />La version du document est inconnue.<br />Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
+      "SESSION_ALREADY_FINALIZED": "La session a déjà été finalisée.",
+      "SESSION_CANNOT_BE_FINALIZED": "Erreur lors de la finalisation de session.",
+      "SESSION_DOES_NOT_EXIST_OR_ACCESS_RESTRICTED": "La session n'existe pas ou son accès est restreint.",
+      "SESSION_STARTED_CANDIDATE_ALREADY_LINKED_TO_USER": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br />Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.",
+      "SESSION_WITHOUT_STARTED_CERTIFICATION": "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer.",
+      "SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE": "Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.",
+      "authorize-resume-error": "Une erreur est survenue, {firstName} {lastName} n'a pas pu être autorisé à reprendre son test.",
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
       "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
       "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
@@ -249,6 +258,9 @@
         "title": "Finalisation de la session",
         "warning": "Attention :"
       },
+      "errors": {
+        "no-abort-reason": "Une ou plusieurs certification(s) non terminée(s) n'ont pas de motif d'abandon. Veuillez les renseigner."
+      },
       "issue-reports-modal": {
         "actions": {
           "add-reporting": "Ajouter un signalement",
@@ -259,6 +271,9 @@
         },
         "subtitle": "Mes signalements",
         "title": "Signalement du candidat :"
+      },
+      "notification": {
+        "success": "Les informations de la session ont été transmises avec succès."
       },
       "reporting": {
         "completed-reports-information": {

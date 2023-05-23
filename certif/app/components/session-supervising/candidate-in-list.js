@@ -163,13 +163,21 @@ export default class CandidateInList extends Component {
           lastName: this.args.candidate.lastName,
         })
       );
-    } catch (error) {
-      this.notifications.error(
-        this.intl.t('pages.session-supervising.candidate-in-list.resume-test-modal.error', {
-          firstName: this.args.candidate.firstName,
-          lastName: this.args.candidate.lastName,
-        })
-      );
+    } catch (responseError) {
+      const error = responseError?.errors?.[0];
+      const parameters = {
+        firstName: this.args.candidate.firstName,
+        lastName: this.args.candidate.lastName,
+      };
+
+      let errorMessage;
+
+      if (error?.code) {
+        errorMessage = this.intl.t(`common.api-error-messages.${error.code}`, parameters);
+      } else {
+        errorMessage = this.intl.t('common.api-error-messages.authorize-resume-error', parameters);
+      }
+      this.notifications.error(errorMessage);
     }
   }
 

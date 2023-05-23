@@ -37,7 +37,10 @@ async function _isAuthorizedToAccessSession({ userId, sessionId, sessionReposito
   );
 
   if (!hasMembershipAccess) {
-    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+    throw new NotFoundError(
+      "Session does not exist or it's access is restricted.",
+      'SESSION_DOES_NOT_EXIST_OR_ACCESS_RESTRICTED'
+    );
   }
 
   return hasMembershipAccess;

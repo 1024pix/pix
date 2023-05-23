@@ -53,7 +53,7 @@ describe('Unit | Pre-handler | Authorization', function () {
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.equal("La session n'existe pas ou son accès est restreint");
+        expect(error.message).to.equal("Session does not exist or it's access is restricted.");
       });
     });
   });
@@ -104,7 +104,7 @@ describe('Unit | Pre-handler | Authorization', function () {
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.equal("La session n'existe pas ou son accès est restreint");
+        expect(error.message).to.equal("Session does not exist or it's access is restricted.");
       });
     });
   });

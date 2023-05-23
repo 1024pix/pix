@@ -746,7 +746,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
                 authorizedToStart: true,
                 assessmentStatus: 'started',
               });
-              this.authorizeTestResume = sinon.stub().rejects();
+              this.authorizeTestResume = sinon.stub().rejects({ errors: [] });
               const screen = await renderScreen(hbs`
                 <SessionSupervising::CandidateInList
                   @candidate={{this.candidate}}
@@ -767,8 +767,44 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               assert.dom(screen.queryByRole('button', { name: "Je confirme l'autorisation" })).doesNotExist();
               assert
                 .dom(
-                  screen.getByText("Une erreur est survenue, Vance Astro n'a a pu être autorisé à reprendre son test.")
+                  screen.getByText(
+                    "Une erreur est survenue, Vance Astro n'a pas pu être autorisé à reprendre son test."
+                  )
                 )
+                .exists();
+            });
+          });
+
+          module('when the candidate could not be found', function () {
+            test('it closes the modal and displays an error notification', async function (assert) {
+              // given
+              this.candidate = store.createRecord('certification-candidate-for-supervising', {
+                firstName: 'Vance',
+                lastName: 'Astro',
+                authorizedToStart: true,
+                assessmentStatus: 'started',
+              });
+              this.authorizeTestResume = sinon.stub().rejects({ errors: [{ code: 'CANDIDATE_NOT_FOUND' }] });
+              const screen = await renderScreen(hbs`
+                <SessionSupervising::CandidateInList
+                  @candidate={{this.candidate}}
+                  @onCandidateTestResumeAuthorization={{this.authorizeTestResume}}
+                />
+                <NotificationContainer @position="bottom-right" />
+              `);
+
+              // when
+              await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+              await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+              await screen.findByRole('dialog');
+              await click(screen.getByRole('button', { name: "Je confirme l'autorisation" }));
+              await waitForDialogClose();
+
+              // then
+              sinon.assert.calledOnce(this.authorizeTestResume);
+              assert.dom(screen.queryByRole('button', { name: "Je confirme l'autorisation" })).doesNotExist();
+              assert
+                .dom(screen.getByText("Une erreur est survenue, le candidat Vance Astro n'a pas été trouvé."))
                 .exists();
             });
           });
