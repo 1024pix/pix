@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   name() {
-    return faker.company.companyName();
+    return faker.company.name();
   },
 
   code() {
