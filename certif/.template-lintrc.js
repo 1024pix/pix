@@ -7,4 +7,13 @@ module.exports = {
     'no-invalid-interactive': false,
     'no-nested-interactive': false,
   },
+  ignore: ['blueprints/component-test/files/tests/integration/components/*'],
+  overrides: [
+    {
+      files: ['**/integration/**/*_test.js'],
+      rules: {
+        prettier: false,
+      },
+    },
+  ],
 };
