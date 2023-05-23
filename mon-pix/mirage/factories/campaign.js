@@ -23,7 +23,7 @@ export default Factory.extend({
   },
 
   organizationName() {
-    return faker.company.companyName();
+    return faker.company.name();
   },
 
   isRestricted() {
