@@ -5,7 +5,7 @@ import { CREATED } from 'pix-certif/models/session';
 
 export default Factory.extend({
   address() {
-    return faker.address.streetName();
+    return faker.location.street();
   },
 
   accessCode() {
@@ -21,7 +21,7 @@ export default Factory.extend({
   },
 
   examiner() {
-    return faker.company.companyName();
+    return faker.company.name();
   },
 
   room() {

@@ -49,7 +49,7 @@
     "@embroider/compat": "^3.0.0",
     "@embroider/core": "^3.0.0",
     "@embroider/webpack": "^3.0.0",
-    "@faker-js/faker": "^7.6.0",
+    "@faker-js/faker": "^8.0.0",
     "@formatjs/intl": "^2.5.1",
     "@fortawesome/ember-fontawesome": "^0.4.1",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
