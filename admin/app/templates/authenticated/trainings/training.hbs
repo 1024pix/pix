@@ -1,6 +1,6 @@
 {{page-title "Détail du contenu formatif " @model.id}}
 
-{{! template-lint-disable no-redundant-landmark-role }}
+{{! template-lint-disable no-redundant-role }}
 <header class="page-header" role="banner">
   <div class="page-title">
     <LinkTo @route="authenticated.trainings.list">Tous les contenus formatifs</LinkTo>
@@ -23,7 +23,7 @@
   </div>
 </header>
 
-{{! template-lint-disable no-redundant-landmark-role }}
+{{! template-lint-disable no-redundant-role }}
 <main class="page-body" role="main">
   <section class="page-section">
     {{#if this.isEditMode}}
