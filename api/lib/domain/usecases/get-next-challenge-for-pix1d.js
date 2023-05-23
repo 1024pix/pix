@@ -1,5 +1,6 @@
-const { NotFoundError } = require('../errors');
-module.exports = async function getNextChallengeForPix1d({
+import { NotFoundError } from '../errors.js';
+
+export async function getNextChallengeForPix1d({
   assessmentId,
   assessmentRepository,
   answerRepository,
@@ -21,4 +22,4 @@ module.exports = async function getNextChallengeForPix1d({
     }
     throw error;
   }
-};
+}

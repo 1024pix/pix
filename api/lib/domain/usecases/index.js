@@ -453,7 +453,7 @@ import { createCertificationCenterMembershipByEmail } from './create-certificati
 import { createCertificationCenterMembershipForScoOrganizationMember } from './create-certification-center-membership-for-sco-organization-member.js';
 import { createLcmsRelease } from './create-lcms-release.js';
 import { createMembership } from './create-membership.js';
-import { createMissionAssessment } from './create-mission-assessment';
+import { createMissionAssessment } from './create-mission-assessment.js';
 import { createOidcUser } from './create-oidc-user.js';
 import { createOrUpdateCertificationCenterInvitationForAdmin } from './create-or-update-certification-center-invitation-for-admin.js';
 import { createOrUpdateTrainingTrigger } from './create-or-update-training-trigger.js';

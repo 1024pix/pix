@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const Answer = require('../../../../lib/domain/models/Answer');
-const correctAnswer = require('../../../../lib/domain/usecases/correct-answer');
-const Challenge = require('../../../../lib/domain/models/Challenge');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { Answer } from '../../../../lib/domain/models/Answer.js';
+import { correctAnswer } from '../../../../lib/domain/usecases/correct-answer.js';
+import { Challenge } from '../../../../lib/domain/models/Challenge.js';
 
 describe('Unit | Domain | Use Cases | correct-answer', function () {
   it('should save the answer', async function () {

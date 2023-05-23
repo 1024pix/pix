@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const { expect, knex } = require('../../../test-helper');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const createMissionAssessment = require('../../../../lib/domain/usecases/create-mission-assessment');
+import _ from 'lodash';
+import { expect, knex } from '../../../test-helper.js';
+import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
+import { createMissionAssessment } from '../../../../lib/domain/usecases/create-mission-assessment.js';
 
 describe('Integration | UseCases | create-mission-assessment', function () {
   let dependencies;
