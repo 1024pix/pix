@@ -11,4 +11,15 @@ module.exports = {
     'no-html-comments': false,
     'no-bare-strings': ['Pix', '&nbsp;', '&#8226;', '.', '*', '1024', '/', '•', '-', '%'],
   },
+
+  ignore: ['blueprints/component-test/files/tests/integration/components/*'],
+
+  overrides: [
+    {
+      files: ['**/integration/**/*_test.js'],
+      rules: {
+        prettier: false,
+      },
+    },
+  ],
 };
