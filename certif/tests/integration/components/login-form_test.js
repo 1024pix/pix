@@ -26,7 +26,7 @@ module('Integration | Component | login-form', function (hooks) {
 
   test('it should display login form', async function (assert) {
     // when
-    const screen = await renderScreen(hbs`{{login-form}}`);
+    const screen = await renderScreen(hbs`<LoginForm />`);
 
     // then
     assert.dom(screen.getByRole('img', { name: 'Pix Certif' })).exists();
@@ -46,7 +46,7 @@ module('Integration | Component | login-form', function (hooks) {
       return resolve();
     });
     const sessionServiceObserver = this.owner.lookup('service:session');
-    const screen = await renderScreen(hbs`{{login-form}}`);
+    const screen = await renderScreen(hbs`<LoginForm />`);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
@@ -76,7 +76,7 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(invalidCredentialsErrorMessage));
-    const screen = await renderScreen(hbs`{{login-form}}`);
+    const screen = await renderScreen(hbs`<LoginForm />`);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'Mauvais mot de passe');
 
@@ -98,7 +98,7 @@ module('Integration | Component | login-form', function (hooks) {
     service.currentDomain = { getExtension: sinon.stub().returns('fr') };
 
     sessionStub.authenticate.callsFake(() => reject(errorResponse));
-    const screen = await renderScreen(hbs`{{login-form}}`);
+    const screen = await renderScreen(hbs`<LoginForm />`);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'Mauvais mot de passe');
 
@@ -139,7 +139,7 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(notLinkedToOrganizationErrorMessage));
-    const screen = await renderScreen(hbs`{{login-form}}`);
+    const screen = await renderScreen(hbs`<LoginForm />`);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
@@ -166,7 +166,7 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(gatewayTimeoutErrorMessage));
-    const screen = await renderScreen(hbs`{{login-form}}`);
+    const screen = await renderScreen(hbs`<LoginForm />`);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
@@ -185,7 +185,7 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(msgErrorNotLinkedCertification));
-    const screen = await renderScreen(hbs`{{login-form}}`);
+    const screen = await renderScreen(hbs`<LoginForm />`);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
