@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const createMissionAssessment = require('../../../../lib/domain/usecases/create-mission-assessment');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import { expect, sinon } from '../../../test-helper.js';
+import { createMissionAssessment } from '../../../../lib/domain/usecases/create-mission-assessment.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 describe('Unit | UseCase | create-mission-assessment', function () {
   let assessmentRepository;

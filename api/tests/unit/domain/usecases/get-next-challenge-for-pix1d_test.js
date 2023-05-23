@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getNextChallengeForPix1d = require('../../../../lib/domain/usecases/get-next-challenge-for-pix1d');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function () {
   context('should calculate the good challenge number', function () {

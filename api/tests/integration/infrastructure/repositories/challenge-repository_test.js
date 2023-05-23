@@ -75,11 +75,7 @@ describe('Integration | Repository | challenge-repository', function () {
       });
 
       // when
-      const error = await catchErr(challengeRepository.getForPix1D)({
-        missionId,
-        activityLevel,
-        challengeNumber: 1,
-      });
+      const error = await catchErr(challengeRepository.getForPix1D)({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -99,11 +95,7 @@ describe('Integration | Repository | challenge-repository', function () {
       });
 
       // when
-      const error = await catchErr(challengeRepository.getForPix1D)({
-        missionId,
-        activityLevel,
-        challengeNumber: 1,
-      });
+      const error = await catchErr(challengeRepository.getForPix1D)({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -134,11 +126,7 @@ describe('Integration | Repository | challenge-repository', function () {
       mockLearningContent(learningContent);
 
       // when
-      const error = await catchErr(challengeRepository.getForPix1D)({
-        missionId,
-        activityLevel,
-        challengeNumber: 1,
-      });
+      const error = await catchErr(challengeRepository.getForPix1D)({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -188,11 +176,7 @@ describe('Integration | Repository | challenge-repository', function () {
       };
 
       // when
-      const actualChallenge = await challengeRepository.getForPix1D({
-        missionId,
-        activityLevel,
-        challengeNumber: 1,
-      });
+      const actualChallenge = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
       expect(actualChallenge).to.be.instanceOf(Challenge);

@@ -1,6 +1,6 @@
-const { expect, mockLearningContent } = require('../../../test-helper');
-const missionRepository = require('../../../../lib/infrastructure/repositories/mission-repository');
-const Mission = require('../../../../lib/domain/models/Mission');
+import { expect, mockLearningContent } from '../../../test-helper.js';
+import * as missionRepository from '../../../../lib/infrastructure/repositories/mission-repository.js';
+import { Mission } from '../../../../lib/domain/models/Mission.js';
 
 describe('Integration | Repository | mission-repository', function () {
   describe('#get', function () {

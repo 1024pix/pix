@@ -1,4 +1,4 @@
-const Assessment = require('../models/Assessment');
+import { Assessment } from '../models/Assessment.js';
 
 const createMissionAssessment = async function ({ missionId, assessmentRepository }) {
   const assessment = Assessment.createForPix1dMission({ missionId });

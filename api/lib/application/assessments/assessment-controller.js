@@ -160,10 +160,12 @@ const autoValidateNextChallenge = async function (request, h) {
 
 const assessmentController = {
   save,
+  createForPix1d,
   get,
   getLastChallengeId,
   getChallengeForPixAutoAnswer,
   getNextChallenge,
+  getNextChallengeForPix1d,
   completeAssessment,
   updateLastChallengeState,
   findCompetenceEvaluations,

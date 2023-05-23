@@ -1,6 +1,6 @@
-const { expect, knex, domainBuilder, sinon, databaseBuilder } = require('../../../test-helper');
-const correctAnswer = require('../../../../lib/domain/usecases/correct-answer');
-const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
+import { expect, knex, domainBuilder, sinon, databaseBuilder } from '../../../test-helper.js';
+import { correctAnswer } from '../../../../lib/domain/usecases/correct-answer.js';
+import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
 
 describe('Integration | UseCases | correct-answer', function () {
   let createdAnswerRecordId;

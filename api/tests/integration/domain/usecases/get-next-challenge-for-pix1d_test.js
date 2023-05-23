@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getNextChallengeForPix1d = require('../../../../lib/domain/usecases/get-next-challenge-for-pix1d');
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
 
 describe('Integration | Domain | Use Cases | get-next-challenge-for-pix1d', function () {
   describe('#get-next-challenge-for-pix1d', function () {
