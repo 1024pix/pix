@@ -25,7 +25,7 @@ Toutes ces propositions utilisent la notion d'addon Ember, aussi il faut donc d�
 * une notion technique définie de base par le framework Ember
 * un répertoire contenant du code qui sera chargé automatiquement par convention par Ember
 
-### Étendre l'utilisation de Pix UI 
+### Solution n°1 : Étendre l'utilisation de Pix UI
 
 Mettre tous les composants dans Pix UI, y compris les composants de plus haut niveau comme les *molécules* (exemple : le LanguageSwitcher) ou les *organismes* (exemple : les formulaires de connexion) dans Pix UI.
 
@@ -37,7 +37,7 @@ Mettre tous les composants dans Pix UI, y compris les composants de plus haut ni
 
 * Couplage encore plus fort à Ember qui empêchant définitivement d'utiliser Pix UI dans d'autres contextes que les applications Ember, comme par exemple dans les contextes des pix-sites, des pix-tutos ou de nouveaux usages
 
-### Ember in-repo Addon
+### Solution n°2 : Ember in-repo Addon
 
 Une solution est de créer un addon dans chaque application Ember dans le répertoire `shared` ad hoc, et on synchronise le contenu des addons de chaque application Ember par copier-coller.
 
@@ -51,7 +51,7 @@ Une solution est de créer un addon dans chaque application Ember dans le réper
    * Duplication de code
    * Risque fort de désynchronisation du code puisque la synchronisation se fait manuellement selon le bon vouloir et la rigueur des développeurs
 
-### NPM Addon
+### Solution n°3 : NPM Addon
 
 Une solution est d'utiliser un paquet versionné publié sur NPM, comme l'est [Pix UI](https://www.npmjs.com/package/@1024pix/pix-ui).
 
@@ -69,7 +69,7 @@ La responsabilité de la mise à jour incombe à l'équipe/développeur qui fait
 * Publier sur un dépôt NPM demande une action supplémentaire
 * Action supplémentaire (montée de version) à réaliser pour bénéficier de corrections ou de nouvelles fonctionnalités et nécessité d'effectuer des tests de non-régression
 
-### Mono-repo Shared Addon
+### Solution n°4 : Mono-repo Shared Addon
 
 **Description**
 
@@ -91,7 +91,8 @@ La responsabilité de la mise à jour de tout le code incombe à l'équipe/déve
 * Montée de version synchrone, forcée pour toutes les équipes
 * Aucune action supplémentaire à accomplir pour avoir la dernière version du code
 
-## Solution retenue
+
+## Décision
 
 Cette solution sera à utiliser par exemple avec le composant LanguageSwitcher.
 TODO
