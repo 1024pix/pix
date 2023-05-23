@@ -3,4 +3,16 @@
   &__label {
     display: inline;
   }
+
+  > input {
+    margin: $pix-spacing-xs;
+  }
+
+  input:first-of-type {
+    margin-top: 0;
+  }
+
+  input:last-of-type {
+    margin-bottom: 0;
+  }
 }

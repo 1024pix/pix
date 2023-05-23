@@ -78,8 +78,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
               test('should enable input and buttons', async function (assert) {
                 // then
-                assert.notOk(find('.challenge-actions__action-skip').getAttribute('disabled'));
-                assert.notOk(find('.challenge-actions__action-validate').getAttribute('disabled'));
+                assert.ok(find('.challenge-actions__action-skip').getAttribute('aria-disabled').includes('false'));
+                assert.ok(find('.challenge-actions__action-validate').getAttribute('aria-disabled').includes('false'));
                 assert.notOk(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'));
               });
 
@@ -143,8 +143,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
             test('should enable input and buttons', async function (assert) {
               // then
-              assert.notOk(find('.challenge-actions__action-skip').getAttribute('disabled'));
-              assert.notOk(find('.challenge-actions__action-validate').getAttribute('disabled'));
+              assert.ok(find('.challenge-actions__action-skip').getAttribute('aria-disabled').includes('false'));
+              assert.ok(find('.challenge-actions__action-validate').getAttribute('aria-disabled').includes('false'));
               assert.notOk(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'));
             });
           });
@@ -255,8 +255,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
           test('should enable input and buttons', async function (assert) {
             // then
-            assert.notOk(find('.challenge-actions__action-skip').getAttribute('disabled'));
-            assert.notOk(find('.challenge-actions__action-validate').getAttribute('disabled'));
+            assert.ok(find('.challenge-actions__action-skip').getAttribute('aria-disabled').includes('false'));
+            assert.ok(find('.challenge-actions__action-validate').getAttribute('aria-disabled').includes('false'));
             assert.notOk(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'));
           });
 
@@ -362,8 +362,10 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
                 test('should enable input and buttons', async function (assert) {
                   // then
-                  assert.notOk(find('.challenge-actions__action-skip').getAttribute('disabled'));
-                  assert.notOk(find('.challenge-actions__action-validate').getAttribute('disabled'));
+                  assert.ok(find('.challenge-actions__action-skip').getAttribute('aria-disabled').includes('false'));
+                  assert.ok(
+                    find('.challenge-actions__action-validate').getAttribute('aria-disabled').includes('false')
+                  );
                   assert.notOk(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'));
                 });
               });
@@ -390,8 +392,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
               test('should enable input and buttons', async function (assert) {
                 // then
-                assert.notOk(find('.challenge-actions__action-skip').getAttribute('disabled'));
-                assert.notOk(find('.challenge-actions__action-validate').getAttribute('disabled'));
+                assert.ok(find('.challenge-actions__action-skip').getAttribute('aria-disabled').includes('false'));
+                assert.ok(find('.challenge-actions__action-validate').getAttribute('aria-disabled').includes('false'));
                 assert.notOk(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'));
               });
             });
