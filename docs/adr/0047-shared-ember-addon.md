@@ -16,7 +16,7 @@ Actuellement nous avons créé un composant LanguageSwitcher qui doit être util
 
 Pix UI ne semble pas fait pour accueillir certaines choses de plus haut niveau que des *molécules* (exemple : le LanguageSwitcher) ou des *organismes* (exemple : les formulaires de connexion) et on doit donc trouver une solution différente de l'utilisation directe de Pix UI.
 
-Une question clé est de définir quelles sont les règles régissant ce quel composant peut rentrer dans Pix UI ou non.
+Une question clé est de définir quelles sont les règles régissant quel composant peut rentrer dans Pix UI ou non.
 
 
 ## Propositions
