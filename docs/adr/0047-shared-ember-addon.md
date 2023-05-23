@@ -53,7 +53,7 @@ Une solution est de créer un addon dans chaque application Ember dans le réper
 
 ### Solution n°3 : NPM Addon
 
-Une solution est d'utiliser un paquet versionné publié sur NPM, comme l'est [Pix UI](https://www.npmjs.com/package/@1024pix/pix-ui).
+Créer un nouveau repository Git et publier un nouveau paquet NPM versionné sur https://www.npmjs.com/ (comme l'est [Pix UI](https://www.npmjs.com/package/@1024pix/pix-ui)).
 
 La responsabilité de la mise à jour incombe à l'équipe/développeur qui fait la montée de version vers l'addon Ember.
 
