@@ -42,7 +42,6 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
     await bluebird.mapSeries(certificationCandidates, function (certificationCandidate) {
       return certificationCandidateRepository.saveInSession({
         certificationCandidate,
-        complementaryCertifications: certificationCandidate.complementaryCertifications,
         sessionId,
         domainTransaction,
       });

@@ -461,7 +461,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertifications: [],
+                  complementaryCertification: null,
                   line: 2,
                 },
                 {
@@ -479,7 +479,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertifications: [],
+                  complementaryCertification: null,
                   line: 4,
                 },
               ],
@@ -509,7 +509,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertifications: [],
+                  complementaryCertification: null,
                   line: 3,
                 },
               ],
@@ -562,7 +562,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   prepaymentCode: '43',
                   resultRecipientEmail: 'robindahood@email.fr',
                   sex: 'M',
-                  complementaryCertifications: [],
+                  complementaryCertification: null,
                   line: 2,
                 },
                 {
@@ -580,7 +580,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   prepaymentCode: '43',
                   resultRecipientEmail: 'robindahood@email.fr',
                   sex: 'M',
-                  complementaryCertifications: [],
+                  complementaryCertification: null,
                   line: 3,
                 },
               ],
@@ -633,7 +633,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertifications: [],
+                  complementaryCertification: null,
                   line: 3,
                 },
               ],
@@ -694,7 +694,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                     billingMode: '',
                     prepaymentCode: expectedParsedPrepaymentCode,
                     sex: '',
-                    complementaryCertifications: [],
+                    complementaryCertification: null,
                     line: 2,
                   },
                 ],
@@ -711,7 +711,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           _lineWithSessionAndCandidateWithComplementaryCertification({
             sessionNumber: 1,
             candidateNumber: 1,
-            complementaryCertifications: ['Pix Toto', 'Pix Tata'],
+            complementaryCertification: 'oui',
           }),
         ];
 
@@ -741,7 +741,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 prepaymentCode: '43',
                 resultRecipientEmail: 'robindahood@email.fr',
                 sex: 'M',
-                complementaryCertifications: ['Pix Toto', 'Pix Tata'],
+                complementaryCertification: 'Pix certif complementaire',
                 line: 2,
               },
             ],
@@ -774,7 +774,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertifications: [],
+            complementaryCertification: null,
           };
 
           const candidateWithoutFirstName = {
@@ -792,7 +792,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertifications: [],
+            complementaryCertification: null,
           };
 
           const candidateWithoutBirthdate = {
@@ -810,7 +810,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertifications: [],
+            complementaryCertification: null,
           };
 
           const candidateWithoutSex = {
@@ -828,7 +828,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertifications: [],
+            complementaryCertification: null,
           };
 
           const candidateWithoutBillingMode = {
@@ -846,7 +846,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: '',
             prepaymentCode: '43',
-            complementaryCertifications: [],
+            complementaryCertification: null,
           };
 
           const candidateWithoutBirthCountry = {
@@ -864,7 +864,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertifications: [],
+            complementaryCertification: null,
           };
 
           // given
@@ -1027,14 +1027,8 @@ function _line({
   extraTimePercentage = '',
   billingMode = '',
   prepaymentCode = '',
-  complementaryCertifications = [],
+  complementaryCertification = '',
 }) {
-  const candidateComplementaryCertifications = {};
-
-  complementaryCertifications.forEach((cc) => {
-    candidateComplementaryCertifications[`${cc} ('oui' ou laisser vide)`] = 'oui';
-  });
-
   return {
     'Numéro de session préexistante': sessionId,
     '* Nom du site': address,
@@ -1057,7 +1051,7 @@ function _line({
     'Temps majoré ? (exemple format: 33%)': extraTimePercentage,
     '* Tarification part Pix (Gratuite, Prépayée ou Payante)': billingMode,
     'Code de prépaiement (si Tarification part Pix Prépayée)': prepaymentCode,
-    ...candidateComplementaryCertifications,
+    "Pix certif complementaire ('oui' ou laisser vide)": complementaryCertification,
   };
 }
 
@@ -1153,7 +1147,7 @@ function _lineWithSessionIdAndCandidate({ sessionId, candidateNumber }) {
 function _lineWithSessionAndCandidateWithComplementaryCertification({
   sessionNumber,
   candidateNumber,
-  complementaryCertifications,
+  complementaryCertification,
 }) {
   return _line({
     address: `Site ${sessionNumber}`,
@@ -1176,7 +1170,7 @@ function _lineWithSessionAndCandidateWithComplementaryCertification({
     extraTimePercentage: '',
     billingMode: 'Prépayée',
     prepaymentCode: '43',
-    complementaryCertifications,
+    complementaryCertification,
   });
 }
 

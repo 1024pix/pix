@@ -166,14 +166,14 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       test('it should return true', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const complementaryCertificationCourseResultsWithExternal = store.createRecord(
-          'complementary-certification-course-results-with-external'
+        const complementaryCertificationCourseResultWithExternal = store.createRecord(
+          'complementary-certification-course-result-with-external'
         );
 
-        sinon.stub(complementaryCertificationCourseResultsWithExternal, 'isExternalResultEditable').get(() => true);
+        sinon.stub(complementaryCertificationCourseResultWithExternal, 'isExternalResultEditable').get(() => true);
 
         const certification = store.createRecord('certification', {
-          complementaryCertificationCourseResultsWithExternal,
+          complementaryCertificationCourseResultWithExternal,
         });
 
         controller.model = {
@@ -191,14 +191,14 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       test('it should return false', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const complementaryCertificationCourseResultsWithExternal = store.createRecord(
-          'complementary-certification-course-results-with-external'
+        const complementaryCertificationCourseResultWithExternal = store.createRecord(
+          'complementary-certification-course-result-with-external'
         );
 
-        sinon.stub(complementaryCertificationCourseResultsWithExternal, 'isExternalResultEditable').get(() => false);
+        sinon.stub(complementaryCertificationCourseResultWithExternal, 'isExternalResultEditable').get(() => false);
 
         const certification = store.createRecord('certification', {
-          complementaryCertificationCourseResultsWithExternal,
+          complementaryCertificationCourseResultWithExternal,
         });
 
         controller.model = {
@@ -231,7 +231,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   module('#juryLevelOptions', function () {
     test('should return an array of labels and values', function (assert) {
       // given
-      const complementaryCertificationCourseResultsWithExternal = EmberObject.create({
+      const complementaryCertificationCourseResultWithExternal = EmberObject.create({
         allowedExternalLevels: [
           {
             value: 'COMME',
@@ -242,7 +242,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       controller.model = {
         certification: EmberObject.create({
           status: 'cancelled',
-          complementaryCertificationCourseResultsWithExternal,
+          complementaryCertificationCourseResultWithExternal,
         }),
       };
 
@@ -586,7 +586,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         const store = this.owner.lookup('service:store');
         controller.selectedJuryLevel = 'REJECTED';
         const complementaryCertificationCourseResultWithExternal = store.createRecord(
-          'complementary-certification-course-results-with-external',
+          'complementary-certification-course-result-with-external',
           {
             complementaryCertificationCourseId: 12345,
           }
@@ -594,7 +594,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
         controller.certification.editJuryLevel = sinon.stub().resolves();
         controller.certification.reload = sinon.stub().resolves();
-        controller.certification.complementaryCertificationCourseResultsWithExternal =
+        controller.certification.complementaryCertificationCourseResultWithExternal =
           complementaryCertificationCourseResultWithExternal;
 
         controller.displayJuryLevelSelect = true;

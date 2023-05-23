@@ -44,16 +44,6 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
     userId: CERTIF_DROIT_USER5_ID,
     campaignParticipationId,
   });
-  const { id: complementaryCertifCourseSuccessCleaId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
-    certificationCourseId: CERTIFICATION_COURSE_SUCCESS_ID,
-    complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
-    complementaryCertificationBadgeId: PIX_CLEA_V3_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-  });
-  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-    complementaryCertificationCourseId: complementaryCertifCourseSuccessCleaId,
-    acquired: true,
-    partnerKey: badges.keys.PIX_EMPLOI_CLEA_V3,
-  });
 
   const { id: complementaryCertifCourseFailureId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId: CERTIFICATION_COURSE_FAILURE_ID,

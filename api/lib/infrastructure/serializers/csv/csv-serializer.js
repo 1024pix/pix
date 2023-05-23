@@ -175,7 +175,7 @@ function _hasSessionIdAndCandidateInformation(data) {
 
 function _getDataFromColumnNames({ expectedHeadersKeys, headers, line }) {
   const data = {};
-  data.complementaryCertifications = _extractComplementaryCertificationLabelsFromLine(line);
+  data.complementaryCertification = _extractComplementaryCertificationLabelFromLine(line);
 
   expectedHeadersKeys.forEach((key) => {
     const headerLabel = headers[key];
@@ -198,29 +198,26 @@ function _getDataFromColumnNames({ expectedHeadersKeys, headers, line }) {
   return data;
 }
 
-function _extractComplementaryCertificationLabelsFromLine(line) {
-  const complementaryCertificationLabels = [];
+function _extractComplementaryCertificationLabelFromLine(line) {
+  let complementaryCertificationLabel = null;
 
   Object.keys(line).map((header) => {
     if (_isComplementaryCertification(header)) {
       const complementaryCertificationValue = line[header];
       if (_isTrueValue(complementaryCertificationValue)) {
-        const complementaryCertificationLabel = _getComplementaryCertificationLabel(
+        complementaryCertificationLabel = _getComplementaryCertificationLabel(
           header,
           COMPLEMENTARY_CERTIFICATION_SUFFIX
         );
-
-        complementaryCertificationLabels.push(complementaryCertificationLabel);
       }
     }
   });
-
-  return complementaryCertificationLabels;
+  return complementaryCertificationLabel;
 }
 
 function _isTrueValue(complementaryCertificationValue) {
   const TRUE_VALUE = 'OUI';
-  return complementaryCertificationValue.trim().toUpperCase() === TRUE_VALUE;
+  return complementaryCertificationValue?.trim().toUpperCase() === TRUE_VALUE;
 }
 
 function _isComplementaryCertification(header) {
@@ -309,7 +306,7 @@ function _createCandidate({
   billingMode,
   prepaymentCode,
   sex,
-  complementaryCertifications,
+  complementaryCertification,
   line,
 }) {
   return {
@@ -327,7 +324,7 @@ function _createCandidate({
     billingMode,
     prepaymentCode,
     sex,
-    complementaryCertifications,
+    complementaryCertification,
     line,
   };
 }

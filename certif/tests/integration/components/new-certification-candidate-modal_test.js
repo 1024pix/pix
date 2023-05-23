@@ -509,7 +509,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
         birthInseeCode: '75100',
         sex: '',
         extraTimePercentage: '20',
-        complementaryCertifications: [{ id: 0, label: 'Certif complémentaire 1', key: 'COMP_1' }],
+        complementaryCertification: { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1' },
       });
     });
   });

@@ -34,16 +34,16 @@ const serialize = function (juryCertification) {
       'commentForCandidate',
       'commentForOrganization',
       'commentForJury',
-      'commonComplementaryCertificationCourseResults',
-      'complementaryCertificationCourseResultsWithExternal',
+      'commonComplementaryCertificationCourseResult',
+      'complementaryCertificationCourseResultWithExternal',
       'certificationIssueReports',
     ],
 
-    commonComplementaryCertificationCourseResults: {
+    commonComplementaryCertificationCourseResult: {
       ref: 'id',
       attributes: ['label', 'status'],
     },
-    complementaryCertificationCourseResultsWithExternal: {
+    complementaryCertificationCourseResultWithExternal: {
       ref: 'complementaryCertificationCourseId',
       attributes: [
         'complementaryCertificationCourseId',

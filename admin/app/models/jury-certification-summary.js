@@ -20,7 +20,7 @@ export default class JuryCertificationSummary extends Model {
   @attr() isCancelled;
   @attr() examinerComment;
   @attr() hasSeenEndTestScreen;
-  @attr() complementaryCertificationTakenLabels;
+  @attr() complementaryCertificationTakenLabel;
   @attr() numberOfCertificationIssueReports;
   @attr() isFlaggedAborted;
   @attr() numberOfCertificationIssueReportsWithRequiredAction;
@@ -33,10 +33,6 @@ export default class JuryCertificationSummary extends Model {
   @computed('completedAt')
   get completionDate() {
     return this.completedAt ? dayjs(this.completedAt).format('DD/MM/YYYY, HH:mm:ss') : null;
-  }
-
-  get complementaryCertificationsLabel() {
-    return this.complementaryCertificationTakenLabels?.join('\n') ?? '';
   }
 
   @computed('numberOfCertificationIssueReportsWithRequiredAction')

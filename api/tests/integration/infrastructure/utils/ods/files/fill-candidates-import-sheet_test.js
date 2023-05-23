@@ -193,7 +193,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: 'GHI789',
         extraTimePercentage: 1.5,
-        complementaryCertifications: [],
+        complementaryCertification: null,
       });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: cleaNumeriqueCandidate.id,
@@ -214,7 +214,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: null,
         extraTimePercentage: 0.15,
-        complementaryCertifications: [],
+        complementaryCertification: null,
       });
 
       await databaseBuilder.commit();
@@ -299,9 +299,9 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         description: 'La super description',
       }).id;
 
-      const allComplementaryCertificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+      const onlyPixPlusEdu2ndDegreCandidate = databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'All',
-        firstName: 'Complementary certifications',
+        firstName: 'By Myself',
         sex: 'M',
         birthPostalCode: '75018',
         birthINSEECode: null,
@@ -313,22 +313,10 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: 'ABC123',
         extraTimePercentage: 0.6,
-        complementaryCertifications: [],
+        complementaryCertification: pixPlusEdu2ndDegre,
       });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: allComplementaryCertificationCandidate.id,
-        complementaryCertificationId: cleaNumerique.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: allComplementaryCertificationCandidate.id,
-        complementaryCertificationId: pixPlusDroit.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: allComplementaryCertificationCandidate.id,
-        complementaryCertificationId: pixPlusEdu1erDegre.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationSubscription({
-        certificationCandidateId: allComplementaryCertificationCandidate.id,
+        certificationCandidateId: onlyPixPlusEdu2ndDegreCandidate.id,
         complementaryCertificationId: pixPlusEdu2ndDegre.id,
       });
 
@@ -346,7 +334,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: 'DEF456',
         extraTimePercentage: null,
-        complementaryCertifications: [pixPlusDroit],
+        complementaryCertification: pixPlusDroit,
       });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: onlyPixPlusDroitCandidate.id,
@@ -367,7 +355,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: 'GHI789',
         extraTimePercentage: 1.5,
-        complementaryCertifications: [cleaNumerique],
+        complementaryCertification: cleaNumerique,
       });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: onlyCleaNumeriqueCandidate.id,
@@ -388,7 +376,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: null,
         extraTimePercentage: 0.15,
-        complementaryCertifications: [],
+        complementaryCertification: null,
       });
 
       await databaseBuilder.commit();
@@ -480,7 +468,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
       expect(actualResult).to.deep.equal(expectedResult);
     });
-    context('when some candidate have complementary certifications', function () {
+    context('when some candidate have complementary certification', function () {
       it('should return a candidate import sheet with session data, candidates data prefilled', async function () {
         // given
         expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns-complementary.ods`;

@@ -23,7 +23,7 @@ const authorizeToResume = async function (request, h) {
   return h.response().code(204);
 };
 
-const getSubscriptions = async function (request) {
+const getSubscription = async function (request) {
   const certificationCandidateId = request.params.id;
   const certificationCandidateSubscription = await usecases.getCertificationCandidateSubscription({
     certificationCandidateId,
@@ -42,7 +42,7 @@ const endAssessmentBySupervisor = async function (request) {
 const certificationCandidatesController = {
   authorizeToStart,
   authorizeToResume,
-  getSubscriptions,
+  getSubscription,
   endAssessmentBySupervisor,
 };
 

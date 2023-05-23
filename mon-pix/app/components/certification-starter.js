@@ -19,25 +19,6 @@ export default class CertificationJoiner extends Component {
     return this.inputAccessCode.toUpperCase();
   }
 
-  get allComplementaryCertificationsLength() {
-    return (
-      this.args.certificationCandidateSubscription.eligibleSubscriptions.length +
-      this.args.certificationCandidateSubscription.nonEligibleSubscriptions.length
-    );
-  }
-
-  get nonEligibleSubscriptionLabels() {
-    return this.args.certificationCandidateSubscription.nonEligibleSubscriptions
-      .map((nonEligibleSubscription) => nonEligibleSubscription.label)
-      .join(', ');
-  }
-
-  get eligibleSubscriptionLabels() {
-    return this.args.certificationCandidateSubscription.eligibleSubscriptions
-      .map((eligibleSubscription) => eligibleSubscription.label)
-      .join(', ');
-  }
-
   @action
   async submit(e) {
     e.preventDefault();

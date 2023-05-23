@@ -31,10 +31,10 @@ module('Integration | Component | certifications/list', function (hooks) {
     assert.dom(numberOfCertificationIssueReportsWithRequiredAction).hasText('2');
   });
 
-  test('should display the complementary certifications if any', async function (assert) {
+  test('should display the complementary certification', async function (assert) {
     // given
     const juryCertificationSummaryProcessed = store.createRecord('jury-certification-summary', {
-      complementaryCertificationTakenLabels: ['CléA Numérique', 'Pix+ Droit Maître'],
+      complementaryCertificationTakenLabel: 'Pix+ Droit Maître',
     });
     this.certifications = [juryCertificationSummaryProcessed];
     this.pagination = {};
@@ -45,7 +45,7 @@ module('Integration | Component | certifications/list', function (hooks) {
     );
 
     // then
-    assert.dom(screen.getByText('CléA Numérique Pix+ Droit Maître', { exact: false })).exists();
+    assert.dom(screen.getByText('Pix+ Droit Maître', { exact: false })).exists();
   });
 
   module('when displayHasSeenEndTestScreenColumn is true', function () {

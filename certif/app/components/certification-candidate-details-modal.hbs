@@ -132,7 +132,7 @@
             {{t "common.forms.certification-labels.additional-certification"}}
           </span>
           <span class="certification-candidate-details-modal__row__value">
-            {{if @candidate.complementaryCertifications @candidate.complementaryCertificationsList "-"}}
+            {{if @candidate.complementaryCertification @candidate.complementaryCertification.label "-"}}
           </span>
         </li>
       {{/if}}

@@ -290,10 +290,6 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
     certificationCandidateId: frank.id,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
-  databaseBuilder.factory.buildComplementaryCertificationSubscription({
-    certificationCandidateId: frank.id,
-    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-  });
   databaseBuilder.factory.buildCertificationCandidate({
     firstName: 'Britney',
     lastName: 'Spears',

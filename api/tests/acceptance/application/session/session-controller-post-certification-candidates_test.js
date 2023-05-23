@@ -61,7 +61,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
         INSEECode: '75115',
       });
       const complementaryCertification1Id = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Certif complémentaire 1',
+        label: 'Certif complémentaire 1',
       }).id;
 
       payload = {
@@ -82,7 +82,11 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
             'birth-postal-code': null,
             'billing-mode': 'FREE',
             sex: certificationCandidate.sex,
-            'complementary-certifications': [{ id: complementaryCertification1Id, name: 'Certif complémentaire 1' }],
+            'complementary-certification': {
+              id: complementaryCertification1Id,
+              label: 'Certif complémentaire 1',
+              key: 'CERTIF',
+            },
           },
         },
       };
@@ -136,7 +140,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
           'birth-insee-code': certificationCpfCity.INSEECode,
           'birth-postal-code': null,
           sex: certificationCandidate.sex,
-          'complementary-certifications': [],
+          'complementary-certification': null,
         },
       };
 

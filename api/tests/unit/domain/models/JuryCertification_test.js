@@ -39,12 +39,11 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         ...juryCertificationBaseDTO,
       };
       const certificationIssueReports = [certificationIssueReport];
-      const commonComplementaryCertificationCourseResults = [
+      const commonComplementaryCertificationCourseResult =
         domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
           partnerKey: 'PIX_PARTNER_KEY',
           acquired: true,
-        }),
-      ];
+        });
 
       const competenceMarkDTOs = [
         {
@@ -58,7 +57,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         },
       ];
 
-      const complementaryCertificationCourseResultsWithExternal =
+      const complementaryCertificationCourseResultWithExternal =
         domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
           complementaryCertificationCourseId: 123,
           pixPartnerKey: 'PIX_PARTNER_KEY',
@@ -72,8 +71,8 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         juryCertificationDTO,
         certificationIssueReports,
         competenceMarkDTOs,
-        commonComplementaryCertificationCourseResults,
-        complementaryCertificationCourseResultsWithExternal,
+        commonComplementaryCertificationCourseResult,
+        complementaryCertificationCourseResultWithExternal,
       });
 
       // then
@@ -111,8 +110,8 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         commentForJury: 'ça va',
         competenceMarks: [expectedCompetenceMark],
         certificationIssueReports,
-        commonComplementaryCertificationCourseResults,
-        complementaryCertificationCourseResultsWithExternal,
+        commonComplementaryCertificationCourseResult,
+        complementaryCertificationCourseResultWithExternal,
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
