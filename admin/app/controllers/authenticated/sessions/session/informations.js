@@ -74,12 +74,11 @@ export default class IndexController extends Controller {
   async downloadPDFAttestations() {
     const sessionId = this.model.id;
     const url = `/api/admin/sessions/${sessionId}/attestations`;
-    const fileName = `attestations_session_${sessionId}_pix.pdf`;
     const token = this.session.data.authenticated.access_token;
     try {
-      await this.fileSaver.save({ url, fileName, token });
+      await this.fileSaver.save({ url, token });
     } catch (error) {
-      this.attestationDownloadErrorMessage = error.message;
+      this.notifications.error("Une erreur est survenue, les attestations n'ont pas pu être téléchargées.");
     }
   }
 

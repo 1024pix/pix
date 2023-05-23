@@ -27,7 +27,7 @@ const getCertificationAttestationsForSession = async function ({
   );
 
   if (isEmpty(certificationAttestations)) {
-    throw new NotFoundError("Pas d'attestation trouvée");
+    throw new NotFoundError('No certification attestations found');
   }
 
   return certificationAttestations;
