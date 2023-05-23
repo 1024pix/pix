@@ -12,11 +12,9 @@ En cours
 
 Le contexte est la non-duplication de code dans le développement d'applications Ember.
 
-Actuellement nous avons créé un composant LanguageSwitcher qui doit être utilisé dans 3 applications Pix (Pix App, Pix Orga, Pix Certif). Nous n'avons pas d'autre moyen que de dupliquer le composant et les tests associés sur les 3 applications, ce qui peut amener à des difficultés sur la maintenance du code.
+Actuellement nous avons créé un composant *LanguageSwitcher* qui doit être utilisé dans 3 applications Pix (Pix App, Pix Orga, Pix Certif). Nous n'avons pas d'autre moyen que de dupliquer le composant et les tests associés sur les 3 applications, ce qui amène des difficultés sur l'évolution et la maintenance du code.
 
-Pix UI ne semble pas fait pour accueillir certaines choses de plus haut niveau que des *molécules* (exemple : le LanguageSwitcher) ou des *organismes* (exemple : les formulaires de connexion) et on doit donc trouver une solution différente de l'utilisation directe de Pix UI.
-
-Une question clé est de définir quelles sont les règles régissant quel composant peut rentrer dans Pix UI ou non.
+Une question clé est de cet ADR est de définir quelles sont les règles régissant quel composant peut rentrer dans Pix UI ou non.
 
 
 ## Propositions
@@ -60,9 +58,9 @@ La responsabilité de la mise à jour incombe à l'équipe/développeur qui fait
 **Avantage(s) :**
 
 * Non-duplication de code
+* Permet de ne pas augmenter la dépendance de Pix UI vers Ember
 * Pratique classique et standard
 * Permet de gérer des versions différentes dans chaque application
-* Permet de ne pas augmenter la dépendance de Pix UI vers Ember
 
 **Inconvénient(s) :**
 
@@ -83,9 +81,9 @@ La responsabilité de la mise à jour de tout le code incombe à l'équipe/déve
 **Avantage(s) :**
 
 * Non-duplication de code
+* Permet de ne pas augmenter la dépendance de Pix UI vers Ember
 * Expérience développeur améliorée de par la facilité d'implémentation
 * Les applications sont toujours à jour avec l'addon, et quand il y a des incompatibilités elles se manifestent immédiatement et donc feedback-loop plus rapide et donc tests de non-régression simplifiés
-* Permet de ne pas augmenter la dépendance de Pix UI vers Ember
 
 **Inconvénient(s) :**
 
@@ -95,5 +93,13 @@ La responsabilité de la mise à jour de tout le code incombe à l'équipe/déve
 
 ## Décision
 
-Cette solution sera à utiliser par exemple avec le composant LanguageSwitcher.
+Pix UI ne semble pas fait pour accueillir certaines choses de haut niveau comme les *molécules* (exemple : le *LanguageSwitcher*) ou les *organismes* (exemple : les formulaires de connexion). On doit donc trouver une solution différente de l'utilisation directe de Pix UI.
+En effet si on augmente le couplage de Pix UI à Ember cela empêcherait définitivement d'utiliser Pix UI dans d'autres contextes que les applications Ember (comme par exemple dans les contextes des pix-sites, des pix-tutos ou de nouveaux usages), évolution sur laquelle nous avons commencé des réflexions et des expérimentations.
+
+À la question clé de définir quelles sont les règles régissant quel composant peut rentrer dans Pix UI ou non cet ADR répond :
+* l'objectif de Pix UI est d'être réutilisable dans différents contextes indépendamment de la technologie utilisée (Ember.js ou autre)
+* uniquement des atomes
+* pas de molécules ou d'organismes
+* rien qui augmente la dépendance à Ember
+
 TODO
