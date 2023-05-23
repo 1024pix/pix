@@ -38,9 +38,11 @@ module('Integration | Component | student-information-form', function (hooks) {
     const yearOfBirth = 2000;
 
     const createRecordStub = sinon.stub();
+
     class StoreStubService extends Service {
       createRecord = createRecordStub;
     }
+
     this.owner.register('service:store', StoreStubService);
     const submitStudentInformation = sinon.stub();
     submitStudentInformation.resolves();

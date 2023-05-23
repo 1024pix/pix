@@ -144,7 +144,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
       //when
       await render(
-        hbs`{{qrocm-ind-solution-panel challenge=this.challenge answer=this.answer solution=this.solution}}`
+        hbs`<QrocmIndSolutionPanel @challenge={{this.challenge}} @answer={{this.answer}} @solution={{this.solution}} />`
       );
       //then
 
@@ -167,7 +167,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
     test('should display a disabled textarea', async function (assert) {
       // when
       await render(
-        hbs`{{qrocm-ind-solution-panel answer=this.answer solution=this.solution challenge=this.challenge}}`
+        hbs`<QrocmIndSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`
       );
 
       // then
@@ -189,7 +189,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
     test('should display a disabled input', async function (assert) {
       // when
       await render(
-        hbs`{{qrocm-ind-solution-panel answer=this.answer solution=this.solution challenge=this.challenge}}`
+        hbs`<QrocmIndSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`
       );
 
       // then

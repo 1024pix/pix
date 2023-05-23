@@ -124,10 +124,10 @@ module('Integration | Component | user-account | email-verification-code', funct
       store.createRecord = () => ({ verifyCode });
 
       const screen = await render(hbs`<UserAccount::EmailVerificationCode
-        @email={{this.email}}
-        @disableEmailEditionMode={{this.disableEmailEditionMode}}
-        @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
-      />`);
+  @email={{this.email}}
+  @disableEmailEditionMode={{this.disableEmailEditionMode}}
+  @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
+/>`);
 
       // when
       await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
@@ -159,10 +159,10 @@ module('Integration | Component | user-account | email-verification-code', funct
       store.createRecord = () => ({ verifyCode });
 
       const screen = await render(hbs`<UserAccount::EmailVerificationCode
-        @email={{this.email}}
-        @disableEmailEditionMode={{this.disableEmailEditionMode}}
-        @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
-      />`);
+  @email={{this.email}}
+  @disableEmailEditionMode={{this.disableEmailEditionMode}}
+  @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
+/>`);
 
       // when
       await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
@@ -196,10 +196,10 @@ module('Integration | Component | user-account | email-verification-code', funct
       store.createRecord = () => ({ verifyCode });
 
       const screen = await render(hbs`<UserAccount::EmailVerificationCode
-        @email={{this.email}}
-        @disableEmailEditionMode={{this.disableEmailEditionMode}}
-        @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
-      />`);
+  @email={{this.email}}
+  @disableEmailEditionMode={{this.disableEmailEditionMode}}
+  @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
+/>`);
 
       // when
       await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
@@ -224,10 +224,10 @@ module('Integration | Component | user-account | email-verification-code', funct
       store.createRecord = () => ({ verifyCode });
 
       const screen = await render(hbs`<UserAccount::EmailVerificationCode
-        @email={{this.email}}
-        @disableEmailEditionMode={{this.disableEmailEditionMode}}
-        @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
-      />`);
+  @email={{this.email}}
+  @disableEmailEditionMode={{this.disableEmailEditionMode}}
+  @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
+/>`);
 
       // when
       await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {

@@ -25,7 +25,7 @@ module('Integration | Component | competence-card-mobile', function (hooks) {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
+      await render(hbs`<CompetenceCardMobile @scorecard={{this.scorecard}} />`);
 
       // then
       assert.dom('.competence-card').exists();
@@ -37,7 +37,7 @@ module('Integration | Component | competence-card-mobile', function (hooks) {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
+      await render(hbs`<CompetenceCardMobile @scorecard={{this.scorecard}} />`);
 
       // then
       assert.ok(find('.competence-card__wrapper').getAttribute('class').includes('competence-card__wrapper--jaffa'));
@@ -49,7 +49,7 @@ module('Integration | Component | competence-card-mobile', function (hooks) {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
+      await render(hbs`<CompetenceCardMobile @scorecard={{this.scorecard}} />`);
 
       // then
       assert.strictEqual(find('.competence-card__area-name').textContent, scorecard.area.title);
@@ -61,7 +61,7 @@ module('Integration | Component | competence-card-mobile', function (hooks) {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
+      await render(hbs`<CompetenceCardMobile @scorecard={{this.scorecard}} />`);
 
       // then
       assert.strictEqual(find('.competence-card__competence-name').textContent, scorecard.name);
@@ -73,7 +73,7 @@ module('Integration | Component | competence-card-mobile', function (hooks) {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
+      await render(hbs`<CompetenceCardMobile @scorecard={{this.scorecard}} />`);
 
       // then
       assert.strictEqual(find('.score-value').textContent, scorecard.level.toString());
@@ -87,7 +87,7 @@ module('Integration | Component | competence-card-mobile', function (hooks) {
           this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
+          await render(hbs`<CompetenceCardMobile @scorecard={{this.scorecard}} />`);
         });
 
         test('should not show congrats design', function (assert) {
@@ -105,7 +105,7 @@ module('Integration | Component | competence-card-mobile', function (hooks) {
           this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`{{competence-card-mobile scorecard=this.scorecard}}`);
+          await render(hbs`<CompetenceCardMobile @scorecard={{this.scorecard}} />`);
         });
 
         test('should show congrats design', function (assert) {

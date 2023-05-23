@@ -9,7 +9,7 @@ module('Integration | Component | certification-not-certifiable', function (hook
   setupIntlRenderingTest(hooks);
 
   test('renders', async function (assert) {
-    await render(hbs`{{certification-not-certifiable}}`);
+    await render(hbs`<CertificationNotCertifiable />`);
 
     assert.strictEqual(
       find('.certification-not-certifiable__title').textContent.trim(),

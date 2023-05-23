@@ -64,7 +64,7 @@ module('Integration | Component | Profile-content', function (hooks) {
         setBreakpoint('tablet');
         this.set('model', model);
         this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
-        await render(hbs`{{profile-content model=this.model media=this.media}}`);
+        await render(hbs`<ProfileContent @model={{this.model}} @media={{this.media}} />`);
 
         // then
         assert.dom('.competence-card').exists();
@@ -79,7 +79,7 @@ module('Integration | Component | Profile-content', function (hooks) {
         setBreakpoint('mobile');
         this.set('model', model);
         this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
-        await render(hbs`{{profile-content model=this.model media=this.media}}`);
+        await render(hbs`<ProfileContent @model={{this.model}} @media={{this.media}} />`);
 
         // then
         assert.dom('.competence-card').exists();
