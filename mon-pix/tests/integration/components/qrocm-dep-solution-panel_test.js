@@ -214,7 +214,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
     test('should display a disabled textarea', async function (assert) {
       // when
       await render(
-        hbs`{{qrocm-dep-solution-panel answer=this.answer solution=this.solution challenge=this.challenge}}`
+        hbs`<QrocmDepSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`
       );
 
       // then
@@ -243,7 +243,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
     test('should display a disabled input', async function (assert) {
       // when
       await render(
-        hbs`{{qrocm-dep-solution-panel answer=this.answer solution=this.solution challenge=this.challenge}}`
+        hbs`<QrocmDepSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`
       );
 
       // then

@@ -74,7 +74,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
 
       // when
       const screen = await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`
+        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}} />`
       );
 
       // then
@@ -204,7 +204,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       const email = 'Philipe@';
 
       const screen = await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`
+        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}} />`
       );
 
       const emailInput = screen.getByRole('textbox', {

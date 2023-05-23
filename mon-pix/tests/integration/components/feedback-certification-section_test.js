@@ -9,7 +9,7 @@ module('Integration | Component | feedback-certification-section', function (hoo
   setupIntlRenderingTest(hooks);
 
   test('renders', async function (assert) {
-    await render(hbs`{{feedback-certification-section}}`);
+    await render(hbs`<FeedbackCertificationSection />`);
 
     assert.ok(
       find('.feedback-certification-section__div')
