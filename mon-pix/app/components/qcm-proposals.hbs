@@ -2,19 +2,16 @@
   {{#each this.labeledCheckboxes as |labeledCheckbox index|}}
     <p class="proposal-paragraph">
 
-      <Input
-        @type="checkbox"
-        id="checkbox_{{inc index}}"
-        @checked={{labeledCheckbox.checked}}
-        data-test="challenge-response-proposal-selector"
+      <PixCheckbox
         name="{{inc index}}"
-        {{on "click" (fn this.checkboxClicked labeledCheckbox.value)}}
         disabled={{@isAnswerFieldDisabled}}
-      />
-
-      <label for="checkbox_{{inc index}}" class="label-checkbox-proposal">
+        checked={{labeledCheckbox.checked}}
+        {{on "click" (fn this.checkboxClicked labeledCheckbox.value)}}
+        data-test="challenge-response-proposal-selector"
+      >
         <MarkdownToHtml @class="proposal-text" @markdown={{labeledCheckbox.label}} />
-      </label>
+      </PixCheckbox>
+
     </p>
   {{/each}}
 </div>
