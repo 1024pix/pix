@@ -14,7 +14,7 @@ Le contexte est la non-duplication de code dans le développement d'applications
 
 Actuellement nous avons créé un composant *LanguageSwitcher* qui doit être utilisé dans 3 applications Pix (Pix App, Pix Orga, Pix Certif). Nous n'avons pas d'autre moyen que de dupliquer le composant et les tests associés sur les 3 applications, ce qui amène des difficultés sur l'évolution et la maintenance du code.
 
-Une question clé est de cet ADR est de définir quelles sont les règles régissant quel composant peut rentrer dans Pix UI ou non.
+Une des questions clés de cet ADR est de définir quelles sont les règles régissant quel composant peut rentrer dans Pix UI ou non.
 
 
 ## Propositions
