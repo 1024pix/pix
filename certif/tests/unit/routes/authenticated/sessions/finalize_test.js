@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
 module('Unit | Route | authenticated/sessions/finalize', function (hooks) {
-  setupTest(hooks);
+  setupIntlRenderingTest(hooks);
   let route;
 
   hooks.beforeEach(function () {

@@ -150,6 +150,7 @@ export default function () {
               status: '403',
               title: 'Forbidden',
               detail: 'At least one candidate is already linked to a user',
+              code: 'SESSION_STARTED_CANDIDATE_ALREADY_LINKED_TO_USER',
             },
           ],
         }

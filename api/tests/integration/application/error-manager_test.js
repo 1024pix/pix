@@ -15,6 +15,11 @@ describe('Integration | API | Controller Error', function () {
     return payload.errors[0].detail;
   }
 
+  function responseCode(response) {
+    const payload = JSON.parse(response.payload);
+    return payload.errors[0].code;
+  }
+
   function responseTitle(response) {
     const payload = JSON.parse(response.payload);
     return payload.errors[0].title;
@@ -308,14 +313,20 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal("L'invitation a déjà été acceptée ou annulée.");
     });
 
-    it('responds Bad Request when a SessionWithAbortReasonOnCompletedCertificationCourseError error occurs', async function () {
+    it('responds Conflict when a SessionWithAbortReasonOnCompletedCertificationCourseError error occurs', async function () {
       routeHandler.throws(new DomainErrors.SessionWithAbortReasonOnCompletedCertificationCourseError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(CONFLICT_ERROR);
-      expect(responseDetail(response)).to.equal(
-        'Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.'
-      );
+      expect(responseCode(response)).to.equal('SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE');
+    });
+
+    it('responds Conflict when a SessionAlreadyFinalizedError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.SessionAlreadyFinalizedError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseCode(response)).to.equal('SESSION_ALREADY_FINALIZED');
     });
   });
 
@@ -352,26 +363,12 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('Utilisateur non autorisé à créer une campagne');
     });
 
-    it('responds Forbidden when a UserNotAuthorizedToGetCertificationCoursesError error occurs', async function () {
-      routeHandler.throws(
-        new DomainErrors.UserNotAuthorizedToGetCertificationCoursesError(
-          "Cet utilisateur n'est pas autorisé à récupérer ces certification courses."
-        )
-      );
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
-      expect(responseDetail(response)).to.equal(
-        "Cet utilisateur n'est pas autorisé à récupérer ces certification courses."
-      );
-    });
-
     it('responds Forbidden when a CertificationCandidateAlreadyLinkedToUserError error occurs', async function () {
       routeHandler.throws(new DomainErrors.CertificationCandidateAlreadyLinkedToUserError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
-      expect(responseDetail(response)).to.equal('Le candidat de certification est déjà lié à un utilisateur.');
+      expect(responseCode(response)).to.equal('SESSION_STARTED_CANDIDATE_ALREADY_LINKED_TO_USER');
     });
 
     it('responds Forbidden when a CertificationCandidateForbiddenDeletionError error occurs', async function () {
@@ -553,24 +550,15 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('Format de date invalide.');
     });
 
-    it('responds Bad Request when a SessionAlreadyFinalizedError error occurs', async function () {
-      routeHandler.throws(
-        new DomainErrors.SessionAlreadyFinalizedError('Erreur, tentatives de finalisation multiples de la session.')
-      );
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
-      expect(responseDetail(response)).to.equal('Erreur, tentatives de finalisation multiples de la session.');
-    });
-
     it('responds Bad Request when a SessionWithoutStartedCertificationError error occurs', async function () {
       routeHandler.throws(new DomainErrors.SessionWithoutStartedCertificationError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
       expect(responseDetail(response)).to.equal(
-        "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer."
+        "This session hasn't started, you can't finalise it. However, you can delete it."
       );
+      expect(responseCode(response)).to.equal('SESSION_WITHOUT_STARTED_CERTIFICATION');
     });
 
     it('responds Bad Request when a SessionAlreadyPublishedError error occurs', async function () {
@@ -926,6 +914,16 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal(
         "Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : toto@pix.fr, titi@pix.fr"
       );
+    });
+
+    it('responds NotFoundError when a CertificationCandidateNotFoundError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.CertificationCandidateNotFoundError());
+
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(404);
+      expect(responseDetail(response)).to.equal('No candidate found');
+      expect(responseCode(response)).to.equal('CANDIDATE_NOT_FOUND');
     });
   });
 });

@@ -158,9 +158,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToCreateCampaignError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
-  if (error instanceof DomainErrors.UserNotAuthorizedToGetCertificationCoursesError) {
-    return new HttpErrors.ForbiddenError(error.message);
-  }
   if (error instanceof DomainErrors.UserNotAuthorizedToGenerateUsernamePasswordError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
@@ -168,7 +165,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.ForbiddenError(error.message);
   }
   if (error instanceof DomainErrors.CertificationCandidateAlreadyLinkedToUserError) {
-    return new HttpErrors.ForbiddenError('Le candidat de certification est déjà lié à un utilisateur.');
+    return new HttpErrors.ForbiddenError(error.message, error.code);
   }
   if (error instanceof DomainErrors.CertificationCandidateByPersonalInfoNotFoundError) {
     return new HttpErrors.NotFoundError(
@@ -336,17 +333,14 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.WrongDateFormatError) {
     return new HttpErrors.BadRequestError(error.message);
   }
-  if (error instanceof DomainErrors.SessionAlreadyFinalizedError) {
-    return new HttpErrors.BadRequestError(error.message);
-  }
   if (error instanceof DomainErrors.SessionWithoutStartedCertificationError) {
-    return new HttpErrors.BadRequestError(error.message);
+    return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.SessionWithIdAndInformationOnMassImportError) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.SessionWithAbortReasonOnCompletedCertificationCourseError) {
-    return new HttpErrors.ConflictError(error.message);
+    return new HttpErrors.ConflictError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.SessionStartedDeletionError) {
     return new HttpErrors.ConflictError(error.message);
@@ -508,6 +502,14 @@ function _mapToHttpError(error) {
 
   if (error instanceof DomainErrors.SendingEmailToInvalidEmailAddressError) {
     return new HttpErrors.BadRequestError(error.message, 'SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS', error.meta);
+  }
+
+  if (error instanceof DomainErrors.CertificationCandidateNotFoundError) {
+    return new HttpErrors.NotFoundError(error.message, error.code);
+  }
+
+  if (error instanceof DomainErrors.SessionAlreadyFinalizedError) {
+    return new HttpErrors.ConflictError(error.message, error.code);
   }
 
   return new HttpErrors.BaseHttpError(error.message);

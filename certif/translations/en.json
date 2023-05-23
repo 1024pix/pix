@@ -14,6 +14,15 @@
       "validate": "Validate"
     },
     "api-error-messages": {
+      "CANDIDATE_NOT_FOUND": "An error has occurred, the candidate {firstName} {lastName} hasn't been found.",
+      "INVALID_DOCUMENT": "This version of the document is unknown.",
+      "SESSION_ALREADY_FINALIZED": "Cannot finalize session more than once.",
+      "SESSION_CANNOT_BE_FINALIZED": "Error during the finalisation of the session.",
+      "SESSION_DOES_NOT_EXIST_OR_ACCESS_RESTRICTED": "The session doesn't exist or it's access is restricted.",
+      "SESSION_STARTED_CANDIDATE_ALREADY_LINKED_TO_USER": "The session has begun, you can’t upload a candidates' list anymore.<br />If you want to edit the list, you can enrol a candidate directly in the table below.",
+      "SESSION_WITHOUT_STARTED_CERTIFICATION": "This session hasn't started, you can't finalise it. However, you may delete it.",
+      "SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE": "The field \"Reason for abandonment\" has been filled in for a candidate who has finished their certification exam in between. The session therefore can't be finalised. Please refresh the page before finalising.",
+      "authorize-resume-error": "An error has occurred, {firstName} {lastName} couldn't be allowed to resume his/her Pix certification exam.",
       "bad-request-error": "The data entered was not in the correct format.",
       "gateway-timeout-error": "The service is being slow. Please try again later.",
       "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
@@ -249,6 +258,9 @@
         "title": "Session finalisation",
         "warning": "Warning :"
       },
+      "errors": {
+        "no-abort-reason": "One or more unfinished certification(s) don't have a reason for abandonment. Please fill them in."
+      },
       "issue-reports-modal": {
         "actions": {
           "add-reporting": "Add a reporting",
@@ -259,6 +271,9 @@
         },
         "subtitle": "My reporting",
         "title": "Reporting for candidate :"
+      },
+      "notification": {
+        "success": "The session's details have been successfully transmitted."
       },
       "reporting": {
         "completed-reports-information": {
