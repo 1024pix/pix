@@ -8,4 +8,15 @@ module.exports = {
   rules: {
     'no-duplicate-landmark-elements': false,
   },
+
+  ignore: ['blueprints/component-test/files/tests/integration/components/*'],
+
+  overrides: [
+    {
+      files: ['**/integration/**/*_test.js'],
+      rules: {
+        prettier: false,
+      },
+    },
+  ],
 };
