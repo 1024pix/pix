@@ -150,6 +150,7 @@ import { buildUserSavedTutorial } from './build-user-saved-tutorial.js';
 import { buildUserSavedTutorialWithTutorial } from './build-user-saved-tutorial-with-tutorial.js';
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
+import { buildFeedback } from './build-feedback.js';
 
 export {
   buildAccountRecoveryDemand,
@@ -231,6 +232,7 @@ export {
   buildCourse,
   buildCpfCertificationResult,
   buildDataProtectionOfficer,
+  buildFeedback,
   buildFinalizedSession,
   buildFramework,
   buildHint,
