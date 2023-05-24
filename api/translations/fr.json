@@ -92,7 +92,7 @@
       "email-convocation": "E-mail de convocation",
       "email-results": "E-mail du destinataire des résultats (formateur, enseignant…)",
       "externalid": "Identifiant local",
-      "extratime": "Temps majoré ?",
+      "extra-time": "Temps majoré ?",
       "firstname": "* Prénom",
       "gender": "* Sexe (M ou F)",
       "locale-time": "Heure locale (début)",
@@ -115,6 +115,7 @@
       "date-format": "Utiliser le format de date jj/mm/aaaa",
       "email-format": "Votre email doit contenir un ‘@' et un ‘.’ , \n Exemple : nom@exemple.fr Ce champ est facultatif, \n il sert à faciliter la convocation des candidats.",
       "email-results": "E-mail du destinataire des résultats (formateur, enseignant…), \n Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats concernés., \n Le candidat verra ses résultats affichés directement sur son compte Pix.",
+      "extra-time": "Champ requis si le candidat est bénéficiaire d'un temps majoré pour réaliser sa certification. \n Un nombre entier compris entre 1 et 99% exprimé en pourcentage est attendu (ex : 33%)",
       "gender-format": "M=Homme F=Femme"
     },
     "yes": "Oui",
