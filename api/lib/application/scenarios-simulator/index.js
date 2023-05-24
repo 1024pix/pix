@@ -34,6 +34,11 @@ const register = async (server) => {
               }),
               length: Joi.number().integer().min(0).required(),
             }),
+            Joi.object({
+              assessmentId: Joi.string().required(),
+              type: Joi.string().valid('capacity').required(),
+              capacity: Joi.number().min(-8).max(8).required(),
+            }),
           ]).required(),
         },
         handler: scenarioSimulatorController.simulateFlashAssessmentScenario,
