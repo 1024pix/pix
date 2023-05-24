@@ -16,10 +16,10 @@ export default class SigninForm extends Component {
   @service router;
   @service oidcIdentityProviders;
 
-  @tracked hasFailed = false;
   @tracked errorMessage;
   @tracked password = null;
   @tracked login = null;
+  @tracked isLoading = false;
 
   get showcase() {
     return this.url.showcase;
@@ -36,12 +36,14 @@ export default class SigninForm extends Component {
   @action
   async signin(event) {
     event && event.preventDefault();
-    this.hasFailed = false;
+    this.isLoading = true;
+
     try {
       await this.session.authenticateUser(this.login, this.password);
     } catch (responseError) {
-      this.hasFailed = true;
       this._handleApiError(responseError);
+    } finally {
+      this.isLoading = false;
     }
   }
 

@@ -9,7 +9,7 @@ module('Unit | Component | signin-form', function (hooks) {
   setupTest(hooks);
 
   module('#signin', function () {
-    module('completes', function () {
+    module('completes successfully', function () {
       test('authenticates the user even if email contains spaces', async function (assert) {
         // given
         const foundUser = EmberObject.create({ id: 12 });
@@ -40,7 +40,7 @@ module('Unit | Component | signin-form', function (hooks) {
 
         // then
         sinon.assert.calledWith(authenticateStub, trimedEmail, password);
-        assert.ok(true);
+        assert.false(component.isLoading);
       });
     });
 
@@ -77,8 +77,31 @@ module('Unit | Component | signin-form', function (hooks) {
           sinon.assert.calledWith(createRecordStub, 'reset-expired-password-demand', {
             passwordResetToken: 'PASSWORD_RESET_TOKEN',
           });
-          assert.ok(true);
+          assert.false(component.isLoading);
         });
+      });
+    });
+
+    module('while waiting for submission completion', function () {
+      test('isLoading is true', async function (assert) {
+        // given
+        let inflightLoading;
+        const eventStub = { preventDefault: sinon.stub() };
+        const component = createGlimmerComponent('signin-form');
+        const authenticateStub = function () {
+          inflightLoading = component.isLoading;
+          return Promise.resolve();
+        };
+        const sessionStub = Service.create({
+          authenticateUser: authenticateStub,
+        });
+        component.session = sessionStub;
+
+        // when
+        await component.signin(eventStub);
+
+        // then
+        assert.true(inflightLoading);
       });
     });
   });
