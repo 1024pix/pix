@@ -52,4 +52,4 @@ function _isValidSimulationAnswers(simulationAnswers) {
   return simulationAnswers.every((row) => row.every((cell) => ['ok', 'ko', 'aband'].includes(cell)));
 }
 
-export const scenarioSimulatorController = { simulateFlashDeterministicAssessmentScenario, importScenarios };
+export const scenarioSimulatorController = { simulateFlashAssessmentScenario, importScenarios };

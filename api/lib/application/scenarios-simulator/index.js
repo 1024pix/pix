@@ -23,7 +23,7 @@ const register = async (server) => {
             simulationAnswers: Joi.array().items(Joi.string().allow('ok', 'ko', 'aband')).required(),
           }).required(),
         },
-        handler: scenarioSimulatorController.simulateFlashDeterministicAssessmentScenario,
+        handler: scenarioSimulatorController.simulateFlashAssessmentScenario,
         tags: ['api'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
