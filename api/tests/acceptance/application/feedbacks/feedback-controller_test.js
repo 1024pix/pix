@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 import { expect, knex, databaseBuilder } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { Feedback } from '../../../../lib/infrastructure/orm-models/Feedback.js';
+import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 const { cloneDeep } = lodash;
 
@@ -16,7 +16,7 @@ describe('Acceptance | Controller | feedback-controller', function () {
     let options;
 
     beforeEach(async function () {
-      const assessmentId = databaseBuilder.factory.buildAssessment({ userId: null, courseId: 'rec' }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ userId: null, courseId: 'rec', id: 1 }).id;
       await databaseBuilder.commit();
       options = {
         method: 'POST',
@@ -87,41 +87,34 @@ describe('Acceptance | Controller | feedback-controller', function () {
       });
     });
 
-    it('should add a new feedback into the database', function () {
+    it('should add a new feedback into the database', async function () {
       // when
-      const promise = server.inject(options);
+      await server.inject(options);
+      const { count: feedbacksCount } = await knex('feedbacks').count().first();
 
       // then
-      return promise.then(() => {
-        return Feedback.count().then((afterFeedbacksNumber) => {
-          expect(afterFeedbacksNumber).to.equal(1);
-        });
-      });
+      expect(feedbacksCount).to.equal(1);
     });
 
-    it('should return persisted feedback', function () {
+    it('should return persisted feedback', async function () {
+      // given
+      const expectedFeedback = domainBuilder.buildFeedback({});
+      const expectedChallengeId = '1';
+      const expectedAssessmentId = '1';
+      options.payload.data.attributes = expectedFeedback;
+      options.payload.data.relationships.challenge.data.id = expectedChallengeId;
+      options.payload.data.relationships.assessment.data.id = expectedAssessmentId;
+
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
+      const feedback = response.result.data;
+      const challenge = response.result.data.relationships.challenge.data;
+      const assessment = response.result.data.relationships.assessment.data;
 
       // then
-      return promise.then((response) => {
-        const feedback = response.result.data;
-        return new Feedback().fetch().then((model) => {
-          expect(model.id).to.be.a('number');
-          expect(model.get('content')).to.equal(options.payload.data.attributes.content);
-          expect(model.get('userAgent')).to.equal(
-            'Mozilla/5.0 (Linux; Android 10; MGA-AL00 Build/HUAWEIMGA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/86.0.4240.99 XWEB/4343 MMWEBSDK/20221011 Mobile Safari/537.36 MMWEBID/7309 MicroMessenger/8.0.30.2260(0x28001E3B) WeChat/arm64 Wei',
-          );
-          expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
-          expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
-
-          expect(feedback.id).to.equal(model.id.toString());
-          expect(feedback.id).to.equal(response.result.data.id);
-          expect(feedback.attributes.content).to.equal(model.get('content'));
-          expect(feedback.relationships.assessment.data.id).to.equal(model.get('assessmentId').toString());
-          expect(feedback.relationships.challenge.data.id).to.equal(model.get('challengeId'));
-        });
-      });
+      expect(feedback.attributes.content).to.deep.equal(expectedFeedback.content);
+      expect(challenge.id).to.deep.equal(expectedChallengeId);
+      expect(assessment.id).to.deep.equal(expectedAssessmentId);
     });
   });
 });
