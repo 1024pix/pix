@@ -97,13 +97,6 @@
             {{t "common.forms.certification-labels.candidate-status.ongoing"}}
           </span>
         {{/if}}
-        {{#unless this.shouldDisplayTheoricalEndDatetime}}
-          <span class="session-supervising-candidate-in-list__start-time">
-            {{t "common.forms.certification-labels.candidate-status.start"}}
-            :
-            <time>{{this.candidateStartTime}}</time>
-          </span>
-        {{/unless}}
       {{/if}}
       {{#if @candidate.hasCompleted}}
         <span
@@ -113,6 +106,15 @@
         </span>
       {{/if}}
     </div>
+    {{#if @candidate.hasStarted}}
+      {{#unless this.shouldDisplayTheoricalEndDatetime}}
+        <span class="session-supervising-candidate-in-list__start-time">
+          {{t "common.forms.certification-labels.candidate-status.start"}}
+          :
+          <time>{{this.candidateStartTime}}</time>
+        </span>
+      {{/unless}}
+    {{/if}}
   </div>
   {{#if this.optionsMenuShouldBeDisplayed}}
     <div class="session-supervising-candidate-in-list__menu">
