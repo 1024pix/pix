@@ -5,7 +5,9 @@
     @route="authenticated.sessions.details.certification-candidates"
     @model={{@model.session.id}}
     class="add-student__return-to"
-  >Retour à la session</PixReturnTo>
+  >
+    {{t "common.sessions.actions.return-to"}}
+  </PixReturnTo>
 
   <h1 class="add-student__title">Inscrire des candidats</h1>
   <PixMessage @type="info" @withIcon={{true}} class="add-student__info-message">

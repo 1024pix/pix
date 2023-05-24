@@ -115,6 +115,9 @@
       }
     },
     "sessions": {
+      "actions": {
+        "return-to": "Retour à la session"
+      },
       "candidates": "Candidats",
       "invigilator": "Surveillant"
     }
@@ -338,7 +341,6 @@
           }
         }
       },
-      "return-to": "Retour à la session",
       "title": "Finaliser la session {sessionId}"
     },
     "session-supervising": {
