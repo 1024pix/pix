@@ -85,7 +85,7 @@
     <div class="join-restricted-campaign__error" aria-live="polite">{{@errorMessage}}</div>
   {{/if}}
   <div class="join-restricted-campaign__actions">
-    <PixButton @type="submit">{{t "pages.join.button"}}</PixButton>
+    <PixButton @type="submit" @isLoading={{this.isLoading}}>{{t "pages.join.button"}}</PixButton>
   </div>
 
   <p class="legal-notice">
