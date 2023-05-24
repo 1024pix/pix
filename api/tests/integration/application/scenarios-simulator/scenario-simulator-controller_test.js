@@ -18,6 +18,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
     sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
     sinon.stub(random, 'randomsInEnum');
     sinon.stub(pickAnswersService, 'pickAnswersFromArray');
+    sinon.stub(pickAnswersService, 'pickAnswerForCapacity');
 
     challenge1 = domainBuilder.buildChallenge({ id: 'chall1', successProbabilityThreshold: 0.65 });
     reward1 = 0.2;
@@ -137,6 +138,59 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 type: 'random',
                 probabilities,
                 length,
+              },
+              null,
+              { 'accept-language': 'en' }
+            );
+
+            // then
+            expect(response.statusCode).to.equal(200);
+            expect(response.result).to.deep.equal({
+              data: [
+                {
+                  attributes: {
+                    'error-rate': errorRate1,
+                    'estimated-level': estimatedLevel1,
+                    'minimum-capability': 0.6190392084062237,
+                    answer: 'ok',
+                    reward: reward1,
+                  },
+                  id: 'chall1',
+                  type: 'scenario-simulator-challenges',
+                },
+              ],
+            });
+          });
+        });
+      });
+
+      context('When the scenario is capacity', function () {
+        context('When the route is called with correct arguments', function () {
+          it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+            // given
+            const capacity = -3.1;
+            const assessmentId = '13802DK';
+
+            const pickAnswerFromCapacityImplementation = sinon.stub();
+            pickAnswersService.pickAnswerForCapacity.withArgs(capacity).returns(pickAnswerFromCapacityImplementation);
+
+            usecases.simulateFlashDeterministicAssessmentScenario
+              .withArgs({
+                assessmentId,
+                locale: 'en',
+                pickAnswer: pickAnswerFromCapacityImplementation,
+              })
+              .resolves(simulationResults);
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+            // when
+            const response = await httpTestServer.request(
+              'POST',
+              '/api/scenario-simulator',
+              {
+                assessmentId,
+                type: 'capacity',
+                capacity,
               },
               null,
               { 'accept-language': 'en' }

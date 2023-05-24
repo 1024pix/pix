@@ -12,6 +12,7 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
   let adminAuthorization;
   let validDeterministicPayload;
   let validRandomPayload;
+  let validCapacityPayload;
   let validPayloadForBatch;
   const assessmentId = '1234';
   const simulationAnswers = ['ok', 'ko', 'aband'];
@@ -42,6 +43,11 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
     };
     validPayloadForBatch = `ok,ko,aband
 ko,aband,ok`;
+    validCapacityPayload = {
+      assessmentId,
+      capacity: 4.5,
+      type: 'capacity',
+    };
     const learningContent = {
       competences: [
         {
@@ -172,6 +178,21 @@ ko,aband,ok`;
         // given
         options.headers.authorization = adminAuthorization;
         options.payload = validRandomPayload;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response).to.have.property('statusCode', 200);
+        expect(response.result.data).to.have.lengthOf(5);
+      });
+    });
+
+    describe('when the scenario is capacity', function () {
+      it('should return a payload with simulation deterministic scenario results', async function () {
+        // given
+        options.headers.authorization = adminAuthorization;
+        options.payload = validCapacityPayload;
 
         // when
         const response = await server.inject(options);

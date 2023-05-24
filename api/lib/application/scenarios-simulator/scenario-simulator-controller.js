@@ -11,13 +11,9 @@ async function simulateFlashAssessmentScenario(
   h,
   dependencies = { scenarioSimulatorSerializer, random, pickAnswersService }
 ) {
-  const { assessmentId, type, probabilities, length } = request.payload;
-  const simulationAnswers =
-    type === 'deterministic'
-      ? request.payload.simulationAnswers
-      : _generateSimulationAnswers(random, probabilities, length);
+  const { assessmentId } = request.payload;
 
-  const pickAnswer = pickAnswersService.pickAnswersFromArray(simulationAnswers);
+  const pickAnswer = _getPickAnswerMethod(request.payload);
 
   const locale = extractLocaleFromRequest(request);
 
@@ -56,6 +52,21 @@ async function importScenarios(request, h, dependencies = { parseCsv, scenarioSi
   }));
 
   return dependencies.scenarioSimulatorBatchSerializer.serialize(results);
+}
+
+function _getPickAnswerMethod(payload) {
+  const { type, probabilities, length, capacity, simulationAnswers } = payload;
+
+  switch (type) {
+    case 'deterministic':
+      return pickAnswersService.pickAnswersFromArray(simulationAnswers);
+    case 'random': {
+      const answer = _generateSimulationAnswers(random, probabilities, length);
+      return pickAnswersService.pickAnswersFromArray(answer);
+    }
+    case 'capacity':
+      return pickAnswersService.pickAnswerForCapacity(capacity);
+  }
 }
 
 function _isValidSimulationAnswers(simulationAnswers) {
