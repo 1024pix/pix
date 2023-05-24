@@ -1,6 +1,5 @@
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { simulateFlashDeterministicAssessmentScenario } from '../../../../lib/domain/usecases/simulate-flash-deterministic-assessment-scenario.js';
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
 
 const locale = 'fr-fr';
 
@@ -90,7 +89,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
   });
 
   context('when there are not enough flash challenges left', function () {
-    it('should throw an error', async function () {
+    it('should stop simulating', async function () {
       // given
       const simulationAnswers = ['ok', 'ko', 'aband'];
       const assessmentId = '123';
@@ -116,7 +115,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       };
 
       // when
-      const promise = simulateFlashDeterministicAssessmentScenario({
+      const result = await simulateFlashDeterministicAssessmentScenario({
         challengeRepository,
         locale,
         simulationAnswers,
@@ -126,7 +125,15 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       });
 
       // then
-      await expect(promise).to.be.rejectedWith(AssessmentEndedError);
+      sinon.assert.match(result, [
+        {
+          answer: 'ok',
+          challenge,
+          errorRate: sinon.match.number,
+          estimatedLevel: sinon.match.number,
+          reward: sinon.match.number,
+        },
+      ]);
     });
   });
 });
