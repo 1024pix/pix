@@ -112,6 +112,7 @@
   background: #{$pix-neutral-0}#{1a};
   border-radius: 8px;
   color: $pix-neutral-0;
+  width: fit-content;
 
   &__text {
     flex-grow: 1;
