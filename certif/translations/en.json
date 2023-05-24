@@ -214,6 +214,9 @@
         "link-label": "support.pix.fr",
         "page-title": "Inscription des candidats",
         "title": "Inscrire des candidats"
+      },
+      "restricted-access": {
+        "title": "Ouverture de votre espace PixCertif le"
       }
     },
     "session-finalization": {
