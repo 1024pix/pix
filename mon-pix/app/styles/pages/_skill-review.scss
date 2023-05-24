@@ -36,9 +36,8 @@
 
   &__trainings {
     margin-top: $pix-spacing-xl;
-    padding: 2.5rem 2rem 3rem;
-    background-color: $pix-neutral-10;
-    border-radius: 10px;
+    padding: $pix-spacing-l 0;
+    border-top: 2px solid $pix-neutral-20;
   }
 
   &__share {
@@ -142,44 +141,43 @@
 
 .skill-review-trainings {
   &__title {
-    color: $pix-neutral-100;
-    font-size: 1.5rem;
-    font-family: $font-open-sans;
-    text-align: center;
+    @extend %pix-title-s;
+
+    color: $pix-neutral-90;
   }
 
   &__description {
-    margin: 0.5rem 0 2rem;
+    @extend %pix-body-s;
+
+    margin-top: $pix-spacing-xs;
     color: $pix-neutral-45;
-    font-size: 1.125rem;
-    font-family: $font-open-sans;
-    line-height: 1.8rem;
-    text-align: center;
   }
 
   &__list {
     display: grid;
     grid-template-columns: 1fr;
+    align-items: center;
+    margin-top: $pix-spacing-m;
     padding: 0;
     column-gap: 24px;
-    list-style: none;
     row-gap: 24px;
+    list-style: none;
 
     @include device-is('tablet') {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
     }
 
     @include device-is('desktop') {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
     }
   }
-}
 
-.skill-review-trainings-list {
-  &__item {
+  &-list__item {
     width: 100%;
     padding: 0;
     overflow: hidden;
+    border: 1px solid $pix-neutral-15;
+    border-radius: 8px;
     transition: all 0.2s ease-in-out;
 
     &:hover {
@@ -608,7 +606,7 @@
 .skill-review-share-error {
   &__message {
     padding-bottom: 10px;
-    color: #F45C00;
+    color: #f45c00;
     font-size: 0.938rem;
   }
 
