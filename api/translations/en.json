@@ -111,17 +111,17 @@
   },
   "certification-center-invitation-email": {
     "params": {
-      "acceptInvitation": "Accepter l’invitation",
-      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
-      "here": "ici",
-      "moreAbout": "En savoir plus sur",
-      "needHelp": "Besoin d’aide, contactez-nous",
-      "oneTimeLink": "Ce lien est à usage unique",
-      "pixCertifPresentation": "L’espace Pix Certif est un outil dédié à l’organisation des sessions de certification.",
-      "title": "Invitation à rejoindre l’espace",
-      "yourCertificationCenter": "Votre centre de certification"
+      "acceptInvitation": "Accept the invitation",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "here": "here",
+      "moreAbout": "Find out more about",
+      "needHelp": "Need help, contact us",
+      "oneTimeLink": "This is a one-time use link",
+      "pixCertifPresentation": "The Pix Certif space is a tool dedicated to the organisation of certification sessions.",
+      "title": "Invitation to join the Pix Certif space",
+      "yourCertificationCenter": "Your certification centre"
     },
-    "subject": "Invitation à rejoindre Pix Certif"
+    "subject": "Invitation to join Pix Certif"
   },
   "certification-result-email": {
     "params": {
