@@ -23,14 +23,14 @@ export default class LoginOrRegisterOidcComponent extends Component {
   @service store;
 
   @tracked isTermsOfServiceValidated = false;
-  @tracked loginError = false;
-  @tracked registerError = false;
   @tracked loginErrorMessage = null;
   @tracked registerErrorMessage = null;
   @tracked email = '';
   @tracked password = '';
   @tracked emailValidationStatus = 'default';
   @tracked emailValidationMessage = null;
+  @tracked isLoginLoading = false;
+  @tracked isRegisterLoading = false;
 
   get identityProviderOrganizationName() {
     return this.oidcIdentityProviders[this.args.identityProviderSlug]?.organizationName;
@@ -64,41 +64,42 @@ export default class LoginOrRegisterOidcComponent extends Component {
 
   @action
   async register() {
-    if (this.isTermsOfServiceValidated) {
-      this.registerErrorMessage = null;
-      this.registerError = false;
-      try {
-        await this.session.authenticate('authenticator:oidc', {
-          authenticationKey: this.args.authenticationKey,
-          identityProviderSlug: this.args.identityProviderSlug,
-          hostSlug: 'users',
-        });
-      } catch (responseError) {
-        const error = get(responseError, 'errors[0]');
-        this.registerError = true;
-        switch (error?.code) {
-          case 'INVALID_LOCALE_FORMAT':
-            this.registerErrorMessage = this.intl.t('pages.sign-up.errors.invalid-locale-format', {
-              invalidLocale: error.meta.locale,
-            });
-            return;
-          case 'LOCALE_NOT_SUPPORTED':
-            this.registerErrorMessage = this.intl.t('pages.sign-up.errors.locale-not-supported', {
-              localeNotSupported: error.meta.locale,
-            });
-            return;
-        }
-
-        if (error.status === '401') {
-          this.registerErrorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['expiredAuthenticationKey']);
-        } else {
-          this.registerErrorMessage =
-            this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']) + (error.detail ? ` (${error.detail})` : '');
-        }
-      }
-    } else {
-      this.registerError = true;
+    if (!this.isTermsOfServiceValidated) {
       this.registerErrorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['termsOfServiceNotSelected']);
+      return;
+    }
+
+    this.isRegisterLoading = true;
+    this.registerErrorMessage = null;
+
+    try {
+      await this.session.authenticate('authenticator:oidc', {
+        authenticationKey: this.args.authenticationKey,
+        identityProviderSlug: this.args.identityProviderSlug,
+        hostSlug: 'users',
+      });
+    } catch (responseError) {
+      const error = get(responseError, 'errors[0]');
+      switch (error?.code) {
+        case 'INVALID_LOCALE_FORMAT':
+          this.registerErrorMessage = this.intl.t('pages.sign-up.errors.invalid-locale-format', {
+            invalidLocale: error.meta.locale,
+          });
+          return;
+        case 'LOCALE_NOT_SUPPORTED':
+          this.registerErrorMessage = this.intl.t('pages.sign-up.errors.locale-not-supported', {
+            localeNotSupported: error.meta.locale,
+          });
+          return;
+      }
+      if (error.status === '401') {
+        this.registerErrorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['expiredAuthenticationKey']);
+      } else {
+        this.registerErrorMessage =
+          this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']) + (error.detail ? ` (${error.detail})` : '');
+      }
+    } finally {
+      this.isRegisterLoading = false;
     }
   }
 
@@ -131,14 +132,14 @@ export default class LoginOrRegisterOidcComponent extends Component {
     event.preventDefault();
 
     this.loginErrorMessage = null;
-    this.loginError = false;
 
     if (!this.isFormValid) return;
+
+    this.isLoginLoading = true;
 
     try {
       await this.args.onLogin({ enteredEmail: this.email, enteredPassword: this.password });
     } catch (error) {
-      this.loginError = true;
       const status = get(error, 'errors[0].status');
 
       const errorsMapping = {
@@ -147,6 +148,8 @@ export default class LoginOrRegisterOidcComponent extends Component {
         409: this.intl.t(ERROR_INPUT_MESSAGE_MAP['accountConflict']),
       };
       this.loginErrorMessage = errorsMapping[status] || this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']);
+    } finally {
+      this.isLoginLoading = false;
     }
   }
 
