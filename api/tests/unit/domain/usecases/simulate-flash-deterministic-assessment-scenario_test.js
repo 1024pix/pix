@@ -1,5 +1,6 @@
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { simulateFlashDeterministicAssessmentScenario } from '../../../../lib/domain/usecases/simulate-flash-deterministic-assessment-scenario.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 
 const locale = 'fr-fr';
 
@@ -7,7 +8,6 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
   context('when there are enough flash challenges left', function () {
     it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
       // given
-      const simulationAnswers = ['ok', 'ko', 'aband'];
       const assessmentId = '123';
 
       const firstSkill = domainBuilder.buildSkill({ id: 'firstSkill' });
@@ -36,6 +36,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         findOperativeFlashCompatible: sinon.stub(),
       };
       const pickChallengeService = { chooseNextChallenge: sinon.stub() };
+      const pickAnswer = sinon.stub();
 
       challengeRepository.findOperativeFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
 
@@ -60,6 +61,10 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         })
         .returns(thirdChallenge);
 
+      pickAnswer.withArgs(sinon.match({ nextChallenge: firstChallenge })).returns(AnswerStatus.OK);
+      pickAnswer.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
+      pickAnswer.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
+
       const pseudoRandom = {
         create: () => ({
           binaryTreeRandom: () => 0,
@@ -70,10 +75,10 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       const result = await simulateFlashDeterministicAssessmentScenario({
         challengeRepository,
         locale,
-        simulationAnswers,
         pseudoRandom,
         assessmentId,
         pickChallengeService,
+        pickAnswer,
       });
 
       // then
@@ -91,7 +96,6 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
   context('when there are not enough flash challenges left', function () {
     it('should stop simulating', async function () {
       // given
-      const simulationAnswers = ['ok', 'ko', 'aband'];
       const assessmentId = '123';
 
       const challenge = domainBuilder.buildChallenge({ id: 1 });
@@ -101,12 +105,16 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       challengeRepository.findOperativeFlashCompatible.resolves([challenge]);
 
       const pickChallengeService = { chooseNextChallenge: sinon.stub() };
+      const pickAnswer = sinon.stub();
+
       pickChallengeService.chooseNextChallenge
         .withArgs({
           possibleChallenges: [challenge],
           assessmentId,
         })
         .returns(challenge);
+
+      pickAnswer.withArgs(sinon.match({ nextChallenge: challenge })).returns(AnswerStatus.OK);
 
       const pseudoRandom = {
         create: () => ({
@@ -118,16 +126,16 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       const result = await simulateFlashDeterministicAssessmentScenario({
         challengeRepository,
         locale,
-        simulationAnswers,
         pseudoRandom,
         assessmentId,
         pickChallengeService,
+        pickAnswer,
       });
 
       // then
       sinon.assert.match(result, [
         {
-          answer: 'ok',
+          answer: AnswerStatus.OK,
           challenge,
           errorRate: sinon.match.number,
           estimatedLevel: sinon.match.number,

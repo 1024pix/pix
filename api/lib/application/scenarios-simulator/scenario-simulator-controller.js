@@ -4,18 +4,25 @@ import { scenarioSimulatorSerializer } from '../../infrastructure/serializers/js
 import { random } from '../../infrastructure/utils/random.js';
 import { scenarioSimulatorBatchSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
 import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
+import { pickAnswersService } from '../../domain/services/pick-answer-service.js';
 
-async function simulateFlashAssessmentScenario(request, h, dependencies = { scenarioSimulatorSerializer, random }) {
+async function simulateFlashAssessmentScenario(
+  request,
+  h,
+  dependencies = { scenarioSimulatorSerializer, random, pickAnswersService }
+) {
   const { assessmentId, type, probabilities, length } = request.payload;
   const simulationAnswers =
     type === 'deterministic'
       ? request.payload.simulationAnswers
       : _generateSimulationAnswers(random, probabilities, length);
 
+  const pickAnswer = pickAnswersService.pickAnswersFromArray(simulationAnswers);
+
   const locale = extractLocaleFromRequest(request);
 
   const result = await usecases.simulateFlashDeterministicAssessmentScenario({
-    simulationAnswers,
+    pickAnswer,
     assessmentId,
     locale,
   });
@@ -35,8 +42,9 @@ async function importScenarios(request, h, dependencies = { parseCsv, scenarioSi
   const results = (
     await Promise.all(
       parsedCsvData.map(async (simulationAnswers, index) => {
+        const pickAnswer = pickAnswersService.pickAnswersFromArray(simulationAnswers);
         return usecases.simulateFlashDeterministicAssessmentScenario({
-          simulationAnswers,
+          pickAnswer,
           assessmentId: index,
           locale,
         });
