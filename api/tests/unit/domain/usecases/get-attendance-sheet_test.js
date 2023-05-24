@@ -216,7 +216,6 @@ function _buildAttendanceSheetSessionData(certificationCenterType, isOrganizatio
     certificationCenterType,
     isOrganizationManagingStudents,
     startTime: '14:00',
-    endTime: '16:00',
     date: '16/01/2018',
   };
 }
