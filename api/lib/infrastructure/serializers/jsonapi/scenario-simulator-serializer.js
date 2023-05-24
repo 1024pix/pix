@@ -5,9 +5,11 @@ export const SCENARIO_SIMULATOR_SERIALIZER_CONFIGURATION = {
     ...answer,
     id: answer.challenge.id,
     minimumCapability: answer.challenge.minimumCapability,
+    difficulty: answer.challenge.difficulty,
+    discriminant: answer.challenge.discriminant,
     simulationAnswer: simulationAnswer,
   }),
-  attributes: ['minimumCapability', 'reward', 'errorRate', 'estimatedLevel', 'answer'],
+  attributes: ['minimumCapability', 'reward', 'errorRate', 'estimatedLevel', 'answer', 'difficulty', 'discriminant'],
 };
 
 function serialize(scenarioSimulator = {}) {
