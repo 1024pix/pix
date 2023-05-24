@@ -1,13 +1,12 @@
 .session-supervising-candidate-in-list {
-  padding: 12px 16px;
   margin-bottom: 8px;
   border-radius: 4px;
   display: flex;
-  align-items: center;
   position: relative;
 
   &__candidate-data {
     width: calc(100% - 32px);
+    padding: 12px 16px;
   }
 
   &__confirm-button {
@@ -62,7 +61,8 @@
   }
 
   &__menu {
-    position: relative;
+    border-left: solid $pix-neutral-60 1px;
+    padding: 2px;
   }
 
   .dropdown__content {
@@ -97,7 +97,6 @@
   margin-top: $pix-spacing-xs;
   padding: $pix-spacing-xxs $pix-spacing-xs;
   gap: $pix-spacing-xs;
-
   background: #{$pix-neutral-0}#{1a};
   border-radius: 8px;
   color: $pix-neutral-0;
@@ -105,7 +104,7 @@
   &__text {
     flex-grow: 1;
 
-    &__end-date-time:before {
+    &__end-date-time::before {
       content: '|';
       display: inline-block;
       color: transparent;
@@ -118,7 +117,7 @@
       display: flex;
       flex-direction: column;
 
-      &__end-date-time:before {
+      &__end-date-time::before {
         content: none;
       }
     }
