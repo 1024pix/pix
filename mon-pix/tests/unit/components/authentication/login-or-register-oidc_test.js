@@ -10,8 +10,8 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
   setupIntl(hooks);
 
   module('#register', function () {
-    module('completes', function () {
-      test('creates session', function (assert) {
+    module('completes successfully', function () {
+      test('creates session', async function (assert) {
         // given
         const component = createGlimmerComponent('authentication/login-or-register-oidc');
         const authenticateStub = sinon.stub();
@@ -26,7 +26,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         component.isTermsOfServiceValidated = true;
 
         // when
-        component.register();
+        await component.register();
 
         // then
         sinon.assert.calledWith(authenticateStub, 'authenticator:oidc', {
@@ -34,7 +34,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           identityProviderSlug: 'super-idp',
           hostSlug: 'users',
         });
-        assert.ok(true);
+        assert.false(component.isRegisterLoading);
       });
     });
 
@@ -75,7 +75,6 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           component.register();
 
           // then
-
           assert.strictEqual(
             component.registerErrorMessage,
             this.intl.t('pages.login-or-register-oidc.error.error-message')
@@ -141,7 +140,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         });
       });
 
-      test('displays detailed error', async function (assert) {
+      test('displays error message with details', async function (assert) {
         // given
         const component = createGlimmerComponent('authentication/login-or-register-oidc');
         const authenticateStub = sinon.stub().rejects({ errors: [{ status: '500', detail: 'some detail' }] });
@@ -162,7 +161,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         assert.strictEqual(component.registerErrorMessage, `${this.intl.t('common.error')} (some detail)`);
       });
 
-      test('displays generic error', async function (assert) {
+      test('displays default error message', async function (assert) {
         // given
         const component = createGlimmerComponent('authentication/login-or-register-oidc');
         const authenticateStub = sinon.stub().rejects({ errors: [{ status: '500' }] });
@@ -180,7 +179,34 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         await component.register();
 
         // then
+        assert.false(component.isRegisterLoading);
         assert.strictEqual(component.registerErrorMessage, this.intl.t('common.error'));
+      });
+    });
+
+    module('while waiting for submission completion', function () {
+      test('isRegisterLoading is true', async function (assert) {
+        // given
+        let inflightLoading;
+        const component = createGlimmerComponent('authentication/login-or-register-oidc');
+        const authenticateStub = function () {
+          inflightLoading = component.isRegisterLoading;
+          return Promise.resolve();
+        };
+        class SessionStub extends Service {
+          authenticate = authenticateStub;
+        }
+
+        this.owner.register('service:session', SessionStub);
+        component.args.identityProviderSlug = 'super-idp';
+        component.args.authenticationKey = 'super-key';
+        component.isTermsOfServiceValidated = true;
+
+        // when
+        await component.register();
+
+        // then
+        assert.true(inflightLoading);
       });
     });
   });
@@ -234,8 +260,8 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
     });
 
-    module('completes', function () {
-      test('requests api for login', async function (assert) {
+    module('completes successfully', function () {
+      test('retrieves the existing pix account through the OIDC authenticated user', async function (assert) {
         // given
         const email = 'glace.alo@example.net';
         const password = 'pix123';
@@ -253,7 +279,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           enteredPassword: password,
           enteredEmail: email,
         });
-        assert.ok(true);
+        assert.false(component.isLoginLoading);
       });
     });
 
@@ -335,7 +361,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         });
       });
 
-      test('displays generic error', async function (assert) {
+      test('displays default error message', async function (assert) {
         // given
         const component = createGlimmerComponent('authentication/login-or-register-oidc');
         component.args.onLogin = sinon.stub().rejects({ errors: [{ status: '500' }] });
@@ -347,7 +373,29 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         await component.login(eventStub);
 
         // then
+        assert.false(component.isLoginLoading);
         assert.strictEqual(component.loginErrorMessage, this.intl.t('common.error'));
+      });
+    });
+
+    module('while waiting for submission completion', function () {
+      test('isLoginLoading is true', async function (assert) {
+        // given
+        let inflightLoading;
+        const eventStub = { preventDefault: sinon.stub() };
+        const component = createGlimmerComponent('authentication/login-or-register-oidc');
+        component.args.onLogin = function () {
+          inflightLoading = component.isLoginLoading;
+          return Promise.resolve();
+        };
+        component.email = 'glace.alo@example.net';
+        component.password = 'pix123';
+
+        // when
+        await component.login(eventStub);
+
+        // then
+        assert.true(inflightLoading);
       });
     });
   });
