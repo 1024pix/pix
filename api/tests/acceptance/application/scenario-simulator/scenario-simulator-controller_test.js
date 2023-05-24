@@ -128,7 +128,7 @@ ko,aband,ok`;
     mockLearningContent(learningContent);
   });
 
-  describe('#simulateFlashDeterministicAssessmentScenario', function () {
+  describe('#simulateFlashAssessmentScenario', function () {
     let options;
 
     beforeEach(async function () {
