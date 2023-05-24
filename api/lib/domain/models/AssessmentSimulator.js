@@ -1,16 +1,11 @@
 import { Answer } from './Answer.js';
 
 export class AssessmentSimulator {
-  constructor({ answers, algorithm, challenges, pickChallenge, pickAnswer }) {
-    this.answers = answers;
+  constructor({ algorithm, challenges, pickChallenge, pickAnswer }) {
     this.pickAnswer = pickAnswer;
     this.algorithm = algorithm;
     this.challenges = challenges;
     this.pickChallenge = pickChallenge;
-  }
-
-  #getAnswer({ answerIndex, nextChallenge }) {
-    return this.pickAnswer ? this.pickAnswer(nextChallenge) : this.answers[answerIndex];
   }
 
   run() {
@@ -27,7 +22,7 @@ export class AssessmentSimulator {
         });
         const nextChallenge = this.pickChallenge({ possibleChallenges });
 
-        const answer = this.#getAnswer({
+        const answer = this.pickAnswer({
           answerIndex: i,
           nextChallenge,
         });

@@ -5,6 +5,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
   locale,
   simulationAnswers,
   pickChallengeService,
+  pickAnswer,
   assessmentId,
 }) {
   const challenges = await challengeRepository.findOperativeFlashCompatible({ locale });
@@ -22,6 +23,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
     algorithm: flashAssessmentAlgorithm,
     challenges,
     pickChallenge,
+    pickAnswer,
   });
 
   return simulator.run();

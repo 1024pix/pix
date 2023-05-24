@@ -3,6 +3,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as moduleUnderTest from '../../../../lib/application/scenarios-simulator/index.js';
 import { random } from '../../../../lib/infrastructure/utils/random.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { pickAnswersService } from '../../../../lib/domain/services/pick-answer-service.js';
 
 describe('Integration | Application | Scoring-simulator | scenario-simulator-controller', function () {
   let httpTestServer;
@@ -16,6 +17,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
     sinon.stub(usecases, 'simulateFlashDeterministicAssessmentScenario');
     sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
     sinon.stub(random, 'randomsInEnum');
+    sinon.stub(pickAnswersService, 'pickAnswersFromArray');
 
     challenge1 = domainBuilder.buildChallenge({ id: 'chall1', successProbabilityThreshold: 0.65 });
     reward1 = 0.2;
@@ -58,9 +60,13 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
             // given
             const simulationAnswers = ['ok'];
             const assessmentId = '13802DK';
+
+            const pickAnswerFromArrayImplementation = sinon.stub();
+            pickAnswersService.pickAnswersFromArray.withArgs(['ok']).returns(pickAnswerFromArrayImplementation);
+
             usecases.simulateFlashDeterministicAssessmentScenario
               .withArgs({
-                simulationAnswers,
+                pickAnswer: pickAnswerFromArrayImplementation,
                 assessmentId,
                 locale: 'en',
               })
@@ -108,13 +114,16 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
             const length = 1;
             const probabilities = { ok: 0.3, ko: 0.4, aband: 0.3 };
             random.randomsInEnum.withArgs(probabilities, length).returns(['ok']);
-            const simulationAnswers = ['ok'];
             const assessmentId = '13802DK';
+
+            const pickAnswerFromArrayImplementation = sinon.stub();
+            pickAnswersService.pickAnswersFromArray.withArgs(['ok']).returns(pickAnswerFromArrayImplementation);
+
             usecases.simulateFlashDeterministicAssessmentScenario
               .withArgs({
-                simulationAnswers,
                 assessmentId,
                 locale: 'en',
+                pickAnswer: pickAnswerFromArrayImplementation,
               })
               .resolves(simulationResults);
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
@@ -186,6 +195,14 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
             },
           ];
 
+          const pickAnswerFromArrayImplementation1 = sinon.stub();
+          const pickAnswerFromArrayImplementation2 = sinon.stub();
+          pickAnswersService.pickAnswersFromArray
+            .withArgs(['ok', 'ok'])
+            .returns(pickAnswerFromArrayImplementation1)
+            .withArgs(['ko', 'ok'])
+            .returns(pickAnswerFromArrayImplementation2);
+
           const simulationResults2 = [
             {
               challenge: challenge1,
@@ -205,17 +222,17 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
           usecases.simulateFlashDeterministicAssessmentScenario
             .withArgs({
-              simulationAnswers: ['ok', 'ok'],
               assessmentId: 0,
               locale: 'en',
+              pickAnswer: pickAnswerFromArrayImplementation1,
             })
             .resolves(simulationResults1);
 
           usecases.simulateFlashDeterministicAssessmentScenario
             .withArgs({
-              simulationAnswers: ['ko', 'ok'],
               assessmentId: 1,
               locale: 'en',
+              pickAnswer: pickAnswerFromArrayImplementation2,
             })
             .resolves(simulationResults2);
 
