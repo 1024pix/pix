@@ -80,7 +80,7 @@
       "email-convocation": "Email for the convocation",
       "email-results": "Email of the results' recipient (instructor, teacher…)",
       "externalid": "External user ID",
-      "extratime": "Extra time ?",
+      "extra-time": "Extra time ?",
       "firstname": "* First name",
       "gender": "* Gender (M or F)",
       "locale-time": "Local time (start)",
@@ -104,6 +104,7 @@
       "date-format": "Use the DD/MM/YYYY date format",
       "email-format": "Your email address must contain an “@” and a “.” Exemple: name@exemple.com. \n This field is optional, it is used to facilitate the candidates’ convocation.",
       "email-results": "If this field isn’t filled in, the results won't be transmitted by email for the affected candidate(s). \n The candidate will see their results displayed directly on their Pix account.",
+      "extra-time": "Field required if the candidate benefits from extra time to complete their certification. \n A whole number included between 1 and 99% expressed in percentage is expected (ex: 33%)",
       "gender-format": "M=Man F=Woman"
     },
     "yes": "Yes",

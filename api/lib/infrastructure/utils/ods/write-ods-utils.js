@@ -190,7 +190,7 @@ class OdsUtilsBuilder {
   _addColumn(column, tableHeaderRow, tableFirstRow) {
     this._withCellToEndOfLineWithStyleOfCellLabelled({
       lineNumber: tableHeaderRow,
-      cellToCopyLabel: this.translate('candidate-list-template.headers.extratime'),
+      cellToCopyLabel: this.translate('candidate-list-template.headers.extra-time'),
       addedCellOption: new AddedCellOption({ labels: column.headerLabel }),
     });
 
