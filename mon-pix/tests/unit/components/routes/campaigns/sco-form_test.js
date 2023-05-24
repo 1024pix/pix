@@ -238,22 +238,24 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
       component.yearOfBirth = '2000';
     });
 
-    test('should prevent default handling of event', async function (assert) {
-      // when
-      await component.actions.validateForm.call(component, eventStub);
+    module('completes successfully', function () {
+      test('prevents default handling of event', async function (assert) {
+        // when
+        await component.actions.validateForm.call(component, eventStub);
 
-      // then
-      sinon.assert.called(eventStub.preventDefault);
-      assert.ok(true);
-    });
+        // then
+        sinon.assert.called(eventStub.preventDefault);
+        assert.false(component.isLoading);
+      });
 
-    test('should call onSubmit action', async function (assert) {
-      // when
-      await component.actions.validateForm.call(component, eventStub);
+      test('calls onSubmit action', async function (assert) {
+        // when
+        await component.actions.validateForm.call(component, eventStub);
 
-      // then
-      sinon.assert.calledWith(onSubmitStub, { firstName: 'Robert', lastName: 'Smith', birthdate: '2000-10-10' });
-      assert.ok(true);
+        // then
+        sinon.assert.calledWith(onSubmitStub, { firstName: 'Robert', lastName: 'Smith', birthdate: '2000-10-10' });
+        assert.false(component.isLoading);
+      });
     });
 
     module('Errors', function (hooks) {
@@ -274,6 +276,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
 
         // then
         assert.strictEqual(component.validation.firstName, 'Votre prénom n’est pas renseigné.');
+        assert.false(component.isLoading);
       });
 
       test('should display an error on lastName', async function (assert) {
@@ -285,6 +288,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
 
         // then
         assert.strictEqual(component.validation.lastName, 'Votre nom n’est pas renseigné.');
+        assert.false(component.isLoading);
       });
 
       test('should display an error on dayOfBirth', async function (assert) {
@@ -296,6 +300,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
 
         // then
         assert.strictEqual(component.validation.dayOfBirth, 'Votre jour de naissance n’est pas valide.');
+        assert.false(component.isLoading);
       });
 
       test('should display an error on monthOfBirth', async function (assert) {
@@ -307,6 +312,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
 
         // then
         assert.strictEqual(component.validation.monthOfBirth, 'Votre mois de naissance n’est pas valide.');
+        assert.false(component.isLoading);
       });
 
       test('should display an error on yearOfBirth', async function (assert) {
@@ -318,6 +324,29 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
 
         // then
         assert.strictEqual(component.validation.yearOfBirth, 'Votre année de naissance n’est pas valide.');
+        assert.false(component.isLoading);
+      });
+    });
+
+    module('while waiting for submission completion', function () {
+      test('isLoading is true', async function (assert) {
+        // given
+        let inflightLoading;
+
+        const component = createComponent('routes/campaigns/sco-form', {
+          onSubmit: function () {
+            inflightLoading = component.isLoading;
+            return Promise.resolve();
+          },
+        });
+
+        sinon.stub(component, 'isFormNotValid').value(false);
+
+        // when
+        await component.actions.validateForm.call(component, eventStub);
+
+        // then
+        assert.true(inflightLoading);
       });
     });
   });
