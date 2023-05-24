@@ -234,4 +234,52 @@ module('Unit | Service | url', function (hooks) {
       });
     });
   });
+
+  module('#supportUrl', function () {
+    module('when current domain is fr', function () {
+      test('should return "pix.fr" url', function (assert) {
+        // given
+        const service = this.owner.lookup('service:url');
+        service.currentDomain.getExtension = sinon.stub().returns(FRANCE_TLD);
+
+        // when
+        const supportUrl = service.supportUrl;
+
+        // then
+        assert.strictEqual(supportUrl, 'https://support.pix.fr');
+      });
+    });
+
+    module('when current domain is org', function () {
+      module('when current language is en', function () {
+        test('should return "pix.org/en/support/home" url', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
+          service.intl = { t: sinon.stub().returns('en') };
+
+          // when
+          const supportUrl = service.supportUrl;
+
+          // then
+          assert.strictEqual(supportUrl, 'https://support.pix.org/en/support/home');
+        });
+      });
+
+      module('when current language is fr', function () {
+        test('should return "pix.org" url', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
+          service.intl = { t: sinon.stub().returns('fr') };
+
+          // when
+          const supportUrl = service.supportUrl;
+
+          // then
+          assert.strictEqual(supportUrl, 'https://support.pix.org');
+        });
+      });
+    });
+  });
 });
