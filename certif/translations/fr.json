@@ -201,6 +201,12 @@
       },
       "title": "Vous êtes invité(e) à rejoindre le centre de certification {certificationCenterName}"
     },
+    "sco": {
+      "banner": {
+        "information": "La certification Pix se déroulera du 14 novembre 2022 au 17 mars 2023 pour les lycées et du 6 mars au 16 juin 2023 pour les collèges. Pensez à consulter la",
+        "url-label": "documentation pour voir les nouveautés."
+      }
+    },
     "session-finalization": {
       "actions": {
         "finalise": "Finaliser"
