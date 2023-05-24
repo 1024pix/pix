@@ -82,35 +82,37 @@
         {{this.authorizationButtonLabel}}
       </PixButton>
     {{/if}}
-    {{#if @candidate.hasStarted}}
-      {{#if @candidate.isAuthorizedToResume}}
+    <div class="session-supervising-candidate-in-list__status-container">
+      {{#if @candidate.hasStarted}}
+        {{#if @candidate.isAuthorizedToResume}}
+          <span
+            class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--authorized-to-resume"
+          >
+            {{t "common.forms.certification-labels.candidate-status.authorized-to-resume"}}
+          </span>
+        {{else}}
+          <span
+            class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--started"
+          >
+            {{t "common.forms.certification-labels.candidate-status.ongoing"}}
+          </span>
+        {{/if}}
+        {{#unless this.shouldDisplayTheoricalEndDatetime}}
+          <span class="session-supervising-candidate-in-list__start-time">
+            {{t "common.forms.certification-labels.candidate-status.start"}}
+            :
+            <time>{{this.candidateStartTime}}</time>
+          </span>
+        {{/unless}}
+      {{/if}}
+      {{#if @candidate.hasCompleted}}
         <span
-          class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--authorized-to-resume"
+          class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--completed"
         >
-          {{t "common.forms.certification-labels.candidate-status.authorized-to-resume"}}
-        </span>
-      {{else}}
-        <span
-          class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--started"
-        >
-          {{t "common.forms.certification-labels.candidate-status.ongoing"}}
+          {{t "common.forms.certification-labels.candidate-status.finished"}}
         </span>
       {{/if}}
-      {{#unless this.shouldDisplayTheoricalEndDatetime}}
-        <span class="session-supervising-candidate-in-list__start-time">
-          {{t "common.forms.certification-labels.candidate-status.start"}}
-          :
-          <time>{{this.candidateStartTime}}</time>
-        </span>
-      {{/unless}}
-    {{/if}}
-    {{#if @candidate.hasCompleted}}
-      <span
-        class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--completed"
-      >
-        {{t "common.forms.certification-labels.candidate-status.finished"}}
-      </span>
-    {{/if}}
+    </div>
   </div>
   {{#if this.optionsMenuShouldBeDisplayed}}
     <div class="session-supervising-candidate-in-list__menu">

@@ -7,6 +7,10 @@
   &__candidate-data {
     width: calc(100% - 32px);
     padding: 12px 16px;
+
+    @include device-is('tablet') {
+      position: relative;
+    }
   }
 
   &__confirm-button {
@@ -51,6 +55,14 @@
     &--completed {
       background-color: $pix-primary-10;
       color: $pix-primary-70;
+    }
+  }
+
+  &__status-container {
+    @include device-is('tablet') {
+      position: absolute;
+      right: $pix-spacing-s;
+      top: $pix-spacing-xxs;
     }
   }
 
