@@ -138,6 +138,33 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
   });
 
   module('#reconcile', function () {
+    module('completes successfully', function () {
+      test('user authenticates with reconciliation', async function (assert) {
+        // given
+        const component = createGlimmerComponent('authentication/oidc-reconciliation');
+        const authenticateStub = sinon.stub();
+
+        class SessionStub extends Service {
+          authenticate = authenticateStub;
+        }
+
+        this.owner.register('service:session', SessionStub);
+        component.args.identityProviderSlug = 'super-idp';
+        component.args.authenticationKey = 'super-key';
+        component.isTermsOfServiceValidated = true;
+
+        // when
+        await component.reconcile();
+
+        // then
+        sinon.assert.calledWith(authenticateStub, 'authenticator:oidc', {
+          authenticationKey: 'super-key',
+          identityProviderSlug: 'super-idp',
+          hostSlug: 'user/reconcile',
+        });
+        assert.false(component.isLoading);
+      });
+    });
     module('completes with error', function () {
       module('when authentication key has expired', function () {
         test('should display error', async function (assert) {
@@ -162,6 +189,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
             component.reconcileErrorMessage,
             this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
           );
+          assert.false(component.isLoading);
         });
       });
 
@@ -185,7 +213,30 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
 
           // then
           assert.strictEqual(component.reconcileErrorMessage, this.intl.t('common.error'));
+          assert.false(component.isLoading);
         });
+      });
+    });
+    module('while waiting for submission completion', function () {
+      test('isLoading is true', async function (assert) {
+        // given
+        let inflightLoading;
+        const component = createGlimmerComponent('authentication/oidc-reconciliation');
+        const authenticateStub = function () {
+          inflightLoading = component.isLoading;
+          return Promise.resolve();
+        };
+
+        class SessionStub extends Service {
+          authenticate = authenticateStub;
+        }
+        this.owner.register('service:session', SessionStub);
+
+        // when
+        await component.reconcile();
+
+        // then
+        assert.true(inflightLoading);
       });
     });
   });

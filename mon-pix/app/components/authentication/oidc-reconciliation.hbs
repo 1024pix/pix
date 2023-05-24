@@ -62,6 +62,8 @@
       @backgroundColor="transparent-light"
       @isBorderVisible={{true}}
     >{{t "pages.oidc-reconciliation.return"}}</PixButton>
-    <PixButton @triggerAction={{this.reconcile}}>{{t "pages.oidc-reconciliation.confirm"}}</PixButton>
+    <PixButton @triggerAction={{this.reconcile}} @isLoading={{this.isLoading}}>
+      {{t "pages.oidc-reconciliation.confirm"}}
+    </PixButton>
   </div>
 </div>

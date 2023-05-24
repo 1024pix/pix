@@ -10,6 +10,7 @@ export default class OidcReconciliationComponent extends Component {
   @service session;
 
   @tracked reconcileErrorMessage = null;
+  @tracked isLoading = false;
 
   get identityProviderOrganizationName() {
     return this.oidcIdentityProviders[this.args.identityProviderSlug]?.organizationName;
@@ -40,6 +41,8 @@ export default class OidcReconciliationComponent extends Component {
 
   @action
   async reconcile() {
+    this.isLoading = true;
+
     try {
       await this.session.authenticate('authenticator:oidc', {
         authenticationKey: this.args.authenticationKey,
@@ -52,6 +55,8 @@ export default class OidcReconciliationComponent extends Component {
         401: this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key'),
       };
       this.reconcileErrorMessage = errorsMapping[status] || this.intl.t('common.error');
+    } finally {
+      this.isLoading = false;
     }
   }
 }
