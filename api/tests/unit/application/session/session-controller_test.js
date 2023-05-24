@@ -1055,6 +1055,9 @@ describe('Unit | Controller | sessionController', function () {
       const tokenService = {
         extractUserId: sinon.stub(),
       };
+      const requestResponseUtils = {
+        extractLocaleFromRequest: sinon.stub(),
+      };
       tokenService.extractUserId.withArgs(request.query.accessToken).returns(userId);
       const supervisorKitPdf = {
         getSupervisorKitPdfBuffer: sinon.stub(),
@@ -1066,7 +1069,11 @@ describe('Unit | Controller | sessionController', function () {
       usecases.getSupervisorKitSessionInfo.resolves(sessionMainInfo);
 
       // when
-      const response = await sessionController.getSupervisorKitPdf(request, hFake, { tokenService, supervisorKitPdf });
+      const response = await sessionController.getSupervisorKitPdf(request, hFake, {
+        tokenService,
+        requestResponseUtils,
+        supervisorKitPdf,
+      });
 
       // then
       expect(usecases.getSupervisorKitSessionInfo).to.have.been.calledWith({
