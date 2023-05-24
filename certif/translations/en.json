@@ -212,6 +212,24 @@
       "enrol-candidates-in-session": {
         "information": "Si certain(e)s élèves n’apparaissent pas dans cette liste, merci de ré-importer le fichier élèves dans Pix Orga.<br> Si malgré tout des élèves ne sont pas visibles, merci de contacter",
         "link-label": "support.pix.fr",
+        "list": {
+          "action-bar": {
+            "candidate-already-enrolled": "candidat(s) déjà inscrit(s) à la session",
+            "candidate-selected": "candidat(s) sélectionné(s)",
+            "no-candidate-selected": "Aucun candidat sélectionné"
+          },
+          "table": {
+            "birthdate": "Date de naissance",
+            "division": "Classe",
+            "filter": {
+              "extra-information": "Filtrer la liste des élèves en cochant la ou les classes souhaitées",
+              "placeholder": "Chercher une classe ...",
+              "title": "Filtrer"
+            },
+            "first-name": "Prénom",
+            "last-name": "Nom"
+          }
+        },
         "page-title": "Inscription des candidats",
         "title": "Inscrire des candidats"
       },
