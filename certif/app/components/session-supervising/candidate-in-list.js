@@ -6,16 +6,16 @@ import dayjs from 'dayjs';
 
 export default class CandidateInList extends Component {
   @service notifications;
+  @service intl;
+  @service featureToggles;
 
   @tracked isMenuOpen = false;
   @tracked isConfirmationModalDisplayed = false;
   @tracked modalDescriptionText;
   @tracked modalCancelText;
-  @tracked modalConfirmationText;
-  @tracked modalInstructionText = 'Information';
+  @tracked modalConfirmationText = this.intl.t('common.actions.confirm');
+  @tracked modalInstructionText = this.intl.t('pages.session-supervising.candidate-in-list.default-modal-title');
   @tracked actionOnConfirmation;
-  @service intl;
-  @service featureToggles;
 
   get isConfirmButtonToBeDisplayed() {
     return (
