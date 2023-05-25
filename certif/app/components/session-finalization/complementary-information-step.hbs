@@ -1,27 +1,26 @@
 <div class="session-finalization-complementary-information-step">
   <div class="session-finalization-complementary-information-step__content">
-    <div class="session-finalization-complementary-information-step__checkboxes">
-      <Input
-        @type="checkbox"
-        @checked={{false}}
-        id="session-finalization-complementary-information-step-incident"
-        {{on "click" this.onCheckIncidentDuringCertificationSession}}
-      />
+    <PixCheckbox
+      @id="session-finalization-complementary-information-step-incident"
+      @labelSize="small"
+      @checked={{false}}
+      {{on "click" this.onCheckIncidentDuringCertificationSession}}
+    >
       <label for="session-finalization-complementary-information-step-incident">
         {{t "pages.session-finalization.complementary-information.incident"}}
       </label>
-    </div>
-    <div class="session-finalization-complementary-information-step__checkboxes">
-      <Input
-        @type="checkbox"
-        @checked={{false}}
-        id="session-finalization-complementary-information-step-candidates-joining-issue"
-        {{on "click" this.onCheckIssueWithJoiningSession}}
-      />
+    </PixCheckbox>
+    <PixCheckbox
+      @id="session-finalization-complementary-information-step-candidates-joining-issue"
+      @labelSize="small"
+      @checked={{false}}
+      {{on "click" this.onCheckIssueWithJoiningSession}}
+    >
       <label for="session-finalization-complementary-information-step-candidates-joining-issue">
         {{t "pages.session-finalization.complementary-information.candidates-joining-issue.label"}}
       </label>
-    </div>
+    </PixCheckbox>
+
     {{#if this.displayJoiningIssue}}
       <PixMessage @type="info" @withIcon={{true}}>
         {{t "pages.session-finalization.complementary-information.candidates-joining-issue.link" htmlSafe=true}}

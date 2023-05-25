@@ -23,8 +23,8 @@ module('Acceptance | Routes | join', function (hooks) {
       await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'Prénom');
       await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Nom');
       await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'p.n@email.com');
-      await fillIn('#register-password', 'Pa$$w0rd');
-      await clickByName(`Accepter les conditions d'utilisation de Pix`);
+      await fillIn(screen.getByLabelText('Mot de passe'), 'Pa$$w0rd');
+      await click(screen.getByRole('checkbox', { name: "Accepter les conditions d'utilisation de Pix" }));
       await clickByName(`Je m'inscris`);
       await clickByName(`J’accepte les conditions d’utilisation`);
 

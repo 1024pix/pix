@@ -14,24 +14,22 @@ export default class AddStudentList extends Component {
 
   @tracked selectedDivisions = this.args.selectedDivisions;
 
-  get headerCheckboxStatus() {
-    return this.hasCheckedEverything ? 'checked' : this.hasCheckedSomething ? 'partial' : 'unchecked';
+  get isDisabled() {
+    const areStudentsAllEnrolled = this.args.studentList.every((student) => student.isEnrolled);
+    return !!areStudentsAllEnrolled;
   }
 
-  get hasCheckedSomething() {
-    const hasOneOrMoreCheck = this.args.studentList.any((student) => student.isSelected);
-    return hasOneOrMoreCheck;
+  get hasCheckState() {
+    return this._hasCheckedSomething();
+  }
+
+  get hasPartialState() {
+    return !this._hasCheckedEverything() && this._hasCheckedSomething();
   }
 
   get shouldEnableAddButton() {
     const hasAtLeastOneSelectedStudent = this.store.peekAll('student').any((student) => student.isSelected);
     return hasAtLeastOneSelectedStudent;
-  }
-
-  get hasCheckedEverything() {
-    const enrolableStudentList = this.args.studentList.filter((student) => !student.isEnrolled);
-    const allCertifReportsAreCheck = enrolableStudentList.every((student) => student.isSelected);
-    return allCertifReportsAreCheck;
   }
 
   get numberOfStudentsAlreadyCandidate() {
@@ -56,13 +54,13 @@ export default class AddStudentList extends Component {
   }
 
   @action
-  toggleAllItems() {
-    const state = this.headerCheckboxStatus;
+  toggleAllItems(parentCheckbox) {
     let newState = true;
-    if (state === 'checked') {
+    if (this._hasCheckedEverything()) {
       newState = false;
     }
     this.args.studentList.forEach((student) => student.setSelected(newState));
+    parentCheckbox.srcElement.checked = newState;
   }
 
   @action
@@ -85,5 +83,18 @@ export default class AddStudentList extends Component {
   async selectDivision(divisions) {
     this.selectedDivisions = divisions;
     return this.router.replaceWith({ queryParams: { divisions } });
+  }
+
+  get _enrolableStudentList() {
+    return this.args.studentList.filter(({ isEnrolled }) => !isEnrolled);
+  }
+
+  _hasCheckedEverything() {
+    return this._enrolableStudentList.every(({ isSelected }) => isSelected);
+  }
+
+  _hasCheckedSomething() {
+    const hasOneOrMoreCheck = this.args.studentList.any((student) => student.isSelected);
+    return hasOneOrMoreCheck;
   }
 }

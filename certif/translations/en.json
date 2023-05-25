@@ -138,6 +138,21 @@
     }
   },
   "pages": {
+    "candidates": {
+      "add": {
+        "actions": {
+          "select": {
+            "label": "Select candidate {firstName} {lastName}"
+          },
+          "select-all": {
+            "label": "Select all candidates"
+          },
+          "selected": {
+            "label": "Candidate {firstName} {lastName} selected"
+          }
+        }
+      }
+    },
     "login": {
       "accessible-to": "Pix Certif is only accessible to Pix certification centres.",
       "actions": {
@@ -290,6 +305,7 @@
           "labels": {
             "certification-number": "Certification No.",
             "end-of-test-screen": "End of test screen seen",
+            "end-of-test-screen-for-candidate": "Select end of test screen seen for the candidate {firstName} {lastName}",
             "reporting": "Reporting"
           },
           "reporting-count": "{reportingsCount, plural,one {1 reporting} other {# reportings}}"

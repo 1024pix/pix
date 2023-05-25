@@ -138,6 +138,21 @@
     }
   },
   "pages": {
+    "candidates": {
+      "add": {
+        "actions": {
+          "select": {
+            "label": "Sélectionner le candidat {firstName} {lastName}"
+          },
+          "select-all": {
+            "label": "Sélectionner tous les candidats de la liste"
+          },
+          "selected": {
+            "label": "Candidat {firstName} {lastName} sélectionné"
+          }
+        }
+      }
+    },
     "login": {
       "accessible-to": "L'accès à Pix Certif est limité aux centres de certification Pix.",
       "actions": {
@@ -290,6 +305,7 @@
           "labels": {
             "certification-number": "N° de certification",
             "end-of-test-screen": "Écran de fin du test vu",
+            "end-of-test-screen-for-candidate": "Sélectionner l'écran de fin du test vu pour le candidat {firstName} {lastName}",
             "reporting": "Signalement"
           },
           "reporting-count": "{reportingsCount, plural,one {1 signalement} other {# signalements}}"
