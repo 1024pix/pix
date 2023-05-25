@@ -2,11 +2,15 @@ import { checkEventTypes } from './check-event-types.js';
 import { PoleEmploiPayload } from '../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import { AssessmentCompleted } from './AssessmentCompleted.js';
 import { PoleEmploiSending } from '../models/PoleEmploiSending.js';
+import { httpAgent } from '../../infrastructure/http/http-agent.js';
+import * as httpErrorsHelper from '../../infrastructure/http/errors-helper.js';
+import * as monitoringTools from '../../infrastructure/monitoring-tools.js';
 
 const eventTypes = [AssessmentCompleted];
 
 async function handlePoleEmploiParticipationFinished({
   event,
+  authenticationMethodRepository,
   assessmentRepository,
   campaignRepository,
   campaignParticipationRepository,
@@ -38,7 +42,12 @@ async function handlePoleEmploiParticipationFinished({
       participation,
       assessment,
     });
-    const response = await poleEmploiNotifier.notify(user.id, payload);
+    const response = await poleEmploiNotifier.notify(user.id, payload, {
+      authenticationMethodRepository,
+      httpAgent,
+      httpErrorsHelper,
+      monitoringTools,
+    });
 
     const poleEmploiSending = PoleEmploiSending.buildForParticipationFinished({
       campaignParticipationId,
