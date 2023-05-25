@@ -2,19 +2,19 @@
   <div class="session-details-row">
     <div class="session-details-content session-details-content--multiple session-details-content--copyable">
       <h3 class="label-text session-details-content__label">{{t "pages.sessions.detail.parameters.session.label"}}</h3>
-      <div class="session-details-content__clipboard" {{on "mouseout" this.removeSessionNumberTooltip}}>
+      <div class="session-details-content__clipboard">
         <span class="content-text content-text--bold session-details-content__text">{{this.session.id}}</span>
         {{#if (is-clipboard-supported)}}
           <PixTooltip @id="tooltip-clipboard-button" @isInline={{true}} @hide={{this.isSessionNumberTooltipTextEmpty}}>
             <:triggerElement>
-              <CopyButton
-                @text={{this.session.id}}
-                @onSuccess={{this.showSessionIdTooltip}}
+              <button
+                type="button"
+                {{on "click" this.showSessionIdTooltip}}
                 class="icon-button session-details-content__clipboard-button"
                 aria-label={{t "pages.sessions.detail.parameters.session.copy-number"}}
               >
                 <FaIcon @icon="copy" prefix="fas" />
-              </CopyButton>
+              </button>
             </:triggerElement>
             <:tooltip>{{this.sessionNumberTooltipText}}</:tooltip>
           </PixTooltip>
@@ -29,20 +29,20 @@
           {{t "pages.sessions.detail.parameters.access-code.candidate"}}
         </div>
       </h3>
-      <div class="session-details-content__clipboard" {{on "mouseout" this.removeAccessCodeTooltip}}>
+      <div class="session-details-content__clipboard">
         <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
         {{#if (is-clipboard-supported)}}
           {{! template-lint-disable no-duplicate-id }}
           <PixTooltip @id="tooltip-clipboard-button" @isInline={{true}} @hide={{this.isAccessCodeTooltipTextEmpty}}>
             <:triggerElement>
-              <CopyButton
-                @text={{this.session.accessCode}}
-                @onSuccess={{this.showAccessCodeTooltip}}
+              <button
+                type="button"
+                {{on "click" this.showAccessCodeTooltip}}
                 class="icon-button session-details-content__clipboard-button"
                 aria-label={{t "pages.sessions.detail.parameters.access-code.copy-code"}}
               >
                 <FaIcon @icon="copy" prefix="fas" />
-              </CopyButton>
+              </button>
             </:triggerElement>
             <:tooltip>{{this.accessCodeTooltipText}}</:tooltip>
           </PixTooltip>
@@ -57,7 +57,7 @@
           {{t "common.sessions.invigilator"}}
         </div>
       </h3>
-      <div class="session-details-content__clipboard" {{on "mouseout" this.removeSupervisorPasswordTooltip}}>
+      <div class="session-details-content__clipboard">
         <span class="content-text content-text--bold session-details-content__text">
           C-{{this.session.supervisorPassword}}
         </span>
@@ -69,14 +69,14 @@
             @hide={{this.isSupervisorPasswordTooltipTextEmpty}}
           >
             <:triggerElement>
-              <CopyButton
-                @text={{this.session.supervisorPassword}}
-                @onSuccess={{this.showSupervisorPasswordTooltip}}
+              <button
+                type="button"
+                {{on "click" this.showSupervisorPasswordTooltip}}
                 class="icon-button session-details-content__clipboard-button"
                 aria-label={{t "pages.sessions.detail.parameters.password.copy-password"}}
               >
                 <FaIcon @icon="copy" prefix="fas" />
-              </CopyButton>
+              </button>
             </:triggerElement>
             <:tooltip>{{this.supervisorPasswordTooltipText}}</:tooltip>
           </PixTooltip>

@@ -22,6 +22,7 @@ export default class SessionParametersController extends Controller {
 
   @action
   async showSessionIdTooltip() {
+    await navigator.clipboard.writeText(this.session.id);
     this.sessionNumberTooltipText = 'Copié !';
     await _waitForSeconds(2);
     this.removeSessionNumberTooltip();
@@ -34,6 +35,7 @@ export default class SessionParametersController extends Controller {
 
   @action
   async showAccessCodeTooltip() {
+    await navigator.clipboard.writeText(this.session.accessCode);
     this.accessCodeTooltipText = 'Copié !';
     await _waitForSeconds(2);
     this.removeAccessCodeTooltip();
@@ -46,6 +48,7 @@ export default class SessionParametersController extends Controller {
 
   @action
   async showSupervisorPasswordTooltip() {
+    await navigator.clipboard.writeText(this.session.supervisorPassword);
     this.supervisorPasswordTooltipText = 'Copié !';
     await _waitForSeconds(2);
     this.removeSupervisorPasswordTooltip();
