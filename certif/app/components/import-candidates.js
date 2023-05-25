@@ -34,7 +34,7 @@ export default class ImportCandidates extends Component {
       return this.intl.t(`common.api-error-messages.${error.code}`);
     }
 
-    const errorPrefix = 'Aucun candidat n’a été importé. <br>';
+    const errorPrefix = this.intl.t('pages.sessions.import.candidates-list.import-fail-prefix', { htmlSafe: true });
     let errorMessage = `${errorPrefix} Veuillez réessayer ou nous contacter via le formulaire du centre d'aide`;
 
     if (errorResponse?.errors) {
