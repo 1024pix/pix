@@ -2,6 +2,9 @@ import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
 import { PoleEmploiPayload } from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import { sendSharedParticipationResultsToPoleEmploi } from '../../../../lib/domain/usecases/send-shared-participation-results-to-pole-emploi.js';
+import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
+import * as httpErrorsHelper from '../../../../lib/infrastructure/http/errors-helper.js';
+import * as monitoringTools from '../../../../lib/infrastructure/monitoring-tools.js';
 
 describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-emploi', function () {
   let dependencies, expectedResults;
@@ -16,6 +19,7 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
     poleEmploiNotifier,
     poleEmploiSendingRepository;
   let campaignId, campaignParticipationId, userId, organizationId, badges, badgeAcquiredIds;
+  let authenticationMethodRepository;
 
   beforeEach(function () {
     badgeRepository = { findByCampaignId: sinon.stub() };
@@ -28,8 +32,13 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
     userRepository = { get: sinon.stub() };
     poleEmploiNotifier = { notify: sinon.stub() };
     poleEmploiSendingRepository = { create: sinon.stub() };
+    authenticationMethodRepository = {
+      findOneByUserIdAndIdentityProvider: sinon.stub(),
+      updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
+    };
 
     dependencies = {
+      authenticationMethodRepository,
       badgeRepository,
       badgeAcquisitionRepository,
       campaignRepository,
@@ -180,7 +189,14 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
     it('should notify pole emploi and create pole emploi sending accordingly', async function () {
       // given
       const expectedResponse = { isSuccessful: 'someValue', code: 'someCode' };
-      poleEmploiNotifier.notify.withArgs(userId, expectedResults).resolves(expectedResponse);
+      poleEmploiNotifier.notify
+        .withArgs(userId, expectedResults, {
+          authenticationMethodRepository,
+          httpAgent,
+          httpErrorsHelper,
+          monitoringTools,
+        })
+        .resolves(expectedResponse);
       const poleEmploiSending = Symbol('Pole emploi sending');
       sinon
         .stub(PoleEmploiSending, 'buildForParticipationShared')
