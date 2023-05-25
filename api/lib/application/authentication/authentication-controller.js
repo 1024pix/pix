@@ -1,6 +1,8 @@
 import { BadRequestError } from '../http-errors.js';
 import { tokenService } from '../../domain/services/token-service.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import * as events from '../../domain/events/index.js';
 
 const createToken = async function (request, h, dependencies = { tokenService }) {
   let accessToken, refreshToken;
@@ -16,12 +18,17 @@ const createToken = async function (request, h, dependencies = { tokenService })
     const localeFromCookie = request.state?.locale;
 
     const source = 'pix';
-    const tokensAndExpirationDelaySeconds = await usecases.authenticateUser({
-      username,
-      password,
-      scope,
-      source,
-      localeFromCookie,
+    const tokensAndExpirationDelaySeconds = await DomainTransaction.execute(async (domainTransaction) => {
+      const tokensAndExpirationDelaySeconds = await usecases.authenticateUser({
+        username,
+        password,
+        scope,
+        source,
+        localeFromCookie,
+      });
+      const event = tokensAndExpirationDelaySeconds.event;
+      await events.eventBus.publish(event, domainTransaction);
+      return tokensAndExpirationDelaySeconds;
     });
     accessToken = tokensAndExpirationDelaySeconds.accessToken;
     refreshToken = tokensAndExpirationDelaySeconds.refreshToken;
