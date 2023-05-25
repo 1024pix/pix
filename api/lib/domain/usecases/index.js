@@ -651,6 +651,7 @@ import { saveComputedCampaignParticipationResult } from './save-computed-campaig
 import { saveJuryComplementaryCertificationCourseResult } from './save-jury-complementary-certification-course-result.js';
 import { sendEmailForAccountRecovery } from './account-recovery/send-email-for-account-recovery.js';
 import { sendScoInvitation } from './send-sco-invitation.js';
+import { setUserLastLoggedAt } from './set-user-last-logged-at.js';
 import { sendSharedParticipationResultsToPoleEmploi } from './send-shared-participation-results-to-pole-emploi.js';
 import { sendVerificationCode } from './send-verification-code.js';
 import { shareCampaignResult } from './share-campaign-result.js';
@@ -941,6 +942,7 @@ const usecasesWithoutInjectedDependencies = {
   sendScoInvitation,
   sendSharedParticipationResultsToPoleEmploi,
   sendVerificationCode,
+  setUserLastLoggedAt,
   shareCampaignResult,
   simulateFlashScoring,
   simulateOldScoring,
