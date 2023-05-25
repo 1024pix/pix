@@ -49,6 +49,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             estimatedLevel: expectedEstimatedLevel,
             errorRate: expectedErrorRate,
             reward: expectedReward,
+            answer: answers[0],
           },
         ];
 
@@ -149,12 +150,14 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             estimatedLevel: expectedEstimatedLevels[0],
             errorRate: expectedErrorRates[0],
             reward: expectedRewards[0],
+            answer: answersForSimulator[0],
           },
           {
             challenge: challenge1,
             estimatedLevel: expectedEstimatedLevels[1],
             errorRate: expectedErrorRates[1],
             reward: expectedRewards[1],
+            answer: answersForSimulator[1],
           },
         ];
 

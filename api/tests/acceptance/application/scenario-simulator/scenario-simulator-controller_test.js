@@ -11,6 +11,7 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
   let server;
   let adminAuthorization;
   let validPayload;
+  let validPayloadForBatch;
   const assessmentId = '1234';
   const simulationAnswers = ['ok', 'ko', 'aband'];
 
@@ -27,6 +28,8 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
       assessmentId,
       simulationAnswers,
     };
+    validPayloadForBatch = `ok,ko,aband
+ko,aband,ok`;
     const learningContent = {
       competences: [
         {
@@ -186,6 +189,75 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
         options.payload = {
           wrongField: [],
         };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response).to.have.property('statusCode', 400);
+      });
+    });
+  });
+
+  describe('#importScenarios', function () {
+    let options;
+
+    beforeEach(async function () {
+      options = {
+        method: 'POST',
+        url: '/api/scenario-simulator/csv-import',
+        payload: {},
+        headers: {},
+      };
+    });
+
+    it('should return a payload with simulation deterministic scenario results', async function () {
+      // given
+      options.headers.authorization = adminAuthorization;
+      options.payload = validPayloadForBatch;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response).to.have.property('statusCode', 200);
+      expect(response.result.data).to.have.lengthOf(2);
+    });
+
+    describe('when there is no connected user', function () {
+      it('should return status code 401', async function () {
+        // given
+        options.headers.authorization = undefined;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response).to.have.property('statusCode', 401);
+      });
+    });
+
+    describe('when connected user does not have role SUPER_ADMIN', function () {
+      it('should return status code 403', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+        await databaseBuilder.commit();
+        options.payload = validPayloadForBatch;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response).to.have.property('statusCode', 403);
+      });
+    });
+
+    describe('when request payload is invalid', function () {
+      it('should return status code 400', async function () {
+        // given
+        options.headers.authorization = adminAuthorization;
+        options.payload = `error, anotherError`;
 
         // when
         const response = await server.inject(options);
