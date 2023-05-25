@@ -12,6 +12,8 @@ import { SendSharedParticipationResultsToPoleEmploiHandler } from './lib/infrast
 import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
 import * as url from 'url';
+import { SetUserLastLoggedAtJob } from './lib/infrastructure/jobs/campaign-result/SetUserLastLoggedAtJob.js';
+import { SetUserLastLoggedAtJobHandler } from './lib/infrastructure/jobs/campaign-result/SetUserLastLoggedAtJobHandler.js';
 
 async function runJobs() {
   logger.info('Starting pg-boss');
@@ -47,6 +49,7 @@ async function runJobs() {
     SendSharedParticipationResultsToPoleEmploiJob.name,
     SendSharedParticipationResultsToPoleEmploiHandler
   );
+  monitoredJobQueue.performJob(SetUserLastLoggedAtJob.name, SetUserLastLoggedAtJobHandler);
 
   await scheduleCpfJobs(pgBoss);
 }
