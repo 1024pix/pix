@@ -589,6 +589,9 @@
           "import": "Import du modèle",
           "summary": "Récapitulatif"
         },
+        "candidates-list": {
+          "import-success": "La liste des candidats a été importée avec succès."
+        },
         "step-one": {
           "actions": {
             "cancel": {
