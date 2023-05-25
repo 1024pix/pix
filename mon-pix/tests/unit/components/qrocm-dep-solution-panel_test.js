@@ -12,9 +12,13 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
     test('should return an array with data to display', function (assert) {
       //Given
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
-      const answer = { value: "smiley1: ':)' smiley2: ''", result: 'ko' };
+      const answer = {
+        value: "smiley1: ':)' smiley2: ''",
+        result: 'ko',
+      };
+      const correctionBlocks = [{ validated: true }, { validated: false }];
 
-      const component = createGlimmerComponent('qrocm-dep-solution-panel', { challenge, answer });
+      const component = createGlimmerComponent('qrocm-dep-solution-panel', { challenge, answer, correctionBlocks });
 
       const expectedBlocksData = [
         {
@@ -22,7 +26,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
           text: 'content : ',
           ariaLabel: null,
           autoAriaLabel: false,
-          inputClass: '',
+          inputClass: 'correction-qroc-box-answer--correct',
           answer: ':)',
           placeholder: null,
           type: 'input',
@@ -46,6 +50,41 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
 
       //Then
       assert.deepEqual(blocks, expectedBlocksData);
+    });
+  });
+
+  module('#getInputClass', function () {
+    test('should return "aband" css class when isAnswerEmpty param is true', function (assert) {
+      //Given
+      const component = createGlimmerComponent('qrocm-dep-solution-panel', { answer: { result: 'ok' } });
+
+      //when
+      const inputClass = component.getInputClass(true);
+
+      //Then
+      assert.deepEqual(inputClass, 'correction-qroc-box-answer--aband');
+    });
+
+    test('should return "correct" css class when isAnswerEmpty param is false and isCorrectAnswer is true', function (assert) {
+      //Given
+      const component = createGlimmerComponent('qrocm-dep-solution-panel', { answer: { result: 'ok' } });
+
+      //when
+      const inputClass = component.getInputClass(false, true);
+
+      //Then
+      assert.deepEqual(inputClass, 'correction-qroc-box-answer--correct');
+    });
+
+    test('should return "wrong" css class when isAnswerEmpty param is false and isCorrectAnswer is false', function (assert) {
+      //Given
+      const component = createGlimmerComponent('qrocm-dep-solution-panel', { answer: { result: 'ok' } });
+
+      //when
+      const inputClass = component.getInputClass(false, false);
+
+      //Then
+      assert.deepEqual(inputClass, 'correction-qroc-box-answer--wrong');
     });
   });
 
