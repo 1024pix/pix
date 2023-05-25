@@ -41,6 +41,7 @@ import { addLastAssessmentResultCertificationCourse } from '../../scripts/certif
 import { commonBuilder } from './data/common/common-builder.js';
 import { teamContenuDataBuilder } from './data/team-contenu/data-builder.js';
 import { teamCertificationDataBuilder } from './data/team-certification/data-builder.js';
+import { certificationCpfCityBuilder } from './data/certification/certification-cpf-city-builder.js';
 
 const seed = async function (knex) {
   const shouldUseNewSeeds = process.env.USE_NEW_SEEDS === 'true';
@@ -54,6 +55,9 @@ const seed = async function (knex) {
   } else {
     // Feature list
     featuresBuilder({ databaseBuilder });
+
+    // cities
+    certificationCpfCityBuilder({ databaseBuilder });
 
     // Users
     usersBuilder({ databaseBuilder });
