@@ -11,6 +11,7 @@ import {
 } from '../../domain/errors.js';
 
 import { PIX_ORGA, PIX_ADMIN } from '../constants.js';
+import { UserAuthenticated } from '../events/UserAuthenticated.js';
 
 async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   if (scope === PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
@@ -65,8 +66,13 @@ const authenticateUser = async function ({
       await userRepository.update({ id: foundUser.id, locale: foundUser.locale });
     }
 
-    await userRepository.updateLastLoggedAt({ userId: foundUser.id });
-    return { accessToken, refreshToken, expirationDelaySeconds };
+    // await userRepository.updateLastLoggedAt({ userId: foundUser.id });
+    return {
+      accessToken,
+      refreshToken,
+      expirationDelaySeconds,
+      event: new UserAuthenticated({ userId: foundUser.id }),
+    };
   } catch (error) {
     if (
       error instanceof ForbiddenAccess ||
