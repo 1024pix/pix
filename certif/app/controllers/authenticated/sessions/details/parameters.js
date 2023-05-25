@@ -14,6 +14,7 @@ export default class SessionParametersController extends Controller {
   @tracked accessCodeTooltipText = '';
   @tracked supervisorPasswordTooltipText = '';
   @service currentUser;
+  @service intl;
 
   @computed('certificationCandidates.@each.isLinked')
   get sessionHasStarted() {
@@ -23,7 +24,7 @@ export default class SessionParametersController extends Controller {
   @action
   async showSessionIdTooltip() {
     await navigator.clipboard.writeText(this.session.id);
-    this.sessionNumberTooltipText = 'Copié !';
+    this.sessionNumberTooltipText = this.intl.t('common.actions.copied');
     await _waitForSeconds(2);
     this.removeSessionNumberTooltip();
   }
@@ -36,7 +37,7 @@ export default class SessionParametersController extends Controller {
   @action
   async showAccessCodeTooltip() {
     await navigator.clipboard.writeText(this.session.accessCode);
-    this.accessCodeTooltipText = 'Copié !';
+    this.accessCodeTooltipText = this.intl.t('common.actions.copied');
     await _waitForSeconds(2);
     this.removeAccessCodeTooltip();
   }
@@ -49,7 +50,7 @@ export default class SessionParametersController extends Controller {
   @action
   async showSupervisorPasswordTooltip() {
     await navigator.clipboard.writeText(this.session.supervisorPassword);
-    this.supervisorPasswordTooltipText = 'Copié !';
+    this.supervisorPasswordTooltipText = this.intl.t('common.actions.copied');
     await _waitForSeconds(2);
     this.removeSupervisorPasswordTooltip();
   }
