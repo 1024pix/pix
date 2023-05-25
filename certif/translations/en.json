@@ -482,7 +482,7 @@
               "error-remove-already-in": "This candidate has already joined the session, you can’t delete them.",
               "error-remove-unknown": "An error occurred while deleting the candidate.",
               "success-add": "The candidate has been successfully enrolled.",
-              "success-remove": "The candidate has been successfully deleted.Ï"
+              "success-remove": "The candidate has been successfully deleted."
             },
             "prepayment-information": "Prepayment code information",
             "prepayment-tooltip": "Required in particular when purchasing combined credits)<br />It must be comprised of the organisation’s SIRET and of the invoice’s number. Ex : 12345678912345/FACT12345.<br />If you don’t have an invoice, a prepayment code must be set with Pix.",
