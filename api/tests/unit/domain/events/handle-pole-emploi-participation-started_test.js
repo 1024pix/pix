@@ -4,6 +4,9 @@ import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSendi
 import { PoleEmploiPayload } from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
 const { handlePoleEmploiParticipationStarted } = _forTestOnly.handlers;
+import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
+import * as httpErrorsHelper from '../../../../lib/infrastructure/http/errors-helper.js';
+import * as monitoringTools from '../../../../lib/infrastructure/monitoring-tools.js';
 
 describe('Unit | Domain | Events | handle-pole-emploi-participation-started', function () {
   let event, dependencies, expectedResults;
@@ -13,9 +16,14 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
     targetProfileRepository,
     userRepository,
     poleEmploiNotifier,
-    poleEmploiSendingRepository;
+    poleEmploiSendingRepository,
+    authenticationMethodRepository;
 
   beforeEach(function () {
+    authenticationMethodRepository = {
+      findOneByUserIdAndIdentityProvider: sinon.stub(),
+      updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
+    };
     campaignRepository = { get: sinon.stub() };
     campaignParticipationRepository = { get: sinon.stub() };
     organizationRepository = { get: sinon.stub() };
@@ -25,6 +33,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
     poleEmploiSendingRepository = { create: sinon.stub() };
 
     dependencies = {
+      authenticationMethodRepository,
       campaignRepository,
       campaignParticipationRepository,
       organizationRepository,
@@ -117,7 +126,14 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
       it('should notify pole emploi and create pole emploi sending accordingly', async function () {
         // given
         const expectedResponse = { isSuccessful: 'someValue', code: 'someCode' };
-        poleEmploiNotifier.notify.withArgs(userId, expectedResults).resolves(expectedResponse);
+        poleEmploiNotifier.notify
+          .withArgs(userId, expectedResults, {
+            authenticationMethodRepository,
+            httpAgent,
+            httpErrorsHelper,
+            monitoringTools,
+          })
+          .resolves(expectedResponse);
         const poleEmploiSending = Symbol('Pole emploi sending');
         sinon
           .stub(PoleEmploiSending, 'buildForParticipationStarted')
