@@ -35,7 +35,7 @@ export default class ImportCandidates extends Component {
     }
 
     const errorPrefix = this.intl.t('pages.sessions.import.candidates-list.import-fail-prefix', { htmlSafe: true });
-    let errorMessage = `${errorPrefix} Veuillez réessayer ou nous contacter via le formulaire du centre d'aide`;
+    let errorMessage = `${errorPrefix} ${this.intl.t('pages.sessions.import.candidates-list.try-again-or-contact')}`;
 
     if (errorResponse?.errors) {
       errorResponse.errors.forEach((error) => {
