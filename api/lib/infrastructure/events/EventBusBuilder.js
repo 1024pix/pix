@@ -3,11 +3,13 @@ import * as dependenciesBuilder from './EventHandlerDependenciesBuilder.js';
 import { LogEvent } from './subscribers/LogEvent.js';
 import { ScheduleParticipationResultCalculationJob } from './subscribers/ScheduleParticipationResultCalculationJob.js';
 import { ScheduleSendSharedParticipationResultsToPoleEmploiJob } from './subscribers/ScheduleSendSharedParticipationResultsToPoleEmploiJob.js';
+import { ScheduleSetUserLastLoggedAtJob } from './subscribers/ScheduleSetUserLastLoggedAtJob.js';
 
 const subscribers = [
   LogEvent,
   ScheduleParticipationResultCalculationJob,
   ScheduleSendSharedParticipationResultsToPoleEmploiJob,
+  ScheduleSetUserLastLoggedAtJob,
 ];
 
 function build() {
