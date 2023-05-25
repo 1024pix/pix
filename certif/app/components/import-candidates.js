@@ -18,7 +18,7 @@ export default class ImportCandidates extends Component {
     this.notifications.clearAll();
     try {
       await adapter.addCertificationCandidatesFromOds(sessionId, files);
-      this.notifications.success('La liste des candidats a été importée avec succès.');
+      this.notifications.success(this.intl.t('pages.sessions.import.candidates-list.import-success'));
       this.args.reloadCertificationCandidate();
     } catch (errorResponse) {
       const errorMessage = this._handleErrorMessage(errorResponse);
