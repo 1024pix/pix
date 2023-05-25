@@ -178,7 +178,7 @@ function _handleBirthInformationValidationError(cpfBirthInformation, line) {
 function _handleVersionError() {
   throw new CertificationCandidatesImportError({
     code: 'INVALID_DOCUMENT',
-    message: 'La version du document est inconnue.',
+    message: 'This version of the document is unknown.',
   });
 }
 
