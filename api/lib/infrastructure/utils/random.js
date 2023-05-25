@@ -1,14 +1,15 @@
-const randomInEnum = (values) => {
+const weightedRandom = (values) => {
   let probabilitiesSum = 0;
   const randomFloat = Math.random();
   for (const key in values) {
-    if (probabilitiesSum + values[key] > randomFloat) {
+    probabilitiesSum += values[key];
+    const shouldSelectCurrentKey = probabilitiesSum > randomFloat;
+    if (shouldSelectCurrentKey) {
       return key;
     }
-    probabilitiesSum += values[key];
   }
 };
 
-const randomsInEnum = (values, length) => [...new Array(length)].map(() => randomInEnum(values));
+const weightedRandoms = (values, length) => [...new Array(length)].map(() => weightedRandom(values));
 
-export const random = { randomsInEnum };
+export const random = { weightedRandoms };
