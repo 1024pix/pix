@@ -1,15 +1,17 @@
 import { usecases } from '../../domain/usecases/index.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 import { scenarioSimulatorSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-serializer.js';
+import { random } from '../../infrastructure/utils/random.js';
 import { scenarioSimulatorBatchSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
 import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
 
-async function simulateFlashDeterministicAssessmentScenario(
-  request,
-  h,
-  dependencies = { scenarioSimulatorSerializer }
-) {
-  const { assessmentId, simulationAnswers } = request.payload;
+async function simulateFlashAssessmentScenario(request, h, dependencies = { scenarioSimulatorSerializer, random }) {
+  const { assessmentId, type, probabilities, length } = request.payload;
+  const simulationAnswers =
+    type === 'deterministic'
+      ? request.payload.simulationAnswers
+      : _generateSimulationAnswers(random, probabilities, length);
+
   const locale = extractLocaleFromRequest(request);
 
   const result = await usecases.simulateFlashDeterministicAssessmentScenario({
@@ -52,4 +54,8 @@ function _isValidSimulationAnswers(simulationAnswers) {
   return simulationAnswers.every((row) => row.every((cell) => ['ok', 'ko', 'aband'].includes(cell)));
 }
 
-export const scenarioSimulatorController = { simulateFlashDeterministicAssessmentScenario, importScenarios };
+function _generateSimulationAnswers(random, probabilities, length) {
+  return random.randomsInEnum(probabilities, length);
+}
+
+export const scenarioSimulatorController = { simulateFlashAssessmentScenario, importScenarios };

@@ -18,12 +18,25 @@ const register = async (server) => {
           options: {
             allowUnknown: true,
           },
-          payload: Joi.object({
-            assessmentId: Joi.string().required(),
-            simulationAnswers: Joi.array().items(Joi.string().allow('ok', 'ko', 'aband')).required(),
-          }).required(),
+          payload: Joi.alternatives([
+            Joi.object({
+              assessmentId: Joi.string().required(),
+              type: Joi.string().valid('deterministic').required(),
+              simulationAnswers: Joi.array().items(Joi.string().allow('ok', 'ko', 'aband')).required(),
+            }),
+            Joi.object({
+              assessmentId: Joi.string().required(),
+              type: Joi.string().valid('random').required(),
+              probabilities: Joi.object({
+                ok: Joi.number(),
+                ko: Joi.number(),
+                aband: Joi.number(),
+              }),
+              length: Joi.number().integer().min(0).required(),
+            }),
+          ]).required(),
         },
-        handler: scenarioSimulatorController.simulateFlashDeterministicAssessmentScenario,
+        handler: scenarioSimulatorController.simulateFlashAssessmentScenario,
         tags: ['api'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',

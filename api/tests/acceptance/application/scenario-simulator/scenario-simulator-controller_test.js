@@ -10,7 +10,8 @@ const {
 describe('Acceptance | Controller | scenario-simulator-controller', function () {
   let server;
   let adminAuthorization;
-  let validPayload;
+  let validDeterministicPayload;
+  let validRandomPayload;
   let validPayloadForBatch;
   const assessmentId = '1234';
   const simulationAnswers = ['ok', 'ko', 'aband'];
@@ -24,9 +25,20 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
     adminAuthorization = generateValidRequestAuthorizationHeader(adminId);
     await databaseBuilder.commit();
 
-    validPayload = {
+    validDeterministicPayload = {
       assessmentId,
       simulationAnswers,
+      type: 'deterministic',
+    };
+    validRandomPayload = {
+      assessmentId,
+      type: 'random',
+      probabilities: {
+        ok: 0.3,
+        ko: 0.5,
+        aband: 0.2,
+      },
+      length: 5,
     };
     validPayloadForBatch = `ok,ko,aband
 ko,aband,ok`;
@@ -128,7 +140,7 @@ ko,aband,ok`;
     mockLearningContent(learningContent);
   });
 
-  describe('#simulateFlashDeterministicAssessmentScenario', function () {
+  describe('#simulateFlashAssessmentScenario', function () {
     let options;
 
     beforeEach(async function () {
@@ -140,17 +152,34 @@ ko,aband,ok`;
       };
     });
 
-    it('should return a payload with simulation deterministic scenario results', async function () {
-      // given
-      options.headers.authorization = adminAuthorization;
-      options.payload = validPayload;
+    describe('when the scenario is deterministic', function () {
+      it('should return a payload with simulation deterministic scenario results', async function () {
+        // given
+        options.headers.authorization = adminAuthorization;
+        options.payload = validDeterministicPayload;
 
-      // when
-      const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-      // then
-      expect(response).to.have.property('statusCode', 200);
-      expect(response.result.data).to.have.lengthOf(3);
+        // then
+        expect(response).to.have.property('statusCode', 200);
+        expect(response.result.data).to.have.lengthOf(3);
+      });
+    });
+
+    describe('when the scenario is random', function () {
+      it('should return a payload with simulation deterministic scenario results', async function () {
+        // given
+        options.headers.authorization = adminAuthorization;
+        options.payload = validRandomPayload;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response).to.have.property('statusCode', 200);
+        expect(response.result.data).to.have.lengthOf(5);
+      });
     });
 
     describe('when there is no connected user', function () {
@@ -172,7 +201,7 @@ ko,aband,ok`;
         const { id: userId } = databaseBuilder.factory.buildUser();
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
         await databaseBuilder.commit();
-        options.payload = validPayload;
+        options.payload = validDeterministicPayload;
 
         // when
         const response = await server.inject(options);
