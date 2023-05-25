@@ -138,7 +138,8 @@
       "team": "Team"
     },
     "user-logged-menu": {
-      "logout": "Log out"
+      "logout": "Log out",
+      "page-title": "Logout"
     }
   },
   "pages": {
