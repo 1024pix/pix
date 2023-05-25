@@ -50,6 +50,7 @@ import * as sessions from './application/sessions/index.js';
 import * as tags from './application/tags/index.js';
 import * as targetProfiles from './application/target-profiles/index.js';
 import * as trainings from './application/trainings/index.js';
+import * as missions from './application/missions/index.js';
 import * as frameworks from './application/frameworks/index.js';
 import * as tutorialEvaluations from './application/tutorial-evaluations/index.js';
 import * as userOrgaSettings from './application/user-orga-settings/index.js';
@@ -108,6 +109,7 @@ const routes = [
   sessions,
   tags,
   targetProfiles,
+  missions,
   trainings,
   frameworks,
   tutorialEvaluations,

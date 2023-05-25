@@ -2,6 +2,7 @@ import Joi from 'joi';
 import { answerController } from './answer-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { NotFoundError } from '../../domain/errors.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
@@ -39,6 +40,7 @@ const register = async function (server) {
       method: 'POST',
       path: '/api/pix1d/answers',
       config: {
+        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
         auth: false,
         validate: {
           payload: Joi.object({
@@ -48,6 +50,7 @@ const register = async function (server) {
                 result: Joi.string().allow(null),
                 'result-details': Joi.string().allow(null),
               },
+              assessment: Joi.object(),
               relationships: Joi.object().required(),
               challenge: Joi.object(),
               type: Joi.string(),

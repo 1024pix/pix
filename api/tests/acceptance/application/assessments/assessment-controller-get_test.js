@@ -72,6 +72,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
           'last-question-state': Assessment.statesOfLastQuestion.ASKED,
           'competence-id': 'recCompetenceId',
           method: Assessment.methods.CHOSEN,
+          'mission-id': null,
         },
         relationships: {
           course: {
@@ -197,6 +198,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
           'competence-id': 'recCompetenceId',
           'last-question-state': Assessment.statesOfLastQuestion.ASKED,
           method: Assessment.methods.CHOSEN,
+          'mission-id': null,
         },
         relationships: {
           course: { data: { type: 'courses', id: courseId } },

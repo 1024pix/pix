@@ -12,6 +12,14 @@ const skillDatasource = datasource.extend({
     return _.filter(skills, { status: ACTIVE_STATUS });
   },
 
+  async findAllByName(name) {
+    const skills = await this.list();
+    const filteredSkills = _.filter(skills, function (skill) {
+      return _.isEqual(skill.name, name);
+    });
+    return filteredSkills;
+  },
+
   async findOperative() {
     const skills = await this.list();
     return _.filter(skills, (skill) => _.includes(OPERATIVE_STATUSES, skill.status));

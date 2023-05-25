@@ -25,6 +25,12 @@ const save = async function (request, h, dependencies = { assessmentRepository }
   return h.response(assessmentSerializer.serialize(createdAssessment)).created();
 };
 
+const createForPix1d = async function (request, h, dependencies = { assessmentSerializer }) {
+  const { missionId } = request.payload;
+  const createdAssessment = await usecases.createMissionAssessment({ missionId });
+  return h.response(dependencies.assessmentSerializer.serialize(createdAssessment)).created();
+};
+
 const get = async function (request, _, dependencies = { assessmentSerializer }) {
   const assessmentId = request.params.id;
   const locale = extractLocaleFromRequest(request);
@@ -85,6 +91,12 @@ const getNextChallenge = async function (
     }
     throw error;
   }
+};
+
+const getNextChallengeForPix1d = async function (request, h, dependencies = { challengeSerializer }) {
+  const assessmentId = request.params.id;
+  const challenge = await usecases.getNextChallengeForPix1d({ assessmentId });
+  return dependencies.challengeSerializer.serialize(challenge);
 };
 
 const completeAssessment = async function (request) {
@@ -148,10 +160,12 @@ const autoValidateNextChallenge = async function (request, h) {
 
 const assessmentController = {
   save,
+  createForPix1d,
   get,
   getLastChallengeId,
   getChallengeForPixAutoAnswer,
   getNextChallenge,
+  getNextChallengeForPix1d,
   completeAssessment,
   updateLastChallengeState,
   findCompetenceEvaluations,

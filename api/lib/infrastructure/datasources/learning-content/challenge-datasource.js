@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as datasource from './datasource.js';
+import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
 
 const VALIDATED_CHALLENGE = 'validé';
 const OPERATIVE_CHALLENGES = [VALIDATED_CHALLENGE, 'archivé'];
@@ -38,6 +39,15 @@ const challengeDatasource = datasource.extend({
   async findValidatedBySkillId(id) {
     const validatedChallenges = await this.findValidated();
     return validatedChallenges.filter((challenge) => challenge.skillId === id);
+  },
+
+  async getBySkillId(skillId) {
+    const challenges = await this.list();
+    const challenge = _.find(challenges, { skillId });
+    if (!challenge) {
+      throw new LearningContentResourceNotFound();
+    }
+    return challenge;
   },
 
   async findActiveFlashCompatible(locale) {
