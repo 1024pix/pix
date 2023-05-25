@@ -1,5 +1,4 @@
 import * as answerSerializer from '../../infrastructure/serializers/jsonapi/answer-serializer.js';
-import * as answerPix1dSerializer from '../../infrastructure/serializers/jsonapi/answer-pix1d-serializer.js';
 import * as correctionSerializer from '../../infrastructure/serializers/jsonapi/correction-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
@@ -13,12 +12,11 @@ const save = async function (request, h, dependencies = { answerSerializer, requ
   return h.response(dependencies.answerSerializer.serialize(createdAnswer)).created();
 };
 
-const saveForPix1D = async function (request, h, dependencies = { answerPix1dSerializer }) {
-  const answer = dependencies.answerPix1dSerializer.deserialize(request.payload);
-  const challengeId = answer.challengeId;
-  const createdAnswer = await usecases.correctAnswer({ answer, challengeId });
+const saveForPix1D = async function (request, h, dependencies = { answerSerializer }) {
+  const answer = dependencies.answerSerializer.deserialize(request.payload);
+  const createdAnswer = await usecases.correctAnswer({ answer });
 
-  return h.response(answerPix1dSerializer.serialize(createdAnswer)).created();
+  return h.response(dependencies.answerSerializer.serialize(createdAnswer)).created();
 };
 
 const get = async function (request, _h, dependencies = { requestResponseUtils }) {

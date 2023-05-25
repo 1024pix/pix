@@ -5,8 +5,8 @@ module.exports = function (environment) {
     modulePrefix: 'pix1d',
     podModulePrefix: 'pix1d/pods',
     environment,
-    rootURL: '/',
     locationType: 'history',
+    rootURL: '/',
     EmberENV: {
       EXTEND_PROTOTYPES: false,
       FEATURES: {

@@ -100,6 +100,7 @@ import * as learningContentRepository from '../../infrastructure/repositories/le
 import * as localeService from '../../domain/services/locale-service.js';
 import * as mailService from '../../domain/services/mail-service.js';
 import * as membershipRepository from '../../infrastructure/repositories/membership-repository.js';
+import * as missionRepository from '../../infrastructure/repositories/mission-repository.js';
 import * as obfuscationService from '../../domain/services/obfuscation-service.js';
 import * as organizationMemberIdentityRepository from '../../infrastructure/repositories/organization-member-identity-repository.js';
 import * as organizationForAdminRepository from '../../infrastructure/repositories/organization-for-admin-repository.js';
@@ -307,6 +308,7 @@ const dependencies = {
   localeService,
   mailService,
   membershipRepository,
+  missionRepository,
   obfuscationService,
   organizationMemberIdentityRepository,
   organizationForAdminRepository,
@@ -451,6 +453,7 @@ import { createCertificationCenterMembershipByEmail } from './create-certificati
 import { createCertificationCenterMembershipForScoOrganizationMember } from './create-certification-center-membership-for-sco-organization-member.js';
 import { createLcmsRelease } from './create-lcms-release.js';
 import { createMembership } from './create-membership.js';
+import { createMissionAssessment } from './create-mission-assessment.js';
 import { createOidcUser } from './create-oidc-user.js';
 import { createOrUpdateCertificationCenterInvitationForAdmin } from './create-or-update-certification-center-invitation-for-admin.js';
 import { createOrUpdateTrainingTrigger } from './create-or-update-training-trigger.js';
@@ -579,11 +582,13 @@ import { getJurySession } from './get-jury-session.js';
 import { getLastChallengeIdFromAssessmentId } from './get-last-challenge-id-from-assessment-id.js';
 import { getLearningContentByTargetProfile } from './get-learning-content-by-target-profile.js';
 import { getLearningContentForTargetProfileSubmission } from './get-learning-content-for-target-profile-submission.js';
+import { getMission } from './get-mission.js';
 import { getNextChallengeForCampaignAssessment } from './get-next-challenge-for-campaign-assessment.js';
 import { getNextChallengeForCertification } from './get-next-challenge-for-certification.js';
 import { getNextChallengeForCompetenceEvaluation } from './get-next-challenge-for-competence-evaluation.js';
 import { getNextChallengeForDemo } from './get-next-challenge-for-demo.js';
 import { getNextChallengeForPreview } from './get-next-challenge-for-preview.js';
+import { getNextChallengeForPix1d } from './get-next-challenge-for-pix1d.js';
 import { getOrganizationInvitation } from './get-organization-invitation.js';
 import { getOrganizationLearner } from './get-organization-learner.js';
 import { getOrganizationLearnerActivity } from './get-organization-learner-activity.js';
@@ -732,6 +737,7 @@ const usecasesWithoutInjectedDependencies = {
   correctAnswerThenUpdateAssessment,
   correctCandidateIdentityInCertificationCourse,
   createAccessTokenFromRefreshToken,
+  createMissionAssessment,
   createAndReconcileUserToOrganizationLearner,
   createBadge,
   createCampaign,
@@ -855,6 +861,7 @@ const usecasesWithoutInjectedDependencies = {
   getCertificationPointOfContact,
   getCertificationsResultsForLS,
   getChallengeForPixAutoAnswer,
+  getNextChallengeForPix1d,
   getCleaCertifiedCandidateBySession,
   getCorrectionForAnswer,
   getCurrentUser,
@@ -868,6 +875,7 @@ const usecasesWithoutInjectedDependencies = {
   getLastChallengeIdFromAssessmentId,
   getLearningContentByTargetProfile,
   getLearningContentForTargetProfileSubmission,
+  getMission,
   getNextChallengeForCampaignAssessment,
   getNextChallengeForCertification,
   getNextChallengeForCompetenceEvaluation,

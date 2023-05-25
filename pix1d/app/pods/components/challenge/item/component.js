@@ -4,6 +4,7 @@ import Component from '@glimmer/component';
 
 export default class Item extends Component {
   @service store;
+  @service router;
 
   _createAnswer(challenge) {
     return this.store.createRecord('answer', { challenge });
@@ -13,12 +14,11 @@ export default class Item extends Component {
   async answerValidated(challenge, assessment, answerValue) {
     const answer = this._createAnswer(challenge);
     answer.value = answerValue;
+    answer.assessment = assessment;
     try {
       await answer.save();
       if (answer.result === 'ok') {
-        alert('Réussi !!!!!!!!!!!!!!!!!');
-      } else {
-        alert('Raté');
+        this.router.transitionTo('assessment.resume', answer.assessment);
       }
     } catch (error) {
       answer.rollbackAttributes();

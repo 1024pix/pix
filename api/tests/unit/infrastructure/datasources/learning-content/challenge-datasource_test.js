@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { expect, sinon } from '../../../../test-helper.js';
+import { expect, sinon, catchErr } from '../../../../test-helper.js';
 import { lcms } from '../../../../../lib/infrastructure/lcms.js';
 import { challengeDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/challenge-datasource.js';
 import { learningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { LearningContentResourceNotFound } from '../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatasource', function () {
   let competence1,
@@ -280,6 +281,36 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       // then
       expect(lcms.getLatestRelease).to.have.been.called;
       expect(result).to.deep.equal([challenge_web1, challenge_competence2]);
+    });
+  });
+
+  describe('#getBySkillId', function () {
+    let challenge_pix1d1;
+    const skillId = '@didacticiel1';
+    beforeEach(function () {
+      challenge_pix1d1 = {
+        id: 'challenge-competence1',
+        competenceId: competence1.id,
+        skillId,
+      };
+      sinon.stub(lcms, 'getLatestRelease').resolves({
+        challenges: [challenge_web1, challenge_competence2, challenge_pix1d1],
+      });
+    });
+    it('should resolve an array of validated challenge of a skill from learning content ', async function () {
+      // when
+      const result = await challengeDatasource.getBySkillId(skillId);
+
+      // then
+      expect(lcms.getLatestRelease).to.have.been.called;
+      expect(result).to.deep.equal(challenge_pix1d1);
+    });
+    it('should return an error if the challenge does not exist', async function () {
+      // when
+      const error = await catchErr(challengeDatasource.getBySkillId)('falseId');
+
+      // then
+      expect(error).to.be.instanceOf(LearningContentResourceNotFound);
     });
   });
 });

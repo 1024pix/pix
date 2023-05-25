@@ -429,10 +429,8 @@ describe('Unit | Domain | Models | Assessment', function () {
       // given
       const userId = 123;
       const competenceId = 'rec123ABC';
-
       // when
       const assessment = Assessment.createImprovingForCompetenceEvaluation({ userId, competenceId });
-
       // then
       expect(assessment.userId).to.equal(userId);
       expect(assessment.competenceId).to.equal(competenceId);
@@ -441,6 +439,22 @@ describe('Unit | Domain | Models | Assessment', function () {
       expect(assessment.courseId).to.equal(Assessment.courseIdMessage.COMPETENCE_EVALUATION);
       expect(assessment.isImproving).to.be.true;
       expect(assessment.method).to.equal('SMART_RANDOM');
+    });
+  });
+
+  describe('#createForPix1dMission', function () {
+    it('should return a proper mission assessment for pix1d', function () {
+      // given
+      const missionId = 'rec123ABC';
+
+      // when
+      const assessment = Assessment.createForPix1dMission({ missionId });
+
+      // then
+      expect(assessment.missionId).to.equal(missionId);
+      expect(assessment.state).to.equal(Assessment.states.STARTED);
+      expect(assessment.type).to.equal(Assessment.types.PIX1D_MISSION);
+      expect(assessment.method).to.equal(Assessment.methods.PIX1D);
     });
   });
 

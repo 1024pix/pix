@@ -13,6 +13,11 @@ const tubeDatasource = datasource.extend({
     const tubes = await this.list();
     return tubes.filter(({ id }) => tubeIds.includes(id));
   },
+
+  async findByThematicId(thematicId) {
+    const tubes = await this.list();
+    return tubes.filter((tubeData) => tubeData.thematicId === thematicId);
+  },
 });
 
 export { tubeDatasource };

@@ -7,6 +7,8 @@ import * as solutionAdapter from '../adapters/solution-adapter.js';
 import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { config } from '../../config.js';
+import { tubeDatasource } from '../datasources/learning-content/index.js';
+import { logger } from '../../infrastructure/logger.js';
 
 const get = async function (id) {
   try {
@@ -16,6 +18,53 @@ const get = async function (id) {
   } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
       throw new NotFoundError();
+    }
+    throw error;
+  }
+};
+
+/**
+ *
+ * Pour Pix1D, les missions ont été stocké dans le LCMS de la manière suivante :
+ * - un theme est une mission
+ * - un sujet est une activité
+ * - une épreuve reste une épreuve
+ * - le niveau de l'épreuve est utilisé pour gérer l'ordre de passage des épreuves dans l'activité
+ *
+ * Les noms des activités doivent respecter une norme pour Pix1D :
+ * `[mission name prefix]_[activity level]`
+ *
+ * Les épreuves sont automatiquement nommées à partir du nom des activités, avec un numéro en suffixe.
+ *
+ * @param {string} missionId technical ID for theme
+ * @param {string} activityLevel activity level name
+ * @param {number} challengeNumber activity's challenge number
+ * @returns a challenge
+ */
+const getForPix1D = async function ({ missionId, activityLevel, challengeNumber }) {
+  try {
+    const missionNamePrefix = await _getMissionNamePrefix(missionId);
+    if (missionNamePrefix.length === 0) {
+      throw new NotFoundError(`Aucune mission trouvée pour l'identifiant : ${missionId}`);
+    }
+    const skillNamePrefix = _getPix1dSkillNamePrefix(missionNamePrefix, activityLevel);
+    const skillName = `${skillNamePrefix}${challengeNumber}`;
+    const skills = await skillDatasource.findAllByName(skillName);
+    if (skills.length === 0) {
+      throw new NotFoundError(
+        `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`
+      );
+    }
+    if (skills.length > 1) {
+      logger.warn(`Plus d'un acquis trouvé avec le nom ${skillName}. Le 1er challenge trouvé va être retourné.`);
+    }
+    const challenge = await challengeDatasource.getBySkillId(skills[0].id);
+    return _toDomain({ challengeDataObject: challenge });
+  } catch (error) {
+    if (error instanceof LearningContentResourceNotFound) {
+      throw new NotFoundError(
+        `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`
+      );
     }
     throw error;
   }
@@ -97,6 +146,7 @@ const findValidatedBySkillId = async function (skillId) {
 
 export {
   get,
+  getForPix1D,
   getMany,
   list,
   findValidated,
@@ -161,4 +211,14 @@ function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThr
     shuffled: challengeDataObject.shuffled,
     successProbabilityThreshold,
   });
+}
+
+function _getPix1dSkillNamePrefix(missionNamePrefix, activityLevel) {
+  return `${missionNamePrefix}_${activityLevel}`;
+}
+
+async function _getMissionNamePrefix(missionId) {
+  const [firstTube] = await tubeDatasource.findByThematicId(missionId);
+  const activityName = firstTube === undefined ? '' : firstTube.name;
+  return activityName.split('_')[0];
 }

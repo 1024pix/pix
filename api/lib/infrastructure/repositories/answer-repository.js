@@ -126,6 +126,13 @@ const saveWithKnowledgeElements = async function (answer, knowledgeElements) {
     return savedAnswer;
   });
 };
+const save = async function (answer) {
+  const answerForDB = _adaptAnswerToDb(answer);
+  return knex.transaction(async (trx) => {
+    const [savedAnswerDTO] = await trx('answers').insert(answerForDB).returning(COLUMNS);
+    return _toDomain(savedAnswerDTO);
+  });
+};
 
 export {
   get,
@@ -135,4 +142,5 @@ export {
   findLastByAssessment,
   findChallengeIdsFromAnswerIds,
   saveWithKnowledgeElements,
+  save,
 };
