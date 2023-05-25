@@ -1,7 +1,11 @@
 import { PoleEmploiPayload } from '../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import { PoleEmploiSending } from '../models/PoleEmploiSending.js';
+import { httpAgent } from '../../infrastructure/http/http-agent.js';
+import * as httpErrorsHelper from '../../infrastructure/http/errors-helper.js';
+import * as monitoringTools from '../../infrastructure/monitoring-tools.js';
 
-const sendSharedParticipationResultsToPoleEmploi = async function ({
+const sendSharedParticipationResultsToPoleEmploi = async ({
+  authenticationMethodRepository,
   badgeRepository,
   badgeAcquisitionRepository,
   campaignParticipationId,
@@ -13,7 +17,7 @@ const sendSharedParticipationResultsToPoleEmploi = async function ({
   poleEmploiSendingRepository,
   targetProfileRepository,
   userRepository,
-}) {
+}) => {
   const participation = await campaignParticipationRepository.get(campaignParticipationId);
   const campaign = await campaignRepository.get(participation.campaignId);
   const organization = await organizationRepository.get(campaign.organizationId);
@@ -40,7 +44,12 @@ const sendSharedParticipationResultsToPoleEmploi = async function ({
       badgeAcquiredIds,
     });
 
-    const response = await poleEmploiNotifier.notify(user.id, payload);
+    const response = await poleEmploiNotifier.notify(user.id, payload, {
+      authenticationMethodRepository,
+      httpAgent,
+      httpErrorsHelper,
+      monitoringTools,
+    });
 
     const poleEmploiSending = PoleEmploiSending.buildForParticipationShared({
       campaignParticipationId,
