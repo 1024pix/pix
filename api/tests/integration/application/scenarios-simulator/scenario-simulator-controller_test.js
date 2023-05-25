@@ -16,7 +16,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
   beforeEach(async function () {
     sinon.stub(usecases, 'simulateFlashDeterministicAssessmentScenario');
     sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
-    sinon.stub(random, 'randomsInEnum');
+    sinon.stub(random, 'weightedRandoms');
     sinon.stub(pickAnswersService, 'pickAnswersFromArray');
     sinon.stub(pickAnswersService, 'pickAnswerForCapacity');
 
@@ -116,7 +116,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
             // given
             const length = 1;
             const probabilities = { ok: 0.3, ko: 0.4, aband: 0.3 };
-            random.randomsInEnum.withArgs(probabilities, length).returns(['ok']);
+            random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
             const assessmentId = '13802DK';
 
             const pickAnswerFromArrayImplementation = sinon.stub();
@@ -318,18 +318,18 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   'simulation-report': [
                     {
                       'minimum-capability': 0.6190392084062237,
-                      reward: 0.2,
-                      'error-rate': 0.3,
-                      'estimated-level': 0.4,
+                      reward: reward1,
+                      'error-rate': errorRate1,
+                      'estimated-level': estimatedLevel1,
                       answer: 'ok',
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
                     {
                       'minimum-capability': 0,
-                      reward: 0.6,
-                      'error-rate': 0.7,
-                      'estimated-level': 0.8,
+                      reward: reward2,
+                      'error-rate': errorRate2,
+                      'estimated-level': estimatedLevel2,
                       answer: 'ok',
                       difficulty: challenge2.difficulty,
                       discriminant: challenge2.discriminant,
@@ -344,18 +344,18 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   'simulation-report': [
                     {
                       'minimum-capability': 0.6190392084062237,
-                      reward: 0.2,
-                      'error-rate': 0.3,
-                      'estimated-level': 0.4,
+                      reward: reward1,
+                      'error-rate': errorRate1,
+                      'estimated-level': estimatedLevel1,
                       answer: 'ko',
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
                     {
                       'minimum-capability': 0,
-                      reward: 0.6,
-                      'error-rate': 0.7,
-                      'estimated-level': 0.8,
+                      reward: reward2,
+                      'error-rate': errorRate2,
+                      'estimated-level': estimatedLevel2,
                       answer: 'ok',
                       difficulty: challenge2.difficulty,
                       discriminant: challenge2.discriminant,

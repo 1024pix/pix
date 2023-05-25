@@ -13,7 +13,7 @@ describe('Unit | Infrastructure | Utils | Random', function () {
           aband: 0.6,
         };
 
-        const results = random.randomsInEnum(values, length);
+        const results = random.weightedRandoms(values, length);
 
         const resultDistribution = _.countBy(results);
 
