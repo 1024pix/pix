@@ -158,6 +158,24 @@ ko,aband,ok`;
       };
     });
 
+    describe('when a number of challenges to pass is specified', function () {
+      it('should return a payload with the same number of simulation deterministic scenario results', async function () {
+        // given
+        const validPayload = {
+          ...validDeterministicPayload,
+          stopAtChallenge: 2,
+        };
+        options.headers.authorization = adminAuthorization;
+        options.payload = validPayload;
+
+        // when
+        const response = await server.inject(options);
+        // then
+        expect(response).to.have.property('statusCode', 200);
+        expect(response.result.data).to.have.lengthOf(2);
+      });
+    });
+
     describe('when the scenario is deterministic', function () {
       it('should return a payload with simulation deterministic scenario results', async function () {
         // given

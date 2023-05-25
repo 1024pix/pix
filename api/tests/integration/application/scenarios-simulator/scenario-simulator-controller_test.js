@@ -70,6 +70,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 pickAnswer: pickAnswerFromArrayImplementation,
                 assessmentId,
                 locale: 'en',
+                stopAtChallenge: undefined,
               })
               .resolves(simulationResults);
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
@@ -127,6 +128,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 assessmentId,
                 locale: 'en',
                 pickAnswer: pickAnswerFromArrayImplementation,
+                stopAtChallenge: undefined,
               })
               .resolves(simulationResults);
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
@@ -183,6 +185,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 assessmentId,
                 locale: 'en',
                 pickAnswer: pickAnswerFromCapacityImplementation,
+                stopAtChallenge: undefined,
               })
               .resolves(simulationResults);
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
