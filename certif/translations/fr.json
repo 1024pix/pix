@@ -592,6 +592,7 @@
         "candidates-list": {
           "import-fail-prefix": "Aucun candidat n’a été importé. <br/>",
           "import-success": "La liste des candidats a été importée avec succès.",
+          "try-again-or-contact": "Veuillez réessayer ou nous contacter via le formulaire du centre d'aide.",
           "unknown-document-version": "La version du document est inconnue."
         },
         "step-one": {
