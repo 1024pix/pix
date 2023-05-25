@@ -7,13 +7,6 @@ import jsyaml from 'js-yaml';
 import { inject as service } from '@ember/service';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
-const classByResultValue = {
-  ok: 'correction-qroc-box-answer--correct',
-  ko: '',
-  partially: '',
-  aband: 'correction-qroc-box-answer--aband',
-};
-
 export default class QrocmDepSolutionPanel extends Component {
   @service intl;
 
@@ -21,24 +14,22 @@ export default class QrocmDepSolutionPanel extends Component {
     const escapedProposals = this.args.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
     const labels = labelsAsObject(htmlSafe(escapedProposals).string);
     const answers = answersAsObject(this.args.answer.value, keys(labels));
+    const correctionBlocks = this.args.correctionBlocks ? [...this.args.correctionBlocks] : null;
 
     return proposalsAsBlocks(this.args.challenge.get('proposals')).map((block) => {
-      const isLineBreak = block.breakline;
-      if (!isLineBreak) {
-        const answerIsEmpty = answers[block.input] === '';
-        block.answer = answerIsEmpty ? this.intl.t('pages.result-item.aband') : answers[block.input];
-        block.inputClass = answerIsEmpty ? classByResultValue['aband'] : this.inputClass;
+      if (!block.input || !correctionBlocks) {
+        return block;
       }
+      const correctionBlock = correctionBlocks.shift();
+      const isAnswerEmpty = answers[block.input] === '';
+      block.answer = isAnswerEmpty ? this.intl.t('pages.result-item.aband') : answers[block.input];
+      block.inputClass = this.getInputClass(isAnswerEmpty, correctionBlock?.validated);
       return block;
     });
   }
 
   get answerIsCorrect() {
     return this.args.answer.result === 'ok';
-  }
-
-  get inputClass() {
-    return classByResultValue[this.args.answer.result];
   }
 
   get understandableSolution() {
@@ -60,5 +51,17 @@ export default class QrocmDepSolutionPanel extends Component {
 
   get _inputCount() {
     return this.blocks.filter((block) => block.input && !block.breakline).length;
+  }
+
+  getInputClass(isEmptyAnswer, isCorrectAnswer) {
+    const CSS_PREPEND = 'correction-qroc-box-answer--';
+    switch (true) {
+      case isEmptyAnswer:
+        return `${CSS_PREPEND}aband`;
+      case isCorrectAnswer:
+        return `${CSS_PREPEND}correct`;
+      default:
+        return `${CSS_PREPEND}wrong`;
+    }
   }
 }
