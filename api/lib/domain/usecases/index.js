@@ -655,6 +655,7 @@ import { sendScoInvitation } from './send-sco-invitation.js';
 import { sendSharedParticipationResultsToPoleEmploi } from './send-shared-participation-results-to-pole-emploi.js';
 import { sendVerificationCode } from './send-verification-code.js';
 import { shareCampaignResult } from './share-campaign-result.js';
+import { simulateFlashDeterministicAssessmentScenario } from './simulate-flash-deterministic-assessment-scenario.js';
 import { simulateFlashScoring } from './simulate-flash-scoring.js';
 import { simulateOldScoring } from './simulate-old-scoring.js';
 import { startCampaignParticipation } from './start-campaign-participation.js';
@@ -945,6 +946,7 @@ const usecasesWithoutInjectedDependencies = {
   sendVerificationCode,
   shareCampaignResult,
   simulateFlashScoring,
+  simulateFlashDeterministicAssessmentScenario,
   simulateOldScoring,
   startCampaignParticipation,
   startOrResumeCompetenceEvaluation,
