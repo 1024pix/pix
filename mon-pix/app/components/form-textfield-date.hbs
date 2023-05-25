@@ -20,7 +20,7 @@
         name={{@dayTextfieldName}}
         {{on "focusout" (fn @onValidateDay @dayTextfieldName @dayInputBindingValue)}}
         class="form-textfield__input {{this.dayInputValidationStatus}}"
-        aria-describedby={{@aria-describedby @dayValidationMessage}}
+        aria-describedby={{@aria-describedby}}
         required={{@require}}
         disabled={{@disabled}}
         aria-label={{t "pages.login-or-register.register-form.fields.birthdate.day.label"}}
@@ -58,7 +58,7 @@
         name={{@monthTextfieldName}}
         {{on "focusout" (fn @onValidateMonth @monthTextfieldName @monthInputBindingValue)}}
         class="form-textfield__input {{this.monthInputValidationStatus}}"
-        aria-describedby={{@aria-describedby @monthValidationMessage}}
+        aria-describedby={{@aria-describedby}}
         required={{@require}}
         disabled={{@disabled}}
         aria-label={{t "pages.login-or-register.register-form.fields.birthdate.month.label"}}
@@ -95,7 +95,7 @@
         name={{@yearTextfieldName}}
         {{on "focusout" (fn @onValidateYear @yearTextfieldName @yearInputBindingValue)}}
         class="form-textfield__input {{this.yearInputValidationStatus}}"
-        aria-describedby={{@aria-describedby @yearValidationMessage}}
+        aria-describedby={{@aria-describedby}}
         required={{@require}}
         disabled={{@disabled}}
         aria-label={{t "pages.login-or-register.register-form.fields.birthdate.year.label"}}
