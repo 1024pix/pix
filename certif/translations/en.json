@@ -210,8 +210,14 @@
         "url-label": "documentation pour voir les nouveautés."
       },
       "enrol-candidates-in-session": {
+        "certification-candidates-sco": {
+          "actions": {
+            "enrol-candidates": "Inscrire des candidats"
+          },
+          "information": "Inscrivez des élèves et c'est partix !"
+        },
         "information": "Si certain(e)s élèves n’apparaissent pas dans cette liste, merci de ré-importer le fichier élèves dans Pix Orga.<br> Si malgré tout des élèves ne sont pas visibles, merci de contacter",
-        "link-label": "support.pix.fr",
+        "link-label": "support.pix.org",
         "list": {
           "action-bar": {
             "candidate-already-enrolled": "candidat(s) déjà inscrit(s) à la session",
