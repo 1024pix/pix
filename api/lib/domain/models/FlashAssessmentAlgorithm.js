@@ -1,5 +1,9 @@
 import { AssessmentEndedError } from '../errors.js';
-import { getPossibleNextChallenges } from '../services/algorithm-methods/flash.js';
+import {
+  getPossibleNextChallenges,
+  getEstimatedLevelAndErrorRate,
+  getReward,
+} from '../services/algorithm-methods/flash.js';
 
 class FlashAssessmentAlgorithm {
   getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel }) {
@@ -14,6 +18,14 @@ class FlashAssessmentAlgorithm {
     }
 
     return possibleChallenges;
+  }
+
+  getEstimatedLevelAndErrorRate({ allAnswers, challenges }) {
+    return getEstimatedLevelAndErrorRate({ allAnswers, challenges });
+  }
+
+  getReward({ estimatedLevel, discriminant, difficulty }) {
+    return getReward({ estimatedLevel, discriminant, difficulty });
   }
 }
 
