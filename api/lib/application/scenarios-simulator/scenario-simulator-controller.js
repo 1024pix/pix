@@ -5,17 +5,18 @@ import { random } from '../../infrastructure/utils/random.js';
 import { scenarioSimulatorBatchSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
 import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
 import { pickAnswersService } from '../../domain/services/pick-answer-service.js';
+import { HttpErrors } from '../http-errors.js';
 
 async function simulateFlashAssessmentScenario(
   request,
   h,
-  dependencies = { scenarioSimulatorSerializer, random, pickAnswersService }
+  dependencies = { scenarioSimulatorSerializer, random, pickAnswersService, extractLocaleFromRequest }
 ) {
   const { assessmentId } = request.payload;
 
-  const pickAnswer = _getPickAnswerMethod(request.payload);
+  const pickAnswer = _getPickAnswerMethod(dependencies.pickAnswerService, request.payload);
 
-  const locale = extractLocaleFromRequest(request);
+  const locale = dependencies.extractLocaleFromRequest(request);
 
   const result = await usecases.simulateFlashDeterministicAssessmentScenario({
     pickAnswer,
@@ -26,14 +27,18 @@ async function simulateFlashAssessmentScenario(
   return dependencies.scenarioSimulatorSerializer.serialize(result);
 }
 
-async function importScenarios(request, h, dependencies = { parseCsv, scenarioSimulatorBatchSerializer }) {
+async function importScenarios(
+  request,
+  h,
+  dependencies = { parseCsv, scenarioSimulatorBatchSerializer, extractLocaleFromRequest }
+) {
   const parsedCsvData = await dependencies.parseCsv(request.payload.path);
 
   if (!_isValidSimulationAnswers(parsedCsvData)) {
-    return h.response("Each CSV cell must be one of 'ok', 'ko' or 'aband'").code(400);
+    return new HttpErrors.BadRequestError("Each CSV cell must be one of 'ok', 'ko' or 'aband'");
   }
 
-  const locale = extractLocaleFromRequest(request);
+  const locale = dependencies.extractLocaleFromRequest(request);
 
   const results = (
     await Promise.all(
@@ -54,7 +59,7 @@ async function importScenarios(request, h, dependencies = { parseCsv, scenarioSi
   return dependencies.scenarioSimulatorBatchSerializer.serialize(results);
 }
 
-function _getPickAnswerMethod(payload) {
+function _getPickAnswerMethod(pickAnswerService, payload) {
   const { type, probabilities, length, capacity, simulationAnswers } = payload;
 
   switch (type) {
@@ -74,7 +79,7 @@ function _isValidSimulationAnswers(simulationAnswers) {
 }
 
 function _generateSimulationAnswers(random, probabilities, length) {
-  return random.randomsInEnum(probabilities, length);
+  return random.weightedRandoms(probabilities, length);
 }
 
 export const scenarioSimulatorController = { simulateFlashAssessmentScenario, importScenarios };

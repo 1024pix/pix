@@ -173,7 +173,7 @@ ko,aband,ok`;
     });
 
     describe('when the scenario is random', function () {
-      it('should return a payload with simulation deterministic scenario results', async function () {
+      it('should return a payload with simulation random scenario results', async function () {
         // given
         options.headers.authorization = adminAuthorization;
         options.payload = validRandomPayload;
@@ -188,7 +188,7 @@ ko,aband,ok`;
     });
 
     describe('when the scenario is capacity', function () {
-      it('should return a payload with simulation deterministic scenario results', async function () {
+      it('should return a payload with simulation the capacity scenario results', async function () {
         // given
         options.headers.authorization = adminAuthorization;
         options.payload = validCapacityPayload;
