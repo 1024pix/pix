@@ -24,11 +24,15 @@
         <thead>
           <tr>
             <th>
-              <CertifCheckbox
-                class="add-student-list__checker"
-                @state={{this.headerCheckboxStatus}}
+              <PixCheckbox
+                @class="add-student-list__checker"
+                @isIndeterminate={{this.hasPartialState}}
+                @checked={{this.hasCheckState}}
                 {{on "click" this.toggleAllItems}}
-              />
+                disabled={{this.isDisabled}}
+              >
+                <span class="screen-reader-only">{{t "pages.candidates.add.actions.select-all.label"}}</span>
+              </PixCheckbox>
             </th>
             <th>Classe</th>
             <th>Nom</th>
@@ -41,7 +45,15 @@
             {{#if student.isEnrolled}}
               <tr class="add-student-list__row add-student-list__row--disabled">
                 <td class="add-student-list__column-checkbox">
-                  <CertifCheckbox @state="checked" class="button--disabled" />
+                  <PixCheckbox @class="add-student-list__checker" @checked={{true}} disabled>
+                    <span class="screen-reader-only">
+                      {{t
+                        "pages.candidates.add.actions.selected.label"
+                        firstName=student.firstName
+                        lastName=student.lastName
+                      }}
+                    </span>
+                  </PixCheckbox>
                 </td>
                 <td>{{student.division}}</td>
                 <td>{{student.lastName}}</td>
@@ -51,7 +63,15 @@
             {{else}}
               <tr class="add-student-list__row" {{on "click" (fn this.toggleItem student)}}>
                 <td class="add-student-list__column-checkbox">
-                  <CertifCheckbox @state={{if student.isSelected "checked" "unchecked"}} />
+                  <PixCheckbox @checked={{student.isSelected}}>
+                    <span class="screen-reader-only">
+                      {{t
+                        "pages.candidates.add.actions.select.label"
+                        firstName=student.firstName
+                        lastName=student.lastName
+                      }}
+                    </span>
+                  </PixCheckbox>
                 </td>
                 <td>{{student.division}}</td>
                 <td>{{student.lastName}}</td>

@@ -125,13 +125,12 @@ module('Integration | Component | add-student-list', function (hooks) {
       ];
       this.set('divisions', divisions);
 
-      await render(
+      const screen = await render(
         hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`
       );
 
       // when
-      const firstStudentCheckbox = '.add-student-list__column-checkbox button:nth-of-type(1)';
-      await click(firstStudentCheckbox);
+      await click(screen.getByRole('checkbox', { name: 'Sélectionner le candidat firstName lastName' }));
 
       // then
       assert.true(this.students[0].isSelected);
@@ -139,8 +138,7 @@ module('Integration | Component | add-student-list', function (hooks) {
 
     test('it should be possible to unselect a selected student', async function (assert) {
       // given
-      this.set('students', [_buildSelectedStudent()]);
-      const students = [_buildSelectedStudent()];
+      const students = [_buildSelectedStudent('Jean', 'Bon')];
       students.meta = {
         page: 1,
         pageSize: 25,
@@ -156,13 +154,12 @@ module('Integration | Component | add-student-list', function (hooks) {
       ];
       this.set('divisions', divisions);
 
-      await render(
+      const screen = await render(
         hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`
       );
 
       // when
-      const firstStudentCheckbox = '.add-student-list__column-checkbox button:nth-of-type(1)';
-      await click(firstStudentCheckbox);
+      await click(screen.getByRole('checkbox', { name: 'Sélectionner le candidat Jean Bon' }));
 
       // then
       assert.false(this.students[0].isSelected);
@@ -194,13 +191,12 @@ module('Integration | Component | add-student-list', function (hooks) {
         ];
         this.set('divisions', divisions);
 
-        await render(
+        const screen = await render(
           hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`
         );
 
         // when
-        const selectAllCheckbox = '.add-student-list__checker';
-        await click(selectAllCheckbox);
+        await click(screen.getByRole('checkbox', { name: 'Sélectionner tous les candidats de la liste' }));
 
         // then
         assert.true(this.students.every((s) => s.isSelected));
@@ -224,13 +220,12 @@ module('Integration | Component | add-student-list', function (hooks) {
       ];
       this.set('divisions', divisions);
 
-      await render(
+      const screen = await render(
         hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`
       );
 
       // when
-      const selectAllCheckbox = '.add-student-list__checker';
-      await click(selectAllCheckbox);
+      await click(screen.getByRole('checkbox', { name: 'Sélectionner tous les candidats de la liste' }));
 
       // then
       assert.false(this.students.every((s) => s.isSelected));

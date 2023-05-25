@@ -23,7 +23,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       assert.strictEqual(uncheckedHasSeenEndTestScreenCount, 0);
     });
 
-    test('it should count unchecked boxes', function (assert) {
+    test('it should count unchecked boxes', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const certificationReportA = store.createRecord('certification-report', {
@@ -206,6 +206,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
         // given
         const someWereChecked = hasSeenEndTestScreen1 || hasSeenEndTestScreen2;
         const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+        const eventStub = { srcElement: { checked: sinon.stub() } };
         const session = {
           certificationReports: [
             { hasSeenEndTestScreen: hasSeenEndTestScreen1, isCompleted: true },
@@ -215,7 +216,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
         controller.model = session;
 
         // when
-        controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', someWereChecked);
+        controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', someWereChecked, eventStub);
 
         // then
         assert.strictEqual(session.certificationReports[0].hasSeenEndTestScreen, expectedState);
@@ -226,6 +227,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
     test('it should toggle the hasSeenEndTestScreen attribute only for completed certifs in session', function (assert) {
       // given
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+      const eventStub = { srcElement: { checked: sinon.stub() } };
       const session = {
         certificationReports: [
           { hasSeenEndTestScreen: false, isCompleted: true },
@@ -235,7 +237,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       controller.model = session;
 
       // when
-      controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', false);
+      controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', false, eventStub);
 
       // then
       assert.true(session.certificationReports[0].hasSeenEndTestScreen);

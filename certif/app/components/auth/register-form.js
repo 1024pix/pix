@@ -51,6 +51,7 @@ export default class RegisterForm extends Component {
   @tracked lastName = null;
   @tracked email = null;
   @tracked password = null;
+  @tracked isTermsOfServiceValidated = false;
   @tracked cguValidationMessage = null;
   @tracked errorMessage = null;
   @tracked selectedLanguage = this.intl.primaryLocale;
@@ -177,11 +178,11 @@ export default class RegisterForm extends Component {
   }
 
   @action
-  validateCgu() {
+  validateCgu(event) {
+    this.isTermsOfServiceValidated = !!event.target.checked;
     this.cguValidationMessage = null;
-    const isInputChecked = Boolean(this.cgu);
 
-    if (!isInputChecked) {
+    if (!this.isTermsOfServiceValidated) {
       this.cguValidationMessage = this.intl.t('pages.login-or-register.register-form.fields.cgu.error');
     }
   }
@@ -192,7 +193,7 @@ export default class RegisterForm extends Component {
       !isEmpty(this.firstName) &&
       isEmailValid(this.email) &&
       isPasswordValid(this.password) &&
-      Boolean(this.cgu)
+      Boolean(this.isTermsOfServiceValidated)
     );
   }
 

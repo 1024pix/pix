@@ -70,7 +70,6 @@ input[type='number'] {
 }
 
 .button {
-
   &--disabled {
     opacity: 0.7;
     pointer-events: none;
@@ -108,29 +107,3 @@ input[type='number'] {
   }
 }
 
-.checkbox {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  user-select: none;
-  cursor: pointer;
-  transition: box-shadow 0.1s linear;
-
-  &--unchecked {
-    border: 2px solid $pix-neutral-60;
-
-    &:hover {
-      background-color: $pix-neutral-10;
-      box-shadow: 0 0 0 8px rgba($pix-neutral-40, 0.1);
-      border-color: $pix-neutral-40;
-    }
-  }
-
-  &--checked {
-    background-color: $pix-communication-dark;
-    border: 2px solid $pix-communication-dark;
-  }
-}
