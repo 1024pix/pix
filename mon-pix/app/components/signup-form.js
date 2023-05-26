@@ -45,6 +45,16 @@ class SignupFormValidation {
   email = new Email();
   password = new Password();
   cgu = new Cgu();
+
+  get isValid() {
+    return [
+      this.lastName.status,
+      this.firstName.status,
+      this.email.status,
+      this.password.status,
+      this.cgu.status,
+    ].every((status) => status !== 'error');
+  }
 }
 
 export default class SignupForm extends Component {
@@ -109,6 +119,9 @@ export default class SignupForm extends Component {
   @action
   async signup(event) {
     event && event.preventDefault();
+
+    if (!this.validation.isValid) return;
+
     this.isLoading = true;
 
     this._trimNamesAndEmailOfUser();
