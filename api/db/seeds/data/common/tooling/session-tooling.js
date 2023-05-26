@@ -87,6 +87,7 @@ async function createDraftScoSession({
     configSession,
   });
 
+  await databaseBuilder.commit();
   return { sessionId };
 }
 
@@ -161,6 +162,7 @@ async function createDraftSession({
     certificationCenterId,
   });
 
+  await databaseBuilder.commit();
   return { sessionId };
 }
 
@@ -269,6 +271,7 @@ async function createPublishedScoSession({
   const { coreProfileData } = await _makeCandidatesCertifiable(databaseBuilder, certificationCandidates);
   await _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, coreProfileData);
 
+  await databaseBuilder.commit();
   return { sessionId };
 }
 
@@ -384,6 +387,7 @@ async function createPublishedSession({
     complementaryCertificationsProfileData
   );
 
+  await databaseBuilder.commit();
   return { sessionId };
 }
 

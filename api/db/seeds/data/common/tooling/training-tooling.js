@@ -113,6 +113,8 @@ async function createTraining({
       }
     }
   }
+
+  await databaseBuilder.commit();
   return { trainingId };
 }
 

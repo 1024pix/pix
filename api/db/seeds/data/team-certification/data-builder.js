@@ -30,11 +30,10 @@ const DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
 const PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 3;
 
 async function teamCertificationDataBuilder({ databaseBuilder }) {
-  _createScoOrganization({ databaseBuilder });
-  _createScoCertificationCenter({ databaseBuilder });
-  _createProOrganization({ databaseBuilder });
-  _createProCertificationCenter({ databaseBuilder });
-  await databaseBuilder.commit();
+  await _createScoOrganization({ databaseBuilder });
+  await _createScoCertificationCenter({ databaseBuilder });
+  await _createProOrganization({ databaseBuilder });
+  await _createProCertificationCenter({ databaseBuilder });
   await _createScoSession({ databaseBuilder });
   await _createPublishedScoSession({ databaseBuilder });
   await _createSession({ databaseBuilder });
@@ -43,7 +42,7 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
 
 export { teamCertificationDataBuilder };
 
-function _createScoCertificationCenter({ databaseBuilder }) {
+async function _createScoCertificationCenter({ databaseBuilder }) {
   databaseBuilder.factory.buildUser.withRawPassword({
     id: SCO_CERTIFICATION_MANAGING_STUDENTS_CERTIFICATION_CENTER_USER_ID,
     firstName: 'Centre de certif SCO managing student',
@@ -61,7 +60,7 @@ function _createScoCertificationCenter({ databaseBuilder }) {
     shouldChangePassword: false,
   });
 
-  tooling.certificationCenter.createCertificationCenter({
+  await tooling.certificationCenter.createCertificationCenter({
     databaseBuilder,
     certificationCenterId: SCO_CERTIFICATION_CENTER_ID,
     name: 'Centre de certification sco managing students',
@@ -74,7 +73,7 @@ function _createScoCertificationCenter({ databaseBuilder }) {
   });
 }
 
-function _createProCertificationCenter({ databaseBuilder }) {
+async function _createProCertificationCenter({ databaseBuilder }) {
   databaseBuilder.factory.buildUser.withRawPassword({
     id: PRO_CERTIFICATION_CENTER_USER_ID,
     firstName: 'Centre de certif Pro',
@@ -92,7 +91,7 @@ function _createProCertificationCenter({ databaseBuilder }) {
     shouldChangePassword: false,
   });
 
-  tooling.certificationCenter.createCertificationCenter({
+  await tooling.certificationCenter.createCertificationCenter({
     databaseBuilder,
     certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
     name: 'Centre de certification pro',
@@ -110,7 +109,7 @@ function _createProCertificationCenter({ databaseBuilder }) {
   });
 }
 
-function _createScoOrganization({ databaseBuilder }) {
+async function _createScoOrganization({ databaseBuilder }) {
   databaseBuilder.factory.buildUser.withRawPassword({
     id: SCO_CERTIFICATION_MANAGING_STUDENTS_ORGANIZATION_USER_ID,
     firstName: 'Orga SCO managing Student',
@@ -127,7 +126,7 @@ function _createScoOrganization({ databaseBuilder }) {
     rawPassword: 'pix123',
     shouldChangePassword: false,
   });
-  tooling.organization.createOrganization({
+  await tooling.organization.createOrganization({
     databaseBuilder,
     organizationId: SCO_MANAGING_STUDENTS_ORGANIZATION_ID,
     type: 'SCO',
@@ -141,7 +140,7 @@ function _createScoOrganization({ databaseBuilder }) {
   });
 }
 
-function _createProOrganization({ databaseBuilder }) {
+async function _createProOrganization({ databaseBuilder }) {
   databaseBuilder.factory.buildUser.withRawPassword({
     id: PRO_ORGANIZATION_USER_ID,
     firstName: 'Orga Pro',
@@ -158,7 +157,7 @@ function _createProOrganization({ databaseBuilder }) {
     rawPassword: 'pix123',
     shouldChangePassword: false,
   });
-  tooling.organization.createOrganization({
+  await tooling.organization.createOrganization({
     databaseBuilder,
     organizationId: PRO_ORGANIZATION_ID,
     type: 'PRO',
@@ -194,7 +193,7 @@ async function _createScoSession({ databaseBuilder }) {
 }
 
 async function _createPublishedScoSession({ databaseBuilder }) {
-  tooling.session.createPublishedScoSession({
+  await tooling.session.createPublishedScoSession({
     databaseBuilder,
     sessionId: SCO_PUBLISHED_SESSION_ID,
     organizationId: SCO_MANAGING_STUDENTS_ORGANIZATION_ID,
@@ -246,7 +245,7 @@ async function _createSession({ databaseBuilder }) {
 }
 
 async function _createPublishedSession({ databaseBuilder }) {
-  tooling.session.createPublishedSession({
+  await tooling.session.createPublishedSession({
     databaseBuilder,
     sessionId: PUBLISHED_SESSION_ID,
     accessCode: 'SCOS78',
