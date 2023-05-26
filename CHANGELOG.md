@@ -1,5 +1,46 @@
 # Pix Changelog
 
+## v4.0.0 (26/05/2023)
+
+
+### :rocket: Amélioration
+- [#6042](https://github.com/1024pix/pix/pull/6042) [FEATURE] Mise en place des passages de mission restreint à l'activité Didacticiel (PIX-7692)
+- [#6259](https://github.com/1024pix/pix/pull/6259) [FEATURE] Simulation d'un scénario à partir d'une capacité (PIX-8122).
+- [#6256](https://github.com/1024pix/pix/pull/6256) [FEATURE] Génération d'un scénario aléatoire (PIX-8121).
+- [#6258](https://github.com/1024pix/pix/pull/6258) [FEATURE] Amélioration du design de l'espace surveillant sur pix Certif (PIX-8125).
+- [#6233](https://github.com/1024pix/pix/pull/6233) [FEATURE] Import de CSV pour génération de scénarios déterministes (PIX-8038).
+- [#6261](https://github.com/1024pix/pix/pull/6261) [FEATURE] Ajouter la traduction anglaise du mail d'invitation à Pix Certif (PIX-8141).
+- [#6218](https://github.com/1024pix/pix/pull/6218) [FEATURE] Elaboration d'un simulateur de scénarios déterministes pour le nouvel algo (PIX-8037).
+- [#5661](https://github.com/1024pix/pix/pull/5661) [FEATURE] ETQ Admin Support, télécharger les attestations de certification d'une session (PIX-7132)
+- [#6002](https://github.com/1024pix/pix/pull/6002) [FEATURE] Traduire les messages d'erreur de l'API (PIX-6690).
+- [#6202](https://github.com/1024pix/pix/pull/6202) [FEATURE] Améliorer le style du bloc de réponse des épreuves Pix-App (PIX-7717)
+- [#6211](https://github.com/1024pix/pix/pull/6211) [FEATURE] Renvoyer le détail de validation de QRCOM-dep depuis l'API (PIX-7919)
+- [#6232](https://github.com/1024pix/pix/pull/6232) [FEATURE] Ajouter un sélecteur de langue sur la page connexion de Pix Certif domaine international (PIX-5955)
+
+### :building_construction: Tech
+- [#6226](https://github.com/1024pix/pix/pull/6226) [TECH] Améliorer les tests sur me "notifier à pole emploi" suite au passage à ESM (PIX-8065)
+- [#6257](https://github.com/1024pix/pix/pull/6257) [TECH] Active l'option staticHelpers d'embroider sur mon-pix
+- [#6223](https://github.com/1024pix/pix/pull/6223) [TECH] Monter Pix UI en v34.1.0 sur Pix Certif (PIX-7971).
+- [#6247](https://github.com/1024pix/pix/pull/6247) [TECH] Supprime la dépendance ember-template-lint a la racine
+- [#6102](https://github.com/1024pix/pix/pull/6102) [TECH] Rendre les certifications complémentaires uniques par inscription en certification (PIX-7345).
+- [#6240](https://github.com/1024pix/pix/pull/6240) [TECH] Spécifie la version minimale de node 16 sur l'API pour que cela fonctionne
+- [#5787](https://github.com/1024pix/pix/pull/5787) [TECH] Utiliser le système de module ESM (PIX-7202)
+
+### :bug: Correction
+- [#6241](https://github.com/1024pix/pix/pull/6241) [BUGFIX] Corrige le traitement des taches Pole Emploi (PIX-8079)
+
+### :coffee: Autre
+- [#6268](https://github.com/1024pix/pix/pull/6268) [DOC] :memo: Ajout d'un ADR sur la décision de supprimer Gravitee
+- [#6255](https://github.com/1024pix/pix/pull/6255) [BUMP] Update dependency @faker-js/faker to v8 (admin)
+- [#6254](https://github.com/1024pix/pix/pull/6254) [BUMP] Update dependency @faker-js/faker to v8 (mon-pix)
+- [#6253](https://github.com/1024pix/pix/pull/6253) [BUMP] Update dependency @faker-js/faker to v8 (certif)
+- [#6191](https://github.com/1024pix/pix/pull/6191) [BUMP] Update dependency ember-template-lint to v5 (mon-pix)
+- [#6250](https://github.com/1024pix/pix/pull/6250) [BUMP] Update dependency @faker-js/faker to v8 (orga)
+- [#6249](https://github.com/1024pix/pix/pull/6249) [BUMP] Update dependency ember-template-lint to v5 (admin)
+- [#6246](https://github.com/1024pix/pix/pull/6246) [BUMP] Update dependency ember-template-lint to v5 (certif)
+- [#6244](https://github.com/1024pix/pix/pull/6244) [BUMP] Update embroider monorepo to v3 (certif) (major)
+- [#6234](https://github.com/1024pix/pix/pull/6234) [BUMP] Update embroider monorepo to v3 (orga) (major)
+
 ## v3.354.0 (22/05/2023)
 
 
