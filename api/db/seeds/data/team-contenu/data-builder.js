@@ -24,10 +24,8 @@ async function teamContenuDataBuilder({ databaseBuilder }) {
   await _createCoreTargetProfile(databaseBuilder);
   await _createDiverseTargetProfile(databaseBuilder);
   await _createTraining(databaseBuilder);
-  await databaseBuilder.commit();
   await _createAssessmentCampaign(databaseBuilder);
   await _createProfilesCollectionCampaign(databaseBuilder);
-
   await _createCertifiableUser(databaseBuilder);
   await _createPerfectProfileUser(databaseBuilder);
 }
@@ -187,7 +185,7 @@ async function _createCoreTargetProfile(databaseBuilder) {
       'Profil cible pur pix (Niv3 ~ 5) avec 1 RT double critère (tube et participation) et des paliers NIVEAUX',
     configTargetProfile,
   });
-  tooling.targetProfile.createBadge({
+  await tooling.targetProfile.createBadge({
     databaseBuilder,
     targetProfileId,
     cappedTubesDTO,
@@ -201,7 +199,7 @@ async function _createCoreTargetProfile(databaseBuilder) {
     isAlwaysVisible: false,
     configBadge,
   });
-  tooling.targetProfile.createBadge({
+  await tooling.targetProfile.createBadge({
     databaseBuilder,
     targetProfileId,
     cappedTubesDTO,
@@ -215,7 +213,7 @@ async function _createCoreTargetProfile(databaseBuilder) {
     isAlwaysVisible: false,
     configBadge,
   });
-  tooling.targetProfile.createStages({
+  await tooling.targetProfile.createStages({
     databaseBuilder,
     targetProfileId,
     cappedTubesDTO,
@@ -252,7 +250,7 @@ async function _createDiverseTargetProfile(databaseBuilder) {
     description: 'Profil cible pur pix et un autre réf (Niv1 ~ 8) et des paliers SEUILS',
     configTargetProfile,
   });
-  tooling.targetProfile.createStages({
+  await tooling.targetProfile.createStages({
     databaseBuilder,
     targetProfileId,
     cappedTubesDTO,

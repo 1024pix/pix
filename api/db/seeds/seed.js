@@ -46,7 +46,7 @@ const seed = async function (knex) {
   const shouldUseNewSeeds = process.env.USE_NEW_SEEDS === 'true';
   const databaseBuilder = new DatabaseBuilder({ knex });
   if (shouldUseNewSeeds) {
-    commonBuilder({ databaseBuilder });
+    await commonBuilder({ databaseBuilder });
     await teamContenuDataBuilder({ databaseBuilder });
     await teamCertificationDataBuilder({ databaseBuilder });
     await databaseBuilder.commit();
