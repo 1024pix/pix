@@ -45,41 +45,41 @@ module('Unit | Component | signup-form', function (hooks) {
   });
 
   module('#signup', function () {
-    test('should save user with spaces', function (assert) {
-      // given
-      const userWithSpaces = EmberObject.create({
-        firstName: '  Chris  ',
-        lastName: '  MylastName  ',
-        email: '    user@example.net  ',
-        password: 'Pix12345',
-        save: sinon.stub().resolves(),
+    module('when user information contains spaces', function () {
+      test('trims spaces before saving the user information', function (assert) {
+        // given
+        const userWithSpaces = EmberObject.create({
+          firstName: '  Chris  ',
+          lastName: '  MylastName  ',
+          email: '    user@example.net  ',
+          password: 'Pix12345',
+          save: sinon.stub().resolves(),
+        });
+        component.args.user = userWithSpaces;
+
+        // when
+        component.signup();
+
+        // then
+        const expectedUser = {
+          firstName: userWithSpaces.firstName.trim(),
+          lastName: userWithSpaces.lastName.trim(),
+          email: userWithSpaces.email.trim(),
+          lang: 'fr',
+        };
+        assert.deepEqual(pick(component.args.user, ['firstName', 'lastName', 'email', 'lang']), expectedUser);
       });
-      component.args.user = userWithSpaces;
-
-      const expectedUser = {
-        firstName: userWithSpaces.firstName.trim(),
-        lastName: userWithSpaces.lastName.trim(),
-        email: userWithSpaces.email.trim(),
-        lang: 'fr',
-      };
-
-      // when
-      component.signup();
-
-      // then
-      const user = component.args.user;
-      assert.deepEqual(pick(user, ['firstName', 'lastName', 'email', 'lang']), expectedUser);
     });
 
-    test('should authenticate user after sign up', async function (assert) {
-      const userWithSpaces = EmberObject.create({
-        firstName: '  Chris  ',
-        lastName: '  MylastName  ',
-        email: '    user@example.net  ',
+    test('authenticates the user after sign up', async function (assert) {
+      const user = EmberObject.create({
+        firstName: 'Chris',
+        lastName: 'MylastName',
+        email: 'user@example.net',
         password: 'Pix12345',
         save: sinon.stub().resolves(),
       });
-      component.args.user = userWithSpaces;
+      component.args.user = user;
 
       // when
       await component.signup();
@@ -90,26 +90,28 @@ module('Unit | Component | signup-form', function (hooks) {
       assert.ok(true);
     });
 
-    test('should send campaignCode when is defined', function (assert) {
-      // given
-      const userWithSpaces = EmberObject.create({
-        firstName: '  Chris  ',
-        lastName: '  MylastName  ',
-        email: '    user@example.net  ',
-        password: 'Pix12345',
-        save: sinon.stub().resolves(),
+    module('when campaign code is available', function () {
+      test('sends the campaign code', function (assert) {
+        // given
+        const user = EmberObject.create({
+          firstName: 'Chris',
+          lastName: 'MylastName',
+          email: 'user@example.net',
+          password: 'Pix12345',
+          save: sinon.stub().resolves(),
+        });
+        component.args.user = user;
+
+        const campaignCode = 'AZERTY123';
+        component.session.attemptedTransition.from.parent.params.code = campaignCode;
+
+        // when
+        component.signup();
+
+        // then
+        sinon.assert.calledWith(user.save, { adapterOptions: { campaignCode } });
+        assert.ok(true);
       });
-      component.args.user = userWithSpaces;
-
-      const campaignCode = 'AZERTY123';
-      component.session.attemptedTransition.from.parent.params.code = campaignCode;
-
-      // when
-      component.signup();
-
-      // then
-      sinon.assert.calledWith(userWithSpaces.save, { adapterOptions: { campaignCode } });
-      assert.ok(true);
     });
   });
 });
