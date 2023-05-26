@@ -19,4 +19,11 @@ export default function () {
   this.get('/assessments/:assessment_id/next', (schema) => {
     return schema.challenges.find(1);
   });
+
+  this.post('/answers', (schema) => {
+    const answer = schema.create('answer', {
+      result: 'ok',
+    });
+    return answer;
+  });
 }
