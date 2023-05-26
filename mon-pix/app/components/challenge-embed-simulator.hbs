@@ -9,7 +9,12 @@
   <div class="embed rounded-panel {{if this.isLoadingEmbed 'hidden-visibility' ''}}">
     {{#unless this.isSimulatorLaunched}}
       <div class="embed__acknowledgment-overlay">
-        <PixButton @triggerAction={{this.launchSimulator}}>
+        <PixButton
+          @triggerAction={{this.launchSimulator}}
+          @shape="rounded"
+          @backgroundColor="yellow"
+          aria-label={{t "pages.challenge.embed-simulator.actions.launch-label"}}
+        >
           {{t "pages.challenge.embed-simulator.actions.launch"}}
         </PixButton>
       </div>
