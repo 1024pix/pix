@@ -137,52 +137,56 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
     });
   });
 
-  module('when authentication key has expired', function () {
-    test('should display error', async function (assert) {
-      // given
-      const component = createGlimmerComponent('authentication/oidc-reconciliation');
-      const authenticateStub = sinon.stub().rejects({ errors: [{ status: '401' }] });
+  module('#reconcile', function () {
+    module('completes with error', function () {
+      module('when authentication key has expired', function () {
+        test('should display error', async function (assert) {
+          // given
+          const component = createGlimmerComponent('authentication/oidc-reconciliation');
+          const authenticateStub = sinon.stub().rejects({ errors: [{ status: '401' }] });
 
-      class SessionStub extends Service {
-        authenticate = authenticateStub;
-      }
+          class SessionStub extends Service {
+            authenticate = authenticateStub;
+          }
 
-      this.owner.register('service:session', SessionStub);
-      component.args.identityProviderSlug = 'super-idp';
-      component.args.authenticationKey = 'super-key';
-      component.isTermsOfServiceValidated = true;
+          this.owner.register('service:session', SessionStub);
+          component.args.identityProviderSlug = 'super-idp';
+          component.args.authenticationKey = 'super-key';
+          component.isTermsOfServiceValidated = true;
 
-      // when
-      await component.reconcile();
+          // when
+          await component.reconcile();
 
-      // then
-      assert.strictEqual(
-        component.reconcileErrorMessage,
-        this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
-      );
-    });
-  });
+          // then
+          assert.strictEqual(
+            component.reconcileErrorMessage,
+            this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
+          );
+        });
+      });
 
-  module('when an error happens', function () {
-    test('should display generic error message', async function (assert) {
-      // given
-      const component = createGlimmerComponent('authentication/oidc-reconciliation');
-      const authenticateStub = sinon.stub().rejects({ errors: [{ status: '400' }] });
+      module('when an error happens', function () {
+        test('should display generic error message', async function (assert) {
+          // given
+          const component = createGlimmerComponent('authentication/oidc-reconciliation');
+          const authenticateStub = sinon.stub().rejects({ errors: [{ status: '400' }] });
 
-      class SessionStub extends Service {
-        authenticate = authenticateStub;
-      }
+          class SessionStub extends Service {
+            authenticate = authenticateStub;
+          }
 
-      this.owner.register('service:session', SessionStub);
-      component.args.identityProviderSlug = 'super-idp';
-      component.args.authenticationKey = 'super-key';
-      component.isTermsOfServiceValidated = true;
+          this.owner.register('service:session', SessionStub);
+          component.args.identityProviderSlug = 'super-idp';
+          component.args.authenticationKey = 'super-key';
+          component.isTermsOfServiceValidated = true;
 
-      // when
-      await component.reconcile();
+          // when
+          await component.reconcile();
 
-      // then
-      assert.strictEqual(component.reconcileErrorMessage, this.intl.t('common.error'));
+          // then
+          assert.strictEqual(component.reconcileErrorMessage, this.intl.t('common.error'));
+        });
+      });
     });
   });
 });
