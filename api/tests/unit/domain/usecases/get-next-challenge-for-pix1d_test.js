@@ -1,6 +1,7 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function () {
   context('should calculate the good challenge number', function () {
@@ -122,6 +123,115 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal('No challenge found');
+    });
+  });
+  context('when last answer is wrong', function () {
+    it('should complete the assessment', async function () {
+      const missionId = 'AZERTYUIO';
+      const assessmentId = 'id_assessment';
+      const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.KO });
+
+      const assessmentRepository = { get: sinon.stub(), completeByAssessmentId: sinon.stub() };
+      const answerRepository = { findByAssessment: sinon.stub() };
+      const challengeRepository = {};
+
+      assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
+      answerRepository.findByAssessment.withArgs(assessmentId).resolves([answer]);
+      assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
+
+      try {
+        await getNextChallengeForPix1d({
+          assessmentId,
+          assessmentRepository,
+          answerRepository,
+          challengeRepository,
+        });
+      } catch {
+        // check catch error in other unit test
+      } finally {
+        expect(assessmentRepository.completeByAssessmentId).to.have.been.calledOnceWith(assessmentId);
+      }
+    });
+
+    it('should throw a NotFoundError with no more challenge message', async function () {
+      const missionId = 'AZERTYUIO';
+      const assessmentId = 'id_assessment';
+      const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.KO });
+
+      const assessmentRepository = { get: sinon.stub(), completeByAssessmentId: sinon.stub() };
+      const answerRepository = { findByAssessment: sinon.stub() };
+      const challengeRepository = {};
+
+      assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
+      answerRepository.findByAssessment.withArgs(assessmentId).resolves([answer]);
+      assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
+
+      // when
+      const error = await catchErr(getNextChallengeForPix1d)({
+        assessmentId,
+        assessmentRepository,
+        challengeRepository,
+        answerRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal('No more challenge');
+    });
+  });
+
+  context('when last challenge skipped', function () {
+    it('should complete the assessment', async function () {
+      const missionId = 'AZERTYUIO';
+      const assessmentId = 'id_assessment';
+      const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.SKIPPED });
+
+      const assessmentRepository = { get: sinon.stub(), completeByAssessmentId: sinon.stub() };
+      const answerRepository = { findByAssessment: sinon.stub() };
+      const challengeRepository = {};
+
+      assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
+      answerRepository.findByAssessment.withArgs(assessmentId).resolves([answer]);
+      assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
+
+      try {
+        await getNextChallengeForPix1d({
+          assessmentId,
+          assessmentRepository,
+          answerRepository,
+          challengeRepository,
+        });
+      } catch {
+        // check catch error in other unit test
+      } finally {
+        expect(assessmentRepository.completeByAssessmentId).to.have.been.calledOnceWith(assessmentId);
+      }
+    });
+
+    it('should throw a NotFoundError with no more challenge message', async function () {
+      const missionId = 'AZERTYUIO';
+      const assessmentId = 'id_assessment';
+      const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.SKIPPED });
+
+      const assessmentRepository = { get: sinon.stub(), completeByAssessmentId: sinon.stub() };
+      const answerRepository = { findByAssessment: sinon.stub() };
+      const challengeRepository = {};
+
+      assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
+      answerRepository.findByAssessment.withArgs(assessmentId).resolves([answer]);
+      assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
+
+      // when
+      const error = await catchErr(getNextChallengeForPix1d)({
+        assessmentId,
+        assessmentRepository,
+        challengeRepository,
+        answerRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal('No more challenge');
     });
   });
 });
