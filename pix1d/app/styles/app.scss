@@ -1,11 +1,11 @@
 @charset "utf-8";
-
 @import 'components/challenge-embed-simulator';
-
+@import 'components/answer';
+@import 'components/challenge-item';
 
 body {
   text-align: center;
   background-color: #F4F5F7;
   color: #07142E;
-  font-family: 'Arial';
+  font-family: Arial, sans-serif;
 }
