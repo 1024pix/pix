@@ -202,5 +202,115 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
         });
       });
     });
+
+    context('with the "stopAtChallenge" param provided', function () {
+      context('when we reach the given number of challenge', function () {
+        it('should return the correct number of the challenges', function () {
+          // given
+          const answersForSimulator = [AnswerStatus.OK, AnswerStatus.KO];
+          const challenge1 = domainBuilder.buildChallenge({ id: 'rec1' });
+          const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
+          const answer1 = { challengeId: challenge2.id, result: answersForSimulator[0] };
+          const answer2 = { challengeId: challenge1.id, result: answersForSimulator[1] };
+          const allChallenges = [challenge1, challenge2];
+          const initialEstimatedLevel = 0;
+          const expectedEstimatedLevels = [0.4, 0.1];
+          const expectedErrorRates = [0.2, 0.5];
+          const expectedRewards = [5, 6];
+          const algorithm = {
+            getPossibleNextChallenges: sinon.stub(),
+            getEstimatedLevelAndErrorRate: sinon.stub(),
+            getReward: sinon.stub(),
+          };
+          const pickChallenge = sinon.stub();
+          const pickAnswer = sinon.stub();
+
+          algorithm.getEstimatedLevelAndErrorRate
+            .withArgs({
+              allAnswers: [],
+            })
+            .returns({
+              estimatedLevel: initialEstimatedLevel,
+            });
+
+          algorithm.getEstimatedLevelAndErrorRate
+            .withArgs({
+              allAnswers: [sinon.match(answer1)],
+              challenges: allChallenges,
+            })
+            .returns({ estimatedLevel: expectedEstimatedLevels[0], errorRate: expectedErrorRates[0] });
+
+          algorithm.getEstimatedLevelAndErrorRate
+            .withArgs({
+              allAnswers: [sinon.match(answer1), sinon.match(answer2)],
+              challenges: allChallenges,
+            })
+            .returns({
+              estimatedLevel: expectedEstimatedLevels[1],
+              errorRate: expectedErrorRates[1],
+            });
+
+          algorithm.getPossibleNextChallenges
+            .withArgs({
+              allAnswers: [],
+              challenges: allChallenges,
+            })
+            .returns([challenge2, challenge1]);
+          algorithm.getPossibleNextChallenges
+            .withArgs({
+              allAnswers: [sinon.match(answer1)],
+              challenges: allChallenges,
+            })
+            .returns([challenge1]);
+
+          pickChallenge.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
+          pickChallenge.withArgs({ possibleChallenges: [challenge1] }).returns(challenge1);
+
+          pickAnswer
+            .withArgs({ nextChallenge: challenge2, answerIndex: 0 })
+            .returns(answersForSimulator[0])
+            .withArgs({ nextChallenge: challenge1, answerIndex: 1 })
+            .returns(answersForSimulator[1]);
+
+          algorithm.getReward
+            .withArgs({
+              estimatedLevel: initialEstimatedLevel,
+              difficulty: challenge1.difficulty,
+              discriminant: challenge1.discriminant,
+            })
+            .returns(expectedRewards[0]);
+
+          algorithm.getReward
+            .withArgs({
+              estimatedLevel: expectedEstimatedLevels[0],
+              difficulty: challenge2.difficulty,
+              discriminant: challenge2.discriminant,
+            })
+            .returns(expectedRewards[1]);
+
+          // when
+          const expectedResult = [
+            {
+              challenge: challenge2,
+              estimatedLevel: expectedEstimatedLevels[0],
+              errorRate: expectedErrorRates[0],
+              reward: expectedRewards[0],
+              answer: answersForSimulator[0],
+            },
+          ];
+
+          const result = new AssessmentSimulator({
+            algorithm,
+            challenges: allChallenges,
+            pickChallenge,
+            pickAnswer,
+            stopAtChallenge: 1,
+          }).run();
+
+          // then
+          expect(result).to.deep.equal(expectedResult);
+        });
+      });
+    });
   });
 });

@@ -22,6 +22,7 @@ const register = async (server) => {
             Joi.object({
               assessmentId: Joi.string().required(),
               type: Joi.string().valid('deterministic').required(),
+              stopAtChallenge: Joi.number().integer().min(0),
               simulationAnswers: Joi.array().items(Joi.string().allow('ok', 'ko', 'aband')).required(),
             }),
             Joi.object({
@@ -33,11 +34,13 @@ const register = async (server) => {
                 aband: Joi.number(),
               }),
               length: Joi.number().integer().min(0).required(),
+              stopAtChallenge: Joi.number().integer().min(0),
             }),
             Joi.object({
               assessmentId: Joi.string().required(),
               type: Joi.string().valid('capacity').required(),
               capacity: Joi.number().min(-8).max(8).required(),
+              stopAtChallenge: Joi.number().integer().min(0),
             }),
           ]).required(),
         },

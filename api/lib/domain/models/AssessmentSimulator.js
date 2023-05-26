@@ -1,20 +1,21 @@
 import { Answer } from './Answer.js';
 
 export class AssessmentSimulator {
-  constructor({ algorithm, challenges, pickChallenge, pickAnswer }) {
-    this.pickAnswer = pickAnswer;
+  constructor({ algorithm, challenges, pickChallenge, pickAnswer, stopAtChallenge }) {
     this.algorithm = algorithm;
     this.challenges = challenges;
+    this.pickAnswer = pickAnswer;
     this.pickChallenge = pickChallenge;
+    this.stopAtChallenge = stopAtChallenge;
   }
 
   run() {
     const challengesAnswers = [];
     const result = [];
     let estimatedLevel = this.algorithm.getEstimatedLevelAndErrorRate({ allAnswers: [] }).estimatedLevel;
+    const maxChallenge = this.stopAtChallenge || Infinity;
 
-    // eslint-disable-next-line no-constant-condition
-    for (let i = 0; true; i++) {
+    for (let i = 0; i < maxChallenge; i++) {
       try {
         const possibleChallenges = this.algorithm.getPossibleNextChallenges({
           allAnswers: challengesAnswers,
