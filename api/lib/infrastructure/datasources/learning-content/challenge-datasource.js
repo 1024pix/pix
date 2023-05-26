@@ -51,26 +51,23 @@ const challengeDatasource = datasource.extend({
   },
 
   async findActiveFlashCompatible(locale) {
-    const challenges = await this.list();
-    return challenges.filter(
-      (challengeData) =>
-        challengeData.status === VALIDATED_CHALLENGE &&
-        challengeData.skillId &&
-        _.includes(challengeData.locales, locale) &&
-        challengeData.alpha != null &&
-        challengeData.delta != null
-    );
+    const flashChallenges = await this.findFlashCompatible(locale);
+    return flashChallenges.filter((challengeData) => challengeData.status === VALIDATED_CHALLENGE);
   },
 
   async findOperativeFlashCompatible(locale) {
+    const flashChallenges = await this.findFlashCompatible(locale);
+    return flashChallenges.filter((challengeData) => _.includes(OPERATIVE_CHALLENGES, challengeData.status));
+  },
+
+  async findFlashCompatible(locale) {
     const challenges = await this.list();
     return challenges.filter(
       (challengeData) =>
-        _.includes(OPERATIVE_CHALLENGES, challengeData.status) &&
-        challengeData.skillId &&
         _.includes(challengeData.locales, locale) &&
         challengeData.alpha != null &&
-        challengeData.delta != null
+        challengeData.delta != null &&
+        challengeData.skillId
     );
   },
 });

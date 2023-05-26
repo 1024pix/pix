@@ -33,12 +33,12 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       });
 
       const challengeRepository = {
-        findOperativeFlashCompatible: sinon.stub(),
+        findFlashCompatible: sinon.stub(),
       };
       const pickChallengeService = { chooseNextChallenge: sinon.stub() };
       const pickAnswer = sinon.stub();
 
-      challengeRepository.findOperativeFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
+      challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
 
       pickChallengeService.chooseNextChallenge
         .withArgs({
@@ -100,9 +100,9 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
       const challenge = domainBuilder.buildChallenge({ id: 1 });
       const challengeRepository = {
-        findOperativeFlashCompatible: sinon.stub(),
+        findFlashCompatible: sinon.stub(),
       };
-      challengeRepository.findOperativeFlashCompatible.resolves([challenge]);
+      challengeRepository.findFlashCompatible.resolves([challenge]);
 
       const pickChallengeService = { chooseNextChallenge: sinon.stub() };
       const pickAnswer = sinon.stub();
