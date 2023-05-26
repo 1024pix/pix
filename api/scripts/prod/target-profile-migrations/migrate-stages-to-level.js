@@ -14,6 +14,7 @@ import { disconnect } from '../../../db/knex-database-connection.js';
 
 import * as targetProfileForAdminRepository from '../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
+import * as organizationRepository from '../../../lib/infrastructure/repositories/organization-repository.js';
 
 const modulePath = fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
@@ -34,6 +35,8 @@ export async function migrateStagesToLevel(inputFile) {
 
       return {
         targetProfileId,
+        targetProfileName: targetProfile.name,
+        ownerOrganizationId: targetProfile.ownerOrganizationId,
         stagesMigrations,
         ok: _checkAllStagesHaveLevels(stagesMigrations) && _checkStagesHaveDifferentLevels(stagesMigrations),
         levels,
@@ -41,7 +44,14 @@ export async function migrateStagesToLevel(inputFile) {
     })
   );
 
-  await _writeReport(migrations);
+  const organizations = await Promise.all(
+    fp.flow(fp.map('ownerOrganizationId'), fp.compact, fp.uniq, fp.map(organizationRepository.get))(migrations)
+  );
+  const organizationsNameById = Object.fromEntries(
+    organizations.map((organization) => [organization.id, organization.name])
+  );
+
+  await _writeReport(migrations, organizationsNameById);
 }
 
 async function _computeLevels(cappedTubes) {
@@ -121,12 +131,17 @@ function _checkStagesHaveDifferentLevels(stagesMigrations) {
   return fp.flow([fp.countBy('level'), fp.every((count) => count === 1)])(stagesMigrations);
 }
 
-async function _writeReport(migrations) {
+async function _writeReport(migrations, organizationsNameById) {
   const wb = xlsxUtils.book_new();
 
   const mainWS = xlsxUtils.aoa_to_sheet([
-    ['ID profil cible', 'Statut'],
-    ...migrations.map(({ targetProfileId, ok }) => [targetProfileId, ok ? 'OK' : 'KO']),
+    ['ID profil cible', 'Nom', 'Organisation de référence', 'Statut'],
+    ...migrations.map(({ targetProfileId, targetProfileName, ownerOrganizationId, ok }) => [
+      targetProfileId,
+      targetProfileName,
+      organizationsNameById[ownerOrganizationId],
+      ok ? 'OK' : 'KO',
+    ]),
   ]);
   xlsxUtils.book_append_sheet(wb, mainWS, 'Résumé');
 
