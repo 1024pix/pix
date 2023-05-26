@@ -1,7 +1,6 @@
 .training-card {
   position: relative;
   min-width: 240px;
-  height: 390px;
 }
 
 .training-card__content {
@@ -11,20 +10,19 @@
 }
 
 .training-card-content__title {
+  @extend %pix-body-l;
+
   display: -webkit-box;
-  margin: 24px 16px 8px;
+  padding: $pix-spacing-s;
   overflow: hidden;
   color: $pix-neutral-90;
   font-weight: $font-medium;
-  font-size: 1.12rem;
-  font-family: $font-roboto;
-  line-height: 1.75rem;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 
 .training-card-content__infos {
-  padding: 0 $pix-spacing-s $pix-spacing-xxl;
+  padding: 0 $pix-spacing-s;
 }
 
 .training-card-content-infos__tag {
@@ -49,11 +47,9 @@
 }
 
 .training-card-content__illustration {
-  position: absolute;
-  bottom: 80px;
-  left: 0;
-  width: 100%;
+  position: relative;
   height: 155px;
+  margin-top: $pix-spacing-m;
 
   .training-card-content-illustration {
     &__logo {
