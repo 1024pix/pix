@@ -652,6 +652,80 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
+  describe('#findFlashCompatible', function () {
+    beforeEach(function () {
+      // given
+      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+      const locales = ['fr-fr'];
+      const activeChallenge = domainBuilder.buildChallenge({
+        id: 'activeChallenge',
+        skill,
+        status: 'validé',
+        locales,
+      });
+      const archivedChallenge = domainBuilder.buildChallenge({
+        id: 'archivedChallenge',
+        skill,
+        status: 'archivé',
+        locales,
+      });
+      const outdatedChallenge = domainBuilder.buildChallenge({
+        id: 'outdatedChallenge',
+        skill,
+        status: 'périmé',
+        locales,
+      });
+      const learningContent = {
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
+        challenges: [
+          { ...activeChallenge, skillId: 'recSkill1', alpha: 3.57, delta: -8.99 },
+          { ...archivedChallenge, skillId: 'recSkill1', alpha: 3.2, delta: 1.06 },
+          { ...outdatedChallenge, skillId: 'recSkill1', alpha: 4.1, delta: -2.08 },
+        ],
+      };
+      mockLearningContent(learningContent);
+    });
+
+    it('should return all flash compatible challenges with skills', async function () {
+      // given
+      const locale = 'fr-fr';
+
+      // when
+      const actualChallenges = await challengeRepository.findFlashCompatible({
+        locale,
+      });
+
+      // then
+      expect(actualChallenges).to.have.lengthOf(3);
+      expect(actualChallenges[0]).to.be.instanceOf(Challenge);
+      expect(actualChallenges[0]).to.deep.contain({
+        status: 'validé',
+      });
+      expect(actualChallenges[1]).to.deep.contain({
+        status: 'archivé',
+      });
+      expect(actualChallenges[2]).to.deep.contain({
+        status: 'périmé',
+      });
+    });
+
+    it('should allow overriding success probability threshold default value', async function () {
+      // given
+      const successProbabilityThreshold = 0.75;
+
+      // when
+      const actualChallenges = await challengeRepository.findActiveFlashCompatible({
+        locale: 'fr-fr',
+        successProbabilityThreshold,
+      });
+
+      // then
+      expect(actualChallenges).to.have.lengthOf(1);
+      expect(actualChallenges[0]).to.be.instanceOf(Challenge);
+      expect(actualChallenges[0].minimumCapability).to.equal(-8.682265465359073);
+    });
+  });
+
   describe('#findActiveFlashCompatible', function () {
     beforeEach(function () {
       // given

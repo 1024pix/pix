@@ -138,6 +138,12 @@ const findOperativeFlashCompatible = async function ({
   return _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold });
 };
 
+const findFlashCompatible = async function ({ locale }) {
+  const challengeDataObjects = await challengeDatasource.findFlashCompatible(locale);
+  const skills = await skillDatasource.list();
+  return _toDomainCollection({ challengeDataObjects, skills });
+};
+
 const findValidatedBySkillId = async function (skillId) {
   const challengeDataObjects = await challengeDatasource.findValidatedBySkillId(skillId);
   const activeSkills = await skillDatasource.findActive();
@@ -154,6 +160,7 @@ export {
   findOperativeHavingLocale,
   findValidatedByCompetenceId,
   findOperativeBySkills,
+  findFlashCompatible,
   findActiveFlashCompatible,
   findOperativeFlashCompatible,
   findValidatedBySkillId,
