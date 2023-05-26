@@ -1,8 +1,6 @@
 .challenge-embed-simulator {
-  margin: 35px 0;
-  padding: 12px;
-  border: 2px solid $pix-neutral-50;
-  border-radius: 7px;
+  width: calc(100% + 8px);
+  margin: 35px 0 50px -4px;
 }
 
 .embed {
@@ -62,10 +60,10 @@
 }
 
 .embed__reboot {
-  position: relative;
-  top: $pix-spacing-s;
   display: flex;
   justify-content: flex-end;
+  margin-top: $pix-spacing-xxs;
+  padding-right: $pix-spacing-xs;
 }
 
 .embed-reboot__content {
