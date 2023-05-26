@@ -1,0 +1,9 @@
+.answer{
+  margin: 2rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+
+  &__span{
+    margin-bottom: 1rem;
+  }
+}
