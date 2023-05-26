@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-import { fillIn, triggerEvent } from '@ember/test-helpers';
+import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { render, clickByName } from '@1024pix/ember-testing-library';
 
 import ArrayProxy from '@ember/array/proxy';
@@ -275,6 +275,7 @@ module('Integration | Component | SignupForm', function (hooks) {
 
   module('Behaviors', function (hooks) {
     let session;
+
     hooks.beforeEach(function () {
       class sessionService extends Service {
         authenticateUser = sinon.stub().resolves();
@@ -452,8 +453,9 @@ module('Integration | Component | SignupForm', function (hooks) {
 
         const userBackToSaveWithErrors = EmberObject.create({
           cgu: true,
-          errors,
+          errors: [],
           save() {
+            this.errors = errors;
             return new reject({ errors });
           },
         });
@@ -564,6 +566,47 @@ module('Integration | Component | SignupForm', function (hooks) {
               screen.getByText(this.intl.t('pages.sign-up.errors.locale-not-supported', { localeNotSupported: 'jp' }))
             )
             .exists();
+        });
+      });
+
+      module('when an error occurs during sign up api call', function () {
+        test('prevents the registration from being executed again', async function (assert) {
+          // given
+          let counter = 0;
+          const user = EmberObject.create({
+            cgu: true,
+            errors: [],
+            save() {
+              counter++;
+              this.errors.push({
+                attribute: 'email',
+                message: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
+              });
+              return reject({
+                errors: [
+                  {
+                    status: '422',
+                    title: 'Invalid data attribute "email"',
+                    detail: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
+                    source: {
+                      pointer: '/data/attributes/email',
+                    },
+                  },
+                ],
+              });
+            },
+          });
+
+          this.set('user', user);
+          const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+          await _fillFormWithCorrectData(screen);
+
+          // when
+          await click(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
+          await click(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
+
+          // then
+          assert.strictEqual(counter, 1);
         });
       });
     });
@@ -694,6 +737,11 @@ module('Integration | Component | SignupForm', function (hooks) {
     await fillIn(
       screen.getByLabelText('Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'),
       'Password123'
+    );
+    await click(
+      screen.getByRole('checkbox', {
+        name: "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix",
+      })
     );
   }
 });

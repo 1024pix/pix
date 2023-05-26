@@ -120,6 +120,7 @@ export default class SignupForm extends Component {
   async signup(event) {
     event && event.preventDefault();
 
+    if (this.args.user.errors?.length) return;
     if (!this.validation.isValid) return;
 
     this.isLoading = true;
@@ -132,7 +133,6 @@ export default class SignupForm extends Component {
     try {
       await this.args.user.save({ adapterOptions: { campaignCode } });
       await this.session.authenticateUser(this.args.user.email, this.args.user.password);
-      this._tokenHasBeenUsed = true;
       this.args.user.password = null;
     } catch (errorResponse) {
       const error = get(errorResponse, 'errors[0]');
@@ -141,6 +141,7 @@ export default class SignupForm extends Component {
       } else {
         this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
       }
+    } finally {
       this._tokenHasBeenUsed = true;
       this.isLoading = false;
     }
