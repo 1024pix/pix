@@ -75,6 +75,7 @@
                     placeholder={{t "pages.challenge.feedback-panel.form.fields.detail-selection.label"}}
                     @errorMessage={{this.emptyTextBoxMessageError}}
                     required
+                    {{on "change" this.setContent}}
                   />
                 </div>
                 <PixButton @type="submit" @backgroundColor="grey" @isDisabled={{this.isSendButtonDisabled}}>
