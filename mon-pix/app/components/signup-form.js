@@ -57,6 +57,7 @@ export default class SignupForm extends Component {
   @tracked errorMessage = null;
   @tracked isLoading = false;
   @tracked validation = new SignupFormValidation();
+
   _tokenHasBeenUsed = null;
 
   get showcase() {
@@ -69,45 +70,6 @@ export default class SignupForm extends Component {
 
   get dataProtectionPolicyUrl() {
     return this.url.dataProtectionPolicyUrl;
-  }
-
-  _getErrorMessage(status, key) {
-    return status === 'error' ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
-  }
-
-  _getValidationStatus(isValidField) {
-    return isValidField ? 'error' : 'success';
-  }
-
-  _isValuePresent(value) {
-    return value.trim() ? true : false;
-  }
-
-  _updateValidationStatus(key, status, message) {
-    this.validation[key].status = status;
-    this.validation[key].message = message;
-  }
-
-  _updateInputsStatus() {
-    const errors = this.args.user.errors;
-    errors.forEach(({ attribute, message }) => {
-      this._updateValidationStatus(attribute, 'error', message);
-    });
-  }
-
-  _executeFieldValidation(key, isValid) {
-    const modelAttrValue = this.args.user[key];
-    const isValidInput = !isValid(modelAttrValue);
-    const status = this._getValidationStatus(isValidInput);
-    const message = this._getErrorMessage(status, key);
-    this._updateValidationStatus(key, status, message);
-  }
-
-  _trimNamesAndEmailOfUser() {
-    const { firstName, lastName, email } = this.args.user;
-    this.args.user.firstName = firstName.trim();
-    this.args.user.lastName = lastName.trim();
-    this.args.user.email = email.trim();
   }
 
   @action
@@ -203,5 +165,44 @@ export default class SignupForm extends Component {
       default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
+  }
+
+  _getErrorMessage(status, key) {
+    return status === 'error' ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
+  }
+
+  _getValidationStatus(isValidField) {
+    return isValidField ? 'error' : 'success';
+  }
+
+  _isValuePresent(value) {
+    return value.trim() ? true : false;
+  }
+
+  _updateValidationStatus(key, status, message) {
+    this.validation[key].status = status;
+    this.validation[key].message = message;
+  }
+
+  _updateInputsStatus() {
+    const errors = this.args.user.errors;
+    errors.forEach(({ attribute, message }) => {
+      this._updateValidationStatus(attribute, 'error', message);
+    });
+  }
+
+  _executeFieldValidation(key, isValid) {
+    const modelAttrValue = this.args.user[key];
+    const isValidInput = !isValid(modelAttrValue);
+    const status = this._getValidationStatus(isValidInput);
+    const message = this._getErrorMessage(status, key);
+    this._updateValidationStatus(key, status, message);
+  }
+
+  _trimNamesAndEmailOfUser() {
+    const { firstName, lastName, email } = this.args.user;
+    this.args.user.firstName = firstName.trim();
+    this.args.user.lastName = lastName.trim();
+    this.args.user.email = email.trim();
   }
 }
