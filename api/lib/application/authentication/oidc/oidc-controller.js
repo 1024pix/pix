@@ -1,12 +1,14 @@
 import * as authenticationServiceRegistry from '../../../domain/services/authentication/authentication-service-registry.js';
-import * as serializer from '../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js';
+import * as oidcProviderSerializer from '../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js';
+import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oidc-serializer.js';
 import { usecases } from '../../../domain/usecases/index.js';
 import { UnauthorizedError } from '../../http-errors.js';
-import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oidc-serializer.js';
 
-const getIdentityProviders = async function (request, h) {
-  const identityProviders = usecases.getIdentityProviders();
-  return h.response(serializer.serialize(identityProviders)).code(200);
+const getIdentityProviders = async function (request, h, dependencies = { authenticationServiceRegistry }) {
+  const identityProviders = usecases.getIdentityProviders({
+    authenticationServiceRegistry: dependencies.authenticationServiceRegistry,
+  });
+  return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
 };
 
 const getRedirectLogoutUrl = async function (

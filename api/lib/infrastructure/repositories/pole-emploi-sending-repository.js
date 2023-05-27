@@ -18,7 +18,7 @@ const find = async function (sending, filters) {
     )
     .join('campaign-participations', 'campaign-participations.id', 'pole-emploi-sendings.campaignParticipationId')
     .join('authentication-methods', 'authentication-methods.userId', 'campaign-participations.userId')
-    .where('authentication-methods.identityProvider', OidcIdentityProviders.POLE_EMPLOI.service.code)
+    .where('authentication-methods.identityProvider', OidcIdentityProviders.POLE_EMPLOI.code)
     .modify(_olderThan, sending)
     .modify(_filterByStatus, filters)
     .orderBy([

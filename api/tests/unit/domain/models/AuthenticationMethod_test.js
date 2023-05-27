@@ -67,7 +67,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       expect(
         () =>
           new AuthenticationMethod({
-            identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
+            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
             externalIdentifier: 'externalIdentifier',
             authenticationComplement,
             userId: 1,
@@ -80,7 +80,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       expect(
         () =>
           new AuthenticationMethod({
-            identityProvider: OidcIdentityProviders.CNAV.service.code,
+            identityProvider: OidcIdentityProviders.CNAV.code,
             externalIdentifier: 'externalIdentifier',
             userId: 1,
           })
@@ -116,7 +116,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       expect(
         () =>
           new AuthenticationMethod({
-            identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
+            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
             externalIdentifier: undefined,
             userId: 1,
           })
@@ -124,7 +124,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       expect(
         () =>
           new AuthenticationMethod({
-            identityProvider: OidcIdentityProviders.CNAV.service.code,
+            identityProvider: OidcIdentityProviders.CNAV.code,
             externalIdentifier: undefined,
             userId: 1,
           })

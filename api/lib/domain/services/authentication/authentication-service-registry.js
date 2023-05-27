@@ -1,14 +1,29 @@
-import * as OidcIdentityProviders from '../../constants/oidc-identity-providers.js';
 import { InvalidIdentityProviderError } from '../../errors.js';
+import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authentication-service.js';
+import { CnavOidcAuthenticationService } from './cnav-oidc-authentication-service.js';
+import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
 
-function lookupAuthenticationService(identityProvider) {
-  const identityProviderService = Object.values(OidcIdentityProviders).find(
-    (oidcIdentityProvider) => oidcIdentityProvider.service.code === identityProvider
-  );
+const OidcProviderServiceMap = [
+  new PoleEmploiOidcAuthenticationService(),
+  new CnavOidcAuthenticationService(),
+  new FwbOidcAuthenticationService(),
+].reduce((accumulator, service) => {
+  return {
+    ...accumulator,
+    [service.code]: service,
+  };
+}, {});
 
-  if (!identityProviderService) throw new InvalidIdentityProviderError(identityProvider);
+const OidcProviderServiceCodes = Object.keys(OidcProviderServiceMap);
 
-  return identityProviderService.service;
+function getOidcProviderServices() {
+  return Object.values(OidcProviderServiceMap);
 }
 
-export { lookupAuthenticationService };
+function lookupAuthenticationService(identityProvider) {
+  if (!OidcProviderServiceCodes.includes(identityProvider)) throw new InvalidIdentityProviderError(identityProvider);
+
+  return OidcProviderServiceMap[identityProvider];
+}
+
+export { getOidcProviderServices, lookupAuthenticationService };

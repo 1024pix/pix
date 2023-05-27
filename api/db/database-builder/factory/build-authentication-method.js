@@ -114,7 +114,7 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   }
   const values = {
     id,
-    identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
+    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
     authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
       accessToken,
       refreshToken,

@@ -2,9 +2,7 @@ import Joi from 'joi';
 import { EntityValidationError } from '../errors.js';
 import { Organization } from '../models/Organization.js';
 import { Membership } from '../models/Membership.js';
-import * as OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers.js';
-
-const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.service.code);
+import { getValidOidcProviderCodes } from '../constants/oidc-identity-providers.js';
 
 const schema = Joi.object({
   type: Joi.string()
@@ -29,9 +27,9 @@ const schema = Joi.object({
   }),
   identityProviderForCampaigns: Joi.string()
     .allow(null)
-    .valid('GAR', ...validProviders)
+    .valid('GAR', ...getValidOidcProviderCodes())
     .messages({
-      'any.only': `L'organisme fourni doit avoir l'une des valeurs suivantes : GAR,${validProviders}`,
+      'any.only': `L'organisme fourni doit avoir l'une des valeurs suivantes : GAR,${getValidOidcProviderCodes()}`,
     }),
   provinceCode: Joi.string().required().allow('', null),
   credit: Joi.number().required().messages({

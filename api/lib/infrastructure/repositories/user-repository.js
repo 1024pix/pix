@@ -567,7 +567,7 @@ function _getAuthenticationComplementAndExternalIdentifier(authenticationMethodB
       shouldChangePassword: Boolean(authenticationComplement.shouldChangePassword),
     });
     externalIdentifier = undefined;
-  } else if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.service.code) {
+  } else if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
     authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
       accessToken: authenticationComplement.accessToken,
       refreshToken: authenticationComplement.refreshToken,

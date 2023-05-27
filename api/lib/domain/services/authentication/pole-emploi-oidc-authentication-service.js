@@ -5,12 +5,14 @@ import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
+import { POLE_EMPLOI } from '../../constants/oidc-identity-providers.js';
 
+const configKey = POLE_EMPLOI.configKey;
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
-    const clientId = config.poleEmploi.clientId;
+    const clientId = config[configKey].clientId;
     // Attention, les scopes serviceDigitauxExposition api_peconnect-servicesdigitauxv1 ne sont pas présents dans la documentation de Pole Emploi mais ils sont nécessaires à l'envoi des résultats
     const authenticationUrlParameters = [
       { key: 'realm', value: '/individu' },
@@ -21,23 +23,34 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
     ];
 
     super({
+      identityProvider: POLE_EMPLOI.code,
+      configKey,
       source: 'pole_emploi_connect',
-      identityProvider: 'POLE_EMPLOI',
       slug: 'pole-emploi',
       organizationName: 'Pôle Emploi',
+      requiredProperties: [
+        'clientId',
+        'clientSecret',
+        'authenticationUrl',
+        'userInfoUrl',
+        'tokenUrl',
+        'sendingUrl',
+        'logoutUrl',
+        'afterLogoutUrl',
+      ],
       hasLogoutUrl: true,
-      jwtOptions: { expiresIn: config.poleEmploi.accessTokenLifespanMs / 1000 },
-      clientSecret: config.poleEmploi.clientSecret,
+      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
+      clientSecret: config[configKey].clientSecret,
       clientId: clientId,
-      tokenUrl: config.poleEmploi.tokenUrl,
-      authenticationUrl: config.poleEmploi.authenticationUrl,
+      tokenUrl: config[configKey].tokenUrl,
+      authenticationUrl: config[configKey].authenticationUrl,
       authenticationUrlParameters,
-      userInfoUrl: config.poleEmploi.userInfoUrl,
+      userInfoUrl: config[configKey].userInfoUrl,
     });
 
-    this.logoutUrl = config.poleEmploi.logoutUrl;
-    this.afterLogoutUrl = config.poleEmploi.afterLogoutUrl;
-    this.temporaryStorage = config.poleEmploi.temporaryStorage;
+    this.logoutUrl = config[configKey].logoutUrl;
+    this.afterLogoutUrl = config[configKey].afterLogoutUrl;
+    this.temporaryStorage = config[configKey].temporaryStorage;
   }
 
   // Override because we need idToken to send results after a campaign

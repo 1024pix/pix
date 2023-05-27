@@ -15,7 +15,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
   beforeEach(function () {
     oidcAuthenticationService = {
-      identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
+      identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
       createAccessToken: sinon.stub(),
       saveIdToken: sinon.stub(),
       createAuthenticationComplement: sinon.stub(),
