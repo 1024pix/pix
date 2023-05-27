@@ -38,7 +38,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         showNPS: true,
         formNPSUrl: 'https://pix.fr/',
         showSkills: false,
-        identityProviderForCampaigns: OidcIdentityProviders.CNAV.service.code,
+        identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
       });
 
       databaseBuilder.factory.buildDataProtectionOfficer.withOrganizationId({
@@ -82,7 +82,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
         creatorFirstName: 'Cécile',
         creatorLastName: 'Encieux',
-        identityProviderForCampaigns: OidcIdentityProviders.CNAV.service.code,
+        identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
         enableMultipleSendingAssessment: false,
       });
       expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);

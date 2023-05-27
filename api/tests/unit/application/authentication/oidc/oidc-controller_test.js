@@ -2,22 +2,45 @@ import { sinon, expect, hFake, catchErr, domainBuilder } from '../../../../test-
 import { oidcController } from '../../../../../lib/application/authentication/oidc/oidc-controller.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { UnauthorizedError } from '../../../../../lib/application/http-errors.js';
+import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';
 
   describe('#getIdentityProviders', function () {
     it('should return the list of oidc identity providers', async function () {
-      // given & when
-      const response = await oidcController.getIdentityProviders(null, hFake);
+      // given
+      const someOidcProviderService = new OidcAuthenticationService({
+        identityProvider: 'SOME_OIDC_PROVIDER',
+        configKey: 'someOidcProvider',
+        source: 'some_oidc_provider',
+        slug: 'some-oidc-provider',
+        organizationName: 'Some OIDC Provider',
+        requiredProperties: [],
+      });
+      someOidcProviderService.isConfigValid = () => true;
+      const authenticationServiceRegistryStub = {
+        getOidcProviderServices: sinon.stub().returns([someOidcProviderService]),
+      };
+      const dependencies = {
+        authenticationServiceRegistry: authenticationServiceRegistryStub,
+      };
+
+      // when
+      const response = await oidcController.getIdentityProviders(null, hFake, dependencies);
 
       // then
-      const expectedCnavProvider = {
+      expect(response.source.data.length).to.equal(1);
+      expect(response.source.data).to.deep.contain({
         type: 'oidc-identity-providers',
-        id: 'cnav',
-        attributes: { code: 'CNAV', 'organization-name': 'CNAV', 'has-logout-url': false, source: 'cnav' },
-      };
-      expect(response.source.data).to.deep.contain(expectedCnavProvider);
+        id: 'some-oidc-provider',
+        attributes: {
+          code: 'SOME_OIDC_PROVIDER',
+          source: 'some_oidc_provider',
+          'organization-name': 'Some OIDC Provider',
+          'has-logout-url': false,
+        },
+      });
     });
   });
 

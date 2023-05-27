@@ -2,16 +2,20 @@ import { v4 as uuidv4 } from 'uuid';
 import { config } from '../../../config.js';
 import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
+import { FWB } from '../../constants/oidc-identity-providers.js';
 
+const configKey = FWB.configKey;
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 class FwbOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
+      identityProvider: FWB.code,
+      configKey,
       source: 'fwb',
-      identityProvider: 'FWB',
       slug: 'fwb',
       organizationName: 'Fédération Wallonie-Bruxelles',
+      requiredProperties: ['clientId', 'clientSecret', 'authenticationUrl', 'userInfoUrl', 'tokenUrl', 'logoutUrl'],
       hasLogoutUrl: true,
       jwtOptions: { expiresIn: config.fwb.accessTokenLifespanMs / 1000 },
       clientSecret: config.fwb.clientSecret,

@@ -1,3 +1,4 @@
+import lodash from 'lodash';
 import jsonwebtoken from 'jsonwebtoken';
 import querystring from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,10 +21,12 @@ import { OIDC_ERRORS } from '../../constants.js';
 
 class OidcAuthenticationService {
   constructor({
-    source,
     identityProvider,
+    configKey,
+    source,
     slug,
     organizationName,
+    requiredProperties,
     hasLogoutUrl = false,
     jwtOptions,
     clientSecret,
@@ -33,11 +36,13 @@ class OidcAuthenticationService {
     authenticationUrlParameters,
     userInfoUrl,
   }) {
-    this.source = source;
     this.identityProvider = identityProvider;
+    this.configKey = configKey;
+    this.source = source;
     this.slug = slug;
-    this.hasLogoutUrl = hasLogoutUrl;
     this.organizationName = organizationName;
+    this.requiredProperties = requiredProperties;
+    this.hasLogoutUrl = hasLogoutUrl;
     this.jwtOptions = jwtOptions;
     this.clientSecret = clientSecret;
     this.clientId = clientId;
@@ -49,6 +54,10 @@ class OidcAuthenticationService {
 
   get code() {
     return this.identityProvider;
+  }
+
+  isConfigValid() {
+    return this.requiredProperties.every((requiredProperty) => !lodash.isNil(config[this.configKey][requiredProperty]));
   }
 
   createAccessToken(userId) {
