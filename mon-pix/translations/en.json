@@ -1435,7 +1435,7 @@
       "message": "We have updated our terms and conditions of use. Please agree to them in order to continue your experience on Pix."
     },
     "timed-challenge-instructions": {
-      "action": "Start",
+      "action": "Start the challenge",
       "primary": "You have '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' to complete the next question.",
       "secondary": "You can continue answering after this, but the question will not be marked as correct."
     },
