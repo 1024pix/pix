@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { SessionPublicationBatchResult } from '../models/SessionPublicationBatchResult.js';
 
 const publishSessionsInBatch = async function ({
+  i18n,
   sessionIds,
   certificationCenterRepository,
   certificationRepository,
@@ -16,6 +17,7 @@ const publishSessionsInBatch = async function ({
   for (const sessionId of sessionIds) {
     try {
       await sessionPublicationService.publishSession({
+        i18n,
         sessionId,
         certificationRepository,
         certificationCenterRepository,
