@@ -141,7 +141,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             );
           });
 
-          it('should compute a theorical end datetime with extratime', async function () {
+          it('should compute a theorical end datetime with extra time', async function () {
             const stillValidBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
               complementaryCertificationKey: 'aKey',
             });
@@ -235,7 +235,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             );
           });
 
-          it('should not compute a theorical end datetime with extratime', async function () {
+          it('should not compute a theorical end datetime with extra time', async function () {
             // given
             const complementaryCertification = domainBuilder.buildComplementaryCertificationForSupervising({
               key: 'aKey',

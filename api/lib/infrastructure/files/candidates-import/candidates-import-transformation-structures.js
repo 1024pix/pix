@@ -32,7 +32,7 @@ const _getTransformationsStruct = (translate) => [
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: translate('candidate-list-template.headers.extratime'),
+    header: translate('candidate-list-template.headers.extra-time'),
     property: 'extraTimePercentage',
     transformFn: _toNonZeroValueOrNull,
   },
