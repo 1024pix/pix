@@ -89,7 +89,6 @@ function _transformSessionIntoAttendanceSheetSessionData(attendanceSheetData, va
   switch (prop) {
     case 'time':
       attendanceSheetData.startTime = moment(value, 'HH:mm').format('HH:mm');
-      attendanceSheetData.endTime = moment(value, 'HH:mm').add(moment.duration(2, 'hours')).format('HH:mm');
       break;
     case 'date':
       attendanceSheetData.date = moment(value, 'YYYY-MM-DD').format('DD/MM/YYYY');

@@ -27,7 +27,7 @@ const IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS = [
   'headers.email-convocation',
   'headers.email-results',
   'headers.externalid',
-  'headers.extratime',
+  'headers.extra-time',
   'headers.firstname',
   'headers.gender',
   'headers.locale-time',
@@ -41,6 +41,7 @@ const IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS = [
   'tooltips.email-format',
   'tooltips.email-results',
   'tooltips.gender-format',
+  'tooltips.extra-time',
 ];
 
 const IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES = [
@@ -55,10 +56,6 @@ const IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES = [
   {
     placeholder: 'SESSION_START_TIME',
     propertyName: 'startTime',
-  },
-  {
-    placeholder: 'SESSION_END_TIME',
-    propertyName: 'endTime',
   },
   {
     placeholder: 'SESSION_ADDRESS',
