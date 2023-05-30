@@ -90,7 +90,6 @@ module.exports = function (environment) {
 
     matomo: {},
 
-    formBuilderLinkUrl: 'https://form-eu.123formbuilder.com/41052/form',
     urlToDownloadSessionIssueReportSheet: 'https://cloud.pix.fr/s/B76yA8ip9Radej9/download',
   };
 
