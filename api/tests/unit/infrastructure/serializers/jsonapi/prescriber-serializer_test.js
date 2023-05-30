@@ -1,8 +1,8 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer.js';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { SamlIdentityProviders } from '../../../../../lib/domain/constants/saml-identity-providers.js';
+import { Membership } from '../../../../../lib/domain/models/index.js';
+import { IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
 
 describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
   describe('#serialize', function () {
@@ -106,7 +106,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
       it('should serialize prescriber with identityProviderForCampaigns', function () {
         // given
         const organization = domainBuilder.buildOrganization({
-          identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
+          identityProviderForCampaigns: IDENTITY_PROVIDERS.GAR.code,
         });
         const membership = domainBuilder.buildMembership({ organization });
 
