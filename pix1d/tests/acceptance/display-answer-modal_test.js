@@ -12,7 +12,7 @@ module('Acceptance | Challenge', function (hooks) {
     this.server.create('challenge');
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
-    await clickByText('Vérifier');
+    await clickByText('Je vérifie');
 
     // then
     assert.dom(screen.getByText("Bravo ! C'est la bonne réponse !")).exists();
