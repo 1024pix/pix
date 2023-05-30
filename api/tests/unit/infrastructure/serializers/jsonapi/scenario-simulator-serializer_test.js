@@ -16,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | scenario-simulator-serializer', function
         reward: 2,
         estimatedLevel: 1,
         errorRate: 1.5,
-        answer: 'ok',
+        answerStatus: 'ok',
       };
 
       // when
@@ -31,7 +31,7 @@ describe('Unit | Serializer | JSONAPI | scenario-simulator-serializer', function
             'minimum-capability': 0.6,
             difficulty: 0.6,
             discriminant: 0.5,
-            answer: 'ok',
+            'answer-status': 'ok',
             reward: 2,
           },
           id: '1',
