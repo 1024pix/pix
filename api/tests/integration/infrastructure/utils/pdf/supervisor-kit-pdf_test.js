@@ -14,10 +14,10 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
     _makePdfLibPredictable();
   });
 
-  context('when locale is french', function () {
+  context('when lang is french', function () {
     it('should return full french supervisor kit as a buffer', async function () {
       // given
-      const locale = FRENCH_SPOKEN;
+      const lang = FRENCH_SPOKEN;
       const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
         id: 12345678,
         supervisorPassword: 12344,
@@ -30,7 +30,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
       // when
       const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
         sessionForSupervisorKit,
-        locale,
+        lang,
         creationDate: new Date('2021-01-01'),
       });
 
@@ -47,7 +47,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
     context('when session details contains long labels', function () {
       it('should return full supervisor kit as a buffer with long labels in multiple lines', async function () {
         // given
-        const locale = FRENCH_SPOKEN;
+        const lang = FRENCH_SPOKEN;
         const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
           id: 12345678,
           supervisorPassword: 12344,
@@ -62,7 +62,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
         // when
         const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
           sessionForSupervisorKit,
-          locale,
+          lang,
           creationDate: new Date('2021-01-01'),
         });
 
@@ -78,10 +78,10 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
     });
   });
 
-  context('when locale is english', function () {
+  context('when lang is english', function () {
     it('should return full english supervisor kit as a buffer', async function () {
       // given
-      const locale = ENGLISH_SPOKEN;
+      const lang = ENGLISH_SPOKEN;
       const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
         id: 12345678,
         supervisorPassword: 12344,
@@ -94,7 +94,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
       // when
       const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
         sessionForSupervisorKit,
-        locale,
+        lang,
         creationDate: new Date('2021-01-01'),
       });
 

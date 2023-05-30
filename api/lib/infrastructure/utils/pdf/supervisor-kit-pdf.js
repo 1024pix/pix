@@ -19,12 +19,12 @@ async function getSupervisorKitPdfBuffer({
   dirname = __dirname,
   fontkit = pdfLibFontkit,
   creationDate = new Date(),
-  locale,
+  lang,
 } = {}) {
   let templatePath;
   let fileName;
 
-  switch (locale) {
+  switch (lang) {
     case ENGLISH_SPOKEN:
       templatePath = `${dirname}/files/invigilator-kit_template.pdf`;
       fileName = `invigilator-kit-${sessionForSupervisorKit.id}.pdf`;
@@ -50,7 +50,7 @@ async function getSupervisorKitPdfBuffer({
 
   const [page] = pdfDoc.getPages();
 
-  _drawSessionDate({ locale, sessionForSupervisorKit, page, robotFont });
+  _drawSessionDate({ lang, sessionForSupervisorKit, page, robotFont });
   _drawSessionStartTime(sessionForSupervisorKit, page, robotFont);
   _drawSessionAddress(sessionForSupervisorKit, page, robotFont);
   _drawSessionExaminer(sessionForSupervisorKit, page, robotFont);
@@ -68,16 +68,16 @@ async function getSupervisorKitPdfBuffer({
   };
 }
 
-function _drawSessionDate({ locale, sessionForSupervisorKit, page, font }) {
+function _drawSessionDate({ lang, sessionForSupervisorKit, page, font }) {
   const date = new Date(sessionForSupervisorKit.date);
   const day = date.getDate();
   const year = date.getFullYear();
   const options = { month: 'short' };
-  const month = new Intl.DateTimeFormat(locale, options).format(date);
+  const month = new Intl.DateTimeFormat(lang, options).format(date);
 
   let fullDate;
 
-  switch (locale) {
+  switch (lang) {
     case ENGLISH_SPOKEN:
       fullDate = `${year} ${month} ${day}`;
       break;
