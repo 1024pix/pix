@@ -20,6 +20,7 @@ export class AssessmentSimulator {
         const possibleChallenges = this.algorithm.getPossibleNextChallenges({
           allAnswers: challengesAnswers,
           challenges: this.challenges,
+          estimatedLevel,
         });
         const nextChallenge = this.pickChallenge({ possibleChallenges });
 

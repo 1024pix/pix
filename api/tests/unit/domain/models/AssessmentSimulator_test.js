@@ -31,16 +31,12 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             })
             .returns({
               estimatedLevel: initialEstimatedLevel,
-            });
-
-          algorithm.getEstimatedLevelAndErrorRate
+            })
             .withArgs({
               allAnswers: [sinon.match(answer1)],
               challenges: allChallenges,
             })
-            .returns({ estimatedLevel: expectedEstimatedLevels[0], errorRate: expectedErrorRates[0] });
-
-          algorithm.getEstimatedLevelAndErrorRate
+            .returns({ estimatedLevel: expectedEstimatedLevels[0], errorRate: expectedErrorRates[0] })
             .withArgs({
               allAnswers: [sinon.match(answer1), sinon.match(answer2)],
               challenges: allChallenges,
@@ -54,17 +50,21 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             .withArgs({
               allAnswers: [],
               challenges: allChallenges,
+              estimatedLevel: initialEstimatedLevel,
             })
-            .returns([challenge2, challenge1]);
-          algorithm.getPossibleNextChallenges
+            .returns([challenge2, challenge1])
             .withArgs({
               allAnswers: [sinon.match(answer1)],
               challenges: allChallenges,
+              estimatedLevel: expectedEstimatedLevels[0],
             })
             .returns([challenge1]);
 
-          pickChallenge.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
-          pickChallenge.withArgs({ possibleChallenges: [challenge1] }).returns(challenge1);
+          pickChallenge
+            .withArgs({ possibleChallenges: [challenge2, challenge1] })
+            .returns(challenge2)
+            .withArgs({ possibleChallenges: [challenge1] })
+            .returns(challenge1);
 
           pickAnswer
             .withArgs({ nextChallenge: challenge2, answerIndex: 0 })
@@ -78,9 +78,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
               difficulty: challenge1.difficulty,
               discriminant: challenge1.discriminant,
             })
-            .returns(expectedRewards[0]);
-
-          algorithm.getReward
+            .returns(expectedRewards[0])
             .withArgs({
               estimatedLevel: expectedEstimatedLevels[0],
               difficulty: challenge2.difficulty,
@@ -144,9 +142,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             })
             .returns({
               estimatedLevel: initialEstimatedLevel,
-            });
-
-          algorithm.getEstimatedLevelAndErrorRate
+            })
             .withArgs({
               allAnswers: [sinon.match(answer)],
               challenges: allChallenges,
@@ -157,17 +153,21 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             .withArgs({
               allAnswers: [],
               challenges: allChallenges,
+              estimatedLevel: initialEstimatedLevel,
             })
-            .returns([challenge2, challenge1]);
-          algorithm.getPossibleNextChallenges
+            .returns([challenge2, challenge1])
             .withArgs({
               allAnswers: [sinon.match(answer)],
               challenges: allChallenges,
+              estimatedLevel: expectedEstimatedLevels[0],
             })
             .returns([challenge1]);
 
-          pickChallenge.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
-          pickChallenge.withArgs({ possibleChallenges: [challenge1] }).returns(challenge1);
+          pickChallenge
+            .withArgs({ possibleChallenges: [challenge2, challenge1] })
+            .returns(challenge2)
+            .withArgs({ possibleChallenges: [challenge1] })
+            .returns(challenge1);
 
           pickAnswer.withArgs({ nextChallenge: challenge2, answerIndex: 0 }).returns(answersForSimulator[0]);
 
@@ -231,16 +231,12 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             })
             .returns({
               estimatedLevel: initialEstimatedLevel,
-            });
-
-          algorithm.getEstimatedLevelAndErrorRate
+            })
             .withArgs({
               allAnswers: [sinon.match(answer1)],
               challenges: allChallenges,
             })
-            .returns({ estimatedLevel: expectedEstimatedLevels[0], errorRate: expectedErrorRates[0] });
-
-          algorithm.getEstimatedLevelAndErrorRate
+            .returns({ estimatedLevel: expectedEstimatedLevels[0], errorRate: expectedErrorRates[0] })
             .withArgs({
               allAnswers: [sinon.match(answer1), sinon.match(answer2)],
               challenges: allChallenges,
@@ -254,17 +250,21 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             .withArgs({
               allAnswers: [],
               challenges: allChallenges,
+              estimatedLevel: initialEstimatedLevel,
             })
-            .returns([challenge2, challenge1]);
-          algorithm.getPossibleNextChallenges
+            .returns([challenge2, challenge1])
             .withArgs({
               allAnswers: [sinon.match(answer1)],
               challenges: allChallenges,
+              estimatedLevel: expectedEstimatedLevels[0],
             })
             .returns([challenge1]);
 
-          pickChallenge.withArgs({ possibleChallenges: [challenge2, challenge1] }).returns(challenge2);
-          pickChallenge.withArgs({ possibleChallenges: [challenge1] }).returns(challenge1);
+          pickChallenge
+            .withArgs({ possibleChallenges: [challenge2, challenge1] })
+            .returns(challenge2)
+            .withArgs({ possibleChallenges: [challenge1] })
+            .returns(challenge1);
 
           pickAnswer
             .withArgs({ nextChallenge: challenge2, answerIndex: 0 })
@@ -278,9 +278,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
               difficulty: challenge1.difficulty,
               discriminant: challenge1.discriminant,
             })
-            .returns(expectedRewards[0]);
-
-          algorithm.getReward
+            .returns(expectedRewards[0])
             .withArgs({
               estimatedLevel: expectedEstimatedLevels[0],
               difficulty: challenge2.difficulty,
