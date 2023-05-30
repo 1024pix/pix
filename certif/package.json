@@ -75,7 +75,7 @@
     "ember-composable-helpers": "^5.0.0",
     "ember-cookies": "^0.5.2",
     "ember-data": "^4.0.2",
-    "ember-dayjs": "^0.10.3",
+    "ember-dayjs": "^0.11.0",
     "ember-export-application-global": "^2.0.1",
     "ember-fetch": "^8.1.2",
     "ember-file-upload": "^7.1.0",

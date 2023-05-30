@@ -20,10 +20,6 @@ module.exports = function (defaults) {
     'ember-cli-babel': {
       includePolyfill: true,
     },
-    'ember-dayjs': {
-      locales: ['fr', 'en'], // English is automatically included. No need to add.
-      plugins: ['duration', 'relativeTime'],
-    },
   });
 
   // Use `app.import` to add additional libraries to the generated
