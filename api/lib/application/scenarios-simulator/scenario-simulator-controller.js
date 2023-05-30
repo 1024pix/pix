@@ -4,22 +4,22 @@ import { scenarioSimulatorSerializer } from '../../infrastructure/serializers/js
 import { random } from '../../infrastructure/utils/random.js';
 import { scenarioSimulatorBatchSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
 import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
-import { pickAnswersService } from '../../domain/services/pick-answer-service.js';
+import { pickAnswerStatusService } from '../../domain/services/pick-answer-service.js';
 import { HttpErrors } from '../http-errors.js';
 
 async function simulateFlashAssessmentScenario(
   request,
   h,
-  dependencies = { scenarioSimulatorSerializer, random, pickAnswersService, extractLocaleFromRequest }
+  dependencies = { scenarioSimulatorSerializer, random, pickAnswerStatusService, extractLocaleFromRequest }
 ) {
   const { assessmentId, stopAtChallenge, initialCapacity } = request.payload;
 
-  const pickAnswer = _getPickAnswerMethod(dependencies.pickAnswersService, request.payload);
+  const pickAnswerStatus = _getPickAnswerStatusMethod(dependencies.pickAnswerStatusService, request.payload);
 
   const locale = dependencies.extractLocaleFromRequest(request);
 
   const result = await usecases.simulateFlashDeterministicAssessmentScenario({
-    pickAnswer,
+    pickAnswerStatus,
     assessmentId,
     locale,
     stopAtChallenge,
@@ -36,7 +36,7 @@ async function importScenarios(
 ) {
   const parsedCsvData = await dependencies.parseCsv(request.payload.path);
 
-  if (!_isValidSimulationAnswers(parsedCsvData)) {
+  if (!_isValidAnswerStatusArray(parsedCsvData)) {
     return new HttpErrors.BadRequestError("Each CSV cell must be one of 'ok', 'ko' or 'aband'");
   }
 
@@ -44,10 +44,10 @@ async function importScenarios(
 
   const results = (
     await Promise.all(
-      parsedCsvData.map(async (simulationAnswers, index) => {
-        const pickAnswer = pickAnswersService.pickAnswersFromArray(simulationAnswers);
+      parsedCsvData.map(async (answerStatusArray, index) => {
+        const pickAnswerStatus = pickAnswerStatusService.pickAnswerStatusFromArray(answerStatusArray);
         return usecases.simulateFlashDeterministicAssessmentScenario({
-          pickAnswer,
+          pickAnswerStatus,
           assessmentId: index,
           locale,
         });
@@ -61,26 +61,26 @@ async function importScenarios(
   return dependencies.scenarioSimulatorBatchSerializer.serialize(results);
 }
 
-function _getPickAnswerMethod(pickAnswersService, payload) {
-  const { type, probabilities, length, capacity, simulationAnswers } = payload;
+function _getPickAnswerStatusMethod(pickAnswerStatusService, payload) {
+  const { type, probabilities, length, capacity, answerStatusArray } = payload;
 
   switch (type) {
     case 'deterministic':
-      return pickAnswersService.pickAnswersFromArray(simulationAnswers);
+      return pickAnswerStatusService.pickAnswerStatusFromArray(answerStatusArray);
     case 'random': {
-      const answer = _generateSimulationAnswers(random, probabilities, length);
-      return pickAnswersService.pickAnswersFromArray(answer);
+      const answer = _generateAnswerStatusArray(random, probabilities, length);
+      return pickAnswerStatusService.pickAnswerStatusFromArray(answer);
     }
     case 'capacity':
-      return pickAnswersService.pickAnswerForCapacity(capacity);
+      return pickAnswerStatusService.pickAnswerStatusForCapacity(capacity);
   }
 }
 
-function _isValidSimulationAnswers(simulationAnswers) {
-  return simulationAnswers.every((row) => row.every((cell) => ['ok', 'ko', 'aband'].includes(cell)));
+function _isValidAnswerStatusArray(answerStatusArray) {
+  return answerStatusArray.every((row) => row.every((cell) => ['ok', 'ko', 'aband'].includes(cell)));
 }
 
-function _generateSimulationAnswers(random, probabilities, length) {
+function _generateAnswerStatusArray(random, probabilities, length) {
   return random.weightedRandoms(probabilities, length);
 }
 

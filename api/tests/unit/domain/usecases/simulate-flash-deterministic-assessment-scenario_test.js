@@ -37,7 +37,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           findFlashCompatible: sinon.stub(),
         };
         const pickChallengeService = { chooseNextChallenge: sinon.stub() };
-        const pickAnswer = sinon.stub();
+        const pickAnswerStatus = sinon.stub();
 
         challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
 
@@ -62,9 +62,9 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           })
           .returns(thirdChallenge);
 
-        pickAnswer.withArgs(sinon.match({ nextChallenge: firstChallenge })).returns(AnswerStatus.OK);
-        pickAnswer.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
-        pickAnswer.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
+      pickAnswerStatus.withArgs(sinon.match({ nextChallenge: firstChallenge })).returns(AnswerStatus.OK);
+      pickAnswerStatus.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
+      pickAnswerStatus.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
@@ -72,7 +72,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           locale,
           assessmentId,
           pickChallengeService,
-          pickAnswer,
+          pickAnswerStatus,
         });
 
         // then
@@ -82,7 +82,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           expect(answer.errorRate).not.to.be.undefined;
           expect(answer.estimatedLevel).not.to.be.undefined;
           expect(answer.reward).not.to.be.undefined;
-          expect(answer.answer).not.to.be.undefined;
+          expect(answer.answerStatus).not.to.be.undefined;
         });
       });
     });
@@ -165,7 +165,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           expect(answer.errorRate).not.to.be.undefined;
           expect(answer.estimatedLevel).not.to.be.undefined;
           expect(answer.reward).not.to.be.undefined;
-          expect(answer.answer).not.to.be.undefined;
+          expect(answer.answerStatus).not.to.be.undefined;
         });
       });
     });
@@ -183,7 +183,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       challengeRepository.findFlashCompatible.resolves([challenge]);
 
       const pickChallengeService = { chooseNextChallenge: sinon.stub() };
-      const pickAnswer = sinon.stub();
+      const pickAnswerStatus = sinon.stub();
 
       pickChallengeService.chooseNextChallenge
         .withArgs({
@@ -192,7 +192,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         })
         .returns(challenge);
 
-      pickAnswer.withArgs(sinon.match({ nextChallenge: challenge })).returns(AnswerStatus.OK);
+      pickAnswerStatus.withArgs(sinon.match({ nextChallenge: challenge })).returns(AnswerStatus.OK);
 
       // when
       const result = await simulateFlashDeterministicAssessmentScenario({
@@ -200,13 +200,13 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         locale,
         assessmentId,
         pickChallengeService,
-        pickAnswer,
+        pickAnswerStatus,
       });
 
       // then
       sinon.assert.match(result, [
         {
-          answer: AnswerStatus.OK,
+          answerStatus: AnswerStatus.OK,
           challenge,
           errorRate: sinon.match.number,
           estimatedLevel: sinon.match.number,

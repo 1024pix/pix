@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | scenario-simulator-batch-serializer', fu
               reward: 2,
               estimatedLevel: 1,
               errorRate: 1.5,
-              answer: 'ok',
+              answerStatus: 'ok',
               difficulty: 0.6,
               discriminant: 0.5,
             },
@@ -38,7 +38,7 @@ describe('Unit | Serializer | JSONAPI | scenario-simulator-batch-serializer', fu
             attributes: {
               'simulation-report': [
                 {
-                  answer: 'ok',
+                  'answer-status': 'ok',
                   'error-rate': 1.5,
                   'estimated-level': 1,
                   'minimum-capability': 0.6,

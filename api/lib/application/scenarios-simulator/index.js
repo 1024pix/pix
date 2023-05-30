@@ -24,7 +24,7 @@ const register = async (server) => {
               type: Joi.string().valid('deterministic').required(),
               stopAtChallenge: Joi.number().integer().min(0).optional(),
               initialCapacity: Joi.number().integer().min(-8).max(8).optional(),
-              simulationAnswers: Joi.array().items(Joi.string().allow('ok', 'ko', 'aband')).required(),
+              answerStatusArray: Joi.array().items(Joi.string().allow('ok', 'ko', 'aband')).required(),
             }),
             Joi.object({
               assessmentId: Joi.string().required(),
