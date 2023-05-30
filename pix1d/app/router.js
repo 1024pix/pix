@@ -12,7 +12,7 @@ Router.map(function () {
     this.route('resume');
   });
   // route à activer pour les previews
-  // this.route('challenge', { path: '/challenges/:challenge_id' });
+  this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
 
   this.route('assessment', { path: '/assessments/:assessment_id' }, function () {
     this.route('resume');

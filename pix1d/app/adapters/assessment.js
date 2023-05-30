@@ -9,4 +9,7 @@ export default class AssessmentAdapter extends ApplicationAdapter {
       },
     });
   }
+  urlForCreateRecord() {
+    return `${this.host}/${this.namespace}/assessments/preview`;
+  }
 }
