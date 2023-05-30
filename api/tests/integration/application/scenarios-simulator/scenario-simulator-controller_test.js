@@ -12,6 +12,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
   let errorRate1;
   let challenge1;
   let estimatedLevel1;
+  const initialCapacity = 2;
 
   beforeEach(async function () {
     sinon.stub(usecases, 'simulateFlashDeterministicAssessmentScenario');
@@ -57,55 +58,114 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
       context('When the scenario is deterministic', function () {
         context('When the route is called with correct arguments', function () {
-          it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
-            // given
-            const simulationAnswers = ['ok'];
-            const assessmentId = '13802DK';
+          context('When the route is called with an initial capacity', function () {
+            it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+              // given
+              const simulationAnswers = ['ok'];
+              const assessmentId = '13802DK';
 
-            const pickAnswerFromArrayImplementation = sinon.stub();
-            pickAnswersService.pickAnswersFromArray.withArgs(['ok']).returns(pickAnswerFromArrayImplementation);
+              const pickAnswerFromArrayImplementation = sinon.stub();
+              pickAnswersService.pickAnswersFromArray.withArgs(['ok']).returns(pickAnswerFromArrayImplementation);
 
-            usecases.simulateFlashDeterministicAssessmentScenario
-              .withArgs({
-                pickAnswer: pickAnswerFromArrayImplementation,
-                assessmentId,
-                locale: 'en',
-                stopAtChallenge: undefined,
-              })
-              .resolves(simulationResults);
-            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+              usecases.simulateFlashDeterministicAssessmentScenario
+                .withArgs({
+                  pickAnswer: pickAnswerFromArrayImplementation,
+                  assessmentId,
+                  locale: 'en',
+                  initialCapacity,
+                  stopAtChallenge: undefined,
+                })
+                .resolves(simulationResults);
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
 
-            // when
-            const response = await httpTestServer.request(
-              'POST',
-              '/api/scenario-simulator',
-              {
-                assessmentId,
-                simulationAnswers,
-                type: 'deterministic',
-              },
-              null,
-              { 'accept-language': 'en' }
-            );
-
-            // then
-            expect(response.statusCode).to.equal(200);
-            expect(response.result).to.deep.equal({
-              data: [
+              // when
+              const response = await httpTestServer.request(
+                'POST',
+                '/api/scenario-simulator',
                 {
-                  attributes: {
-                    'error-rate': errorRate1,
-                    'estimated-level': estimatedLevel1,
-                    'minimum-capability': 0.6190392084062237,
-                    answer: 'ok',
-                    reward: reward1,
-                    difficulty: challenge1.difficulty,
-                    discriminant: challenge1.discriminant,
-                  },
-                  id: 'chall1',
-                  type: 'scenario-simulator-challenges',
+                  assessmentId,
+                  initialCapacity,
+                  simulationAnswers,
+                  type: 'deterministic',
                 },
-              ],
+                null,
+                { 'accept-language': 'en' }
+              );
+
+              // then
+              expect(response.statusCode).to.equal(200);
+              expect(response.result).to.deep.equal({
+                data: [
+                  {
+                    attributes: {
+                      'error-rate': errorRate1,
+                      'estimated-level': estimatedLevel1,
+                      'minimum-capability': 0.6190392084062237,
+                      answer: 'ok',
+                      reward: reward1,
+                      difficulty: challenge1.difficulty,
+                      discriminant: challenge1.discriminant,
+                    },
+                    id: 'chall1',
+                    type: 'scenario-simulator-challenges',
+                  },
+                ],
+              });
+            });
+          });
+
+          context('When the route is called without an initial capacity', function () {
+            it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+              // given
+              const simulationAnswers = ['ok'];
+              const assessmentId = '13802DK';
+
+              const pickAnswerFromArrayImplementation = sinon.stub();
+              pickAnswersService.pickAnswersFromArray.withArgs(['ok']).returns(pickAnswerFromArrayImplementation);
+
+              usecases.simulateFlashDeterministicAssessmentScenario
+                .withArgs({
+                  pickAnswer: pickAnswerFromArrayImplementation,
+                  assessmentId,
+                  locale: 'en',
+                  stopAtChallenge: undefined,
+                  initialCapacity: undefined,
+                })
+                .resolves(simulationResults);
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+              // when
+              const response = await httpTestServer.request(
+                'POST',
+                '/api/scenario-simulator',
+                {
+                  assessmentId,
+                  simulationAnswers,
+                  type: 'deterministic',
+                },
+                null,
+                { 'accept-language': 'en' }
+              );
+
+              // then
+              expect(response.statusCode).to.equal(200);
+              expect(response.result).to.deep.equal({
+                data: [
+                  {
+                    attributes: {
+                      'error-rate': errorRate1,
+                      'estimated-level': estimatedLevel1,
+                      'minimum-capability': 0.6190392084062237,
+                      answer: 'ok',
+                      reward: reward1,
+                      difficulty: challenge1.difficulty,
+                      discriminant: challenge1.discriminant,
+                    },
+                    id: 'chall1',
+                    type: 'scenario-simulator-challenges',
+                  },
+                ],
+              });
             });
           });
         });
@@ -113,58 +173,120 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
       context('When the scenario is random', function () {
         context('When the route is called with correct arguments', function () {
-          it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
-            // given
-            const length = 1;
-            const probabilities = { ok: 0.3, ko: 0.4, aband: 0.3 };
-            random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
-            const assessmentId = '13802DK';
+          context('When the route is called without an initial capacity', function () {
+            it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+              // given
+              const length = 1;
+              const probabilities = { ok: 0.3, ko: 0.4, aband: 0.3 };
+              random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
+              const assessmentId = '13802DK';
 
-            const pickAnswerFromArrayImplementation = sinon.stub();
-            pickAnswersService.pickAnswersFromArray.withArgs(['ok']).returns(pickAnswerFromArrayImplementation);
+              const pickAnswerFromArrayImplementation = sinon.stub();
+              pickAnswersService.pickAnswersFromArray.withArgs(['ok']).returns(pickAnswerFromArrayImplementation);
 
-            usecases.simulateFlashDeterministicAssessmentScenario
-              .withArgs({
-                assessmentId,
-                locale: 'en',
-                pickAnswer: pickAnswerFromArrayImplementation,
-                stopAtChallenge: undefined,
-              })
-              .resolves(simulationResults);
-            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+              usecases.simulateFlashDeterministicAssessmentScenario
+                .withArgs({
+                  assessmentId,
+                  locale: 'en',
+                  pickAnswer: pickAnswerFromArrayImplementation,
+                  stopAtChallenge: undefined,
+                  initialCapacity: undefined,
+                })
+                .resolves(simulationResults);
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
 
-            // when
-            const response = await httpTestServer.request(
-              'POST',
-              '/api/scenario-simulator',
-              {
-                assessmentId,
-                type: 'random',
-                probabilities,
-                length,
-              },
-              null,
-              { 'accept-language': 'en' }
-            );
-
-            // then
-            expect(response.statusCode).to.equal(200);
-            expect(response.result).to.deep.equal({
-              data: [
+              // when
+              const response = await httpTestServer.request(
+                'POST',
+                '/api/scenario-simulator',
                 {
-                  attributes: {
-                    'error-rate': errorRate1,
-                    'estimated-level': estimatedLevel1,
-                    'minimum-capability': 0.6190392084062237,
-                    answer: 'ok',
-                    reward: reward1,
-                    difficulty: challenge1.difficulty,
-                    discriminant: challenge1.discriminant,
-                  },
-                  id: 'chall1',
-                  type: 'scenario-simulator-challenges',
+                  assessmentId,
+                  type: 'random',
+                  probabilities,
+                  length,
                 },
-              ],
+                null,
+                { 'accept-language': 'en' }
+              );
+
+              // then
+              expect(response.statusCode).to.equal(200);
+              expect(response.result).to.deep.equal({
+                data: [
+                  {
+                    attributes: {
+                      'error-rate': errorRate1,
+                      'estimated-level': estimatedLevel1,
+                      'minimum-capability': 0.6190392084062237,
+                      answer: 'ok',
+                      reward: reward1,
+                      difficulty: challenge1.difficulty,
+                      discriminant: challenge1.discriminant,
+                    },
+                    id: 'chall1',
+                    type: 'scenario-simulator-challenges',
+                  },
+                ],
+              });
+            });
+          });
+
+          context('When the route is called with an initial capacity', function () {
+            it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+              // given
+              const length = 1;
+              const probabilities = { ok: 0.3, ko: 0.4, aband: 0.3 };
+              random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
+              const assessmentId = '13802DK';
+
+              const pickAnswerFromArrayImplementation = sinon.stub();
+              pickAnswersService.pickAnswersFromArray.withArgs(['ok']).returns(pickAnswerFromArrayImplementation);
+
+              usecases.simulateFlashDeterministicAssessmentScenario
+                .withArgs({
+                  assessmentId,
+                  locale: 'en',
+                  pickAnswer: pickAnswerFromArrayImplementation,
+                  stopAtChallenge: undefined,
+                  initialCapacity,
+                })
+                .resolves(simulationResults);
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+              // when
+              const response = await httpTestServer.request(
+                'POST',
+                '/api/scenario-simulator',
+                {
+                  assessmentId,
+                  type: 'random',
+                  probabilities,
+                  initialCapacity,
+                  length,
+                },
+                null,
+                { 'accept-language': 'en' }
+              );
+
+              // then
+              expect(response.statusCode).to.equal(200);
+              expect(response.result).to.deep.equal({
+                data: [
+                  {
+                    attributes: {
+                      'error-rate': errorRate1,
+                      'estimated-level': estimatedLevel1,
+                      'minimum-capability': 0.6190392084062237,
+                      answer: 'ok',
+                      reward: reward1,
+                      difficulty: challenge1.difficulty,
+                      discriminant: challenge1.discriminant,
+                    },
+                    id: 'chall1',
+                    type: 'scenario-simulator-challenges',
+                  },
+                ],
+              });
             });
           });
         });
@@ -172,55 +294,114 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
       context('When the scenario is capacity', function () {
         context('When the route is called with correct arguments', function () {
-          it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
-            // given
-            const capacity = -3.1;
-            const assessmentId = '13802DK';
+          context('When the route is called without an initial capacity', function () {
+            it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+              // given
+              const capacity = -3.1;
+              const assessmentId = '13802DK';
 
-            const pickAnswerFromCapacityImplementation = sinon.stub();
-            pickAnswersService.pickAnswerForCapacity.withArgs(capacity).returns(pickAnswerFromCapacityImplementation);
+              const pickAnswerFromCapacityImplementation = sinon.stub();
+              pickAnswersService.pickAnswerForCapacity.withArgs(capacity).returns(pickAnswerFromCapacityImplementation);
 
-            usecases.simulateFlashDeterministicAssessmentScenario
-              .withArgs({
-                assessmentId,
-                locale: 'en',
-                pickAnswer: pickAnswerFromCapacityImplementation,
-                stopAtChallenge: undefined,
-              })
-              .resolves(simulationResults);
-            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+              usecases.simulateFlashDeterministicAssessmentScenario
+                .withArgs({
+                  assessmentId,
+                  locale: 'en',
+                  pickAnswer: pickAnswerFromCapacityImplementation,
+                  stopAtChallenge: undefined,
+                  initialCapacity: undefined,
+                })
+                .resolves(simulationResults);
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
 
-            // when
-            const response = await httpTestServer.request(
-              'POST',
-              '/api/scenario-simulator',
-              {
-                assessmentId,
-                type: 'capacity',
-                capacity,
-              },
-              null,
-              { 'accept-language': 'en' }
-            );
-
-            // then
-            expect(response.statusCode).to.equal(200);
-            expect(response.result).to.deep.equal({
-              data: [
+              // when
+              const response = await httpTestServer.request(
+                'POST',
+                '/api/scenario-simulator',
                 {
-                  attributes: {
-                    'error-rate': errorRate1,
-                    'estimated-level': estimatedLevel1,
-                    'minimum-capability': 0.6190392084062237,
-                    answer: 'ok',
-                    reward: reward1,
-                    difficulty: challenge1.difficulty,
-                    discriminant: challenge1.discriminant,
-                  },
-                  id: 'chall1',
-                  type: 'scenario-simulator-challenges',
+                  assessmentId,
+                  type: 'capacity',
+                  capacity,
                 },
-              ],
+                null,
+                { 'accept-language': 'en' }
+              );
+
+              // then
+              expect(response.statusCode).to.equal(200);
+              expect(response.result).to.deep.equal({
+                data: [
+                  {
+                    attributes: {
+                      'error-rate': errorRate1,
+                      'estimated-level': estimatedLevel1,
+                      'minimum-capability': 0.6190392084062237,
+                      answer: 'ok',
+                      reward: reward1,
+                      difficulty: challenge1.difficulty,
+                      discriminant: challenge1.discriminant,
+                    },
+                    id: 'chall1',
+                    type: 'scenario-simulator-challenges',
+                  },
+                ],
+              });
+            });
+          });
+
+          context('When the route is called with an initial capacity', function () {
+            it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+              // given
+              const capacity = -3.1;
+              const assessmentId = '13802DK';
+
+              const pickAnswerFromCapacityImplementation = sinon.stub();
+              pickAnswersService.pickAnswerForCapacity.withArgs(capacity).returns(pickAnswerFromCapacityImplementation);
+
+              usecases.simulateFlashDeterministicAssessmentScenario
+                .withArgs({
+                  assessmentId,
+                  locale: 'en',
+                  pickAnswer: pickAnswerFromCapacityImplementation,
+                  stopAtChallenge: undefined,
+                  initialCapacity,
+                })
+                .resolves(simulationResults);
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+              // when
+              const response = await httpTestServer.request(
+                'POST',
+                '/api/scenario-simulator',
+                {
+                  assessmentId,
+                  type: 'capacity',
+                  capacity,
+                  initialCapacity,
+                },
+                null,
+                { 'accept-language': 'en' }
+              );
+
+              // then
+              expect(response.statusCode).to.equal(200);
+              expect(response.result).to.deep.equal({
+                data: [
+                  {
+                    attributes: {
+                      'error-rate': errorRate1,
+                      'estimated-level': estimatedLevel1,
+                      'minimum-capability': 0.6190392084062237,
+                      answer: 'ok',
+                      reward: reward1,
+                      difficulty: challenge1.difficulty,
+                      discriminant: challenge1.discriminant,
+                    },
+                    id: 'chall1',
+                    type: 'scenario-simulator-challenges',
+                  },
+                ],
+              });
             });
           });
         });
