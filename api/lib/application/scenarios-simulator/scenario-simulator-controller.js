@@ -12,7 +12,7 @@ async function simulateFlashAssessmentScenario(
   h,
   dependencies = { scenarioSimulatorSerializer, random, pickAnswersService, extractLocaleFromRequest }
 ) {
-  const { assessmentId, stopAtChallenge } = request.payload;
+  const { assessmentId, stopAtChallenge, initialCapacity } = request.payload;
 
   const pickAnswer = _getPickAnswerMethod(dependencies.pickAnswersService, request.payload);
 
@@ -23,6 +23,7 @@ async function simulateFlashAssessmentScenario(
     assessmentId,
     locale,
     stopAtChallenge,
+    initialCapacity,
   });
 
   return dependencies.scenarioSimulatorSerializer.serialize(result);
