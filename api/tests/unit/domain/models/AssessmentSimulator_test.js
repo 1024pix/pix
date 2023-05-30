@@ -331,7 +331,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           getReward: sinon.stub(),
         };
         const pickChallenge = sinon.stub();
-        const pickAnswer = sinon.stub();
+        const pickAnswerStatus = sinon.stub();
 
         algorithm.getEstimatedLevelAndErrorRate
           .withArgs({
@@ -374,7 +374,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           .withArgs({ possibleChallenges: [challenge1] })
           .returns(challenge1);
 
-        pickAnswer
+        pickAnswerStatus
           .withArgs({ nextChallenge: challenge2, answerIndex: 0 })
           .returns(answersForSimulator[0])
           .withArgs({ nextChallenge: challenge1, answerIndex: 1 })
@@ -416,7 +416,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           algorithm,
           challenges: allChallenges,
           pickChallenge,
-          pickAnswer,
+          pickAnswerStatus,
           initialCapacity,
         }).run();
 

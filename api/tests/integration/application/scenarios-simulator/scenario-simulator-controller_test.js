@@ -3,7 +3,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as moduleUnderTest from '../../../../lib/application/scenarios-simulator/index.js';
 import { random } from '../../../../lib/infrastructure/utils/random.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-answer-service.js';
+import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-answer-status-service.js';
 
 describe('Integration | Application | Scoring-simulator | scenario-simulator-controller', function () {
   let httpTestServer;

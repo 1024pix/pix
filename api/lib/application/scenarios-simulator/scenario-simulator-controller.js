@@ -4,7 +4,7 @@ import { scenarioSimulatorSerializer } from '../../infrastructure/serializers/js
 import { random } from '../../infrastructure/utils/random.js';
 import { scenarioSimulatorBatchSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
 import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
-import { pickAnswerStatusService } from '../../domain/services/pick-answer-service.js';
+import { pickAnswerStatusService } from '../../domain/services/pick-answer-status-service.js';
 import { HttpErrors } from '../http-errors.js';
 
 async function simulateFlashAssessmentScenario(
