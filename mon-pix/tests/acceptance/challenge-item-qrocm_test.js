@@ -200,6 +200,16 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
         learningMoreTutorials: [learningMoreTutorial],
+        correctionBlocks: [
+          {
+            validated: false,
+            alternativeSolutions: ['Versailles-Chantiers', 'Poissy'],
+          },
+          {
+            validated: false,
+            alternativeSolutions: ['Versailles-Chantiers', 'Poissy'],
+          },
+        ],
       });
       server.create('answer', {
         value: "station1: 'Republique'\nstation2: 'Chatelet'\n",
@@ -213,6 +223,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
         learningMoreTutorials: [learningMoreTutorial],
+        correctionBlocks: [],
       });
       server.create('answer', {
         value: "titre: 'Le rouge et le noir'\nauteur: 'Stendhal'\n",
@@ -227,6 +238,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
         learningMoreTutorials: [learningMoreTutorial],
+        correctionBlocks: [],
       });
       server.create('answer', {
         value: "banana: 'potato'\n",
