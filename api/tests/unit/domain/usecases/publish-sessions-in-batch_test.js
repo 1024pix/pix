@@ -24,6 +24,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
     const sessionId1 = Symbol('first session id');
     const sessionId2 = Symbol('second session id');
     const publishedAt = Symbol('a publication date');
+    const i18n = Symbol('i18n');
 
     // when
     await publishSessionsInBatch({
@@ -35,6 +36,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       sessionRepository,
       publishedAt,
       batchId: 'batch id',
+      i18n,
     });
 
     // then
@@ -45,6 +47,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       finalizedSessionRepository,
       sessionRepository,
       publishedAt,
+      i18n,
     });
     expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
       sessionId: sessionId2,
@@ -53,12 +56,14 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       finalizedSessionRepository,
       sessionRepository,
       publishedAt,
+      i18n,
     });
   });
 
   context('when one or many session publication fail', function () {
     it('should continue', async function () {
       // given
+      const i18n = Symbol('i18n');
       const sessionId1 = Symbol('first session id');
       const sessionId2 = Symbol('second session id');
       const publishedAt = Symbol('a publication date');
@@ -84,6 +89,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         sessionRepository,
         publishedAt,
         batchId: 'batch id',
+        i18n,
       });
 
       expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
@@ -93,6 +99,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
         finalizedSessionRepository,
         sessionRepository,
         publishedAt,
+        i18n,
       });
     });
 
