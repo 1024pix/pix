@@ -1,0 +1,20 @@
+.challenge-actions {
+  display: flex;
+  justify-content: space-around;
+
+  &__skip-button {
+    background-color: white;
+    color: #556bcc;
+    border: 1px solid #556BCC;
+    box-shadow: 2px 5px #495aa0;
+    font-size: 1.25rem;
+  }
+
+  &__verify-button {
+    background-color: #556bcc;
+    color: white;
+    border: 1px solid #556BCC;
+    box-shadow: 2px 5px #495aa0;
+    font-size: 1.25rem;
+  }
+}
