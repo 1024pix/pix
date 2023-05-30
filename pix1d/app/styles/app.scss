@@ -3,9 +3,11 @@
 @import 'components/answer';
 @import 'components/challenge-item';
 
+@import 'globals/fonts';
+
 body {
   text-align: center;
   background-color: #F4F5F7;
   color: #07142E;
-  font-family: Arial, sans-serif;
+  font-family: $font-nunito;
 }
