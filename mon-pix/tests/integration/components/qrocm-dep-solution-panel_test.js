@@ -99,15 +99,16 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
             this.set('answer', answer);
 
             const correctionBlocks = [
-              EmberObject.create({
+              {
                 validated: false,
                 alternativeSolutions: [],
-              }),
-              EmberObject.create({
+              },
+              {
                 validated: false,
                 alternativeSolutions: [],
-              }),
+              },
             ];
+
             this.set('correctionBlocks', correctionBlocks);
 
             // when
