@@ -56,7 +56,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
   module('#getInputClass', function () {
     test('should return "aband" css class when isAnswerEmpty param is true', function (assert) {
       //Given
-      const component = createGlimmerComponent('qrocm-dep-solution-panel', { answer: { result: 'ok' } });
+      const component = createGlimmerComponent('qrocm-dep-solution-panel');
 
       //when
       const inputClass = component.getInputClass(true);
@@ -67,7 +67,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
 
     test('should return "correct" css class when isAnswerEmpty param is false and isCorrectAnswer is true', function (assert) {
       //Given
-      const component = createGlimmerComponent('qrocm-dep-solution-panel', { answer: { result: 'ok' } });
+      const component = createGlimmerComponent('qrocm-dep-solution-panel');
 
       //when
       const inputClass = component.getInputClass(false, true);
@@ -78,7 +78,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
 
     test('should return "wrong" css class when isAnswerEmpty param is false and isCorrectAnswer is false', function (assert) {
       //Given
-      const component = createGlimmerComponent('qrocm-dep-solution-panel', { answer: { result: 'ok' } });
+      const component = createGlimmerComponent('qrocm-dep-solution-panel');
 
       //when
       const inputClass = component.getInputClass(false, false);
