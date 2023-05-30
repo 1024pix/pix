@@ -1,8 +1,13 @@
 <div>
   <div>
+    <PixButton @isDisabled={{@isDisabled}} @triggerAction={{@skipChallenge}} @backgroundColor="green" @shape="rounded">
+      <span>
+        Je passe
+      </span>
+    </PixButton>
     <PixButton @isDisabled={{@isDisabled}} @triggerAction={{@validateAnswer}} @backgroundColor="green" @shape="rounded">
       <span>
-        Vérifier
+        Je vérifie
       </span>
     </PixButton>
   </div>
