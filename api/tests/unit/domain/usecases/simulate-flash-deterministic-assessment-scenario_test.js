@@ -65,17 +65,10 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       pickAnswer.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
       pickAnswer.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
 
-      const pseudoRandom = {
-        create: () => ({
-          binaryTreeRandom: () => 0,
-        }),
-      };
-
       // when
       const result = await simulateFlashDeterministicAssessmentScenario({
         challengeRepository,
         locale,
-        pseudoRandom,
         assessmentId,
         pickChallengeService,
         pickAnswer,
@@ -116,17 +109,10 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
       pickAnswer.withArgs(sinon.match({ nextChallenge: challenge })).returns(AnswerStatus.OK);
 
-      const pseudoRandom = {
-        create: () => ({
-          binaryTreeRandom: () => 0,
-        }),
-      };
-
       // when
       const result = await simulateFlashDeterministicAssessmentScenario({
         challengeRepository,
         locale,
-        pseudoRandom,
         assessmentId,
         pickChallengeService,
         pickAnswer,
