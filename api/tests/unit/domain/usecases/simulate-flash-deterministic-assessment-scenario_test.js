@@ -6,82 +6,167 @@ const locale = 'fr-fr';
 
 describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', function () {
   context('when there are enough flash challenges left', function () {
-    it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
-      // given
-      const assessmentId = '123';
+    context('when no initial capacity is provided', function () {
+      it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
+        // given
+        const assessmentId = '123';
 
-      const firstSkill = domainBuilder.buildSkill({ id: 'firstSkill' });
-      const secondSkill = domainBuilder.buildSkill({ id: 'secondSkill' });
-      const thirdSkill = domainBuilder.buildSkill({ id: 'thirdSkill' });
-      const firstChallenge = domainBuilder.buildChallenge({
-        id: 'one',
-        skill: firstSkill,
-        difficulty: -2,
-        discriminant: 0.16,
-      });
-      const secondChallenge = domainBuilder.buildChallenge({
-        id: 'two',
-        skill: secondSkill,
-        difficulty: 6,
-        discriminant: 3,
-      });
-      const thirdChallenge = domainBuilder.buildChallenge({
-        id: 'three',
-        skill: thirdSkill,
-        difficulty: 8.5,
-        discriminant: 1.587,
-      });
+        const firstSkill = domainBuilder.buildSkill({ id: 'firstSkill' });
+        const secondSkill = domainBuilder.buildSkill({ id: 'secondSkill' });
+        const thirdSkill = domainBuilder.buildSkill({ id: 'thirdSkill' });
+        const firstChallenge = domainBuilder.buildChallenge({
+          id: 'one',
+          skill: firstSkill,
+          difficulty: -2,
+          discriminant: 0.16,
+        });
+        const secondChallenge = domainBuilder.buildChallenge({
+          id: 'two',
+          skill: secondSkill,
+          difficulty: 6,
+          discriminant: 3,
+        });
+        const thirdChallenge = domainBuilder.buildChallenge({
+          id: 'three',
+          skill: thirdSkill,
+          difficulty: 7.5,
+          discriminant: 1.587,
+        });
 
-      const challengeRepository = {
-        findFlashCompatible: sinon.stub(),
-      };
-      const pickChallengeService = { chooseNextChallenge: sinon.stub() };
-      const pickAnswer = sinon.stub();
+        const challengeRepository = {
+          findFlashCompatible: sinon.stub(),
+        };
+        const pickChallengeService = { chooseNextChallenge: sinon.stub() };
+        const pickAnswer = sinon.stub();
 
-      challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
+        challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
 
-      pickChallengeService.chooseNextChallenge
-        .withArgs({
-          possibleChallenges: [firstChallenge, thirdChallenge, secondChallenge],
+        pickChallengeService.chooseNextChallenge
+          .withArgs({
+            possibleChallenges: [firstChallenge, thirdChallenge, secondChallenge],
+            assessmentId,
+          })
+          .returns(firstChallenge);
+
+        pickChallengeService.chooseNextChallenge
+          .withArgs({
+            possibleChallenges: [thirdChallenge, secondChallenge],
+            assessmentId,
+          })
+          .returns(secondChallenge);
+
+        pickChallengeService.chooseNextChallenge
+          .withArgs({
+            possibleChallenges: [thirdChallenge],
+            assessmentId,
+          })
+          .returns(thirdChallenge);
+
+        pickAnswer.withArgs(sinon.match({ nextChallenge: firstChallenge })).returns(AnswerStatus.OK);
+        pickAnswer.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
+        pickAnswer.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
+
+        // when
+        const result = await simulateFlashDeterministicAssessmentScenario({
+          challengeRepository,
+          locale,
           assessmentId,
-        })
-        .returns(firstChallenge);
+          pickChallengeService,
+          pickAnswer,
+        });
 
-      pickChallengeService.chooseNextChallenge
-        .withArgs({
-          possibleChallenges: [thirdChallenge, secondChallenge],
-          assessmentId,
-        })
-        .returns(secondChallenge);
-
-      pickChallengeService.chooseNextChallenge
-        .withArgs({
-          possibleChallenges: [thirdChallenge],
-          assessmentId,
-        })
-        .returns(thirdChallenge);
-
-      pickAnswer.withArgs(sinon.match({ nextChallenge: firstChallenge })).returns(AnswerStatus.OK);
-      pickAnswer.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
-      pickAnswer.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
-
-      // when
-      const result = await simulateFlashDeterministicAssessmentScenario({
-        challengeRepository,
-        locale,
-        assessmentId,
-        pickChallengeService,
-        pickAnswer,
+        // then
+        expect(result).to.have.lengthOf(3);
+        result.forEach((answer) => {
+          expect(answer.challenge).not.to.be.undefined;
+          expect(answer.errorRate).not.to.be.undefined;
+          expect(answer.estimatedLevel).not.to.be.undefined;
+          expect(answer.reward).not.to.be.undefined;
+          expect(answer.answer).not.to.be.undefined;
+        });
       });
+    });
 
-      // then
-      expect(result).to.have.lengthOf(3);
-      result.forEach((answer) => {
-        expect(answer.challenge).not.to.be.undefined;
-        expect(answer.errorRate).not.to.be.undefined;
-        expect(answer.estimatedLevel).not.to.be.undefined;
-        expect(answer.reward).not.to.be.undefined;
-        expect(answer.answer).not.to.be.undefined;
+    context('when the initial capacity is provided', function () {
+      it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
+        // given
+        const assessmentId = '123';
+        const initialCapacity = 7;
+
+        const firstSkill = domainBuilder.buildSkill({ id: 'firstSkill' });
+        const secondSkill = domainBuilder.buildSkill({ id: 'secondSkill' });
+        const thirdSkill = domainBuilder.buildSkill({ id: 'thirdSkill' });
+        const firstChallenge = domainBuilder.buildChallenge({
+          id: 'one',
+          skill: firstSkill,
+          difficulty: -2,
+          discriminant: 0.16,
+        });
+        const secondChallenge = domainBuilder.buildChallenge({
+          id: 'two',
+          skill: secondSkill,
+          difficulty: 6,
+          discriminant: 3,
+        });
+        const thirdChallenge = domainBuilder.buildChallenge({
+          id: 'three',
+          skill: thirdSkill,
+          difficulty: 7.5,
+          discriminant: 1.587,
+        });
+
+        const challengeRepository = {
+          findFlashCompatible: sinon.stub(),
+        };
+        const pickChallengeService = { chooseNextChallenge: sinon.stub() };
+        const pickAnswer = sinon.stub();
+
+        challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
+
+        pickChallengeService.chooseNextChallenge
+          .withArgs({
+            possibleChallenges: [thirdChallenge, secondChallenge, firstChallenge],
+            assessmentId,
+          })
+          .returns(firstChallenge);
+
+        pickChallengeService.chooseNextChallenge
+          .withArgs({
+            possibleChallenges: [thirdChallenge, secondChallenge],
+            assessmentId,
+          })
+          .returns(secondChallenge);
+
+        pickChallengeService.chooseNextChallenge
+          .withArgs({
+            possibleChallenges: [thirdChallenge],
+            assessmentId,
+          })
+          .returns(thirdChallenge);
+
+        pickAnswer.withArgs(sinon.match({ nextChallenge: firstChallenge })).returns(AnswerStatus.OK);
+        pickAnswer.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
+        pickAnswer.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
+
+        // when
+        const result = await simulateFlashDeterministicAssessmentScenario({
+          challengeRepository,
+          locale,
+          assessmentId,
+          pickChallengeService,
+          pickAnswer,
+          initialCapacity,
+        });
+
+        // then
+        expect(result).to.have.lengthOf(3);
+        result.forEach((answer) => {
+          expect(answer.challenge).not.to.be.undefined;
+          expect(answer.errorRate).not.to.be.undefined;
+          expect(answer.estimatedLevel).not.to.be.undefined;
+          expect(answer.reward).not.to.be.undefined;
+          expect(answer.answer).not.to.be.undefined;
+        });
       });
     });
   });

@@ -1,18 +1,20 @@
 import { Answer } from './Answer.js';
 
 export class AssessmentSimulator {
-  constructor({ algorithm, challenges, pickChallenge, pickAnswer, stopAtChallenge }) {
+  constructor({ algorithm, challenges, pickChallenge, pickAnswer, stopAtChallenge, initialCapacity }) {
     this.algorithm = algorithm;
     this.challenges = challenges;
     this.pickAnswer = pickAnswer;
     this.pickChallenge = pickChallenge;
     this.stopAtChallenge = stopAtChallenge;
+    this.initialCapacity = initialCapacity;
   }
 
   run() {
     const challengesAnswers = [];
     const result = [];
-    let estimatedLevel = this.algorithm.getEstimatedLevelAndErrorRate({ allAnswers: [] }).estimatedLevel;
+    let estimatedLevel =
+      this.initialCapacity ?? this.algorithm.getEstimatedLevelAndErrorRate({ allAnswers: [] }).estimatedLevel;
     const maxChallenge = this.stopAtChallenge || Infinity;
 
     for (let i = 0; i < maxChallenge; i++) {
