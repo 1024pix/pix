@@ -1,6 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
-import { scenarioSimulatorSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-serializer.js';
 import { random } from '../../infrastructure/utils/random.js';
 import { scenarioSimulatorBatchSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
 import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
@@ -10,7 +9,7 @@ import { HttpErrors } from '../http-errors.js';
 async function simulateFlashAssessmentScenario(
   request,
   h,
-  dependencies = { scenarioSimulatorSerializer, random, pickAnswerStatusService, extractLocaleFromRequest }
+  dependencies = { scenarioSimulatorBatchSerializer, random, pickAnswerStatusService, extractLocaleFromRequest }
 ) {
   const { assessmentId, stopAtChallenge, initialCapacity } = request.payload;
 
@@ -26,7 +25,12 @@ async function simulateFlashAssessmentScenario(
     initialCapacity,
   });
 
-  return dependencies.scenarioSimulatorSerializer.serialize(result);
+  return dependencies.scenarioSimulatorBatchSerializer.serialize([
+    {
+      simulationReport: result,
+      index: 0,
+    },
+  ]);
 }
 
 async function importScenarios(

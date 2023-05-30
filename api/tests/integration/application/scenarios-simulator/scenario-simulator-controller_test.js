@@ -96,23 +96,21 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
                       'answer-status': 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
             });
           });
 
@@ -153,23 +151,21 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
                       'answer-status': 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
             });
           });
         });
@@ -217,23 +213,21 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
                       'answer-status': 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
             });
           });
 
@@ -278,23 +272,21 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
                       'answer-status': 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
             });
           });
         });
@@ -339,23 +331,21 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
                       'answer-status': 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
             });
           });
 
@@ -397,23 +387,21 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
                       'answer-status': 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
             });
           });
         });
@@ -587,3 +575,23 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
     });
   });
 });
+
+function _generateScenarioSimulatorBatch(data) {
+  return {
+    data: data.map((scenario, index) => ({
+      type: 'scenario-simulator-batches',
+      id: `${index}`,
+      attributes: {
+        'simulation-report': scenario.map((scenarioSimulatorChallenge) => ({
+          'error-rate': scenarioSimulatorChallenge.errorRate,
+          'estimated-level': scenarioSimulatorChallenge.estimatedLevel,
+          'minimum-capability': scenarioSimulatorChallenge.minimumCapability,
+          answer: scenarioSimulatorChallenge.answer,
+          reward: scenarioSimulatorChallenge.reward,
+          difficulty: scenarioSimulatorChallenge.difficulty,
+          discriminant: scenarioSimulatorChallenge.discriminant,
+        })),
+      },
+    })),
+  };
+}
