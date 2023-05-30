@@ -20,9 +20,6 @@ module.exports = function (defaults) {
     flatpickr: {
       locales: ['fr'],
     },
-    'ember-dayjs': {
-      locales: ['fr'],
-    },
   });
 
   // Use `app.import` to add additional libraries to the generated
