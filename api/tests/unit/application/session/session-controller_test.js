@@ -737,7 +737,10 @@ describe('Unit | Controller | sessionController', function () {
   describe('#publishInBatch', function () {
     it('returns 204 when no error occurred', async function () {
       // given
+      const i18n = getI18n();
+
       const request = {
+        i18n,
         payload: {
           data: {
             attributes: {
@@ -750,22 +753,26 @@ describe('Unit | Controller | sessionController', function () {
         .stub(usecases, 'publishSessionsInBatch')
         .withArgs({
           sessionIds: ['sessionId1', 'sessionId2'],
+          i18n,
         })
         .resolves(new SessionPublicationBatchResult('batchId'));
 
       // when
       const response = await sessionController.publishInBatch(request, hFake);
+
       // then
       expect(response.statusCode).to.equal(204);
     });
 
     it('logs errors when errors occur', async function () {
       // given
+      const i18n = getI18n();
       const result = new SessionPublicationBatchResult('batchId');
       result.addPublicationError('sessionId1', new Error('an error'));
       result.addPublicationError('sessionId2', new Error('another error'));
 
       const request = {
+        i18n,
         payload: {
           data: {
             attributes: {
@@ -774,12 +781,7 @@ describe('Unit | Controller | sessionController', function () {
           },
         },
       };
-      sinon
-        .stub(usecases, 'publishSessionsInBatch')
-        .withArgs({
-          sessionIds: ['sessionId1', 'sessionId2'],
-        })
-        .resolves(result);
+      sinon.stub(usecases, 'publishSessionsInBatch').resolves(result);
       sinon.stub(logger, 'warn');
 
       // when
@@ -809,10 +811,12 @@ describe('Unit | Controller | sessionController', function () {
 
     it('returns the serialized batch id', async function () {
       // given
+      const i18n = getI18n();
       const result = new SessionPublicationBatchResult('batchId');
       result.addPublicationError('sessionId1', new Error('an error'));
 
       const request = {
+        i18n,
         payload: {
           data: {
             attributes: {
@@ -821,12 +825,7 @@ describe('Unit | Controller | sessionController', function () {
           },
         },
       };
-      sinon
-        .stub(usecases, 'publishSessionsInBatch')
-        .withArgs({
-          sessionIds: ['sessionId1', 'sessionId2'],
-        })
-        .resolves(result);
+      sinon.stub(usecases, 'publishSessionsInBatch').resolves(result);
       sinon.stub(logger, 'warn');
 
       // when

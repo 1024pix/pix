@@ -339,8 +339,11 @@ const publish = async function (request, h, dependencies = { sessionSerializer }
 
 const publishInBatch = async function (request, h) {
   const sessionIds = request.payload.data.attributes.ids;
+  const i18n = request.i18n;
+
   const result = await usecases.publishSessionsInBatch({
     sessionIds,
+    i18n,
   });
   if (result.hasPublicationErrors()) {
     _logSessionBatchPublicationErrors(result);
