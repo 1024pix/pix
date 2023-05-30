@@ -52,9 +52,21 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
             });
             this.set('answer', answer);
 
+            const correctionBlocks = [
+              {
+                validated: true,
+                alternativeSolutions: [],
+              },
+              {
+                validated: false,
+                alternativeSolutions: [],
+              },
+            ];
+            this.set('correctionBlocks', correctionBlocks);
+
             // when
             await render(
-              hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
+              hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @correctionBlocks={{this.correctionBlocks}} />`
             );
           });
 
@@ -86,9 +98,21 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
             });
             this.set('answer', answer);
 
+            const correctionBlocks = [
+              EmberObject.create({
+                validated: false,
+                alternativeSolutions: [],
+              }),
+              EmberObject.create({
+                validated: false,
+                alternativeSolutions: [],
+              }),
+            ];
+            this.set('correctionBlocks', correctionBlocks);
+
             // when
             await render(
-              hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
+              hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @correctionBlocks={{this.correctionBlocks}} />`
             );
           });
 
@@ -174,6 +198,17 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         assessment,
         challenge,
       });
+      const correctionBlocks = [
+        {
+          validated: true,
+          alternativeSolutions: [],
+        },
+        {
+          validated: false,
+          alternativeSolutions: [],
+        },
+      ];
+      this.set('correctionBlocks', correctionBlocks);
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
@@ -182,9 +217,10 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
     test(`should display a disabled input with expected size`, async function (assert) {
       //given
       const answerSize = 'rightAnswer1'.length;
+
       //when
       await render(
-        hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`
+        hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}} @correctionBlocks={{this.correctionBlocks}} />`
       );
 
       //then
@@ -205,6 +241,17 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         assessment,
         challenge,
       });
+      const correctionBlocks = [
+        {
+          validated: true,
+          alternativeSolutions: [],
+        },
+        {
+          validated: false,
+          alternativeSolutions: [],
+        },
+      ];
+      this.set('correctionBlocks', correctionBlocks);
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
@@ -214,7 +261,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
     test('should display a disabled textarea', async function (assert) {
       // when
       await render(
-        hbs`<QrocmDepSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`
+        hbs`<QrocmDepSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} @correctionBlocks={{this.correctionBlocks}} />`
       );
 
       // then
@@ -243,7 +290,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
     test('should display a disabled input', async function (assert) {
       // when
       await render(
-        hbs`<QrocmDepSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`
+        hbs`<QrocmDepSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} @correctionBlocks={{this.correctionBlocks}} />`
       );
 
       // then
