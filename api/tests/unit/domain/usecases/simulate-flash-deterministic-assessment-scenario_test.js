@@ -62,9 +62,9 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           })
           .returns(thirdChallenge);
 
-      pickAnswerStatus.withArgs(sinon.match({ nextChallenge: firstChallenge })).returns(AnswerStatus.OK);
-      pickAnswerStatus.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
-      pickAnswerStatus.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
+        pickAnswerStatus.withArgs(sinon.match({ nextChallenge: firstChallenge })).returns(AnswerStatus.OK);
+        pickAnswerStatus.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
+        pickAnswerStatus.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
@@ -119,7 +119,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           findFlashCompatible: sinon.stub(),
         };
         const pickChallengeService = { chooseNextChallenge: sinon.stub() };
-        const pickAnswer = sinon.stub();
+        const pickAnswerStatus = sinon.stub();
 
         challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
 
@@ -144,9 +144,9 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           })
           .returns(thirdChallenge);
 
-        pickAnswer.withArgs(sinon.match({ nextChallenge: firstChallenge })).returns(AnswerStatus.OK);
-        pickAnswer.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
-        pickAnswer.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
+        pickAnswerStatus.withArgs(sinon.match({ nextChallenge: firstChallenge })).returns(AnswerStatus.OK);
+        pickAnswerStatus.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
+        pickAnswerStatus.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
@@ -154,7 +154,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           locale,
           assessmentId,
           pickChallengeService,
-          pickAnswer,
+          pickAnswerStatus,
           initialCapacity,
         });
 
