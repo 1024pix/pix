@@ -134,46 +134,6 @@
   }
 }
 
-.certification-candidates-input-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.certification-candidates-input-wrapper input {
-  &:required.focused:not(:focus):invalid, &:not(:required):not(:focus):invalid {
-    border: 2px solid $pix-error-70;
-  }
-}
-
-.certification-candidates-input {
-  background: $pix-neutral-5;
-  border-radius: 4px;
-  border: 1px solid $pix-neutral-20;
-  height: 35px;
-  min-width: 24px;
-  flex-grow: 1;
-  padding-left: 6px;
-  font-size: .8125rem;
-}
-
-.certification-candidates-percentage {
-  margin-left: 8px;
-}
-
-.certification-candidates-row-actions {
-  justify-content: flex-end;
-  padding-right: 16px;
-
-  &__close {
-    margin-left: 8px;
-  }
-}
-
-.button--row-item {
-  padding-top: 11px;
-  height: 38px;
-}
-
 .certification-candidates-table td, .certification-candidates-table th {
   padding-left: 16px;
 }

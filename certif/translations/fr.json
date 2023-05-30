@@ -8,6 +8,7 @@
       "close": "Fermer",
       "confirm": "Confirmer",
       "continue": "Continuer",
+      "copied": "Copié !",
       "delete": "Supprimer",
       "exit": "Quitter",
       "quit": "Quitter",
@@ -138,7 +139,8 @@
       "team": "Équipe"
     },
     "user-logged-menu": {
-      "logout": "Se déconnecter"
+      "logout": "Se déconnecter",
+      "page-title": "Déconnexion"
     }
   },
   "pages": {
@@ -725,6 +727,11 @@
           },
           "content": "Souhaitez-vous supprimer la session <span>{sessionId}</span> ?",
           "enrolled-candidates": "<span>{enrolledCandidatesCount} {enrolledCandidatesCount, plural,one {candidat} other {candidats}}</span> {enrolledCandidatesCount, plural,one {est inscrit} other {sont inscrits}} à cette session",
+          "errors": {
+            "session-does-not-exists": "La session que vous tentez de supprimer n'existe pas.",
+            "session-has-started": "La session a déjà commencé.",
+            "unknown": "Une erreur s'est produite lors de la suppression de la session."
+          },
           "success": "La session a été supprimée avec succès.",
           "title": "Supprimer la session",
           "warning": "Attention, cette action est irréversible."
