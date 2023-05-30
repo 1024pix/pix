@@ -2,13 +2,13 @@
 
   <div class="add-student-list">
     <div class="add-student-list__filters">
-      <span>Filtrer</span>
+      <span>{{t "pages.sco.enrol-candidates-in-session.list.table.filter.title"}}</span>
       <PixMultiSelect
-        @label="Filtrer la liste des élèves en cochant la ou les classes souhaitées"
+        @label={{t "pages.sco.enrol-candidates-in-session.list.table.filter.extra-information"}}
         @emptyMessage={{this.emptyMessage}}
         @id={{"add-student-list__multi-select"}}
         @onChange={{this.selectDivision}}
-        @placeholder={{"Chercher une classe ..."}}
+        @placeholder={{t "pages.sco.enrol-candidates-in-session.list.table.filter.placeholder"}}
         @isSearchable={{true}}
         @screenReaderOnly={{true}}
         @values={{this.selectedDivisions}}
@@ -34,10 +34,12 @@
                 <span class="screen-reader-only">{{t "pages.candidates.add.actions.select-all.label"}}</span>
               </PixCheckbox>
             </th>
-            <th>Classe</th>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th class="add-student-list__column-birthdate">Date de naissance</th>
+            <th>{{t "pages.sco.enrol-candidates-in-session.list.table.division"}}</th>
+            <th>{{t "pages.sco.enrol-candidates-in-session.list.table.last-name"}}</th>
+            <th>{{t "pages.sco.enrol-candidates-in-session.list.table.first-name"}}</th>
+            <th class="add-student-list__column-birthdate">
+              {{t "pages.sco.enrol-candidates-in-session.list.table.birthdate"}}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -93,15 +95,15 @@
           <p class="bottom-action-bar__informations--candidates-selected">
             {{#if this.numberOfStudentsSelected}}
               {{this.numberOfStudentsSelected}}
-              candidat(s) sélectionné(s)
+              {{t "pages.sco.enrol-candidates-in-session.list.action-bar.candidate-selected"}}
             {{else}}
-              Aucun candidat sélectionné
+              {{t "pages.sco.enrol-candidates-in-session.list.action-bar.no-candidate-selected"}}
             {{/if}}
           </p>
           <span class="bottom-action-bar__seperator"></span>
           <p class="bottom-action-bar__informations--candidates-already-added">
             {{this.numberOfStudentsAlreadyCandidate}}
-            candidat(s) déjà inscrit(s) à la session
+            {{t "pages.sco.enrol-candidates-in-session.list.action-bar.candidate-already-enrolled"}}
           </p>
         </div>
 

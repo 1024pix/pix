@@ -77,6 +77,15 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
       assert.dom(screen.getByRole('heading', { name: 'Inscrire des candidats' })).exists();
     });
 
+    test('it should display support external link', async function (assert) {
+      // when
+      const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+      await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'support.pix.fr Ouverture dans une nouvelle fenêtre' })).exists();
+    });
+
     test('it should be possible to return to candidates page from add student page', async function (assert) {
       // when
       const screen = await visitScreen(`/sessions/${session.id}/candidats`);

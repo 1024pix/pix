@@ -115,6 +115,9 @@
       }
     },
     "sessions": {
+      "actions": {
+        "return-to": "Return to the session"
+      },
       "candidates": "Candidates",
       "invigilator": "Invigilator"
     }
@@ -200,6 +203,45 @@
         "title": "Sign up"
       },
       "title": "You have been invited to join the certification center {certificationCenterName}"
+    },
+    "sco": {
+      "banner": {
+        "information": "La certification Pix se déroulera du 14 novembre 2022 au 17 mars 2023 pour les lycées et du 6 mars au 16 juin 2023 pour les collèges. Pensez à consulter la",
+        "url-label": "documentation pour voir les nouveautés."
+      },
+      "enrol-candidates-in-session": {
+        "certification-candidates-sco": {
+          "actions": {
+            "enrol-candidates": "Inscrire des candidats"
+          },
+          "information": "Inscrivez des élèves et c'est partix !"
+        },
+        "information": "Si certain(e)s élèves n’apparaissent pas dans cette liste, merci de ré-importer le fichier élèves dans Pix Orga.<br> Si malgré tout des élèves ne sont pas visibles, merci de contacter",
+        "link-label": "support.pix.org",
+        "list": {
+          "action-bar": {
+            "candidate-already-enrolled": "candidat(s) déjà inscrit(s) à la session",
+            "candidate-selected": "candidat(s) sélectionné(s)",
+            "no-candidate-selected": "Aucun candidat sélectionné"
+          },
+          "table": {
+            "birthdate": "Date de naissance",
+            "division": "Classe",
+            "filter": {
+              "extra-information": "Filtrer la liste des élèves en cochant la ou les classes souhaitées",
+              "placeholder": "Chercher une classe ...",
+              "title": "Filtrer"
+            },
+            "first-name": "Prénom",
+            "last-name": "Nom"
+          }
+        },
+        "page-title": "Inscription des candidats",
+        "title": "Inscrire des candidats"
+      },
+      "restricted-access": {
+        "title": "Ouverture de votre espace PixCertif le"
+      }
     },
     "session-finalization": {
       "actions": {
@@ -332,7 +374,6 @@
           }
         }
       },
-      "return-to": "Return to the session",
       "title": "Finalise the session {sessionId}"
     },
     "session-supervising": {
