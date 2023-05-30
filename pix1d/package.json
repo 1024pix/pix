@@ -34,6 +34,7 @@
     "test:lint": "concurrently \"npm:lint\" \"npm:test\" --names \"lint,test:\""
   },
   "devDependencies": {
+    "@testing-library/dom": "8.13.0",
     "@1024pix/ember-testing-library": "^0.6.1",
     "@1024pix/pix-ui": "^31.1.0",
     "@1024pix/stylelint-config": "^3.0.0",
@@ -45,6 +46,9 @@
     "@fortawesome/ember-fontawesome": "^1.0.0",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@embroider/compat": "^3.0.0",
+    "@embroider/core": "^3.0.0",
+    "@embroider/webpack": "^3.0.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "broccoli-asset-rev": "^3.0.0",
@@ -58,8 +62,6 @@
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-mirage": "^2.4.0",
     "ember-cli-sass": "^11.0.1",
-    "ember-cli-sri": "^2.1.1",
-    "ember-cli-terser": "^4.0.2",
     "ember-data": "~4.11.3",
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^2.1.2",
@@ -86,7 +88,7 @@
     "stylelint": "^15.0.0",
     "stylelint-config-standard-scss": "^9.0.0",
     "tracked-built-ins": "^3.1.1",
-    "webpack": "^5.75.0",
+    "webpack": "^5.79.0",
     "xss": "^1.0.14"
   },
   "ember": {
@@ -94,6 +96,6 @@
   },
   "_comment": "À supprimer dès qu'on passera à la version ember-cli-mirage v3+",
   "overrides": {
-    "@embroider/macros": "^1.0.0"
+    "@embroider/macros": "^1.11.0"
   }
 }
