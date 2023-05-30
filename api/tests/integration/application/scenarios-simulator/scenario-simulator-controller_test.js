@@ -168,6 +168,57 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               );
             });
           });
+
+          context('When the route is called with a numberOfIterations', function () {
+            it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+              // given
+              const simulationAnswers = ['ok'];
+              const assessmentId = '13802DK';
+              const numberOfIterations = 2;
+
+              const pickAnswerFromArrayImplementation = sinon.stub();
+              pickAnswersService.pickAnswersFromArray.withArgs(['ok']).returns(pickAnswerFromArrayImplementation);
+
+              usecases.simulateFlashDeterministicAssessmentScenario
+                .withArgs({
+                  pickAnswer: pickAnswerFromArrayImplementation,
+                  assessmentId,
+                  locale: 'en',
+                  stopAtChallenge: undefined,
+                  initialCapacity: undefined,
+                })
+                .resolves(simulationResults);
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+              // when
+              const response = await httpTestServer.request(
+                'POST',
+                '/api/scenario-simulator',
+                {
+                  assessmentId,
+                  numberOfIterations,
+                  simulationAnswers,
+                  type: 'deterministic',
+                },
+                null,
+                { 'accept-language': 'en' }
+              );
+
+              const result = {
+                errorRate: errorRate1,
+                estimatedLevel: estimatedLevel1,
+                minimumCapability: 0.6190392084062237,
+                answer: 'ok',
+                reward: reward1,
+                difficulty: challenge1.difficulty,
+                discriminant: challenge1.discriminant,
+              };
+
+              // then
+              expect(response.statusCode).to.equal(200);
+              expect(response.result).to.deep.equal(_generateScenarioSimulatorBatch([[result], [result]]));
+            });
+          });
         });
       });
 
