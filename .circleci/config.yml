@@ -23,7 +23,7 @@ version: 2.1
 
 orbs:
   browser-tools: circleci/browser-tools@1.4.1
-  slack: circleci/slack@4.9.3
+  slack: circleci/slack@4.12.5
 
 workflows:
   version: 2
