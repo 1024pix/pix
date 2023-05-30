@@ -49,4 +49,11 @@ export default class Url extends Service {
       ? 'https://pix.org/fr/accessibilite-pix-certif'
       : 'https://pix.org/en-gb/accessibility-pix-certif';
   }
+
+  get supportUrl() {
+    if (this.currentDomain.isFranceDomain) return 'https://support.pix.fr';
+
+    const currentLanguage = this.intl.t('current-lang');
+    return currentLanguage === 'fr' ? 'https://support.pix.org' : 'https://support.pix.org/en/support/home';
+  }
 }
