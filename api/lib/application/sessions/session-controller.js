@@ -89,7 +89,7 @@ const getSupervisorKitPdf = async function (
   const sessionId = request.params.id;
   const token = request.query.accessToken;
   const userId = dependencies.tokenService.extractUserId(token);
-  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
+  const locale = request.query.lang;
   const sessionForSupervisorKit = await usecases.getSupervisorKitSessionInfo({ sessionId, userId });
 
   const { buffer, fileName } = await dependencies.supervisorKitPdf.getSupervisorKitPdfBuffer({
