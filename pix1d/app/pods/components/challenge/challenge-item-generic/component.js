@@ -6,4 +6,9 @@ export default class ChallengeItemGeneric extends Component {
   validateAnswer() {
     return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue());
   }
+
+  @action
+  skipChallenge() {
+    return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#');
+  }
 }
