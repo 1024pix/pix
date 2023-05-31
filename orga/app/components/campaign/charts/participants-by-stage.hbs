@@ -30,7 +30,7 @@
                   tabindex="0"
                   aria-describedby="chart-stage-{{index}}"
                 >
-                  {{t "charts.participants-by-stage.percentage" percentage=stage.percentage}}
+                  {{t "common.result.percentage" value=stage.masteryRate}}
                 </Campaign::Charts::ParticipantsByStageBar>
               </:triggerElement>
               <:tooltip>
@@ -44,7 +44,7 @@
                 @stageId={{stage.id}}
                 @barWidth={{stage.barWidth}}
               >
-                {{t "charts.participants-by-stage.percentage" percentage=stage.percentage}}
+                {{t "common.result.percentage" value=stage.masteryRate}}
               </Campaign::Charts::ParticipantsByStageBar>
             </div>
           {{/if}}
