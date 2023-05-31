@@ -6,11 +6,18 @@ import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
 import { pickAnswerStatusService } from '../../domain/services/pick-answer-status-service.js';
 import { HttpErrors } from '../http-errors.js';
 import _ from 'lodash';
+import { pickChallengeService } from '../../domain/services/pick-challenge-service.js';
 
 async function simulateFlashAssessmentScenario(
   request,
   h,
-  dependencies = { scenarioSimulatorBatchSerializer, random, pickAnswerStatusService, extractLocaleFromRequest }
+  dependencies = {
+    scenarioSimulatorBatchSerializer,
+    random,
+    pickAnswerStatusService,
+    pickChallengeService,
+    extractLocaleFromRequest,
+  }
 ) {
   const { assessmentId, stopAtChallenge, initialCapacity, numberOfIterations = 1 } = request.payload;
 
@@ -23,7 +30,7 @@ async function simulateFlashAssessmentScenario(
       index,
       simulationReport: await usecases.simulateFlashDeterministicAssessmentScenario({
         pickAnswerStatus,
-        assessmentId,
+        pickChallenge: dependencies.pickChallengeService.chooseNextChallenge(`${assessmentId}-${index}`),
         locale,
         stopAtChallenge,
         initialCapacity,
@@ -37,7 +44,7 @@ async function simulateFlashAssessmentScenario(
 async function importScenarios(
   request,
   h,
-  dependencies = { parseCsv, scenarioSimulatorBatchSerializer, extractLocaleFromRequest }
+  dependencies = { parseCsv, pickChallengeService, scenarioSimulatorBatchSerializer, extractLocaleFromRequest }
 ) {
   const parsedCsvData = await dependencies.parseCsv(request.payload.path);
 
@@ -53,7 +60,7 @@ async function importScenarios(
         const pickAnswerStatus = pickAnswerStatusService.pickAnswerStatusFromArray(answerStatusArray);
         return usecases.simulateFlashDeterministicAssessmentScenario({
           pickAnswerStatus,
-          assessmentId: index,
+          pickChallenge: dependencies.pickChallengeService.chooseNextChallenge(index),
           locale,
         });
       })

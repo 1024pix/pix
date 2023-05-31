@@ -124,7 +124,7 @@ import * as participationsForUserManagementRepository from '../../infrastructure
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
 import * as partnerCertificationScoringRepository from '../../infrastructure/repositories/partner-certification-scoring-repository.js';
 import * as passwordGenerator from '../../domain/services/password-generator.js';
-import * as pickChallengeService from '../services/pick-challenge-service.js';
+import { pickChallengeService } from '../services/pick-challenge-service.js';
 import * as pixAuthenticationService from '../../domain/services/authentication/pix-authentication-service.js';
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
