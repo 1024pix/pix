@@ -31,6 +31,24 @@ async function publishSession({
 
   await _updateFinalizedSession(finalizedSessionRepository, sessionId, publishedAt);
 
+  await manageEmails({
+    i18n,
+    session,
+    publishedAt,
+    certificationCenterRepository,
+    sessionRepository,
+    dependencies,
+  });
+}
+
+async function manageEmails({
+  i18n,
+  session,
+  publishedAt,
+  certificationCenterRepository,
+  sessionRepository,
+  dependencies = { mailService },
+}) {
   const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(session.id);
 
   if (hasSomeCleaAcquired) {
@@ -64,7 +82,7 @@ async function publishSession({
   });
   if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
     await sessionRepository.flagResultsAsSentToPrescriber({
-      id: sessionId,
+      id: session.id,
       resultsSentToPrescriberAt: publishedAt,
     });
   }
@@ -121,4 +139,4 @@ async function _updateFinalizedSession(finalizedSessionRepository, sessionId, pu
   await finalizedSessionRepository.save(finalizedSession);
 }
 
-export { publishSession };
+export { publishSession, manageEmails };
