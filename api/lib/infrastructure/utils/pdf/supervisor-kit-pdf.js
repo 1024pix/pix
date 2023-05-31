@@ -4,6 +4,9 @@ import { PDFDocument, rgb } from 'pdf-lib';
 
 import pdfLibFontkit from '@pdf-lib/fontkit';
 import * as url from 'url';
+import { LOCALE } from '../../../domain/constants.js';
+
+const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -16,8 +19,24 @@ async function getSupervisorKitPdfBuffer({
   dirname = __dirname,
   fontkit = pdfLibFontkit,
   creationDate = new Date(),
+  lang,
 } = {}) {
-  const fileBuffer = await readFile(`${dirname}/files/kit-surveillant_template.pdf`);
+  let templatePath;
+  let fileName;
+
+  switch (lang) {
+    case ENGLISH_SPOKEN:
+      templatePath = `${dirname}/files/invigilator-kit_template.pdf`;
+      fileName = `invigilator-kit-${sessionForSupervisorKit.id}.pdf`;
+      break;
+
+    default:
+      templatePath = `${dirname}/files/kit-surveillant_template.pdf`;
+      fileName = `kit-surveillant-${sessionForSupervisorKit.id}.pdf`;
+      break;
+  }
+
+  const fileBuffer = await readFile(templatePath);
 
   const pdfDoc = await PDFDocument.load(fileBuffer);
 
@@ -31,7 +50,7 @@ async function getSupervisorKitPdfBuffer({
 
   const [page] = pdfDoc.getPages();
 
-  _drawSessionDate(sessionForSupervisorKit, page, robotFont);
+  _drawSessionDate({ lang, sessionForSupervisorKit, page, robotFont });
   _drawSessionStartTime(sessionForSupervisorKit, page, robotFont);
   _drawSessionAddress(sessionForSupervisorKit, page, robotFont);
   _drawSessionExaminer(sessionForSupervisorKit, page, robotFont);
@@ -43,22 +62,30 @@ async function getSupervisorKitPdfBuffer({
   const pdfBytes = await pdfDoc.save();
   const buffer = Buffer.from(pdfBytes);
 
-  const fileName = `kit-surveillant-${sessionForSupervisorKit.id}.pdf`;
-
   return {
     buffer,
     fileName,
   };
 }
 
-function _drawSessionDate(sessionForSupervisorKit, page, font) {
+function _drawSessionDate({ lang, sessionForSupervisorKit, page, font }) {
   const date = new Date(sessionForSupervisorKit.date);
   const day = date.getDate();
   const year = date.getFullYear();
   const options = { month: 'short' };
-  const month = new Intl.DateTimeFormat('fr-FR', options).format(date);
+  const month = new Intl.DateTimeFormat(lang, options).format(date);
 
-  const fullDate = day + ' ' + month + ' ' + year;
+  let fullDate;
+
+  switch (lang) {
+    case ENGLISH_SPOKEN:
+      fullDate = `${year} ${month} ${day}`;
+      break;
+    case FRENCH_SPOKEN:
+      fullDate = `${day} ${month} ${year}`;
+      break;
+  }
+
   page.drawText(fullDate, {
     x: 85,
     y: 646,
