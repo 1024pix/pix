@@ -80,34 +80,11 @@
     }
   }
 
-  &__label {
-    margin-bottom: 8px;
-
-    &::first-letter {
-      text-transform: capitalize;
-    }
-  }
-
-  &__value {
-    margin: 0;
-  }
-
   &__stages {
     display: flex;
     align-items: center;
-
-    .pix-stars svg {
-      width: 26px;
-      height: 26px;
-    }
-  }
-
-  &__progress-bar {
-    border-right: none;
-  }
-
-  &__mastery-percentage {
-    padding-left: 0;
+    flex-direction: row;
+    gap: 1rem;
   }
 }
 

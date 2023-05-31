@@ -130,7 +130,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
         );
 
         assert.notContains(t('pages.assessment-individual-results.progression'));
-        assert.notContains(t('common.percentage', { value: this.participation.progression }));
+        assert.notContains(t('common.result.percentage', { value: this.participation.progression }));
       });
 
       module('when the campaign has stages', function () {
@@ -153,10 +153,8 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
           );
 
-          assert.dom(`[aria-label="${t('pages.assessment-individual-results.stages.label')}"]`).exists();
-          assert
-            .dom(screen.getByText(t('pages.assessment-individual-results.stages.value', { count: 1, total: 2 })))
-            .exists();
+          assert.dom(`[aria-label="${t('pages.assessment-individual-results.result')}"]`).exists();
+          assert.dom(screen.getByText(t('common.result.stages', { count: 1, total: 2 }))).exists();
         });
       });
 

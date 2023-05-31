@@ -12,21 +12,16 @@
   {{#if @hasExternalId}}
     <td>{{@participation.participantExternalId}}</td>
   {{/if}}
-  {{#if @hasStages}}
-    <td>
-      <Campaign::StageStarsOld
-        @reachedStage={{@participation.reachedStage}}
-        @totalStage={{@participation.totalStage}}
-        @prescriberTitle={{@participation.prescriberTitle}}
-        @prescriberDescription={{@participation.prescriberDescription}}
-        @withTooltip={{true}}
-      />
-    </td>
-  {{else}}
-    <td class="participant-list__mastery-percentage">
-      {{t "pages.campaign-results.table.column.results.value" percentage=@participation.masteryRate}}
-    </td>
-  {{/if}}
+  <td>
+    <Ui::MasteryPercentageDisplay
+      @masteryRate={{@participation.masteryRate}}
+      @hasStages={{@hasStages}}
+      @reachedStage={{@participation.reachedStage}}
+      @totalStage={{@participation.totalStage}}
+      @prescriberTitle={{@participation.prescriberTitle}}
+      @prescriberDescription={{@participation.prescriberDescription}}
+    />
+  </td>
   {{#if @hasBadges}}
     <td class="participant-list__badges">
       <Campaign::Badges @badges={{@participation.badges}} />
