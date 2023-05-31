@@ -14,6 +14,6 @@ module('Acceptance | Challenge', function (hooks) {
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
     // then
     assert.dom(screen.getByText(challenge.instruction)).exists();
-    assert.dom(screen.getByRole('button', { name: 'Vérifier' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Je vérifie' })).exists();
   });
 });

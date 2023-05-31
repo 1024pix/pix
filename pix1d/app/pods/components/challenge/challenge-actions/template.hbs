@@ -1,9 +1,24 @@
-<div>
-  <div>
-    <PixButton @isDisabled={{@isDisabled}} @triggerAction={{@validateAnswer}} @backgroundColor="green" @shape="rounded">
-      <span>
-        Vérifier
-      </span>
-    </PixButton>
-  </div>
+<div class="challenge-actions">
+  <PixButton
+    class="challenge-actions__skip-button"
+    @isDisabled={{@isDisabled}}
+    @triggerAction={{@skipChallenge}}
+    @shape="rounded"
+    @size="big"
+  >
+    <span>
+      Je passe
+    </span>
+  </PixButton>
+  <PixButton
+    class="challenge-actions__verify-button"
+    @isDisabled={{@isDisabled}}
+    @triggerAction={{@validateAnswer}}
+    @shape="rounded"
+    @size="big"
+  >
+    <span>
+      Je vérifie
+    </span>
+  </PixButton>
 </div>
