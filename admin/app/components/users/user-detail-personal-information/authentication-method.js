@@ -22,10 +22,10 @@ export default class AuthenticationMethod extends Component {
     );
   }
 
-  get pixAuthenticationMethod() {
-    return this.args.user.authenticationMethods.find(
+  get shouldChangePassword() {
+    return !!this.args.user.authenticationMethods.find(
       (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
-    );
+    )?.authenticationComplement?.shouldChangePassword;
   }
 
   get hasEmailAuthenticationMethod() {
@@ -141,8 +141,7 @@ export default class AuthenticationMethod extends Component {
       targetUserId: this.targetUserId,
       identityProvider: oidcAuthenticationMethodCode,
     });
-
-    this.showReassignOidcAuthenticationMethodModal = false;
+    this.showReassignOidcAuthenticationMethodModal = !this.showReassignOidcAuthenticationMethodModal;
   }
 
   @action

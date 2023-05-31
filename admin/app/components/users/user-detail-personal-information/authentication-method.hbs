@@ -24,9 +24,7 @@
   <ul>
     <li class="authentication-method__connexions-information">
       {{t "components.users.user-detail-personal-information.authentication-method.should-change-password-status"}}
-      {{#if this.pixAuthenticationMethod.authenticationComplement.shouldChangePassword}}{{t
-          "common.words.yes"
-        }}{{else}}{{t "common.words.no"}}{{/if}}
+      {{#if this.shouldChangePassword}}{{t "common.words.yes"}}{{else}}{{t "common.words.no"}}{{/if}}
     </li>
   </ul>
 {{/if}}
