@@ -31,6 +31,11 @@ const createForPix1d = async function (request, h, dependencies = { assessmentSe
   return h.response(dependencies.assessmentSerializer.serialize(createdAssessment)).created();
 };
 
+const createAssessmentPreviewForPix1d = async function (request, h, dependencies = { assessmentSerializer }) {
+  const createdAssessment = await usecases.createPreviewAssessment({});
+  return h.response(dependencies.assessmentSerializer.serialize(createdAssessment)).created();
+};
+
 const get = async function (request, _, dependencies = { assessmentSerializer }) {
   const assessmentId = request.params.id;
   const locale = extractLocaleFromRequest(request);
@@ -170,6 +175,7 @@ const assessmentController = {
   updateLastChallengeState,
   findCompetenceEvaluations,
   autoValidateNextChallenge,
+  createAssessmentPreviewForPix1d,
 };
 
 export { assessmentController };
