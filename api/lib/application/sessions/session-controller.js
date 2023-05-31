@@ -81,14 +81,20 @@ const getAttendanceSheet = async function (request, h, dependencies = { tokenSer
     .header('Content-Disposition', `attachment; filename=${fileName}`);
 };
 
-const getSupervisorKitPdf = async function (request, h, dependencies = { tokenService, supervisorKitPdf }) {
+const getSupervisorKitPdf = async function (
+  request,
+  h,
+  dependencies = { tokenService, requestResponseUtils, supervisorKitPdf }
+) {
   const sessionId = request.params.id;
   const token = request.query.accessToken;
   const userId = dependencies.tokenService.extractUserId(token);
+  const { lang } = request.query;
   const sessionForSupervisorKit = await usecases.getSupervisorKitSessionInfo({ sessionId, userId });
 
   const { buffer, fileName } = await dependencies.supervisorKitPdf.getSupervisorKitPdfBuffer({
     sessionForSupervisorKit,
+    lang,
   });
 
   return h
