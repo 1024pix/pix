@@ -11,6 +11,7 @@ export default class UserInformationController extends Controller {
     STATUS_422: {
       POLE_EMPLOI: "L'utilisateur a déjà une méthode de connexion Pôle Emploi.",
       GAR: "L'utilisateur a déjà une méthode de connexion Médiacentre.",
+      CNAV: "L'utilisateur a déjà une méthode de connexion CNAV.",
     },
     STATUS_400: 'Cette requête est impossible',
     STATUS_404: "Cet utilisateur n'existe pas.",
