@@ -93,16 +93,13 @@ export default class AuthenticationMethod extends Component {
   }
 
   @action
-  toggleAddAuthenticationMethodModal() {
-    this.showAddAuthenticationMethodModal = !this.showAddAuthenticationMethodModal;
-    this.showAlreadyExistingEmailError = false;
-    this.newEmail = '';
+  onChangeNewEmail(event) {
+    this.newEmail = event.target.value;
   }
 
   @action
-  toggleReassignGarAuthenticationMethodModal() {
-    this.showReassignGarAuthenticationMethodModal = !this.showReassignGarAuthenticationMethodModal;
-    this.targetUserId = '';
+  onChangeTargetUserId(event) {
+    this.targetUserId = event.target.value;
   }
 
   @action
@@ -139,23 +136,6 @@ export default class AuthenticationMethod extends Component {
   }
 
   @action
-  onChangeNewEmail(event) {
-    this.newEmail = event.target.value;
-  }
-
-  @action
-  onChangeTargetUserId(event) {
-    this.targetUserId = event.target.value;
-  }
-
-  @action
-  toggleReassignOidcAuthenticationMethodModal(oidcAuthenticationMethod) {
-    this.targetUserId = '';
-    this.selectedOidcAuthenticationMethod = oidcAuthenticationMethod ? { ...oidcAuthenticationMethod } : null;
-    this.showReassignOidcAuthenticationMethodModal = !this.showReassignOidcAuthenticationMethodModal;
-  }
-
-  @action
   async submitReassignOidcAuthenticationMethod(oidcAuthenticationMethodCode) {
     await this.args.reassignAuthenticationMethod({
       targetUserId: this.targetUserId,
@@ -163,5 +143,25 @@ export default class AuthenticationMethod extends Component {
     });
 
     this.showReassignOidcAuthenticationMethodModal = false;
+  }
+
+  @action
+  toggleAddAuthenticationMethodModal() {
+    this.showAddAuthenticationMethodModal = !this.showAddAuthenticationMethodModal;
+    this.showAlreadyExistingEmailError = false;
+    this.newEmail = '';
+  }
+
+  @action
+  toggleReassignGarAuthenticationMethodModal() {
+    this.showReassignGarAuthenticationMethodModal = !this.showReassignGarAuthenticationMethodModal;
+    this.targetUserId = '';
+  }
+
+  @action
+  toggleReassignOidcAuthenticationMethodModal(oidcAuthenticationMethod) {
+    this.targetUserId = '';
+    this.selectedOidcAuthenticationMethod = oidcAuthenticationMethod ? { ...oidcAuthenticationMethod } : null;
+    this.showReassignOidcAuthenticationMethodModal = !this.showReassignOidcAuthenticationMethodModal;
   }
 }
