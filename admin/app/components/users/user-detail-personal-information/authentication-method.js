@@ -160,7 +160,6 @@ export default class AuthenticationMethod extends Component {
 
   @action
   toggleReassignOidcAuthenticationMethodModal(oidcAuthenticationMethod) {
-    this.targetUserId = '';
     this.selectedOidcAuthenticationMethod = oidcAuthenticationMethod ? { ...oidcAuthenticationMethod } : null;
     this.showReassignOidcAuthenticationMethodModal = !this.showReassignOidcAuthenticationMethodModal;
   }
