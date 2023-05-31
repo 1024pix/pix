@@ -15,7 +15,7 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
   let validCapacityPayload;
   let validPayloadForBatch;
   const assessmentId = '1234';
-  const simulationAnswers = ['ok', 'ko', 'aband'];
+  const answerStatusArray = ['ok', 'ko', 'aband'];
 
   beforeEach(async function () {
     server = await createServer();
@@ -28,7 +28,7 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
 
     validDeterministicPayload = {
       assessmentId,
-      simulationAnswers,
+      answerStatusArray,
       type: 'deterministic',
     };
     validRandomPayload = {

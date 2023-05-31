@@ -1,10 +1,10 @@
 import { Answer } from './Answer.js';
 
 export class AssessmentSimulator {
-  constructor({ algorithm, challenges, pickChallenge, pickAnswer, stopAtChallenge, initialCapacity }) {
+  constructor({ algorithm, challenges, pickChallenge, pickAnswerStatus, stopAtChallenge, initialCapacity }) {
     this.algorithm = algorithm;
     this.challenges = challenges;
-    this.pickAnswer = pickAnswer;
+    this.pickAnswerStatus = pickAnswerStatus;
     this.pickChallenge = pickChallenge;
     this.stopAtChallenge = stopAtChallenge;
     this.initialCapacity = initialCapacity;
@@ -26,16 +26,16 @@ export class AssessmentSimulator {
         });
         const nextChallenge = this.pickChallenge({ possibleChallenges });
 
-        const answer = this.pickAnswer({
+        const answerStatus = this.pickAnswerStatus({
           answerIndex: i,
           nextChallenge,
         });
 
-        if (!answer) {
+        if (!answerStatus) {
           break;
         }
 
-        challengesAnswers.push(new Answer({ result: answer, challengeId: nextChallenge.id }));
+        challengesAnswers.push(new Answer({ result: answerStatus, challengeId: nextChallenge.id }));
 
         const reward = this.algorithm.getReward({
           estimatedLevel,
@@ -58,7 +58,7 @@ export class AssessmentSimulator {
           errorRate,
           estimatedLevel,
           reward,
-          answer,
+          answerStatus,
         });
       } catch (err) {
         break;

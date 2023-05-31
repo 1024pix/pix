@@ -3,7 +3,7 @@ import { AnswerStatus, AssessmentSimulator } from '../../../../lib/domain/models
 
 describe('Unit | Domain | Models | AssessmentSimulator', function () {
   describe('#run', function () {
-    context('with the "pickAnswer" function provided', function () {
+    context('with the "pickAnswerStatus" function provided', function () {
       context('when there are always answers available', function () {
         it('should return the list of all the challenges', function () {
           // given
@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             getReward: sinon.stub(),
           };
           const pickChallenge = sinon.stub();
-          const pickAnswer = sinon.stub();
+          const pickAnswerStatus = sinon.stub();
 
           algorithm.getEstimatedLevelAndErrorRate
             .withArgs({
@@ -66,7 +66,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             .withArgs({ possibleChallenges: [challenge1] })
             .returns(challenge1);
 
-          pickAnswer
+          pickAnswerStatus
             .withArgs({ nextChallenge: challenge2, answerIndex: 0 })
             .returns(answersForSimulator[0])
             .withArgs({ nextChallenge: challenge1, answerIndex: 1 })
@@ -93,14 +93,14 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
               estimatedLevel: expectedEstimatedLevels[0],
               errorRate: expectedErrorRates[0],
               reward: expectedRewards[0],
-              answer: answersForSimulator[0],
+              answerStatus: answersForSimulator[0],
             },
             {
               challenge: challenge1,
               estimatedLevel: expectedEstimatedLevels[1],
               errorRate: expectedErrorRates[1],
               reward: expectedRewards[1],
-              answer: answersForSimulator[1],
+              answerStatus: answersForSimulator[1],
             },
           ];
 
@@ -108,7 +108,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             algorithm,
             challenges: allChallenges,
             pickChallenge,
-            pickAnswer,
+            pickAnswerStatus,
           }).run();
 
           // then
@@ -134,7 +134,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             getReward: sinon.stub(),
           };
           const pickChallenge = sinon.stub();
-          const pickAnswer = sinon.stub();
+          const pickAnswerStatus = sinon.stub();
 
           algorithm.getEstimatedLevelAndErrorRate
             .withArgs({
@@ -169,7 +169,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             .withArgs({ possibleChallenges: [challenge1] })
             .returns(challenge1);
 
-          pickAnswer.withArgs({ nextChallenge: challenge2, answerIndex: 0 }).returns(answersForSimulator[0]);
+          pickAnswerStatus.withArgs({ nextChallenge: challenge2, answerIndex: 0 }).returns(answersForSimulator[0]);
 
           algorithm.getReward
             .withArgs({
@@ -186,7 +186,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
               estimatedLevel: expectedEstimatedLevels[0],
               errorRate: expectedErrorRates[0],
               reward: expectedRewards[0],
-              answer: answersForSimulator[0],
+              answerStatus: answersForSimulator[0],
             },
           ];
 
@@ -194,7 +194,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             algorithm,
             challenges: allChallenges,
             pickChallenge,
-            pickAnswer,
+            pickAnswerStatus,
           }).run();
 
           // then
@@ -223,7 +223,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             getReward: sinon.stub(),
           };
           const pickChallenge = sinon.stub();
-          const pickAnswer = sinon.stub();
+          const pickAnswerStatus = sinon.stub();
 
           algorithm.getEstimatedLevelAndErrorRate
             .withArgs({
@@ -266,7 +266,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             .withArgs({ possibleChallenges: [challenge1] })
             .returns(challenge1);
 
-          pickAnswer
+          pickAnswerStatus
             .withArgs({ nextChallenge: challenge2, answerIndex: 0 })
             .returns(answersForSimulator[0])
             .withArgs({ nextChallenge: challenge1, answerIndex: 1 })
@@ -293,7 +293,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
               estimatedLevel: expectedEstimatedLevels[0],
               errorRate: expectedErrorRates[0],
               reward: expectedRewards[0],
-              answer: answersForSimulator[0],
+              answerStatus: answersForSimulator[0],
             },
           ];
 
@@ -301,7 +301,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             algorithm,
             challenges: allChallenges,
             pickChallenge,
-            pickAnswer,
+            pickAnswerStatus,
             stopAtChallenge: 1,
           }).run();
 
@@ -331,7 +331,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           getReward: sinon.stub(),
         };
         const pickChallenge = sinon.stub();
-        const pickAnswer = sinon.stub();
+        const pickAnswerStatus = sinon.stub();
 
         algorithm.getEstimatedLevelAndErrorRate
           .withArgs({
@@ -374,7 +374,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           .withArgs({ possibleChallenges: [challenge1] })
           .returns(challenge1);
 
-        pickAnswer
+        pickAnswerStatus
           .withArgs({ nextChallenge: challenge2, answerIndex: 0 })
           .returns(answersForSimulator[0])
           .withArgs({ nextChallenge: challenge1, answerIndex: 1 })
@@ -401,14 +401,14 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             estimatedLevel: expectedEstimatedLevels[0],
             errorRate: expectedErrorRates[0],
             reward: expectedRewards[0],
-            answer: answersForSimulator[0],
+            answerStatus: answersForSimulator[0],
           },
           {
             challenge: challenge1,
             estimatedLevel: expectedEstimatedLevels[1],
             errorRate: expectedErrorRates[1],
             reward: expectedRewards[1],
-            answer: answersForSimulator[1],
+            answerStatus: answersForSimulator[1],
           },
         ];
 
@@ -416,7 +416,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           algorithm,
           challenges: allChallenges,
           pickChallenge,
-          pickAnswer,
+          pickAnswerStatus,
           initialCapacity,
         }).run();
 
