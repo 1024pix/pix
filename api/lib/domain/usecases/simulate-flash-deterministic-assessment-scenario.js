@@ -3,9 +3,8 @@ import { AssessmentSimulator, FlashAssessmentAlgorithm } from '../models/index.j
 export async function simulateFlashDeterministicAssessmentScenario({
   challengeRepository,
   locale,
-  simulationAnswers,
   pickChallengeService,
-  pickAnswer,
+  pickAnswerStatus,
   assessmentId,
   stopAtChallenge,
   initialCapacity,
@@ -21,12 +20,11 @@ export async function simulateFlashDeterministicAssessmentScenario({
     });
 
   const simulator = new AssessmentSimulator({
-    answers: simulationAnswers,
     algorithm: flashAssessmentAlgorithm,
     challenges,
     pickChallenge,
     initialCapacity,
-    pickAnswer,
+    pickAnswerStatus,
     stopAtChallenge,
   });
 
