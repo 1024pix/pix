@@ -22,8 +22,6 @@ module('Integration | Component | Campaign::Cards::StageAverage', function (hook
     );
 
     assert.contains(t('cards.participants-average-stages.title'));
-    assert
-      .dom(screen.getByText(t('pages.assessment-individual-results.stages.value', { count: 1, total: 2 })))
-      .exists();
+    assert.dom(screen.getByText(t('common.result.stages', { count: 1, total: 2 }))).exists();
   });
 });
