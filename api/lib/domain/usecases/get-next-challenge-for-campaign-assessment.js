@@ -30,7 +30,7 @@ const getNextChallengeForCampaignAssessment = async function ({
       estimatedLevel,
     });
 
-    return pickChallengeService.chooseNextChallenge({ possibleChallenges, assessmentId: assessment.id });
+    return pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
   } else {
     const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
     algoResult = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });

@@ -116,12 +116,15 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             fetchForFlashCampaigns: sinon.stub(),
           };
 
-          pickChallengeService.chooseNextChallenge
+          const chooseNextChallenge = sinon.stub();
+
+          chooseNextChallenge
             .withArgs({
               possibleChallenges: [secondChallenge],
-              assessmentId: assessment.id,
             })
             .returns(secondChallenge);
+
+          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallenge);
 
           dataFetcherStub.fetchForFlashCampaigns
             .withArgs({
@@ -172,12 +175,15 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               challenges: [firstChallenge, secondChallenge, thirdChallenge],
             });
 
-          pickChallengeService.chooseNextChallenge
+          const chooseNextChallenge = sinon.stub();
+
+          chooseNextChallenge
             .withArgs({
               possibleChallenges: [thirdChallenge, secondChallenge],
-              assessmentId: assessment.id,
             })
             .returns(secondChallenge);
+
+          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallenge);
 
           // when
           const bestChallenge = await getNextChallengeForCampaignAssessment({

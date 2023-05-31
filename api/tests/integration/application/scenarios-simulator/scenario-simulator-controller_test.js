@@ -4,6 +4,7 @@ import * as moduleUnderTest from '../../../../lib/application/scenarios-simulato
 import { random } from '../../../../lib/infrastructure/utils/random.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-answer-status-service.js';
+import { pickChallengeService } from '../../../../lib/domain/services/pick-challenge-service.js';
 
 describe('Integration | Application | Scoring-simulator | scenario-simulator-controller', function () {
   let httpTestServer;
@@ -20,6 +21,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
     sinon.stub(random, 'weightedRandoms');
     sinon.stub(pickAnswerStatusService, 'pickAnswerStatusFromArray');
     sinon.stub(pickAnswerStatusService, 'pickAnswerStatusForCapacity');
+    sinon.stub(pickChallengeService, 'chooseNextChallenge');
 
     challenge1 = domainBuilder.buildChallenge({ id: 'chall1', successProbabilityThreshold: 0.65 });
     reward1 = 0.2;
@@ -64,6 +66,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               const answerStatusArray = ['ok'];
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -72,8 +78,8 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
-                  assessmentId,
                   locale: 'en',
+                  pickChallenge: pickChallengeImplementation,
                   initialCapacity,
                   stopAtChallenge: undefined,
                 })
@@ -103,7 +109,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
-                      'answer-status': 'ok',
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
@@ -120,6 +126,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               const answerStatusArray = ['ok'];
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -128,7 +138,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
-                  assessmentId,
+                  pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   stopAtChallenge: undefined,
                   initialCapacity: undefined,
@@ -158,7 +168,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
-                      'answer-status': 'ok',
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
@@ -172,17 +182,25 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
           context('When the route is called with a numberOfIterations', function () {
             it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
               // given
-              const simulationAnswers = ['ok'];
+              const answerStatusArray = ['ok'];
               const assessmentId = '13802DK';
               const numberOfIterations = 2;
 
-              const pickAnswerFromArrayImplementation = sinon.stub();
-              pickAnswersService.pickAnswersFromArray.withArgs(['ok']).returns(pickAnswerFromArrayImplementation);
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation)
+                .withArgs(`${assessmentId}-1`)
+                .returns(pickChallengeImplementation);
+              const pickAnswerStatusFromArrayImplementation = sinon.stub();
+              pickAnswerStatusService.pickAnswerStatusFromArray
+                .withArgs(['ok'])
+                .returns(pickAnswerStatusFromArrayImplementation);
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  pickAnswer: pickAnswerFromArrayImplementation,
-                  assessmentId,
+                  pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
+                  pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   stopAtChallenge: undefined,
                   initialCapacity: undefined,
@@ -197,7 +215,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 {
                   assessmentId,
                   numberOfIterations,
-                  simulationAnswers,
+                  answerStatusArray,
                   type: 'deterministic',
                 },
                 null,
@@ -208,7 +226,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 errorRate: errorRate1,
                 estimatedLevel: estimatedLevel1,
                 minimumCapability: 0.6190392084062237,
-                answer: 'ok',
+                answerStatus: 'ok',
                 reward: reward1,
                 difficulty: challenge1.difficulty,
                 discriminant: challenge1.discriminant,
@@ -232,6 +250,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -239,7 +261,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  assessmentId,
+                  pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
                   stopAtChallenge: undefined,
@@ -271,7 +293,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
-                      'answer-status': 'ok',
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
@@ -290,6 +312,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -297,7 +323,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  assessmentId,
+                  pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
                   stopAtChallenge: undefined,
@@ -330,7 +356,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
-                      'answer-status': 'ok',
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
@@ -351,6 +377,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               const capacity = -3.1;
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromCapacityImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusForCapacity
                 .withArgs(capacity)
@@ -358,7 +388,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  assessmentId,
+                  pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromCapacityImplementation,
                   stopAtChallenge: undefined,
@@ -389,7 +419,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
-                      'answer-status': 'ok',
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
@@ -406,6 +436,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               const capacity = -3.1;
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromCapacityImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusForCapacity
                 .withArgs(capacity)
@@ -413,7 +447,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  assessmentId,
+                  pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromCapacityImplementation,
                   stopAtChallenge: undefined,
@@ -445,7 +479,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
-                      'answer-status': 'ok',
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
@@ -490,6 +524,13 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
             },
           ];
 
+          const pickChallengeImplementation = sinon.stub();
+          pickChallengeService.chooseNextChallenge
+            .withArgs(0)
+            .returns(pickChallengeImplementation)
+            .withArgs(1)
+            .returns(pickChallengeImplementation);
+
           const pickAnswerStatusFromArrayImplementation1 = sinon.stub();
           const pickAnswerStatusFromArrayImplementation2 = sinon.stub();
           pickAnswerStatusService.pickAnswerStatusFromArray
@@ -517,7 +558,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
           usecases.simulateFlashDeterministicAssessmentScenario
             .withArgs({
-              assessmentId: 0,
+              pickChallenge: pickChallengeImplementation,
               locale: 'en',
               pickAnswerStatus: pickAnswerStatusFromArrayImplementation1,
             })
@@ -525,7 +566,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
           usecases.simulateFlashDeterministicAssessmentScenario
             .withArgs({
-              assessmentId: 1,
+              pickChallenge: pickChallengeImplementation,
               locale: 'en',
               pickAnswerStatus: pickAnswerStatusFromArrayImplementation2,
             })
@@ -637,7 +678,7 @@ function _generateScenarioSimulatorBatch(data) {
           'error-rate': scenarioSimulatorChallenge.errorRate,
           'estimated-level': scenarioSimulatorChallenge.estimatedLevel,
           'minimum-capability': scenarioSimulatorChallenge.minimumCapability,
-          answer: scenarioSimulatorChallenge.answer,
+          'answer-status': scenarioSimulatorChallenge.answerStatus,
           reward: scenarioSimulatorChallenge.reward,
           difficulty: scenarioSimulatorChallenge.difficulty,
           discriminant: scenarioSimulatorChallenge.discriminant,
