@@ -1,4 +1,4 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
@@ -139,18 +139,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       answerRepository.findByAssessment.withArgs(assessmentId).resolves([answer]);
       assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
 
-      try {
-        await getNextChallengeForPix1d({
-          assessmentId,
-          assessmentRepository,
-          answerRepository,
-          challengeRepository,
-        });
-      } catch {
-        // check catch error in other unit test
-      } finally {
-        expect(assessmentRepository.completeByAssessmentId).to.have.been.calledOnceWith(assessmentId);
-      }
+      await catchErr(getNextChallengeForPix1d)({
+        assessmentId,
+        assessmentRepository,
+        answerRepository,
+        challengeRepository,
+      });
+      expect(assessmentRepository.completeByAssessmentId).to.have.been.calledOnceWith(assessmentId);
     });
 
     it('should throw a NotFoundError with no more challenge message', async function () {
@@ -194,18 +189,14 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       answerRepository.findByAssessment.withArgs(assessmentId).resolves([answer]);
       assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
 
-      try {
-        await getNextChallengeForPix1d({
-          assessmentId,
-          assessmentRepository,
-          answerRepository,
-          challengeRepository,
-        });
-      } catch {
-        // check catch error in other unit test
-      } finally {
-        expect(assessmentRepository.completeByAssessmentId).to.have.been.calledOnceWith(assessmentId);
-      }
+      await catchErr(getNextChallengeForPix1d)({
+        assessmentId,
+        assessmentRepository,
+        challengeRepository,
+        answerRepository,
+      });
+
+      expect(assessmentRepository.completeByAssessmentId).to.have.been.calledOnceWith(assessmentId);
     });
 
     it('should throw a NotFoundError with no more challenge message', async function () {
