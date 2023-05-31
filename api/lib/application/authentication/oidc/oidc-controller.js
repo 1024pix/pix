@@ -21,7 +21,7 @@ const getRedirectLogoutUrl = async function (
   const userId = request.auth.credentials.userId;
   const { identity_provider: identityProvider, logout_url_uuid: logoutUrlUUID } = request.query;
   const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
   const redirectLogoutUrl = await oidcAuthenticationService.getRedirectLogoutUrl({
     userId,
     logoutUrlUUID,
@@ -58,7 +58,7 @@ const reconcileUser = async function (
 ) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
   const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
 
   const result = await usecases.reconcileOidcUser({
     authenticationKey,
@@ -77,7 +77,7 @@ const getAuthenticationUrl = async function (
 ) {
   const { identity_provider: identityProvider } = request.query;
   const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
   const result = oidcAuthenticationService.getAuthenticationUrl({ redirectUri: request.query['redirect_uri'] });
   return h.response(result).code(200);
 };
@@ -92,7 +92,7 @@ const authenticateUser = async function (
   const { code, identityProvider, redirectUri, stateSent, stateReceived } = request.deserializedPayload;
 
   const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
 
   const result = await usecases.authenticateOidcUser({
     code,
@@ -124,7 +124,7 @@ const createUser = async function (
   const localeFromCookie = request.state?.locale;
 
   const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
   const { accessToken, logoutUrlUUID } = await usecases.createOidcUser({
     authenticationKey,
     identityProvider,

@@ -20,10 +20,10 @@ function getOidcProviderServices() {
   return Object.values(OidcProviderServiceMap);
 }
 
-function lookupAuthenticationService(identityProvider) {
+function getOidcProviderServiceByCode(identityProvider) {
   if (!OidcProviderServiceCodes.includes(identityProvider)) throw new InvalidIdentityProviderError(identityProvider);
 
   return OidcProviderServiceMap[identityProvider];
 }
 
-export { getOidcProviderServices, lookupAuthenticationService };
+export { getOidcProviderServices, getOidcProviderServiceByCode };

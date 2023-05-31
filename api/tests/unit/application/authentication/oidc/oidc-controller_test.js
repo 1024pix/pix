@@ -61,10 +61,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         };
 
         const authenticationServiceRegistryStub = {
-          lookupAuthenticationService: sinon.stub(),
+          getOidcProviderServiceByCode: sinon.stub(),
         };
 
-        authenticationServiceRegistryStub.lookupAuthenticationService
+        authenticationServiceRegistryStub.getOidcProviderServiceByCode
           .withArgs(identityProvider)
           .returns(oidcAuthenticationService);
 
@@ -93,10 +93,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         getAuthenticationUrl: getAuthenticationUrlStub,
       };
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
-      authenticationServiceRegistryStub.lookupAuthenticationService
+      authenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs(identityProvider)
         .returns(oidcAuthenticationService);
 
@@ -144,10 +144,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       // given
       const oidcAuthenticationService = {};
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
-      authenticationServiceRegistryStub.lookupAuthenticationService
+      authenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs(identityProvider)
         .returns(oidcAuthenticationService);
 
@@ -178,10 +178,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       // given
       const oidcAuthenticationService = {};
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
-      authenticationServiceRegistryStub.lookupAuthenticationService
+      authenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs(identityProvider)
         .returns(oidcAuthenticationService);
 
@@ -209,10 +209,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       // given
       const oidcAuthenticationService = {};
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
-      authenticationServiceRegistryStub.lookupAuthenticationService
+      authenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs(identityProvider)
         .returns(oidcAuthenticationService);
 
@@ -247,10 +247,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const accessToken = 'access.token';
       const oidcAuthenticationService = {};
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
-      authenticationServiceRegistryStub.lookupAuthenticationService
+      authenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs(identityProvider)
         .returns(oidcAuthenticationService);
 
@@ -335,7 +335,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         },
       };
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
       const dependencies = {

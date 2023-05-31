@@ -3,13 +3,13 @@ import * as authenticationRegistry from '../../../../../lib/domain/services/auth
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Services | authentication registry', function () {
-  describe('#lookupAuthenticationService', function () {
+  describe('#getOidcProviderServiceByCode', function () {
     it('should find the identity provider service', async function () {
       // given
       const identityProvider = 'POLE_EMPLOI';
 
       // when
-      const service = await authenticationRegistry.lookupAuthenticationService(identityProvider);
+      const service = await authenticationRegistry.getOidcProviderServiceByCode(identityProvider);
 
       // then
       expect(service.identityProvider).to.equal('POLE_EMPLOI');
@@ -20,7 +20,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       const identityProvider = 'FWB';
 
       // when
-      const service = await authenticationRegistry.lookupAuthenticationService(identityProvider);
+      const service = await authenticationRegistry.getOidcProviderServiceByCode(identityProvider);
 
       // then
       expect(service.identityProvider).to.equal('FWB');
@@ -32,7 +32,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       const identityProvider = 'IDP';
 
       // when
-      const error = await catchErr(authenticationRegistry.lookupAuthenticationService)(identityProvider);
+      const error = await catchErr(authenticationRegistry.getOidcProviderServiceByCode)(identityProvider);
 
       // then
       expect(error).to.be.an.instanceOf(InvalidIdentityProviderError);
