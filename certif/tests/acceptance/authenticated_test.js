@@ -153,11 +153,13 @@ module('Acceptance | authenticated', function (hooks) {
 
       // when
       const screen = await visitScreen('/');
-      await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
+      await click(screen.getByRole('button', { name: 'Buffy Summers Bibiche (ABC123) Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
-      assert.dom(screen.getByRole('link', { name: 'Buffy Summers Poupoune (DEF456)' })).exists();
+      assert
+        .dom(screen.getByRole('button', { name: 'Buffy Summers Poupoune (DEF456) Ouvrir le menu utilisateur' }))
+        .exists();
     });
 
     test('should redirect to sessions/liste URL when changing the current certification center', async function (assert) {
@@ -189,7 +191,7 @@ module('Acceptance | authenticated', function (hooks) {
 
       // when
       const screen = await visitScreen('/sessions/555');
-      await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
+      await click(screen.getByRole('button', { name: 'Buffy Summers Bibiche (ABC123) Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
@@ -226,7 +228,7 @@ module('Acceptance | authenticated', function (hooks) {
 
       // when
       const screen = await visitScreen('/sessions/555');
-      await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
+      await click(screen.getByRole('button', { name: 'Buffy Summers Bibiche (ABC123) Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
@@ -263,7 +265,7 @@ module('Acceptance | authenticated', function (hooks) {
 
       // when
       const screen = await visitScreen('/');
-      await click(screen.getByRole('link', { name: 'Buffy Summers Bibiche (ABC123)' }));
+      await click(screen.getByRole('button', { name: 'Buffy Summers Bibiche (ABC123) Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then

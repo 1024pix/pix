@@ -70,20 +70,26 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
   module('when menu is closed', function () {
     test('([a11y] should indicate that the menu is not displayed', async function (assert) {
+      // given
+      const userMenuInformation = 'Buffy Summers Sunnydale Ouvrir le menu utilisateur';
+
       // when
       const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
-      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
-      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+      await click(screen.getByRole('button', { name: userMenuInformation }));
+      await click(screen.getByRole('button', { name: userMenuInformation }));
 
       // then
-      assert.dom(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' })).hasAria('expanded', 'false');
+      assert.dom(screen.getByRole('button', { name: userMenuInformation })).hasAria('expanded', 'false');
     });
 
     test('should hide the disconnect link', async function (assert) {
+      // given
+      const userMenuInformation = 'Buffy Summers Sunnydale Ouvrir le menu utilisateur';
+
       // when
       const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
-      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
-      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+      await click(screen.getByRole('button', { name: userMenuInformation }));
+      await click(screen.getByRole('button', { name: userMenuInformation }));
 
       // then
       assert.dom(screen.queryByRole('link', { name: 'Se déconnecter' })).doesNotExist();
@@ -92,18 +98,21 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
   module('when menu is open', function () {
     test('([a11y] should indicate that the menu is displayed', async function (assert) {
+      // given
+      const userMenuInformation = 'Buffy Summers Sunnydale Ouvrir le menu utilisateur';
+
       // when
       const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
-      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+      await click(screen.getByRole('button', { name: userMenuInformation }));
 
       // then
-      assert.dom(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' })).hasAria('expanded', 'true');
+      assert.dom(screen.getByRole('button', { name: userMenuInformation })).hasAria('expanded', 'true');
     });
 
     test('should display the disconnect link', async function (assert) {
       // when
       const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
-      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+      await click(screen.getByRole('button', { name: 'Buffy Summers Sunnydale Ouvrir le menu utilisateur' }));
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Se déconnecter' })).exists();
@@ -133,7 +142,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
       // when
       const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
-      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+      await click(screen.getByRole('button', { name: 'Buffy Summers Sunnydale Ouvrir le menu utilisateur' }));
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Torreilles (externalId1)' })).exists();
@@ -161,12 +170,12 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       const screen = await renderScreen(
         hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`
       );
-      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+      await click(screen.getByRole('button', { name: 'Buffy Summers Sunnydale Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Torreilles (externalId1)' }));
 
       // then
       assert.dom(screen.queryByRole('button', { name: 'Torreilles (externalId1)' })).doesNotExist();
-      assert.dom(screen.queryByRole('button', { name: 'Se déconnecter' })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: 'Se déconnecter' })).doesNotExist();
     });
 
     test('should call the "onCertificationCenterAccessChanged" function', async function (assert) {
@@ -188,7 +197,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       const screen = await renderScreen(
         hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`
       );
-      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+      await click(screen.getByRole('button', { name: 'Buffy Summers Sunnydale Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Torreilles (externalId1)' }));
 
       // then
