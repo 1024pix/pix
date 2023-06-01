@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v4.1.0 (01/06/2023)
+
+
+### :rocket: Amélioration
+- [#6299](https://github.com/1024pix/pix/pull/6299) [FEATURE] Toujours afficher le résultat en pourcentage d'une campagne (PIX-7986)
+- [#6272](https://github.com/1024pix/pix/pull/6272) [FEATURE] Améliorer le style visuel du bloc d'embed d'une épreuve (PIX-8112).
+- [#6291](https://github.com/1024pix/pix/pull/6291) [FEATURE] Améliorer l'a11y de la page de lancement d'une épreuve chronométrée (PIX-7670).
+- [#6297](https://github.com/1024pix/pix/pull/6297) [FEATURE] Creation d'un script pour l'envoi des emails de resultat de certification (PIX-8211)
+- [#6276](https://github.com/1024pix/pix/pull/6276) [FEATURE] Arrêter la mission au 1er challenge échoué ou passé (PIX-8181)
+- [#6265](https://github.com/1024pix/pix/pull/6265) [FEATURE] Traduire le Kit surveillant en anglais (PIX-6688)
+- [#6283](https://github.com/1024pix/pix/pull/6283) [FEATURE] Afficher des corrections claires pour les QROCM-dep (PIX-7866)
+- [#6287](https://github.com/1024pix/pix/pull/6287) [FEATURE] Ajout d'une capacité initiale dans les simulateurs d'évaluation (PIX-8159).
+- [#6264](https://github.com/1024pix/pix/pull/6264) [FEATURE] Traduction d'éléments encore non traduits sur Pix Certif (PIX-8027).
+- [#6263](https://github.com/1024pix/pix/pull/6263) [FEATURE] Reporter le texte des pages SCO de Pix Certif dans des clés de traduction (PIX-8023).
+- [#6145](https://github.com/1024pix/pix/pull/6145) [FEATURE] Suppression de l'heure de fin de session de la feuille d'émargement et import de candidat (PIX-7836)
+
+### :building_construction: Tech
+- [#6285](https://github.com/1024pix/pix/pull/6285) [TECH] Mis à jour des instanciations des Chart sur PixOrga (PIX-8186)
+- [#6296](https://github.com/1024pix/pix/pull/6296) [TECH] Supprime les dépendances chai-dom et eslint-plugin-mocha de mon-pix
+- [#6289](https://github.com/1024pix/pix/pull/6289) [TECH] Remplacement des termes answers/simulationAnswers par answerStatus (pix-8183)
+- [#6290](https://github.com/1024pix/pix/pull/6290) [TECH] Mise à jour de ember-fontawesome en version 1.0.0
+- [#6282](https://github.com/1024pix/pix/pull/6282) [TECH] Supprime l'orb slack de la configuration de circleci
+
+### :bug: Correction
+- [#6288](https://github.com/1024pix/pix/pull/6288) [BUGFIX] Ajouter le i18n à la méthode publishInBatch (PIX-8187).
+
 ## v4.0.0 (26/05/2023)
 
 
