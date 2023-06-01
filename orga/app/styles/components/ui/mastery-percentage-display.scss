@@ -3,10 +3,27 @@
   align-items: center;
   gap: 1rem;
 
+  &--table-display {
+    align-items: flex-end;
+  }
+
+  &__stars {
+    height: 1.5rem;
+    
+    &--table-display {
+      height: 1.125rem;
+    }
+  }
+
   &__percentage {
     @extend %pix-body-s;
 
     font-weight: 500;
+    line-height: inherit;
+  }
+
+  &__info-icon {
+    color: $pix-neutral-30;
   }
 }
 
