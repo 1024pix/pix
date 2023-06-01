@@ -434,8 +434,7 @@
       },
       "embed-simulator": {
         "actions": {
-          "launch": "Commencer",
-          "launch-label": "Commencer la simulation",
+          "launch": "Je lance l’application",
           "reset": "Réinitialiser"
         },
         "placeholder": "Chargement de l'application en cours"
