@@ -24,6 +24,7 @@ export default class QrocmDepSolutionPanel extends Component {
       const isAnswerEmpty = answers[block.input] === '';
       block.answer = isAnswerEmpty ? this.intl.t('pages.result-item.aband') : answers[block.input];
       block.inputClass = this.getInputClass(isAnswerEmpty, correctionBlock?.validated);
+      block.ariaLabel = this.getAriaLabel(isAnswerEmpty, correctionBlock?.validated);
       return block;
     });
   }
@@ -63,5 +64,15 @@ export default class QrocmDepSolutionPanel extends Component {
       default:
         return `${CSS_PREPEND}wrong`;
     }
+  }
+
+  getAriaLabel(isEmptyAnswer, isAnswerCorrect) {
+    if (isEmptyAnswer) {
+      return this.intl.t('pages.comparison-window.results.a11y.skipped-answer');
+    }
+
+    return isAnswerCorrect
+      ? this.intl.t('pages.comparison-window.results.a11y.good-answer')
+      : this.intl.t('pages.comparison-window.results.a11y.wrong-answer');
   }
 }
