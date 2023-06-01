@@ -93,7 +93,6 @@
     "participants-by-stage": {
       "loader": "Chargement de la répartition des participants par paliers",
       "participants": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}}",
-      "percentage": "{percentage} %",
       "title": "Répartition des participants par paliers",
       "label-a11y": "{stage, plural, =0 {0 étoile} =1 {1 étoile} other {{stage, number} étoiles}} sur {totalStage}"
     },
@@ -186,7 +185,11 @@
       "page-number": "Page {current, number} / {total, number}",
       "result-by-page": "Voir"
     },
-    "percentage": "{value, number, ::percent}",
+    "result" : {
+      "accessibility-description": "Résultat obtenu = {percentage, number, ::percent}, soit le palier {stage} sur {totalStage}",
+      "percentage": "{value, number, ::percent}",
+      "stages": "{count} étoiles sur {total}"
+    },
     "target-profile-details": {
       "results": {
         "common": "Résultats affichés en ",
@@ -241,11 +244,7 @@
       "breadcrumb-current-page-label": "Participation de {firstName} {lastName}",
       "badges": "Résultats Thématiques",
       "progression": "Avancement",
-      "result": "Résultat",
-      "stages": {
-        "label": "Paliers",
-        "value": "{count} étoiles sur {total}"
-      },
+      "result": "Résultat",        
       "tab": {
         "results": "Résultats",
         "review": "Analyse"
@@ -490,8 +489,7 @@
           "results": {
             "label": "Résultats",
             "on-hold": " En attente d'envoi",
-            "under-test": "En cours de test",
-            "value": "{percentage, number, ::percent}"
+            "under-test": "En cours de test"
           }
         },
         "empty": "Aucune participation",

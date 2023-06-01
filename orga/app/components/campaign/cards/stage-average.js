@@ -13,7 +13,7 @@ export default class StageAverage extends Component {
   }
 
   get altMessage() {
-    return this.intl.t('pages.assessment-individual-results.stages.value', {
+    return this.intl.t('common.result.stages', {
       count: this.starsAcquired,
       total: this.starsTotal,
     });

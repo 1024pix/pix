@@ -35,4 +35,8 @@ export default class Header extends Component {
       },
     ];
   }
+
+  get percentage() {
+    return Math.round(this.args.participation.masteryRate * 100);
+  }
 }

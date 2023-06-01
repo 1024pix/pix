@@ -1,0 +1,18 @@
+<span aria-hidden={{if @hasStages "true" "false"}} class="mastery-percentage-display">
+  <span class="mastery-percentage-display__percentage">{{t "common.result.percentage" value=@masteryRate}}</span>
+  {{#if @hasStages}}
+    <Campaign::StageStarsOld
+      @reachedStage={{@reachedStage}}
+      @totalStage={{@totalStage}}
+      @prescriberTitle={{@prescriberTitle}}
+      @prescriberDescription={{@prescriberDescription}}
+      @withTooltip={{true}}
+      @tooltipPosition="bottom-left"
+    />
+  {{/if}}
+</span>
+{{#if @hasStages}}
+  <span class="screen-reader-only">
+    {{t "common.result.accessibility-description" percentage=@masteryRate stage=@reachedStage totalStage=@totalStage}}
+  </span>
+{{/if}}
