@@ -59,6 +59,7 @@ class YearOfBirth {
   @tracked status = 'default';
   @tracked message = null;
 }
+
 class FormValidation {
   lastName = new LastName();
   firstName = new FirstName();
@@ -191,10 +192,10 @@ export default class RegisterForm extends Component {
     if (this.isCreationFormNotValid) {
       return (this.isLoading = false);
     }
-
     try {
       this.dependentUser.password = this.password;
       this.dependentUser.withUsername = this.loginWithUsername;
+
       if (this.loginWithUsername) {
         this.dependentUser.username = this.username;
         this.dependentUser.email = undefined;
@@ -202,12 +203,12 @@ export default class RegisterForm extends Component {
         this.dependentUser.email = this.email;
         this.dependentUser.username = undefined;
       }
+
       await this.dependentUser.save();
 
       const userLogin = this.loginWithUsername ? this.dependentUser.username : this.dependentUser.email;
       await this._authenticate(userLogin, this.dependentUser.password);
     } catch (responseError) {
-      this.isLoading = false;
       responseError.errors.forEach((error) => {
         let defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
         if (error.status === '422') {
@@ -222,10 +223,10 @@ export default class RegisterForm extends Component {
         this.displayRegisterErrorMessage = true;
         this.registerErrorMessage = defaultMessage;
       });
+    } finally {
+      this.dependentUser.password = null;
+      this.isLoading = false;
     }
-
-    this.dependentUser.password = null;
-    this.isLoading = false;
   }
 
   @action
