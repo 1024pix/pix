@@ -17,6 +17,7 @@
               rows="5"
               @value="{{block.answer}}"
               @id="{{block.input}}"
+              aria-label={{block.ariaLabel}}
               disabled
             />
           </div>
@@ -26,6 +27,7 @@
               class="correction-qrocm-answer__input-sentence"
               @value="{{block.answer}}"
               @id="{{block.input}}"
+              @ariaLabel={{block.ariaLabel}}
               disabled
             />
           </div>
@@ -36,6 +38,7 @@
               @value="{{block.answer}}"
               size="{{block.answer.length}}"
               @id="{{block.input}}"
+              @ariaLabel={{block.ariaLabel}}
               disabled
             />
           </div>
@@ -47,10 +50,10 @@
       {{/if}}
     {{/each}}
     {{#unless this.answerIsCorrect}}
-      <div class="comparison-window-solution">
+      <p class="comparison-window-solution">
         <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
-        <div class="correction-qrocm__solution-text">{{this.understandableSolution}}</div>
-      </div>
+        <span class="correction-qrocm__solution-text">{{this.understandableSolution}}</span>
+      </p>
     {{/unless}}
   </div>
 </div>

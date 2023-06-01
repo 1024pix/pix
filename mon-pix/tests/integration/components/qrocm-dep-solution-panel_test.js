@@ -245,6 +245,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       assert.dom(SENTENCE).doesNotExist();
       assert.strictEqual(find(INPUT).tagName, 'INPUT');
       assert.strictEqual(find(INPUT).getAttribute('size'), answerSize.toString());
+      assert.strictEqual(find(INPUT).getAttribute('aria-label'), 'La réponse donnée est valide');
       assert.true(find(INPUT).hasAttribute('disabled'));
     });
   });
@@ -285,6 +286,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       assert.dom(INPUT).doesNotExist();
       assert.dom(SENTENCE).doesNotExist();
       assert.strictEqual(find(PARAGRAPH).tagName, 'TEXTAREA');
+      assert.strictEqual(find(PARAGRAPH).getAttribute('aria-label'), 'La réponse donnée est valide');
       assert.true(find(PARAGRAPH).hasAttribute('disabled'));
     });
   });
@@ -298,6 +300,17 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         assessment,
         challenge,
       });
+      const correctionBlocks = [
+        {
+          validated: true,
+          alternativeSolutions: [],
+        },
+        {
+          validated: true,
+          alternativeSolutions: [],
+        },
+      ];
+      this.set('correctionBlocks', correctionBlocks);
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
@@ -314,6 +327,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       assert.dom(INPUT).doesNotExist();
       assert.dom(PARAGRAPH).doesNotExist();
       assert.strictEqual(find(SENTENCE).tagName, 'INPUT');
+      assert.strictEqual(find(SENTENCE).getAttribute('aria-label'), 'La réponse donnée est valide');
       assert.true(find(SENTENCE).hasAttribute('disabled'));
     });
   });

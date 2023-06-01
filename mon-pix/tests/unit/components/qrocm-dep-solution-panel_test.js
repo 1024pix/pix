@@ -24,7 +24,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
         {
           input: 'smiley1',
           text: 'content : ',
-          ariaLabel: null,
+          ariaLabel: 'La réponse donnée est valide',
           autoAriaLabel: false,
           inputClass: 'correction-qroc-box-answer--correct',
           answer: ':)',
@@ -35,7 +35,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
         {
           input: 'smiley2',
           text: '<br/><br/>triste : ',
-          ariaLabel: null,
+          ariaLabel: 'Question passée',
           autoAriaLabel: false,
           inputClass: 'correction-qroc-box-answer--aband',
           answer: 'Pas de réponse',
@@ -85,6 +85,41 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
 
       //Then
       assert.deepEqual(inputClass, 'correction-qroc-box-answer--wrong');
+    });
+  });
+
+  module('#getAriaLabel', function () {
+    test('should return specific aria-label when question is skipped', function (assert) {
+      //Given
+      const component = createGlimmerComponent('qrocm-dep-solution-panel');
+
+      //when
+      const ariaLabel = component.getAriaLabel(true);
+
+      //Then
+      assert.deepEqual(ariaLabel, 'Question passée');
+    });
+
+    test('should return specific aria-label when question answer is ok', function (assert) {
+      //Given
+      const component = createGlimmerComponent('qrocm-dep-solution-panel');
+
+      //when
+      const inputClass = component.getAriaLabel(false, true);
+
+      //Then
+      assert.deepEqual(inputClass, 'La réponse donnée est valide');
+    });
+
+    test('should return specific aria-label when question answer is ko', function (assert) {
+      //Given
+      const component = createGlimmerComponent('qrocm-dep-solution-panel');
+
+      //when
+      const inputClass = component.getAriaLabel(false, false);
+
+      //Then
+      assert.deepEqual(inputClass, 'La réponse donnée est fausse');
     });
   });
 

@@ -27,13 +27,15 @@
               rows="5"
               @value="{{block.answer}}"
               @id="{{block.input}}"
+              aria-label={{block.ariaLabel}}
               disabled
             />
           </div>
           {{#if block.emptyOrWrongAnswer}}
-            <div class="correction-qrocm__solution">
-              <div class="correction-qrocm__solution-text">{{block.solution}}</div>
-            </div>
+            <p class="correction-qrocm__solution">
+              <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
+              <span class="correction-qrocm__solution-text">{{block.solution}}</span>
+            </p>
           {{/if}}
         {{else if (eq @challenge.format "phrase")}}
           <div class="correction-qrocm__answer {{block.inputClass}}">
@@ -42,13 +44,15 @@
               @value="{{block.answer}}"
               size="{{get-qroc-input-size @challenge.format}}"
               @id="{{block.input}}"
+              @ariaLabel={{block.ariaLabel}}
               disabled
             />
           </div>
           {{#if block.emptyOrWrongAnswer}}
-            <div class="correction-qrocm__solution">
-              <div class="correction-qrocm__solution-text">{{block.solution}}</div>
-            </div>
+            <p class="correction-qrocm__solution">
+              <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
+              <span class="correction-qrocm__solution-text">{{block.solution}}</span>
+            </p>
           {{/if}}
         {{else}}
           <div class="correction-qrocm__answer-wrapper correction-qrocm__answer {{block.inputClass}}">
@@ -57,12 +61,14 @@
               @value="{{block.answer}}"
               size="{{block.answer.length}}"
               @id="{{block.input}}"
+              @ariaLabel={{block.ariaLabel}}
               disabled
             />
             {{#if block.emptyOrWrongAnswer}}
-              <div class="correction-qrocm__solution">
-                <div class="correction-qrocm__solution-text">{{block.solution}}</div>
-              </div>
+              <p class="correction-qrocm__solution">
+                <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
+                <span class="correction-qrocm__solution-text">{{block.solution}}</span>
+              </p>
             {{/if}}
           </div>
         {{/if}}
