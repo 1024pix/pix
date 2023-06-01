@@ -6,7 +6,7 @@ import { tracked } from '@glimmer/tracking';
 export default class Item extends Component {
   @service store;
   @service router;
-  @tracked showModal = false;
+  @tracked answerHasBeenValidated = false;
   @tracked answer = null;
 
   _createAnswer(challenge) {
@@ -20,7 +20,7 @@ export default class Item extends Component {
     this.answer.assessment = assessment;
     try {
       await this.answer.save();
-      this.showModal = true;
+      this.answerHasBeenValidated = true;
     } catch (error) {
       this.answer.rollbackAttributes();
     }
@@ -28,7 +28,7 @@ export default class Item extends Component {
 
   @action
   resume() {
-    this.showModal = false;
+    this.answerHasBeenValidated = false;
     this.answer = null;
     this.router.transitionTo('assessment.resume');
   }

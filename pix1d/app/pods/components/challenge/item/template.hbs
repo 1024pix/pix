@@ -4,13 +4,8 @@
   @assessment={{@assessment}}
   @answerValidated={{this.answerValidated}}
 />
-<PixModal @title="Pix1D" @showModal={{this.showModal}} @onCloseButtonClick={{this.resume}}>
-  <:content>
-    <Answer @answer={{this.answer}} />
-  </:content>
-  <:footer>
-    <div class="modal-footer">
-      <PixButton @triggerAction={{this.resume}}>Je continue</PixButton>
-    </div>
-  </:footer>
-</PixModal>
+<AnswerFeedback
+  @answer={{this.answer}}
+  @answerHasBeenValidated={{this.answerHasBeenValidated}}
+  @nextAction={{this.resume}}
+/>
