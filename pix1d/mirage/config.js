@@ -21,9 +21,18 @@ export default function () {
   });
 
   this.post('/answers', (schema) => {
-    const answer = schema.create('answer', {
+    return schema.create('answer', {
       result: 'ok',
     });
-    return answer;
+  });
+
+  this.post('/assessments/preview', (schema) => {
+    return schema.create('assessment', {
+      type: 'PREVIEW',
+    });
+  });
+
+  this.get('/challenges/:challenge_id', (schema, request) => {
+    return schema.challenges.find(request.params.challenge_id);
   });
 }

@@ -1,4 +1,4 @@
-import { sinon, expect, hFake, domainBuilder } from '../../../test-helper.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import { assessmentController } from '../../../../lib/application/assessments/assessment-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as events from '../../../../lib/domain/events/index.js';
@@ -16,6 +16,21 @@ describe('Unit | Controller | assessment-controller', function () {
       const request = { payload: { missionId } };
 
       const result = await assessmentController.createForPix1d(request, hFake, {
+        assessmentSerializer,
+      });
+
+      expect(result.statusCode).to.be.equal(201);
+      expect(assessmentSerializer.serialize).to.have.been.calledWith(createdAssessment);
+    });
+  });
+  describe('#createAssessmentPreviewForPix1d', function () {
+    it('should call the expected usecase', async function () {
+      const assessmentSerializer = { serialize: sinon.stub() };
+      const createdAssessment = Symbol('created-assessment');
+      assessmentSerializer.serialize.withArgs(createdAssessment).resolves(Symbol('serialized-assessment'));
+      sinon.stub(usecases, 'createPreviewAssessment').resolves(createdAssessment);
+
+      const result = await assessmentController.createAssessmentPreviewForPix1d({}, hFake, {
         assessmentSerializer,
       });
 
