@@ -63,13 +63,9 @@
 
     {{#unless this.matchingStudentFound}}
       <div class="register-button-container">
-        {{#if this.isLoading}}
-          <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
-        {{else}}
-          <PixButton id="submit-search" @type="submit">
-            {{t "pages.login-or-register.register-form.button-form"}}
-          </PixButton>
-        {{/if}}
+        <PixButton id="submit-search" @type="submit" @isLoading={{this.isLoading}}>
+          {{t "pages.login-or-register.register-form.button-form"}}
+        </PixButton>
       </div>
     {{/unless}}
 
@@ -132,13 +128,9 @@
       {{/if}}
 
       <div class="register-button-container">
-        {{#if this.isLoading}}
-          <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
-        {{else}}
-          <PixButton id="submit-registration" @type="submit">
-            {{t "pages.login-or-register.register-form.button-form"}}
-          </PixButton>
-        {{/if}}
+        <PixButton id="submit-registration" @type="submit" @isLoading={{this.isLoading}}>
+          {{t "pages.login-or-register.register-form.button-form"}}
+        </PixButton>
       </div>
 
       <PixButton

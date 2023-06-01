@@ -30,13 +30,9 @@
     </div>
 
     <div class="login-button-container pix-form__actions">
-      {{#if this.isLoading}}
-        <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
-      {{else}}
-        <PixButton id="submit-connexion" @type="submit">
-          {{t "pages.login-or-register.login-form.button"}}
-        </PixButton>
-      {{/if}}
+      <PixButton id="submit-connexion" @type="submit" @isLoading={{this.isLoading}}>
+        {{t "pages.login-or-register.login-form.button"}}
+      </PixButton>
     </div>
 
   </form>
