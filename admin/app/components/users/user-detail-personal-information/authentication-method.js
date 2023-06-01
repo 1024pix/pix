@@ -76,18 +76,19 @@ export default class AuthenticationMethod extends Component {
     return userAuthenticationMethods.length > 1 || (userAuthenticationMethods.length === 1 && hasUsername && hasEmail);
   }
 
-  get oidcAuthenticationMethods() {
+  get userOidcAuthenticationMethods() {
     return this.oidcIdentityProviders.list.map((oidcIdentityProvider) => {
-      const hasAuthenticationMethod = this.args.user.authenticationMethods.any(
+      const userHasThisOidcAuthenticationMethod = this.args.user.authenticationMethods.any(
         (authenticationMethod) => authenticationMethod.identityProvider === oidcIdentityProvider.code
       );
 
       return {
         code: oidcIdentityProvider.code,
         name: oidcIdentityProvider.organizationName,
-        hasAuthenticationMethod,
-        canBeRemoved: hasAuthenticationMethod && this._hasMultipleAuthenticationMethods(),
-        canBeReassigned: hasAuthenticationMethod,
+        userHasThisOidcAuthenticationMethod,
+        canBeRemovedFromUserAuthenticationMethods:
+          userHasThisOidcAuthenticationMethod && this._hasMultipleAuthenticationMethods(),
+        canBeReassignedToAnotherUser: userHasThisOidcAuthenticationMethod,
       };
     });
   }
