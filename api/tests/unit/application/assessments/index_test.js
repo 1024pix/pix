@@ -30,7 +30,7 @@ describe('Unit | Application | Router | assessment-router', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('POST', '/api/pix1d/assessments');
+      const response = await httpTestServer.request('POST', '/api/pix1d/assessments', { missionId: 'unMissionID' });
 
       // then
       expect(response.statusCode).to.equal(200);

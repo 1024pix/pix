@@ -25,7 +25,11 @@ const register = async function (server) {
         pre: [{ method: securityPreHandlers.checkPix1dActivated }],
         auth: false,
         handler: assessmentController.createForPix1d,
-        //TODO Ajouter de la Joi pour rendre le missionId obligatoire
+        validate: {
+          payload: Joi.object({
+            missionId: identifiersType.missionId,
+          }),
+        },
         tags: ['api', 'pix1d', 'assessment'],
       },
     },
