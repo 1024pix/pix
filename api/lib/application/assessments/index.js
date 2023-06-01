@@ -25,6 +25,21 @@ const register = async function (server) {
         pre: [{ method: securityPreHandlers.checkPix1dActivated }],
         auth: false,
         handler: assessmentController.createForPix1d,
+        validate: {
+          payload: Joi.object({
+            missionId: identifiersType.missionId,
+          }),
+        },
+        tags: ['api', 'pix1d', 'assessment'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/pix1d/assessments/preview',
+      config: {
+        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
+        auth: false,
+        handler: assessmentController.createAssessmentPreviewForPix1d,
         tags: ['api', 'pix1d', 'assessment'],
       },
     },
@@ -75,6 +90,21 @@ const register = async function (server) {
             assign: 'authorizationCheck',
           },
         ],
+        handler: assessmentController.get,
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/pix1d/assessments/{id}',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
+        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
         handler: assessmentController.get,
         tags: ['api'],
       },
