@@ -1435,7 +1435,7 @@
       "message": "Nous avons mis à jour nos conditions d'utilisation. Veuillez les accepter afin de pouvoir continuer votre expérience sur Pix."
     },
     "timed-challenge-instructions": {
-      "action": "Commencer",
+      "action": "Commencer l'épreuve",
       "primary": "Vous disposerez de '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' pour réussir la question suivante.",
       "secondary": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
     },

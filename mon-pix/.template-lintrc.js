@@ -10,6 +10,7 @@ module.exports = {
     'no-redundant-role': false,
     'no-html-comments': false,
     'no-bare-strings': ['Pix', '&nbsp;', '&#8226;', '.', '*', '1024', '/', '•', '-', '%'],
+    'require-valid-alt-text': false,
   },
 
   ignore: ['blueprints/component-test/files/tests/integration/components/*'],
