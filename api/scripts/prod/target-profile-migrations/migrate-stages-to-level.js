@@ -15,15 +15,26 @@ import { disconnect } from '../../../db/knex-database-connection.js';
 import * as targetProfileForAdminRepository from '../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
 import * as organizationRepository from '../../../lib/infrastructure/repositories/organization-repository.js';
+import * as stageCollectionRepository from '../../../lib/infrastructure/repositories/target-profile-management/stage-collection-repository.js';
 
 const modulePath = fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
-export async function migrateStagesToLevel(inputFile) {
+export async function migrateStagesToLevel(inputFile, dryRun) {
+  const migrations = await _computeMigrations(inputFile);
+
+  if (!dryRun) {
+    await _performMigrations(migrations);
+  }
+
+  await _writeReport(migrations);
+}
+
+async function _computeMigrations(inputFile) {
   const buf = await readFile(inputFile);
   const targetProfileIds = JSON.parse(buf.toString());
 
-  const migrations = await Promise.all(
+  return Promise.all(
     targetProfileIds.map(async (targetProfileId) => {
       const targetProfile = await targetProfileForAdminRepository.get({ id: targetProfileId });
 
@@ -34,24 +45,13 @@ export async function migrateStagesToLevel(inputFile) {
       const stagesMigrations = _computeStagesMigrations(stagesWOLevel, levels);
 
       return {
-        targetProfileId,
-        targetProfileName: targetProfile.name,
-        ownerOrganizationId: targetProfile.ownerOrganizationId,
+        targetProfile,
         stagesMigrations,
-        ok: _checkAllStagesHaveLevels(stagesMigrations) && _checkStagesHaveDifferentLevels(stagesMigrations),
+        prechecksOk: _checkAllStagesHaveLevels(stagesMigrations) && _checkStagesHaveDifferentLevels(stagesMigrations),
         levels,
       };
     })
   );
-
-  const organizations = await Promise.all(
-    fp.flow(fp.map('ownerOrganizationId'), fp.compact, fp.uniq, fp.map(organizationRepository.get))(migrations)
-  );
-  const organizationsNameById = Object.fromEntries(
-    organizations.map((organization) => [organization.id, organization.name])
-  );
-
-  await _writeReport(migrations, organizationsNameById);
 }
 
 async function _computeLevels(cappedTubes) {
@@ -131,21 +131,60 @@ function _checkStagesHaveDifferentLevels(stagesMigrations) {
   return fp.flow([fp.countBy('level'), fp.every((count) => count === 1)])(stagesMigrations);
 }
 
-async function _writeReport(migrations, organizationsNameById) {
+async function _performMigrations(migrations) {
+  for (const migration of migrations) {
+    if (!migration.prechecksOk) continue;
+
+    await _performMigration(migration);
+  }
+}
+
+async function _performMigration({ targetProfile, stagesMigrations }) {
+  const stageCollection = targetProfile.stageCollection;
+
+  const stagesToUpdate = stagesMigrations.map(({ stageId, level }) => {
+    const stage = stageCollection.stages.find(({ id }) => id === stageId);
+
+    stage.level = level;
+    stage.threshold = null;
+
+    return stage;
+  });
+
+  await stageCollectionRepository.update({
+    stagesToUpdate,
+    stagesToCreate: [],
+    stageIdsToDelete: [],
+  });
+}
+
+async function _writeReport(migrations) {
+  const organizations = await Promise.all(
+    fp.flow(
+      fp.map('targetProfile.ownerOrganizationId'),
+      fp.compact,
+      fp.uniq,
+      fp.map(organizationRepository.get)
+    )(migrations)
+  );
+  const organizationsNameById = Object.fromEntries(
+    organizations.map((organization) => [organization.id, organization.name])
+  );
+
   const wb = xlsxUtils.book_new();
 
   const mainWS = xlsxUtils.aoa_to_sheet([
-    ['ID profil cible', 'Nom', 'Organisation de référence', 'Statut'],
-    ...migrations.map(({ targetProfileId, targetProfileName, ownerOrganizationId, ok }) => [
-      targetProfileId,
-      targetProfileName,
-      organizationsNameById[ownerOrganizationId],
-      ok ? 'OK' : 'KO',
+    ['ID profil cible', 'Nom', 'Organisation de référence', 'Pré-vérifications'],
+    ...migrations.map(({ targetProfile, prechecksOk }) => [
+      targetProfile.id,
+      targetProfile.name,
+      organizationsNameById[targetProfile.ownerOrganizationId],
+      prechecksOk ? 'OK' : 'KO',
     ]),
   ]);
   xlsxUtils.book_append_sheet(wb, mainWS, 'Résumé');
 
-  for (const { targetProfileId, stagesMigrations, levels } of migrations) {
+  for (const { targetProfile, stagesMigrations, levels } of migrations) {
     const ws = xlsxUtils.aoa_to_sheet([
       ['ID palier', 'Seuil', 'Niveau'],
       ...stagesMigrations.map(({ stageId, threshold, level }) => [stageId, threshold, level]),
@@ -158,7 +197,7 @@ async function _writeReport(migrations, organizationsNameById) {
         level,
       ]),
     ]);
-    xlsxUtils.book_append_sheet(wb, ws, `${targetProfileId}`);
+    xlsxUtils.book_append_sheet(wb, ws, `${targetProfile.id}`);
   }
 
   const buf = writeXLSX(wb, { compression: true, type: 'buffer' });
@@ -167,9 +206,10 @@ async function _writeReport(migrations, organizationsNameById) {
 
 async function main() {
   const startTime = performance.now();
-  logger.info(`Script ${modulePath} has started`);
+  const dryRun = process.env.DRY_RUN !== 'false';
+  logger.info({ dryRun }, `Script ${modulePath} has started`);
   const inputFile = resolve(process.cwd(), process.argv[2]);
-  await migrateStagesToLevel(inputFile);
+  await migrateStagesToLevel(inputFile, dryRun);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
   logger.info(`Script has ended: took ${duration} milliseconds`);
