@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v4.1.1 (01/06/2023)
+
+
+### :building_construction: Tech
+- [#6302](https://github.com/1024pix/pix/pull/6302) [TECH] Revert le ticket Améliorer le style visuel du bloc d'embed d'une épreuve (PIX-8112)
+
 ## v4.1.0 (01/06/2023)
 
 
