@@ -1,0 +1,20 @@
+<PixModal @title="Pix1D" @showModal={{@answerHasBeenValidated}} @onCloseButtonClick={{@nextAction}}>
+  <:content>
+    <div class="answer">
+      <span class="answer__span">
+        {{#if (eq @answer.result "ok")}}
+          Bravo ! C'est la bonne réponse !
+        {{else if (eq @answer.result "aband")}}
+          Tu as passé. Tu réessaieras plus tard
+        {{else}}
+          Mauvaise réponse. Tu peux passer à la suite.
+        {{/if}}
+      </span>
+    </div>
+  </:content>
+  <:footer>
+    <div class="modal-footer">
+      <PixButton @triggerAction={{@nextAction}}>Je continue</PixButton>
+    </div>
+  </:footer>
+</PixModal>

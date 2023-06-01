@@ -11,7 +11,7 @@ module('Integration | Component | answer', function (hooks) {
     this.set('answer', {
       result: 'ok',
     });
-    const screen = await render(hbs`<Answer @answer={{this.answer}} />`);
+    const screen = await render(hbs`<AnswerFeedback @answer={{this.answer}} @answerHasBeenValidated={{true}} />`);
 
     // then
     assert.dom(screen.getByText("Bravo ! C'est la bonne réponse !")).exists();
@@ -22,7 +22,7 @@ module('Integration | Component | answer', function (hooks) {
     this.set('answer', {
       result: 'aband',
     });
-    const screen = await render(hbs`<Answer @answer={{this.answer}} />`);
+    const screen = await render(hbs`<AnswerFeedback @answer={{this.answer}} @answerHasBeenValidated={{true}} />`);
 
     // then
     assert.dom(screen.getByText('Tu as passé. Tu réessaieras plus tard')).exists();
@@ -33,7 +33,7 @@ module('Integration | Component | answer', function (hooks) {
     this.set('answer', {
       result: 'ko',
     });
-    const screen = await render(hbs`<Answer @answer={{this.answer}} />`);
+    const screen = await render(hbs`<AnswerFeedback @answer={{this.answer}} @answerHasBeenValidated={{true}} />`);
 
     // then
     assert.dom(screen.getByText('Mauvaise réponse. Tu peux passer à la suite.')).exists();
