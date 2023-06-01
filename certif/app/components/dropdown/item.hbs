@@ -1,3 +1,5 @@
-<li class="dropdown__item" ...attributes>
-  <div role="button" class="dropdown__item__button" {{on "click" @onClick}}>{{yield}}</div>
+<li class="dropdown__item dropdown__item--link" ...attributes>
+  <button type="button" {{on "click" @onClick}}>
+    {{yield}}
+  </button>
 </li>
