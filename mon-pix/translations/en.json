@@ -434,7 +434,8 @@
       },
       "embed-simulator": {
         "actions": {
-          "launch": "Launch the app",
+          "launch": "Start",
+          "launch-label": "Start simulation",
           "reset": "Restart"
         },
         "placeholder": "App loading"
