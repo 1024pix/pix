@@ -286,7 +286,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.stages')));
-        await click(await screen.findByRole('checkbox', { name: '1 étoiles sur 1' }));
+        await click(await screen.findByRole('checkbox', { name: '1 étoile sur 1' }));
 
         // then
         assert.ok(triggerFiltering.calledWith('stages', ['stage2']));

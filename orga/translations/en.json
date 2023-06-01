@@ -90,8 +90,7 @@
     "participants-by-stage": {
       "loader": "Loading and sorting the participants grouped by success rates",
       "participants": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}}",
-      "title": "Distribution of participants grouped by success rate",
-      "label-a11y": "{stage} out of {totalStage} stars"
+      "title": "Distribution of participants grouped by success rate"
     },
     "participants-by-status": {
       "labels-tooltip": {
