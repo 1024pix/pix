@@ -1,0 +1,13 @@
+.mastery-percentage-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+
+  &__percentage {
+    @extend %pix-body-s;
+
+    font-weight: 500;
+  }
+}
+
+

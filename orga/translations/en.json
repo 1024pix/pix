@@ -90,7 +90,6 @@
     "participants-by-stage": {
       "loader": "Loading and sorting the participants grouped by success rates",
       "participants": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}}",
-      "percentage": "{percentage} %",
       "title": "Distribution of participants grouped by success rate",
       "label-a11y": "{stage} out of {totalStage} stars"
     },
@@ -183,7 +182,11 @@
       "page-number": "Page {current, number} / {total, number}",
       "result-by-page": "See"
     },
-    "percentage": "{value, number, ::percent}",
+    "result": {
+      "accessibility-description": "Results obtained = {percentage, number, ::percent},that is success rate {stage} of {totalStage}",
+      "percentage": "{value, number, ::percent}",
+      "stages": "{count} out of {total} stars"
+    },
     "target-profile-details": {
       "subjects": "Topics: {value, number}",
       "results": {
@@ -239,10 +242,6 @@
       "badges": "Thematic results",
       "progression": "Progression",
       "result": "Result",
-      "stages": {
-        "label": "Success rate",
-        "value": "{count} out of {total} stars"
-      },
       "tab": {
         "results": "Results",
         "review": "Review"
@@ -488,8 +487,7 @@
           "results": {
             "label": "Success rate",
             "on-hold": "Pending",
-            "under-test": "Test in progress",
-            "value": "{percentage, number, ::percent}"
+            "under-test": "Test in progress"
           }
         },
         "empty": "No participants",
