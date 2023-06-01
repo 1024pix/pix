@@ -8,6 +8,7 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
   setupIntl(hooks);
   const rightAnswer = { result: 'ok' };
   const wrongAnswer = { result: 'ko' };
+  const skippedAnswer = { result: 'aband' };
 
   module('#isNotCorrectlyAnswered', function () {
     test('should return false when result is ok', function (assert) {
@@ -100,6 +101,35 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
 
       // then
       assert.strictEqual(solutionToDisplay, '');
+    });
+  });
+
+  module('#inputAriaLabel', function () {
+    test('should return specific aria label if answer is  ok', function (assert) {
+      // given
+      const component = createGlimmerComponent('qroc-solution-panel', { answer: rightAnswer });
+      // when
+      const inputAriaLabel = component.inputAriaLabel;
+      // then
+      assert.strictEqual(inputAriaLabel, 'La réponse donnée est valide');
+    });
+
+    test('should return specific aria label if answer is ko', function (assert) {
+      // given
+      const component = createGlimmerComponent('qroc-solution-panel', { answer: wrongAnswer });
+      // when
+      const inputAriaLabel = component.inputAriaLabel;
+      // then
+      assert.strictEqual(inputAriaLabel, 'La réponse donnée est fausse');
+    });
+
+    test('should return specific aria label if answer is skipped', function (assert) {
+      // given
+      const component = createGlimmerComponent('qroc-solution-panel', { answer: skippedAnswer });
+      // when
+      const inputAriaLabel = component.inputAriaLabel;
+      // then
+      assert.strictEqual(inputAriaLabel, 'Question passée');
     });
   });
 });

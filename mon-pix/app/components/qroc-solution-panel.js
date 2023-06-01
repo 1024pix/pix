@@ -18,6 +18,17 @@ export default class QrocSolutionPanel extends Component {
     return this.args.answer.result !== 'ok';
   }
 
+  get inputAriaLabel() {
+    switch (this.args.answer.result) {
+      case 'ok':
+        return this.intl.t('pages.comparison-window.results.a11y.good-answer');
+      case 'ko':
+        return this.intl.t('pages.comparison-window.results.a11y.wrong-answer');
+      default:
+        return this.intl.t('pages.comparison-window.results.a11y.skipped-answer');
+    }
+  }
+
   get hasCorrection() {
     return this.args.solution || this.args.solutionToDisplay;
   }

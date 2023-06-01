@@ -60,17 +60,13 @@
 .comparison-window-solution {
   display: flex;
   align-items: stretch;
+  margin-top: $pix-spacing-xs;
 
   &__text {
-    position: relative;
-    bottom: 3px;
-    display: flex;
-    margin-top: 10px;
-    margin-left: 10px;
+    @extend %pix-body-m;
+
     color: $pix-success-70;
     font-weight: $font-bold;
-    font-size: 1rem;
-    overflow-wrap: break-word;
   }
 
   &__img {

@@ -632,8 +632,10 @@
     "comparison-window": {
       "results": {
         "a11y": {
-          "given-answer": "réponse donnée",
-          "the-answer-was": "La bonne réponse était"
+          "good-answer": "La réponse donnée est valide",
+          "wrong-answer": "La réponse donnée est fausse",
+          "skipped-answer": "Question passée",
+          "the-answer-was": "La bonne réponse est"
         },
         "aband": {
           "title": "Vous n’avez pas donné de réponse",
