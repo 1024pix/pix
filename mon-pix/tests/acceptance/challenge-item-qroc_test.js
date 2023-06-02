@@ -205,10 +205,11 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         );
 
         const goodAnswer = find('.comparison-window-solution__text');
-        const badAnswerFromUserResult = find('.correction-qroc-box-answer');
+        const badAnswerFromUserResultContainer = find('.correction-qroc-box-answer');
+        const badAnswerFromUserResultInput = find('.correction-qroc-box-answer--input');
         assert.strictEqual(goodAnswer.textContent.trim(), 'Mangue');
-        assert.ok(badAnswerFromUserResult.className.includes('correction-qroc-box-answer--wrong'));
-        assert.strictEqual(badAnswerFromUserResult.value, 'Banane');
+        assert.ok(badAnswerFromUserResultContainer.className.includes('correction-qroc-box-answer--wrong'));
+        assert.strictEqual(badAnswerFromUserResultInput.value, 'Banane');
         assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correction.hint));
 
         const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card')[0];
@@ -359,10 +360,11 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         );
 
         const goodAnswer = find('.comparison-window-solution__text');
-        const badAnswerFromUserResult = find('.correction-qroc-box-answer');
+        const badAnswerFromUserResultContainer = find('.correction-qroc-box-answer');
+        const badAnswerFromUserResultInput = find('.correction-qroc-box-answer--paragraph');
         assert.strictEqual(goodAnswer.textContent.trim(), 'Mangue');
-        assert.ok(badAnswerFromUserResult.className.includes('correction-qroc-box-answer--wrong'));
-        assert.strictEqual(badAnswerFromUserResult.value, 'Banane');
+        assert.ok(badAnswerFromUserResultContainer.className.includes('correction-qroc-box-answer--wrong'));
+        assert.strictEqual(badAnswerFromUserResultInput.value, 'Banane');
         assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correction.hint));
 
         const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card')[0];
@@ -469,10 +471,12 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         );
 
         const goodAnswer = find('.comparison-window-solution__text');
-        const badAnswerFromUserResult = find('.correction-qroc-box-answer');
+        const badAnswerFromUserResultContainer = find('.correction-qroc-box-answer');
+        const badAnswerFromUserResultInput = find('.correction-qroc-box-answer--input');
+
         assert.strictEqual(goodAnswer.textContent.trim(), 'Mangue');
-        assert.ok(badAnswerFromUserResult.className.includes('correction-qroc-box-answer--wrong'));
-        assert.strictEqual(badAnswerFromUserResult.value, 'Banane');
+        assert.ok(badAnswerFromUserResultContainer.className.includes('correction-qroc-box-answer--wrong'));
+        assert.strictEqual(badAnswerFromUserResultInput.value, 'Banane');
         assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correction.hint));
 
         const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card')[0];

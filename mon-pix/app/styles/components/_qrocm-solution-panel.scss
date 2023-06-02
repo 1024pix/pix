@@ -3,18 +3,9 @@
   &__text {
     display: inline-block;
     width: 100%;
-    color: $pix-neutral-80;
-    font-size: 1rem;
-    line-height: 1.75rem;
   }
 
   &__answer {
-    padding: 0 10px;
-    line-height: 1.625rem;
-    background-color: $pix-neutral-0;
-    border: solid 1px $pix-neutral-20;
-    border-radius: 3px;
-    box-shadow: inset 0 1px 3px 0 rgb(0 0 0 / 15%);
 
     &-wrapper {
       display: inline-block;
@@ -34,8 +25,8 @@
 
     &--input {
       display: inline-block;
+      width: auto;
       max-width: 100%;
-      height: 26px;
     }
   }
 
@@ -58,5 +49,23 @@
 
   &__label {
     display: block;
+  }
+}
+
+.correction-qrocm-answer {
+  &__input-paragraph {
+    display: block;
+    width: 100%;
+  }
+
+  &__input-sentence {
+    display: block;
+    width: 100%;
+  }
+
+  &__input {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
   }
 }

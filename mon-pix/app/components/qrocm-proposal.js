@@ -28,7 +28,8 @@ export default class QrocmProposal extends Component {
   }
 
   @action
-  onInputChange() {
+  onInputChange(key, event) {
+    this.args.answersValue[key] = event.target.value;
     this.args.answerChanged();
   }
 

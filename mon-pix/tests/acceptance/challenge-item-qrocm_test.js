@@ -31,8 +31,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         );
 
         assert.dom('.challenge-response__proposal').exists({ count: 2 });
-        assert.false(findAll('.challenge-response__proposal')[0].disabled);
-        assert.false(findAll('.challenge-response__proposal')[1].disabled);
+        assert.false(findAll('.challenge-response__proposal input')[0].disabled);
+        assert.false(findAll('.challenge-response__proposal input')[1].disabled);
         assert.ok(find('div[data-test="qrocm-label-0"]').innerHTML.includes('Station <strong>1</strong> :'));
         assert.ok(find('div[data-test="qrocm-label-1"]').innerHTML.includes('Station <em>2</em> :'));
 
@@ -143,10 +143,10 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         // then
         assert.ok(find('div[data-test="qrocm-label-0"]').innerHTML.includes('Station <strong>1</strong> :'));
         assert.ok(find('div[data-test="qrocm-label-1"]').innerHTML.includes('Station <em>2</em> :'));
-        assert.strictEqual(findAll('.challenge-response__proposal')[0].value, 'Republique');
-        assert.true(findAll('.challenge-response__proposal')[0].disabled);
-        assert.strictEqual(findAll('.challenge-response__proposal')[1].value, 'Chatelet');
-        assert.true(findAll('.challenge-response__proposal')[1].disabled);
+        assert.strictEqual(findAll('.challenge-response__proposal input')[0].value, 'Republique');
+        assert.true(findAll('.challenge-response__proposal input')[0].disabled);
+        assert.strictEqual(findAll('.challenge-response__proposal input')[1].value, 'Chatelet');
+        assert.true(findAll('.challenge-response__proposal input')[1].disabled);
 
         assert.dom('.challenge-actions__action-continue').exists();
         assert.dom('.challenge-actions__action-validate').doesNotExist();
@@ -282,7 +282,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       );
 
       const goodAnswers = find('.correction-qrocm__solution-text');
-      const badAnswersFromUserResult = findAll('.correction-qrocm__answer');
+      const badAnswersFromUserResult = findAll('.correction-qrocm-answer__input');
 
       assert.strictEqual(goodAnswers.textContent.trim(), 'Versailles-Chantiers et Poissy');
       assert.strictEqual(badAnswersFromUserResult[0].value, 'Republique');
@@ -310,7 +310,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       );
 
       const goodAnswers = findAll('.correction-qrocm__solution-text');
-      const badAnswersFromUserResult = findAll('.correction-qrocm__answer');
+      const badAnswersFromUserResult = findAll('.correction-qrocm-answer__input');
 
       assert.strictEqual(goodAnswers[0].textContent.trim(), 'Le petit prince');
       assert.strictEqual(goodAnswers[1].textContent.trim(), 'Saint-Exupéry');
@@ -339,7 +339,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       );
 
       const goodAnswers = findAll('.correction-qrocm__solution-text');
-      const badAnswersFromUserResult = findAll('.correction-qrocm__answer');
+      const badAnswersFromUserResult = findAll('.correction-qrocm-answer__input');
 
       assert.strictEqual(goodAnswers[0].textContent.trim(), 'mango');
       assert.strictEqual(badAnswersFromUserResult[0].value, 'potato');
