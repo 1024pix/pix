@@ -1,15 +1,15 @@
-<Challenge::ChallengeStatement @challenge={{@challenge}} />
+<div>
+  <Challenge::ChallengeInstruction @instruction={{@challenge.instruction}} />
+  {{#if @challenge.hasValidEmbedDocument}}
+    <Challenge::ChallengeEmbedSimulator @url={{@challenge.embedUrl}} @title={{@challenge.embedTitle}} />
+  {{/if}}
+  <Challenge::ChallengeItemAutoReply @setAnswerValue={{this.setAnswerValue}} />
 
-<Challenge::ChallengeItemAutoReply
-  @challenge={{@challenge}}
-  @assessment={{@assessment}}
-  @setAnswerValue={{this.setAnswerValue}}
-/>
+  <Challenge::ChallengeActions @validateAnswer={{this.validateAnswer}} @skipChallenge={{this.skipChallenge}} />
+</div>
 
 <AnswerFeedback
   @answer={{this.answer}}
   @answerHasBeenValidated={{this.answerHasBeenValidated}}
   @nextAction={{this.resume}}
 />
-
-<Challenge::ChallengeActions @validateAnswer={{this.validateAnswer}} @skipChallenge={{this.skipChallenge}} />
