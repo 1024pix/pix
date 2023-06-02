@@ -44,7 +44,7 @@ export default class ParticipantsByMasteryPercentage extends Component {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        yAxis: {
+        y: {
           type: 'linear',
           min: 0,
           max: this.max,
@@ -55,7 +55,7 @@ export default class ParticipantsByMasteryPercentage extends Component {
             stepSize: 1,
           },
         },
-        xAxis: {
+        x: {
           grid: {
             display: false,
           },
