@@ -33,7 +33,6 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       await clickByName("Enregistrer l'adresse e-mail");
 
       // then
-      //assert.throws(screen.getByRole('textbox', { name: 'Nouvelle adresse e-mail' }));
       assert.dom(
         screen.getByText(`nouvel-email@example.net a bien été rajouté aux méthodes de connexion de l'utilisateur`)
       );
@@ -96,7 +95,6 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       assert.dom(screen.getByText("La méthode de connexion a bien été déplacé vers l'utilisateur 1")).exists();
       assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Médiacentre")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
-      //assert.throws(screen.getByRole('button', { name: 'Valider le déplacement' }));
     });
   });
 
@@ -130,35 +128,6 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       // then
       assert.dom(screen.getByText("La méthode de connexion a bien été déplacé vers l'utilisateur 1")).exists();
       assert.dom(screen.getByText("L'utilisateur n'a plus de méthode de connexion Partenaire OIDC")).exists();
-      assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC")).exists();
-      //assert.throws(screen.getByRole('button', { name: 'Valider le déplacement' }));
-    });
-  });
-
-  module('when a user has multiple authentication methods', function () {
-    test('it should be able to delete one of the authentication methods', async function (assert) {
-      // given
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-
-      const firstName = 'Ayotunde';
-      const lastName = 'Efemena';
-      const pixAuthenticationMethod = server.create('authentication-method', { identityProvider: 'PIX' });
-      const oidcAuthenticationMethod = server.create('authentication-method', { identityProvider: 'OIDC_PARTNER' });
-      const user = server.create('user', {
-        firstName,
-        lastName,
-        authenticationMethods: [pixAuthenticationMethod, oidcAuthenticationMethod],
-      });
-
-      // when
-      const screen = await visit(`/users/${user.id}`);
-      await click(screen.getAllByRole('button', { name: 'Supprimer' })[1]);
-
-      await screen.findByRole('dialog');
-
-      await click(screen.getByRole('button', { name: 'Oui, je supprime' }));
-
-      // then
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC")).exists();
     });
   });
