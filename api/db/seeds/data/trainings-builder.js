@@ -89,7 +89,7 @@ function trainingBuilder({ databaseBuilder }) {
   });
   const trainingTrigger1 = databaseBuilder.factory.buildTrainingTrigger({
     trainingId: training1.id,
-    threshold: 80,
+    threshold: 0,
     type: 'prerequisite',
   });
   databaseBuilder.factory.buildTrainingTriggerTube({
