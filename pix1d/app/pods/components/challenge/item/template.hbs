@@ -1,11 +1,19 @@
-<div>
-  <Challenge::ChallengeInstruction @instruction={{@challenge.instruction}} />
-  {{#if @challenge.hasValidEmbedDocument}}
-    <Challenge::ChallengeEmbedSimulator @url={{@challenge.embedUrl}} @title={{@challenge.embedTitle}} />
-  {{/if}}
-  <Challenge::ChallengeItemAutoReply @setAnswerValue={{this.setAnswerValue}} />
+<div class="challenge-item">
+  <div class="challenge-item__body">
+    <div class="challenge-item__container">
+      <Challenge::ChallengeInstruction @instruction={{@challenge.instruction}} />
+      <div class="challenge-item__playground">
+        {{#if @challenge.hasValidEmbedDocument}}
+          <Challenge::ChallengeEmbedSimulator @url={{@challenge.embedUrl}} @title={{@challenge.embedTitle}} />
+        {{/if}}
+        <Challenge::ChallengeItemAutoReply @setAnswerValue={{this.setAnswerValue}} />
+      </div>
+    </div>
+  </div>
 
-  <Challenge::ChallengeActions @validateAnswer={{this.validateAnswer}} @skipChallenge={{this.skipChallenge}} />
+  <div class="challenge-item__footer">
+    <Challenge::ChallengeActions @validateAnswer={{this.validateAnswer}} @skipChallenge={{this.skipChallenge}} />
+  </div>
 </div>
 
 <AnswerFeedback
