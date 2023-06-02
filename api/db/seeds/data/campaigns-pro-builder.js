@@ -459,7 +459,7 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
   const userIdsNotShared2 = [users[6], users[7]];
   const userIdsCompletedShared = [users[10], users[12]];
   const userIdsCompletedShared2 = [users[0], users[9]];
-  const userIdsCompletedSharedWith2Badges = [users[3], users[11]];
+  const userIdsCompletedSharedWith2Badges = [users[3], users[11], users[14]];
 
   userIdsNotCompleted.forEach((user) =>
     participateToAssessmentCampaign({
@@ -595,11 +595,12 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
   const certifRegularUser4 = { id: CERTIF_REGULAR_USER4_ID, createdAt: new Date('2022-02-06') };
   const certifRegularUser5 = { id: CERTIF_REGULAR_USER5_ID, createdAt: new Date('2022-02-07') };
   const userIdsNotShared = [users[1], users[2], users[3], users[4], users[5], users[6], users[7], users[8]];
-  const userIdsShared = [users[0], users[9], users[10], users[11], users[12]];
+  const userIdsShared = [users[0], users[9], users[10], users[11], users[12], users[14]];
   const userIdsCertifiable = [
     users[10].id,
     users[11].id,
     users[12].id,
+    users[14].id,
     certifRegularUser1.id,
     certifRegularUser2.id,
     certifRegularUser3.id,

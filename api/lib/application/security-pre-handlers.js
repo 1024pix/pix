@@ -336,6 +336,31 @@ async function checkCertificationCenterIsNotScoManagingStudents(
   return h.response(true);
 }
 
+async function checkUserDoesNotBelongsToScoOrganizationManagingStudents(
+  request,
+  h,
+  dependencies = {
+    checkOrganizationIsScoAndManagingStudentUsecase,
+    organizationRepository,
+  }
+) {
+  if (_noCredentials(request)) {
+    return _replyForbiddenError(h);
+  }
+
+  const organizationId = request.params.id;
+
+  const isOrganizationScoManagingStudent = await dependencies.checkOrganizationIsScoAndManagingStudentUsecase.execute({
+    organizationId,
+  });
+
+  if (isOrganizationScoManagingStudent) {
+    return _replyForbiddenError(h);
+  }
+
+  return h.response(true);
+}
+
 function _noCredentials(request) {
   return !request?.auth?.credentials || !request.auth.credentials.userId;
 }
@@ -544,6 +569,7 @@ const securityPreHandlers = {
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkCertificationCenterIsNotScoManagingStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
+  checkUserDoesNotBelongsToScoOrganizationManagingStudents,
   checkAdminMemberHasRoleSuperAdmin,
   checkAdminMemberHasRoleCertif,
   checkAdminMemberHasRoleSupport,

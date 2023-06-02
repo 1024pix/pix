@@ -34,6 +34,8 @@ import * as memberships from './application/memberships/index.js';
 import * as organizationInvitations from './application/organization-invitations/index.js';
 import * as organizations from './application/organizations/index.js';
 import * as organizationsAdministration from './application/organizations-administration/index.js';
+import * as organizationLearners from './application/organization-learners/index.js';
+import * as organizationLearnersManagement from './application/organization-learners-management/index.js';
 import * as passwords from './application/passwords/index.js';
 import * as poleEmploi from './application/pole-emploi/index.js';
 import * as prescribers from './application/prescribers/index.js';
@@ -41,7 +43,7 @@ import * as progressions from './application/progressions/index.js';
 import * as saml from './application/saml/index.js';
 import * as stageCollection from './application/stage-collections/index.js';
 import * as scoringSimulator from './application/scoring-simulator/index.js';
-import * as organizationLearners from './application/organization-learners/index.js';
+
 import * as scenarioSimulator from './application/scenarios-simulator/index.js';
 import * as scorecards from './application/scorecards/index.js';
 import * as scoOrganizationLearners from './application/sco-organization-learners/index.js';
@@ -92,6 +94,7 @@ const routes = [
   lcms,
   memberships,
   organizationLearners,
+  organizationLearnersManagement,
   organizations,
   organizationsAdministration,
   passwords,
