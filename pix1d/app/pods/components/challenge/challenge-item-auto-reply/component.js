@@ -1,19 +1,12 @@
-import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
-import ChallengeItemGeneric from '../challenge-item-generic/component';
+import Component from '@glimmer/component';
 
-export default class ChallengeItemAutoReply extends ChallengeItemGeneric {
-  @tracked autoReplyAnswer = '';
+export default class ChallengeItemAutoReply extends Component {
   postMessageHandler = null;
   embedOrigins = 'https://epreuves.pix.fr,https://1024pix.github.io'.split(',');
 
   constructor() {
     super(...arguments);
     this._addEventListener();
-  }
-
-  _getAnswerValue() {
-    return this.autoReplyAnswer;
   }
 
   _addEventListener() {
@@ -24,7 +17,7 @@ export default class ChallengeItemAutoReply extends ChallengeItemGeneric {
   _receiveEmbedMessage(event) {
     const message = this._getMessageFromEventData(event);
     if (message && message.answer && message.from === 'pix') {
-      this.autoReplyAnswer = message.answer;
+      this.args.setAnswerValue(message.answer);
     }
   }
 
@@ -57,9 +50,9 @@ export default class ChallengeItemAutoReply extends ChallengeItemGeneric {
     return { answer: answer, from: 'pix' };
   }
 
-  @action
-  removeEmbedAutoEventListener() {
+  willDestroy() {
     window.removeEventListener('message', this.postMessageHandler);
+    super.willDestroy();
   }
 
   get allowedOriginWithRegExp() {
