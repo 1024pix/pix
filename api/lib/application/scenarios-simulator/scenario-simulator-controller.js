@@ -19,23 +19,38 @@ async function simulateFlashAssessmentScenario(
     extractLocaleFromRequest,
   }
 ) {
-  const { assessmentId, stopAtChallenge, initialCapacity, numberOfIterations = 1 } = request.payload;
+  const {
+    assessmentId,
+    stopAtChallenge,
+    initialCapacity,
+    numberOfIterations = 1,
+    warmUpLength,
+    forcedCompetences,
+  } = request.payload;
 
   const pickAnswerStatus = _getPickAnswerStatusMethod(dependencies.pickAnswerStatusService, request.payload);
 
   const locale = dependencies.extractLocaleFromRequest(request);
 
   const result = await Promise.all(
-    _.range(0, numberOfIterations).map(async (index) => ({
-      index,
-      simulationReport: await usecases.simulateFlashDeterministicAssessmentScenario({
-        pickAnswerStatus,
-        pickChallenge: dependencies.pickChallengeService.chooseNextChallenge(`${assessmentId}-${index}`),
-        locale,
-        stopAtChallenge,
-        initialCapacity,
-      }),
-    }))
+    _.range(0, numberOfIterations).map(async (index) => {
+      const usecaseParams = _.omitBy(
+        {
+          pickAnswerStatus,
+          pickChallenge: dependencies.pickChallengeService.chooseNextChallenge(`${assessmentId}-${index}`),
+          locale,
+          stopAtChallenge,
+          initialCapacity,
+          warmUpLength,
+          forcedCompetences,
+        },
+        _.isUndefined
+      );
+      return {
+        index,
+        simulationReport: await usecases.simulateFlashDeterministicAssessmentScenario(usecaseParams),
+      };
+    })
   );
 
   return dependencies.scenarioSimulatorBatchSerializer.serialize(result);

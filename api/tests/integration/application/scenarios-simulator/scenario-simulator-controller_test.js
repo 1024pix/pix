@@ -58,6 +58,68 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
         ];
       });
 
+      context('When the scenario is force to pass some competences', function () {
+        context('When there is no warmup', function () {
+          it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+            // given
+            const answerStatusArray = ['ok'];
+            const assessmentId = '13802DK';
+            const forcedCompetences = ['compA', 'compB', 'compC'];
+
+            const pickChallengeImplementation = sinon.stub();
+            pickChallengeService.chooseNextChallenge.withArgs(`${assessmentId}-0`).returns(pickChallengeImplementation);
+            const pickAnswerStatusFromArrayImplementation = sinon.stub();
+            pickAnswerStatusService.pickAnswerStatusFromArray
+              .withArgs(['ok'])
+              .returns(pickAnswerStatusFromArrayImplementation);
+
+            usecases.simulateFlashDeterministicAssessmentScenario
+              .withArgs({
+                pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
+                locale: 'en',
+                pickChallenge: pickChallengeImplementation,
+                initialCapacity,
+                forcedCompetences,
+              })
+              .resolves(simulationResults);
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+            // when
+            const response = await httpTestServer.request(
+              'POST',
+              '/api/scenario-simulator',
+              {
+                assessmentId,
+                initialCapacity,
+                answerStatusArray,
+                type: 'deterministic',
+                forcedCompetences,
+              },
+              null,
+              { 'accept-language': 'en' }
+            );
+
+            // then
+            expect(response.statusCode).to.equal(200);
+            expect(response.result).to.deep.equal(
+              _generateScenarioSimulatorBatch([
+                [
+                  {
+                    errorRate: errorRate1,
+                    estimatedLevel: estimatedLevel1,
+                    minimumCapability: 0.6190392084062237,
+                    answerStatus: 'ok',
+                    reward: reward1,
+                    difficulty: challenge1.difficulty,
+                    discriminant: challenge1.discriminant,
+                  },
+                ],
+              ])
+            );
+          });
+        });
+      });
+
       context('When the scenario is deterministic', function () {
         context('When the route is called with correct arguments', function () {
           context('When the route is called with an initial capacity', function () {
@@ -81,7 +143,6 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   locale: 'en',
                   pickChallenge: pickChallengeImplementation,
                   initialCapacity,
-                  stopAtChallenge: undefined,
                 })
                 .resolves(simulationResults);
               securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
@@ -140,8 +201,6 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
                   pickChallenge: pickChallengeImplementation,
                   locale: 'en',
-                  stopAtChallenge: undefined,
-                  initialCapacity: undefined,
                 })
                 .resolves(simulationResults);
               securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
@@ -202,8 +261,6 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
                   pickChallenge: pickChallengeImplementation,
                   locale: 'en',
-                  stopAtChallenge: undefined,
-                  initialCapacity: undefined,
                 })
                 .resolves(simulationResults);
               securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
@@ -264,8 +321,6 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
-                  stopAtChallenge: undefined,
-                  initialCapacity: undefined,
                 })
                 .resolves(simulationResults);
               securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
@@ -326,7 +381,6 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
-                  stopAtChallenge: undefined,
                   initialCapacity,
                 })
                 .resolves(simulationResults);
@@ -391,8 +445,6 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromCapacityImplementation,
-                  stopAtChallenge: undefined,
-                  initialCapacity: undefined,
                 })
                 .resolves(simulationResults);
               securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
@@ -450,7 +502,6 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromCapacityImplementation,
-                  stopAtChallenge: undefined,
                   initialCapacity,
                 })
                 .resolves(simulationResults);
