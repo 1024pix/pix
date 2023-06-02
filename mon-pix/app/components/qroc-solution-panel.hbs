@@ -3,29 +3,39 @@
     {{#if @solution}}
       <div class="correction-qroc-box__answer">
         {{#if (eq @answer.challenge.format "paragraphe")}}
-          <textarea
-            class="correction-qroc-box-answer correction-qroc-box-answer--paragraph {{this.inputClass}}"
-            rows="5"
-            value="{{this.answerToDisplay}}"
-            aria-label={{t "pages.comparison-window.results.a11y.given-answer"}}
-            disabled
-          >
-          </textarea>
+          <label class="screen-reader-only" for="correction-qroc-box-answer__paragraphe">
+            {{t "pages.comparison-window.results.a11y.given-answer"}}
+          </label>
+          <div class="correction-qroc-box-answer {{this.inputClass}}">
+            <PixTextarea
+              class="correction-qroc-box-answer--paragraph"
+              @id="correction-qroc-box-answer__paragraphe"
+              rows="5"
+              @value={{this.answerToDisplay}}
+              disabled
+            />
+          </div>
         {{else if (eq @answer.challenge.format "phrase")}}
-          <input
-            class="correction-qroc-box-answer correction-qroc-box-answer--sentence {{this.inputClass}}"
-            value="{{this.answerToDisplay}}"
-            aria-label={{t "pages.comparison-window.results.a11y.given-answer"}}
-            disabled
-          />
+          <div class="correction-qroc-box-answer {{this.inputClass}}">
+            <PixInput
+              class="correction-qroc-box-answer--sentence"
+              @id="correction-qroc-box-answer--sentence"
+              @value="{{this.answerToDisplay}}"
+              @ariaLabel={{t "pages.comparison-window.results.a11y.given-answer"}}
+              disabled
+            />
+          </div>
         {{else}}
-          <input
-            class="correction-qroc-box-answer {{this.inputClass}}"
-            size="{{this.answerToDisplay.length}}"
-            value="{{this.answerToDisplay}}"
-            aria-label={{t "pages.comparison-window.results.a11y.given-answer"}}
-            disabled
-          />
+          <div class="correction-qroc-box-answer {{this.inputClass}}">
+            <PixInput
+              class="correction-qroc-box-answer--input"
+              @id="correction-qroc-box-answer"
+              size="{{this.answerToDisplay.length}}"
+              @value="{{this.answerToDisplay}}"
+              disabled
+              @ariaLabel={{t "pages.comparison-window.results.a11y.given-answer"}}
+            />
+          </div>
         {{/if}}
       </div>
     {{/if}}

@@ -28,34 +28,35 @@
                 />
               </div>
             {{else if (eq @challenge.format "paragraphe")}}
-              <textarea
-                class="challenge-response__proposal challenge-response__proposal--paragraph"
-                data-test="challenge-response-proposal-selector"
-                rows="5"
-                id="qroc_input"
-                {{on "keyup" this.answerChanged}}
-                name={{block.randomName}}
-                placeholder={{block.placeholder}}
-                autocomplete="nope"
-                value={{this.userAnswer}}
-                data-uid="qroc-proposal-uid"
-                disabled={{this.isAnswerFieldDisabled}}
-              >
-              </textarea>
+              <div class="challenge-response__proposal challenge-response__proposal--paragraph">
+                <PixTextarea
+                  @id="qroc_input"
+                  rows="5"
+                  placeholder={{block.placeholder}}
+                  name={{block.randomName}}
+                  @value={{this.userAnswer}}
+                  data-test="challenge-response-proposal-selector"
+                  data-uid="qroc-proposal-uid"
+                  disabled={{this.isAnswerFieldDisabled}}
+                  autocomplete="nope"
+                  {{on "keyup" this.answerChanged}}
+                />
+              </div>
             {{else if (eq @challenge.format "phrase")}}
-              <input
-                class="challenge-response__proposal challenge-response__proposal--sentence"
-                data-test="challenge-response-proposal-selector"
-                type="text"
-                id="qroc_input"
-                {{on "keyup" this.answerChanged}}
-                name={{block.randomName}}
-                placeholder={{block.placeholder}}
-                autocomplete="nope"
-                value={{this.userAnswer}}
-                data-uid="qroc-proposal-uid"
-                disabled={{this.isAnswerFieldDisabled}}
-              />
+              <div class="challenge-response__proposal challenge-response__proposal--sentence">
+                <PixInput
+                  @id="qroc_input"
+                  name={{block.randomName}}
+                  type="text"
+                  placeholder={{block.placeholder}}
+                  {{on "keyup" this.answerChanged}}
+                  autocomplete="nope"
+                  @value={{this.userAnswer}}
+                  disabled={{this.isAnswerFieldDisabled}}
+                  data-uid="qroc-proposal-uid"
+                  data-test="challenge-response-proposal-selector"
+                />
+              </div>
             {{else if (eq @challenge.format "nombre")}}
               <PixInput
                 @id="qroc_input"
@@ -65,26 +66,25 @@
                 data-test="challenge-response-proposal-selector"
                 placeholder={{block.placeholder}}
                 @value={{this.userAnswer}}
-                aria-label={{block.ariaLabel}}
                 data-uid="qroc-proposal-uid"
                 disabled={{this.isAnswerFieldDisabled}}
                 {{on "keyup" this.answerChanged}}
               />
 
             {{else}}
-              <input
+              <PixInput
                 class="challenge-response__proposal"
-                data-test="challenge-response-proposal-selector"
+                @id="qroc_input"
+                name={{block.randomName}}
                 size="{{get-qroc-input-size @challenge.format}}"
                 type="text"
-                id="qroc_input"
-                {{on "keyup" this.answerChanged}}
-                name={{block.randomName}}
+                data-test="challenge-response-proposal-selector"
                 placeholder={{block.placeholder}}
+                @value={{this.userAnswer}}
                 autocomplete="nope"
-                value={{this.userAnswer}}
                 data-uid="qroc-proposal-uid"
                 disabled={{this.isAnswerFieldDisabled}}
+                {{on "keyup" this.answerChanged}}
               />
             {{/if}}
           {{/if}}

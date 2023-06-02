@@ -45,6 +45,11 @@ export default class FeedbackPanel extends Component {
     return topLevelLabels.filter((label) => !label[context]);
   }
 
+  @action
+  setContent(event) {
+    this.content = event.target.value;
+  }
+
   get categories() {
     return this.filteredCategories().map((category) => ({ value: category.value, label: this.intl.t(category.name) }));
   }

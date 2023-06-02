@@ -21,39 +21,42 @@
         {{/if}}
 
         {{#if (eq @challenge.format "paragraphe")}}
-          <textarea
-            class="correction-qrocm__answer correction-qrocm__answer--paragraph {{block.inputClass}}"
-            rows="5"
-            value="{{block.answer}}"
-            id="{{block.input}}"
-            disabled
-          >
-          </textarea>
+          <div class="correction-qrocm__answer {{block.inputClass}}">
+            <PixTextarea
+              class="correction-qrocm-answer__input-paragraph"
+              rows="5"
+              @value="{{block.answer}}"
+              @id="{{block.input}}"
+              disabled
+            />
+          </div>
           {{#if block.emptyOrWrongAnswer}}
             <div class="correction-qrocm__solution">
               <div class="correction-qrocm__solution-text">{{block.solution}}</div>
             </div>
           {{/if}}
         {{else if (eq @challenge.format "phrase")}}
-          <input
-            value="{{block.answer}}"
-            size="{{get-qroc-input-size @challenge.format}}"
-            class="correction-qrocm__answer correction-qrocm__answer--sentence {{block.inputClass}}"
-            id="{{block.input}}"
-            disabled
-          />
+          <div class="correction-qrocm__answer {{block.inputClass}}">
+            <PixInput
+              class="correction-qrocm-answer__input-sentence"
+              @value="{{block.answer}}"
+              size="{{get-qroc-input-size @challenge.format}}"
+              @id="{{block.input}}"
+              disabled
+            />
+          </div>
           {{#if block.emptyOrWrongAnswer}}
             <div class="correction-qrocm__solution">
               <div class="correction-qrocm__solution-text">{{block.solution}}</div>
             </div>
           {{/if}}
         {{else}}
-          <div class="correction-qrocm__answer-wrapper">
-            <input
-              value="{{block.answer}}"
+          <div class="correction-qrocm__answer-wrapper correction-qrocm__answer {{block.inputClass}}">
+            <PixInput
+              class="correction-qrocm-answer__input"
+              @value="{{block.answer}}"
               size="{{block.answer.length}}"
-              class="correction-qrocm__answer correction-qrocm__answer--input {{block.inputClass}}"
-              id="{{block.input}}"
+              @id="{{block.input}}"
               disabled
             />
             {{#if block.emptyOrWrongAnswer}}
