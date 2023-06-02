@@ -1,11 +1,15 @@
 <Challenge::ChallengeStatement @challenge={{@challenge}} />
+
 <Challenge::ChallengeItemAutoReply
   @challenge={{@challenge}}
   @assessment={{@assessment}}
-  @answerValidated={{this.answerValidated}}
+  @setAnswerValue={{this.setAnswerValue}}
 />
+
 <AnswerFeedback
   @answer={{this.answer}}
   @answerHasBeenValidated={{this.answerHasBeenValidated}}
   @nextAction={{this.resume}}
 />
+
+<Challenge::ChallengeActions @validateAnswer={{this.validateAnswer}} @skipChallenge={{this.skipChallenge}} />
