@@ -243,6 +243,7 @@ const configuration = (function () {
     },
 
     poleEmploi: {
+      isEnabled: isFeatureEnabled(process.env.POLE_EMPLOI_ENABLED),
       clientId: process.env.POLE_EMPLOI_CLIENT_ID,
       clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
@@ -260,6 +261,7 @@ const configuration = (function () {
     },
 
     cnav: {
+      isEnabled: isFeatureEnabled(process.env.CNAV_ENABLED),
       clientId: process.env.CNAV_CLIENT_ID,
       authenticationUrl: process.env.CNAV_AUTHENTICATION_URL,
       userInfoUrl: process.env.CNAV_OIDC_USER_INFO_URL,
@@ -269,6 +271,7 @@ const configuration = (function () {
     },
 
     fwb: {
+      isEnabled: isFeatureEnabled(process.env.FWB_ENABLED),
       clientId: process.env.FWB_CLIENT_ID,
       clientSecret: process.env.FWB_CLIENT_SECRET,
       tokenUrl: process.env.FWB_TOKEN_URL,

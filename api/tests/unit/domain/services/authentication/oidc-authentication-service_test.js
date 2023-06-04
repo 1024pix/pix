@@ -21,6 +21,68 @@ import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-to
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
+  describe('#isReady', function () {
+    describe('when enabled in config', function () {
+      describe('when config is valid', function () {
+        it('returns true', function () {
+          // given
+          settings.someOidcProviderService = {
+            isEnabled: true,
+            aProperty: 'aValue',
+          };
+          const oidcAuthenticationService = new OidcAuthenticationService({
+            configKey: 'someOidcProviderService',
+            requiredProperties: ['aProperty'],
+          });
+
+          // when
+          const result = oidcAuthenticationService.isReady;
+
+          // then
+          expect(result).to.be.true;
+        });
+      });
+
+      describe('when config is invalid', function () {
+        it('returns false', function () {
+          // given
+          settings.someOidcProviderService = {
+            isEnabled: true,
+            someOtherProperty: 'someOtherValue',
+          };
+          const oidcAuthenticationService = new OidcAuthenticationService({
+            configKey: 'someOidcProviderService',
+            requiredProperties: ['aProperty'],
+          });
+
+          // when
+          const result = oidcAuthenticationService.isReady;
+
+          // then
+          expect(result).to.be.false;
+        });
+      });
+    });
+
+    describe('when not enabled in config', function () {
+      it('returns false', function () {
+        // given
+        settings.someOidcProviderService = {
+          isEnabled: false,
+        };
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          configKey: 'someOidcProviderService',
+        });
+
+        // when
+        const result = oidcAuthenticationService.isReady;
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
+
   describe('#createAccessToken', function () {
     it('should create access token with user id', function () {
       // given
