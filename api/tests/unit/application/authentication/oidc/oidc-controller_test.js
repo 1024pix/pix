@@ -8,7 +8,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   const identityProvider = 'OIDC';
 
   describe('#getIdentityProviders', function () {
-    it('should return the list of oidc identity providers', async function () {
+    it('returns the list of oidc identity providers', async function () {
       // given
       const someOidcProviderService = new OidcAuthenticationService({
         identityProvider: 'SOME_OIDC_PROVIDER',
@@ -16,9 +16,8 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         source: 'some_oidc_provider',
         slug: 'some-oidc-provider',
         organizationName: 'Some OIDC Provider',
-        requiredProperties: [],
       });
-      someOidcProviderService.isConfigValid = () => true;
+      sinon.stub(someOidcProviderService, 'isReady').value(true);
       const authenticationServiceRegistryStub = {
         getOidcProviderServices: sinon.stub().returns([someOidcProviderService]),
       };

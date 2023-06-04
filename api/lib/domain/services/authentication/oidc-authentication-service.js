@@ -3,13 +3,13 @@ import jsonwebtoken from 'jsonwebtoken';
 import querystring from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
 
+import { logger } from '../../../infrastructure/logger.js';
 import {
   InvalidExternalAPIResponseError,
   OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
 } from '../../errors.js';
-
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
 import { config } from '../../../config.js';
@@ -20,13 +20,15 @@ import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../constants.js';
 
 class OidcAuthenticationService {
+  #isReady;
+
   constructor({
     identityProvider,
     configKey,
     source,
     slug,
     organizationName,
-    requiredProperties,
+    requiredProperties = [],
     hasLogoutUrl = false,
     jwtOptions,
     clientSecret,
@@ -50,14 +52,34 @@ class OidcAuthenticationService {
     this.authenticationUrl = authenticationUrl;
     this.authenticationUrlParameters = authenticationUrlParameters;
     this.userInfoUrl = userInfoUrl;
+
+    const missingRequiredProperties = [];
+    this.requiredProperties.forEach((requiredProperty) => {
+      if (lodash.isNil(config[this.configKey][requiredProperty])) {
+        missingRequiredProperties.push(requiredProperty);
+      }
+    });
+
+    const isEnabledInConfig = config[this.configKey]?.isEnabled;
+    const isConfigValid = missingRequiredProperties.length == 0;
+    this.#isReady = isEnabledInConfig && isConfigValid;
+
+    const isEnabledWithInvalidConfig = isEnabledInConfig && !isConfigValid;
+    if (isEnabledWithInvalidConfig) {
+      logger.error(
+        `Config for OIDC Provider "${
+          this.identityProvider
+        }" is missing the following required properties: ${missingRequiredProperties.join(', ')}`
+      );
+    }
   }
 
   get code() {
     return this.identityProvider;
   }
 
-  isConfigValid() {
-    return this.requiredProperties.every((requiredProperty) => !lodash.isNil(config[this.configKey][requiredProperty]));
+  get isReady() {
+    return this.#isReady;
   }
 
   createAccessToken(userId) {
