@@ -1,8 +1,12 @@
 .participant-filter-banner {
   margin: 12px 0;
 
-  &__stages {
+  &__stages-select {
     min-width: 160px;
+  }
+
+  &__stars {
+    height: 1.125rem;
   }
 
   &__badges {

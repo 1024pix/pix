@@ -55,10 +55,10 @@ export default class ParticipationFilters extends Component {
   }
 
   get stageOptions() {
-    const totalStage = this.args.campaign.stages.length;
+    const totalStage = this.args.campaign.stages.length - 1;
     return this.args.campaign.stages.map((stage, index) => ({
       value: stage.id,
-      reachedStage: index + 1,
+      reachedStage: index,
       totalStage,
     }));
   }
