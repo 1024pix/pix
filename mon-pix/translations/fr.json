@@ -435,7 +435,8 @@
       "embed-simulator": {
         "actions": {
           "launch": "Je lance l’application",
-          "reset": "Réinitialiser"
+          "reset": "Réinitialiser",
+          "reset-label":  "Réinitialiser la simulation"
         },
         "placeholder": "Chargement de l'application en cours"
       },
