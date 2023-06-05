@@ -45,7 +45,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-proposal-decorators": "^7.20.5",
     "@ember/optional-features": "^2.0.0",
-    "@ember/test-helpers": "^2.8.1",
+    "@ember/test-helpers": "^3.0.0",
     "@embroider/compat": "^3.0.0",
     "@embroider/core": "^3.0.0",
     "@embroider/webpack": "^3.0.0",
@@ -85,7 +85,7 @@
     "ember-keyboard": "^8.0.0",
     "ember-load-initializers": "^2.1.2",
     "ember-page-title": "^7.0.0",
-    "ember-qunit": "^6.0.0",
+    "ember-qunit": "^7.0.0",
     "ember-resolver": "^10.0.0",
     "ember-simple-auth": "^5.0.0",
     "ember-source": "^4.0.1",
@@ -113,5 +113,10 @@
     "stylelint": "^15.0.0",
     "stylelint-config-standard-scss": "^9.0.0",
     "webpack": "^5.76.2"
+  },
+  "overrides": {
+    "ember-keyboard": {
+      "@ember/test-helpers": "^3.0.0"
+    }
   }
 }
