@@ -4,6 +4,7 @@ import * as moduleUnderTest from '../../../../lib/application/scenarios-simulato
 import { random } from '../../../../lib/infrastructure/utils/random.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-answer-status-service.js';
+import { pickChallengeService } from '../../../../lib/domain/services/pick-challenge-service.js';
 
 describe('Integration | Application | Scoring-simulator | scenario-simulator-controller', function () {
   let httpTestServer;
@@ -20,6 +21,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
     sinon.stub(random, 'weightedRandoms');
     sinon.stub(pickAnswerStatusService, 'pickAnswerStatusFromArray');
     sinon.stub(pickAnswerStatusService, 'pickAnswerStatusForCapacity');
+    sinon.stub(pickChallengeService, 'chooseNextChallenge');
 
     challenge1 = domainBuilder.buildChallenge({ id: 'chall1', successProbabilityThreshold: 0.65 });
     reward1 = 0.2;
@@ -64,6 +66,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               const answerStatusArray = ['ok'];
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -72,8 +78,8 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
-                  assessmentId,
                   locale: 'en',
+                  pickChallenge: pickChallengeImplementation,
                   initialCapacity,
                   stopAtChallenge: undefined,
                 })
@@ -96,23 +102,21 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
-                      'answer-status': 'ok',
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
             });
           });
 
@@ -122,6 +126,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               const answerStatusArray = ['ok'];
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -130,7 +138,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
-                  assessmentId,
+                  pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   stopAtChallenge: undefined,
                   initialCapacity: undefined,
@@ -153,23 +161,80 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
-                      'answer-status': 'ok',
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
+            });
+          });
+
+          context('When the route is called with a numberOfIterations', function () {
+            it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+              // given
+              const answerStatusArray = ['ok'];
+              const assessmentId = '13802DK';
+              const numberOfIterations = 2;
+
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation)
+                .withArgs(`${assessmentId}-1`)
+                .returns(pickChallengeImplementation);
+              const pickAnswerStatusFromArrayImplementation = sinon.stub();
+              pickAnswerStatusService.pickAnswerStatusFromArray
+                .withArgs(['ok'])
+                .returns(pickAnswerStatusFromArrayImplementation);
+
+              usecases.simulateFlashDeterministicAssessmentScenario
+                .withArgs({
+                  pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
+                  pickChallenge: pickChallengeImplementation,
+                  locale: 'en',
+                  stopAtChallenge: undefined,
+                  initialCapacity: undefined,
+                })
+                .resolves(simulationResults);
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+              // when
+              const response = await httpTestServer.request(
+                'POST',
+                '/api/scenario-simulator',
+                {
+                  assessmentId,
+                  numberOfIterations,
+                  answerStatusArray,
+                  type: 'deterministic',
+                },
+                null,
+                { 'accept-language': 'en' }
+              );
+
+              const result = {
+                errorRate: errorRate1,
+                estimatedLevel: estimatedLevel1,
+                minimumCapability: 0.6190392084062237,
+                answerStatus: 'ok',
+                reward: reward1,
+                difficulty: challenge1.difficulty,
+                discriminant: challenge1.discriminant,
+              };
+
+              // then
+              expect(response.statusCode).to.equal(200);
+              expect(response.result).to.deep.equal(_generateScenarioSimulatorBatch([[result], [result]]));
             });
           });
         });
@@ -185,6 +250,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -192,7 +261,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  assessmentId,
+                  pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
                   stopAtChallenge: undefined,
@@ -217,23 +286,21 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
-                      'answer-status': 'ok',
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
             });
           });
 
@@ -245,6 +312,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -252,7 +323,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  assessmentId,
+                  pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
                   stopAtChallenge: undefined,
@@ -278,23 +349,21 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
-                      'answer-status': 'ok',
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
             });
           });
         });
@@ -308,6 +377,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               const capacity = -3.1;
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromCapacityImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusForCapacity
                 .withArgs(capacity)
@@ -315,7 +388,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  assessmentId,
+                  pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromCapacityImplementation,
                   stopAtChallenge: undefined,
@@ -339,23 +412,21 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
-                      'answer-status': 'ok',
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
             });
           });
 
@@ -365,6 +436,10 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               const capacity = -3.1;
               const assessmentId = '13802DK';
 
+              const pickChallengeImplementation = sinon.stub();
+              pickChallengeService.chooseNextChallenge
+                .withArgs(`${assessmentId}-0`)
+                .returns(pickChallengeImplementation);
               const pickAnswerStatusFromCapacityImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusForCapacity
                 .withArgs(capacity)
@@ -372,7 +447,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               usecases.simulateFlashDeterministicAssessmentScenario
                 .withArgs({
-                  assessmentId,
+                  pickChallenge: pickChallengeImplementation,
                   locale: 'en',
                   pickAnswerStatus: pickAnswerStatusFromCapacityImplementation,
                   stopAtChallenge: undefined,
@@ -397,23 +472,21 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal({
-                data: [
-                  {
-                    attributes: {
-                      'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
-                      'minimum-capability': 0.6190392084062237,
-                      'answer-status': 'ok',
+              expect(response.result).to.deep.equal(
+                _generateScenarioSimulatorBatch([
+                  [
+                    {
+                      errorRate: errorRate1,
+                      estimatedLevel: estimatedLevel1,
+                      minimumCapability: 0.6190392084062237,
+                      answerStatus: 'ok',
                       reward: reward1,
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
                     },
-                    id: 'chall1',
-                    type: 'scenario-simulator-challenges',
-                  },
-                ],
-              });
+                  ],
+                ])
+              );
             });
           });
         });
@@ -451,6 +524,13 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
             },
           ];
 
+          const pickChallengeImplementation = sinon.stub();
+          pickChallengeService.chooseNextChallenge
+            .withArgs(0)
+            .returns(pickChallengeImplementation)
+            .withArgs(1)
+            .returns(pickChallengeImplementation);
+
           const pickAnswerStatusFromArrayImplementation1 = sinon.stub();
           const pickAnswerStatusFromArrayImplementation2 = sinon.stub();
           pickAnswerStatusService.pickAnswerStatusFromArray
@@ -478,7 +558,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
           usecases.simulateFlashDeterministicAssessmentScenario
             .withArgs({
-              assessmentId: 0,
+              pickChallenge: pickChallengeImplementation,
               locale: 'en',
               pickAnswerStatus: pickAnswerStatusFromArrayImplementation1,
             })
@@ -486,7 +566,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
 
           usecases.simulateFlashDeterministicAssessmentScenario
             .withArgs({
-              assessmentId: 1,
+              pickChallenge: pickChallengeImplementation,
               locale: 'en',
               pickAnswerStatus: pickAnswerStatusFromArrayImplementation2,
             })
@@ -587,3 +667,23 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
     });
   });
 });
+
+function _generateScenarioSimulatorBatch(data) {
+  return {
+    data: data.map((scenario, index) => ({
+      type: 'scenario-simulator-batches',
+      id: `${index}`,
+      attributes: {
+        'simulation-report': scenario.map((scenarioSimulatorChallenge) => ({
+          'error-rate': scenarioSimulatorChallenge.errorRate,
+          'estimated-level': scenarioSimulatorChallenge.estimatedLevel,
+          'minimum-capability': scenarioSimulatorChallenge.minimumCapability,
+          'answer-status': scenarioSimulatorChallenge.answerStatus,
+          reward: scenarioSimulatorChallenge.reward,
+          difficulty: scenarioSimulatorChallenge.difficulty,
+          discriminant: scenarioSimulatorChallenge.discriminant,
+        })),
+      },
+    })),
+  };
+}

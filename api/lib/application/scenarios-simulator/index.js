@@ -2,6 +2,13 @@ import Joi from 'joi';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { scenarioSimulatorController } from './scenario-simulator-controller.js';
 
+const _baseScenarioParametersValidator = Joi.object().keys({
+  assessmentId: Joi.string().required(),
+  initialCapacity: Joi.number().integer().min(-8).max(8),
+  stopAtChallenge: Joi.number().integer().min(0),
+  numberOfIterations: Joi.number().integer().min(0),
+});
+
 const register = async (server) => {
   server.route([
     {
@@ -19,15 +26,11 @@ const register = async (server) => {
             allowUnknown: true,
           },
           payload: Joi.alternatives([
-            Joi.object({
-              assessmentId: Joi.string().required(),
+            _baseScenarioParametersValidator.keys({
               type: Joi.string().valid('deterministic').required(),
-              stopAtChallenge: Joi.number().integer().min(0).optional(),
-              initialCapacity: Joi.number().integer().min(-8).max(8).optional(),
               answerStatusArray: Joi.array().items(Joi.string().allow('ok', 'ko', 'aband')).required(),
             }),
-            Joi.object({
-              assessmentId: Joi.string().required(),
+            _baseScenarioParametersValidator.keys({
               type: Joi.string().valid('random').required(),
               probabilities: Joi.object({
                 ok: Joi.number(),
@@ -35,15 +38,10 @@ const register = async (server) => {
                 aband: Joi.number(),
               }),
               length: Joi.number().integer().min(0).required(),
-              initialCapacity: Joi.number().integer().min(-8).max(8),
-              stopAtChallenge: Joi.number().integer().min(0),
             }),
-            Joi.object({
-              assessmentId: Joi.string().required(),
+            _baseScenarioParametersValidator.keys({
               type: Joi.string().valid('capacity').required(),
               capacity: Joi.number().min(-8).max(8).required(),
-              initialCapacity: Joi.number().integer().min(-8).max(8),
-              stopAtChallenge: Joi.number().integer().min(0),
             }),
           ]).required(),
         },
