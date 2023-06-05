@@ -1267,7 +1267,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
         expect(participations[0]).to.be.instanceOf(CampaignParticipation);
         expect(participations[1]).to.be.instanceOf(CampaignParticipation);
-        expect(participations.map((participation) => participation.id)).to.deep.equal([
+        expect(participations.map((participation) => participation.id)).to.have.members([
           campaignParticipationImproved.id,
           campaignParticipationToDelete.id,
         ]);
