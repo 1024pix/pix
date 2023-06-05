@@ -184,142 +184,171 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     });
 
     context('when the user answers a lot of challenges', function () {
-      it('should choose the correct challenge', function () {
-        const listSkills = {
-          url5: domainBuilder.buildSkill({ id: 'url5' }),
-          web3: domainBuilder.buildSkill({ id: 'web3' }),
-          sourceinfo5: domainBuilder.buildSkill({ id: 'sourceinfo5' }),
-          installogiciel2: domainBuilder.buildSkill({ id: 'installogiciel2' }),
-          fichier4: domainBuilder.buildSkill({ id: 'fichier4' }),
-          sauvegarde5: domainBuilder.buildSkill({ id: 'sauvegarde5' }),
-          langbalise6: domainBuilder.buildSkill({ id: 'langbalise6' }),
-          pratiquesinternet4: domainBuilder.buildSkill({ id: 'pratiquesinternet4' }),
-          langbalise7: domainBuilder.buildSkill({ id: 'langbalise7' }),
+      let listSkills;
+      let listChallenges;
+
+      beforeEach(function () {
+        listSkills = {
+          url5: domainBuilder.buildSkill({ id: 'url5', competenceId: 'url' }),
+          web3: domainBuilder.buildSkill({ id: 'web3', competenceId: 'web' }),
+          sourceinfo5: domainBuilder.buildSkill({ id: 'sourceinfo5', competenceId: 'sourceinfo' }),
+          installogiciel2: domainBuilder.buildSkill({ id: 'installogiciel2', competenceId: 'installogiciel' }),
+          fichier4: domainBuilder.buildSkill({ id: 'fichier4', competenceId: 'fichier' }),
+          sauvegarde5: domainBuilder.buildSkill({ id: 'sauvegarde5', competenceId: 'sauvegarde' }),
+          langbalise6: domainBuilder.buildSkill({ id: 'langbalise6', competenceId: 'langbalise' }),
+          pratiquesinternet4: domainBuilder.buildSkill({
+            id: 'pratiquesinternet4',
+            competenceId: 'pratiquesinternet4',
+          }),
+          langbalise7: domainBuilder.buildSkill({ id: 'langbalise7', competenceId: 'langbalise' }),
         };
 
-        const listChallenges = [
+        listChallenges = [
           domainBuilder.buildChallenge({
             id: 'recA',
             skill: listSkills.url5,
             difficulty: -0.917927344545694,
             discriminant: 1.02282430250024,
+            competenceId: listSkills.url5.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recB',
             skill: listSkills.web3,
             difficulty: 0.301604780272093,
             discriminant: 0.815896135600247,
+            competenceId: listSkills.web3.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recC',
             skill: listSkills.sourceinfo5,
             difficulty: -1.69218011589622,
             discriminant: 1.38594509996278,
+            competenceId: listSkills.sourceinfo5.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recD',
             skill: listSkills.installogiciel2,
             difficulty: -5.4464574841729,
             discriminant: 0.427255285029657,
+            competenceId: listSkills.installogiciel2.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recE',
             skill: listSkills.fichier4,
             difficulty: -1.5526216455839,
             discriminant: 1.21015304225808,
+            competenceId: listSkills.fichier4.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recF',
             skill: listSkills.fichier4,
             difficulty: -1.36561917255237,
             discriminant: 1.09320650236677,
+            competenceId: listSkills.fichier4.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recG',
             skill: listSkills.fichier4,
             difficulty: -4.20230915443229,
             discriminant: 0.562929008226957,
+            competenceId: listSkills.fichier4.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recH',
             skill: listSkills.fichier4,
             difficulty: 0.262904155422314,
             discriminant: 0.901542609459213,
+            competenceId: listSkills.fichier4.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recI',
             skill: listSkills.fichier4,
             difficulty: -0.754355900389256,
             discriminant: 0.834990152043718,
+            competenceId: listSkills.fichier4.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recJ',
             skill: listSkills.sauvegarde5,
             difficulty: 3.174339929941,
             discriminant: 0.827526706077148,
+            competenceId: listSkills.sauvegarde5.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recK',
             skill: listSkills.sauvegarde5,
             difficulty: -1.16967416012961,
             discriminant: 1.17433370794629,
+            competenceId: listSkills.sauvegarde5.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recL',
             skill: listSkills.sauvegarde5,
             difficulty: -0.030736508016524,
             discriminant: 1.06665273005823,
+            competenceId: listSkills.sauvegarde5.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recM',
             skill: listSkills.sauvegarde5,
             difficulty: -2.37249657419562,
             discriminant: 0.656224379307742,
+            competenceId: listSkills.sauvegarde5.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recN',
             skill: listSkills.langbalise6,
             difficulty: 1.62670103354638,
             discriminant: 1.50948587856458,
+            competenceId: listSkills.langbalise6.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recO',
             skill: listSkills.langbalise6,
             difficulty: 2.811956480867,
             discriminant: 1.04445171700575,
+            competenceId: listSkills.langbalise6.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recP',
             skill: listSkills.langbalise6,
             difficulty: 0.026713944730478,
             discriminant: 0.703441785686095,
+            competenceId: listSkills.langbalise6.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recQ',
             skill: listSkills.pratiquesinternet4,
             difficulty: -1.83253533603,
             discriminant: 0.711777117426424,
+            competenceId: listSkills.pratiquesinternet4.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recR',
             skill: listSkills.pratiquesinternet4,
             difficulty: 0.251708600387063,
             discriminant: 0.369707224301943,
+            competenceId: listSkills.pratiquesinternet4.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recS',
             skill: listSkills.pratiquesinternet4,
             difficulty: 1.90647729810166,
             discriminant: 0.950709518595358,
+            competenceId: listSkills.pratiquesinternet4.competenceId,
           }),
           domainBuilder.buildChallenge({
             id: 'recT',
             skill: listSkills.langbalise6,
             difficulty: -1.82670103354638,
             discriminant: 2.50948587856458,
+            competenceId: listSkills.langbalise6.competenceId,
           }),
         ];
+      });
 
+      it('should choose the correct challenge', function () {
+        // given
         const inputs = [
           { answer: domainBuilder.buildAnswer({ challengeId: 'recL', result: AnswerStatus.KO }), estimatedLevel: 0 },
           {
@@ -358,6 +387,115 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
           allAnswers.push(answer);
         }
+      });
+
+      context('when you force competences', function () {
+        context('with no warm up', function () {
+          it('should force the competences from the beginning', function () {
+            // given
+            const inputs = [
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recN', result: AnswerStatus.KO }),
+                estimatedLevel: 0,
+              },
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recD', result: AnswerStatus.OK }),
+                estimatedLevel: -0.6086049191210775,
+              },
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recK', result: AnswerStatus.KO }),
+                estimatedLevel: -0.6653800198379971,
+              },
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recC', result: AnswerStatus.OK }),
+                estimatedLevel: -1.7794873733366134,
+              },
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recE', result: AnswerStatus.OK }),
+                estimatedLevel: -1.8036203882448785,
+              },
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recA', result: AnswerStatus.OK }),
+                estimatedLevel: -1.557864373635504,
+              },
+            ];
+
+            const forcedCompetences = ['langbalise', 'installogiciel'];
+
+            let result;
+            const allAnswers = [];
+            const expectedChallengeIds = ['recN', 'recD', 'recK', 'recC', 'recE', 'recA'];
+            for (let i = 0; i < inputs.length; i++) {
+              const { answer, estimatedLevel } = inputs[i];
+              result = flash.getPossibleNextChallenges({
+                challenges: listChallenges,
+                allAnswers,
+                estimatedLevel,
+                forcedCompetences,
+              });
+
+              // then
+              expect(result.possibleChallenges[0].id).to.equal(expectedChallengeIds[i]);
+
+              allAnswers.push(answer);
+            }
+          });
+        });
+
+        context('with warm up', function () {
+          it('should force the competences after warm up', function () {
+            // given
+            const warmUpLength = 2;
+
+            const inputs = [
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recL', result: AnswerStatus.KO }),
+                estimatedLevel: 0,
+              },
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recC', result: AnswerStatus.OK }),
+                estimatedLevel: -0.6086049191210775,
+              },
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recT', result: AnswerStatus.KO }),
+                estimatedLevel: -0.6653800198379971,
+              },
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recD', result: AnswerStatus.OK }),
+                estimatedLevel: -1.7794873733366134,
+              },
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recE', result: AnswerStatus.OK }),
+                estimatedLevel: -1.8036203882448785,
+              },
+              {
+                answer: domainBuilder.buildAnswer({ challengeId: 'recA', result: AnswerStatus.OK }),
+                estimatedLevel: -1.557864373635504,
+              },
+            ];
+
+            const forcedCompetences = ['langbalise', 'installogiciel'];
+
+            let result;
+            const allAnswers = [];
+            const expectedChallengeIds = ['recL', 'recC', 'recT', 'recD', 'recE', 'recA'];
+            for (let i = 0; i < inputs.length; i++) {
+              const { answer, estimatedLevel } = inputs[i];
+              result = flash.getPossibleNextChallenges({
+                challenges: listChallenges,
+                allAnswers,
+                estimatedLevel,
+                forcedCompetences,
+                warmUpLength,
+              });
+
+              // then
+              expect(result.possibleChallenges[0].id).to.equal(expectedChallengeIds[i]);
+
+              allAnswers.push(answer);
+            }
+          });
+        });
       });
     });
   });

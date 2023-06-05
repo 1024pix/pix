@@ -7,6 +7,8 @@ const _baseScenarioParametersValidator = Joi.object().keys({
   initialCapacity: Joi.number().integer().min(-8).max(8),
   stopAtChallenge: Joi.number().integer().min(0),
   numberOfIterations: Joi.number().integer().min(0),
+  warmpUpLength: Joi.number().integer().min(0),
+  forcedCompetencies: Joi.array().items(Joi.string()),
 });
 
 const register = async (server) => {
