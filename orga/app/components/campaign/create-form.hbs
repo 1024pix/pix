@@ -144,7 +144,7 @@
         <PixRadioButton
           name="multiple-sendings-label"
           @value="false"
-          {{on "change" this.selectMultipleSendingsStatus}}
+          {{on "change" (fn this.selectMultipleSendingsStatus false)}}
           aria-describedby="multiple-sendings-info"
         >
           {{t "pages.campaign-creation.no"}}
@@ -153,7 +153,7 @@
         <PixRadioButton
           name="multiple-sendings-label"
           @value="true"
-          {{on "change" this.selectMultipleSendingsStatus}}
+          {{on "change" (fn this.selectMultipleSendingsStatus true)}}
           aria-describedby="multiple-sendings-info"
         >
           {{t "pages.campaign-creation.yes"}}
