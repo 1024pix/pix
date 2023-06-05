@@ -32,4 +32,42 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
       assert.deepEqual(component.ownerId, 7);
     });
   });
+
+  module('#selectMultipleSendingsStatus', function () {
+    test('set to true', async function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        prescriber = { id: 1 };
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const component = await createGlimmerComponent('component:campaign/create-form', {
+        targetProfiles: [],
+        membersSortedByFullName: [{ id: 1, fullName: 'Just me' }],
+      });
+
+      //when
+      await component.selectMultipleSendingsStatus(true);
+
+      //then
+      assert.true(component.campaign.multipleSendings);
+    });
+
+    test('set to false', async function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        prescriber = { id: 1 };
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const component = await createGlimmerComponent('component:campaign/create-form', {
+        targetProfiles: [],
+        membersSortedByFullName: [{ id: 1, fullName: 'Just me' }],
+      });
+
+      //when
+      await component.selectMultipleSendingsStatus(false);
+
+      //then
+      assert.false(component.campaign.multipleSendings);
+    });
+  });
 });

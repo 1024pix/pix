@@ -84,10 +84,9 @@ export default class CreateForm extends Component {
   }
 
   @action
-  selectMultipleSendingsStatus(event) {
-    const status = Boolean(event.target.value);
-    this.multipleSendingsEnabled = status;
-    this.campaign.multipleSendings = status;
+  selectMultipleSendingsStatus(value) {
+    this.multipleSendingsEnabled = value;
+    this.campaign.multipleSendings = value;
   }
 
   @action
