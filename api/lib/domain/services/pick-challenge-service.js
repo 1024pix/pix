@@ -15,16 +15,18 @@ const pickChallenge = function ({ skills, randomSeed, locale }) {
   return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
 };
 
-const chooseNextChallenge = function ({ possibleChallenges, assessmentId }) {
-  const PROBABILITY_TO_BE_PICKED = 51;
-  const pseudoRandomContext = pseudoRandom.create(assessmentId);
+const chooseNextChallenge = function (seed) {
+  const pseudoRandomContext = pseudoRandom.create(seed);
+  return function ({ possibleChallenges }) {
+    const PROBABILITY_TO_BE_PICKED = 51;
 
-  const challengeIndex = pseudoRandomContext.binaryTreeRandom(PROBABILITY_TO_BE_PICKED, possibleChallenges.length);
+    const challengeIndex = pseudoRandomContext.binaryTreeRandom(PROBABILITY_TO_BE_PICKED, possibleChallenges.length);
 
-  return possibleChallenges[challengeIndex];
+    return possibleChallenges[challengeIndex];
+  };
 };
 
-export { pickChallenge, chooseNextChallenge };
+export const pickChallengeService = { pickChallenge, chooseNextChallenge };
 
 function _pickLocaleChallengeAtIndex(challenges, locale, index) {
   const localeChallenges = _.filter(challenges, (challenge) => _.includes(challenge.locales, locale));

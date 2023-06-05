@@ -1,4 +1,3 @@
-import { SCENARIO_SIMULATOR_SERIALIZER_CONFIGURATION } from './scenario-simulator-serializer.js';
 import { Serializer } from 'jsonapi-serializer';
 
 const SERIALIZER_CONFIGURATION = {
@@ -7,10 +6,20 @@ const SERIALIZER_CONFIGURATION = {
   transform: (record) => {
     return {
       ...record,
-      simulationReport: record.simulationReport.map(SCENARIO_SIMULATOR_SERIALIZER_CONFIGURATION.transform),
+      simulationReport: record.simulationReport.map(_transformSimulationReport),
     };
   },
-  simulationReport: SCENARIO_SIMULATOR_SERIALIZER_CONFIGURATION,
+  simulationReport: {
+    attributes: [
+      'minimumCapability',
+      'reward',
+      'errorRate',
+      'estimatedLevel',
+      'answerStatus',
+      'difficulty',
+      'discriminant',
+    ],
+  },
 };
 
 function serialize(scenarioSimulator = {}) {
@@ -18,3 +27,11 @@ function serialize(scenarioSimulator = {}) {
 }
 
 export const scenarioSimulatorBatchSerializer = { serialize };
+
+const _transformSimulationReport = (answer) => ({
+  ...answer,
+  id: answer.challenge.id,
+  minimumCapability: answer.challenge.minimumCapability,
+  difficulty: answer.challenge.difficulty,
+  discriminant: answer.challenge.discriminant,
+});

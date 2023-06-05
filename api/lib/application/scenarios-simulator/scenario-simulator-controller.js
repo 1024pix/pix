@@ -1,38 +1,50 @@
 import { usecases } from '../../domain/usecases/index.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
-import { scenarioSimulatorSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-serializer.js';
 import { random } from '../../infrastructure/utils/random.js';
 import { scenarioSimulatorBatchSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
 import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
 import { pickAnswerStatusService } from '../../domain/services/pick-answer-status-service.js';
 import { HttpErrors } from '../http-errors.js';
+import _ from 'lodash';
+import { pickChallengeService } from '../../domain/services/pick-challenge-service.js';
 
 async function simulateFlashAssessmentScenario(
   request,
   h,
-  dependencies = { scenarioSimulatorSerializer, random, pickAnswerStatusService, extractLocaleFromRequest }
+  dependencies = {
+    scenarioSimulatorBatchSerializer,
+    random,
+    pickAnswerStatusService,
+    pickChallengeService,
+    extractLocaleFromRequest,
+  }
 ) {
-  const { assessmentId, stopAtChallenge, initialCapacity } = request.payload;
+  const { assessmentId, stopAtChallenge, initialCapacity, numberOfIterations = 1 } = request.payload;
 
   const pickAnswerStatus = _getPickAnswerStatusMethod(dependencies.pickAnswerStatusService, request.payload);
 
   const locale = dependencies.extractLocaleFromRequest(request);
 
-  const result = await usecases.simulateFlashDeterministicAssessmentScenario({
-    pickAnswerStatus,
-    assessmentId,
-    locale,
-    stopAtChallenge,
-    initialCapacity,
-  });
+  const result = await Promise.all(
+    _.range(0, numberOfIterations).map(async (index) => ({
+      index,
+      simulationReport: await usecases.simulateFlashDeterministicAssessmentScenario({
+        pickAnswerStatus,
+        pickChallenge: dependencies.pickChallengeService.chooseNextChallenge(`${assessmentId}-${index}`),
+        locale,
+        stopAtChallenge,
+        initialCapacity,
+      }),
+    }))
+  );
 
-  return dependencies.scenarioSimulatorSerializer.serialize(result);
+  return dependencies.scenarioSimulatorBatchSerializer.serialize(result);
 }
 
 async function importScenarios(
   request,
   h,
-  dependencies = { parseCsv, scenarioSimulatorBatchSerializer, extractLocaleFromRequest }
+  dependencies = { parseCsv, pickChallengeService, scenarioSimulatorBatchSerializer, extractLocaleFromRequest }
 ) {
   const parsedCsvData = await dependencies.parseCsv(request.payload.path);
 
@@ -48,7 +60,7 @@ async function importScenarios(
         const pickAnswerStatus = pickAnswerStatusService.pickAnswerStatusFromArray(answerStatusArray);
         return usecases.simulateFlashDeterministicAssessmentScenario({
           pickAnswerStatus,
-          assessmentId: index,
+          pickChallenge: dependencies.pickChallengeService.chooseNextChallenge(index),
           locale,
         });
       })
