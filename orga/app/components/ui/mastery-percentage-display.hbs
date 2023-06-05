@@ -1,18 +1,45 @@
-<span aria-hidden={{if @hasStages "true" "false"}} class="mastery-percentage-display">
+<span
+  aria-hidden={{if @hasStages "true" "false"}}
+  class="mastery-percentage-display {{if @isTableDisplay 'mastery-percentage-display--table-display'}}"
+>
   <span class="mastery-percentage-display__percentage">{{t "common.result.percentage" value=@masteryRate}}</span>
   {{#if @hasStages}}
-    <Campaign::StageStarsOld
-      @reachedStage={{@reachedStage}}
-      @totalStage={{@totalStage}}
-      @prescriberTitle={{@prescriberTitle}}
-      @prescriberDescription={{@prescriberDescription}}
-      @withTooltip={{true}}
-      @tooltipPosition="bottom-left"
+    <PixStars
+      @count={{this.reachedStage}}
+      @total={{this.totalStages}}
+      @alt={{t "common.result.stages" count=this.reachedStage total=this.totalStages}}
+      class="mastery-percentage-display__stars
+        {{if @isTableDisplay 'mastery-percentage-display__stars--table-display'}}"
+      @color="blue"
     />
+    <PixTooltip
+      @id="stage-tooltip-{{this.reachedStage}}"
+      @position="bottom-left"
+      @isWide={{true}}
+      class="hide-on-mobile"
+    >
+      <:triggerElement>
+        <FaIcon
+          @icon="circle-info"
+          class="mastery-percentage-display__info-icon"
+          tabindex="0"
+          aria-describedby="stage-tooltip-{{this.reachedStage}}"
+        />
+      </:triggerElement>
+      <:tooltip>
+        <strong>{{@prescriberTitle}}</strong>
+        <p>{{@prescriberDescription}}</p>
+      </:tooltip>
+    </PixTooltip>
   {{/if}}
 </span>
 {{#if @hasStages}}
   <span class="screen-reader-only">
-    {{t "common.result.accessibility-description" percentage=@masteryRate stage=@reachedStage totalStage=@totalStage}}
+    {{t
+      "common.result.accessibility-description"
+      percentage=@masteryRate
+      stage=this.reachedStage
+      totalStage=this.totalStages
+    }}
   </span>
 {{/if}}

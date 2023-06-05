@@ -93,8 +93,7 @@
     "participants-by-stage": {
       "loader": "Chargement de la répartition des participants par paliers",
       "participants": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}}",
-      "title": "Répartition des participants par paliers",
-      "label-a11y": "{stage, plural, =0 {0 étoile} =1 {1 étoile} other {{stage, number} étoiles}} sur {totalStage}"
+      "title": "Répartition des participants par paliers"
     },
     "participants-by-status": {
       "labels-tooltip": {
@@ -188,7 +187,7 @@
     "result" : {
       "accessibility-description": "Résultat obtenu = {percentage, number, ::percent}, soit le palier {stage} sur {totalStage}",
       "percentage": "{value, number, ::percent}",
-      "stages": "{count} étoiles sur {total}"
+      "stages": "{count, plural, =0 {0 étoile} =1 {1 étoile} other {{count, number} étoiles}} sur {total}"
     },
     "target-profile-details": {
       "results": {
