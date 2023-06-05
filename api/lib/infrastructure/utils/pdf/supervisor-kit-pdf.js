@@ -19,7 +19,7 @@ async function getSupervisorKitPdfBuffer({
   dirname = __dirname,
   fontkit = pdfLibFontkit,
   creationDate = new Date(),
-  lang,
+  lang = FRENCH_SPOKEN,
 } = {}) {
   let templatePath;
   let fileName;
@@ -73,17 +73,14 @@ function _drawSessionDate({ lang, sessionForSupervisorKit, page, font }) {
   const day = date.getDate();
   const year = date.getFullYear();
   const options = { month: 'short' };
-  const month = new Intl.DateTimeFormat(lang, options).format(date);
+  let month, fullDate;
 
-  let fullDate;
-
-  switch (lang) {
-    case ENGLISH_SPOKEN:
-      fullDate = `${year} ${month} ${day}`;
-      break;
-    case FRENCH_SPOKEN:
-      fullDate = `${day} ${month} ${year}`;
-      break;
+  if (lang === ENGLISH_SPOKEN) {
+    month = new Intl.DateTimeFormat(lang, options).format(date);
+    fullDate = `${year} ${month} ${day}`;
+  } else {
+    month = new Intl.DateTimeFormat(FRENCH_SPOKEN, options).format(date);
+    fullDate = `${day} ${month} ${year}`;
   }
 
   page.drawText(fullDate, {
