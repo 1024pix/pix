@@ -78,7 +78,12 @@
                     {{on "change" this.setContent}}
                   />
                 </div>
-                <PixButton @type="submit" @backgroundColor="grey" @isDisabled={{this.isSendButtonDisabled}}>
+                <PixButton
+                  @type="submit"
+                  @backgroundColor="grey"
+                  aria-label={{t "pages.challenge.feedback-panel.form.actions.submit-aria-label"}}
+                  @isDisabled={{this.isSendButtonDisabled}}
+                >
                   {{t "pages.challenge.feedback-panel.form.actions.submit"}}
                 </PixButton>
               {{/if}}
