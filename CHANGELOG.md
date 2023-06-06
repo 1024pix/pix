@@ -2,19 +2,33 @@
 
 ## v4.2.0 (06/06/2023)
 
+### :rocket: Amélioration
+- [#6294](https://github.com/1024pix/pix/pull/6294) [FEATURE] Pix1D - Ajouter la prévisualisation des challenges (PIX-8048)
+- [#6303](https://github.com/1024pix/pix/pull/6303) [FEATURE] Avoir toujours la liste des badges et des logos des éditeurs de CF à jour (PIX-8218).
+- [#6242](https://github.com/1024pix/pix/pull/6242) [FEATURE] Création du endpoint pour la suppression de prescrits (PIX-7948)
+- [#6277](https://github.com/1024pix/pix/pull/6277) [FEATURE] Utiliser les composants du Design System pour les QROC et QROCm sur Pix-App (PIX-8103)
+- [#6293](https://github.com/1024pix/pix/pull/6293) [FEATURE] Batch sur les différents scénarios de simulations (PIX-8197).
+- [#6298](https://github.com/1024pix/pix/pull/6298) [FEATURE] Forcer des compétences dans l'algorithme Flash (PIX-8160)
+- [#6311](https://github.com/1024pix/pix/pull/6311) [FEATURE] Améliorer l'accessibilité du bouton "Réinitialiser" l'embed sur Pix-App (PIX-8074)
 
 ### :building_construction: Tech
-- [#6314](https://github.com/1024pix/pix/pull/6314) [TECH] Gestion de langue manquante sur le kit superviseur (PIX-8243)
 - [#6315](https://github.com/1024pix/pix/pull/6315) [TECH] Mise à jour de dépendances vulnérable sur les applications
+- [#6301](https://github.com/1024pix/pix/pull/6301) [TECH] Mettre à jour ember-dayjs dans sa dernière version (PIX-8222)
+- [#6151](https://github.com/1024pix/pix/pull/6151) [TECH] Documenter le choix de l'injection de dépendances
+- [#6304](https://github.com/1024pix/pix/pull/6304) [TECH] Corriger l'alignement des étoiles dans Pix Orga (PIX-7983)
+
+### :bug: Correction
+- [#6310](https://github.com/1024pix/pix/pull/6310) [BUGFIX] Changement de wording pour l'affichage des contenus formatifs (PIX-8157).
+- [#6313](https://github.com/1024pix/pix/pull/6313) [BUGFIX] Corriger la création de campagne à envoi multiple (PIX-8238)
 
 ### :coffee: Autre
 - [#6321](https://github.com/1024pix/pix/pull/6321) [BUMP] Update dependency inquirer to v9 (api)
 - [#6319](https://github.com/1024pix/pix/pull/6319) [BUMP] Update dependency file-type to v18 (api)
 - [#6318](https://github.com/1024pix/pix/pull/6318) [BUMP] Update dependency pino-pretty to v10 (api)
 - [#6214](https://github.com/1024pix/pix/pull/6214) [BUMP] Update dependency pg-boss to v9 (api)
+- [#6312](https://github.com/1024pix/pix/pull/6312) [BUMP] Mise à jour des dépendances vulnérables sur admin 
 
 ## v4.1.2 (05/06/2023)
-
 
 ### :bug: Correction
 - [#6314](https://github.com/1024pix/pix/pull/6314) [TECH] Gestion de langue manquante sur le kit superviseur (PIX-8243)
