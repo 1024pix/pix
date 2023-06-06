@@ -10,7 +10,11 @@
             @height={{@challenge.embedHeight}}
           />
         {{/if}}
-        <Challenge::ChallengeItemAutoReply @setAnswerValue={{this.setAnswerValue}} />
+        {{#if @challenge.autoReply}}
+          <Challenge::ChallengeItemAutoReply @setAnswerValue={{this.setAnswerValue}} />
+        {{else}}
+          <Challenge::ChallengeItemQroc @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} />
+        {{/if}}
       </div>
     </div>
   </div>
