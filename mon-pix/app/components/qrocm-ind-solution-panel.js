@@ -30,11 +30,13 @@ export default class QrocmIndSolutionPanel extends Component {
       const blockIsInputOrTextarea = !block.showText && !block.breakline;
 
       if (blockIsInputOrTextarea) {
-        const answerOutcome = _computeAnswerOutcome(answers[block.input], resultDetails[block.input]);
-        const inputClass = _computeInputClass(answerOutcome);
+        const answerOutcome = this._computeAnswerOutcome(answers[block.input], resultDetails[block.input]);
+        const inputClass = this._computeInputClass(answerOutcome);
+        const ariaLabel = this._computeAriaLabel(answerOutcome);
         if (answers[block.input] === '') {
           answers[block.input] = this.intl.t('pages.result-item.aband');
         }
+        block.ariaLabel = ariaLabel;
         block.inputClass = inputClass;
         block.answer = answers[block.input];
         block.solution = solutions[block.input][0];
@@ -43,21 +45,32 @@ export default class QrocmIndSolutionPanel extends Component {
       return block;
     });
   }
-}
 
-function _computeAnswerOutcome(inputFieldValue, resultDetail) {
-  if (inputFieldValue === '') {
-    return 'empty';
+  _computeAnswerOutcome(inputFieldValue, resultDetail) {
+    if (inputFieldValue === '') {
+      return 'empty';
+    }
+    return resultDetail === true ? 'ok' : 'ko';
   }
-  return resultDetail === true ? 'ok' : 'ko';
-}
 
-function _computeInputClass(answerOutcome) {
-  if (answerOutcome === 'empty') {
-    return 'correction-qroc-box-answer--aband';
+  _computeInputClass(answerOutcome) {
+    if (answerOutcome === 'empty') {
+      return 'correction-qroc-box-answer--aband';
+    }
+    if (answerOutcome === 'ok') {
+      return 'correction-qroc-box-answer--correct';
+    }
+    return 'correction-qroc-box-answer--wrong';
   }
-  if (answerOutcome === 'ok') {
-    return 'correction-qroc-box-answer--correct';
+
+  _computeAriaLabel(answerOutcome) {
+    switch (answerOutcome) {
+      case 'ok':
+        return this.intl.t('pages.comparison-window.results.a11y.good-answer');
+      case 'ko':
+        return this.intl.t('pages.comparison-window.results.a11y.wrong-answer');
+      default:
+        return this.intl.t('pages.comparison-window.results.a11y.skipped-answer');
+    }
   }
-  return 'correction-qroc-box-answer--wrong';
 }

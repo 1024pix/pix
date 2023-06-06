@@ -3,15 +3,13 @@
     {{#if @solution}}
       <div class="correction-qroc-box__answer">
         {{#if (eq @answer.challenge.format "paragraphe")}}
-          <label class="screen-reader-only" for="correction-qroc-box-answer__paragraphe">
-            {{t "pages.comparison-window.results.a11y.given-answer"}}
-          </label>
           <div class="correction-qroc-box-answer {{this.inputClass}}">
             <PixTextarea
               class="correction-qroc-box-answer--paragraph"
               @id="correction-qroc-box-answer__paragraphe"
               rows="5"
               @value={{this.answerToDisplay}}
+              aria-label={{this.inputAriaLabel}}
               disabled
             />
           </div>
@@ -21,7 +19,7 @@
               class="correction-qroc-box-answer--sentence"
               @id="correction-qroc-box-answer--sentence"
               @value="{{this.answerToDisplay}}"
-              @ariaLabel={{t "pages.comparison-window.results.a11y.given-answer"}}
+              @ariaLabel={{this.inputAriaLabel}}
               disabled
             />
           </div>
@@ -32,8 +30,8 @@
               @id="correction-qroc-box-answer"
               size="{{this.answerToDisplay.length}}"
               @value="{{this.answerToDisplay}}"
+              @ariaLabel={{this.inputAriaLabel}}
               disabled
-              @ariaLabel={{t "pages.comparison-window.results.a11y.given-answer"}}
             />
           </div>
         {{/if}}
@@ -41,10 +39,10 @@
     {{/if}}
     {{#if this.isNotCorrectlyAnswered}}
       {{#if this.understandableSolution}}
-        <div class="comparison-window-solution">
+        <p class="comparison-window-solution">
           <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
-          <div class="comparison-window-solution__text">{{this.understandableSolution}}</div>
-        </div>
+          <span class="comparison-window-solution__text">{{this.understandableSolution}}</span>
+        </p>
       {{/if}}
     {{/if}}
   </div>
