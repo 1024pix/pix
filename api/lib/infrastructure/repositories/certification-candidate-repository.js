@@ -217,6 +217,11 @@ const getWithComplementaryCertification = async function (id) {
     )
     .where('certification-candidates.id', id)
     .first();
+
+  if (!candidateData) {
+    throw new NotFoundError('Candidate not found');
+  }
+
   return _toDomain(candidateData);
 };
 

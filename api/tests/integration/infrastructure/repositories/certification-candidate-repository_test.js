@@ -786,6 +786,23 @@ describe('Integration | Repository | CertificationCandidate', function () {
   });
 
   describe('#getWithComplementaryCertification', function () {
+    context('when certification candidate is not found', function () {
+      it('should throw NotFound error', async function () {
+        // given
+        databaseBuilder.factory.buildCertificationCandidate({ id: 1 });
+        const wrongCandidateId = 99;
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(certificationCandidateRepository.getWithComplementaryCertification)(
+          wrongCandidateId
+        );
+
+        // then
+        expect(error).to.be.an.instanceOf(NotFoundError);
+      });
+    });
+
     context('when the candidate has no complementary certification subscription', function () {
       it('should return the candidate with empty complementary certification', async function () {
         // given
