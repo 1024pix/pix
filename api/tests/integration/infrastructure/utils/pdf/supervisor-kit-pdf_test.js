@@ -108,6 +108,70 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
       expect(fileName).to.equal(`invigilator-kit-${sessionForSupervisorKit.id}.pdf`);
     });
   });
+
+  context('when lang is not supported', function () {
+    context('when lang is not given', function () {
+      it('should return full french supervisor kit as a buffer', async function () {
+        // given
+        const lang = undefined;
+        const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+          id: 12345678,
+          supervisorPassword: 12344,
+          accessCode: 'WB64K2',
+          date: '2022-09-21',
+          examiner: 'Ariete Bordeauxchesnel',
+        });
+        const expectedPdfPath = __dirname + '/kit-surveillant_expected.pdf';
+
+        // when
+        const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
+          sessionForSupervisorKit,
+          lang,
+          creationDate: new Date('2021-01-01'),
+        });
+
+        // Note: to update the reference pdf, you can run the test with the following lines.
+        //
+        // import { writeFile } from 'fs/promises';
+        // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+
+        // then
+        expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+        expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
+      });
+    });
+
+    context('when lang is given', function () {
+      it('should return full french supervisor kit as a buffer', async function () {
+        // given
+        const lang = 'pt';
+        const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+          id: 12345678,
+          supervisorPassword: 12344,
+          accessCode: 'WB64K2',
+          date: '2022-09-21',
+          examiner: 'Ariete Bordeauxchesnel',
+        });
+        const expectedPdfPath = __dirname + '/kit-surveillant_expected.pdf';
+
+        // when
+        const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
+          sessionForSupervisorKit,
+          lang,
+          creationDate: new Date('2021-01-01'),
+        });
+
+        // Note: to update the reference pdf, you can run the test with the following lines.
+        //
+        // import { writeFile } from 'fs/promises';
+        // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+
+        // then
+        expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+        expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
+      });
+    });
+  });
 });
 
 // Warning: call _restorePdfLib() when finished /!\

@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v4.1.2 (05/06/2023)
+
+
+### :bug: Correction
+- [#6314](https://github.com/1024pix/pix/pull/6314) [TECH] Gestion de langue manquante sur le kit superviseur (PIX-8243)
+
 ## v4.1.1 (01/06/2023)
 
 
