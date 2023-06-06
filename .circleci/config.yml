@@ -103,6 +103,7 @@ jobs:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
+        command: -c fsync=off -c full_page_writes=off
       - image: redis:6.2.10-alpine
     resource_class: small
     working_directory: ~/pix/api
