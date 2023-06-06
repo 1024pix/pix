@@ -1,5 +1,4 @@
 .correction-qrocm {
-
   &__text {
     display: inline-block;
     width: 100%;
@@ -35,18 +34,16 @@
     align-items: center;
 
     &-text {
-      margin-top: 3px;
-      margin-left: 10px;
-      padding-bottom: 1px;
+      @extend %pix-body-m;
+
+      margin: $pix-spacing-xxs 0 $pix-spacing-xs;
       color: $pix-success-70;
       font-weight: $font-bold;
-      font-size: 1rem;
     }
   }
 }
 
 .correction-qrocm-text {
-
   &__label {
     display: block;
   }
