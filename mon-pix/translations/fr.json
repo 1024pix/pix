@@ -447,7 +447,8 @@
         "description": "Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*",
         "form": {
           "actions": {
-            "submit": "Envoyer"
+            "submit": "Envoyer",
+            "submit-aria-label": "Envoyer mon message de signalement"
           },
           "fields": {
             "category-selection": {
@@ -465,7 +466,7 @@
               }
             },
             "detail-selection": {
-              "aria-first": "Sélectionner la catégorie du problème rencontré",
+              "aria-first": "J'ai un problème avec",
               "aria-secondary": "Sélectionner une option pour préciser votre problème",
               "label": "Précisez",
               "options": {

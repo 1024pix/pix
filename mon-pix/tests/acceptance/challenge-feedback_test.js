@@ -41,12 +41,12 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
       test('should open the feedback form', function (assert) {
         // then
         assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).hasAttribute('aria-expanded', 'true');
-        assert.dom(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' })).exists();
+        assert.dom(screen.getByRole('button', { name: "J'ai un problème avec" })).exists();
       });
 
       module('and the form is filled but not sent', function (hooks) {
         hooks.beforeEach(async function () {
-          await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+          await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
           await screen.findByRole('listbox');
           await click(
             screen.getByRole('option', {
@@ -65,19 +65,17 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
             await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
           });
 
-          test('should not display the feedback form', function (assert) {
+          test('should not display the feedback form', async function (assert) {
             // then
             assert
               .dom(screen.getByRole('button', { name: 'Signaler un problème' }))
               .hasAttribute('aria-expanded', 'false');
-            assert
-              .dom(screen.queryByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }))
-              .doesNotExist();
+            assert.dom(screen.queryByRole('button', { name: "J'ai un problème avec" })).doesNotExist();
           });
 
           test('should always reset the feedback form between two consecutive challenges', async function (assert) {
             await click(screen.getByRole('button', { name: 'Signaler un problème' }));
-            await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+            await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
             await screen.findByRole('listbox');
             await click(
               screen.getByRole('option', {
@@ -124,7 +122,7 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).hasAttribute('aria-expanded', 'true');
-      assert.dom(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' })).exists();
+      assert.dom(screen.getByRole('button', { name: "J'ai un problème avec" })).exists();
     });
   });
 });

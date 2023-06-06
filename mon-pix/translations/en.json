@@ -447,7 +447,8 @@
         "description": "Pix wants to hear from you so we can improve our tests!*",
         "form": {
           "actions": {
-            "submit": "Send"
+            "submit": "Send",
+            "submit-aria-label": "Send my feedback"
           },
           "fields": {
             "category-selection": {
