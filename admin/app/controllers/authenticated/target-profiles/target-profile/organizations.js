@@ -43,12 +43,11 @@ export default class TargetProfileOrganizationsController extends Controller {
     const adapter = this.store.adapterFor('target-profile');
 
     try {
-      const response = await adapter.detachOrganizations(this.model.targetProfile.id, [organizationId]);
-      const { 'detached-ids': detachedIds } = response.data.attributes;
-      const hasDetachedOrganizations = detachedIds.length > 0;
+      const detachedOrganizationIds = await adapter.detachOrganizations(this.model.targetProfile.id, [organizationId]);
+      const hasDetachedOrganizations = detachedOrganizationIds.length > 0;
 
       if (hasDetachedOrganizations) {
-        const message = 'Organisation(s) détachée(s) avec succès : ' + detachedIds.join(', ');
+        const message = 'Organisation(s) détachée(s) avec succès : ' + detachedOrganizationIds.join(', ');
         await this.notifications.success(message, { htmlContent: true });
         this.router.transitionTo('authenticated.target-profiles.target-profile.organizations');
       }
