@@ -120,6 +120,22 @@ const register = async function (server) {
       path: '/api/certification-courses',
       config: {
         handler: certificationCourseController.save,
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'access-code': Joi.string().required(),
+                'session-id': identifiersType.sessionId,
+              },
+            },
+          }),
+          headers: Joi.object({
+            'accept-language': Joi.string(),
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
         notes: [
           '- **Route nécessitant une authentification**\n' +
             "- S'il existe déjà une certification pour l'utilisateur courant dans cette session, alors cette route renvoie la certification existante avec un code 200\n" +
