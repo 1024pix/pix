@@ -344,6 +344,7 @@ describe('Unit | Controller | sessionController', function () {
   describe('#getSessionResultsByRecipientEmail ', function () {
     it('should return csv content and fileName', async function () {
       // given
+      const i18n = getI18n();
       const session = { id: 1, date: '2020/01/01', time: '12:00' };
       const tokenService = {
         extractResultRecipientEmailAndSessionId: sinon.stub(),
@@ -363,12 +364,12 @@ describe('Unit | Controller | sessionController', function () {
         getSessionCertificationResultsCsv: sinon.stub(),
       };
       certificationResultUtils.getSessionCertificationResultsCsv
-        .withArgs({ session, certificationResults: [] })
+        .withArgs({ session, certificationResults: [], i18n })
         .resolves('csv content');
 
       // when
       const response = await sessionController.getSessionResultsByRecipientEmail(
-        { params: { token: 'abcd1234' } },
+        { i18n, params: { token: 'abcd1234' } },
         hFake,
         { tokenService, certificationResultUtils }
       );
@@ -384,12 +385,14 @@ describe('Unit | Controller | sessionController', function () {
   describe('#getSessionResultsToDownload ', function () {
     it('should return results to download', async function () {
       // given
+      const i18n = getI18n();
       const session = { id: 1, date: '2020/01/01', time: '12:00' };
       const sessionId = session.id;
       const fileName = `20200101_1200_resultats_session_${sessionId}.csv`;
       const certificationResults = [];
       const token = Symbol('a beautiful token');
       const request = {
+        i18n,
         params: { id: sessionId, token },
         auth: {
           credentials: { userId },

@@ -141,6 +141,47 @@
       "viewResultsInProfile": "The candidates can view their result in their Pix profile."
     }
   },
+  "certification-results-csv": {
+    "headers" : {
+      "CERTIFICATION_NUMBER": "TODO",
+      "FIRSTNAME": "TODO",
+      "LASTNAME": "TODO",
+      "BIRTHDATE": "TODO",
+      "BIRTHPLACE": "TODO",
+      "EXTERNAL_ID": "TODO",
+      "STATUS": "TODO",
+      "PIX_SCORE": "TODO",
+      "SESSION_ID": "TODO",
+      "CERTIFICATION_CENTER": "TODO",
+      "CERTIFICATION_DATE": "TODO",
+      "JURY_COMMENT_FOR_ORGANIZATION": "TODO",
+      "SIREN": "TODO",
+      "SIRET": "TODO",
+      "REGISTRATION_STATUS": "TODO",
+      "LEVEL": "TODO",
+      "ORIGIN": "TODO",
+      "FUNDER": "TODO",
+      "GENDER": "TODO",
+      "BIRTHNAME": "TODO",
+      "USUAL_NAME": "TODO",
+      "EMAIL": "TODO",
+      "PHONE": "TODO",
+      "ADDRESS": "TODO",
+      "ADDITIONAL_ADDRESS": "TODO",
+      "CITY": "TODO",
+      "POSTAL_CODE": "TODO",
+      "FOREIGN_BORN": "TODO",
+      "GEOGRAPHIC_AREA": "TODO",
+      "OUTERMOST_BORN": "TODO",
+      "BIRTH_CITY": "TODO",
+      "BIRTH_POSTAL_CODE": "TODO",
+      "PASSING_DATE": "TODO",
+      "CCPI": "TODO",
+      "FIRST_SHOT": "TODO",
+      "CERTIFICATION_LABEL": "TODO_LABEL {{ label }}",
+      "SKILL_LABEL": "{{ skillIndex }}"
+    }
+  },
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
