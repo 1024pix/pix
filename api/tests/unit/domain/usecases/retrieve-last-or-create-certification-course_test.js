@@ -909,12 +909,17 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       // given
                       const complementaryCertification = domainBuilder.buildComplementaryCertification({
                         key: 'PIX+TEST',
+                        label: 'PIX+TEST',
                       });
 
+                      const badge = domainBuilder.buildBadge({ isCertifiable: true });
+
                       const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-                        complementaryCertification,
-                        userid: 2,
-                        badge: domainBuilder.buildBadge({ isCertifiable: true }),
+                        complementaryCertificationId: complementaryCertification.id,
+                        complementaryCertificationKey: complementaryCertification.key,
+                        complementaryCertificationBadgeId: 3456789,
+                        badgeId: badge.id,
+                        badgeKey: badge.key,
                       });
 
                       const domainTransaction = Symbol('someDomainTransaction');
