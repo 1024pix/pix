@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-import { fillIn, triggerEvent } from '@ember/test-helpers';
+import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { render, clickByName } from '@1024pix/ember-testing-library';
 
 import ArrayProxy from '@ember/array/proxy';
@@ -46,7 +46,7 @@ module('Integration | Component | SignupForm', function (hooks) {
   });
 
   module('Rendering', function () {
-    test('should display form elements', async function (assert) {
+    test('displays form elements', async function (assert) {
       // given
       this.set('user', userEmpty);
 
@@ -81,7 +81,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       assert.dom(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).exists();
     });
 
-    test("should have links to Pix's CGU and data protection policy ", async function (assert) {
+    test("links to Pix's CGU and data protection policy are available", async function (assert) {
       // given
       this.set('user', userEmpty);
 
@@ -93,7 +93,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') }));
     });
 
-    test('should render a submit button', async function (assert) {
+    test('renders a submit button', async function (assert) {
       // given
       this.set('user', userEmpty);
 
@@ -104,7 +104,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       assert.ok(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
     });
 
-    test('[a11y] it should display a message that all inputs are required', async function (assert) {
+    test('[a11y] displays a message that all inputs are required', async function (assert) {
       // given & when
       const screen = await render(hbs`<SignupForm />`);
 
@@ -136,7 +136,7 @@ module('Integration | Component | SignupForm', function (hooks) {
   });
 
   module('When API returns errors', function () {
-    test('should display an error if api cannot be reached', async function (assert) {
+    test('displays an error if api cannot be reached', async function (assert) {
       // given
       const stubCatchedApiErrorInternetDisconnected = undefined;
 
@@ -158,7 +158,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
     });
 
-    test('should display related error message if internal server error', async function (assert) {
+    test('displays related error message if internal server error', async function (assert) {
       // given
       const apiReturn = {
         errors: [
@@ -187,7 +187,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
     });
 
-    test('should display related error message if bad gateway error', async function (assert) {
+    test('displays related error message if bad gateway error', async function (assert) {
       // given
       const apiReturn = {
         errors: [
@@ -215,7 +215,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.BAD_GATEWAY.I18N_KEY))).exists();
     });
 
-    test('should display related error message if gateway timeout error', async function (assert) {
+    test('displays related error message if gateway timeout error', async function (assert) {
       // given
       const apiReturn = {
         errors: [
@@ -243,7 +243,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY))).exists();
     });
 
-    test('should display related error message if not implemented error', async function (assert) {
+    test('displays related error message if not implemented error', async function (assert) {
       // given
       const apiReturn = {
         errors: [
@@ -275,6 +275,7 @@ module('Integration | Component | SignupForm', function (hooks) {
 
   module('Behaviors', function (hooks) {
     let session;
+
     hooks.beforeEach(function () {
       class sessionService extends Service {
         authenticateUser = sinon.stub().resolves();
@@ -283,8 +284,9 @@ module('Integration | Component | SignupForm', function (hooks) {
       this.owner.register('service:session', sessionService);
       session = this.owner.lookup('service:session', sessionService);
     });
-    module('behavior when signup successful (test external calls)', function () {
-      test('should return true if action <Signup> is handled', async function (assert) {
+
+    module('when signup is successful (test external calls)', function () {
+      test('returns true if action <Signup> is handled', async function (assert) {
         // given
         let isFormSubmitted = false;
         const user = EmberObject.create({
@@ -308,7 +310,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.true(isFormSubmitted);
       });
 
-      test('should authenticate the user and empty the password', async function (assert) {
+      test('authenticates the user and empty the password', async function (assert) {
         // given
         const authenticateUserStub = sinon.stub();
 
@@ -336,7 +338,7 @@ module('Integration | Component | SignupForm', function (hooks) {
     });
 
     module('Errors management', function () {
-      test('should display an error message on first name field, when field is empty and focus-out', async function (assert) {
+      test('displays an error message on first name field, when field is empty and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -353,7 +355,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.firstname.error'))).exists();
       });
 
-      test('should display an error message on last name field, when field is empty and focus-out', async function (assert) {
+      test('displays an error message on last name field, when field is empty and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -370,7 +372,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.lastname.error'))).exists();
       });
 
-      test('should display an error message on email field, when field is empty and focus-out', async function (assert) {
+      test('displays an error message on email field, when field is empty and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -387,7 +389,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.email.error'))).exists();
       });
 
-      test('should display an error message on password field, when field is empty and focus-out', async function (assert) {
+      test('displays an error message on password field, when field is empty and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -404,7 +406,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.password.error'))).exists();
       });
 
-      test("should display an error message on cgu field, when cgu isn't accepted and form is submitted", async function (assert) {
+      test("displays an error message on cgu field, when cgu isn't accepted and form is submitted", async function (assert) {
         // given
         const uncheckedCheckboxCguErrorMessage = this.intl.t('common.cgu.error');
         const userWithCguNotAccepted = EmberObject.create({
@@ -438,7 +440,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.getByText(uncheckedCheckboxCguErrorMessage)).exists();
       });
 
-      test('should display an error message on email field, when email above a maximum length of 255 and focus-out', async function (assert) {
+      test('displays an error message on email field, when email above a maximum length of 255 and focus-out', async function (assert) {
         // given
         const expectedMaxLengthEmailError = 'Votre adresse e-mail ne doit pas dépasser les 255 caractères.';
         const errors = [
@@ -451,8 +453,9 @@ module('Integration | Component | SignupForm', function (hooks) {
 
         const userBackToSaveWithErrors = EmberObject.create({
           cgu: true,
-          errors,
+          errors: [],
           save() {
+            this.errors = errors;
             return new reject({ errors });
           },
         });
@@ -479,7 +482,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.getByText(expectedMaxLengthEmailError)).exists();
       });
 
-      test('should not display success notification message when an error occurred during the form submission', async function (assert) {
+      test('does not display success notification message when an error occurred during the form submission', async function (assert) {
         const userThatThrowAnErrorDuringSaving = EmberObject.create({
           errors: ArrayProxy.create({
             content: [
@@ -565,10 +568,51 @@ module('Integration | Component | SignupForm', function (hooks) {
             .exists();
         });
       });
+
+      module('when an error occurs during sign up api call', function () {
+        test('prevents the registration from being executed again', async function (assert) {
+          // given
+          let counter = 0;
+          const user = EmberObject.create({
+            cgu: true,
+            errors: [],
+            save() {
+              counter++;
+              this.errors.push({
+                attribute: 'email',
+                message: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
+              });
+              return reject({
+                errors: [
+                  {
+                    status: '422',
+                    title: 'Invalid data attribute "email"',
+                    detail: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
+                    source: {
+                      pointer: '/data/attributes/email',
+                    },
+                  },
+                ],
+              });
+            },
+          });
+
+          this.set('user', user);
+          const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+          await _fillFormWithCorrectData(screen);
+
+          // when
+          await click(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
+          await click(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
+
+          // then
+          assert.strictEqual(counter, 1);
+        });
+      });
     });
 
     module('Successfull cases', function () {
-      test('should display first name field as validated without error message, when field is filled and focus-out', async function (assert) {
+      test('displays first name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -585,7 +629,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.firstname.error'))).doesNotExist();
       });
 
-      test('should display last name field as validated without error message, when field is filled and focus-out', async function (assert) {
+      test('displays last name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -602,7 +646,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.lastname.error'))).doesNotExist();
       });
 
-      test('should display email field as validated without error message, when field is filled and focus-out', async function (assert) {
+      test('displays email field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -619,7 +663,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.email.error'))).doesNotExist();
       });
 
-      test('should display password field as validated without error message, when field is filled and focus-out', async function (assert) {
+      test('displays password field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -636,7 +680,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.password.error'))).doesNotExist();
       });
 
-      test('should not display an error message on cgu field, when cgu is accepted and form is submitted', async function (assert) {
+      test('does not display an error message on cgu field, when cgu is accepted and form is submitted', async function (assert) {
         // given
         const userWithCguAccepted = EmberObject.create({
           cgu: true,
@@ -656,7 +700,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.queryByText(this.intl.t('common.cgu.error'))).doesNotExist();
       });
 
-      test('should reset validation property, when all informations are validated and form is submitted', async function (assert) {
+      test('resets validation property, when all informations are validated and form is submitted', async function (assert) {
         // given
         const validUser = EmberObject.create({
           email: 'toto@pix.fr',
@@ -693,6 +737,11 @@ module('Integration | Component | SignupForm', function (hooks) {
     await fillIn(
       screen.getByLabelText('Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'),
       'Password123'
+    );
+    await click(
+      screen.getByRole('checkbox', {
+        name: "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix",
+      })
     );
   }
 });
