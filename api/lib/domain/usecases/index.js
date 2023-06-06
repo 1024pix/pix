@@ -1,4 +1,7 @@
 import { config } from '../../config.js';
+
+import { repositories } from '../../infrastructure/repositories/index.js';
+
 import * as accountRecoveryDemandRepository from '../../infrastructure/repositories/account-recovery-demand-repository.js';
 import * as adminMemberRepository from '../../infrastructure/repositories/admin-member-repository.js';
 
@@ -73,7 +76,6 @@ import * as complementaryCertificationHabilitationRepository from '../../infrast
 import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
 import * as complementaryCertificationSubscriptionRepository from '../../infrastructure/repositories/complementary-certification-subscription-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
-import * as correctionRepository from '../../infrastructure/repositories/correction-repository.js';
 import * as countryRepository from '../../infrastructure/repositories/country-repository.js';
 import * as courseRepository from '../../infrastructure/repositories/course-repository.js';
 import * as cpfCertificationResultRepository from '../../infrastructure/repositories/cpf-certification-result-repository.js';
@@ -572,7 +574,7 @@ const dependencies = {
   complementaryCertificationRepository,
   complementaryCertificationSubscriptionRepository,
   complementaryCertificationCourseResultRepository,
-  correctionRepository,
+  correctionRepository: repositories.correctionRepository,
   countryRepository,
   courseRepository,
   cpfCertificationResultRepository,
