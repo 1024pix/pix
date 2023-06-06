@@ -66,7 +66,7 @@
     "pg-boss": "^9.0.0",
     "pg-connection-string": "^2.5.0",
     "pino": "^8.0.0",
-    "pino-pretty": "^8.0.0",
+    "pino-pretty": "^10.0.0",
     "randomstring": "^1.2.2",
     "redis": "^3.1.2",
     "redlock": "^4.2.0",
