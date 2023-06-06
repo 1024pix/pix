@@ -3,7 +3,6 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
-import Service from '@ember/service';
 import { render, clickByName } from '@1024pix/ember-testing-library';
 
 function getMetaForPage({ pageNumber, rowCount = 50 }) {
@@ -18,14 +17,12 @@ function getMetaForPage({ pageNumber, rowCount = 50 }) {
 
 module('Integration | Component | Table::PaginationControl', function (hooks) {
   setupIntlRenderingTest(hooks);
-  let replaceWithStub;
+  let routerService;
 
   hooks.beforeEach(function () {
-    replaceWithStub = sinon.stub();
-    class RouterStub extends Service {
-      replaceWith = replaceWithStub;
-    }
-    this.owner.register('service:router', RouterStub);
+    routerService = this.owner.lookup('service:router');
+
+    sinon.stub(routerService, 'replaceWith');
   });
 
   test('it should display correct pagination', async function (assert) {
@@ -92,7 +89,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     await clickByName('Aller à la page suivante');
 
     // then
-    assert.ok(replaceWithStub.calledWith({ queryParams: { pageNumber: 2 } }));
+    assert.ok(routerService.replaceWith.calledWith({ queryParams: { pageNumber: 2 } }));
   });
 
   test('it should re-route to previous page when clicking on previous page button', async function (assert) {
@@ -104,7 +101,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     await clickByName('Aller à la page précédente');
 
     // then
-    assert.ok(replaceWithStub.calledWith({ queryParams: { pageNumber: 1 } }));
+    assert.ok(routerService.replaceWith.calledWith({ queryParams: { pageNumber: 1 } }));
   });
 
   test('it should re-route to page with changed page size', async function (assert) {
@@ -117,7 +114,7 @@ module('Integration | Component | Table::PaginationControl', function (hooks) {
     await click(await screen.findByRole('option', { name: '10' }));
 
     // then
-    assert.ok(replaceWithStub.calledWith({ queryParams: { pageSize: 10, pageNumber: 1 } }));
+    assert.ok(routerService.replaceWith.calledWith({ queryParams: { pageSize: 10, pageNumber: 1 } }));
   });
 
   module('Display start and end items index of the page', () => {

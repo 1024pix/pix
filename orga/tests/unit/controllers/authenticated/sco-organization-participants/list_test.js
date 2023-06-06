@@ -53,7 +53,7 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
         await controller.importStudents(files);
 
         // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.__string;
 
         assert.strictEqual(
           notificationMessage,
@@ -68,7 +68,7 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
         await controller.importStudents(files);
 
         // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.__string;
 
         assert.strictEqual(
           notificationMessage,
@@ -83,7 +83,7 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
         await controller.importStudents(files);
 
         // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.__string;
 
         assert.strictEqual(
           notificationMessage,
@@ -98,7 +98,7 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
         await controller.importStudents(files);
 
         // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.__string;
 
         assert.strictEqual(
           notificationMessage,
