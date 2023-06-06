@@ -4,6 +4,7 @@ import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import sinon from 'sinon';
 
 module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -64,13 +65,11 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
           return false;
         }
       }
-      class routerServiceStub extends Service {
-        replaceWith() {
-          return false;
-        }
-      }
+
       this.owner.register('service:currentDomain', CurrentDomainServiceStub);
-      this.owner.register('service:router', routerServiceStub);
+      const routerService = this.owner.lookup('service:router');
+
+      sinon.stub(routerService, 'replaceWith').returns(false);
 
       // when
       const screen = await render(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec' />`);

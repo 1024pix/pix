@@ -3,7 +3,6 @@ import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
-import Service from '@ember/service';
 
 module('Integration | Component | Campaign::List', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -257,18 +256,18 @@ module('Integration | Component | Campaign::List', function (hooks) {
   module('Caption', function () {
     test('it should display the caption for my campaigns page ', async function (assert) {
       // given
-      class RouterStub extends Service {
-        currentRouteName = 'campaigns.my-campaigns';
-      }
-      this.owner.register('service:router', RouterStub);
-
       const campaigns = [];
       campaigns.meta = { rowCount: 0 };
       this.set('campaigns', campaigns);
 
       // when
       const screen = await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @allCampaignsContext={{false}}
+/>`
       );
 
       // then
@@ -277,18 +276,18 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
     test('it should display the caption for all campaigns page ', async function (assert) {
       // given
-      class RouterStub extends Service {
-        currentRouteName = 'campaigns.all-campaigns';
-      }
-      this.owner.register('service:router', RouterStub);
-
       const campaigns = [];
       campaigns.meta = { rowCount: 0 };
       this.set('campaigns', campaigns);
 
       // when
       const screen = await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @allCampaignsContext={{true}}
+/>`
       );
 
       // then
