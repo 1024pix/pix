@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v4.2.0 (06/06/2023)
+
+
+### :building_construction: Tech
+- [#6314](https://github.com/1024pix/pix/pull/6314) [TECH] Gestion de langue manquante sur le kit superviseur (PIX-8243)
+- [#6315](https://github.com/1024pix/pix/pull/6315) [TECH] Mise à jour de dépendances vulnérable sur les applications
+
+### :coffee: Autre
+- [#6321](https://github.com/1024pix/pix/pull/6321) [BUMP] Update dependency inquirer to v9 (api)
+- [#6319](https://github.com/1024pix/pix/pull/6319) [BUMP] Update dependency file-type to v18 (api)
+- [#6318](https://github.com/1024pix/pix/pull/6318) [BUMP] Update dependency pino-pretty to v10 (api)
+- [#6214](https://github.com/1024pix/pix/pull/6214) [BUMP] Update dependency pg-boss to v9 (api)
+
 ## v4.1.2 (05/06/2023)
 
 
