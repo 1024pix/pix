@@ -7,6 +7,9 @@ import {
   getCleaCertifiedCandidateCsv,
 } from '../../../../../lib/infrastructure/utils/csv/certification-results.js';
 
+import { getI18n } from '../../../../tooling/i18n/i18n.js';
+const i18n = getI18n();
+
 describe('Integration | Infrastructure | Utils | csv | certification-results', function () {
   context('#getSessionCertificationResultsCsv', function () {
     context('when no certification has passed complementary certifications', function () {
@@ -38,7 +41,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const certificationResults = [certifResult];
 
         // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
 
         // then
         const expectedResult =
@@ -74,7 +77,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           const certificationResults = [automaticallyRejectedCertificationResult];
 
           // when
-          const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+          const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
 
           // then
           const expectedResult =
@@ -112,7 +115,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const certificationResults = [certifResult];
 
         // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
 
         // then
         const expectedResult =
@@ -148,7 +151,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const certificationResults = [certifResult];
 
         // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
 
         // then
         const expectedResult =
@@ -189,7 +192,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const certificationResults = [certifResult];
 
         // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
 
         // then
         const expectedResult =
@@ -228,7 +231,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const certificationResults = [certifResult];
 
         // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
 
         // then
         const expectedResult =
@@ -277,7 +280,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const certificationResults = [certifResult];
 
         // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
 
         // then
         const expectedResult =

@@ -489,6 +489,11 @@ const register = async function (server) {
       path: '/api/sessions/download-all-results/{token}',
       config: {
         auth: false,
+        validate: {
+          query: Joi.object({
+            lang: Joi.string().optional().valid('fr', 'en'),
+          }),
+        },
         handler: sessionController.getSessionResultsToDownload,
         tags: ['api', 'sessions', 'results'],
         notes: [

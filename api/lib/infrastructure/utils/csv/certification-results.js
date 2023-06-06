@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { getCsvContent } from './write-csv-utils.js';
+import { SessionCertificationResultsCsvBuilder } from './SessionCertificationResultsCsvBuilder.js';
 
 const REJECTED_AUTOMATICALLY_COMMENT =
   "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix";
@@ -12,8 +13,12 @@ async function getDivisionCertificationResultsCsv({ certificationResults }) {
   return getCsvContent({ data, fileHeaders });
 }
 
-async function getSessionCertificationResultsCsv({ session, certificationResults }) {
-  const fileHeaders = _buildFileHeaders(certificationResults);
+async function getSessionCertificationResultsCsv({ session, certificationResults, i18n }) {
+  const certificationResultsCsvBuilder = new SessionCertificationResultsCsvBuilder(i18n).withCertificationResults(
+    certificationResults
+  );
+
+  const fileHeaders = certificationResultsCsvBuilder.buildFileHeaders();
   const data = _buildFileData({ session, certificationResults });
 
   return getCsvContent({ data, fileHeaders });
@@ -141,16 +146,6 @@ function _buildFileDataForCleaCandidates(cleaCertifiedCandidates) {
   });
 }
 
-function _getComplementaryCertificationResultsHeaders(certificationResults) {
-  return [
-    ...new Set(
-      certificationResults.flatMap((certificationResult) =>
-        certificationResult.getUniqComplementaryCertificationCourseResultHeaders()
-      )
-    ),
-  ];
-}
-
 function _getComplementaryCertificationResultsLabels(certificationResults) {
   return [
     ...new Set(
@@ -161,59 +156,57 @@ function _getComplementaryCertificationResultsLabels(certificationResults) {
   ];
 }
 
-function _buildFileHeaders(certificationResults) {
-  const complementaryCertificationResultsHeaders = _getComplementaryCertificationResultsHeaders(certificationResults);
+function* generateRowValues() {
+  const row = {};
+  let index = 0;
+  let state;
 
-  return _.concat(
-    [
-      _headers.CERTIFICATION_NUMBER,
-      _headers.FIRSTNAME,
-      _headers.LASTNAME,
-      _headers.BIRTHDATE,
-      _headers.BIRTHPLACE,
-      _headers.EXTERNAL_ID,
-      _headers.STATUS,
-    ],
-    complementaryCertificationResultsHeaders,
-    [_headers.PIX_SCORE],
-    _competenceIndexes,
-    [
-      _headers.JURY_COMMENT_FOR_ORGANIZATION,
-      _headers.SESSION_ID,
-      _headers.CERTIFICATION_CENTER,
-      _headers.CERTIFICATION_DATE,
-    ]
-  );
+  while (!state?.done) {
+    state = yield row;
+
+    if (state && 'value' in state) {
+      row[`col${index}`] = state.value;
+      index++;
+    }
+  }
+
+  return row;
 }
 
 const _getRowItemsFromSessionAndResults =
   (session, sessionComplementaryCertificationsLabels) => (certificationResult) => {
-    const complementaryCertificationsHeadersWithData = sessionComplementaryCertificationsLabels
-      .map((sessionComplementaryCertificationsLabel) => ({
-        [`Certification ${sessionComplementaryCertificationsLabel}`]:
-          certificationResult.getComplementaryCertificationStatus(sessionComplementaryCertificationsLabel),
-      }))
-      .reduce((result, value) => {
-        return Object.assign(result, value);
-      }, {});
-    const rowWithoutCompetences = {
-      [_headers.CERTIFICATION_NUMBER]: certificationResult.id,
-      [_headers.FIRSTNAME]: certificationResult.firstName,
-      [_headers.LASTNAME]: certificationResult.lastName,
-      [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
-      [_headers.BIRTHPLACE]: certificationResult.birthplace,
-      [_headers.EXTERNAL_ID]: certificationResult.externalId,
-      [_headers.STATUS]: _formatStatus(certificationResult),
-      ...complementaryCertificationsHeadersWithData,
-      [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
-      [_headers.JURY_COMMENT_FOR_ORGANIZATION]: _getCommentForOrganization(certificationResult),
-      [_headers.SESSION_ID]: session.id,
-      [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
-      [_headers.CERTIFICATION_DATE]: _formatDate(certificationResult.createdAt),
-    };
+    const rowGenerator = generateRowValues();
+    rowGenerator.next();
 
-    const competencesCells = _getCompetenceCells(certificationResult);
-    return { ...rowWithoutCompetences, ...competencesCells };
+    rowGenerator.next({ value: certificationResult.id });
+    rowGenerator.next({ value: certificationResult.firstName });
+    rowGenerator.next({ value: certificationResult.lastName });
+    rowGenerator.next({ value: _formatDate(certificationResult.birthdate) });
+    rowGenerator.next({ value: certificationResult.birthplace });
+    rowGenerator.next({ value: certificationResult.externalId });
+    rowGenerator.next({ value: _formatStatus(certificationResult) });
+
+    sessionComplementaryCertificationsLabels.forEach((label) =>
+      rowGenerator.next({ value: certificationResult.getComplementaryCertificationStatus(label) })
+    );
+
+    rowGenerator.next({ value: _formatPixScore(certificationResult) });
+
+    _competenceIndexes.forEach((competenceIndex) =>
+      rowGenerator.next({
+        value: _getCompetenceLevel({
+          competenceIndex,
+          certificationResult,
+        }),
+      })
+    );
+
+    rowGenerator.next({ value: _getCommentForOrganization(certificationResult) });
+    rowGenerator.next({ value: session.id });
+    rowGenerator.next({ value: session.certificationCenter });
+    rowGenerator.next({ value: _formatDate(certificationResult.createdAt) });
+
+    return rowGenerator.next({ done: true }).value;
   };
 
 function _formatPixScore(certificationResult) {
@@ -232,17 +225,6 @@ function _formatStatus(certificationResult) {
   if (certificationResult.isRejected()) return 'Rejetée';
   if (certificationResult.isInError()) return 'En erreur';
   if (certificationResult.isStarted()) return 'Démarrée';
-}
-
-function _getCompetenceCells(certificationResult) {
-  const competencesRow = {};
-  _competenceIndexes.forEach((competenceIndex) => {
-    competencesRow[competenceIndex] = _getCompetenceLevel({
-      competenceIndex,
-      certificationResult,
-    });
-  });
-  return competencesRow;
 }
 
 function _getCompetenceLevel({ certificationResult, competenceIndex }) {

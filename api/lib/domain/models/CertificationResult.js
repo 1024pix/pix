@@ -128,10 +128,6 @@ class CertificationResult {
     ];
   }
 
-  getUniqComplementaryCertificationCourseResultHeaders() {
-    return this.getUniqComplementaryCertificationCourseResultLabels().map((label) => `Certification ${label}`);
-  }
-
   getComplementaryCertificationStatus(sessionComplementaryCertificationsLabel) {
     let status = 'Non passée';
     if (this.isCancelled()) {

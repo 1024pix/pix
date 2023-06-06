@@ -199,6 +199,7 @@ const getSessionResultsToDownload = async function (
   const csvResult = await dependencies.certificationResultUtils.getSessionCertificationResultsCsv({
     session,
     certificationResults,
+    i18n: request.i18n,
   });
 
   const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
@@ -239,6 +240,7 @@ const getSessionResultsByRecipientEmail = async function (
   dependencies = { tokenService, certificationResultUtils }
 ) {
   const token = request.params.token;
+
   const { resultRecipientEmail, sessionId } = dependencies.tokenService.extractResultRecipientEmailAndSessionId(token);
   const { session, certificationResults } = await usecases.getSessionResultsByResultRecipientEmail({
     sessionId,
@@ -247,6 +249,7 @@ const getSessionResultsByRecipientEmail = async function (
   const csvResult = await dependencies.certificationResultUtils.getSessionCertificationResultsCsv({
     session,
     certificationResults,
+    i18n: request.i18n,
   });
 
   const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
