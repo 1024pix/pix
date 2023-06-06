@@ -56,21 +56,14 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
           });
           this.set('answer', answer);
 
-          const correctionBlocks = [
-            {
-              validated: true,
-              alternativeSolutions: [],
-            },
-            {
-              validated: false,
-              alternativeSolutions: [],
-            },
-          ];
-          this.set('correctionBlocks', correctionBlocks);
+          const answersEvaluation = [true, false];
+          const solutionsWithoutGoodAnswers = [];
+          this.set('answersEvaluation', answersEvaluation);
+          this.set('solutionsWithoutGoodAnswers', solutionsWithoutGoodAnswers);
 
           // when
           await render(
-            hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @correctionBlocks={{this.correctionBlocks}} />`
+            hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @answersEvaluation={{this.answersEvaluation}} @solutionsWithoutGoodAnswers={{this.solutionsWithoutGoodAnswers}} />`
           );
         });
 
@@ -102,22 +95,13 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
           });
           this.set('answer', answer);
 
-          const correctionBlocks = [
-            {
-              validated: false,
-              alternativeSolutions: [],
-            },
-            {
-              validated: false,
-              alternativeSolutions: [],
-            },
-          ];
+          const answersEvaluation = [false, false];
 
-          this.set('correctionBlocks', correctionBlocks);
+          this.set('answersEvaluation', answersEvaluation);
 
           // when
           await render(
-            hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @correctionBlocks={{this.correctionBlocks}} />`
+            hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @answersEvaluation={{this.answersEvaluation}} />`
           );
         });
 
@@ -151,17 +135,8 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
           });
           this.set('answer', answer);
 
-          const correctionBlocks = [
-            {
-              validated: true,
-              alternativeSolutions: [],
-            },
-            {
-              validated: false,
-              alternativeSolutions: [],
-            },
-          ];
-          this.set('correctionBlocks', correctionBlocks);
+          const answersEvaluation = [true, false];
+          this.set('answersEvaluation', answersEvaluation);
         });
 
         test('should display the solutionToDisplay if exist', async function (assert) {
@@ -169,7 +144,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
           const solutionToDisplay = 'Ceci est la solution !';
           this.set('solutionToDisplay', solutionToDisplay);
           await render(
-            hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}} @correctionBlocks={{this.correctionBlocks}}/>`
+            hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}} @answersEvaluation={{this.answersEvaluation}}/>`
           );
 
           // then
@@ -180,7 +155,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         test('should display the first answer input in bold green', async function (assert) {
           // when
           await render(
-            hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @correctionBlocks={{this.correctionBlocks}} />`
+            hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @answersEvaluation={{this.answersEvaluation}} />`
           );
 
           // then
@@ -193,7 +168,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         test('should strike the second answer input', async function (assert) {
           // when
           await render(
-            hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @correctionBlocks={{this.correctionBlocks}} />`
+            hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @answersEvaluation={{this.answersEvaluation}} />`
           );
 
           // then
@@ -215,17 +190,8 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         assessment,
         challenge,
       });
-      const correctionBlocks = [
-        {
-          validated: true,
-          alternativeSolutions: [],
-        },
-        {
-          validated: false,
-          alternativeSolutions: [],
-        },
-      ];
-      this.set('correctionBlocks', correctionBlocks);
+      const answersEvaluation = [true, false];
+      this.set('answersEvaluation', answersEvaluation);
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
@@ -237,7 +203,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
 
       //when
       await render(
-        hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}} @correctionBlocks={{this.correctionBlocks}} />`
+        hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}} @answersEvaluation={{this.answersEvaluation}} />`
       );
 
       //then
@@ -259,17 +225,8 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         assessment,
         challenge,
       });
-      const correctionBlocks = [
-        {
-          validated: true,
-          alternativeSolutions: [],
-        },
-        {
-          validated: false,
-          alternativeSolutions: [],
-        },
-      ];
-      this.set('correctionBlocks', correctionBlocks);
+      const answersEvaluation = [true, false];
+      this.set('answersEvaluation', answersEvaluation);
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
@@ -279,7 +236,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
     test('should display a disabled textarea', async function (assert) {
       // when
       await render(
-        hbs`<QrocmDepSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} @correctionBlocks={{this.correctionBlocks}} />`
+        hbs`<QrocmDepSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} @answersEvaluation={{this.answersEvaluation}} />`
       );
 
       // then
@@ -300,17 +257,10 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
         assessment,
         challenge,
       });
-      const correctionBlocks = [
-        {
-          validated: true,
-          alternativeSolutions: [],
-        },
-        {
-          validated: true,
-          alternativeSolutions: [],
-        },
-      ];
-      this.set('correctionBlocks', correctionBlocks);
+      const answersEvaluation = [true, false];
+      const solutionsWithoutGoodAnswers = [];
+      this.set('answersEvaluation', answersEvaluation);
+      this.set('solutionsWithoutGoodAnswers', solutionsWithoutGoodAnswers);
       this.set('answer', answer);
       this.set('solution', solution);
       this.set('challenge', challenge);
@@ -320,7 +270,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
     test('should display a disabled input', async function (assert) {
       // when
       await render(
-        hbs`<QrocmDepSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} @correctionBlocks={{this.correctionBlocks}} />`
+        hbs`<QrocmDepSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} @answersEvaluation={{this.answersEvaluation}} @solutionsWithoutGoodAnswers={{this.solutionsWithoutGoodAnswers}} />`
       );
 
       // then

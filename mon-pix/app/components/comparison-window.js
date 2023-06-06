@@ -69,8 +69,12 @@ export default class ComparisonWindow extends Component {
     return this._isAutoReply ? null : this.args.answer.correction.get('solution');
   }
 
-  get correctionBlocks() {
-    return this.args.answer.correction.get('correctionBlocks');
+  get answersEvaluation() {
+    return this.args.answer.correction.get('answersEvaluation');
+  }
+
+  get solutionsWithoutGoodAnswers() {
+    return this.args.answer.correction.get('solutionsWithoutGoodAnswers');
   }
 
   get solutionToDisplay() {
