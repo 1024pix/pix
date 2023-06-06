@@ -1293,7 +1293,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       // then
       expect(result.answersEvaluation[0]).to.be.true;
       expect(result.answersEvaluation[1]).to.be.false;
-      expect(result.answersEvaluation[1]).to.not.contain('WhatsApp Messenger');
+      expect(result.solutionsWithoutGoodAnswers).to.not.contain('WhatsApp Messenger');
       expect(result.solutionsWithoutGoodAnswers).to.deep.equal([
         'Telegram',
         'Adium',

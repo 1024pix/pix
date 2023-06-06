@@ -16,9 +16,9 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
         value: "smiley1: ':)' smiley2: ''",
         result: 'ko',
       };
-      const correctionBlocks = [{ validated: true }, { validated: false }];
+      const answersEvaluation = [true, false];
 
-      const component = createGlimmerComponent('qrocm-dep-solution-panel', { challenge, answer, correctionBlocks });
+      const component = createGlimmerComponent('qrocm-dep-solution-panel', { challenge, answer, answersEvaluation });
 
       const expectedBlocksData = [
         {
@@ -154,14 +154,14 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
       const component = createGlimmerComponent('qrocm-dep-solution-panel', {
         challenge,
         answer: { result: 'ko' },
-        solution: 'groupe 1:\n- horizontalité\n- organisation plate\ngroupe 2:\n- cadre',
+        solutionsWithoutGoodAnswers: ['horizontalité', 'cadre'],
       });
 
       //when
       const understandableSolution = component.understandableSolution;
 
       //Then
-      assert.strictEqual(understandableSolution, 'horizontalité et cadre');
+      assert.strictEqual(understandableSolution, 'Vous auriez pu répondre horizontalité, cadre');
     });
 
     test('should return examples of good answers', function (assert) {
@@ -169,15 +169,15 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
       const component = createGlimmerComponent('qrocm-dep-solution-panel', {
         challenge,
-        answer: { result: 'ko' },
-        solution: 'groupe 1:\n- tag\n- slogan\ngroupe 2:\n- marche\n- sitting\ngroupe 3:\n- masque',
+        answer: { result: 'ko', value: "titre: 'Le rouge et le noir'\nauteur: 'Stendhal'\n" },
+        solutionsWithoutGoodAnswers: ['tag', 'marche', 'masque'],
       });
 
       //when
       const understandableSolution = component.understandableSolution;
 
       //Then
-      assert.strictEqual(understandableSolution, 'tag ou marche ou ...');
+      assert.strictEqual(understandableSolution, 'Vous auriez pu répondre tag, marche');
     });
   });
 });
