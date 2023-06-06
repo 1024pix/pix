@@ -252,7 +252,7 @@ class CertificationCandidate {
   }
 
   isGranted(key) {
-    return this.complementaryCertification.key === key;
+    return this.complementaryCertification?.key === key;
   }
 
   isBillingModePrepaid() {
