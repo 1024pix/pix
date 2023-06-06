@@ -14,6 +14,7 @@ const removeAuthenticationMethod = async function ({ userId, type, userRepositor
       );
     }
     await userRepository.updateEmail({ id: userId, email: null });
+    return;
   }
 
   if (type === 'USERNAME') {
@@ -25,6 +26,7 @@ const removeAuthenticationMethod = async function ({ userId, type, userRepositor
       );
     }
     await userRepository.updateUsername({ id: userId, username: null });
+    return;
   }
 
   if (type === 'GAR') {
@@ -33,14 +35,17 @@ const removeAuthenticationMethod = async function ({ userId, type, userRepositor
       AuthenticationMethod.identityProviders.GAR,
       authenticationMethodRepository
     );
+    return;
   }
 
   if (type === OidcIdentityProviders.POLE_EMPLOI.code) {
     await _removeAuthenticationMethod(userId, OidcIdentityProviders.POLE_EMPLOI.code, authenticationMethodRepository);
+    return;
   }
 
   if (type === OidcIdentityProviders.CNAV.code) {
     await _removeAuthenticationMethod(userId, OidcIdentityProviders.CNAV.code, authenticationMethodRepository);
+    return;
   }
 };
 
