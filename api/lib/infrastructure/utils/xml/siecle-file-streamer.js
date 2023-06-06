@@ -15,7 +15,7 @@ const { xmlEncoding } = xmlBufferTostring;
 const { Buffer } = buffer;
 
 import StreamZip from 'node-stream-zip';
-import FileType from 'file-type';
+import { fileTypeFromFile } from 'file-type';
 import iconv from 'iconv-lite';
 import sax from 'sax';
 import xmlBufferTostring from 'xml-buffer-tostring';
@@ -73,7 +73,7 @@ class SiecleFileStreamer {
 }
 
 async function _isFileZipped(path) {
-  const fileType = await FileType.fromFile(path);
+  const fileType = await fileTypeFromFile(path);
   return isObject(fileType) && fileType.mime === ZIP;
 }
 
