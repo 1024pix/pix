@@ -1,4 +1,5 @@
-import { usecases } from '../../domain/usecases/index.js';
+// eslint-disable-next-line import/no-unresolved,node/no-missing-import
+import { usecases } from '#lib/domain/usecases/index.js';
 import * as studentInformationForAccountRecoverySerializer from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 

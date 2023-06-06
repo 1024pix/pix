@@ -1,3 +1,4 @@
+skip-missing: true
 ignores:
   [
     '@babel/plugin-syntax-import-assertions',

@@ -1,5 +1,6 @@
 import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
-import { accountRecoveryController } from '../../../../lib/application/account-recovery/account-recovery-controller.js';
+// eslint-disable-next-line import/no-unresolved,node/no-missing-import
+import { accountRecoveryController } from '#lib/application/account-recovery/account-recovery-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 

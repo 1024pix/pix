@@ -170,5 +170,10 @@
   },
   "optionalDependencies": {
     "nyc": "^15.1.0"
+  },
+
+  "imports": {
+    "#lib/*.js": "./lib/*.js",
+    "#db/*.js": "./db/*.js"
   }
 }

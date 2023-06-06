@@ -2,7 +2,8 @@ import Boom from '@hapi/boom';
 import packageJSON from '../../../package.json' assert { type: 'json' };
 import { config } from '../../config.js';
 import { redisMonitor } from '../../infrastructure/utils/redis-monitor.js';
-import { knex } from '../../../db/knex-database-connection.js';
+// eslint-disable-next-line import/no-unresolved,node/no-missing-import
+import { knex } from '#db/knex-database-connection.js';
 
 const get = function (request) {
   return {
