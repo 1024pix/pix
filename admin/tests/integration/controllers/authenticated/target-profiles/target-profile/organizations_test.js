@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Intregration | Controller | authenticated/target-profiles/target-profile/organizations', function (hooks) {
+module('Integration | Controller | authenticated/target-profiles/target-profile/organizations', function (hooks) {
   setupTest(hooks);
   const organizationId = 1;
   let controller;
@@ -29,15 +29,7 @@ module('Intregration | Controller | authenticated/target-profiles/target-profile
   module('#detachOrganizations', function () {
     test('it should display a confirmation message after detaching an organization from a target profile', async function (assert) {
       // given
-      controller.store.adapterFor('target-profile').detachOrganizations.resolves({
-        data: {
-          type: 'target-profile-detach-organizations',
-          id: controller.model.targetProfile.id,
-          attributes: {
-            'detached-ids': [organizationId],
-          },
-        },
-      });
+      controller.store.adapterFor('target-profile').detachOrganizations.resolves([organizationId]);
 
       // when
       await controller.detachOrganizations(organizationId);
@@ -52,15 +44,7 @@ module('Intregration | Controller | authenticated/target-profiles/target-profile
 
     test('it should reload the page after detaching an organization from a target profile', async function (assert) {
       // given
-      controller.store.adapterFor('target-profile').detachOrganizations.resolves({
-        data: {
-          type: 'target-profile-detach-organizations',
-          id: controller.model.targetProfile.id,
-          attributes: {
-            'detached-ids': [organizationId],
-          },
-        },
-      });
+      controller.store.adapterFor('target-profile').detachOrganizations.resolves([organizationId]);
 
       // when
       await controller.detachOrganizations(organizationId);

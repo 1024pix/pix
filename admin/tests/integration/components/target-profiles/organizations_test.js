@@ -10,6 +10,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   hooks.beforeEach(function () {
     this.triggerFiltering = () => {};
     this.goToOrganizationPage = () => {};
+    this.detachOrganizations = () => {};
   });
 
   test('it should display the organizations', async function (assert) {
@@ -26,6 +27,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @organizations={{this.organizations}}
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
+  @detachOrganizations={{this.detachOrganizations}}
 />`
     );
 
@@ -47,6 +49,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @organizations={{this.organizations}}
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
+  @detachOrganizations={{this.detachOrganizations}}
 />`
     );
 
@@ -68,6 +71,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @organizations={{this.organizations}}
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
+  @detachOrganizations={{this.detachOrganizations}}
 />`
     );
 
@@ -84,6 +88,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @organizations={{this.organizations}}
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
+  @detachOrganizations={{this.detachOrganizations}}
 />`
     );
     await fillByLabel('Rattacher une ou plusieurs organisation(s)', '1, 2');
@@ -102,6 +107,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @organizations={{this.organizations}}
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
+  @detachOrganizations={{this.detachOrganizations}}
 />`
     );
     await fillByLabel("Rattacher les organisations d'un profil cible existant", 1);
@@ -122,6 +128,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @organizations={{this.organizations}}
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
+  @detachOrganizations={{this.detachOrganizations}}
 />`
     );
 
