@@ -2,13 +2,29 @@ import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
 
 async function updateDocumentationUrl() {
+  // common cases
   await _updateProOrganizations();
-
-  await _updateMedNumOrganizations();
 
   await _updateSUPOrganizations();
 
   await _updateSCOOrganizations();
+
+  // specific cases
+  await _updateAufOrganizations();
+
+  await _updateEfenhOrganizations();
+
+  await _updateDiputacioDeBarcelonaOrganizations();
+
+  await _updatePriveHorsContratOrganizations();
+
+  await _updatePromSocOrganizations();
+
+  await _updateInternationalOrganizations();
+
+  await _updateDocEnglishOrganizations();
+
+  await _updateMedNumOrganizations();
 
   await _updateAEFEOrganizations();
 
@@ -36,13 +52,17 @@ async function updateDocumentationUrl() {
 }
 
 const URL = {
-  PRO: 'https://cloud.pix.fr/s/cwZN2GAbqSPGnw4',
-  SUP: 'https://cloud.pix.fr/s/DTTo7Lp7p6Ktceo',
   AEFE: 'https://view.genial.ly/5ffb6eed1ac90d0d0daf65d8',
   MLF: 'https://view.genial.ly/5ffb6eed1ac90d0d0daf65d8',
   MEDNUM: 'https://view.genial.ly/6048a0d3757f980dc010d6d4',
   SCO: 'https://view.genial.ly/5f3e7a5ba8ffb90d11ac034f',
   AGRI: 'https://view.genial.ly/5f85a0b87812e90d12b7b593',
+  PRIVE_HORS_CONTRAT: 'https://view.genial.ly/602e3786dd02300d9c14ac3f',
+  EFENH: 'https://view.genial.ly/63b2a4ae12e4fc0018c73fbf',
+
+  PROMSOC: 'https://crp.education/documentation-pix-orga-eps/',
+
+  //LIEN COOL
   CPAM: 'https://cloud.pix.fr/s/deploiement_cnam',
   CNAF: 'https://cloud.pix.fr/s/deploiement_cnaf',
   CNAV: 'https://cloud.pix.fr/s/deploiement_cnav',
@@ -52,12 +72,103 @@ const URL = {
   SECTEUR_CHIMIE: 'https://cloud.pix.fr/s/deploiement_branchechimie',
   EDUSERVICES: 'https://cloud.pix.fr/s/deploiement_eduservices',
   PIXTERRITOIRES: 'https://cloud.pix.fr/s/deploiement_pixterritoires',
+
+  //LIEN PAS COOL
+  PRO: 'https://cloud.pix.fr/s/cwZN2GAbqSPGnw4',
+  SUP: 'https://cloud.pix.fr/s/DTTo7Lp7p6Ktceo',
+  INTERNATIONAL: 'https://cloud.pix.fr/s/sR2FPjfq9krTmJY',
+  DOC_ENGLISH: 'https://cloud.pix.fr/s/nftApJjLct8mki8',
+  AUF: 'https://cloud.pix.fr/s/F8aek7qjA2d6A4T',
+  DIPUTACIO_DE_BARCELONA: 'https://cloud.pix.fr/s/AdTPdGMbKWYqfKR',
 };
 
 export { updateDocumentationUrl, URL };
 
 async function _updateProOrganizations() {
   await knex('organizations').where('type', 'PRO').update({ documentationUrl: URL.PRO });
+}
+
+async function _updateAufOrganizations() {
+  const ids = await knex
+    .select('organizations.id')
+    .from('organizations')
+    .leftJoin('organization-tags', 'organizationId', 'organizations.id')
+    .leftJoin('tags', 'tagId', 'tags.id')
+    .where({ type: 'PRO', 'tags.name': 'AUF' })
+    .pluck('organizations.id');
+
+  await knex('organizations').whereIn('id', ids).update({ documentationUrl: URL.AUF });
+}
+async function _updateEfenhOrganizations() {
+  const ids = await knex
+    .select('organizations.id')
+    .from('organizations')
+    .leftJoin('organization-tags', 'organizationId', 'organizations.id')
+    .leftJoin('tags', 'tagId', 'tags.id')
+    .where({ type: 'SCO', 'tags.name': 'EFENH' })
+    .pluck('organizations.id');
+
+  await knex('organizations').whereIn('id', ids).update({ documentationUrl: URL.EFENH });
+}
+async function _updateDiputacioDeBarcelonaOrganizations() {
+  const ids = await knex
+    .select('organizations.id')
+    .from('organizations')
+    .leftJoin('organization-tags', 'organizationId', 'organizations.id')
+    .leftJoin('tags', 'tagId', 'tags.id')
+    .where({ type: 'PRO', 'tags.name': 'DIPUTACIO DE BARCELONA' })
+    .pluck('organizations.id');
+
+  await knex('organizations').whereIn('id', ids).update({ documentationUrl: URL.DIPUTACIO_DE_BARCELONA });
+}
+async function _updatePriveHorsContratOrganizations() {
+  const ids = await knex
+    .select('organizations.id')
+    .from('organizations')
+    .leftJoin('organization-tags', 'organizationId', 'organizations.id')
+    .leftJoin('tags', 'tagId', 'tags.id')
+    .where({ 'tags.name': 'PRIVE HORS CONTRAT' })
+    .whereIn('type', ['PRO', 'SUP'])
+    .pluck('organizations.id');
+
+  await knex('organizations').whereIn('id', ids).update({ documentationUrl: URL.PRIVE_HORS_CONTRAT });
+}
+
+async function _updatePromSocOrganizations() {
+  const ids = await knex
+    .select('organizations.id')
+    .from('organizations')
+    .leftJoin('organization-tags', 'organizationId', 'organizations.id')
+    .leftJoin('tags', 'tagId', 'tags.id')
+    .where({ 'tags.name': 'PROMSOC' })
+    .whereIn('type', ['PRO', 'SUP'])
+    .pluck('organizations.id');
+
+  await knex('organizations').whereIn('id', ids).update({ documentationUrl: URL.PROMSOC });
+}
+
+async function _updateInternationalOrganizations() {
+  const ids = await knex
+    .select('organizations.id')
+    .from('organizations')
+    .leftJoin('organization-tags', 'organizationId', 'organizations.id')
+    .leftJoin('tags', 'tagId', 'tags.id')
+    .where({ 'tags.name': 'INTERNATIONAL' })
+    .pluck('organizations.id');
+
+  await knex('organizations').whereIn('id', ids).update({ documentationUrl: URL.INTERNATIONAL });
+}
+
+async function _updateDocEnglishOrganizations() {
+  const ids = await knex
+    .select('organizations.id')
+    .from('organizations')
+    .leftJoin('organization-tags', 'organizationId', 'organizations.id')
+    .leftJoin('tags', 'tagId', 'tags.id')
+    .where({ type: 'PRO', 'tags.name': 'DOC ENGLISH' })
+    .pluck('organizations.id');
+
+  await knex('organizations').whereIn('id', ids).update({ documentationUrl: URL.DOC_ENGLISH });
 }
 
 async function _updateCPAMOrganizations() {
