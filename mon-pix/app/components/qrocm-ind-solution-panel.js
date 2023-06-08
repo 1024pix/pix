@@ -20,7 +20,7 @@ export default class QrocmIndSolutionPanel extends Component {
       return undefined;
     }
     const escapedProposals = this.args.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
-    const labels = labelsAsObject(htmlSafe(escapedProposals).string);
+    const labels = labelsAsObject(htmlSafe(escapedProposals).toString());
     const answers = answersAsObject(this.args.answer.value, keys(labels));
     const solutions = solutionsAsObject(this.args.solution);
     const resultDetails = resultDetailsAsObject(this.args.answer.resultDetails);

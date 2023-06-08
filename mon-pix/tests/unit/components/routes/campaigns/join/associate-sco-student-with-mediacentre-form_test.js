@@ -103,7 +103,7 @@ module('Unit | Component | routes/campaigns/join/associate-sco-student-with-medi
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
-        assert.strictEqual(component.errorMessage.string, expectedErrorMessage);
+        assert.strictEqual(component.errorMessage.toString(), expectedErrorMessage);
         assert.ok(true);
       });
 
@@ -182,7 +182,7 @@ module('Unit | Component | routes/campaigns/join/associate-sco-student-with-medi
           await component.actions.submit.call(component, attributes);
 
           // then
-          assert.strictEqual(component.errorMessage.string, expectedErrorMessage);
+          assert.strictEqual(component.errorMessage.toString(), expectedErrorMessage);
         });
       });
     });
