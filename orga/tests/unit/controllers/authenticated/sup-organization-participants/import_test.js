@@ -42,7 +42,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
         await controller.importStudents(files);
 
         // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.__string;
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.toString();
 
         assert.strictEqual(
           notificationMessage,
@@ -57,7 +57,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
         await controller.importStudents(files);
 
         // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.__string;
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.toString();
 
         assert.strictEqual(
           notificationMessage,
@@ -72,7 +72,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
         await controller.importStudents(files);
 
         // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.__string;
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.toString();
 
         assert.strictEqual(
           notificationMessage,
@@ -101,7 +101,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
         await controller.replaceStudents(files);
 
         // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.__string;
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.toString();
 
         assert.strictEqual(
           notificationMessage,
@@ -116,7 +116,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
         await controller.replaceStudents(files);
 
         // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.__string;
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.toString();
 
         assert.strictEqual(
           notificationMessage,
@@ -131,7 +131,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
         await controller.replaceStudents(files);
 
         // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.__string;
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.toString();
 
         assert.strictEqual(
           notificationMessage,
