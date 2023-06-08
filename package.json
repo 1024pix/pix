@@ -90,7 +90,6 @@
     "domains:stop": "cd ./scripts/local-domains/ && docker-compose down"
   },
   "dependencies": {
-    "axios": "^0.21.1",
     "bluebird": "3.7.2",
     "d3-dsv": "^2.0.0",
     "ember-date-fns": "^0.5.0",
