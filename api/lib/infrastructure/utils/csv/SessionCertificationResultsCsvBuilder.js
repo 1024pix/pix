@@ -1,12 +1,17 @@
 import { CertificationResultsCsvHeaders } from './CertificationResultsCsvHeaders.js';
+import { CertificationResultsCsvValues } from './CertificationResultsCsvValues.js';
 
 class SessionCertificationResultsCsvBuilder {
+  #session = {};
   #certificationResults = [];
-  #csvHeaders = [];
+  #csvHeaders;
+  #csvValues;
 
-  constructor(i18n) {
-    this.#certificationResults = [];
+  constructor({ i18n, session = {}, certificationResults = [] }) {
+    this.#session = session;
+    this.#certificationResults = certificationResults;
     this.#csvHeaders = new CertificationResultsCsvHeaders(i18n);
+    this.#csvValues = new CertificationResultsCsvValues(i18n);
   }
 
   #getComplementaryCertificationResultsLabels() {
@@ -19,12 +24,7 @@ class SessionCertificationResultsCsvBuilder {
     ];
   }
 
-  withCertificationResults(certificationResults) {
-    this.#certificationResults = certificationResults;
-    return this;
-  }
-
-  buildFileHeaders() {
+  #buildFileHeaders() {
     const headersGenerator = this.#csvHeaders.generateHeaders();
     headersGenerator.next();
 
@@ -53,6 +53,57 @@ class SessionCertificationResultsCsvBuilder {
     );
 
     return headersGenerator.next({ done: true }).value;
+  }
+
+  #buildData() {
+    const complementaryCertificationResultsLabels = this.#getComplementaryCertificationResultsLabels();
+
+    return this.#certificationResults.map((certificationResult) => {
+      const rowGenerator = this.#csvValues.generateRowValues();
+      rowGenerator.next();
+
+      rowGenerator.next({ value: certificationResult.id });
+      rowGenerator.next({ value: certificationResult.firstName });
+      rowGenerator.next({ value: certificationResult.lastName });
+      rowGenerator.next({ value: this.#csvValues.formatDate(certificationResult.birthdate) });
+      rowGenerator.next({ value: certificationResult.birthplace });
+      rowGenerator.next({ value: certificationResult.externalId });
+      rowGenerator.next({ value: this.#csvValues.formatStatus(certificationResult) });
+
+      complementaryCertificationResultsLabels.forEach((sessionComplementaryCertificationsLabel) =>
+        rowGenerator.next({
+          value: this.#csvValues.getComplementaryCertificationStatus({
+            certificationResult,
+            sessionComplementaryCertificationsLabel,
+          }),
+        })
+      );
+
+      rowGenerator.next({ value: this.#csvValues.formatPixScore(certificationResult) });
+
+      CertificationResultsCsvHeaders.COMPETENCE_INDEXES.forEach((competenceIndex) =>
+        rowGenerator.next({
+          value: this.#csvValues.getCompetenceLevel({
+            competenceIndex,
+            certificationResult,
+          }),
+        })
+      );
+
+      rowGenerator.next({ value: this.#csvValues.getCommentForOrganization(certificationResult) });
+      rowGenerator.next({ value: this.#session.id });
+      rowGenerator.next({ value: this.#session.certificationCenter });
+      rowGenerator.next({ value: this.#csvValues.formatDate(certificationResult.createdAt) });
+
+      return rowGenerator.next({ done: true }).value;
+    });
+  }
+
+  build() {
+    return {
+      fileHeaders: this.#buildFileHeaders(),
+      data: this.#buildData(),
+    };
   }
 }
 
