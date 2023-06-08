@@ -82,7 +82,7 @@ async function _computeLevels(cappedTubes) {
             count,
             threshold: 100,
             minThreshold: 100,
-            maxThreshold: 100.00000000000001,
+            maxThreshold: 100.1,
           });
           return;
         }
@@ -99,7 +99,7 @@ async function _computeLevels(cappedTubes) {
           minThreshold,
         });
       },
-      [{ level: 0, threshold: 0, minThreshold: 0, maxThreshold: Number.MIN_VALUE, count: 0 }]
+      [{ level: 0, threshold: 0, minThreshold: 0, maxThreshold: 0.1, count: 0 }]
     ),
   ])(skills);
 }
@@ -113,7 +113,7 @@ function _getStagesWOLevel(stages) {
 function _computeStagesMigrations(stages, levels) {
   return stages.map((stage) => {
     const level = levels.find(
-      ({ minThreshold, maxThreshold }) => stage.threshold >= minThreshold && stage.threshold <= maxThreshold
+      ({ minThreshold, maxThreshold }) => stage.threshold >= minThreshold && stage.threshold < maxThreshold
     );
     return {
       stageId: stage.id,
