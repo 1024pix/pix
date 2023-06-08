@@ -19,7 +19,7 @@ module('Unit | Component | markdown-to-html-unsafe', function (hooks) {
         component = createGlimmerComponent('markdown-to-html-unsafe', { markdown });
 
         // then
-        assert.strictEqual(component.html.string, expectedValue);
+        assert.strictEqual(component.html.toString(), expectedValue);
       });
     });
   });
@@ -40,7 +40,7 @@ module('Unit | Component | markdown-to-html-unsafe', function (hooks) {
         component = createGlimmerComponent('markdown-to-html-unsafe', { markdown });
 
         // then
-        assert.strictEqual(component.html.string, expectedValue);
+        assert.strictEqual(component.html.toString(), expectedValue);
       });
     });
   });
@@ -54,7 +54,7 @@ module('Unit | Component | markdown-to-html-unsafe', function (hooks) {
 
     // then
     const expectedHtml = `<p>${html}</p>`;
-    assert.strictEqual(component.html.string, expectedHtml);
+    assert.strictEqual(component.html.toString(), expectedHtml);
   });
 
   module('when extensions are passed in arguments', function () {
@@ -68,7 +68,7 @@ module('Unit | Component | markdown-to-html-unsafe', function (hooks) {
 
       // then
       const expectedHtml = '<h1 id="title1">Title 1</h1>\nCeci est un paragraphe.\n<img src="/images.png" alt="img" />';
-      assert.strictEqual(component.html.string, expectedHtml);
+      assert.strictEqual(component.html.toString(), expectedHtml);
     });
   });
 });

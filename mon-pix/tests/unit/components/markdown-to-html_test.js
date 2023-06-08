@@ -19,7 +19,7 @@ module('Unit | Component | markdown-to-html', function (hooks) {
         component = createGlimmerComponent('markdown-to-html', { markdown });
 
         // then
-        assert.strictEqual(component.html.string, expectedValue);
+        assert.strictEqual(component.html.toString(), expectedValue);
       });
     });
   });
@@ -41,7 +41,7 @@ module('Unit | Component | markdown-to-html', function (hooks) {
         component = createGlimmerComponent('markdown-to-html', { markdown });
 
         // then
-        assert.strictEqual(component.html.string, expectedValue);
+        assert.strictEqual(component.html.toString(), expectedValue);
       });
     });
   });
@@ -55,7 +55,7 @@ module('Unit | Component | markdown-to-html', function (hooks) {
 
     // then
     const expectedHtml = `<p>${html}</p>`;
-    assert.strictEqual(component.html.string, expectedHtml);
+    assert.strictEqual(component.html.toString(), expectedHtml);
   });
 
   module('when extensions are passed in arguments', function () {
@@ -69,7 +69,7 @@ module('Unit | Component | markdown-to-html', function (hooks) {
 
       // then
       const expectedHtml = '<h1>Title 1</h1>\nCeci est un paragraphe.\n<img src="/images.png" alt="img" />';
-      assert.strictEqual(component.html.string, expectedHtml);
+      assert.strictEqual(component.html.toString(), expectedHtml);
     });
   });
 
@@ -83,7 +83,7 @@ module('Unit | Component | markdown-to-html', function (hooks) {
 
       // then
       const expectedHtml = '<h1>Test</h1>';
-      assert.strictEqual(component.html.string, expectedHtml);
+      assert.strictEqual(component.html.toString(), expectedHtml);
     });
   });
 
@@ -97,7 +97,7 @@ module('Unit | Component | markdown-to-html', function (hooks) {
 
       // then
       const expectedHtml = '<h1 class="sr-only">Test</h1>';
-      assert.strictEqual(component.html.string, expectedHtml);
+      assert.strictEqual(component.html.toString(), expectedHtml);
     });
   });
 });

@@ -12,7 +12,7 @@ export default class QrocmDepSolutionPanel extends Component {
 
   get blocks() {
     const escapedProposals = this.args.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
-    const labels = labelsAsObject(htmlSafe(escapedProposals).string);
+    const labels = labelsAsObject(htmlSafe(escapedProposals).toString());
     const answers = answersAsObject(this.args.answer.value, keys(labels));
     const correctionBlocks = this.args.correctionBlocks ? [...this.args.correctionBlocks] : null;
 
