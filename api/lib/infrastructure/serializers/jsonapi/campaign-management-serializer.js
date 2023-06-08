@@ -16,6 +16,8 @@ const serialize = function (campaignManagement, meta) {
       'ownerId',
       'ownerLastName',
       'ownerFirstName',
+      'targetProfileId',
+      'targetProfileName',
     ],
     meta,
   }).serialize(campaignManagement);

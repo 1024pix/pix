@@ -24,10 +24,12 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       // given
       const campaign = {
         id: 1,
-        name: 'C1',
+        name: 'Nom de campagne 1',
         archivedAt: new Date('2021-01-01'),
         type: 'ASSESSMENT',
         code: '123',
+        targetProfileId: 1,
+        targetProfileName: 'Nom du profil cible',
         createdAt: new Date('2021-01-02'),
         creatorLastName: 'K',
         creatorFirstName: 'K',
@@ -40,10 +42,10 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}} />`);
 
       // then
-      assert.dom(screen.getByText('ID')).exists();
       assert.dom(screen.getByText('Code')).exists();
       assert.dom(screen.getByText('Nom')).exists();
       assert.dom(screen.getByText('Type')).exists();
+      assert.dom(screen.getByText('Profil cible')).exists();
       assert.dom(screen.getByText('Créée le')).exists();
       assert.dom(screen.getByText('Créée par')).exists();
       assert.dom(screen.getByText('Propriétaire')).exists();
@@ -53,23 +55,27 @@ module('Integration | Component | organizations/campaigns-section', function (ho
     test('it should display a list of campaigns', async function (assert) {
       const campaign1 = {
         id: 1,
-        name: 'C1',
+        name: 'Nom de campagne 1',
         archivedAt: new Date('2021-01-01'),
         type: 'ASSESSMENT',
         code: '123',
         createdAt: new Date('2021-01-02'),
         creatorLastName: 'King',
         creatorFirstName: 'Karam',
+        targetProfileId: 1,
+        targetProfileName: 'Nom du profil cible',
       };
       const campaign2 = {
         id: 2,
-        name: 'C2',
+        name: 'Nom de campagne 2',
         archivedAt: new Date('2021-01-03'),
         type: 'PROFILE_COLLECTION',
         code: '456',
         createdAt: new Date('2021-01-04'),
         creatorLastName: 'JJ',
         creatorFirstName: 'AA',
+        targetProfileId: null,
+        targetProfileName: null,
       };
       const campaigns = [campaign1, campaign2];
       campaigns.meta = { rowCount: 2 };
@@ -85,7 +91,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
     test('it should display information of each campaigns', async function (assert) {
       const campaign1 = {
         id: 1,
-        name: 'C1',
+        name: 'Nom de campagne 1',
         archivedAt: new Date('2021-01-01'),
         type: 'ASSESSMENT',
         code: '123',
@@ -94,10 +100,12 @@ module('Integration | Component | organizations/campaigns-section', function (ho
         creatorFirstName: 'Karam',
         ownerLastName: 'Di',
         ownerFirstName: 'Amar',
+        targetProfileId: 1,
+        targetProfileName: 'Nom du profil cible',
       };
       const campaign2 = {
         id: 2,
-        name: 'C2',
+        name: 'Nom de campagne 2',
         archivedAt: new Date('2021-01-03'),
         type: 'PROFILE_COLLECTION',
         code: '456',
@@ -106,6 +114,8 @@ module('Integration | Component | organizations/campaigns-section', function (ho
         creatorFirstName: 'Queen',
         ownerLastName: 'Credi',
         ownerFirstName: 'Amer',
+        targetProfileId: null,
+        targetProfileName: null,
       };
       const campaigns = [campaign1, campaign2];
       campaigns.meta = { rowCount: 2 };
@@ -115,19 +125,23 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}} />`);
 
       // then
-      assert.dom(screen.getByText('C1')).exists();
-      assert.dom(screen.getByText('Évaluation')).exists();
+      assert.dom(screen.getByRole('link', { name: '123' })).exists();
       assert.dom(screen.getByText('123')).exists();
+      assert.dom(screen.getByTitle('Évaluation')).exists();
+      assert.dom(screen.getByText('Nom de campagne 1')).exists();
       assert.dom(screen.getByText('Karam King')).exists();
       assert.dom(screen.getByText('Amar Di')).exists();
+      assert.dom(screen.getByRole('link', { name: 'Nom du profil cible' })).exists();
       assert.dom(screen.getByText('01/01/2021')).exists();
       assert.dom(screen.getByText('02/01/2021')).exists();
 
-      assert.dom(screen.getByText('C2')).exists();
-      assert.dom(screen.getByText('Collecte de profils')).exists();
+      assert.dom(screen.getByRole('link', { name: '456' })).exists();
       assert.dom(screen.getByText('456')).exists();
+      assert.dom(screen.getByTitle('Collecte de profils')).exists();
+      assert.dom(screen.getByText('Nom de campagne 2')).exists();
       assert.dom(screen.getByText('Queen Elizabeth')).exists();
       assert.dom(screen.getByText('Amer Credi')).exists();
+      assert.dom(screen.getByText('-')).exists();
       assert.dom(screen.getByText('03/01/2021')).exists();
       assert.dom(screen.getByText('04/01/2021')).exists();
     });
@@ -136,7 +150,7 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       // given
       const campaign = {
         id: 1,
-        name: 'C1',
+        name: 'Nom de campagne 1',
         archivedAt: null,
         type: 'ASSESSMENT',
         code: '123',
