@@ -6,6 +6,23 @@ $margin-right: 32px;
   flex-grow: 1;
   width: 100%;
 
+  &__footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  &__counter {
+    display: flex;
+    align-items: center;
+    padding-bottom: $pix-spacing-xs;
+
+    span {
+      margin-right: $pix-spacing-xs;
+    }
+  }
+
   &__last-participation {
     display: flex;
     gap: $pix-spacing-xs;

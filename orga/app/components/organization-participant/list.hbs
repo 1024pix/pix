@@ -6,6 +6,24 @@
   @onResetFilter={{@onResetFilter}}
 />
 
+<section class="organization-participant-list-page__counter">
+  <span>Mon compteur :</span>
+  <Counter>
+    <:trigger as |onClick|>
+      <PixButton @triggerAction={{onClick}}>+1</PixButton>
+    </:trigger>
+    <:display as |count show|>
+      {{#if show}}
+        {{#in-element this.footerBanner}}
+          <PixBanner @type="communication">
+            {{count}}
+          </PixBanner>
+        {{/in-element}}
+      {{/if}}
+    </:display>
+  </Counter>
+</section>
+
 <div class="panel">
   <table class="table content-text content-text--small">
     <caption class="screen-reader-only">{{t "pages.organization-participants.table.description"}}</caption>
@@ -104,3 +122,5 @@
 </div>
 
 <Table::PaginationControl @pagination={{@participants.meta}} />
+
+<div class="organization-participant-list-page__footer" id={{this.footerId}}></div>
