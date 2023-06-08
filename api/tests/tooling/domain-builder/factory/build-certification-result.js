@@ -166,4 +166,37 @@ buildCertificationResult.error = function ({
   });
 };
 
+buildCertificationResult.started = function ({
+  id,
+  firstName,
+  lastName,
+  birthplace,
+  birthdate,
+  externalId,
+  createdAt,
+  sessionId,
+  pixScore,
+  emitter,
+  commentForOrganization,
+  competencesWithMark,
+  complementaryCertificationCourseResults,
+}) {
+  return buildCertificationResult({
+    id,
+    firstName,
+    lastName,
+    birthplace,
+    birthdate,
+    externalId,
+    createdAt,
+    sessionId,
+    status: CertificationResult.status.STARTED,
+    pixScore,
+    emitter,
+    commentForOrganization,
+    competencesWithMark,
+    complementaryCertificationCourseResults,
+  });
+};
+
 export { buildCertificationResult };

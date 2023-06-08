@@ -14,14 +14,14 @@ async function getDivisionCertificationResultsCsv({ certificationResults }) {
 }
 
 async function getSessionCertificationResultsCsv({ session, certificationResults, i18n }) {
-  const certificationResultsCsvBuilder = new SessionCertificationResultsCsvBuilder(i18n).withCertificationResults(
-    certificationResults
-  );
+  const certificationResultsCsvBuilder = new SessionCertificationResultsCsvBuilder({
+    session,
+    certificationResults,
+    i18n,
+  });
+  const csvData = certificationResultsCsvBuilder.build();
 
-  const fileHeaders = certificationResultsCsvBuilder.buildFileHeaders();
-  const data = _buildFileData({ session, certificationResults });
-
-  return getCsvContent({ data, fileHeaders });
+  return getCsvContent(csvData);
 }
 
 async function getCleaCertifiedCandidateCsv(cleaCertifiedCandidates) {
@@ -108,11 +108,6 @@ function _buildFileHeadersForCleaCandidates() {
   ];
 }
 
-function _buildFileData({ session, certificationResults }) {
-  const sessionComplementaryCertificationsLabels = _getComplementaryCertificationResultsLabels(certificationResults);
-  return certificationResults.map(_getRowItemsFromSessionAndResults(session, sessionComplementaryCertificationsLabels));
-}
-
 function _buildFileDataForCleaCandidates(cleaCertifiedCandidates) {
   return cleaCertifiedCandidates.map((candidate) => {
     return {
@@ -145,69 +140,6 @@ function _buildFileDataForCleaCandidates(cleaCertifiedCandidates) {
     };
   });
 }
-
-function _getComplementaryCertificationResultsLabels(certificationResults) {
-  return [
-    ...new Set(
-      certificationResults.flatMap((certificationResult) =>
-        certificationResult.getUniqComplementaryCertificationCourseResultLabels()
-      )
-    ),
-  ];
-}
-
-function* generateRowValues() {
-  const row = {};
-  let index = 0;
-  let state;
-
-  while (!state?.done) {
-    state = yield row;
-
-    if (state && 'value' in state) {
-      row[`col${index}`] = state.value;
-      index++;
-    }
-  }
-
-  return row;
-}
-
-const _getRowItemsFromSessionAndResults =
-  (session, sessionComplementaryCertificationsLabels) => (certificationResult) => {
-    const rowGenerator = generateRowValues();
-    rowGenerator.next();
-
-    rowGenerator.next({ value: certificationResult.id });
-    rowGenerator.next({ value: certificationResult.firstName });
-    rowGenerator.next({ value: certificationResult.lastName });
-    rowGenerator.next({ value: _formatDate(certificationResult.birthdate) });
-    rowGenerator.next({ value: certificationResult.birthplace });
-    rowGenerator.next({ value: certificationResult.externalId });
-    rowGenerator.next({ value: _formatStatus(certificationResult) });
-
-    sessionComplementaryCertificationsLabels.forEach((label) =>
-      rowGenerator.next({ value: certificationResult.getComplementaryCertificationStatus(label) })
-    );
-
-    rowGenerator.next({ value: _formatPixScore(certificationResult) });
-
-    _competenceIndexes.forEach((competenceIndex) =>
-      rowGenerator.next({
-        value: _getCompetenceLevel({
-          competenceIndex,
-          certificationResult,
-        }),
-      })
-    );
-
-    rowGenerator.next({ value: _getCommentForOrganization(certificationResult) });
-    rowGenerator.next({ value: session.id });
-    rowGenerator.next({ value: session.certificationCenter });
-    rowGenerator.next({ value: _formatDate(certificationResult.createdAt) });
-
-    return rowGenerator.next({ done: true }).value;
-  };
 
 function _formatPixScore(certificationResult) {
   if (certificationResult.isCancelled() || certificationResult.isInError()) return '-';
