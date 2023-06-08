@@ -1,4 +1,9 @@
 # Pix Changelog
+## v4.2.1 (08/06/2023)
+
+
+### :bug: Correction
+- [#6322](https://github.com/1024pix/pix/pull/6322) [BUGFIX] Permettre à un candidat éligible mais non inscrit à une certif complémentaire de passer la certification (PIX-8257)
 
 ## v4.2.0 (06/06/2023)
 
