@@ -63,9 +63,12 @@ const findPaginatedCampaignManagements = async function ({ organizationId, page 
       ownerId: 'ownerUser.id',
       ownerLastName: 'ownerUser.lastName',
       ownerFirstName: 'ownerUser.firstName',
+      targetProfileId: 'target-profiles.id',
+      targetProfileName: 'target-profiles.name',
     })
     .join('users AS creatorUser', 'creatorUser.id', 'campaigns.creatorId')
     .join('users AS ownerUser', 'ownerUser.id', 'campaigns.ownerId')
+    .leftJoin('target-profiles', 'campaigns.targetProfileId', 'target-profiles.id')
     .where('organizationId', organizationId)
     .orderBy('campaigns.createdAt', 'DESC');
 

@@ -14,6 +14,8 @@ const buildCampaignManagement = function ({
   ownerId = 3,
   ownerFirstName = 'Alain',
   ownerLastName = 'Provist',
+  targetProfileId = 1,
+  targetProfileName = 'Juste un profil cible',
 } = {}) {
   return new CampaignManagement({
     id,
@@ -28,6 +30,8 @@ const buildCampaignManagement = function ({
     ownerId,
     ownerFirstName,
     ownerLastName,
+    targetProfileId,
+    targetProfileName,
   });
 };
 

@@ -313,6 +313,11 @@ describe('Integration | Repository | Campaign-Management', function () {
           lastName: 'King',
           firstName: 'Arthur',
         });
+
+        const targetProfile = databaseBuilder.factory.buildTargetProfile({
+          name: 'mon profil cible',
+        });
+
         const campaign = databaseBuilder.factory.buildCampaign({
           organizationId,
           name: 'campaign name',
@@ -322,6 +327,7 @@ describe('Integration | Repository | Campaign-Management', function () {
           type: 'ASSESSMENT',
           creatorId: creator.id,
           ownerId: owner.id,
+          targetProfileId: targetProfile.id,
         });
         await databaseBuilder.commit();
 
@@ -346,6 +352,8 @@ describe('Integration | Repository | Campaign-Management', function () {
           ownerId: owner.id,
           ownerFirstName: owner.firstName,
           ownerLastName: owner.lastName,
+          targetProfileId: targetProfile.id,
+          targetProfileName: targetProfile.name,
         });
       });
 

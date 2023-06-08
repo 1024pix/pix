@@ -7,10 +7,10 @@
       <table>
         <thead>
           <tr>
-            <th class="table__column table__column--id">ID</th>
-            <th>Code</th>
-            <th>Type</th>
+            <th class="table__column--medium">Code</th>
             <th>Nom</th>
+            <th class="table__column--small">Type</th>
+            <th>Profil cible</th>
             <th class="table__column--medium">Créée le</th>
             <th>Créée par</th>
             <th>Propriétaire</th>
@@ -22,16 +22,35 @@
           <tbody>
             {{#each @campaigns as |campaign|}}
               <tr aria-label="campagne">
-                <td class="table__column table__column--id">
+                <td>
                   <LinkTo @route="authenticated.campaigns.campaign" @model={{campaign.id}}>
-                    {{campaign.id}}
+                    {{campaign.code}}
                   </LinkTo>
                 </td>
-                <td>{{campaign.code}}</td>
-                <td>
-                  {{if (eq campaign.type "ASSESSMENT") "Évaluation" "Collecte de profils"}}
-                </td>
                 <td>{{campaign.name}}</td>
+                <td>
+                  {{#if (eq campaign.type "ASSESSMENT")}}
+                    <div title="Évaluation">
+                      <FaIcon class="campaign-type__icon-assessment" @icon="tachometer" @prefix="fapix" />
+                    </div>
+                  {{else}}
+                    <div title="Collecte de profils">
+                      <FaIcon class="campaign-type__icon-profile-collection" @icon="person-export" @prefix="fapix" />
+                    </div>
+                  {{/if}}
+                </td>
+                <td>
+                  {{#if (eq campaign.type "ASSESSMENT")}}
+                    <LinkTo
+                      @route="authenticated.target-profiles.target-profile.details"
+                      @model={{campaign.targetProfileId}}
+                    >
+                      {{campaign.targetProfileName}}
+                    </LinkTo>
+                  {{else}}
+                    -
+                  {{/if}}
+                </td>
                 <td>{{dayjs-format campaign.createdAt "DD/MM/YYYY"}}</td>
                 <td>{{campaign.creatorFirstName}} {{campaign.creatorLastName}}</td>
                 <td>{{campaign.ownerFirstName}} {{campaign.ownerLastName}}</td>
