@@ -8,7 +8,7 @@ import isEmpty from 'lodash/isEmpty';
 export default class QcmSolutionPanel extends Component {
   get solutionArray() {
     const solution = this.args.solution;
-    const solutionArray = !isEmpty(solution) ? valueAsArrayOfBoolean(solution) : [];
+    const solutionArray = !isEmpty(solution) ? valueAsArrayOfBoolean(solution, this._proposalsArray.length) : [];
     if (this.args.challenge.get('shuffled')) {
       pshuffle(solutionArray, this.args.answer.assessment.get('id'));
     }
@@ -23,14 +23,17 @@ export default class QcmSolutionPanel extends Component {
     const answer = this.args.answer.value;
     let checkboxes = [];
     if (!isEmpty(answer)) {
-      const proposals = this.args.challenge.get('proposals');
-      const proposalsArray = proposalsAsArray(proposals);
       const answerArray = valueAsArrayOfBoolean(answer);
-      checkboxes = labeledCheckboxes(proposalsArray, answerArray);
+      checkboxes = labeledCheckboxes(this._proposalsArray, answerArray);
       if (this.args.challenge.get('shuffled')) {
         pshuffle(checkboxes, this.args.answer.assessment.get('id'));
       }
     }
     return checkboxes;
+  }
+
+  get _proposalsArray() {
+    const proposals = this.args.challenge.get('proposals');
+    return proposalsAsArray(proposals);
   }
 }
