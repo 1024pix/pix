@@ -48,7 +48,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
         assert
           .dom(
             screen.getByText((content, node) => {
-              const hasText = (node) => node.innerHTML.trim() === expectedText.string;
+              const hasText = (node) => node.innerHTML.trim() === expectedText.__string;
               const nodeHasText = hasText(node);
               const childrenDontHaveText = Array.from(node.children).every((child) => !hasText(child));
               return nodeHasText && childrenDontHaveText;

@@ -3,19 +3,16 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
-import Service from '@ember/service';
 import { clickByName } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
   setupRenderingTest(hooks);
-  let transitionToStub;
+  let routerService;
 
   hooks.beforeEach(function () {
-    transitionToStub = sinon.stub();
-    class RouterStub extends Service {
-      transitionTo = transitionToStub;
-    }
-    this.owner.register('service:router', RouterStub);
+    routerService = this.owner.lookup('service:router');
+
+    sinon.stub(routerService, 'transitionTo');
   });
 
   test('it should render previous page button', async function (assert) {
@@ -48,7 +45,7 @@ module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
       await clickByName('Une instruction');
 
       // then
-      assert.ok(transitionToStub.calledWith(this.route, this.routeId));
+      assert.ok(routerService.transitionTo.calledWith(this.route, this.routeId));
     });
 
     test('it should transition to specified route without any params if no routeId param provided', async function (assert) {
@@ -61,7 +58,7 @@ module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
       await clickByName('Une instruction');
 
       // then
-      assert.ok(transitionToStub.calledWith(this.route));
+      assert.ok(routerService.transitionTo.calledWith(this.route));
     });
   });
 });

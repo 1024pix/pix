@@ -8,9 +8,9 @@ module('Unit | Component |  login-or-register', (hooks) => {
   setupTest(hooks);
 
   module('onLanguageChange', () => {
-    test('saves selected locale and remove lang from query params', function (assert) {
+    test('saves selected locale and remove lang from query params', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:auth/login-or-register');
+      const component = await createGlimmerComponent('component:auth/login-or-register');
       const localeService = this.owner.lookup('service:locale');
       const routerService = this.owner.lookup('service:router');
       sinon.stub(localeService, 'setLocale');
