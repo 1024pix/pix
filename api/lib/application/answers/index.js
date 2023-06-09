@@ -2,7 +2,6 @@ import Joi from 'joi';
 import { answerController } from './answer-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { NotFoundError } from '../../domain/errors.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
@@ -33,35 +32,6 @@ const register = async function (server) {
         notes: [
           "- **Cette route est accessible aux utilisateurs pour qui l'answer appartient à leur assessment**\n" +
             '- Enregistre une réponse à un challenge',
-        ],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/pix1d/answers',
-      config: {
-        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
-        auth: false,
-        validate: {
-          payload: Joi.object({
-            data: {
-              attributes: {
-                value: Joi.string().allow('').allow(null),
-                result: Joi.string().allow(null),
-                'result-details': Joi.string().allow(null),
-              },
-              assessment: Joi.object(),
-              relationships: Joi.object().required(),
-              challenge: Joi.object(),
-              type: Joi.string(),
-            },
-          }),
-        },
-        handler: answerController.saveForPix1D,
-        tags: ['api', 'pix1d', 'answers'],
-        notes: [
-          "- **Cette route est accessible aux utilisateurs pour qui l'answer appartient à leur assessment**\n" +
-            '- Enregistre une réponse à un challenge pour Pix 1D',
         ],
       },
     },

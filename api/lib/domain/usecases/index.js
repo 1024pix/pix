@@ -10,7 +10,9 @@ import * as adminMemberRepository from '../../infrastructure/repositories/admin-
 
 import * as TargetProfileForSpecifierRepository from '../../infrastructure/repositories/campaign/target-profile-for-specifier-repository.js';
 import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
+import * as activityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
 import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
+import * as activityRepository from '../../infrastructure/repositories/activity-repository.js';
 import * as areaRepository from '../../infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
@@ -216,6 +218,8 @@ function requirePoleEmploiNotifier() {
 const dependencies = {
   TargetProfileForSpecifierRepository,
   accountRecoveryDemandRepository,
+  activityAnswerRepository,
+  activityRepository,
   adminMemberRepository,
   algorithmDataFetcherService,
   answerRepository,

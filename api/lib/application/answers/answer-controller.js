@@ -12,13 +12,6 @@ const save = async function (request, h, dependencies = { answerSerializer, requ
   return h.response(dependencies.answerSerializer.serialize(createdAnswer)).created();
 };
 
-const saveForPix1D = async function (request, h, dependencies = { answerSerializer }) {
-  const answer = dependencies.answerSerializer.deserialize(request.payload);
-  const createdAnswer = await usecases.correctAnswer({ answer });
-
-  return h.response(dependencies.answerSerializer.serialize(createdAnswer)).created();
-};
-
 const get = async function (request, _h, dependencies = { requestResponseUtils }) {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const answerId = request.params.id;
@@ -64,6 +57,6 @@ const getCorrection = async function (request, _h, dependencies = { correctionSe
   return dependencies.correctionSerializer.serialize(correction);
 };
 
-const answerController = { save, saveForPix1D, get, update, find, getCorrection };
+const answerController = { save, get, update, find, getCorrection };
 
 export { answerController };
