@@ -11,6 +11,7 @@ function buildAnswer({
   challengeId = 'recChallenge123',
   timeSpent = 20,
   isFocusedOut = false,
+  activityId = null,
 } = {}) {
   return new Answer({
     id,
@@ -22,6 +23,7 @@ function buildAnswer({
     challengeId,
     timeSpent,
     isFocusedOut,
+    activityId,
   });
 }
 
