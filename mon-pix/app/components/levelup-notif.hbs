@@ -7,15 +7,9 @@
         <div class="levelup-competence__level">{{t "pages.levelup-notif.obtained-level" level=@level}}</div>
         <div class="levelup-competence__name">{{@competenceName}}</div>
       </div>
-      <button
-        role="button"
-        class="levelup__close"
-        aria-labelledby="button-label"
-        {{on "click" this.close}}
-        type="button"
-      >
+      <button class="levelup__close" aria-labelledby="button-label" type="button" {{on "click" this.close}}>
         <span id="button-label" hidden>{{t "common.actions.close"}}</span>
-        <FaIcon @icon="xmark" role="presentation" />
+        <FaIcon @icon="xmark" alt="" />
       </button>
     </div>
   {{/unless}}
