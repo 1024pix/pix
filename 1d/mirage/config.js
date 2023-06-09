@@ -20,9 +20,9 @@ export default function () {
     return schema.challenges.find(1);
   });
 
-  this.post('/answers', (schema, request) => {
+  this.post('/activity-answers', (schema, request) => {
     const answerValue = JSON.parse(request.requestBody).data.attributes?.value;
-    return schema.create('answer', {
+    return schema.create('activity-answer', {
       result: answerValue === '#ABAND#' ? 'aband' : 'ok',
     });
   });
