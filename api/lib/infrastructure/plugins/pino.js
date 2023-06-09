@@ -1,10 +1,12 @@
+import { stdSerializers } from 'pino';
+import crypto from 'crypto';
 import { config } from '../../config.js';
 import { monitoringTools } from '../monitoring-tools.js';
-import hapiPino from 'hapi-pino';
 import { logger } from '../logger.js';
-import crypto from 'crypto';
 
-function logObjectSerializer(req) {
+const serializersSym = Symbol.for('pino.serializers');
+
+function requestSerializer(req) {
   const enhancedReq = {
     ...req,
     version: config.version,
@@ -26,15 +28,53 @@ function logObjectSerializer(req) {
   };
 }
 
-const plugin = hapiPino;
-const options = {
-  serializers: {
-    req: logObjectSerializer,
+const plugin = {
+  name: 'hapi-pino',
+  register: async function (server, options) {
+    const serializers = {
+      req: stdSerializers.wrapRequestSerializer(requestSerializer),
+      res: stdSerializers.wrapResponseSerializer(stdSerializers.res),
+    };
+    const logger = options.instance;
+    logger[serializersSym] = Object.assign({}, serializers, logger[serializersSym]);
+
+    server.ext('onPostStart', async function () {
+      logger.info(server.info, 'server started');
+    });
+
+    server.ext('onPostStop', async function () {
+      logger.info(server.info, 'server stopped');
+    });
+
+    server.events.on('request', function (request, event) {
+      if (event.error) {
+        logger.error(
+          {
+            tags: event.tags,
+            err: event.error,
+          },
+          'request error'
+        );
+      }
+    });
+
+    server.events.on('response', (request) => {
+      const info = request.info;
+      logger.info(
+        {
+          queryParams: request.query,
+          req: request,
+          res: request.raw.res,
+          responseTime: (info.completed !== undefined ? info.completed : info.responded) - info.received,
+        },
+        'request completed'
+      );
+    });
   },
+};
+
+const options = {
   instance: logger,
-  // Remove duplicated req property: https://github.com/pinojs/hapi-pino#optionsgetchildbindings-request---key-any-
-  getChildBindings: () => ({}),
-  logQueryParams: true,
 };
 
 export { plugin, options };
