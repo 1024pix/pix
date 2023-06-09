@@ -190,7 +190,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
   if (error instanceof DomainErrors.CertificationCandidatesImportError) {
-    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.CertificationCandidateForbiddenDeletionError) {
     return new HttpErrors.ForbiddenError(error.message);

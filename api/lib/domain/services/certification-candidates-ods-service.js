@@ -10,6 +10,7 @@ import {
 import { CertificationCandidatesImportError } from '../errors.js';
 import _ from 'lodash';
 import bluebird from 'bluebird';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 
 export { extractCertificationCandidatesFromCandidatesImportSheet };
 
@@ -82,8 +83,11 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         })
       ) {
         line = parseInt(line) + 1;
+
         throw new CertificationCandidatesImportError({
-          message: `Ligne ${line} : Vous ne pouvez pas inscrire un candidat à plus d'une certification complémentaire.`,
+          code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION,
+          message: 'A candidate cannot have more than one complementary certification',
+          meta: { line },
         });
       }
 
