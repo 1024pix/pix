@@ -7,6 +7,7 @@
 
 ## v4.2.0 (06/06/2023)
 
+
 ### :rocket: Amélioration
 - [#6294](https://github.com/1024pix/pix/pull/6294) [FEATURE] Pix1D - Ajouter la prévisualisation des challenges (PIX-8048)
 - [#6303](https://github.com/1024pix/pix/pull/6303) [FEATURE] Avoir toujours la liste des badges et des logos des éditeurs de CF à jour (PIX-8218).
@@ -33,7 +34,14 @@
 - [#6214](https://github.com/1024pix/pix/pull/6214) [BUMP] Update dependency pg-boss to v9 (api)
 - [#6312](https://github.com/1024pix/pix/pull/6312) [BUMP] Mise à jour des dépendances vulnérables sur admin 
 
+## v4.1.3 (08/06/2023)
+
+
+### :bug: Correction
+ - [#6322](https://github.com/1024pix/pix/pull/6322) [BUGFIX] Permettre à un candidat éligible mais non inscrit à une certif complémentaire de passer la certification (PIX-8257)
+
 ## v4.1.2 (05/06/2023)
+
 
 ### :bug: Correction
 - [#6314](https://github.com/1024pix/pix/pull/6314) [TECH] Gestion de langue manquante sur le kit superviseur (PIX-8243)
@@ -59,6 +67,11 @@
 - [#6264](https://github.com/1024pix/pix/pull/6264) [FEATURE] Traduction d'éléments encore non traduits sur Pix Certif (PIX-8027).
 - [#6263](https://github.com/1024pix/pix/pull/6263) [FEATURE] Reporter le texte des pages SCO de Pix Certif dans des clés de traduction (PIX-8023).
 - [#6145](https://github.com/1024pix/pix/pull/6145) [FEATURE] Suppression de l'heure de fin de session de la feuille d'émargement et import de candidat (PIX-7836)
+- [#6262](https://github.com/1024pix/pix/pull/6262) [FEATURE] Améliorer le style visuel de la recommendation des contenus formatifs (PIX-7667).
+- [#6269](https://github.com/1024pix/pix/pull/6269) [FEATURE] Ajout d'une condition d’arrêt au scénario
+- [#6271](https://github.com/1024pix/pix/pull/6271) [FEATURE] Suppression du filtre du status des challenges pour les simulateurs (PIX-8173).
+- [#6275](https://github.com/1024pix/pix/pull/6275) [FEATURE] Remplacement de AnswerStatus par la réponse dans les simulateurs (PIX-8179).
+- [#6274](https://github.com/1024pix/pix/pull/6274) [FEATURE] Indiquer la réussite/l'échec d'une épreuve Pix1D dans une modale
 
 ### :building_construction: Tech
 - [#6285](https://github.com/1024pix/pix/pull/6285) [TECH] Mis à jour des instanciations des Chart sur PixOrga (PIX-8186)
@@ -66,6 +79,22 @@
 - [#6289](https://github.com/1024pix/pix/pull/6289) [TECH] Remplacement des termes answers/simulationAnswers par answerStatus (pix-8183)
 - [#6290](https://github.com/1024pix/pix/pull/6290) [TECH] Mise à jour de ember-fontawesome en version 1.0.0
 - [#6282](https://github.com/1024pix/pix/pull/6282) [TECH] Supprime l'orb slack de la configuration de circleci
+- [#6273](https://github.com/1024pix/pix/pull/6273) [TECH] Supprime un fichier inutile a la racine
+- [#6235](https://github.com/1024pix/pix/pull/6235) [TECH] Persister les données créées par le tooling des seeds à chaque fin d'appel (PIX-8107)
+- [#6083](https://github.com/1024pix/pix/pull/6083) [TECH] Migre pix1d sur embroider (PIX-7764)
+- [#6279](https://github.com/1024pix/pix/pull/6279) [TECH] Mise à jour de ember-dayjs
+- [#6282](https://github.com/1024pix/pix/pull/6282) [TECH] Supprime l'orb slack de la configuration de circleci
+
+### :bug: Correction
+- [#6288](https://github.com/1024pix/pix/pull/6288) [BUGFIX] Ajouter le i18n à la méthode publishInBatch (PIX-8187).
+- [#6267](https://github.com/1024pix/pix/pull/6267) [BUGFIX] Remettre la génération de villes et de pays dans les seeds (PIX-8162)
+
+### :coffee: Autre
+- [#6278](https://github.com/1024pix/pix/pull/6278) [BUMP] Update nginx Docker tag to v1.25.0
+- [#6280](https://github.com/1024pix/pix/pull/6280) [BUMP] Update node to v16.20.0
+- [#6284](https://github.com/1024pix/pix/pull/6284) [BUMP] Update dependency ember-composable-helpers to v5 (certif)
+
+## v4.0.1 (30/05/2023)
 
 ### :bug: Correction
 - [#6288](https://github.com/1024pix/pix/pull/6288) [BUGFIX] Ajouter le i18n à la méthode publishInBatch (PIX-8187).
