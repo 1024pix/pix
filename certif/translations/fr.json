@@ -26,6 +26,31 @@
       "SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE": "Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.",
       "authorize-resume-error": "Une erreur est survenue, {firstName} {lastName} n'a pas pu être autorisé à reprendre son test.",
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
+      "certification-candidates-import": {
+        "CANDIDATE_BILLING_MODE_NOT_VALID": "Le champ \"Tarification part Pix\" ne peut contenir qu'une des valeurs suivantes: Gratuite, Payante ou Prépayée",
+        "CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID": "Le champ \"Date de naissance\" doit être au format jj/mm/aaaa",
+        "CANDIDATE_BIRTH_CITY_REQUIRED": "Le champ \"Nom de la commune\" est obligatoire",
+        "CANDIDATE_BIRTH_COUNTRY_NOT_FOUND": "Le pays \"{birthCountry}\" n'a pas été trouvé",
+        "CANDIDATE_BIRTH_COUNTRY_REQUIRED": "Le champ \"Pays\" est obligatoire",
+        "CANDIDATE_BIRTH_INFORMATION_REQUIRED": "Renseigner les données de naissance du candidat",
+        "CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID": "Le code INSEE \"{birthINSEECode}\" est invalide",
+        "CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_AND_BIRTH_CITY_REQUIRED": "Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance",
+        "CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID": "Le code postal \"{birthPostalCode}\" ne correspond pas à la ville \"{birthCity}\"",
+        "CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND": "Le code postal \"{birthPostalCode}\" est invalide",
+        "CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED": "Le champ \"Code postal\" est obligatoire",
+        "CANDIDATE_EMAIL_NOT_VALID": "Le champ \"{label}\" doit être au format e-mail",
+        "CANDIDATE_EXTRA_TIME_OUT_OF_RANGE": "Le champ \"Temps majoré\" est invalide (exemple de format accepté: 30%)",
+        "CANDIDATE_FOREIGN_BIRTH_CITY_REQUIRED": "Candidat né à l'étranger, champ obligatoire nom de commune de naissance manquant",
+        "CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID": "La valeur du code INSEE doit être \"99\" pour un pays étranger",
+        "CANDIDATE_FOREIGN_POSTAL_CODE_MUST_BE_EMPTY": "Candidat né à l'étranger, le champ \"Code postal\" doit rester vide",
+        "CANDIDATE_INFORMATION_MUST_BE_A_NUMBER": "Le champ \"{label}\" doit être un nombre",
+        "CANDIDATE_INFORMATION_MUST_BE_A_STRING": "Le champ \"{label}\" doit être une chaîne de caractères",
+        "CANDIDATE_INFORMATION_REQUIRED": "Le champ \"{label}\" est obligatoire",
+        "CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION": "Vous ne pouvez pas inscrire un candidat à plus d'une certification complémentaire",
+        "CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY": "Le champ \"Code de prépaiement\" doit rester vide puisque l’option \"Prépayée\" n'a pas été sélectionnée pour ce candidat",
+        "CANDIDATE_PREPAYMENT_CODE_REQUIRED": "Le champ \"Code de prépaiement\" est obligatoire puisque l’option \"Prépayée\" a été sélectionnée pour ce candidat",
+        "CANDIDATE_SEX_NOT_VALID": "Le champ \"Sexe\" accepte les valeurs \"M\" pour un homme ou \"F\" pour une femme"
+      },
       "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
       "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
       "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
@@ -113,7 +138,8 @@
         "lastname": "Nom",
         "none": "Aucune",
         "postcode": "Code postal"
-      }
+      },
+      "line": "Ligne {line} : "
     },
     "sessions": {
       "actions": {
@@ -532,7 +558,7 @@
               }
             },
             "title": "Inscrire des candidats",
-            "warning": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br />Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous."
+            "warning": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br /> Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous."
           }
         },
         "downloads": {

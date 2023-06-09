@@ -30,11 +30,19 @@ export default class ImportCandidates extends Component {
 
   _handleErrorMessage(errorResponse) {
     const error = errorResponse?.errors?.[0];
+    const errorPrefix = this.intl.t('pages.sessions.import.candidates-list.import-fail-prefix', { htmlSafe: true });
+
     if (error?.code) {
-      return this.intl.t(`common.api-error-messages.${error.code}`);
+      if (error.meta?.line) {
+        return `${errorPrefix} ${this.intl.t(`common.labels.line`, { line: error.meta.line })}
+        ${this.intl.t(`common.api-error-messages.certification-candidates-import.${error.code}`, {
+          ...error.meta,
+        })}`;
+      }
+
+      return `${errorPrefix} ${this.intl.t(`common.api-error-messages.${error.code}`)}`;
     }
 
-    const errorPrefix = this.intl.t('pages.sessions.import.candidates-list.import-fail-prefix', { htmlSafe: true });
     let errorMessage = `${errorPrefix} ${this.intl.t('pages.sessions.import.candidates-list.try-again-or-contact')}`;
 
     if (errorResponse?.errors) {
