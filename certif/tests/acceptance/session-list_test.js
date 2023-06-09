@@ -158,12 +158,35 @@ module('Acceptance | Session List', function (hooks) {
         server.create('session-summary', { certificationCenterId: centerManagingStudents.id });
 
         // when
-        await visit('/sessions/liste');
-        await click('.logged-user-summary__link');
-        await click('.logged-user-menu-item');
+        const screen = await visit('/sessions/liste');
+
+        assert
+          .dom(
+            screen.queryByText(
+              'La certification Pix se déroulera du 14 novembre 2022 au 17 mars 2023 pour les lycées et du 6 mars au 16 juin 2023 pour les collèges. Pensez à consulter la'
+            )
+          )
+          .doesNotExist();
+
+        await click(
+          screen.getByRole('button', {
+            name: 'Harry Cover Centre SCO isNotM (ABC123) Ouvrir le menu utilisateur',
+          })
+        );
+        await click(
+          screen.getByRole('button', {
+            name: 'Centre SCO isM (ABC123)',
+          })
+        );
 
         // then
-        assert.dom('.pix-message').doesNotExist();
+        assert
+          .dom(
+            screen.getByText(
+              'La certification Pix se déroulera du 14 novembre 2022 au 17 mars 2023 pour les lycées et du 6 mars au 16 juin 2023 pour les collèges. Pensez à consulter la'
+            )
+          )
+          .exists();
       });
 
       test('it should delete the session of clicked session-summary', async function (assert) {

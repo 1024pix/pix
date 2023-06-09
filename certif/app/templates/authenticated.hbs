@@ -53,9 +53,7 @@
   <div class="app__main-content main-content">
 
     <div class="main-content__topbar topbar">
-      <div class="topbar__user-logged-menu"><UserLoggedMenu
-          @onCertificationCenterAccessChanged={{this.changeCurrentCertificationCenterAccess}}
-        /></div>
+      <UserLoggedMenu @onCertificationCenterAccessChanged={{this.changeCurrentCertificationCenterAccess}} />
     </div>
 
     {{#if this.showBanner}}

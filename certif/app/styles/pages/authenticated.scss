@@ -79,10 +79,4 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-
-  &__user-logged-menu {
-    position: relative;
-    padding: 0 30px;
-    border-left: 1px solid $pix-neutral-20;
-  }
 }

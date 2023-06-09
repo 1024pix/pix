@@ -73,7 +73,7 @@
         "forgot-password": "Mot de passe oublié ?",
         "password": "Mot de passe"
       },
-      "mandatory-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr>sont obligatoires.",
+      "mandatory-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires.",
       "required": "Obligatoire",
       "session-labels": {
         "center-name": "Nom du site",
@@ -139,6 +139,7 @@
       "team": "Équipe"
     },
     "user-logged-menu": {
+      "button-extra-information": "Ouvrir le menu utilisateur",
       "logout": "Se déconnecter",
       "page-title": "Déconnexion"
     }
