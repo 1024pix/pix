@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, click, fillIn } from '@ember/test-helpers';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { currentURL, click, fillIn } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession, invalidateSession } from 'ember-simple-auth/test-support';
 import {
@@ -100,26 +100,6 @@ module('Acceptance | authentication', function (hooks) {
           'The certificationPointOfContact is authenticated'
         );
       });
-
-      test('it should show certificationPointOfContact name', async function (assert) {
-        // given
-        await invalidateSession();
-        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-
-        await visit('/connexion');
-        await fillIn('#login-email', certificationPointOfContact.email);
-        await fillIn('#login-password', 'secret');
-
-        // when
-        await click('button[type=submit]');
-
-        // then
-        assert.ok(
-          currentSession(this.application).get('isAuthenticated'),
-          'The certificationPointOfContact is authenticated'
-        );
-        assert.dom('.logged-user-summary__name').hasText('Harry Cover');
-      });
     });
   });
 
@@ -141,16 +121,22 @@ module('Acceptance | authentication', function (hooks) {
         );
       });
 
-      test('it should show the name and externalId of certification center', async function (assert) {
+      test('it should show the user name, the name and externalId of certification center', async function (assert) {
         // given
-        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted('SUP', 'Centre');
         await authenticateSession(certificationPointOfContact.id);
 
         // when
-        await visit('/sessions/liste');
+        const screen = await visit('/sessions/liste');
 
         // then
-        assert.dom('.logged-user-summary__certification-center').hasText('Centre de certification du pix (ABC123)');
+        assert
+          .dom(
+            screen.getByRole('button', {
+              name: 'Harry Cover Centre (ABC123) Ouvrir le menu utilisateur',
+            })
+          )
+          .exists();
       });
 
       test('it should redirect certificationPointOfContact to the session list on root url', async function (assert) {
@@ -172,9 +158,9 @@ module('Acceptance | authentication', function (hooks) {
         certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
 
         // when
-        await visitScreen('/?lang=en');
+        await visit('/?lang=en');
         await authenticateSession(certificationPointOfContact.id);
-        const screen = await visitScreen('/');
+        const screen = await visit('/');
 
         // then
         assert.dom(screen.getByRole('link', { name: 'Invigilator’s Portal' })).exists();
