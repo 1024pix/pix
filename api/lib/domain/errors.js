@@ -1,4 +1,5 @@
 import { SESSION_SUPERVISING } from './constants/session-supervising.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from './constants/certification-candidates-errors.js';
 
 class DomainError extends Error {
   constructor(message, code, meta) {
@@ -579,36 +580,35 @@ class CertificationCandidateAddError extends DomainError {
 }
 
 class CertificationCandidatesImportError extends DomainError {
-  constructor({ message = "Quelque chose s'est mal passé. Veuillez réessayer", code = null } = {}) {
-    super(message, code);
+  constructor({ message = "Quelque chose s'est mal passé. Veuillez réessayer", code = null, meta = null } = {}) {
+    super(message, code, meta);
   }
 
   static fromInvalidCertificationCandidateError(error, keyLabelMap, lineNumber) {
     const label = error.key in keyLabelMap ? keyLabelMap[error.key].replace(/\* /, '') : 'none';
-    const linePortion = `Ligne ${lineNumber} :`;
-    let contentPortion = "Quelque chose s'est mal passé. Veuillez réessayer";
+    let code;
 
     if (error.why === 'not_a_date' || error.why === 'date_format') {
-      contentPortion = `Le champ “${label}” doit être au format jj/mm/aaaa.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code;
     } else if (error.why === 'email_format') {
-      contentPortion = `Le champ “${label}” doit être au format email.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code;
     } else if (error.why === 'not_a_string') {
-      contentPortion = `Le champ “${label}” doit être une chaîne de caractères.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_STRING.code;
     } else if (error.why === 'not_a_number') {
-      contentPortion = `Le champ “${label}” doit être un nombre.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_NUMBER.code;
     } else if (error.why === 'required') {
-      contentPortion = `Le champ “${label}” est obligatoire.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_REQUIRED.code;
     } else if (error.why === 'not_a_sex_code') {
-      contentPortion = `Le champ “${label}” accepte les valeurs "M" pour un homme ou "F" pour une femme.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code;
     } else if (error.why === 'not_a_billing_mode') {
-      contentPortion = `Le champ “${label}” ne peut contenir qu'une des valeurs suivantes: Gratuite, Payante ou Prépayée.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code;
     } else if (error.why === 'prepayment_code_null') {
-      contentPortion = `Le champ “${label}” est obligatoire puisque l’option “Prépayée” a été sélectionnée pour ce candidat.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code;
     } else if (error.why === 'prepayment_code_not_null') {
-      contentPortion = `Le champ “${label}” doit rester vide puisque l’option “Prépayée” n'a pas été sélectionnée pour ce candidat.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code;
     }
 
-    return new CertificationCandidatesImportError({ message: `${linePortion} ${contentPortion}` });
+    return new CertificationCandidatesImportError({ code, meta: { line: lineNumber, label } });
   }
 }
 

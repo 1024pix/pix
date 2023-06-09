@@ -124,6 +124,18 @@ const CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_SEX_REQUIRED',
     getMessage: () => '',
   },
+  CANDIDATE_INFORMATION_MUST_BE_A_STRING: {
+    code: 'CANDIDATE_INFORMATION_MUST_BE_A_STRING',
+    getMessage: () => '',
+  },
+  CANDIDATE_INFORMATION_MUST_BE_A_NUMBER: {
+    code: 'CANDIDATE_INFORMATION_MUST_BE_A_NUMBER',
+    getMessage: () => '',
+  },
+  CANDIDATE_INFORMATION_REQUIRED: {
+    code: 'CANDIDATE_INFORMATION_REQUIRED',
+    getMessage: () => '',
+  },
 };
 
 export { CERTIFICATION_CANDIDATES_ERRORS };
