@@ -232,7 +232,11 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           assert
             .dom(
               screen.getByText(
-                'La session a débuté, vous ne pouvez plus importer une liste de candidats.Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
+                (errorMessage) =>
+                  errorMessage.startsWith('Aucun candidat n’a été importé.') &&
+                  errorMessage.endsWith(
+                    'Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
+                  )
               )
             )
             .exists();
@@ -249,7 +253,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           assert
             .dom('.panel-actions__warning')
             .hasText(
-              'La session a débuté, vous ne pouvez plus importer une liste de candidats.Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
+              'La session a débuté, vous ne pouvez plus importer une liste de candidats. Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
             );
         });
       });
