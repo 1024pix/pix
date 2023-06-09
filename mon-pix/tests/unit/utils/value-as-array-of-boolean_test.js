@@ -20,11 +20,12 @@ module('Unit | Utility | value as array of boolean', function () {
       input: ',4, 2 , 2,1,  ,',
       expected: [true, true, false, true],
     },
+    { when: 'With specified length', input: '2,3', length: 5, expected: [false, true, true, false, false] },
   ];
 
-  testData.forEach(({ when, input, expected }) => {
-    test(`"${when}", example : "${JSON.stringify(input)}" retourne [${expected}]`, function (assert) {
-      assert.deepEqual(valueAsArrayOfBoolean(input), expected);
+  testData.forEach(({ when, input, length, expected }) => {
+    test(`"${when}", example : "${JSON.stringify(input, length)}" retourne [${expected}]`, function (assert) {
+      assert.deepEqual(valueAsArrayOfBoolean(input, length), expected);
     });
   });
 });
