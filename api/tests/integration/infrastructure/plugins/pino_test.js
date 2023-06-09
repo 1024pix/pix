@@ -1,5 +1,6 @@
 import split from 'split2';
 import writeStream from 'flush-write-stream';
+import pino from 'pino';
 import { config } from '../../../../lib/config.js';
 import { expect, HttpTestServer, generateValidRequestAuthorizationHeader, sinon } from '../../../test-helper.js';
 import * as pinoPlugin from '../../../../lib/infrastructure/plugins/pino.js';
@@ -38,6 +39,15 @@ describe('Integration | Infrastructure | plugins | pino', function () {
               },
             },
           },
+          {
+            method: 'GET',
+            path: '/error',
+            config: {
+              handler: () => {
+                throw new Error('Manual throwed error');
+              },
+            },
+          },
         ]);
       },
       name: 'test-api',
@@ -45,18 +55,45 @@ describe('Integration | Infrastructure | plugins | pino', function () {
   });
 
   async function registerWithPlugin(cb) {
+    const stream = sink(cb);
     const pinoPluginWithLogger = {
       ...pinoPlugin,
       options: {
         ...pinoPlugin.options,
-        instance: undefined,
-        level: 'info',
-        stream: sink(cb),
+        instance: pino({ level: 'info' }, stream),
       },
     };
     await httpTestServer.register([pinoPluginWithLogger]);
   }
+
   describe('Ensure that datadog configured log format is what we send', function () {
+    it('should log when there is an error', async function () {
+      // given
+      let finish;
+
+      const done = new Promise(function (resolve) {
+        finish = resolve;
+      });
+      const messages = [];
+      await registerWithPlugin((data) => {
+        messages.push(data);
+        finish();
+      });
+
+      const method = 'GET';
+      const url = '/error';
+
+      // when
+      await httpTestServer.request(method, url);
+      await done;
+
+      expect(messages).to.have.lengthOf(1);
+      expect(messages[0].level).to.equal(50);
+      expect(messages[0].tags).to.deep.equal(['handler', 'error']);
+      expect(messages[0].err.message).to.equal('Manual throwed error');
+      expect(messages[0].msg).to.equal('request error');
+    });
+
     context('with request monitoring disabled', function () {
       beforeEach(function () {
         sinon.stub(config.hapi, 'enableRequestMonitoring').value(false);
@@ -86,6 +123,7 @@ describe('Integration | Infrastructure | plugins | pino', function () {
         // then
         expect(response.statusCode).to.equal(200);
         expect(messages).to.have.lengthOf(1);
+        expect(messages[0].level).to.equal(30);
         expect(messages[0].msg).to.equal('request completed');
         expect(messages[0].req.version).to.equal('development');
         expect(messages[0].req.user_id).to.be.undefined;
@@ -131,6 +169,7 @@ describe('Integration | Infrastructure | plugins | pino', function () {
         expect(messages[0].req.route).to.equal('/');
         expect(messages[0].req.metrics).to.deep.equal({ knexQueryCount: 1 });
       });
+
       context('when calling /api/token', function () {
         it('should log the message, version, user id, route, metrics and hashed username', async function () {
           // given
@@ -165,6 +204,7 @@ describe('Integration | Infrastructure | plugins | pino', function () {
             '31f7a65e315586ac198bd798b6629ce4903d0899476d5741a9f32e2e521b6a66' // echo -n 'toto'| shasum -a 256
           );
         });
+
         it('should log the message, version, user id, route, metrics and default value for username when not specified', async function () {
           // given
           let finish;
