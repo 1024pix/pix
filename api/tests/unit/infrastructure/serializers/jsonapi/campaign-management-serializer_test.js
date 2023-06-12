@@ -30,6 +30,8 @@ describe('Unit | Serializer | JSONAPI | campaign-management-serializer', functio
             'owner-id': campaignManagement.ownerId,
             'owner-first-name': campaignManagement.ownerFirstName,
             'owner-last-name': campaignManagement.ownerLastName,
+            'target-profile-id': campaignManagement.targetProfileId,
+            'target-profile-name': campaignManagement.targetProfileName,
           },
         },
       });
