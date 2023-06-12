@@ -1,5 +1,4 @@
-import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
-import sinon from 'sinon';
+import { catchErr, databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
