@@ -3,11 +3,11 @@ import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   firstName() {
-    return faker.name.firstName();
+    return faker.person.firstName();
   },
 
   lastName() {
-    return faker.name.lastName();
+    return faker.person.lastName();
   },
 
   email() {

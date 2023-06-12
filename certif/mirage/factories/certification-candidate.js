@@ -4,11 +4,11 @@ import dayjs from 'dayjs';
 
 export default Factory.extend({
   firstName() {
-    return faker.name.firstName();
+    return faker.person.firstName();
   },
 
   lastName() {
-    return faker.name.lastName();
+    return faker.person.lastName();
   },
 
   birthdate() {
@@ -20,7 +20,7 @@ export default Factory.extend({
   },
 
   birthProvinceCode() {
-    return faker.random.alphaNumeric(3);
+    return faker.string.alphanumeric(3);
   },
 
   birthCountry() {
@@ -32,7 +32,7 @@ export default Factory.extend({
   },
 
   externalId() {
-    return faker.datatype.uuid();
+    return faker.string.uuid();
   },
 
   extraTimePercentage() {
@@ -48,7 +48,7 @@ export default Factory.extend({
   },
 
   sessionId() {
-    return faker.datatype.number();
+    return faker.number.int();
   },
 
   sex() {
@@ -56,10 +56,10 @@ export default Factory.extend({
   },
 
   birthInseeCode() {
-    return faker.random.alphaNumeric(5);
+    return faker.string.alphanumeric(5);
   },
 
   birthPostalCode() {
-    return faker.random.alphaNumeric(5);
+    return faker.string.alphanumeric(5);
   },
 });

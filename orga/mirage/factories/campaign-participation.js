@@ -7,7 +7,7 @@ export default Factory.extend({
   user: association(),
 
   participantExternalId() {
-    return faker.datatype.number();
+    return faker.number.int();
   },
 
   isShared() {

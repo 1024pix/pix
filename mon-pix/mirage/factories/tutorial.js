@@ -15,7 +15,7 @@ export default Factory.extend({
   },
 
   title() {
-    return faker.random.word();
+    return faker.lorem.word();
   },
 
   withUserSavedTutorial: trait({

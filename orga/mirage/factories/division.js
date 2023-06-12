@@ -3,6 +3,6 @@ import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   name() {
-    return faker.random.alphaNumeric();
+    return faker.string.alphanumeric();
   },
 });
