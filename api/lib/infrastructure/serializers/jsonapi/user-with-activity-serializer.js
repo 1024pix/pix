@@ -28,6 +28,7 @@ const serialize = function (users, meta) {
       'codeForLastProfileToShare',
       'trainings',
       'shouldSeeDataProtectionPolicyInformationBanner',
+      'pet',
     ],
     profile: {
       ref: 'id',

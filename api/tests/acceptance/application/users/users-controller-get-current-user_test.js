@@ -49,6 +49,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
             email: user.email.toLowerCase(),
             username: user.username,
             cgu: user.cgu,
+            pet: user.pet,
             lang: 'fr',
             'is-anonymous': false,
             'last-terms-of-service-validated-at': user.lastTermsOfServiceValidatedAt,
