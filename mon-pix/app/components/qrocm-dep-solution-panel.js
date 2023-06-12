@@ -3,55 +3,66 @@ import { htmlSafe } from '@ember/template';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
 import keys from 'lodash/keys';
-import jsyaml from 'js-yaml';
 import { inject as service } from '@ember/service';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
+import jsyaml from 'js-yaml';
 
 export default class QrocmDepSolutionPanel extends Component {
   @service intl;
 
   get blocks() {
-    const escapedProposals = this.args.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
-    const labels = labelsAsObject(htmlSafe(escapedProposals).toString());
-    const answers = answersAsObject(this.args.answer.value, keys(labels));
-    const correctionBlocks = this.args.correctionBlocks ? [...this.args.correctionBlocks] : null;
+    const answersEvaluations = this.args.answersEvaluation ? [...this.args.answersEvaluation] : null;
 
     return proposalsAsBlocks(this.args.challenge.get('proposals')).map((block) => {
-      if (!block.input || !correctionBlocks) {
+      if (!block.input || !answersEvaluations) {
         return block;
       }
-      const correctionBlock = correctionBlocks.shift();
-      const isAnswerEmpty = answers[block.input] === '';
-      block.answer = isAnswerEmpty ? this.intl.t('pages.result-item.aband') : answers[block.input];
-      block.inputClass = this.getInputClass(isAnswerEmpty, correctionBlock?.validated);
-      block.ariaLabel = this.getAriaLabel(isAnswerEmpty, correctionBlock?.validated);
+      const answerEvaluation = answersEvaluations.shift();
+      const isAnswerEmpty = this.answersAsObject[block.input] === '';
+      block.answer = isAnswerEmpty ? this.intl.t('pages.result-item.aband') : this.answersAsObject[block.input];
+      block.inputClass = this.getInputClass(isAnswerEmpty, answerEvaluation);
+      block.ariaLabel = this.getAriaLabel(isAnswerEmpty, answerEvaluation);
       return block;
     });
+  }
+
+  get answersAsObject() {
+    const escapedProposals = this.args.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
+    const labels = labelsAsObject(htmlSafe(escapedProposals).string);
+    return answersAsObject(this.args.answer.value, keys(labels));
   }
 
   get answerIsCorrect() {
     return this.args.answer.result === 'ok';
   }
 
+  get solutions() {
+    return jsyaml.safeLoad(this.args.solution);
+  }
+
+  get inputCount() {
+    return Object.keys(this.answersAsObject).length;
+  }
+
+  get expectedAnswers() {
+    if (!this.args.solutionsWithoutGoodAnswers) return [];
+    return this.args.solutionsWithoutGoodAnswers.length
+      ? this.args.solutionsWithoutGoodAnswers.slice(0, this.inputCount)
+      : Object.keys(this.solutions)
+          .slice(0, this.inputCount)
+          .map((key) => this.solutions[key][0]);
+  }
+
   get understandableSolution() {
     if (this.args.solutionToDisplay) {
       return this.args.solutionToDisplay;
     }
-    const answersCount = this._inputCount;
-    const solutions = jsyaml.safeLoad(this.args.solution);
-    const solutionsKeys = Object.keys(solutions);
-
-    const expectedAnswers = solutionsKeys.slice(0, answersCount).map((key) => {
-      return solutions[key][0];
+    if (!this.args.solutionsWithoutGoodAnswers) {
+      return '';
+    }
+    return this.intl.t('pages.comparison-window.results.otherSolutions', {
+      expectedAnswers: this.expectedAnswers.join(', '),
     });
-
-    return answersCount === solutionsKeys.length
-      ? `${expectedAnswers.slice(0, -1).join(', ')} et ${expectedAnswers.slice(-1)}`
-      : `${expectedAnswers.join(' ou ')} ou ...`;
-  }
-
-  get _inputCount() {
-    return this.blocks.filter((block) => block.input && !block.breakline).length;
   }
 
   getInputClass(isEmptyAnswer, isCorrectAnswer) {

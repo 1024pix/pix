@@ -4,12 +4,11 @@ import { YamlParsingError } from '../../domain/errors.js';
 import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
 import { validateAnswer } from './string-comparison-service.js';
 import { AnswerStatus } from '../models/AnswerStatus.js';
-import { CorrectionBlockQROCMDep } from '../models/CorrectionBlockQROCMDep.js';
 
 function applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return Object.fromEntries(
-    Object.entries(solutions).map(([solutionGroup, acceptedSolutions]) => [
-      solutionGroup,
+    Object.entries(solutions).map(([solutionKey, acceptedSolutions]) => [
+      solutionKey,
       acceptedSolutions.map((acceptedSolution) => applyTreatments(acceptedSolution.toString(), enabledTreatments)),
     ])
   );
@@ -39,35 +38,35 @@ function formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
   }
 }
 
-function getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments) {
-  return getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments).filter(({ validated }) => validated)
-    .length;
+function getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments, solutions) {
+  return getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatments, solutions).answersEvaluation.filter(
+    Boolean
+  ).length;
 }
 
-function getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments) {
+function getSolutionsWithoutGoodAnswers(remainingUnmatchedSolutions) {
+  return Object.values(remainingUnmatchedSolutions).map((availableSolutions) => availableSolutions[0]);
+}
+
+function getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatments, solutions) {
   const remainingUnmatchedSolutions = new Map(Object.entries(treatedSolutions));
 
-  const correctionBlocksWithoutAlternativeSolutions = Object.values(treatedAnswers).map((answer) => {
-    for (const [solutionGroup, acceptedSolutions] of remainingUnmatchedSolutions) {
+  const answersEvaluation = Object.values(treatedAnswers).map((answer) => {
+    for (const [solutionKey, acceptedSolutions] of remainingUnmatchedSolutions) {
       const status = validateAnswer(answer, acceptedSolutions, useLevenshteinRatio(enabledTreatments));
       if (status) {
-        remainingUnmatchedSolutions.delete(solutionGroup);
-        return new CorrectionBlockQROCMDep(true, []);
+        remainingUnmatchedSolutions.delete(solutionKey);
+        delete solutions[solutionKey];
+        return true;
       }
     }
-    return new CorrectionBlockQROCMDep(false, []);
+    return false;
   });
 
-  const alternativesSolutions = getAlternativeSolutions(remainingUnmatchedSolutions);
-
-  return correctionBlocksWithoutAlternativeSolutions.map((correctionBlock) => {
-    correctionBlock.alternativeSolutions = correctionBlock.validated ? [] : alternativesSolutions;
-    return correctionBlock;
-  });
-}
-
-function getAlternativeSolutions(remainingUnmatchedSolutions) {
-  return Array.from(remainingUnmatchedSolutions.values()).map((availableSolutions) => availableSolutions[0]);
+  return {
+    answersEvaluation,
+    solutionsWithoutGoodAnswers: answersEvaluation.every(Boolean) ? [] : getSolutionsWithoutGoodAnswers(solutions),
+  };
 }
 
 function convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring) {
@@ -96,7 +95,6 @@ const match = function ({
   dependencies = {
     applyPreTreatments,
     convertYamlToJsObjects,
-    getEnabledTreatments,
     treatAnswersAndSolutions,
   },
 }) {
@@ -117,12 +115,12 @@ const match = function ({
     solutions,
     answers
   );
-  const numberOfGoodAnswers = getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
+  const numberOfGoodAnswers = getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments, solutions);
 
   return formatResult(scoring, numberOfGoodAnswers, Object.keys(answers).length);
 };
 
-const getSolution = function ({
+const getCorrection = function ({
   answerValue,
   solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
 
@@ -141,7 +139,7 @@ const getSolution = function ({
     answers
   );
 
-  return getAnswersStatuses(treatedAnswers, treatedSolutions, enabledTreatments);
+  return getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatments, solutions);
 };
 
-export { match, getSolution };
+export { match, getCorrection, getCorrectionDetails };

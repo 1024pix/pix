@@ -18,15 +18,17 @@ const buildOptions = (answerId, userId) => ({
     'accept-language': FRENCH_FRANCE,
   },
 });
-const solution = 'l1:\n- chien\n- chat\n- cochon\nl2:\n- pigeon\n- poulet\n- veau';
+const solution =
+  'l1:\n- chien\n- chat\n- cochon\nl2:\n- pigeon\n- poulet\n- veau\nl3:\n- canard\n- couincouin\nl4:\n- mouton';
 
-const buildExpectedBody = (correctionBlocks) => ({
+const buildExpectedBody = (answersEvaluation, solutionsWithoutGoodAnswers) => ({
   data: {
     attributes: {
       hint: 'Animaux ?',
       solution,
       'solution-to-display': 'Des animaux rigolos',
-      'correction-blocks': correctionBlocks,
+      'answers-evaluation': answersEvaluation,
+      'solutions-without-good-answers': solutionsWithoutGoodAnswers,
     },
     id: 'q_second_challenge',
     relationships: {
@@ -206,9 +208,10 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
             id: 'q_first_challenge',
             type: 'corrections',
             attributes: {
-              'correction-blocks': [],
+              'answers-evaluation': [],
               solution: 'fromage',
               'solution-to-display': 'camembert',
+              'solutions-without-good-answers': [],
               hint: 'Animaux ?',
             },
             relationships: {
@@ -299,18 +302,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
           const response = await server.inject(buildOptions(answer.id, userId));
           // then
           expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal(
-            buildExpectedBody([
-              {
-                validated: true,
-                alternativeSolutions: [],
-              },
-              {
-                validated: true,
-                alternativeSolutions: [],
-              },
-            ])
-          );
+          expect(response.result).to.deep.equal(buildExpectedBody([true, true], []));
         });
       });
 
@@ -325,16 +317,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
           });
 
           await databaseBuilder.commit();
-          const expectedBody = buildExpectedBody([
-            {
-              validated: false,
-              alternativeSolutions: ['pigeon'],
-            },
-            {
-              alternativeSolutions: [],
-              validated: true,
-            },
-          ]);
+          const expectedBody = buildExpectedBody([false, true], ['pigeon', 'canard', 'mouton']);
           // when
           const response = await server.inject(buildOptions(answer.id, userId));
           // then
@@ -353,7 +336,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
             assessmentId: assessment.id,
           });
           await databaseBuilder.commit();
-          const expectedBody = buildExpectedBody([]);
+          const expectedBody = buildExpectedBody([], []);
           // when
           const response = await server.inject(buildOptions(answer.id, userId));
           // then

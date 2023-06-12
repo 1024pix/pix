@@ -108,18 +108,18 @@ describe('Unit | Repository | correction-repository', function () {
           type: 'QCM',
         });
         challengeDatasource.get.resolves(challengeDataObject);
-        const getSolutionStub = sinon.stub();
+        const getCorrectionStub = sinon.stub();
 
         // when
         const result = await correctionRepository.getByChallengeId({
           challengeId: recordId,
           userId,
           locale,
-          dependencies: { tutorialRepository, fromDatasourceObject, getSolution: getSolutionStub },
+          dependencies: { tutorialRepository, fromDatasourceObject, getCorrection: getCorrectionStub },
         });
 
         // then
-        expect(getSolutionStub).not.to.have.been.called;
+        expect(getCorrectionStub).not.to.have.been.called;
         expect(result).to.be.an.instanceof(Correction);
         expect(result).to.deep.equal(expectedCorrection);
         expect(challengeDatasource.get).to.have.been.calledWith(recordId);
@@ -135,14 +135,14 @@ describe('Unit | Repository | correction-repository', function () {
           skillId: 'recIdSkill003',
         });
         challengeDatasource.get.resolves(challengeDataObject);
-        const getSolutionStub = sinon.stub();
+        const getCorrectionStub = sinon.stub();
 
         // when
         const result = await correctionRepository.getByChallengeId({
           challengeId: recordId,
           userId,
           locale,
-          dependencies: { tutorialRepository, fromDatasourceObject, getSolution: getSolutionStub },
+          dependencies: { tutorialRepository, fromDatasourceObject, getCorrection: getCorrectionStub },
         });
 
         // then
@@ -151,7 +151,7 @@ describe('Unit | Repository | correction-repository', function () {
 
       context('when challenge type is QROCM-dep', function () {
         context('when answer is skipped', function () {
-          it('should not call getSolution service', async function () {
+          it('should not call getCorrection service', async function () {
             // given
             challengeDataObject = ChallengeLearningContentDataObjectFixture({
               skillId: 'recIdSkill003',
@@ -163,7 +163,7 @@ describe('Unit | Repository | correction-repository', function () {
             const answerValue = Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS;
             const solution = Symbol('solution');
             fromDatasourceObject.withArgs(challengeDataObject).returns(solution);
-            const getSolutionStub = sinon.stub();
+            const getCorrectionStub = sinon.stub();
 
             // when
             const correction = await correctionRepository.getByChallengeId({
@@ -171,12 +171,12 @@ describe('Unit | Repository | correction-repository', function () {
               answerValue,
               userId,
               locale,
-              dependencies: { tutorialRepository, fromDatasourceObject, getSolution: getSolutionStub },
+              dependencies: { tutorialRepository, fromDatasourceObject, getCorrection: getCorrectionStub },
             });
 
             // then
-            expect(getSolutionStub).not.to.have.been.called;
-            expect(correction.correctionBlocks).to.deep.equal([]);
+            expect(getCorrectionStub).not.to.have.been.called;
+            expect(correction.answersEvaluation).to.deep.equal([]);
           });
         });
 
@@ -192,9 +192,12 @@ describe('Unit | Repository | correction-repository', function () {
           const answerValue = Symbol('answerValue');
           const solution = Symbol('solution');
           fromDatasourceObject.withArgs(challengeDataObject).returns(solution);
-          const getSolutionStub = sinon.stub();
-          const correctionBlocks = Symbol('correctionBlocks');
-          getSolutionStub.withArgs({ solution, answerValue }).returns(correctionBlocks);
+          const getCorrectionStub = sinon.stub();
+          const answersEvaluation = Symbol('answersEvaluation');
+          const solutionsWithoutGoodAnswers = Symbol('solutionsWithoutGoodAnswers');
+          getCorrectionStub
+            .withArgs({ solution, answerValue })
+            .returns({ answersEvaluation, solutionsWithoutGoodAnswers });
 
           // when
           const correction = await correctionRepository.getByChallengeId({
@@ -202,12 +205,12 @@ describe('Unit | Repository | correction-repository', function () {
             answerValue,
             userId,
             locale,
-            dependencies: { tutorialRepository, fromDatasourceObject, getSolution: getSolutionStub },
+            dependencies: { tutorialRepository, fromDatasourceObject, getCorrection: getCorrectionStub },
           });
 
           // then
-          expect(getSolutionStub).to.have.been.calledWithExactly({ solution, answerValue });
-          expect(correction.correctionBlocks).to.equal(correctionBlocks);
+          expect(getCorrectionStub).to.have.been.calledWithExactly({ solution, answerValue });
+          expect(correction.answersEvaluation).to.equal(answersEvaluation);
         });
       });
     });

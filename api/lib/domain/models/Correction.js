@@ -6,7 +6,8 @@ class Correction {
     hint,
     tutorials = [],
     learningMoreTutorials = [],
-    correctionBlocks = [],
+    answersEvaluation = [],
+    solutionsWithoutGoodAnswers = [],
   } = {}) {
     this.id = id;
     this.solution = solution;
@@ -14,7 +15,8 @@ class Correction {
     this.hint = hint;
     this.tutorials = tutorials;
     this.learningMoreTutorials = learningMoreTutorials;
-    this.correctionBlocks = correctionBlocks;
+    this.answersEvaluation = answersEvaluation;
+    this.solutionsWithoutGoodAnswers = solutionsWithoutGoodAnswers;
   }
 }
 
