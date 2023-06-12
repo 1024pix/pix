@@ -643,6 +643,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(user.lastName).to.equal(userInDb.lastName);
         expect(user.email).to.equal(userInDb.email);
         expect(user.cgu).to.be.true;
+        expect(user.pet).to.equal(userInDb.pet);
       });
 
       it('should return a UserNotFoundError if no user is found', async function () {

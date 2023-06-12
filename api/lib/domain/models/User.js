@@ -41,6 +41,7 @@ class User {
       authenticationMethods = [],
       hasBeenAnonymised,
       hasBeenAnonymisedBy,
+      pet,
     } = {},
     dependencies = { config, localeService }
   ) {
@@ -79,6 +80,7 @@ class User {
     this.hasBeenAnonymised = hasBeenAnonymised;
     this.hasBeenAnonymisedBy = hasBeenAnonymisedBy;
     this.dependencies = dependencies;
+    this.pet = pet;
   }
 
   get shouldChangePassword() {
