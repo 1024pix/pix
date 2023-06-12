@@ -1,16 +1,23 @@
-<Challenge::ChallengeStatement @challenge={{@challenge}} />
-<Challenge::ChallengeItemAutoReply
-  @challenge={{@challenge}}
-  @assessment={{@assessment}}
-  @answerValidated={{this.answerValidated}}
-/>
-<PixModal @title="Pix1D" @showModal={{this.showModal}} @onCloseButtonClick={{this.resume}}>
-  <:content>
-    <Answer @answer={{this.answer}} />
-  </:content>
-  <:footer>
-    <div class="modal-footer">
-      <PixButton @triggerAction={{this.resume}}>Je continue</PixButton>
+<div class="challenge-item">
+  <div class="challenge-item__body">
+    <div class="challenge-item__container">
+      <Challenge::ChallengeInstruction @instruction={{@challenge.instruction}} />
+      <div class="challenge-item__playground">
+        {{#if @challenge.hasValidEmbedDocument}}
+          <Challenge::ChallengeEmbedSimulator @url={{@challenge.embedUrl}} @title={{@challenge.embedTitle}} />
+        {{/if}}
+        <Challenge::ChallengeItemAutoReply @setAnswerValue={{this.setAnswerValue}} />
+      </div>
     </div>
-  </:footer>
-</PixModal>
+  </div>
+
+  <div class="challenge-item__footer">
+    <Challenge::ChallengeActions @validateAnswer={{this.validateAnswer}} @skipChallenge={{this.skipChallenge}} />
+  </div>
+</div>
+
+<AnswerFeedback
+  @answer={{this.answer}}
+  @answerHasBeenValidated={{this.answerHasBeenValidated}}
+  @nextAction={{this.resume}}
+/>
