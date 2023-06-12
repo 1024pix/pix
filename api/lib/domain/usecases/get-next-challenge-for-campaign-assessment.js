@@ -8,13 +8,13 @@ const getNextChallengeForCampaignAssessment = async function ({
   assessment,
   pickChallengeService,
   locale,
-  dataFetcher,
+  algorithmDataFetcherService,
   smartRandom,
 }) {
   let algoResult;
 
   if (assessment.isFlash()) {
-    const { allAnswers, challenges, estimatedLevel } = await dataFetcher.fetchForFlashCampaigns({
+    const { allAnswers, challenges, estimatedLevel } = await algorithmDataFetcherService.fetchForFlashCampaigns({
       assessmentId: assessment.id,
       answerRepository,
       challengeRepository,
@@ -32,7 +32,7 @@ const getNextChallengeForCampaignAssessment = async function ({
 
     return pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
   } else {
-    const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
+    const inputValues = await algorithmDataFetcherService.fetchForCampaigns(...arguments);
     algoResult = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });
 
     if (algoResult.hasAssessmentEnded) {
