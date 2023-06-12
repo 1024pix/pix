@@ -40,9 +40,14 @@ export default class CampaignView extends Component {
   }
 
   get multipleSendingsTooltipText() {
-    return this.args.campaign.multipleSendings
-      ? this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text-multiple-sendings-enabled')
-      : this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text-multiple-sendings-disabled');
+    return this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text');
+  }
+
+  get isMultipleSendingsEnable() {
+    return (
+      !this.args.campaign.isTypeAssessment ||
+      (this.args.campaign.isTypeAssessment && this.currentUser.prescriber.enableMultipleSendingAssessment)
+    );
   }
 
   @action

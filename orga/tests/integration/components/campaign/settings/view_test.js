@@ -355,31 +355,17 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
     });
   });
 
-  module('when type is PROFILES_COLLECTION', function () {
-    test('it should display multiple sendings label', async function (assert) {
-      // given
-      this.campaign = store.createRecord('campaign', {
-        type: 'PROFILES_COLLECTION',
-      });
-      // when
-      await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
-      // then
-      assert.contains('Envoi multiple');
-    });
-
-    module('when multiple sendings is true', function () {
-      test("it should display 'oui'", async function (assert) {
+  module('on multiple sending display', function () {
+    module('when type is PROFILES_COLLECTION', function () {
+      test('it should display multiple sendings label', async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', {
           type: 'PROFILES_COLLECTION',
-          multipleSendings: true,
         });
-
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
-
+        const screen = await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
         // then
-        assert.contains('Oui');
+        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.title'))).exists();
       });
 
       test('it should display tooltip with multiple sendings explanatory text', async function (assert) {
@@ -390,61 +376,98 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.contains(
-          'Le participant peut envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, vous trouverez le dernier profil envoyé.'
-        );
+        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text'))).exists();
+      });
+
+      module('when multiple sendings is true', function () {
+        test("it should display 'oui'", async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'PROFILES_COLLECTION',
+            multipleSendings: true,
+          });
+
+          // when
+          const screen = await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+
+          // then
+          assert
+            .dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.status.enabled')))
+            .exists();
+        });
+      });
+
+      module('when multiple sendings is false', function () {
+        test("it should display 'Non'", async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'PROFILES_COLLECTION',
+            multipleSendings: false,
+          });
+
+          // when
+          const screen = await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+
+          // then
+          assert
+            .dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.status.disabled')))
+            .exists();
+        });
       });
     });
 
-    module('when multiple sendings is false', function () {
-      test("it should display 'Non'", async function (assert) {
-        // given
-        this.campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION',
-          multipleSendings: false,
+    module('when type is ASSESSMENT', function () {
+      module('when organization feature enableMultipleSending is false', function () {
+        test('it should not display multiple sendings label or tooltip', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+          });
+
+          // when
+          const screen = await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+
+          // then
+          assert.dom(screen.queryByText(this.intl.t('pages.campaign-settings.multiple-sendings.title'))).doesNotExist();
+          assert
+            .dom(screen.queryByLabelText(this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.aria-label')))
+            .doesNotExist();
+        });
+      });
+      module('when organization feature enableMultipleSending is true', function (hooks) {
+        hooks.beforeEach(function () {
+          class CurrentUserStub extends Service {
+            prescriber = { isAdminOfTheCurrentOrganization: true, enableMultipleSendingAssessment: true };
+          }
+          this.owner.register('service:currentUser', CurrentUserStub);
         });
 
-        // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
-
-        // then
-        assert.contains('Non');
-      });
-
-      test('it should display tooltip with a different multiple sendings explanatory text when camaign is not multiple sendings', async function (assert) {
-        // given
-        this.campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION',
-          multipleSendings: false,
+        test('it should display multiple sendings label', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+          });
+          // when
+          const screen = await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+          // then
+          assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.title'))).exists();
         });
 
-        // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        test('it should display tooltip with multiple sendings explanatory text', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+          });
+          // when
+          const screen = await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
-        // then
-        assert.contains(
-          'Si l’envoi multiple a été activé, le participant pourra envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, seul le dernier profil envoyé sera affiché.'
-        );
+          // then
+          assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text'))).exists();
+        });
       });
-    });
-  });
-
-  module('when type is ASSESSMENT', function () {
-    test('it should not display multiple sendings label or tooltip', async function (assert) {
-      // given
-      this.campaign = store.createRecord('campaign', {
-        type: 'ASSESSMENT',
-      });
-
-      // when
-      await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
-
-      // then
-      assert.notContains('Envoi multiple');
-      assert.dom('[aria-describedby=" Description de la campagne d\'envoi multiple"]').doesNotExist();
     });
   });
 });
