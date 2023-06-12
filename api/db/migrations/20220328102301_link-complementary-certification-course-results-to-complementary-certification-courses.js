@@ -10,7 +10,7 @@ import { badges } from '../constants.js';
 const {
   PIX_EMPLOI_CLEA,
   PIX_EMPLOI_CLEA_V2,
-  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_AVANCE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
@@ -131,7 +131,7 @@ const up = async function (knex) {
         return getIdFromName(CLEA);
       case PIX_DROIT_EXPERT_CERTIF:
         return getIdFromName(PIX_PLUS_DROIT);
-      case PIX_DROIT_MAITRE_CERTIF:
+      case PIX_DROIT_AVANCE_CERTIF:
         return getIdFromName(PIX_PLUS_DROIT);
       case PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE:
         return getIdFromName(PIX_PLUS_EDU);

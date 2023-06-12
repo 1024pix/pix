@@ -8,7 +8,7 @@ const buildCertifiableBadgeAcquisition = function ({
   complementaryCertificationKey = 'PIX_DROIT',
   complementaryCertificationBadgeId = 159,
   complementaryCertificationBadgeImageUrl = 'image/droit.svg',
-  complementaryCertificationBadgeLabel = 'Pix+ droit maitre',
+  complementaryCertificationBadgeLabel = 'Pix+ droit avance',
 } = {}) {
   return new CertifiableBadgeAcquisition({
     badgeId,

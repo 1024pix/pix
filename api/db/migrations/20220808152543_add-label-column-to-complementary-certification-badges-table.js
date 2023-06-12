@@ -3,7 +3,7 @@ import { badges } from '../constants.js';
 const TABLE_NAME = 'complementary-certification-badges';
 const COLUMN_NAME = 'label';
 const {
-  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_AVANCE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
@@ -28,7 +28,7 @@ const up = async function (knex) {
   });
 
   const data = [
-    { label: 'Pix+ Droit Maître', key: PIX_DROIT_MAITRE_CERTIF },
+    { label: 'Pix+ Droit Maître', key: PIX_DROIT_AVANCE_CERTIF },
     { label: 'Pix+ Droit Expert', key: PIX_DROIT_EXPERT_CERTIF },
     {
       label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',

@@ -6,15 +6,15 @@ import {
   CERTIFICATION_COURSE_EDU_ID,
 } from './certification-courses-builder.js';
 
-import { PIX_DROIT_MAITRE_BADGE_ID } from '../badges-builder.js';
 import { CERTIF_DROIT_USER5_ID } from './users.js';
 
+import { PIX_DROIT_AVANCE_BADGE_ID } from '../badges-builder.js';
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_CLEA_V3_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-  PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  PIX_DROIT_AVANCE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
 } from './certification-centers-builder.js';
 
@@ -40,7 +40,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
     status: SHARED,
   });
   databaseBuilder.factory.buildBadgeAcquisition({
-    badgeId: PIX_DROIT_MAITRE_BADGE_ID,
+    badgeId: PIX_DROIT_AVANCE_BADGE_ID,
     userId: CERTIF_DROIT_USER5_ID,
     campaignParticipationId,
   });
@@ -60,13 +60,13 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
     {
       certificationCourseId: CERTIFICATION_COURSE_SUCCESS_ID,
       complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-      complementaryCertificationBadgeId: PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+      complementaryCertificationBadgeId: PIX_DROIT_AVANCE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
     }
   );
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseSuccessDroitId,
     acquired: true,
-    partnerKey: badges.keys.PIX_DROIT_MAITRE_CERTIF,
+    partnerKey: badges.keys.PIX_DROIT_AVANCE_CERTIF,
   });
 
   const { id: complementaryCertifCourseEduId } = databaseBuilder.factory.buildComplementaryCertificationCourse({

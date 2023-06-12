@@ -4,7 +4,7 @@ const TOOLS_BADGE_ID = 112;
 const MANIP_BADGE_ID = 113;
 const PRO_BASICS_BADGE_ID = 114;
 const PRO_TOOLS_BADGE_ID = 115;
-const PIX_DROIT_MAITRE_BADGE_ID = 116;
+const PIX_DROIT_AVANCE_BADGE_ID = 116;
 const PIX_DROIT_EXPERT_BADGE_ID = 117;
 const PIX_EMPLOI_CLEA_BADGE_ID_V2 = 118;
 const PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE_BADGE_ID = 119;
@@ -375,23 +375,23 @@ function _createPixDroitBadge(databaseBuilder) {
   ];
 
   const pixDroitMasterBadge = databaseBuilder.factory.buildBadge({
-    id: PIX_DROIT_MAITRE_BADGE_ID,
-    altMessage: 'Vous avez validé le badge Pix+ Droit MAITRE',
-    title: 'Pix+ Droit Maitre',
+    id: PIX_DROIT_AVANCE_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Droit AVANCE',
+    title: 'Pix+ Droit AVANCE',
     imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
-    key: 'PIX_DROIT_MAITRE_CERTIF',
-    message: 'avez validé le badge Pix+ Droit MAITRE',
+    key: badges.keys.PIX_DROIT_AVANCE_CERTIF,
+    message: 'avez validé le badge Pix+ Droit AVANCE',
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
   });
 
   const pixDroitExpertBadge = databaseBuilder.factory.buildBadge({
     id: PIX_DROIT_EXPERT_BADGE_ID,
-    altMessage: 'Vous avez validé le badge Pix+ Droit EXPERT (et MAITRE)',
-    title: 'Pix+ Droit EXPERT (et MAITRE)',
+    altMessage: 'Vous avez validé le badge Pix+ Droit EXPERT',
+    title: 'Pix+ Droit EXPERT',
     imageUrl: 'https://images.pix.fr/badges/socle-de-base.svg',
-    key: 'PIX_DROIT_EXPERT_CERTIF',
-    message: 'avez validé le badge Pix+ Droit EXPERT (et MAITRE)',
+    key: badges.keys.PIX_DROIT_EXPERT_CERTIF,
+    message: 'avez validé le badge Pix+ Droit EXPERT',
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
   });
@@ -932,7 +932,7 @@ export {
   MANIP_BADGE_ID,
   PRO_BASICS_BADGE_ID,
   PRO_TOOLS_BADGE_ID,
-  PIX_DROIT_MAITRE_BADGE_ID,
+  PIX_DROIT_AVANCE_BADGE_ID,
   PIX_DROIT_EXPERT_BADGE_ID,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME_BADGE_ID,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE_BADGE_ID,

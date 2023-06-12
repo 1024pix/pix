@@ -2,7 +2,7 @@ import { badges } from '../constants.js';
 const TABLE_NAME = 'complementary-certification-badges';
 const COLUMN_NAME = 'imageUrl';
 const {
-  PIX_DROIT_MAITRE_CERTIF,
+  PIX_DROIT_AVANCE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
@@ -27,7 +27,7 @@ const up = async function (knex) {
   });
 
   const data = [
-    { imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg', key: PIX_DROIT_MAITRE_CERTIF },
+    { imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/avance.svg', key: PIX_DROIT_AVANCE_CERTIF },
     { imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg', key: PIX_DROIT_EXPERT_CERTIF },
     {
       imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
