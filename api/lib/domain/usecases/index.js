@@ -2,8 +2,6 @@ import { config } from '../../config.js';
 import * as accountRecoveryDemandRepository from '../../infrastructure/repositories/account-recovery-demand-repository.js';
 import * as adminMemberRepository from '../../infrastructure/repositories/admin-member-repository.js';
 
-// eslint-disable-next-line import/no-duplicates
-import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetcher.js';
 import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
 import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../infrastructure/repositories/area-repository.js';
@@ -580,7 +578,6 @@ const dependencies = {
   cpfCertificationResultRepository,
   dataProtectionOfficerRepository,
   dateUtils,
-  dataFetcher,
   divisionRepository,
   encryptionService,
   flashAssessmentResultRepository,

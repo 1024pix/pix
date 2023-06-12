@@ -40,7 +40,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             .stub()
             .returns({ possibleSkillsForNextChallenge, hasAssessmentEnded: false }),
         };
-        const dataFetcherStub = {
+        const algorithmDataFetcherServiceStub = {
           fetchForCampaigns: sinon.stub().resolves({}),
         };
 
@@ -60,7 +60,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           pickChallengeService,
           assessment,
           smartRandom: smartRandomStub,
-          dataFetcher: dataFetcherStub,
+          algorithmDataFetcherService: algorithmDataFetcherServiceStub,
           flash,
           locale,
         });
@@ -112,7 +112,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           // given
           const challenges = [firstChallenge, secondChallenge];
 
-          const dataFetcherStub = {
+          const algorithmDataFetcherServiceStub = {
             fetchForFlashCampaigns: sinon.stub(),
           };
 
@@ -126,7 +126,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
           pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallenge);
 
-          dataFetcherStub.fetchForFlashCampaigns
+          algorithmDataFetcherServiceStub.fetchForFlashCampaigns
             .withArgs({
               assessmentId: assessment.id,
               answerRepository,
@@ -147,7 +147,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             pickChallengeService,
             assessment,
             locale,
-            dataFetcher: dataFetcherStub,
+            algorithmDataFetcherService: algorithmDataFetcherServiceStub,
           });
 
           // then
@@ -158,11 +158,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       describe('when there are multiple remaining challenges', function () {
         it('should return the best next challenges', async function () {
           // given
-          const dataFetcherStub = {
+          const algorithmDataFetcherServiceStub = {
             fetchForFlashCampaigns: sinon.stub(),
           };
 
-          dataFetcherStub.fetchForFlashCampaigns
+          algorithmDataFetcherServiceStub.fetchForFlashCampaigns
             .withArgs({
               assessmentId: assessment.id,
               answerRepository,
@@ -193,7 +193,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             pickChallengeService,
             assessment,
             locale,
-            dataFetcher: dataFetcherStub,
+            algorithmDataFetcherService: algorithmDataFetcherServiceStub,
           });
 
           // then
@@ -204,11 +204,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       describe('when there is no challenge left', function () {
         it('should throw an AssessmentEndedError()', async function () {
           // given
-          const dataFetcherStub = {
+          const algorithmDataFetcherServiceStub = {
             fetchForFlashCampaigns: sinon.stub(),
           };
 
-          dataFetcherStub.fetchForFlashCampaigns
+          algorithmDataFetcherServiceStub.fetchForFlashCampaigns
             .withArgs({
               assessmentId: assessment.id,
               answerRepository,
@@ -229,7 +229,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             pickChallengeService,
             assessment,
             locale,
-            dataFetcher: dataFetcherStub,
+            algorithmDataFetcherService: algorithmDataFetcherServiceStub,
             pseudoRandom: {
               create: () => ({
                 binaryTreeRandom: () => {
@@ -258,11 +258,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
         it('should throw an AssessmentEndedError()', async function () {
           // given
-          const dataFetcherStub = {
+          const algorithmDataFetcherServiceStub = {
             fetchForFlashCampaigns: sinon.stub(),
           };
 
-          dataFetcherStub.fetchForFlashCampaigns
+          algorithmDataFetcherServiceStub.fetchForFlashCampaigns
             .withArgs({
               assessmentId: assessment.id,
               answerRepository,
@@ -283,7 +283,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             pickChallengeService,
             assessment,
             locale,
-            dataFetcher: dataFetcherStub,
+            algorithmDataFetcherService: algorithmDataFetcherServiceStub,
             pseudoRandom: {
               create: () => ({
                 binaryTreeRandom: () => {
