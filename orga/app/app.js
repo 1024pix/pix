@@ -4,7 +4,6 @@ import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
 import { fapixTachometer, fapixPersonExport, fapixInboxIn } from './custom-icons';
-
 import '@formatjs/intl-locale/polyfill';
 import '@formatjs/intl-pluralrules/polyfill';
 import '@formatjs/intl-pluralrules/locale-data/en';
