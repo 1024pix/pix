@@ -108,6 +108,8 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       const sessionId1 = Symbol('first session id');
       const sessionId2 = Symbol('second session id');
       const publishedAt = Symbol('a publication date');
+      const i18n = Symbol('i18n');
+      const certificationCenterRepository = Symbol('certificationCenterRepository');
 
       const sessionPublicationService = {
         publishSession: sinon.stub(),
@@ -116,18 +118,22 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
       const error2 = new Error('another error');
       sessionPublicationService.publishSession
         .withArgs({
+          i18n,
           sessionId: sessionId1,
+          certificationRepository,
+          certificationCenterRepository,
           finalizedSessionRepository,
-          sessionPublicationService,
           sessionRepository,
           publishedAt,
         })
         .rejects(error1);
       sessionPublicationService.publishSession
         .withArgs({
+          i18n,
           sessionId: sessionId2,
+          certificationRepository,
+          certificationCenterRepository,
           finalizedSessionRepository,
-          sessionPublicationService,
           sessionRepository,
           publishedAt,
         })
@@ -135,8 +141,10 @@ describe('Unit | UseCase | publish-sessions-in-batch', function () {
 
       // when
       const result = await publishSessionsInBatch({
+        i18n,
         sessionIds: [sessionId1, sessionId2],
         certificationRepository,
+        certificationCenterRepository,
         finalizedSessionRepository,
         sessionPublicationService,
         sessionRepository,
