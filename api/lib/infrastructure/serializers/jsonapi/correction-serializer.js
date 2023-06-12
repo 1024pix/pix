@@ -18,12 +18,18 @@ const serialize = function (correction) {
         userSavedTutorial: { ...tutorial.userSavedTutorial },
         tutorialEvaluation: { ...tutorial.tutorialEvaluation },
       })),
-      correctionBlocks: correction.correctionBlocks.map((correctionBlock) => ({
-        validated: correctionBlock.validated,
-        alternativeSolutions: correctionBlock.alternativeSolutions,
-      })),
+      answersEvaluation: correction.answersEvaluation,
+      solutionsWithoutGoodAnswers: correction.solutionsWithoutGoodAnswers,
     }),
-    attributes: ['solution', 'solutionToDisplay', 'hint', 'tutorials', 'learningMoreTutorials', 'correctionBlocks'],
+    attributes: [
+      'solution',
+      'solutionToDisplay',
+      'hint',
+      'tutorials',
+      'learningMoreTutorials',
+      'answersEvaluation',
+      'solutionsWithoutGoodAnswers',
+    ],
     tutorials: tutorialAttributes,
     learningMoreTutorials: tutorialAttributes,
     typeForAttribute(attribute) {
@@ -34,8 +40,10 @@ const serialize = function (correction) {
           return 'user-saved-tutorial';
         case 'learningMoreTutorials':
           return 'tutorials';
-        case 'correctionBlocks':
-          return 'correction-blocks';
+        case 'answersEvaluation':
+          return 'answers-evaluation';
+        case 'solutionsWithoutGoodAnswers':
+          return 'solutions-without-good-answers';
         default:
           return attribute;
       }
