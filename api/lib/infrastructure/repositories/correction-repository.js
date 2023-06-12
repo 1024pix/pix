@@ -6,7 +6,7 @@ import { challengeDatasource } from '../datasources/learning-content/challenge-d
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
 import * as tutorialRepository from './tutorial-repository.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
-import { getSolution } from '../../domain/services/solution-service-qrocm-dep.js';
+import { getCorrection } from '../../domain/services/solution-service-qrocm-dep.js';
 import { Challenge } from '../../domain/models/Challenge.js';
 import { fromDatasourceObject } from '../adapters/solution-adapter.js';
 import { Answer } from '../../domain/models/Answer.js';
@@ -17,13 +17,13 @@ const getByChallengeId = async function ({
   answerValue,
   userId,
   locale,
-  dependencies = { tutorialRepository, fromDatasourceObject, getSolution },
+  dependencies = { tutorialRepository, fromDatasourceObject, getCorrection },
 } = {}) {
   const challenge = await challengeDatasource.get(challengeId);
   const skill = await _getSkill(challenge);
   const hint = await _getHint({ skill, locale });
   const solution = dependencies.fromDatasourceObject(challenge);
-  let correctionBlocks;
+  let correctionDetails;
 
   const tutorials = await _getTutorials({
     userId,
@@ -41,7 +41,7 @@ const getByChallengeId = async function ({
   });
 
   if (challenge.type === Challenge.Type.QROCM_DEP && answerValue !== Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
-    correctionBlocks = dependencies.getSolution({ solution, answerValue });
+    correctionDetails = dependencies.getCorrection({ solution, answerValue });
   }
 
   return new Correction({
@@ -51,7 +51,8 @@ const getByChallengeId = async function ({
     hint,
     tutorials,
     learningMoreTutorials: learningMoreTutorials,
-    correctionBlocks,
+    answersEvaluation: correctionDetails?.answersEvaluation || [],
+    solutionsWithoutGoodAnswers: correctionDetails?.solutionsWithoutGoodAnswers || [],
   });
 };
 export { getByChallengeId };

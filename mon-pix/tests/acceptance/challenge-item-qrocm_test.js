@@ -200,16 +200,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
         learningMoreTutorials: [learningMoreTutorial],
-        correctionBlocks: [
-          {
-            validated: false,
-            alternativeSolutions: ['Versailles-Chantiers', 'Poissy'],
-          },
-          {
-            validated: false,
-            alternativeSolutions: ['Versailles-Chantiers', 'Poissy'],
-          },
-        ],
+        answersEvaluation: [false, false],
+        solutionsWithoutGoodAnswers: ['Versailles-Chantiers', 'Poissy'],
       });
       server.create('answer', {
         value: "station1: 'Republique'\nstation2: 'Chatelet'\n",
@@ -223,7 +215,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
         learningMoreTutorials: [learningMoreTutorial],
-        correctionBlocks: [],
+        answersEvaluation: [],
       });
       server.create('answer', {
         value: "titre: 'Le rouge et le noir'\nauteur: 'Stendhal'\n",
@@ -238,7 +230,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
         learningMoreTutorials: [learningMoreTutorial],
-        correctionBlocks: [],
+        answersEvaluation: [],
       });
       server.create('answer', {
         value: "banana: 'potato'\n",
@@ -284,7 +276,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       const goodAnswers = find('.correction-qrocm__solution-text');
       const badAnswersFromUserResult = findAll('.correction-qrocm-answer__input');
 
-      assert.strictEqual(goodAnswers.textContent.trim(), 'Versailles-Chantiers et Poissy');
+      assert.strictEqual(goodAnswers.textContent.trim(), 'Vous auriez pu répondre Versailles-Chantiers, Poissy');
       assert.strictEqual(badAnswersFromUserResult[0].value, 'Republique');
       assert.strictEqual(badAnswersFromUserResult[1].value, 'Chatelet');
 

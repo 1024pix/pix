@@ -1,8 +1,11 @@
 import { expect, catchErr, sinon } from '../../../test-helper.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import * as service from '../../../../lib/domain/services/solution-service-qrocm-dep.js';
 import { YamlParsingError } from '../../../../lib/domain/errors.js';
-import { CorrectionBlockQROCMDep } from '../../../../lib/domain/models/CorrectionBlockQROCMDep.js';
+import {
+  getCorrectionDetails,
+  match,
+  getCorrection,
+} from '../../../../lib/domain/services/solution-service-qrocm-dep.js';
 
 const ANSWER_PARTIALLY = AnswerStatus.PARTIALLY;
 const ANSWER_OK = AnswerStatus.OK;
@@ -51,7 +54,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     failedCases.forEach((testCase) => {
       it(`should return "ko" when ${testCase.when}`, function () {
         const solution = { value: testCase.solution, deactivations: {} };
-        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_KO);
+        expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_KO);
       });
     });
 
@@ -127,7 +130,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     maximalScoreCases.forEach(function (testCase) {
       it(`Should return "ok" when ${testCase.when}`, function () {
         const solution = { value: testCase.solution, deactivations: {} };
-        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_OK);
+        expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_OK);
       });
     });
   });
@@ -135,7 +138,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
   describe('if solution type is QROCM-dep with scoring', function () {
     it('should return "ko" for badly formatted solution', function () {
       expect(
-        service.match({
+        match({
           answerValue: 'num1: Google\nnum2: Yahoo',
           solution: { value: 'solution like a QCU', scoring: '1: @acquix', deactivations: {} },
         })
@@ -144,7 +147,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
 
     it('should return "ko" when answer is incorrect', function () {
       expect(
-        service.match({
+        match({
           answerValue: 'num1: Foo\nnum2: Bar',
           solution: { value: twoPossibleSolutions, scoring: '1: acquix', deactivations: {} },
         })
@@ -176,7 +179,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     maximalScoreCases.forEach(function (testCase) {
       it(`should return "ok" when ${testCase.when}`, function () {
         const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: {} };
-        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_OK);
+        expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_OK);
       });
     });
 
@@ -205,7 +208,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     partialScoreCases.forEach(function (testCase) {
       it(`should return "partially" when ${testCase.when}`, function () {
         const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: {} };
-        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_PARTIALLY);
+        expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_PARTIALLY);
       });
     });
 
@@ -240,7 +243,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     failedCases.forEach(function (testCase) {
       it(`should return "ko" when ${testCase.when}`, function () {
         const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: {} };
-        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_KO);
+        expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_KO);
       });
     });
   });
@@ -252,7 +255,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         const solution = 'lecteur:\n- G\n- Perso G\n\nnum2:\n- Eureka\n';
         const enabledTreatments = ['t1', 't2', 't3'];
 
-        const error = await catchErr(service.match)({
+        const error = await catchErr(match)({
           answerValue: answer,
           solution: { value: solution, enabledTreatments },
         });
@@ -376,7 +379,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
             scoring: testCase.scoring,
             deactivations: testCase.deactivations,
           };
-          expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
+          expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         });
       });
     });
@@ -506,7 +509,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
               scoring: testCase.scoring,
               deactivations: testCase.deactivations,
             };
-            expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
+            expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
           }
         );
       });
@@ -637,7 +640,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
               scoring: testCase.scoring,
               deactivations: testCase.deactivations,
             };
-            expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
+            expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
           }
         );
       });
@@ -768,7 +771,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
               scoring: testCase.scoring,
               deactivations: testCase.deactivations,
             };
-            expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
+            expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
           }
         );
       });
@@ -795,7 +798,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
             scoring: scoring,
             deactivations: deactivations,
           };
-          expect(service.match({ answerValue: answer, solution: solutionResult })).to.deep.equal(output);
+          expect(match({ answerValue: answer, solution: solutionResult })).to.deep.equal(output);
         });
       });
     });
@@ -925,7 +928,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
               scoring: testCase.scoring,
               deactivations: testCase.deactivations,
             };
-            expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
+            expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
           }
         );
       });
@@ -1056,7 +1059,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
               scoring: testCase.scoring,
               deactivations: testCase.deactivations,
             };
-            expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
+            expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
           }
         );
       });
@@ -1187,17 +1190,20 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
               scoring: testCase.scoring,
               deactivations: testCase.deactivations,
             };
-            expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
+            expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
           }
         );
       });
     });
   });
 
-  describe('#getSolution', function () {
-    it('should return solution block', function () {
+  describe('#getCorrection', function () {
+    it('should return solution block and solutionWithoutGoodAnswers', function () {
       // given
-      const expectedResult = [new CorrectionBlockQROCMDep(true, []), new CorrectionBlockQROCMDep(false, ['abcd'])];
+      const expectedResult = {
+        answersEvaluation: [true, false],
+        solutionsWithoutGoodAnswers: [],
+      };
 
       const answerValue = Symbol('answerValue');
 
@@ -1239,7 +1245,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         .returns({ enabledTreatments, treatedSolutions, treatedAnswers });
 
       // when
-      const result = service.getSolution({
+      const result = getCorrection({
         answerValue,
         solution,
         dependencies: {
@@ -1251,7 +1257,50 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
 
       // then
       expect(result).to.deep.equal(expectedResult);
-      expect(result[0]).to.be.instanceOf(CorrectionBlockQROCMDep);
+      expect(result.answersEvaluation[0]).to.be.true;
+      expect(result.answersEvaluation[1]).to.be.false;
+    });
+  });
+
+  describe('#getCorrectionDetails', function () {
+    it('should return answersEvaluation and solutionsWithoutGoodAnswers', function () {
+      // given
+      const treatedAnswers = {
+        logiciel1: 'whatsappmessenger',
+        logiciel2: 'zefzef',
+      };
+      const treatedSolutions = {
+        Whatsapp: ['whatsappmessenger', 'whatsapp'],
+        Telegram: ['telegram', 'telegrammessenger'],
+        Adium: ['adium'],
+        Androidmessages: ['androidmessages', 'arattai'],
+        Beagle: ['beagleim'],
+        BBM: ['bbm'],
+      };
+      const enabledTreatments = ['t1', 't2', 't3'];
+      const solutions = {
+        Whatsapp: ['WhatsApp Messenger', 'Whatsapp'],
+        Telegram: ['Telegram', 'Telegram Messenger'],
+        Adium: ['Adium'],
+        Androidmessages: ['Android Messages', 'Arattai'],
+        Beagle: ['Beagle IM'],
+        BBM: ['BBM'],
+      };
+
+      // when
+      const result = getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatments, solutions);
+
+      // then
+      expect(result.answersEvaluation[0]).to.be.true;
+      expect(result.answersEvaluation[1]).to.be.false;
+      expect(result.solutionsWithoutGoodAnswers).to.not.contain('WhatsApp Messenger');
+      expect(result.solutionsWithoutGoodAnswers).to.deep.equal([
+        'Telegram',
+        'Adium',
+        'Android Messages',
+        'Beagle IM',
+        'BBM',
+      ]);
     });
   });
 });
