@@ -17,5 +17,6 @@ module.exports = {
       ].filter(Boolean),
     },
   },
+  browser_disconnect_timeout: 20000,
   timeout: 20000,
 };
