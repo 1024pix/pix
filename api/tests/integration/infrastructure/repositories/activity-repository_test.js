@@ -27,6 +27,36 @@ describe('Integration | Repository | activityRepository', function () {
       expect(savedActivity).to.deep.equal(activityInDb);
     });
   });
+  describe('#updateStatus', function () {
+    afterEach(async function () {
+      await knex('activities').delete();
+    });
+    context('when the activity exists', function () {
+      it('should update status', async function () {
+        // given
+        const activityId = databaseBuilder.factory.buildActivity().id;
+        await databaseBuilder.commit();
+
+        // when
+        const updatedActivity = await activityRepository.updateStatus({ activityId, status: Activity.status.SKIPPED });
+
+        // then
+        expect(updatedActivity.status).to.deep.equal(Activity.status.SKIPPED);
+      });
+    });
+    context('when the activity does not exists', function () {
+      it('should return not found error', async function () {
+        // given
+        const activityId = '1234567890';
+
+        // when
+        const error = await catchErr(activityRepository.updateStatus)({ activityId, status: Activity.status.SKIPPED });
+
+        // then
+        expect(error).to.be.instanceof(NotFoundError);
+      });
+    });
+  });
   describe('#getLastActivity', function () {
     context('when there is no activity for the given assessmentId', function () {
       it('should return an error', async function () {
