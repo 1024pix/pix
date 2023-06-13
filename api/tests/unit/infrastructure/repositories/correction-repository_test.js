@@ -115,7 +115,9 @@ describe('Unit | Repository | correction-repository', function () {
           challengeId: recordId,
           userId,
           locale,
-          dependencies: { tutorialRepository, fromDatasourceObject, getCorrection: getCorrectionStub },
+          tutorialRepository,
+          fromDatasourceObject,
+          getCorrection: getCorrectionStub,
         });
 
         // then
@@ -142,7 +144,9 @@ describe('Unit | Repository | correction-repository', function () {
           challengeId: recordId,
           userId,
           locale,
-          dependencies: { tutorialRepository, fromDatasourceObject, getCorrection: getCorrectionStub },
+          tutorialRepository,
+          fromDatasourceObject,
+          getCorrection: getCorrectionStub,
         });
 
         // then
@@ -171,7 +175,9 @@ describe('Unit | Repository | correction-repository', function () {
               answerValue,
               userId,
               locale,
-              dependencies: { tutorialRepository, fromDatasourceObject, getCorrection: getCorrectionStub },
+              tutorialRepository,
+              fromDatasourceObject,
+              getCorrection: getCorrectionStub,
             });
 
             // then
@@ -205,7 +211,9 @@ describe('Unit | Repository | correction-repository', function () {
             answerValue,
             userId,
             locale,
-            dependencies: { tutorialRepository, fromDatasourceObject, getCorrection: getCorrectionStub },
+            tutorialRepository,
+            fromDatasourceObject,
+            getCorrection: getCorrectionStub,
           });
 
           // then

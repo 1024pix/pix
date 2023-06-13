@@ -5,7 +5,13 @@ function injectDefaults(defaults, targetFn) {
 }
 
 function injectDependencies(toBeInjected, dependencies) {
-  return _.mapValues(toBeInjected, _.partial(injectDefaults, dependencies));
+  return _.mapValues(toBeInjected, (value) => {
+    if (_.isFunction(value)) {
+      return _.partial(injectDefaults, dependencies, value)();
+    } else {
+      return injectDependencies(value, dependencies);
+    }
+  });
 }
 
 export { injectDependencies, injectDefaults };
