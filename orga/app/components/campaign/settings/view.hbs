@@ -5,7 +5,7 @@
         <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.campaign-type.title"}}</dt>
         <dd class="content-text campaign-settings-content__text">{{this.campaignType}}</dd>
       </div>
-      {{#if @campaign.isTypeProfilesCollection}}
+      {{#if this.isMultipleSendingsEnable}}
         <div class="campaign-settings-content">
           <dt class="label-text campaign-settings-content__label campaign-settings-content__label--with-tooltip">
             <span>{{t "pages.campaign-settings.multiple-sendings.title"}}</span>
