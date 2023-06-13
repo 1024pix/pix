@@ -6,6 +6,13 @@ const save = async function (activity) {
   const [savedAttributes] = await knex('activities').insert(activity).returning('*');
   return new Activity(savedAttributes);
 };
+const updateStatus = async function ({ activityId, status }) {
+  const [updatedActivity] = await knex('activities').update({ status }).where('id', activityId).returning('*');
+  if (!updatedActivity) {
+    throw new NotFoundError(`There is no activity corresponding to the id: ${activityId}`);
+  }
+  return updatedActivity;
+};
 const getLastActivity = async function (assessmentId) {
   const activity = await knex('activities').where({ assessmentId }).orderBy('createdAt', 'DESC').first();
   if (!activity) {
@@ -14,4 +21,4 @@ const getLastActivity = async function (assessmentId) {
   return activity;
 };
 
-export { save, getLastActivity };
+export { save, getLastActivity, updateStatus };
