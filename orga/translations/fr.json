@@ -743,6 +743,7 @@
       "table": {
         "description": "Tableau des participants trié par nom.",
         "column": {
+          "checkbox": "Sélectionner/Déselectionner {firstname} {lastname}",
           "first-name": "Prénom",
           "last-name": {
             "label": "Nom",
