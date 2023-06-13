@@ -184,77 +184,87 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             .hasText('La liste des candidats a été importée avec succès.');
         });
 
-        test('it should display the error message when uploading an invalid file', async function (assert) {
-          // given
-          const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          const file = new Blob(['foo'], { type: 'invalid-file' });
+        module('error cases', function () {
+          module('when uploading an invalid file', function () {
+            test('it should display the error message', async function (assert) {
+              // given
+              const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+              const file = new Blob(['foo'], { type: 'invalid-file' });
 
-          // when
-          const input = find('#upload-attendance-sheet');
-          await triggerEvent(input, 'change', { files: [file] });
+              // when
+              const input = find('#upload-attendance-sheet');
+              await triggerEvent(input, 'change', { files: [file] });
 
-          // then
-          assert
-            .dom(
-              screen.getByText(
-                "Aucun candidat n’a été importé.La version du document est inconnue.Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
-                { exact: false }
-              )
-            )
-            .exists();
-        });
-
-        test('it should display the error message when uploading a file with validation error', async function (assert) {
-          // given
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          const file = new Blob(['foo'], { type: 'validation-error' });
-
-          // when
-          const input = find('#upload-attendance-sheet');
-          await triggerEvent(input, 'change', { files: [file] });
-
-          // then
-          assert
-            .dom('[data-test-notification-message="error"]')
-            .hasText('Aucun candidat n’a été importé. Une erreur personnalisée.');
-        });
-
-        test('it should display a specific error message when importing is forbidden', async function (assert) {
-          // given
-          const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          const file = new Blob(['foo'], { type: 'forbidden-import' });
-
-          // when
-          const input = find('#upload-attendance-sheet');
-          await triggerEvent(input, 'change', { files: [file] });
-
-          // then
-          assert
-            .dom(
-              screen.getByText(
-                (errorMessage) =>
-                  errorMessage.startsWith('Aucun candidat n’a été importé.') &&
-                  errorMessage.endsWith(
-                    'Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
+              // then
+              assert
+                .dom(
+                  screen.getByText(
+                    "Aucun candidat n’a été importé.La version du document est inconnue.Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
+                    { exact: false }
                   )
-              )
-            )
-            .exists();
-        });
+                )
+                .exists();
+            });
+          });
 
-        test('it should display a warning when the import is not allowed', async function (assert) {
-          // given
-          server.create('certification-candidate', { sessionId: sessionWithCandidates.id, isLinked: true });
+          module('when uploading a file with validation error', function () {
+            test('it should display the error message', async function (assert) {
+              // given
+              await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+              const file = new Blob(['foo'], { type: 'validation-error' });
 
-          // when
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+              // when
+              const input = find('#upload-attendance-sheet');
+              await triggerEvent(input, 'change', { files: [file] });
 
-          // then
-          assert
-            .dom('.panel-actions__warning')
-            .hasText(
-              'La session a débuté, vous ne pouvez plus importer une liste de candidats. Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
-            );
+              // then
+              assert
+                .dom('[data-test-notification-message="error"]')
+                .hasText('Aucun candidat n’a été importé. Une erreur personnalisée.');
+            });
+          });
+
+          module('when importing is forbidden', function () {
+            test('it should display a specific error message', async function (assert) {
+              // given
+              const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+              const file = new Blob(['foo'], { type: 'forbidden-import' });
+
+              // when
+              const input = find('#upload-attendance-sheet');
+              await triggerEvent(input, 'change', { files: [file] });
+
+              // then
+              assert
+                .dom(
+                  screen.getByText(
+                    (errorMessage) =>
+                      errorMessage.startsWith('Aucun candidat n’a été importé.') &&
+                      errorMessage.endsWith(
+                        'Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
+                      )
+                  )
+                )
+                .exists();
+            });
+          });
+
+          module('when the import is not allowed', function () {
+            test('it should display a warning', async function (assert) {
+              // given
+              server.create('certification-candidate', { sessionId: sessionWithCandidates.id, isLinked: true });
+
+              // when
+              await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+
+              // then
+              assert
+                .dom('.panel-actions__warning')
+                .hasText(
+                  'La session a débuté, vous ne pouvez plus importer une liste de candidats. Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
+                );
+            });
+          });
         });
       });
     });
