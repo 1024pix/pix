@@ -1,6 +1,5 @@
-import { expect, knex } from '../../test-helper.js';
+import { expect, knex, sinon } from '../../test-helper.js';
 import { createUsers } from '../../../scripts/create-users-accounts-for-contest.js';
-import sinon from 'sinon';
 
 describe('Acceptance | Scripts | create-users-accounts-for-contest', function () {
   describe('#createUsers', function () {

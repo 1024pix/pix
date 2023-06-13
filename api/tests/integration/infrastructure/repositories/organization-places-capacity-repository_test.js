@@ -1,5 +1,4 @@
-import sinon from 'sinon';
-import { expect, databaseBuilder } from '../../../test-helper.js';
+import { expect, databaseBuilder, sinon } from '../../../test-helper.js';
 import * as organizationPlacesCapacityRepository from '../../../../lib/infrastructure/repositories/organization-places-capacity-repository.js';
 import * as categories from '../../../../lib/domain/constants/organization-places-categories.js';
 
