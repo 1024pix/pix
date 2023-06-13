@@ -1,5 +1,4 @@
-import sinon from 'sinon';
-import { expect, domainBuilder } from '../../../../test-helper.js';
+import { expect, domainBuilder, sinon } from '../../../../test-helper.js';
 import { updateUserForAccountRecovery } from '../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';

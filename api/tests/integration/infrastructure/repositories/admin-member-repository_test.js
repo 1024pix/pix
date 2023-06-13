@@ -1,5 +1,4 @@
-import sinon from 'sinon';
-import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper.js';
+import { expect, databaseBuilder, knex, catchErr, sinon } from '../../../test-helper.js';
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
