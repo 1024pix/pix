@@ -211,7 +211,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             test('it should display the error message', async function (assert) {
               // given
               await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-              const file = new Blob(['foo'], { type: 'validation-error' });
+              const file = new Blob(['foo'], { type: 'candidate-birth-postal-code-city-not-valid' });
 
               // when
               const input = find('#upload-attendance-sheet');
@@ -220,7 +220,9 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               // then
               assert
                 .dom('[data-test-notification-message="error"]')
-                .hasText('Aucun candidat n’a été importé. Une erreur personnalisée.');
+                .hasText(
+                  'Aucun candidat n’a été importé. Ligne 2 : Le code postal "88000" ne correspond pas à la ville "Gotham City"'
+                );
             });
           });
 
