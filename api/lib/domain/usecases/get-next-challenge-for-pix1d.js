@@ -14,7 +14,7 @@ export async function getNextChallengeForPix1d({
   try {
     currentActivity = await activityRepository.getLastActivity(assessmentId);
     answers = await answerRepository.findByActivity(currentActivity.id);
-    if (_userSucceededLastChallenge(answers)) {
+    if (_lastAnswerStatus(answers) === 'ok') {
       const challengeNumber = answers.length + 1;
       return await challengeRepository.getForPix1D({
         missionId,
@@ -34,24 +34,16 @@ export async function getNextChallengeForPix1d({
     activityRepository,
     challengeRepository,
     missionId,
-    _userFailedOrSkippedLastChallenge(answers)
+    _lastAnswerStatus(answers)
   );
 }
 
-const _userSucceededLastChallenge = function (answers) {
-  if (answers.length === 0) {
-    return false;
-  }
-  const lastAnswerResult = answers[answers.length - 1].result;
-  return lastAnswerResult.isOK();
-};
-
-const _userFailedOrSkippedLastChallenge = function (answers) {
+const _lastAnswerStatus = function (answers) {
   if (answers.length < 1) {
-    return false;
+    return undefined;
   }
   const lastAnswerResult = answers[answers.length - 1].result;
-  return lastAnswerResult.isKO() || lastAnswerResult.isSKIPPED();
+  return lastAnswerResult.status;
 };
 
 async function _getNextActivityChallenge(
@@ -61,11 +53,14 @@ async function _getNextActivityChallenge(
   activityRepository,
   challengeRepository,
   missionId,
-  lastChallengeFailedOrSkipped
+  lastAnswerStatus
 ) {
-  const nextActivityLevel = _getNextActivityLevel(currentActivity?.level, lastChallengeFailedOrSkipped);
+  if (lastAnswerStatus) {
+    await activityRepository.updateStatus({ activityId: currentActivity.id, status: status[lastAnswerStatus] });
+  }
+  const nextActivityLevel = _getNextActivityLevel(currentActivity?.level, lastAnswerStatus);
   if (nextActivityLevel !== undefined) {
-    activityRepository.save(new Activity({ assessmentId, level: nextActivityLevel }));
+    activityRepository.save(new Activity({ assessmentId, level: nextActivityLevel, status: Activity.status.STARTED }));
     return await challengeRepository.getForPix1D({
       missionId,
       activityLevel: nextActivityLevel,
@@ -75,8 +70,8 @@ async function _getNextActivityChallenge(
   assessmentRepository.completeByAssessmentId(assessmentId);
 }
 
-function _getNextActivityLevel(level, lastChallengeFailedOrSkipped) {
-  if (lastChallengeFailedOrSkipped) {
+function _getNextActivityLevel(level, lastAnswerStatus) {
+  if (lastAnswerStatus === 'ko' || lastAnswerStatus === 'aband') {
     return undefined;
   }
   if (!level) {
@@ -93,3 +88,9 @@ function _getNextActivityLevel(level, lastChallengeFailedOrSkipped) {
       return undefined;
   }
 }
+
+const status = {
+  aband: Activity.status.SKIPPED,
+  ok: Activity.status.SUCCEEDED,
+  ko: Activity.status.FAILED,
+};
