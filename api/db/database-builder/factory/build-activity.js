@@ -8,6 +8,7 @@ const buildActivity = function ({
   assessmentId,
   level = Activity.levels.TUTORIAL,
   createdAt = new Date('2020-01-01'),
+  status = Activity.status.STARTED,
 } = {}) {
   assessmentId = _.isUndefined(assessmentId) ? buildAssessment().id : assessmentId;
 
@@ -16,6 +17,7 @@ const buildActivity = function ({
     assessmentId,
     level,
     createdAt,
+    status,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'activities',

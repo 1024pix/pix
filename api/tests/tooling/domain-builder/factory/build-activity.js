@@ -5,12 +5,14 @@ function buildActivity({
   assessmentId = 456,
   level = Activity.levels.TUTORIAL,
   createdAt = new Date(),
+  status = Activity.status.STARTED,
 } = {}) {
   return new Activity({
     id,
     assessmentId,
     level,
     createdAt,
+    status,
   });
 }
 
