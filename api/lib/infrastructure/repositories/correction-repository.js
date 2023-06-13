@@ -4,12 +4,10 @@ import { Correction } from '../../domain/models/Correction.js';
 import { Hint } from '../../domain/models/Hint.js';
 import { challengeDatasource } from '../datasources/learning-content/challenge-datasource.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
-import * as tutorialRepository from './tutorial-repository.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
-import { getCorrection } from '../../domain/services/solution-service-qrocm-dep.js';
 import { Challenge } from '../../domain/models/Challenge.js';
-import { fromDatasourceObject } from '../adapters/solution-adapter.js';
 import { Answer } from '../../domain/models/Answer.js';
+
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 
 const getByChallengeId = async function ({
@@ -17,12 +15,14 @@ const getByChallengeId = async function ({
   answerValue,
   userId,
   locale,
-  dependencies = { tutorialRepository, fromDatasourceObject, getCorrection },
+  tutorialRepository,
+  fromDatasourceObject,
+  getCorrection,
 } = {}) {
   const challenge = await challengeDatasource.get(challengeId);
   const skill = await _getSkill(challenge);
   const hint = await _getHint({ skill, locale });
-  const solution = dependencies.fromDatasourceObject(challenge);
+  const solution = fromDatasourceObject(challenge);
   let correctionDetails;
 
   const tutorials = await _getTutorials({
@@ -30,18 +30,18 @@ const getByChallengeId = async function ({
     skill,
     tutorialIdsProperty: 'tutorialIds',
     locale,
-    tutorialRepository: dependencies.tutorialRepository,
+    tutorialRepository,
   });
   const learningMoreTutorials = await _getTutorials({
     userId,
     skill,
     tutorialIdsProperty: 'learningMoreTutorialIds',
     locale,
-    tutorialRepository: dependencies.tutorialRepository,
+    tutorialRepository,
   });
 
   if (challenge.type === Challenge.Type.QROCM_DEP && answerValue !== Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
-    correctionDetails = dependencies.getCorrection({ solution, answerValue });
+    correctionDetails = getCorrection({ solution, answerValue });
   }
 
   return new Correction({
