@@ -5,7 +5,7 @@
   {{#if this.showDisabledBlock}}
     <PixBlock class="skill-review__result-abstract-container">
       <div class="skill-review__disabled-share">
-        <img class="skill-review-disabled-share__image" src="/images/illustrations/fat-bee.svg" alt="" role="none" />
+        <img class="skill-review-disabled-share__image" src="/images/illustrations/fat-bee.svg" alt="" />
         <p class="skill-review-disabled-share__text">
           {{t "pages.skill-review.disabled-share" htmlSafe=true}}
         </p>
@@ -184,7 +184,7 @@
     <PixBlock class="skill-review__organization-message">
       {{#if @model.campaign.organizationLogoUrl}}
         <div class="skill-review-organization-message__logo">
-          <img class="logo" src={{@model.campaign.organizationLogoUrl}} alt="" role="presentation" />
+          <img class="logo" src={{@model.campaign.organizationLogoUrl}} alt="" />
         </div>
       {{/if}}
       <div class="skill-review-organization-message__content">
@@ -212,7 +212,7 @@
   {{#if this.showNPS}}
     <PixBlock class="skill-review__net-promoter-score">
       <div class="skill-review-net-promoter-score__logo">
-        <img src="/images/illustrations/skill-review/net-promoter-score.svg" role="presentation" alt="" />
+        <img src="/images/illustrations/skill-review/net-promoter-score.svg" alt="" />
       </div>
       <div class="skill-review-net-promoter-score__content">
         <h2>{{t "pages.skill-review.net-promoter-score.title"}}</h2>
