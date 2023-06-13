@@ -1,5 +1,4 @@
 # Pix Changelog
-## v4.2.1 (08/06/2023)
 ## v4.4.0 (13/06/2023)
 
 
@@ -8,6 +7,11 @@
 
 ### :building_construction: Tech
 - [#6359](https://github.com/1024pix/pix/pull/6359) [TECH] Trier le fichier index des use-cases.
+
+### :bug: Correction
+- [#6360](https://github.com/1024pix/pix/pull/6360) [BUGFIX] Corrige les jobs pgboss .
+
+## v4.3.1 (13/06/2023)
 
 ### :bug: Correction
 - [#6360](https://github.com/1024pix/pix/pull/6360) [BUGFIX] Corrige les jobs pgboss .
@@ -23,6 +27,8 @@
 - [#6329](https://github.com/1024pix/pix/pull/6329) [FEATURE] Rapatrie le code de hapi-pino dans l'API.
 - [#6307](https://github.com/1024pix/pix/pull/6307) [FEATURE] Amélioration et ajout d'une barre de défilement au menu utilisateur sur Pix Certif (PIX-8154).
 - [#6300](https://github.com/1024pix/pix/pull/6300) [FEATURE] Script de migration des paliers seuils en niveaux (PIX-8098).
+- [#6309](https://github.com/1024pix/pix/pull/6309) [FEATURE] Améliorer l'accessibilité de la modale de solution des QROC/m (PIX-8189).
+- [#6243](https://github.com/1024pix/pix/pull/6243) [FEATURE] Empêcher la soumission du formulaire d'inscription de Pix App si des erreurs n'ont pas été corrigées (PIX-7815)
 
 ### :building_construction: Tech
 - [#6358](https://github.com/1024pix/pix/pull/6358) [TECH] Suppression de déprécations de faker.
@@ -33,11 +39,14 @@
 - [#6323](https://github.com/1024pix/pix/pull/6323) [TECH] Monter de version Ember 4.12 sur PixOrga (PIX-8264).
 - [#6343](https://github.com/1024pix/pix/pull/6343) [TECH] Suppression de dépendances a la racine inutilisés.
 - [#6335](https://github.com/1024pix/pix/pull/6335) [TECH] Utiliser toString() au lieu de .string sur les instances SafeString.
+- [#6325](https://github.com/1024pix/pix/pull/6325) [TECH] Mise à jour du CHANGELOG (PIX-8243)
 
 ### :bug: Correction
 - [#6324](https://github.com/1024pix/pix/pull/6324) [BUGFIX] Exiger les données obligatoires sur la route POST /api/certification-courses (PIX-8262).
 - [#6334](https://github.com/1024pix/pix/pull/6334) [BUGFIX] La bonne réponse affichée pour un QCM mélangé n'est pas bonne (PIX-8250).
 - [#6337](https://github.com/1024pix/pix/pull/6337) [BUGFIX] :ambulance: Hotfix v4.2.1.
+- [#6327](https://github.com/1024pix/pix/pull/6327) [BUGFIX] Retourner une erreur dans la méthode getWithComplementaryCertification lorsque le candidat n'existe pas (PIX-8266).
+- [#6322](https://github.com/1024pix/pix/pull/6322) [BUGFIX] Permettre à un candidat éligible mais non inscrit à une certif complémentaire de passer la certification (PIX-8257).
 
 ### :coffee: Autre
 - [#6351](https://github.com/1024pix/pix/pull/6351) [BUMP] Lock file maintenance (api).
@@ -47,7 +56,7 @@
 - [#6341](https://github.com/1024pix/pix/pull/6341) [BUMP] Update dependency query-string to v8 (admin).
 - [#6340](https://github.com/1024pix/pix/pull/6340) [BUMP] Update dependency @ls-lint/ls-lint to v2 (api).
 
-
+## v4.2.1 (08/06/2023)
 
 ### :bug: Correction
 - [#6322](https://github.com/1024pix/pix/pull/6322) [BUGFIX] Permettre à un candidat éligible mais non inscrit à une certif complémentaire de passer la certification (PIX-8257)
