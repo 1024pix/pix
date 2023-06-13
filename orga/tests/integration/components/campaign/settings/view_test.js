@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Campaign::Settings::View', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -32,10 +31,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.contains(`Campagne d'évaluation`);
+        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.campaign-type.assessment'))).exists();
       });
     });
 
@@ -46,10 +45,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.contains('Campagne de collecte de profils');
+        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.campaign-type.profiles-collection'))).exists();
       });
     });
   });
@@ -64,10 +63,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.contains('profil cible de la campagne 1');
+        assert.dom(screen.getByText('profil cible de la campagne 1')).exists();
       });
 
       test('it should display target profile description related to campaign', async function (assert) {
@@ -78,10 +77,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.contains('Description du profile cible');
+        assert.dom(screen.getByText('Description du profile cible')).exists();
       });
 
       test('it should display target profile tubes count related to campaign', async function (assert) {
@@ -92,10 +91,16 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.contains('Sujets : 3');
+        assert
+          .dom(
+            screen.getByText(
+              this.intl.t('common.target-profile-details.subjects', { value: this.campaign.targetProfileTubesCount })
+            )
+          )
+          .exists();
       });
 
       module('Badge context', function () {
@@ -107,10 +112,18 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           });
 
           // when
-          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert.notContains('Résultats thématiques :');
+          assert
+            .dom(
+              screen.queryByText(
+                this.intl.t('common.target-profile-details.thematic-results', {
+                  value: this.campaign.targetProfileThematicResultCount,
+                })
+              )
+            )
+            .doesNotExist();
         });
 
         test('it should display target profile thematic result related to campaign', async function (assert) {
@@ -121,10 +134,18 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           });
 
           // when
-          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert.contains('Résultats thématiques : 1');
+          assert
+            .dom(
+              screen.getByText(
+                this.intl.t('common.target-profile-details.thematic-results', {
+                  value: this.campaign.targetProfileThematicResultCount,
+                })
+              )
+            )
+            .exists();
         });
       });
 
@@ -137,10 +158,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           });
 
           // when
-          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert.dom(`[aria-label="${this.intl.t('common.target-profile-details.results.star')}"]`).exists();
+          assert.dom(screen.getByLabelText(this.intl.t('common.target-profile-details.results.star'))).exists();
         });
 
         test('it should display target profile result with percentage when no stages related to campaign', async function (assert) {
@@ -151,10 +172,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           });
 
           // when
-          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
-          assert.dom(`[aria-label="${this.intl.t('common.target-profile-details.results.percent')}"]`).exists();
+          assert.dom(screen.getByLabelText(this.intl.t('common.target-profile-details.results.percent'))).exists();
         });
       });
     });
@@ -162,14 +183,15 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
     module('when type is PROFILES_COLLECTION', function () {
       test('it should not display target profile', async function (assert) {
         this.campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION',
+          type: 'PROFILE_COLLECTION',
+          targetProfileName: 'profil cible inexistant',
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.notContains('Profil cible');
+        assert.dom(screen.queryByText('profil cible inexistant')).doesNotExist();
       });
     });
   });
@@ -183,10 +205,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.contains('idPixLabel');
+        assert.dom(screen.getByText('idPixLabel')).exists();
       });
     });
 
@@ -198,10 +220,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.notContains("Libellé de l'identifiant");
+        assert.dom(screen.queryByText(this.intl.t('pages.campaign-settings.external-user-id-label'))).doesNotExist();
       });
     });
   });
@@ -225,10 +247,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         this.campaign = store.createRecord('campaign', { code: '1234' });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.contains('root-url/1234');
+        assert.dom(screen.getByText('root-url/1234')).exists();
       });
     });
 
@@ -252,10 +274,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         this.campaign = store.createRecord('campaign', { code: '1234' });
 
         // when
-        await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.notContains('root-url/1234');
+        assert.dom(screen.queryByText('root-url/1234')).doesNotExist();
       });
     });
   });
@@ -270,10 +292,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.contains('Mon titre de Campagne');
+        assert.dom(screen.getByText('Mon titre de Campagne')).exists();
       });
     });
 
@@ -282,13 +304,14 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         // given
         this.campaign = store.createRecord('campaign', {
           type: 'PROFILES_COLLECTION',
+          title: 'Mon titre de Campagne',
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.notContains('Titre du parcours');
+        assert.dom(screen.queryByText('Mon titre de Campagne')).doesNotExist();
       });
     });
   });
@@ -299,10 +322,9 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
       this.campaign = store.createRecord('campaign', { isArchived: false });
 
       // when
-      await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
-
+      const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
       // then
-      assert.contains('Archiver');
+      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.campaign-settings.actions.archive') })).exists();
     });
   });
 
@@ -317,10 +339,12 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         this.campaign = store.createRecord('campaign', { isArchived: false, ownerId: 1 });
 
         // when
-        const screen = await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.dom(screen.queryByText('Modifier')).doesNotExist();
+        assert
+          .dom(screen.queryByRole('button', { name: this.intl.t('pages.campaign-settings.actions.edit') }))
+          .doesNotExist();
       });
     });
 
@@ -334,10 +358,10 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         this.campaign = store.createRecord('campaign', { isArchived: false });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.contains('Modifier');
+        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.actions.edit'))).exists();
       });
     });
 
@@ -347,39 +371,29 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         this.campaign = store.createRecord('campaign', { isArchived: true });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.notContains('Modifier');
+        assert
+          .dom(
+            screen.queryByText(this.intl.t('pages.campaign-settings.actions.editpages.campaign-settings.actions.edit'))
+          )
+          .doesNotExist();
       });
     });
   });
 
-  module('when type is PROFILES_COLLECTION', function () {
-    test('it should display multiple sendings label', async function (assert) {
-      // given
-      this.campaign = store.createRecord('campaign', {
-        type: 'PROFILES_COLLECTION',
-      });
-      // when
-      await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
-      // then
-      assert.contains('Envoi multiple');
-    });
-
-    module('when multiple sendings is true', function () {
-      test("it should display 'oui'", async function (assert) {
+  module('on multiple sending display', function () {
+    module('when type is PROFILES_COLLECTION', function () {
+      test('it should display multiple sendings label', async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', {
           type: 'PROFILES_COLLECTION',
-          multipleSendings: true,
         });
-
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
-
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
         // then
-        assert.contains('Oui');
+        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.title'))).exists();
       });
 
       test('it should display tooltip with multiple sendings explanatory text', async function (assert) {
@@ -390,61 +404,98 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
-        assert.contains(
-          'Le participant peut envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, vous trouverez le dernier profil envoyé.'
-        );
+        assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text'))).exists();
+      });
+
+      module('when multiple sendings is true', function () {
+        test("it should display 'oui'", async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'PROFILES_COLLECTION',
+            multipleSendings: true,
+          });
+
+          // when
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+
+          // then
+          assert
+            .dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.status.enabled')))
+            .exists();
+        });
+      });
+
+      module('when multiple sendings is false', function () {
+        test("it should display 'Non'", async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'PROFILES_COLLECTION',
+            multipleSendings: false,
+          });
+
+          // when
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+
+          // then
+          assert
+            .dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.status.disabled')))
+            .exists();
+        });
       });
     });
 
-    module('when multiple sendings is false', function () {
-      test("it should display 'Non'", async function (assert) {
-        // given
-        this.campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION',
-          multipleSendings: false,
+    module('when type is ASSESSMENT', function () {
+      module('when organization feature enableMultipleSending is false', function () {
+        test('it should not display multiple sendings label or tooltip', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+          });
+
+          // when
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+
+          // then
+          assert.dom(screen.queryByText(this.intl.t('pages.campaign-settings.multiple-sendings.title'))).doesNotExist();
+          assert
+            .dom(screen.queryByLabelText(this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.aria-label')))
+            .doesNotExist();
+        });
+      });
+      module('when organization feature enableMultipleSending is true', function (hooks) {
+        hooks.beforeEach(function () {
+          class CurrentUserStub extends Service {
+            prescriber = { isAdminOfTheCurrentOrganization: true, enableMultipleSendingAssessment: true };
+          }
+          this.owner.register('service:currentUser', CurrentUserStub);
         });
 
-        // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
-
-        // then
-        assert.contains('Non');
-      });
-
-      test('it should display tooltip with a different multiple sendings explanatory text when camaign is not multiple sendings', async function (assert) {
-        // given
-        this.campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION',
-          multipleSendings: false,
+        test('it should display multiple sendings label', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+          });
+          // when
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+          // then
+          assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.title'))).exists();
         });
 
-        // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+        test('it should display tooltip with multiple sendings explanatory text', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+          });
+          // when
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
-        // then
-        assert.contains(
-          'Si l’envoi multiple a été activé, le participant pourra envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, seul le dernier profil envoyé sera affiché.'
-        );
+          // then
+          assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text'))).exists();
+        });
       });
-    });
-  });
-
-  module('when type is ASSESSMENT', function () {
-    test('it should not display multiple sendings label or tooltip', async function (assert) {
-      // given
-      this.campaign = store.createRecord('campaign', {
-        type: 'ASSESSMENT',
-      });
-
-      // when
-      await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
-
-      // then
-      assert.notContains('Envoi multiple');
-      assert.dom('[aria-describedby=" Description de la campagne d\'envoi multiple"]').doesNotExist();
     });
   });
 });

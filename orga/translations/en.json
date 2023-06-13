@@ -414,9 +414,8 @@
           "disabled": "No"
         },
         "tooltip": {
-          "aria-label": "Description of a multiple sendings campaing",
-          "text-multiple-sendings-enabled": "The participants will be able to submit their profile several times by re-entering the campaign code. Within Pix Orga you will find the latest submitted profile.",
-          "text-multiple-sendings-disabled": "If the multiple submissions is activated, the participants will be able to submit their profile several times by re-entering the campaign code. Within Pix Orga the latest submitted profile will be displayed."
+          "aria-label": "Description of multiple sendings",
+          "text": "If you choose to allow multiple submissions, the participants will be able to submit their participation several times by re-entering the campaign code. Within Pix Orga you will find the latest sent."
         }
       },
       "personalised-test-title": "Title of the customised test",
