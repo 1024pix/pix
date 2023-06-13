@@ -75,6 +75,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
           isAlwaysVisible: true,
           isCertifiable: false,
           isValid: true,
+          acquisitionPercentage: null,
         },
       ];
     });
@@ -168,6 +169,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
               'is-always-visible': true,
               'is-certifiable': false,
               'is-valid': true,
+              'acquisition-percentage': null,
             },
             id: '3',
             type: 'campaignParticipationBadges',
