@@ -9,7 +9,7 @@ export default Factory.extend({
   },
 
   accessCode() {
-    return 'ABCDEF' + faker.datatype.number({ min: 100, max: 999 });
+    return 'ABCDEF' + faker.number.int({ min: 100, max: 999 });
   },
 
   date() {
@@ -17,7 +17,7 @@ export default Factory.extend({
   },
 
   description() {
-    return faker.random.words();
+    return faker.lorem.words();
   },
 
   examiner() {
@@ -25,14 +25,14 @@ export default Factory.extend({
   },
 
   room() {
-    return faker.random.alphaNumeric(9);
+    return faker.string.alphanumeric(9);
   },
 
   time() {
     return (
-      faker.datatype.number({ min: 0, max: 23 }).toString().padStart(2, '0') +
+      faker.number.int({ min: 0, max: 23 }).toString().padStart(2, '0') +
       ':' +
-      faker.datatype.number({ min: 0, max: 59 }).toString().padStart(2, '0')
+      faker.number.int({ min: 0, max: 59 }).toString().padStart(2, '0')
     );
   },
 
@@ -42,7 +42,7 @@ export default Factory.extend({
 
   examinerGlobalComment(i) {
     if (i % 2 === 0) {
-      return faker.random.words();
+      return faker.lorem.words();
     }
 
     return '';

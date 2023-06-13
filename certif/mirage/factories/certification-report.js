@@ -3,19 +3,19 @@ import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   certificationCourseId() {
-    return faker.datatype.number();
+    return faker.number.int();
   },
 
   firstName() {
-    return faker.name.firstName();
+    return faker.person.firstName();
   },
 
   lastName() {
-    return faker.name.lastName();
+    return faker.person.lastName();
   },
 
   externalId() {
-    return faker.datatype.uuid();
+    return faker.string.uuid();
   },
 
   hasSeenEndTestScreen() {
@@ -27,6 +27,6 @@ export default Factory.extend({
   },
 
   abortReason() {
-    return faker.random.word();
+    return faker.lorem.word();
   },
 });

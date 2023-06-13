@@ -3,15 +3,15 @@ import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   nbChallenges() {
-    return faker.datatype.number();
+    return faker.number.int();
   },
 
   sessionId() {
-    return faker.datatype.number();
+    return faker.number.int();
   },
 
   accessCode() {
-    return faker.random.alphaNumeric(9);
+    return faker.string.alphanumeric(9);
   },
 
   afterCreate(certificationCourse, server) {

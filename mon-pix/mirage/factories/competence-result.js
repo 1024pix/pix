@@ -3,15 +3,15 @@ import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   name() {
-    return faker.random.words();
+    return faker.lorem.words();
   },
 
   index() {
-    return faker.random.alphaNumeric(2);
+    return faker.string.alphanumeric(2);
   },
 
   totalSkillsCount() {
-    return faker.datatype.number() + 3;
+    return faker.number.int() + 3;
   },
 
   afterCreate(competenceResult) {
