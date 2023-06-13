@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
-import * as dataFetcher from '../../../../lib/domain/services/algorithm-methods/data-fetcher.js';
+import * as algorithmDataFetcherService from '../../../../lib/domain/services/algorithm-methods/data-fetcher.js';
 
 import { LOCALE } from '../../../../lib/domain/constants.js';
 
@@ -97,7 +97,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
         pickChallengeService,
         locale,
         smartRandom,
-        dataFetcher,
+        algorithmDataFetcherService,
       });
     });
 
