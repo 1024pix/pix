@@ -1,10 +1,12 @@
 import _ from 'lodash';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { getCsvContent } from './write-csv-utils.js';
 import { SessionCertificationResultsCsvBuilder } from './SessionCertificationResultsCsvBuilder.js';
 
 const REJECTED_AUTOMATICALLY_COMMENT =
   "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix";
+
+const I18N_CSV = 'certification-results-csv.filenames';
 
 async function getDivisionCertificationResultsCsv({ certificationResults }) {
   const data = _buildFileDataWithoutCertificationCenterName({ certificationResults });
@@ -19,9 +21,15 @@ async function getSessionCertificationResultsCsv({ session, certificationResults
     certificationResults,
     i18n,
   });
-  const csvData = certificationResultsCsvBuilder.build();
+  const content = await getCsvContent(certificationResultsCsvBuilder.build());
 
-  return getCsvContent(csvData);
+  const dateWithTime = dayjs(`${session.date} ${session.time}`, 'YYYY-MM-DD HH:mm');
+  const filename = i18n.__(`${I18N_CSV}.SESSION_CERTIFICATION_RESULTS_FILENAME`, {
+    dateWithTime: dateWithTime.format('YYYYMMDD_HHmm'),
+    sessionId: session.id,
+  });
+
+  return { filename, content };
 }
 
 async function getCleaCertifiedCandidateCsv(cleaCertifiedCandidates) {
@@ -148,7 +156,7 @@ function _formatPixScore(certificationResult) {
 }
 
 function _formatDate(date) {
-  return moment(date).format('DD/MM/YYYY');
+  return dayjs(date).format('DD/MM/YYYY');
 }
 
 function _formatStatus(certificationResult) {

@@ -358,14 +358,13 @@ describe('Unit | Controller | sessionController', function () {
         .resolves({
           session,
           certificationResults: [],
-          fileName: '20200101_1200_resultats_session_1.csv',
         });
       const certificationResultUtils = {
         getSessionCertificationResultsCsv: sinon.stub(),
       };
       certificationResultUtils.getSessionCertificationResultsCsv
         .withArgs({ session, certificationResults: [], i18n })
-        .resolves('csv content');
+        .resolves({ content: 'csv content', filename: '20200101_1200_resultats_session_1.csv' });
 
       // when
       const response = await sessionController.getSessionResultsByRecipientEmail(

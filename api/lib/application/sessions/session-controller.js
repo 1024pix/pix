@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { SessionPublicationBatchError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { tokenService } from '../../domain/services/token-service.js';
@@ -202,13 +201,10 @@ const getSessionResultsToDownload = async function (
     i18n: request.i18n,
   });
 
-  const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
-  const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
-
   return h
-    .response(csvResult)
+    .response(csvResult.content)
     .header('Content-Type', 'text/csv;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename=${fileName}`);
+    .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
 };
 
 const getCertificationPDFAttestationsForSession = async function (
@@ -252,13 +248,10 @@ const getSessionResultsByRecipientEmail = async function (
     i18n: request.i18n,
   });
 
-  const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
-  const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
-
   return h
-    .response(csvResult)
+    .response(csvResult.content)
     .header('Content-Type', 'text/csv;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename=${fileName}`);
+    .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
 };
 
 const getCertificationReports = async function (request, h, dependencies = { certificationReportSerializer }) {
