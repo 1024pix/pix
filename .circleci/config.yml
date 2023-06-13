@@ -256,8 +256,7 @@ jobs:
     resource_class: small
     working_directory: ~/pix/admin
     steps:
-      - browser-tools/install-chrome:
-          chrome-version: 113.0.5672.126
+      - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
       - run: cat package*.json > cachekey
