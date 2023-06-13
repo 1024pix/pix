@@ -202,7 +202,6 @@ import { tokenService } from '../../domain/services/token-service.js';
 
 import { importNamedExportsFromDirectory } from '../../infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../infrastructure/utils/dependency-injection.js';
-
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 import { getCampaignManagement as getCampaignDetailsManagement } from './get-campaign-details-management.js';
 
@@ -422,6 +421,7 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './organization-learners-management') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './organizations-administration') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './sessions-mass-import') })),
+  ...(await importNamedExportsFromDirectory({ path: join(path, './target-profile-management') })),
   findPaginatedFilteredTargetProfileOrganizations,
   getCampaignDetailsManagement,
 };
