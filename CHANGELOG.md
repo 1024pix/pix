@@ -1,5 +1,17 @@
 # Pix Changelog
 ## v4.2.1 (08/06/2023)
+## v4.4.0 (13/06/2023)
+
+
+### :rocket: Amélioration
+- [#6328](https://github.com/1024pix/pix/pull/6328) [FEATURE] Afficher si l'envoi multiple est dispo dans les paramètres d'une campagne d'évaluation (PIX-8198).
+
+### :building_construction: Tech
+- [#6359](https://github.com/1024pix/pix/pull/6359) [TECH] Trier le fichier index des use-cases.
+
+### :bug: Correction
+- [#6360](https://github.com/1024pix/pix/pull/6360) [BUGFIX] Corrige les jobs pgboss .
+
 ## v4.3.0 (13/06/2023)
 
 
