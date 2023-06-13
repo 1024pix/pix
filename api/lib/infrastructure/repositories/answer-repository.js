@@ -7,7 +7,7 @@ import * as answerStatusDatabaseAdapter from '../adapters/answer-status-database
 
 function _adaptAnswerToDb(answer) {
   return {
-    ..._.pick(answer, ['value', 'timeout', 'challengeId', 'assessmentId', 'timeSpent', 'isFocusedOut']),
+    ..._.pick(answer, ['value', 'timeout', 'challengeId', 'assessmentId', 'timeSpent', 'isFocusedOut', 'activityId']),
     result: answerStatusDatabaseAdapter.toSQLString(answer.result),
     resultDetails: jsYaml.dump(answer.resultDetails),
   };
@@ -46,6 +46,7 @@ const COLUMNS = Object.freeze([
   'assessmentId',
   'challengeId',
   'timeSpent',
+  'activityId',
 ]);
 
 const get = async function (id) {
@@ -84,6 +85,11 @@ const findByAssessment = async function (assessmentId) {
   const answerDTOsWithoutDuplicate = _.uniqBy(answerDTOs, 'challengeId');
 
   return _toDomainArray(answerDTOsWithoutDuplicate);
+};
+
+const findByActivity = async function (activityId) {
+  const answerDTOs = await knex.select(COLUMNS).from('answers').where({ activityId }).orderBy('createdAt');
+  return _toDomainArray(answerDTOs);
 };
 
 const findLastByAssessment = async function (assessmentId) {
@@ -139,6 +145,7 @@ export {
   findByIds,
   findByChallengeAndAssessment,
   findByAssessment,
+  findByActivity,
   findLastByAssessment,
   findChallengeIdsFromAnswerIds,
   saveWithKnowledgeElements,

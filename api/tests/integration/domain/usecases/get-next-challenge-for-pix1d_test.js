@@ -1,5 +1,7 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
+import { Activity } from '../../../../lib/domain/models/Activity.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Domain | Use Cases | get-next-challenge-for-pix1d', function () {
   describe('#get-next-challenge-for-pix1d', function () {
@@ -7,17 +9,23 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-pix1d', func
       // given
       const missionId = 'AZERTYUIO';
       const assessmentId = 'id_assessment';
-      const DIDACTICIEL = 'didacticiel';
+      const activityId = 'id_activity';
       const firstChallenge = domainBuilder.buildChallenge({ id: 'first_challenge', skill: { name: '@didacticiel' } });
+      const activity = new Activity({ id: activityId, level: Activity.levels.TUTORIAL, assessmentId });
 
       const assessmentRepository = { get: sinon.stub() };
-      const answerRepository = { findByAssessment: sinon.stub() };
+      const answerRepository = { findByActivity: sinon.stub() };
       const challengeRepository = { getForPix1D: sinon.stub() };
+      const activityRepository = { getLastActivity: sinon.stub(), save: sinon.stub() };
+      activityRepository.getLastActivity.withArgs(assessmentId).rejects(new NotFoundError('No activity found.'));
+      activityRepository.save
+        .withArgs(new Activity({ assessmentId, level: Activity.levels.TUTORIAL }))
+        .resolves(activity);
 
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-      answerRepository.findByAssessment.withArgs(assessmentId).resolves([]);
+      answerRepository.findByActivity.withArgs(activityId).resolves([]);
       challengeRepository.getForPix1D
-        .withArgs({ missionId, activityLevel: DIDACTICIEL, challengeNumber: 1 })
+        .withArgs({ missionId, activityLevel: Activity.levels.TUTORIAL, challengeNumber: 1 })
         .resolves(firstChallenge);
 
       // when
@@ -26,6 +34,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-pix1d', func
         assessmentRepository,
         challengeRepository,
         answerRepository,
+        activityRepository,
       });
 
       // then

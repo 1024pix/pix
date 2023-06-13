@@ -1,39 +1,26 @@
 import { buildAssessment } from './build-assessment.js';
 import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+import { Activity } from '../../../lib/domain/models/Activity.js';
 
-const buildAnswer = function ({
+const buildActivity = function ({
   id = databaseBuffer.getNextId(),
-  value = 'Some value for answer',
-  result = 'Some result for answer',
   assessmentId,
-  challengeId = 'rec123ABC',
+  level = Activity.levels.TUTORIAL,
   createdAt = new Date('2020-01-01'),
-  updatedAt = new Date('2020-01-02'),
-  timeout = null,
-  resultDetails = 'Some result details for answer.',
-  timeSpent = 30,
-  activityId = null,
 } = {}) {
   assessmentId = _.isUndefined(assessmentId) ? buildAssessment().id : assessmentId;
 
   const values = {
     id,
-    value,
-    result,
     assessmentId,
-    challengeId,
+    level,
     createdAt,
-    updatedAt,
-    timeout,
-    resultDetails,
-    timeSpent,
-    activityId,
   };
   return databaseBuffer.pushInsertable({
-    tableName: 'answers',
+    tableName: 'activities',
     values,
   });
 };
 
-export { buildAnswer };
+export { buildActivity };
