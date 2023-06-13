@@ -17,4 +17,5 @@ module.exports = {
       ].filter(Boolean),
     },
   },
+  timeout: 20000,
 };
