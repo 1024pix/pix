@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   title() {
-    return faker.random.words();
+    return faker.lorem.words();
   },
 
   type() {
@@ -11,7 +11,7 @@ export default Factory.extend({
   },
 
   code() {
-    return faker.random.alphaNumeric(6);
+    return faker.string.alphanumeric(6);
   },
 
   idPixLabel() {

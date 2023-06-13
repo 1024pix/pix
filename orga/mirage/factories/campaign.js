@@ -7,7 +7,7 @@ export default Factory.extend({
   },
 
   code() {
-    return 'ABCDEF' + faker.datatype.number({ min: 100, max: 999 });
+    return 'ABCDEF' + faker.number.int({ min: 100, max: 999 });
   },
 
   createdAt() {
