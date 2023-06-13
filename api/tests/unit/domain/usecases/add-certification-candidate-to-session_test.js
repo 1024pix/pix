@@ -15,6 +15,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
   let certificationCpfCountryRepository;
   let certificationCpfCityRepository;
   let sessionRepository;
+  let mailCheck;
 
   const sessionId = 1;
 
@@ -32,6 +33,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
     };
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
+    mailCheck = { checkDomainIsValid: sinon.stub() };
   });
 
   context('when the session is finalized', function () {
@@ -54,6 +56,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
         sessionRepository,
+        mailCheck,
       });
 
       // then
@@ -83,6 +86,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
         sessionRepository,
+        mailCheck,
       });
 
       // then
@@ -102,6 +106,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           sessionId: null,
         });
         certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves(['one match']);
+        mailCheck.checkDomainIsValid.resolves();
 
         // when
         const err = await catchErr(addCertificationCandidateToSession)({
@@ -113,6 +118,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
           sessionRepository,
+          mailCheck,
         });
 
         // then
@@ -147,6 +153,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);
         certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
         certificationCandidateRepository.saveInSession.resolves();
+        mailCheck.checkDomainIsValid.resolves();
 
         // when
         await addCertificationCandidateToSession({
@@ -158,6 +165,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
           sessionRepository,
+          mailCheck,
         });
 
         // then
@@ -197,6 +205,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
           sessionRepository,
+          mailCheck,
         });
 
         // then
@@ -234,6 +243,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
           sessionRepository,
+          mailCheck,
         });
 
         // then
@@ -271,11 +281,106 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
             sessionRepository,
+            mailCheck,
           });
 
           // then
           expect(error).to.be.an.instanceOf(CertificationCandidatesError);
           expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED.code);
+        });
+      });
+
+      context('when candidate emails validation fail', function () {
+        context('when candidate convocation email is not valid', function () {
+          it('should throw a CertificationCandidatesError', async function () {
+            // given
+            const session = domainBuilder.buildSession.created();
+            sessionRepository.get.resolves(session);
+            sessionRepository.isSco.resolves(false);
+            const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
+              email: 'jesuisunemail@incorrect.fr',
+              resultRecipientEmail: 'jesuisunemail@correct.fr',
+            });
+            const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+            cpfBirthInformationValidation.success({
+              birthCountry: 'COUNTRY',
+              birthINSEECode: 'INSEE_CODE',
+              birthPostalCode: null,
+              birthCity: 'CITY',
+            });
+            certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);
+            certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
+            mailCheck.checkDomainIsValid.withArgs('jesuisunemail@incorrect.fr').throws();
+            mailCheck.checkDomainIsValid.withArgs('jesuisunemail@correct.fr').resolves();
+
+            // when
+            const error = await catchErr(addCertificationCandidateToSession)({
+              sessionId,
+              certificationCandidate,
+              complementaryCertification: null,
+              certificationCandidateRepository,
+              certificationCpfService,
+              certificationCpfCountryRepository,
+              certificationCpfCityRepository,
+              sessionRepository,
+              mailCheck,
+            });
+
+            // then
+            const certificationCandidatesError = new CertificationCandidatesError({
+              code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
+              meta: { email: 'jesuisunemail@incorrect.fr' },
+            });
+
+            expect(error).to.deepEqualInstance(certificationCandidatesError);
+            expect(certificationCandidateRepository.saveInSession).not.to.have.been.called;
+          });
+        });
+
+        context('when candidate recipient email is not valid', function () {
+          it('should throw a CertificationCandidatesError', async function () {
+            // given
+            const session = domainBuilder.buildSession.created();
+            sessionRepository.get.resolves(session);
+            sessionRepository.isSco.resolves(false);
+            const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
+              resultRecipientEmail: 'jesuisunemail@incorrect.fr',
+              email: 'jesuisunemail@correct.fr',
+            });
+            const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+            cpfBirthInformationValidation.success({
+              birthCountry: 'COUNTRY',
+              birthINSEECode: 'INSEE_CODE',
+              birthPostalCode: null,
+              birthCity: 'CITY',
+            });
+            certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);
+            certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
+            mailCheck.checkDomainIsValid.withArgs('jesuisunemail@incorrect.fr').throws();
+            mailCheck.checkDomainIsValid.withArgs('jesuisunemail@correct.fr').resolves();
+
+            // when
+            const error = await catchErr(addCertificationCandidateToSession)({
+              sessionId,
+              certificationCandidate,
+              complementaryCertification: null,
+              certificationCandidateRepository,
+              certificationCpfService,
+              certificationCpfCountryRepository,
+              certificationCpfCityRepository,
+              sessionRepository,
+              mailCheck,
+            });
+
+            // then
+            const certificationCandidatesError = new CertificationCandidatesError({
+              code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
+              meta: { email: 'jesuisunemail@incorrect.fr' },
+            });
+
+            expect(error).to.deepEqualInstance(certificationCandidatesError);
+            expect(certificationCandidateRepository.saveInSession).not.to.have.been.called;
+          });
         });
       });
     });
