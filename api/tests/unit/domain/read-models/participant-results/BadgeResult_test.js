@@ -23,6 +23,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', functi
       isAlwaysVisible: false,
       isValid: true,
       badgeCompetences: [],
+      acquisitionPercentage: null,
     };
 
     const badgeResult = new BadgeResult(badge, participationResults);
@@ -39,6 +40,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', functi
       isAlwaysVisible: false,
       isValid: true,
       skillSetResults: [],
+      acquisitionPercentage: null,
     });
   });
 
