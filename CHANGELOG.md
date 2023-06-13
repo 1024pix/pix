@@ -1,5 +1,40 @@
 # Pix Changelog
 ## v4.2.1 (08/06/2023)
+## v4.3.0 (13/06/2023)
+
+
+### :rocket: Amélioration
+- [#6306](https://github.com/1024pix/pix/pull/6306) [FEATURE] Design des épreuves avec embed auto dans Pix1D (PIX-8100).
+- [#6338](https://github.com/1024pix/pix/pull/6338) [FEATURE] Ajouter un lien de redirection vers le profil cible dans la liste des campagnes d'une organisation sur Pix Admin(PIX-8145).
+- [#6308](https://github.com/1024pix/pix/pull/6308) [FEATURE] Filtrer les bonnes réponses utilisateurs des solutions (PIX-8147) .
+- [#6344](https://github.com/1024pix/pix/pull/6344) [FEATURE] Ajout de la colonne isV3Pilot dans la table certification-centers (PIX-8249).
+- [#6329](https://github.com/1024pix/pix/pull/6329) [FEATURE] Rapatrie le code de hapi-pino dans l'API.
+- [#6307](https://github.com/1024pix/pix/pull/6307) [FEATURE] Amélioration et ajout d'une barre de défilement au menu utilisateur sur Pix Certif (PIX-8154).
+- [#6300](https://github.com/1024pix/pix/pull/6300) [FEATURE] Script de migration des paliers seuils en niveaux (PIX-8098).
+
+### :building_construction: Tech
+- [#6358](https://github.com/1024pix/pix/pull/6358) [TECH] Suppression de déprécations de faker.
+- [#6332](https://github.com/1024pix/pix/pull/6332) [TECH] Proposer l'injection de dépendances pour les répositories.
+- [#6355](https://github.com/1024pix/pix/pull/6355) [TECH] Harmoniser les imports de `data-fetcher`.
+- [#6353](https://github.com/1024pix/pix/pull/6353) [TECH] Supprimer les warnings sinon.stub.
+- [#6238](https://github.com/1024pix/pix/pull/6238) [TECH] Renommage de la certification complémentaire PIX+ Droit Avancé (PIX-7911).
+- [#6323](https://github.com/1024pix/pix/pull/6323) [TECH] Monter de version Ember 4.12 sur PixOrga (PIX-8264).
+- [#6343](https://github.com/1024pix/pix/pull/6343) [TECH] Suppression de dépendances a la racine inutilisés.
+- [#6335](https://github.com/1024pix/pix/pull/6335) [TECH] Utiliser toString() au lieu de .string sur les instances SafeString.
+
+### :bug: Correction
+- [#6324](https://github.com/1024pix/pix/pull/6324) [BUGFIX] Exiger les données obligatoires sur la route POST /api/certification-courses (PIX-8262).
+- [#6334](https://github.com/1024pix/pix/pull/6334) [BUGFIX] La bonne réponse affichée pour un QCM mélangé n'est pas bonne (PIX-8250).
+- [#6337](https://github.com/1024pix/pix/pull/6337) [BUGFIX] :ambulance: Hotfix v4.2.1.
+
+### :coffee: Autre
+- [#6351](https://github.com/1024pix/pix/pull/6351) [BUMP] Lock file maintenance (api).
+- [#6245](https://github.com/1024pix/pix/pull/6245) [BUMP] Update embroider monorepo to v3 (mon-pix) (major).
+- [#6339](https://github.com/1024pix/pix/pull/6339) [BUMP] Update dependency axios to v1 (api).
+- [#6347](https://github.com/1024pix/pix/pull/6347) [DOC] Corriger les entrées du changelog.
+- [#6341](https://github.com/1024pix/pix/pull/6341) [BUMP] Update dependency query-string to v8 (admin).
+- [#6340](https://github.com/1024pix/pix/pull/6340) [BUMP] Update dependency @ls-lint/ls-lint to v2 (api).
+
 
 
 ### :bug: Correction
