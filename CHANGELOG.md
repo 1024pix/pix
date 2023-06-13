@@ -1,4 +1,11 @@
 # Pix Changelog
+## v4.2.2 (13/06/2023)
+
+
+### :bug: Correction
+- [#6360](https://github.com/1024pix/pix/pull/6360) [BUGFIX] Corrige les job pgboss
+
+
 ## v4.2.1 (08/06/2023)
 
 
