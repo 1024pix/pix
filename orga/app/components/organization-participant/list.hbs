@@ -11,6 +11,7 @@
     <caption class="screen-reader-only">{{t "pages.organization-participants.table.description"}}</caption>
     <thead>
       <tr>
+        <Table::Header class="table__column--small" />
         <Table::HeaderSort
           @display="left"
           @size="medium"
@@ -53,12 +54,19 @@
 
     {{#if @participants}}
       <tbody>
-        {{#each @participants as |participant index|}}
+        <SelectableList @items={{@participants}} as |participant toggleParticipant isParticipantSelected index|>
           <tr
             aria-label={{t "pages.organization-participants.table.row-title"}}
             {{on "click" (fn @onClickLearner participant.id)}}
             class="tr--clickable"
           >
+            <td class="table__column" {{on "click" (fn this.onClick toggleParticipant)}}>
+              <PixCheckbox @screenReaderOnly={{true}} @checked={{isParticipantSelected}}>{{t
+                  "pages.organization-participants.table.column.checkbox"
+                  firstname=participant.firstName
+                  lastname=participant.lastName
+                }}</PixCheckbox>
+            </td>
             <td class="table__column">
               <LinkTo
                 @route="authenticated.organization-participants.organization-participant"
@@ -68,7 +76,9 @@
               </LinkTo>
             </td>
             <td class="ellipsis" title={{participant.firstName}}>{{participant.firstName}}</td>
-            <td class="table__column--center">{{participant.participationCount}}</td>
+            <td class="table__column--center">
+              {{participant.participationCount}}
+            </td>
             <td>
               <div class="organization-participant-list-page__last-participation">
                 <span>{{dayjs-format participant.lastParticipationDate "DD/MM/YYYY"}}</span>
@@ -91,7 +101,7 @@
               {{/if}}
             </td>
           </tr>
-        {{/each}}
+        </SelectableList>
       </tbody>
     {{/if}}
   </table>

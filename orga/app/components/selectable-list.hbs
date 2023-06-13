@@ -1,0 +1,3 @@
+{{#each @items as |item index|}}
+  {{yield item (fn this.toggle item) (this.isSelected item) index}}
+{{/each}}
