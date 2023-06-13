@@ -8,58 +8,80 @@ export async function getNextChallengeForPix1d({
   challengeRepository,
   activityRepository,
 }) {
-  const currentActivity = await _getCurrentActivity(activityRepository, assessmentId);
-  const answers = await activityAnswerRepository.findByActivity(currentActivity.id);
-  if (_userFailedOrSkippedLastChallenge(answers)) {
-    return _endMission(assessmentRepository, assessmentId);
-  }
-
   const { missionId } = await assessmentRepository.get(assessmentId);
+  let currentActivity;
+  let answers = [];
   try {
-    const challengeNumber = answers.length + 1;
-    return await challengeRepository.getForPix1D({
-      missionId,
-      activityLevel: currentActivity.level,
-      challengeNumber,
-    });
-  } catch (error) {
-    if (error instanceof NotFoundError) {
-      const nextActivityLevel = _getNextActivityLevel(currentActivity.level);
-      if (nextActivityLevel === undefined) {
-        return _endMission(assessmentRepository, assessmentId);
-      } else {
-        activityRepository.save(new Activity({ assessmentId, level: nextActivityLevel }));
-        return await challengeRepository.getForPix1D({
-          missionId,
-          activityLevel: nextActivityLevel,
-          challengeNumber: 1,
-        });
-      }
+    currentActivity = await activityRepository.getLastActivity(assessmentId);
+    answers = await activityAnswerRepository.findByActivity(currentActivity.id);
+    if (_userSucceededLastChallenge(answers)) {
+      const challengeNumber = answers.length + 1;
+      return await challengeRepository.getForPix1D({
+        missionId,
+        activityLevel: currentActivity.level,
+        challengeNumber,
+      });
     }
-    throw error;
+  } catch (error) {
+    if (!(error instanceof NotFoundError)) {
+      throw error;
+    }
   }
+  return _getNextActivityChallenge(
+    currentActivity,
+    assessmentRepository,
+    assessmentId,
+    activityRepository,
+    challengeRepository,
+    missionId,
+    _userFailedOrSkippedLastChallenge(answers)
+  );
 }
 
-async function _getCurrentActivity(activityRepository, assessmentId) {
-  try {
-    return await activityRepository.getLastActivity(assessmentId);
-  } catch (error) {
-    if (error instanceof NotFoundError) {
-      return await activityRepository.save(new Activity({ assessmentId, level: Activity.levels.TUTORIAL }));
-    }
-    throw error;
+const _userSucceededLastChallenge = function (answers) {
+  if (answers.length === 0) {
+    return false;
   }
-}
+  const lastAnswerResult = answers[answers.length - 1].result;
+  return lastAnswerResult.isOK();
+};
 
 const _userFailedOrSkippedLastChallenge = function (answers) {
-  if (answers.length <= 0) {
+  if (answers.length < 1) {
     return false;
   }
   const lastAnswerResult = answers[answers.length - 1].result;
   return lastAnswerResult.isKO() || lastAnswerResult.isSKIPPED();
 };
 
-function _getNextActivityLevel(level) {
+async function _getNextActivityChallenge(
+  currentActivity,
+  assessmentRepository,
+  assessmentId,
+  activityRepository,
+  challengeRepository,
+  missionId,
+  lastChallengeFailedOrSkipped
+) {
+  const nextActivityLevel = _getNextActivityLevel(currentActivity?.level, lastChallengeFailedOrSkipped);
+  if (nextActivityLevel !== undefined) {
+    activityRepository.save(new Activity({ assessmentId, level: nextActivityLevel }));
+    return await challengeRepository.getForPix1D({
+      missionId,
+      activityLevel: nextActivityLevel,
+      challengeNumber: 1,
+    });
+  }
+  assessmentRepository.completeByAssessmentId(assessmentId);
+}
+
+function _getNextActivityLevel(level, lastChallengeFailedOrSkipped) {
+  if (lastChallengeFailedOrSkipped) {
+    return undefined;
+  }
+  if (!level) {
+    return Activity.levels.TUTORIAL;
+  }
   switch (level) {
     case Activity.levels.TUTORIAL:
       return Activity.levels.TRAINING;
@@ -70,9 +92,4 @@ function _getNextActivityLevel(level) {
     default:
       return undefined;
   }
-}
-
-function _endMission(assessmentRepository, assessmentId) {
-  assessmentRepository.completeByAssessmentId(assessmentId);
-  return;
 }
