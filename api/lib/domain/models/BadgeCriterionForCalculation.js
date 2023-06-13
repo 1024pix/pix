@@ -15,6 +15,19 @@ export class BadgeCriterionForCalculation {
     const masteryPercentage = _computeMasteryPercentage(validatedSkillsCount, totalSkillsCount);
     return masteryPercentage >= this.threshold;
   }
+
+  getAcquisitionPercentage(knowledgeElements) {
+    const knowledgeElementsInSkills = _removeKnowledgeElementsNotInSkills(knowledgeElements, this.skillIds);
+    const validatedSkillsCount = knowledgeElementsInSkills.filter(
+      (knowledgeElement) => knowledgeElement.isValidated
+    ).length;
+    const totalSkillsCount = this.skillIds.length;
+    const masteryPercentage = _computeMasteryPercentage(validatedSkillsCount, totalSkillsCount);
+
+    const acquisitionPercentage = Math.round((masteryPercentage / this.threshold) * 100);
+
+    return acquisitionPercentage > 100 ? 100 : acquisitionPercentage;
+  }
 }
 
 function _removeKnowledgeElementsNotInSkills(knowledgeElements, skillIds) {
