@@ -6,6 +6,7 @@ import { CertificationCandidate } from '../../../../../lib/domain/models/Certifi
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
 import { SessionMassImportReport } from '../../../../../lib/domain/models/SessionMassImportReport.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 
 describe('Unit | UseCase | sessions-mass-import | validate-sessions', function () {
   let accessCode;
@@ -39,6 +40,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       getValidatedCandidateBirthInformation: sinon.stub(),
       validateSession: sinon.stub(),
       getUniqueCandidates: sinon.stub(),
+      validateCandidateEmails: sinon.stub(),
     };
     temporarySessionsStorageForMassImportService = {
       save: sinon.stub(),
@@ -60,6 +62,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           birthINSEECode: '134',
         },
       });
+      sessionsImportValidationService.validateCandidateEmails.resolves([]);
 
       const sessions = [
         {
@@ -206,6 +209,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           .onThirdCall()
           .resolves({ cpfBirthInformation: cpfBirthInformationValidation3 });
 
+        sessionsImportValidationService.validateCandidateEmails.resolves([]);
         temporarySessionsStorageForMassImportService.save.resolves(cachedValidatedSessionsKey);
 
         // when
@@ -406,6 +410,88 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
                 line: 3,
                 code: CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_IN_SESSION.code,
                 isBlocking: false,
+              },
+            ],
+          })
+        );
+      });
+    });
+
+    context('when candidate recipient (or convocation) email is not valid', function () {
+      it('should return sessionsMassImportReport', async function () {
+        // given
+        const validSessionData = _createValidSessionData();
+        const firstCandidate = _createValidCandidateData({ line: 1, candidateNumber: 1 });
+        const secondCandidatewithInvalidEmail = {
+          lastName: `Anne`,
+          firstName: `Toine`,
+          birthdate: '1981-03-12',
+          sex: 'M',
+          birthINSEECode: '134',
+          birthPostalCode: null,
+          birthCity: '',
+          birthCountry: 'France',
+          resultRecipientEmail: 'invalidemail',
+          email: 'robindahood2@email.fr',
+          externalId: 'htehte',
+          extraTimePercentage: '20',
+          billingMode: 'Gratuite',
+          line: 2,
+        };
+
+        const sessions = [
+          {
+            ...validSessionData,
+            certificationCandidates: [firstCandidate, secondCandidatewithInvalidEmail],
+          },
+        ];
+
+        sessionsImportValidationService.validateSession.resolves([]);
+        sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
+          certificationCandidateErrors: [],
+          cpfBirthInformation: {},
+        });
+        sessionsImportValidationService.validateCandidateEmails
+          .onFirstCall()
+          .returns([])
+          .onSecondCall()
+          .returns([
+            {
+              line: 2,
+              code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
+              isBlocking: true,
+            },
+          ]);
+        sessionsImportValidationService.getUniqueCandidates.returns({
+          uniqueCandidates: [firstCandidate, secondCandidatewithInvalidEmail],
+          duplicateCandidateErrors: [],
+        });
+
+        certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
+
+        // when
+        const sessionsMassImportReport = await validateSessions({
+          sessions,
+          certificationCenterRepository,
+          certificationCenterId,
+          sessionCodeService,
+          i18n,
+          sessionsImportValidationService,
+          temporarySessionsStorageForMassImportService,
+        });
+
+        // then
+        expect(sessionsMassImportReport).to.deep.equal(
+          new SessionMassImportReport({
+            cachedValidatedSessionsKey: undefined,
+            sessionsCount: 1,
+            sessionsWithoutCandidatesCount: 0,
+            candidatesCount: 2,
+            errorReports: [
+              {
+                line: 2,
+                code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
+                isBlocking: true,
               },
             ],
           })
