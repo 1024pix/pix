@@ -363,7 +363,7 @@
         },
         "assessments": {
           "question-label": "Souhaitez-vous permettre aux participants d’envoyer plusieurs fois leurs résultats ?",
-          "info": "Si vous choisissez l’envoi multiple, le participant pourra repasser la campagne et envoyer ses résultats plusieurs fois, en saisissant à nouveau le code. Au sein de Pix Orga, vous verrez sa dernière participation."
+          "info": "Si vous choisissez l’envoi multiple, le participant pourra repasser la campagne 4 jours après et envoyer ses résultats plusieurs fois, en saisissant à nouveau le code. Au sein de Pix Orga, vous verrez sa dernière participation."
         }
       },
       "name": {
