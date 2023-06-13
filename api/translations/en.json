@@ -142,6 +142,9 @@
     }
   },
   "certification-results-csv": {
+    "filenames": {
+      "SESSION_CERTIFICATION_RESULTS_FILENAME": "{{ dateWithTime }}_session_results_{{ sessionId }}.csv"
+    },
     "headers" : {
       "CERTIFICATION_NUMBER": "TODO",
       "FIRSTNAME": "TODO",
