@@ -301,7 +301,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
         // then
         expect(error).to.be.instanceOf(CertificationCandidatesImportError);
-        expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION);
+        expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code);
       });
     });
 

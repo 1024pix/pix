@@ -85,7 +85,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         line = parseInt(line) + 1;
 
         throw new CertificationCandidatesImportError({
-          code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION,
+          code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
           message: 'A candidate cannot have more than one complementary certification',
           meta: { line },
         });
@@ -174,8 +174,10 @@ function _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line) {
 
 function _handleBirthInformationValidationError(cpfBirthInformation, line) {
   line = parseInt(line) + 1;
+  const { birthCountry, birthINSEECode, birthPostalCode, birthCity, firstErrorCode } = cpfBirthInformation;
   throw new CertificationCandidatesImportError({
-    message: `Ligne ${line} : ${cpfBirthInformation.firstErrorMessage}`,
+    code: firstErrorCode,
+    meta: { line, birthCountry, birthINSEECode, birthPostalCode, birthCity },
   });
 }
 

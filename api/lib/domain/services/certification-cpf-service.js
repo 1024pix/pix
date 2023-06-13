@@ -42,6 +42,10 @@ class CpfBirthInformationValidation {
   get firstErrorMessage() {
     return this.errors?.[0]?.message;
   }
+
+  get firstErrorCode() {
+    return this.errors?.[0]?.code;
+  }
 }
 
 function _getForeignCountryBirthInformation({
@@ -148,7 +152,12 @@ async function getBirthInformation({
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
 }) {
-  const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+  const cpfBirthInformationValidation = new CpfBirthInformationValidation({
+    birthCountry,
+    birthCity,
+    birthPostalCode,
+    birthINSEECode,
+  });
 
   if (!birthCountry && !birthINSEECode && !birthPostalCode && !birthCity) {
     cpfBirthInformationValidation.failure({
