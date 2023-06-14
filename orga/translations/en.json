@@ -740,6 +740,7 @@
       "table": {
         "description": "Table of participants, sorted by name.",
         "column": {
+          "mainCheckbox": "Select/Unselect whole column",
           "checkbox": "Select/Unselect {firstname} {lastname}",
           "first-name": "First name",
           "last-name": {
