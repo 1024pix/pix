@@ -383,38 +383,40 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       });
 
       module('when the new candidate form is submitted', function () {
-        test('it should display the error message when the submitted form data is incorrect', async function (assert) {
-          // given
-          const session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
-          server.createList('country', 2, { code: '99100' });
+        module('when the submitted form data is incorrect', function () {
+          test('it should display a generic error message', async function (assert) {
+            // given
+            const session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+            server.createList('country', 2, { code: '99100' });
 
-          this.server.post(
-            '/sessions/:id/certification-candidates',
-            () => ({
-              errors: [
-                {
-                  status: '422',
-                  detail: 'An error message',
-                },
-              ],
-            }),
-            422
-          );
+            this.server.post(
+              '/sessions/:id/certification-candidates',
+              () => ({
+                errors: [
+                  {
+                    status: '422',
+                    detail: 'An error message',
+                  },
+                ],
+              }),
+              422
+            );
 
-          // when
-          const screen = await visit(`/sessions/${session.id}/candidats`);
-          await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
-          await _fillFormWithCorrectData(screen);
-          await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+            // when
+            const screen = await visit(`/sessions/${session.id}/candidats`);
+            await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+            await _fillFormWithCorrectData(screen);
+            await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
-          // then
-          assert
-            .dom(
-              screen.getByText(
-                'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
+            // then
+            assert
+              .dom(
+                screen.getByText(
+                  'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
+                )
               )
-            )
-            .exists();
+              .exists();
+          });
         });
 
         module('when candidate data is valid', function (hooks) {
