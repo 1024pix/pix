@@ -226,6 +226,27 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             });
           });
 
+          module('when uploading a file with generic error', function () {
+            test('it should display the default message', async function (assert) {
+              // given
+              const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+              const file = new Blob(['foo'], { type: 'internal-error' });
+
+              // when
+              const input = find('#upload-attendance-sheet');
+              await triggerEvent(input, 'change', { files: [file] });
+
+              // then
+              assert
+                .dom(
+                  screen.getByText(
+                    "Aucun candidat n’a été importé. Veuillez réessayer ou nous contacter via le formulaire du centre d'aide."
+                  )
+                )
+                .exists();
+            });
+          });
+
           module('when importing is forbidden', function () {
             test('it should display a specific error message', async function (assert) {
               // given
