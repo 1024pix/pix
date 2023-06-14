@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import setupIntl from '../../../helpers/setup-intl';
+import Service from '@ember/service';
 
 import ENV from 'mon-pix/config/environment';
 
@@ -51,6 +52,7 @@ module('Unit | Component | routes/login-form', function (hooks) {
 
         // then
         assert.notOk(component.errorMessage);
+        assert.false(component.isLoading);
       });
 
       test('should notify error when authentication fails', async function (assert) {
@@ -62,6 +64,7 @@ module('Unit | Component | routes/login-form', function (hooks) {
 
         // then
         assert.ok(component.errorMessage);
+        assert.false(component.isLoading);
       });
 
       module('when user is temporary blocked', function () {
@@ -137,6 +140,30 @@ module('Unit | Component | routes/login-form', function (hooks) {
           });
           sinon.assert.calledWith(component.router.replaceWith, expectedRouteName);
           assert.ok(true);
+        });
+      });
+
+      module('while waiting for submission completion', function () {
+        test('isLoading is true', async function (assert) {
+          // given
+          let inflightLoading;
+
+          const component = createGlimmerComponent('routes/login-form');
+          const authenticateStub = function () {
+            inflightLoading = component.isLoading;
+            return Promise.resolve();
+          };
+          class SessionStub extends Service {
+            authenticate = authenticateStub;
+          }
+
+          this.owner.register('service:session', SessionStub);
+
+          // when
+          await component.authenticate(eventStub);
+
+          // then
+          assert.true(inflightLoading);
         });
       });
     });

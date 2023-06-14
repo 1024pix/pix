@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  {{#if this.hasFailed}}
+  {{#if this.errorMessage}}
     <p class="sign-form__notification-message--error" role="alert" id="sign-in-error-message">
       {{this.errorMessage}}
     </p>
@@ -55,7 +55,7 @@
     </fieldset>
 
     <div class="sign-form-body__bottom-button">
-      <PixButton @type="submit" @shape="rounded">
+      <PixButton @type="submit" @shape="rounded" @isLoading={{this.isLoading}}>
         {{t "pages.sign-in.actions.submit"}}
       </PixButton>
     </div>
