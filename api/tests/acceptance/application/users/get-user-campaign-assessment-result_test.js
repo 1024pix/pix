@@ -18,7 +18,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
 
   let user, campaign, assessment, campaignParticipation, targetProfile, campaignSkills;
 
-  let server, badge, skillSet, stage;
+  let server, badge1, badge2, skillSet, stage;
 
   beforeEach(async function () {
     server = await createServer();
@@ -54,6 +54,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       sharedAt: recentDate,
       masteryRate: 0.38,
     });
+
     assessment = databaseBuilder.factory.buildAssessment({
       campaignParticipationId: campaignParticipation.id,
       userId: user.id,
@@ -61,19 +62,44 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       state: 'completed',
     });
 
-    badge = databaseBuilder.factory.buildBadge({
+    badge1 = databaseBuilder.factory.buildBadge({
       id: 1,
-      altMessage: 'Banana',
+      altMessage: 'Low threshold badge',
       imageUrl: '/img/banana.svg',
-      message: 'You won a Banana Badge',
-      title: 'Banana',
-      key: 'PIX_BANANA',
+      message: 'You won a badge that had a criterion threshold set at 0',
+      title: 'Badge 1',
+      key: 'PIX_BADGE_1',
       targetProfileId: targetProfile.id,
+      isAlwaysVisible: true,
     });
+
+    badge2 = databaseBuilder.factory.buildBadge({
+      id: 2,
+      altMessage: 'High threshold badge',
+      imageUrl: '/img/banana.svg',
+      message: 'You won a badge that had a criterion threshold set at 90',
+      title: 'Badge 2',
+      key: 'PIX_BADGE_2',
+      targetProfileId: targetProfile.id,
+      isAlwaysVisible: true,
+    });
+
     databaseBuilder.factory.buildBadgeCriterion({
       badgeId: 1,
       scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
       threshold: 0,
+    });
+
+    databaseBuilder.factory.buildBadgeCriterion({
+      badgeId: 2,
+      scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+      threshold: 90,
+    });
+
+    databaseBuilder.factory.buildBadgeAcquisition({
+      userId: user.id,
+      campaignParticipationId: campaignParticipation.id,
+      badgeId: badge1.id,
     });
 
     skillSet = databaseBuilder.factory.buildSkillSet({
@@ -81,6 +107,14 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       badgeId: 1,
       name: 'Pix Emploi',
       color: 'emerald',
+      skillIds,
+    });
+
+    databaseBuilder.factory.buildSkillSet({
+      id: 2,
+      badgeId: 2,
+      name: 'Pix Emploi',
+      color: 'pink',
       skillIds,
     });
 
@@ -212,7 +246,11 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             'campaign-participation-badges': {
               data: [
                 {
-                  id: `${badge.id}`,
+                  id: `${badge1.id}`,
+                  type: 'campaignParticipationBadges',
+                },
+                {
+                  id: `${badge2.id}`,
                   type: 'campaignParticipationBadges',
                 },
               ],
@@ -268,15 +306,16 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
           },
           {
             attributes: {
-              'alt-message': 'Banana',
+              'acquisition-percentage': 100,
+              'alt-message': 'Low threshold badge',
               'image-url': '/img/banana.svg',
-              'is-acquired': false,
-              'is-always-visible': false,
+              'is-acquired': true,
+              'is-always-visible': true,
               'is-certifiable': false,
               'is-valid': true,
-              key: 'PIX_BANANA',
-              title: 'Banana',
-              message: 'You won a Banana Badge',
+              key: 'PIX_BADGE_1',
+              title: 'Badge 1',
+              message: 'You won a badge that had a criterion threshold set at 0',
             },
             id: '1',
             type: 'campaignParticipationBadges',
@@ -293,6 +332,64 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
                 data: [
                   {
                     id: '1',
+                    type: 'partnerCompetenceResults',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            attributes: {
+              'area-color': undefined,
+              'mastery-percentage': 38,
+              name: 'Pix Emploi',
+              'tested-skills-count': 5,
+              'total-skills-count': 8,
+              'validated-skills-count': 3,
+            },
+            id: '2',
+            type: 'skillSetResults',
+          },
+          {
+            attributes: {
+              'area-color': undefined,
+              'mastery-percentage': 38,
+              name: 'Pix Emploi',
+              'tested-skills-count': 5,
+              'total-skills-count': 8,
+              'validated-skills-count': 3,
+            },
+            id: '2',
+            type: 'partnerCompetenceResults',
+          },
+          {
+            attributes: {
+              'acquisition-percentage': 42,
+              'alt-message': 'High threshold badge',
+              'image-url': '/img/banana.svg',
+              'is-acquired': false,
+              'is-always-visible': true,
+              'is-certifiable': false,
+              'is-valid': false,
+              key: 'PIX_BADGE_2',
+              title: 'Badge 2',
+              message: 'You won a badge that had a criterion threshold set at 90',
+            },
+            id: '2',
+            type: 'campaignParticipationBadges',
+            relationships: {
+              'skill-set-results': {
+                data: [
+                  {
+                    id: '2',
+                    type: 'skillSetResults',
+                  },
+                ],
+              },
+              'partner-competence-results': {
+                data: [
+                  {
+                    id: '2',
                     type: 'partnerCompetenceResults',
                   },
                 ],
