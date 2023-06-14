@@ -178,8 +178,14 @@ export default class EnrolledCandidates extends Component {
     this._handleSavingError(errorText, certificationCandidate);
   }
 
-  _handleEntityValidationError(certificationCandidate, err) {
-    const errorText = get(err, 'errors[0].detail');
+  _handleEntityValidationError(certificationCandidate, errorResponse) {
+    let errorText = this.intl.t(`common.api-error-messages.internal-server-error`);
+    const error = errorResponse?.errors?.[0];
+    if (error?.code) {
+      errorText = this.intl.t(`common.api-error-messages.add-certification-candidate.${error.code}`, {
+        ...error?.meta,
+      });
+    }
     this._handleSavingError(errorText, certificationCandidate);
   }
 

@@ -408,7 +408,13 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
           // then
-          assert.dom('[data-test-notification-message="error"]').hasText('An error message');
+          assert
+            .dom(
+              screen.getByText(
+                'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
+              )
+            )
+            .exists();
         });
 
         module('when candidate data is valid', function (hooks) {
