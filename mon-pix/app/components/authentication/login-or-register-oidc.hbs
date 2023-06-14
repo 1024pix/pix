@@ -29,13 +29,13 @@
       </PixCheckbox>
     </div>
 
-    {{#if this.registerError}}
+    {{#if this.registerErrorMessage}}
       <PixMessage @type="error" class="login-or-register-oidc-form__cgu-error">
         {{this.registerErrorMessage}}
       </PixMessage>
     {{/if}}
 
-    <PixButton @type="submit" @triggerAction={{this.register}}>
+    <PixButton @type="submit" @triggerAction={{this.register}} @isLoading={{this.isRegisterLoading}}>
       {{t "pages.login-or-register-oidc.register-form.button"}}
     </PixButton>
   </div>
@@ -75,13 +75,13 @@
         </LinkTo>
       </div>
 
-      {{#if this.loginError}}
+      {{#if this.loginErrorMessage}}
         <PixMessage @type="error" class="login-or-register-oidc-form__cgu-error">
           {{this.loginErrorMessage}}
         </PixMessage>
       {{/if}}
 
-      <PixButton @type="submit" class="login-or-register-oidc-form__submit-button">
+      <PixButton @type="submit" @isLoading={{this.isLoginLoading}} class="login-or-register-oidc-form__submit-button">
         {{t "pages.login-or-register-oidc.login-form.button"}}
       </PixButton>
     </form>

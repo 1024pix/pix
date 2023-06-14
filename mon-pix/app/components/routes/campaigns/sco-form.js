@@ -28,13 +28,14 @@ class Validation {
 export default class ScoForm extends Component {
   @service intl;
 
-  validation = new Validation();
-
   @tracked firstName;
   @tracked lastName;
   @tracked dayOfBirth;
   @tracked monthOfBirth;
   @tracked yearOfBirth;
+  @tracked isLoading = false;
+
+  validation = new Validation();
 
   constructor() {
     super(...arguments);
@@ -70,8 +71,10 @@ export default class ScoForm extends Component {
     if (this.isFormNotValid) {
       return;
     }
+    this.isLoading = true;
 
     await this.args.onSubmit({ firstName: this.firstName, lastName: this.lastName, birthdate: this.birthdate });
+    this.isLoading = false;
   }
 
   @action
