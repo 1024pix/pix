@@ -58,7 +58,7 @@ async function _getNextActivityChallenge(
   if (lastAnswerStatus) {
     await activityRepository.updateStatus({ activityId: currentActivity.id, status: status[lastAnswerStatus] });
   }
-  const nextActivityLevel = _getNextActivityLevel(currentActivity?.level, lastAnswerStatus);
+  const nextActivityLevel = _getNextActivityLevel(await activityRepository.getAllByAssessmentId(assessmentId));
   if (nextActivityLevel !== undefined) {
     activityRepository.save(new Activity({ assessmentId, level: nextActivityLevel, status: Activity.status.STARTED }));
     return await challengeRepository.getForPix1D({
@@ -70,14 +70,17 @@ async function _getNextActivityChallenge(
   assessmentRepository.completeByAssessmentId(assessmentId);
 }
 
-function _getNextActivityLevel(level, lastAnswerStatus) {
-  if (lastAnswerStatus === 'ko' || lastAnswerStatus === 'aband') {
+function _getNextActivityLevel(activities) {
+  if (
+    activities.length > 0 &&
+    (activities[0].status === Activity.status.FAILED || activities[0].status === Activity.status.SKIPPED)
+  ) {
     return undefined;
   }
-  if (!level) {
+  if (activities.length == 0) {
     return Activity.levels.TUTORIAL;
   }
-  switch (level) {
+  switch (activities[0].level) {
     case Activity.levels.TUTORIAL:
       return Activity.levels.TRAINING;
     case Activity.levels.TRAINING:
