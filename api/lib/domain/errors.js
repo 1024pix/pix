@@ -363,6 +363,9 @@ class InvalidCertificationCandidate extends DomainError {
     if (type === 'number.less' || type === 'number.min') {
       error.why = 'extra_time_percentage_out_of_range';
     }
+    if (type === 'date.greater') {
+      error.why = 'birthdate_must_be_greater';
+    }
 
     return new InvalidCertificationCandidate({ error });
   }
@@ -576,6 +579,8 @@ class CertificationCandidateAddError extends DomainError {
       code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code;
     } else if (error.why === 'prepayment_code_not_null') {
       code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code;
+    } else if (error.why === 'birthdate_must_be_greater') {
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_MUST_BE_GREATER.code;
     }
 
     return new CertificationCandidateAddError({ code });

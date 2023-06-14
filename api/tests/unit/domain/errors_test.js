@@ -554,6 +554,10 @@ describe('Unit | Domain | Errors', function () {
             why: 'prepayment_code_not_null',
             code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code,
           },
+          {
+            why: 'birthdate_must_be_greater',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_MUST_BE_GREATER.code,
+          },
         ].forEach(({ why, code }) => {
           it(`code should be "${code}" when why is "${why}"`, async function () {
             // given
