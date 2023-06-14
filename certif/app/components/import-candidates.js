@@ -42,21 +42,6 @@ export default class ImportCandidates extends Component {
 
       return `${errorPrefix} ${this.intl.t(`common.api-error-messages.${error.code}`)}`;
     }
-
-    let errorMessage = `${errorPrefix} ${this.intl.t('pages.sessions.import.candidates-list.try-again-or-contact')}`;
-
-    if (errorResponse?.errors) {
-      errorResponse.errors.forEach((error) => {
-        if (error.status === '422') {
-          errorMessage = htmlSafe(`
-              <p>
-                ${errorPrefix}<b>${error.detail}</b>
-              </p>`);
-        }
-      });
-      return errorMessage;
-    }
-
-    return this.intl.t(`common.api-error-messages.internal-server-error`);
+    return `${errorPrefix} ${this.intl.t('pages.sessions.import.candidates-list.try-again-or-contact')}`;
   }
 }

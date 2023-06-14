@@ -125,6 +125,19 @@ export default function () {
         }
       );
     }
+    if (type === 'internal-error') {
+      return new Response(
+        500,
+        { some: 'header' },
+        {
+          errors: [
+            {
+              status: '500',
+            },
+          ],
+        }
+      );
+    }
     if (type === 'candidate-birth-postal-code-city-not-valid') {
       return new Response(
         422,
