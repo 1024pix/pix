@@ -12,6 +12,9 @@ const cpfImportStatus = {
   SUCCESS: 'SUCCESS',
 };
 
+const DEFAULT_CERTIFICATION_COURSE_VERSION = 2;
+const V1_CERTIFICATION_COURSE_VERSION = 1;
+
 class CertificationCourse {
   constructor({
     id,
@@ -246,6 +249,7 @@ class CertificationCourse {
       isCancelled: this._isCancelled,
       abortReason: this._abortReason,
       complementaryCertificationCourses: this._complementaryCertificationCourses,
+      version: this._isV2Certification ? DEFAULT_CERTIFICATION_COURSE_VERSION : V1_CERTIFICATION_COURSE_VERSION,
     };
   }
 }
