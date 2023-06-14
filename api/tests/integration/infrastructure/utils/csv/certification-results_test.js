@@ -1,14 +1,17 @@
+import dayjs from 'dayjs';
 import { expect, domainBuilder } from '../../../../test-helper.js';
 
 import {
   getSessionCertificationResultsCsv,
   getDivisionCertificationResultsCsv,
-  REJECTED_AUTOMATICALLY_COMMENT,
   getCleaCertifiedCandidateCsv,
 } from '../../../../../lib/infrastructure/utils/csv/certification-results.js';
 
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
+
+const REJECTED_AUTOMATICALLY_COMMENT =
+  "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix";
 
 describe('Integration | Infrastructure | Utils | csv | certification-results', function () {
   context('#getSessionCertificationResultsCsv', function () {
@@ -329,14 +332,16 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const certificationResults = [certifResult];
 
         // when
-        const result = await getDivisionCertificationResultsCsv({ certificationResults });
+        const result = await getDivisionCertificationResultsCsv({ division: 777, certificationResults, i18n });
 
         // then
-        const expectedResult =
+        const expectedDate = dayjs().format('YYYYMMDD');
+        const expectedFilename = `${expectedDate}_resultats_777.csv`;
+        const expectedContent =
           '\uFEFF' +
           '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Date de passage de la certification"\n' +
           '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";55;0;1;5;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"RAS";777;"01/01/2020"';
-        expect(result).to.equal(expectedResult);
+        expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
       });
     });
     context('when certification has been rejected automatically', function () {
@@ -365,16 +370,19 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const certificationResults = [certifResult];
 
         // when
-        const result = await getDivisionCertificationResultsCsv({ certificationResults });
+        const result = await getDivisionCertificationResultsCsv({ division: 777, certificationResults, i18n });
 
         // then
-        const expectedResult =
+        const expectedDate = dayjs().format('YYYYMMDD');
+        const expectedFilename = `${expectedDate}_resultats_777.csv`;
+        const expectedContent =
           '\uFEFF' +
           '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Date de passage de la certification"\n' +
           `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_AUTOMATICALLY_COMMENT}";777;"02/02/2020"`;
-        expect(result).to.equal(expectedResult);
+        expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
       });
     });
+
     context('when at least one certification course is cancelled', function () {
       it('should return correct csvContent with cancelled status and dashes as Pix scores', async function () {
         // given
@@ -400,14 +408,16 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const certificationResults = [certifResult];
 
         // when
-        const result = await getDivisionCertificationResultsCsv({ certificationResults });
+        const result = await getDivisionCertificationResultsCsv({ division: 777, certificationResults, i18n });
 
         // then
-        const expectedResult =
+        const expectedDate = dayjs().format('YYYYMMDD');
+        const expectedFilename = `${expectedDate}_resultats_777.csv`;
+        const expectedContent =
           '\uFEFF' +
           '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Date de passage de la certification"\n' +
           '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"01/01/2020"';
-        expect(result).to.equal(expectedResult);
+        expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
       });
     });
   });

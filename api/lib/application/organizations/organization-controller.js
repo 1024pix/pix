@@ -228,16 +228,15 @@ const downloadCertificationResults = async function (request, h, dependencies = 
   const certificationResults = await usecases.getScoCertificationResultsByDivision({ organizationId, division });
 
   const csvResult = await dependencies.certificationResultUtils.getDivisionCertificationResultsCsv({
+    division,
     certificationResults,
+    i18n: request.i18n,
   });
 
-  const now = dayjs();
-  const fileName = `${now.format('YYYYMMDD')}_resultats_${division}.csv`;
-
   return h
-    .response(csvResult)
+    .response(csvResult.content)
     .header('Content-Type', 'text/csv;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename="${fileName}"`);
+    .header('Content-Disposition', `attachment; filename="${csvResult.filename}"`);
 };
 
 const findTargetProfiles = async function (request, h, dependencies = { targetProfileForSpecifierSerializer }) {

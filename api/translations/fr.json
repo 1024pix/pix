@@ -154,7 +154,8 @@
   },
   "certification-results-csv": {
     "filenames": {
-      "SESSION_CERTIFICATION_RESULTS_FILENAME": "{{ dateWithTime }}_resultats_session_{{ sessionId }}.csv"
+      "SESSION_CERTIFICATION_RESULTS_FILENAME": "{{ dateWithTime }}_resultats_session_{{ sessionId }}.csv",
+      "DIVISION_CERTIFICATION_RESULTS_FILENAME": "{{ dateWithTime }}_resultats_{{ division }}.csv"
     },
     "headers" : {
       "CERTIFICATION_NUMBER": "Numéro de certification",
