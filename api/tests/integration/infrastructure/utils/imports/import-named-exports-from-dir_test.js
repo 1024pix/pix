@@ -15,6 +15,7 @@ describe('Integration | Utils | #importNamedExportsFromDir', function () {
 
     // then
     expect(result).to.be.an.instanceOf(Error);
+    expect(result.message).to.be.equal('Duplicate export name a : a.js and b.js');
   });
 
   it('should import all exported methods to an object', async function () {
