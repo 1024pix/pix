@@ -276,7 +276,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       const goodAnswers = find('.correction-qrocm__solution-text');
       const badAnswersFromUserResult = findAll('.correction-qrocm-answer__input');
 
-      assert.strictEqual(goodAnswers.textContent.trim(), 'Vous auriez pu répondre Versailles-Chantiers, Poissy');
+      assert.strictEqual(goodAnswers.textContent.trim(), 'Versailles-Chantiers');
       assert.strictEqual(badAnswersFromUserResult[0].value, 'Republique');
       assert.strictEqual(badAnswersFromUserResult[1].value, 'Chatelet');
 

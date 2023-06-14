@@ -29,7 +29,9 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
     proposals: '${key1}\n${key2}',
     format: 'petit',
   });
-  const solution = 'rightAnswer:\n' + '- rightAnswer1\n' + '- rightAnswer2';
+
+  const solution =
+    'p1:\n- solution1\np2:\n- solution2\np3:\n- solution3\np4:\n- solution1\np5:\n- solution2\np6:\n- solution3';
 
   [
     { format: 'petit', input: INPUT },
@@ -88,7 +90,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
           // given
           const answer = EmberObject.create({
             id: 'answer_id',
-            value: "key1: '' key2: ''",
+            value: '#ABAND#',
             result: classByResultKey.aband,
             assessment,
             challenge,
