@@ -1,13 +1,13 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
+import { getCleaCertifiedCandidateCsv } from '../../infrastructure/utils/csv/certification-results/get-clea-certified-candidate-csv.js';
 import dayjs from 'dayjs';
 
-const getCleaCertifiedCandidateDataCsv = async function (request, h, dependencies = { certificationResultUtils }) {
+const getCleaCertifiedCandidateDataCsv = async function (request, h, dependencies = { getCleaCertifiedCandidateCsv }) {
   const sessionId = request.params.id;
   const { session, cleaCertifiedCandidateData } = await usecases.getCleaCertifiedCandidateBySession({ sessionId });
-  const csvResult = await dependencies.certificationResultUtils.getCleaCertifiedCandidateCsv(
-    cleaCertifiedCandidateData
-  );
+  const csvResult = await dependencies.getCleaCertifiedCandidateCsv({
+    cleaCertifiedCandidates: cleaCertifiedCandidateData,
+  });
 
   const dateWithTime = dayjs(session.date + ' ' + session.time)
     .locale('fr')

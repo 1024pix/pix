@@ -117,7 +117,6 @@ class CertificationResultsCsvValues {
     do {
       state = yield;
 
-      // usage: generator.next({ value })
       if (state && 'value' in state) {
         row[`col${index}`] = state.value;
         index++;

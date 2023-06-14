@@ -13,7 +13,7 @@ import * as juryCertificationSummaryRepository from '../../infrastructure/reposi
 import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
-import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
+import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import * as supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
 import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
@@ -189,13 +189,13 @@ const generateSessionResultsDownloadLink = async function (request, h, dependenc
 const getSessionResultsToDownload = async function (
   request,
   h,
-  dependencies = { tokenService, certificationResultUtils }
+  dependencies = { tokenService, getSessionCertificationResultsCsv }
 ) {
   const token = request.params.token;
   const { sessionId } = dependencies.tokenService.extractSessionId(token);
   const { session, certificationResults } = await usecases.getSessionResults({ sessionId });
 
-  const csvResult = await dependencies.certificationResultUtils.getSessionCertificationResultsCsv({
+  const csvResult = await dependencies.getSessionCertificationResultsCsv({
     session,
     certificationResults,
     i18n: request.i18n,
@@ -233,7 +233,7 @@ const getCertificationPDFAttestationsForSession = async function (
 const getSessionResultsByRecipientEmail = async function (
   request,
   h,
-  dependencies = { tokenService, certificationResultUtils }
+  dependencies = { tokenService, getSessionCertificationResultsCsv }
 ) {
   const token = request.params.token;
 
@@ -242,7 +242,7 @@ const getSessionResultsByRecipientEmail = async function (
     sessionId,
     resultRecipientEmail,
   });
-  const csvResult = await dependencies.certificationResultUtils.getSessionCertificationResultsCsv({
+  const csvResult = await dependencies.getSessionCertificationResultsCsv({
     session,
     certificationResults,
     i18n: request.i18n,
