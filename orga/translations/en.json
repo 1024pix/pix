@@ -760,6 +760,7 @@
       "page-title": "Participants",
       "table": {
         "column": {
+          "mainCheckbox": "Select/Unselect whole column",
           "checkbox": "Select/Unselect {firstname} {lastname}",
           "first-name": "First name",
           "is-certifiable": {
