@@ -323,7 +323,6 @@ describe('Integration | Repository | Certification Course', function () {
       const bookshelfCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
         userId,
         isCancelled: false,
-        isV2Certification: true,
       });
       certificationCourse = domainBuilder.buildCertificationCourse(bookshelfCertificationCourse);
       await databaseBuilder.commit();
@@ -408,7 +407,7 @@ describe('Integration | Repository | Certification Course', function () {
       const certificationCourseUpdated = await certificationCourseRepository.update(certificationCourse);
 
       // then
-      expect(certificationCourseUpdated.toDTO().isV2Certification).to.be.true;
+      expect(certificationCourseUpdated.toDTO().version).to.equal(2);
     });
 
     it('should return a NotFoundError when ID doesnt exist', function () {

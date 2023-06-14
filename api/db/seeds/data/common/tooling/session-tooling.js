@@ -833,7 +833,6 @@ function _makeCandidatesPassCertification(
       sex: certificationCandidate.sex,
       birthplace: certificationCandidate.birthCity,
       externalId: certificationCandidate.externalId,
-      isV2Certification: true,
       hasSeenEndTestScreen: true,
       createdAt: new Date(),
       updatedAt: new Date(),

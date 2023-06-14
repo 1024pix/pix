@@ -97,7 +97,6 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           userId: expectedUserId,
           createdAt: expectedCreatedAt,
           completedAt: expectedCompletedAt,
-          isV2Certification: true,
         }).id;
         certificationAssessmentId = dbf.buildAssessment({
           userId: expectedUserId,
