@@ -21,4 +21,8 @@ const getLastActivity = async function (assessmentId) {
   return activity;
 };
 
-export { save, getLastActivity, updateStatus };
+const getAllByAssessmentId = async function (assessmentId) {
+  return await knex('activities').where({ assessmentId }).orderBy('createdAt', 'DESC');
+};
+
+export { save, getLastActivity, updateStatus, getAllByAssessmentId };

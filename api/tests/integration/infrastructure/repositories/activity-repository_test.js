@@ -102,4 +102,42 @@ describe('Integration | Repository | activityRepository', function () {
       });
     });
   });
+  describe('#getAllByAssessmentId', function () {
+    context('when there is no activity for the given assessmentId', function () {
+      it('should return an empty array', async function () {
+        //given
+        const assessmentId = '789045';
+        databaseBuilder.factory.buildActivity();
+        databaseBuilder.commit();
+
+        // when
+        const activities = await activityRepository.getAllByAssessmentId(assessmentId);
+
+        // then
+        expect(activities).to.be.empty;
+      });
+    });
+    context('when there are activities for the given assessmentId', function () {
+      it('should return the corresponding activities in antichronological order', async function () {
+        //given
+        const { assessmentId, id: activityId1 } = databaseBuilder.factory.buildActivity({
+          createdAt: new Date('2023-06-14T11:30:50Z'),
+        });
+        const { id: activityId2 } = databaseBuilder.factory.buildActivity({
+          assessmentId,
+          createdAt: new Date('2023-06-14T11:50:50Z'),
+        });
+        databaseBuilder.factory.buildActivity();
+        await databaseBuilder.commit();
+
+        // when
+        const activities = await activityRepository.getAllByAssessmentId(assessmentId);
+
+        // then
+        expect(activities).to.have.lengthOf(2);
+        expect(activities[0].id).to.equal(activityId2);
+        expect(activities[1].id).to.equal(activityId1);
+      });
+    });
+  });
 });
