@@ -35,11 +35,13 @@ const publishCertificationCoursesBySessionId = async function (sessionId) {
     updatedAt: new Date(),
   }));
 
-  // Trick to .batchUpdate(), which does not exist in knex per say
-  await knex('certification-courses')
-    .insert(certificationDataToUpdate)
-    .onConflict('id')
-    .merge(['pixCertificationStatus', 'isPublished', 'updatedAt']);
+  await knex.transaction(async (trx) => {
+    return Promise.all(
+      certificationDataToUpdate.map((certificationDatum) => {
+        return trx('certification-courses').update(certificationDatum).where('id', certificationDatum.id);
+      })
+    );
+  });
 };
 
 const unpublishCertificationCoursesBySessionId = async function (sessionId) {
