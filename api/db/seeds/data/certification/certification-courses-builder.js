@@ -179,6 +179,7 @@ async function _buildCertificationCourse(
     createdAt,
     isPublished,
     isV2Certification: true,
+    version: 2,
     examinerComment,
     hasSeenEndTestScreen,
     sessionId,

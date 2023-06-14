@@ -13,6 +13,7 @@ const buildAnsweredNotCompletedCertificationAssessment = function ({
     userId: certifiableUserId,
     createdAt: limitDate,
     isV2Certification: true,
+    version: 2,
   }).id;
   const certificationAssessment = buildAssessment({
     certificationCourseId,
