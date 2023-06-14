@@ -171,7 +171,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
         test('it should display a success message when uploading a valid file', async function (assert) {
           // given
-          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+          const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           const file = new Blob(['foo'], { type: 'valid-file' });
 
           // when
@@ -179,9 +179,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           await triggerEvent(input, 'change', { files: [file] });
 
           // then
-          assert
-            .dom('[data-test-notification-message="success"]')
-            .hasText('La liste des candidats a été importée avec succès.');
+          assert.dom(screen.getByText('La liste des candidats a été importée avec succès.')).exists();
         });
 
         module('error cases', function () {
@@ -210,7 +208,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           module('when uploading a file with validation error', function () {
             test('it should display the error message', async function (assert) {
               // given
-              await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+              const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
               const file = new Blob(['foo'], { type: 'candidate-birth-postal-code-city-not-valid' });
 
               // when
@@ -219,10 +217,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
               // then
               assert
-                .dom('[data-test-notification-message="error"]')
-                .hasText(
-                  'Aucun candidat n’a été importé. Ligne 2 : Le code postal "88000" ne correspond pas à la ville "Gotham City"'
-                );
+                .dom(
+                  screen.getByText(
+                    'Aucun candidat n’a été importé. Ligne 2 : Le code postal "88000" ne correspond pas à la ville "Gotham City"'
+                  )
+                )
+                .exists();
             });
           });
 
