@@ -3,6 +3,7 @@ import * as datasource from './datasource.js';
 import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
 
 const VALIDATED_CHALLENGE = 'validé';
+const OBSOLETE_CHALLENGE = 'périmé';
 const OPERATIVE_CHALLENGES = [VALIDATED_CHALLENGE, 'archivé'];
 
 const challengeDatasource = datasource.extend({
@@ -51,23 +52,29 @@ const challengeDatasource = datasource.extend({
   },
 
   async findActiveFlashCompatible(locale) {
-    const flashChallenges = await this.findFlashCompatible(locale);
+    const flashChallenges = await this.findFlashCompatible({ locale });
     return flashChallenges.filter((challengeData) => challengeData.status === VALIDATED_CHALLENGE);
   },
 
   async findOperativeFlashCompatible(locale) {
-    const flashChallenges = await this.findFlashCompatible(locale);
+    const flashChallenges = await this.findFlashCompatible({ locale });
     return flashChallenges.filter((challengeData) => _.includes(OPERATIVE_CHALLENGES, challengeData.status));
   },
 
-  async findFlashCompatible(locale) {
+  async findFlashCompatible({ locale, useObsoleteChallenges }) {
     const challenges = await this.list();
+
+    const acceptedStatuses = useObsoleteChallenges
+      ? [OBSOLETE_CHALLENGE, ...OPERATIVE_CHALLENGES]
+      : OPERATIVE_CHALLENGES;
+
     return challenges.filter(
       (challengeData) =>
         _.includes(challengeData.locales, locale) &&
         challengeData.alpha != null &&
         challengeData.delta != null &&
-        challengeData.skillId
+        challengeData.skillId &&
+        acceptedStatuses.includes(challengeData.status)
     );
   },
 });

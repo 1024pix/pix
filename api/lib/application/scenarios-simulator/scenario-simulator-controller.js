@@ -26,6 +26,7 @@ async function simulateFlashAssessmentScenario(
     numberOfIterations = 1,
     warmUpLength,
     forcedCompetences,
+    useObsoleteChallenges,
   } = request.payload;
 
   const pickAnswerStatus = _getPickAnswerStatusMethod(dependencies.pickAnswerStatusService, request.payload);
@@ -43,6 +44,7 @@ async function simulateFlashAssessmentScenario(
           initialCapacity,
           warmUpLength,
           forcedCompetences,
+          useObsoleteChallenges,
         },
         _.isUndefined
       );
