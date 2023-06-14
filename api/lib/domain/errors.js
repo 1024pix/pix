@@ -563,22 +563,22 @@ class CertificationCandidateForbiddenDeletionError extends DomainError {
 }
 
 class CertificationCandidateAddError extends DomainError {
-  constructor(message = 'Candidat de certification invalide.') {
-    super(message);
+  constructor({ message = 'Candidat de certification invalide.', code = null } = {}) {
+    super(message, code);
   }
 
   static fromInvalidCertificationCandidateError(error) {
-    let message = 'Candidat de certification invalide.';
+    let code;
 
     if (error.why === 'not_a_billing_mode') {
-      message = `Le champ “Tarification part Pix” ne peut contenir qu'une des valeurs suivantes: Gratuite, Payante ou Prépayée.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code;
     } else if (error.why === 'prepayment_code_null') {
-      message = `Le champ “Code de prépaiement” est obligatoire puisque l’option “Prépayée” a été sélectionnée pour ce candidat.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code;
     } else if (error.why === 'prepayment_code_not_null') {
-      message = `Le champ “Code de prépaiement” doit rester vide puisque l’option “Prépayée” n'a pas été sélectionnée pour ce candidat.`;
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code;
     }
 
-    return new CertificationCandidateAddError(message);
+    return new CertificationCandidateAddError({ code });
   }
 }
 
