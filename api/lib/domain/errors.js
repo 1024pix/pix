@@ -581,6 +581,20 @@ class CertificationCandidateAddError extends DomainError {
       code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code;
     } else if (error.why === 'birthdate_must_be_greater') {
       code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_MUST_BE_GREATER.code;
+    } else if (error.why === 'not_a_date' || error.why === 'date_format') {
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code;
+    } else if (error.why === 'email_format') {
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code;
+    } else if (error.why === 'not_a_string') {
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_STRING.code;
+    } else if (error.why === 'not_a_number') {
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_NUMBER.code;
+    } else if (error.why === 'required') {
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_REQUIRED.code;
+    } else if (error.why === 'not_a_sex_code') {
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code;
+    } else if (error.why === 'extra_time_percentage_out_of_range') {
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code;
     }
 
     return new CertificationCandidateAddError({ code });
@@ -1197,8 +1211,8 @@ class InvalidExternalAPIResponseError extends DomainError {
 }
 
 class CpfBirthInformationValidationError extends DomainError {
-  constructor(message) {
-    super(message);
+  constructor({ message, code = null, meta = {} }) {
+    super(message, code, meta);
   }
 }
 
