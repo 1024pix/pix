@@ -13,7 +13,6 @@ const cpfImportStatus = {
 };
 
 const DEFAULT_CERTIFICATION_COURSE_VERSION = 2;
-const V1_CERTIFICATION_COURSE_VERSION = 1;
 
 class CertificationCourse {
   constructor({
@@ -31,7 +30,6 @@ class CertificationCourse {
     createdAt,
     completedAt,
     isPublished = false,
-    isV2Certification = false,
     verificationCode,
     assessment,
     challenges,
@@ -42,6 +40,7 @@ class CertificationCourse {
     isCancelled = false,
     abortReason,
     complementaryCertificationCourses = [],
+    version = 2,
   } = {}) {
     this._id = id;
     this._firstName = firstName;
@@ -57,7 +56,7 @@ class CertificationCourse {
     this._createdAt = createdAt;
     this._completedAt = completedAt;
     this._isPublished = isPublished;
-    this._isV2Certification = isV2Certification;
+    this._version = version;
     this._verificationCode = verificationCode;
     this._assessment = assessment;
     this._challenges = challenges;
@@ -89,7 +88,6 @@ class CertificationCourse {
       sex: certificationCandidate.sex,
       birthplace: certificationCandidate.birthCity,
       externalId: certificationCandidate.externalId,
-      isV2Certification: true,
       challenges,
       verificationCode,
       maxReachableLevelOnCertificationDate,
@@ -238,7 +236,6 @@ class CertificationCourse {
       createdAt: this._createdAt,
       completedAt: this._completedAt,
       isPublished: this._isPublished,
-      isV2Certification: this._isV2Certification,
       verificationCode: this._verificationCode,
       assessment: this._assessment,
       challenges: this._challenges,
@@ -249,7 +246,7 @@ class CertificationCourse {
       isCancelled: this._isCancelled,
       abortReason: this._abortReason,
       complementaryCertificationCourses: this._complementaryCertificationCourses,
-      version: this._isV2Certification ? DEFAULT_CERTIFICATION_COURSE_VERSION : V1_CERTIFICATION_COURSE_VERSION,
+      version: DEFAULT_CERTIFICATION_COURSE_VERSION,
     };
   }
 }

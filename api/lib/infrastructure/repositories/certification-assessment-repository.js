@@ -46,8 +46,8 @@ const get = async function (id) {
       certificationCourseId: 'certification-courses.id',
       createdAt: 'certification-courses.createdAt',
       completedAt: 'certification-courses.completedAt',
-      isV2Certification: 'certification-courses.isV2Certification',
       state: 'assessments.state',
+      version: 'certification-courses.version',
     })
     .where('assessments.id', '=', id)
     .limit(1);
@@ -62,6 +62,7 @@ const get = async function (id) {
 
   return new CertificationAssessment({
     ...certificationAssessmentRows[0],
+    isV2Certification: certificationAssessmentRows[0].version === 2,
     certificationChallenges,
     certificationAnswersByDate,
   });
@@ -80,7 +81,7 @@ const getByCertificationCourseId = async function ({
       certificationCourseId: 'certification-courses.id',
       createdAt: 'certification-courses.createdAt',
       completedAt: 'certification-courses.completedAt',
-      isV2Certification: 'certification-courses.isV2Certification',
+      version: 'certification-courses.version',
       state: 'assessments.state',
     })
     .where('assessments.certificationCourseId', '=', certificationCourseId)
@@ -98,6 +99,7 @@ const getByCertificationCourseId = async function ({
 
   return new CertificationAssessment({
     ...certificationAssessmentRow,
+    isV2Certification: certificationAssessmentRow.version === 2,
     certificationChallenges,
     certificationAnswersByDate,
   });
