@@ -248,18 +248,18 @@ export default Factory.extend({
   }),
   withEmail: trait({
     email: faker.internet.exampleEmail(),
-    password: faker.internet.password(),
+    password: 'Azerty123*',
   }),
   withUsername: trait({
     username: faker.internet.userName(),
-    password: faker.internet.password(),
+    password: 'Azerty123*',
   }),
   external: trait({
     lastName: 'Last',
     firstName: 'First',
     email: null,
     username: null,
-    password: faker.internet.password(),
+    password: 'Azerty123*',
   }),
   hasNotValidatedCgu: trait({
     cgu: false,
