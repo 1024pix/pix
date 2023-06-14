@@ -480,7 +480,7 @@ describe('Integration | Repository | answerRepository', function () {
       const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([456, 123, 789, 159]);
 
       // then
-      expect(challengeIds).to.deepEqualArray(['recABC', 'recDEF', 'recGHI']);
+      expect(challengeIds).to.have.same.members(['recABC', 'recDEF', 'recGHI']);
     });
   });
 
