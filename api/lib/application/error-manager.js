@@ -445,11 +445,7 @@ function _mapToHttpError(error) {
   }
 
   if (error instanceof DomainErrors.CpfBirthInformationValidationError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
-  }
-
-  if (error instanceof DomainErrors.CpfBirthInformationValidationError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 
   if (error instanceof DomainErrors.UncancellableOrganizationInvitationError) {
