@@ -1,8 +1,8 @@
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { Activity } from '../../../../lib/domain/models/Activity.js';
+import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function () {
   const missionId = 'AZERTYUIO';
@@ -12,6 +12,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
   let challengeRepository;
   let activityRepository;
   let assessmentRepository;
+  let dependencies;
 
   beforeEach(function () {
     answerRepository = { findByActivity: sinon.stub() };
@@ -23,50 +24,53 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       getAllByAssessmentId: sinon.stub(),
     };
     assessmentRepository = { get: sinon.stub(), completeByAssessmentId: sinon.stub() };
+    dependencies = {
+      assessmentRepository,
+      challengeRepository,
+      answerRepository,
+      activityRepository,
+    };
   });
 
   context('should calculate the good challenge number', function () {
     context('when there is no answer for the given assessmentId', function () {
+      let challenge;
       beforeEach(function () {
         assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
         answerRepository.findByActivity.withArgs(activityId).resolves([]);
-        challengeRepository.getForPix1D.resolves({ 'a challenge': 'a challenge' });
+        challenge = Symbol('challenge');
+        challengeRepository.getForPix1D.resolves(challenge);
         activityRepository.getLastActivity.withArgs(assessmentId).rejects(new NotFoundError('No activity found.'));
         activityRepository.getAllByAssessmentId.withArgs(assessmentId).resolves([]);
         activityRepository.save.resolves({ id: activityId, level: Activity.levels.TUTORIAL });
       });
       it('should call the challengeRepository with an challenge number equal to 1 ', async function () {
         // when
-        await getNextChallengeForPix1d({
-          assessmentId,
-          assessmentRepository,
-          challengeRepository,
-          answerRepository,
-          activityRepository,
-        });
+        await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
         // then
         expect(challengeRepository.getForPix1D).to.have.been.calledWith({
           missionId,
-          activityLevel: Activity.levels.TUTORIAL,
+          activityLevel: Activity.levels.VALIDATION,
           challengeNumber: 1,
         });
       });
+      it('should return the first challenge', async function () {
+        // when
+        const firstChallenge = await getNextChallengeForPix1d({ assessmentId, ...dependencies });
+
+        // then
+        expect(firstChallenge).to.equal(challenge);
+      });
       it('should create the first activity', async function () {
         // when
-        await getNextChallengeForPix1d({
-          assessmentId,
-          assessmentRepository,
-          challengeRepository,
-          answerRepository,
-          activityRepository,
-        });
+        await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
         // then
         expect(activityRepository.save).to.have.been.calledWith(
           new Activity({
             assessmentId,
-            level: Activity.levels.TUTORIAL,
+            level: Activity.levels.VALIDATION,
             status: Activity.status.STARTED,
           })
         );
@@ -83,13 +87,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
           .resolves(new Activity({ id: activityId, level: Activity.levels.TUTORIAL }));
 
         // when
-        await getNextChallengeForPix1d({
-          assessmentId,
-          assessmentRepository,
-          challengeRepository,
-          answerRepository,
-          activityRepository,
-        });
+        await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
         // then
         expect(challengeRepository.getForPix1D).to.have.been.calledWith({
@@ -106,49 +104,30 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       answerRepository.findByActivity.withArgs(activityId).resolves([answer]);
       challengeRepository.getForPix1D.rejects(new NotFoundError('No challenge found'));
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-      activityRepository.getLastActivity
-        .withArgs(assessmentId)
-        .resolves({ id: activityId, level: Activity.levels.CHALLENGE });
+      const activity = new Activity({ id: activityId, level: Activity.levels.CHALLENGE });
+      activityRepository.getLastActivity.withArgs(assessmentId).resolves(activity);
       activityRepository.getAllByAssessmentId
         .withArgs(assessmentId)
-        .resolves([new Activity({ status: Activity.status.SUCCEEDED })]);
+        .resolves([{ ...activity, status: Activity.status.SUCCEEDED }]);
     });
 
     it('should complete the assessment', async function () {
-      await getNextChallengeForPix1d({
-        assessmentId,
-        assessmentRepository,
-        challengeRepository,
-        answerRepository,
-        activityRepository,
-      });
-
+      // when
+      await getNextChallengeForPix1d({ assessmentId, ...dependencies });
+      // then
       expect(assessmentRepository.completeByAssessmentId).to.have.been.calledOnceWith(assessmentId);
     });
 
     it('should not return new challenge', async function () {
       // when
-      const result = await getNextChallengeForPix1d({
-        assessmentId,
-        assessmentRepository,
-        challengeRepository,
-        answerRepository,
-        activityRepository,
-      });
-
+      const result = await getNextChallengeForPix1d({ assessmentId, ...dependencies });
       // then
       expect(result).to.equal(undefined);
     });
 
     it('should update the activity with the status succeed', async function () {
       // when
-      await getNextChallengeForPix1d({
-        assessmentId,
-        assessmentRepository,
-        challengeRepository,
-        answerRepository,
-        activityRepository,
-      });
+      await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
       // then
       expect(activityRepository.updateStatus).to.have.been.calledOnceWith({
@@ -185,13 +164,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         })
         .resolves(expectedChallenge);
 
-      const challenge = await getNextChallengeForPix1d({
-        assessmentId,
-        assessmentRepository,
-        challengeRepository,
-        answerRepository,
-        activityRepository,
-      });
+      const challenge = await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
       expect(activityRepository.save).to.have.been.calledWith(
         new Activity({
@@ -231,13 +204,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         })
         .resolves(expectedChallenge);
 
-      const challenge = await getNextChallengeForPix1d({
-        assessmentId,
-        assessmentRepository,
-        challengeRepository,
-        answerRepository,
-        activityRepository,
-      });
+      const challenge = await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
       expect(activityRepository.save).to.have.been.calledWith(
         new Activity({
@@ -264,38 +231,22 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         .resolves([new Activity({ level: Activity.levels.TUTORIAL, status: Activity.status.FAILED })]);
     });
     it('should complete the assessment', async function () {
-      await getNextChallengeForPix1d({
-        assessmentId,
-        assessmentRepository,
-        answerRepository,
-        challengeRepository,
-        activityRepository,
-      });
+      // given
+      await getNextChallengeForPix1d({ assessmentId, ...dependencies });
+      // when
       expect(assessmentRepository.completeByAssessmentId).to.have.been.calledOnceWith(assessmentId);
     });
 
     it('should not return new challenge', async function () {
       // when
-      const result = await getNextChallengeForPix1d({
-        assessmentId,
-        assessmentRepository,
-        answerRepository,
-        challengeRepository,
-        activityRepository,
-      });
+      const result = await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
       // then
       expect(result).to.equal(undefined);
     });
     it('should update the activity with the status failed', async function () {
       // when
-      await getNextChallengeForPix1d({
-        assessmentId,
-        assessmentRepository,
-        answerRepository,
-        challengeRepository,
-        activityRepository,
-      });
+      await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
       // then
       expect(activityRepository.updateStatus).to.have.been.calledOnceWith({
@@ -320,39 +271,21 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         .resolves([new Activity({ level: Activity.levels.TUTORIAL, status: Activity.status.SKIPPED })]);
     });
     it('should complete the assessment', async function () {
-      await getNextChallengeForPix1d({
-        assessmentId,
-        assessmentRepository,
-        answerRepository,
-        challengeRepository,
-        activityRepository,
-      });
+      await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
       expect(assessmentRepository.completeByAssessmentId).to.have.been.calledOnceWith(assessmentId);
     });
 
     it('should not return new challenge', async function () {
       // when
-      const result = await getNextChallengeForPix1d({
-        assessmentId,
-        assessmentRepository,
-        answerRepository,
-        challengeRepository,
-        activityRepository,
-      });
+      const result = await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
       // then
       expect(result).to.equal(undefined);
     });
     it('should update the activity with the status skipped', async function () {
       // when
-      await getNextChallengeForPix1d({
-        assessmentId,
-        assessmentRepository,
-        answerRepository,
-        challengeRepository,
-        activityRepository,
-      });
+      await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
       // then
       expect(activityRepository.updateStatus).to.have.been.calledOnceWith({
@@ -380,13 +313,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
 
       // when
       try {
-        await getNextChallengeForPix1d({
-          assessmentId,
-          assessmentRepository,
-          challengeRepository,
-          answerRepository,
-          activityRepository,
-        });
+        await getNextChallengeForPix1d({ assessmentId, ...dependencies });
       } catch {
         // check catch error in other unit test
       } finally {
