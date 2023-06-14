@@ -11,7 +11,7 @@
     <caption class="screen-reader-only">{{t "pages.organization-participants.table.description"}}</caption>
     <thead>
       <tr>
-        <Table::Header class="table__column--small" />
+        <Table::Header class="table__column--small" id={{this.mainCheckboxId}} />
         <Table::HeaderSort
           @display="left"
           @size="medium"
@@ -54,53 +54,65 @@
 
     {{#if @participants}}
       <tbody>
-        <SelectableList @items={{@participants}} as |participant toggleParticipant isParticipantSelected index|>
-          <tr
-            aria-label={{t "pages.organization-participants.table.row-title"}}
-            {{on "click" (fn @onClickLearner participant.id)}}
-            class="tr--clickable"
-          >
-            <td class="table__column" {{on "click" (fn this.onClick toggleParticipant)}}>
-              <PixCheckbox @screenReaderOnly={{true}} @checked={{isParticipantSelected}}>{{t
-                  "pages.organization-participants.table.column.checkbox"
-                  firstname=participant.firstName
-                  lastname=participant.lastName
-                }}</PixCheckbox>
-            </td>
-            <td class="table__column">
-              <LinkTo
-                @route="authenticated.organization-participants.organization-participant"
-                @model={{participant.id}}
-              >
-                {{participant.lastName}}
-              </LinkTo>
-            </td>
-            <td class="ellipsis" title={{participant.firstName}}>{{participant.firstName}}</td>
-            <td class="table__column--center">
-              {{participant.participationCount}}
-            </td>
-            <td>
-              <div class="organization-participant-list-page__last-participation">
-                <span>{{dayjs-format participant.lastParticipationDate "DD/MM/YYYY"}}</span>
-                <Ui::LastParticipationDateTooltip
-                  @id={{index}}
-                  @campaignName={{participant.campaignName}}
-                  @campaignType={{participant.campaignType}}
-                  @participationStatus={{participant.participationStatus}}
-                />
-              </div>
-            </td>
-            <td class="table__column--center">
-              <Ui::IsCertifiable @isCertifiable={{participant.isCertifiable}} />
-              {{#if participant.certifiableAt}}
-                <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
-                    participant.certifiableAt
-                    "DD/MM/YYYY"
-                    allow-empty=true
-                  }}</span>
-              {{/if}}
-            </td>
-          </tr>
+        <SelectableList @items={{@participants}}>
+          <:manager as |allSelected someSelected toggleAll|>
+            {{#in-element this.mainCheckbox}}
+              <PixCheckbox
+                @screenReaderOnly={{true}}
+                @checked={{someSelected}}
+                @isIndeterminate={{(not allSelected)}}
+                {{on "click" toggleAll}}
+              >{{t "pages.organization-participants.table.column.mainCheckbox"}}</PixCheckbox>
+            {{/in-element}}
+          </:manager>
+          <:item as |participant toggleParticipant isParticipantSelected index|>
+            <tr
+              aria-label={{t "pages.organization-participants.table.row-title"}}
+              {{on "click" (fn @onClickLearner participant.id)}}
+              class="tr--clickable"
+            >
+              <td class="table__column" {{on "click" (fn this.onClick toggleParticipant)}}>
+                <PixCheckbox @screenReaderOnly={{true}} @checked={{isParticipantSelected}}>{{t
+                    "pages.organization-participants.table.column.checkbox"
+                    firstname=participant.firstName
+                    lastname=participant.lastName
+                  }}</PixCheckbox>
+              </td>
+              <td class="table__column">
+                <LinkTo
+                  @route="authenticated.organization-participants.organization-participant"
+                  @model={{participant.id}}
+                >
+                  {{participant.lastName}}
+                </LinkTo>
+              </td>
+              <td class="ellipsis" title={{participant.firstName}}>{{participant.firstName}}</td>
+              <td class="table__column--center">
+                {{participant.participationCount}}
+              </td>
+              <td>
+                <div class="organization-participant-list-page__last-participation">
+                  <span>{{dayjs-format participant.lastParticipationDate "DD/MM/YYYY"}}</span>
+                  <Ui::LastParticipationDateTooltip
+                    @id={{index}}
+                    @campaignName={{participant.campaignName}}
+                    @campaignType={{participant.campaignType}}
+                    @participationStatus={{participant.participationStatus}}
+                  />
+                </div>
+              </td>
+              <td class="table__column--center">
+                <Ui::IsCertifiable @isCertifiable={{participant.isCertifiable}} />
+                {{#if participant.certifiableAt}}
+                  <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
+                      participant.certifiableAt
+                      "DD/MM/YYYY"
+                      allow-empty=true
+                    }}</span>
+                {{/if}}
+              </td>
+            </tr>
+          </:item>
         </SelectableList>
       </tbody>
     {{/if}}

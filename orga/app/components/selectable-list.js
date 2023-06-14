@@ -5,6 +5,23 @@ import { action } from '@ember/object';
 export default class SelectableList extends Component {
   @tracked selectedItems = [];
 
+  get allSelected() {
+    return this.selectedItems.length === this.args.items.length;
+  }
+
+  get someSelected() {
+    return this.selectedItems.length >= 1;
+  }
+
+  @action
+  toggleAll() {
+    if (this.someSelected || this.allSelected) {
+      this.selectedItems = [];
+    } else {
+      this.selectedItems = [...this.args.items.toArray()];
+    }
+  }
+
   @action
   toggle(item) {
     if (this.isSelected(item)) {
