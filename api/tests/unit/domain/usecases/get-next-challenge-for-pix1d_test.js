@@ -16,7 +16,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
   beforeEach(function () {
     answerRepository = { findByActivity: sinon.stub() };
     challengeRepository = { getForPix1D: sinon.stub() };
-    activityRepository = { getLastActivity: sinon.stub(), save: sinon.stub(), updateStatus: sinon.stub() };
+    activityRepository = {
+      getLastActivity: sinon.stub(),
+      save: sinon.stub(),
+      updateStatus: sinon.stub(),
+      getAllByAssessmentId: sinon.stub(),
+    };
     assessmentRepository = { get: sinon.stub(), completeByAssessmentId: sinon.stub() };
   });
 
@@ -27,6 +32,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         answerRepository.findByActivity.withArgs(activityId).resolves([]);
         challengeRepository.getForPix1D.resolves({ 'a challenge': 'a challenge' });
         activityRepository.getLastActivity.withArgs(assessmentId).rejects(new NotFoundError('No activity found.'));
+        activityRepository.getAllByAssessmentId.withArgs(assessmentId).resolves([]);
         activityRepository.save.resolves({ id: activityId, level: Activity.levels.TUTORIAL });
       });
       it('should call the challengeRepository with an challenge number equal to 1 ', async function () {
@@ -95,16 +101,20 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
     });
   });
   context('when there is no more challenge', function () {
-    it('should complete the assessment', async function () {
+    beforeEach(function () {
       const answer = domainBuilder.buildAnswer({ assessmentId });
-
       answerRepository.findByActivity.withArgs(activityId).resolves([answer]);
       challengeRepository.getForPix1D.rejects(new NotFoundError('No challenge found'));
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
       activityRepository.getLastActivity
         .withArgs(assessmentId)
         .resolves({ id: activityId, level: Activity.levels.CHALLENGE });
+      activityRepository.getAllByAssessmentId
+        .withArgs(assessmentId)
+        .resolves([new Activity({ status: Activity.status.SUCCEEDED })]);
+    });
 
+    it('should complete the assessment', async function () {
       await getNextChallengeForPix1d({
         assessmentId,
         assessmentRepository,
@@ -117,16 +127,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
     });
 
     it('should not return new challenge', async function () {
-      const answer = domainBuilder.buildAnswer({ assessmentId });
-
-      answerRepository.findByActivity.withArgs(activityId).resolves([answer]);
-      challengeRepository.getForPix1D.rejects(new NotFoundError('No challenge found'));
-      assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-      assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
-      activityRepository.getLastActivity
-        .withArgs(assessmentId)
-        .resolves({ id: activityId, level: Activity.levels.CHALLENGE });
-
       // when
       const result = await getNextChallengeForPix1d({
         assessmentId,
@@ -141,14 +141,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
     });
 
     it('should update the activity with the status succeed', async function () {
-      const answer = domainBuilder.buildAnswer({ assessmentId });
-      const activity = { id: activityId, level: Activity.levels.CHALLENGE };
-      answerRepository.findByActivity.withArgs(activityId).resolves([answer]);
-      challengeRepository.getForPix1D.rejects(new NotFoundError('No challenge found'));
-      assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-      assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
-      activityRepository.getLastActivity.withArgs(assessmentId).resolves(activity);
-
       // when
       await getNextChallengeForPix1d({
         assessmentId,
@@ -181,6 +173,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         })
         .rejects(new NotFoundError('No challenge found'));
 
+      activityRepository.getAllByAssessmentId
+        .withArgs(assessmentId)
+        .resolves([new Activity({ level: Activity.levels.TUTORIAL, status: Activity.status.SUCCEEDED })]);
       const expectedChallenge = { 'a challenge': 'a new activity challenge' };
       challengeRepository.getForPix1D
         .withArgs({
@@ -224,6 +219,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         })
         .rejects(new NotFoundError('No challenge found'));
 
+      activityRepository.getAllByAssessmentId
+        .withArgs(assessmentId)
+        .resolves([new Activity({ level: Activity.levels.TRAINING, status: Activity.status.SUCCEEDED })]);
       const expectedChallenge = { 'a challenge': 'a new activity challenge' };
       challengeRepository.getForPix1D
         .withArgs({
@@ -253,18 +251,19 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
   });
 
   context('when last answer is wrong', function () {
-    it('should complete the assessment', async function () {
-      const missionId = 'AZERTYUIO';
-      const assessmentId = 'id_assessment';
+    beforeEach(function () {
       const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.KO });
-
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
       answerRepository.findByActivity.withArgs(activityId).resolves([answer]);
       assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
       activityRepository.getLastActivity
         .withArgs(assessmentId)
         .resolves({ id: activityId, level: Activity.levels.TUTORIAL });
-
+      activityRepository.getAllByAssessmentId
+        .withArgs(assessmentId)
+        .resolves([new Activity({ level: Activity.levels.TUTORIAL, status: Activity.status.FAILED })]);
+    });
+    it('should complete the assessment', async function () {
       await getNextChallengeForPix1d({
         assessmentId,
         assessmentRepository,
@@ -276,17 +275,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
     });
 
     it('should not return new challenge', async function () {
-      const missionId = 'AZERTYUIO';
-      const assessmentId = 'id_assessment';
-      const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.KO });
-
-      assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-      answerRepository.findByActivity.withArgs(activityId).resolves([answer]);
-      assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
-      activityRepository.getLastActivity
-        .withArgs(assessmentId)
-        .resolves({ id: activityId, level: Activity.levels.TUTORIAL });
-
       // when
       const result = await getNextChallengeForPix1d({
         assessmentId,
@@ -300,17 +288,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       expect(result).to.equal(undefined);
     });
     it('should update the activity with the status failed', async function () {
-      const missionId = 'AZERTYUIO';
-      const assessmentId = 'id_assessment';
-      const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.KO });
-
-      assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-      answerRepository.findByActivity.withArgs(activityId).resolves([answer]);
-      assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
-      activityRepository.getLastActivity
-        .withArgs(assessmentId)
-        .resolves({ id: activityId, level: Activity.levels.TUTORIAL });
-
       // when
       await getNextChallengeForPix1d({
         assessmentId,
@@ -329,9 +306,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
   });
 
   context('when last challenge skipped', function () {
-    it('should complete the assessment', async function () {
-      const missionId = 'AZERTYUIO';
-      const assessmentId = 'id_assessment';
+    beforeEach(function () {
       const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.SKIPPED });
 
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
@@ -340,7 +315,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       activityRepository.getLastActivity
         .withArgs(assessmentId)
         .resolves({ id: activityId, level: Activity.levels.TUTORIAL });
-
+      activityRepository.getAllByAssessmentId
+        .withArgs(assessmentId)
+        .resolves([new Activity({ level: Activity.levels.TUTORIAL, status: Activity.status.SKIPPED })]);
+    });
+    it('should complete the assessment', async function () {
       await getNextChallengeForPix1d({
         assessmentId,
         assessmentRepository,
@@ -353,17 +332,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
     });
 
     it('should not return new challenge', async function () {
-      const missionId = 'AZERTYUIO';
-      const assessmentId = 'id_assessment';
-      const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.SKIPPED });
-
-      assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-      answerRepository.findByActivity.withArgs(activityId).resolves([answer]);
-      assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
-      activityRepository.getLastActivity
-        .withArgs(assessmentId)
-        .resolves({ id: activityId, level: Activity.levels.TUTORIAL });
-
       // when
       const result = await getNextChallengeForPix1d({
         assessmentId,
@@ -377,17 +345,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       expect(result).to.equal(undefined);
     });
     it('should update the activity with the status skipped', async function () {
-      const missionId = 'AZERTYUIO';
-      const assessmentId = 'id_assessment';
-      const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.SKIPPED });
-
-      assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-      answerRepository.findByActivity.withArgs(activityId).resolves([answer]);
-      assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
-      activityRepository.getLastActivity
-        .withArgs(assessmentId)
-        .resolves({ id: activityId, level: Activity.levels.TUTORIAL });
-
       // when
       await getNextChallengeForPix1d({
         assessmentId,
