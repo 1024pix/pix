@@ -360,7 +360,7 @@
         },
         "assessments": {
           "question-label": "Do you want to allow participants to submit their results more than once?",
-          "info": "If you choose to allow multiple submissions, the participants will be able to take the test and submit their results several times by re-entering the campaign code. Within Pix Orga you will find the latest participation."
+          "info": "If you choose to allow multiple submissions, the participants will be able to take the test again 4 days after and submit their results several times by re-entering the campaign code. Within Pix Orga you will find the latest participation."
         }
       },
       "name": {
