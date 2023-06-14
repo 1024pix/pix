@@ -1,18 +1,23 @@
-import _ from 'lodash';
 import dayjs from 'dayjs';
 import { getCsvContent } from './write-csv-utils.js';
 import { SessionCertificationResultsCsvBuilder } from './SessionCertificationResultsCsvBuilder.js';
-
-const REJECTED_AUTOMATICALLY_COMMENT =
-  "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix";
+import { DivisionCertificationResultsCsvBuilder } from './DivisionCertificationResultsCsvBuilder.js';
 
 const I18N_CSV = 'certification-results-csv.filenames';
 
-async function getDivisionCertificationResultsCsv({ certificationResults }) {
-  const data = _buildFileDataWithoutCertificationCenterName({ certificationResults });
-  const fileHeaders = _buildFileHeadersWithoutCertificationCenterName();
+async function getDivisionCertificationResultsCsv({ division, certificationResults, i18n }) {
+  const divisionCertificationResultsCsvBuilder = new DivisionCertificationResultsCsvBuilder({
+    certificationResults,
+    i18n,
+  });
+  const content = await getCsvContent(divisionCertificationResultsCsvBuilder.build());
 
-  return getCsvContent({ data, fileHeaders });
+  const filename = i18n.__(`${I18N_CSV}.DIVISION_CERTIFICATION_RESULTS_FILENAME`, {
+    dateWithTime: dayjs().format('YYYYMMDD'),
+    division,
+  });
+
+  return { filename, content };
 }
 
 async function getSessionCertificationResultsCsv({ session, certificationResults, i18n }) {
@@ -37,52 +42,6 @@ async function getCleaCertifiedCandidateCsv(cleaCertifiedCandidates) {
   const data = _buildFileDataForCleaCandidates(cleaCertifiedCandidates);
 
   return getCsvContent({ data, fileHeaders });
-}
-
-function _buildFileDataWithoutCertificationCenterName({ certificationResults }) {
-  return certificationResults.map(_getRowItemsFromResults);
-}
-
-function _getRowItemsFromResults(certificationResult) {
-  const rowWithoutCompetences = {
-    [_headers.CERTIFICATION_NUMBER]: certificationResult.id,
-    [_headers.FIRSTNAME]: certificationResult.firstName,
-    [_headers.LASTNAME]: certificationResult.lastName,
-    [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
-    [_headers.BIRTHPLACE]: certificationResult.birthplace,
-    [_headers.EXTERNAL_ID]: certificationResult.externalId,
-    [_headers.STATUS]: _formatStatus(certificationResult),
-    [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
-    [_headers.JURY_COMMENT_FOR_ORGANIZATION]: _getCommentForOrganization(certificationResult),
-    [_headers.SESSION_ID]: certificationResult.sessionId,
-    [_headers.CERTIFICATION_DATE]: _formatDate(certificationResult.createdAt),
-  };
-  const competencesRow = {};
-  _competenceIndexes.forEach((competenceIndex) => {
-    competencesRow[competenceIndex] = _getCompetenceLevel({
-      competencesWithMark: certificationResult.competencesWithMark,
-      competenceIndex,
-      certificationResult,
-    });
-  });
-  return { ...rowWithoutCompetences, ...competencesRow };
-}
-
-function _buildFileHeadersWithoutCertificationCenterName() {
-  return _.concat(
-    [
-      _headers.CERTIFICATION_NUMBER,
-      _headers.FIRSTNAME,
-      _headers.LASTNAME,
-      _headers.BIRTHDATE,
-      _headers.BIRTHPLACE,
-      _headers.EXTERNAL_ID,
-      _headers.STATUS,
-      _headers.PIX_SCORE,
-    ],
-    _competenceIndexes,
-    [_headers.JURY_COMMENT_FOR_ORGANIZATION, _headers.SESSION_ID, _headers.CERTIFICATION_DATE]
-  );
 }
 
 function _buildFileHeadersForCleaCandidates() {
@@ -149,55 +108,8 @@ function _buildFileDataForCleaCandidates(cleaCertifiedCandidates) {
   });
 }
 
-function _formatPixScore(certificationResult) {
-  if (certificationResult.isCancelled() || certificationResult.isInError()) return '-';
-  if (certificationResult.isRejected()) return '0';
-  return certificationResult.pixScore;
-}
-
 function _formatDate(date) {
   return dayjs(date).format('DD/MM/YYYY');
-}
-
-function _formatStatus(certificationResult) {
-  if (certificationResult.isCancelled()) return 'Annulée';
-  if (certificationResult.isValidated()) return 'Validée';
-  if (certificationResult.isRejected()) return 'Rejetée';
-  if (certificationResult.isInError()) return 'En erreur';
-  if (certificationResult.isStarted()) return 'Démarrée';
-}
-
-function _getCompetenceLevel({ certificationResult, competenceIndex }) {
-  const competencesWithMark = certificationResult.competencesWithMark;
-  const levelByCompetenceCode = _getLevelByCompetenceCode({ competencesWithMark });
-  const competence = levelByCompetenceCode[competenceIndex];
-  const notTestedCompetence = !competence;
-
-  if (notTestedCompetence || certificationResult.isCancelled() || certificationResult.isInError()) {
-    return '-';
-  }
-  if (certificationResult.isRejected() || _isCompetenceFailed(competence)) {
-    return 0;
-  }
-  return competence.level;
-}
-
-function _getLevelByCompetenceCode({ competencesWithMark }) {
-  return competencesWithMark.reduce((result, competence) => {
-    const competenceCode = competence.competence_code;
-    result[competenceCode] = { level: competence.level };
-    return result;
-  }, {});
-}
-
-function _isCompetenceFailed(competence) {
-  return competence.level <= 0;
-}
-
-function _getCommentForOrganization(certificationResult) {
-  if (certificationResult.hasBeenRejectedAutomatically()) return REJECTED_AUTOMATICALLY_COMMENT;
-
-  return certificationResult.commentForOrganization;
 }
 
 function _getGenderCandidate(sex) {
@@ -207,25 +119,6 @@ function _getGenderCandidate(sex) {
 function _getValueForBoolean(value) {
   return value ? 'OUI' : 'NON';
 }
-
-const _competenceIndexes = [
-  '1.1',
-  '1.2',
-  '1.3',
-  '2.1',
-  '2.2',
-  '2.3',
-  '2.4',
-  '3.1',
-  '3.2',
-  '3.3',
-  '3.4',
-  '4.1',
-  '4.2',
-  '4.3',
-  '5.1',
-  '5.2',
-];
 
 const _headers = {
   CERTIFICATION_NUMBER: 'Numéro de certification',
@@ -265,9 +158,4 @@ const _headers = {
   FIRST_SHOT: 'Obtention après la première évaluation ?',
 };
 
-export {
-  getSessionCertificationResultsCsv,
-  getDivisionCertificationResultsCsv,
-  getCleaCertifiedCandidateCsv,
-  REJECTED_AUTOMATICALLY_COMMENT,
-};
+export { getSessionCertificationResultsCsv, getDivisionCertificationResultsCsv, getCleaCertifiedCandidateCsv };
