@@ -1144,15 +1144,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
         .withArgs({ organizationId: 1, division: '3èmeA' })
         .resolves(certificationResults);
 
-      const certificationResultUtilsStub = {
-        getDivisionCertificationResultsCsv: sinon.stub(),
-      };
-
-      const dependencies = {
-        certificationResultUtils: certificationResultUtilsStub,
-      };
-
-      certificationResultUtilsStub.getDivisionCertificationResultsCsv
+      const dependencies = { getDivisionCertificationResultsCsv: sinon.stub() };
+      dependencies.getDivisionCertificationResultsCsv
         .withArgs({ division: '3èmeA', certificationResults, i18n: request.i18n })
         .resolves({ content: 'csv-string', filename: '20190101_resultats_3èmeA.csv' });
 

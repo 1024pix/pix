@@ -1,48 +1,12 @@
 import dayjs from 'dayjs';
-import { getCsvContent } from './write-csv-utils.js';
-import { SessionCertificationResultsCsvBuilder } from './SessionCertificationResultsCsvBuilder.js';
-import { DivisionCertificationResultsCsvBuilder } from './DivisionCertificationResultsCsvBuilder.js';
+import { getCsvContent } from '../write-csv-utils.js';
 
-const I18N_CSV = 'certification-results-csv.filenames';
-
-async function getDivisionCertificationResultsCsv({ division, certificationResults, i18n }) {
-  const divisionCertificationResultsCsvBuilder = new DivisionCertificationResultsCsvBuilder({
-    certificationResults,
-    i18n,
-  });
-  const content = await getCsvContent(divisionCertificationResultsCsvBuilder.build());
-
-  const filename = i18n.__(`${I18N_CSV}.DIVISION_CERTIFICATION_RESULTS_FILENAME`, {
-    dateWithTime: dayjs().format('YYYYMMDD'),
-    division,
-  });
-
-  return { filename, content };
-}
-
-async function getSessionCertificationResultsCsv({ session, certificationResults, i18n }) {
-  const certificationResultsCsvBuilder = new SessionCertificationResultsCsvBuilder({
-    session,
-    certificationResults,
-    i18n,
-  });
-  const content = await getCsvContent(certificationResultsCsvBuilder.build());
-
-  const dateWithTime = dayjs(`${session.date} ${session.time}`, 'YYYY-MM-DD HH:mm');
-  const filename = i18n.__(`${I18N_CSV}.SESSION_CERTIFICATION_RESULTS_FILENAME`, {
-    dateWithTime: dateWithTime.format('YYYYMMDD_HHmm'),
-    sessionId: session.id,
-  });
-
-  return { filename, content };
-}
-
-async function getCleaCertifiedCandidateCsv(cleaCertifiedCandidates) {
+const getCleaCertifiedCandidateCsv = async function ({ cleaCertifiedCandidates }) {
   const fileHeaders = _buildFileHeadersForCleaCandidates(cleaCertifiedCandidates);
   const data = _buildFileDataForCleaCandidates(cleaCertifiedCandidates);
 
   return getCsvContent({ data, fileHeaders });
-}
+};
 
 function _buildFileHeadersForCleaCandidates() {
   return [
@@ -158,4 +122,4 @@ const _headers = {
   FIRST_SHOT: 'Obtention après la première évaluation ?',
 };
 
-export { getSessionCertificationResultsCsv, getDivisionCertificationResultsCsv, getCleaCertifiedCandidateCsv };
+export { getCleaCertifiedCandidateCsv };
