@@ -438,6 +438,10 @@ describe('Unit | Domain | Errors', function () {
             why: 'prepayment_code_not_null',
             code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code,
           },
+          {
+            why: 'extra_time_percentage_out_of_range',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code,
+          },
         ].forEach(({ why, code }) => {
           it(`code should equal "${code}" when why is "${why}"`, async function () {
             // given

@@ -360,6 +360,9 @@ class InvalidCertificationCandidate extends DomainError {
     if (type === 'any.required' && error.key === 'prepaymentCode') {
       error.why = 'prepayment_code_null';
     }
+    if (type === 'number.less' || type === 'number.min') {
+      error.why = 'extra_time_percentage_out_of_range';
+    }
 
     return new InvalidCertificationCandidate({ error });
   }
@@ -606,6 +609,8 @@ class CertificationCandidatesImportError extends DomainError {
       code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code;
     } else if (error.why === 'prepayment_code_not_null') {
       code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code;
+    } else if (error.why === 'extra_time_percentage_out_of_range') {
+      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code;
     }
 
     return new CertificationCandidatesImportError({ code, meta: { line: lineNumber, label } });
