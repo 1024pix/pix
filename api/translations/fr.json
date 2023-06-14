@@ -154,50 +154,27 @@
   },
   "certification-results-csv": {
     "filenames": {
-      "SESSION_CERTIFICATION_RESULTS_FILENAME": "{{ dateWithTime }}_resultats_session_{{ sessionId }}.csv",
-      "DIVISION_CERTIFICATION_RESULTS_FILENAME": "{{ dateWithTime }}_resultats_{{ division }}.csv"
+      "DIVISION_CERTIFICATION_RESULTS_FILENAME": "{dateWithTime}_resultats_{division}.csv",
+      "SESSION_CERTIFICATION_RESULTS_FILENAME": "{dateWithTime}_resultats_session_{sessionId}.csv"
     },
-    "headers" : {
-      "CERTIFICATION_NUMBER": "Numéro de certification",
-      "FIRSTNAME": "Prénom",
-      "LASTNAME": "Nom",
+    "headers": {
       "BIRTHDATE": "Date de naissance",
       "BIRTHPLACE": "Lieu de naissance",
-      "EXTERNAL_ID": "Identifiant Externe",
-      "STATUS": "Statut",
-      "PIX_SCORE": "Nombre de Pix",
-      "SESSION_ID": "Session",
       "CERTIFICATION_CENTER": "Centre de certification",
       "CERTIFICATION_DATE": "Date de passage de la certification",
+      "CERTIFICATION_LABEL": "Certification {label}",
+      "CERTIFICATION_NUMBER": "Numéro de certification",
+      "EXTERNAL_ID": "Identifiant Externe",
+      "FIRSTNAME": "Prénom",
       "JURY_COMMENT_FOR_ORGANIZATION": "Commentaire jury pour l’organisation",
-      "SIREN": "SIREN de l'organisme",
-      "SIRET": "Siret de l'établissement",
+      "LASTNAME": "Nom",
+      "PIX_SCORE": "Nombre de Pix",
       "REGISTRATION_STATUS": "Statut à l'inscription",
-      "LEVEL": "Niveau d'instruction",
-      "ORIGIN": "Origine de la démarche",
-      "FUNDER": "Financeur",
-      "GENDER": "Civilité",
-      "BIRTHNAME": "Nom de naissance",
-      "USUAL_NAME": "Nom d'usage",
-      "EMAIL": "Email",
-      "PHONE": "Téléphone",
-      "ADDRESS": "Adresse",
-      "ADDITIONAL_ADDRESS": "Complément d'adresse",
-      "CITY": "Ville",
-      "POSTAL_CODE": "Code postal",
-      "FOREIGN_BORN": "Né à l'étranger",
-      "GEOGRAPHIC_AREA": "Zone géographique de naissance",
-      "OUTERMOST_BORN": "Né en collectivité d'outre-mer",
-      "BIRTH_CITY": "Ville de naissance",
-      "BIRTH_POSTAL_CODE": "Code postal de naissance",
-      "PASSING_DATE": "Date de passage",
-      "CCPI": "CCPI",
-      "FIRST_SHOT": "Obtention après la première évaluation ?",
-      "CERTIFICATION_LABEL": "Certification {{ label }}",
-      "SKILL_LABEL": "{{ skillIndex }}"
+      "SESSION_ID": "Session",
+      "SKILL_LABEL": "{skillIndex}",
+      "STATUS": "Statut"
     },
-    "values" : {
-      "REJECTED_AUTOMATICALLY_COMMENT" : "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix",
+    "values": {
       "CERTIFICATION_CANCELLED": "Annulée",
       "CERTIFICATION_IN_ERROR": "En erreur",
       "CERTIFICATION_REJECTED": "Rejetée",
@@ -206,7 +183,8 @@
       "COMPLEMENTARY_CERTIFICATION_CANCELLED": "Annulée",
       "COMPLEMENTARY_CERTIFICATION_NOT_DONE": "Non passée",
       "COMPLEMENTARY_CERTIFICATION_REJECTED": "Rejetée",
-      "COMPLEMENTARY_CERTIFICATION_VALIDATED": "Validée"
+      "COMPLEMENTARY_CERTIFICATION_VALIDATED": "Validée",
+      "REJECTED_AUTOMATICALLY_COMMENT": "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix"
     }
   },
   "csv-import-values": {
