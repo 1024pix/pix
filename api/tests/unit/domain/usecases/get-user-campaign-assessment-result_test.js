@@ -67,9 +67,21 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
           campaignId,
           locale,
           badges: [
-            { ...badge1, isValid: true },
-            { ...badge2, isValid: false },
-            { ...badge3, isValid: true },
+            {
+              ...badge1,
+              isValid: true,
+              acquisitionPercentage: badgeForCalculationObtained1.getAcquisitionPercentage(),
+            },
+            {
+              ...badge2,
+              isValid: false,
+              acquisitionPercentage: badgeForCalculationNotObtained2.getAcquisitionPercentage(),
+            },
+            {
+              ...badge3,
+              isValid: true,
+              acquisitionPercentage: badgeForCalculationObtained3.getAcquisitionPercentage(),
+            },
           ],
         })
         .resolves(expectedCampaignAssessmentResult);
