@@ -417,6 +417,43 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               )
               .exists();
           });
+
+          module('when candidate information in form data are invalid', function () {
+            test('it should display a specific error message', async function (assert) {
+              // given
+              const session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+              server.createList('country', 2, { code: '99100' });
+
+              this.server.post(
+                '/sessions/:id/certification-candidates',
+                () => ({
+                  errors: [
+                    {
+                      status: '422',
+                      detail: 'An error message',
+                      code: 'CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID',
+                      meta: {
+                        birthPostalCode: 12345,
+                        birthCity: 'Gotham City',
+                      },
+                    },
+                  ],
+                }),
+                422
+              );
+
+              // when
+              const screen = await visit(`/sessions/${session.id}/candidats`);
+              await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+              await _fillFormWithCorrectData(screen);
+              await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+
+              // then
+              assert
+                .dom(screen.getByText('Le code postal "12345" ne correspond pas à la ville "Gotham City"'))
+                .exists();
+            });
+          });
         });
 
         module('when candidate data is valid', function (hooks) {
