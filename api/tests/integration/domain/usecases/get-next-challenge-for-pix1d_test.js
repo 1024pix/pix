@@ -16,7 +16,12 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-pix1d', func
       const assessmentRepository = { get: sinon.stub() };
       const activityAnswerRepository = { findByActivity: sinon.stub() };
       const challengeRepository = { getForPix1D: sinon.stub() };
-      const activityRepository = { getLastActivity: sinon.stub(), save: sinon.stub() };
+      const activityRepository = {
+        getLastActivity: sinon.stub(),
+        save: sinon.stub(),
+        getAllByAssessmentId: sinon.stub(),
+      };
+      activityRepository.getAllByAssessmentId.withArgs(assessmentId).resolves([]);
       activityRepository.getLastActivity.withArgs(assessmentId).rejects(new NotFoundError('No activity found.'));
       activityRepository.save
         .withArgs(new Activity({ assessmentId, level: Activity.levels.TUTORIAL }))
