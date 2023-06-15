@@ -33,7 +33,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
   });
 
   context('should calculate the good challenge number', function () {
-    context('when there is no answer for the given assessmentId', function () {
+    context('when user starts the mission', function () {
       let challenge;
       beforeEach(function () {
         assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
@@ -42,7 +42,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         challengeRepository.getForPix1D.resolves(challenge);
         activityRepository.getLastActivity.withArgs(assessmentId).rejects(new NotFoundError('No activity found.'));
         activityRepository.getAllByAssessmentId.withArgs(assessmentId).resolves([]);
-        activityRepository.save.resolves({ id: activityId, level: Activity.levels.TUTORIAL });
       });
       it('should call the challengeRepository with an challenge number equal to 1 ', async function () {
         // when
@@ -74,6 +73,46 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
             status: Activity.status.STARTED,
           })
         );
+      });
+    });
+    context('when user reloads the first challenge of an activity', function () {
+      let challenge;
+      beforeEach(function () {
+        assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
+        activityRepository.getLastActivity.withArgs(assessmentId).resolves(
+          new Activity({
+            id: activityId,
+            level: Activity.levels.VALIDATION,
+          })
+        );
+        activityAnswerRepository.findByActivity.withArgs(activityId).resolves([]);
+        challenge = Symbol('challenge');
+        challengeRepository.getForPix1D.resolves(challenge);
+      });
+      it('should call the challengeRepository with an challenge number equal to 1 ', async function () {
+        // when
+        await getNextChallengeForPix1d({ assessmentId, ...dependencies });
+
+        // then
+        expect(challengeRepository.getForPix1D).to.have.been.calledWith({
+          missionId,
+          activityLevel: Activity.levels.VALIDATION,
+          challengeNumber: 1,
+        });
+      });
+      it('should return the first challenge', async function () {
+        // when
+        const firstChallenge = await getNextChallengeForPix1d({ assessmentId, ...dependencies });
+
+        // then
+        expect(firstChallenge).to.equal(challenge);
+      });
+      it('should not create a new activity', async function () {
+        // when
+        await getNextChallengeForPix1d({ assessmentId, ...dependencies });
+
+        // then
+        expect(activityRepository.save).to.not.have.been.called;
       });
     });
     context('when there is an answer for the given assessmentId and activity', function () {
