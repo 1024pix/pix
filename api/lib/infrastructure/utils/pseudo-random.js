@@ -5,12 +5,12 @@ class PseudoRandom {
     this.seed = initialSeed;
   }
 
-  #generateInt(min, max, seed) {
+  _generateInt(min, max, seed) {
     const newSeed = hashInt(seed);
     return min + (newSeed % (max - min));
   }
 
-  #run(method, ...args) {
+  _run(method, ...args) {
     this.seed = hashInt(this.seed);
 
     return method(...args, this.seed);
@@ -21,7 +21,7 @@ class PseudoRandom {
       return 0;
     }
 
-    const randomValue = this.#run(this.#generateInt.bind(this), 0, 100);
+    const randomValue = this._run(this._generateInt.bind(this), 0, 100);
 
     if (randomValue < probability) {
       return 0;
