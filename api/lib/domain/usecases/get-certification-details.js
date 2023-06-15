@@ -1,4 +1,5 @@
 import { CertificationDetails } from '../read-models/CertificationDetails.js';
+import { CertificationVersion } from '../models/CertificationVersion.js';
 
 const getCertificationDetails = async function ({
   certificationCourseId,
@@ -38,7 +39,7 @@ async function _computeCertificationDetailsOnTheFly(
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId: certificationAssessment.userId,
     limitDate: certificationAssessment.createdAt,
-    version: 2,
+    version: CertificationVersion.V2,
   });
 
   return CertificationDetails.fromCertificationAssessmentScore({
@@ -56,7 +57,7 @@ async function _retrievePersistedCertificationDetails(
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId: certificationAssessment.userId,
     limitDate: certificationAssessment.createdAt,
-    version: 2,
+    version: CertificationVersion.V2,
   });
 
   return CertificationDetails.from({
