@@ -59,5 +59,31 @@ module('Unit | Component | Trainings | CreateOrUpdateTrainingForm', function (ho
       // then
       assert.deepEqual(component.args.onSubmit.getCall(0).firstArg.editorLogoUrl, `${baseURL}new-logo.svg`);
     });
+
+    test('it should accept the EditorLogoUrl form attribute with a complete URL', async function (assert) {
+      // given
+      const baseURL = 'https://images.pix.fr/contenu-formatif/editeur/';
+      const formEvent = { target: { value: `${baseURL}new-logo.svg` } };
+      component.updateForm('editorLogoUrl', formEvent);
+
+      // when
+      await component.onSubmit(submitEvent);
+
+      // then
+      assert.deepEqual(component.args.onSubmit.getCall(0).firstArg.editorLogoUrl, `${baseURL}new-logo.svg`);
+    });
+
+    test('it should add missing extension files in editorLogoUrl', async function (assert) {
+      // given
+      const baseURL = 'https://images.pix.fr/contenu-formatif/editeur/';
+      const formEvent = { target: { value: `${baseURL}new-logo` } };
+      component.updateForm('editorLogoUrl', formEvent);
+
+      // when
+      await component.onSubmit(submitEvent);
+
+      // then
+      assert.deepEqual(component.args.onSubmit.getCall(0).firstArg.editorLogoUrl, `${baseURL}new-logo.svg`);
+    });
   });
 });

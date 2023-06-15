@@ -18,14 +18,26 @@ class Form {
   @tracked editorLogoUrl;
   @tracked editorName;
 
+  EDITOR_LOGO_BASE_URL = 'https://images.pix.fr/contenu-formatif/editeur/';
+
   constructor({ title, link, type, duration, locale, editorLogoUrl, editorName } = {}) {
     this.title = title || null;
     this.link = link || null;
     this.type = type || null;
     this.duration = duration || { days: 0, hours: 0, minutes: 0 };
     this.locale = locale || null;
-    this.editorLogoUrl = editorLogoUrl?.split('/').at(-1) || null;
+    this.editorLogoUrl = editorLogoUrl?.split('/').at(-1) || '';
     this.editorName = editorName || null;
+  }
+
+  getEditorLogoUrl() {
+    if (!this.editorLogoUrl.endsWith('.svg')) {
+      this.editorLogoUrl += '.svg';
+    }
+    if (this.editorLogoUrl.startsWith(this.EDITOR_LOGO_BASE_URL)) {
+      return this.editorLogoUrl;
+    }
+    return `${this.EDITOR_LOGO_BASE_URL}${this.editorLogoUrl}`;
   }
 }
 
@@ -63,7 +75,7 @@ export default class CreateOrUpdateTrainingForm extends Component {
       locale: this.form.locale,
       editorName: this.form.editorName,
     };
-    training.editorLogoUrl = `https://images.pix.fr/contenu-formatif/editeur/${this.form.editorLogoUrl}`;
+    training.editorLogoUrl = this.form.getEditorLogoUrl();
 
     try {
       this.submitting = true;
