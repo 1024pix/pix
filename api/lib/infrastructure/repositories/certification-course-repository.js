@@ -172,6 +172,7 @@ function toDomain(bookshelfCertificationCourse) {
       'maxReachableLevelOnCertificationDate',
       'verificationCode',
       'abortReason',
+      'version',
     ]),
   });
 }
