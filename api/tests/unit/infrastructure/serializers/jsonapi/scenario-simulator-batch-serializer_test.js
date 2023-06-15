@@ -38,6 +38,7 @@ describe('Unit | Serializer | JSONAPI | scenario-simulator-batch-serializer', fu
             attributes: {
               'simulation-report': [
                 {
+                  'challenge-id': challenge.id,
                   'answer-status': 'ok',
                   'error-rate': 1.5,
                   'estimated-level': 1,
