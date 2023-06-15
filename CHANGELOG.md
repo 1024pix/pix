@@ -1,5 +1,20 @@
 # Pix Changelog
 ## v4.4.0 (13/06/2023)
+## v4.6.0 (15/06/2023)
+
+
+### :rocket: Amélioration
+- [#6396](https://github.com/1024pix/pix/pull/6396) [FEATURE] Ajout du champ challengeId dans la réponse du simulateur d'évaluation.
+
+### :building_construction: Tech
+- [#6397](https://github.com/1024pix/pix/pull/6397) [TECH] Utiliser l'attribut embedHeight pour setter la hauteur d'un embed (PIX-8370).
+
+### :bug: Correction
+- [#6402](https://github.com/1024pix/pix/pull/6402) [BUGFIX] Le select des QROC n'affiche pas sa valeur courante (PIX-8371).
+
+### :coffee: Autre
+- [#6400](https://github.com/1024pix/pix/pull/6400) [BUMP] Mise à jour de @ember/test-helpers et de @ember/qunit sur les applications.
+
 ## v4.5.0 (15/06/2023)
 
 
