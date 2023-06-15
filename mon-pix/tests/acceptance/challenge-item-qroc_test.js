@@ -398,6 +398,20 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         assert.dom('.challenge-response__alert').doesNotExist();
       });
 
+      test('should allow selecting a value', async function (assert) {
+        // given
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+        await click('.challenge-actions__action-validate');
+
+        // when
+        await clickByName('saladAriaLabel');
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'mango' }));
+
+        // then
+        assert.dom('.pix-select-button').hasText('mango');
+      });
+
       test('should hide the alert error after the user interact with input text', async function (assert) {
         // given
         const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
