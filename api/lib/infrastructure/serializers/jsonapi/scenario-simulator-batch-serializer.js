@@ -11,6 +11,7 @@ const SERIALIZER_CONFIGURATION = {
   },
   simulationReport: {
     attributes: [
+      'challengeId',
       'minimumCapability',
       'reward',
       'errorRate',
@@ -30,7 +31,7 @@ export const scenarioSimulatorBatchSerializer = { serialize };
 
 const _transformSimulationReport = (answer) => ({
   ...answer,
-  id: answer.challenge.id,
+  challengeId: answer.challenge.id,
   minimumCapability: answer.challenge.minimumCapability,
   difficulty: answer.challenge.difficulty,
   discriminant: answer.challenge.discriminant,
