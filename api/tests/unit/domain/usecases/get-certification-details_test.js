@@ -68,7 +68,7 @@ describe('Unit | UseCase | get-certification-details', function () {
         .withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
-          isV2Certification: certificationAssessment.isV2Certification,
+          version: certificationAssessment.version,
         })
         .resolves(placementProfile);
 
@@ -173,7 +173,7 @@ describe('Unit | UseCase | get-certification-details', function () {
         .withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
-          isV2Certification: certificationAssessment.isV2Certification,
+          version: certificationAssessment.version,
         })
         .resolves(placementProfile);
 

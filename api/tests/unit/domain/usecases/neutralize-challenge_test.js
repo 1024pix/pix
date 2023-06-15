@@ -23,7 +23,7 @@ describe('Unit | UseCase | neutralize-challenge', function () {
       createdAt: new Date('2020-01-01'),
       completedAt: new Date('2020-01-01'),
       state: CertificationAssessment.states.STARTED,
-      isV2Certification: true,
+      version: 2,
       certificationChallenges: [
         challengeToBeNeutralized,
         domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
@@ -70,7 +70,7 @@ describe('Unit | UseCase | neutralize-challenge', function () {
       createdAt: new Date('2020-01-01'),
       completedAt: new Date('2020-01-01'),
       state: CertificationAssessment.states.STARTED,
-      isV2Certification: true,
+      version: 2,
       certificationChallenges: [
         challengeToBeNeutralized,
         domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),

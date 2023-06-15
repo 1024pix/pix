@@ -9,16 +9,17 @@ import * as assessmentResultRepository from '../../infrastructure/repositories/a
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
 import * as scoringService from './scoring/scoring-service.js';
+import { CertificationVersion } from '../models/CertificationVersion.js';
 
 async function getPlacementProfile({
   userId,
   limitDate,
-  isV2Certification = true,
+  version = CertificationVersion.V2,
   allowExcessPixAndLevels = true,
   locale,
 }) {
   const pixCompetences = await competenceRepository.listPixCompetencesOnly({ locale });
-  if (isV2Certification) {
+  if (version === CertificationVersion.V2) {
     return _generatePlacementProfileV2({
       userId,
       profileDate: limitDate,

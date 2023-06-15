@@ -126,7 +126,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.userId).to.equal(expectedUserId);
         expect(certificationAssessment.certificationCourseId).to.equal(expectedCertificationCourseId);
         expect(certificationAssessment.state).to.equal(expectedState);
-        expect(certificationAssessment.isV2Certification).to.be.true;
+        expect(certificationAssessment.version).to.equal(2);
 
         expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
         expect(certificationAssessment.certificationChallenges).to.have.length(2);
@@ -169,7 +169,6 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           userId: expectedUserId,
           createdAt: expectedCreatedAt,
           completedAt: expectedCompletedAt,
-          isV2Certification: true,
         }).id;
         expectedCertificationAssessmentId = dbf.buildAssessment({
           userId: expectedUserId,
@@ -213,7 +212,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.userId).to.equal(expectedUserId);
         expect(certificationAssessment.certificationCourseId).to.equal(certificationCourseId);
         expect(certificationAssessment.state).to.equal(expectedState);
-        expect(certificationAssessment.isV2Certification).to.be.true;
+        expect(certificationAssessment.version).to.equal(2);
 
         expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
         expect(certificationAssessment.certificationChallenges).to.have.length(2);

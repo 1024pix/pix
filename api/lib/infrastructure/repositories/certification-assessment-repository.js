@@ -62,7 +62,7 @@ const get = async function (id) {
 
   return new CertificationAssessment({
     ...certificationAssessmentRows[0],
-    isV2Certification: certificationAssessmentRows[0].version === 2,
+    version: certificationAssessmentRows[0].version,
     certificationChallenges,
     certificationAnswersByDate,
   });
@@ -99,7 +99,7 @@ const getByCertificationCourseId = async function ({
 
   return new CertificationAssessment({
     ...certificationAssessmentRow,
-    isV2Certification: certificationAssessmentRow.version === 2,
+    version: certificationAssessmentRow.version,
     certificationChallenges,
     certificationAnswersByDate,
   });
