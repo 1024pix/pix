@@ -17,6 +17,12 @@ const states = {
   ENDED_DUE_TO_FINALIZATION: 'endedDueToFinalization',
 };
 
+const versions = {
+  FIRST: 1,
+  SECOND: 2,
+  THIRD: 3,
+};
+
 const certificationAssessmentSchema = Joi.object({
   id: Joi.number().integer().required(),
   userId: Joi.number().integer().required(),
@@ -26,7 +32,7 @@ const certificationAssessmentSchema = Joi.object({
   state: Joi.string()
     .valid(states.COMPLETED, states.STARTED, states.ENDED_BY_SUPERVISOR, states.ENDED_DUE_TO_FINALIZATION)
     .required(),
-  isV2Certification: Joi.boolean().required(),
+  version: Joi.number().integer().valid(versions.FIRST, versions.SECOND, versions.THIRD).required(),
   certificationChallenges: Joi.array().min(1).required(),
   certificationAnswersByDate: Joi.array().min(0).required(),
 });
@@ -39,7 +45,7 @@ class CertificationAssessment {
     createdAt,
     completedAt,
     state,
-    isV2Certification,
+    version,
     certificationChallenges,
     certificationAnswersByDate,
   } = {}) {
@@ -49,7 +55,7 @@ class CertificationAssessment {
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.state = state;
-    this.isV2Certification = isV2Certification;
+    this.version = version;
     this.certificationChallenges = certificationChallenges;
     this.certificationAnswersByDate = certificationAnswersByDate;
 

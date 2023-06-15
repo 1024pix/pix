@@ -93,6 +93,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
       limitDate: certificationDate,
+      version: 2,
     });
 
     // when
@@ -184,6 +185,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
       limitDate: certificationDate,
+      version: 2,
     });
 
     // when
@@ -284,6 +286,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
       limitDate: certificationDate,
+      version: 2,
     });
 
     // when
@@ -384,6 +387,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
       limitDate: certificationDate,
+      version: 2,
     });
 
     // when
@@ -466,6 +470,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
       limitDate: certificationDate,
+      version: 2,
     });
 
     // when
@@ -565,6 +570,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
       limitDate: certificationDate,
+      version: 2,
     });
 
     // when
@@ -705,6 +711,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
       limitDate: certificationDate,
+      version: 2,
     });
 
     // when

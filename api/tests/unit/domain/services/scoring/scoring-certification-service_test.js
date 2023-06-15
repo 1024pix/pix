@@ -230,7 +230,7 @@ describe('Unit | Service | Certification Result Service', function () {
         createdAt: '2020-02-01T00:00:00Z',
         completedAt: '2020-02-01T00:00:00Z',
         state: states.COMPLETED,
-        isV2Certification: true,
+        version: 2,
       };
       competenceWithMarks_1_1 = domainBuilder.buildCompetenceMark({
         level: UNCERTIFIED_LEVEL,
@@ -302,7 +302,7 @@ describe('Unit | Service | Certification Result Service', function () {
           .withArgs({
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
-            isV2Certification: certificationAssessment.isV2Certification,
+            version: 2,
           })
           .resolves({ userCompetences });
 
@@ -354,7 +354,7 @@ describe('Unit | Service | Certification Result Service', function () {
           .withArgs({
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
-            isV2Certification: certificationAssessment.isV2Certification,
+            version: 2,
           })
           .resolves({ userCompetences });
 
@@ -468,7 +468,7 @@ describe('Unit | Service | Certification Result Service', function () {
           .withArgs({
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
-            isV2Certification: certificationAssessment.isV2Certification,
+            version: 2,
           })
           .resolves({ userCompetences });
 
@@ -505,7 +505,7 @@ describe('Unit | Service | Certification Result Service', function () {
           .withArgs({
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
-            isV2Certification: certificationAssessment.isV2Certification,
+            version: 2,
           })
           .resolves({ userCompetences });
       });
@@ -761,7 +761,7 @@ describe('Unit | Service | Certification Result Service', function () {
                 .withArgs({
                   userId: certificationAssessment.userId,
                   limitDate: certificationAssessment.createdAt,
-                  isV2Certification: certificationAssessment.isV2Certification,
+                  version: certificationAssessment.version,
                 })
                 .resolves({ userCompetences });
 
@@ -801,7 +801,7 @@ describe('Unit | Service | Certification Result Service', function () {
           .withArgs({
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
-            isV2Certification: certificationAssessment.isV2Certification,
+            version: certificationAssessment.version,
           })
           .resolves({ userCompetences });
       });
@@ -987,7 +987,7 @@ describe('Unit | Service | Certification Result Service', function () {
             .withArgs({
               userId: certificationAssessment.userId,
               limitDate: certificationAssessment.createdAt,
-              isV2Certification: certificationAssessment.isV2Certification,
+              version: certificationAssessment.version,
             })
             .resolves({ userCompetences });
           certificationAssessment.certificationAnswersByDate = _.map(
@@ -1083,7 +1083,7 @@ describe('Unit | Service | Certification Result Service', function () {
             .withArgs({
               userId: certificationAssessment.userId,
               limitDate: certificationAssessment.createdAt,
-              isV2Certification: certificationAssessment.isV2Certification,
+              version: certificationAssessment.version,
             })
             .resolves({ userCompetences });
         });
@@ -1248,7 +1248,7 @@ describe('Unit | Service | Certification Result Service', function () {
           .withArgs({
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
-            isV2Certification: certificationAssessment.isV2Certification,
+            version: certificationAssessment.version,
           })
           .resolves({ userCompetences });
       });

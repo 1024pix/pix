@@ -401,7 +401,7 @@ describe('Integration | Repository | Certification Course', function () {
 
     it('should prevent other values to be updated', async function () {
       // given
-      certificationCourse._isV2Certification = false;
+      certificationCourse.version = 1;
 
       // when
       const certificationCourseUpdated = await certificationCourseRepository.update(certificationCourse);

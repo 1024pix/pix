@@ -121,8 +121,8 @@ function _getResult(answers, certificationChallenges, testedCompetences, allArea
   });
 }
 
-async function _getTestedCompetences({ userId, limitDate, isV2Certification, placementProfileService }) {
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, isV2Certification });
+async function _getTestedCompetences({ userId, limitDate, version, placementProfileService }) {
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, version });
   return _(placementProfile.userCompetences)
     .filter((uc) => uc.isCertifiable())
     .map((uc) => _.pick(uc, ['id', 'index', 'areaId', 'name', 'estimatedLevel', 'pixScore']))
@@ -142,7 +142,7 @@ const calculateCertificationAssessmentScore = async function ({
   const testedCompetences = await _getTestedCompetences({
     userId: certificationAssessment.userId,
     limitDate: certificationAssessment.createdAt,
-    isV2Certification: certificationAssessment.isV2Certification,
+    version: 2,
     placementProfileService: dependencies.placementProfileService,
   });
 
