@@ -4,7 +4,11 @@
       <Challenge::ChallengeInstruction @instruction={{@challenge.instruction}} />
       <div class="challenge-item__playground">
         {{#if @challenge.hasValidEmbedDocument}}
-          <Challenge::ChallengeEmbedSimulator @url={{@challenge.embedUrl}} @title={{@challenge.embedTitle}} />
+          <Challenge::ChallengeEmbedSimulator
+            @url={{@challenge.embedUrl}}
+            @title={{@challenge.embedTitle}}
+            @height={{@challenge.embedHeight}}
+          />
         {{/if}}
         <Challenge::ChallengeItemAutoReply @setAnswerValue={{this.setAnswerValue}} />
       </div>

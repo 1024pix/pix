@@ -1,3 +1,10 @@
+{{! template-lint-disable style-concatenation no-inline-styles }}
 <div class="challenge-embed-simulator">
-  <iframe class="challenge-embed-simulator__iframe" src="{{@url}}" title="{{@title}}"></iframe>
+  <iframe
+    class="challenge-embed-simulator__iframe"
+    src="{{@url}}"
+    title="{{@title}}"
+    style="{{this.embedDocumentHeightStyle}}"
+  >
+  </iframe>
 </div>
