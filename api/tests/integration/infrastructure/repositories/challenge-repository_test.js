@@ -687,43 +687,69 @@ describe('Integration | Repository | challenge-repository', function () {
       mockLearningContent(learningContent);
     });
 
-    it('should return all flash compatible challenges with skills', async function () {
-      // given
-      const locale = 'fr-fr';
+    context('without requesting obsolete challenges', function () {
+      it('should return all flash compatible challenges with skills', async function () {
+        // given
+        const locale = 'fr-fr';
 
-      // when
-      const actualChallenges = await challengeRepository.findFlashCompatible({
-        locale,
+        // when
+        const actualChallenges = await challengeRepository.findFlashCompatible({
+          locale,
+        });
+
+        // then
+        expect(actualChallenges).to.have.lengthOf(2);
+        expect(actualChallenges[0]).to.be.instanceOf(Challenge);
+        expect(actualChallenges[0]).to.deep.contain({
+          status: 'validé',
+        });
+        expect(actualChallenges[1]).to.deep.contain({
+          status: 'archivé',
+        });
       });
 
-      // then
-      expect(actualChallenges).to.have.lengthOf(3);
-      expect(actualChallenges[0]).to.be.instanceOf(Challenge);
-      expect(actualChallenges[0]).to.deep.contain({
-        status: 'validé',
-      });
-      expect(actualChallenges[1]).to.deep.contain({
-        status: 'archivé',
-      });
-      expect(actualChallenges[2]).to.deep.contain({
-        status: 'périmé',
+      it('should allow overriding success probability threshold default value', async function () {
+        // given
+        const successProbabilityThreshold = 0.75;
+
+        // when
+        const actualChallenges = await challengeRepository.findActiveFlashCompatible({
+          locale: 'fr-fr',
+          successProbabilityThreshold,
+        });
+
+        // then
+        expect(actualChallenges).to.have.lengthOf(1);
+        expect(actualChallenges[0]).to.be.instanceOf(Challenge);
+        expect(actualChallenges[0].minimumCapability).to.equal(-8.682265465359073);
       });
     });
 
-    it('should allow overriding success probability threshold default value', async function () {
-      // given
-      const successProbabilityThreshold = 0.75;
+    context('when requesting obsolete challenges', function () {
+      it('should return all flash compatible challenges with skills', async function () {
+        // given
+        const locale = 'fr-fr';
 
-      // when
-      const actualChallenges = await challengeRepository.findActiveFlashCompatible({
-        locale: 'fr-fr',
-        successProbabilityThreshold,
+        // when
+        const actualChallenges = await challengeRepository.findFlashCompatible({
+          locale,
+          useObsoleteChallenges: true,
+        });
+
+        // then
+        expect(actualChallenges).to.have.lengthOf(3);
+        expect(actualChallenges[0]).to.be.instanceOf(Challenge);
+        expect(actualChallenges[0]).to.deep.contain({
+          status: 'validé',
+        });
+        expect(actualChallenges[1]).to.deep.contain({
+          status: 'archivé',
+        });
+
+        expect(actualChallenges[2]).to.deep.contain({
+          status: 'périmé',
+        });
       });
-
-      // then
-      expect(actualChallenges).to.have.lengthOf(1);
-      expect(actualChallenges[0]).to.be.instanceOf(Challenge);
-      expect(actualChallenges[0].minimumCapability).to.equal(-8.682265465359073);
     });
   });
 
