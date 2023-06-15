@@ -201,7 +201,7 @@ jobs:
         environment:
           JOBS: 2
     resource_class: small
-    working_directory: ~/pix/pix1d
+    working_directory: ~/pix/1d
     steps:
       - browser-tools/install-chrome
       - attach_workspace:
