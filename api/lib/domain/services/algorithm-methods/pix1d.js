@@ -1,51 +1,60 @@
 import { Activity } from '../../models/Activity.js';
+
 export { getNextActivityLevel };
+
 function getNextActivityLevel(activities) {
-  const activityLevels = [
+  if (activities.length === 0) {
+    return Activity.levels.VALIDATION;
+  }
+  if (_nbOfActivitiesOfLevel(activities, Activity.levels.VALIDATION) >= 3) {
+    return undefined;
+  }
+  const lastActivity = activities[0];
+  if (
+    _nbOfActivitiesOfLevel(activities, Activity.levels.TRAINING) === 3 &&
+    lastActivity.status === Activity.status.FAILED
+  ) {
+    return undefined;
+  }
+  if (_hasSucceeded(lastActivity)) {
+    if (
+      _nbOfActivitiesOfLevel(activities, Activity.levels.TUTORIAL) !== 0 &&
+      lastActivity.level === Activity.levels.VALIDATION
+    ) {
+      return undefined;
+    } else {
+      return _higherLevelActivity(lastActivity);
+    }
+  } else {
+    if (_nbOfActivitiesOfLevel(activities, Activity.levels.TRAINING) === 0) {
+      if (lastActivity.level === Activity.levels.VALIDATION) {
+        return Activity.levels.TRAINING;
+      }
+    } else {
+      if (lastActivity.level === Activity.levels.TRAINING || lastActivity.level === Activity.levels.VALIDATION) {
+        return Activity.levels.TUTORIAL;
+      } else {
+        return undefined;
+      }
+    }
+  }
+}
+
+function _nbOfActivitiesOfLevel(activities, level) {
+  return activities.filter((activity) => activity.level === level).length;
+}
+
+function _hasSucceeded(lastActivity) {
+  return lastActivity.status === Activity.status.SUCCEEDED;
+}
+
+function _higherLevelActivity(lastActivity) {
+  const orderedActivityLevels = [
     Activity.levels.TUTORIAL,
     Activity.levels.TRAINING,
     Activity.levels.VALIDATION,
     Activity.levels.CHALLENGE,
   ];
-  if (activities.length === 0) {
-    return Activity.levels.VALIDATION;
-  }
-  if (activities.filter((activity) => activity.level === Activity.levels.VALIDATION).length >= 3) {
-    return undefined;
-  }
-  if (
-    activities.filter((activity) => activity.level === Activity.levels.TRAINING).length === 3 &&
-    activities[0].status === Activity.status.FAILED
-  ) {
-    return undefined;
-  }
-  if (activities[0].status === Activity.status.SUCCEEDED || activities[0].status === Activity.status.STARTED) {
-    if (activities.find((activity) => activity.level === Activity.levels.TUTORIAL) === undefined) {
-      return activityLevels[activityLevels.indexOf(activities[0].level) + 1];
-    } else {
-      switch (activities[0].level) {
-        case Activity.levels.TUTORIAL:
-          return Activity.levels.TRAINING;
-        case Activity.levels.TRAINING:
-          return Activity.levels.VALIDATION;
-        default:
-          return undefined;
-      }
-    }
-  } else {
-    if (activities.find((activity) => activity.level === Activity.levels.TRAINING) === undefined) {
-      if (activities[0].level === Activity.levels.VALIDATION) {
-        return Activity.levels.TRAINING;
-      }
-    } else {
-      switch (activities[0].level) {
-        case Activity.levels.TRAINING:
-          return Activity.levels.TUTORIAL;
-        case Activity.levels.VALIDATION:
-          return Activity.levels.TUTORIAL;
-        default:
-          return undefined;
-      }
-    }
-  }
+
+  return orderedActivityLevels[orderedActivityLevels.indexOf(lastActivity.level) + 1];
 }
