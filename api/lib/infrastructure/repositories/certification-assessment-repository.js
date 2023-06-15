@@ -99,7 +99,6 @@ const getByCertificationCourseId = async function ({
 
   return new CertificationAssessment({
     ...certificationAssessmentRow,
-    version: certificationAssessmentRow.version,
     certificationChallenges,
     certificationAnswersByDate,
   });
