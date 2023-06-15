@@ -34,7 +34,7 @@
     "test:lint": "concurrently \"npm:lint\" \"npm:test\" --names \"lint,test:\""
   },
   "devDependencies": {
-    "@testing-library/dom": "8.13.0",
+    "@testing-library/dom": "9.3.0",
     "@1024pix/ember-testing-library": "^0.6.1",
     "@1024pix/pix-ui": "^31.1.0",
     "@1024pix/stylelint-config": "^3.0.0",
