@@ -33,15 +33,14 @@ const publishCertificationCoursesBySessionId = async function (sessionId) {
     pixCertificationStatus: assessmentResultStatus,
     isPublished: true,
     updatedAt: new Date(),
+    version: -1, // Version number used to meet requirements regarding the version column non-null constraint in the insert request below
   }));
 
-  await knex.transaction(async (trx) => {
-    return Promise.all(
-      certificationDataToUpdate.map((certificationDatum) => {
-        return trx('certification-courses').update(certificationDatum).where('id', certificationDatum.id);
-      })
-    );
-  });
+  // Trick to .batchUpdate(), which does not exist in knex per say
+  await knex('certification-courses')
+    .insert(certificationDataToUpdate)
+    .onConflict('id')
+    .merge(['pixCertificationStatus', 'isPublished', 'updatedAt']);
 };
 
 const unpublishCertificationCoursesBySessionId = async function (sessionId) {
