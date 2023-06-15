@@ -3,6 +3,7 @@ import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
 import { EntityValidationError } from '../errors.js';
+import { CertificationVersion } from './CertificationVersion.js';
 
 const ABORT_REASONS = ['candidate', 'technical'];
 const cpfImportStatus = {
@@ -11,8 +12,6 @@ const cpfImportStatus = {
   PENDING: 'PENDING',
   SUCCESS: 'SUCCESS',
 };
-
-const DEFAULT_CERTIFICATION_COURSE_VERSION = 2;
 
 class CertificationCourse {
   constructor({
@@ -40,7 +39,7 @@ class CertificationCourse {
     isCancelled = false,
     abortReason,
     complementaryCertificationCourses = [],
-    version = 2,
+    version = CertificationVersion.V2,
   } = {}) {
     this._id = id;
     this._firstName = firstName;
@@ -246,7 +245,7 @@ class CertificationCourse {
       isCancelled: this._isCancelled,
       abortReason: this._abortReason,
       complementaryCertificationCourses: this._complementaryCertificationCourses,
-      version: DEFAULT_CERTIFICATION_COURSE_VERSION,
+      version: this._version,
     };
   }
 }

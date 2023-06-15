@@ -9,6 +9,7 @@ import { CompetenceMark } from '../../models/CompetenceMark.js';
 import { CertificationAssessmentScore } from '../../models/CertificationAssessmentScore.js';
 import { AnswerCollectionForScoring } from '../../models/AnswerCollectionForScoring.js';
 import * as areaRepository from '../../../infrastructure/repositories/area-repository.js';
+import { CertificationVersion } from '../../models/CertificationVersion.js';
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(({ challengeId }) => _.some(certificationChallenges, { challengeId }));
@@ -142,7 +143,7 @@ const calculateCertificationAssessmentScore = async function ({
   const testedCompetences = await _getTestedCompetences({
     userId: certificationAssessment.userId,
     limitDate: certificationAssessment.createdAt,
-    version: 2,
+    version: CertificationVersion.V2,
     placementProfileService: dependencies.placementProfileService,
   });
 
