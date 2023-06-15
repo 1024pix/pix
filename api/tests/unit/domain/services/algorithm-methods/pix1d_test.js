@@ -236,5 +236,17 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
         expect(result).to.equal(undefined);
       });
     });
+    context('when the user has skipped their third training activity', function () {
+      it('should end the mission', function () {
+        const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
+        const activity2 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
+        const activity3 = domainBuilder.buildActivity({
+          level: Activity.levels.TRAINING,
+          status: Activity.status.SKIPPED,
+        });
+        const result = pix1d.getNextActivityLevel([activity3, activity2, activity1]);
+        expect(result).to.equal(undefined);
+      });
+    });
   });
 });
