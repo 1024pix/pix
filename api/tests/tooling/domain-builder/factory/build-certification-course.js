@@ -19,7 +19,7 @@ function buildCertificationCourse({
   examinerComment = 'A cassé le clavier',
   hasSeenEndTestScreen = false,
   nbChallenges = 15,
-  version = 2,
+  version = 1,
   isPublished = false,
   verificationCode = 'P-ABCD1234',
   assessment = buildAssessment({ certificationCourseId: this.id }),
