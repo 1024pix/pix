@@ -68,10 +68,12 @@
       {{/if}}
     {{/each}}
     {{#unless this.isCorrectAnswer}}
-      <p class="comparison-window-solution">
-        <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
-        <span class="correction-qrocm__solution-text">{{this.formattedSolution}}</span>
-      </p>
+      {{#unless this.shouldDisplayAnswersUnderInputs}}
+        <p class="comparison-window-solution">
+          <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
+          <span class="correction-qrocm__solution-text">{{this.formattedSolution}}</span>
+        </p>
+      {{/unless}}
     {{/unless}}
   </div>
 </div>
