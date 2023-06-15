@@ -1,5 +1,5 @@
-import Application from 'pix1d/app';
-import config from 'pix1d/config/environment';
+import Application from '1d/app';
+import config from '1d/config/environment';
 import * as QUnit from 'qunit';
 import { setApplication } from '@ember/test-helpers';
 import { setup } from 'qunit-dom';
