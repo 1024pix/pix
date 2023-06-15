@@ -15,7 +15,7 @@ export async function getNextChallengeForPix1d({
   try {
     currentActivity = await activityRepository.getLastActivity(assessmentId);
     answers = await answerRepository.findByActivity(currentActivity.id);
-    if (_lastAnswerStatus(answers) === 'ok') {
+    if (_lastAnswerStatus(answers) === 'ok' || answers.length === 0) {
       const challengeNumber = answers.length + 1;
       return await challengeRepository.getForPix1D({
         missionId,
