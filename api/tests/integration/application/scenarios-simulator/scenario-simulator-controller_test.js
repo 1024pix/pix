@@ -105,6 +105,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               _generateScenarioSimulatorBatch([
                 [
                   {
+                    challengeId: challenge1.id,
                     errorRate: errorRate1,
                     estimatedLevel: estimatedLevel1,
                     minimumCapability: 0.6190392084062237,
@@ -167,6 +168,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 _generateScenarioSimulatorBatch([
                   [
                     {
+                      challengeId: challenge1.id,
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
@@ -224,6 +226,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 _generateScenarioSimulatorBatch([
                   [
                     {
+                      challengeId: challenge1.id,
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
@@ -280,6 +283,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               );
 
               const result = {
+                challengeId: challenge1.id,
                 errorRate: errorRate1,
                 estimatedLevel: estimatedLevel1,
                 minimumCapability: 0.6190392084062237,
@@ -345,6 +349,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 _generateScenarioSimulatorBatch([
                   [
                     {
+                      challengeId: challenge1.id,
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
@@ -407,6 +412,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 _generateScenarioSimulatorBatch([
                   [
                     {
+                      challengeId: challenge1.id,
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
@@ -468,6 +474,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 _generateScenarioSimulatorBatch([
                   [
                     {
+                      challengeId: challenge1.id,
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
@@ -527,6 +534,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 _generateScenarioSimulatorBatch([
                   [
                     {
+                      challengeId: challenge1.id,
                       errorRate: errorRate1,
                       estimatedLevel: estimatedLevel1,
                       minimumCapability: 0.6190392084062237,
@@ -644,6 +652,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 attributes: {
                   'simulation-report': [
                     {
+                      'challenge-id': challenge1.id,
                       'minimum-capability': 0.6190392084062237,
                       reward: reward1,
                       'error-rate': errorRate1,
@@ -653,6 +662,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       discriminant: challenge1.discriminant,
                     },
                     {
+                      'challenge-id': challenge2.id,
                       'minimum-capability': 0,
                       reward: reward2,
                       'error-rate': errorRate2,
@@ -670,6 +680,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 attributes: {
                   'simulation-report': [
                     {
+                      'challenge-id': challenge1.id,
                       'minimum-capability': 0.6190392084062237,
                       reward: reward1,
                       'error-rate': errorRate1,
@@ -679,6 +690,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       discriminant: challenge1.discriminant,
                     },
                     {
+                      'challenge-id': challenge2.id,
                       'minimum-capability': 0,
                       reward: reward2,
                       'error-rate': errorRate2,
@@ -726,6 +738,7 @@ function _generateScenarioSimulatorBatch(data) {
       id: `${index}`,
       attributes: {
         'simulation-report': scenario.map((scenarioSimulatorChallenge) => ({
+          'challenge-id': scenarioSimulatorChallenge.challengeId,
           'error-rate': scenarioSimulatorChallenge.errorRate,
           'estimated-level': scenarioSimulatorChallenge.estimatedLevel,
           'minimum-capability': scenarioSimulatorChallenge.minimumCapability,
