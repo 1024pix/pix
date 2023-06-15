@@ -1,5 +1,33 @@
 # Pix Changelog
 ## v4.4.0 (13/06/2023)
+## v4.5.0 (15/06/2023)
+
+
+### :rocket: Amélioration
+- [#6373](https://github.com/1024pix/pix/pull/6373) [FEATURE] Filtrer les épreuves périmées dans les simulateurs (PIX-8328). .
+- [#6352](https://github.com/1024pix/pix/pull/6352) [FEATURE] Ajout de la version dans la DB pour les certification-courses (PIX-8299).
+- [#6369](https://github.com/1024pix/pix/pull/6369) [FEATURE] Script de rollback de migrations des paliers des PC (PIX-8338).
+- [#6266](https://github.com/1024pix/pix/pull/6266) [FEATURE] Empêcher la double soumission des formulaires d'authentification (PIX-8153).
+- [#6361](https://github.com/1024pix/pix/pull/6361) [FEATURE] Amélioration du wording lors de la création d'une campagne d'évaluation (PIX-8293).
+- [#6346](https://github.com/1024pix/pix/pull/6346) [FEATURE] Pix1D - Passage de mission linéaire.
+- [#6348](https://github.com/1024pix/pix/pull/6348) [FEATURE] Améliorer l'accessibilité des images décoratives sur Pix-App (PIX-6815).
+
+### :building_construction: Tech
+- [#6367](https://github.com/1024pix/pix/pull/6367) [TECH] Automatiquement importer les usecases pour leur injecter les dépendances.
+- [#6391](https://github.com/1024pix/pix/pull/6391) [TECH] Remise de l'ancienne requête de publication de sessions en masse (PIX-8365).
+- [#6362](https://github.com/1024pix/pix/pull/6362) [TECH] Mise à jour du changelog après le hotfix 4.2.1.
+- [#6366](https://github.com/1024pix/pix/pull/6366) [TECH] Augmenter le temps d'inactivité du browser sur pix-admin.
+
+### :bug: Correction
+- [#6378](https://github.com/1024pix/pix/pull/6378) [BUGFIX] Utilise un mot de passe statique dans les tests.
+- [#6383](https://github.com/1024pix/pix/pull/6383) [BUGFIX] Informer l'utilisateur de la maintenance sur pix1d (PIX-8336).
+- [#6365](https://github.com/1024pix/pix/pull/6365) [BUGFIX] Un test d'acceptance pix-admin échoue aléatoirement (PIX-8341).
+
+### :coffee: Autre
+- [#6375](https://github.com/1024pix/pix/pull/6375) [BUMP] Update dependency cypress-axe to ^0.14.0 (e2e).
+- [#6374](https://github.com/1024pix/pix/pull/6374) [BUMP] Update nginx Docker tag to v1.25.1.
+- [#6372](https://github.com/1024pix/pix/pull/6372) [BUMP] Lock file maintenance (dossier racine).
+
 
 
 ### :rocket: Amélioration
