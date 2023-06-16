@@ -7,7 +7,7 @@ export default class BadgeForm extends Component {
   @service store;
   @service router;
 
-  BASE_URL = 'https://images.pix.fr/badges/';
+  BADGE_BASE_URL = 'https://images.pix.fr/badges/';
 
   badge = {
     key: '',
@@ -32,11 +32,21 @@ export default class BadgeForm extends Component {
     }
   }
 
+  getBadgeLogoUrl() {
+    if (!this.imageName.endsWith('.svg')) {
+      this.imageName += '.svg';
+    }
+    if (this.imageName.startsWith(this.BADGE_BASE_URL)) {
+      return this.imageName;
+    }
+    return `${this.BADGE_BASE_URL}${this.imageName}`;
+  }
+
   async _createBadge() {
     try {
       const badgeWithFormattedImageUrl = {
         ...this.badge,
-        imageUrl: this.BASE_URL + this.imageName,
+        imageUrl: this.BADGE_BASE_URL + this.imageName,
       };
       const badge = this.store.createRecord('badge', badgeWithFormattedImageUrl);
 
