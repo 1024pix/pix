@@ -63,7 +63,7 @@ describe('Unit | UseCase | deneutralize-challenge', function () {
       createdAt: new Date('2020-01-01'),
       completedAt: new Date('2020-01-01'),
       state: CertificationAssessment.states.STARTED,
-      isV2Certification: true,
+      version: 2,
       certificationChallenges: [
         challengeToBeDeneutralized,
         domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),

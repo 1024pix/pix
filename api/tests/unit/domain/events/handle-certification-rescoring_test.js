@@ -35,7 +35,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       createdAt: new Date('2020-01-01'),
       completedAt: new Date('2020-01-01'),
       state: CertificationAssessment.states.STARTED,
-      isV2Certification: true,
+      version: 2,
       certificationChallenges: [
         domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
         domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
@@ -123,7 +123,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         createdAt: new Date('2020-01-01'),
         completedAt: new Date('2020-01-01'),
         state: CertificationAssessment.states.STARTED,
-        isV2Certification: true,
+        version: 2,
         certificationChallenges: [
           domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
           domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
@@ -206,7 +206,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         createdAt: new Date('2020-01-01'),
         completedAt: new Date('2020-01-01'),
         state: CertificationAssessment.states.STARTED,
-        isV2Certification: true,
+        version: 2,
         certificationChallenges: [
           domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
           domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
@@ -337,7 +337,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       createdAt: new Date('2020-01-01'),
       completedAt: new Date('2020-01-01'),
       state: CertificationAssessment.states.STARTED,
-      isV2Certification: true,
+      version: 2,
       certificationChallenges: [
         domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
         domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
@@ -429,7 +429,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           createdAt: new Date('2020-01-01'),
           completedAt: new Date('2020-01-01'),
           state: CertificationAssessment.states.STARTED,
-          isV2Certification: true,
+          version: 2,
           certificationChallenges: [
             domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
             domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),

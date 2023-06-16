@@ -167,12 +167,12 @@ function toDomain(bookshelfCertificationCourse) {
       'sessionId',
       'externalId',
       'isPublished',
-      'isV2Certification',
       'hasSeenEndTestScreen',
       'isCancelled',
       'maxReachableLevelOnCertificationDate',
       'verificationCode',
       'abortReason',
+      'version',
     ]),
   });
 }

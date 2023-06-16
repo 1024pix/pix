@@ -8,7 +8,7 @@ const buildCertificationAssessment = function ({
   createdAt = new Date('2020-01-01'),
   completedAt = new Date('2020-01-01'),
   state = CertificationAssessment.states.STARTED,
-  isV2Certification = true,
+  version = 2,
   certificationChallenges = [buildCertificationChallengeWithType()],
   certificationAnswersByDate = [],
 } = {}) {
@@ -19,7 +19,7 @@ const buildCertificationAssessment = function ({
     createdAt,
     completedAt,
     state,
-    isV2Certification,
+    version,
     certificationChallenges,
     certificationAnswersByDate,
   });

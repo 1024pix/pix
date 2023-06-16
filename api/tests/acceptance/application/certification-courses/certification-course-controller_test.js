@@ -60,7 +60,7 @@ describe('Acceptance | API | Certification Course', function () {
         const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
-        databaseBuilder.factory.buildCertificationCourse({ id: 1234, isV2Certification: true });
+        databaseBuilder.factory.buildCertificationCourse({ id: 1234 });
         const assessmentId = databaseBuilder.factory.buildAssessment({
           certificationCourseId: 1234,
           competenceId: 'competence_id',
@@ -135,7 +135,7 @@ describe('Acceptance | API | Certification Course', function () {
         const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
-        databaseBuilder.factory.buildCertificationCourse({ id: 1234, isV2Certification: true, userId: user.id });
+        databaseBuilder.factory.buildCertificationCourse({ id: 1234, userId: user.id });
         const assessmentId = databaseBuilder.factory.buildAssessment({
           certificationCourseId: 1234,
           competenceId: 'competence_id',
@@ -489,12 +489,12 @@ describe('Acceptance | API | Certification Course', function () {
         expect(result.attributes['birth-country']).to.equal('FRANCE');
         expect(result.attributes['birth-insee-code']).to.equal('01091');
         expect(result.attributes['birth-postal-code']).to.be.null;
-        const { isV2Certification, verificationCode } = await knex
-          .select('isV2Certification', 'verificationCode')
+        const { version, verificationCode } = await knex
+          .select('version', 'verificationCode')
           .from('certification-courses')
           .where({ id: certificationCourseId })
           .first();
-        expect(isV2Certification).to.be.true;
+        expect(version).to.equal(2);
         expect(verificationCode).to.equal('ABCD123');
       });
 
