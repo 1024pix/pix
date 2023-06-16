@@ -321,7 +321,7 @@
           },
           "profiles-collection-campaign-participation": {
             "to-share-participation": "The participant will no longer be able to submit their profile through this campaign.",
-            "shared-participation": "The participant will no longer be able to submit their profile through this campaign."    
+            "shared-participation": "The participant will no longer be able to submit their profile through this campaign."
           }
         }
       }
@@ -768,7 +768,11 @@
         "row-title": "Participant"
       },
       "page-title": "Participants",
-      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}"
+      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
+      "action-bar": {
+        "information": "{count, plural, =1 {{count} selected participant} other {{count} selected participants}}",
+        "delete-button": "Delete"
+      }
     },
     "participants-list": {
       "latest-participation-information-tooltip": {
