@@ -13,7 +13,6 @@ const buildAnswer = function ({
   timeout = null,
   resultDetails = 'Some result details for answer.',
   timeSpent = 30,
-  activityId = null,
 } = {}) {
   assessmentId = _.isUndefined(assessmentId) ? buildAssessment().id : assessmentId;
 
@@ -28,7 +27,6 @@ const buildAnswer = function ({
     timeout,
     resultDetails,
     timeSpent,
-    activityId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'answers',

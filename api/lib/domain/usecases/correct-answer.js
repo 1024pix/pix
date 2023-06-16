@@ -1,17 +1,9 @@
 import { Examiner } from '../models/Examiner.js';
 
-const correctAnswer = async function ({
-  answer,
-  answerRepository,
-  challengeRepository,
-  activityRepository,
-  examiner,
-} = {}) {
+const correctAnswer = async function ({ answer, answerRepository, challengeRepository, examiner } = {}) {
   const challenge = await challengeRepository.get(answer.challengeId);
   const correctedAnswer = _evaluateAnswer({ challenge, answer, examiner });
-  const activity = await activityRepository.getLastActivity(answer.assessmentId);
-
-  return await answerRepository.save({ ...correctedAnswer, activityId: activity.id });
+  return await answerRepository.save(correctedAnswer);
 };
 
 function _evaluateAnswer({ challenge, answer, examiner: injectedExaminer }) {
