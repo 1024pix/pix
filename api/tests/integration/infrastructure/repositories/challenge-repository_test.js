@@ -1,10 +1,9 @@
 import _ from 'lodash';
-import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
+import { expect, mockLearningContent, domainBuilder, catchErr } from '../../../test-helper.js';
 import { Challenge } from '../../../../lib/domain/models/Challenge.js';
 import { Validator } from '../../../../lib/domain/models/Validator.js';
 import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { Activity } from '../../../../lib/domain/models/Activity.js';
 
 describe('Integration | Repository | challenge-repository', function () {
   describe('#get', function () {
@@ -69,7 +68,7 @@ describe('Integration | Repository | challenge-repository', function () {
     it('should return an error when the mission is not found', async function () {
       // given
       const missionId = 'recCHAL1';
-      const activityLevel = Activity.levels.TUTORIAL;
+      const activityLevel = 'didacticiel';
 
       mockLearningContent({
         tubes: [],
@@ -85,7 +84,7 @@ describe('Integration | Repository | challenge-repository', function () {
     it('should return an error when the skill associated to the challenge is not found', async function () {
       // given
       const missionId = 'recCHAL1';
-      const activityLevel = Activity.levels.TRAINING;
+      const activityLevel = 'entrainement';
       const tubeId = 'tubeId';
       const tube = _buildTube({ id: tubeId, missionId, name: '@rechercher_didacticiel' });
       const skill = _buildSkill({ id: 'recSkill1', name: '@rechercher_didacticiel1', tubeId });
@@ -107,7 +106,7 @@ describe('Integration | Repository | challenge-repository', function () {
     it('should return an error when the challenge is not found', async function () {
       // given
       const missionId = 'recCHAL1';
-      const activityLevel = Activity.levels.TUTORIAL;
+      const activityLevel = 'didacticiel';
       const tubeId = 'tubeId';
       const tube = _buildTube({ id: tubeId, missionId, name: '@rechercher_didacticiel' });
       const skill = _buildSkill({ id: 'recSkill1', name: '@rechercher_didacticiel1', tubeId });
@@ -138,7 +137,7 @@ describe('Integration | Repository | challenge-repository', function () {
     it('should return the challenge with the correct activityLevel', async function () {
       //given
       const missionId = 'recCHAL1';
-      const activityLevel = Activity.levels.TRAINING;
+      const activityLevel = 'entrainement';
       const activiteDidacticiel = _buildTube({
         id: 'activiteDidacticielId',
         missionId,
@@ -189,7 +188,7 @@ describe('Integration | Repository | challenge-repository', function () {
       //given
       const missionId = 'recCHAL1';
       const otherMissionId = 'recOTMI1';
-      const activityLevel = Activity.levels.TRAINING;
+      const activityLevel = 'entrainement';
 
       const activiteEntrainement = _buildTube({
         id: 'activiteEntrainementId',
@@ -243,7 +242,7 @@ describe('Integration | Repository | challenge-repository', function () {
     it('should return the correct validor for the challenge type', async function () {
       // given
       const missionId = 'recCHAL1';
-      const activityLevel = Activity.levels.TUTORIAL;
+      const activityLevel = 'didacticiel';
       const tubeId = 'tubeId';
       const tube = _buildTube({ id: tubeId, missionId, name: '@rechercher_didacticiel' });
       const skill = _buildSkill({ id: 'recSkill1', name: '@rechercher_didacticiel1', tubeId });
