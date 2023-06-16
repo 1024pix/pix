@@ -81,23 +81,24 @@ function _getPix1dLevelName(activityLevel) {
   let levelName;
   switch (activityLevel) {
     case Activity.levels.TUTORIAL:
-      levelName = 'di';
+      levelName = 'didacticiel';
       break;
     case Activity.levels.TRAINING:
-      levelName = 'en';
+      levelName = 'entrainement';
       break;
     case Activity.levels.VALIDATION:
-      levelName = 'va';
+      levelName = 'validation';
       break;
     default:
-      return 'de';
+      return 'defi';
   }
   return levelName;
 }
 
 function _throwNotFoundError(activityLevel, missionId, challengeNumber) {
+  const levelName = _getPix1dLevelName(activityLevel);
   throw new NotFoundError(
-    `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`
+    `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${levelName} et le numéro ${challengeNumber}`
   );
 }
 
