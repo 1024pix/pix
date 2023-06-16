@@ -28,6 +28,7 @@ describe('Integration | Repository | Session', function () {
         assignedCertificationOfficerId: null,
         accessCode: 'XXXX',
         supervisorPassword: 'AB2C7',
+        version: 2,
       });
 
       await databaseBuilder.commit();
@@ -145,6 +146,7 @@ describe('Integration | Repository | Session', function () {
         time: '12:00:00',
         description: 'CertificationPix pour les jeunes',
         accessCode: 'NJR10',
+        version: 2,
       });
       await databaseBuilder.commit();
 
