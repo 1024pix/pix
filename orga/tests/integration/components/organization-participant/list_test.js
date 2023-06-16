@@ -600,4 +600,75 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       )
       .exists();
   });
+
+  module('action bar', function (hooks) {
+    hooks.beforeEach(function () {
+      this.triggerFiltering = sinon.stub();
+      this.set('fullNameFilter', null);
+      this.set('certificabilityFilter', []);
+    });
+
+    test('it display action bar', async function (assert) {
+      //given
+      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+
+      this.set('participants', participants);
+      this.deleteParticipants = sinon.stub();
+
+      //when
+      const screen = await render(hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @deleteParticipants={{this.deleteParticipants}}
+/>`);
+
+      const firstLearnerToDelete = screen.getAllByRole('checkbox')[1];
+      await click(firstLearnerToDelete);
+
+      //then
+      assert
+        .dom(screen.getByText(this.intl.t('pages.organization-participants.action-bar.information', { count: 1 })))
+        .exists();
+    });
+
+    test('it should delete participants', async function (assert) {
+      //given
+      const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
+      const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
+      const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+      const participants = [spiderLearner, peterLearner, milesLearner];
+
+      this.set('participants', participants);
+      this.deleteParticipants = sinon.stub();
+
+      //when
+      const screen = await render(hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @deleteParticipants={{this.deleteParticipants}}
+/>`);
+
+      const firstLearnerToDelete = screen.getAllByRole('checkbox')[2];
+      const secondLearnerToDelete = screen.getAllByRole('checkbox')[3];
+
+      await click(firstLearnerToDelete);
+      await click(secondLearnerToDelete);
+
+      const deleteButton = await screen.findByRole('button', {
+        name: this.intl.t('pages.organization-participants.action-bar.delete-button'),
+      });
+
+      await click(deleteButton);
+      //then
+
+      sinon.assert.calledWith(this.deleteParticipants, [peterLearner, milesLearner]);
+      assert.ok(true);
+    });
+  });
 });
