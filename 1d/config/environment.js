@@ -2,8 +2,8 @@
 
 module.exports = function (environment) {
   const ENV = {
-    modulePrefix: 'pix1d',
-    podModulePrefix: 'pix1d/pods',
+    modulePrefix: '1d',
+    podModulePrefix: '1d/pods',
     environment,
     locationType: 'history',
     rootURL: '/',
