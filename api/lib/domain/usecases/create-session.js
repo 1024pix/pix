@@ -2,6 +2,7 @@ import { ForbiddenAccess } from '../errors.js';
 import * as sessionValidator from '../validators/session-validator.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import { Session } from '../models/Session.js';
+import { CertificationVersion } from '../models/CertificationVersion.js';
 
 const createSession = async function ({
   userId,
@@ -22,11 +23,14 @@ const createSession = async function ({
   }
 
   const accessCode = dependencies.sessionCodeService.getNewSessionCode();
-  const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);
+  const { isV3Pilot, name: certificationCenterName } = await certificationCenterRepository.get(certificationCenterId);
+  const version = isV3Pilot ? CertificationVersion.V3 : CertificationVersion.V2;
+
   const domainSession = new Session({
     ...session,
     accessCode,
-    certificationCenter,
+    certificationCenter: certificationCenterName,
+    version,
   });
 
   return sessionRepository.save(domainSession);

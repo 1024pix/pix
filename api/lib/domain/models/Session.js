@@ -40,6 +40,7 @@ class Session {
     certificationCenterId,
     assignedCertificationOfficerId,
     supervisorPassword = Session.generateSupervisorPassword(),
+    version,
   } = {}) {
     this.id = id;
     this.accessCode = accessCode;
@@ -60,6 +61,7 @@ class Session {
     this.certificationCenterId = certificationCenterId;
     this.assignedCertificationOfficerId = assignedCertificationOfficerId;
     this.supervisorPassword = supervisorPassword;
+    this.version = version;
   }
 
   areResultsFlaggedAsSent() {
