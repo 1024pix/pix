@@ -35,10 +35,10 @@ module('Acceptance | Checkpoint', function (hooks) {
       await visit(`/assessments/${assessment.id}/checkpoint`);
 
       // then
-      assert.dom('.checkpoint-progression-gauge-wrapper').exists();
+      assert.strictEqual(find('.checkpoint__progression-gauge progress').textContent.trim(), '100%');
       assert.dom('.assessment-results__list').exists();
       assert.dom('.result-item').exists({ count: NB_ANSWERS });
-      assert.ok(find('.checkpoint__continue').textContent.includes('Continuer'));
+      assert.strictEqual(find('.checkpoint__continue').textContent.trim(), 'Continuer');
       assert.dom('.checkpoint-no-answer').doesNotExist();
     });
   });
@@ -49,7 +49,7 @@ module('Acceptance | Checkpoint', function (hooks) {
       await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
 
       // then
-      assert.dom('.checkpoint-progression-gauge-wrapper').doesNotExist();
+      assert.dom('.checkpoint__progression-gauge').doesNotExist();
       assert.dom('.assessment-results__list').doesNotExist();
       assert.dom('.checkpoint-no-answer').exists();
 

@@ -9,20 +9,17 @@
   <div class="checkpoint__container rounded-panel--over-background-banner">
     <div class="checkpoint__header">
       {{#if this.shouldDisplayAnswers}}
-        <div class="checkpoint-progression-gauge-wrapper">
-          <PixProgressGauge
-            @value={{this.completionPercentage}}
-            @isArrowLeft="true"
-            @color="white"
-            @subtitle={{t "pages.checkpoint.completion-percentage.caption"}}
-            @tooltipText={{t
-              "pages.checkpoint.completion-percentage.label"
-              completionPercentage=this.completionPercentage
-              htmlSafe=true
-            }}
-          />
-
-        </div>
+        <PixProgressGauge
+          class="checkpoint__progression-gauge"
+          @value={{this.completionPercentage}}
+          @label={{t
+            "pages.checkpoint.completion-percentage.label"
+            completionPercentage=this.completionPercentage
+            htmlSafe=true
+          }}
+          @subtitle={{t "pages.checkpoint.completion-percentage.caption"}}
+          @themeMode="dark"
+        />
         <div class="checkpoint__continue-wrapper">
           <CheckpointContinue
             @assessmentId={{@model.id}}
