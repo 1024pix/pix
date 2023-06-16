@@ -102,6 +102,17 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
       });
     });
     context('when user did the training activity', function () {
+      context('when user has just failed the tutorial activity', function () {
+        it('should return the tutorial activity', function () {
+          const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
+          const activity2 = domainBuilder.buildActivity({
+            level: Activity.levels.TUTORIAL,
+            status: Activity.status.FAILED,
+          });
+          const result = pix1d.getNextActivityLevel([activity2, activity1]);
+          expect(result).to.equal(Activity.levels.TUTORIAL);
+        });
+      });
       context('when user has just failed the training activity', function () {
         it('should return the tutorial activity', function () {
           const activity = domainBuilder.buildActivity({
@@ -160,6 +171,17 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
       });
     });
     context('when user did the training activity', function () {
+      context('when user has just skipped the tutorial activity', function () {
+        it('should return the tutorial activity', function () {
+          const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
+          const activity2 = domainBuilder.buildActivity({
+            level: Activity.levels.TUTORIAL,
+            status: Activity.status.SKIPPED,
+          });
+          const result = pix1d.getNextActivityLevel([activity2, activity1]);
+          expect(result).to.equal(Activity.levels.TUTORIAL);
+        });
+      });
       context('when user has just skipped the training activity', function () {
         it('should return the tutorial activity', function () {
           const activity = domainBuilder.buildActivity({
