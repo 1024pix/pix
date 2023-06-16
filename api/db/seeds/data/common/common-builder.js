@@ -1,6 +1,6 @@
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 import { badges } from '../../../constants.js';
-const ROLES = { PIX_ADMIN };
+const { ROLES } = PIX_ADMIN;
 
 // IDS
 /// USERS
@@ -188,7 +188,7 @@ function _createClea(databaseBuilder) {
     message:
       'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
     altMessage: 'Prêt pour le CléA numérique',
-    key: badges.keys.PIX_EMPLOI_CLEA_V4,
+    key: badges.keys.PIX_EMPLOI_CLEA_V3,
     imageUrl: 'https://images.pix.fr/badges/Logos_badge_Prêt-CléA_Num NEW 2020.svg',
     title: 'Prêt pour le CléA numérique',
     isCertifiable: true,

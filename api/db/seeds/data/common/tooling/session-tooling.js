@@ -505,7 +505,7 @@ async function _registerCandidatesToSession({
       }
 
       const { billingMode: randomBillingMode, prepaymentCode: randomPrepaymentCode } =
-        billingModes[i % extraTimePercentages.length];
+        billingModes[i % billingModes.length];
 
       const randomExtraTimePercentage = extraTimePercentages[i % extraTimePercentages.length];
 
