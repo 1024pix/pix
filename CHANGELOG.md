@@ -1,5 +1,17 @@
 # Pix Changelog
 ## v4.4.0 (13/06/2023)
+## v4.7.0 (16/06/2023)
+
+
+### :building_construction: Tech
+- [#6406](https://github.com/1024pix/pix/pull/6406) [TECH] Revert partiel de la PR 6346 - Passage de mission linéaire Pix1D (PIX-7693).
+- [#6381](https://github.com/1024pix/pix/pull/6381) [TECH] Remplacer le champ isV2Certification par version dans les certification (PIX-8298).
+- [#6399](https://github.com/1024pix/pix/pull/6399) [TECH] Refacto de la méthode privée "#" en "_".
+- [#6403](https://github.com/1024pix/pix/pull/6403) [TECH] Renommer l'application pix1d en 1d (PIX-8373).
+
+### :bug: Correction
+- [#6333](https://github.com/1024pix/pix/pull/6333) [BUGFIX] Corriger les urls de la documentation des Organisations en fonction de certains TAGS (PIX-8271).
+
 ## v4.6.0 (15/06/2023)
 
 
