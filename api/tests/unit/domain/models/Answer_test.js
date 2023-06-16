@@ -1,6 +1,6 @@
 import { Answer } from '../../../../lib/domain/models/Answer.js';
 import { Skill } from '../../../../lib/domain/models/Skill.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Answer', function () {
   describe('constructor', function () {
@@ -17,7 +17,6 @@ describe('Unit | Domain | Models | Answer', function () {
         levelup: {},
         timeSpent: 30,
         isFocusedOut: false,
-        activityId: 12,
       };
 
       const expectedAnswer = {
@@ -31,7 +30,6 @@ describe('Unit | Domain | Models | Answer', function () {
         levelup: {},
         timeSpent: 30,
         isFocusedOut: false,
-        activityId: 12,
       };
 
       // when

@@ -1,16 +1,9 @@
-const TABLE_NAME = 'answers';
-const COLUMN_NAME = 'activityId';
+// Migration vide, car l'ajout effectif d'une colonne sur la table answer ne passe pas en prod
 
-const up = function (knex) {
-  return knex.schema.table(TABLE_NAME, function (table) {
-    table.integer(COLUMN_NAME).defaultTo(null).references('activities.id');
-  });
-};
+// eslint-disable-next-line no-empty-function
+const up = async function () {};
 
-const down = function (knex) {
-  return knex.schema.table(TABLE_NAME, function (table) {
-    table.dropColumn(COLUMN_NAME);
-  });
-};
+// eslint-disable-next-line no-empty-function
+const down = async function () {};
 
 export { up, down };
