@@ -10,10 +10,18 @@ export default class List extends Component {
   }
 
   get mainCheckboxId() {
-    return guidFor(this);
+    return guidFor(this) + 'mainCheckbox';
   }
 
   get mainCheckbox() {
     return document.getElementById(this.mainCheckboxId);
+  }
+
+  get actionBarId() {
+    return guidFor(this) + 'actionBar';
+  }
+
+  get actionBar() {
+    return document.getElementById(this.actionBarId);
   }
 }

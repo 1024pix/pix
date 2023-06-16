@@ -7,4 +7,9 @@ export default class OrganizationParticipantAdapter extends ApplicationAdapter {
 
     return `${this.host}/${this.namespace}/organizations/${organizationId}/participants`;
   }
+
+  deleteParticipants(organizationId, ids) {
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/organization-learners`;
+    return this.ajax(url, 'DELETE', { data: { listLearners: ids } });
+  }
 }
