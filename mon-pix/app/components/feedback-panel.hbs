@@ -72,7 +72,9 @@
                     @id="feedback-panel__field"
                     @maxlength="10000"
                     rows="5"
-                    placeholder={{t "pages.challenge.feedback-panel.form.fields.detail-selection.label"}}
+                    placeholder={{t
+                      "pages.challenge.feedback-panel.form.fields.detail-selection.problem-suggestion-description"
+                    }}
                     @errorMessage={{this.emptyTextBoxMessageError}}
                     required
                     {{on "change" this.setContent}}
