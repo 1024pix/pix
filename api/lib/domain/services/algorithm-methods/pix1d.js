@@ -28,13 +28,13 @@ function getNextActivityLevel(activities) {
         return TRAINING;
       }
     } else {
-      if (lastActivity.level === TRAINING || lastActivity.level === VALIDATION) {
-        return TUTORIAL;
-      } else {
+      if (lastActivity.level === CHALLENGE) {
         return undefined;
       }
+      return TUTORIAL;
     }
   }
+  return undefined;
 }
 
 function _nbOfActivitiesOfLevel(activities, level) {
