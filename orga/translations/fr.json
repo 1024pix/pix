@@ -736,7 +736,6 @@
       "title": "Activité du participant"
     },
     "organization-participants": {
-      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
       "empty-state": {
         "action": "Voir mes campagnes",
         "call-to-action": "Invitez-les à rejoindre une campagne ou créez-en une nouvelle.",
@@ -760,7 +759,6 @@
           }
         }
       },
-      "page-title": "Participants",
       "table": {
         "column": {
           "mainCheckbox":"Selectionner/Deselectionner toute la colonne",
@@ -790,6 +788,12 @@
         "description": "Tableau des participants trié par nom.",
         "empty": "Aucun participant",
         "row-title": "Participant"
+      },
+      "page-title": "Participants",
+      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
+      "action-bar": {
+        "information": "{count, plural, =1 {{count} participant sélectionné} other {{count} participants sélectionnés}}",
+        "delete-button": "Supprimer"
       }
     },
     "participants-list": {
