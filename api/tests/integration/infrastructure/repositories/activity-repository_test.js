@@ -5,8 +5,9 @@ import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | activityRepository', function () {
   describe('#save', function () {
+    let activityId;
     afterEach(async function () {
-      await knex('activities').delete();
+      await knex('activities').where('id', activityId).delete();
     });
 
     it('should save and return the activity', async function () {
@@ -21,16 +22,14 @@ describe('Integration | Repository | activityRepository', function () {
 
       // when
       const savedActivity = await activityRepository.save(activityToSave);
+      activityId = savedActivity.id;
 
       // then
-      const activityInDb = await knex('activities').where({ id: savedActivity.id }).first();
+      const activityInDb = await knex('activities').where({ id: activityId }).first();
       expect(savedActivity).to.deep.equal(activityInDb);
     });
   });
   describe('#updateStatus', function () {
-    afterEach(async function () {
-      await knex('activities').delete();
-    });
     context('when the activity exists', function () {
       it('should update status', async function () {
         // given
@@ -76,6 +75,7 @@ describe('Integration | Repository | activityRepository', function () {
       it('should return the corresponding activity', async function () {
         //given
         const { assessmentId, id } = databaseBuilder.factory.buildActivity();
+
         await databaseBuilder.commit();
 
         // when
