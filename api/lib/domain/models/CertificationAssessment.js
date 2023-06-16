@@ -9,6 +9,7 @@ import { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFou
 import { AnswerStatus } from './AnswerStatus.js';
 import { NeutralizationAttempt } from './NeutralizationAttempt.js';
 import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerStatusChangeAttempt.js';
+import { CertificationVersion } from './CertificationVersion.js';
 
 const states = {
   COMPLETED: 'completed',
@@ -26,7 +27,10 @@ const certificationAssessmentSchema = Joi.object({
   state: Joi.string()
     .valid(states.COMPLETED, states.STARTED, states.ENDED_BY_SUPERVISOR, states.ENDED_DUE_TO_FINALIZATION)
     .required(),
-  isV2Certification: Joi.boolean().required(),
+  version: Joi.number()
+    .integer()
+    .valid(...Object.values(CertificationVersion))
+    .required(),
   certificationChallenges: Joi.array().min(1).required(),
   certificationAnswersByDate: Joi.array().min(0).required(),
 });
@@ -39,7 +43,7 @@ class CertificationAssessment {
     createdAt,
     completedAt,
     state,
-    isV2Certification,
+    version,
     certificationChallenges,
     certificationAnswersByDate,
   } = {}) {
@@ -49,7 +53,7 @@ class CertificationAssessment {
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.state = state;
-    this.isV2Certification = isV2Certification;
+    this.version = version;
     this.certificationChallenges = certificationChallenges;
     this.certificationAnswersByDate = certificationAnswersByDate;
 

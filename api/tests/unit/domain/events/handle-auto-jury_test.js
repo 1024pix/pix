@@ -453,7 +453,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         createdAt: new Date('2020-01-01T00:00:00Z'),
         completedAt: new Date('2020-01-01T00:00:00Z'),
         state: 'endedDueToFinalization',
-        isV2Certification: true,
+        version: 2,
         certificationChallenges: [
           domainBuilder.buildCertificationChallengeWithType({
             ...challengeToBeConsideredAsSkipped,

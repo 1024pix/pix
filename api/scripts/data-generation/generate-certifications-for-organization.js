@@ -191,7 +191,7 @@ async function _createCertificationCoursesAndAssessments({ organizationLearners,
       lastName: organizationLearner.lastName,
       birthdate: organizationLearner.birthdate,
       birthplace: organizationLearner.birthCity,
-      isV2Certification: true,
+      version: 2,
       userId: organizationLearner.userId,
       maxReachableLevelOnCertificationDate: 6,
     });
