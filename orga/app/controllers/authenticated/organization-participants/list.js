@@ -6,6 +6,7 @@ import { tracked } from '@glimmer/tracking';
 export default class ListController extends Controller {
   @service currentUser;
   @service router;
+  @service store;
 
   @tracked pageNumber = 1;
   @tracked pageSize = 50;
@@ -45,5 +46,14 @@ export default class ListController extends Controller {
   goToLearnerPage(learnerId, event) {
     event.preventDefault();
     this.router.transitionTo('authenticated.organization-participants.organization-participant', learnerId);
+  }
+
+  @action
+  async deleteOrganizationLearners(listLearners) {
+    await this.store.adapterFor('organization-participant').deleteParticipants(
+      this.currentUser.organization.id,
+      listLearners.map(({ id }) => id)
+    );
+    this.send('refreshModel');
   }
 }

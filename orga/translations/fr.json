@@ -243,7 +243,7 @@
       "breadcrumb-current-page-label": "Participation de {firstName} {lastName}",
       "badges": "Résultats Thématiques",
       "progression": "Avancement",
-      "result": "Résultat",        
+      "result": "Résultat",
       "tab": {
         "results": "Résultats",
         "review": "Analyse"
@@ -320,11 +320,11 @@
           "assessment-campaign-participation": {
             "started-participation": "Le participant pourra terminer son parcours mais ne pourra plus envoyer ses résultats. Il ne pourra pas non plus participer de nouveau à cette campagne.",
             "to-share-participation": "Le participant ne pourra pas envoyer ses résultats et il ne pourra pas non plus participer de nouveau à cette campagne.",
-            "shared-participation": "Le participant ne pourra plus participer de nouveau à cette campagne."    
+            "shared-participation": "Le participant ne pourra plus participer de nouveau à cette campagne."
           },
           "profiles-collection-campaign-participation": {
             "to-share-participation": "Le participant ne pourra pas envoyer son profil et il ne pourra pas non plus participer de nouveau à cette collecte de profil.",
-            "shared-participation": "Le participant ne pourra plus participer de nouveau à cette collecte de profil."    
+            "shared-participation": "Le participant ne pourra plus participer de nouveau à cette collecte de profil."
           }
         }
       }
@@ -771,7 +771,11 @@
         "row-title": "Participant"
       },
       "page-title": "Participants",
-      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}"
+      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
+      "action-bar": {
+        "information": "{count, plural, =1 {{count} participant sélectionné} other {{count} participants sélectionnés}}",
+        "delete-button": "Supprimer"
+      }
     },
     "participants-list": {
       "latest-participation-information-tooltip": {

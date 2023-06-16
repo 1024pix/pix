@@ -55,7 +55,7 @@
     {{#if @participants}}
       <tbody>
         <SelectableList @items={{@participants}}>
-          <:manager as |allSelected someSelected toggleAll|>
+          <:manager as |allSelected someSelected toggleAll selectedParticipants|>
             {{#in-element this.mainCheckbox}}
               <PixCheckbox
                 @screenReaderOnly={{true}}
@@ -64,6 +64,24 @@
                 {{on "click" toggleAll}}
               >{{t "pages.organization-participants.table.column.mainCheckbox"}}</PixCheckbox>
             {{/in-element}}
+            {{#if someSelected}}
+              {{#in-element this.actionBar}}
+                <Ui::ActionBar @items={{selectedParticipants}}>
+                  <:information>
+                    {{t "pages.organization-participants.action-bar.information" count=selectedParticipants.length}}
+                  </:information>
+                  <:actions>
+                    <PixButton
+                      @triggerAction={{(fn @deleteParticipants selectedParticipants)}}
+                      type="button"
+                      @backgroundColor="red"
+                    >
+                      {{t "pages.organization-participants.action-bar.delete-button"}}
+                    </PixButton>
+                  </:actions>
+                </Ui::ActionBar>
+              {{/in-element}}
+            {{/if}}
           </:manager>
           <:item as |participant toggleParticipant isParticipantSelected index|>
             <tr
@@ -126,3 +144,5 @@
 </div>
 
 <Table::PaginationControl @pagination={{@participants.meta}} />
+
+<div id={{this.actionBarId}}></div>

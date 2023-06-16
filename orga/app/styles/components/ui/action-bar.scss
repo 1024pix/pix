@@ -1,0 +1,35 @@
+.action-bar {
+  @extend %pix-body-m;
+  @include shadow(-4px, 8px);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: calc(100% - $app-sidebar-width) ;
+  height: 68px;
+  right: 0;
+  bottom: 0;
+  background-color: $pix-neutral-0;
+  color: $pix-neutral-60;
+  font-family: $font-roboto;
+
+  .action-bar__informations {
+    margin-left: $pix-spacing-xl;
+    display: flex;
+    align-items: baseline;
+  }
+
+  .action-bar__actions {
+    display: flex;
+    padding: 0 $pix-spacing-m;
+
+    .pix-button {
+      margin: 0 $pix-spacing-xs;
+    }
+  }
+}
+
+footer {
+  padding: $pix-spacing-s $pix-spacing-m;
+}
