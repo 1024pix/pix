@@ -13,11 +13,12 @@
   @extend %pix-body-l;
 
   display: -webkit-box;
-  padding: $pix-spacing-s;
+  height: 54px;
+  margin: 16px 16px 8px;
   overflow: hidden;
   color: $pix-neutral-90;
   font-weight: $font-medium;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
