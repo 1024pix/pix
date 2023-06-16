@@ -1,9 +1,8 @@
-import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
+import { expect, knex, domainBuilder, databaseBuilder, catchErr } from '../../../test-helper.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { ChallengeAlreadyAnsweredError, NotFoundError } from '../../../../lib/domain/errors.js';
 import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
-import { Activity } from '../../../../lib/domain/models/Activity.js';
 
 describe('Integration | Repository | answerRepository', function () {
   describe('#get', function () {
@@ -300,65 +299,6 @@ describe('Integration | Repository | answerRepository', function () {
         expect(foundAnswers).to.have.lengthOf(1);
         expect(foundAnswers).to.deepEqualArray([olderAnswer]);
         expect(foundAnswers[0].id).to.equal(olderAnswer.id);
-      });
-    });
-  });
-
-  describe('#findByActivity', function () {
-    context('when activity does not exists', function () {
-      it('should return an empty array', async function () {
-        // given
-        databaseBuilder.factory.buildActivity({ id: 123, level: Activity.levels.TUTORIAL });
-        await databaseBuilder.commit();
-
-        // when
-        const foundAnswers = await answerRepository.findByActivity(456);
-
-        // then
-        expect(foundAnswers).to.be.empty;
-      });
-    });
-    context('when there is no answer for the activity', function () {
-      it('should return an empty array', async function () {
-        // given
-        // no answer activity
-        databaseBuilder.factory.buildActivity({ id: 123 });
-
-        // other activity with answer
-        databaseBuilder.factory.buildActivity({ id: 345 });
-        databaseBuilder.factory.buildAnswer({ activityId: 345 });
-
-        await databaseBuilder.commit();
-
-        // when
-        const foundAnswers = await answerRepository.findByActivity(123);
-
-        // then
-        expect(foundAnswers).to.be.empty;
-      });
-    });
-    context('when activity has some answers', function () {
-      it('should return the answers ordered by creation date', async function () {
-        // given
-        databaseBuilder.factory.buildActivity({ id: 123 });
-        databaseBuilder.factory.buildAnswer({
-          activityId: 123,
-          createdAt: new Date('2023-06-01T15:01:00Z'),
-          result: 'ko',
-        });
-        databaseBuilder.factory.buildAnswer({
-          activityId: 123,
-          createdAt: new Date('2023-06-01T15:00:00Z'),
-          result: 'ok',
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const foundAnswers = await answerRepository.findByActivity(123);
-
-        // then
-        expect(foundAnswers[0].result).to.deep.equal(AnswerStatus.OK);
-        expect(foundAnswers[1].result).to.deep.equal(AnswerStatus.KO);
       });
     });
   });
