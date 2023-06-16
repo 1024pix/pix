@@ -1,7 +1,7 @@
 import Application from '@ember/application';
 import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
-import config from 'pix1d/config/environment';
+import config from '1d/config/environment';
 
 export default class App extends Application {
   modulePrefix = config.modulePrefix;
