@@ -1,4 +1,5 @@
 import { Activity } from '../../models/Activity.js';
+import { logger } from '../../../infrastructure/logger.js';
 
 export { getNextActivityLevel };
 
@@ -22,7 +23,7 @@ function getNextActivityLevel(activities) {
     } else {
       return _higherLevelActivity(lastActivity);
     }
-  } else {
+  } else if (_hasFailed(lastActivity) || _hasSkipped(lastActivity)) {
     if (_neverDoneActivity(activities, TRAINING)) {
       if (lastActivity.level === VALIDATION) {
         return TRAINING;
@@ -33,6 +34,8 @@ function getNextActivityLevel(activities) {
       }
       return TUTORIAL;
     }
+  } else {
+    logger.error(`Pix1D - Unexpected status '${lastActivity.status}' on last activity with id: '${lastActivity.id}'`);
   }
   return undefined;
 }
