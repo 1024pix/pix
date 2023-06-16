@@ -148,7 +148,7 @@
     "lint-fix:translations": "eslint --fix --ext .json --format node_modules/eslint-plugin-i18n-json/formatter.js translations",
     "lint-fix:code": "eslint --fix . --ext js --cache --cache-strategy content",
     "local:test:coverage": "nyc npm test",
-    "postdeploy": "npm run db:migrate",
+    "postdeploy": "DEBUG=knex:* npm run db:migrate",
     "preinstall": "npx check-engine",
     "scalingo-postbuild": "node scripts/generate-cron > cron.json",
     "start": "node index.js",
