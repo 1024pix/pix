@@ -58,6 +58,7 @@ buildSession.created = function ({
   room,
   time,
   certificationCandidates,
+  version = 2,
 } = {}) {
   return buildSession({
     id,
@@ -78,6 +79,7 @@ buildSession.created = function ({
     resultsSentToPrescriberAt: null,
     publishedAt: null,
     assignedCertificationOfficerId: null,
+    version,
   });
 };
 

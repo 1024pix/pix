@@ -297,7 +297,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
               const placementProfile = { isCertifiable: sinon.stub().returns(false) };
               placementProfileService.getPlacementProfile
-                .withArgs({ userId: 2, limitDate: now })
+                .withArgs({ userId: 2, limitDate: now, version: 2 })
                 .resolves(placementProfile);
 
               // when
@@ -340,11 +340,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   .onCall(0)
                   .resolves(null);
 
-                const { placementProfile, userCompetencesWithChallenges } = _buildPlacementProfileWithTwoChallenges(
+                const { placementProfile, userCompetencesWithChallenges } = _buildPlacementProfileWithTwoChallenges({
                   placementProfileService,
-                  2,
-                  now
-                );
+                  userId: 2,
+                  now,
+                  version: foundSession.version,
+                });
                 certificationChallengesService.pickCertificationChallenges
                   .withArgs(placementProfile)
                   .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -400,7 +401,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   .resolves(null);
 
                 const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
-                  _buildPlacementProfileWithTwoChallenges(placementProfileService, 2, now);
+                  _buildPlacementProfileWithTwoChallenges({
+                    placementProfileService,
+                    userId: 2,
+                    now,
+                    version: foundSession.version,
+                  });
                 certificationChallengesService.pickCertificationChallenges
                   .withArgs(placementProfile)
                   .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -460,6 +466,97 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 });
               });
 
+              it('should create a v3 certification', async function () {
+                // given
+                const domainTransaction = Symbol('someDomainTransaction');
+
+                const foundSession = domainBuilder.buildSession.created({
+                  id: 1,
+                  accessCode: 'accessCode',
+                  version: 3,
+                });
+                sessionRepository.get.withArgs(1).resolves(foundSession);
+
+                const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                  userId: 2,
+                  sessionId: 1,
+                  authorizedToStart: true,
+                });
+                certificationCandidateRepository.getBySessionIdAndUserId
+                  .withArgs({ sessionId: 1, userId: 2 })
+                  .resolves(foundCertificationCandidate);
+
+                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                  .withArgs({ userId: 2, sessionId: 1, domainTransaction })
+                  .resolves(null);
+
+                _buildPlacementProfileWithTwoChallenges({
+                  placementProfileService,
+                  userId: 2,
+                  now,
+                  version: foundSession.version,
+                });
+
+                const certificationCenter = domainBuilder.buildCertificationCenter({
+                  habilitations: [],
+                  isV3Pilot: true,
+                });
+                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
+
+                certificationBadgesService.findStillValidBadgeAcquisitions
+                  .withArgs({ userId: 2, domainTransaction })
+                  .resolves([]);
+
+                // TODO: extraire jusqu'à la ligne 387 dans une fonction ?
+                const certificationCourseToSave = CertificationCourse.from({
+                  certificationCandidate: foundCertificationCandidate,
+                  challenges: [],
+                  verificationCode,
+                  maxReachableLevelOnCertificationDate: 5,
+                  version: 3,
+                });
+                const savedCertificationCourse = domainBuilder.buildCertificationCourse(
+                  certificationCourseToSave.toDTO()
+                );
+                certificationCourseRepository.save
+                  .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                  .resolves(savedCertificationCourse);
+
+                const assessmentToSave = new Assessment({
+                  userId: 2,
+                  certificationCourseId: savedCertificationCourse.getId(),
+                  state: Assessment.states.STARTED,
+                  type: Assessment.types.CERTIFICATION,
+                  isImproving: false,
+                  method: Assessment.methods.CERTIFICATION_DETERMINED,
+                });
+                const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
+                assessmentRepository.save
+                  .withArgs({ assessment: assessmentToSave, domainTransaction })
+                  .resolves(savedAssessment);
+
+                // when
+                const result = await retrieveLastOrCreateCertificationCourse({
+                  domainTransaction,
+                  sessionId: 1,
+                  accessCode: 'accessCode',
+                  userId: 2,
+                  locale: 'fr',
+                  ...injectables,
+                });
+
+                // then
+                expect(result).to.deep.equal({
+                  created: true,
+                  certificationCourse: new CertificationCourse({
+                    ...savedCertificationCourse.toDTO(),
+                    assessment: savedAssessment,
+                    challenges: [],
+                    version: 3,
+                  }),
+                });
+              });
+
               context('#when the user is eligible to one complementary certification', function () {
                 context('when certification center is habilitated', function () {
                   context('when user has a subscription', function () {
@@ -494,7 +591,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       });
 
                       const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
-                        _buildPlacementProfileWithTwoChallenges(placementProfileService, 2, now);
+                        _buildPlacementProfileWithTwoChallenges({
+                          placementProfileService,
+                          userId: 2,
+                          now,
+                          version: foundSession.version,
+                        });
                       certificationChallengesService.pickCertificationChallenges
                         .withArgs(placementProfile)
                         .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -614,7 +716,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       });
 
                       const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
-                        _buildPlacementProfileWithTwoChallenges(placementProfileService, 2, now);
+                        _buildPlacementProfileWithTwoChallenges({
+                          placementProfileService,
+                          userId: 2,
+                          now,
+                          version: foundSession.version,
+                        });
                       certificationChallengesService.pickCertificationChallenges
                         .withArgs(placementProfile)
                         .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -730,7 +837,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           .resolves(foundCertificationCandidate);
 
                         const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
-                          _buildPlacementProfileWithTwoChallenges(placementProfileService, 2, now);
+                          _buildPlacementProfileWithTwoChallenges({
+                            placementProfileService,
+                            userId: 2,
+                            now,
+                            version: foundSession.version,
+                          });
                         certificationChallengesService.pickCertificationChallenges
                           .withArgs(placementProfile)
                           .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -826,7 +938,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         });
 
                         const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
-                          _buildPlacementProfileWithTwoChallenges(placementProfileService, 2, now);
+                          _buildPlacementProfileWithTwoChallenges({
+                            placementProfileService,
+                            userId: 2,
+                            now,
+                            version: foundSession.version,
+                          });
                         certificationChallengesService.pickCertificationChallenges
                           .withArgs(placementProfile)
                           .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -946,7 +1063,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         .resolves(foundCertificationCandidate);
 
                       const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
-                        _buildPlacementProfileWithTwoChallenges(placementProfileService, 2, now);
+                        _buildPlacementProfileWithTwoChallenges({
+                          placementProfileService,
+                          userId: 2,
+                          now,
+                          version: foundSession.version,
+                        });
                       certificationChallengesService.pickCertificationChallenges
                         .withArgs(placementProfile)
                         .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -1039,7 +1161,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .resolves(foundCertificationCandidate);
 
                     const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
-                      _buildPlacementProfileWithTwoChallenges(placementProfileService, 2, now);
+                      _buildPlacementProfileWithTwoChallenges({
+                        placementProfileService,
+                        userId: 2,
+                        now,
+                        version: foundSession.version,
+                      });
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
                       .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
@@ -1106,7 +1233,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   });
 });
 
-function _buildPlacementProfileWithTwoChallenges(placementProfileService, userId, now) {
+function _buildPlacementProfileWithTwoChallenges({ placementProfileService, userId, now, version }) {
   const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
   const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
   // TODO : use the domainBuilder to instanciate userCompetences
@@ -1114,7 +1241,7 @@ function _buildPlacementProfileWithTwoChallenges(placementProfileService, userId
     isCertifiable: sinon.stub().returns(true),
     userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
   };
-  placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
+  placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now, version }).resolves(placementProfile);
 
   const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
   userCompetencesWithChallenges[0].challenges[0].testedSkill = domainBuilder.buildSkill();

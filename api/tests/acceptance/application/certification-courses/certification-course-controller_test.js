@@ -597,12 +597,20 @@ describe('Acceptance | API | Certification Course', function () {
     let response;
     let userId;
     let sessionId;
+    let sessionIdV3;
     let certificationCenterId;
+    let certificationCenterIdV3;
 
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      certificationCenterIdV3 = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
       sessionId = databaseBuilder.factory.buildSession({ accessCode: '123', certificationCenterId }).id;
+      sessionIdV3 = databaseBuilder.factory.buildSession({
+        accessCode: '456',
+        certificationCenterId: certificationCenterIdV3,
+        version: 3,
+      }).id;
       const payload = {
         data: {
           attributes: {
@@ -845,6 +853,11 @@ describe('Acceptance | API | Certification Course', function () {
             userId,
             authorizedToStart: true,
           });
+          databaseBuilder.factory.buildCertificationCandidate({
+            sessionId: sessionIdV3,
+            userId,
+            authorizedToStart: true,
+          });
           databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
             learningContent,
             userId,
@@ -852,9 +865,6 @@ describe('Acceptance | API | Certification Course', function () {
           });
 
           await databaseBuilder.commit();
-
-          // when
-          response = await server.inject(options);
         });
 
         afterEach(async function () {
@@ -866,18 +876,43 @@ describe('Acceptance | API | Certification Course', function () {
           await knex('certification-courses').delete();
         });
 
-        it('should respond with 201 status code', function () {
+        it('should respond with 201 status code', async function () {
+          // when
+          response = await server.inject(options);
+
           // then
           expect(response.statusCode).to.equal(201);
         });
 
-        it('should have created a certification course', async function () {
+        it('should have created a V2 certification course', async function () {
+          // when
+          response = await server.inject(options);
+
           // then
           const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
           expect(certificationCourses).to.have.length(1);
+          expect(certificationCourses[0].version).to.equal(2);
+        });
+
+        context('when the session is v3', function () {
+          it('should create a v3 certification course', async function () {
+            // given
+            options.payload.data.attributes['access-code'] = '456';
+            options.payload.data.attributes['session-id'] = sessionIdV3;
+
+            // when
+            await server.inject(options);
+
+            // then
+            const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId: sessionIdV3 });
+            expect(certificationCourse.version).to.equal(3);
+          });
         });
 
         it('should have copied matching certification candidate info into created certification course', async function () {
+          // when
+          await server.inject(options);
+
           // then
           const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
           expect(certificationCourses[0].firstName).to.equal(certificationCandidate.firstName);
@@ -888,6 +923,9 @@ describe('Acceptance | API | Certification Course', function () {
         });
 
         it('should have only fr-fr challenges associated with certification-course', async function () {
+          // when
+          await server.inject(options);
+
           // then
           const certificationChallenges = await knex('certification-challenges');
           expect(certificationChallenges.length).to.equal(2);
@@ -940,24 +978,39 @@ describe('Acceptance | API | Certification Course', function () {
 
     context('when the certification course already exists', function () {
       let certificationCourseId;
+      let certificationCourseIdV3;
 
       beforeEach(async function () {
         // given
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId }).id;
+        certificationCourseIdV3 = databaseBuilder.factory.buildCertificationCourse({
+          userId,
+          sessionId: sessionIdV3,
+          version: 3,
+        }).id;
         databaseBuilder.factory.buildAssessment({ userId, certificationCourseId: certificationCourseId });
+        databaseBuilder.factory.buildAssessment({ userId, certificationCourseId: certificationCourseIdV3 });
         databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: sessionIdV3,
+          userId,
+          authorizedToStart: true,
+        });
         await databaseBuilder.commit();
-
-        // when
-        response = await server.inject(options);
       });
 
-      it('should respond with 200 status code', function () {
+      it('should respond with 200 status code', async function () {
+        // when
+        response = await server.inject(options);
+
         // then
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should retrieve the already existing certification course', async function () {
+      it('should retrieve the already existing V2 certification course', async function () {
+        // when
+        response = await server.inject(options);
+
         // then
         const [certificationCourse, ...otherCertificationCourses] = await knex('certification-courses').where({
           userId,
@@ -965,6 +1018,22 @@ describe('Acceptance | API | Certification Course', function () {
         });
         expect(otherCertificationCourses).to.have.length(0);
         expect(certificationCourse.id + '').to.equal(response.result.data.id);
+        expect(certificationCourse.version).to.equal(2);
+      });
+
+      context('when the session is v3', function () {
+        it('should retrieve the already existing V3 certification course', async function () {
+          // given
+          options.payload.data.attributes['access-code'] = '456';
+          options.payload.data.attributes['session-id'] = sessionIdV3;
+
+          // when
+          await server.inject(options);
+
+          // then
+          const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId: sessionIdV3 });
+          expect(certificationCourse.version).to.equal(3);
+        });
       });
     });
   });

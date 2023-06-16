@@ -34,6 +34,7 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   verifyCertificateCodeService,
 }) {
   const session = await sessionRepository.get(sessionId);
+
   if (session.accessCode !== accessCode) {
     throw new NotFoundError('Session not found');
   }
@@ -75,6 +76,8 @@ const retrieveLastOrCreateCertificationCourse = async function ({
     };
   }
 
+  const { version } = session;
+
   return _startNewCertification({
     domainTransaction,
     sessionId,
@@ -89,6 +92,7 @@ const retrieveLastOrCreateCertificationCourse = async function ({
     placementProfileService,
     verifyCertificateCodeService,
     certificationBadgesService,
+    version,
   });
 };
 
@@ -107,10 +111,15 @@ async function _startNewCertification({
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
+  version,
 }) {
   const challengesForCertification = [];
 
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
+  const placementProfile = await placementProfileService.getPlacementProfile({
+    userId,
+    limitDate: new Date(),
+    version,
+  });
 
   if (!placementProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
@@ -180,6 +189,7 @@ async function _startNewCertification({
     domainTransaction,
     verifyCertificateCodeService,
     complementaryCertificationCourseData,
+    version,
   });
 }
 
@@ -205,6 +215,7 @@ async function _createCertificationCourse({
   certificationChallenges,
   complementaryCertificationCourseData,
   domainTransaction,
+  version,
 }) {
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
   const complementaryCertificationCourses = complementaryCertificationCourseData.map(
@@ -217,6 +228,7 @@ async function _createCertificationCourse({
     maxReachableLevelOnCertificationDate: features.maxReachableLevel,
     complementaryCertificationCourses,
     verificationCode,
+    version,
   });
 
   const savedCertificationCourse = await certificationCourseRepository.save({
