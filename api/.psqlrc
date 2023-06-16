@@ -2,3 +2,4 @@
 \set active_queries 'SELECT query_start, query FROM pg_stat_activity WHERE state <> \'idle\' ORDER BY query_start;'
 \set active_queries_count 'SELECT count(*) FROM pg_stat_activity WHERE state <> \'idle\';'
 \set vacuum_in_progress 'SELECT * FROM pg_stat_progress_vacuum INNER JOIN pg_stat_user_tables USING(relid);'
+\set ungranted_locks 'SELECT lck.pid, lck.relation::regclass, lck.locktype, lck.mode, lck.waitstart started_from, substring(ssn.query from 1 for 30) query, ssn.wait_event_type FROM pg_locks lck INNER JOIN pg_stat_activity ssn ON ssn.pid = lck.pid WHERE NOT granted';
