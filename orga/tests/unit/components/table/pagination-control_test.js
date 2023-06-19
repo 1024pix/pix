@@ -1,0 +1,65 @@
+import { module, test } from 'qunit';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
+import { setupTest } from 'ember-qunit';
+import sinon from 'sinon';
+
+module('Unit | Component | Table | Pagination Control', function (hooks) {
+  setupTest(hooks);
+
+  module('#changePageSize', function () {
+    test('should call onChange', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const component = await createGlimmerComponent('component:table/pagination-control', {
+        onChange: sinon.stub(),
+      });
+
+      // when
+      await component.changePageSize();
+
+      // then
+      sinon.assert.calledOnce(component.args.onChange);
+      assert.ok(true);
+    });
+  });
+
+  module('#goToNextPage', function () {
+    test('should call onChange', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const component = await createGlimmerComponent('component:table/pagination-control', {
+        onChange: sinon.stub(),
+      });
+
+      // when
+      await component.goToNextPage();
+
+      // then
+      sinon.assert.calledOnce(component.args.onChange);
+      assert.ok(true);
+    });
+  });
+
+  module('#goToPreviousPage', function () {
+    test('should call onChange', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const component = await createGlimmerComponent('component:table/pagination-control', {
+        onChange: sinon.stub(),
+      });
+
+      // when
+      await component.goToPreviousPage();
+
+      // then
+      sinon.assert.calledOnce(component.args.onChange);
+      assert.ok(true);
+    });
+  });
+});
