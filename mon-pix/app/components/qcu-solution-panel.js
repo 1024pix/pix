@@ -19,11 +19,7 @@ export default class QcuSolutionPanel extends Component {
       return this.args.solutionToDisplay;
     }
 
-    const answersProposedByUser = this.labeledRadios;
-    const correctAnswerIndex = this.solutionArray.indexOf(true);
-    const solutionAndStatus = answersProposedByUser[correctAnswerIndex];
-
-    return solutionAndStatus.label;
+    return this.labeledRadios.find(({ value }) => value == this.args.solution).label;
   }
 
   get labeledRadios() {
