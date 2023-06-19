@@ -39,10 +39,6 @@ const CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_FOREIGN_BIRTH_CITY_REQUIRED',
     getMessage: () => "Candidat né à l'étranger, champ obligatoire nom de commune de naissance manquant",
   },
-  CANDIDATE_BIRTH_CITY_MUST_BE_EMPTY: {
-    code: 'CANDIDATE_BIRTH_CITY_MUST_BE_EMPTY',
-    getMessage: () => 'Le champ "nom de la commune" doit rester vide (dans le cas d\'un code INSEE\')',
-  },
   CANDIDATE_BIRTH_COUNTRY_NOT_FOUND: {
     code: 'CANDIDATE_BIRTH_COUNTRY_NOT_FOUND',
     getMessage: ({ birthCountry }) => `Le pays "${birthCountry}" n'a pas été trouvé.`,
@@ -126,6 +122,18 @@ const CERTIFICATION_CANDIDATES_ERRORS = {
   },
   CANDIDATE_SEX_REQUIRED: {
     code: 'CANDIDATE_SEX_REQUIRED',
+    getMessage: () => '',
+  },
+  CANDIDATE_INFORMATION_MUST_BE_A_STRING: {
+    code: 'CANDIDATE_INFORMATION_MUST_BE_A_STRING',
+    getMessage: () => '',
+  },
+  CANDIDATE_INFORMATION_MUST_BE_A_NUMBER: {
+    code: 'CANDIDATE_INFORMATION_MUST_BE_A_NUMBER',
+    getMessage: () => '',
+  },
+  CANDIDATE_INFORMATION_REQUIRED: {
+    code: 'CANDIDATE_INFORMATION_REQUIRED',
     getMessage: () => '',
   },
 };

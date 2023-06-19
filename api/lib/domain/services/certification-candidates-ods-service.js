@@ -10,6 +10,7 @@ import {
 import { CertificationCandidatesImportError } from '../errors.js';
 import _ from 'lodash';
 import bluebird from 'bluebird';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 
 export { extractCertificationCandidatesFromCandidatesImportSheet };
 
@@ -82,8 +83,11 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         })
       ) {
         line = parseInt(line) + 1;
+
         throw new CertificationCandidatesImportError({
-          message: `Ligne ${line} : Vous ne pouvez pas inscrire un candidat à plus d'une certification complémentaire.`,
+          code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+          message: 'A candidate cannot have more than one complementary certification',
+          meta: { line },
         });
       }
 
@@ -170,15 +174,17 @@ function _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line) {
 
 function _handleBirthInformationValidationError(cpfBirthInformation, line) {
   line = parseInt(line) + 1;
+  const { birthCountry, birthINSEECode, birthPostalCode, birthCity, firstErrorCode } = cpfBirthInformation;
   throw new CertificationCandidatesImportError({
-    message: `Ligne ${line} : ${cpfBirthInformation.firstErrorMessage}`,
+    code: firstErrorCode,
+    meta: { line, birthCountry, birthINSEECode, birthPostalCode, birthCity },
   });
 }
 
 function _handleVersionError() {
   throw new CertificationCandidatesImportError({
     code: 'INVALID_DOCUMENT',
-    message: 'La version du document est inconnue.',
+    message: 'This version of the document is unknown.',
   });
 }
 
