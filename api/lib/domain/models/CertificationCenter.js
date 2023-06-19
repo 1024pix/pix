@@ -1,7 +1,7 @@
 import { CERTIFICATION_CENTER_TYPES } from '../constants.js';
 
 class CertificationCenter {
-  constructor({ id, name, externalId, type, createdAt, updatedAt, habilitations = [] } = {}) {
+  constructor({ id, name, externalId, type, createdAt, updatedAt, habilitations = [], isV3Pilot = false } = {}) {
     this.id = id;
     this.name = name;
     this.externalId = externalId;
@@ -9,6 +9,7 @@ class CertificationCenter {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.habilitations = habilitations;
+    this.isV3Pilot = isV3Pilot;
   }
 
   get isSco() {
