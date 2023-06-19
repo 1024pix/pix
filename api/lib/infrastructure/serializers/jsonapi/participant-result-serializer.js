@@ -37,6 +37,7 @@ const serialize = function (results) {
         'isAlwaysVisible',
         'isCertifiable',
         'isValid',
+        'acquisitionPercentage',
       ],
       skillSetResults: {
         ref: 'id',

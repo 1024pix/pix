@@ -10,15 +10,28 @@ const getUserCampaignAssessmentResult = async function ({
   badgeForCalculationRepository,
 }) {
   try {
-    const badges = await badgeRepository.findByCampaignId(campaignId);
+    const [badges, knowledgeElements] = await Promise.all([
+      badgeRepository.findByCampaignId(campaignId),
+      knowledgeElementRepository.findUniqByUserId({ userId }),
+    ]);
     const stillValidBadgeIds = await _checkStillValidBadges(
       campaignId,
-      userId,
-      knowledgeElementRepository,
+      knowledgeElements,
+      badgeForCalculationRepository
+    );
+    const badgeWithAcquisitionPercentage = await _getBadgeAcquisitionPercentage(
+      campaignId,
+      knowledgeElements,
       badgeForCalculationRepository
     );
 
-    const badgesWithValidity = badges.map((badge) => ({ ...badge, isValid: stillValidBadgeIds.includes(badge.id) }));
+    const badgesWithValidity = badges.map((badge) => ({
+      ...badge,
+      isValid: stillValidBadgeIds.includes(badge.id),
+      acquisitionPercentage: badgeWithAcquisitionPercentage.find(
+        (badgeForCalculation) => badgeForCalculation.id === badge.id
+      ).acquisitionPercentage,
+    }));
 
     const assessmentResult = await participantResultRepository.getByUserIdAndCampaignId({
       userId,
@@ -36,8 +49,15 @@ const getUserCampaignAssessmentResult = async function ({
 
 export { getUserCampaignAssessmentResult };
 
-async function _checkStillValidBadges(campaignId, userId, knowledgeElementRepository, badgeForCalculationRepository) {
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
-  const badges = await badgeForCalculationRepository.findByCampaignId({ campaignId });
-  return badges.filter((badge) => badge.shouldBeObtained(knowledgeElements)).map(({ id }) => id);
+async function _checkStillValidBadges(campaignId, knowledgeElements, badgeForCalculationRepository) {
+  const badgesForCalculation = await badgeForCalculationRepository.findByCampaignId({ campaignId });
+  return badgesForCalculation.filter((badge) => badge.shouldBeObtained(knowledgeElements)).map(({ id }) => id);
+}
+
+async function _getBadgeAcquisitionPercentage(campaignId, knowledgeElements, badgeForCalculationRepository) {
+  const badgesForCalculation = await badgeForCalculationRepository.findByCampaignId({ campaignId });
+  return badgesForCalculation.map((badge) => ({
+    id: badge.id,
+    acquisitionPercentage: badge.getAcquisitionPercentage(knowledgeElements),
+  }));
 }

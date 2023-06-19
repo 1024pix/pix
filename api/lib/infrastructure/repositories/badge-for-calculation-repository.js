@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
-import { BadgeForCalculation, BadgeCriterion } from '../../domain/models/BadgeForCalculation.js';
+import { BadgeForCalculation } from '../../domain/models/BadgeForCalculation.js';
+import { BadgeCriterionForCalculation } from '../../domain/models/BadgeCriterionForCalculation.js';
 import { SCOPES } from '../../domain/models/BadgeCriterion.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as campaignRepository from './campaign-repository.js';
@@ -121,7 +122,7 @@ async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCr
   for (const badgeCriterionDTO of badgeCriteriaDTO) {
     if (badgeCriterionDTO.scope === SCOPES.CAMPAIGN_PARTICIPATION) {
       badgeCriteria.push(
-        new BadgeCriterion({
+        new BadgeCriterionForCalculation({
           threshold: badgeCriterionDTO.threshold,
           skillIds: campaignSkillIds,
         })
@@ -131,7 +132,7 @@ async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCr
       const arrayOfSkillIds = await knex('skill-sets').pluck('skillIds').whereIn('id', badgeCriterionDTO.skillSetIds);
       for (const skillIds of arrayOfSkillIds) {
         badgeCriteria.push(
-          new BadgeCriterion({
+          new BadgeCriterionForCalculation({
             threshold: badgeCriterionDTO.threshold,
             skillIds,
           })
@@ -149,7 +150,7 @@ async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCr
       }
       if (skillIds.length > 0) {
         badgeCriteria.push(
-          new BadgeCriterion({
+          new BadgeCriterionForCalculation({
             threshold: badgeCriterionDTO.threshold,
             skillIds,
           })
