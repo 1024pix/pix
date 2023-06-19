@@ -370,78 +370,6 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       sinon.assert.calledWithExactly(triggerFiltering, 'certificability', ['eligible']);
       assert.ok(true);
     });
-
-    test('it should reset selected participant when using filters', async function (assert) {
-      // given
-      const routerService = this.owner.lookup('service:router');
-      sinon.stub(routerService, 'replaceWith');
-
-      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
-
-      participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
-
-      this.set('participants', participants);
-      this.triggerFiltering = sinon.stub();
-      this.set('certificabilityFilter', []);
-      this.set('fullNameFilter', null);
-
-      // when
-      const screen = await render(
-        hbs`<OrganizationParticipant::List
-  @participants={{this.participants}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @onClickLearner={{this.noop}}
-  @fullName={{this.fullNameFilter}}
-  @certificabilityFilter={{this.certificabilityFilter}}
-/>`
-      );
-      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
-
-      await click(firstLearnerSelected);
-
-      await fillByLabel('Recherche sur le nom et prénom', 'Something');
-
-      assert.false(firstLearnerSelected.checked);
-    });
-
-    test('it should reset selected participant when reset filters', async function (assert) {
-      // given
-      const resetFilter = sinon.spy();
-      this.set('resetFilter', resetFilter);
-      const participants = [
-        {
-          lastName: 'La Terreur',
-          firstName: 'Gigi',
-        },
-      ];
-
-      this.set('participants', participants);
-      this.set('certificabilityFilter', []);
-      this.set('fullNameFilter', 'La Terreur');
-
-      const screen = await render(
-        hbs`<OrganizationParticipant::List
-  @participants={{this.participants}}
-  @onResetFilter={{this.resetFilter}}
-  @triggerFiltering={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @fullName={{this.fullNameFilter}}
-  @certificabilityFilter={{this.certificabilityFilter}}
-/>`
-      );
-      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
-
-      await click(firstLearnerSelected);
-
-      // when
-      const resetButton = await screen.getByRole('button', {
-        name: this.intl.t('pages.organization-participants.filters.actions.clear'),
-      });
-      await click(resetButton);
-
-      // then
-      assert.false(firstLearnerSelected.checked);
-    });
   });
 
   module('when user is sorting the table', function () {
@@ -696,44 +624,6 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       sinon.assert.calledWithExactly(sortByLastname, 'desc');
       assert.ok(true);
     });
-
-    test('it should reset selected participant when using sort', async function (assert) {
-      // given
-      const routerService = this.owner.lookup('service:router');
-      sinon.stub(routerService, 'replaceWith');
-
-      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
-
-      participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
-
-      this.set('participants', participants);
-      this.triggerFiltering = sinon.stub();
-      this.set('certificabilityFilter', []);
-      this.set('fullNameFilter', null);
-
-      // when
-      const screen = await render(
-        hbs`<OrganizationParticipant::List
-  @participants={{this.participants}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @sortByParticipationCount={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @fullName={{this.fullNameFilter}}
-  @certificabilityFilter={{this.certificabilityFilter}}
-/>`
-      );
-      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
-
-      await click(firstLearnerSelected);
-
-      await click(
-        screen.getByLabelText(
-          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort')
-        )
-      );
-
-      assert.false(firstLearnerSelected.checked);
-    });
   });
 
   test('it should display the empty state when no participants', async function (assert) {
@@ -794,19 +684,22 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       .exists();
   });
 
-  module('action bar', function (hooks) {
+  module('when user is admin of organisation', function (hooks) {
     hooks.beforeEach(function () {
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
       this.triggerFiltering = sinon.stub();
       this.set('fullNameFilter', null);
       this.set('certificabilityFilter', []);
     });
 
-    test('it display action bar', async function (assert) {
+    test('it should display checkboxes', async function (assert) {
       //given
       const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
-
       this.set('participants', participants);
-      this.deleteParticipants = sinon.stub();
 
       //when
       const screen = await render(hbs`<OrganizationParticipant::List
@@ -818,148 +711,326 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @deleteParticipants={{this.deleteParticipants}}
 />`);
 
-      const firstLearnerToDelete = screen.getAllByRole('checkbox')[1];
-      await click(firstLearnerToDelete);
-
-      //then
-      assert
-        .dom(screen.getByText(this.intl.t('pages.organization-participants.action-bar.information', { count: 1 })))
-        .exists();
-    });
-
-    test('it should delete participants', async function (assert) {
-      //given
-      const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
-      const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
-      const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
-      const participants = [spiderLearner, peterLearner, milesLearner];
-
-      this.set('participants', participants);
-      this.deleteParticipants = sinon.stub();
-
-      //when
-      const screen = await render(hbs`<OrganizationParticipant::List
-  @participants={{this.participants}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @onClickLearner={{this.noop}}
-  @fullName={{this.fullNameFilter}}
-  @certificabilityFilter={{this.certificabilityFilter}}
-  @deleteParticipants={{this.deleteParticipants}}
-/>`);
-
-      const firstLearnerToDelete = screen.getAllByRole('checkbox')[2];
-      const secondLearnerToDelete = screen.getAllByRole('checkbox')[3];
-
-      await click(firstLearnerToDelete);
-      await click(secondLearnerToDelete);
-
-      const deleteButton = await screen.findByRole('button', {
-        name: this.intl.t('pages.organization-participants.action-bar.delete-button'),
+      const mainCheckbox = screen.getByRole('checkbox', {
+        name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
+      });
+      const learnerCheckbox = screen.getByRole('checkbox', {
+        name: this.intl.t('pages.organization-participants.table.column.checkbox', {
+          firstname: participants[0].firstName,
+          lastname: participants[0].lastName,
+        }),
       });
 
-      await click(deleteButton);
       //then
-
-      sinon.assert.calledWith(this.deleteParticipants, [peterLearner, milesLearner]);
-      assert.ok(true);
+      assert.dom(mainCheckbox).exists();
+      assert.dom(learnerCheckbox).exists();
     });
 
-    test('it should reset selected participants after deletion', async function (assert) {
+    test('it should disable the main checkbox when participants list is empty', async function (assert) {
       //given
-      const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
-      const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
-      const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
-      const participants = [spiderLearner, peterLearner, milesLearner];
+      const participants = [];
 
       this.set('participants', participants);
       this.deleteParticipants = sinon.stub();
 
       //when
       const screen = await render(hbs`<OrganizationParticipant::List
-  @participants={{this.participants}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @onClickLearner={{this.noop}}
-  @fullName={{this.fullNameFilter}}
-  @certificabilityFilter={{this.certificabilityFilter}}
-  @deleteParticipants={{this.deleteParticipants}}
-/>`);
-      const mainCheckbox = screen.getAllByRole('checkbox')[0];
-      const firstLearnerToDelete = screen.getAllByRole('checkbox')[2];
-      const secondLearnerToDelete = screen.getAllByRole('checkbox')[3];
+    @participants={{this.participants}}
+    @triggerFiltering={{this.triggerFiltering}}
+    @onClickLearner={{this.noop}}
+    @certificabilityFilter={{this.noop}}
+    @fullName={{this.fullNameFilter}}
+    @deleteParticipants={{this.deleteParticipants}}
+  />`);
 
-      await click(firstLearnerToDelete);
-      await click(secondLearnerToDelete);
-
-      const deleteButton = await screen.findByRole('button', {
-        name: this.intl.t('pages.organization-participants.action-bar.delete-button'),
+      const mainCheckbox = screen.getByRole('checkbox', {
+        name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
       });
 
-      await click(deleteButton);
       //then
-      assert.false(mainCheckbox.checked);
+      assert.dom(mainCheckbox).isDisabled();
     });
-  });
 
-  test('it should disable the main checkbox when partipants list is empty', async function (assert) {
-    //given
-    const participants = [];
+    test('it should reset selected participant when using pagination', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
 
-    this.set('participants', participants);
-    this.deleteParticipants = sinon.stub();
+      const participants = [
+        { id: 1, firstName: 'Spider', lastName: 'Man' },
+        { id: 2, firstName: 'Captain', lastName: 'America' },
+      ];
 
-    //when
-    const screen = await render(hbs`<OrganizationParticipant::List
-  @participants={{this.participants}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @onClickLearner={{this.noop}}
-  @certificabilityFilter={{this.noop}}
-  @fullName={{this.fullNameFilter}}
-  @deleteParticipants={{this.deleteParticipants}}
-/>`);
-    const mainCheckbox = screen.getAllByRole('checkbox')[0];
+      participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
 
-    //then
-    assert.dom(mainCheckbox).isDisabled();
-  });
+      this.set('participants', participants);
+      this.triggerFiltering = sinon.stub();
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
 
-  test('it should reset selected participant when using pagination', async function (assert) {
-    // given
-    const routerService = this.owner.lookup('service:router');
-    sinon.stub(routerService, 'replaceWith');
+      // when
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+    @participants={{this.participants}}
+    @triggerFiltering={{this.triggerFiltering}}
+    @onClickLearner={{this.noop}}
+    @fullName={{this.fullNameFilter}}
+    @certificabilityFilter={{this.certificabilityFilter}}
+  />`
+      );
+      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+      const secondLearnerSelected = screen.getAllByRole('checkbox')[2];
 
-    const participants = [
-      { id: 1, firstName: 'Spider', lastName: 'Man' },
-      { id: 2, firstName: 'Captain', lastName: 'America' },
-    ];
+      await click(firstLearnerSelected);
+      await click(secondLearnerSelected);
 
-    participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
+      const pagination = screen.getByLabelText(this.intl.t('common.pagination.action.next'));
 
-    this.set('participants', participants);
-    this.triggerFiltering = sinon.stub();
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
+      await click(pagination);
 
-    // when
-    const screen = await render(
-      hbs`<OrganizationParticipant::List
+      assert.false(firstLearnerSelected.checked);
+      assert.false(secondLearnerSelected.checked);
+    });
+
+    test('it should reset selected participant when using filters', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+
+      participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
+
+      this.set('participants', participants);
+      this.triggerFiltering = sinon.stub();
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
+
+      // when
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.triggerFiltering}}
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
 />`
-    );
-    const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
-    const secondLearnerSelected = screen.getAllByRole('checkbox')[2];
+      );
+      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
 
-    await click(firstLearnerSelected);
-    await click(secondLearnerSelected);
+      await click(firstLearnerSelected);
 
-    const pagination = screen.getByLabelText(this.intl.t('common.pagination.action.next'));
+      await fillByLabel('Recherche sur le nom et prénom', 'Something');
 
-    await click(pagination);
+      assert.false(firstLearnerSelected.checked);
+    });
 
-    assert.false(firstLearnerSelected.checked);
-    assert.false(secondLearnerSelected.checked);
+    test('it should reset selected participant when reset filters', async function (assert) {
+      // given
+      const resetFilter = sinon.spy();
+      this.set('resetFilter', resetFilter);
+      const participants = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+        },
+      ];
+
+      this.set('participants', participants);
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', 'La Terreur');
+
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @onResetFilter={{this.resetFilter}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
+      );
+      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+
+      await click(firstLearnerSelected);
+
+      // when
+      const resetButton = await screen.getByRole('button', {
+        name: this.intl.t('pages.organization-participants.filters.actions.clear'),
+      });
+      await click(resetButton);
+
+      // then
+      assert.false(firstLearnerSelected.checked);
+    });
+
+    test('it should reset selected participant when using sort', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+
+      participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
+
+      this.set('participants', participants);
+      this.triggerFiltering = sinon.stub();
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
+
+      // when
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @sortByParticipationCount={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
+      );
+      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+
+      await click(firstLearnerSelected);
+
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort')
+        )
+      );
+
+      assert.false(firstLearnerSelected.checked);
+    });
+
+    module('action bar', function () {
+      test('it display action bar', async function (assert) {
+        //given
+        const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+
+        this.set('participants', participants);
+        this.deleteParticipants = sinon.stub();
+
+        //when
+        const screen = await render(hbs`<OrganizationParticipant::List
+    @participants={{this.participants}}
+    @triggerFiltering={{this.triggerFiltering}}
+    @onClickLearner={{this.noop}}
+    @fullName={{this.fullNameFilter}}
+    @certificabilityFilter={{this.certificabilityFilter}}
+    @deleteParticipants={{this.deleteParticipants}}
+  />`);
+
+        const firstLearnerToDelete = screen.getAllByRole('checkbox')[1];
+        await click(firstLearnerToDelete);
+
+        //then
+        assert
+          .dom(screen.getByText(this.intl.t('pages.organization-participants.action-bar.information', { count: 1 })))
+          .exists();
+      });
+
+      test('it should delete participants', async function (assert) {
+        //given
+        const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
+        const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
+        const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+        const participants = [spiderLearner, peterLearner, milesLearner];
+
+        this.set('participants', participants);
+        this.deleteParticipants = sinon.stub();
+
+        //when
+        const screen = await render(hbs`<OrganizationParticipant::List
+    @participants={{this.participants}}
+    @triggerFiltering={{this.triggerFiltering}}
+    @onClickLearner={{this.noop}}
+    @fullName={{this.fullNameFilter}}
+    @certificabilityFilter={{this.certificabilityFilter}}
+    @deleteParticipants={{this.deleteParticipants}}
+  />`);
+
+        const firstLearnerToDelete = screen.getAllByRole('checkbox')[2];
+        const secondLearnerToDelete = screen.getAllByRole('checkbox')[3];
+
+        await click(firstLearnerToDelete);
+        await click(secondLearnerToDelete);
+
+        const deleteButton = await screen.findByRole('button', {
+          name: this.intl.t('pages.organization-participants.action-bar.delete-button'),
+        });
+
+        await click(deleteButton);
+        //then
+
+        sinon.assert.calledWith(this.deleteParticipants, [peterLearner, milesLearner]);
+        assert.ok(true);
+      });
+
+      test('it should reset selected participants after deletion', async function (assert) {
+        //given
+        const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
+        const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
+        const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+        const participants = [spiderLearner, peterLearner, milesLearner];
+
+        this.set('participants', participants);
+        this.deleteParticipants = sinon.stub();
+
+        //when
+        const screen = await render(hbs`<OrganizationParticipant::List
+    @participants={{this.participants}}
+    @triggerFiltering={{this.triggerFiltering}}
+    @onClickLearner={{this.noop}}
+    @fullName={{this.fullNameFilter}}
+    @certificabilityFilter={{this.certificabilityFilter}}
+    @deleteParticipants={{this.deleteParticipants}}
+  />`);
+        const mainCheckbox = screen.getAllByRole('checkbox')[0];
+        const firstLearnerToDelete = screen.getAllByRole('checkbox')[2];
+        const secondLearnerToDelete = screen.getAllByRole('checkbox')[3];
+
+        await click(firstLearnerToDelete);
+        await click(secondLearnerToDelete);
+
+        const deleteButton = await screen.findByRole('button', {
+          name: this.intl.t('pages.organization-participants.action-bar.delete-button'),
+        });
+
+        await click(deleteButton);
+        //then
+        assert.false(mainCheckbox.checked);
+      });
+    });
+  });
+
+  module('when user is not admin of organisation', function () {
+    test('it should not display checkboxes', async function (assert) {
+      //given
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = false;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      this.set('participants', participants);
+      this.triggerFiltering = sinon.stub();
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
+
+      //when
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
+      );
+      const checkboxes = screen.queryAllByRole('checkbox');
+
+      //then
+      assert.deepEqual(checkboxes.length, 0);
+    });
   });
 });
