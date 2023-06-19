@@ -1,5 +1,6 @@
 import { expect } from '../../test-helper.js';
 import * as errors from '../../../lib/domain/errors.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../lib/domain/constants/certification-candidates-errors.js';
 
 describe('Unit | Domain | Errors', function () {
   it('should export a AdminMemberError', function () {
@@ -395,25 +396,6 @@ describe('Unit | Domain | Errors', function () {
         expect(error).to.be.instanceOf(errors.CertificationCandidatesImportError);
       });
 
-      it('should start the error message with line number', function () {
-        // given
-        const lineNumber = 20;
-        const invalidCertificationCandidateError = {
-          key: 'someKey',
-          why: 'someWhy',
-        };
-
-        // when
-        const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(
-          invalidCertificationCandidateError,
-          {},
-          lineNumber
-        );
-
-        // then
-        expect(error.message.startsWith(`Ligne ${lineNumber} :`)).to.be.true;
-      });
-
       context('when err.why is known', function () {
         it('should include the right label when found in the keyLabelMap', function () {
           // given
@@ -435,19 +417,33 @@ describe('Unit | Domain | Errors', function () {
           );
 
           // then
-          expect(error.message).to.contain('Le champ “someLabel”');
+          expect(error.meta).to.deep.equal({ line: lineNumber, label: 'someLabel' });
         });
 
         // eslint-disable-next-line mocha/no-setup-in-describe
         [
-          { why: 'not_a_date', content: 'doit être au format jj/mm/aaaa.' },
-          { why: 'date_format', content: 'doit être au format jj/mm/aaaa.' },
-          { why: 'email_format', content: 'doit être au format email.' },
-          { why: 'not_a_string', content: 'doit être une chaîne de caractères.' },
-          { why: 'not_a_number', content: 'doit être un nombre.' },
-          { why: 'required', content: 'est obligatoire.' },
-        ].forEach(({ why, content }) => {
-          it(`message should contain "${content}" when why is "${why}"`, async function () {
+          { why: 'not_a_date', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code },
+          { why: 'date_format', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code },
+          { why: 'email_format', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code },
+          { why: 'not_a_string', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_STRING.code },
+          { why: 'not_a_number', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_NUMBER.code },
+          { why: 'required', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_REQUIRED.code },
+          { why: 'not_a_sex_code', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code },
+          { why: 'not_a_billing_mode', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code },
+          {
+            why: 'prepayment_code_null',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code,
+          },
+          {
+            why: 'prepayment_code_not_null',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code,
+          },
+          {
+            why: 'extra_time_percentage_out_of_range',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code,
+          },
+        ].forEach(({ why, code }) => {
+          it(`code should equal "${code}" when why is "${why}"`, async function () {
             // given
             const invalidCertificationCandidateError = {
               key: 'someKey',
@@ -465,7 +461,7 @@ describe('Unit | Domain | Errors', function () {
             );
 
             // then
-            expect(error.message.endsWith(content)).to.be.true;
+            expect(error.code).to.equal(code);
           });
         });
       });

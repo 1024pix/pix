@@ -125,7 +125,20 @@ export default function () {
         }
       );
     }
-    if (type === 'validation-error') {
+    if (type === 'internal-error') {
+      return new Response(
+        500,
+        { some: 'header' },
+        {
+          errors: [
+            {
+              status: '500',
+            },
+          ],
+        }
+      );
+    }
+    if (type === 'candidate-birth-postal-code-city-not-valid') {
       return new Response(
         422,
         { some: 'header' },
@@ -133,8 +146,12 @@ export default function () {
           errors: [
             {
               status: '422',
-              title: 'Unprocessable Entity',
-              detail: 'Une erreur personnalisée.',
+              code: 'CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID',
+              meta: {
+                line: 2,
+                birthPostalCode: 88000,
+                birthCity: 'Gotham City',
+              },
             },
           ],
         }

@@ -24,6 +24,7 @@ import { getI18n } from '../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
 import * as url from 'url';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
@@ -87,8 +88,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     // then
     expect(error).to.be.instanceOf(CertificationCandidatesImportError);
-    expect(error.message).to.equal('Ligne 13 : Le champ “Prénom” est obligatoire.');
-    expect(error.code).to.be.null;
+    expect(error.code).to.equal('CANDIDATE_INFORMATION_REQUIRED');
+    expect(error.meta).to.deep.equal({ line: 13, label: 'Prénom' });
   });
 
   it('should throw a CertificationCandidatesImportError if there is an error in the birth information', async function () {
@@ -113,8 +114,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     // then
     expect(error).to.be.instanceOf(CertificationCandidatesImportError);
-    expect(error.message).to.equal('Ligne 13 : La valeur du code INSEE doit être "99" pour un pays étranger.');
-    expect(error.code).to.be.null;
+    expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID.code);
   });
 
   it('should return extracted and validated certification candidates', async function () {
@@ -300,10 +300,14 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         });
 
         // then
-        expect(error).to.be.instanceOf(CertificationCandidatesImportError);
-
-        expect(error.message).to.equal(
-          "Ligne 13 : Vous ne pouvez pas inscrire un candidat à plus d'une certification complémentaire."
+        expect(error).to.deepEqualInstance(
+          new CertificationCandidatesImportError({
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+            message: 'A candidate cannot have more than one complementary certification',
+            meta: {
+              line: 13,
+            },
+          })
         );
       });
     });

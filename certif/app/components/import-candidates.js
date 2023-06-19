@@ -18,7 +18,7 @@ export default class ImportCandidates extends Component {
     this.notifications.clearAll();
     try {
       await adapter.addCertificationCandidatesFromOds(sessionId, files);
-      this.notifications.success('La liste des candidats a été importée avec succès.');
+      this.notifications.success(this.intl.t('pages.sessions.import.candidates-list.import-success'));
       this.args.reloadCertificationCandidate();
     } catch (errorResponse) {
       const errorMessage = this._handleErrorMessage(errorResponse);
@@ -30,25 +30,18 @@ export default class ImportCandidates extends Component {
 
   _handleErrorMessage(errorResponse) {
     const error = errorResponse?.errors?.[0];
+    const errorPrefix = this.intl.t('pages.sessions.import.candidates-list.import-fail-prefix', { htmlSafe: true });
+
     if (error?.code) {
-      return this.intl.t(`common.api-error-messages.${error.code}`);
+      if (error.meta?.line) {
+        return `${errorPrefix} ${this.intl.t(`common.labels.line`, { line: error.meta.line })}
+        ${this.intl.t(`common.api-error-messages.certification-candidates-import.${error.code}`, {
+          ...error.meta,
+        })}`;
+      }
+
+      return `${errorPrefix} ${this.intl.t(`common.api-error-messages.${error.code}`)}`;
     }
-
-    const errorPrefix = 'Aucun candidat n’a été importé. <br>';
-    let errorMessage = `${errorPrefix} Veuillez réessayer ou nous contacter via le formulaire du centre d'aide`;
-
-    if (errorResponse?.errors) {
-      errorResponse.errors.forEach((error) => {
-        if (error.status === '422') {
-          errorMessage = htmlSafe(`
-              <p>
-                ${errorPrefix}<b>${error.detail}</b>
-              </p>`);
-        }
-      });
-      return errorMessage;
-    }
-
-    return this.intl.t(`common.api-error-messages.internal-server-error`);
+    return `${errorPrefix} ${this.intl.t('pages.sessions.import.candidates-list.try-again-or-contact')}`;
   }
 }
