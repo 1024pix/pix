@@ -28,7 +28,7 @@
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
       "certification-candidates-import": {
         "CANDIDATE_BILLING_MODE_NOT_VALID": "Le champ \"Tarification part Pix\" ne peut contenir qu'une des valeurs suivantes: Gratuite, Payante ou Prépayée",
-        "CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID": "Le champ \"Date de naissance\" doit être au format jj/mm/aaaa",
+        "CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID": "Le champ \"Date de naissance\" doit être au format JJ/MM/AAAA",
         "CANDIDATE_BIRTH_CITY_REQUIRED": "Le champ \"Nom de la commune\" est obligatoire",
         "CANDIDATE_BIRTH_COUNTRY_NOT_FOUND": "Le pays \"{birthCountry}\" n'a pas été trouvé",
         "CANDIDATE_BIRTH_COUNTRY_REQUIRED": "Le champ \"Pays\" est obligatoire",
