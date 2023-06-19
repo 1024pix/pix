@@ -106,7 +106,7 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
           token,
           url: `/api/organizations/${organizationId}/certification-results?division=${encodeURIComponent(
             selectedDivision
-          )}`,
+          )}&lang=fr`,
         })
       );
     });
