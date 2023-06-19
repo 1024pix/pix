@@ -13,15 +13,17 @@ export default class List extends Component {
     return guidFor(this) + 'mainCheckbox';
   }
 
-  get mainCheckbox() {
-    return document.getElementById(this.mainCheckboxId);
-  }
-
   get actionBarId() {
     return guidFor(this) + 'actionBar';
   }
 
-  get actionBar() {
-    return document.getElementById(this.actionBarId);
+  get paginationId() {
+    return guidFor(this) + 'pagination';
+  }
+
+  @action
+  async deleteParticipants(selectedParticipants, reset) {
+    await this.args.deleteParticipants(selectedParticipants);
+    reset();
   }
 }
