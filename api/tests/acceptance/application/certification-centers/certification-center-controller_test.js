@@ -20,6 +20,8 @@ describe('Acceptance | API | Certification Center', function () {
 
   afterEach(async function () {
     await knex('data-protection-officers').delete();
+    await knex('certification-candidates').delete();
+    await knex('sessions').delete();
   });
 
   describe('GET /api/certification-centers', function () {
@@ -749,6 +751,103 @@ describe('Acceptance | API | Certification Center', function () {
 
       // then
       expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('POST /api/certification-centers/{certificationCenterId}/session', function () {
+    describe('when certification center is not V3 certification pilot center', function () {
+      it('should return a 200 HTTP status with a V2 session', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId,
+        });
+        await databaseBuilder.commit();
+
+        const payload = {
+          data: {
+            attributes: {
+              address: 'site',
+              'access-code': null,
+              date: '2023-06-17',
+              time: '12:00',
+              description: null,
+              examiner: 'surveillant',
+              room: 'salle',
+              'certification-center-id': certificationCenterId,
+            },
+            type: 'sessions',
+          },
+        };
+
+        const options = {
+          method: 'POST',
+          url: `/api/certification-centers/${certificationCenterId}/session`,
+          payload,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        const [session] = await knex('sessions');
+        expect(session.version).to.equal(2);
+      });
+    });
+
+    describe('when certification center is a V3 certification pilot center', function () {
+      it('should return a 200 HTTP status with a V3 session', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId,
+        });
+        await databaseBuilder.commit();
+
+        const payload = {
+          data: {
+            attributes: {
+              address: 'site',
+              'access-code': null,
+              date: '2023-06-17',
+              time: '12:00',
+              description: null,
+              examiner: 'surveillant',
+              room: 'salle',
+              status: null,
+              'examiner-global-comment': null,
+              'supervisor-password': null,
+              'has-supervisor-access': false,
+              'has-some-clea-acquired': false,
+              'has-incident': false,
+              'has-joining-issue': false,
+              'certification-center-id': certificationCenterId,
+            },
+            type: 'sessions',
+          },
+        };
+
+        const options = {
+          method: 'POST',
+          url: `/api/certification-centers/${certificationCenterId}/session`,
+          payload,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        const [session] = await knex('sessions');
+        expect(session.version).to.equal(3);
+      });
     });
   });
 

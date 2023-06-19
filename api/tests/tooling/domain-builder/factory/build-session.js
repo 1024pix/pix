@@ -20,6 +20,7 @@ const buildSession = function ({
   assignedCertificationOfficerId = null,
   supervisorPassword = 'PIX12',
   certificationCandidates = [],
+  version = 2,
 } = {}) {
   return new Session({
     id,
@@ -41,6 +42,7 @@ const buildSession = function ({
     assignedCertificationOfficerId,
     supervisorPassword,
     certificationCandidates,
+    version,
   });
 };
 

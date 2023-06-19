@@ -25,6 +25,7 @@ const buildSession = function ({
   juryCommentAuthorId = null,
   juryCommentedAt = null,
   supervisorPassword = 'PIX12',
+  version = 2,
 } = {}) {
   if (_.isUndefined(certificationCenterId)) {
     const builtCertificationCenter = buildCertificationCenter();
@@ -54,6 +55,7 @@ const buildSession = function ({
     juryCommentAuthorId,
     juryCommentedAt,
     supervisorPassword,
+    version,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'sessions',

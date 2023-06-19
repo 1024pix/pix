@@ -1,24 +1,27 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
-import _ from 'lodash';
-
-const { noop } = _;
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
 
 import { createSession } from '../../../../lib/domain/usecases/create-session.js';
 import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
 import { Session } from '../../../../lib/domain/models/Session.js';
 
 describe('Unit | UseCase | create-session', function () {
-  describe('#save', function () {
-    const userId = 'userId';
-    const certificationCenterId = 'certificationCenterId';
-    const certificationCenterName = 'certificationCenterName';
-    const certificationCenter = { id: certificationCenterId, name: certificationCenterName };
-    const sessionToSave = { certificationCenterId };
-    const certificationCenterRepository = { get: noop };
-    const sessionRepository = { save: noop };
-    const userRepository = { getWithCertificationCenterMemberships: noop };
-    const userWithMemberships = { hasAccessToCertificationCenter: noop };
+  let certificationCenterRepository;
+  let sessionRepository;
+  let userRepository;
+  let userWithMemberships;
+  const userId = 'userId';
+  const certificationCenterId = 'certificationCenterId';
+  const certificationCenterName = 'certificationCenterName';
+  const sessionToSave = { certificationCenterId };
 
+  beforeEach(function () {
+    certificationCenterRepository = { get: sinon.stub() };
+    sessionRepository = { save: sinon.stub() };
+    userRepository = { getWithCertificationCenterMemberships: sinon.stub() };
+    userWithMemberships = { hasAccessToCertificationCenter: sinon.stub() };
+  });
+
+  describe('#save', function () {
     context('when session is not valid', function () {
       it('should throw an error', function () {
         // given
@@ -41,15 +44,28 @@ describe('Unit | UseCase | create-session', function () {
     });
 
     context('when session is valid', function () {
+      let accessCode;
+      let sessionValidatorStub;
+      let sessionCodeServiceStub;
+
+      beforeEach(function () {
+        accessCode = Symbol('accessCode');
+        sessionValidatorStub = { validate: sinon.stub().returns() };
+        sessionCodeServiceStub = { getNewSessionCode: sinon.stub().returns(accessCode) };
+        userWithMemberships.hasAccessToCertificationCenter = sinon.stub();
+        userRepository.getWithCertificationCenterMemberships = sinon.stub();
+        certificationCenterRepository.get = sinon.stub();
+        sessionRepository.save = sinon.stub();
+        userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
+        userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
+        sessionRepository.save.resolves();
+      });
+
       context('when user has no certification center membership', function () {
         it('should throw a Forbidden error', async function () {
           // given
-          userWithMemberships.hasAccessToCertificationCenter = sinon.stub();
           userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(false);
-          userRepository.getWithCertificationCenterMemberships = sinon.stub();
-          userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
-          const sessionValidatorStub = { validate: sinon.stub().returns() };
-          const sessionCodeServiceStub = { getNewSessionCode: sinon.stub() };
+          sessionCodeServiceStub = { getNewSessionCode: sinon.stub() };
 
           // when
           const error = await catchErr(createSession)({
@@ -69,18 +85,12 @@ describe('Unit | UseCase | create-session', function () {
       context('when user has certification center membership', function () {
         it('should save the session with appropriate arguments', async function () {
           // given
-          const accessCode = Symbol('accessCode');
-          const sessionValidatorStub = { validate: sinon.stub().returns() };
-          const sessionCodeServiceStub = { getNewSessionCode: sinon.stub().returns(accessCode) };
-          userWithMemberships.hasAccessToCertificationCenter = sinon.stub();
-          userRepository.getWithCertificationCenterMemberships = sinon.stub();
-          certificationCenterRepository.get = sinon.stub();
+          const certificationCenter = domainBuilder.buildCertificationCenter({
+            id: certificationCenterId,
+            name: certificationCenterName,
+          });
 
-          sessionRepository.save = sinon.stub();
-          userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
-          userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
           certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
-          sessionRepository.save.resolves();
 
           // when
           await createSession({
@@ -98,6 +108,41 @@ describe('Unit | UseCase | create-session', function () {
             certificationCenter: certificationCenterName,
             accessCode,
             supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+            version: 2,
+          });
+
+          expect(sessionRepository.save).to.have.been.calledWithExactly(expectedSession);
+        });
+      });
+
+      context('when session is created by a V3 pilot certification center', function () {
+        it('should save the session with appropriate arguments', async function () {
+          // given
+          const v3PilotCertificationCenter = domainBuilder.buildCertificationCenter({
+            id: certificationCenterId,
+            name: certificationCenterName,
+            isV3Pilot: true,
+          });
+
+          certificationCenterRepository.get.withArgs(certificationCenterId).resolves(v3PilotCertificationCenter);
+
+          // when
+          await createSession({
+            userId,
+            session: sessionToSave,
+            certificationCenterRepository,
+            sessionRepository,
+            userRepository,
+            dependencies: { sessionValidator: sessionValidatorStub, sessionCodeService: sessionCodeServiceStub },
+          });
+
+          // then
+          const expectedSession = new Session({
+            certificationCenterId,
+            certificationCenter: certificationCenterName,
+            accessCode,
+            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+            version: 3,
           });
 
           expect(sessionRepository.save).to.have.been.calledWithExactly(expectedSession);
