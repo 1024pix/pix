@@ -203,7 +203,6 @@ module('Integration | Component | user certifications detail header', function (
       // then
       sinon.assert.calledWith(fileSaverSaveStub, {
         url: '/api/attestation/1234?isFrenchDomainExtension=true',
-        fileName: 'attestation_pix.pdf',
         token: undefined,
       });
       assert.ok(true);
@@ -285,7 +284,6 @@ module('Integration | Component | user certifications detail header', function (
       // then
       sinon.assert.calledWith(fileSaverSaveStub, {
         url: '/api/attestation/1234?isFrenchDomainExtension=false',
-        fileName: 'attestation_pix.pdf',
         token: undefined,
       });
       assert.ok(true);
