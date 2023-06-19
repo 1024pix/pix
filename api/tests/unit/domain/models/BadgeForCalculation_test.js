@@ -59,4 +59,94 @@ describe('Unit | Domain | Models | BadgeForCalculation', function () {
       });
     });
   });
+
+  describe('#getAcquisitionPercentage', function () {
+    context('when badge criteria are all fulfilled', function () {
+      it('should return 100', function () {
+        // given
+        const knowledgeElements = [
+          { skillId: 1, isValidated: true },
+          { skillId: 2, isValidated: false },
+          { skillId: 3, isValidated: true },
+          { skillId: 4, isValidated: false },
+        ];
+
+        const criteria1 = domainBuilder.buildBadgeCriterionForCalculation({
+          threshold: 50,
+          skillIds: [1, 2],
+        });
+        const criteria2 = domainBuilder.buildBadgeCriterionForCalculation({
+          threshold: 30,
+          skillIds: [3, 4],
+        });
+        const badgeForCalculation = domainBuilder.buildBadgeForCalculation({
+          badgeCriteria: [criteria1, criteria2],
+        });
+
+        // when
+        const acquisitionPercentage = badgeForCalculation.getAcquisitionPercentage(knowledgeElements);
+
+        // then
+        expect(acquisitionPercentage).to.equal(100);
+      });
+    });
+
+    context('when badge criteria are not all fulfilled', function () {
+      it('should return the right acquisition percentage', function () {
+        // given
+        const knowledgeElements = [
+          { skillId: 1, isValidated: true },
+          { skillId: 2, isValidated: false },
+          { skillId: 3, isValidated: true },
+          { skillId: 4, isValidated: false },
+        ];
+
+        const criteria1 = domainBuilder.buildBadgeCriterionForCalculation({
+          threshold: 60,
+          skillIds: [1, 2],
+        });
+        const criteria2 = domainBuilder.buildBadgeCriterionForCalculation({
+          threshold: 30,
+          skillIds: [3, 4],
+        });
+        const badgeForCalculation = domainBuilder.buildBadgeForCalculation({
+          badgeCriteria: [criteria1, criteria2],
+        });
+
+        // when
+        const acquisitionPercentage = badgeForCalculation.getAcquisitionPercentage(knowledgeElements);
+
+        // then
+        expect(acquisitionPercentage).to.equal(92);
+      });
+    });
+
+    context('when no badge criteria are fulfilled', function () {
+      it('should return 0', function () {
+        // given
+        const knowledgeElements = [
+          { skillId: 1, isValidated: false },
+          { skillId: 2, isValidated: false },
+        ];
+
+        const criteria1 = domainBuilder.buildBadgeCriterionForCalculation({
+          threshold: 60,
+          skillIds: [1],
+        });
+        const criteria2 = domainBuilder.buildBadgeCriterionForCalculation({
+          threshold: 30,
+          skillIds: [2],
+        });
+        const badgeForCalculation = domainBuilder.buildBadgeForCalculation({
+          badgeCriteria: [criteria1, criteria2],
+        });
+
+        // when
+        const acquisitionPercentage = badgeForCalculation.getAcquisitionPercentage(knowledgeElements);
+
+        // then
+        expect(acquisitionPercentage).to.equal(0);
+      });
+    });
+  });
 });

@@ -13,6 +13,7 @@ class BadgeResult {
     this.isAlwaysVisible = badge.isAlwaysVisible;
     this.isCertifiable = badge.isCertifiable;
     this.isValid = badge.isValid;
+    this.acquisitionPercentage = badge.acquisitionPercentage;
 
     this.skillSetResults = badge.badgeCompetences.map((badgeCompetence) =>
       _buildSkillSetResult(badgeCompetence, knowledgeElements)
