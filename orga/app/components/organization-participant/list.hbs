@@ -10,15 +10,17 @@
         <:manager as |allSelected someSelected toggleAll selectedParticipants reset|>
           <InElement @destinationId={{this.headerId}}>
             <tr>
-              <Table::Header class="table__column--small">
-                <PixCheckbox
-                  @screenReaderOnly={{true}}
-                  @checked={{someSelected}}
-                  @isIndeterminate={{(not allSelected)}}
-                  disabled={{(not this.hasParticipants)}}
-                  {{on "click" toggleAll}}
-                >{{t "pages.organization-participants.table.column.mainCheckbox"}}</PixCheckbox>
-              </Table::Header>
+              {{#if this.isUserAdmin}}
+                <Table::Header class="table__column--small">
+                  <PixCheckbox
+                    @screenReaderOnly={{true}}
+                    @checked={{someSelected}}
+                    @isIndeterminate={{(not allSelected)}}
+                    disabled={{(not this.hasParticipants)}}
+                    {{on "click" toggleAll}}
+                  >{{t "pages.organization-participants.table.column.mainCheckbox"}}</PixCheckbox>
+                </Table::Header>
+              {{/if}}
               <Table::HeaderSort
                 @display="left"
                 @size="medium"
@@ -103,13 +105,17 @@
             {{on "click" (fn @onClickLearner participant.id)}}
             class="tr--clickable"
           >
-            <td class="table__column" {{on "click" (fn this.onClick toggleParticipant)}}>
-              <PixCheckbox @screenReaderOnly={{true}} @checked={{isParticipantSelected}}>{{t
-                  "pages.organization-participants.table.column.checkbox"
-                  firstname=participant.firstName
-                  lastname=participant.lastName
-                }}</PixCheckbox>
-            </td>
+            {{#if this.isUserAdmin}}
+              <td class="table__column" {{on "click" (fn this.onClick toggleParticipant)}}>
+                <PixCheckbox @screenReaderOnly={{true}} @checked={{isParticipantSelected}}>
+                  {{t
+                    "pages.organization-participants.table.column.checkbox"
+                    firstname=participant.firstName
+                    lastname=participant.lastName
+                  }}
+                </PixCheckbox>
+              </td>
+            {{/if}}
             <td class="table__column">
               <LinkTo
                 @route="authenticated.organization-participants.organization-participant"
