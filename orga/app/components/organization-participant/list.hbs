@@ -55,24 +55,24 @@
     {{#if @participants}}
       <tbody>
         <SelectableList @items={{@participants}}>
-          <:manager as |allSelected someSelected toggleAll selectedParticipants|>
-            {{#in-element this.mainCheckbox}}
+          <:manager as |allSelected someSelected toggleAll selectedParticipants reset|>
+            <InElement @destinationId={{this.mainCheckboxId}}>
               <PixCheckbox
                 @screenReaderOnly={{true}}
                 @checked={{someSelected}}
                 @isIndeterminate={{(not allSelected)}}
                 {{on "click" toggleAll}}
               >{{t "pages.organization-participants.table.column.mainCheckbox"}}</PixCheckbox>
-            {{/in-element}}
+            </InElement>
             {{#if someSelected}}
-              {{#in-element this.actionBar}}
+              <InElement @destinationId={{this.actionBarId}}>
                 <Ui::ActionBar @items={{selectedParticipants}}>
                   <:information>
                     {{t "pages.organization-participants.action-bar.information" count=selectedParticipants.length}}
                   </:information>
                   <:actions>
                     <PixButton
-                      @triggerAction={{(fn @deleteParticipants selectedParticipants)}}
+                      @triggerAction={{(fn this.deleteParticipants selectedParticipants reset)}}
                       type="button"
                       @backgroundColor="red"
                     >
@@ -80,8 +80,11 @@
                     </PixButton>
                   </:actions>
                 </Ui::ActionBar>
-              {{/in-element}}
+              </InElement>
             {{/if}}
+            <InElement @destinationId={{this.paginationId}} @waitForElement={{true}}>
+              <Table::PaginationControl @pagination={{@participants.meta}} @onChange={{reset}} />
+            </InElement>
           </:manager>
           <:item as |participant toggleParticipant isParticipantSelected index|>
             <tr
@@ -143,6 +146,5 @@
   {{/unless}}
 </div>
 
-<Table::PaginationControl @pagination={{@participants.meta}} />
-
-<div id={{this.actionBarId}}></div>
+<div id={{this.actionBarId}} />
+<div id={{this.paginationId}} />
