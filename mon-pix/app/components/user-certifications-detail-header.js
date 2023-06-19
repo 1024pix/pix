@@ -27,10 +27,10 @@ export default class UserCertificationsDetailHeader extends Component {
     this.attestationDownloadErrorMessage = null;
     const certifId = this.args.certification.id;
     const url = `/api/attestation/${certifId}?isFrenchDomainExtension=${this.currentDomain.isFranceDomain}`;
-    const fileName = 'attestation_pix.pdf';
+
     const token = this.session.data.authenticated.access_token;
     try {
-      await this.fileSaver.save({ url, fileName, token });
+      await this.fileSaver.save({ url, token });
     } catch (error) {
       this.attestationDownloadErrorMessage = error.message;
     }
