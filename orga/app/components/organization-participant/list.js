@@ -1,8 +1,15 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
+import { inject as service } from '@ember/service';
 
 export default class List extends Component {
+  @service currentUser;
+
+  get isUserAdmin() {
+    return this.currentUser.isAdminInOrganization;
+  }
+
   get headerId() {
     return guidFor(this) + 'mainCheckbox';
   }
