@@ -670,5 +670,81 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       sinon.assert.calledWith(this.deleteParticipants, [peterLearner, milesLearner]);
       assert.ok(true);
     });
+
+    test('it should reset selected participants after deletion', async function (assert) {
+      //given
+      const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
+      const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
+      const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+      const participants = [spiderLearner, peterLearner, milesLearner];
+
+      this.set('participants', participants);
+      this.deleteParticipants = sinon.stub();
+
+      //when
+      const screen = await render(hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @deleteParticipants={{this.deleteParticipants}}
+/>`);
+      const mainCheckbox = screen.getAllByRole('checkbox')[0];
+      const firstLearnerToDelete = screen.getAllByRole('checkbox')[2];
+      const secondLearnerToDelete = screen.getAllByRole('checkbox')[3];
+
+      await click(firstLearnerToDelete);
+      await click(secondLearnerToDelete);
+
+      const deleteButton = await screen.findByRole('button', {
+        name: this.intl.t('pages.organization-participants.action-bar.delete-button'),
+      });
+
+      await click(deleteButton);
+      //then
+      assert.false(mainCheckbox.checked);
+    });
+  });
+
+  test('it should reset selected participant when using pagination', async function (assert) {
+    // given
+    const routerService = this.owner.lookup('service:router');
+    sinon.stub(routerService, 'replaceWith');
+
+    const participants = [
+      { id: 1, firstName: 'Spider', lastName: 'Man' },
+      { id: 2, firstName: 'Captain', lastName: 'America' },
+    ];
+
+    participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
+
+    this.set('participants', participants);
+    this.triggerFiltering = sinon.stub();
+    this.set('certificabilityFilter', []);
+    this.set('fullNameFilter', null);
+
+    // when
+    const screen = await render(
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
+    );
+    const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+    const secondLearnerSelected = screen.getAllByRole('checkbox')[2];
+
+    await click(firstLearnerSelected);
+    await click(secondLearnerSelected);
+
+    const pagination = screen.getByLabelText(this.intl.t('common.pagination.action.next'));
+
+    await click(pagination);
+
+    assert.false(firstLearnerSelected.checked);
+    assert.false(secondLearnerSelected.checked);
   });
 });
