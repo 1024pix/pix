@@ -5,6 +5,25 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Component | Selectable List', function (hooks) {
   setupTest(hooks);
 
+  module('#reset', function () {
+    test('should clear list of selected elements', async function (assert) {
+      // given
+      const firstItem = { id: 1 };
+      const secondItem = { id: 2 };
+      const items = [firstItem, secondItem];
+      const component = await createGlimmerComponent('component:selectable-list', {
+        items,
+      });
+      component.selectedItems = items;
+
+      // when
+      component.reset();
+
+      // then
+      assert.strictEqual(component.selectedItems.length, 0);
+    });
+  });
+
   module('#allSelected', function () {
     test('should return false if not all element have been selected', async function (assert) {
       // given

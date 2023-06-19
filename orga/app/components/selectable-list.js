@@ -23,6 +23,11 @@ export default class SelectableList extends Component {
   }
 
   @action
+  reset() {
+    this.selectedItems = [];
+  }
+
+  @action
   toggle(item) {
     if (this.isSelected(item)) {
       this.selectedItems = this.selectedItems.filter((selectedItem) => {
