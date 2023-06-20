@@ -468,7 +468,7 @@
             "detail-selection": {
               "aria-first": "J'ai un problème avec",
               "aria-secondary": "Sélectionner une option pour préciser votre problème",
-              "label": "Précisez",
+              "label": "Sélectionner une option pour préciser votre problème",
               "options": {
                 "answer-not-accepted": "Ma réponse est correcte mais n’a pas été validée",
                 "answer-not-agreed": "Je ne suis pas d’accord avec la réponse",
