@@ -4,7 +4,7 @@ extends:
   - 'plugin:mocha/recommended'
   - 'plugin:prettier/recommended'
   - 'plugin:chai-expect/recommended'
-  - 'plugin:node/recommended-module'
+  - 'plugin:n/recommended'
   - 'plugin:import/recommended'
 
 parserOptions:
@@ -13,7 +13,7 @@ parserOptions:
   babelOptions:
     parserOpts:
       plugins:
-      - importAssertions
+        - importAssertions
 
 parser: '@babel/eslint-parser'
 
@@ -46,9 +46,9 @@ rules:
   mocha/no-top-level-hooks: error
   no-empty-function: error
   # Refer to scripts/_template.js for reliable alternatives to process.exit()
-  node/no-process-exit: error
+  n/no-process-exit: error
   unicorn/no-empty-file: error
-  node/no-unpublished-import:
+  n/no-unpublished-import:
     - error
     - allowModules:
         - chai

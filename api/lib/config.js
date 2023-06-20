@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 // eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable node/no-process-env */
+/* eslint-disable n/no-process-env */
 import path from 'path';
 import moment from 'moment';
 import ms from 'ms';
@@ -9,6 +9,7 @@ import ms from 'ms';
 import { getArrayOfStrings } from '../lib/infrastructure/utils/string-utils.js';
 
 import * as url from 'url';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 function parseJSONEnv(varName) {
