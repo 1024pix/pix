@@ -1,17 +1,16 @@
 import { Factory, trait } from 'miragejs';
-import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   name() {
-    return faker.company.name();
+    return 'Campagne d’évaluation 972';
   },
 
   code() {
-    return 'ABCDEF' + faker.number.int({ min: 100, max: 999 });
+    return 'ABCDEF972';
   },
 
   createdAt() {
-    return faker.date.recent();
+    return '2023-05-17';
   },
 
   ownerLastName() {
