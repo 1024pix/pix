@@ -468,7 +468,7 @@
             "detail-selection": {
               "aria-first": "Select the category of the problem encountered",
               "aria-secondary": "Select an option to specify your problem",
-              "label": "Please specify",
+              "label": "Select an option to specify your problem",
               "options": {
                 "answer-not-accepted": "My answer is correct but has not been approved",
                 "answer-not-agreed": "I disagree with the answer",
