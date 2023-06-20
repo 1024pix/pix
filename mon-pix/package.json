@@ -22,7 +22,7 @@
   },
   "scripts": {
     "clean": "rm -rf tmp dist node_modules",
-    "dev": "ember server",
+    "dev": "ember serve",
     "lint": "run-p --continue-on-error 'lint:!(fix)'",
     "lint:fix": "run-p --continue-on-error lint:*:fix",
     "lint:hbs": "ember-template-lint .",
