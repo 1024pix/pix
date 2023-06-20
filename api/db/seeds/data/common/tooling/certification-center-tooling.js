@@ -12,6 +12,7 @@ export { createCertificationCenter };
  * @param {Date} createdAt
  * @param {Date} updatedAt
  * @param {Array<number>} memberIds
+ * @param {boolean} isV3Pilot
  * @param {Array<number>} complementaryCertificationIds
  * @returns {Promise<{certificationCenterId: number}>}
  */
@@ -24,6 +25,7 @@ async function createCertificationCenter({
   createdAt,
   updatedAt,
   memberIds = [],
+  isV3Pilot = false,
   complementaryCertificationIds,
 }) {
   _buildCertificationCenter({
@@ -34,6 +36,7 @@ async function createCertificationCenter({
     externalId,
     createdAt,
     updatedAt,
+    isV3Pilot,
   });
 
   _buildCertificationCenterMemberships({
@@ -82,6 +85,7 @@ function _buildCertificationCenter({
   name,
   type,
   externalId,
+  isV3Pilot,
   createdAt,
   updatedAt,
 }) {
@@ -92,5 +96,6 @@ function _buildCertificationCenter({
     externalId,
     createdAt,
     updatedAt,
+    isV3Pilot,
   });
 }
