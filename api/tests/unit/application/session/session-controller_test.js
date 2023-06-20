@@ -1119,11 +1119,13 @@ describe('Unit | Controller | sessionController', function () {
       const certification3 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 3 });
       const attestationPDF = 'binary string';
       const userId = 1;
+      const i18n = getI18n();
 
       const request = {
         auth: { credentials: { userId } },
         params: { id: session.id },
         query: { isFrenchDomainExtension: true },
+        i18n,
       };
 
       sinon
@@ -1134,7 +1136,11 @@ describe('Unit | Controller | sessionController', function () {
         .resolves([certification1, certification2, certification3]);
 
       certificationAttestationPdf.getCertificationAttestationsPdfBuffer
-        .withArgs({ certificates: [certification1, certification2, certification3], isFrenchDomainExtension: true })
+        .withArgs({
+          certificates: [certification1, certification2, certification3],
+          isFrenchDomainExtension: true,
+          i18n,
+        })
         .resolves({ buffer: attestationPDF });
 
       // when
