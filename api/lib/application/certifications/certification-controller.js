@@ -5,8 +5,6 @@ import * as shareableCertificateSerializer from '../../infrastructure/serializer
 import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
-import moment from 'moment';
-
 const findUserCertifications = async function (request) {
   const userId = request.auth.credentials.userId;
 
@@ -44,12 +42,11 @@ const getPDFAttestation = async function (request, h, dependencies = { certifica
     certificationId,
   });
 
-  const { buffer } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
+  const { buffer, fileName } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
     certificates: [attestation],
     isFrenchDomainExtension,
   });
 
-  const fileName = `attestation-pix-${moment(attestation.deliveredAt).format('YYYYMMDD')}.pdf`;
   return h
     .response(buffer)
     .header('Content-Disposition', `attachment; filename=${fileName}`)
