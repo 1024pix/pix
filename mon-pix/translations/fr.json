@@ -436,7 +436,7 @@
         "actions": {
           "launch": "Je lance l’application",
           "reset": "Réinitialiser",
-          "reset-label":  "Réinitialiser la simulation"
+          "reset-label": "Réinitialiser la simulation"
         },
         "placeholder": "Chargement de l'application en cours"
       },
@@ -1388,7 +1388,8 @@
         "header-result": "Résultats",
         "header-skill": "Compétences testées",
         "result": "Résultat global",
-        "percentage": "{rate, number, ::percent}"
+        "percentage": "{rate, number, ::percent}",
+        "progress-bar-label": "Pourcentage de réussite de la compétence"
       },
       "disabled-share": "Ce parcours a été désactivé par l'organisateur.'<br>'L'envoi des résultats n'est plus possible.",
       "error": "Oups, une erreur est survenue !",
