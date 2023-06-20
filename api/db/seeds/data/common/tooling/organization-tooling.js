@@ -87,6 +87,7 @@ async function createOrganization({
 
   _buildMemberships({
     databaseBuilder,
+    organizationId,
     adminUserId,
     memberIds,
   });
