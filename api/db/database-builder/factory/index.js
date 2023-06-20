@@ -3,7 +3,7 @@ import * as knowledgeElementSnapshotFactory from './knowledge-elements-snapshot-
 import * as poleEmploiSendingFactory from './pole-emploi-sending-factory.js';
 import * as buildDataProtectionOfficer from './build-data-protection-officer.js';
 
-import { importNamedExportsFromDir } from '../../../lib/infrastructure/utils/import-named-exports-from-dir.js';
+import { importNamedExportsFromDirectory } from '../../../lib/infrastructure/utils/import-named-exports-from-directory.js';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -17,7 +17,7 @@ const unwantedFiles = [
 ];
 
 export const factory = {
-  ...(await importNamedExportsFromDir(join(path, './'), unwantedFiles)),
+  ...(await importNamedExportsFromDirectory(join(path, './'), unwantedFiles)),
   campaignParticipationOverviewFactory,
   knowledgeElementSnapshotFactory,
   poleEmploiSendingFactory,
