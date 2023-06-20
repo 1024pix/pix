@@ -1,39 +1,34 @@
 import { Factory } from 'miragejs';
-import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
 import { CREATED } from 'pix-certif/models/session';
 
 export default Factory.extend({
   address() {
-    return faker.location.street();
+    return '10 Rue des révoltés';
   },
 
   accessCode() {
-    return 'ABCDEF' + faker.number.int({ min: 100, max: 999 });
+    return 'ABCDEF313';
   },
 
   date() {
-    return dayjs(faker.date.recent()).format('YYYY-MM-DD');
+    return dayjs('2023-05-17');
   },
 
   description() {
-    return faker.lorem.words();
+    return 'Une session somme toute normale';
   },
 
   examiner() {
-    return faker.company.name();
+    return 'Argus Rusard';
   },
 
   room() {
-    return faker.string.alphanumeric(9);
+    return 375491208;
   },
 
   time() {
-    return (
-      faker.number.int({ min: 0, max: 23 }).toString().padStart(2, '0') +
-      ':' +
-      faker.number.int({ min: 0, max: 59 }).toString().padStart(2, '0')
-    );
+    return '14:15';
   },
 
   status() {
@@ -42,7 +37,7 @@ export default Factory.extend({
 
   examinerGlobalComment(i) {
     if (i % 2 === 0) {
-      return faker.lorem.words();
+      return 'Un commentaire de session somme toute normal';
     }
 
     return '';
