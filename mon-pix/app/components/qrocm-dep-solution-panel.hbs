@@ -20,6 +20,12 @@
               aria-label={{block.ariaLabel}}
               disabled
             />
+            {{#if block.solution}}
+              <p class="correction-qrocm__solution">
+                <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
+                <span class="correction-qrocm__solution-text">{{block.solution}}</span>
+              </p>
+            {{/if}}
           </div>
         {{else if (eq @challenge.format "phrase")}}
           <div class="correction-qrocm__answer {{block.inputClass}}">
@@ -30,6 +36,12 @@
               @ariaLabel={{block.ariaLabel}}
               disabled
             />
+            {{#if block.solution}}
+              <p class="correction-qrocm__solution">
+                <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
+                <span class="correction-qrocm__solution-text">{{block.solution}}</span>
+              </p>
+            {{/if}}
           </div>
         {{else}}
           <div class="correction-qrocm__answer-wrapper correction-qrocm__answer {{block.inputClass}}">
@@ -41,6 +53,12 @@
               @ariaLabel={{block.ariaLabel}}
               disabled
             />
+            {{#if block.solution}}
+              <p class="correction-qrocm__solution">
+                <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
+                <span class="correction-qrocm__solution-text">{{block.solution}}</span>
+              </p>
+            {{/if}}
           </div>
         {{/if}}
       {{/if}}
@@ -49,11 +67,13 @@
         <br />
       {{/if}}
     {{/each}}
-    {{#unless this.answerIsCorrect}}
-      <p class="comparison-window-solution">
-        <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
-        <span class="correction-qrocm__solution-text">{{this.understandableSolution}}</span>
-      </p>
+    {{#unless this.isCorrectAnswer}}
+      {{#unless this.shouldDisplayAnswersUnderInputs}}
+        <p class="comparison-window-solution">
+          <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
+          <span class="correction-qrocm__solution-text">{{this.formattedSolution}}</span>
+        </p>
+      {{/unless}}
     {{/unless}}
   </div>
 </div>
