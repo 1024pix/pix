@@ -108,6 +108,7 @@ async function createDraftScoSession({
  * @param {string} time
  * @param {Date} createdAt
  * @param {string} supervisorPassword
+ * @param {number} version
  * @param configSession {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean }
 
  * @returns {Promise<{sessionId: number}>} sessionId
@@ -127,6 +128,7 @@ async function createDraftSession({
   createdAt,
   configSession,
   supervisorPassword,
+  version,
 }) {
   _buildSession({
     databaseBuilder,
@@ -152,6 +154,7 @@ async function createDraftSession({
     juryCommentAuthorId: null,
     juryCommentedAt: null,
     supervisorPassword,
+    version,
   });
 
   await _registerCandidatesToSession({
@@ -590,6 +593,7 @@ function _buildSession({
   juryCommentAuthorId,
   juryCommentedAt,
   supervisorPassword,
+  version,
 }) {
   databaseBuilder.factory.buildSession({
     databaseBuilder,
@@ -615,6 +619,7 @@ function _buildSession({
     juryCommentAuthorId,
     juryCommentedAt,
     supervisorPassword,
+    version,
   });
 }
 
