@@ -1,7 +1,7 @@
 import * as url from 'url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-// eslint-disable-next-line node/no-unpublished-import
+// eslint-disable-next-line n/no-unpublished-import
 import inquirer from 'inquirer';
 import * as dotenv from 'dotenv';
 
@@ -361,6 +361,7 @@ async function _getResults(sessionId) {
     )
     .where('sessions.id', sessionId);
 }
+
 async function _createUser({ firstName, lastName, birthdate, email, organizationId, maxUserId }, databaseBuilder) {
   const { id: userId } = databaseBuilder.factory.buildUser.withRawPassword({
     firstName,

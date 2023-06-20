@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+
 dotenv.config();
 import PgBoss from 'pg-boss';
 import _ from 'lodash';
@@ -38,7 +39,7 @@ async function runJobs() {
   const monitoredJobQueue = new MonitoredJobQueue(jobQueue);
   process.on('SIGINT', async () => {
     await monitoredJobQueue.stop();
-    // eslint-disable-next-line node/no-process-exit,no-process-exit
+    // eslint-disable-next-line n/no-process-exit
     process.exit(0);
   });
 
@@ -54,6 +55,7 @@ async function runJobs() {
 
   await scheduleCpfJobs(pgBoss);
 }
+
 const startInWebProcess = process.env.START_JOB_IN_WEB_PROCESS;
 const modulePath = url.fileURLToPath(import.meta.url);
 const isEntryPointFromOtherFile = process.argv[1] !== modulePath;
@@ -64,6 +66,6 @@ if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
   logger.error(
     'Worker process is started in the web process. Please unset the START_JOB_IN_WEB_PROCESS environment variable to start a dedicated worker process.'
   );
-  // eslint-disable-next-line node/no-process-exit,no-process-exit
+  // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 }

@@ -14,6 +14,6 @@ module.exports = {
         ],
       },
     ],
-    'node/no-process-env': 'error',
+    'n/no-process-env': 'error',
   },
 };
