@@ -1,65 +1,60 @@
 import { Factory } from 'miragejs';
-import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
 
 export default Factory.extend({
   firstName() {
-    return faker.person.firstName();
+    return 'Quentin';
   },
 
   lastName() {
-    return faker.person.lastName();
+    return 'Leboncollegue';
   },
 
   birthdate() {
-    return dayjs(faker.date.past({ years: 30 })).format('YYYY-MM-DD');
+    return dayjs('1990-01-02');
   },
 
   birthCity() {
-    return faker.location.city();
+    return 'Saint-Malo';
   },
 
   birthProvinceCode() {
-    return faker.string.alphanumeric(3);
+    return '354';
   },
 
   birthCountry() {
-    return faker.location.country();
+    return 'France';
   },
 
   email() {
-    return faker.internet.exampleEmail();
+    return 'quentin.boncollegue@example.net';
   },
 
   externalId() {
-    return faker.string.uuid();
+    return '123456ABCD';
   },
 
   extraTimePercentage() {
-    if (faker.datatype.boolean()) {
-      return 0.3;
-    }
-
-    return null;
+    return 0.3;
   },
 
   isLinked() {
-    return faker.datatype.boolean();
+    return false;
   },
 
   sessionId() {
-    return faker.number.int();
+    return 123456;
   },
 
   sex() {
-    return faker.helpers.arrayElement(['M', 'F']);
+    return 'M';
   },
 
   birthInseeCode() {
-    return faker.string.alphanumeric(5);
+    return '35288';
   },
 
   birthPostalCode() {
-    return faker.string.alphanumeric(5);
+    return '35400';
   },
 });
