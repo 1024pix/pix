@@ -35,7 +35,7 @@ const correctCandidateIdentityInCertificationCourse = async function ({
   });
 
   if (cpfBirthInformation.hasFailed()) {
-    throw new CpfBirthInformationValidationError(cpfBirthInformation.firstErrorMessage);
+    throw new CpfBirthInformationValidationError({ message: cpfBirthInformation.firstErrorMessage });
   }
 
   certificationCourse.correctBirthInformation(cpfBirthInformation);

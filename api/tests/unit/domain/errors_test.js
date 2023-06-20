@@ -544,18 +544,50 @@ describe('Unit | Domain | Errors', function () {
         [
           {
             why: 'not_a_billing_mode',
-            message: `Le champ “Tarification part Pix” ne peut contenir qu'une des valeurs suivantes: Gratuite, Payante ou Prépayée.`,
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code,
           },
           {
             why: 'prepayment_code_null',
-            message: `Le champ “Code de prépaiement” est obligatoire puisque l’option “Prépayée” a été sélectionnée pour ce candidat.`,
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code,
           },
           {
             why: 'prepayment_code_not_null',
-            message: `Le champ “Code de prépaiement” doit rester vide puisque l’option “Prépayée” n'a pas été sélectionnée pour ce candidat.`,
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code,
           },
-        ].forEach(({ why, message }) => {
-          it(`message should be "${message}" when why is "${why}"`, async function () {
+          {
+            why: 'birthdate_must_be_greater',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_MUST_BE_GREATER.code,
+          },
+          {
+            why: 'not_a_date',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code,
+          },
+          {
+            why: 'email_format',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
+          },
+          {
+            why: 'not_a_string',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_STRING.code,
+          },
+          {
+            why: 'not_a_number',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_NUMBER.code,
+          },
+          {
+            why: 'required',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_REQUIRED.code,
+          },
+          {
+            why: 'not_a_sex_code',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code,
+          },
+          {
+            why: 'extra_time_percentage_out_of_range',
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code,
+          },
+        ].forEach(({ why, code }) => {
+          it(`code should be "${code}" when why is "${why}"`, async function () {
             // given
             const invalidCertificationCandidateError = { why };
 
@@ -565,7 +597,7 @@ describe('Unit | Domain | Errors', function () {
             );
 
             // then
-            expect(error.message).to.equal(message);
+            expect(error.code).to.equal(code);
           });
         });
       });

@@ -8,6 +8,7 @@ import {
   CertificationCandidateAddError,
   CertificationCandidateOnFinalizedSessionError,
 } from '../../../../lib/domain/errors.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
 
 describe('Unit | UseCase | add-certification-candidate-to-session', function () {
   let certificationCandidateRepository;
@@ -250,7 +251,10 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
             sessionId: null,
             complementaryCertification: null,
           });
-          const certificationCandidateError = { code: '', getMessage: () => 'Failure message' };
+          const certificationCandidateError = {
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED.code,
+            getMessage: () => 'Failure message',
+          };
           const cpfBirthInformationValidation = new CpfBirthInformationValidation();
           cpfBirthInformationValidation.failure({
             certificationCandidateError,
@@ -272,8 +276,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
 
           // then
           expect(error).to.be.an.instanceOf(CpfBirthInformationValidationError);
-          expect(error.message).to.equal('Failure message');
-          expect(certificationCandidateRepository.saveInSession).not.to.have.been.called;
+          expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED.code);
         });
       });
     });

@@ -50,7 +50,10 @@ const addCertificationCandidateToSession = async function ({
   });
 
   if (cpfBirthInformation.hasFailed()) {
-    throw new CpfBirthInformationValidationError(cpfBirthInformation.firstErrorMessage);
+    throw new CpfBirthInformationValidationError({
+      code: cpfBirthInformation.firstErrorCode,
+      meta: { ...cpfBirthInformation },
+    });
   }
 
   certificationCandidate.updateBirthInformation(cpfBirthInformation);
