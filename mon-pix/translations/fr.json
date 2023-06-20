@@ -685,7 +685,10 @@
           "other-proposition": "Autre proposition",
           "your-answer": "Votre réponse"
         },
-        "otherSolutions": "Vous auriez pu répondre {expectedAnswers}"
+        "solutions": {
+          "or": "ou",
+          "end": "ou..."
+        }
       },
       "upcoming-tutorials": "Bientôt ici des tutoriels pour vous aider à réussir ce type d'épreuves."
     },

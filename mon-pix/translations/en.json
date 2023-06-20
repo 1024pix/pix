@@ -685,7 +685,10 @@
           "other-proposition": "Other proposition",
           "your-answer": "Your answer"
         },
-        "otherSolutions": "You could have answered {expectedAnswers}"
+        "solutions": {
+          "or": "or",
+          "end": "or..."
+        }
       },
       "upcoming-tutorials": "You will soon find tutorials here to help you answer correctly to this type of question."
     },
