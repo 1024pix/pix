@@ -858,6 +858,9 @@ describe('Acceptance | API | Certification Course', function () {
             // then
             const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId });
             expect(certificationCourse.version).to.equal(CertificationVersion.V3);
+            expect(response.result.data.attributes).to.include({
+              'nb-challenges': 0,
+            });
           });
         });
 
