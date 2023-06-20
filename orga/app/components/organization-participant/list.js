@@ -2,8 +2,11 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class List extends Component {
+  @tracked showDeletionModal = false;
+
   @service currentUser;
 
   get isUserAdmin() {
@@ -31,8 +34,19 @@ export default class List extends Component {
   }
 
   @action
+  openDeletionModal() {
+    this.showDeletionModal = true;
+  }
+
+  @action
+  closeDeletionModal() {
+    this.showDeletionModal = false;
+  }
+
+  @action
   async deleteParticipants(selectedParticipants, resetParticipants) {
     await this.args.deleteParticipants(selectedParticipants);
+    this.closeDeletionModal();
     resetParticipants();
   }
 
