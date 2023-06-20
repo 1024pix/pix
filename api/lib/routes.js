@@ -51,6 +51,7 @@ import * as supOrganizationLearners from './application/sup-organization-learner
 import * as sessions from './application/sessions/index.js';
 import * as tags from './application/tags/index.js';
 import * as targetProfiles from './application/target-profiles/index.js';
+import * as targetProfilesManagement from './application/target-profiles-management/index.js';
 import * as trainings from './application/trainings/index.js';
 import * as missions from './application/missions/index.js';
 import * as frameworks from './application/frameworks/index.js';
@@ -113,6 +114,7 @@ const routes = [
   tags,
   targetProfiles,
   missions,
+  targetProfilesManagement,
   trainings,
   frameworks,
   tutorialEvaluations,
