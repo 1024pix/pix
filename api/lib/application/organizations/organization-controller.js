@@ -200,6 +200,7 @@ const downloadCertificationAttestationsForDivision = async function (
   dependencies = { certificationAttestationPdf }
 ) {
   const organizationId = request.params.id;
+  const { i18n } = request;
   const { division, isFrenchDomainExtension } = request.query;
 
   const attestations = await usecases.findCertificationAttestationsForDivision({
@@ -210,6 +211,7 @@ const downloadCertificationAttestationsForDivision = async function (
   const { buffer } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
     certificates: attestations,
     isFrenchDomainExtension,
+    i18n,
   });
 
   const now = dayjs();
