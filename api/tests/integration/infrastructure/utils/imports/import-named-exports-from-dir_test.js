@@ -67,13 +67,13 @@ describe('Integration | Utils | #importNamedExportsFromDir', function () {
     expect(dirContent.e).to.be.undefined;
   });
 
-  it('should not import ignored filename', async function () {
+  it('should not import ignored filenames', async function () {
     // given
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const path = join(__dirname, './sample');
 
     // when
-    const dirContent = await importNamedExportsFromDir(path, 'a.js');
+    const dirContent = await importNamedExportsFromDir(path, ['a.js']);
 
     // then
     expect(dirContent.a).to.be.undefined;

@@ -414,7 +414,7 @@ const dependencies = {
 const path = dirname(fileURLToPath(import.meta.url));
 
 const usecasesWithoutInjectedDependencies = {
-  ...(await importNamedExportsFromDir(join(path, './'), 'index.js')),
+  ...(await importNamedExportsFromDir(join(path, './'), ['index.js'])),
   ...(await importNamedExportsFromDir(join(path, './account-recovery'))),
   ...(await importNamedExportsFromDir(join(path, './authentication'))),
   ...(await importNamedExportsFromDir(join(path, './campaigns-administration'))),
