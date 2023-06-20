@@ -200,7 +200,7 @@ import { participantResultsSharedRepository } from '../../infrastructure/reposit
 import { pickChallengeService } from '../services/pick-challenge-service.js';
 import { tokenService } from '../../domain/services/token-service.js';
 
-import { importNamedExportsFromDir } from '../../infrastructure/utils/import-named-exports-from-dir.js';
+import { importNamedExportsFromDirectory } from '../../infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../infrastructure/utils/dependency-injection.js';
 
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
@@ -414,14 +414,14 @@ const dependencies = {
 const path = dirname(fileURLToPath(import.meta.url));
 
 const usecasesWithoutInjectedDependencies = {
-  ...(await importNamedExportsFromDir(join(path, './'), ['index.js'])),
-  ...(await importNamedExportsFromDir(join(path, './account-recovery'))),
-  ...(await importNamedExportsFromDir(join(path, './authentication'))),
-  ...(await importNamedExportsFromDir(join(path, './campaigns-administration'))),
-  ...(await importNamedExportsFromDir(join(path, './certificate'))),
-  ...(await importNamedExportsFromDir(join(path, './organization-learners-management'))),
-  ...(await importNamedExportsFromDir(join(path, './organizations-administration'))),
-  ...(await importNamedExportsFromDir(join(path, './sessions-mass-import'))),
+  ...(await importNamedExportsFromDirectory(join(path, './'), ['index.js'])),
+  ...(await importNamedExportsFromDirectory(join(path, './account-recovery'))),
+  ...(await importNamedExportsFromDirectory(join(path, './authentication'))),
+  ...(await importNamedExportsFromDirectory(join(path, './campaigns-administration'))),
+  ...(await importNamedExportsFromDirectory(join(path, './certificate'))),
+  ...(await importNamedExportsFromDirectory(join(path, './organization-learners-management'))),
+  ...(await importNamedExportsFromDirectory(join(path, './organizations-administration'))),
+  ...(await importNamedExportsFromDirectory(join(path, './sessions-mass-import'))),
   findPaginatedFilteredTargetProfileOrganizations,
   getCampaignDetailsManagement,
 };

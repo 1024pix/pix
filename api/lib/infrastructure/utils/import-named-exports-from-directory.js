@@ -1,7 +1,7 @@
 import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 
-export async function importNamedExportsFromDir(path, ignoredFileNames = []) {
+export async function importNamedExportsFromDirectory(path, ignoredFileNames = []) {
   const imports = {};
   const exportsLocations = {};
   const files = await readdir(path);
