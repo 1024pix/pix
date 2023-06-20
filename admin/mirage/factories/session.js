@@ -1,15 +1,14 @@
 import { Factory, trait } from 'miragejs';
-import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
 import { CREATED, FINALIZED, IN_PROCESS, PROCESSED } from 'pix-admin/models/session';
 
 export default Factory.extend({
   certificationCenterName() {
-    return faker.company.name();
+    return 'Centre des certifs';
   },
 
   certificationCenterExternalId() {
-    return faker.company.name();
+    return 'center1234';
   },
 
   certificationCenterType() {
@@ -21,27 +20,23 @@ export default Factory.extend({
   },
 
   address() {
-    return faker.location.street();
+    return '26 quai de la Marne';
   },
 
   room() {
-    return faker.string.alphanumeric(9);
+    return 987654321;
   },
 
   examiner() {
-    return faker.company.name();
+    return 'Jean-Jacques Voitou';
   },
 
   date() {
-    return dayjs(faker.date.recent()).format('YYYY-MM-DD');
+    return dayjs('2023-05-17');
   },
 
   time() {
-    return (
-      faker.number.int({ min: 0, max: 23 }).toString().padStart(2, '0') +
-      ':' +
-      faker.number.int({ min: 0, max: 59 }).toString().padStart(2, '0')
-    );
+    return '14:15';
   },
 
   status() {
@@ -49,23 +44,23 @@ export default Factory.extend({
   },
 
   accessCode() {
-    return 'ABCDEF' + faker.number.int({ min: 100, max: 999 });
+    return 'ABCDEF354';
   },
 
   description() {
-    return faker.lorem.words();
+    return 'Une description, un roman, une épopée';
   },
 
   examinerGlobalComment(i) {
     if (i % 2 === 0) {
-      return faker.lorem.words();
+      return 'Tout va pour le mieux dans le meilleur des mondes possibles';
     }
 
     return '';
   },
 
   withResultsSentToPrescriber: trait({
-    resultsSentToPrescriberAt: faker.date.past(),
+    resultsSentToPrescriberAt: '2023-05-28',
   }),
 
   created: trait({
@@ -74,17 +69,17 @@ export default Factory.extend({
 
   finalized: trait({
     status: FINALIZED,
-    finalizedAt: faker.date.past(),
+    finalizedAt: '2023-05-27',
   }),
 
   inProcess: trait({
     status: IN_PROCESS,
-    finalizedAt: faker.date.past(),
+    finalizedAt: '2023-05-19',
   }),
 
   processed: trait({
     status: PROCESSED,
-    finalizedAt: faker.date.past(),
-    publishedAt: faker.date.recent(),
+    finalizedAt: '2023-05-20',
+    publishedAt: '2023-05-21',
   }),
 });
