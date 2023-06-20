@@ -1,17 +1,17 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
 import { catchErr, expect } from '../../../../test-helper.js';
-import { importNamedExportsFromDir } from '../../../../../lib/infrastructure/utils/import-named-exports-from-dir.js';
+import { importNamedExportsFromDirectory } from '../../../../../lib/infrastructure/utils/import-named-exports-from-directory.js';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-describe('Integration | Utils | #importNamedExportsFromDir', function () {
+describe('Integration | Utils | #importNamedExportsFromDirectory', function () {
   it('should throw if there is an export names conflict', async function () {
     // given
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const path = join(__dirname, './sample-conflict');
 
     // when
-    const result = await catchErr(importNamedExportsFromDir)(path);
+    const result = await catchErr(importNamedExportsFromDirectory)(path);
 
     // then
     expect(result).to.be.an.instanceOf(Error);
@@ -23,10 +23,10 @@ describe('Integration | Utils | #importNamedExportsFromDir', function () {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const path = join(__dirname, './sample');
     const { a: sampleA } = await import('./sample/a.js');
-    const { b: sampleB, C: sampleC } = await import('./sample/b-c-d.js');
+    const { b: sampleB, C: sampleC } = await import('./sample/b-c.js');
 
     // when
-    const dirContent = await importNamedExportsFromDir(path);
+    const dirContent = await importNamedExportsFromDirectory(path);
 
     // then
     expect(dirContent).to.be.an('object');
@@ -41,12 +41,12 @@ describe('Integration | Utils | #importNamedExportsFromDir', function () {
     // given
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const path = join(__dirname, './sample');
-    const { default: sampleD } = await import('./sample/b-c-d.js');
+    const { default: sampleD } = await import('./sample/b-c.js');
 
     expect(sampleD).to.equal('default export');
 
     // when
-    const dirContent = await importNamedExportsFromDir(path);
+    const dirContent = await importNamedExportsFromDirectory(path);
 
     // then
     expect(dirContent.default).to.be.undefined;
@@ -61,19 +61,19 @@ describe('Integration | Utils | #importNamedExportsFromDir', function () {
     expect(sampleE).to.equal('e');
 
     // when
-    const dirContent = await importNamedExportsFromDir(path);
+    const dirContent = await importNamedExportsFromDirectory(path);
 
     // then
     expect(dirContent.e).to.be.undefined;
   });
 
-  it('should not import ignored filename', async function () {
+  it('should not import ignored filenames', async function () {
     // given
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const path = join(__dirname, './sample');
 
     // when
-    const dirContent = await importNamedExportsFromDir(path, 'a.js');
+    const dirContent = await importNamedExportsFromDirectory(path, ['a.js']);
 
     // then
     expect(dirContent.a).to.be.undefined;
