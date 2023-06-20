@@ -1,5 +1,22 @@
 # Pix Changelog
 ## v4.4.0 (13/06/2023)
+## v4.8.0 (20/06/2023)
+
+
+### :rocket: Amélioration
+- [#6388](https://github.com/1024pix/pix/pull/6388) [FEATURE] Renvoyer le pourcentage d'acquisition d'un Résultat Thématique à la fin d'une campagne (PIX-8058).
+- [#6408](https://github.com/1024pix/pix/pull/6408) [FEATURE] Identification des sessions NextGen en base de données (pix-8374).
+- [#6295](https://github.com/1024pix/pix/pull/6295) [FEATURE] Traduire les erreurs lors de l'import de candidats sur Pix Certif (PIX-7967).
+
+### :building_construction: Tech
+- [#6424](https://github.com/1024pix/pix/pull/6424) [TECH] Renuméroter les ADR.
+- [#6419](https://github.com/1024pix/pix/pull/6419) [TECH] Mise à jour de Pix-UI en V36 sur pix-certif (PIX-8389).
+- [#6415](https://github.com/1024pix/pix/pull/6415) [TECH] Afficher l'avancement des migrations de BDD.
+
+### :bug: Correction
+- [#6412](https://github.com/1024pix/pix/pull/6412) [BUGFIX] QCU: Mention "La bonne réponse est : ..." incorrecte (PIX-8385).
+- [#6398](https://github.com/1024pix/pix/pull/6398) [BUGFIX] Harmoniser la taille des cartes des contenus formatifs (PIX-8349).
+
 ## v4.7.0 (16/06/2023)
 
 
