@@ -150,7 +150,6 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
       const controller = this.owner.lookup('controller:authenticated/certifications');
 
       const token = 'a token';
-      const fileName = 'attestations_pix.pdf';
       const organizationId = 12345;
       const selectedDivision = '3èmea';
 
@@ -194,7 +193,6 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
       assert.ok(
         controller.fileSaver.save.calledWith({
           token,
-          fileName,
           url: `/api/organizations/${organizationId}/certification-attestations?division=${selectedDivision}&isFrenchDomainExtension=true`,
         })
       );
