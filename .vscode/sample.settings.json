@@ -1,14 +1,28 @@
 {
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    },
-    "eslint.format.enable": true,
-    "eslint.workingDirectories": [
-        "./admin",
-        "./certif",
-        "./mon-pix",
-        "./api",
-        "./orga"
-    ],
-    "js/ts.implicitProjectConfig.experimentalDecorators": true
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.format.enable": true,
+  "eslint.workingDirectories": [
+    "./admin",
+    "./certif",
+    "./mon-pix",
+    "./api",
+    "./orga",
+    "./1d"
+  ],
+  "js/ts.implicitProjectConfig.experimentalDecorators": true,
+
+  // Only load the test files needed for the current test run (the default is to load all configured files)
+  "mochaExplorer.pruneFiles": true,
+  // The glob(s) describing the location of your test files (relative to the workspace folder)
+  "mochaExplorer.files": "api/tests/**/*_test.js",
+  // Shutdown the Mocha process (using process.exit()) after the last test has been run
+  "mochaExplorer.exit": true,
+  // The test-case timeout in milliseconds
+  "mochaExplorer.timeout": 20000,
+  // Use Mocha's experimental ESM module loader if it is available
+  "mochaExplorer.esmLoader": true,
+  // use VS Code's native testing UI
+  "testExplorer.useNativeTesting": true
 }
