@@ -36,7 +36,9 @@ const getCertificationByVerificationCode = async function (request, h, dependenc
 const getPDFAttestation = async function (request, h, dependencies = { certificationAttestationPdf }) {
   const userId = request.auth.credentials.userId;
   const certificationId = request.params.id;
-  const isFrenchDomainExtension = request.query.isFrenchDomainExtension;
+  const { i18n } = request;
+  const { isFrenchDomainExtension } = request.query;
+
   const attestation = await usecases.getCertificationAttestation({
     userId,
     certificationId,
@@ -45,6 +47,7 @@ const getPDFAttestation = async function (request, h, dependencies = { certifica
   const { buffer, fileName } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
     certificates: [attestation],
     isFrenchDomainExtension,
+    i18n,
   });
 
   return h
