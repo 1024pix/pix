@@ -7,4 +7,19 @@
   align-items: center;
   justify-content:center;
   padding: 21px;
+
+  a {
+    color: #3d68ff;
+    text-decoration: underline;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: #2044dc;
+    }
+  }
+
+  a::after {
+    @include external-link;
+  }
 }
