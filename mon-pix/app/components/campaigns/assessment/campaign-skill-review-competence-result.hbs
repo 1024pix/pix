@@ -20,7 +20,10 @@
             <span class="skill-review-competence__name">{{skillSet.name}}</span>
           </th>
           <td>
-            <PixProgressGauge @value={{skillSet.masteryPercentage}} @tooltipText="{{skillSet.masteryPercentage}}%" />
+            <PixProgressGauge
+              @value={{skillSet.masteryPercentage}}
+              @label={{t "pages.skill-review.details.progress-bar-label"}}
+            />
           </td>
         </tr>
       {{/each}}
@@ -40,7 +43,7 @@
             {{else}}
               <PixProgressGauge
                 @value={{competence.masteryPercentage}}
-                @tooltipText="{{competence.masteryPercentage}}%"
+                @label={{t "pages.skill-review.details.progress-bar-label"}}
               />
             {{/if}}
           </td>
