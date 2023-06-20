@@ -366,6 +366,9 @@ const register = async function (server) {
           params: Joi.object({
             id: identifiersType.sessionId,
           }),
+          query: Joi.object({
+            lang: Joi.string().optional().valid('fr', 'en'),
+          }),
         },
         pre: [
           {

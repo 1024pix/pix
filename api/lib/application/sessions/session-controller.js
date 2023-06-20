@@ -181,7 +181,8 @@ const getJuryCertificationSummaries = async function (
 
 const generateSessionResultsDownloadLink = async function (request, h, dependencies = { sessionResultsLinkService }) {
   const sessionId = request.params.id;
-  const sessionResultsLink = dependencies.sessionResultsLinkService.generateResultsLink(sessionId);
+  const i18n = request.i18n;
+  const sessionResultsLink = dependencies.sessionResultsLinkService.generateResultsLink({ sessionId, i18n });
 
   return h.response({ sessionResultsLink });
 };
