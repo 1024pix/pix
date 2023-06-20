@@ -1,0 +1,25 @@
+<PixModal @title={{this.text.title}} @showModal={{@showModal}} @onCloseButtonClick={{@closeModal}}>
+  <:content>
+    {{this.text.content}}
+    {{#if this.isMultipleDeletion}}
+      <PixCheckbox
+        {{on "click" this.giveDeletionPermission}}
+        @labelSize="small"
+        @checked={{this.allowDeletion}}
+        @class="deletion-modal__permission-checkbox"
+      >
+        <strong>
+          {{t "pages.organization-participants.deletion-modal.confirmation-checkbox" count=@itemsToDelete.length}}
+        </strong>
+      </PixCheckbox>
+    {{/if}}
+  </:content>
+  <:footer>
+    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{@closeModal}}>
+      {{t "common.actions.cancel"}}
+    </PixButton>
+    <PixButton @backgroundColor="red" @triggerAction={{@triggerAction}} @isDisabled={{(not this.canDelete)}}>
+      {{t "pages.organization-participants.deletion-modal.delete-button"}}
+    </PixButton>
+  </:footer>
+</PixModal>
