@@ -13,6 +13,7 @@ import {
 
 import { config } from '../../config.js';
 import bluebird from 'bluebird';
+import { CertificationVersion } from '../models/CertificationVersion.js';
 
 const { features } = config;
 
@@ -174,11 +175,14 @@ async function _startNewCertification({
     }
   );
 
-  const challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
-    placementProfile,
-    locale
-  );
-  challengesForCertification.push(...challengesForPixCertification);
+  let challengesForPixCertification = [];
+  if (version !== CertificationVersion.V3) {
+    challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
+      placementProfile,
+      locale
+    );
+    challengesForCertification.push(...challengesForPixCertification);
+  }
 
   return _createCertificationCourse({
     certificationCandidate,
