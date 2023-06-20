@@ -22,7 +22,6 @@ globals:
 
 plugins:
   - knex
-  - node
   - unicorn
 
 rules:
