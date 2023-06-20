@@ -1,19 +1,17 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
-import { setupIntl, t } from 'ember-intl/test-support';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Cards::ParticipantsCount', function (hooks) {
   setupIntlRenderingTest(hooks);
-  setupIntl(hooks);
 
   test('it should display participations count card', async function (assert) {
     this.participantsCount = 10;
 
-    await render(hbs`<Campaign::Cards::ParticipantsCount @value={{this.participantsCount}} />`);
+    const screen = await render(hbs`<Campaign::Cards::ParticipantsCount @value={{this.participantsCount}} />`);
 
-    assert.contains(t('cards.participants-count.title'));
-    assert.contains('10');
+    assert.dom(screen.getByText(this.intl.t('cards.participants-count.title'))).exists();
+    assert.dom(screen.getByText('10')).exists();
   });
 });
