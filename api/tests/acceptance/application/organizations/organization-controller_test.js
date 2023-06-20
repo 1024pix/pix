@@ -1826,7 +1826,6 @@ describe('Acceptance | Application | organization-controller', function () {
 
     it('should return HTTP status 200', async function () {
       // given
-
       const adminIsManagingStudent = databaseBuilder.factory.buildUser.withRawPassword();
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
@@ -1882,7 +1881,7 @@ describe('Acceptance | Application | organization-controller', function () {
 
       const options = {
         method: 'GET',
-        url: `/api/organizations/${organization.id}/certification-attestations?division=aDivision&isFrenchDomainExtension=true`,
+        url: `/api/organizations/${organization.id}/certification-attestations?division=aDivision&isFrenchDomainExtension=true&lang=fr`,
         headers: { authorization: generateValidRequestAuthorizationHeader(adminIsManagingStudent.id) },
       };
 

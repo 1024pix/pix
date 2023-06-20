@@ -6,6 +6,9 @@ import { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError 
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { organizationController } from './organization-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { LANG } from '../../domain/constants.js';
+
+const { FRENCH, ENGLISH } = LANG;
 
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
@@ -734,6 +737,7 @@ const register = async function (server) {
           query: Joi.object({
             division: Joi.string().required(),
             isFrenchDomainExtension: Joi.boolean().required(),
+            lang: Joi.string().valid(FRENCH, ENGLISH),
           }),
         },
         handler: organizationController.downloadCertificationAttestationsForDivision,

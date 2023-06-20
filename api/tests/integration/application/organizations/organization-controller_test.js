@@ -280,7 +280,7 @@ describe('Integration | Application | Organizations | organization-controller', 
         // when
         const response = await httpTestServer.request(
           'GET',
-          '/api/organizations/1234/certification-attestations?division=3b&isFrenchDomainExtension=true'
+          '/api/organizations/1234/certification-attestations?division=3b&isFrenchDomainExtension=true&lang=fr'
         );
 
         // then
@@ -299,7 +299,7 @@ describe('Integration | Application | Organizations | organization-controller', 
           // when
           const response = await httpTestServer.request(
             'GET',
-            '/api/organizations/1234/certification-attestations?division=3b&isFrenchDomainExtension=true'
+            '/api/organizations/1234/certification-attestations?division=3b&isFrenchDomainExtension=true&lang=fr'
           );
 
           // then
@@ -345,7 +345,7 @@ describe('Integration | Application | Organizations | organization-controller', 
           // when
           const response = await httpTestServer.request(
             'GET',
-            '/api/organizations/1234/certification-attestations?division=3b&isFrenchDomainExtension=true'
+            '/api/organizations/1234/certification-attestations?division=3b&isFrenchDomainExtension=true&lang=fr'
           );
 
           // then

@@ -9,6 +9,8 @@ import { organizationController } from '../../../../lib/application/organization
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { LANG } from '../../../../lib/domain/constants.js';
+const { FRENCH } = LANG;
 
 describe('Unit | Application | Organizations | organization-controller', function () {
   let request;
@@ -1168,6 +1170,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     afterEach(function () {
       clock.restore();
     });
+
     it('should return binary attestations', async function () {
       // given
       const certifications = [
@@ -1178,11 +1181,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const division = '3b';
       const attestationsPDF = 'binary string';
       const userId = 1;
+      const lang = FRENCH;
+      const i18n = getI18n();
 
       const request = {
+        i18n,
         auth: { credentials: { userId } },
         params: { id: organizationId },
-        query: { division, isFrenchDomainExtension: true },
+        query: { division, isFrenchDomainExtension: true, lang },
       };
 
       sinon
@@ -1202,7 +1208,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       };
 
       certificationAttestationPdfStub.getCertificationAttestationsPdfBuffer
-        .withArgs({ certificates: certifications, isFrenchDomainExtension: true })
+        .withArgs({ certificates: certifications, isFrenchDomainExtension: true, i18n })
         .resolves({ buffer: attestationsPDF });
 
       // when
