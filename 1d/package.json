@@ -20,8 +20,8 @@
   "files": [],
   "scripts": {
     "build": "ember build --environment=production",
-    "lint": "npm-run-all --parallel --continue-on-error lint:*",
-    "lint:fix": "npm-run-all --parallel --continue-on-error lint:*:fix",
+    "lint": "run-p --continue-on-error lint:!(fix)",
+    "lint:fix": "run-p --continue-on-error lint:*:fix",
     "lint:hbs": "ember-template-lint .",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache",
@@ -31,7 +31,7 @@
     "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test --reporter dot",
     "test:ci": "npm run test",
-    "test:lint": "npm-run-all --parallel --continue-on-error test lint"
+    "test:lint": "run-p --continue-on-error test lint"
   },
   "devDependencies": {
     "@1024pix/ember-testing-library": "^0.6.1",
