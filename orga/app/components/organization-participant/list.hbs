@@ -75,15 +75,17 @@
                   {{t "pages.organization-participants.action-bar.information" count=selectedParticipants.length}}
                 </:information>
                 <:actions>
-                  <PixButton
-                    @triggerAction={{(fn this.deleteParticipants selectedParticipants reset)}}
-                    type="button"
-                    @backgroundColor="red"
-                  >
+                  <PixButton @triggerAction={{this.openDeletionModal}} type="button" @backgroundColor="red">
                     {{t "pages.organization-participants.action-bar.delete-button"}}
                   </PixButton>
                 </:actions>
               </Ui::ActionBar>
+              <OrganizationParticipant::DeletionModal
+                @itemsToDelete={{selectedParticipants}}
+                @triggerAction={{(fn this.deleteParticipants selectedParticipants reset)}}
+                @closeModal={{this.closeDeletionModal}}
+                @showModal={{this.showDeletionModal}}
+              />
             </InElement>
           {{/if}}
           <InElement @destinationId={{this.paginationId}} @waitForElement={{true}}>
