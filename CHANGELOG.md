@@ -72,6 +72,8 @@
 - [#6374](https://github.com/1024pix/pix/pull/6374) [BUMP] Update nginx Docker tag to v1.25.1.
 - [#6372](https://github.com/1024pix/pix/pull/6372) [BUMP] Lock file maintenance (dossier racine).
 
+## v4.4.0 (13/06/2023)
+
 
 
 ### :rocket: Amélioration
