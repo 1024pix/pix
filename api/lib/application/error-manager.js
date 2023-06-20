@@ -187,7 +187,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError("Un ou plusieurs champs d'informations d'identité sont au mauvais format.");
   }
   if (error instanceof DomainErrors.CertificationCandidateAddError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
   }
   if (error instanceof DomainErrors.CertificationCandidatesImportError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
@@ -445,11 +445,7 @@ function _mapToHttpError(error) {
   }
 
   if (error instanceof DomainErrors.CpfBirthInformationValidationError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
-  }
-
-  if (error instanceof DomainErrors.CpfBirthInformationValidationError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 
   if (error instanceof DomainErrors.UncancellableOrganizationInvitationError) {
