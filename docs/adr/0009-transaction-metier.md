@@ -4,9 +4,9 @@ Date : 2020-03-27
 
 ## État
 
-Amendé par [0023-précision-sur-les-transactions-et-les-événements-métier.md][0023].
+Amendé par [0025-précision-sur-les-transactions-et-les-événements-métier.md][0025].
 
-[0023]: ./0023-précision-sur-les-transactions-et-les-événements-métier.md
+[0025]: ./0025-precisions-sur-les-transactions-et-les-evenements-metier.md
 
 ## Contexte
 
