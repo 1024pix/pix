@@ -1,4 +1,4 @@
-# 47. Suppression de l'API manager
+# 48. Suppression de l'API manager
 
 Date : 2023-04-18
 
@@ -10,27 +10,29 @@ Amende [0021-gravitee-pix-apim.md][0021]
 
 Adopté
 
-## Contexte 
+## Contexte
 
-Dans le cadre de l’interconnexion avec les systèmes de partenaires de Pix, une solution d'API Management a été mise en place, et c'est Gravitee qui avait été choisi.
+Dans le cadre de l’interconnexion avec les systèmes de partenaires de Pix, une solution d'API Management a été mise en
+place, et c'est Gravitee qui avait été choisi.
 
 Une généralisation de toutes les APIs partenaires de Pix était prévue dans un second temps, mais n'a pas encore eu lieu.
 
 Le monitoring de Gravitee montre un usage nul de l'interface dédié aux développeurs.
 
-Le déploiement de Gravitee entraine un cout de maintenance non négligeable : 
+Le déploiement de Gravitee entraine un cout de maintenance non négligeable :
 
 - gestion du buildpack maintenu par Pix
 - gestion des upgrades de gravitee, postgres et elasticsearch
 - configuration de l'infrastructure liée
 
-Le contrat de maintenance arrivant à échéance, la question se pose de la légitimité de l'usage de Gravitee dans le contexte de Pix
+Le contrat de maintenance arrivant à échéance, la question se pose de la légitimité de l'usage de Gravitee dans le
+contexte de Pix
 
 ### Solution 1 : Conserver la stack [Gravitee.io](https://www.gravitee.io/)
 
 Avantages :
 
-- Conserve les critères de choix de l'APIM de PIX 
+- Conserve les critères de choix de l'APIM de PIX
 - Opportunités possibles pour les besoins futurs
 
 Inconvénients :
@@ -53,7 +55,7 @@ Inconvénients :
 
 ## Décision
 
-La solution 2 sera mise en place. 
+La solution 2 sera mise en place.
 
 ## Conséquences
 
