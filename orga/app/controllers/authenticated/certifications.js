@@ -68,9 +68,9 @@ export default class AuthenticatedCertificationsController extends Controller {
         );
       }
 
+      const lang = this.intl.primaryLocale;
       const organizationId = this.currentUser.organization.id;
-      const url = `/api/organizations/${organizationId}/certification-attestations?division=${this.selectedDivision}&isFrenchDomainExtension=${this.currentDomain.isFranceDomain}`;
-
+      const url = `/api/organizations/${organizationId}/certification-attestations?division=${this.selectedDivision}&isFrenchDomainExtension=${this.currentDomain.isFranceDomain}&lang=${lang}`;
       let token = '';
 
       if (this.session.isAuthenticated) {
