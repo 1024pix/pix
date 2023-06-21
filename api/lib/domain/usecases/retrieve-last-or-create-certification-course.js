@@ -36,21 +36,15 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 }) {
   const session = await sessionRepository.get(sessionId);
 
-  if (session.accessCode !== accessCode) {
-    throw new NotFoundError('Session not found');
-  }
-  if (!session.isAccessible()) {
-    throw new SessionNotAccessible();
-  }
+  _validateSessionAccess(session, accessCode);
+  _validateSessionIsActive(session);
 
   const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({
     userId,
     sessionId,
   });
 
-  if (!certificationCandidate) {
-    throw new UnexpectedUserAccountError({});
-  }
+  _validateUserIsCertificationCandidate(certificationCandidate);
 
   const existingCertificationCourse =
     await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
@@ -59,16 +53,9 @@ const retrieveLastOrCreateCertificationCourse = async function ({
       domainTransaction,
     });
 
-  if (!certificationCandidate.isAuthorizedToStart()) {
-    if (existingCertificationCourse) {
-      throw new CandidateNotAuthorizedToResumeCertificationTestError();
-    } else {
-      throw new CandidateNotAuthorizedToJoinSessionError();
-    }
-  }
+  _validateCandidateIsAuthorizedToStart(certificationCandidate, existingCertificationCourse);
 
-  certificationCandidate.authorizedToStart = false;
-  certificationCandidateRepository.update(certificationCandidate);
+  _blockCandidateFromRestartingWithoutExplicitValidation(certificationCandidate, certificationCandidateRepository);
 
   if (existingCertificationCourse) {
     return {
@@ -98,6 +85,42 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 };
 
 export { retrieveLastOrCreateCertificationCourse };
+
+function _validateSessionAccess(session, accessCode) {
+  if (session.accessCode !== accessCode) {
+    throw new NotFoundError('Session not found');
+  }
+}
+
+function _validateSessionIsActive(session) {
+  if (!session.isAccessible()) {
+    throw new SessionNotAccessible();
+  }
+}
+
+function _validateUserIsCertificationCandidate(certificationCandidate) {
+  if (!certificationCandidate) {
+    throw new UnexpectedUserAccountError({});
+  }
+}
+
+function _validateCandidateIsAuthorizedToStart(certificationCandidate, existingCertificationCourse) {
+  if (!certificationCandidate.isAuthorizedToStart()) {
+    if (existingCertificationCourse) {
+      throw new CandidateNotAuthorizedToResumeCertificationTestError();
+    } else {
+      throw new CandidateNotAuthorizedToJoinSessionError();
+    }
+  }
+}
+
+function _blockCandidateFromRestartingWithoutExplicitValidation(
+  certificationCandidate,
+  certificationCandidateRepository
+) {
+  certificationCandidate.authorizedToStart = false;
+  certificationCandidateRepository.update(certificationCandidate);
+}
 
 async function _startNewCertification({
   domainTransaction,
