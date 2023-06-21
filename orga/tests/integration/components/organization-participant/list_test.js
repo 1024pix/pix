@@ -628,7 +628,6 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @certificabilityFilter={{this.certificabilityFilter}}
 />`
     );
-    await fillByLabel('Recherche sur le nom et prénom', 'Karam');
 
     // then
     assert.contains(this.intl.t('pages.organization-participants.table.empty'));
