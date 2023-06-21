@@ -23,7 +23,13 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
   test('it should display the header labels', async function (assert) {
     // given
-    this.set('participants', []);
+    this.set('participants', [
+      {
+        lastName: 'La Terreur',
+        firstName: 'Gigi',
+        id: 34,
+      },
+    ]);
     this.set('certificabilityFilter', []);
     this.set('fullNameFilter', null);
     // when
@@ -46,7 +52,13 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
   test('it should have a caption to describe the table ', async function (assert) {
     // given
-    this.set('participants', []);
+    this.set('participants', [
+      {
+        lastName: 'La Terreur',
+        firstName: 'Gigi',
+        id: 34,
+      },
+    ]);
     this.set('certificabilityFilter', []);
     this.set('fullNameFilter', null);
     // when
@@ -309,7 +321,14 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     // given
     const triggerFiltering = sinon.spy();
     this.set('triggerFiltering', triggerFiltering);
-    this.set('participants', []);
+    const participants = [
+      {
+        lastName: 'La Terreur',
+        firstName: 'Gigi',
+      },
+    ];
+
+    this.set('participants', participants);
     this.set('certificabilityFilter', []);
     this.set('fullNameFilter', null);
 
@@ -343,6 +362,14 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       const sortByParticipationCount = sinon.spy();
 
+      const participants = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+        },
+      ];
+
+      this.set('participants', participants);
       this.set('sortByParticipationCount', sortByParticipationCount);
       this.set('certificabilityFilter', []);
       this.set('fullNameFilter', null);
@@ -377,6 +404,14 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       const sortByParticipationCount = sinon.spy();
 
+      const participants = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+        },
+      ];
+
+      this.set('participants', participants);
       this.set('sortByParticipationCount', sortByParticipationCount);
       this.set('certificabilityFilter', []);
       this.set('fullNameFilter', null);
@@ -411,6 +446,14 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       const sortByParticipationCount = sinon.spy();
 
+      const participants = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+        },
+      ];
+
+      this.set('participants', participants);
       this.set('sortByParticipationCount', sortByParticipationCount);
       this.set('certificabilityFilter', []);
       this.set('fullNameFilter', null);
@@ -446,13 +489,21 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       const sortByLastname = sinon.spy();
 
+      const participants = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+        },
+      ];
+
+      this.set('participants', participants);
       this.set('sortByLastname', sortByLastname);
       this.set('certificabilityFilter', []);
       this.set('fullNameFilter', null);
 
       const screen = await render(
         hbs`<OrganizationParticipant::List
-  @students={{this.students}}
+  @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
   @onFilter={{this.noop}}
   @onClickLearner={{this.noop}}
@@ -481,13 +532,21 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       const sortByLastname = sinon.spy();
 
+      const participants = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+        },
+      ];
+
+      this.set('participants', participants);
       this.set('sortByLastname', sortByLastname);
       this.set('certificabilityFilter', []);
       this.set('fullNameFilter', null);
 
       const screen = await render(
         hbs`<OrganizationParticipant::List
-  @students={{this.students}}
+  @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
   @onFilter={{this.noop}}
   @onClickLearner={{this.noop}}
@@ -514,13 +573,21 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       const sortByLastname = sinon.spy();
 
+      const participants = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+        },
+      ];
+
+      this.set('participants', participants);
       this.set('sortByLastname', sortByLastname);
       this.set('certificabilityFilter', []);
       this.set('fullNameFilter', null);
 
       const screen = await render(
         hbs`<OrganizationParticipant::List
-  @students={{this.students}}
+  @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
   @onFilter={{this.noop}}
   @onClickLearner={{this.noop}}
@@ -705,6 +772,77 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       //then
       assert.false(mainCheckbox.checked);
     });
+  });
+
+  test('it should reset selected participant when using sort', async function (assert) {
+    // given
+    const routerService = this.owner.lookup('service:router');
+    sinon.stub(routerService, 'replaceWith');
+
+    const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+
+    participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
+
+    this.set('participants', participants);
+    this.triggerFiltering = sinon.stub();
+    this.set('certificabilityFilter', []);
+    this.set('fullNameFilter', null);
+
+    // when
+    const screen = await render(
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @sortByParticipationCount={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
+    );
+    const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+
+    await click(firstLearnerSelected);
+
+    await click(
+      screen.getByLabelText(
+        this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort')
+      )
+    );
+
+    assert.false(firstLearnerSelected.checked);
+  });
+
+  test('it should reset selected participant when using filters', async function (assert) {
+    // given
+    const routerService = this.owner.lookup('service:router');
+    sinon.stub(routerService, 'replaceWith');
+
+    const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+
+    participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
+
+    this.set('participants', participants);
+    this.triggerFiltering = sinon.stub();
+    this.set('certificabilityFilter', []);
+    this.set('fullNameFilter', null);
+
+    // when
+    const screen = await render(
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
+    );
+    const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+
+    await click(firstLearnerSelected);
+
+    await fillByLabel('Recherche sur le nom et prénom', 'Something');
+
+    assert.false(firstLearnerSelected.checked);
   });
 
   test('it should reset selected participant when using pagination', async function (assert) {
