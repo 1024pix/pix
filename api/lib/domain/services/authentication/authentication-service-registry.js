@@ -3,16 +3,19 @@ import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authenti
 import { CnavOidcAuthenticationService } from './cnav-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
 
-const oidcProviderServiceMap = [
+const oidcProviderServices = [
   new PoleEmploiOidcAuthenticationService(),
   new CnavOidcAuthenticationService(),
   new FwbOidcAuthenticationService(),
-].reduce((accumulator, service) => {
+];
+
+const oidcProviderServiceMap = oidcProviderServices.reduce(_associateServiceToCode, {});
+function _associateServiceToCode(map, service) {
   return {
-    ...accumulator,
+    ...map,
     [service.code]: service,
   };
-}, {});
+}
 
 const oidcProviderServiceCodes = Object.keys(oidcProviderServiceMap);
 
