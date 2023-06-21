@@ -23,13 +23,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
   test('it should display the header labels', async function (assert) {
     // given
-    this.set('participants', [
-      {
-        lastName: 'La Terreur',
-        firstName: 'Gigi',
-        id: 34,
-      },
-    ]);
+    this.set('participants', []);
     this.set('certificabilityFilter', []);
     this.set('fullNameFilter', null);
     // when
@@ -285,6 +279,26 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     // then
     assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
     assert.contains('02/01/2022');
+  });
+
+  test('it should display the filter labels', async function (assert) {
+    // given
+    this.set('participants', []);
+    this.set('certificabilityFilter', []);
+    this.set('fullNameFilter', null);
+    // when
+    await render(
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
+    );
+
+    // then
+    assert.contains('Recherche sur le nom et prénom');
   });
 
   test('it should trigger filtering with fullName search', async function (assert) {
