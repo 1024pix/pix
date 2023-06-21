@@ -19,16 +19,20 @@ export default class List extends Component {
     return guidFor(this) + 'filters';
   }
 
-  @action
-  async deleteParticipants(selectedParticipants, reset) {
-    await this.args.deleteParticipants(selectedParticipants);
-    reset();
+  get hasParticipants() {
+    return Boolean(this.args.participants.length);
   }
 
   @action
-  async addResetOnFunction(func, reset, ...args) {
-    await func(...args);
-    reset();
+  async deleteParticipants(selectedParticipants, resetParticipants) {
+    await this.args.deleteParticipants(selectedParticipants);
+    resetParticipants();
+  }
+
+  @action
+  async addResetOnFunction(wrappedFunction, resetParticipants, ...args) {
+    await wrappedFunction(...args);
+    resetParticipants();
   }
 
   @action
