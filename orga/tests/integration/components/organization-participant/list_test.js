@@ -6,7 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-module.only('Integration | Component | OrganizationParticipant::List', function (hooks) {
+module('Integration | Component | OrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
@@ -281,93 +281,167 @@ module.only('Integration | Component | OrganizationParticipant::List', function 
     assert.contains('02/01/2022');
   });
 
-  test('it should display the filter labels', async function (assert) {
-    // given
-    this.set('participants', []);
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
+  module('filtering cases', function () {
+    test('it should display the filter labels', async function (assert) {
+      // given
+      this.set('participants', []);
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
 
-    // when
-    const screen = await render(
-      hbs`<OrganizationParticipant::List
+      // when
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
 />`
-    );
+      );
 
-    // then
-    assert.dom(screen.getByLabelText('Recherche sur le nom et prénom')).exists();
-  });
+      // then
+      assert.dom(screen.getByLabelText('Recherche sur le nom et prénom')).exists();
+    });
 
-  test('it should trigger filtering with fullName search', async function (assert) {
-    // given
-    const participants = [
-      {
-        lastName: 'La Terreur',
-        firstName: 'Gigi',
-      },
-    ];
+    test('it should trigger filtering with fullName search', async function (assert) {
+      // given
+      const participants = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+        },
+      ];
 
-    this.set('participants', participants);
-    this.triggerFiltering = sinon.stub();
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
+      this.set('participants', participants);
+      this.triggerFiltering = sinon.stub();
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
 
-    // when
-    await render(
-      hbs`<OrganizationParticipant::List
+      // when
+      await render(
+        hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.triggerFiltering}}
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
 />`
-    );
-    await fillByLabel('Recherche sur le nom et prénom', 'Karam');
-    // then
-    sinon.assert.calledWith(this.triggerFiltering, 'fullName', 'Karam');
-    assert.ok(true);
-  });
+      );
+      await fillByLabel('Recherche sur le nom et prénom', 'Karam');
+      // then
+      sinon.assert.calledWith(this.triggerFiltering, 'fullName', 'Karam');
+      assert.ok(true);
+    });
 
-  test('it should trigger filtering with certificability', async function (assert) {
-    // given
-    const triggerFiltering = sinon.spy();
-    this.set('triggerFiltering', triggerFiltering);
-    const participants = [
-      {
-        lastName: 'La Terreur',
-        firstName: 'Gigi',
-      },
-    ];
+    test('it should trigger filtering with certificability', async function (assert) {
+      // given
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      const participants = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+        },
+      ];
 
-    this.set('participants', participants);
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
+      this.set('participants', participants);
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
 
-    const { getByLabelText, findByRole } = await render(
-      hbs`<OrganizationParticipant::List
+      const { getByLabelText, findByRole } = await render(
+        hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.triggerFiltering}}
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
 />`
-    );
+      );
 
-    // when
-    const select = await getByLabelText(
-      this.intl.t('pages.organization-participants.filters.type.certificability.label')
-    );
-    await click(select);
-    await findByRole('menu');
-    await clickByName(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
+      // when
+      const select = await getByLabelText(
+        this.intl.t('pages.organization-participants.filters.type.certificability.label')
+      );
+      await click(select);
+      await findByRole('menu');
+      await clickByName(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
 
-    // then
-    sinon.assert.calledWithExactly(triggerFiltering, 'certificability', ['eligible']);
-    assert.ok(true);
+      // then
+      sinon.assert.calledWithExactly(triggerFiltering, 'certificability', ['eligible']);
+      assert.ok(true);
+    });
+
+    test('it should reset selected participant when using filters', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+
+      participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
+
+      this.set('participants', participants);
+      this.triggerFiltering = sinon.stub();
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
+
+      // when
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
+      );
+      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+
+      await click(firstLearnerSelected);
+
+      await fillByLabel('Recherche sur le nom et prénom', 'Something');
+
+      assert.false(firstLearnerSelected.checked);
+    });
+
+    test('it should reset selected participant when reset filters', async function (assert) {
+      // given
+      const resetFilter = sinon.spy();
+      this.set('resetFilter', resetFilter);
+      const participants = [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+        },
+      ];
+
+      this.set('participants', participants);
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', 'La Terreur');
+
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @onResetFilter={{this.resetFilter}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
+      );
+      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+
+      await click(firstLearnerSelected);
+
+      // when
+      const resetButton = await screen.getByRole('button', {
+        name: this.intl.t('pages.organization-participants.filters.actions.clear'),
+      });
+      await click(resetButton);
+
+      // then
+      assert.false(firstLearnerSelected.checked);
+    });
   });
 
   module('when user is sorting the table', function () {
@@ -622,6 +696,44 @@ module.only('Integration | Component | OrganizationParticipant::List', function 
       sinon.assert.calledWithExactly(sortByLastname, 'desc');
       assert.ok(true);
     });
+
+    test('it should reset selected participant when using sort', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+
+      participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
+
+      this.set('participants', participants);
+      this.triggerFiltering = sinon.stub();
+      this.set('certificabilityFilter', []);
+      this.set('fullNameFilter', null);
+
+      // when
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @sortByParticipationCount={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`
+      );
+      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+
+      await click(firstLearnerSelected);
+
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort')
+        )
+      );
+
+      assert.false(firstLearnerSelected.checked);
+    });
   });
 
   test('it should display the empty state when no participants', async function (assert) {
@@ -797,89 +909,17 @@ module.only('Integration | Component | OrganizationParticipant::List', function 
 
     //when
     const screen = await render(hbs`<OrganizationParticipant::List
-@participants={{this.participants}}
-@triggerFiltering={{this.triggerFiltering}}
-@onClickLearner={{this.noop}}
-@certificabilityFilter={{this.noop}}
-@fullName={{this.fullNameFilter}}
-@certificabilityFilter={{this.certificabilityFilter}}
-@deleteParticipants={{this.deleteParticipants}}
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+  @certificabilityFilter={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @deleteParticipants={{this.deleteParticipants}}
 />`);
     const mainCheckbox = screen.getAllByRole('checkbox')[0];
 
     //then
     assert.dom(mainCheckbox).isDisabled();
-  });
-
-  test('it should reset selected participant when using sort', async function (assert) {
-    // given
-    const routerService = this.owner.lookup('service:router');
-    sinon.stub(routerService, 'replaceWith');
-
-    const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
-
-    participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
-
-    this.set('participants', participants);
-    this.triggerFiltering = sinon.stub();
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
-
-    // when
-    const screen = await render(
-      hbs`<OrganizationParticipant::List
-  @participants={{this.participants}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @sortByParticipationCount={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @fullName={{this.fullNameFilter}}
-  @certificabilityFilter={{this.certificabilityFilter}}
-/>`
-    );
-    const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
-
-    await click(firstLearnerSelected);
-
-    await click(
-      screen.getByLabelText(
-        this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort')
-      )
-    );
-
-    assert.false(firstLearnerSelected.checked);
-  });
-
-  test('it should reset selected participant when using filters', async function (assert) {
-    // given
-    const routerService = this.owner.lookup('service:router');
-    sinon.stub(routerService, 'replaceWith');
-
-    const participants = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
-
-    participants.meta = { page: 1, pageSize: 10, rowCount: 50, pageCount: 5 };
-
-    this.set('participants', participants);
-    this.triggerFiltering = sinon.stub();
-    this.set('certificabilityFilter', []);
-    this.set('fullNameFilter', null);
-
-    // when
-    const screen = await render(
-      hbs`<OrganizationParticipant::List
-  @participants={{this.participants}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @onClickLearner={{this.noop}}
-  @fullName={{this.fullNameFilter}}
-  @certificabilityFilter={{this.certificabilityFilter}}
-/>`
-    );
-    const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
-
-    await click(firstLearnerSelected);
-
-    await fillByLabel('Recherche sur le nom et prénom', 'Something');
-
-    assert.false(firstLearnerSelected.checked);
   });
 
   test('it should reset selected participant when using pagination', async function (assert) {
