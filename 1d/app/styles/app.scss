@@ -4,6 +4,7 @@
 @import 'components/answer';
 @import 'components/challenge-instruction';
 @import 'components/challenge-item';
+@import 'components/home';
 @import 'globals/fonts';
 
 body {
@@ -11,4 +12,5 @@ body {
   background-color: #F4F5F7;
   color: #07142E;
   font-family: $font-nunito;
+  font-weight: 600;
 }
