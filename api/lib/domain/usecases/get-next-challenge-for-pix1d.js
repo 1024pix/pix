@@ -19,7 +19,7 @@ export async function getNextChallengeForPix1d({
   try {
     return await challengeRepository.getForPix1D({
       missionId,
-      activityLevel: 'didacticiel',
+      activityLevel: 'di',
       challengeNumber,
     });
   } catch (error) {

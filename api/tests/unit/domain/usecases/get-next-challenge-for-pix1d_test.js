@@ -9,7 +9,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       it('should call the challengeRepository with an challenge number equal to 1 ', async function () {
         const missionId = 'AZERTYUIO';
         const assessmentId = 'id_assessment';
-        const DIDACTICIEL = 'didacticiel';
+        const DIDACTICIEL = 'di';
         const answers = [];
 
         const assessmentRepository = { get: sinon.stub() };
@@ -39,7 +39,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
     context('when there is an answer for the given assessmentId', function () {
       it('should call the challengeRepository with an challenge number equal to 2 ', async function () {
         const missionId = 'AZERTYUIO';
-        const DIDACTICIEL = 'didacticiel';
+        const DIDACTICIEL = 'di';
         const assessmentId = 'id_assessment';
         const answer = domainBuilder.buildAnswer({ assessmentId });
 
