@@ -1,5 +1,22 @@
 # Pix Changelog
 ## v4.4.0 (13/06/2023)
+## v4.9.0 (21/06/2023)
+
+
+### :rocket: Amélioration
+- [#6384](https://github.com/1024pix/pix/pull/6384) [FEATURE] Afficher les corrections QROCM-dep sous les champs en erreur (PIX-8263).
+- [#6385](https://github.com/1024pix/pix/pull/6385) [FEATURE] Traduire les erreurs lors de la création d'un candidat via la modale sur Pix Certif (PIX-8320).
+
+### :building_construction: Tech
+- [#6414](https://github.com/1024pix/pix/pull/6414) [TECH] Analyser la progression des migrations lors des MEP (PIX-8336).
+- [#6431](https://github.com/1024pix/pix/pull/6431) [TECH] Création des seeds pour la certif next-gen (PIX-8402).
+- [#6426](https://github.com/1024pix/pix/pull/6426) [TECH] Importer automatiquement les databases builders.
+- [#6428](https://github.com/1024pix/pix/pull/6428) [TECH] Corriger la v4.4.0 dans le CHANGELOG .
+
+### :bug: Correction
+- [#6438](https://github.com/1024pix/pix/pull/6438) [BUGFIX] Les signalements ne peuvent plus être ajoutés à la finalisation de la session (PIX-8416).
+- [#6437](https://github.com/1024pix/pix/pull/6437) [BUGFIX] Les métriques systèmes ne sont plus tracées (PIX-8411).
+
 ## v4.8.0 (20/06/2023)
 
 
