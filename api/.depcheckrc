@@ -2,6 +2,7 @@ ignores:
   [
     '@babel/plugin-syntax-import-assertions',
     'bookshelf-validate',
+    'eslint-plugin-i18n-json',
     'eslint-plugin-mocha',
     'eslint-plugin-yml',
     'hapi-swagger',
