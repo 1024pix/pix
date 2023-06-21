@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import { visit as visitScreen, visit } from '@1024pix/ember-testing-library';
@@ -431,9 +431,11 @@ module('Acceptance | Session Finalization', function (hooks) {
 
             // when
             const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+
             await click(screen.getByRole('button', { name: 'Ajouter' }));
             await screen.findByRole('dialog');
-            await click(screen.getByLabelText('C6 Suspicion de fraude'));
+            await click(screen.getByLabelText('C1-C2 Modification infos candidat'));
+            await fillIn(screen.getByLabelText('Renseignez les informations correctes'), 'erreur');
             await click(screen.getByRole('button', { name: 'Ajouter le signalement' }));
 
             // then

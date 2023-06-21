@@ -20,6 +20,7 @@
         @value={{@signatureIssueCategory.description}}
         @maxlength={{@maxlength}}
         required="true"
+        {{on "change" @updateSignatureIssueCategoryDescription}}
       />
     </div>
   {{/if}}
