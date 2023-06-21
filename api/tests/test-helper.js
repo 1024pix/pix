@@ -1,5 +1,5 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable node/no-unpublished-import */
+/* eslint-disable n/no-unpublished-import */
 import * as url from 'url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -27,6 +27,7 @@ _.each(customChaiHelpers, chai.use);
 import { learningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
 
 import { config } from '../lib/config.js';
+
 const { apimRegisterApplicationsCredentials, jwtConfig } = config;
 import { knex, disconnect } from '../db/knex-database-connection.js';
 import { DatabaseBuilder } from '../db/database-builder/database-builder.js';

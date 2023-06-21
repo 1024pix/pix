@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import { catchErr, expect } from '../../../../test-helper.js';
 import { importNamedExportsFromDirectory } from '../../../../../lib/infrastructure/utils/import-named-exports-from-directory.js';
 import { fileURLToPath } from 'url';
@@ -80,5 +79,3 @@ describe('Integration | Utils | #importNamedExportsFromDirectory', function () {
     expect(dirContent.b).to.be.a('function');
   });
 });
-
-/* eslint-enable node/no-unsupported-features/es-syntax */

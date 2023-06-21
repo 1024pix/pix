@@ -1,6 +1,8 @@
 import * as dotenv from 'dotenv';
+
 dotenv.config();
 import { validateEnvironmentVariables } from './lib/infrastructure/validate-environment-variables.js';
+
 validateEnvironmentVariables();
 
 import { createServer } from './server.js';
@@ -47,7 +49,6 @@ process.on('SIGINT', () => {
   try {
     await start();
     if (process.env.START_JOB_IN_WEB_PROCESS) {
-      // eslint-disable-next-line node/no-unsupported-features/es-syntax
       import('./worker.js');
     }
   } catch (error) {

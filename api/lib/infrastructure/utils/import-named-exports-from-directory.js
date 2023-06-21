@@ -10,7 +10,6 @@ export async function importNamedExportsFromDirectory(path, ignoredFileNames = [
       continue;
     }
 
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const module = await import(join(path, file));
     const namedExports = Object.entries(module);
 
