@@ -3,8 +3,8 @@ import { importNamedExportsFromDirectory } from '../../../../../lib/infrastructu
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-describe('Integration | Utils | #importNamedExportsFromDirectory', function () {
-  it('should throw if there is an export names conflict', async function () {
+describe('Integration | Infrastructure | Utils | #importNamedExportsFromDirectory', function () {
+  it('should throw if several files export the same name', async function () {
     // given
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const path = join(__dirname, './sample-conflict');
