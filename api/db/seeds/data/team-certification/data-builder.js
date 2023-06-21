@@ -11,15 +11,17 @@ const TEAM_CERTIFICATION_OFFSET_ID = 7000;
 // IDS
 /// USERS
 const SCO_CERTIFICATION_MANAGING_STUDENTS_ORGANIZATION_USER_ID = TEAM_CERTIFICATION_OFFSET_ID;
-const PRO_ORGANIZATION_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 3;
 const SCO_CERTIFICATION_MANAGING_STUDENTS_CERTIFICATION_CENTER_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 1;
 const PRO_CERTIFICATION_CENTER_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
+const PRO_ORGANIZATION_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 3;
+const V3_CERTIFICATION_CENTER_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 4;
 /// ORGAS
 const SCO_MANAGING_STUDENTS_ORGANIZATION_ID = TEAM_CERTIFICATION_OFFSET_ID;
 const PRO_ORGANIZATION_ID = TEAM_CERTIFICATION_OFFSET_ID + 1;
 /// CERTIFICATION CENTERS
 const SCO_CERTIFICATION_CENTER_ID = TEAM_CERTIFICATION_OFFSET_ID + 1;
 const PRO_CERTIFICATION_CENTER_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
+const V3_CERTIFICATION_CENTER_ID = TEAM_CERTIFICATION_OFFSET_ID + 3;
 /// EXTERNAL IDS
 const CERTIFICATION_SCO_MANAGING_STUDENTS_EXTERNAL_ID = 'CERTIFICATION_SCO_MANAGING_STUDENTS_EXTERNAL_ID';
 const PRO_EXTERNAL_ID = 'PRO_EXTERNAL_ID';
@@ -28,15 +30,18 @@ const SCO_DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID;
 const SCO_PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 1;
 const DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
 const PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 3;
+const V3_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 4;
 
 async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createScoOrganization({ databaseBuilder });
   await _createScoCertificationCenter({ databaseBuilder });
   await _createProOrganization({ databaseBuilder });
   await _createProCertificationCenter({ databaseBuilder });
+  await _createV3PilotCertificationCenter({ databaseBuilder });
   await _createScoSession({ databaseBuilder });
   await _createPublishedScoSession({ databaseBuilder });
   await _createSession({ databaseBuilder });
+  await _createV3Session({ databaseBuilder });
   await _createPublishedSession({ databaseBuilder });
 }
 
@@ -69,6 +74,38 @@ async function _createScoCertificationCenter({ databaseBuilder }) {
     createdAt: new Date(),
     updatedAt: new Date(),
     memberIds: [SCO_CERTIFICATION_MANAGING_STUDENTS_CERTIFICATION_CENTER_USER_ID],
+    complementaryCertificationIds: [],
+  });
+}
+
+async function _createV3PilotCertificationCenter({ databaseBuilder }) {
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: V3_CERTIFICATION_CENTER_USER_ID,
+    firstName: 'membre certif v3',
+    lastName: 'Certification',
+    email: 'certifv3@example.net',
+    cgu: true,
+    lang: 'fr',
+    lastTermsOfServiceValidatedAt: new Date(),
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
+    mustValidateTermsOfService: false,
+    pixOrgaTermsOfServiceAccepted: false,
+    pixCertifTermsOfServiceAccepted: false,
+    hasSeenAssessmentInstructions: false,
+    rawPassword: 'pix123',
+    shouldChangePassword: false,
+  });
+
+  await tooling.certificationCenter.createCertificationCenter({
+    databaseBuilder,
+    certificationCenterId: V3_CERTIFICATION_CENTER_ID,
+    name: 'Centre de certification v3',
+    type: 'PRO',
+    externalId: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    memberIds: [V3_CERTIFICATION_CENTER_USER_ID],
+    isV3Pilot: true,
     complementaryCertificationIds: [],
   });
 }
@@ -240,6 +277,28 @@ async function _createSession({ databaseBuilder }) {
     configSession: {
       candidatesToRegisterCount: 10,
       hasComplementaryCertificationsToRegister: true,
+    },
+  });
+}
+
+async function _createV3Session({ databaseBuilder }) {
+  await tooling.session.createDraftSession({
+    databaseBuilder,
+    sessionId: V3_SESSION_ID,
+    accessCode: 'SUPV30',
+    address: '1 rue Certification',
+    certificationCenter: 'Centre de certification v3',
+    certificationCenterId: V3_CERTIFICATION_CENTER_ID,
+    date: new Date(),
+    description: 'une description de session V3',
+    examiner: 'Un super examinateur de session V3',
+    room: '43',
+    time: '13:00',
+    createdAt: new Date(),
+    version: 3,
+    configSession: {
+      candidatesToRegisterCount: 1,
+      hasComplementaryCertificationsToRegister: false,
     },
   });
 }
