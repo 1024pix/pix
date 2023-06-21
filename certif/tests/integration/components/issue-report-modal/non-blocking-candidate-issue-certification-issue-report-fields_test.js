@@ -34,9 +34,11 @@ module(
     test('it should show textarea if category is checked', async function (assert) {
       // given
       const toggleOnCategory = sinon.stub();
+      const updateNonBlockingCandidateIssueCategory = sinon.stub();
       const nonBlockingCandidateIssueCategory = { isChecked: true };
       this.set('toggleOnCategory', toggleOnCategory);
       this.set('nonBlockingCandidateIssueCategory', nonBlockingCandidateIssueCategory);
+      this.set('updateNonBlockingCandidateIssueCategory', updateNonBlockingCandidateIssueCategory);
 
       // when
       const screen = await renderScreen(hbs`
@@ -44,6 +46,7 @@ module(
         @nonBlockingCandidateIssueCategory={{this.nonBlockingCandidateIssueCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
+        @updateNonBlockingCandidateIssueCategoryDescription={{this.updateNonBlockingCandidateIssueCategory}}
       />`);
       await click(screen.getByRole('radio'));
 
@@ -54,9 +57,11 @@ module(
     test('it should show information message if category is checked', async function (assert) {
       // given
       const toggleOnCategory = sinon.stub();
+      const updateNonBlockingCandidateIssueCategory = sinon.stub();
       const nonBlockingCandidateIssueCategory = { isChecked: true };
       this.set('toggleOnCategory', toggleOnCategory);
       this.set('nonBlockingCandidateIssueCategory', nonBlockingCandidateIssueCategory);
+      this.set('updateNonBlockingCandidateIssueCategory', updateNonBlockingCandidateIssueCategory);
 
       // when
       const screen = await renderScreen(hbs`
@@ -64,6 +69,7 @@ module(
         @nonBlockingCandidateIssueCategory={{this.nonBlockingCandidateIssueCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
+        @updateNonBlockingCandidateIssueCategoryDescription={{this.updateNonBlockingCandidateIssueCategory}}
       />`);
       await click(screen.getByRole('radio'));
 

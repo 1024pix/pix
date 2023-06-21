@@ -36,6 +36,7 @@
         @value={{@nonBlockingTechnicalIssueCategory.description}}
         @maxlength={{@maxlength}}
         required="true"
+        {{on "change" @updateNonBlockingTechnicalIssueCategoryDescription}}
       />
     </div>
   {{/if}}

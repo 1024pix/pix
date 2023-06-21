@@ -35,12 +35,14 @@ module('Integration | Component | candidate-information-change-certification-iss
   test('it should show dropdown menu with subcategories when category is checked', async function (assert) {
     // given
     const toggleOnCategory = sinon.stub();
+    const updateCandidateInformationChangeCategory = sinon.stub();
     const candidateInformationChangeCategory = {
       isChecked: true,
       subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
     };
     this.set('toggleOnCategory', toggleOnCategory);
     this.set('candidateInformationChangeCategory', candidateInformationChangeCategory);
+    this.set('updateCandidateInformationChangeCategory', updateCandidateInformationChangeCategory);
 
     // when
     await render(hbs`
@@ -48,6 +50,7 @@ module('Integration | Component | candidate-information-change-certification-iss
         @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
+        @updateCandidateInformationChangeCategoryDescription={{this.updateCandidateInformationChangeCategory}}
       />`);
     await click(INPUT_RADIO_SELECTOR);
 
@@ -59,12 +62,14 @@ module('Integration | Component | candidate-information-change-certification-iss
   test('it should show "Renseignez les informations correctes" if subcategory NAME_OR_BIRTHDATE is selected', async function (assert) {
     // given
     const toggleOnCategory = sinon.stub();
+    const updateCandidateInformationChangeCategory = sinon.stub();
     const candidateInformationChangeCategory = {
       isChecked: true,
       subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
     };
     this.set('toggleOnCategory', toggleOnCategory);
     this.set('candidateInformationChangeCategory', candidateInformationChangeCategory);
+    this.set('updateCandidateInformationChangeCategory', updateCandidateInformationChangeCategory);
 
     // when
     await render(hbs`
@@ -72,6 +77,7 @@ module('Integration | Component | candidate-information-change-certification-iss
         @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
+        @updateCandidateInformationChangeCategoryDescription={{this.updateCandidateInformationChangeCategory}}
       />`);
     await click(INPUT_RADIO_SELECTOR);
 
@@ -84,12 +90,14 @@ module('Integration | Component | candidate-information-change-certification-iss
   test('it should show "Précisez le temps majoré" if subcategory EXTRA_TIME_PERCENTAGE is selected', async function (assert) {
     // given
     const toggleOnCategory = sinon.stub();
+    const updateCandidateInformationChangeCategory = sinon.stub();
     const candidateInformationChangeCategory = {
       isChecked: true,
       subcategory: certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE,
     };
     this.set('toggleOnCategory', toggleOnCategory);
     this.set('candidateInformationChangeCategory', candidateInformationChangeCategory);
+    this.set('updateCandidateInformationChangeCategory', updateCandidateInformationChangeCategory);
 
     // when
     await render(hbs`
@@ -97,6 +105,7 @@ module('Integration | Component | candidate-information-change-certification-iss
         @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
+        @updateCandidateInformationChangeCategoryDescription={{this.updateCandidateInformationChangeCategory}}
       />`);
     await click(INPUT_RADIO_SELECTOR);
 
