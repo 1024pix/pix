@@ -3,7 +3,7 @@ import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authenti
 import { CnavOidcAuthenticationService } from './cnav-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
 
-const OidcProviderServiceMap = [
+const oidcProviderServiceMap = [
   new PoleEmploiOidcAuthenticationService(),
   new CnavOidcAuthenticationService(),
   new FwbOidcAuthenticationService(),
@@ -14,16 +14,16 @@ const OidcProviderServiceMap = [
   };
 }, {});
 
-const OidcProviderServiceCodes = Object.keys(OidcProviderServiceMap);
+const oidcProviderServiceCodes = Object.keys(oidcProviderServiceMap);
 
 function getOidcProviderServices() {
-  return Object.values(OidcProviderServiceMap);
+  return Object.values(oidcProviderServiceMap);
 }
 
 function getOidcProviderServiceByCode(identityProvider) {
-  if (!OidcProviderServiceCodes.includes(identityProvider)) throw new InvalidIdentityProviderError(identityProvider);
+  if (!oidcProviderServiceCodes.includes(identityProvider)) throw new InvalidIdentityProviderError(identityProvider);
 
-  return OidcProviderServiceMap[identityProvider];
+  return oidcProviderServiceMap[identityProvider];
 }
 
 export { getOidcProviderServices, getOidcProviderServiceByCode };
