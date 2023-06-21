@@ -414,14 +414,14 @@ const dependencies = {
 const path = dirname(fileURLToPath(import.meta.url));
 
 const usecasesWithoutInjectedDependencies = {
-  ...(await importNamedExportsFromDirectory(join(path, './'), ['index.js'])),
-  ...(await importNamedExportsFromDirectory(join(path, './account-recovery'))),
-  ...(await importNamedExportsFromDirectory(join(path, './authentication'))),
-  ...(await importNamedExportsFromDirectory(join(path, './campaigns-administration'))),
-  ...(await importNamedExportsFromDirectory(join(path, './certificate'))),
-  ...(await importNamedExportsFromDirectory(join(path, './organization-learners-management'))),
-  ...(await importNamedExportsFromDirectory(join(path, './organizations-administration'))),
-  ...(await importNamedExportsFromDirectory(join(path, './sessions-mass-import'))),
+  ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),
+  ...(await importNamedExportsFromDirectory({ path: join(path, './account-recovery') })),
+  ...(await importNamedExportsFromDirectory({ path: join(path, './authentication') })),
+  ...(await importNamedExportsFromDirectory({ path: join(path, './campaigns-administration') })),
+  ...(await importNamedExportsFromDirectory({ path: join(path, './certificate') })),
+  ...(await importNamedExportsFromDirectory({ path: join(path, './organization-learners-management') })),
+  ...(await importNamedExportsFromDirectory({ path: join(path, './organizations-administration') })),
+  ...(await importNamedExportsFromDirectory({ path: join(path, './sessions-mass-import') })),
   findPaginatedFilteredTargetProfileOrganizations,
   getCampaignDetailsManagement,
 };

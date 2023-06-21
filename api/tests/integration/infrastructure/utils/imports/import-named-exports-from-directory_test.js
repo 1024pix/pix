@@ -10,7 +10,7 @@ describe('Integration | Utils | #importNamedExportsFromDirectory', function () {
     const path = join(__dirname, './sample-conflict');
 
     // when
-    const result = await catchErr(importNamedExportsFromDirectory)(path);
+    const result = await catchErr(importNamedExportsFromDirectory)({ path });
 
     // then
     expect(result).to.be.an.instanceOf(Error);
@@ -25,7 +25,7 @@ describe('Integration | Utils | #importNamedExportsFromDirectory', function () {
     const { b: sampleB, C: sampleC } = await import('./sample/b-c.js');
 
     // when
-    const dirContent = await importNamedExportsFromDirectory(path);
+    const dirContent = await importNamedExportsFromDirectory({ path });
 
     // then
     expect(dirContent).to.be.an('object');
@@ -45,7 +45,7 @@ describe('Integration | Utils | #importNamedExportsFromDirectory', function () {
     expect(sampleD).to.equal('default export');
 
     // when
-    const dirContent = await importNamedExportsFromDirectory(path);
+    const dirContent = await importNamedExportsFromDirectory({ path });
 
     // then
     expect(dirContent.default).to.be.undefined;
@@ -60,7 +60,7 @@ describe('Integration | Utils | #importNamedExportsFromDirectory', function () {
     expect(sampleE).to.equal('e');
 
     // when
-    const dirContent = await importNamedExportsFromDirectory(path);
+    const dirContent = await importNamedExportsFromDirectory({ path });
 
     // then
     expect(dirContent.e).to.be.undefined;
@@ -72,7 +72,7 @@ describe('Integration | Utils | #importNamedExportsFromDirectory', function () {
     const path = join(__dirname, './sample');
 
     // when
-    const dirContent = await importNamedExportsFromDirectory(path, ['a.js']);
+    const dirContent = await importNamedExportsFromDirectory({ path, ignoredFileNames: ['a.js'] });
 
     // then
     expect(dirContent.a).to.be.undefined;
