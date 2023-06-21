@@ -23,6 +23,22 @@ module('Unit | Component | Table | Pagination Control', function (hooks) {
       sinon.assert.calledOnce(component.args.onChange);
       assert.ok(true);
     });
+
+    test('should not throw an error', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const component = await createGlimmerComponent('component:table/pagination-control', {
+        onChange: null,
+      });
+
+      // when
+      await component.changePageSize();
+
+      // then
+      assert.ok(true);
+    });
   });
 
   module('#goToNextPage', function () {
@@ -42,6 +58,22 @@ module('Unit | Component | Table | Pagination Control', function (hooks) {
       sinon.assert.calledOnce(component.args.onChange);
       assert.ok(true);
     });
+
+    test('should not throw an error', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const component = await createGlimmerComponent('component:table/pagination-control', {
+        onChange: null,
+      });
+
+      // when
+      await component.goToNextPage();
+
+      // then
+      assert.ok(true);
+    });
   });
 
   module('#goToPreviousPage', function () {
@@ -59,6 +91,22 @@ module('Unit | Component | Table | Pagination Control', function (hooks) {
 
       // then
       sinon.assert.calledOnce(component.args.onChange);
+      assert.ok(true);
+    });
+
+    test('should not throw an error', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const component = await createGlimmerComponent('component:table/pagination-control', {
+        onChange: null,
+      });
+
+      // when
+      await component.goToPreviousPage();
+
+      // then
       assert.ok(true);
     });
   });
