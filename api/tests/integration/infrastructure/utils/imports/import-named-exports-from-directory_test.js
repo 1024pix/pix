@@ -22,7 +22,7 @@ describe('Integration | Infrastructure | Utils | #importNamedExportsFromDirector
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const path = join(__dirname, './sample');
     const { a: sampleA } = await import('./sample/a.js');
-    const { b: sampleB, C: sampleC } = await import('./sample/b-c.js');
+    const { b: sampleB, C: sampleC } = await import('./sample/b-c-d.js');
 
     // when
     const dirContent = await importNamedExportsFromDirectory({ path });
@@ -40,7 +40,7 @@ describe('Integration | Infrastructure | Utils | #importNamedExportsFromDirector
     // given
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const path = join(__dirname, './sample');
-    const { default: sampleD } = await import('./sample/b-c.js');
+    const { default: sampleD } = await import('./sample/b-c-d.js');
 
     expect(sampleD).to.equal('default export');
 
