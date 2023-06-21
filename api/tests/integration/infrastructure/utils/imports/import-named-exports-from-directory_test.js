@@ -42,7 +42,7 @@ describe('Integration | Infrastructure | Utils | #importNamedExportsFromDirector
     const path = join(__dirname, './sample');
     const { default: sampleD } = await import('./sample/b-c-d.js');
 
-    expect(sampleD).to.equal('default export');
+    expect(sampleD).to.equal('D');
 
     // when
     const dirContent = await importNamedExportsFromDirectory({ path });
