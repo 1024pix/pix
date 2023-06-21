@@ -89,7 +89,7 @@ Pour les utiliser:
 `cp .vscode/sample.launch.json .vscode/launch.json`
 `cp .vscode/sample.settings.json .vscode/settings.json`
 
-Pour lancer les tests mocha de l'api, il faudra installer l'extension [Mocha Test Explorer](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-mocha-test-adapter)
+Les extensions recommandées peuvent se retrouver dans l'onglet extension en renseignant le filtre `@recommanded`
 
 ### Démarrer les applications
 

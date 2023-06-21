@@ -51,6 +51,7 @@ api/.vscode
 .vscode/*
 !.vscode/sample.launch.json
 !.vscode/sample.settings.json
+!.vscode/extensions.json
 .history
 
 # ember-try
