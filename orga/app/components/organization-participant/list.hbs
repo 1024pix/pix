@@ -15,6 +15,7 @@
                   @screenReaderOnly={{true}}
                   @checked={{someSelected}}
                   @isIndeterminate={{(not allSelected)}}
+                  disabled={{(not this.hasParticipants)}}
                   {{on "click" toggleAll}}
                 >{{t "pages.organization-participants.table.column.mainCheckbox"}}</PixCheckbox>
               </Table::Header>
@@ -86,13 +87,13 @@
           <InElement @destinationId={{this.paginationId}} @waitForElement={{true}}>
             <Table::PaginationControl @pagination={{@participants.meta}} @onChange={{reset}} />
           </InElement>
-          <InElement @destinationId={{this.filtersId}} @waitForElement={{true}}>
+          <InElement @destinationId={{this.filtersId}}>
             <OrganizationParticipant::LearnerFilters
               @learnersCount={{@participants.meta.rowCount}}
               @fullName={{@fullName}}
               @certificabilityFilter={{@certificabilityFilter}}
               @triggerFiltering={{(fn this.addResetOnFunction @triggerFiltering reset)}}
-              @onResetFilter={{@onResetFilter}}
+              @onResetFilter={{(fn this.addResetOnFunction @onResetFilter reset)}}
             />
           </InElement>
         </:manager>

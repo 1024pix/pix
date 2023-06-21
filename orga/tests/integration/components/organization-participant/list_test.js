@@ -6,7 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-module('Integration | Component | OrganizationParticipant::List', function (hooks) {
+module.only('Integration | Component | OrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
@@ -286,8 +286,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('participants', []);
     this.set('certificabilityFilter', []);
     this.set('fullNameFilter', null);
+
     // when
-    await render(
+    const screen = await render(
       hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
@@ -298,7 +299,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
 
     // then
-    assert.contains('Recherche sur le nom et prénom');
+    assert.dom(screen.getByLabelText('Recherche sur le nom et prénom')).exists();
   });
 
   test('it should trigger filtering with fullName search', async function (assert) {
@@ -785,6 +786,29 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       //then
       assert.false(mainCheckbox.checked);
     });
+  });
+
+  test('it should disable the main checkbox when partipants list is empty', async function (assert) {
+    //given
+    const participants = [];
+
+    this.set('participants', participants);
+    this.deleteParticipants = sinon.stub();
+
+    //when
+    const screen = await render(hbs`<OrganizationParticipant::List
+@participants={{this.participants}}
+@triggerFiltering={{this.triggerFiltering}}
+@onClickLearner={{this.noop}}
+@certificabilityFilter={{this.noop}}
+@fullName={{this.fullNameFilter}}
+@certificabilityFilter={{this.certificabilityFilter}}
+@deleteParticipants={{this.deleteParticipants}}
+/>`);
+    const mainCheckbox = screen.getAllByRole('checkbox')[0];
+
+    //then
+    assert.dom(mainCheckbox).isDisabled();
   });
 
   test('it should reset selected participant when using sort', async function (assert) {
