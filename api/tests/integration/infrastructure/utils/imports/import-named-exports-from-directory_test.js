@@ -66,7 +66,7 @@ describe('Integration | Infrastructure | Utils | #importNamedExportsFromDirector
     expect(dirContent.e).to.be.undefined;
   });
 
-  it('should not import ignored filenames', async function () {
+  it('should not import files to ignore', async function () {
     // given
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const path = join(__dirname, './sample');
