@@ -27,6 +27,7 @@
         @value={{@candidateInformationChangeCategory.description}}
         @maxlength={{@maxlength}}
         required="true"
+        {{on "change" @updateCandidateInformationChangeCategoryDescription}}
       />
     </div>
   {{/if}}
