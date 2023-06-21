@@ -55,7 +55,7 @@ describe('Integration | Utils | #importNamedExportsFromDirectory', function () {
     // given
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const path = join(__dirname, './sample');
-    const { e: sampleE } = await import('./sample/dir/e.js');
+    const { e: sampleE } = await import('./sample/directory/e.js');
 
     expect(sampleE).to.equal('e');
 
