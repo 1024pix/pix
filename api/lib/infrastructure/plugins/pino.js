@@ -46,6 +46,10 @@ const plugin = {
       logger.info(server.info, 'server stopped');
     });
 
+    server.events.on('log', function (event) {
+      logger.info({ tags: event.tags, data: event.data });
+    });
+
     server.events.on('request', function (request, event) {
       if (event.error) {
         logger.error(
