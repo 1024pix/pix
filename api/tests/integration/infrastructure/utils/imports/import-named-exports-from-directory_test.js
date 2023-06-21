@@ -78,4 +78,16 @@ describe('Integration | Infrastructure | Utils | #importNamedExportsFromDirector
     expect(dirContent.a).to.be.undefined;
     expect(dirContent.b).to.be.a('function');
   });
+
+  it('should not import files not ending with .js', async function () {
+    // given
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const path = join(__dirname, './sample');
+
+    // when
+    const dirContent = await importNamedExportsFromDirectory({ path });
+
+    // then
+    expect(dirContent.e).to.be.undefined;
+  });
 });
