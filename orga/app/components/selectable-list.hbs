@@ -1,4 +1,4 @@
 {{#each @items as |item index|}}
   {{yield item (fn this.toggle item) (this.isSelected item) index to="item"}}
 {{/each}}
-{{yield this.allSelected this.someSelected this.toggleAll this.selectedItems to="manager"}}
+{{yield this.allSelected this.someSelected this.toggleAll this.selectedItems this.reset to="manager"}}
