@@ -20,7 +20,7 @@ import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../constants.js';
 
 class OidcAuthenticationService {
-  #isReady;
+  #isReady = false;
 
   constructor({
     identityProvider,
@@ -53,25 +53,28 @@ class OidcAuthenticationService {
     this.authenticationUrlParameters = authenticationUrlParameters;
     this.userInfoUrl = userInfoUrl;
 
+    const isEnabledInConfig = config[this.configKey]?.isEnabled;
+    if (!isEnabledInConfig) {
+      return;
+    }
+
     const missingRequiredProperties = [];
     this.requiredProperties.forEach((requiredProperty) => {
       if (lodash.isNil(config[this.configKey][requiredProperty])) {
         missingRequiredProperties.push(requiredProperty);
       }
     });
-
-    const isEnabledInConfig = config[this.configKey]?.isEnabled;
     const isConfigValid = missingRequiredProperties.length == 0;
-    this.#isReady = isEnabledInConfig && isConfigValid;
-
-    const isEnabledWithInvalidConfig = isEnabledInConfig && !isConfigValid;
-    if (isEnabledWithInvalidConfig) {
+    if (!isConfigValid) {
       logger.error(
-        `Config for OIDC Provider "${
+        `Invalid config for OIDC Provider "${
           this.identityProvider
-        }" is missing the following required properties: ${missingRequiredProperties.join(', ')}`
+        }": the following required properties are missing: ${missingRequiredProperties.join(', ')}`
       );
+      return;
     }
+
+    this.#isReady = true;
   }
 
   get code() {
