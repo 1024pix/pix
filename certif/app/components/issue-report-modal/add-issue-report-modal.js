@@ -155,6 +155,26 @@ export default class AddIssueReportModal extends Component {
   }
 
   @action
+  updateCandidateInformationChangeCategory(event) {
+    this.candidateInformationChangeCategory.description = event.target.value;
+  }
+
+  @action
+  updateNonBlockingCandidateIssueCategory(event) {
+    this.nonBlockingCandidateIssueCategory.description = event.target.value;
+  }
+
+  @action
+  updateNonBlockingTechnicalIssueCategory(event) {
+    this.nonBlockingTechnicalIssueCategory.description = event.target.value;
+  }
+
+  @action
+  updateSignatureIssueCategory(event) {
+    this.signatureIssueCategory.description = event.target.value;
+  }
+
+  @action
   async submitReport(event) {
     event.preventDefault();
     const categoryToAdd = this.categories.find((category) => category.isChecked);
