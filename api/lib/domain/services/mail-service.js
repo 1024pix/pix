@@ -101,7 +101,6 @@ function sendCertificationResultEmail({
   const formattedSessionDate = dayjs(sessionDate).locale('fr').format('DD/MM/YYYY');
 
   const templateParams = {
-    link,
     certificationCenterName,
     sessionId,
     sessionDate: formattedSessionDate,
@@ -110,12 +109,14 @@ function sendCertificationResultEmail({
       homeName: PIX_HOME_NAME_FRENCH_FRANCE,
       homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
       title: translate({ phrase: 'certification-result-email.title', locale: 'fr' }, { sessionId }),
+      link: `${link}?lang=fr`,
     },
     en: {
       ...enTranslations['certification-result-email'].params,
       homeName: PIX_HOME_NAME_INTERNATIONAL,
       homeUrl: PIX_HOME_URL_ENGLISH_SPOKEN,
       title: translate({ phrase: 'certification-result-email.title', locale: 'en' }, { sessionId }),
+      link: `${link}?lang=en`,
     },
   };
 
