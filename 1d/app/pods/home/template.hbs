@@ -1,11 +1,21 @@
 {{page-title "Home"}}
-<img alt="Bienvenue Pix 123" width="300" src="/images/Logo_123_Pix_V2.png" />
-
-<p>Pour visualiser une mission, renseignez un Id</p>
-
-<label for="id_mission">Id mission</label>
-<input id="id_mission" type="text" {{on "change" this.onChange}} />
-
-<LinkTo @route="mission" @model={{this.id}}> Aller à la mission</LinkTo>
+<div class="container">
+  <img class="logo" alt="Bienvenue Pix 456" width="300" src="/images/logo_456_pix.png" />
+  <p class="instruction">Choisis une mission</p>
+  <div class="cards">
+    <MissionCard
+      @title="Recherche sur internet"
+      @route="mission"
+      @id="recExjO7RHeDI48HK"
+      @buttonLabel="Aller à la mission"
+    />
+    <MissionCard
+      @title="Données personnelles"
+      @route="mission"
+      @id="recZtwymXXrtdXRrx"
+      @buttonLabel="Aller à la mission"
+    />
+  </div>
+</div>
 
 {{outlet}}
