@@ -66,16 +66,12 @@
               <td>{{organization.name}}</td>
               <td>{{organization.type}}</td>
               <td>{{organization.externalId}}</td>
-              {{#if @showDetachColumn}}
+              {{#if this.isSuperAdminOrMetier}}
                 <td>
-                  <PixButton
-                    @backgroundColor="red"
-                    @size="small"
-                    aria-label="Détacher l'organisation"
-                    @triggerAction={{fn @detachOrganizations organization.id}}
-                  >
+                  <PixButton @backgroundColor="red" @size="small" @triggerAction={{(fn this.openModal organization)}}>
                     Détacher
                   </PixButton>
+
                 </td>
               {{/if}}
             </tr>
@@ -93,3 +89,29 @@
 {{#if @organizations}}
   <PixPagination @pagination={{@organizations.meta}} />
 {{/if}}
+
+<PixModal
+  @title="Détacher l'organisation du profil cible"
+  @onCloseButtonClick={{this.closeModal}}
+  @showModal={{this.showModal}}
+  aria-hidden="{{(not this.showModal)}}"
+>
+  <:content>
+    <p>
+      Etes-vous sûr de vouloir détacher l'organisation
+      <strong>{{this.organizationToDetach.name}}</strong>
+      du profil cible
+      <strong>{{@targetProfileName}}</strong>
+      ?
+    </p>
+  </:content>
+  <:footer>
+    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.closeModal}}>
+      Annuler
+    </PixButton>
+    <PixButton
+      @backgroundColor="red"
+      @triggerAction={{fn this.detachOrganizations this.organizationToDetach.id}}
+    >Confirmer</PixButton>
+  </:footer>
+</PixModal>
