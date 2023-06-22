@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Campaign::Charts::ResultDistribution', function (hooks) {
@@ -27,9 +27,11 @@ module('Integration | Component | Campaign::Charts::ResultDistribution', functio
       this.campaign = { id: 12, hasStages: false };
       dataFetcher.resolves({ data: { attributes: { 'result-distribution': [] } } });
 
-      await render(hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}} />`);
+      const screen = await render(hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}} />`);
 
-      assert.contains('Répartition des participants par résultat');
+      assert
+        .dom(screen.getByRole('heading', { name: this.intl.t('charts.participants-by-mastery-percentage.title') }))
+        .exists();
     });
   });
 
@@ -43,10 +45,10 @@ module('Integration | Component | Campaign::Charts::ResultDistribution', functio
       this.onSelectStage = () => {};
       dataFetcher.resolves({ data: { attributes: { data: [{ id: 100498, value: 0 }] } } });
 
-      await render(
+      const screen = await render(
         hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}} @onSelectStage={{this.onSelectStage}} />`
       );
-      assert.contains('Répartition des participants par paliers');
+      assert.dom(screen.getByRole('heading', { name: this.intl.t('charts.participants-by-stage.title') })).exists();
     });
   });
 });
