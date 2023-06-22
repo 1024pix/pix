@@ -19,11 +19,11 @@
   "components": {
     "administration": {
       "organizations-import": {
+        "title": "Mass creation of organizations",
         "description": "Existing organizations will not be changed.",
         "notifications": {
           "success": "The organizations have been created."
         },
-        "title": "Mass creation of organizations",
         "upload-button": "Import CSV file"
       }
     },
@@ -53,12 +53,12 @@
         },
         "triggers": {
           "goal": {
-            "alternative-title": "Add a goal threshold to not exceed",
-            "title": "Goal"
+            "title": "Goal",
+            "alternative-title": "Add a goal threshold to not exceed"
           },
           "prerequisite": {
-            "alternative-title": "Add a prerequisite threshold to reach",
-            "title": "Prerequisite"
+            "title": "Prerequisite",
+            "alternative-title": "Add a prerequisite threshold to reach"
           },
           "tabName": "Triggers"
         }
