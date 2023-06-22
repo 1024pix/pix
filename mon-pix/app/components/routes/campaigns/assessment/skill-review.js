@@ -42,16 +42,16 @@ export default class SkillReview extends Component {
   }
 
   get showNotCertifiableBadges() {
-    return this.acquiredNotCertifiableBadges.length > 0;
+    return this.notCertifiableBadges.length > 0;
   }
 
   get showCertifiableBadges() {
     return this.certifiableBadgesOrderedByValidity.length > 0;
   }
 
-  get acquiredNotCertifiableBadges() {
+  get notCertifiableBadges() {
     const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
-    return badges.filter((badge) => badge.isAcquired && !badge.isCertifiable);
+    return badges.filter((badge) => (badge.isAcquired || badge.isAlwaysVisible) && !badge.isCertifiable);
   }
 
   get certifiableBadgesOrderedByValidity() {
