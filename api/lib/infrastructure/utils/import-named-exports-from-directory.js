@@ -1,5 +1,6 @@
 import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 export async function importNamedExportsFromDirectory(path, ignoredFileNames = []) {
   const imports = {};
@@ -10,7 +11,8 @@ export async function importNamedExportsFromDirectory(path, ignoredFileNames = [
       continue;
     }
 
-    const module = await import(join(path, file));
+    const fileURL = pathToFileURL(join(path, file));
+    const module = await import(fileURL);
     const namedExports = Object.entries(module);
 
     for (const [exportName, exportedValue] of namedExports) {
