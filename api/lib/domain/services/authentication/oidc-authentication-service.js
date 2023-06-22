@@ -19,6 +19,8 @@ import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js'
 import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../constants.js';
 
+const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'authenticationUrl', 'userInfoUrl', 'tokenUrl'];
+
 class OidcAuthenticationService {
   #isReady = false;
 
@@ -28,7 +30,6 @@ class OidcAuthenticationService {
     source,
     slug,
     organizationName,
-    requiredProperties = [],
     hasLogoutUrl = false,
     jwtOptions,
     clientSecret,
@@ -37,13 +38,13 @@ class OidcAuthenticationService {
     authenticationUrl,
     authenticationUrlParameters,
     userInfoUrl,
+    additionalRequiredProperties,
   }) {
     this.identityProvider = identityProvider;
     this.configKey = configKey;
     this.source = source;
     this.slug = slug;
     this.organizationName = organizationName;
-    this.requiredProperties = requiredProperties;
     this.hasLogoutUrl = hasLogoutUrl;
     this.jwtOptions = jwtOptions;
     this.clientSecret = clientSecret;
@@ -58,8 +59,12 @@ class OidcAuthenticationService {
       return;
     }
 
+    const requiredProperties = DEFAULT_REQUIRED_PROPERTIES;
+    if (additionalRequiredProperties) {
+      requiredProperties.concat(additionalRequiredProperties);
+    }
     const missingRequiredProperties = [];
-    this.requiredProperties.forEach((requiredProperty) => {
+    requiredProperties.forEach((requiredProperty) => {
       if (lodash.isNil(config[this.configKey][requiredProperty])) {
         missingRequiredProperties.push(requiredProperty);
       }

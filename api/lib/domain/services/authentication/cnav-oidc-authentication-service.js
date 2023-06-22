@@ -12,7 +12,6 @@ class CnavOidcAuthenticationService extends OidcAuthenticationService {
       source: 'cnav',
       slug: 'cnav',
       organizationName: 'CNAV',
-      requiredProperties: ['clientId', 'clientSecret', 'authenticationUrl', 'userInfoUrl', 'tokenUrl'],
       hasLogoutUrl: false,
       jwtOptions: { expiresIn: config.cnav.accessTokenLifespanMs / 1000 },
       clientSecret: config.cnav.clientSecret,
