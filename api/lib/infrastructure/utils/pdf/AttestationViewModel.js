@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { sortBy } = lodash;
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { toArrayOfFixedLengthStringsConservingWords } from '../string-utils.js';
 
 const PROFESSIONALIZING_VALIDITY_START_DATE = new Date('2022-01-01');
@@ -44,8 +44,8 @@ class AttestationViewModel {
     this._isFrenchDomainExtension = isFrenchDomainExtension;
   }
 
-  get certificationDate() {
-    return _formatDate(this._deliveredAt);
+  certificationDate({ lang }) {
+    return _formatDate({ date: this._deliveredAt, lang });
   }
 
   shouldDisplayComplementaryCertifications() {
@@ -62,20 +62,26 @@ class AttestationViewModel {
     return this._deliveredAt.getTime() >= PROFESSIONALIZING_VALIDITY_START_DATE.getTime();
   }
 
-  static from(certificate, isFrenchDomainExtension) {
+  static from({ certificate, isFrenchDomainExtension, translate, lang }) {
     const pixScore = certificate.pixScore.toString();
     const maxReachableScore = certificate.maxReachableScore.toString() + '*';
 
-    const maxLevel = `(niveaux sur ${certificate.maxReachableLevelOnCertificationDate})`;
-    const maxReachableLevelIndication = `* À la date d’obtention de cette certification, le nombre maximum de pix atteignable était de ${certificate.maxReachableScore}, correspondant au niveau ${certificate.maxReachableLevelOnCertificationDate}.`;
-    const absoluteMaxLevelIndication =
-      'Lorsque les 8 niveaux du référentiel Pix seront disponibles, ce nombre maximum sera de 1024 pix.';
+    const maxLevel = translate('certification-confirmation.max-level', {
+      maxReachableLevelOnCertificationDate: certificate.maxReachableLevelOnCertificationDate,
+    });
+    const maxReachableLevelIndication = translate('certification-confirmation.max-reachable-level-indication', {
+      maxReachableScore: certificate.maxReachableScore,
+      maxReachableLevelOnCertificationDate: certificate.maxReachableLevelOnCertificationDate,
+    });
+    const absoluteMaxLevelIndication = translate('certification-confirmation.absolute-max-level-indication');
 
     const verificationCode = certificate.verificationCode;
 
     const fullName = `${certificate.firstName} ${certificate.lastName}`;
-    const birthplace = certificate.birthplace ? ` à ${certificate.birthplace}` : '';
-    const birth = _formatDate(certificate.birthdate) + birthplace;
+    const birthplace = certificate.birthplace
+      ? translate('certification-confirmation.from-birthplace', { birthplace: certificate.birthplace })
+      : '';
+    const birth = _formatDate({ date: certificate.birthdate, lang }) + birthplace;
     const certificationCenter = certificate.certificationCenter;
     const deliveredAt = certificate.deliveredAt;
 
@@ -134,8 +140,8 @@ class CompetenceDetailViewModel {
   }
 }
 
-function _formatDate(date) {
-  return moment(date).locale('fr').format('LL');
+function _formatDate({ date, lang }) {
+  return dayjs(date).locale(lang).format('LL');
 }
 
 export { AttestationViewModel };
