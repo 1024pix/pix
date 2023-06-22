@@ -2,7 +2,7 @@ import { PDFDocument, rgb } from 'pdf-lib';
 import { readFile } from 'fs/promises';
 
 import pdfLibFontkit from '@pdf-lib/fontkit';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import _ from 'lodash';
 import bluebird from 'bluebird';
 import axios from 'axios';
@@ -11,6 +11,8 @@ import * as url from 'url';
 import { AttestationViewModel } from './AttestationViewModel.js';
 import { CertificationAttestationGenerationError } from '../../../domain/errors.js';
 import { logger } from '../../logger.js';
+import { LANG } from '../../../domain/constants.js';
+const { ENGLISH } = LANG;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const fonts = {
@@ -29,6 +31,8 @@ const templates = {
     'withoutProfessionalizingCertificationMessageAndWithComplementaryCertifications',
   withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications:
     'withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications',
+  ENWithoutComplementaryCertification: 'ENWithoutComplementaryCertification',
+  ENWithComplementaryCertification: 'ENWithComplementaryCertification',
 };
 
 async function getCertificationAttestationsPdfBuffer({
@@ -37,21 +41,42 @@ async function getCertificationAttestationsPdfBuffer({
   dirname = __dirname,
   fontkit = pdfLibFontkit,
   creationDate = new Date(),
+  i18n,
 } = {}) {
-  const viewModels = certificates.map((certificate) => AttestationViewModel.from(certificate, isFrenchDomainExtension));
+  const translate = i18n.__;
+  const lang = i18n.getLocale();
+
+  const viewModels = certificates.map((certificate) =>
+    AttestationViewModel.from({ certificate, isFrenchDomainExtension, translate, lang })
+  );
   const generatedPdfDoc = await _initializeNewPDFDocument(fontkit);
   generatedPdfDoc.setCreationDate(creationDate);
   generatedPdfDoc.setModificationDate(creationDate);
   const embeddedFonts = await _embedFonts(generatedPdfDoc, dirname);
   const embeddedImages = await _embedImages(generatedPdfDoc, viewModels);
 
-  const templatePdfPages = await _embedTemplatePagesIntoDocument(viewModels, dirname, generatedPdfDoc);
+  const templatePdfPages = await _embedTemplatePagesIntoDocument({
+    viewModels,
+    dirname,
+    pdfDocument: generatedPdfDoc,
+    lang,
+  });
 
-  await _render({ templatePdfPages, pdfDocument: generatedPdfDoc, viewModels, rgb, embeddedFonts, embeddedImages });
+  await _render({
+    templatePdfPages,
+    pdfDocument: generatedPdfDoc,
+    viewModels,
+    rgb,
+    embeddedFonts,
+    embeddedImages,
+    lang,
+  });
 
   const buffer = await _finalizeDocument(generatedPdfDoc);
 
-  const fileName = `attestation-pix-${moment(certificates[0].deliveredAt).format('YYYYMMDD')}.pdf`;
+  const fileName = `${translate('certification-confirmation.file-name')}-${dayjs(certificates[0].deliveredAt).format(
+    'YYYYMMDD'
+  )}.pdf`;
 
   return {
     buffer,
@@ -107,7 +132,7 @@ async function _embedCertificationImage(pdfDocument, certificationImagePath) {
   return page;
 }
 
-async function _embedTemplatePagesIntoDocument(viewModels, dirname, pdfDocument) {
+async function _embedTemplatePagesIntoDocument({ viewModels, dirname, pdfDocument, lang }) {
   const templatePages = {};
 
   if (_atLeastOneWithComplementaryCertifications(viewModels)) {
@@ -121,12 +146,20 @@ async function _embedTemplatePagesIntoDocument(viewModels, dirname, pdfDocument)
     }
 
     if (_atLeastOneWithoutProfessionalizingCertification(viewModels)) {
-      templatePages[templates.withoutProfessionalizingCertificationMessageAndWithComplementaryCertifications] =
-        await _embedFirstPageFromTemplateByFilename(
-          'attestation-template-without-professionalizing-message-and-with-complementary-certifications.pdf',
+      if (lang === ENGLISH) {
+        templatePages[templates.ENWithComplementaryCertification] = await _embedFirstPageFromTemplateByFilename(
+          'EN-attestation-template-with-complementary-certification.pdf',
           pdfDocument,
           dirname
         );
+      } else {
+        templatePages[templates.withoutProfessionalizingCertificationMessageAndWithComplementaryCertifications] =
+          await _embedFirstPageFromTemplateByFilename(
+            'attestation-template-without-professionalizing-message-and-with-complementary-certifications.pdf',
+            pdfDocument,
+            dirname
+          );
+      }
     }
   }
 
@@ -141,12 +174,20 @@ async function _embedTemplatePagesIntoDocument(viewModels, dirname, pdfDocument)
     }
 
     if (_atLeastOneWithoutProfessionalizingCertification(viewModels)) {
-      templatePages[templates.withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications] =
-        await _embedFirstPageFromTemplateByFilename(
-          'attestation-template-without-professionalizing-message-and-without-complementary-certifications.pdf',
+      if (lang === ENGLISH) {
+        templatePages[templates.ENWithoutComplementaryCertification] = await _embedFirstPageFromTemplateByFilename(
+          'EN-attestation-template-without-complementary-certification.pdf',
           pdfDocument,
           dirname
         );
+      } else {
+        templatePages[templates.withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications] =
+          await _embedFirstPageFromTemplateByFilename(
+            'attestation-template-without-professionalizing-message-and-without-complementary-certifications.pdf',
+            pdfDocument,
+            dirname
+          );
+      }
     }
   }
 
@@ -180,11 +221,11 @@ async function _loadTemplateByFilename(templateFileName, dirname) {
   return readFile(path);
 }
 
-async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embeddedFonts, embeddedImages }) {
+async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embeddedFonts, embeddedImages, lang }) {
   for (const viewModel of viewModels) {
     const newPage = pdfDocument.addPage();
 
-    const templatePage = await _getTemplatePage(viewModel, templatePdfPages);
+    const templatePage = await _getTemplatePage(viewModel, templatePdfPages, lang);
     newPage.drawPage(templatePage);
 
     // Note: calls to setFont() are mutualized outside of the _render* methods
@@ -195,7 +236,23 @@ async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embedde
     // Size gains for 140 certifs: 5 MB -> 700 kB
     newPage.setFont(embeddedFonts.openSansBold);
     _renderScore(viewModel, newPage, embeddedFonts.openSansBold);
-    _renderHeaderCandidateInformations(viewModel, newPage, rgb);
+
+    let parameters = [
+      [230, 712, viewModel.fullName],
+      [269, 695.5, viewModel.birth],
+      [257, 680, viewModel.certificationCenter],
+      [208, 663.5, viewModel.certificationDate({ lang })],
+    ];
+
+    if (lang === ENGLISH) {
+      parameters = [
+        [275, 710, viewModel.fullName],
+        [265, 693.5, viewModel.birth],
+        [250, 678, viewModel.certificationCenter],
+        [208, 661.5, viewModel.certificationDate({ lang })],
+      ];
+    }
+    _renderHeaderCandidateInformation(viewModel, newPage, rgb, parameters);
     _renderFooter(viewModel, newPage, rgb);
 
     newPage.setFont(embeddedFonts.robotoMedium);
@@ -212,18 +269,25 @@ async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embedde
   }
 }
 
-async function _getTemplatePage(viewModel, templatePdfPages) {
+async function _getTemplatePage(viewModel, templatePdfPages, lang) {
   if (viewModel.shouldDisplayComplementaryCertifications()) {
     if (viewModel.shouldDisplayProfessionalizingCertificationMessage()) {
       return templatePdfPages.withProfessionalizingCertificationMessageAndWithComplementaryCertifications;
     } else {
+      if (lang === ENGLISH) {
+        return templatePdfPages.ENWithComplementaryCertification;
+      }
       return templatePdfPages.withoutProfessionalizingCertificationMessageAndWithComplementaryCertifications;
     }
   } else {
     if (viewModel.shouldDisplayProfessionalizingCertificationMessage()) {
       return templatePdfPages.withProfessionalizingCertificationMessageAndWithoutComplementaryCertifications;
+    } else {
+      if (lang === ENGLISH) {
+        return templatePdfPages.ENWithoutComplementaryCertification;
+      }
+      return templatePdfPages.withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications;
     }
-    return templatePdfPages.withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications;
   }
 }
 
@@ -280,13 +344,8 @@ function _renderFooter(viewModel, page, rgb) {
   }
 }
 
-function _renderHeaderCandidateInformations(viewModel, page, rgb) {
-  [
-    [230, 712, viewModel.fullName],
-    [269, 695.5, viewModel.birth],
-    [257, 680, viewModel.certificationCenter],
-    [208, 663.5, viewModel.certificationDate],
-  ].forEach(([x, y, text]) => {
+function _renderHeaderCandidateInformation(viewModel, page, rgb, parameters) {
+  parameters.forEach(([x, y, text]) => {
     page.drawText(text, {
       x,
       y,
