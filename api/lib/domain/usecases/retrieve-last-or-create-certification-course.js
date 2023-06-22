@@ -55,7 +55,10 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 
   _validateCandidateIsAuthorizedToStart(certificationCandidate, existingCertificationCourse);
 
-  _blockCandidateFromRestartingWithoutExplicitValidation(certificationCandidate, certificationCandidateRepository);
+  await _blockCandidateFromRestartingWithoutExplicitValidation(
+    certificationCandidate,
+    certificationCandidateRepository
+  );
 
   if (existingCertificationCourse) {
     return {
@@ -114,12 +117,12 @@ function _validateCandidateIsAuthorizedToStart(certificationCandidate, existingC
   }
 }
 
-function _blockCandidateFromRestartingWithoutExplicitValidation(
+async function _blockCandidateFromRestartingWithoutExplicitValidation(
   certificationCandidate,
   certificationCandidateRepository
 ) {
   certificationCandidate.authorizedToStart = false;
-  certificationCandidateRepository.update(certificationCandidate);
+  await certificationCandidateRepository.update(certificationCandidate);
 }
 
 async function _startNewCertification({
