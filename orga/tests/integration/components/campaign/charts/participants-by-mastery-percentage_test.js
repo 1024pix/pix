@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Campaign::Charts::ParticipantsByMasteryPercentage', function (hooks) {
@@ -29,8 +29,11 @@ module('Integration | Component | Campaign::Charts::ParticipantsByMasteryPercent
     });
 
     // when
-    await render(hbs`<Campaign::Charts::ParticipantsByMasteryPercentage @campaignId={{this.campaignId}} />`);
+    const screen = await render(
+      hbs`<Campaign::Charts::ParticipantsByMasteryPercentage @campaignId={{this.campaignId}} />`
+    );
 
-    assert.contains('Répartition des participants par résultat');
+    // then
+    assert.dom(screen.getByText(this.intl.t('charts.participants-by-mastery-percentage.title'))).exists();
   });
 });

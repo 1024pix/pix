@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Campaign::Charts::ParticipantsByStatus', function (hooks) {
@@ -13,16 +13,23 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
       ['shared', 1],
     ];
 
-    await render(
+    const screen = await render(
       hbs`<Campaign::Charts::ParticipantsByStatus
   @participantCountByStatus={{this.participantCountByStatus}}
   @isTypeAssessment={{true}}
 />`
     );
-
-    assert.contains('En cours (1)');
-    assert.contains("En attente d'envoi (1)");
-    assert.contains('Résultats reçus (1)');
+    assert
+      .dom(
+        screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-assessment', { count: 1 }))
+      )
+      .exists();
+    assert
+      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-profile', { count: 1 })))
+      .exists();
+    assert
+      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.shared', { count: 1 })))
+      .exists();
   });
 
   test('it should contains tooltips for assessment campaign', async function (assert) {
@@ -32,18 +39,18 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
       ['shared', 1],
     ];
 
-    await render(
+    const screen = await render(
       hbs`<Campaign::Charts::ParticipantsByStatus
   @participantCountByStatus={{this.participantCountByStatus}}
   @isTypeAssessment={{true}}
 />`
     );
 
-    assert.contains('En cours : Ces participants n’ont pas encore terminé leur parcours.');
-    assert.contains(
-      'En attente d’envoi : Ces participants ont terminé leur parcours mais n’ont pas encore envoyé leurs résultats.'
-    );
-    assert.contains('Résultats reçus : Ces participants ont terminé leur parcours et envoyé leurs résultats.');
+    assert.dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.started-tooltip'))).exists();
+    assert
+      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-assessment-tooltip')))
+      .exists();
+    assert.dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.shared-tooltip'))).exists();
   });
 
   test('it should display status for profile collection campaign', async function (assert) {
@@ -52,16 +59,22 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
       ['shared', 1],
     ];
 
-    await render(
+    const screen = await render(
       hbs`<Campaign::Charts::ParticipantsByStatus
   @participantCountByStatus={{this.participantCountByStatus}}
   @isTypeAssessment={{false}}
 />`
     );
 
-    assert.notContains('En cours (1)');
-    assert.contains("En attente d'envoi (1)");
-    assert.contains('Profils reçus (1)');
+    assert
+      .dom(screen.queryByText(this.intl.t('charts.participants-by-status.labels-legend.started', { count: 1 })))
+      .doesNotExist();
+    assert
+      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-profile', { count: 1 })))
+      .exists();
+    assert
+      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.shared-profile', { count: 1 })))
+      .exists();
   });
 
   test('it should contains tooltips for profile collection campaign', async function (assert) {
@@ -70,14 +83,18 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
       ['shared', 1],
     ];
 
-    await render(
+    const screen = await render(
       hbs`<Campaign::Charts::ParticipantsByStatus
   @participantCountByStatus={{this.participantCountByStatus}}
   @isTypeAssessment={{false}}
 />`
     );
 
-    assert.contains('En attente d’envoi : Ces participants n’ont pas encore envoyé leurs profils.');
-    assert.contains('Profils reçus : Ces participants ont envoyé leurs profils.');
+    assert
+      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-profile-tooltip')))
+      .exists();
+    assert
+      .dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.shared-profile-tooltip')))
+      .exists();
   });
 });
