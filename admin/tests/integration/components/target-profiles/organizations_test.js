@@ -8,6 +8,8 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
+    const currentUser = this.owner.lookup('service:currentUser');
+    currentUser.adminMember = { isSuperAdmin: true };
     this.triggerFiltering = () => {};
     this.goToOrganizationPage = () => {};
     this.detachOrganizations = () => {};

@@ -5,10 +5,13 @@ import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
-module('Unit | Component | Organizations::ListItems', function (hooks) {
+module('Integration | Component | Organizations::ListItems', function (hooks) {
   setupRenderingTest(hooks);
+  let currentUser;
 
   hooks.beforeEach(function () {
+    currentUser = this.owner.lookup('service:currentUser');
+    currentUser.adminMember = { isSuperAdmin: true };
     this.triggerFiltering = () => {};
     this.goToOrganizationPage = () => {};
     this.detachOrganizations = sinon.stub();
@@ -22,6 +25,7 @@ module('Unit | Component | Organizations::ListItems', function (hooks) {
 
   test('it should not display an Actions column to detach organizations', async function (assert) {
     // given
+    currentUser.adminMember = { isSupport: true };
     const screen = await render(
       hbs`<Organizations::ListItems
   @organizations={{this.organizations}}
@@ -34,7 +38,7 @@ module('Unit | Component | Organizations::ListItems', function (hooks) {
 
     // then
     assert.dom(screen.queryByText('Actions')).doesNotExist();
-    assert.strictEqual(screen.queryAllByRole('button', { name: "Détacher l'organisation" }).length, 0);
+    assert.strictEqual(screen.queryAllByRole('button', { name: 'Détacher' }).length, 0);
   });
 
   module('when detaching organizations from a target profiles', () => {
@@ -52,15 +56,11 @@ module('Unit | Component | Organizations::ListItems', function (hooks) {
       );
 
       // then
-      assert.strictEqual(
-        screen.queryAllByRole('button', { name: "Détacher l'organisation" }).length,
-        this.organizations.length
-      );
-      screen.queryByText('Actions');
-      assert.dom(screen.queryByText('Actions')).exists();
+      assert.strictEqual(screen.getAllByRole('button', { name: 'Détacher' }).length, this.organizations.length);
+      assert.dom(screen.getByText('Actions')).exists();
     });
 
-    test('it should detach an organization when the user cliks on "Désactiver" button', async function (assert) {
+    test('it should detach an organization when click on "Détacher" button', async function (assert) {
       // given
       const screen = await render(
         hbs`<Organizations::ListItems
@@ -72,10 +72,13 @@ module('Unit | Component | Organizations::ListItems', function (hooks) {
   @showDetachColumn={{true}}
 />`
       );
-      const detachButton = screen.queryAllByRole('button', { name: "Détacher l'organisation" })[0];
+      const detachButton = screen.getAllByRole('button', { name: 'Détacher' })[0];
 
       //when
       await click(detachButton);
+
+      const confirmButton = await screen.findByRole('button', { name: 'Confirmer' });
+      await click(confirmButton);
 
       // then
       assert.true(this.detachOrganizations.calledWith(this.organizations[0].id));
