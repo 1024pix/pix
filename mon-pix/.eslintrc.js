@@ -52,11 +52,9 @@ module.exports = {
     'i18n-json/sorted-keys': [
       'error',
       {
-        order: 'asc',
         sortFunctionPath: path.resolve('./config/linter-translation-order.js'),
       },
     ],
-    'i18n-json/valid-message-syntax': 'warn',
     'no-irregular-whitespace': 'off',
   },
   overrides: [
@@ -100,4 +98,7 @@ module.exports = {
       },
     },
   ],
+  settings: {
+    'i18n-json/ignore-keys': ['pages.dashboard.presentation.link.text', 'pages.dashboard.presentation.link.url'],
+  },
 };
