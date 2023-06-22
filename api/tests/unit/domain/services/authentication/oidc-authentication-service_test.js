@@ -28,11 +28,16 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           // given
           settings.someOidcProviderService = {
             isEnabled: true,
+            clientId: 'anId',
+            clientSecret: 'aSecret',
+            authenticationUrl: 'https://example.net',
+            userInfoUrl: 'https://example.net',
+            tokenUrl: 'https://example.net',
             aProperty: 'aValue',
           };
           const oidcAuthenticationService = new OidcAuthenticationService({
             configKey: 'someOidcProviderService',
-            requiredProperties: ['aProperty'],
+            additionalRequiredProperties: ['aProperty'],
           });
 
           // when
@@ -48,11 +53,9 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           // given
           settings.someOidcProviderService = {
             isEnabled: true,
-            someOtherProperty: 'someOtherValue',
           };
           const oidcAuthenticationService = new OidcAuthenticationService({
             configKey: 'someOidcProviderService',
-            requiredProperties: ['aProperty'],
           });
 
           // when
