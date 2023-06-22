@@ -1,51 +1,26 @@
-.correction-qrocm {
-  &__text {
-    display: inline-block;
+.correction-qrocm__answer {
+  &--paragraph {
+    display: block;
     width: 100%;
   }
 
-  &__answer {
-
-    &-wrapper {
-      display: inline-block;
-      width: 100%;
-      vertical-align: top;
-    }
-
-    &--paragraph {
-      display: block;
-      width: 100%;
-    }
-
-    &--sentence {
-      display: block;
-      width: 100%;
-    }
-
-    &--input {
-      display: inline-block;
-      width: auto;
-      max-width: 100%;
-    }
-  }
-
-  &__solution {
-    display: flex;
-    align-items: center;
-
-    &-text {
-      @extend %pix-body-m;
-
-      margin: $pix-spacing-xxs 0 $pix-spacing-xs;
-      color: $pix-success-70;
-      font-weight: $font-bold;
-    }
-  }
-}
-
-.correction-qrocm-text {
-  &__label {
+  &--sentence {
     display: block;
+    width: 100%;
+  }
+
+  &--input {
+    display: inline-block;
+    padding: $pix-spacing-xxs $pix-spacing-xxs $pix-spacing-xxs 0;
+    vertical-align: 0;
+
+    &:not(:last-child) {
+      padding-left: 0;
+    }
+  }
+
+  &.correction-qroc-box-answer--wrong {
+    vertical-align: -2.5em;
   }
 }
 
@@ -55,14 +30,42 @@
     width: 100%;
   }
 
-  &__input-sentence {
+  &-answer__input-sentence {
     display: block;
     width: 100%;
   }
 
-  &__input {
+  &-answer__input {
     display: inline-block;
     width: auto;
     max-width: 100%;
+  }
+}
+
+.correction-qrocm__text {
+  padding-inline: 12px;
+}
+
+.correction-qrocm-text {
+  &__label {
+    display: inline;
+    padding: $pix-spacing-xxs $pix-spacing-xxs $pix-spacing-xxs 0;
+
+    &:not(:last-child) {
+      padding-left: 0;
+    }
+  }
+}
+
+.correction-qrocm__solution {
+  display: flex;
+  align-items: center;
+
+  &-text {
+    @extend %pix-body-m;
+
+    margin: $pix-spacing-xxs 0 $pix-spacing-xs;
+    color: $pix-success-70;
+    font-weight: $font-bold;
   }
 }
