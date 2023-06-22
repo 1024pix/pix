@@ -126,7 +126,7 @@
   "scripts": {
     "clean": "rm -rf node_modules",
     "cache:refresh": "node scripts/refresh-cache",
-    "db:new-migration": "npx knex --knexfile db/knexfile.js migrate:make $migrationname",
+    "db:new-migration": "npx knex --knexfile db/knexfile.js migrate:make --stub $PWD/db/template.js $migrationname",
     "db:create": "node scripts/database/create-database",
     "db:delete": "node scripts/database/drop-database",
     "db:empty": "node scripts/database/empty-database",
