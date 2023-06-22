@@ -27,4 +27,12 @@ export default class TargetProfileAdapter extends ApplicationAdapter {
 
     return super.createRecord(...arguments);
   }
+
+  async detachOrganizations(targetProfileId, organizationIds) {
+    const url = `${this.host}/${this.namespace}/target-profiles/${targetProfileId}/detach-organizations`;
+    const result = await this.ajax(url, 'DELETE', {
+      data: { data: { attributes: { 'organization-ids': organizationIds } } },
+    });
+    return result.data.attributes['detached-organization-ids'];
+  }
 }
