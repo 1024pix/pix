@@ -1,0 +1,28 @@
+.pix1d-button {
+  background-color: #556bcc;
+  color: white;
+  border: 1px solid #556BCC;
+  box-shadow: 0 3px #495aa0;
+  font-size: 1.25rem;
+  padding: 16px 48px;
+  border-radius: 30px;
+
+  &--modal {
+    font-size: 1rem;
+  }
+
+  &--skip {
+    background-color: white;
+    color: #556bcc;
+
+    &:hover, &:focus {
+      color: white;
+    }
+  }
+}
+
+.pix-button--background-blue.pix1d-button {
+  &:hover, &:focus {
+    background-color: #495AA0;
+  }
+}

@@ -1,4 +1,6 @@
 @charset "utf-8";
+@import 'globals/fonts';
+@import 'globals/buttons';
 @import 'components/challenge-actions';
 @import 'components/challenge-embed-simulator';
 @import 'components/answer';
@@ -7,7 +9,7 @@
 @import 'components/home';
 @import 'components/mission';
 @import 'components/card';
-@import 'globals/fonts';
+@import 'components/warning';
 
 body {
   text-align: center;
@@ -16,3 +18,8 @@ body {
   font-family: $font-nunito;
   font-weight: 600;
 }
+
+b {
+  font-weight: bold;
+}
+

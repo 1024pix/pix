@@ -1,0 +1,13 @@
+.pix-modal.warning {
+  background-color: #EBEFFF;
+}
+
+.pix-modal.warning .pix-modal__content {
+  font-size: 1.125rem;
+}
+
+.pix-button--background-blue.warning__button {
+  &:hover {
+    background-color: #495AA0;
+  }
+}
