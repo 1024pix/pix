@@ -17,7 +17,6 @@ module.exports = {
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended',
     'plugin:qunit/recommended',
-    'plugin:i18n-json/recommended',
     'plugin:prettier/recommended',
   ],
   env: {
