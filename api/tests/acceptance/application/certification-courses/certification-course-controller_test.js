@@ -13,6 +13,7 @@ import { CertificationIssueReportCategory } from '../../../../lib/domain/models/
 import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
 
 describe('Acceptance | API | Certification Course', function () {
   let server;
@@ -593,53 +594,24 @@ describe('Acceptance | API | Certification Course', function () {
   });
 
   describe('POST /api/certification-courses', function () {
-    let options;
     let response;
-    let userId;
-    let sessionId;
-    let certificationCenterId;
-
-    beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      sessionId = databaseBuilder.factory.buildSession({ accessCode: '123', certificationCenterId }).id;
-      const payload = {
-        data: {
-          attributes: {
-            'access-code': '123',
-            'session-id': sessionId,
-          },
-        },
-      };
-      options = {
-        method: 'POST',
-        url: '/api/certification-courses',
-        headers: {
-          authorization: generateValidRequestAuthorizationHeader(userId),
-          'accept-language': 'fr-fr',
-        },
-        payload,
-      };
-      await databaseBuilder.commit();
-    });
 
     context('when the given access code does not correspond to the session', function () {
-      beforeEach(async function () {
+      it('should respond with 404 status code', async function () {
         // given
+        const { options } = _createRequestOptions();
+        await databaseBuilder.commit();
         options.payload.data.attributes['access-code'] = 'wrongcode';
 
         // when
         response = await server.inject(options);
-      });
 
-      it('should respond with 404 status code', function () {
         // then
         expect(response.statusCode).to.equal(404);
       });
     });
 
     context('when the certification course does not exist', function () {
-      let certificationCandidate;
       const learningContent = [
         {
           id: 'recArea0',
@@ -836,27 +808,6 @@ describe('Acceptance | API | Certification Course', function () {
       ];
 
       context('when locale is fr-fr', function () {
-        beforeEach(async function () {
-          // given
-          const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
-          mockLearningContent(learningContentObjects);
-          certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-            sessionId,
-            userId,
-            authorizedToStart: true,
-          });
-          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
-            learningContent,
-            userId,
-            earnedPix: 4,
-          });
-
-          await databaseBuilder.commit();
-
-          // when
-          response = await server.inject(options);
-        });
-
         afterEach(async function () {
           await knex('knowledge-elements').delete();
           await knex('answers').delete();
@@ -866,18 +817,66 @@ describe('Acceptance | API | Certification Course', function () {
           await knex('certification-courses').delete();
         });
 
-        it('should respond with 201 status code', function () {
+        it('should respond with 201 status code', async function () {
+          // given
+          const { options, userId, sessionId } = _createRequestOptions();
+          _createNonExistingCertifCourseSetup({ learningContent, userId, sessionId });
+          await databaseBuilder.commit();
+
+          // when
+          response = await server.inject(options);
+
           // then
           expect(response.statusCode).to.equal(201);
         });
 
-        it('should have created a certification course', async function () {
+        it('should have created a V2 certification course', async function () {
+          // given
+          const { options, userId, sessionId } = _createRequestOptions();
+          _createNonExistingCertifCourseSetup({ learningContent, userId, sessionId });
+          await databaseBuilder.commit();
+
+          // when
+          response = await server.inject(options);
+
           // then
           const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
           expect(certificationCourses).to.have.length(1);
+          expect(certificationCourses[0].version).to.equal(CertificationVersion.V2);
+        });
+
+        context('when the session is v3', function () {
+          it('should have created a v3 certification course without any challenges', async function () {
+            // given
+            const { options, userId, sessionId } = _createRequestOptions({ version: CertificationVersion.V3 });
+            _createNonExistingCertifCourseSetup({ learningContent, userId, sessionId });
+            await databaseBuilder.commit();
+
+            // when
+            response = await server.inject(options);
+
+            // then
+            const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId });
+            expect(certificationCourse.version).to.equal(CertificationVersion.V3);
+            expect(response.result.data.attributes).to.include({
+              'nb-challenges': 0,
+            });
+          });
         });
 
         it('should have copied matching certification candidate info into created certification course', async function () {
+          // given
+          const { options, userId, sessionId } = _createRequestOptions();
+          const { certificationCandidate } = _createNonExistingCertifCourseSetup({
+            learningContent,
+            userId,
+            sessionId,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          await server.inject(options);
+
           // then
           const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
           expect(certificationCourses[0].firstName).to.equal(certificationCandidate.firstName);
@@ -888,6 +887,14 @@ describe('Acceptance | API | Certification Course', function () {
         });
 
         it('should have only fr-fr challenges associated with certification-course', async function () {
+          // given
+          const { options, userId, sessionId } = _createRequestOptions();
+          _createNonExistingCertifCourseSetup({ learningContent, userId, sessionId });
+          await databaseBuilder.commit();
+
+          // when
+          await server.inject(options);
+
           // then
           const certificationChallenges = await knex('certification-challenges');
           expect(certificationChallenges.length).to.equal(2);
@@ -897,28 +904,6 @@ describe('Acceptance | API | Certification Course', function () {
       });
 
       context('when locale is en', function () {
-        beforeEach(async function () {
-          // given
-          const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
-          mockLearningContent(learningContentObjects);
-          certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-            sessionId,
-            userId,
-            authorizedToStart: true,
-          });
-          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
-            learningContent,
-            userId,
-            earnedPix: 4,
-          });
-          options.headers['accept-language'] = 'en';
-
-          await databaseBuilder.commit();
-
-          // when
-          response = await server.inject(options);
-        });
-
         afterEach(async function () {
           await knex('knowledge-elements').delete();
           await knex('answers').delete();
@@ -929,6 +914,14 @@ describe('Acceptance | API | Certification Course', function () {
         });
 
         it('should have only en challenges associated with certification-course', async function () {
+          // given
+          const { options, userId, sessionId } = _createRequestOptions({ locale: 'en' });
+          _createNonExistingCertifCourseSetup({ learningContent, userId, sessionId });
+          await databaseBuilder.commit();
+
+          // when
+          response = await server.inject(options);
+
           // then
           const certificationChallenges = await knex('certification-challenges');
           expect(certificationChallenges.length).to.equal(2);
@@ -939,25 +932,28 @@ describe('Acceptance | API | Certification Course', function () {
     });
 
     context('when the certification course already exists', function () {
-      let certificationCourseId;
-
-      beforeEach(async function () {
+      it('should respond with 200 status code', async function () {
         // given
-        certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId }).id;
-        databaseBuilder.factory.buildAssessment({ userId, certificationCourseId: certificationCourseId });
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
+        const { options, userId, sessionId } = _createRequestOptions();
+        _createExistingCertifCourseSetup({ userId, sessionId });
         await databaseBuilder.commit();
 
         // when
         response = await server.inject(options);
-      });
 
-      it('should respond with 200 status code', function () {
         // then
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should retrieve the already existing certification course', async function () {
+      it('should retrieve the already existing V2 certification course', async function () {
+        // given
+        const { options, userId, sessionId } = _createRequestOptions();
+        _createExistingCertifCourseSetup({ userId, sessionId, version: CertificationVersion.V2 });
+        await databaseBuilder.commit();
+
+        // when
+        response = await server.inject(options);
+
         // then
         const [certificationCourse, ...otherCertificationCourses] = await knex('certification-courses').where({
           userId,
@@ -965,6 +961,23 @@ describe('Acceptance | API | Certification Course', function () {
         });
         expect(otherCertificationCourses).to.have.length(0);
         expect(certificationCourse.id + '').to.equal(response.result.data.id);
+        expect(certificationCourse.version).to.equal(CertificationVersion.V2);
+      });
+
+      context('when the session is v3', function () {
+        it('should retrieve the already existing V3 certification course', async function () {
+          // given
+          const { options, userId, sessionId } = _createRequestOptions({ version: CertificationVersion.V3 });
+          _createExistingCertifCourseSetup({ userId, sessionId, version: CertificationVersion.V3 });
+          await databaseBuilder.commit();
+
+          // when
+          await server.inject(options);
+
+          // then
+          const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId });
+          expect(certificationCourse.version).to.equal(CertificationVersion.V3);
+        });
       });
     });
   });
@@ -1009,3 +1022,60 @@ describe('Acceptance | API | Certification Course', function () {
     });
   });
 });
+
+function _createRequestOptions(
+  { locale = 'fr-fr', version = CertificationVersion.V2 } = { locale: 'fr-fr', version: CertificationVersion.V2 }
+) {
+  const isV3Pilot = version === CertificationVersion.V3;
+  const userId = databaseBuilder.factory.buildUser().id;
+  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot }).id;
+  const sessionId = databaseBuilder.factory.buildSession({ accessCode: '123', certificationCenterId, version }).id;
+  const payload = {
+    data: {
+      attributes: {
+        'access-code': '123',
+        'session-id': sessionId,
+      },
+    },
+  };
+  const options = {
+    method: 'POST',
+    url: '/api/certification-courses',
+    headers: {
+      authorization: generateValidRequestAuthorizationHeader(userId),
+      'accept-language': `${locale}`,
+    },
+    payload,
+  };
+
+  return {
+    options,
+    userId,
+    sessionId,
+  };
+}
+
+function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userId }) {
+  const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
+  mockLearningContent(learningContentObjects);
+  const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+    sessionId,
+    userId,
+    authorizedToStart: true,
+  });
+  databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
+    learningContent,
+    userId,
+    earnedPix: 4,
+  });
+
+  return {
+    certificationCandidate,
+  };
+}
+
+function _createExistingCertifCourseSetup({ userId, sessionId, version = 2 }) {
+  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, version }).id;
+  databaseBuilder.factory.buildAssessment({ userId, certificationCourseId });
+  databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
+}

@@ -74,6 +74,7 @@ class CertificationCourse {
     verificationCode,
     maxReachableLevelOnCertificationDate,
     complementaryCertificationCourses,
+    version,
   }) {
     return new CertificationCourse({
       userId: certificationCandidate.userId,
@@ -91,6 +92,7 @@ class CertificationCourse {
       verificationCode,
       maxReachableLevelOnCertificationDate,
       complementaryCertificationCourses,
+      version,
     });
   }
 
@@ -217,6 +219,10 @@ class CertificationCourse {
 
   getSessionId() {
     return this._sessionId;
+  }
+
+  getVersion() {
+    return this._version;
   }
 
   toDTO() {
