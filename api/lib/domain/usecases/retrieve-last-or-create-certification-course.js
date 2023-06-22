@@ -13,6 +13,7 @@ import {
 
 import { config } from '../../config.js';
 import bluebird from 'bluebird';
+import { CertificationVersion } from '../models/CertificationVersion.js';
 
 const { features } = config;
 
@@ -34,21 +35,16 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   verifyCertificateCodeService,
 }) {
   const session = await sessionRepository.get(sessionId);
-  if (session.accessCode !== accessCode) {
-    throw new NotFoundError('Session not found');
-  }
-  if (!session.isAccessible()) {
-    throw new SessionNotAccessible();
-  }
+
+  _validateSessionAccess(session, accessCode);
+  _validateSessionIsActive(session);
 
   const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({
     userId,
     sessionId,
   });
 
-  if (!certificationCandidate) {
-    throw new UnexpectedUserAccountError({});
-  }
+  _validateUserIsCertificationCandidate(certificationCandidate);
 
   const existingCertificationCourse =
     await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
@@ -57,16 +53,12 @@ const retrieveLastOrCreateCertificationCourse = async function ({
       domainTransaction,
     });
 
-  if (!certificationCandidate.isAuthorizedToStart()) {
-    if (existingCertificationCourse) {
-      throw new CandidateNotAuthorizedToResumeCertificationTestError();
-    } else {
-      throw new CandidateNotAuthorizedToJoinSessionError();
-    }
-  }
+  _validateCandidateIsAuthorizedToStart(certificationCandidate, existingCertificationCourse);
 
-  certificationCandidate.authorizedToStart = false;
-  certificationCandidateRepository.update(certificationCandidate);
+  await _blockCandidateFromRestartingWithoutExplicitValidation(
+    certificationCandidate,
+    certificationCandidateRepository
+  );
 
   if (existingCertificationCourse) {
     return {
@@ -74,6 +66,8 @@ const retrieveLastOrCreateCertificationCourse = async function ({
       certificationCourse: existingCertificationCourse,
     };
   }
+
+  const { version } = session;
 
   return _startNewCertification({
     domainTransaction,
@@ -89,10 +83,47 @@ const retrieveLastOrCreateCertificationCourse = async function ({
     placementProfileService,
     verifyCertificateCodeService,
     certificationBadgesService,
+    version,
   });
 };
 
 export { retrieveLastOrCreateCertificationCourse };
+
+function _validateSessionAccess(session, accessCode) {
+  if (session.accessCode !== accessCode) {
+    throw new NotFoundError('Session not found');
+  }
+}
+
+function _validateSessionIsActive(session) {
+  if (!session.isAccessible()) {
+    throw new SessionNotAccessible();
+  }
+}
+
+function _validateUserIsCertificationCandidate(certificationCandidate) {
+  if (!certificationCandidate) {
+    throw new UnexpectedUserAccountError({});
+  }
+}
+
+function _validateCandidateIsAuthorizedToStart(certificationCandidate, existingCertificationCourse) {
+  if (!certificationCandidate.isAuthorizedToStart()) {
+    if (existingCertificationCourse) {
+      throw new CandidateNotAuthorizedToResumeCertificationTestError();
+    } else {
+      throw new CandidateNotAuthorizedToJoinSessionError();
+    }
+  }
+}
+
+async function _blockCandidateFromRestartingWithoutExplicitValidation(
+  certificationCandidate,
+  certificationCandidateRepository
+) {
+  certificationCandidate.authorizedToStart = false;
+  await certificationCandidateRepository.update(certificationCandidate);
+}
 
 async function _startNewCertification({
   domainTransaction,
@@ -107,10 +138,15 @@ async function _startNewCertification({
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
+  version,
 }) {
   const challengesForCertification = [];
 
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
+  const placementProfile = await placementProfileService.getPlacementProfile({
+    userId,
+    limitDate: new Date(),
+    version,
+  });
 
   if (!placementProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
@@ -165,11 +201,14 @@ async function _startNewCertification({
     }
   );
 
-  const challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
-    placementProfile,
-    locale
-  );
-  challengesForCertification.push(...challengesForPixCertification);
+  let challengesForPixCertification = [];
+  if (version !== CertificationVersion.V3) {
+    challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
+      placementProfile,
+      locale
+    );
+    challengesForCertification.push(...challengesForPixCertification);
+  }
 
   return _createCertificationCourse({
     certificationCandidate,
@@ -180,6 +219,7 @@ async function _startNewCertification({
     domainTransaction,
     verifyCertificateCodeService,
     complementaryCertificationCourseData,
+    version,
   });
 }
 
@@ -205,6 +245,7 @@ async function _createCertificationCourse({
   certificationChallenges,
   complementaryCertificationCourseData,
   domainTransaction,
+  version,
 }) {
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
   const complementaryCertificationCourses = complementaryCertificationCourseData.map(
@@ -217,6 +258,7 @@ async function _createCertificationCourse({
     maxReachableLevelOnCertificationDate: features.maxReachableLevel,
     complementaryCertificationCourses,
     verificationCode,
+    version,
   });
 
   const savedCertificationCourse = await certificationCourseRepository.save({

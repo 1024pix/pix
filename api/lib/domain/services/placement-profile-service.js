@@ -19,8 +19,8 @@ async function getPlacementProfile({
   locale,
 }) {
   const pixCompetences = await competenceRepository.listPixCompetencesOnly({ locale });
-  if (version === CertificationVersion.V2) {
-    return _generatePlacementProfileV2({
+  if (version !== CertificationVersion.V1) {
+    return _generatePlacementProfile({
       userId,
       profileDate: limitDate,
       competences: pixCompetences,
@@ -106,7 +106,7 @@ function _createUserCompetencesV2({
   });
 }
 
-async function _generatePlacementProfileV2({ userId, profileDate, competences, allowExcessPixAndLevels }) {
+async function _generatePlacementProfile({ userId, profileDate, competences, allowExcessPixAndLevels }) {
   const knowledgeElementsByCompetence = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
     userId,
     limitDate: profileDate,
