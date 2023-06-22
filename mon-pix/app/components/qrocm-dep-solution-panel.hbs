@@ -1,4 +1,4 @@
-<div class="qrocm-solution-panel rounded-panel">
+<div class="qrocm-solution-panel qrocm-solution-panel--dep rounded-panel">
   <div class="rounded-panel__row correction-qrocm__text">
     {{#each this.blocks as |block|}}
       {{#if block.text}}
@@ -44,7 +44,7 @@
             {{/if}}
           </div>
         {{else}}
-          <div class="correction-qrocm__answer-wrapper correction-qrocm__answer {{block.inputClass}}">
+          <div class="correction-qrocm__answer correction-qrocm__answer--input {{block.inputClass}}">
             <PixInput
               class="correction-qrocm-answer__input"
               @value="{{block.answer}}"
