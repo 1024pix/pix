@@ -13,8 +13,8 @@ module('Acceptance | Mission', function (hooks) {
     // when
     const screen = await visit(`/missions/${mission.id}`);
     // then
-    assert.dom(screen.getByText(`Titre de la mission : ${mission.name}`)).exists();
-    assert.dom(screen.getByText('Démarre ton épreuve')).exists();
+    assert.equal(screen.getAllByText(`${mission.name}`).length, 2);
+    assert.dom(screen.getByText('Je commence')).exists();
     assert.dom(`[href="/missions/${mission.id}/resume"]`).exists();
   });
 });
