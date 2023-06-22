@@ -1,7 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-undef */
 module.exports = {
-  extends: ['../.eslintrc.yaml'],
+  extends: ['../.eslintrc.cjs'],
   rules: {
     'no-restricted-modules': [
       'error',
