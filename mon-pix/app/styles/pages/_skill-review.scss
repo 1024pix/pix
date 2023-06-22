@@ -205,13 +205,10 @@
 .skill-review-competence {
   &__table {
     width: 100%;
-
-    tr {
-      height: 76px;
-    }
   }
 
   &__column-header {
+    padding-bottom: $pix-spacing-xs;
     text-align: left;
   }
 
@@ -492,11 +489,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 32px;
+    margin-bottom: $pix-spacing-l;
     text-align: center;
 
     @include device-is('tablet') {
       flex-direction: row;
+      margin-bottom: $pix-spacing-s;
     }
   }
 

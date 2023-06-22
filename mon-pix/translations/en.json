@@ -436,7 +436,7 @@
         "actions": {
           "launch": "Launch the app",
           "reset": "Restart",
-          "reset-label":  "Restart simulation"
+          "reset-label": "Restart simulation"
         },
         "placeholder": "App loading"
       },
@@ -1388,7 +1388,8 @@
         "header-result": "Results",
         "header-skill": "Competences tested",
         "result": "Overall result",
-        "percentage": "{rate, number, ::percent}"
+        "percentage": "{rate, number, ::percent}",
+        "progress-bar-label": "Competence result percentage"
       },
       "disabled-share": "This customised test has been deactivated by the organiser.'<br>'It is no longer possible to submit results.",
       "error": "Oops, an error occurred!",

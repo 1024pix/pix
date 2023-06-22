@@ -74,7 +74,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
         // then
         assert.ok(screen.getByText(competenceResultName));
-        assert.ok(screen.getByText(COMPETENCE_MASTERY_PERCENTAGE));
+        assert.strictEqual(screen.getByRole('progressbar').textContent.trim(), COMPETENCE_MASTERY_PERCENTAGE);
       });
 
       module('When the campaign is restricted and organization learner is disabled', function (hooks) {
@@ -124,7 +124,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
         // then
         assert.ok(screen.getByText(skillSetResultName));
-        assert.ok(screen.getByText(BADGE_SKILL_SET_MASTERY_PERCENTAGE));
+        assert.strictEqual(screen.getByRole('progressbar').textContent.trim(), BADGE_SKILL_SET_MASTERY_PERCENTAGE);
       });
 
       test('should display the Pix emploi badge when badge is acquired', async function (assert) {

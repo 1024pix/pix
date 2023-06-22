@@ -6,16 +6,17 @@
 }
 
 .checkpoint__header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  width: 80%;
-  min-height: 50px;
-  margin: 12px 0 35px;
+  width: 100%;
+  margin: $pix-spacing-m 0 $pix-spacing-s;
+  padding-inline: $pix-spacing-xs;
 
   @include device-is('tablet') {
-    width: 800px;
-    margin-bottom: 50px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    max-width: 832px;
+    margin: $pix-spacing-l 0 $pix-spacing-xs;
+    padding: 0 $pix-spacing-s;
   }
 }
 
@@ -30,10 +31,7 @@
   }
 }
 
-.checkpoint-progression-gauge-wrapper {
-  width: 100%;
-  height: 4px;
-
+.checkpoint__progression-gauge {
   @include device-is('tablet') {
     width: 65%;
   }

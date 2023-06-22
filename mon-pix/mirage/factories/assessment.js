@@ -20,6 +20,11 @@ export default Factory.extend({
 
   ofCompetenceEvaluationType: trait({
     type: 'COMPETENCE_EVALUATION',
+    afterCreate(assessment, server) {
+      assessment.update({
+        progression: server.create('progression', { id: 3, completionRate: 20 }),
+      });
+    },
   }),
 
   ofCertificationType: trait({
