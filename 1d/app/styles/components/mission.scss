@@ -7,31 +7,36 @@
   flex-direction: column;
   gap: 36px;
 
-  &__header {
+  &__header, &__body , &__body-finish{
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    gap: 10px;
     width: 960px;
-    height: 140px;
     background: #F2FDFF;
     box-shadow: 0px 4px 8px rgb(7 20 46 / 8%);
     border-radius: 24px;
   }
 
-  &__body {
-    display: flex;
+  &__header{
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 36px;
-    padding: 16px 24px 24px;
-    width: 960px;
+    gap: 10px;
+    height: 140px;
+  }
+
+  &__body, &__body-finish{
+    gap: 25px;
     height: 507px;
-    background: #F2FDFF;
-    box-shadow: 0px 4px 8px rgb(7 20 46 / 8%);
-    border-radius: 24px;
     position: relative;
+    align-items: center;
+  }
+
+  &__body {
+    flex-direction: column;
+    padding: 16px 24px 24px;
+  }
+
+  &__body-finish {
+    flex-direction: row;
+    padding: 16px 60px 24px;
   }
 }
 
@@ -65,4 +70,24 @@
 
 b {
   font-weight: bold;
+}
+
+ul{
+  text-align: left;
+  font-weight: 400;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  height: 280px;
+  justify-content: space-around;
+}
+
+.list-title {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.list-item {
+  padding-left: 20px;
 }
