@@ -24,6 +24,10 @@ ignores:
 # code =>  MOCHA_REPORTER: mocha-junit-reporter
 # see https://github.com/michaelleeallen/mocha-junit-reporter#usage
 
+# "eslint-plugin-i18n-json" is used in ../.eslintrc.yaml
+# code =>  plugins: - i18n-json
+# see https://github.com/godaddy/eslint-plugin-i18n-json
+
 # "eslint-plugin-mocha" is used in ../.eslintrc.yaml
 # code =>  plugins: - mocha
 # see https://github.com/lo1tuma/eslint-plugin-mocha#install-and-configure
