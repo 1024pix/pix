@@ -2,16 +2,21 @@ import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-export async function importNamedExportsFromDirectory(path, ignoredFileNames = []) {
+export async function importNamedExportsFromDirectory({ path, ignoredFileNames = [] }) {
   const imports = {};
   const exportsLocations = {};
-  const files = await readdir(path);
+  const files = await readdir(path, { withFileTypes: true });
+
   for (const file of files) {
-    if (!file.endsWith('.js') || ignoredFileNames.includes(file)) {
+    if (file.isDirectory()) {
       continue;
     }
 
-    const fileURL = pathToFileURL(join(path, file));
+    if (!file.name.endsWith('.js') || ignoredFileNames.includes(file.name)) {
+      continue;
+    }
+
+    const fileURL = pathToFileURL(join(path, file.name));
     const module = await import(fileURL);
     const namedExports = Object.entries(module);
 
@@ -20,10 +25,10 @@ export async function importNamedExportsFromDirectory(path, ignoredFileNames = [
         continue;
       }
       if (imports[exportName]) {
-        throw new Error(`Duplicate export name ${exportName} : ${exportsLocations[exportName]} and ${file}`);
+        throw new Error(`Duplicate export name ${exportName} : ${exportsLocations[exportName]} and ${file.name}`);
       }
       imports[exportName] = exportedValue;
-      exportsLocations[exportName] = file;
+      exportsLocations[exportName] = file.name;
     }
   }
   return imports;

@@ -8,4 +8,4 @@ export class C {
   }
 }
 
-export default 'default export';
+export default 'D';
