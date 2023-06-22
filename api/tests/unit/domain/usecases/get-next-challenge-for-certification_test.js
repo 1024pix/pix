@@ -1,7 +1,8 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { domainBuilder, expect, sinon, catchErr } from '../../../test-helper.js';
 import { getNextChallengeForCertification } from '../../../../lib/domain/usecases/get-next-challenge-for-certification.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
+import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', function () {
   describe('#getNextChallengeForCertification', function () {
@@ -67,64 +68,128 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
     });
 
     context('for a v3 certification', function () {
-      it('should return the next Challenge', async function () {
-        // given
-        const answerRepository = Symbol('AnswerRepository');
-        const challengeRepository = Symbol('ChallengeRepository');
-        const flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
-        const nextChallengeToAnswer = domainBuilder.buildChallenge();
-        const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-          version: CertificationVersion.V3,
-        });
-        const assessment = domainBuilder.buildAssessment();
-        const certificationCourseRepository = {
-          get: sinon.stub(),
-        };
-        const algorithmDataFetcherService = {
-          fetchForFlashCampaigns: sinon.stub(),
-        };
-        const pickChallengeService = {
-          chooseNextChallenge: sinon.stub(),
-        };
-        const locale = 'fr-FR';
+      context('when there are challenges left to answer', function () {
+        it('should return the next Challenge', async function () {
+          // given
+          const answerRepository = Symbol('AnswerRepository');
+          const challengeRepository = Symbol('ChallengeRepository');
+          const flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
+          const nextChallengeToAnswer = domainBuilder.buildChallenge();
+          const v3CertificationCourse = domainBuilder.buildCertificationCourse({
+            version: CertificationVersion.V3,
+          });
+          const assessment = domainBuilder.buildAssessment();
+          const certificationCourseRepository = {
+            get: sinon.stub(),
+          };
+          const algorithmDataFetcherService = {
+            fetchForFlashCampaigns: sinon.stub(),
+          };
+          const pickChallengeService = {
+            chooseNextChallenge: sinon.stub(),
+          };
+          const locale = 'fr-FR';
 
-        certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
-        algorithmDataFetcherService.fetchForFlashCampaigns
-          .withArgs({
+          certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
+          algorithmDataFetcherService.fetchForFlashCampaigns
+            .withArgs({
+              answerRepository,
+              challengeRepository,
+              flashAssessmentResultRepository,
+              assessmentId: assessment.id,
+              locale,
+            })
+            .resolves({
+              allAnswers: [],
+              challenges: [nextChallengeToAnswer],
+              estimatedLevel: 0,
+            });
+
+          const chooseNextChallengeImpl = sinon.stub();
+          chooseNextChallengeImpl
+            .withArgs({
+              possibleChallenges: [nextChallengeToAnswer],
+            })
+            .returns(nextChallengeToAnswer);
+          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
+
+          // when
+          const challenge = await getNextChallengeForCertification({
+            algorithmDataFetcherService,
+            assessment,
             answerRepository,
             challengeRepository,
             flashAssessmentResultRepository,
-            assessmentId: assessment.id,
+            pickChallengeService,
+            certificationCourseRepository,
             locale,
-          })
-          .resolves({
-            allAnswers: [],
-            challenges: [nextChallengeToAnswer],
-            estimatedLevel: 0,
           });
 
-        const chooseNextChallengeImpl = sinon.stub();
-        chooseNextChallengeImpl
-          .withArgs({
-            possibleChallenges: [nextChallengeToAnswer],
-          })
-          .returns(nextChallengeToAnswer);
-        pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
-
-        // when
-        const challenge = await getNextChallengeForCertification({
-          algorithmDataFetcherService,
-          assessment,
-          answerRepository,
-          challengeRepository,
-          flashAssessmentResultRepository,
-          pickChallengeService,
-          certificationCourseRepository,
-          locale,
+          // then
+          expect(challenge).to.equal(nextChallengeToAnswer);
         });
+      });
 
-        // then
-        expect(challenge).to.equal(nextChallengeToAnswer);
+      context('when there are no challenges left', function () {
+        it('should return the AssessmentEndedError', async function () {
+          // given
+          const answerRepository = Symbol('AnswerRepository');
+          const challengeRepository = Symbol('ChallengeRepository');
+          const flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
+          const nextChallengeToAnswer = domainBuilder.buildChallenge();
+          const v3CertificationCourse = domainBuilder.buildCertificationCourse({
+            version: CertificationVersion.V3,
+          });
+          const assessment = domainBuilder.buildAssessment();
+          const certificationCourseRepository = {
+            get: sinon.stub(),
+          };
+          const algorithmDataFetcherService = {
+            fetchForFlashCampaigns: sinon.stub(),
+          };
+          const pickChallengeService = {
+            chooseNextChallenge: sinon.stub(),
+          };
+          const locale = 'fr-FR';
+
+          certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
+          algorithmDataFetcherService.fetchForFlashCampaigns
+            .withArgs({
+              answerRepository,
+              challengeRepository,
+              flashAssessmentResultRepository,
+              assessmentId: assessment.id,
+              locale,
+            })
+            .resolves({
+              allAnswers: [],
+              challenges: [nextChallengeToAnswer],
+              estimatedLevel: 0,
+            });
+
+          const chooseNextChallengeImpl = sinon.stub();
+          chooseNextChallengeImpl
+            .withArgs({
+              possibleChallenges: [nextChallengeToAnswer],
+            })
+            .rejects(new AssessmentEndedError());
+          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
+
+          // when
+          const error = await catchErr(getNextChallengeForCertification)({
+            algorithmDataFetcherService,
+            assessment,
+            answerRepository,
+            challengeRepository,
+            flashAssessmentResultRepository,
+            pickChallengeService,
+            certificationCourseRepository,
+            locale,
+          });
+
+          // then
+          expect(error).to.be.instanceOf(AssessmentEndedError);
+        });
       });
     });
   });
