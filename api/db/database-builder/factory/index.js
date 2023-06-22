@@ -16,8 +16,13 @@ const unwantedFiles = [
   'build-data-protection-officer.js',
 ];
 
+const databaseBuilders = await importNamedExportsFromDirectory({
+  path: join(path, './'),
+  ignoredFileNames: unwantedFiles,
+});
+
 export const factory = {
-  ...(await importNamedExportsFromDirectory(join(path, './'), unwantedFiles)),
+  ...databaseBuilders,
   campaignParticipationOverviewFactory,
   knowledgeElementSnapshotFactory,
   poleEmploiSendingFactory,
