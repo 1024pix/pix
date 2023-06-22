@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('node:path');
 
 module.exports = {
   globals: {
@@ -27,7 +28,12 @@ module.exports = {
     'no-restricted-imports': ['error', { paths: ['lodash'] }],
     'no-console': 'error',
     'ember/no-array-prototype-extensions': 0,
-    'i18n-json/valid-message-syntax': 0,
+    'i18n-json/sorted-keys': [
+      'error',
+      {
+        sortFunctionPath: path.resolve('./config/linter-translation-order.cjs'),
+      },
+    ],
   },
   overrides: [
     // node files
