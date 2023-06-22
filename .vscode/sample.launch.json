@@ -60,7 +60,7 @@
       "skipFiles": ["<node_internals>/**", "api/tests/test-helper.js"]
     },
     {
-      "name": "api mocha current file (equivaut à @doc)",
+      "name": "api mocha current file (similar to @doc)",
       "type": "node",
       "request": "launch",
       "outputCapture": "std",

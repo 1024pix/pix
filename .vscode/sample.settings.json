@@ -23,6 +23,18 @@
   "mochaExplorer.timeout": 20000,
   // Use Mocha's experimental ESM module loader if it is available
   "mochaExplorer.esmLoader": true,
+  "mochaExplorer.env": {
+      "NODE_ENV": "test",
+      // Avoids creating tests that only works in your timezone
+      "TZ": "Asia/Kolkata",
+      "TEST_REDIS_URL": "redis://localhost:6379",
+       //"LOG_ENABLED": "true",
+      //"LOG_FOR_HUMANS": "true",
+      //"TEST_LOG_ENABLED": "true",
+      // "LOG_LEVEL": "debug",
+      // "DEBUG": "knex:*"
+    },
+
   // use VS Code's native testing UI
   "testExplorer.useNativeTesting": true
 }
