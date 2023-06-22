@@ -2,13 +2,13 @@
   "current-lang": "en",
   "api-error-messages": {
     "campaign-creation": {
+      "custom-landing-page_too_long": "Please choose a shorter text to display on the starting page.",
       "external-user-id-required": "Please specify the type of external user ID which the participants will be required to fill when starting the customised test.",
       "name-required": "Please name your campaign.",
       "owner_not_in_organization": "Please select a member of your organization.",
       "purpose-required": "Please select the purpose of your campaign: assess participants or collect their profiles.",
       "target-profile-required": "Please select a customised test for your campaign.",
-      "title_too_long": "Please choose a shorter title.",
-      "custom-landing-page_too_long": "Please choose a shorter text to display on the starting page."
+      "title_too_long": "Please choose a shorter title."
     },
     "default": "The service is temporarily unavailable. Please try again later.",
     "edit-student-number": {
@@ -35,6 +35,7 @@
       "student-number-unique": "Row {line} : The field “{field}” must be unique within the file."
     },
     "student-xml-import": {
+      "birth-city-code-required-for-french-student": "The field birth city code is mandatory for each student born in France.",
       "empty": "Each student must have an INE and a class.",
       "encoding-not-supported": "File encoding not supported.",
       "ine-required": "INE is mandatory for each student.",
@@ -42,9 +43,8 @@
       "invalid-file": "File does not match the requirements.",
       "invalid-file-extension": "File with extension {fileExtension} not supported.",
       "payload-too-large": "The file must be less than {maxSize}MB.",
-      "uai-mismatched": "The UAI of your SIECLE file does not match your school.",
       "sex-code-required": "The field sex is mandatory for each student.",
-      "birth-city-code-required-for-french-student": "The field birth city code is mandatory for each student born in France."
+      "uai-mismatched": "The UAI of your SIECLE file does not match your school."
     }
   },
   "banners": {
@@ -57,85 +57,85 @@
   },
   "cards": {
     "participants-average-results": {
-      "information": "Find here the average results of your campaign. This includes all the participants who have completed their customised test and sent their results.",
-      "title": "Average result"
+      "title": "Average result",
+      "information": "Find here the average results of your campaign. This includes all the participants who have completed their customised test and sent their results."
     },
     "participants-average-stages": {
-      "information": "Find here the average rating of your campaign. This includes all the participants who have completed their customised test and sent their results.",
-      "title": "Average rating"
+      "title": "Average rating",
+      "information": "Find here the average rating of your campaign. This includes all the participants who have completed their customised test and sent their results."
     },
     "participants-count": {
+      "title": "Total participants",
       "information": "Find here the total number of participations in your campaign. This includes all the participants who have entered the code and started their customised test or submitted their profile.",
-      "loader": "Loading total participants",
-      "title": "Total participants"
+      "loader": "Loading total participants"
     },
     "submitted-count": {
+      "title": "Submitted results",
       "information": "Find here the results submitted by your participants. This includes all the participants who have finished and clicked on the button \"Submit my results\" or \"Submit my profile\".",
       "loader": "Loading submitted results or profiles",
-      "title": "Submitted results",
       "title-profiles": "Submitted profiles"
     }
   },
   "charts": {
+    "participants-by-day": {
+      "title": "Participant's activity",
+      "labels-a11y": {
+        "date": "Date",
+        "shared": "Submitted results",
+        "shared-profile": "Submitted profiles",
+        "started": "Total participants"
+      },
+      "labels-legend": {
+        "shared": "Submitted results",
+        "shared-profile": "Submitted profiles",
+        "started": "Total participants"
+      },
+      "loader": "Loading participant's activity"
+    },
     "participants-by-mastery-percentage": {
-      "loader": "Loading participants grouped by success rates",
       "title": "Distribution of participants grouped by success rate",
       "label-a11y": "From {from, number, ::percent} to {to, number, ::percent}: {count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}}",
+      "loader": "Loading participants grouped by success rates",
       "tooltip": {
         "title": "Results {legend}",
-        "legend": "{from, number, ::percent} - {to, number, ::percent}",
-        "label": "Number of participants : {count}"
+        "label": "Number of participants : {count}",
+        "legend": "{from, number, ::percent} - {to, number, ::percent}"
       }
     },
     "participants-by-stage": {
+      "title": "Distribution of participants grouped by success rate",
       "loader": "Loading and sorting the participants grouped by success rates",
-      "participants": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}}",
-      "title": "Distribution of participants grouped by success rate"
+      "participants": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}}"
     },
     "participants-by-status": {
+      "title": "Statuses",
+      "a11y-title": "Detail by participation status",
+      "labels-a11y": {
+        "completed": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with pending results",
+        "shared": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with submitted results",
+        "shared-profile": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with submitted profiles",
+        "started": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} in progress"
+      },
+      "labels-legend": {
+        "completed-assessment": "Pending results ({count})",
+        "completed-assessment-tooltip": "Pending results: These participants have finished their customised test but haven’t submitted their results yet.",
+        "completed-profile": "Pending profiles ({count})",
+        "completed-profile-tooltip": "Pending profiles: These participants haven’t submitted their profiles yet.",
+        "shared": "Submitted results ({count})",
+        "shared-profile": "Submitted profiles ({count})",
+        "shared-profile-tooltip": "Submitted profiles: These participants have submitted their profiles.",
+        "shared-tooltip": "Submitted results: These participants have finished their customised test and submitted their results.",
+        "started": "In progress ({count})",
+        "started-tooltip": "In progress: These participants haven’t finished their customised test yet."
+      },
       "labels-tooltip": {
-        "started": "In progress: {percentage, number, ::percent .0}",
         "completed-assessment": "Pending results: {percentage, number, ::percent .0}",
         "completed-profile": "Pending profiles: {percentage, number, ::percent .0}",
         "shared": "Submitted results: {percentage, number, ::percent .0}",
-        "shared-profile": "Submitted profiles: {percentage, number, ::percent .0}"
+        "shared-profile": "Submitted profiles: {percentage, number, ::percent .0}",
+        "started": "In progress: {percentage, number, ::percent .0}"
       },
-      "labels-a11y": {
-        "started": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} in progress",
-        "completed": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with pending results",
-        "shared": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with submitted results",
-        "shared-profile": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with submitted profiles"
-      },
-      "labels-legend": {
-        "started": "In progress ({count})",
-        "started-tooltip": "In progress: These participants haven’t finished their customised test yet.",
-        "completed-assessment": "Pending results ({count})",
-        "completed-profile": "Pending profiles ({count})",
-        "completed-assessment-tooltip": "Pending results: These participants have finished their customised test but haven’t submitted their results yet.",
-        "completed-profile-tooltip": "Pending profiles: These participants haven’t submitted their profiles yet.",
-        "shared": "Submitted results ({count})",
-        "shared-tooltip": "Submitted results: These participants have finished their customised test and submitted their results.",
-        "shared-profile": "Submitted profiles ({count})",
-        "shared-profile-tooltip": "Submitted profiles: These participants have submitted their profiles."
-      },
-      "loader": "Loading statuses distribution",
-      "title": "Statuses",
-      "a11y-title": "Detail by participation status"
-    },
-    "participants-by-day": {
-      "labels-a11y": {
-        "date": "Date",
-        "started": "Total participants",
-        "shared": "Submitted results",
-        "shared-profile": "Submitted profiles"
-      },
-      "labels-legend": {
-        "started": "Total participants",
-        "shared": "Submitted results",
-        "shared-profile": "Submitted profiles"
-      },
-      "loader": "Loading participant's activity",
-      "title": "Participant's activity"
+      "loader": "Loading statuses distribution"
     }
   },
   "common": {
@@ -148,18 +148,19 @@
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
+      "gateway-timeout-error": "The service is being slow. Please try again later.",
       "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
       "login-unauthorized-error": "There was an error in the email address or password entered.",
-      "login-user-temporary-blocked-error": "You have reached too many failed login attempts. Please try again later or <a href=\"{url}\">reset your password here</a>.",
-      "login-user-blocked-error": "Your account has reached the maximum number of failed login attempts and has been temporarily blocked. Please <a href=\"{url}\">contact us</a> to unblock it.",
-      "gateway-timeout-error": "The service is being slow. Please try again later."
+      "login-user-blocked-error": "Your account has reached the maximum number of failed login attempts and has been temporarily blocked. Please '<a href=\"{url}\">'contact us'</a>' to unblock it.",
+      "login-user-temporary-blocked-error": "You have reached too many failed login attempts. Please try again later or '<a href=\"{url}\">'reset your password here'</a>'."
     },
+    "breadcrumb": "Breadcrumb",
     "filters": {
-      "loading": "Loading...",
       "divisions": {
         "title": "Classes",
         "empty": "No class"
-      }
+      },
+      "loading": "Loading..."
     },
     "form": {
       "mandatory-all-fields": "All fields are required.",
@@ -177,8 +178,8 @@
         "select-page-size": "Select the number of items by page"
       },
       "page-info": "{start, number}-{end, number} of {total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
-      "page-results": "{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
       "page-number": "Page {current, number} / {total, number}",
+      "page-results": "{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
       "result-by-page": "See"
     },
     "result": {
@@ -187,58 +188,73 @@
       "stages": "{count} out of {total} stars"
     },
     "target-profile-details": {
-      "subjects": "Topics: {value, number}",
       "results": {
         "common": "Success rate in ",
-        "star": "stars",
-        "percent": "percentage"
+        "percent": "percentage",
+        "star": "stars"
       },
+      "subjects": "Topics: {value, number}",
       "thematic-results": "Thematic results: {value, number}"
+    }
+  },
+  "components": {
+    "date": {
+      "no-date": "No date yet"
     },
-    "breadcrumb": "Breadcrumb"
+    "group": {
+      "SCO": "Class",
+      "SUP": "Group"
+    },
+    "participation-status": {
+      "SHARED-ASSESSMENT": "Submitted results",
+      "SHARED-PROFILES_COLLECTION": "Submitted profile",
+      "STARTED-ASSESSMENT": "In progress",
+      "TO_SHARE-ASSESSMENT": "Pending results",
+      "TO_SHARE-PROFILES_COLLECTION": "Pending profile"
+    }
   },
   "navigation": {
+    "assessment-individual-results": {
+      "aria-label": "Individual assessment resultas navigation"
+    },
+    "campaign-page": {
+      "aria-label": "Campaign navigation"
+    },
     "credits": {
       "number": "{count, plural, =0 {0 credits} =1 {1 credit} other {{count, number} credits}}",
-      "tooltip-text": "The number of credits displayed is the number of credits acquired by the organisation and currently valid (regardless of their activation). For more information, please contact us at the following address: <a href=mailto:pro@pix.fr>pro@pix.fr</a>"
+      "tooltip-text": "The number of credits displayed is the number of credits acquired by the organisation and currently valid (regardless of their activation). For more information, please contact us at the following address: '<a href=mailto:pro@pix.fr>'pro@pix.fr'</a>'"
     },
     "footer": {
       "a11y": "Accessibility",
+      "aria-label": "Footer navigation",
       "copyrights": "©",
       "legal-notice": "Legal notice",
-      "pix": "Pix",
-      "aria-label": "Footer navigation"
+      "pix": "Pix"
     },
     "main": {
+      "aria-label": "Main navigation",
       "campaigns": "Campaigns",
       "certifications": "Certifications",
       "documentation": "Documentation",
       "organization-participants": "Participants",
       "sco-organization-participants": "Students",
       "sup-organization-participants": "Students",
-      "team": "Team",
-      "aria-label": "Main navigation"
+      "team": "Team"
     },
+    "pix-orga": "Pix Orga",
     "team-members": {
       "aria-label": "Team members navigation"
     },
-    "campaign-page": {
-      "aria-label": "Campaign navigation"
-    },
-    "assessment-individual-results": {
-      "aria-label": "Individual assessment resultas navigation"
-    },
-    "pix-orga": "Pix Orga",
     "user-logged-menu": {
-      "logout": "Log out",
-      "button": "Open user menu"
+      "button": "Open user menu",
+      "logout": "Log out"
     }
   },
   "pages": {
     "assessment-individual-results": {
       "title": "Results of {firstName} {lastName}",
-      "breadcrumb-current-page-label": "Participation of {firstName} {lastName}",
       "badges": "Thematic results",
+      "breadcrumb-current-page-label": "Participation of {firstName} {lastName}",
       "progression": "Progression",
       "result": "Result",
       "tab": {
@@ -246,16 +262,16 @@
         "review": "Review"
       },
       "table": {
+        "title": "Results by competence",
         "column": {
           "competences": "Competences ({count, plural, =0 {-} other {{count}}})",
           "results": {
             "label": "Results",
-            "tooltip": "<span class=\"screen-reader-only\">This participant has validated</span> {result, number, ::percent} <span class=\"screen-reader-only\">of the competence {competence}.</span>"
+            "tooltip": "'<span class=\"screen-reader-only\">'This participant has validated'</span>' {result, number, ::percent} '<span class=\"screen-reader-only\">'of the competence {competence}.'</span>'"
           }
         },
         "empty": "Pending results",
-        "row-title": "Competence",
-        "title": "Results by competence"
+        "row-title": "Competence"
       }
     },
     "campaign": {
@@ -267,12 +283,12 @@
       "code": "Code",
       "copy": {
         "code": {
-          "success": "Copied!",
-          "default": "Copy code"
+          "default": "Copy code",
+          "success": "Copied!"
         },
         "link": {
-          "success": "Copied!",
-          "default": "Copy direct link"
+          "default": "Copy direct link",
+          "success": "Copied!"
         }
       },
       "created-by": "Owner",
@@ -287,11 +303,33 @@
       }
     },
     "campaign-activity": {
+      "title": "Activity",
       "actions": {
         "delete": "Delete"
       },
-      "title": "Activity",
+      "delete-participation-modal": {
+        "title": "Delete the participation of <strong>{firstName} {lastName}</strong>?",
+        "actions": {
+          "cancel": "No",
+          "confirmation": "Yes, delete"
+        },
+        "error": "An error occurred while removing this participation.",
+        "success": "The participation has been successfully deleted",
+        "text": "You are about to delete a participation, it will no longer be visible nor included in the statistics of the campaign.",
+        "warning": {
+          "assessment-campaign-participation": {
+            "shared-participation": "The participant will not be able to take the test again.",
+            "started-participation": "The participant will be able to complete their customised test but will no longer be able to submit their results. They will also not be able to participate in the campaign again.",
+            "to-share-participation": "The participant will no longer be able to submit their results nor to take the test again."
+          },
+          "profiles-collection-campaign-participation": {
+            "shared-participation": "The participant will no longer be able to submit their profile through this campaign.",
+            "to-share-participation": "The participant will no longer be able to submit their profile through this campaign."
+          }
+        }
+      },
       "table": {
+        "title": "List of participants",
         "column": {
           "delete": "Delete participation",
           "first-name": "First name",
@@ -301,43 +339,11 @@
         "delete-button-label": "Delete participation",
         "empty": "No participants",
         "row-title": "Participant",
-        "title": "List of participants",
         "see-results": "See results of {firstName} {lastName}"
-      },
-      "delete-participation-modal": {
-        "actions": {
-          "cancel": "No",
-          "confirmation": "Yes, delete"
-        },
-        "error": "An error occurred while removing this participation.",
-        "success": "The participation has been successfully deleted",
-        "title": "Delete the participation of <strong>{firstName} {lastName}</strong>?",
-        "text": "You are about to delete a participation, it will no longer be visible nor included in the statistics of the campaign.",
-        "warning": {
-          "assessment-campaign-participation": {
-            "started-participation": "The participant will be able to complete their customised test but will no longer be able to submit their results. They will also not be able to participate in the campaign again.",
-            "to-share-participation": "The participant will no longer be able to submit their results nor to take the test again.",
-            "shared-participation": "The participant will not be able to take the test again."
-          },
-          "profiles-collection-campaign-participation": {
-            "to-share-participation": "The participant will no longer be able to submit their profile through this campaign.",
-            "shared-participation": "The participant will no longer be able to submit their profile through this campaign."    
-          }
-        }
       }
     },
     "campaign-creation": {
       "title": "Create a campaign",
-      "owner": {
-        "label": "Campaign owner",
-        "placeholder": "Owner’s first and last name",
-        "search-placeholder": "Search for an owner",
-        "clear-label": "Clear the selection",
-        "expand-label": "Open the dropdown list",
-        "collapse-label": "Close the dropdown list",
-        "title": "Campaign owner",
-        "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign."
-      },
       "actions": {
         "create": "Create a campaign",
         "delete": "Delete"
@@ -345,28 +351,38 @@
       "external-id-label": {
         "label": "external user ID label",
         "question-label": "Do you need an external user ID?",
-        "suggestion": "Example : \"Student Number\" or \"Email address\" *",
-        "required": "The external user ID label is mandatory."
+        "required": "The external user ID label is mandatory.",
+        "suggestion": "Example : \"Student Number\" or \"Email address\" *"
       },
       "landing-page-text": {
         "label": "Text to display on the starting page"
       },
       "legal-warning": "*In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), and as data controller, please be careful not to ask for significant or identifying personal data unless it is absolutely necessary. Asking for social security numbers, as well as any sensitive data, is strictly prohibited.",
       "multiple-sendings": {
+        "assessments": {
+          "info": "If you choose to allow multiple submissions, the participants will be able to take the test again 4 days after and submit their results several times by re-entering the campaign code. Within Pix Orga you will find the latest participation.",
+          "question-label": "Do you want to allow participants to submit their results more than once?"
+        },
         "info-title": "Multiple submissions",
         "profiles": {
-          "question-label": "Do you want to allow participants to submit their profile more than once?",
-          "info": "If you choose to allow multiple submissions, the participants will be able to submit their profile several times by re-entering the campaign code. Within Pix Orga you will find the latest submitted profile."
-        },
-        "assessments": {
-          "question-label": "Do you want to allow participants to submit their results more than once?",
-          "info": "If you choose to allow multiple submissions, the participants will be able to take the test again 4 days after and submit their results several times by re-entering the campaign code. Within Pix Orga you will find the latest participation."
+          "info": "If you choose to allow multiple submissions, the participants will be able to submit their profile several times by re-entering the campaign code. Within Pix Orga you will find the latest submitted profile.",
+          "question-label": "Do you want to allow participants to submit their profile more than once?"
         }
       },
       "name": {
         "label": "Name of the campaign"
       },
       "no": "No",
+      "owner": {
+        "title": "Campaign owner",
+        "clear-label": "Clear the selection",
+        "collapse-label": "Close the dropdown list",
+        "expand-label": "Open the dropdown list",
+        "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign.",
+        "label": "Campaign owner",
+        "placeholder": "Owner’s first and last name",
+        "search-placeholder": "Search for an owner"
+      },
       "purpose": {
         "assessment": "Assess participants",
         "assessment-info": "An assessment campaign tests participants on specific topics.",
@@ -378,8 +394,8 @@
         "COMPETENCES": "Pix Competences",
         "CUSTOM": "Created for you",
         "DISCIPLINE": "Schools",
-        "PREDEFINED": "Ready-made",
         "OTHER": "Other",
+        "PREDEFINED": "Ready-made",
         "SUBJECT": "Subject"
       },
       "tags-title": "Filter:",
@@ -393,37 +409,6 @@
       },
       "yes": "Yes"
     },
-    "campaign-settings": {
-      "title": "Settings",
-      "actions": {
-        "archive": "Archive",
-        "edit": "Edit"
-      },
-      "campaign-type": {
-        "title": "Type of campaign",
-        "assessment": "Assessment campaign",
-        "profiles-collection": "Profiles collection campaign"
-      },
-      "direct-link": "Direct link",
-      "external-user-id-label": "External user ID label",
-      "landing-page-text": "Text to display on the starting page",
-      "multiple-sendings": {
-        "title": "Multiple Sendings",
-        "status": {
-          "enabled": "Yes",
-          "disabled": "No"
-        },
-        "tooltip": {
-          "aria-label": "Description of multiple sendings",
-          "text": "If you choose to allow multiple submissions, the participants will be able to submit their participation several times by re-entering the campaign code. Within Pix Orga you will find the latest sent."
-        }
-      },
-      "personalised-test-title": "Title of the customised test",
-      "target-profile": {
-        "title": "Customised test",
-        "tooltip": "Customised test's description"
-      }
-    },
     "campaign-individual-results": {
       "shared-date": "Sent on",
       "start-date": "Started on"
@@ -436,18 +421,19 @@
       "actions": {
         "edit": "Edit"
       },
-      "owner": {
-        "label": "Owner of the campaign",
-        "placeholder": "Owner’s first and last name",
-        "title": "Owner of the campaign",
-        "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign."
-      },
-      "campaign-name": "Name of the campaign",
       "campaign-modification-success-message": "The changes have been successfully saved.",
+      "campaign-name": "Name of the campaign",
       "landing-page-text": "Text to display on the starting page",
+      "owner": {
+        "title": "Owner of the campaign",
+        "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign.",
+        "label": "Owner of the campaign",
+        "placeholder": "Owner’s first and last name"
+      },
       "personalised-test-title": "Title of the personalised test"
     },
     "campaign-results": {
+      "title": "Results",
       "average": "Average results",
       "filters": {
         "title": "Filters",
@@ -461,23 +447,24 @@
           "divisions": {
             "placeholder": "Classes"
           },
+          "groups": {
+            "title": "Groups",
+            "empty": "No group"
+          },
           "search": {
             "title": "Search by lastname and firstname",
             "placeholder": "Lastname, firstname"
           },
+          "stages": "Success rate",
           "status": {
             "title": "Status",
             "empty": "All statuses"
-          },
-          "stages": "Success rate",
-          "groups": {
-            "title": "Groups",
-            "empty": "No group"
           }
         }
       },
       "result": "Result",
       "table": {
+        "title": "List of submitted results",
         "column": {
           "badges": "Thematic results",
           "first-name": "First name",
@@ -489,11 +476,9 @@
           }
         },
         "empty": "No participants",
-        "row-title": "Participant",
-        "title": "List of submitted results"
+        "row-title": "Participant"
       },
       "tested-items": "Items assessed",
-      "title": "Results",
       "validated-items": "Items successfully completed"
     },
     "campaign-review": {
@@ -511,14 +496,14 @@
       "sub-title": "Recommendations of topics to focus on",
       "table": {
         "analysis": {
-          "caption": "Table of topics to work on, sorted by relevance. Some have additional columns showing the number of tutorials that exist related to the topic and how to access these tutorials",
           "title": "Review by topic",
+          "caption": "Table of topics to work on, sorted by relevance. Some have additional columns showing the number of tutorials that exist related to the topic and how to access these tutorials",
           "column": {
             "relevance": {
-              "label": "Relevance",
               "ariaLabelDefaultSort": "The array is not yet sorted by relevance. Click to sort ascending.",
+              "ariaLabelSortDown": "The array is sorted by descending relevance. Click to sort ascending.",
               "ariaLabelSortUp": "The array is sorted by ascending relevance. Click to sort descending.",
-              "ariaLabelSortDown": "The array is sorted by descending relevance. Click to sort ascending."
+              "label": "Relevance"
             },
             "subjects": "Topics ({count, plural, =0 {-} other {{count}}})",
             "tutorial": {
@@ -543,7 +528,7 @@
             "competences": "Competences ({count})",
             "results": {
               "label": "Results",
-              "tooltip": "<span class=\"screen-reader-only\">Participants have validated</span> {result} % <span class=\"screen-reader-only\">of the competence {competence}.</span>"
+              "tooltip": "'<span class=\"screen-reader-only\">'Participants have validated'</span>' {result} % '<span class=\"screen-reader-only\">'of the competence {competence}.'</span>'"
             }
           },
           "row-title": "Competence"
@@ -551,13 +536,39 @@
         "empty": "Pending results"
       }
     },
+    "campaign-settings": {
+      "title": "Settings",
+      "actions": {
+        "archive": "Archive",
+        "edit": "Edit"
+      },
+      "campaign-type": {
+        "title": "Type of campaign",
+        "assessment": "Assessment campaign",
+        "profiles-collection": "Profiles collection campaign"
+      },
+      "direct-link": "Direct link",
+      "external-user-id-label": "External user ID label",
+      "landing-page-text": "Text to display on the starting page",
+      "multiple-sendings": {
+        "title": "Multiple Sendings",
+        "status": {
+          "disabled": "No",
+          "enabled": "Yes"
+        },
+        "tooltip": {
+          "aria-label": "Description of multiple sendings",
+          "text": "If you choose to allow multiple submissions, the participants will be able to submit their participation several times by re-entering the campaign code. Within Pix Orga you will find the latest sent."
+        }
+      },
+      "personalised-test-title": "Title of the customised test",
+      "target-profile": {
+        "title": "Customised test",
+        "tooltip": "Customised test's description"
+      }
+    },
     "campaigns-list": {
       "title": "Campaigns",
-      "navigation": "Navigation in the Campaign section",
-      "tabs": {
-        "all-campaigns": "All the campaigns",
-        "my-campaigns": "My campaigns"
-      },
       "action": {
         "archived": {
           "label": "Archived"
@@ -567,18 +578,17 @@
           "label": "Ongoing"
         }
       },
-      "no-campaign": "No campaign. To start, click on 'Create a campaign'.",
       "filter": {
+        "title": "Filters",
+        "by-name": "Search for a campaign",
+        "by-owner": "Search for an owner",
         "clear": "Clear filters",
         "legend": "Filters for the campaigns table, input fields allow to filter the table by campaign name and/or by owner name. Buttons allow to switch between ongoing and archived campaigns.",
-        "title": "Filters",
-        "by-owner": "Search for an owner",
-        "by-name": "Search for a campaign",
         "results": "{total, plural, =0 {0 campaigns} =1 {1 campaign} other {{total, number} campaigns}}"
       },
+      "navigation": "Navigation in the Campaign section",
+      "no-campaign": "No campaign. To start, click on 'Create a campaign'.",
       "table": {
-        "description-all-campaigns": "This is the list of all the campaigns created in you Pix Orga. It includes their owner name, creation date, number of participants and number of received results.",
-        "description-my-campaigns": "This is the list of the campaigns you own. It includes their creation date, number of participants and number of received results.",
         "column": {
           "campaign": "Name of the campaign",
           "created-by": "Owner",
@@ -586,8 +596,14 @@
           "participants": "Participants",
           "results": "Results submitted"
         },
+        "description-all-campaigns": "This is the list of all the campaigns created in you Pix Orga. It includes their owner name, creation date, number of participants and number of received results.",
+        "description-my-campaigns": "This is the list of the campaigns you own. It includes their creation date, number of participants and number of received results.",
         "empty": "No campaign",
         "row-title": "Campaign"
+      },
+      "tabs": {
+        "all-campaigns": "All the campaigns",
+        "my-campaigns": "My campaigns"
       }
     },
     "certifications": {
@@ -596,12 +612,12 @@
       "documentation-link": "https://cloud.pix.fr/s/cRaeKT4ErrXs4X8",
       "documentation-link-label": "Interpreting the results.",
       "documentation-link-notice": "Follow this link to find indications on how to interpret the results: ",
-      "download-button": "Export the results",
       "download-attestations-button": "Download attestations",
+      "download-button": "Export the results",
       "errors": {
         "invalid-division": "The class {selectedDivision} does not exist.",
-        "no-results": "No certification results for the class {selectedDivision}.",
-        "no-certificates": "No certificates for the class {selectedDivision}."
+        "no-certificates": "No certificates for the class {selectedDivision}.",
+        "no-results": "No certification results for the class {selectedDivision}."
       },
       "no-students-imported-yet": "In this tab, you will find the certification results and certificates of the students. You will first need to import the students database of your school.",
       "select-label": "Class"
@@ -614,9 +630,9 @@
       "active-or-retrieve": "Activate or retrieve your Pix Orga space",
       "email": "Email address",
       "errors": {
-        "invalid-email": "Your email address is invalid.",
         "empty-password": "Your password can't be empty.",
-        "should-change-password": "You currently have a temporary password. <a href=\"{url}\">Reset your password here</a>.",
+        "invalid-email": "Your email address is invalid.",
+        "should-change-password": "You currently have a temporary password. '<a href=\"{url}\">'Reset your password here'</a>'.",
         "status": {
           "403": "Access to this Pix Orga space is limited to invited members. Each Pix Orga space is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited.",
           "404": "There was an error in the email address or password entered.",
@@ -641,6 +657,10 @@
       "register-form": {
         "title": "Sign up",
         "button": "Sign up",
+        "errors": {
+          "default": "The service is temporarily unavailable. Please try again later.",
+          "email-already-exists": "This email address is already registered, please login."
+        },
         "fields": {
           "button": {
             "label": "Sign up"
@@ -669,29 +689,23 @@
             "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
             "label": "Password"
           }
-        },
-        "errors": {
-          "default": "The service is temporarily unavailable. Please try again later.",
-          "email-already-exists": "This email address is already registered, please login."
         }
       }
     },
     "organization-learner": {
       "activity": {
+        "title": "Activity",
+        "assessment-summary": "Customised tests participations summary",
         "cards": {
-          "started": "In progress: {count}",
-          "to-share": "Pending: {count}",
-          "shared": "Submitted: {count}",
           "title": {
             "assessment": "Assessments",
             "profiles-collection": "Profile collections"
-          }
+          },
+          "shared": "Submitted: {count}",
+          "started": "In progress: {count}",
+          "to-share": "Pending: {count}"
         },
         "empty-state": "No activity yet. As soon as {organizationLearnerFirstName} {organizationLearnerLastName} participates in a campaign, you will be able to follow their progress here.",
-        "title": "Activity",
-        "assessment-summary": "Customised tests participations summary",
-        "profile-collection-summary": "Profile collection participations summary",
-        "participations-title": "List of all the participations",
         "participation-list": {
           "table": {
             "column": {
@@ -707,29 +721,35 @@
             "ASSESSMENT": "Assessment",
             "PROFILES_COLLECTION": "Profiles collection"
           }
-        }
+        },
+        "participations-title": "List of all the participations",
+        "profile-collection-summary": "Profile collection participations summary"
       },
       "header": {
         "aria-label-title": "Detail page of {firstName} {lastName}"
       }
     },
+    "organization-participant-activity": {
+      "title": "Participant activity"
+    },
     "organization-participants": {
+      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
       "empty-state": {
-        "message": "No participants yet!",
+        "action": "See my campaigns",
         "call-to-action": "Share with them a link to join an existing campaign or create a new campaign.",
-        "action": "See my campaigns"
+        "message": "No participants yet!"
       },
       "filters": {
+        "title": "Filters",
         "actions": {
           "clear": "Clear filters"
         },
         "aria-label": "Filters on participants",
-        "title": "Filters",
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
         "type": {
           "certificability": {
-            "placeholder": "Search by certificability",
-            "label": "Search by certificability"
+            "label": "Search by certificability",
+            "placeholder": "Search by certificability"
           },
           "fullName": {
             "title": "Search by lastname and firstname",
@@ -737,67 +757,66 @@
           }
         }
       },
+      "page-title": "Participants",
       "table": {
-        "description": "Table of participants, sorted by name.",
         "column": {
           "first-name": "First name",
-          "last-name": {
-            "label": "Last name",
-            "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
-            "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
-            "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order."
-          },
-          "latest-participation": "Latest participation",
-          "participation-count": {
-            "label": "Number of participations",
-            "ariaLabelDefaultSort": "The array is not yet sorted by number of participations. Click to sort ascending.",
-            "ariaLabelSortUp": "The array is sorted by ascending number of participations. Click to sort descending.",
-            "ariaLabelSortDown": "The array is sorted by descending number of participations. Click to sort ascending."
-          },
           "is-certifiable": {
             "label": "Eligibility for certification",
             "tooltip": {
               "aria-label": "How to know if a participant is eligible for certification and what does it mean?",
               "content": "To know if a participant is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the participant has already submitted their profile, the date and status of the last submission are displayed."
             }
+          },
+          "last-name": {
+            "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
+            "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order.",
+            "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
+            "label": "Last name"
+          },
+          "latest-participation": "Latest participation",
+          "participation-count": {
+            "ariaLabelDefaultSort": "The array is not yet sorted by number of participations. Click to sort ascending.",
+            "ariaLabelSortDown": "The array is sorted by descending number of participations. Click to sort ascending.",
+            "ariaLabelSortUp": "The array is sorted by ascending number of participations. Click to sort descending.",
+            "label": "Number of participations"
           }
         },
+        "description": "Table of participants, sorted by name.",
         "empty": "No participants",
         "row-title": "Participant"
-      },
-      "page-title": "Participants",
-      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}"
+      }
     },
     "participants-list": {
       "latest-participation-information-tooltip": {
         "aria-label": "Latest participation's information",
-        "campaign-name": "Campaign:",
-        "campaign-type": "Type: ",
         "campaign-ASSESSMENT-type": "Assessment",
         "campaign-PROFILES_COLLECTION-type": "Profiles collection",
+        "campaign-name": "Campaign:",
         "campaign-status": "Status: ",
+        "campaign-type": "Type: ",
         "participation-SHARED-status": "Submitted",
         "participation-STARTED-status": "In progress",
         "participation-TO_SHARE-status": "Pending"
       }
     },
     "preselect-target-profile": {
-      "no-tube-selected": "Download topics selection (JSON, { fileSize }kB)",
+      "title": "Topic selection",
       "download": "Download topics selection ({ numberOfTubesSelected }) (JSON, { fileSize }kB)",
       "download-filename": "topic-selection-{ organizationName }-{ date }.json",
-      "title": "Topic selection",
+      "no-tube-selected": "Download topics selection (JSON, { fileSize }kB)",
       "table": {
         "caption": "Topic selection",
         "column": {
           "action": "Select",
-          "theme-name": "Theme name",
-          "name": "Topic name",
           "mobile": "Mobile compliant",
-          "tablet": "Tablet compliant"
+          "name": "Topic name",
+          "tablet": "Tablet compliant",
+          "theme-name": "Theme name"
         },
-        "row-title": "Topic",
         "is-responsive": "yes",
-        "not-responsive": "no"
+        "not-responsive": "no",
+        "row-title": "Topic"
       }
     },
     "profiles-individual-results": {
@@ -808,19 +827,20 @@
       "pix": "PIX",
       "pix-score": "{score, number}",
       "table": {
+        "title": "Results by competence",
         "column": {
           "level": "Level",
           "pix-score": "Pix score",
           "skill": "Competence"
         },
         "empty": "Pending results",
-        "row-title": "Competence",
-        "title": "Results by competence"
+        "row-title": "Competence"
       }
     },
     "profiles-list": {
       "title": "Submitted profiles",
       "table": {
+        "title": "List of submitted profiles",
         "column": {
           "certifiable": "Eligible for certification",
           "competences-certifiables": "Competences eligible for certification",
@@ -836,12 +856,13 @@
           }
         },
         "empty": "No profiles yet",
-        "row-title": "Profile",
-        "title": "List of submitted profiles"
+        "row-title": "Profile"
       }
     },
+    "sco-organization-participant-activity": {
+      "title": "Student activity"
+    },
     "sco-organization-participants": {
-      "page-title": "Students",
       "title": "{count, plural, =0 {Students} =1 {Student ({count})} other {Students ({count})}}",
       "actions": {
         "import-file": {
@@ -858,9 +879,42 @@
         "mediacentre": "Mediacentre",
         "none": "None"
       },
+      "filter": {
+        "title": "Filters",
+        "actions": {
+          "clear": "Clear filters"
+        },
+        "aria-label": "Filters on students",
+        "certificability": {
+          "label": "Search by certificability",
+          "placeholder": "Search by certificability"
+        },
+        "division": {
+          "aria-label": "Enter a class",
+          "empty": "No class",
+          "label": "Search by class"
+        },
+        "first-name": {
+          "aria-label": "Enter a first name",
+          "label": "Search by first name"
+        },
+        "last-name": {
+          "aria-label": "Enter a last name",
+          "label": "Search by last name"
+        },
+        "login-method": {
+          "aria-label": "Search by log in method",
+          "empty-option": "login method"
+        },
+        "search": {
+          "aria-label": "Search by lastname and firstname",
+          "label": "Lastname, firstname"
+        },
+        "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}"
+      },
       "import": {
         "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
-        "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">the help form</a>.</div>",
+        "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'.'</div>'",
         "global-success": "The list has been successfully imported."
       },
       "manage-authentication-method-modal": {
@@ -902,39 +956,7 @@
       },
       "no-participants": "No students yet!",
       "no-participants-action": "The administrator must import the students database by clicking on the import button.",
-      "filter": {
-        "certificability": {
-          "placeholder": "Search by certificability",
-          "label": "Search by certificability"
-        },
-        "division": {
-          "aria-label": "Enter a class",
-          "empty": "No class",
-          "label": "Search by class"
-        },
-        "first-name": {
-          "aria-label": "Enter a first name",
-          "label": "Search by first name"
-        },
-        "last-name": {
-          "aria-label": "Enter a last name",
-          "label": "Search by last name"
-        },
-        "search": {
-          "aria-label": "Search by lastname and firstname",
-          "label": "Lastname, firstname"
-        },
-        "login-method": {
-          "aria-label": "Search by log in method",
-          "empty-option": "login method"
-        },
-        "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}",
-        "title": "Filters",
-        "aria-label": "Filters on students",
-        "actions": {
-          "clear": "Clear filters"
-        }
-      },
+      "page-title": "Students",
       "table": {
         "column": {
           "date-of-birth": "Date of birth",
@@ -951,18 +973,18 @@
             }
           },
           "last-name": {
-            "label": "Last name",
             "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
+            "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order.",
             "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
-            "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order."
+            "label": "Last name"
           },
           "last-participation-date": "Latest participation",
           "login-method": "Log in method(s)",
           "participation-count": {
-            "label": "Number of participations",
             "ariaLabelDefaultSort": "The array is not yet sorted by number of participations. Click to sort ascending.",
+            "ariaLabelSortDown": "The array is sorted by descending number of participations. Click to sort ascending.",
             "ariaLabelSortUp": "The array is sorted by ascending number of participations. Click to sort descending.",
-            "ariaLabelSortDown": "The array is sorted by descending number of participations. Click to sort ascending."
+            "label": "Number of participations"
           }
         },
         "description": "Table of students, sorted by name. For students who have provided an authentication method, you can manage the allowed login modes and reset the student's password through a menu in 'Actions' column",
@@ -970,9 +992,11 @@
         "row-title": "Student"
       }
     },
+    "sup-organization-participant-activity": {
+      "title": "Student activity"
+    },
     "sup-organization-participants": {
       "title": "{count, plural, =0 {Students} =1 {Student ({count})} other {Students ({count})}}",
-      "page-title": "Students",
       "actions": {
         "download-template": "Download the template",
         "edit-student-number": "Edit the student number",
@@ -995,45 +1019,15 @@
         "no-participants": "No students yet!",
         "no-participants-action": "The administrator must import the students database by clicking on the import button."
       },
-      "table": {
-        "column": {
-          "date-of-birth": "Date of birth",
-          "first-name": "First name",
-          "group": "Groups",
-          "last-name": {
-            "label": "Last name",
-            "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
-            "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
-            "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order."
-          },
-          "last-participation-date": "Latest participation",
-          "participation-count": {
-            "label": "Number of participations",
-            "ariaLabelDefaultSort": "The array is not yet sorted by number of participations. Click to sort ascending.",
-            "ariaLabelSortUp": "The array is sorted by ascending number of participations. Click to sort descending.",
-            "ariaLabelSortDown": "The array is sorted by descending number of participations. Click to sort ascending."
-          },
-          "student-number": "Student number",
-          "is-certifiable": {
-            "label": "Certificabilité",
-            "tooltip": {
-              "aria-label": "How to know if a student is eligible for certification and what does it mean?",
-              "content": "To know if a student is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the student has already submitted their profile, the date and status of the last submission are displayed."
-            }
-          }
-        },
-        "description": "Table of students, sorted by name.You can edit the student's number through a menu in an additional column",
-        "empty": "No students.",
-        "row-title": "Student"
-      },
       "filter": {
+        "title": "Filters",
         "actions": {
           "clear": "Clear filters"
         },
         "aria-label": "Filters on students",
         "certificability": {
-          "placeholder": "Search by certificability",
-          "label": "Search by certificability"
+          "label": "Search by certificability",
+          "placeholder": "Search by certificability"
         },
         "group": {
           "aria-label": "Enter a group",
@@ -1048,13 +1042,43 @@
           "aria-label": "Enter a student number",
           "label": "Search by student number"
         },
-        "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}",
-        "title": "Filters"
+        "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}"
+      },
+      "page-title": "Students",
+      "table": {
+        "column": {
+          "date-of-birth": "Date of birth",
+          "first-name": "First name",
+          "group": "Groups",
+          "is-certifiable": {
+            "label": "Certificabilité",
+            "tooltip": {
+              "aria-label": "How to know if a student is eligible for certification and what does it mean?",
+              "content": "To know if a student is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the student has already submitted their profile, the date and status of the last submission are displayed."
+            }
+          },
+          "last-name": {
+            "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
+            "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order.",
+            "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
+            "label": "Last name"
+          },
+          "last-participation-date": "Latest participation",
+          "participation-count": {
+            "ariaLabelDefaultSort": "The array is not yet sorted by number of participations. Click to sort ascending.",
+            "ariaLabelSortDown": "The array is sorted by descending number of participations. Click to sort ascending.",
+            "ariaLabelSortUp": "The array is sorted by ascending number of participations. Click to sort descending.",
+            "label": "Number of participations"
+          },
+          "student-number": "Student number"
+        },
+        "description": "Table of students, sorted by name.You can edit the student's number through a menu in an additional column",
+        "empty": "No students.",
+        "row-title": "Student"
       }
     },
     "sup-organization-participants-import": {
       "title": "Import students",
-      "description": "What type of import would you like to use?",
       "actions": {
         "add": {
           "title": "Add / Edit",
@@ -1067,31 +1091,23 @@
           "label": "Overwrite list"
         }
       },
-      "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please edit your file and try to import it again.</div>",
-      "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">the help form</a></div>",
+      "description": "What type of import would you like to use?",
+      "error-wrapper": "'<div>'Import has failed.'<br/><strong>'{message}'</strong><br/>' Please edit your file and try to import it again.'</div>'",
+      "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a></div>'",
       "global-success": "The list has been successfully imported.",
-      "global-success-with-warnings": "<div>The list has been successfully imported.<br/><br/>However some values were not recognised:<br/>{warnings}<br/><br/>They have been replaced by \"Not recognised\". If you need other values, please contact us at <a href=\"mailto:sup@pix.fr\">sup@pix.fr</a></div>",
+      "global-success-with-warnings": "'<div>'The list has been successfully imported.'<br/><br/>'However some values were not recognised:'<br/>'{warnings}'<br/><br/>'They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
       "supported-formats": "(Supported format: csv)",
       "warnings": {
         "diploma": "Diplomas unknown: {diplomas}; ",
         "study-scheme": "Study schemes unknown: {studySchemes}; "
       }
     },
-    "sup-organization-participant-activity": {
-      "title": "Student activity"
-    },
-    "sco-organization-participant-activity": {
-      "title": "Student activity"
-    },
-    "organization-participant-activity": {
-      "title": "Participant activity"
-    },
     "team-invitations": {
       "title": "Team invitations",
       "cancel-invitation": "Delete this invitation",
-      "resend-invitation": "Resend the invitation",
       "invitation-cancelled-succeed-message": "The invitation has been deleted.",
       "invitation-resent-succeed-message": "The invitation has been resent.",
+      "resend-invitation": "Resend the invitation",
       "table": {
         "column": {
           "email-address": "Email address",
@@ -1126,13 +1142,13 @@
         }
       },
       "notifications": {
+        "change-member-role": {
+          "error": "An error occurred while changing this member's role.",
+          "success": "The role has been changed."
+        },
         "remove-membership": {
           "error": "An error occurred while removing this member.",
           "success": "{memberFirstName} {memberLastName} has successfully been removed from your Pix Orga team."
-        },
-        "change-member-role": {
-          "success": "The role has been changed.",
-          "error": "An error occurred while changing this member's role."
         }
       },
       "remove-membership-modal": {
@@ -1140,7 +1156,7 @@
         "actions": {
           "remove": "Yes, remove the member"
         },
-        "message": "{memberFirstName} {memberLastName} will no longer have access to this Pix Orga space.<br>The campaigns created by this member will still be accessible to the rest of the team."
+        "message": "{memberFirstName} {memberLastName} will no longer have access to this Pix Orga space.'<br>'The campaigns created by this member will still be accessible to the rest of the team."
       },
       "table": {
         "column": {
@@ -1155,22 +1171,22 @@
     "team-new": {
       "title": "Invite a member",
       "email-requirement": "Enter here the email address of the member you want to invite.",
-      "success": {
-        "invitation": "An invitation has been sent to the email address {email}.",
-        "multiple-invitations": "An invitation has been sent to the listed email addresses."
-      },
       "errors": {
         "default": "The service is temporarily unavailable. Please try again later.",
+        "sending-email-to-invalid-email-address": "Sending email to the address {email} failed. The sending server replied: \"{errorMessage}\".",
         "status": {
           "400": "The email address format is invalid.",
           "404": "This email address doesn't match any Pix user.",
           "412": "This member has already been added.",
           "500": "Something went wrong. Please try again."
-        },
-        "sending-email-to-invalid-email-address": "Sending email to the address {email} failed. The sending server replied: \"{errorMessage}\"."
+        }
       },
       "invited-members": "By clicking on the link provided in the invitation, the invited members will be able to create an account or log in with an existing Pix account.",
-      "several-email-requirement": "Invite several members by separating the email addresses with commas."
+      "several-email-requirement": "Invite several members by separating the email addresses with commas.",
+      "success": {
+        "invitation": "An invitation has been sent to the email address {email}.",
+        "multiple-invitations": "An invitation has been sent to the listed email addresses."
+      }
     },
     "team-new-item": {
       "input-label": "Email address(es)",
@@ -1179,22 +1195,6 @@
     "terms-of-service": {
       "title": "Terms and conditions of use",
       "accept": "I accept the terms and conditions"
-    }
-  },
-  "components": {
-    "date":{
-      "no-date": "No date yet"
-    },
-    "participation-status": {
-      "STARTED-ASSESSMENT": "In progress",
-      "TO_SHARE-ASSESSMENT": "Pending results",
-      "SHARED-ASSESSMENT": "Submitted results",
-      "TO_SHARE-PROFILES_COLLECTION": "Pending profile",
-      "SHARED-PROFILES_COLLECTION": "Submitted profile"
-    },
-    "group": {
-      "SCO": "Class",
-      "SUP": "Group"
     }
   }
 }
