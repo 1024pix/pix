@@ -29,15 +29,7 @@
 
     <div class="update-sco-record-form__cgu-container">
       <PixCheckbox {{on "change" this.onChange}}>
-        {{t "common.cgu.accept"}}
-        <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
-          {{t "common.cgu.cgu"}}
-        </a>
-        {{t "common.cgu.and"}}
-        <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
-          {{t "common.cgu.data-protection-policy"}}
-        </a>
-        {{t "common.cgu.pix"}}
+        {{t "common.cgu.message" cguUrl=this.cguUrl dataProtectionPolicyUrl=this.dataProtectionPolicyUrl htmlSafe=true}}
       </PixCheckbox>
     </div>
 

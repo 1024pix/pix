@@ -173,7 +173,7 @@ module('Unit | Component | routes/campaigns/join/associate-sco-student-with-medi
       module('When user has an invalid reconciliation', function () {
         test('should return a bad request error and display the invalid reconciliation error message', async function (assert) {
           // given
-          const expectedErrorMessage = this.intl.t('pages.join.sco.invalid-reconciliation-error');
+          const expectedErrorMessage = this.intl.t('pages.join.sco.invalid-reconciliation-error', { htmlSafe: true });
           const error = { status: '400' };
 
           onSubmitStub.rejects({ errors: [error] });
@@ -182,7 +182,7 @@ module('Unit | Component | routes/campaigns/join/associate-sco-student-with-medi
           await component.actions.submit.call(component, attributes);
 
           // then
-          assert.strictEqual(component.errorMessage.toString(), expectedErrorMessage);
+          assert.deepEqual(component.errorMessage, expectedErrorMessage);
         });
       });
     });
