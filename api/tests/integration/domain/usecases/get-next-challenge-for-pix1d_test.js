@@ -7,8 +7,8 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-pix1d', func
       // given
       const missionId = 'AZERTYUIO';
       const assessmentId = 'id_assessment';
-      const DIDACTICIEL = 'didacticiel';
-      const firstChallenge = domainBuilder.buildChallenge({ id: 'first_challenge', skill: { name: '@didacticiel' } });
+      const DIDACTICIEL = 'di';
+      const firstChallenge = domainBuilder.buildChallenge({ id: 'first_challenge', skill: { name: '@recherche_di1' } });
 
       const assessmentRepository = { get: sinon.stub() };
       const answerRepository = { findByAssessment: sinon.stub() };
