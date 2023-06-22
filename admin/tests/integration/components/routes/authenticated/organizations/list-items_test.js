@@ -7,6 +7,8 @@ module('Integration | Component | routes/authenticated/organizations | list-item
   setupRenderingTest(hooks);
 
   hooks.beforeEach(async function () {
+    const currentUser = this.owner.lookup('service:currentUser');
+    currentUser.adminMember = { isSuperAdmin: true };
     const triggerFiltering = function () {};
     this.triggerFiltering = triggerFiltering;
   });
