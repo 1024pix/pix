@@ -162,15 +162,26 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
       it('should call getNextChallengeForCertificationCourse in assessmentService', async function () {
         // given
+        const locale = FRENCH_SPOKEN;
         usecases.getNextChallengeForCertification.resolves();
 
         // when
-        await assessmentController.getNextChallenge({ params: { id: 12 } }, null, dependencies);
+        await assessmentController.getNextChallenge(
+          {
+            params: { id: 12 },
+            headers: {
+              'accept-language': locale,
+            },
+          },
+          null,
+          dependencies
+        );
 
         // then
         expect(usecases.getNextChallengeForCertification).to.have.been.calledOnce;
         expect(usecases.getNextChallengeForCertification).to.have.been.calledWith({
           assessment: certificationAssessment,
+          locale,
         });
       });
 
