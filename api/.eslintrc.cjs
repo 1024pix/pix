@@ -1,7 +1,8 @@
+const path = require('path');
+
 module.exports = {
   extends: [
     '../.eslintrc.yaml',
-    'plugin:i18n-json/recommended',
     'plugin:mocha/recommended',
     'plugin:prettier/recommended',
     'plugin:chai-expect/recommended',
@@ -40,7 +41,6 @@ module.exports = {
       },
     ],
     'knex/avoid-injections': 'error',
-    'i18n-json/valid-message-syntax': 'off',
     'mocha/no-exclusive-tests': 'error',
     'mocha/no-pending-tests': 'error',
     'mocha/no-skipped-tests': 'error',
@@ -63,6 +63,12 @@ module.exports = {
           'stream-to-promise',
           'pino-pretty',
         ],
+      },
+    ],
+    'i18n-json/sorted-keys': [
+      'error',
+      {
+        sortFunctionPath: path.resolve('./config/linter-translation-order.cjs'),
       },
     ],
   },
