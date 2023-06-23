@@ -4,10 +4,8 @@ import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oid
 import { usecases } from '../../../domain/usecases/index.js';
 import { UnauthorizedError } from '../../http-errors.js';
 
-const getIdentityProviders = async function (request, h, dependencies = { authenticationServiceRegistry }) {
-  const identityProviders = usecases.getIdentityProviders({
-    authenticationServiceRegistry: dependencies.authenticationServiceRegistry,
-  });
+const getIdentityProviders = async function (request, h) {
+  const identityProviders = usecases.getIdentityProviders();
   return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
 };
 
