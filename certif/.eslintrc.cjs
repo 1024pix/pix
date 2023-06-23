@@ -1,4 +1,5 @@
-const fs = require('fs');
+'use strict';
+const fs = require('node:fs');
 const path = require('node:path');
 
 module.exports = {
