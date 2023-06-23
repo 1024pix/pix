@@ -82,6 +82,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
           const certificationCourseRepository = {
             get: sinon.stub(),
           };
+          const certificationChallengeRepository = {
+            save: sinon.stub(),
+          };
           const algorithmDataFetcherService = {
             fetchForFlashCampaigns: sinon.stub(),
           };
@@ -122,6 +125,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             flashAssessmentResultRepository,
             pickChallengeService,
             certificationCourseRepository,
+            certificationChallengeRepository,
             locale,
           });
 
@@ -136,7 +140,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
           const answerRepository = Symbol('AnswerRepository');
           const challengeRepository = Symbol('ChallengeRepository');
           const flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
-          const nextChallengeToAnswer = domainBuilder.buildChallenge();
+          const answeredChallenge = domainBuilder.buildChallenge();
+          const answer = domainBuilder.buildAnswer({ challengeId: answeredChallenge.id });
           const v3CertificationCourse = domainBuilder.buildCertificationCourse({
             version: CertificationVersion.V3,
           });
@@ -144,11 +149,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
           const certificationCourseRepository = {
             get: sinon.stub(),
           };
+          const certificationChallengeRepository = {
+            save: sinon.stub(),
+          };
           const algorithmDataFetcherService = {
             fetchForFlashCampaigns: sinon.stub(),
-          };
-          const pickChallengeService = {
-            chooseNextChallenge: sinon.stub(),
           };
           const locale = 'fr-FR';
 
@@ -162,18 +167,10 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               locale,
             })
             .resolves({
-              allAnswers: [],
-              challenges: [nextChallengeToAnswer],
+              allAnswers: [answer],
+              challenges: [answeredChallenge],
               estimatedLevel: 0,
             });
-
-          const chooseNextChallengeImpl = sinon.stub();
-          chooseNextChallengeImpl
-            .withArgs({
-              possibleChallenges: [nextChallengeToAnswer],
-            })
-            .rejects(new AssessmentEndedError());
-          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
 
           // when
           const error = await catchErr(getNextChallengeForCertification)({
@@ -182,8 +179,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             answerRepository,
             challengeRepository,
             flashAssessmentResultRepository,
-            pickChallengeService,
             certificationCourseRepository,
+            certificationChallengeRepository,
             locale,
           });
 

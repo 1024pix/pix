@@ -75,6 +75,10 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
     mockLearningContent(learningContentObjects);
   });
 
+  afterEach(async function () {
+    await knex('certification-challenges').delete();
+  });
+
   describe('GET /api/assessments/:assessment_id/next', function () {
     const assessmentId = 1;
     const userId = 1234;
@@ -117,7 +121,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           clock.restore();
         });
 
-        it('should return a challenge', async function () {
+        it('should save and return a challenge', async function () {
           // given
           const options = {
             method: 'GET',
@@ -132,7 +136,10 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
 
           // then
           const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastQuestionDate');
+          const { count: countSavedChallenge } = await knex('certification-challenges').count('* AS count').first();
+
           expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
+          expect(countSavedChallenge).to.equal(1);
           expect(response.result.data.id).to.be.oneOf([
             firstChallengeId,
             secondChallengeId,
