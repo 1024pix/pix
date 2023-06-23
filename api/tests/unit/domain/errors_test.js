@@ -1,6 +1,5 @@
 import { expect } from '../../test-helper.js';
 import * as errors from '../../../lib/domain/errors.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../lib/domain/constants/certification-candidates-errors.js';
 
 describe('Unit | Domain | Errors', function () {
   it('should export a AdminMemberError', function () {
@@ -372,121 +371,6 @@ describe('Unit | Domain | Errors', function () {
 
         // then
         expect(error.why).to.be.null;
-      });
-    });
-  });
-
-  describe('CertificationCandidatesError', function () {
-    context('#fromInvalidCertificationCandidateError', function () {
-      it('should return a CertificationCandidatesError', function () {
-        // given
-        const invalidCertificationCandidateError = {
-          key: 'someKey',
-          why: 'someWhy',
-        };
-
-        // when
-        const error = errors.CertificationCandidatesError.fromInvalidCertificationCandidateError(
-          invalidCertificationCandidateError,
-          {},
-          1
-        );
-
-        // then
-        expect(error).to.be.instanceOf(errors.CertificationCandidatesError);
-      });
-
-      context('when err.why is known', function () {
-        it('should include the right label when found in the keyLabelMap', function () {
-          // given
-          const lineNumber = 20;
-          const invalidCertificationCandidateError = {
-            key: 'someKey',
-            why: 'not_a_date',
-          };
-          const keyLabelMap = {
-            someKey: 'someLabel',
-            someOtherKey: 'someOtherLabel',
-          };
-
-          // when
-          const error = errors.CertificationCandidatesError.fromInvalidCertificationCandidateError(
-            invalidCertificationCandidateError,
-            keyLabelMap,
-            lineNumber
-          );
-
-          // then
-          expect(error.meta).to.deep.equal({ line: lineNumber, label: 'someLabel' });
-        });
-
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        [
-          { why: 'not_a_date', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code },
-          { why: 'date_format', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code },
-          { why: 'email_format', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code },
-          { why: 'not_a_string', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_STRING.code },
-          { why: 'not_a_number', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_NUMBER.code },
-          { why: 'required', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_REQUIRED.code },
-          { why: 'not_a_sex_code', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code },
-          { why: 'not_a_billing_mode', code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code },
-          {
-            why: 'prepayment_code_null',
-            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code,
-          },
-          {
-            why: 'prepayment_code_not_null',
-            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code,
-          },
-          {
-            why: 'extra_time_percentage_out_of_range',
-            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code,
-          },
-        ].forEach(({ why, code }) => {
-          it(`code should equal "${code}" when why is "${why}"`, async function () {
-            // given
-            const invalidCertificationCandidateError = {
-              key: 'someKey',
-              why,
-            };
-            const keyLabelMap = {
-              someKey: 'someLabel',
-            };
-
-            // when
-            const error = errors.CertificationCandidatesError.fromInvalidCertificationCandidateError(
-              invalidCertificationCandidateError,
-              keyLabelMap,
-              1
-            );
-
-            // then
-            expect(error.code).to.equal(code);
-          });
-        });
-      });
-
-      context('when err.why is unknown', function () {
-        it('should display generic message', function () {
-          // given
-          const invalidCertificationCandidateError = {
-            key: 'someKey',
-            why: 'unknown',
-          };
-          const keyLabelMap = {
-            someKey: 'someLabel',
-          };
-
-          // when
-          const error = errors.CertificationCandidatesError.fromInvalidCertificationCandidateError(
-            invalidCertificationCandidateError,
-            keyLabelMap,
-            1
-          );
-
-          // then
-          expect(error.message).to.contain("Quelque chose s'est mal passé. Veuillez réessayer");
-        });
       });
     });
   });
