@@ -16,6 +16,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
   const flashAssessmentAlgorithm = new FlashAssessmentAlgorithm({
     warmUpLength,
     forcedCompetences,
+    maximumAssessmentLength: stopAtChallenge,
   });
 
   const simulator = new AssessmentSimulator({
@@ -24,7 +25,6 @@ export async function simulateFlashDeterministicAssessmentScenario({
     pickChallenge,
     initialCapacity,
     pickAnswerStatus,
-    stopAtChallenge,
   });
 
   return simulator.run();
