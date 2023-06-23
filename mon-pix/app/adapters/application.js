@@ -1,4 +1,4 @@
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import ENV from 'mon-pix/config/environment';
 

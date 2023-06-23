@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { CONNECTION_TYPES } from '../../helpers/connection-types';
 
 export default class LearnerHeaderInfo extends Component {

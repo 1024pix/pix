@@ -1,6 +1,6 @@
 import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 import ENV from 'pix-orga/config/environment';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class Campaign extends Model {
   @service store;

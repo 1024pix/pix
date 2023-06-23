@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import get from 'lodash/get';
 
@@ -23,10 +23,12 @@ export default class ManageAuthenticationMethodModal extends Component {
   clipboardSuccessUsername() {
     this.tooltipTextUsername = this._t('copied');
   }
+
   @action
   clipboardSuccessEmail() {
     this.tooltipTextEmail = this._t('copied');
   }
+
   @action
   clipboardSuccessGeneratedPassword() {
     this.tooltipTextGeneratedPassword = this._t('copied');
@@ -36,10 +38,12 @@ export default class ManageAuthenticationMethodModal extends Component {
   clipboardOutUsername() {
     this.tooltipTextUsername = this._t('section.username.copy');
   }
+
   @action
   clipboardOutEmail() {
     this.tooltipTextEmail = this._t('section.email.copy');
   }
+
   @action
   clipboardOutGeneratedPassword() {
     this.tooltipTextGeneratedPassword = this._t('section.password.copy');

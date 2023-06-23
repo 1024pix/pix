@@ -4,7 +4,7 @@ import fetch from 'fetch';
 import RSVP from 'rsvp';
 import { decodeToken } from 'mon-pix/helpers/jwt';
 import { isEmpty } from '@ember/utils';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default BaseAuthenticator.extend({
   intl: service(),

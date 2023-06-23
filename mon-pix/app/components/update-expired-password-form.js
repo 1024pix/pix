@@ -3,7 +3,7 @@
 
 import { action } from '@ember/object';
 import Component from '@ember/component';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import isPasswordValid from '../utils/password-validator';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';

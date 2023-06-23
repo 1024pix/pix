@@ -5,7 +5,7 @@ import answersAsObject from 'mon-pix/utils/answers-as-object';
 import solutionsAsObject from 'mon-pix/utils/solution-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
 import resultDetailsAsObject from 'mon-pix/utils/result-details-as-object';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
 export default class QrocmIndSolutionPanel extends Component {

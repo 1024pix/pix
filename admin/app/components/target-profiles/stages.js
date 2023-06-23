@@ -1,7 +1,7 @@
 import difference from 'lodash/difference';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 const LEVEL_COLUMN_NAME = 'Niveau';
