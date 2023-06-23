@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import ChallengeItemGeneric from './challenge-item-generic';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import generateRandomString from 'mon-pix/utils/generate-random-string';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 import { isEmbedAllowedOrigin } from 'mon-pix/utils/embed-allowed-origins';

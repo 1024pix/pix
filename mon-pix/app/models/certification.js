@@ -1,7 +1,7 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
 import Model, { belongsTo, attr } from '@ember-data/model';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { computed } from '@ember/object';
 
 export const ACQUIRED = 'acquired';

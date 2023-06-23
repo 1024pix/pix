@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import PixWindow from 'mon-pix/utils/pix-window';
 
 export default class LoginGarRoute extends Route {
