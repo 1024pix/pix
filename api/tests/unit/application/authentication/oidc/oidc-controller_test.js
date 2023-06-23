@@ -2,7 +2,6 @@ import { sinon, expect, hFake, catchErr, domainBuilder } from '../../../../test-
 import { oidcController } from '../../../../../lib/application/authentication/oidc/oidc-controller.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { UnauthorizedError } from '../../../../../lib/application/http-errors.js';
-import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';
@@ -10,25 +9,22 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   describe('#getIdentityProviders', function () {
     it('returns the list of oidc identity providers', async function () {
       // given
-      const someOidcProviderService = new OidcAuthenticationService({
-        identityProvider: 'SOME_OIDC_PROVIDER',
-        configKey: 'someOidcProvider',
-        source: 'some_oidc_provider',
-        slug: 'some-oidc-provider',
-        organizationName: 'Some OIDC Provider',
-      });
-      sinon.stub(someOidcProviderService, 'isReady').value(true);
-      const authenticationServiceRegistryStub = {
-        getOidcProviderServices: sinon.stub().returns([someOidcProviderService]),
-      };
-      const dependencies = {
-        authenticationServiceRegistry: authenticationServiceRegistryStub,
-      };
+      sinon.stub(usecases, 'getIdentityProviders').returns([
+        {
+          code: 'SOME_OIDC_PROVIDER',
+          source: 'some_oidc_provider',
+          organizationName: 'Some OIDC Provider',
+          slug: 'some-oidc-provider',
+          hasLogoutUrl: false,
+        },
+      ]);
 
       // when
-      const response = await oidcController.getIdentityProviders(null, hFake, dependencies);
+      const response = await oidcController.getIdentityProviders(null, hFake);
 
       // then
+      expect(usecases.getIdentityProviders).to.have.been.called;
+      expect(response.statusCode).to.equal(200);
       expect(response.source.data.length).to.equal(1);
       expect(response.source.data).to.deep.contain({
         type: 'oidc-identity-providers',
