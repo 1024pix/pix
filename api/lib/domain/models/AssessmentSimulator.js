@@ -1,12 +1,11 @@
 import { Answer } from './Answer.js';
 
 export class AssessmentSimulator {
-  constructor({ algorithm, challenges, pickChallenge, pickAnswerStatus, stopAtChallenge, initialCapacity }) {
+  constructor({ algorithm, challenges, pickChallenge, pickAnswerStatus, initialCapacity }) {
     this.algorithm = algorithm;
     this.challenges = challenges;
     this.pickAnswerStatus = pickAnswerStatus;
     this.pickChallenge = pickChallenge;
-    this.stopAtChallenge = stopAtChallenge;
     this.initialCapacity = initialCapacity;
   }
 
@@ -15,9 +14,8 @@ export class AssessmentSimulator {
     const result = [];
     let estimatedLevel =
       this.initialCapacity ?? this.algorithm.getEstimatedLevelAndErrorRate({ allAnswers: [] }).estimatedLevel;
-    const maxChallenge = this.stopAtChallenge || Infinity;
 
-    for (let i = 0; i < maxChallenge; i++) {
+    for (let i = 0; i < Infinity; i++) {
       try {
         const possibleChallenges = this.algorithm.getPossibleNextChallenges({
           allAnswers: challengesAnswers,
@@ -31,7 +29,9 @@ export class AssessmentSimulator {
           nextChallenge,
         });
 
-        if (!answerStatus) {
+        const noMoreAnswerRemaining = !answerStatus;
+
+        if (noMoreAnswerRemaining) {
           break;
         }
 
