@@ -1,3 +1,4 @@
+import * as url from 'url';
 import _ from 'lodash';
 import { expect, catchErr } from '../../../test-helper.js';
 import { CsvImportError } from '../../../../lib/domain/errors.js';
@@ -5,12 +6,14 @@ import { extractOrganizationLearnersInformation } from '../../../../lib/domain/s
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
+const fixturesDirPath = `${url.fileURLToPath(new URL('../../../', import.meta.url))}tooling/fixtures/`;
+
 describe('Integration | Services | organization-learners-csv-service', function () {
   describe('extractOrganizationLearnersInformation', function () {
     it('should parse two organizationLearners information', async function () {
       // given
       const organization = { id: 123, isAgriculture: true };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-csv-with-two-valid-students.csv`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-csv-with-two-valid-students.csv`;
       const expectedOrganizationLearners = [
         {
           lastName: 'Corse',
@@ -61,7 +64,7 @@ describe('Integration | Services | organization-learners-csv-service', function 
     it('when the encoding is not supported it throws an error', async function () {
       // given
       const organization = { id: 123, isAgriculture: true };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-csv-with-unknown-encoding.csv`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-csv-with-unknown-encoding.csv`;
       // when
       const error = await catchErr(extractOrganizationLearnersInformation)(path, organization, i18n);
 
@@ -73,7 +76,7 @@ describe('Integration | Services | organization-learners-csv-service', function 
     it('should abort parsing and reject with duplicate national student id error', async function () {
       // given
       const organization = { id: 123, isAgriculture: true };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-csv-with-duplicate-national-student-id.csv`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-csv-with-duplicate-national-student-id.csv`;
       // when
       const error = await catchErr(extractOrganizationLearnersInformation)(path, organization, i18n);
 
@@ -86,7 +89,7 @@ describe('Integration | Services | organization-learners-csv-service', function 
     it('should abort parsing and reject with missing national student id error', async function () {
       // given
       const organization = { id: 123, isAgriculture: true };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-csv-with-no-national-student-id.csv`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-csv-with-no-national-student-id.csv`;
       // when
       const error = await catchErr(extractOrganizationLearnersInformation)(path, organization, i18n);
 
