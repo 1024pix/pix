@@ -186,9 +186,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CertificationCandidatePersonalInfoWrongFormat) {
     return new HttpErrors.BadRequestError("Un ou plusieurs champs d'informations d'identité sont au mauvais format.");
   }
-  if (error instanceof DomainErrors.CertificationCandidateAddError) {
-    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
-  }
   if (error instanceof DomainErrors.CertificationCandidatesError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }

@@ -1,7 +1,7 @@
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CertificationCandidateAddError,
   CertificationCandidateOnFinalizedSessionError,
+  CertificationCandidatesError,
   CpfBirthInformationValidationError,
 } from '../errors.js';
 
@@ -27,7 +27,7 @@ const addCertificationCandidateToSession = async function ({
   try {
     certificationCandidate.validate(isSco);
   } catch (error) {
-    throw CertificationCandidateAddError.fromInvalidCertificationCandidateError(error);
+    throw new CertificationCandidatesError(error);
   }
 
   const duplicateCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo({

@@ -5,7 +5,7 @@ import { CpfBirthInformationValidation } from '../../../../lib/domain/services/c
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CpfBirthInformationValidationError,
-  CertificationCandidateAddError,
+  CertificationCandidatesError,
   CertificationCandidateOnFinalizedSessionError,
 } from '../../../../lib/domain/errors.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
@@ -64,7 +64,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
   });
 
   context('when certification candidate does not pass JOI validation', function () {
-    it('should throw a CertificationCandidateAddError error', async function () {
+    it('should throw a CertificationCandidatesError error', async function () {
       // given
       const session = domainBuilder.buildSession.created();
       sessionRepository.get.resolves(session);
@@ -87,7 +87,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       });
 
       // then
-      expect(err).to.be.instanceOf(CertificationCandidateAddError);
+      expect(err).to.be.instanceOf(CertificationCandidatesError);
       expect(certificationCandidateRepository.saveInSession).not.to.have.been.called;
     });
   });
