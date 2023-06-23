@@ -2,18 +2,42 @@
   "common": {
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
-      "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
-      "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
-      "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, <a href=\"{url}\">contactez-nous</a>.",
+      "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
       "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
-      "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement."
+      "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
+      "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, '<a href=\"{url}\">'contactez-nous'</a>'.",
+      "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur '<a href=\"{url}\">'mot de passe oublié'</a>' pour le réinitialiser."
     },
     "notifications": {
       "generic-error": "Une erreur est survenue."
     },
     "words": {
-      "yes": "Oui",
-      "no": "Non"
+      "no": "Non",
+      "yes": "Oui"
+    }
+  },
+  "components": {
+    "administration": {
+      "organizations-import": {
+        "title": "Création en masse d'organisations",
+        "description": "Les organisations déjà existantes ne seront pas modifiées.",
+        "notifications": {
+          "success": "Les organisations ont bien été créées."
+        },
+        "upload-button": "Importer un fichier CSV"
+      }
+    },
+    "organizations": {
+      "all-tags": {
+        "recently-used-tags": "Liste de tags récemment utilisés avec {tagName}"
+      }
+    },
+    "users": {
+      "user-detail-personal-information": {
+        "authentication-method": {
+          "should-change-password-status": "Mot de passe temporaire :"
+        }
+      }
     }
   },
   "pages": {
@@ -31,8 +55,18 @@
     },
     "trainings": {
       "training": {
+        "targetProfiles": {
+          "title": "Rattacher un ou plusieurs profils cibles",
+          "tabName": "Profils cibles associés"
+        },
         "triggers": {
-          "tabName": "Déclencheurs",
+          "goal": {
+            "title": "Objectif à ne pas dépasser",
+            "alternative-title": "Ajouter un objectif à ne pas dépasser",
+            "edit": {
+              "description": "Si l’apprenant réussit les acquis des sujets sélectionnés alors le contenu formatif ne lui sera pas proposé."
+            }
+          },
           "prerequisite": {
             "title": "Prérequis",
             "alternative-title": "Ajouter un prérequis",
@@ -40,41 +74,7 @@
               "description": "Si l’apprenant réussit tous les acquis des sujets sélectionnés alors le contenu formatif lui sera proposé."
             }
           },
-          "goal": {
-            "title": "Objectif à ne pas dépasser",
-            "alternative-title": "Ajouter un objectif à ne pas dépasser",
-            "edit": {
-              "description": "Si l’apprenant réussit les acquis des sujets sélectionnés alors le contenu formatif ne lui sera pas proposé."
-            }
-          }
-        },
-        "targetProfiles": {
-          "tabName": "Profils cibles associés",
-          "title": "Rattacher un ou plusieurs profils cibles"
-        }
-      }
-    }
-  },
-  "components": {
-    "administration": {
-      "organizations-import": {
-        "title": "Création en masse d'organisations",
-        "description": "Les organisations déjà existantes ne seront pas modifiées.",
-        "upload-button": "Importer un fichier CSV",
-        "notifications": {
-          "success": "Les organisations ont bien été créées."
-        }
-      }
-    },
-    "organizations": {
-      "all-tags": {
-        "recently-used-tags": "Liste de tags récemment utilisés avec {tagName}"
-      }
-    },
-    "users": {
-      "user-detail-personal-information": {
-        "authentication-method": {
-          "should-change-password-status": "Mot de passe temporaire :"
+          "tabName": "Déclencheurs"
         }
       }
     }
