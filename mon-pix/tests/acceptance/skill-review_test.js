@@ -153,7 +153,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.badges-title')));
       });
 
-      test('should display acquired badges', async function (assert) {
+      test('should display acquired and isAlwaysVisible badges', async function (assert) {
         // given
         const acquiredBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Yellow badge',
@@ -189,7 +189,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        assert.strictEqual(findAll('.badge-card').length, 1);
+        assert.strictEqual(findAll('.badge-card').length, 2);
       });
 
       module('when campaign has stages', function () {

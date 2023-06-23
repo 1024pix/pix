@@ -177,6 +177,7 @@ function _createProfessionalBasicsBadge(databaseBuilder) {
     key: 'Pro Basics',
     message: 'Bravo ! Vous maîtrisez quelques bases  du numérique pour le monde professionnel !',
     targetProfileId: TARGET_PROFILE_ONE_COMPETENCE_ID,
+    isAlwaysVisible: true,
   });
 
   _associateBadgeCriteria(databaseBuilder, basicsBadge, []);

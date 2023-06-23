@@ -127,7 +127,7 @@
                   {{/if}}
                   {{#if this.showNotCertifiableBadges}}
                     <div class="skill-review-share-badge-icons skill-review-share-badge-icons--not-certifiable">
-                      {{#each this.acquiredNotCertifiableBadges as |badge|}}
+                      {{#each this.notCertifiableBadges as |badge|}}
                         <PixTooltip @position="top" @isInline={{true}} @id="tooltip-{{badge.key}}">
                           <:triggerElement>
                             <a href="#{{badge.title}}">
@@ -247,7 +247,7 @@
         {{t "pages.skill-review.badges-title"}}
       </h2>
       <div class="badge-container">
-        {{#each this.acquiredNotCertifiableBadges as |badge|}}
+        {{#each this.notCertifiableBadges as |badge|}}
           <BadgeCard
             @title={{badge.title}}
             @message={{badge.message}}
