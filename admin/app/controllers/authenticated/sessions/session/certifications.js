@@ -1,6 +1,6 @@
 import some from 'lodash/some';
 
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Controller from '@ember/controller';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes

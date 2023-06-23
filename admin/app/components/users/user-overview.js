@@ -5,7 +5,7 @@ import { validator, buildValidations } from 'ember-cp-validations';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { getOwner } from '@ember/application';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import dayjs from 'dayjs';
 
 import ENV from 'pix-admin/config/environment';

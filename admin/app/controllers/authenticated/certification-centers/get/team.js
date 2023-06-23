@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import isEmailValid from '../../../../utils/email-validator';
 import { tracked } from '@glimmer/tracking';
 

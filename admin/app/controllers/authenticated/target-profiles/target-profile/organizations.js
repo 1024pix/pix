@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import Controller from '@ember/controller';
 import debounce from 'lodash/debounce';
 import config from 'pix-admin/config/environment';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
