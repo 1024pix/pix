@@ -154,8 +154,8 @@
       "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
       "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
       "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
-      "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, '<a href=\"{url}\">'contactez-nous'</a>'.",
-      "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur '<a href=\"{url}\">'mot de passe oublié'</a>' pour le réinitialiser."
+      "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, '<'a href=\"{url}\"'>'contactez-nous'</a>'.",
+      "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur '<'a href=\"{url}\"'>'mot de passe oublié'</a>' pour le réinitialiser."
     },
     "breadcrumb": "Fil d'ariane",
     "filters": {
@@ -635,7 +635,7 @@
       "errors": {
         "empty-password": "Le champ mot de passe est obligatoire.",
         "invalid-email": "Votre adresse e-mail n’est pas valide.",
-        "should-change-password": "Vous avez actuellement un mot de passe temporaire. Cliquez sur '<a href=\"{url}\">'mot de passe oublié'</a>' pour le réinitialiser.",
+        "should-change-password": "Vous avez actuellement un mot de passe temporaire. Cliquez sur '<'a href=\"{url}\"'>'mot de passe oublié'</a>' pour le réinitialiser.",
         "status": {
           "403": "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite.",
           "404": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
