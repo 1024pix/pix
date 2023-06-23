@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 const RECOMMENDED = 75;
 const STRONGLY_RECOMMENDED = 50;

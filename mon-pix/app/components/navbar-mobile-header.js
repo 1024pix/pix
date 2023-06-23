@@ -1,6 +1,6 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';

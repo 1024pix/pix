@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import buttonStatusTypes from 'mon-pix/utils/button-status-types';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class Card extends Component {
   @service intl;

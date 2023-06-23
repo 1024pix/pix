@@ -1,7 +1,7 @@
 import { action, set } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import dayjs from 'dayjs';
 
 export default class CandidateInList extends Component {

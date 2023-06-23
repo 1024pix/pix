@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import uniq from 'lodash/uniq';
 import { tracked } from '@glimmer/tracking';
 

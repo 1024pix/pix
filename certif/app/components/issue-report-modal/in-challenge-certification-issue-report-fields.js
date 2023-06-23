@@ -5,7 +5,7 @@ import {
   subcategoryToCode,
   subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class InChallengeCertificationIssueReportFields extends Component {
   @service intl;

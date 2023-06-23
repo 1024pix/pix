@@ -5,7 +5,7 @@ import { alias } from '@ember/object/computed';
 import { computed } from '@ember/object';
 /* eslint-enable ember/no-computed-properties-in-native-classes*/
 import { tracked } from '@glimmer/tracking';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class SessionParametersController extends Controller {
   @alias('model.session') session;

@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { htmlSafe } from '@ember/template';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 import jsyaml from 'js-yaml';
 

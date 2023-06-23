@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import colorGradient from 'mon-pix/utils/color-gradient';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
