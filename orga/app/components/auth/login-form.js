@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import isEmpty from 'lodash/isEmpty';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
