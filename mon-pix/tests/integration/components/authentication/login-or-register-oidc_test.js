@@ -42,7 +42,7 @@ module('Integration | Component | authentication | login-or-register-oidc', func
     );
   });
 
-  module('on login form', function () {
+  module('on register form', function () {
     test('should display elements for OIDC identity provider', async function (assert) {
       // given & when
       const screen = await render(
@@ -78,7 +78,7 @@ module('Integration | Component | authentication | login-or-register-oidc', func
     });
   });
 
-  module('on register form', function () {
+  module('on login form', function () {
     test('should display elements for OIDC identity provider', async function (assert) {
       // given & when
       const screen = await render(
@@ -88,7 +88,7 @@ module('Integration | Component | authentication | login-or-register-oidc', func
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.login-or-register-oidc.register-form.title'),
+          name: this.intl.t('pages.login-or-register-oidc.login-form.title'),
           level: 2,
         })
       );
