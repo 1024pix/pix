@@ -5,7 +5,7 @@ import { alias } from '@ember/object/computed';
 import { computed } from '@ember/object';
 /* eslint-enable ember/no-computed-properties-in-native-classes*/
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class CertificationCandidatesController extends Controller {
   @service currentUser;

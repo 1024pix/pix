@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class StepTwoSectionComponent extends Component {
   @service intl;
@@ -12,6 +12,7 @@ export default class StepTwoSectionComponent extends Component {
       message: _translatedErrorCodeToMessage(this.intl, code),
     }));
   }
+
   get translatedNonBlockingErrorReport() {
     const nonBlockingErrors = this._nonBlockingErrors;
 

@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import ENV from 'pix-certif/config/environment';
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class SessionSupervisingRoute extends Route {
   @service store;
