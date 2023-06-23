@@ -1,14 +1,15 @@
-import { expect, domainBuilder, catchErr } from '../../../test-helper.js';
+import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
 import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
 
 import {
-  InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
+  CertificationCandidatesError,
 } from '../../../../lib/domain/errors.js';
 
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
+
 const i18n = getI18n();
 
 const translate = i18n.__;
@@ -76,108 +77,171 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
-    ['firstName', 'lastName'].forEach((field) => {
-      it(`should throw an error when field ${field} is not a string`, async function () {
-        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: 123 });
+    [
+      { name: 'firstName', code: 'CANDIDATE_FIRST_NAME_MUST_BE_A_STRING' },
+      { name: 'lastName', code: 'CANDIDATE_LAST_NAME_MUST_BE_A_STRING' },
+    ].forEach((field) => {
+      it(`should throw an error when field ${field.name} is not a string`, async function () {
+        // given
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field.name]: 123 });
+        const certificationCandidatesError = new CertificationCandidatesError({
+          code: field.code,
+        });
+
+        // when
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-        expect(error.key).to.equal(field);
-        expect(error.why).to.equal('not_a_string');
+        // then
+        expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
       });
 
-      it(`should throw an error when field ${field} is not present`, async function () {
-        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: undefined });
-        const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+      [
+        { name: 'firstName', code: 'CANDIDATE_FIRST_NAME_REQUIRED' },
+        { name: 'lastName', code: 'CANDIDATE_LAST_NAME_REQUIRED' },
+      ].forEach((field) => {
+        it(`should throw an error when field ${field.name} is not present`, async function () {
+          //given
+          const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field.name]: undefined });
+          const certificationCandidatesError = new CertificationCandidatesError({
+            code: field.code,
+          });
 
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-        expect(error.key).to.equal(field);
-        expect(error.why).to.equal('required');
-      });
+          // when
+          const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-      it(`should throw an error when field ${field} is not present because null`, async function () {
-        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: null });
-        const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+          // then
+          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
+        });
 
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-        expect(error.key).to.equal(field);
-        expect(error.why).to.equal('required');
+        it(`should throw an error when field ${field.name} is not present because null`, async function () {
+          // given
+          const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field.name]: null });
+          const certificationCandidatesError = new CertificationCandidatesError({
+            code: field.code,
+          });
+
+          // when
+          const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+
+          // then
+          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
+        });
       });
     });
 
     it('should throw an error when field sessionId is not a number', async function () {
+      //given
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: 'salut' });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_SESSION_ID_NOT_A_NUMBER',
+      });
+
+      // when
       const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-      expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      expect(error.key).to.equal('sessionId');
-      expect(error.why).to.equal('not_a_number');
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
     it('should throw an error when field sessionId is not present', async function () {
+      //given
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: undefined });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_SESSION_ID_REQUIRED',
+      });
+
+      // when
       const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-      expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      expect(error.key).to.equal('sessionId');
-      expect(error.why).to.equal('required');
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
     it('should throw an error when field sessionId is not present because null', async function () {
+      //given
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: null });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_SESSION_ID_REQUIRED',
+      });
+
+      // when
       const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-      expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      expect(error.key).to.equal('sessionId');
-      expect(error.why).to.equal('required');
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
     it('should throw an error when field externalId is not a string', async function () {
+      //given
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, externalId: 1235 });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_EXTERNAL_ID_MUST_BE_A_STRING',
+      });
+
+      // when
       const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-      expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      expect(error.key).to.equal('externalId');
-      expect(error.why).to.equal('not_a_string');
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
     it('should throw an error when birthdate is not a date', async function () {
+      // given
       const certificationCandidate = buildCertificationCandidate({
         ...validAttributes,
         birthdate: 'je mange des légumes',
       });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
+      });
+
+      // when
       const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-      expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      expect(error.key).to.equal('birthdate');
-      expect(error.why).to.equal('date_format');
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
     it('should throw an error when birthdate is not a valid format', async function () {
+      // given
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: '2020/02/01' });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
+      });
+
+      // when
       const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-      expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      expect(error.key).to.equal('birthdate');
-      expect(error.why).to.equal('date_format');
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
     it('should throw an error when birthdate is null', async function () {
+      // given
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: null });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_BIRTHDATE_REQUIRED',
+      });
+
+      // when
       const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-      expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      expect(error.key).to.equal('birthdate');
-      expect(error.why).to.equal('required');
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
     it('should throw an error when birthdate is not present', async function () {
+      // given
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: undefined });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_BIRTHDATE_REQUIRED',
+      });
+
+      // when
       const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-      expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      expect(error.key).to.equal('birthdate');
-      expect(error.why).to.equal('required');
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
     it('should throw an error when field extraTimePercentage is not a number', async function () {
@@ -185,20 +249,29 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         ...validAttributes,
         extraTimePercentage: 'salut',
       });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_EXTRA_TIME_INTEGER',
+      });
+
+      // when
       const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-      expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      expect(error.key).to.equal('extraTimePercentage');
-      expect(error.why).to.equal('not_a_number');
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
     it('should throw an error when sex is neither M nor F', async function () {
+      // given
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sex: 'something_else' });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_SEX_NOT_VALID',
+      });
+
+      // when
       const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
-      expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      expect(error.key).to.equal('sex');
-      expect(error.why).to.equal('not_a_sex_code');
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
     context('when the certification center is SCO', function () {
@@ -223,19 +296,20 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     context('when the certification center is not SCO', function () {
       it('should throw an error if billingMode is null', async function () {
         // given
-        const isSco = false;
         const certificationCandidate = domainBuilder.buildCertificationCandidate({
           ...validAttributes,
           billingMode: null,
         });
 
+        const certificationCandidatesError = new CertificationCandidatesError({
+          code: 'CANDIDATE_BILLING_MODE_REQUIRED',
+        });
+
         // when
-        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(isSco);
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
         // then
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-        expect(error.key).to.equal('billingMode');
-        expect(error.why).to.equal('required');
+        expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
       });
 
       it('should throw an error if billingMode is not an expected value', async function () {
@@ -246,13 +320,15 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         });
         const isSco = false;
 
+        const certificationCandidatesError = new CertificationCandidatesError({
+          code: 'CANDIDATE_BILLING_MODE_NOT_VALID',
+        });
+
         // when
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(isSco);
 
         // then
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-        expect(error.key).to.equal('billingMode');
-        expect(error.why).to.equal('not_a_billing_mode');
+        expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
       });
 
       // eslint-disable-next-line mocha/no-setup-in-describe
@@ -284,13 +360,15 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
             prepaymentCode: 'NOT_NULL',
           });
 
+          const certificationCandidatesError = new CertificationCandidatesError({
+            code: 'CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY',
+          });
+
           // when
           const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
 
           // then
-          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-          expect(error.key).to.equal('prepaymentCode');
-          expect(error.why).to.equal('prepayment_code_not_null');
+          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
         });
       });
 

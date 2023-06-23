@@ -376,9 +376,9 @@ describe('Unit | Domain | Errors', function () {
     });
   });
 
-  describe('CertificationCandidatesImportError', function () {
+  describe('CertificationCandidatesError', function () {
     context('#fromInvalidCertificationCandidateError', function () {
-      it('should return a CertificationCandidatesImportError', function () {
+      it('should return a CertificationCandidatesError', function () {
         // given
         const invalidCertificationCandidateError = {
           key: 'someKey',
@@ -386,14 +386,14 @@ describe('Unit | Domain | Errors', function () {
         };
 
         // when
-        const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(
+        const error = errors.CertificationCandidatesError.fromInvalidCertificationCandidateError(
           invalidCertificationCandidateError,
           {},
           1
         );
 
         // then
-        expect(error).to.be.instanceOf(errors.CertificationCandidatesImportError);
+        expect(error).to.be.instanceOf(errors.CertificationCandidatesError);
       });
 
       context('when err.why is known', function () {
@@ -410,7 +410,7 @@ describe('Unit | Domain | Errors', function () {
           };
 
           // when
-          const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(
+          const error = errors.CertificationCandidatesError.fromInvalidCertificationCandidateError(
             invalidCertificationCandidateError,
             keyLabelMap,
             lineNumber
@@ -454,7 +454,7 @@ describe('Unit | Domain | Errors', function () {
             };
 
             // when
-            const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(
+            const error = errors.CertificationCandidatesError.fromInvalidCertificationCandidateError(
               invalidCertificationCandidateError,
               keyLabelMap,
               1
@@ -478,7 +478,7 @@ describe('Unit | Domain | Errors', function () {
           };
 
           // when
-          const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(
+          const error = errors.CertificationCandidatesError.fromInvalidCertificationCandidateError(
             invalidCertificationCandidateError,
             keyLabelMap,
             1
