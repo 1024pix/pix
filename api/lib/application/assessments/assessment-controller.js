@@ -206,7 +206,7 @@ async function _getChallengeByAssessmentType({ assessment, request, dependencies
   }
 
   if (assessment.isCertification()) {
-    return dependencies.usecases.getNextChallengeForCertification({ assessment });
+    return dependencies.usecases.getNextChallengeForCertification({ assessment, locale });
   }
 
   if (assessment.isDemo()) {
