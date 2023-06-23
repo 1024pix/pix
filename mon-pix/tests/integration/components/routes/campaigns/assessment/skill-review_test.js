@@ -338,20 +338,22 @@ module('Integration | component | Campaigns | Evaluation | Skill Review', functi
     });
   });
 
-  module('#acquiredNotCertifiableBadges', function () {
+  module('#notCertifiableBadges', function () {
     test('should only return acquired and not certifiable badges', function (assert) {
       // given
       component.args.model.campaignParticipationResult.campaignParticipationBadges = possibleBadgesCombinations;
 
       // when
-      const acquiredBadges = component.acquiredNotCertifiableBadges;
+      const notCertifiableBadges = component.notCertifiableBadges;
 
       // then
-      assert.deepEqual(acquiredBadges, [
+      assert.deepEqual(notCertifiableBadges, [
         { id: 34, isAcquired: true, isCertifiable: false, isValid: true, isAlwaysVisible: true },
         { id: 35, isAcquired: true, isCertifiable: false, isValid: true, isAlwaysVisible: false },
         { id: 36, isAcquired: true, isCertifiable: false, isValid: false, isAlwaysVisible: true },
         { id: 37, isAcquired: true, isCertifiable: false, isValid: false, isAlwaysVisible: false },
+        { id: 42, isAcquired: false, isCertifiable: false, isValid: true, isAlwaysVisible: true },
+        { id: 44, isAcquired: false, isCertifiable: false, isValid: false, isAlwaysVisible: true },
       ]);
     });
   });
