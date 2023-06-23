@@ -29,7 +29,7 @@ module.exports = {
     'i18n-json/sorted-keys': [
       'error',
       {
-        sortFunctionPath: path.resolve('./config/linter-translation-order.js'),
+        sortFunctionPath: path.resolve('./config/linter-translation-order.cjs'),
       },
     ],
     'no-irregular-whitespace': 'off',
