@@ -7,7 +7,7 @@
           <th><label for="name">Nom</label></th>
           <th><label for="type">Type</label></th>
           <th><label for="externalId">Identifiant externe</label></th>
-          {{#if @showDetachColumn}}
+          {{#if this.isSuperAdminOrMetier}}
             <th>Actions</th>
           {{/if}}
         </tr>
@@ -48,7 +48,7 @@
               class="table-admin-input form-control"
             />
           </td>
-          {{#if @showDetachColumn}}
+          {{#if this.isSuperAdminOrMetier}}
             <td></td>
           {{/if}}
         </tr>
