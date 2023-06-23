@@ -1,4 +1,4 @@
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import Route from '@ember/routing/route';
 import get from 'lodash/get';
 import JSONApiError from 'mon-pix/errors/json-api-error';

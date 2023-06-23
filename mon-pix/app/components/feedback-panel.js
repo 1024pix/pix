@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import { later } from '@ember/runloop';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -60,6 +60,7 @@ export default class FeedbackPanel extends Component {
       label: this.intl.t(question.name),
     }));
   }
+
   get isSendButtonDisabled() {
     return this._sendButtonStatus === buttonStatusTypes.pending;
   }

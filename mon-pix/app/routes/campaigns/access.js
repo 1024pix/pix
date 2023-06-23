@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import Route from '@ember/routing/route';
 
 export default class AccessRoute extends Route {

@@ -1,4 +1,4 @@
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import EmberObject, { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
