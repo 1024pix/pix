@@ -202,7 +202,7 @@ module('Integration | Component | user certifications detail header', function (
 
       // then
       sinon.assert.calledWith(fileSaverSaveStub, {
-        url: '/api/attestation/1234?isFrenchDomainExtension=true',
+        url: '/api/attestation/1234?isFrenchDomainExtension=true&lang=fr',
         token: undefined,
       });
       assert.ok(true);
@@ -283,7 +283,7 @@ module('Integration | Component | user certifications detail header', function (
 
       // then
       sinon.assert.calledWith(fileSaverSaveStub, {
-        url: '/api/attestation/1234?isFrenchDomainExtension=false',
+        url: '/api/attestation/1234?isFrenchDomainExtension=false&lang=fr',
         token: undefined,
       });
       assert.ok(true);
