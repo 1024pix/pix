@@ -601,7 +601,7 @@ class CertificationCandidateAddError extends DomainError {
   }
 }
 
-class CertificationCandidatesImportError extends DomainError {
+class CertificationCandidatesError extends DomainError {
   constructor({ message = "Quelque chose s'est mal passé. Veuillez réessayer", code = null, meta = null } = {}) {
     super(message, code, meta);
   }
@@ -632,7 +632,7 @@ class CertificationCandidatesImportError extends DomainError {
       code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code;
     }
 
-    return new CertificationCandidatesImportError({ code, meta: { line: lineNumber, label } });
+    return new CertificationCandidatesError({ code, meta: { line: lineNumber, label } });
   }
 }
 
@@ -1392,7 +1392,7 @@ export {
   CertificationCandidateNotFoundError,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-  CertificationCandidatesImportError,
+  CertificationCandidatesError,
   CertificationCenterMembershipCreationError,
   CertificationCenterMembershipDisableError,
   CertificationComputeError,

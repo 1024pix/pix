@@ -2,15 +2,16 @@ import lodash from 'lodash';
 
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
-const Joi = BaseJoi.extend(JoiDate);
-const { isNil, endsWith } = lodash;
 import {
-  InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
+  CertificationCandidatesError,
 } from '../errors.js';
 
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
+
+const Joi = BaseJoi.extend(JoiDate);
+const { isNil, endsWith } = lodash;
 
 const BILLING_MODES = {
   FREE: 'FREE',
@@ -21,9 +22,11 @@ const BILLING_MODES = {
 const certificationCandidateValidationJoiSchema = Joi.object({
   firstName: Joi.string().required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code,
+    'string.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_MUST_BE_A_STRING.code,
   }),
   lastName: Joi.string().required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code,
+    'string.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_MUST_BE_A_STRING.code,
   }),
   sex: Joi.string().valid('M', 'F').required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code,
@@ -35,7 +38,9 @@ const certificationCandidateValidationJoiSchema = Joi.object({
   resultRecipientEmail: Joi.string().email().empty(['', null]).optional().messages({
     'string.email': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
   }),
-  externalId: Joi.string().allow(null).empty(['', null]).optional(),
+  externalId: Joi.string().allow(null).empty(['', null]).optional().messages({
+    'string.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTERNAL_ID_MUST_BE_A_STRING.code,
+  }),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code,
     'date.format': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code,
@@ -49,7 +54,8 @@ const certificationCandidateValidationJoiSchema = Joi.object({
   sessionId: Joi.when('$isSessionsMassImport', {
     is: false,
     then: Joi.number().required().empty(['', null]).messages({
-      'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_REQUIRED.code,
+      'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_REQUIRED.code,
+      'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_NOT_A_NUMBER.code,
     }),
   }),
   complementaryCertification: Joi.object({
@@ -200,7 +206,7 @@ class CertificationCandidate {
       },
     });
     if (error) {
-      throw InvalidCertificationCandidate.fromJoiErrorDetail(error.details[0]);
+      throw new CertificationCandidatesError({ code: error.details[0].message });
     }
   }
 
