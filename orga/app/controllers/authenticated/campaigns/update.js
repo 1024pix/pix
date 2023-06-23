@@ -1,9 +1,10 @@
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class UpdateController extends Controller {
   @service router;
+
   @action
   update() {
     return this.model.campaign

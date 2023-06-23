@@ -1,9 +1,10 @@
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { action } from '@ember/object';
 import sumBy from 'lodash/sumBy';
 import { TOOLTIP_CONFIG } from '../../ui/chart';
 import pattern from 'patternomaly';
+
 export default class ParticipantsByStatus extends Component {
   @service store;
   @service intl;
