@@ -1,7 +1,7 @@
 import { memberAction } from 'ember-api-actions';
 import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
 import ENV from 'pix-admin/config/environment';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import formatList from '../utils/format-select-options';
 
 export const categories = {

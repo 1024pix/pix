@@ -2,7 +2,7 @@ import Object, { action } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import Component from '@glimmer/component';
 import { getOwner } from '@ember/application';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { optionsCategoryList } from '../../models/target-profile';
 

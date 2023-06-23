@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { optionsLocaleList, optionsTypeList } from '../../models/training';
 import { tracked } from '@glimmer/tracking';
 import set from 'lodash/set';

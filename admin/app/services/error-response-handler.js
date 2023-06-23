@@ -1,7 +1,7 @@
 import every from 'lodash/every';
 import isEmpty from 'lodash/isEmpty';
 
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import Service from '@ember/service';
 
 const ERROR_MESSAGES_BY_STATUS = {

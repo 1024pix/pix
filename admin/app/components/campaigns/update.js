@@ -3,7 +3,7 @@ import Object, { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { getOwner } from '@ember/application';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 const Validations = buildValidations({
   name: {

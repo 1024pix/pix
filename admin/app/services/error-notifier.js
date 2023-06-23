@@ -1,7 +1,7 @@
 import every from 'lodash/every';
 import isEmpty from 'lodash/isEmpty';
 
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import Service from '@ember/service';
 
 export default class ErrorNotifierService extends Service {
