@@ -7,7 +7,7 @@ const oidcProviderServices = [
   new PoleEmploiOidcAuthenticationService(),
   new CnavOidcAuthenticationService(),
   new FwbOidcAuthenticationService(),
-];
+].filter((oidcProvider) => oidcProvider.isReady);
 
 const oidcProviderServiceMap = oidcProviderServices.reduce(_associateServiceToCode, {});
 function _associateServiceToCode(map, service) {
