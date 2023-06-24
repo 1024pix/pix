@@ -389,6 +389,7 @@ const configuration = (function () {
 
     config.temporaryKey.secret = 'test-jwt-key';
 
+    config.poleEmploi.isEnabled = true;
     config.poleEmploi.clientId = 'PIX_POLE_EMPLOI_CLIENT_ID';
     config.poleEmploi.clientSecret = 'PIX_POLE_EMPLOI_CLIENT_SECRET';
     config.poleEmploi.tokenUrl = 'http://tokenUrl.fr';
@@ -402,6 +403,7 @@ const configuration = (function () {
 
     config.temporaryStorage.redisUrl = null;
 
+    config.cnav.isEnabled = true;
     config.cnav.clientId = 'PIX_CNAV_CLIENT_ID';
     config.cnav.authenticationUrl = 'http://idp.cnav/auth';
     config.cnav.userInfoUrl = 'http://userInfoUrl.fr';

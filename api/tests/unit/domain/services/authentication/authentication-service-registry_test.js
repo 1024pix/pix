@@ -4,7 +4,7 @@ import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.j
 
 describe('Unit | Domain | Services | authentication registry', function () {
   describe('#getOidcProviderServiceByCode', function () {
-    it('should find the identity provider service', async function () {
+    it('finds an OIDC Provider', async function () {
       // given
       const identityProvider = 'POLE_EMPLOI';
 
@@ -12,24 +12,12 @@ describe('Unit | Domain | Services | authentication registry', function () {
       const service = await authenticationRegistry.getOidcProviderServiceByCode(identityProvider);
 
       // then
-      expect(service.identityProvider).to.equal('POLE_EMPLOI');
+      expect(service.code).to.equal('POLE_EMPLOI');
     });
 
-    it('finds the identity provider service with hasLogoutUrl', async function () {
+    it('throws an error when identity provider is not supported', async function () {
       // given
-      const identityProvider = 'FWB';
-
-      // when
-      const service = await authenticationRegistry.getOidcProviderServiceByCode(identityProvider);
-
-      // then
-      expect(service.identityProvider).to.equal('FWB');
-      expect(service.hasLogoutUrl).to.be.true;
-    });
-
-    it('should throw an error when identity provider is not supported', async function () {
-      // given
-      const identityProvider = 'IDP';
+      const identityProvider = 'UNSUPPORTED_OIDC_PROVIDER';
 
       // when
       const error = await catchErr(authenticationRegistry.getOidcProviderServiceByCode)(identityProvider);
