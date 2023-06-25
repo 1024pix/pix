@@ -54,7 +54,12 @@ class OidcAuthenticationService {
     this.authenticationUrlParameters = authenticationUrlParameters;
     this.userInfoUrl = userInfoUrl;
 
-    const isEnabledInConfig = config[this.configKey]?.isEnabled;
+    if (!this.configKey) {
+      logger.error(`${this.constructor.name}: Missing configKey`);
+      return;
+    }
+
+    const isEnabledInConfig = config[this.configKey].isEnabled;
     if (!isEnabledInConfig) {
       return;
     }
