@@ -34,7 +34,10 @@ const getByChallengeIdAndCourseId = async function ({ challengeId, courseId }) {
     return;
   }
 
-  return new CertificationChallenge(certificationChallenge);
+  return CertificationChallenge.from({
+    challenge: certificationChallenge,
+    certificationCourseId: courseId,
+  });
 };
 
 const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, courseId) {

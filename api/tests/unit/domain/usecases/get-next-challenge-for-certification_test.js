@@ -118,9 +118,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             .returns(nextChallengeToAnswer);
           pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
 
-          const alreadySavedCertificationChallenge = new CertificationChallenge({
-            challengeId: nextChallengeToAnswer.id,
-            courseId: v3CertificationCourse.getId(),
+          const alreadySavedCertificationChallenge = CertificationChallenge.from({
+            challenge: nextChallengeToAnswer,
+            certificationCourseId: v3CertificationCourse.getId(),
           });
 
           certificationChallengeRepository.getByChallengeIdAndCourseId

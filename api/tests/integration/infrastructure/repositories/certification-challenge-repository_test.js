@@ -57,7 +57,7 @@ describe('Integration | Repository | Certification Challenge', function () {
 
       // then
       expect(saveCertificationChallenge).to.be.an.instanceOf(CertificationChallenge);
-      expect(saveCertificationChallenge.id).to.equal(certificationChallenge.id);
+      expect(saveCertificationChallenge.challengeId).to.equal(certificationChallenge.id);
     });
   });
 
