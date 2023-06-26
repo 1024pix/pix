@@ -771,7 +771,8 @@
       "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
       "action-bar": {
         "information": "{count, plural, =1 {{count} selected participant} other {{count} selected participants}}",
-        "delete-button": "Delete"
+        "delete-button": "Delete",
+        "success-message":"{count, plural, =1 {{firstname} {lastname} has successfully been deleted from the participants list} other {The {count} selected participants have successfully been deleted from the list}}"
       },
       "deletion-modal": {
         "confirmation-checkbox":"I confirm that I have understood the impacts of the {count} deletions",
