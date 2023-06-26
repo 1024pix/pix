@@ -996,7 +996,7 @@
       "title": "Créez votre compte Pix",
       "login-form": {
         "description": "Connectez-vous pour lier votre compte existant et récupérer vos compétences déjà évaluées",
-        "title": "Vous avez déjà un compte Pix ?",
+        "title": "J'ai déjà un compte Pix",
         "email": "Email address",
         "password": "Password",
         "button": "Log in"
