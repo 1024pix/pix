@@ -1,7 +1,7 @@
 import { expect, sinon } from '../../../test-helper.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
-import { constants } from '../../../../lib/domain/constants.js';
+import { constants, MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Models | Scorecard', function () {
   let computeDaysSinceLastKnowledgeElementStub;
@@ -184,8 +184,8 @@ describe('Unit | Domain | Models | Scorecard', function () {
         //when
         actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
 
-        expect(actualScorecard.level).to.equal(5);
-        expect(actualScorecard.earnedPix).to.equal(40);
+        expect(actualScorecard.level).to.equal(MAX_REACHABLE_LEVEL);
+        expect(actualScorecard.earnedPix).to.equal(MAX_REACHABLE_PIX_BY_COMPETENCE);
       });
 
       it('should have the competence level not capped at the maximum value if we allow it', function () {
@@ -199,7 +199,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
         });
 
         expect(actualScorecard.level).to.equal(15);
-        expect(actualScorecard.earnedPix).to.equal(40);
+        expect(actualScorecard.earnedPix).to.equal(MAX_REACHABLE_PIX_BY_COMPETENCE);
       });
     });
 

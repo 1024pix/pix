@@ -39,7 +39,7 @@ describe('Unit | Service | Scoring Service', function () {
       ];
 
       const expectedScoring = {
-        realTotalPixScoreForCompetence: 56,
+        realTotalPixScoreForCompetence: MAX_REACHABLE_PIX_BY_COMPETENCE + PIX_COUNT_BY_LEVEL * 2,
         pixScoreForCompetence: MAX_REACHABLE_PIX_BY_COMPETENCE,
         currentLevel: MAX_REACHABLE_LEVEL,
         pixAheadForNextLevel: 0,
@@ -63,9 +63,9 @@ describe('Unit | Service | Scoring Service', function () {
         const allowExcessLevel = true;
         const allowExcessPix = true;
         const expectedScoring = {
-          realTotalPixScoreForCompetence: 56,
-          pixScoreForCompetence: 56,
-          currentLevel: 7,
+          realTotalPixScoreForCompetence: MAX_REACHABLE_PIX_BY_COMPETENCE + PIX_COUNT_BY_LEVEL * 2,
+          pixScoreForCompetence: MAX_REACHABLE_PIX_BY_COMPETENCE + PIX_COUNT_BY_LEVEL * 2,
+          currentLevel: MAX_REACHABLE_LEVEL + 2,
           pixAheadForNextLevel: 0,
         };
 
@@ -84,13 +84,30 @@ describe('Unit | Service | Scoring Service', function () {
 
   describe('#calculatePixScore', function () {
     it('returns the Pix score and limit the score', function () {
+      const unreachableScore = MAX_REACHABLE_PIX_BY_COMPETENCE + 3000;
+      const maxEarnedPixByKnowledgeElement = MAX_REACHABLE_PIX_BY_COMPETENCE;
+      const belowMaxEarnedPix = 1;
+      const expectedPixScore = 2 * maxEarnedPixByKnowledgeElement + belowMaxEarnedPix;
+
       const knowledgeElements = [
-        domainBuilder.buildKnowledgeElement({ competenceId: 'competence1', skillId: 'skill1.1', earnedPix: 8 }),
-        domainBuilder.buildKnowledgeElement({ competenceId: 'competence1', skillId: 'skill1.2', earnedPix: 35 }),
-        domainBuilder.buildKnowledgeElement({ competenceId: 'competence2', skillId: 'skill2.1', earnedPix: 1 }),
+        domainBuilder.buildKnowledgeElement({
+          competenceId: 'competenceEarnedPixCapped',
+          skillId: 'skill1.1',
+          earnedPix: unreachableScore,
+        }),
+        domainBuilder.buildKnowledgeElement({
+          competenceId: 'competence2',
+          skillId: 'skill2.1',
+          earnedPix: maxEarnedPixByKnowledgeElement,
+        }),
+        domainBuilder.buildKnowledgeElement({
+          competenceId: 'competence3',
+          skillId: 'skill2.2',
+          earnedPix: belowMaxEarnedPix,
+        }),
       ];
 
-      expect(scoringService.calculatePixScore(knowledgeElements)).to.be.equal(41);
+      expect(scoringService.calculatePixScore(knowledgeElements)).to.be.equal(expectedPixScore);
     });
   });
 });
