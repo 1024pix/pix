@@ -593,10 +593,10 @@
       "no-campaign": "Aucune campagne, pour commencer cliquez sur le bouton 'Créer une campagne'.",
       "table": {
         "column": {
-          "campaign": "Nom de la campagne",
           "code": "Code",
           "created-by": "Propriétaire",
           "created-on": "Créée le",
+          "name": "Nom de la campagne",
           "participants": "Participants",
           "results": "Résultats reçus"
         },
