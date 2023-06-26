@@ -1,16 +1,24 @@
 <div id="{{@title}}" class="badge-card">
-  <div class="badge-card__text">
-    <p class="badge-card__status">
-      {{#if @isAcquired}}
-        <FaIcon @icon="circle-check" class="badge-card-status__acquired-icon" />
-        {{t "pages.skill-review.badge-card.acquired"}}
-      {{else}}
-        <FaIcon @icon="circle-xmark" class="badge-card-status__not-acquired-icon" />
-        {{t "pages.skill-review.badge-card.not-acquired"}}
+  <div class="badge-card__content">
+    <div class="badge-card-content__header">
+      <p class="badge-card-content-header__status">
+        {{#if @isAcquired}}
+          <FaIcon @icon="circle-check" class="badge-card-content-header-status__acquired-icon" />
+          {{t "pages.skill-review.badge-card.acquired"}}
+        {{else}}
+          <FaIcon @icon="circle-xmark" class="badge-card-content-header-status__not-acquired-icon" />
+          {{t "pages.skill-review.badge-card.not-acquired"}}
+        {{/if}}
+      </p>
+      {{#if @isAlwaysVisible}}
+        <PixProgressGauge
+          @value={{@acquisitionPercentage}}
+          @label={{t "pages.skill-review.badge-card.progress-bar-label"}}
+        />
       {{/if}}
-    </p>
-    <h3 class="badge-card-text__title">{{@title}}</h3>
-    <p class="badge-card-text__message">
+    </div>
+    <h3 class="badge-card-content__title">{{@title}}</h3>
+    <p class="badge-card-content__message">
       <MarkdownToHtml @markdown={{@message}} />
     </p>
   </div>

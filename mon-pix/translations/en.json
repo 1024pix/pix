@@ -1376,6 +1376,7 @@
       },
       "already-shared": "Thank you, your results have been submitted!",
       "badge-card": {
+        "progress-bar-label": "Badge result percentage",
         "acquired": "Awarded",
         "not-acquired": "Not awarded"
       },
