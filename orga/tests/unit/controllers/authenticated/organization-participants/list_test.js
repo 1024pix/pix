@@ -64,15 +64,15 @@ module('Unit | Controller | authenticated/organization-participants', function (
       const adapter = store.adapterFor('organization-participant');
       deleteParticipants = sinon.stub(adapter, 'deleteParticipants');
       controller = this.owner.lookup('controller:authenticated/organization-participants/list');
-      controller.notifications = { sendSuccess: sinon.stub() };
+      controller.notifications = { sendSuccess: sinon.stub(), sendError: sinon.stub() };
       controller.send = sinon.stub();
       controller.currentUser = { organization: { id: 1 } };
     });
 
-    test('success case', async function(assert) {
+    test('success case', async function (assert) {
       //given
       const listLearners = [{ id: 1, firstName: 'Red', lastName: 'Bull' }];
-      deleteParticipants.resolves();  
+      deleteParticipants.resolves();
 
       // when
       await controller.deleteOrganizationLearners(listLearners);
@@ -80,10 +80,39 @@ module('Unit | Controller | authenticated/organization-participants', function (
       //then
       assert.true(deleteParticipants.calledWith(1, [1]));
       assert.true(controller.send.calledWith('refreshModel'));
-      assert.true(controller.notifications.sendSuccess.calledWith(
-        this.intl.t('pages.organization-participants.action-bar.success-message', 
-        { count: listLearners.length, firstname: listLearners[0].firstName, lastname: listLearners[0].lastName})
-      ));
+      assert.true(
+        controller.notifications.sendSuccess.calledWith(
+          this.intl.t('pages.organization-participants.action-bar.success-message', {
+            count: listLearners.length,
+            firstname: listLearners[0].firstName,
+            lastname: listLearners[0].lastName,
+          })
+        )
+      );
+      assert.true(controller.notifications.sendError.notCalled);
+    });
+
+    test('failed case', async function (assert) {
+      //given
+      const listLearners = [{ id: 1, firstName: 'Red', lastName: 'Bull' }];
+      deleteParticipants.rejects();
+
+      // when
+      await controller.deleteOrganizationLearners(listLearners);
+
+      //then
+      assert.true(deleteParticipants.calledWith(1, [1]));
+      assert.true(controller.send.notCalled);
+      assert.true(controller.notifications.sendSuccess.notCalled);
+      assert.true(
+        controller.notifications.sendError.calledWith(
+          this.intl.t('pages.organization-participants.action-bar.error-message', {
+            count: listLearners.length,
+            firstname: listLearners[0].firstName,
+            lastname: listLearners[0].lastName,
+          })
+        )
+      );
     });
   });
 });
