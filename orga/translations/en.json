@@ -590,10 +590,10 @@
       "no-campaign": "No campaign. To start, click on 'Create a campaign'.",
       "table": {
         "column": {
-          "campaign": "Name of the campaign",
           "code": "Code",
           "created-by": "Owner",
           "created-on": "Created on",
+          "name": "Name of the campaign",
           "participants": "Participants",
           "results": "Results submitted"
         },
