@@ -794,7 +794,8 @@
       "action-bar": {
         "information": "{count, plural, =1 {{count} participant sélectionné} other {{count} participants sélectionnés}}",
         "delete-button": "Supprimer",
-        "success-message":"{count, plural, =1 {{firstname} {lastname} a bien été supprimé de la liste des participants} other {Les {count} participants sélectionnés ont bien été supprimés de la liste}}"
+        "success-message":"{count, plural, =1 {{firstname} {lastname} a bien été supprimé de la liste des participants.} other {Les {count} participants sélectionnés ont bien été supprimés de la liste.}}",
+        "error-message":"{count, plural, =1 {Une erreur est survenue, {firstname} {lastname} n'a pas été supprimé de la liste des participants.} other {Une erreur est survenue, les {count} participants sélectionnés n'ont pas été supprimés de la liste.}}"
       },
       "deletion-modal": {
         "confirmation-checkbox":"Je confirme avoir bien compris les impacts des {count} suppressions",
