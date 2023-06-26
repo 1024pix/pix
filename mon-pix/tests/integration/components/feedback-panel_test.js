@@ -47,7 +47,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
       await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-      await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+      await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
       await screen.findByRole('listbox');
       await click(
         screen.getByRole('option', {
@@ -59,7 +59,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       await fillIn(screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }), contentValue);
 
       // when
-      await click(screen.getByRole('button', { name: 'Envoyer' }));
+      await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
 
       // then
       assert
@@ -79,7 +79,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         // when
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
@@ -89,7 +89,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         // then
         const textareaLabel = screen.queryByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
-        const submitButtonLabel = screen.queryByRole('button', { name: 'Envoyer' });
+        const submitButtonLabel = screen.queryByRole('button', { name: 'Envoyer mon message de signalement' });
         assert.dom(textareaLabel).doesNotExist();
         assert.dom(submitButtonLabel).doesNotExist();
 
@@ -106,7 +106,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         // when
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
@@ -116,7 +116,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         // then
         const textareaLabel = screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
-        const submitButtonLabel = screen.getByRole('button', { name: 'Envoyer' });
+        const submitButtonLabel = screen.getByRole('button', { name: 'Envoyer mon message de signalement' });
         assert.dom(textareaLabel).exists();
         assert.dom(submitButtonLabel).exists();
       });
@@ -130,7 +130,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         // when
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
@@ -140,7 +140,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         // then
         const textareaLabel = screen.queryByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
-        const submitButtonLabel = screen.queryByRole('button', { name: 'Envoyer' });
+        const submitButtonLabel = screen.queryByRole('button', { name: 'Envoyer mon message de signalement' });
         assert.dom(textareaLabel).doesNotExist();
         assert.dom(submitButtonLabel).doesNotExist();
 
@@ -156,7 +156,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         // when
-        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
@@ -173,7 +173,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         assert.dom(screen.queryByText('Votre connexion internet est peut-être trop faible.')).doesNotExist();
 
         const textareaLabel = screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
-        const submitButtonLabel = screen.getByRole('button', { name: 'Envoyer' });
+        const submitButtonLabel = screen.getByRole('button', { name: 'Envoyer mon message de signalement' });
         assert.dom(textareaLabel).exists();
         assert.dom(submitButtonLabel).exists();
       });
@@ -186,7 +186,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         // when
-        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
@@ -203,7 +203,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         assert.dom(screen.queryByText('Votre connexion internet est peut-être trop faible.')).doesNotExist();
 
         const textareaLabel = screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
-        const submitButtonLabel = screen.getByRole('button', { name: 'Envoyer' });
+        const submitButtonLabel = screen.getByRole('button', { name: 'Envoyer mon message de signalement' });
         assert.dom(textareaLabel).exists();
         assert.dom(submitButtonLabel).exists();
       });
@@ -216,7 +216,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         // when
-        await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+        await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
@@ -242,7 +242,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
           )
           .exists();
         const textareaLabel = screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
-        const submitButtonLabel = screen.getByRole('button', { name: 'Envoyer' });
+        const submitButtonLabel = screen.getByRole('button', { name: 'Envoyer mon message de signalement' });
         assert.dom(textareaLabel).exists();
         assert.dom(submitButtonLabel).exists();
       });
@@ -321,7 +321,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
       // then
       const selectInputLabel = screen.getByRole('button', {
-        name: 'Sélectionner la catégorie du problème rencontré',
+        name: "J'ai un problème avec",
       });
       assert.dom(selectInputLabel).exists();
     });
@@ -389,7 +389,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       const screen = await render(hbs`<FeedbackPanel />`);
       await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-      await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+      await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
       await screen.findByRole('listbox');
       await click(
         screen.getByRole('option', {
@@ -398,7 +398,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       );
 
       // when
-      await click(screen.getByRole('button', { name: 'Envoyer' }));
+      await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
 
       // then
       assert.dom(screen.getByText('Vous devez saisir un message.')).exists();
@@ -409,7 +409,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       const screen = await render(hbs`<FeedbackPanel />`);
       await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-      await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+      await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
       await screen.findByRole('listbox');
       await click(
         screen.getByRole('option', {
@@ -419,7 +419,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       await fillIn(screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }), '');
 
       // when
-      await click(screen.getByRole('button', { name: 'Envoyer' }));
+      await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
 
       // then
       assert.dom(screen.getByText('Vous devez saisir un message.')).exists();
@@ -430,7 +430,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       const screen = await render(hbs`<FeedbackPanel />`);
       await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-      await click(screen.getByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }));
+      await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
       await screen.findByRole('listbox');
       await click(
         screen.getByRole('option', {
@@ -440,7 +440,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
       await fillIn(screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }), '    ');
 
-      await click(screen.getByRole('button', { name: 'Envoyer' }));
+      await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
 
       // when
       await click(screen.getByRole('button', { name: 'Signaler un problème' }));

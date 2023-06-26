@@ -72,13 +72,20 @@
                     @id="feedback-panel__field"
                     @maxlength="10000"
                     rows="5"
-                    placeholder={{t "pages.challenge.feedback-panel.form.fields.detail-selection.label"}}
+                    placeholder={{t
+                      "pages.challenge.feedback-panel.form.fields.detail-selection.problem-suggestion-description"
+                    }}
                     @errorMessage={{this.emptyTextBoxMessageError}}
                     required
                     {{on "change" this.setContent}}
                   />
                 </div>
-                <PixButton @type="submit" @backgroundColor="grey" @isDisabled={{this.isSendButtonDisabled}}>
+                <PixButton
+                  @type="submit"
+                  @backgroundColor="grey"
+                  aria-label={{t "pages.challenge.feedback-panel.form.actions.submit-aria-label"}}
+                  @isDisabled={{this.isSendButtonDisabled}}
+                >
                   {{t "pages.challenge.feedback-panel.form.actions.submit"}}
                 </PixButton>
               {{/if}}
