@@ -1,4 +1,4 @@
-extends: ../.eslintrc.yaml
+extends: ../.eslintrc.cjs
 
 globals:
   include: true

@@ -2,6 +2,7 @@ ignores:
   [
     '@babel/plugin-syntax-import-assertions',
     'bookshelf-validate',
+    'eslint-plugin-eslint-comments',
     'eslint-plugin-i18n-json',
     'eslint-plugin-mocha',
     'eslint-plugin-yml',
@@ -24,15 +25,19 @@ ignores:
 # code =>  MOCHA_REPORTER: mocha-junit-reporter
 # see https://github.com/michaelleeallen/mocha-junit-reporter#usage
 
-# "eslint-plugin-i18n-json" is used in ../.eslintrc.yaml
+# "eslint-plugin-eslint-comments" is used in ../.eslintrc.cjs
+# code =>  plugins: - eslint-comments
+# see https://github.com/mysticatea/eslint-plugin-eslint-comments
+
+# "eslint-plugin-i18n-json" is used in ../.eslintrc.cjs
 # code =>  plugins: - i18n-json
 # see https://github.com/godaddy/eslint-plugin-i18n-json
 
-# "eslint-plugin-mocha" is used in ../.eslintrc.yaml
+# "eslint-plugin-mocha" is used in ../.eslintrc.cjs
 # code =>  plugins: - mocha
 # see https://github.com/lo1tuma/eslint-plugin-mocha#install-and-configure
 
-# "eslint-plugin-YAML" is used in ../.eslintrc.yaml
+# "eslint-plugin-YAML" is used in ../.eslintrc.cjs
 # code =>  plugins: - yaml
 # see https://github.com/ota-meshi/eslint-plugin-yml#book-usage
 

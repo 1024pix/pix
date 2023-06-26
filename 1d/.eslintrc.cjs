@@ -14,7 +14,7 @@ module.exports = {
   },
   plugins: ['ember'],
   extends: [
-    ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
+    ...(fs.existsSync('../.eslintrc.cjs') ? ['../.eslintrc.cjs'] : []),
     'eslint:recommended',
     'plugin:ember/recommended',
     'plugin:prettier/recommended',
