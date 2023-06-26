@@ -793,7 +793,8 @@
       "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
       "action-bar": {
         "information": "{count, plural, =1 {{count} participant sélectionné} other {{count} participants sélectionnés}}",
-        "delete-button": "Supprimer"
+        "delete-button": "Supprimer",
+        "success-message":"{count, plural, =1 {{firstname} {lastname} a bien été supprimé de la liste des participants} other {Les {count} participants sélectionnés ont bien été supprimés de la liste}}"
       },
       "deletion-modal": {
         "confirmation-checkbox":"Je confirme avoir bien compris les impacts des {count} suppressions",
