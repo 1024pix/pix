@@ -102,7 +102,7 @@
     "eslint-plugin-mocha": "^10.0.5",
     "eslint-plugin-n": "^16.0.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-unicorn": "^46.0.0",
+    "eslint-plugin-unicorn": "^47.0.0",
     "eslint-plugin-yml": "^1.0.0",
     "flush-write-stream": "^2.0.0",
     "form-data": "^4.0.0",
