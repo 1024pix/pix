@@ -1,34 +1,5 @@
 .challenge-actions {
   display: flex;
   justify-content: space-around;
-
-  &__skip-button {
-    background-color: white;
-    color: #556bcc;
-    border: 1px solid #556BCC;
-    box-shadow: 0 3px #495aa0;
-    font-size: 1.25rem;
-    padding: 16px 48px;
-    border-radius: 30px;
-
-    &:hover {
-      color: white;
-    }
-  }
-
-  &__verify-button {
-    background-color: #556bcc;
-    color: white;
-    border: 1px solid #556BCC;
-    box-shadow: 0 3px #495aa0;
-    font-size: 1.25rem;
-    padding: 16px 48px;
-    border-radius: 30px;
-  }
 }
 
-.pix-button--background-blue.challenge-actions__skip-button, .pix-button--background-blue.challenge-actions__verify-button {
-  &:hover {
-    background-color: #495AA0;
-  }
-}

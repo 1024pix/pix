@@ -1,7 +1,17 @@
-.answer{
-  margin: 2rem 1rem 1rem;
-  display: flex;
-  flex-direction: column;
+.pix-modal.answer {
+  background-color: #EBEFFF;
+}
+
+.pix-modal.answer .pix-modal__content {
+  font-size: 1.125rem;
+}
+
+.answer {
+  &__content {
+    margin: 2rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+  }
 
   &__span{
     margin-bottom: 1rem;
