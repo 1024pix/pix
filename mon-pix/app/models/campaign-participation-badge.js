@@ -10,6 +10,7 @@ export default class CampaignParticipationBadge extends Badge {
   @attr('boolean') isAlwaysVisible;
   @attr('boolean') isCertifiable;
   @attr('boolean') isValid;
+  @attr('number') acquisitionPercentage;
 
   // includes
   @hasMany('skillSetResult') skillSetResults;
