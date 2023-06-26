@@ -6,7 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 module('Integration | Component | answer', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('displays felicitations when the answer is correct', async function (assert) {
+  test('displays kudos when the answer is correct', async function (assert) {
     // given & when
     this.set('answer', {
       result: 'ok',
@@ -14,7 +14,7 @@ module('Integration | Component | answer', function (hooks) {
     const screen = await render(hbs`<AnswerFeedback @answer={{this.answer}} @answerHasBeenValidated={{true}} />`);
 
     // then
-    assert.dom(screen.getByText("Bravo ! C'est la bonne réponse !")).exists();
+    assert.dom(screen.getByText("Bravo ! C'est la bonne réponse.")).exists();
   });
 
   test('displays try later when the challenge is skipped', async function (assert) {
@@ -25,7 +25,7 @@ module('Integration | Component | answer', function (hooks) {
     const screen = await render(hbs`<AnswerFeedback @answer={{this.answer}} @answerHasBeenValidated={{true}} />`);
 
     // then
-    assert.dom(screen.getByText('Tu as passé. Tu réessaieras plus tard')).exists();
+    assert.dom(screen.getByText('Si tu passes l’activité, une autre activité plus simple te sera proposée.')).exists();
   });
 
   test('displays bad response when the answer is not correct', async function (assert) {
