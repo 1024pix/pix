@@ -51,13 +51,37 @@ module('Integration | Component | Organizations::ListItems', function (hooks) {
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
-  @showDetachColumn={{true}}
 />`
       );
 
       // then
       assert.strictEqual(screen.getAllByRole('button', { name: 'Détacher' }).length, this.organizations.length);
       assert.dom(screen.getByText('Actions')).exists();
+    });
+
+    test('it should open confirm modal when click on "Détacher" button', async function (assert) {
+      //given
+      this.targetProfile = { name: 'super profil cible' };
+
+      //when
+      const screen = await render(
+        hbs`<Organizations::ListItems
+  @organizations={{this.organizations}}
+  @externalId='{{@externalId}}'
+  @goToOrganizationPage={{this.goToOrganizationPage}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @detachOrganizations={{this.detachOrganizations}}
+  @targetProfileName={{this.targetProfile.name}}
+/>`
+      );
+
+      const detachButton = screen.getAllByRole('button', { name: 'Détacher' })[0];
+      await click(detachButton);
+
+      await screen.findByRole('dialog');
+      const modalTitle = await screen.getByRole('heading', { name: "Détacher l'organisation du profil cible" });
+      //then
+      assert.dom(modalTitle).exists();
     });
 
     test('it should detach an organization when click on "Détacher" button', async function (assert) {
@@ -69,7 +93,6 @@ module('Integration | Component | Organizations::ListItems', function (hooks) {
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
-  @showDetachColumn={{true}}
 />`
       );
       const detachButton = screen.getAllByRole('button', { name: 'Détacher' })[0];
