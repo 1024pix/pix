@@ -182,7 +182,7 @@ export default class EnrolledCandidates extends Component {
     let errorText = this.intl.t(`common.api-error-messages.internal-server-error`);
     const error = errorResponse?.errors?.[0];
     if (error?.code) {
-      errorText = this.intl.t(`common.api-error-messages.add-certification-candidate.${error.code}`, {
+      errorText = this.intl.t(`common.api-error-messages.certification-candidate.${error.code}`, {
         ...error?.meta,
       });
     }
