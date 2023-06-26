@@ -36,12 +36,9 @@ const getNextChallengeForCertification = async function ({
 
     const challenge = pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
 
-    const certificationChallenge = new CertificationChallenge({
-      associatedSkillName: challenge.skill.name,
-      associatedSkillId: challenge.skill.id,
-      challengeId: challenge.id,
-      courseId: certificationCourse.getId(),
-      competenceId: challenge.competenceId,
+    const certificationChallenge = CertificationChallenge.from({
+      challenge,
+      certificationCourseId: certificationCourse.getId(),
       isNeutralized: false,
       certifiableBadgeKey: null,
     });
