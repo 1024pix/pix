@@ -80,6 +80,17 @@ Vérifiez que le script s'est bien terminé : le message "🎉 Congratulations! 
 affiché. Si ce n'est pas le cas, contactez les équipes de développement en
 ouvrant [une issue](https://github.com/1024pix/pix/issues).
 
+### IDE
+
+#### VSCode
+
+Pour les utilisateur de vscode, des fichiers de config sont disponibles dans le dossier `.vscode`.
+Pour les utiliser:
+`cp .vscode/sample.launch.json .vscode/launch.json`
+`cp .vscode/sample.settings.json .vscode/settings.json`
+
+Les extensions recommandées peuvent se retrouver dans l'onglet extension en renseignant le filtre `@recommanded`
+
 ### Démarrer les applications
 
 Pour démarrer l'ensemble des applications, exécuter `npm start `

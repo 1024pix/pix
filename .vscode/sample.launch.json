@@ -1,32 +1,38 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
       "type": "node",
       "request": "launch",
       "name": "api start",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "program": "${workspaceFolder}/api/bin/www",
+      "outputCapture": "std",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/api",
       "cwd": "${workspaceRoot}/api"
     },
     {
       "type": "node",
       "request": "launch",
       "name": "api watch",
-      "runtimeExecutable": "nodemon",
-      "program": "${workspaceFolder}/api/bin/www",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:watch"],
       "restart": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "cwd": "${workspaceRoot}/api"
+      "cwd": "${workspaceRoot}/api",
+      "outputCapture": "std",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "outputCapture": "std",
+      "name": "script start TEMPLATE",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/api/scripts/XXX.js",
+      "cwd": "${workspaceRoot}/api",
+      "outFiles": ["${workspaceRoot}/api/lib"],
+      "args": ["ARG1", "ARG2"]
     },
     {
       "type": "node",
@@ -51,13 +57,10 @@
         "${workspaceFolder}/api/tests"
       ],
       "internalConsoleOptions": "openOnSessionStart",
-      "skipFiles": [
-        "<node_internals>/**",
-        "api/tests/test-helper.js"
-      ]
+      "skipFiles": ["<node_internals>/**", "api/tests/test-helper.js"]
     },
     {
-      "name": "api mocha current file",
+      "name": "api mocha current file (similar to @doc)",
       "type": "node",
       "request": "launch",
       "outputCapture": "std",
@@ -68,10 +71,9 @@
         "LOG_LEVEL": "error"
       },
       "program": "${workspaceRoot}/api/node_modules/mocha/bin/_mocha",
-      "args": [
-        "--no-timeouts", "${relativeFile}"
-      ],
-      "cwd": "${workspaceRoot}"
+      "args": ["--no-timeouts", "${relativeFile}"],
+      "cwd": "${workspaceRoot}",
+      "outFiles": ["${workspaceRoot}/api/lib"]
     },
     {
       "name": "mon-pix chrome",
@@ -111,6 +113,16 @@
       "webRoot": "${workspaceFolder}/admin",
       "sourceMapPathOverrides": {
         "admin/*": "${workspaceRoot}/admin/app/*"
+      }
+    },
+    {
+      "name": "1d chrome",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:4205",
+      "webRoot": "${workspaceFolder}/1d",
+      "sourceMapPathOverrides": {
+        "1d/*": "${workspaceRoot}/1d/app/*"
       }
     }
   ]
