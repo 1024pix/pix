@@ -222,6 +222,7 @@ const configuration = (function () {
       isDifferentiatedTimeInvigilatorPortalEnabled: isFeatureEnabled(
         process.env.FT_DIFFERENTIATED_TIME_INVIGILATOR_PORTAL
       ),
+      isLevel7Enabled: isFeatureEnabled(process.env.FT_LEVEL7_ENABLED),
     },
 
     infra: {
@@ -362,6 +363,7 @@ const configuration = (function () {
     config.featureToggles.isMassiveSessionManagementEnabled = false;
     config.featureToggles.isPix1dEnabled = true;
     config.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled = true;
+    config.featureToggles.isLevel7Enabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
