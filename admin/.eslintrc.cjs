@@ -1,6 +1,5 @@
 'use strict';
 const fs = require('node:fs');
-const path = require('node:path');
 
 module.exports = {
   globals: {
@@ -17,7 +16,7 @@ module.exports = {
   },
   plugins: ['ember', 'qunit'],
   extends: [
-    ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
+    ...(fs.existsSync('../.eslintrc.cjs') ? ['../.eslintrc.cjs'] : []),
     'plugin:ember/recommended',
     'plugin:qunit/recommended',
     'plugin:prettier/recommended',
@@ -28,12 +27,6 @@ module.exports = {
   rules: {
     'ember/no-mixins': 'off',
     'no-restricted-imports': ['error', { paths: ['lodash'] }],
-    'i18n-json/sorted-keys': [
-      'error',
-      {
-        sortFunctionPath: path.resolve('./config/linter-translation-order.cjs'),
-      },
-    ],
   },
   overrides: [
     // node files

@@ -1,9 +1,8 @@
 'use strict';
-const path = require('node:path');
 
 module.exports = {
   extends: [
-    '../.eslintrc.yaml',
+    '../.eslintrc.cjs',
     'plugin:mocha/recommended',
     'plugin:prettier/recommended',
     'plugin:chai-expect/recommended',
@@ -64,12 +63,6 @@ module.exports = {
           'stream-to-promise',
           'pino-pretty',
         ],
-      },
-    ],
-    'i18n-json/sorted-keys': [
-      'error',
-      {
-        sortFunctionPath: path.resolve('./config/linter-translation-order.cjs'),
       },
     ],
   },
