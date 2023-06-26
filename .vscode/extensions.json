@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "hbenl.vscode-mocha-test-adapter",
+    "esbenp.prettier-vscode",
+    "EmberTooling.emberjs",
+    "dbaeumer.vscode-eslint"
+  ]
+}
