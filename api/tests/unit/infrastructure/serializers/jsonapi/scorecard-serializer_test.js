@@ -1,5 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer.js';
+import { MAX_REACHABLE_LEVEL } from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Serializer | JSONAPI | scorecard-serializer', function () {
   describe('#serialize()', function () {
@@ -9,7 +10,10 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', function () {
         domainBuilder.buildTutorial({ id: 'recTuto2' }),
       ];
 
-      const scorecardObject = domainBuilder.buildUserScorecard({ tutorials: expectedTutorials });
+      const scorecardObject = domainBuilder.buildUserScorecard({
+        level: MAX_REACHABLE_LEVEL,
+        tutorials: expectedTutorials,
+      });
 
       const expectedSerializedScorecard = {
         data: {
@@ -31,7 +35,7 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', function () {
             'is-progressable': false,
             'is-resettable': false,
             'is-started': true,
-            level: 6,
+            level: MAX_REACHABLE_LEVEL,
             name: 'Mener une troupe à la bataille',
             'percentage-ahead-of-next-level': 37.5,
             'pix-score-ahead-of-next-level': 3,

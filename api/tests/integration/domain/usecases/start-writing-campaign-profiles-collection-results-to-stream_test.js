@@ -12,6 +12,7 @@ import * as organizationRepository from '../../../../lib/infrastructure/reposito
 import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
 import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {
   describe('#startWritingCampaignProfilesCollectionResultsToStream', function () {
@@ -168,8 +169,8 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           '2;' +
           '1;' +
           '12;' +
-          '5;' +
-          '40';
+          `${MAX_REACHABLE_LEVEL};` +
+          `${MAX_REACHABLE_PIX_BY_COMPETENCE}`;
 
         // when
         startWritingCampaignProfilesCollectionResultsToStream({
@@ -250,8 +251,8 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           '2;' +
           '1;' +
           '12;' +
-          '5;' +
-          '40';
+          `${MAX_REACHABLE_LEVEL};` +
+          `${MAX_REACHABLE_PIX_BY_COMPETENCE}`;
 
         // when
         startWritingCampaignProfilesCollectionResultsToStream({
@@ -334,8 +335,8 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           '2;' +
           '1;' +
           '12;' +
-          '5;' +
-          '40';
+          `${MAX_REACHABLE_LEVEL};` +
+          `${MAX_REACHABLE_PIX_BY_COMPETENCE}`;
 
         // when
         startWritingCampaignProfilesCollectionResultsToStream({

@@ -14,6 +14,7 @@ import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
 import { ComplementaryCertificationCourse } from '../../../../lib/domain/models/ComplementaryCertificationCourse.js';
 import _ from 'lodash';
+import { MAX_REACHABLE_LEVEL } from '../../../../lib/domain/constants.js';
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', function () {
   let clock;
@@ -423,7 +424,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   certificationCandidate: foundCertificationCandidate,
                   challenges: [challenge1, challenge2],
                   verificationCode,
-                  maxReachableLevelOnCertificationDate: 5,
+                  maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
                 });
                 const savedCertificationCourse = domainBuilder.buildCertificationCourse(
                   certificationCourseToSave.toDTO(),
@@ -512,7 +513,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   certificationCandidate: foundCertificationCandidate,
                   challenges: [],
                   verificationCode,
-                  maxReachableLevelOnCertificationDate: 5,
+                  maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
                   version: 3,
                 });
                 const savedCertificationCourse = domainBuilder.buildCertificationCourse(
@@ -631,7 +632,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         certificationCandidate: foundCertificationCandidate,
                         challenges: [challengePlus1, challengePlus2, challengePlus3, challenge1, challenge2],
                         verificationCode,
-                        maxReachableLevelOnCertificationDate: 5,
+                        maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
                         complementaryCertificationCourses: [complementaryCertificationCourse],
                       });
 
@@ -756,7 +757,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         certificationCandidate: foundCertificationCandidate,
                         challenges: [challengePlus1, challengePlus2, challengePlus3, challenge1, challenge2],
                         verificationCode,
-                        maxReachableLevelOnCertificationDate: 5,
+                        maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
                         complementaryCertificationCourses: [complementaryCertificationCourse],
                       });
 
@@ -860,7 +861,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           certificationCandidate: foundCertificationCandidate,
                           challenges: [challenge1, challenge2],
                           verificationCode,
-                          maxReachableLevelOnCertificationDate: 5,
+                          maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
                         });
 
                         const savedCertificationCourse = domainBuilder.buildCertificationCourse(
@@ -974,7 +975,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           certificationCandidate: foundCertificationCandidate,
                           challenges: [challenge1, challenge2],
                           verificationCode,
-                          maxReachableLevelOnCertificationDate: 5,
+                          maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
                           complementaryCertificationCourses: [complementaryCertificationCourse],
                         });
 
@@ -1086,7 +1087,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         certificationCandidate: foundCertificationCandidate,
                         challenges: [challenge1, challenge2],
                         verificationCode,
-                        maxReachableLevelOnCertificationDate: 5,
+                        maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
                         complementaryCertificationCourses: [],
                       });
 
@@ -1183,7 +1184,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       certificationCandidate: foundCertificationCandidate,
                       challenges: [challenge1, challenge2],
                       verificationCode,
-                      maxReachableLevelOnCertificationDate: 5,
+                      maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
                     });
 
                     const savedCertificationCourse = domainBuilder.buildCertificationCourse(
