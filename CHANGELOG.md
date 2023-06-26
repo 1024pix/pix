@@ -1,5 +1,43 @@
 # Pix Changelog
 ## v4.4.0 (13/06/2023)
+## v4.10.0 (26/06/2023)
+
+
+### :rocket: Amélioration
+- [#6459](https://github.com/1024pix/pix/pull/6459) [FEATURE] Pix1D - customiser la page de fin de mission (PIX-8417).
+- [#6449](https://github.com/1024pix/pix/pull/6449) [FEATURE] Terminer la session de certif V3 après un nombre précis de questions (PIX-8436).
+- [#6447](https://github.com/1024pix/pix/pull/6447) [FEATURE] Améliorer l'affichage des solutions des QROCm (PIX-6221).
+- [#6453](https://github.com/1024pix/pix/pull/6453) [FEATURE] Afficher les résultats thématiques en lacunes lorsqu'ils sont certifiantes ou non (PIX-8438).
+- [#6445](https://github.com/1024pix/pix/pull/6445) [FEATURE] Utiliser le nouvel algorithme pour choisir les épreuves lors d'une certif v3 (PIX-8426).
+- [#6452](https://github.com/1024pix/pix/pull/6452) [FEATURE] Ajout d'une modale de confirmation quand on détache une orga d'un profil cible (PIX-7030).
+- [#6450](https://github.com/1024pix/pix/pull/6450) [FEATURE] Pix1D - Amélioration de la page d'introduction de mission.
+- [#6439](https://github.com/1024pix/pix/pull/6439) [FEATURE] Création de la page d'accès aux missions (PIX-8283).
+- [#6260](https://github.com/1024pix/pix/pull/6260) [FEATURE] Ajoute le détachement d'un profil cible d'une organisation (PIX-7028).
+- [#6413](https://github.com/1024pix/pix/pull/6413) [FEATURE] Identification de la version des certification-courses (PIX-8273).
+
+### :building_construction: Tech
+- [#6460](https://github.com/1024pix/pix/pull/6460) [TECH] Nettoyage des fichiers de l'ajout de la modale pour détacher un profil cible (PIX-8450).
+- [#6434](https://github.com/1024pix/pix/pull/6434) [TECH] Mise à jour des configurations de vscode.
+- [#6441](https://github.com/1024pix/pix/pull/6441) [TECH] Linter les traduction de Pix Admin.
+- [#6456](https://github.com/1024pix/pix/pull/6456) [TECH] Utiliser les nouveaux imports de services dans Ember.js.
+- [#6436](https://github.com/1024pix/pix/pull/6436) [TECH] Amélioration des tests en utilisant Testing Library (PIX-8412).
+- [#6416](https://github.com/1024pix/pix/pull/6416) [TECH] Monter Pix-UI en version 36.0.0 sur PixApp (PIX-8252).
+- [#6427](https://github.com/1024pix/pix/pull/6427) [TECH] Ajouter une config pour jouer Pix1d sur safari (PIX-8403).
+- [#6446](https://github.com/1024pix/pix/pull/6446) [TECH] Suppression des scripts `dev` des applis fronts.
+- [#6433](https://github.com/1024pix/pix/pull/6433) [TECH] Uniformisation des `scripts` des `package.json`.
+- [#6407](https://github.com/1024pix/pix/pull/6407) [TECH] Faciliter la création de migrations BDD.
+- [#6430](https://github.com/1024pix/pix/pull/6430) [TECH] Refactorer l'utilitaire de barreling.
+- [#6440](https://github.com/1024pix/pix/pull/6440) [TECH] Corriger l'import des fichiers d'un dossier sur Windows. .
+- [#6429](https://github.com/1024pix/pix/pull/6429) [TECH] Remplacer eslint-plugin-node par son successeur eslint-plugin-n.
+
+### :bug: Correction
+- [#6435](https://github.com/1024pix/pix/pull/6435) [BUGFIX] Améliorer le design de l'input sur l'écran de réponse des QROC sur Pix-App (PIX-8316).
+
+### :coffee: Autre
+- [#6468](https://github.com/1024pix/pix/pull/6468) [BUMP] Lock file maintenance (api).
+- [#6466](https://github.com/1024pix/pix/pull/6466) [BUMP] Update node to v16.20.1.
+- [#6467](https://github.com/1024pix/pix/pull/6467) [BUMP] Update dependency hapi-swagger to v17 (api).
+
 ## v4.9.0 (21/06/2023)
 
 
