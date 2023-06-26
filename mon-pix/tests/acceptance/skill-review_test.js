@@ -159,6 +159,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           altMessage: 'Yon won a Yellow badge',
           imageUrl: '/images/badges/yellow.svg',
           message: 'Congrats, you won a Yellow badge',
+          acquisitionPercentage: 100,
           isAcquired: true,
           isValid: true,
           isCertifiable: false,
@@ -168,6 +169,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           imageUrl: '/images/badges/green.svg',
           message: 'Congrats, you won a Green badge',
           isAcquired: false,
+          acquisitionPercentage: 20,
           isValid: true,
           isAlwaysVisible: true,
           isCertifiable: false,
@@ -177,6 +179,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           imageUrl: '/images/badges/pink.svg',
           message: 'Congrats, you won a pink badge',
           isAcquired: false,
+          acquisitionPercentage: 0,
           isValid: true,
           isAlwaysVisible: false,
           isCertifiable: true,
@@ -186,10 +189,16 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         });
 
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+        const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
         assert.strictEqual(findAll('.badge-card').length, 2);
+        assert.strictEqual(
+          screen
+            .getByRole('progressbar', { name: 'Pourcentage de réussite du résultat thématique' })
+            .textContent.trim(),
+          '20%'
+        );
       });
 
       module('when campaign has stages', function () {

@@ -1376,6 +1376,7 @@
       },
       "already-shared": "Merci, vos résultats ont bien été envoyés !",
       "badge-card": {
+        "progress-bar-label": "Pourcentage de réussite du résultat thématique",
         "acquired": "Obtenu",
         "not-acquired": "Non obtenu"
       },
