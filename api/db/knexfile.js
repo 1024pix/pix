@@ -14,9 +14,11 @@ function localPostgresEnv(databaseUrl, knexAsyncStacktraceEnabled) {
     migrations: {
       tableName: 'knex_migrations',
       directory: './migrations',
+      loadExtensions: ['.js'],
     },
     seeds: {
       directory: './seeds',
+      loadExtensions: ['.js'],
     },
     asyncStackTraces: knexAsyncStacktraceEnabled !== 'false',
   };
@@ -36,9 +38,11 @@ const environments = {
     migrations: {
       tableName: 'knex_migrations',
       directory: './migrations',
+      loadExtensions: ['.js'],
     },
     seeds: {
       directory: './seeds',
+      loadExtensions: ['.js'],
     },
     asyncStackTraces: process.env.KNEX_ASYNC_STACKTRACE_ENABLED !== 'false',
   },

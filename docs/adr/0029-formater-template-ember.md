@@ -73,7 +73,7 @@ En conséquence, un formatage approprié est important.
 ### Approche Pix
 Jusqu'ici, l'approche utilisée est:
 - outil de lint;
-- avec de nombreuses [configurations spécifiques](../../.eslintrc.yaml).
+- avec de nombreuses [configurations spécifiques](../../.eslintrc.cjs).
 
 Nous ne connaissons pas le besoin à l'origine des configurations spécifiques.
 

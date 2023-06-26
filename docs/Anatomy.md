@@ -24,7 +24,7 @@ pix                      → Sources de la plateforme
  └ .adr-dir              → Fichier de configuration de l'outil npryce/adr-tools pour gérer les ADR  
  └ .buildpacks           → Fichier de définition des buildpacks Scalingo à utiliser
  └ .editorconfig         → Fichier de configuration pour l'outil / standard EditorConfig
- └ .eslintrc.yaml        → Fichier de configuration général pour l'outil de linting ESLint
+ └ .eslintrc.cjs        → Fichier de configuration général pour l'outil de linting ESLint
  └ .gitignore            → Listing des fichiers / répertoires à ignorer de Git 
  └ .slugignore           → Listing des fichiers / répertoires que Scalingo doit ignorer au moment du build
  └ CHANGELOG.md          → Listing des modifications opérées sur la plateforme (mise à jour automatique)
@@ -89,11 +89,11 @@ api                                 → Sources de l'application Pix API
     └ integration                   → Tests utilisées pour couvrir les Routes, les modèles Bookshelf, les Repositories, et le traitement de fichiers  
     └ tooling                       → Outillage (Factories, DataBuilders) pratique pour les tests
     └ unit                          → Tests unitaires (Controllers, Serializers, Models, Services et Usecases du domaine, Validators, etc.) 
-    └ .eslintrc.yaml                → Fichier de configuration général pour l'outil de linting ESLint
+    └ .eslintrc.cjs                → Fichier de configuration général pour l'outil de linting ESLint
     └ test-helper.js                → Module de configuration des libs utilisées pour les tests (Mocha, Sinon, Chai, etc.)
  └ .buildpacks                      → Fichier de définiion des buildpacks Scalingo à utiliser
  └ .env                             → (généré/édité) Fichier avec les variables d'environnement pour le développement local
- └ .eslintrc.yaml                   → Fichier de configuration général pour l'outil de linting ESLint
+ └ .eslintrc.cjs                   → Fichier de configuration général pour l'outil de linting ESLint
  └ .istanbul.yml                    → Fichier de configuration pour la couverture de code
  └ .slugignore                      → Listing des fichiers / répertoires que Scalingo doit ignorer au moment du build
  └ package.json                     → Fichier de définition généré de la plateforme
