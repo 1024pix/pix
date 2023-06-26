@@ -28,7 +28,7 @@ module('Unit | Component | no-session-panel', function (hooks) {
             currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
           }
           class FeatureTogglesStub extends Service {
-            featureToggles = { isMassiveSessionManagementEnabled: sinon.stub().returns(true) };
+            featureToggles = { isMassiveSessionManagementEnabled: true };
           }
           class CurrentDomainStub extends Service {
             getExtension = sinon.stub().returns('org');
@@ -62,7 +62,7 @@ module('Unit | Component | no-session-panel', function (hooks) {
             currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
           }
           class FeatureTogglesStub extends Service {
-            featureToggles = { isMassiveSessionManagementEnabled: sinon.stub().returns(true) };
+            featureToggles = { isMassiveSessionManagementEnabled: true };
           }
           class CurrentDomainStub extends Service {
             getExtension = sinon.stub().returns('org');
@@ -98,7 +98,7 @@ module('Unit | Component | no-session-panel', function (hooks) {
           currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
         }
         class FeatureTogglesStub extends Service {
-          featureToggles = { isMassiveSessionManagementEnabled: sinon.stub().returns(true) };
+          featureToggles = { isMassiveSessionManagementEnabled: true };
         }
         class CurrentDomainStub extends Service {
           getExtension = sinon.stub().returns('fr');
