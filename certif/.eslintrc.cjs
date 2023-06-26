@@ -33,7 +33,7 @@ module.exports = {
     // node files
     {
       files: [
-        '.eslintrc.js',
+        '.eslintrc.cjs',
         '.template-lintrc.js',
         'ember-cli-build.js',
         'testem.js',

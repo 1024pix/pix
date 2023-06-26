@@ -1,6 +1,6 @@
 'use strict';
 module.exports = {
-  extends: '../../.eslintrc.yaml',
+  extends: '../../.eslintrc.cjs',
   rules: {
     'no-restricted-modules': [
       'error',
