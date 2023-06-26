@@ -772,7 +772,8 @@
       "action-bar": {
         "information": "{count, plural, =1 {{count} selected participant} other {{count} selected participants}}",
         "delete-button": "Delete",
-        "success-message":"{count, plural, =1 {{firstname} {lastname} has successfully been deleted from the participants list} other {The {count} selected participants have successfully been deleted from the list}}"
+        "success-message":"{count, plural, =1 {{firstname} {lastname} has successfully been deleted from the participants list.} other {The {count} selected participants have successfully been deleted from the list.}}",
+        "error-message":"{count, plural, =1 {An error has occurred. {firstname} {lastname} has not been deleted from the participants list.}}"
       },
       "deletion-modal": {
         "confirmation-checkbox":"I confirm that I have understood the impacts of the {count} deletions",
