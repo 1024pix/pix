@@ -1,5 +1,5 @@
 import { CertificationVersion } from '../models/CertificationVersion.js';
-import { FlashAssessmentAlgorithm } from '../models/index.js';
+import { CertificationChallenge, FlashAssessmentAlgorithm } from '../models/index.js';
 import { MAX_NEXT_GEN_CERTIFICATION_CHALLENGES } from '../constants.js';
 
 const getNextChallengeForCertification = async function ({
@@ -34,7 +34,21 @@ const getNextChallengeForCertification = async function ({
       estimatedLevel,
     });
 
-    return pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
+    const challenge = pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
+
+    const certificationChallenge = new CertificationChallenge({
+      associatedSkillName: challenge.skill.name,
+      associatedSkillId: challenge.skill.id,
+      challengeId: challenge.id,
+      courseId: certificationCourse.getId(),
+      competenceId: challenge.competenceId,
+      isNeutralized: false,
+      certifiableBadgeKey: null,
+    });
+
+    await certificationChallengeRepository.save({ certificationChallenge });
+
+    return challenge;
   } else {
     return certificationChallengeRepository
       .getNextNonAnsweredChallengeByCourseId(assessment.id, assessment.certificationCourseId)
