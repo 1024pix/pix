@@ -16,6 +16,16 @@ const getNextChallengeForCertification = async function ({
   const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);
 
   if (certificationCourse.getVersion() === CertificationVersion.V3) {
+    const lastNonAnsweredCertificationChallenge =
+      await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3(
+        assessment.id,
+        assessment.certificationCourseId
+      );
+
+    if (lastNonAnsweredCertificationChallenge) {
+      return challengeRepository.get(lastNonAnsweredCertificationChallenge.challengeId);
+    }
+
     const { allAnswers, challenges, estimatedLevel } = await algorithmDataFetcherService.fetchForFlashCampaigns({
       assessmentId: assessment.id,
       answerRepository,
@@ -36,15 +46,18 @@ const getNextChallengeForCertification = async function ({
 
     const challenge = pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
 
-    const certificationChallenge = CertificationChallenge.from({
-      challenge,
-      certificationCourseId: certificationCourse.getId(),
+    const certificationChallenge = new CertificationChallenge({
+      associatedSkillName: challenge.skill.name,
+      associatedSkillId: challenge.skill.id,
+      challengeId: challenge.id,
+      competenceId: challenge.skill.competenceId,
+      courseId: certificationCourse.getId(),
       isNeutralized: false,
       certifiableBadgeKey: null,
     });
 
     const alreadySavedChallenge = await certificationChallengeRepository.getByChallengeIdAndCourseId({
-      challengeId: certificationChallenge.challengeId,
+      challengeId: challenge.id,
       courseId: certificationChallenge.courseId,
     });
 

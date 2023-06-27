@@ -23,9 +23,10 @@ class CertificationChallenge {
 
   static from({ challenge, certificationCourseId, isNeutralized, certifiableBadgeKey }) {
     return new CertificationChallenge({
+      id: challenge.id,
       associatedSkillName: challenge.associatedSkillName ?? challenge.skill.name,
       associatedSkillId: challenge.associatedSkillId ?? challenge.skill.id,
-      challengeId: challenge.id,
+      challengeId: challenge.challengeId,
       courseId: certificationCourseId,
       competenceId: challenge.competenceId,
       isNeutralized: _.isUndefined(isNeutralized) ? challenge.isNeutralized : isNeutralized,
