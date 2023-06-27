@@ -3,6 +3,7 @@ import {
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  insertUserWithRoleCertif,
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
@@ -12,11 +13,12 @@ describe('Acceptance | Controller | session-controller-get', function () {
 
   beforeEach(async function () {
     server = await createServer();
-    await insertUserWithRoleSuperAdmin();
   });
 
   describe('GET /api/admin/sessions', function () {
-    beforeEach(function () {
+    beforeEach(async function () {
+      await insertUserWithRoleSuperAdmin();
+
       options = {
         method: 'GET',
         url: '/api/admin/sessions',
@@ -128,6 +130,30 @@ describe('Acceptance | Controller | session-controller-get', function () {
         // then
         expect(response.statusCode).to.equal(401);
       });
+    });
+  });
+
+  describe('GET /api/sessions/:id', function () {
+    it('should return a 200 status code response with JSON API serialized', async function () {
+      // given
+      const { id: userId } = await insertUserWithRoleCertif();
+      const { id: certificationCenterId } = databaseBuilder.factory.buildCertificationCenter();
+      databaseBuilder.factory.buildSession({ id: 121, certificationCenterId });
+      databaseBuilder.factory.buildCertificationCenterMembership({ certificationCenterId, userId });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: '/api/sessions/121',
+        payload: {},
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(),
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });
