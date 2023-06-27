@@ -9,7 +9,7 @@ export default class List extends Component {
 
   @service currentUser;
 
-  get canDeleteParticipant() {
+  get showCheckbox() {
     const isFeatureEnabled = ENV.APP.FT_DELETE_PARTICIPANT;
 
     return isFeatureEnabled && this.currentUser.isAdminInOrganization;
@@ -59,7 +59,7 @@ export default class List extends Component {
   }
 
   @action
-  onClick(toggleParticipant, event) {
+  addStopPropagationOnFunction(toggleParticipant, event) {
     event.stopPropagation();
     toggleParticipant();
   }
