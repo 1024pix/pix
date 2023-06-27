@@ -39,6 +39,7 @@
       "thematic-result-name": "{name} obtenu (O/N)"
     },
     "common": {
+      "campaign-code": "Code",
       "campaign-id": "ID Campagne",
       "campaign-name": "Nom de la campagne",
       "file-name": "Resultats-{name}-{id}-{date}.csv",
