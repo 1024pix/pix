@@ -12,7 +12,13 @@ import {
 
 let verifCodeCount = 0;
 
-export { createDraftScoSession, createPublishedScoSession, createDraftSession, createPublishedSession };
+export {
+  createDraftScoSession,
+  createPublishedScoSession,
+  createDraftSession,
+  createPublishedSession,
+  createStartedSession,
+};
 
 /**
  * Fonction générique pour créer une session sco avec candidats non démarrée selon une configuration donnée.
@@ -164,6 +170,82 @@ async function createDraftSession({
     configSession,
     certificationCenterId,
   });
+
+  await databaseBuilder.commit();
+  return { sessionId };
+}
+
+/**
+ * Fonction générique pour créer une session démarrée avec candidats selon une configuration donnée.
+ * Retourne l'ID de la session.
+ *
+ * @param {DatabaseBuilder} databaseBuilder
+ * @param {number} sessionId
+ * @param {string} accessCode
+ * @param {string} address
+ * @param {string} certificationCenter
+ * @param {number} certificationCenterId
+ * @param {Date} date
+ * @param {string} description
+ * @param {string} examiner
+ * @param {string} room
+ * @param {string} time
+ * @param {Date} createdAt
+ * @param {string} supervisorPassword
+ * @param configSession {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean }
+
+ * @returns {Promise<{sessionId: number}>} sessionId
+ */
+async function createStartedSession({
+  databaseBuilder,
+  sessionId,
+  accessCode,
+  address,
+  certificationCenter,
+  certificationCenterId,
+  date,
+  description,
+  examiner,
+  room,
+  time,
+  createdAt,
+  configSession,
+  supervisorPassword,
+}) {
+  _buildSession({
+    databaseBuilder,
+    sessionId,
+    accessCode,
+    address,
+    certificationCenter,
+    certificationCenterId,
+    date,
+    description,
+    examiner,
+    room,
+    time,
+    examinerGlobalComment: null,
+    hasIncident: false,
+    hasJoiningIssue: false,
+    createdAt,
+    finalizedAt: null,
+    resultsSentToPrescriberAt: null,
+    publishedAt: null,
+    assignedCertificationOfficerId: null,
+    juryComment: null,
+    juryCommentAuthorId: null,
+    juryCommentedAt: null,
+    supervisorPassword,
+  });
+
+  const certificationCandidates = await _registerSomeCandidatesToSession({
+    databaseBuilder,
+    sessionId,
+    configSession,
+    certificationCenterId,
+  });
+
+  await _makeCandidatesCertifiable(databaseBuilder, certificationCandidates);
 
   await databaseBuilder.commit();
   return { sessionId };
@@ -540,6 +622,89 @@ async function _registerCandidatesToSession({
 
       // randomComplementaryCertificationId can be null
       if (randomComplementaryCertificationId) {
+        databaseBuilder.factory.buildComplementaryCertificationSubscription({
+          complementaryCertificationId: randomComplementaryCertificationId,
+          certificationCandidateId: certificationCandidate.id,
+        });
+        certificationCandidate.complementaryCertificationSubscribedId = randomComplementaryCertificationId;
+      }
+      certificationCandidates.push(certificationCandidate);
+    }
+  }
+  return certificationCandidates;
+}
+
+async function _registerSomeCandidatesToSession({ databaseBuilder, sessionId, configSession, certificationCenterId }) {
+  const certificationCandidates = [];
+  if (_hasCertificationCandidatesToRegister(configSession)) {
+    const extraTimePercentages = [null, 0.3, 0.5];
+    const billingModes = [
+      {
+        billingMode: 'FREE',
+        prepaymentCode: null,
+      },
+      {
+        billingMode: 'PREPAID',
+        prepaymentCode: 'code',
+      },
+      {
+        billingMode: 'PAID',
+        prepaymentCode: null,
+      },
+    ];
+
+    const complementaryCertificationIds = [null];
+    if (configSession.hasComplementaryCertificationsToRegister) {
+      await _getComplementaryCertificationIdsFromCertificationCenterHabilitations({
+        complementaryCertificationIds,
+        databaseBuilder,
+        certificationCenterId,
+      });
+    }
+
+    for (let i = 0; i < configSession.candidatesToRegisterCount; i++) {
+      const hasJoinedSessionPossibleValues = [true, false];
+      const hasJoinedSession = hasJoinedSessionPossibleValues[i % hasJoinedSessionPossibleValues.length];
+
+      const userId = databaseBuilder.factory.buildUser.withRawPassword({
+        firstName: `firstname${i}-${sessionId}`,
+        lastName: `lastname${i}-${sessionId}`,
+        email: `firstname${i}-${sessionId}@example.net`,
+      }).id;
+
+      const { billingMode: randomBillingMode, prepaymentCode: randomPrepaymentCode } =
+        billingModes[i % billingModes.length];
+
+      const randomExtraTimePercentage = extraTimePercentages[i % extraTimePercentages.length];
+
+      const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+        firstName: `firstname${i}-${sessionId}`,
+        lastName: `lastname${i}-${sessionId}`,
+        sex: 'F',
+        birthPostalCode: null,
+        birthCityCode: null,
+        birthINSEECode: '75115',
+        birthCity: 'PARIS 15',
+        birthCountry: 'France',
+        email: `firstname${i}-${sessionId}-lastname${i}-${sessionId}@example.net`,
+        birthdate: '2000-01-04',
+        sessionId,
+        createdAt: new Date(),
+        extraTimePercentage: randomExtraTimePercentage,
+        userId: hasJoinedSession ? userId : null,
+        organizationLearnerId: null,
+        authorizedToStart: false,
+        billingMode: randomBillingMode,
+        prepaymentCode: randomPrepaymentCode,
+      });
+
+      certificationCandidate.complementaryCertificationSubscribedId = null;
+
+      const randomComplementaryCertificationId =
+        complementaryCertificationIds[i % complementaryCertificationIds.length];
+
+      // randomComplementaryCertificationId can be null
+      if (randomComplementaryCertificationId && hasJoinedSession) {
         databaseBuilder.factory.buildComplementaryCertificationSubscription({
           complementaryCertificationId: randomComplementaryCertificationId,
           certificationCandidateId: certificationCandidate.id,
