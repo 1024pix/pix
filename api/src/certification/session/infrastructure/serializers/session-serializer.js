@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 import _ from 'lodash';
 
-import { Session } from '../../../domain/models/Session.js';
+import { Session } from '../../../../../lib/domain/models/Session.js';
 
 const serialize = function ({ session, hasSupervisorAccess, hasSomeCleaAcquired }) {
   const attributes = [

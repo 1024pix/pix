@@ -6,7 +6,7 @@ import { tokenService } from '../../../../lib/domain/services/token-service.js';
 import * as sessionResultsLinkService from '../../../../lib/domain/services/session-results-link-service.js';
 import * as sessionValidator from '../../../../lib/domain/validators/session-validator.js';
 import * as events from '../../../../lib/domain/events/index.js';
-import * as sessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/session-serializer.js';
+import * as sessionSerializer from '../../session/infrastructure/serializers/session-serializer.js';
 import * as jurySessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer.js';
 import * as certificationCandidateSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import * as certificationReportSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer.js';

@@ -7,7 +7,7 @@ import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/di
 import * as studentCertificationSerializer from '../../infrastructure/serializers/jsonapi/student-certification-serializer.js';
 import * as sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer.js';
 import * as certificationCenterInvitationSerializer from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
-import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
+import * as sessionSerializer from '../../../src/certification/session/infrastructure/serializers/session-serializer.js';
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import lodash from 'lodash';
