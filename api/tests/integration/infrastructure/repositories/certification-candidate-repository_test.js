@@ -1,6 +1,6 @@
 import { databaseBuilder, expect, knex, domainBuilder, catchErr } from '../../../test-helper.js';
 import { BookshelfCertificationCandidate } from '../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
-import * as certificationCandidateRepository from '../../../../lib/infrastructure/repositories/certification-candidate-repository.js';
+import * as certificationCandidateRepository from '../../../../src/certification/candidate/infrastructure/repositories/certification-candidate-repository.js';
 import {
   NotFoundError,
   CertificationCandidateMultipleUserLinksWithinSessionError,

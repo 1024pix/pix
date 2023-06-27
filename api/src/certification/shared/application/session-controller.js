@@ -8,7 +8,7 @@ import * as sessionValidator from '../../../../lib/domain/validators/session-val
 import * as events from '../../../../lib/domain/events/index.js';
 import * as sessionSerializer from '../../session/infrastructure/serializers/session-serializer.js';
 import * as jurySessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer.js';
-import * as certificationCandidateSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
+import * as certificationCandidateSerializer from '../../candidate/infrastructure/serializers/certification-candidate-serializer.js';
 import * as certificationReportSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import * as juryCertificationSummarySerializer from '../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import * as juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository.js';
@@ -136,7 +136,7 @@ const getCandidatesImportSheet = async function (
 const getCertificationCandidates = async function (request, h, dependencies = { certificationCandidateSerializer }) {
   const sessionId = request.params.id;
 
-  const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
+  const certificationCandidates = await certificationUsecases.getSessionCertificationCandidates({ sessionId });
   return dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
 };
 
@@ -287,7 +287,7 @@ const enrolStudentsToSession = async function (
   const studentIds = request.deserializedPayload.organizationLearnerIds;
 
   await usecases.enrolStudentsToSession({ sessionId, referentId, studentIds });
-  const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
+  const certificationCandidates = await certificationUsecases.getSessionCertificationCandidates({ sessionId });
   const certificationCandidatesSerialized =
     dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
   return h.response(certificationCandidatesSerialized).created();
