@@ -78,7 +78,7 @@ function _createSuperAdmin(databaseBuilder) {
     id: REAL_PIX_SUPER_ADMIN,
     firstName: 'NextSuper',
     lastName: 'NextAdmin',
-    email: 'nextsuperadmin@example.net',
+    email: 'superadmin@example.net',
     rawPassword: 'pix123',
   });
   databaseBuilder.factory.buildPixAdminRole({ userId: REAL_PIX_SUPER_ADMIN, role: ROLES.SUPER_ADMIN });
