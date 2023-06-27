@@ -23,8 +23,8 @@
   "scripts": {
     "build": "ember build --environment $BUILD_ENVIRONMENT",
     "clean": "rm -rf tmp dist node_modules",
-    "lint": "run-p --continue-on-error 'lint:!(fix|translations)'",
-    "lint:fix": "run-p --continue-on-error 'lint:!(translations):fix'",
+    "lint": "run-p --continue-on-error 'lint:!(fix)'",
+    "lint:fix": "run-p --continue-on-error 'lint:*:fix'",
     "lint:hbs": "ember-template-lint .",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache --cache-strategy content",

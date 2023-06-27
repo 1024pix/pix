@@ -1,4 +1,5 @@
-const fs = require('fs');
+'use strict';
+const fs = require('node:fs');
 
 module.exports = {
   globals: {
@@ -15,29 +16,28 @@ module.exports = {
   },
   plugins: ['ember', 'qunit'],
   extends: [
-    ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
+    ...(fs.existsSync('../.eslintrc.cjs') ? ['../.eslintrc.cjs'] : []),
     'plugin:ember/recommended',
     'plugin:qunit/recommended',
     'plugin:prettier/recommended',
-    'plugin:i18n-json/recommended',
   ],
   env: {
     browser: true,
   },
   rules: {
+    'ember/no-mixins': 'off',
     'no-restricted-imports': ['error', { paths: ['lodash'] }],
-    'no-console': 'error',
-    'ember/no-array-prototype-extensions': 0,
-    'i18n-json/valid-message-syntax': 0,
   },
   overrides: [
     // node files
     {
       files: [
-        '.eslintrc.js',
+        '.eslintrc.cjs',
+        '.prettierrc.js',
         '.template-lintrc.js',
         'ember-cli-build.js',
         'testem.js',
+        'blueprints/*/index.js',
         'config/**/*.js',
         'lib/*/index.js',
         'server/**/*.js',
@@ -51,7 +51,7 @@ module.exports = {
       },
     },
     {
-      // Test files
+      // test files
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
     },
