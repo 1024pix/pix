@@ -104,7 +104,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-unicorn": "^47.0.0",
     "eslint-plugin-yml": "^1.0.0",
-    "flush-write-stream": "^2.0.0",
     "form-data": "^4.0.0",
     "inquirer": "^9.0.0",
     "mocha": "^10.0.0",
@@ -115,7 +114,6 @@
     "prettier": "^2.7.1",
     "sinon": "^15.0.0",
     "sinon-chai": "^3.7.0",
-    "split2": "^4.1.0",
     "stream-to-promise": "^3.0.0"
   },
   "overrides": {
