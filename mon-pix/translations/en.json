@@ -1377,7 +1377,8 @@
       "already-shared": "Thank you, your results have been submitted!",
       "badge-card": {
         "acquired": "Awarded",
-        "not-acquired": "Not awarded"
+        "not-acquired": "Not awarded",
+        "progress-bar-label": "Badge result percentage"
       },
       "badges-title": "Your thematic results",
       "details": {
