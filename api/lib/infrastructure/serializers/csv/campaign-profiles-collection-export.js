@@ -47,6 +47,7 @@ class CampaignProfilesCollectionExport {
     const header = [
       this.translate('campaign-export.common.organization-name'),
       this.translate('campaign-export.common.campaign-id'),
+      this.translate('campaign-export.common.campaign-code'),
       this.translate('campaign-export.common.campaign-name'),
       this.translate('campaign-export.common.participant-lastname'),
       this.translate('campaign-export.common.participant-firstname'),

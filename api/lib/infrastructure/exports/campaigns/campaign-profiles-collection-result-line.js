@@ -19,6 +19,7 @@ class CampaignProfilesCollectionResultLine {
     const line = [
       this.organization.name,
       this.campaign.id,
+      this.campaign.code,
       this.campaign.name,
       this.campaignParticipationResult.participantLastName,
       this.campaignParticipationResult.participantFirstName,

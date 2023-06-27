@@ -156,6 +156,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         const expectedCsvSecondLine =
           `"${organization.name}";` +
           `${campaign.id};` +
+          `"${campaign.code}";` +
           `"'${campaign.name}";` +
           `"'${organizationLearner.lastName}";` +
           `"'${organizationLearner.firstName}";` +
@@ -236,6 +237,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         const expectedCsvSecondLine =
           `"${organization.name}";` +
           `${campaign.id};` +
+          `"${campaign.code}";` +
           `"'${campaign.name}";` +
           `"'${organizationLearner.lastName}";` +
           `"'${organizationLearner.firstName}";` +
@@ -318,6 +320,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         const expectedCsvSecondLine =
           `"${organization.name}";` +
           `${campaign.id};` +
+          `"${campaign.code}";` +
           `"'${campaign.name}";` +
           `"'${organizationLearner.lastName}";` +
           `"'${organizationLearner.firstName}";` +
