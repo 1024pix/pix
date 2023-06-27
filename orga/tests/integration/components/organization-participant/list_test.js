@@ -860,7 +860,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       await click(firstLearnerSelected);
 
       // when
-      const resetButton = await screen.getByRole('button', {
+      const resetButton = await screen.findByRole('button', {
         name: this.intl.t('pages.organization-participants.filters.actions.clear'),
       });
       await click(resetButton);
@@ -898,11 +898,10 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       await click(firstLearnerSelected);
 
-      await click(
-        screen.getByLabelText(
-          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort')
-        )
+      const sortButton = await screen.findByLabelText(
+        this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort')
       );
+      await click(sortButton);
 
       assert.false(firstLearnerSelected.checked);
     });
