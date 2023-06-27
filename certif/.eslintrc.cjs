@@ -1,8 +1,10 @@
 'use strict';
-const fs = require('fs');
+const fs = require('node:fs');
 
 module.exports = {
-  root: true,
+  globals: {
+    server: true,
+  },
   parser: '@babel/eslint-parser',
   parserOptions: {
     requireConfigFile: false,
@@ -12,29 +14,32 @@ module.exports = {
       plugins: [['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }]],
     },
   },
-  plugins: ['ember'],
+  plugins: ['ember', 'qunit'],
   extends: [
-    ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
-    'eslint:recommended',
+    ...(fs.existsSync('../.eslintrc.cjs') ? ['../.eslintrc.cjs'] : []),
     'plugin:ember/recommended',
+    'plugin:qunit/recommended',
     'plugin:prettier/recommended',
   ],
   env: {
     browser: true,
   },
-  rules: {},
+  rules: {
+    'no-restricted-imports': ['error', { paths: ['lodash'] }],
+    'no-console': 'error',
+    'ember/no-array-prototype-extensions': 0,
+  },
   overrides: [
     // node files
     {
       files: [
-        './.eslintrc.js',
-        './.template-lintrc.js',
-        './ember-cli-build.js',
-        './testem.js',
-        './blueprints/*/index.js',
-        './config/**/*.js',
-        './lib/*/index.js',
-        './server/**/*.js',
+        '.eslintrc.cjs',
+        '.template-lintrc.js',
+        'ember-cli-build.js',
+        'testem.js',
+        'config/**/*.js',
+        'lib/*/index.js',
+        'server/**/*.js',
       ],
       parserOptions: {
         sourceType: 'script',
@@ -43,10 +48,9 @@ module.exports = {
         browser: false,
         node: true,
       },
-      extends: ['plugin:n/recommended'],
     },
     {
-      // test files
+      // Test files
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
     },

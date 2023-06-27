@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+'use strict';
+const fs = require('node:fs');
 
 module.exports = {
   root: true,
@@ -14,10 +14,9 @@ module.exports = {
   },
   plugins: ['ember', 'qunit'],
   extends: [
-    ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
+    ...(fs.existsSync('../.eslintrc.cjs') ? ['../.eslintrc.cjs'] : []),
     'plugin:ember/recommended',
     'plugin:qunit/recommended',
-    'plugin:i18n-json/recommended',
     'plugin:prettier/recommended',
   ],
   env: {
@@ -50,21 +49,13 @@ module.exports = {
     ],
     /* Recommended rules */
     'ember/no-mixins': 'off',
-    'i18n-json/sorted-keys': [
-      'error',
-      {
-        order: 'asc',
-        sortFunctionPath: path.resolve('./config/linter-translation-order.js'),
-      },
-    ],
-    'i18n-json/valid-message-syntax': 'warn',
     'no-irregular-whitespace': 'off',
   },
   overrides: [
     // node files
     {
       files: [
-        '.eslintrc.js',
+        '.eslintrc.cjs',
         '.template-lintrc.js',
         'ember-cli-build.js',
         'testem.js',
@@ -101,4 +92,7 @@ module.exports = {
       },
     },
   ],
+  settings: {
+    'i18n-json/ignore-keys': ['pages.dashboard.presentation.link.text', 'pages.dashboard.presentation.link.url'],
+  },
 };

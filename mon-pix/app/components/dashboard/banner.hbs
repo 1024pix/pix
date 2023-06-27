@@ -2,7 +2,7 @@
   <section class="dashboard-banner">
     {{#unless @hasSeenNewDashboardInfo}}
       <NewInformation
-        @information="{{t 'pages.dashboard.presentation.message' firstname=@userFirstname}}"
+        @information="{{t 'pages.dashboard.presentation.message' firstname=@userFirstname htmlSafe=true}}"
         @image="/images/illustrations/discovery_TDB_pix.svg"
         @backgroundColorClass="new-information--blue-gradient-background"
         @textColorClass="new-information--white-text"

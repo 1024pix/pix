@@ -80,15 +80,12 @@
 
       <div class="signup-form__cgu-container">
         <PixCheckbox {{on "change" this.onChange}} aria-describedby="sign-up-cgu-error-message">
-          {{t "common.cgu.accept"}}
-          <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
-            {{t "common.cgu.cgu"}}
-          </a>
-          {{t "common.cgu.and"}}
-          <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
-            {{t "common.cgu.data-protection-policy"}}
-          </a>
-          {{t "common.cgu.pix"}}
+          {{t
+            "common.cgu.message"
+            cguUrl=this.cguUrl
+            dataProtectionPolicyUrl=this.dataProtectionPolicyUrl
+            htmlSafe=true
+          }}
         </PixCheckbox>
       </div>
       <p class="sign-form__validation-error" aria-live="polite" role="alert" id="sign-up-cgu-error-message">

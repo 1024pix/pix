@@ -2,13 +2,13 @@
   "current-lang": "fr",
   "api-error-messages": {
     "campaign-creation": {
+      "custom-landing-page_too_long": "Le texte de présentation de la campagne est trop long.",
       "external-user-id-required": "Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.",
       "name-required": "Veuillez donner un nom à votre campagne.",
       "owner_not_in_organization": "Le propriétaire ne fait pas partie de l'organisation.",
       "purpose-required": "Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.",
       "target-profile-required": "Veuillez sélectionner un parcours pour votre campagne.",
-      "title_too_long": "Le titre de la campagne est trop long.",
-      "custom-landing-page_too_long": "Le texte de présentation de la campagne est trop long."
+      "title_too_long": "Le titre de la campagne est trop long."
     },
     "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
     "edit-student-number": {
@@ -35,6 +35,7 @@
       "student-number-unique": "Ligne {line} : Le champ “{field}” doit être unique au sein du fichier."
     },
     "student-xml-import": {
+      "birth-city-code-required-for-french-student": "Le champ code commune de naissance est obligatoire pour chaque élève née en France.",
       "empty": "Les élèves doivent posséder un INE ainsi qu'une classe.",
       "encoding-not-supported": "Encodage du fichier non supporté.",
       "ine-required": "Le champ INE est obligatoire pour chaque élève.",
@@ -42,103 +43,102 @@
       "invalid-file": "Le fichier n’est pas conforme.",
       "invalid-file-extension": "Extension {fileExtension} non supportée.",
       "payload-too-large": "La taille du fichier doit être inférieure à {maxSize}Mo.",
-      "uai-mismatched": "L’UAI du fichier SIECLE ne correspond pas à celui de votre établissement.",
       "sex-code-required": "Le champ sexe est obligatoire pour chaque élève.",
-      "birth-city-code-required-for-french-student": "Le champ code commune de naissance est obligatoire pour chaque élève née en France."
+      "uai-mismatched": "L’UAI du fichier SIECLE ne correspond pas à celui de votre établissement."
     }
   },
   "banners": {
     "campaigns": {
       "message": "'<strong>'Parcours de rentrée 2022 :'</strong>' N’oubliez pas de créer les campagnes de rentrée et de diffuser les codes aux élèves avant la Toussaint. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"
     },
-    "import": {
-      "message": "'<strong>'Rentrée 2022 :'</strong>' l’administrateur doit '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'importer la base élèves'</a>' 2022 pour initialiser Pix Orga. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"
-    },
     "certification": {
       "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée 2023."
+    },
+    "import": {
+      "message": "'<strong>'Rentrée 2022 :'</strong>' l’administrateur doit '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'importer la base élèves'</a>' 2022 pour initialiser Pix Orga. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"
     }
   },
   "cards": {
     "participants-average-results": {
-      "information": "Retrouvez ici la moyenne des résultats de votre campagne. Ce nombre comprend l'ensemble des participants ayant fini leur parcours et envoyé leur résultat.",
-      "title": "Résultat moyen"
+      "title": "Résultat moyen",
+      "information": "Retrouvez ici la moyenne des résultats de votre campagne. Ce nombre comprend l'ensemble des participants ayant fini leur parcours et envoyé leur résultat."
     },
     "participants-average-stages": {
-      "information": "Retrouvez ici le palier moyen de votre campagne. Ce nombre comprend l'ensemble des participants ayant fini leur parcours et envoyé leur résultat.",
-      "title": "Palier moyen"
+      "title": "Palier moyen",
+      "information": "Retrouvez ici le palier moyen de votre campagne. Ce nombre comprend l'ensemble des participants ayant fini leur parcours et envoyé leur résultat."
     },
     "participants-count": {
+      "title": "Total de participants",
       "information": "Retrouvez ici le nombre de participants total de votre campagne. Ce nombre comprend l'ensemble des participants ayant saisi le code et commencé leur parcours ou leur envoi de profil.",
-      "loader": "Chargement du total de participants",
-      "title": "Total de participants"
+      "loader": "Chargement du total de participants"
     },
     "submitted-count": {
+      "title": "Résultats reçus",
       "information": "Retrouvez ici les résultats envoyés par vos participants. Ce nombre comprend l’ensemble des participants ayant terminé et cliqué sur le bouton \"J'envoie mes résultats\" ou \"J'envoie mon profil\".",
       "loader": "Chargement des résultats ou profils reçus",
-      "title": "Résultats reçus",
       "title-profiles": "Profils reçus"
     }
   },
   "charts": {
+    "participants-by-day": {
+      "title": "Activité des participants",
+      "labels-a11y": {
+        "date": "Date",
+        "shared": "Total des participants ayant envoyé leurs résultats",
+        "shared-profile": "Total des participants ayant envoyé leurs profils",
+        "started": "Total des participants"
+      },
+      "labels-legend": {
+        "shared": "Résultats reçus",
+        "shared-profile": "Profils reçus",
+        "started": "Total des participants"
+      },
+      "loader": "Chargement de l'activité des participants"
+    },
     "participants-by-mastery-percentage": {
-      "loader": "Chargement de la répartition des participants par résultat",
       "title": "Répartition des participants par résultat",
       "label-a11y": "De {from, number, ::percent} à {to, number, ::percent}: {count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}}",
+      "loader": "Chargement de la répartition des participants par résultat",
       "tooltip": {
         "title": "Résultats {legend}",
-        "legend": "{from, number, ::percent} - {to, number, ::percent}",
-        "label": "Nombre de participants : {count}"
+        "label": "Nombre de participants : {count}",
+        "legend": "{from, number, ::percent} - {to, number, ::percent}"
       }
     },
     "participants-by-stage": {
+      "title": "Répartition des participants par paliers",
       "loader": "Chargement de la répartition des participants par paliers",
-      "participants": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}}",
-      "title": "Répartition des participants par paliers"
+      "participants": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}}"
     },
     "participants-by-status": {
+      "title": "Statuts",
+      "a11y-title": "Détail par statut",
+      "labels-a11y": {
+        "completed": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} en attente d'envoi",
+        "shared": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} ayant envoyés leurs résultats",
+        "shared-profile": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} ayant envoyés leurs profils",
+        "started": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} en cours de test"
+      },
+      "labels-legend": {
+        "completed-assessment": "En attente d'envoi ({count})",
+        "completed-assessment-tooltip": "En attente d’envoi : Ces participants ont terminé leur parcours mais n’ont pas encore envoyé leurs résultats.",
+        "completed-profile": "En attente d'envoi ({count})",
+        "completed-profile-tooltip": "En attente d’envoi : Ces participants n’ont pas encore envoyé leurs profils.",
+        "shared": "Résultats reçus ({count})",
+        "shared-profile": "Profils reçus ({count})",
+        "shared-profile-tooltip": "Profils reçus : Ces participants ont envoyé leurs profils.",
+        "shared-tooltip": "Résultats reçus : Ces participants ont terminé leur parcours et envoyé leurs résultats.",
+        "started": "En cours ({count})",
+        "started-tooltip": "En cours : Ces participants n’ont pas encore terminé leur parcours."
+      },
       "labels-tooltip": {
-        "started": "En cours : {percentage, number, ::percent .0}",
         "completed-assessment": "En attente d'envoi : {percentage, number, ::percent .0}",
         "completed-profile": "En attente d'envoi : {percentage, number, ::percent .0}",
         "shared": "Résultats reçus : {percentage, number, ::percent .0}",
-        "shared-profile": "Profils reçus : {percentage, number, ::percent .0}"
+        "shared-profile": "Profils reçus : {percentage, number, ::percent .0}",
+        "started": "En cours : {percentage, number, ::percent .0}"
       },
-      "labels-a11y": {
-        "started": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} en cours de test",
-        "completed": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} en attente d'envoi",
-        "shared": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} ayant envoyés leurs résultats",
-        "shared-profile": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} ayant envoyés leurs profils"
-      },
-      "labels-legend": {
-        "started": "En cours ({count})",
-        "started-tooltip": "En cours : Ces participants n’ont pas encore terminé leur parcours.",
-        "completed-assessment": "En attente d'envoi ({count})",
-        "completed-profile": "En attente d'envoi ({count})",
-        "completed-assessment-tooltip": "En attente d’envoi : Ces participants ont terminé leur parcours mais n’ont pas encore envoyé leurs résultats.",
-        "completed-profile-tooltip": "En attente d’envoi : Ces participants n’ont pas encore envoyé leurs profils.",
-        "shared": "Résultats reçus ({count})",
-        "shared-tooltip": "Résultats reçus : Ces participants ont terminé leur parcours et envoyé leurs résultats.",
-        "shared-profile": "Profils reçus ({count})",
-        "shared-profile-tooltip": "Profils reçus : Ces participants ont envoyé leurs profils."
-      },
-      "loader": "Chargement des proportions par statut",
-      "title": "Statuts",
-      "a11y-title": "Détail par statut"
-    },
-    "participants-by-day": {
-      "labels-a11y": {
-        "date": "Date",
-        "started": "Total des participants",
-        "shared": "Total des participants ayant envoyé leurs résultats",
-        "shared-profile": "Total des participants ayant envoyé leurs profils"
-      },
-      "labels-legend": {
-        "started": "Total des participants",
-        "shared": "Résultats reçus",
-        "shared-profile": "Profils reçus"
-      },
-      "loader": "Chargement de l'activité des participants",
-      "title": "Activité des participants"
+      "loader": "Chargement des proportions par statut"
     }
   },
   "common": {
@@ -151,18 +151,19 @@
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
+      "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
       "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
       "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
-      "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
-      "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, <a href=\"{url}\">contactez-nous</a>.",
-      "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement."
+      "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, '<'a href=\"{url}\"'>'contactez-nous'</a>'.",
+      "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur '<'a href=\"{url}\"'>'mot de passe oublié'</a>' pour le réinitialiser."
     },
+    "breadcrumb": "Fil d'ariane",
     "filters": {
-      "loading": "Chargement...",
       "divisions": {
         "title": "Classes",
         "empty": "Aucune classe"
-      }
+      },
+      "loading": "Chargement..."
     },
     "form": {
       "mandatory-all-fields": "Tous les champs sont obligatoires.",
@@ -180,11 +181,11 @@
         "select-page-size": "Nombre d'élément à afficher par page"
       },
       "page-info": "{start, number}-{end, number} sur {total, plural, =0 {0 élément} =1 {1 élément} other {{total, number} éléments}}",
-      "page-results": "{total, plural, =0 {0 élément} =1 {1 élément} other {{total, number} éléments}}",
       "page-number": "Page {current, number} / {total, number}",
+      "page-results": "{total, plural, =0 {0 élément} =1 {1 élément} other {{total, number} éléments}}",
       "result-by-page": "Voir"
     },
-    "result" : {
+    "result": {
       "accessibility-description": "Résultat obtenu = {percentage, number, ::percent}, soit le palier {stage} sur {totalStage}",
       "percentage": "{value, number, ::percent}",
       "stages": "{count, plural, =0 {0 étoile} =1 {1 étoile} other {{count, number} étoiles}} sur {total}"
@@ -192,73 +193,88 @@
     "target-profile-details": {
       "results": {
         "common": "Résultats affichés en ",
-        "star": "étoile",
-        "percent": "pourcentage"
+        "percent": "pourcentage",
+        "star": "étoile"
       },
       "subjects": "Sujets : {value, number}",
       "thematic-results": "Résultats thématiques : {value, number}"
+    }
+  },
+  "components": {
+    "date": {
+      "no-date": "Pas encore de date"
     },
-    "breadcrumb": "Fil d'ariane"
+    "group": {
+      "SCO": "Classe",
+      "SUP": "Groupe"
+    },
+    "participation-status": {
+      "SHARED-ASSESSMENT": "Résultats reçus",
+      "SHARED-PROFILES_COLLECTION": "Profil reçu",
+      "STARTED-ASSESSMENT": "En cours",
+      "TO_SHARE-ASSESSMENT": "En attente d'envoi",
+      "TO_SHARE-PROFILES_COLLECTION": "En attente d'envoi"
+    }
   },
   "navigation": {
+    "assessment-individual-results": {
+      "aria-label": "Navigation de la section résultat d'une évaluation individuelle"
+    },
+    "campaign-page": {
+      "aria-label": "Navigation de la section détails d'une campagne"
+    },
     "credits": {
       "number": "{count, plural, =0 {0 crédit} =1 {1 crédit} other {{count, number} crédits}}",
-      "tooltip-text": "Le nombre de crédits affichés correspond au nombre de crédits acquis par l’organisation et en cours de validité (indépendamment de leur activation). Pour plus d’information contactez-nous à l’adresse <a href=mailto:pro@pix.fr>pro@pix.fr</a>"
+      "tooltip-text": "Le nombre de crédits affichés correspond au nombre de crédits acquis par l’organisation et en cours de validité (indépendamment de leur activation). Pour plus d’information contactez-nous à l’adresse '<a href=mailto:pro@pix.fr>'pro@pix.fr'</a>'"
     },
     "footer": {
       "a11y": "Accessibilité : partiellement conforme",
+      "aria-label": "Navigation de pied de page",
       "copyrights": "©",
       "legal-notice": "Mentions légales",
-      "pix": "Pix",
-      "aria-label": "Navigation de pied de page"
+      "pix": "Pix"
     },
     "main": {
+      "aria-label": "Navigation principale",
       "campaigns": "Campagnes",
       "certifications": "Certifications",
       "documentation": "Documentation",
       "organization-participants": "Participants",
       "sco-organization-participants": "Élèves",
       "sup-organization-participants": "Étudiants",
-      "team": "Équipe",
-      "aria-label": "Navigation principale"
+      "team": "Équipe"
     },
+    "pix-orga": "Pix Orga",
     "team-members": {
       "aria-label": "Navigation de la section équipe"
     },
-    "campaign-page": {
-      "aria-label": "Navigation de la section détails d'une campagne"
-    },
-    "assessment-individual-results": {
-      "aria-label": "Navigation de la section résultat d'une évaluation individuelle"
-    },
-    "pix-orga": "Pix Orga",
     "user-logged-menu": {
-      "logout": "Se déconnecter",
-      "button": "Ouvrir le menu utilisateur"
+      "button": "Ouvrir le menu utilisateur",
+      "logout": "Se déconnecter"
     }
   },
   "pages": {
     "assessment-individual-results": {
       "title": "Résultats de {firstName} {lastName}",
-      "breadcrumb-current-page-label": "Participation de {firstName} {lastName}",
       "badges": "Résultats Thématiques",
+      "breadcrumb-current-page-label": "Participation de {firstName} {lastName}",
       "progression": "Avancement",
-      "result": "Résultat",        
+      "result": "Résultat",
       "tab": {
         "results": "Résultats",
         "review": "Analyse"
       },
       "table": {
+        "title": "Résultats par compétence",
         "column": {
           "competences": "Compétences ({count, plural, =0 {-} other {{count}}})",
           "results": {
             "label": "Résultats",
-            "tooltip": "<span class=\"screen-reader-only\">Ce participant a validé</span> {result, number, ::percent} <span class=\"screen-reader-only\">de la compétence {competence}.</span>"
+            "tooltip": "'<span class=\"screen-reader-only\">'Ce participant a validé'</span>' {result, number, ::percent} '<span class=\"screen-reader-only\">'de la compétence {competence}.'</span>'"
           }
         },
         "empty": "En attente de résultats",
-        "row-title": "Compétence",
-        "title": "Résultats par compétence"
+        "row-title": "Compétence"
       }
     },
     "campaign": {
@@ -270,12 +286,12 @@
       "code": "Code",
       "copy": {
         "code": {
-          "success": "Copié !",
-          "default": "Copier le code"
+          "default": "Copier le code",
+          "success": "Copié !"
         },
         "link": {
-          "success": "Copié !",
-          "default": "Copier le lien direct"
+          "default": "Copier le lien direct",
+          "success": "Copié !"
         }
       },
       "created-by": "Propriétaire",
@@ -290,11 +306,33 @@
       }
     },
     "campaign-activity": {
+      "title": "Activité",
       "actions": {
         "delete": "Supprimer"
       },
-      "title": "Activité",
+      "delete-participation-modal": {
+        "title": "Supprimer la participation de <strong>{firstName} {lastName}</strong> ?",
+        "actions": {
+          "cancel": "Non",
+          "confirmation": "Oui, je supprime"
+        },
+        "error": "Un problème est survenu lors de la suppression de la participation.",
+        "success": "La participation a été supprimée avec succès.",
+        "text": "Vous êtes sur le point de supprimer une participation, celle-ci ne sera plus visible ni comprise dans les statistiques de la campagne.",
+        "warning": {
+          "assessment-campaign-participation": {
+            "shared-participation": "Le participant ne pourra plus participer de nouveau à cette campagne.",
+            "started-participation": "Le participant pourra terminer son parcours mais ne pourra plus envoyer ses résultats. Il ne pourra pas non plus participer de nouveau à cette campagne.",
+            "to-share-participation": "Le participant ne pourra pas envoyer ses résultats et il ne pourra pas non plus participer de nouveau à cette campagne."
+          },
+          "profiles-collection-campaign-participation": {
+            "shared-participation": "Le participant ne pourra plus participer de nouveau à cette collecte de profil.",
+            "to-share-participation": "Le participant ne pourra pas envoyer son profil et il ne pourra pas non plus participer de nouveau à cette collecte de profil."
+          }
+        }
+      },
       "table": {
+        "title": "Liste des participants",
         "column": {
           "delete": "Supprimer la participation",
           "first-name": "Prénom",
@@ -304,43 +342,11 @@
         "delete-button-label": "Supprimer la participation",
         "empty": "Aucun participant",
         "row-title": "Participant",
-        "title": "Liste des participants",
         "see-results": "Voir les résultats de {firstName} {lastName}"
-      },
-      "delete-participation-modal": {
-        "actions": {
-          "cancel": "Non",
-          "confirmation": "Oui, je supprime"
-        },
-        "error": "Un problème est survenu lors de la suppression de la participation.",
-        "success": "La participation a été supprimée avec succès.",
-        "title": "Supprimer la participation de <strong>{firstName} {lastName}</strong> ?",
-        "text": "Vous êtes sur le point de supprimer une participation, celle-ci ne sera plus visible ni comprise dans les statistiques de la campagne.",
-        "warning": {
-          "assessment-campaign-participation": {
-            "started-participation": "Le participant pourra terminer son parcours mais ne pourra plus envoyer ses résultats. Il ne pourra pas non plus participer de nouveau à cette campagne.",
-            "to-share-participation": "Le participant ne pourra pas envoyer ses résultats et il ne pourra pas non plus participer de nouveau à cette campagne.",
-            "shared-participation": "Le participant ne pourra plus participer de nouveau à cette campagne."    
-          },
-          "profiles-collection-campaign-participation": {
-            "to-share-participation": "Le participant ne pourra pas envoyer son profil et il ne pourra pas non plus participer de nouveau à cette collecte de profil.",
-            "shared-participation": "Le participant ne pourra plus participer de nouveau à cette collecte de profil."    
-          }
-        }
       }
     },
     "campaign-creation": {
       "title": "Création d'une campagne",
-      "owner": {
-        "label": "Propriétaire de la campagne",
-        "placeholder": "Nom et prénom du propriétaire",
-        "search-placeholder": "Rechercher un propriétaire",
-        "clear-label": "Supprimer la sélection",
-        "expand-label": "Ouvrir le menu déroulant",
-        "collapse-label": "Réduire le menu déroulant",
-        "title": "Propriétaire de la campagne",
-        "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier ou archiver cette campagne."
-      },
       "actions": {
         "create": "Créer la campagne",
         "delete": "Effacer"
@@ -348,28 +354,38 @@
       "external-id-label": {
         "label": "Libellé de l’identifiant",
         "question-label": "Souhaitez-vous demander un identifiant externe ?",
-        "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *",
-        "required": "L'id externe est obligatoire"
+        "required": "L'id externe est obligatoire",
+        "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
       },
       "landing-page-text": {
         "label": "Texte de la page d'accueil"
       },
       "legal-warning": "* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.",
       "multiple-sendings": {
+        "assessments": {
+          "info": "Si vous choisissez l’envoi multiple, le participant pourra repasser la campagne 4 jours après et envoyer ses résultats plusieurs fois, en saisissant à nouveau le code. Au sein de Pix Orga, vous verrez sa dernière participation.",
+          "question-label": "Souhaitez-vous permettre aux participants d’envoyer plusieurs fois leurs résultats ?"
+        },
         "info-title": "Envoi multiple",
         "profiles": {
-          "question-label": "Souhaitez-vous permettre aux participants d'envoyer plusieurs fois leur profil ?",
-          "info": "Si vous choisissez l’envoi multiple, le participant pourra envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, vous trouverez le dernier profil envoyé."
-        },
-        "assessments": {
-          "question-label": "Souhaitez-vous permettre aux participants d’envoyer plusieurs fois leurs résultats ?",
-          "info": "Si vous choisissez l’envoi multiple, le participant pourra repasser la campagne 4 jours après et envoyer ses résultats plusieurs fois, en saisissant à nouveau le code. Au sein de Pix Orga, vous verrez sa dernière participation."
+          "info": "Si vous choisissez l’envoi multiple, le participant pourra envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, vous trouverez le dernier profil envoyé.",
+          "question-label": "Souhaitez-vous permettre aux participants d'envoyer plusieurs fois leur profil ?"
         }
       },
       "name": {
         "label": "Nom de la campagne"
       },
       "no": "Non",
+      "owner": {
+        "title": "Propriétaire de la campagne",
+        "clear-label": "Supprimer la sélection",
+        "collapse-label": "Réduire le menu déroulant",
+        "expand-label": "Ouvrir le menu déroulant",
+        "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier ou archiver cette campagne.",
+        "label": "Propriétaire de la campagne",
+        "placeholder": "Nom et prénom du propriétaire",
+        "search-placeholder": "Rechercher un propriétaire"
+      },
       "purpose": {
         "assessment": "Évaluer les participants",
         "assessment-info": "Une campagne d’évaluation permet de tester les participants sur des sujets précis.",
@@ -381,8 +397,8 @@
         "COMPETENCES": "Les 16 compétences",
         "CUSTOM": "Parcours sur-mesure",
         "DISCIPLINE": "Disciplinaires",
-        "PREDEFINED": "Parcours prédéfinis",
         "OTHER": "Autres",
+        "PREDEFINED": "Parcours prédéfinis",
         "SUBJECT": "Thématiques"
       },
       "tags-title": "Filtrer la recherche :",
@@ -396,37 +412,6 @@
       },
       "yes": "Oui"
     },
-    "campaign-settings": {
-      "title": "Paramètres",
-      "actions": {
-        "archive": "Archiver",
-        "edit": "Modifier"
-      },
-      "campaign-type": {
-        "title": "Type de la campagne",
-        "assessment": "Campagne d'évaluation",
-        "profiles-collection": "Campagne de collecte de profils"
-      },
-      "direct-link": "Lien direct",
-      "external-user-id-label": "Libellé de l'identifiant",
-      "landing-page-text": "Texte de la page d'accueil",
-      "multiple-sendings": {
-        "title": "Envoi multiple",
-        "status": {
-          "enabled": "Oui",
-          "disabled": "Non"
-        },
-        "tooltip": {
-          "aria-label": "Description de l'envoi multiple",
-          "text": "Si l’envoi multiple est activé, le participant peut envoyer plusieurs fois sa participation en saisissant à nouveau le code campagne. Au sein de Pix Orga, vous trouverez la dernière envoyée."
-        }
-      },
-      "personalised-test-title": "Titre du parcours",
-      "target-profile": {
-        "title": "Parcours",
-        "tooltip": "Description du parcours"
-      }
-    },
     "campaign-individual-results": {
       "shared-date": "Envoyé le",
       "start-date": "Commencé le"
@@ -439,18 +424,19 @@
       "actions": {
         "edit": "Modifier"
       },
-      "owner": {
-        "label": "Propriétaire de la campagne",
-        "placeholder": "Nom et prénom du propriétaire",
-        "title": "Propriétaire de la campagne",
-        "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier et archiver cette campagne."
-      },
-      "campaign-name": "Nom de la campagne",
       "campaign-modification-success-message": "Les modifications ont bien été enregistrées.",
+      "campaign-name": "Nom de la campagne",
       "landing-page-text": "Texte de la page d'accueil",
+      "owner": {
+        "title": "Propriétaire de la campagne",
+        "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier et archiver cette campagne.",
+        "label": "Propriétaire de la campagne",
+        "placeholder": "Nom et prénom du propriétaire"
+      },
       "personalised-test-title": "Titre du parcours"
     },
     "campaign-results": {
+      "title": "Résultats",
       "average": "Moyenne des résultats",
       "filters": {
         "title": "Filtres",
@@ -464,22 +450,24 @@
           "divisions": {
             "placeholder": "Classes"
           },
+          "groups": {
+            "title": "Groupes",
+            "empty": "Aucun groupe"
+          },
           "search": {
             "title": "Recherche sur le nom et prénom",
             "placeholder": "Nom, prénom"
           },
+          "stages": "Paliers",
           "status": {
             "title": "Statut",
             "empty": "Tous les statuts"
-          },
-          "stages": "Paliers",
-          "groups": {
-            "title": "Groupes",
-            "empty": "Aucun groupe"
           }
         }
       },
+      "result": "Résultat",
       "table": {
+        "title": "Liste des résultats reçus",
         "column": {
           "badges": "Résultats Thématiques",
           "first-name": "Prénom",
@@ -491,13 +479,10 @@
           }
         },
         "empty": "Aucune participation",
-        "row-title": "Participant",
-        "title": "Liste des résultats reçus"
+        "row-title": "Participant"
       },
       "tested-items": "Acquis évalués",
-      "title": "Résultats",
-      "validated-items": "Acquis validés",
-      "result": "Résultat"
+      "validated-items": "Acquis validés"
     },
     "campaign-review": {
       "title": "Analyse",
@@ -514,14 +499,14 @@
       "sub-title": "Recommandation de sujets à travailler",
       "table": {
         "analysis": {
-          "caption": "Tableau des sujets à travailler, certains présentent des colonnes supplémentaires indiquant le nombre de tutoriels existant en lien avec le sujet et un accès à ces tutoriels",
           "title": "Analyse par sujet",
+          "caption": "Tableau des sujets à travailler, certains présentent des colonnes supplémentaires indiquant le nombre de tutoriels existant en lien avec le sujet et un accès à ces tutoriels",
           "column": {
             "relevance": {
-              "label": "Pertinence",
               "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par pertinence. Cliquez pour trier par ordre croissant.",
+              "ariaLabelSortDown": "Le tableau est trié par pertinence décroissante. Cliquez pour trier en ordre croissant.",
               "ariaLabelSortUp": "Le tableau est trié par pertinence croissante. Cliquez pour trier en ordre décroissant.",
-              "ariaLabelSortDown": "Le tableau est trié par pertinence décroissante. Cliquez pour trier en ordre croissant."
+              "label": "Pertinence"
             },
             "subjects": "Sujets ({count, plural, =0 {-} other {{count}}})",
             "tutorial": {
@@ -546,7 +531,7 @@
             "competences": "Compétences ({count})",
             "results": {
               "label": "Résultats",
-              "tooltip": "<span class=\"screen-reader-only\">Les participants ont validé</span> {result} % <span class=\"screen-reader-only\">de la compétence {competence}.</span>"
+              "tooltip": "'<span class=\"screen-reader-only\">'Les participants ont validé'</span>' {result} % '<span class=\"screen-reader-only\">'de la compétence {competence}.'</span>'"
             }
           },
           "row-title": "Compétence"
@@ -554,13 +539,39 @@
         "empty": "En attente de résultats"
       }
     },
+    "campaign-settings": {
+      "title": "Paramètres",
+      "actions": {
+        "archive": "Archiver",
+        "edit": "Modifier"
+      },
+      "campaign-type": {
+        "title": "Type de la campagne",
+        "assessment": "Campagne d'évaluation",
+        "profiles-collection": "Campagne de collecte de profils"
+      },
+      "direct-link": "Lien direct",
+      "external-user-id-label": "Libellé de l'identifiant",
+      "landing-page-text": "Texte de la page d'accueil",
+      "multiple-sendings": {
+        "title": "Envoi multiple",
+        "status": {
+          "disabled": "Non",
+          "enabled": "Oui"
+        },
+        "tooltip": {
+          "aria-label": "Description de l'envoi multiple",
+          "text": "Si l’envoi multiple est activé, le participant peut envoyer plusieurs fois sa participation en saisissant à nouveau le code campagne. Au sein de Pix Orga, vous trouverez la dernière envoyée."
+        }
+      },
+      "personalised-test-title": "Titre du parcours",
+      "target-profile": {
+        "title": "Parcours",
+        "tooltip": "Description du parcours"
+      }
+    },
     "campaigns-list": {
       "title": "Campagnes",
-      "navigation": "Navigation de la section Campagnes",
-      "tabs": {
-        "all-campaigns": "Toutes les campagnes",
-        "my-campaigns": "Mes campagnes"
-      },
       "action": {
         "archived": {
           "label": "Archivées"
@@ -570,18 +581,17 @@
           "label": "Actives"
         }
       },
-      "no-campaign": "Aucune campagne, pour commencer cliquez sur le bouton 'Créer une campagne'.",
       "filter": {
+        "title": "Filtres",
+        "by-name": "Rechercher une campagne",
+        "by-owner": "Rechercher un propriétaire",
         "clear": "Effacer les filtres",
         "legend": "Filtres pour le tableau des campagnes, des champs de saisie permettent de filtrer le tableau par le nom de la campagne et par nom du propriétaire. Des boutons permettent de filtrer les campagnes actives et archivées.",
-        "title": "Filtres",
-        "by-owner": "Rechercher un propriétaire",
-        "by-name": "Rechercher une campagne",
         "results": "{total, plural, =0 {0 campagne} =1 {1 campagne} other {{total, number} campagnes}}"
       },
+      "navigation": "Navigation de la section Campagnes",
+      "no-campaign": "Aucune campagne, pour commencer cliquez sur le bouton 'Créer une campagne'.",
       "table": {
-        "description-all-campaigns": "Ce tableau comporte la liste de toutes les campagnes créées dans votre espace Pix Orga. Il indique pour chaque campagne leur propriétaire, leur date de création, le nombre de participants et le nombre de résultats reçus.",
-        "description-my-campaigns": "Ce tableau comporte la liste des campagnes dont vous êtes propriétaire. Il indique pour chaque campagne leur date de création, le nombre de participants et le nombre de résultats reçus.",
         "column": {
           "campaign": "Nom de la campagne",
           "created-by": "Propriétaire",
@@ -589,22 +599,28 @@
           "participants": "Participants",
           "results": "Résultats reçus"
         },
+        "description-all-campaigns": "Ce tableau comporte la liste de toutes les campagnes créées dans votre espace Pix Orga. Il indique pour chaque campagne leur propriétaire, leur date de création, le nombre de participants et le nombre de résultats reçus.",
+        "description-my-campaigns": "Ce tableau comporte la liste des campagnes dont vous êtes propriétaire. Il indique pour chaque campagne leur date de création, le nombre de participants et le nombre de résultats reçus.",
         "empty": "Aucune campagne",
         "row-title": "Campagne"
+      },
+      "tabs": {
+        "all-campaigns": "Toutes les campagnes",
+        "my-campaigns": "Mes campagnes"
       }
     },
     "certifications": {
       "title": "Résultats de certification",
-      "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification (.csv) ou télécharger les attestations (.pdf).<br> Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.",
+      "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification (.csv) ou télécharger les attestations (.pdf).'<br>' Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.",
       "documentation-link": "https://cloud.pix.fr/s/cRaeKT4ErrXs4X8",
       "documentation-link-label": "Interprétation des résultats.",
       "documentation-link-notice": "Vous trouverez en suivant ce lien quelques éléments pour interpréter les résultats : ",
-      "download-button": "Exporter les résultats",
       "download-attestations-button": "Télécharger les attestations",
+      "download-button": "Exporter les résultats",
       "errors": {
         "invalid-division": "La classe {selectedDivision} n'existe pas.",
-        "no-results": "Aucun résultat de certification pour la classe {selectedDivision}.",
-        "no-certificates": "Aucune attestation de certification pour la classe {selectedDivision}."
+        "no-certificates": "Aucune attestation de certification pour la classe {selectedDivision}.",
+        "no-results": "Aucun résultat de certification pour la classe {selectedDivision}."
       },
       "no-students-imported-yet": "Dans cet onglet, vous retrouverez les résultats et les attestations de certification des élèves. Vous devez, dans un premier temps, importer la base élèves de votre établissement. ",
       "select-label": "Classe"
@@ -617,9 +633,9 @@
       "active-or-retrieve": "Activez ou récupérez votre espace Pix Orga",
       "email": "Adresse e-mail",
       "errors": {
-        "invalid-email": "Votre adresse e-mail n’est pas valide.",
         "empty-password": "Le champ mot de passe est obligatoire.",
-        "should-change-password": "Vous avez actuellement un mot de passe temporaire. Cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
+        "invalid-email": "Votre adresse e-mail n’est pas valide.",
+        "should-change-password": "Vous avez actuellement un mot de passe temporaire. Cliquez sur '<'a href=\"{url}\"'>'mot de passe oublié'</a>' pour le réinitialiser.",
         "status": {
           "403": "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite.",
           "404": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
@@ -644,6 +660,10 @@
       "register-form": {
         "title": "Je m’inscris",
         "button": "S'inscrire",
+        "errors": {
+          "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
+          "email-already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous."
+        },
         "fields": {
           "button": {
             "label": "Je m'inscris"
@@ -672,29 +692,23 @@
             "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
             "label": "Mot de passe"
           }
-        },
-        "errors": {
-          "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
-          "email-already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous."
         }
       }
     },
     "organization-learner": {
       "activity": {
+        "title": "Activité",
+        "assessment-summary": "Récapitulatif des participations aux campagnes d'évaluation",
         "cards": {
-          "started": "En cours : {count}",
-          "to-share": "En attente : {count}",
-          "shared": "Envoyées : {count}",
           "title": {
             "assessment": "Évaluations",
             "profiles-collection": "Collectes de profil"
-          }
+          },
+          "shared": "Envoyées : {count}",
+          "started": "En cours : {count}",
+          "to-share": "En attente : {count}"
         },
         "empty-state": "Aucune activité pour l’instant ! Envoyez une campagne à {organizationLearnerFirstName} {organizationLearnerLastName} et commencez à suivre sa progression.",
-        "title": "Activité",
-        "assessment-summary": "Récapitulatif des participations aux campagnes d'évaluation",
-        "profile-collection-summary": "Récapitulatif des participations aux campagnes de collecte de profil",
-        "participations-title": "Liste de toutes les participations",
         "participation-list": {
           "table": {
             "column": {
@@ -710,29 +724,35 @@
             "ASSESSMENT": "Evaluation",
             "PROFILES_COLLECTION": "Collecte de profil"
           }
-        }
+        },
+        "participations-title": "Liste de toutes les participations",
+        "profile-collection-summary": "Récapitulatif des participations aux campagnes de collecte de profil"
       },
       "header": {
         "aria-label-title": "Page de détail de {firstName} {lastName}"
       }
     },
+    "organization-participant-activity": {
+      "title": "Activité du participant"
+    },
     "organization-participants": {
+      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
       "empty-state": {
-        "message": "Aucun participant pour l’instant !",
+        "action": "Voir mes campagnes",
         "call-to-action": "Invitez-les à rejoindre une campagne ou créez-en une nouvelle.",
-        "action": "Voir mes campagnes"
+        "message": "Aucun participant pour l’instant !"
       },
       "filters": {
+        "title": "Filtres",
         "actions": {
           "clear": "Effacer les filtres"
         },
         "aria-label": "Filtres sur les participants",
         "participations-count": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count} participants}}",
-        "title": "Filtres",
         "type": {
           "certificability": {
-            "placeholder": "Certificabilité",
-            "label": "Rechercher par certificabilité"
+            "label": "Rechercher par certificabilité",
+            "placeholder": "Certificabilité"
           },
           "fullName": {
             "title": "Recherche sur le nom et prénom",
@@ -740,67 +760,66 @@
           }
         }
       },
+      "page-title": "Participants",
       "table": {
-        "description": "Tableau des participants trié par nom.",
         "column": {
           "first-name": "Prénom",
-          "last-name": {
-            "label": "Nom",
-            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nom. Cliquez pour trier par ordre alphabétique.",
-            "ariaLabelSortUp": "Le tableau est trié par nom, dans l'ordre alphabétique. Cliquez pour trier par ordre alphabétique inverse.",
-            "ariaLabelSortDown": "Le tableau est trié par nom, dans l'ordre alphabétique inverse. Cliquez pour trier par ordre alphabétique."
-          },
-          "latest-participation": "Dernière participation",
-          "participation-count": {
-            "label": "Nombre de participations",
-            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
-            "ariaLabelSortUp": "Le tableau est trié par nombre de participation croissant. Cliquez pour trier en ordre décroissant.",
-            "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant."
-          },
           "is-certifiable": {
             "label": "Certificabilité",
             "tooltip": {
               "aria-label": "Explication sur la certificabilité",
               "content": "La certificabilité signifie que le participant a atteint le niveau 1 dans au moins 5 compétences différentes. L'information provient des campagnes de collecte de profil réalisées par ce dernier. Si le participant a déjà envoyé son profil, on affiche la date ainsi que le statut du dernier envoi."
             }
+          },
+          "last-name": {
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nom. Cliquez pour trier par ordre alphabétique.",
+            "ariaLabelSortDown": "Le tableau est trié par nom, dans l'ordre alphabétique inverse. Cliquez pour trier par ordre alphabétique.",
+            "ariaLabelSortUp": "Le tableau est trié par nom, dans l'ordre alphabétique. Cliquez pour trier par ordre alphabétique inverse.",
+            "label": "Nom"
+          },
+          "latest-participation": "Dernière participation",
+          "participation-count": {
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
+            "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant.",
+            "ariaLabelSortUp": "Le tableau est trié par nombre de participation croissant. Cliquez pour trier en ordre décroissant.",
+            "label": "Nombre de participations"
           }
         },
+        "description": "Tableau des participants trié par nom.",
         "empty": "Aucun participant",
         "row-title": "Participant"
-      },
-      "page-title": "Participants",
-      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}"
+      }
     },
     "participants-list": {
       "latest-participation-information-tooltip": {
         "aria-label": "Informations sur la dernière participation",
-        "campaign-name": "Campagne : ",
-        "campaign-type": "Type : ",
         "campaign-ASSESSMENT-type": "Évaluation",
         "campaign-PROFILES_COLLECTION-type": "Collecte de profils",
+        "campaign-name": "Campagne : ",
         "campaign-status": "Statut : ",
+        "campaign-type": "Type : ",
         "participation-SHARED-status": "Reçu",
         "participation-STARTED-status": "En cours",
         "participation-TO_SHARE-status": "En attente d'envoi"
       }
     },
     "preselect-target-profile": {
-      "no-tube-selected": "Télécharger la sélection des sujets (JSON, { fileSize }ko)",
+      "title": "Sélection des sujets",
       "download": "Télécharger la sélection des sujets ({ numberOfTubesSelected }) (JSON, { fileSize }ko)",
       "download-filename": "selection-sujets-{ organizationName }-{ date }.json",
-      "title": "Sélection des sujets",
+      "no-tube-selected": "Télécharger la sélection des sujets (JSON, { fileSize }ko)",
       "table": {
         "caption": "Sélection des sujets",
         "column": {
           "action": "Sélection",
-          "theme-name": "Nom de la thématique",
-          "name": "Nom du sujet",
           "mobile": "Compatible smartphone",
-          "tablet": "Compatible tablette"
+          "name": "Nom du sujet",
+          "tablet": "Compatible tablette",
+          "theme-name": "Nom de la thématique"
         },
-        "row-title": "Sujet",
         "is-responsive": "oui",
-        "not-responsive": "non"
+        "not-responsive": "non",
+        "row-title": "Sujet"
       }
     },
     "profiles-individual-results": {
@@ -811,19 +830,20 @@
       "pix": "PIX",
       "pix-score": "{score, number}",
       "table": {
+        "title": "Résultats par compétence",
         "column": {
           "level": "Niveau",
           "pix-score": "Score Pix",
           "skill": "Compétence"
         },
         "empty": "En attente de résultats",
-        "row-title": "Compétence",
-        "title": "Résultats par compétence"
+        "row-title": "Compétence"
       }
     },
     "profiles-list": {
       "title": "Profils reçus",
       "table": {
+        "title": "Liste des profils reçus",
         "column": {
           "certifiable": "Certifiable",
           "competences-certifiables": "Comp. certifiables",
@@ -839,12 +859,13 @@
           }
         },
         "empty": "En attente de profils",
-        "row-title": "Profil",
-        "title": "Liste des profils reçus"
+        "row-title": "Profil"
       }
     },
+    "sco-organization-participant-activity": {
+      "title": "Activité de l'élève"
+    },
     "sco-organization-participants": {
-      "page-title": "Élèves",
       "title": "{count, plural, =0 {Élèves} =1 {Élève ({count})} other {Élèves ({count})}}",
       "actions": {
         "import-file": {
@@ -861,9 +882,42 @@
         "mediacentre": "Mediacentre",
         "none": "Aucune"
       },
+      "filter": {
+        "title": "Filtres",
+        "actions": {
+          "clear": "Effacer les filtres"
+        },
+        "aria-label": "Filtres sur les élèves",
+        "certificability": {
+          "label": "Rechercher par certificabilité",
+          "placeholder": "Certificabilité"
+        },
+        "division": {
+          "aria-label": "Entrer une classe",
+          "empty": "Aucune classe",
+          "label": "Rechercher par classe"
+        },
+        "first-name": {
+          "aria-label": "Entrer un prénom",
+          "label": "Rechercher par prénom"
+        },
+        "last-name": {
+          "aria-label": "Entrer un nom",
+          "label": "Rechercher par nom"
+        },
+        "login-method": {
+          "aria-label": "Rechercher par méthode de connexion",
+          "empty-option": "Méthode de connexion"
+        },
+        "search": {
+          "aria-label": "Recherche sur le nom et prénom",
+          "label": "Nom, prénom"
+        },
+        "students-count": "{count, plural, =0 {0 élève} =1 {1 élève} other {{count} élèves}}"
+      },
       "import": {
         "error-wrapper": "<div>Aucun élève n’a été importé.<br/><strong>{message}</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>",
-        "global-error": "<div>Aucun élève n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">le formulaire du centre d’aide</a>.</div>",
+        "global-error": "'<div>'Aucun élève n’a été importé.'<br/>'Veuillez réessayer ou nous contacter via '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'le formulaire du centre d’aide'</a>'.'</div>'",
         "global-success": "La liste a été importée avec succès."
       },
       "manage-authentication-method-modal": {
@@ -905,39 +959,7 @@
       },
       "no-participants": "Aucun élève pour l’instant !",
       "no-participants-action": "L’administrateur doit importer la base élèves en cliquant sur le bouton importer.",
-      "filter": {
-        "certificability": {
-          "placeholder": "Certificabilité",
-          "label": "Rechercher par certificabilité"
-        },
-        "division": {
-          "aria-label": "Entrer une classe",
-          "empty": "Aucune classe",
-          "label": "Rechercher par classe"
-        },
-        "first-name": {
-          "aria-label": "Entrer un prénom",
-          "label": "Rechercher par prénom"
-        },
-        "last-name": {
-          "aria-label": "Entrer un nom",
-          "label": "Rechercher par nom"
-        },
-        "search": {
-          "aria-label": "Recherche sur le nom et prénom",
-          "label": "Nom, prénom"
-        },
-        "login-method": {
-          "aria-label": "Rechercher par méthode de connexion",
-          "empty-option": "Méthode de connexion"
-        },
-        "students-count": "{count, plural, =0 {0 élève} =1 {1 élève} other {{count} élèves}}",
-        "title": "Filtres",
-        "aria-label": "Filtres sur les élèves",
-        "actions": {
-          "clear": "Effacer les filtres"
-        }
-      },
+      "page-title": "Élèves",
       "table": {
         "column": {
           "date-of-birth": "Date de naissance",
@@ -954,18 +976,18 @@
             }
           },
           "last-name": {
-            "label": "Nom",
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nom. Cliquez pour trier par ordre alphabétique.",
+            "ariaLabelSortDown": "Le tableau est trié par nom, dans l'ordre alphabétique inverse. Cliquez pour trier par ordre alphabétique.",
             "ariaLabelSortUp": "Le tableau est trié par nom, dans l'ordre alphabétique. Cliquez pour trier par ordre alphabétique inverse.",
-            "ariaLabelSortDown": "Le tableau est trié par nom, dans l'ordre alphabétique inverse. Cliquez pour trier par ordre alphabétique."
+            "label": "Nom"
           },
           "last-participation-date": "Dernière participation",
           "login-method": "Méthode(s) de connexion",
           "participation-count": {
-            "label": "Nombre de participations",
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
+            "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant.",
             "ariaLabelSortUp": "Le tableau est trié par nombre de participation croissant. Cliquez pour trier en ordre décroissant.",
-            "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant."
+            "label": "Nombre de participations"
           }
         },
         "description": "Tableau des élèves trié par nom. Pour les élèves ayant fourni une méthode de connexion, vous pouvez, via un menu situé dans la colonne 'Actions', gérer les modes de connexion autorisés et réinitialiser le mot de passe de l'élève",
@@ -973,9 +995,11 @@
         "row-title": "Élève"
       }
     },
+    "sup-organization-participant-activity": {
+      "title": "Activité de l'étudiant"
+    },
     "sup-organization-participants": {
       "title": "{count, plural, =0 {Étudiants} =1 {Étudiant ({count})} other {Étudiants ({count})}}",
-      "page-title": "Étudiants",
       "actions": {
         "download-template": "Télécharger le modèle",
         "edit-student-number": "Éditer le numéro étudiant",
@@ -998,45 +1022,15 @@
         "no-participants": "Aucun étudiants pour l’instant !",
         "no-participants-action": "L’administrateur doit importer les étudiants en cliquant sur le bouton importer."
       },
-      "table": {
-        "column": {
-          "date-of-birth": "Date de naissance",
-          "first-name": "Prénom",
-          "group": "Groupes",
-          "last-name": {
-            "label": "Nom",
-            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nom. Cliquez pour trier par ordre alphabétique.",
-            "ariaLabelSortUp": "Le tableau est trié par nom, dans l'ordre alphabétique. Cliquez pour trier par ordre alphabétique inverse.",
-            "ariaLabelSortDown": "Le tableau est trié par nom, dans l'ordre alphabétique inverse. Cliquez pour trier par ordre alphabétique."
-          },
-          "last-participation-date": "Dernière participation",
-          "participation-count": {
-            "label": "Nombre de participations",
-            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
-            "ariaLabelSortUp": "Le tableau est trié par nombre de participation croissant. Cliquez pour trier en ordre décroissant.",
-            "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant."
-          },
-          "student-number": "Numéro étudiant",
-          "is-certifiable": {
-            "label": "Certificabilité",
-            "tooltip": {
-              "aria-label": "Explication sur la certificabilité",
-              "content": "La certificabilité signifie que l'étudiant a atteint le niveau 1 dans au moins 5 compétences différentes. L'information provient des campagnes de collecte de profil réalisées par ce dernier. Si l'étudiant a déjà envoyé son profil, on affiche la date ainsi que le statut du dernier envoi."
-            }
-          }
-        },
-        "description": "Tableau des étudiants trié par nom. Vous pouvez, via un menu situé dans une colonne supplémentaire, modifier le numéro étudiant.",
-        "empty": "Aucun étudiant.",
-        "row-title": "Étudiant"
-      },
       "filter": {
-        "aria-label": "Filtrer les étudiants",
+        "title": "Filtres",
         "actions": {
           "clear": "Effacer les filtres"
         },
+        "aria-label": "Filtrer les étudiants",
         "certificability": {
-          "placeholder": "Certificabilité",
-          "label": "Rechercher par certificabilité"
+          "label": "Rechercher par certificabilité",
+          "placeholder": "Certificabilité"
         },
         "group": {
           "aria-label": "Entrer un groupe",
@@ -1051,12 +1045,42 @@
           "aria-label": "Entrer un numéro étudiant",
           "label": "Rechercher par numéro étudiant"
         },
-        "students-count": "{count, plural, =0 {0 étudiant} =1 {1 étudiant} other {{count} étudiants}}",
-        "title": "Filtres"
+        "students-count": "{count, plural, =0 {0 étudiant} =1 {1 étudiant} other {{count} étudiants}}"
+      },
+      "page-title": "Étudiants",
+      "table": {
+        "column": {
+          "date-of-birth": "Date de naissance",
+          "first-name": "Prénom",
+          "group": "Groupes",
+          "is-certifiable": {
+            "label": "Certificabilité",
+            "tooltip": {
+              "aria-label": "Explication sur la certificabilité",
+              "content": "La certificabilité signifie que l'étudiant a atteint le niveau 1 dans au moins 5 compétences différentes. L'information provient des campagnes de collecte de profil réalisées par ce dernier. Si l'étudiant a déjà envoyé son profil, on affiche la date ainsi que le statut du dernier envoi."
+            }
+          },
+          "last-name": {
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nom. Cliquez pour trier par ordre alphabétique.",
+            "ariaLabelSortDown": "Le tableau est trié par nom, dans l'ordre alphabétique inverse. Cliquez pour trier par ordre alphabétique.",
+            "ariaLabelSortUp": "Le tableau est trié par nom, dans l'ordre alphabétique. Cliquez pour trier par ordre alphabétique inverse.",
+            "label": "Nom"
+          },
+          "last-participation-date": "Dernière participation",
+          "participation-count": {
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
+            "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant.",
+            "ariaLabelSortUp": "Le tableau est trié par nombre de participation croissant. Cliquez pour trier en ordre décroissant.",
+            "label": "Nombre de participations"
+          },
+          "student-number": "Numéro étudiant"
+        },
+        "description": "Tableau des étudiants trié par nom. Vous pouvez, via un menu situé dans une colonne supplémentaire, modifier le numéro étudiant.",
+        "empty": "Aucun étudiant.",
+        "row-title": "Étudiant"
       }
     },
     "sup-organization-participants-import": {
-      "description": "Quel type d'import souhaitez-vous réaliser ?",
       "title": "Importer des étudiants",
       "actions": {
         "add": {
@@ -1070,31 +1094,23 @@
           "label": "Importer une nouvelle liste"
         }
       },
-      "error-wrapper": "<div>Aucun étudiant n’a été importé.<br/><strong>{message}</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>",
-      "global-error": "<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">le formulaire du centre d’aide</a></div>",
+      "description": "Quel type d'import souhaitez-vous réaliser ?",
+      "error-wrapper": "'<div>'Aucun étudiant n’a été importé.'<br/><strong>'{message}'</strong><br/>' Veuillez modifier votre fichier et l’importer à nouveau.'</div>'",
+      "global-error": "'<div>'Aucun étudiant n’a été importé.'<br/>'Veuillez réessayer ou nous contacter via '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'le formulaire du centre d’aide'</a></div>'",
       "global-success": "La liste a été importée avec succès.",
-      "global-success-with-warnings": "<div>La liste a été importée avec succès.<br/><br/>Cependant les valeurs suivantes n’ont pas été reconnues.<br />{warnings}<br/><br/>Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à <a href=\"mailto:sup@pix.fr\">sup@pix.fr</a></div>",
+      "global-success-with-warnings": "'<div>'La liste a été importée avec succès.'<br/><br/>'Cependant les valeurs suivantes n’ont pas été reconnues.'<br />'{warnings}'<br/><br/>'Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
       "supported-formats": "(Format supporté : csv)",
       "warnings": {
         "diploma": "Diplômes non reconnus : {diplomas}; ",
         "study-scheme": "Régimes non reconnus : {studySchemes}; "
       }
     },
-    "sup-organization-participant-activity": {
-      "title": "Activité de l'étudiant"
-    },
-    "sco-organization-participant-activity": {
-      "title": "Activité de l'élève"
-    },
-    "organization-participant-activity": {
-      "title": "Activité du participant"
-    },
     "team-invitations": {
       "title": "Invitations",
       "cancel-invitation": "Supprimer l’invitation",
-      "resend-invitation": "Renvoyer l'invitation",
       "invitation-cancelled-succeed-message": "L’invitation a bien été supprimée.",
       "invitation-resent-succeed-message": "L'invitation a bien été renvoyée.",
+      "resend-invitation": "Renvoyer l'invitation",
       "table": {
         "column": {
           "email-address": "Adresse e-mail",
@@ -1129,13 +1145,13 @@
         }
       },
       "notifications": {
+        "change-member-role": {
+          "error": "Une erreur est survenue lors de la modification du rôle du membre.",
+          "success": "Le rôle a bien été changé."
+        },
         "remove-membership": {
           "error": "Une erreur est survenue lors de la désactivation du membre.",
           "success": "{memberFirstName} {memberLastName} a été supprimé avec succès de votre équipe Pix Orga."
-        },
-        "change-member-role": {
-          "success": "Le rôle a bien été changé.",
-          "error": "Une erreur est survenue lors de la modification du rôle du membre."
         }
       },
       "remove-membership-modal": {
@@ -1143,7 +1159,7 @@
         "actions": {
           "remove": "Oui, supprimer le membre"
         },
-        "message": "{memberFirstName} {memberLastName} n'aura plus accès à cet espace Pix Orga.<br>Ses campagnes restent accessibles au reste de l'équipe."
+        "message": "{memberFirstName} {memberLastName} n'aura plus accès à cet espace Pix Orga.'<br>'Ses campagnes restent accessibles au reste de l'équipe."
       },
       "table": {
         "column": {
@@ -1158,22 +1174,22 @@
     "team-new": {
       "title": "Inviter un membre",
       "email-requirement": "Saisissez ici l'adresse e-mail du membre que vous souhaitez inviter.",
-      "success": {
-        "invitation": "Une invitation a bien été envoyée à l’adresse e-mail {email}.",
-        "multiple-invitations": "Une invitation a bien été envoyée aux adresses e-mails listées."
-      },
       "errors": {
         "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
+        "sending-email-to-invalid-email-address": "L'envoi d'e-mail pour l'adresse {email} a échoué. Le serveur d'envoi a répondu : \"{errorMessage}\"",
         "status": {
           "400": "Le format de l'adresse e-mail est incorrect.",
           "404": "Cet email n'appartient à aucun utilisateur.",
           "412": "Ce membre a déjà été ajouté.",
           "500": "Quelque chose s'est mal passé. Veuillez réessayer."
-        },
-        "sending-email-to-invalid-email-address": "L'envoi d'e-mail pour l'adresse {email} a échoué. Le serveur d'envoi a répondu : \"{errorMessage}\""
+        }
       },
       "invited-members": "À la réception de l'e-mail, les invités pourront choisir de se créer un compte Pix ou de se connecter avec un compte Pix existant.",
-      "several-email-requirement": "Vous pouvez inviter plusieurs membres en séparant les adresses e-mails par des virgules."
+      "several-email-requirement": "Vous pouvez inviter plusieurs membres en séparant les adresses e-mails par des virgules.",
+      "success": {
+        "invitation": "Une invitation a bien été envoyée à l’adresse e-mail {email}.",
+        "multiple-invitations": "Une invitation a bien été envoyée aux adresses e-mails listées."
+      }
     },
     "team-new-item": {
       "input-label": "Adresse(s) e-mail",
@@ -1182,22 +1198,6 @@
     "terms-of-service": {
       "title": "Conditions d'utilisation",
       "accept": "J’accepte les conditions d’utilisation"
-    }
-  },
-  "components": {
-    "date":{
-      "no-date": "Pas encore de date"
-    },
-    "participation-status": {
-      "STARTED-ASSESSMENT": "En cours",
-      "TO_SHARE-ASSESSMENT": "En attente d'envoi",
-      "SHARED-ASSESSMENT": "Résultats reçus",
-      "TO_SHARE-PROFILES_COLLECTION": "En attente d'envoi",
-      "SHARED-PROFILES_COLLECTION": "Profil reçu"
-    },
-    "group": {
-      "SCO": "Classe",
-      "SUP": "Groupe"
     }
   }
 }
