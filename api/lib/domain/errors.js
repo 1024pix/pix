@@ -1144,12 +1144,6 @@ class InvalidExternalAPIResponseError extends DomainError {
   }
 }
 
-class CpfBirthInformationValidationError extends DomainError {
-  constructor({ message, code = null, meta = {} }) {
-    super(message, code, meta);
-  }
-}
-
 class NoOrganizationToAttach extends DomainError {
   constructor(message) {
     super(message);
@@ -1339,7 +1333,6 @@ export {
   ChallengeToBeDeneutralizedNotFoundError,
   CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually,
   CompetenceResetError,
-  CpfBirthInformationValidationError,
   CsvImportError,
   CsvParsingError,
   DeprecatedCertificationIssueReportCategoryError,
