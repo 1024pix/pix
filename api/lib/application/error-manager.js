@@ -441,10 +441,6 @@ function _mapToHttpError(error) {
     return new HttpErrors.ConflictError(error.message);
   }
 
-  if (error instanceof DomainErrors.CpfBirthInformationValidationError) {
-    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
-  }
-
   if (error instanceof DomainErrors.UncancellableOrganizationInvitationError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }

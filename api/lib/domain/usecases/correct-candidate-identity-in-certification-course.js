@@ -1,4 +1,4 @@
-import { CpfBirthInformationValidationError } from '../errors.js';
+import { CertificationCandidatesError } from '../errors.js';
 
 const correctCandidateIdentityInCertificationCourse = async function ({
   command: {
@@ -35,7 +35,7 @@ const correctCandidateIdentityInCertificationCourse = async function ({
   });
 
   if (cpfBirthInformation.hasFailed()) {
-    throw new CpfBirthInformationValidationError({ message: cpfBirthInformation.firstErrorMessage });
+    throw new CertificationCandidatesError({ message: cpfBirthInformation.firstErrorMessage });
   }
 
   certificationCourse.correctBirthInformation(cpfBirthInformation);

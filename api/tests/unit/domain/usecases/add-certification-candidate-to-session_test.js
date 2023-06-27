@@ -1,12 +1,11 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { addCertificationCandidateToSession } from '../../../../lib/domain/usecases/add-certification-candidate-to-session.js';
 import { CpfBirthInformationValidation } from '../../../../lib/domain/services/certification-cpf-service.js';
 
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CpfBirthInformationValidationError,
-  CertificationCandidatesError,
   CertificationCandidateOnFinalizedSessionError,
+  CertificationCandidatesError,
 } from '../../../../lib/domain/errors.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
 
@@ -242,7 +241,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       });
 
       context('when birth information validation fail', function () {
-        it('should throw a CpfBirthInformationValidationError', async function () {
+        it('should throw a CertificationCandidatesError', async function () {
           // given
           const session = domainBuilder.buildSession.created();
           sessionRepository.get.resolves(session);
@@ -275,7 +274,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           });
 
           // then
-          expect(error).to.be.an.instanceOf(CpfBirthInformationValidationError);
+          expect(error).to.be.an.instanceOf(CertificationCandidatesError);
           expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED.code);
         });
       });

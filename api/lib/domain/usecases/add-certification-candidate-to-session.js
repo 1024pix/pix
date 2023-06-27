@@ -2,7 +2,6 @@ import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatesError,
-  CpfBirthInformationValidationError,
 } from '../errors.js';
 
 const addCertificationCandidateToSession = async function ({
@@ -50,7 +49,7 @@ const addCertificationCandidateToSession = async function ({
   });
 
   if (cpfBirthInformation.hasFailed()) {
-    throw new CpfBirthInformationValidationError({
+    throw new CertificationCandidatesError({
       code: cpfBirthInformation.firstErrorCode,
       meta: { ...cpfBirthInformation },
     });
