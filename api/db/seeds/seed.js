@@ -43,12 +43,14 @@ import { teamContenuDataBuilder } from './data/team-contenu/data-builder.js';
 import { teamCertificationDataBuilder } from './data/team-certification/data-builder.js';
 import { certificationCpfCityBuilder } from './data/certification/certification-cpf-city-builder.js';
 import { certificationCpfCountryBuilder } from './data/certification/certification-cpf-country-builder.js';
+import { teamAccesDataBuilder } from './data/team-acces/data-builder.js';
 
 const seed = async function (knex) {
   const shouldUseNewSeeds = process.env.USE_NEW_SEEDS === 'true';
   const databaseBuilder = new DatabaseBuilder({ knex });
   if (shouldUseNewSeeds) {
     await commonBuilder({ databaseBuilder });
+    await teamAccesDataBuilder(databaseBuilder);
     await teamContenuDataBuilder({ databaseBuilder });
     await teamCertificationDataBuilder({ databaseBuilder });
     await databaseBuilder.commit();
