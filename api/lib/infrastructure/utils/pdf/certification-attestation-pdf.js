@@ -139,7 +139,7 @@ async function _embedTemplatePagesIntoDocument({ viewModels, dirname, pdfDocumen
     if (_atLeastOneWithProfessionalizingCertification(viewModels)) {
       templatePages[templates.withProfessionalizingCertificationMessageAndWithComplementaryCertifications] =
         await _embedFirstPageFromTemplateByFilename(
-          'attestation-template-with-professionalizing-message-and-with-complementary-certifications.pdf',
+          'FR-attestation-template-with-professionalizing-message-and-with-complementary-certifications.pdf',
           pdfDocument,
           dirname
         );
@@ -155,7 +155,7 @@ async function _embedTemplatePagesIntoDocument({ viewModels, dirname, pdfDocumen
       } else {
         templatePages[templates.withoutProfessionalizingCertificationMessageAndWithComplementaryCertifications] =
           await _embedFirstPageFromTemplateByFilename(
-            'attestation-template-without-professionalizing-message-and-with-complementary-certifications.pdf',
+            'FR-attestation-template-without-professionalizing-message-and-with-complementary-certifications.pdf',
             pdfDocument,
             dirname
           );
@@ -167,7 +167,7 @@ async function _embedTemplatePagesIntoDocument({ viewModels, dirname, pdfDocumen
     if (_atLeastOneWithProfessionalizingCertification(viewModels)) {
       templatePages[templates.withProfessionalizingCertificationMessageAndWithoutComplementaryCertifications] =
         await _embedFirstPageFromTemplateByFilename(
-          'attestation-template-with-professionalizing-message-and-without-complementary-certifications.pdf',
+          'FR-attestation-template-with-professionalizing-message-and-without-complementary-certifications.pdf',
           pdfDocument,
           dirname
         );
@@ -183,7 +183,7 @@ async function _embedTemplatePagesIntoDocument({ viewModels, dirname, pdfDocumen
       } else {
         templatePages[templates.withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications] =
           await _embedFirstPageFromTemplateByFilename(
-            'attestation-template-without-professionalizing-message-and-without-complementary-certifications.pdf',
+            'FR-attestation-template-without-professionalizing-message-and-without-complementary-certifications.pdf',
             pdfDocument,
             dirname
           );
