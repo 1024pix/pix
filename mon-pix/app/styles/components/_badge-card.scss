@@ -23,7 +23,7 @@
     min-height: 200px;
   }
 
-  &__text {
+  &__content {
     display: flex;
     flex-direction: column;
     max-width: 70%;
@@ -34,27 +34,6 @@
       flex: 1 1 40%;
       min-width: 300px;
       max-width: 300px;
-    }
-  }
-
-  &-text {
-    &__title {
-      margin: 1em 0;
-      color: $pix-neutral-100;
-      font-weight: $font-medium;
-      font-size: 1.12rem;
-      font-family: $font-roboto;
-      letter-spacing: 0.028rem;
-    }
-
-    &__message {
-      margin-bottom: 0;
-      color: $pix-neutral-45;
-      font-weight: $font-normal;
-      font-size: 0.85rem;
-      font-family: $font-roboto;
-      line-height: 1.2rem;
-      letter-spacing: 0.0093rem;
     }
   }
 
@@ -77,14 +56,47 @@
   }
 }
 
-.badge-card-status {
+.badge-card-content {
+  &__header {
+    display: flex;
+    gap: $pix-spacing-s;
+    align-items: center;
+  }
+
+  &__title {
+    @extend %pix-title-xs;
+
+    margin: 12px 0 $pix-spacing-xs;
+    color: $pix-neutral-100;
+  }
+
+  &__message {
+    @extend %pix-body-s;
+
+    margin-bottom: 0;
+    color: $pix-neutral-45;
+  }
+}
+
+.badge-card-content-header {
+    &__status {
+      @extend %pix-body-s;
+
+      padding: $pix-spacing-xxs $pix-spacing-xs;
+      white-space: nowrap;
+      background-color: $pix-neutral-10;
+      border-radius: 8px;
+    }
+  }
+
+.badge-card-content-header-status {
   &__acquired-icon {
-    margin-right: 4px;
+    margin-right:  $pix-spacing-xxs;
     color: $pix-success-50;
   }
 
   &__not-acquired-icon {
-    margin-right: 4px;
+    margin-right:  $pix-spacing-xxs;
     color: $pix-neutral-50;
   }
 }

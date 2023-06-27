@@ -12,22 +12,134 @@ module('Integration | component | Campaigns | Evaluation | Skill Review', functi
 
   hooks.beforeEach(function () {
     possibleBadgesCombinations = [
-      { id: 30, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: true },
-      { id: 31, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: false },
-      { id: 32, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: true },
-      { id: 33, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: false },
-      { id: 34, isAcquired: true, isCertifiable: false, isValid: true, isAlwaysVisible: true },
-      { id: 35, isAcquired: true, isCertifiable: false, isValid: true, isAlwaysVisible: false },
-      { id: 36, isAcquired: true, isCertifiable: false, isValid: false, isAlwaysVisible: true },
-      { id: 37, isAcquired: true, isCertifiable: false, isValid: false, isAlwaysVisible: false },
-      { id: 38, isAcquired: false, isCertifiable: true, isValid: true, isAlwaysVisible: true },
-      { id: 39, isAcquired: false, isCertifiable: true, isValid: true, isAlwaysVisible: false },
-      { id: 40, isAcquired: false, isCertifiable: true, isValid: false, isAlwaysVisible: true },
-      { id: 41, isAcquired: false, isCertifiable: true, isValid: false, isAlwaysVisible: false },
-      { id: 42, isAcquired: false, isCertifiable: false, isValid: true, isAlwaysVisible: true },
-      { id: 43, isAcquired: false, isCertifiable: false, isValid: true, isAlwaysVisible: false },
-      { id: 44, isAcquired: false, isCertifiable: false, isValid: false, isAlwaysVisible: true },
-      { id: 45, isAcquired: false, isCertifiable: false, isValid: false, isAlwaysVisible: false },
+      {
+        id: 30,
+        isAcquired: true,
+        isCertifiable: true,
+        isValid: true,
+        isAlwaysVisible: true,
+        acquisitionPercentage: 10,
+      },
+      {
+        id: 31,
+        isAcquired: true,
+        isCertifiable: true,
+        isValid: true,
+        isAlwaysVisible: false,
+        acquisitionPercentage: 15,
+      },
+      {
+        id: 32,
+        isAcquired: true,
+        isCertifiable: true,
+        isValid: false,
+        isAlwaysVisible: true,
+        acquisitionPercentage: 1,
+      },
+      {
+        id: 33,
+        isAcquired: true,
+        isCertifiable: true,
+        isValid: false,
+        isAlwaysVisible: false,
+        acquisitionPercentage: 67,
+      },
+      {
+        id: 34,
+        isAcquired: true,
+        isCertifiable: false,
+        isValid: true,
+        isAlwaysVisible: true,
+        acquisitionPercentage: 56,
+      },
+      {
+        id: 35,
+        isAcquired: true,
+        isCertifiable: false,
+        isValid: true,
+        isAlwaysVisible: false,
+        acquisitionPercentage: 100,
+      },
+      {
+        id: 36,
+        isAcquired: true,
+        isCertifiable: false,
+        isValid: false,
+        isAlwaysVisible: true,
+        acquisitionPercentage: 0,
+      },
+      {
+        id: 37,
+        isAcquired: true,
+        isCertifiable: false,
+        isValid: false,
+        isAlwaysVisible: false,
+        acquisitionPercentage: 0,
+      },
+      {
+        id: 38,
+        isAcquired: false,
+        isCertifiable: true,
+        isValid: true,
+        isAlwaysVisible: true,
+        acquisitionPercentage: 30,
+      },
+      {
+        id: 39,
+        isAcquired: false,
+        isCertifiable: true,
+        isValid: true,
+        isAlwaysVisible: false,
+        acquisitionPercentage: 98,
+      },
+      {
+        id: 40,
+        isAcquired: false,
+        isCertifiable: true,
+        isValid: false,
+        isAlwaysVisible: true,
+        acquisitionPercentage: 67,
+      },
+      {
+        id: 41,
+        isAcquired: false,
+        isCertifiable: true,
+        isValid: false,
+        isAlwaysVisible: false,
+        acquisitionPercentage: 32,
+      },
+      {
+        id: 42,
+        isAcquired: false,
+        isCertifiable: false,
+        isValid: true,
+        isAlwaysVisible: true,
+        acquisitionPercentage: 34,
+      },
+      {
+        id: 43,
+        isAcquired: false,
+        isCertifiable: false,
+        isValid: true,
+        isAlwaysVisible: false,
+        acquisitionPercentage: 3,
+      },
+      {
+        id: 44,
+        isAcquired: false,
+        isCertifiable: false,
+        isValid: false,
+        isAlwaysVisible: true,
+        acquisitionPercentage: 0,
+      },
+      {
+        id: 45,
+        isAcquired: false,
+        isCertifiable: false,
+        isValid: false,
+        isAlwaysVisible: false,
+        acquisitionPercentage: 100,
+      },
     ];
 
     const model = {
@@ -339,7 +451,7 @@ module('Integration | component | Campaigns | Evaluation | Skill Review', functi
   });
 
   module('#notCertifiableBadges', function () {
-    test('should only return acquired and not certifiable badges', function (assert) {
+    test('should only return not certifiable badges', function (assert) {
       // given
       component.args.model.campaignParticipationResult.campaignParticipationBadges = possibleBadgesCombinations;
 
@@ -348,12 +460,54 @@ module('Integration | component | Campaigns | Evaluation | Skill Review', functi
 
       // then
       assert.deepEqual(notCertifiableBadges, [
-        { id: 34, isAcquired: true, isCertifiable: false, isValid: true, isAlwaysVisible: true },
-        { id: 35, isAcquired: true, isCertifiable: false, isValid: true, isAlwaysVisible: false },
-        { id: 36, isAcquired: true, isCertifiable: false, isValid: false, isAlwaysVisible: true },
-        { id: 37, isAcquired: true, isCertifiable: false, isValid: false, isAlwaysVisible: false },
-        { id: 42, isAcquired: false, isCertifiable: false, isValid: true, isAlwaysVisible: true },
-        { id: 44, isAcquired: false, isCertifiable: false, isValid: false, isAlwaysVisible: true },
+        {
+          id: 34,
+          isAcquired: true,
+          isCertifiable: false,
+          isValid: true,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 56,
+        },
+        {
+          id: 35,
+          isAcquired: true,
+          isCertifiable: false,
+          isValid: true,
+          isAlwaysVisible: false,
+          acquisitionPercentage: 100,
+        },
+        {
+          id: 36,
+          isAcquired: true,
+          isCertifiable: false,
+          isValid: false,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 0,
+        },
+        {
+          id: 37,
+          isAcquired: true,
+          isCertifiable: false,
+          isValid: false,
+          isAlwaysVisible: false,
+          acquisitionPercentage: 0,
+        },
+        {
+          id: 42,
+          isAcquired: false,
+          isCertifiable: false,
+          isValid: true,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 34,
+        },
+        {
+          id: 44,
+          isAcquired: false,
+          isCertifiable: false,
+          isValid: false,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 0,
+        },
       ]);
     });
   });
@@ -368,8 +522,22 @@ module('Integration | component | Campaigns | Evaluation | Skill Review', functi
 
       // then
       assert.deepEqual(acquiredBadges, [
-        { id: 30, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: true },
-        { id: 31, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: false },
+        {
+          id: 30,
+          isAcquired: true,
+          isCertifiable: true,
+          isValid: true,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 10,
+        },
+        {
+          id: 31,
+          isAcquired: true,
+          isCertifiable: true,
+          isValid: true,
+          isAlwaysVisible: false,
+          acquisitionPercentage: 15,
+        },
       ]);
     });
   });
@@ -384,10 +552,38 @@ module('Integration | component | Campaigns | Evaluation | Skill Review', functi
 
       // then
       assert.deepEqual(acquiredBadges, [
-        { id: 32, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: true },
-        { id: 33, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: false },
-        { id: 38, isAcquired: false, isCertifiable: true, isValid: true, isAlwaysVisible: true },
-        { id: 40, isAcquired: false, isCertifiable: true, isValid: false, isAlwaysVisible: true },
+        {
+          id: 32,
+          isAcquired: true,
+          isCertifiable: true,
+          isValid: false,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 1,
+        },
+        {
+          id: 33,
+          isAcquired: true,
+          isCertifiable: true,
+          isValid: false,
+          isAlwaysVisible: false,
+          acquisitionPercentage: 67,
+        },
+        {
+          id: 38,
+          isAcquired: false,
+          isCertifiable: true,
+          isValid: true,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 30,
+        },
+        {
+          id: 40,
+          isAcquired: false,
+          isCertifiable: true,
+          isValid: false,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 67,
+        },
       ]);
     });
   });
@@ -402,12 +598,54 @@ module('Integration | component | Campaigns | Evaluation | Skill Review', functi
 
       // then
       assert.deepEqual(acquiredBadges, [
-        { id: 30, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: true },
-        { id: 31, isAcquired: true, isCertifiable: true, isValid: true, isAlwaysVisible: false },
-        { id: 32, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: true },
-        { id: 33, isAcquired: true, isCertifiable: true, isValid: false, isAlwaysVisible: false },
-        { id: 38, isAcquired: false, isCertifiable: true, isValid: true, isAlwaysVisible: true },
-        { id: 40, isAcquired: false, isCertifiable: true, isValid: false, isAlwaysVisible: true },
+        {
+          id: 30,
+          isAcquired: true,
+          isCertifiable: true,
+          isValid: true,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 10,
+        },
+        {
+          id: 31,
+          isAcquired: true,
+          isCertifiable: true,
+          isValid: true,
+          isAlwaysVisible: false,
+          acquisitionPercentage: 15,
+        },
+        {
+          id: 32,
+          isAcquired: true,
+          isCertifiable: true,
+          isValid: false,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 1,
+        },
+        {
+          id: 33,
+          isAcquired: true,
+          isCertifiable: true,
+          isValid: false,
+          isAlwaysVisible: false,
+          acquisitionPercentage: 67,
+        },
+        {
+          id: 38,
+          isAcquired: false,
+          isCertifiable: true,
+          isValid: true,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 30,
+        },
+        {
+          id: 40,
+          isAcquired: false,
+          isCertifiable: true,
+          isValid: false,
+          isAlwaysVisible: true,
+          acquisitionPercentage: 67,
+        },
       ]);
     });
   });

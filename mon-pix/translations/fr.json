@@ -1377,7 +1377,8 @@
       "already-shared": "Merci, vos résultats ont bien été envoyés !",
       "badge-card": {
         "acquired": "Obtenu",
-        "not-acquired": "Non obtenu"
+        "not-acquired": "Non obtenu",
+        "progress-bar-label": "Pourcentage de réussite du résultat thématique"
       },
       "badges-title": "Vos résultats thématiques",
       "details": {
