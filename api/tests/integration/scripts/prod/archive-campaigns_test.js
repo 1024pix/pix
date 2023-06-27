@@ -1,8 +1,11 @@
+import * as url from 'url';
 import { expect, databaseBuilder, knex, sinon } from '../../../test-helper.js';
 import { archiveCampaigns } from '../../../../scripts/prod/archive-campaigns.js';
 import lodash from 'lodash';
 
 const { noop } = lodash;
+
+const fixturesDirPath = `${url.fileURLToPath(new URL('../../../', import.meta.url))}tooling/fixtures/`;
 
 describe('Script | Prod | Archive Campaign', function () {
   let clock;
@@ -18,7 +21,7 @@ describe('Script | Prod | Archive Campaign', function () {
 
   describe('#archiveCampaigns', function () {
     it('archives all given campaigns', async function () {
-      const file = './tests/tooling/fixtures/campaigns-to-archive.csv';
+      const file = `${fixturesDirPath}/campaigns-to-archive.csv`;
 
       const logger = {
         setTotal: () => {
@@ -47,7 +50,7 @@ describe('Script | Prod | Archive Campaign', function () {
     });
 
     it('archives all archivable campaigns', async function () {
-      const file = './tests/tooling/fixtures/campaigns-unarchivable.csv';
+      const file = `${fixturesDirPath}/campaigns-unarchivable.csv`;
 
       const logger = {
         setTotal: () => {
