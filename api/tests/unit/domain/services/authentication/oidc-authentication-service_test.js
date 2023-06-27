@@ -21,6 +21,89 @@ import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-to
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
+  describe('#isReady', function () {
+    describe('when configKey is set', function () {
+      describe('when enabled in config', function () {
+        describe('when config is valid', function () {
+          it('returns true', function () {
+            // given
+            settings.someOidcProviderService = {
+              isEnabled: true,
+              clientId: 'anId',
+              clientSecret: 'aSecret',
+              authenticationUrl: 'https://example.net',
+              userInfoUrl: 'https://example.net',
+              tokenUrl: 'https://example.net',
+              aProperty: 'aValue',
+            };
+            const oidcAuthenticationService = new OidcAuthenticationService({
+              configKey: 'someOidcProviderService',
+              additionalRequiredProperties: ['aProperty'],
+            });
+
+            // when
+            const result = oidcAuthenticationService.isReady;
+
+            // then
+            expect(result).to.be.true;
+          });
+        });
+
+        describe('when config is invalid', function () {
+          it('returns false', function () {
+            // given
+            settings.someOidcProviderService = {
+              isEnabled: true,
+            };
+            const oidcAuthenticationService = new OidcAuthenticationService({
+              configKey: 'someOidcProviderService',
+            });
+
+            // when
+            const result = oidcAuthenticationService.isReady;
+
+            // then
+            expect(result).to.be.false;
+          });
+        });
+      });
+
+      describe('when not enabled in config', function () {
+        it('returns false', function () {
+          // given
+          settings.someOidcProviderService = {
+            isEnabled: false,
+          };
+          const oidcAuthenticationService = new OidcAuthenticationService({
+            configKey: 'someOidcProviderService',
+          });
+
+          // when
+          const result = oidcAuthenticationService.isReady;
+
+          // then
+          expect(result).to.be.false;
+        });
+      });
+    });
+
+    describe('when configKey is not set', function () {
+      it('returns false', function () {
+        // given
+        settings.someOidcProviderService = {
+          isEnabled: true,
+        };
+        const oidcAuthenticationService = new OidcAuthenticationService({});
+
+        // when
+        const result = oidcAuthenticationService.isReady;
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
+
   describe('#createAccessToken', function () {
     it('should create access token with user id', function () {
       // given
@@ -558,7 +641,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const userId = 1;
       userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
 
-      const identityProvider = OidcIdentityProviders.CNAV.service.code;
+      const identityProvider = OidcIdentityProviders.CNAV.code;
       const expectedAuthenticationMethod = new AuthenticationMethod({
         identityProvider,
         externalIdentifier: externalIdentityId,

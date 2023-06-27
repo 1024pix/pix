@@ -7,17 +7,35 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   const identityProvider = 'OIDC';
 
   describe('#getIdentityProviders', function () {
-    it('should return the list of oidc identity providers', async function () {
-      // given & when
+    it('returns the list of oidc identity providers', async function () {
+      // given
+      sinon.stub(usecases, 'getIdentityProviders').returns([
+        {
+          code: 'SOME_OIDC_PROVIDER',
+          source: 'some_oidc_provider',
+          organizationName: 'Some OIDC Provider',
+          slug: 'some-oidc-provider',
+          hasLogoutUrl: false,
+        },
+      ]);
+
+      // when
       const response = await oidcController.getIdentityProviders(null, hFake);
 
       // then
-      const expectedCnavProvider = {
+      expect(usecases.getIdentityProviders).to.have.been.called;
+      expect(response.statusCode).to.equal(200);
+      expect(response.source.data.length).to.equal(1);
+      expect(response.source.data).to.deep.contain({
         type: 'oidc-identity-providers',
-        id: 'cnav',
-        attributes: { code: 'CNAV', 'organization-name': 'CNAV', 'has-logout-url': false, source: 'cnav' },
-      };
-      expect(response.source.data).to.deep.contain(expectedCnavProvider);
+        id: 'some-oidc-provider',
+        attributes: {
+          code: 'SOME_OIDC_PROVIDER',
+          source: 'some_oidc_provider',
+          'organization-name': 'Some OIDC Provider',
+          'has-logout-url': false,
+        },
+      });
     });
   });
 
@@ -38,10 +56,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         };
 
         const authenticationServiceRegistryStub = {
-          lookupAuthenticationService: sinon.stub(),
+          getOidcProviderServiceByCode: sinon.stub(),
         };
 
-        authenticationServiceRegistryStub.lookupAuthenticationService
+        authenticationServiceRegistryStub.getOidcProviderServiceByCode
           .withArgs(identityProvider)
           .returns(oidcAuthenticationService);
 
@@ -70,10 +88,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         getAuthenticationUrl: getAuthenticationUrlStub,
       };
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
-      authenticationServiceRegistryStub.lookupAuthenticationService
+      authenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs(identityProvider)
         .returns(oidcAuthenticationService);
 
@@ -121,10 +139,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       // given
       const oidcAuthenticationService = {};
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
-      authenticationServiceRegistryStub.lookupAuthenticationService
+      authenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs(identityProvider)
         .returns(oidcAuthenticationService);
 
@@ -155,10 +173,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       // given
       const oidcAuthenticationService = {};
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
-      authenticationServiceRegistryStub.lookupAuthenticationService
+      authenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs(identityProvider)
         .returns(oidcAuthenticationService);
 
@@ -186,10 +204,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       // given
       const oidcAuthenticationService = {};
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
-      authenticationServiceRegistryStub.lookupAuthenticationService
+      authenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs(identityProvider)
         .returns(oidcAuthenticationService);
 
@@ -224,10 +242,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const accessToken = 'access.token';
       const oidcAuthenticationService = {};
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
-      authenticationServiceRegistryStub.lookupAuthenticationService
+      authenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs(identityProvider)
         .returns(oidcAuthenticationService);
 
@@ -312,7 +330,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         },
       };
       const authenticationServiceRegistryStub = {
-        lookupAuthenticationService: sinon.stub(),
+        getOidcProviderServiceByCode: sinon.stub(),
       };
 
       const dependencies = {

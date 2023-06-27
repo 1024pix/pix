@@ -1,23 +1,18 @@
-import { PoleEmploiOidcAuthenticationService } from '../services/authentication/pole-emploi-oidc-authentication-service.js';
-import { CnavOidcAuthenticationService } from '../services/authentication/cnav-oidc-authentication-service.js';
-import { FwbOidcAuthenticationService } from '../services/authentication/fwb-oidc-authentication-service.js';
-
-const DEFAULT_PROPERTY_PATHS_TO_PICK = ['clientId', 'authenticationUrl', 'userInfoUrl', 'tokenUrl', 'clientSecret'];
-
 const POLE_EMPLOI = {
+  code: 'POLE_EMPLOI',
   configKey: 'poleEmploi',
-  propertyPathsToPick: [...DEFAULT_PROPERTY_PATHS_TO_PICK, 'sendingUrl', 'logoutUrl', 'afterLogoutUrl'],
-  service: new PoleEmploiOidcAuthenticationService(),
 };
 const CNAV = {
+  code: 'CNAV',
   configKey: 'cnav',
-  propertyPathsToPick: DEFAULT_PROPERTY_PATHS_TO_PICK,
-  service: new CnavOidcAuthenticationService(),
 };
 const FWB = {
+  code: 'FWB',
   configKey: 'fwb',
-  propertyPathsToPick: [...DEFAULT_PROPERTY_PATHS_TO_PICK, 'logoutUrl'],
-  service: new FwbOidcAuthenticationService(),
 };
 
-export { POLE_EMPLOI, CNAV, FWB };
+function getValidOidcProviderCodes() {
+  return [POLE_EMPLOI.code, CNAV.code, FWB.code];
+}
+
+export { getValidOidcProviderCodes, POLE_EMPLOI, CNAV, FWB };
