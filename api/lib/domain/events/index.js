@@ -1,4 +1,4 @@
-import { injectDefaults, injectDependencies } from '../../infrastructure/utils/dependency-injection.js';
+import { injectDefaults, injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { EventDispatcher } from '../../infrastructure/events/EventDispatcher.js';
 import { EventDispatcherLogger } from '../../infrastructure/events/EventDispatcherLogger.js';
 import { monitoringTools as MonitoringTools } from '../../infrastructure/monitoring-tools.js';

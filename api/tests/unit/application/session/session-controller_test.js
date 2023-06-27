@@ -1,5 +1,6 @@
 import { expect, sinon, hFake, domainBuilder, catchErr } from '../../../test-helper.js';
 import { sessionController } from '../../../../src/certification/shared/application/session-controller.js';
+import { usecases as certificationUsecases } from '../../../../src/certification/shared/domain/usecases/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
@@ -54,7 +55,7 @@ describe('Unit | Controller | sessionController', function () {
     const sessionId = 123;
 
     beforeEach(function () {
-      sinon.stub(usecases, 'getSession');
+      sinon.stub(certificationUsecases, 'getSession');
 
       request = {
         auth: { credentials: { userId } },
@@ -70,7 +71,9 @@ describe('Unit | Controller | sessionController', function () {
         const sessionSerializer = { serialize: sinon.stub() };
         const foundSession = Symbol('foundSession');
         const serializedSession = Symbol('serializedSession');
-        usecases.getSession.withArgs({ sessionId }).resolves({ session: foundSession, hasSomeCleaAcquired: false });
+        certificationUsecases.getSession
+          .withArgs({ sessionId })
+          .resolves({ session: foundSession, hasSomeCleaAcquired: false });
         sessionSerializer.serialize
           .withArgs({ session: foundSession, hasSupervisorAccess: undefined, hasSomeCleaAcquired: false })
           .returns(serializedSession);
@@ -644,7 +647,7 @@ describe('Unit | Controller | sessionController', function () {
       const certificationReportSerializer = { deserialize: sinon.stub() };
       certificationReportSerializer.deserialize.resolves(aCertificationReport);
       sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
-      sinon.stub(usecases, 'getSession').resolves(updatedSession);
+      sinon.stub(certificationUsecases, 'getSession').resolves(updatedSession);
 
       // when
       await sessionController.finalize(request, hFake, { certificationReportSerializer, events });

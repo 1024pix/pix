@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as certificationUsecases } from '../../../../src/certification/shared/domain/usecases/index.js';
 import { tokenService } from '../../../../lib/domain/services/token-service.js';
 import * as sessionResultsLinkService from '../../../../lib/domain/services/session-results-link-service.js';
 import * as sessionValidator from '../../../../lib/domain/validators/session-validator.js';
@@ -54,7 +55,7 @@ const getJurySession = async function (request, h, dependencies = { jurySessionS
 
 const get = async function (request, h, dependencies = { sessionSerializer }) {
   const sessionId = request.params.id;
-  const { session, hasSupervisorAccess, hasSomeCleaAcquired } = await usecases.getSession({ sessionId });
+  const { session, hasSupervisorAccess, hasSomeCleaAcquired } = await certificationUsecases.getSession({ sessionId });
   return dependencies.sessionSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
 };
 
