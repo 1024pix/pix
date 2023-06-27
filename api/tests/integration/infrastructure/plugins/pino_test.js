@@ -1,16 +1,9 @@
-import split from 'split2';
-import writeStream from 'flush-write-stream';
+import { Writable } from 'node:stream';
 import pino from 'pino';
 import { config } from '../../../../lib/config.js';
 import { expect, HttpTestServer, generateValidRequestAuthorizationHeader, sinon } from '../../../test-helper.js';
 import * as pinoPlugin from '../../../../lib/infrastructure/plugins/pino.js';
 import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
-
-function sink(func) {
-  const result = split(JSON.parse);
-  result.pipe(writeStream.obj(func));
-  return result;
-}
 
 describe('Integration | Infrastructure | plugins | pino', function () {
   let httpTestServer;
@@ -55,43 +48,42 @@ describe('Integration | Infrastructure | plugins | pino', function () {
   });
 
   async function registerWithPlugin(cb) {
-    const stream = sink(cb);
+    const stream = new Writable({
+      write(chunk, encoding, ack) {
+        cb(JSON.parse(chunk.toString()));
+        ack();
+        return true;
+      },
+    });
     const pinoPluginWithLogger = {
       ...pinoPlugin,
       options: {
         ...pinoPlugin.options,
-        instance: pino({ level: 'info' }, stream),
+        instance: pino(stream),
       },
     };
     await httpTestServer.register([pinoPluginWithLogger]);
   }
 
   describe('Ensure that datadog configured log format is what we send', function () {
-    it('should log when there is an error', async function () {
+    it('should log the error and the request result when there is an unexpected error', async function () {
       // given
-      let finish;
-
-      const done = new Promise(function (resolve) {
-        finish = resolve;
-      });
       const messages = [];
       await registerWithPlugin((data) => {
         messages.push(data);
-        finish();
       });
-
       const method = 'GET';
       const url = '/error';
 
       // when
       await httpTestServer.request(method, url);
-      await done;
 
-      expect(messages).to.have.lengthOf(1);
+      expect(messages).to.have.lengthOf(2);
       expect(messages[0].level).to.equal(50);
-      expect(messages[0].tags).to.deep.equal(['handler', 'error']);
+      expect(messages[0].tags).to.deep.equal(['internal', 'error']);
       expect(messages[0].err.message).to.equal('Manual throwed error');
       expect(messages[0].msg).to.equal('request error');
+      expect(messages[1].msg).to.equal('request completed');
     });
 
     context('with request monitoring disabled', function () {
@@ -102,15 +94,9 @@ describe('Integration | Infrastructure | plugins | pino', function () {
 
       it('should log the message and version', async function () {
         // given
-        let finish;
-
-        const done = new Promise(function (resolve) {
-          finish = resolve;
-        });
         const messages = [];
         await registerWithPlugin((data) => {
           messages.push(data);
-          finish();
         });
 
         const method = 'GET';
@@ -118,7 +104,6 @@ describe('Integration | Infrastructure | plugins | pino', function () {
 
         // when
         const response = await httpTestServer.request(method, url);
-        await done;
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -140,15 +125,9 @@ describe('Integration | Infrastructure | plugins | pino', function () {
 
       it('should log the message, version, user id, route and metrics', async function () {
         // given
-        let finish;
-
-        const done = new Promise(function (resolve) {
-          finish = resolve;
-        });
         const messages = [];
         await registerWithPlugin((data) => {
           messages.push(data);
-          finish();
         });
 
         const method = 'GET';
@@ -159,7 +138,7 @@ describe('Integration | Infrastructure | plugins | pino', function () {
 
         // when
         const response = await httpTestServer.request(method, url, null, null, headers);
-        await done;
+
         // then
         expect(response.statusCode).to.equal(200);
         expect(messages).to.have.lengthOf(1);
@@ -173,15 +152,9 @@ describe('Integration | Infrastructure | plugins | pino', function () {
       context('when calling /api/token', function () {
         it('should log the message, version, user id, route, metrics and hashed username', async function () {
           // given
-          let finish;
-
-          const done = new Promise(function (resolve) {
-            finish = resolve;
-          });
           const messages = [];
           await registerWithPlugin((data) => {
             messages.push(data);
-            finish();
           });
 
           const method = 'POST';
@@ -192,7 +165,6 @@ describe('Integration | Infrastructure | plugins | pino', function () {
 
           // when
           const response = await httpTestServer.request(method, url, payload);
-          await done;
           // then
           expect(response.statusCode).to.equal(200);
           expect(messages).to.have.lengthOf(1);
@@ -207,22 +179,16 @@ describe('Integration | Infrastructure | plugins | pino', function () {
 
         it('should log the message, version, user id, route, metrics and default value for username when not specified', async function () {
           // given
-          let finish;
-
-          const done = new Promise(function (resolve) {
-            finish = resolve;
-          });
           const messages = [];
           await registerWithPlugin((data) => {
             messages.push(data);
-            finish();
           });
-
           const method = 'POST';
           const url = '/api/token';
+
           // when
           const response = await httpTestServer.request(method, url);
-          await done;
+
           // then
           expect(response.statusCode).to.equal(200);
           expect(messages).to.have.lengthOf(1);
