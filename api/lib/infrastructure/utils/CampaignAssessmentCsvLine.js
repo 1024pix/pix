@@ -92,6 +92,7 @@ class CampaignAssessmentCsvLine {
     return [
       this.organization.name,
       this.campaign.id,
+      this.campaign.code,
       this.campaign.name,
       this.targetProfile.name,
       this.campaignParticipationInfo.participantLastName,

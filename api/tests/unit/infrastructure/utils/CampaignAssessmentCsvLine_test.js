@@ -15,37 +15,42 @@ function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {
   return {
     ORGANIZATION_NAME: 0,
     CAMPAIGN_ID: 1,
-    CAMPAIGN_NAME: 2,
-    TARGET_PROFILE_NAME: 3,
-    PARTICIPANT_LAST_NAME: 4,
-    PARTICIPANT_FIRST_NAME: 5,
-    DIVISION: 6,
-    GROUP: 6 + divisionPresenceModifier,
-    STUDENT_NUMBER_COL: 6 + divisionPresenceModifier + groupPresenceModifier,
-    EXTERNAL_ID: 6 + studentNumberPresenceModifier + divisionPresenceModifier + groupPresenceModifier,
+    CAMPAIGN_CODE: 2,
+    CAMPAIGN_NAME: 3,
+    TARGET_PROFILE_NAME: 4,
+    PARTICIPANT_LAST_NAME: 5,
+    PARTICIPANT_FIRST_NAME: 6,
+    DIVISION: 7,
+    GROUP: 7 + divisionPresenceModifier,
+    STUDENT_NUMBER_COL: 7 + divisionPresenceModifier + groupPresenceModifier,
+    EXTERNAL_ID: 7 + studentNumberPresenceModifier + divisionPresenceModifier + groupPresenceModifier,
     PARTICIPATION_PROGRESSION:
-      6 + divisionPresenceModifier + groupPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier,
-    PARTICIPATION_CREATED_AT:
       7 + divisionPresenceModifier + groupPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier,
-    PARTICIPATION_IS_SHARED:
+    PARTICIPATION_CREATED_AT:
       8 + divisionPresenceModifier + groupPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier,
-    PARTICIPATION_SHARED_AT:
+    PARTICIPATION_IS_SHARED:
       9 + divisionPresenceModifier + groupPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier,
-    BADGE:
+    PARTICIPATION_SHARED_AT:
       10 +
       divisionPresenceModifier +
       groupPresenceModifier +
       studentNumberPresenceModifier +
       externalIdPresenceModifier,
+    BADGE:
+      11 +
+      divisionPresenceModifier +
+      groupPresenceModifier +
+      studentNumberPresenceModifier +
+      externalIdPresenceModifier,
     STAGE_REACHED:
-      10 +
+      11 +
       divisionPresenceModifier +
       groupPresenceModifier +
       studentNumberPresenceModifier +
       externalIdPresenceModifier +
       badgePresenceModifier,
     PARTICIPATION_PERCENTAGE:
-      10 +
+      11 +
       divisionPresenceModifier +
       groupPresenceModifier +
       studentNumberPresenceModifier +
@@ -53,7 +58,7 @@ function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {
       badgePresenceModifier +
       stagesPresenceModifier,
     DETAILS_START:
-      11 +
+      12 +
       divisionPresenceModifier +
       groupPresenceModifier +
       studentNumberPresenceModifier +
@@ -105,6 +110,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
       const cols = _computeExpectedColumnsIndex(campaign, organization, [], []);
       expect(csvLine[cols.ORGANIZATION_NAME], 'organization name').to.equal(organization.name);
       expect(csvLine[cols.CAMPAIGN_ID], 'campaign id').to.equal(campaign.id);
+      expect(csvLine[cols.CAMPAIGN_CODE], 'campaign code').to.equal(campaign.code);
       expect(csvLine[cols.CAMPAIGN_NAME], 'campaign name').to.equal(campaign.name);
       expect(csvLine[cols.TARGET_PROFILE_NAME], 'target profile name').to.equal(targetProfile.name);
       expect(csvLine[cols.PARTICIPANT_LAST_NAME], 'participant last name').to.equal(

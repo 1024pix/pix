@@ -113,6 +113,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
+      '"Code";' +
       '"Nom de la campagne";' +
       '"Parcours";' +
       '"Nom du Participant";' +
@@ -180,6 +181,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
+      '"Code";' +
       '"Nom de la campagne";' +
       '"Parcours";' +
       '"Nom du Participant";' +
@@ -243,6 +245,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
+      '"Code";' +
       '"Nom de la campagne";' +
       '"Parcours";' +
       '"Nom du Participant";' +
@@ -305,6 +308,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
+      '"Code";' +
       '"Nom de la campagne";' +
       '"Parcours";' +
       '"Nom du Participant";' +
@@ -376,6 +380,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
+      '"Code";' +
       '"Nom de la campagne";' +
       '"Parcours";' +
       '"Nom du Participant";' +
@@ -447,6 +452,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const csvExpected =
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
+      '"Code";' +
       '"Nom de la campagne";' +
       '"Parcours";' +
       '"Nom du Participant";' +
@@ -510,6 +516,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       const csvExpected =
         '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
+        '"Code";' +
         '"Nom de la campagne";' +
         '"Parcours";' +
         '"Nom du Participant";' +
@@ -573,6 +580,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       const csvExpected =
         '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
+        '"Code";' +
         '"Nom de la campagne";' +
         '"Parcours";' +
         '"Nom du Participant";' +
@@ -656,6 +664,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const csvHeaderExpected =
       '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
+      '"Code";' +
       '"Nom de la campagne";' +
       '"Parcours";' +
       '"Nom du Participant";' +
@@ -676,6 +685,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     const csvParticipantResultExpected =
       `"${organization.name}";` +
       `${campaign.id};` +
+      `"${campaign.code}";` +
       `"${campaign.name}";` +
       `"${targetProfile.name}";` +
       `"${participantInfo.participantLastName}";` +
@@ -710,6 +720,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignCsvExportService,
       stageCollectionRepository,
     });
+
     const csv = await csvPromise;
 
     // then
