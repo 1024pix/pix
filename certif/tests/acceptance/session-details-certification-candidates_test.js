@@ -201,7 +201,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               assert
                 .dom(
                   screen.getByText(
-                    "Aucun candidat n’a été importé.La version du document est inconnue.Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
+                    "La version du document est inconnue.Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
                     { exact: false }
                   )
                 )
