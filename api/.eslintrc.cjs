@@ -22,7 +22,7 @@ module.exports = {
   globals: {
     include: true,
   },
-  plugins: ['knex', 'unicorn'],
+  plugins: ['knex', 'unicorn', 'local-rules'],
   rules: {
     'no-console': 'error',
     'mocha/no-hooks-for-single-case': 'off',
@@ -52,6 +52,21 @@ module.exports = {
         ],
       },
     ],
-    'import/no-restricted-paths': ['error', { zones: [{ target: 'lib/domain/usecases', from: 'lib/infrastructure/repositories', except: [], message : "Repositories are automatically injected in use-case, you don't need to import them. Check for further details: https://github.com/1024pix/pix/blob/dev/docs/adr/0046-injecter-les-dependances-api.md" },{ "target": "tests/unit", "from": "db" }] }],
+    'import/no-restricted-paths': [
+      'error',
+      {
+        zones: [
+          {
+            target: 'lib/domain/usecases',
+            from: 'lib/infrastructure/repositories',
+            except: [],
+            message:
+              "Repositories are automatically injected in use-case, you don't need to import them. Check for further details: https://github.com/1024pix/pix/blob/dev/docs/adr/0046-injecter-les-dependances-api.md",
+          },
+          { target: 'tests/unit', from: 'db' },
+        ],
+      },
+    ],
+    'local-rules/no-sinon-stub-with-args-oneliner': 'error',
   },
 };
