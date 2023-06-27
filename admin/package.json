@@ -47,7 +47,7 @@
     "@1024pix/stylelint-config": "^3.0.0",
     "@babel/eslint-parser": "^7.19.1",
     "@ember/optional-features": "^2.0.0",
-    "@ember/test-helpers": "^3.0.0",
+    "@ember/test-helpers": "^3.1.0",
     "@faker-js/faker": "^8.0.0",
     "@formatjs/intl": "^2.5.1",
     "@fortawesome/ember-fontawesome": "^1.0.0",
@@ -55,6 +55,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@glimmer/component": "^1.1.2",
+    "@glimmer/tracking": "^1.1.2",
     "broccoli-asset-rev": "^3.0.0",
     "dayjs": "^1.11.7",
     "ember-api-actions": "^0.2.9",
@@ -83,6 +84,7 @@
     "ember-flatpickr": "^4.0.0",
     "ember-intl": "^5.7.2",
     "ember-load-initializers": "^2.1.2",
+    "ember-modifier": "^4.1.0",
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^7.0.0",
     "ember-resolver": "^10.0.0",
@@ -111,6 +113,7 @@
     "sinon": "^15.0.0",
     "stylelint": "^15.0.0",
     "stylelint-config-standard-scss": "^9.0.0",
+    "tracked-built-ins": "^3.1.1",
     "webpack": "^5.65.0"
   }
 }
