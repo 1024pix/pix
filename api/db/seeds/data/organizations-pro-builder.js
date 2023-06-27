@@ -133,7 +133,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     provinceCode: null,
     email: null,
     createdBy: poleEmploiCreator.id,
-    identityProviderForCampaigns: OidcIdentityProviders.POLE_EMPLOI.service.code,
+    identityProviderForCampaigns: OidcIdentityProviders.POLE_EMPLOI.code,
   });
   databaseBuilder.factory.buildOrganizationTag({ organizationId: PRO_POLE_EMPLOI_ID, tagId: 4 });
 
@@ -160,7 +160,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     provinceCode: null,
     email: null,
     createdBy: cnavCreator.id,
-    identityProviderForCampaigns: OidcIdentityProviders.CNAV.service.code,
+    identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
   });
 
   databaseBuilder.factory.buildMembership({

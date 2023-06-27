@@ -1,11 +1,15 @@
 import { config } from '../../../config.js';
 import { OidcAuthenticationService } from './oidc-authentication-service.js';
+import { CNAV } from '../../constants/oidc-identity-providers.js';
+
+const configKey = CNAV.configKey;
 
 class CnavOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
+      identityProvider: CNAV.code,
+      configKey,
       source: 'cnav',
-      identityProvider: 'CNAV',
       slug: 'cnav',
       organizationName: 'CNAV',
       hasLogoutUrl: false,

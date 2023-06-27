@@ -100,7 +100,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // when
         const foundUser = await userRepository.findByExternalIdentifier({
           externalIdentityId,
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
         });
 
         // then
@@ -115,7 +115,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // when
         const foundUser = await userRepository.findByExternalIdentifier({
           externalIdentityId: badId,
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
         });
 
         // then

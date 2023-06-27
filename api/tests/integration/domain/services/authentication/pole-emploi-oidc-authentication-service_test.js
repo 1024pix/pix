@@ -58,7 +58,7 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
       expect(createdUser.lastName).to.equal('Troisjours');
       const authenticationMethods = await knex('authentication-methods').where({ userId: createdUserId });
       expect(authenticationMethods).to.have.lengthOf(1);
-      expect(authenticationMethods[0].identityProvider).to.equal(OidcIdentityProviders.POLE_EMPLOI.service.code);
+      expect(authenticationMethods[0].identityProvider).to.equal(OidcIdentityProviders.POLE_EMPLOI.code);
     });
   });
 

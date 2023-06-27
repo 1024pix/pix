@@ -937,9 +937,9 @@ describe('Unit | Router | user-router', function () {
         'EMAIL',
         'USERNAME',
         // eslint-disable-next-line mocha/no-setup-in-describe
-        OidcIdentityProviders.POLE_EMPLOI.service.code,
+        OidcIdentityProviders.POLE_EMPLOI.code,
         // eslint-disable-next-line mocha/no-setup-in-describe
-        OidcIdentityProviders.CNAV.service.code,
+        OidcIdentityProviders.CNAV.code,
       ].forEach((type) => {
         it(`should return 200 when user is "SUPER_ADMIN" and type is ${type}`, async function () {
           // given
@@ -1048,7 +1048,7 @@ describe('Unit | Router | user-router', function () {
         const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
           data: {
             attributes: {
-              type: OidcIdentityProviders.POLE_EMPLOI.service.code,
+              type: OidcIdentityProviders.POLE_EMPLOI.code,
             },
           },
         });
@@ -1063,7 +1063,7 @@ describe('Unit | Router | user-router', function () {
 
     describe('POST /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      ['GAR', OidcIdentityProviders.POLE_EMPLOI.service.code].forEach((identityProvider) => {
+      ['GAR', OidcIdentityProviders.POLE_EMPLOI.code].forEach((identityProvider) => {
         it(`should return 200 when user role is "SUPER_ADMIN" and identity provider is "${identityProvider}"`, async function () {
           // given
           sinon

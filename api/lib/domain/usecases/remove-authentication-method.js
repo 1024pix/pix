@@ -5,46 +5,40 @@ import * as OidcIdentityProviders from '../constants/oidc-identity-providers.js'
 const removeAuthenticationMethod = async function ({ userId, type, userRepository, authenticationMethodRepository }) {
   const user = await userRepository.get(userId);
 
-  if (type === 'EMAIL') {
-    if (!user.username) {
+  switch (type) {
+    case 'EMAIL':
+      if (!user.username) {
+        await _removeAuthenticationMethod(
+          userId,
+          AuthenticationMethod.identityProviders.PIX,
+          authenticationMethodRepository
+        );
+      }
+      await userRepository.updateEmail({ id: userId, email: null });
+      break;
+    case 'USERNAME':
+      if (!user.email) {
+        await _removeAuthenticationMethod(
+          userId,
+          AuthenticationMethod.identityProviders.PIX,
+          authenticationMethodRepository
+        );
+      }
+      await userRepository.updateUsername({ id: userId, username: null });
+      break;
+    case 'GAR':
       await _removeAuthenticationMethod(
         userId,
-        AuthenticationMethod.identityProviders.PIX,
+        AuthenticationMethod.identityProviders.GAR,
         authenticationMethodRepository
       );
-    }
-    await userRepository.updateEmail({ id: userId, email: null });
-  }
-
-  if (type === 'USERNAME') {
-    if (!user.email) {
-      await _removeAuthenticationMethod(
-        userId,
-        AuthenticationMethod.identityProviders.PIX,
-        authenticationMethodRepository
-      );
-    }
-    await userRepository.updateUsername({ id: userId, username: null });
-  }
-
-  if (type === 'GAR') {
-    await _removeAuthenticationMethod(
-      userId,
-      AuthenticationMethod.identityProviders.GAR,
-      authenticationMethodRepository
-    );
-  }
-
-  if (type === OidcIdentityProviders.POLE_EMPLOI.service.code) {
-    await _removeAuthenticationMethod(
-      userId,
-      OidcIdentityProviders.POLE_EMPLOI.service.code,
-      authenticationMethodRepository
-    );
-  }
-
-  if (type === OidcIdentityProviders.CNAV.service.code) {
-    await _removeAuthenticationMethod(userId, OidcIdentityProviders.CNAV.service.code, authenticationMethodRepository);
+      break;
+    case OidcIdentityProviders.POLE_EMPLOI.code:
+      await _removeAuthenticationMethod(userId, OidcIdentityProviders.POLE_EMPLOI.code, authenticationMethodRepository);
+      break;
+    case OidcIdentityProviders.CNAV.code:
+      await _removeAuthenticationMethod(userId, OidcIdentityProviders.CNAV.code, authenticationMethodRepository);
+      break;
   }
 };
 

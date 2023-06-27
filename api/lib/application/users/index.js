@@ -1,16 +1,16 @@
 import Joi from 'joi';
 import XRegExp from 'xregexp';
+
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { userController } from './user-controller.js';
 import { sendJsonApiError, BadRequestError } from '../http-errors.js';
 import { userVerification } from '../preHandlers/user-existence-verification.js';
 import { config } from '../../config.js';
-
-const { passwordValidationPattern } = config.account;
-
 import { EntityValidationError } from '../../domain/errors.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
+
+const { passwordValidationPattern } = config.account;
 
 const register = async function (server) {
   const adminRoutes = [
@@ -161,9 +161,7 @@ const register = async function (server) {
             data: {
               attributes: {
                 'user-id': identifiersType.userId,
-                'identity-provider': Joi.string()
-                  .valid('GAR', OidcIdentityProviders.POLE_EMPLOI.service.code)
-                  .required(),
+                'identity-provider': Joi.string().valid('GAR', OidcIdentityProviders.POLE_EMPLOI.code).required(),
               },
             },
           }),
@@ -207,8 +205,8 @@ const register = async function (server) {
                     'GAR',
                     'EMAIL',
                     'USERNAME',
-                    OidcIdentityProviders.POLE_EMPLOI.service.code,
-                    OidcIdentityProviders.CNAV.service.code
+                    OidcIdentityProviders.POLE_EMPLOI.code,
+                    OidcIdentityProviders.CNAV.code
                   )
                   .required(),
               },

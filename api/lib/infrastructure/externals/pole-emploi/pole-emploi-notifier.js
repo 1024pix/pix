@@ -19,7 +19,7 @@ const notify = async (userId, payload, dependencies) => {
   });
   const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
     userId,
-    identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
+    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
   });
   let accessToken = get(authenticationMethod, 'authenticationComplement.accessToken');
   if (!accessToken) {
@@ -74,7 +74,7 @@ const notify = async (userId, payload, dependencies) => {
     await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
       authenticationComplement,
       userId,
-      identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
+      identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
     });
   }
 

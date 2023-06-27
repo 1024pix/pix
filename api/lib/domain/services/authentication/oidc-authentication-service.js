@@ -1,14 +1,15 @@
+import lodash from 'lodash';
 import jsonwebtoken from 'jsonwebtoken';
 import querystring from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
 
+import { logger } from '../../../infrastructure/logger.js';
 import {
   InvalidExternalAPIResponseError,
   OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
 } from '../../errors.js';
-
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
 import { config } from '../../../config.js';
@@ -18,10 +19,15 @@ import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js'
 import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../constants.js';
 
+const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'authenticationUrl', 'userInfoUrl', 'tokenUrl'];
+
 class OidcAuthenticationService {
+  #isReady = false;
+
   constructor({
-    source,
     identityProvider,
+    configKey,
+    source,
     slug,
     organizationName,
     hasLogoutUrl = false,
@@ -32,12 +38,14 @@ class OidcAuthenticationService {
     authenticationUrl,
     authenticationUrlParameters,
     userInfoUrl,
+    additionalRequiredProperties,
   }) {
-    this.source = source;
     this.identityProvider = identityProvider;
+    this.configKey = configKey;
+    this.source = source;
     this.slug = slug;
-    this.hasLogoutUrl = hasLogoutUrl;
     this.organizationName = organizationName;
+    this.hasLogoutUrl = hasLogoutUrl;
     this.jwtOptions = jwtOptions;
     this.clientSecret = clientSecret;
     this.clientId = clientId;
@@ -45,10 +53,46 @@ class OidcAuthenticationService {
     this.authenticationUrl = authenticationUrl;
     this.authenticationUrlParameters = authenticationUrlParameters;
     this.userInfoUrl = userInfoUrl;
+
+    if (!this.configKey) {
+      logger.error(`${this.constructor.name}: Missing configKey`);
+      return;
+    }
+
+    const isEnabledInConfig = config[this.configKey].isEnabled;
+    if (!isEnabledInConfig) {
+      return;
+    }
+
+    const requiredProperties = DEFAULT_REQUIRED_PROPERTIES;
+    if (additionalRequiredProperties) {
+      requiredProperties.concat(additionalRequiredProperties);
+    }
+    const missingRequiredProperties = [];
+    requiredProperties.forEach((requiredProperty) => {
+      if (lodash.isNil(config[this.configKey][requiredProperty])) {
+        missingRequiredProperties.push(requiredProperty);
+      }
+    });
+    const isConfigValid = missingRequiredProperties.length == 0;
+    if (!isConfigValid) {
+      logger.error(
+        `Invalid config for OIDC Provider "${
+          this.identityProvider
+        }": the following required properties are missing: ${missingRequiredProperties.join(', ')}`
+      );
+      return;
+    }
+
+    this.#isReady = true;
   }
 
   get code() {
     return this.identityProvider;
+  }
+
+  get isReady() {
+    return this.#isReady;
   }
 
   createAccessToken(userId) {
