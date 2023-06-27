@@ -18,7 +18,7 @@
     },
     "api-error-messages": {
       "CANDIDATE_NOT_FOUND": "Une erreur est survenue, le candidat {firstName} {lastName} n'a pas été trouvé.",
-      "INVALID_DOCUMENT": "Aucun candidat n’a été importé.<br />La version du document est inconnue.<br />Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
+      "INVALID_DOCUMENT": "La version du document est inconnue.<br />Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
       "SESSION_ALREADY_FINALIZED": "La session a déjà été finalisée.",
       "SESSION_CANNOT_BE_FINALIZED": "Erreur lors de la finalisation de session.",
       "SESSION_DOES_NOT_EXIST_OR_ACCESS_RESTRICTED": "La session n'existe pas ou son accès est restreint.",

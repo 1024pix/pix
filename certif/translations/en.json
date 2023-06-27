@@ -18,7 +18,7 @@
     },
     "api-error-messages": {
       "CANDIDATE_NOT_FOUND": "An error has occurred, the candidate {firstName} {lastName} hasn't been found.",
-      "INVALID_DOCUMENT": "This version of the document is unknown.",
+      "INVALID_DOCUMENT": "This version of the document is unknown.<br />Please download and import the candidate list template again",
       "SESSION_ALREADY_FINALIZED": "Cannot finalize session more than once.",
       "SESSION_CANNOT_BE_FINALIZED": "Error during the finalisation of the session.",
       "SESSION_DOES_NOT_EXIST_OR_ACCESS_RESTRICTED": "The session doesn't exist or it's access is restricted.",
