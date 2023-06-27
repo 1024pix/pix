@@ -6,7 +6,7 @@ import {
   domainBuilder,
   generateValidRequestAuthorizationHeader,
   knex,
-} from '../../../test-helper.js';
+} from '../../../../tests/test-helper.js';
 
 import { createServer } from '../../../../server.js';
 

@@ -49,6 +49,7 @@ import * as scorecards from './application/scorecards/index.js';
 import * as scoOrganizationLearners from './application/sco-organization-learners/index.js';
 import * as supOrganizationLearners from './application/sup-organization-learners/index.js';
 import * as sessions from './application/sessions/index.js';
+import * as sessionBoundedContext from './certification/application/session/index.js';
 import * as tags from './application/tags/index.js';
 import * as targetProfiles from './application/target-profiles/index.js';
 import * as targetProfilesManagement from './application/target-profiles-management/index.js';
@@ -111,6 +112,7 @@ const routes = [
   supOrganizationLearners,
   stageCollection,
   sessions,
+  sessionBoundedContext,
   tags,
   targetProfiles,
   missions,

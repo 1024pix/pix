@@ -283,29 +283,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'POST',
-      path: '/api/sessions/{id}/certification-candidates',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionController.addCertificationCandidate,
-        tags: ['api', 'sessions', 'certification-candidates'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle ajoute un candidat de certification à la session.',
-        ],
-      },
-    },
-    {
       method: 'DELETE',
       path: '/api/sessions/{id}/certification-candidates/{certificationCandidateId}',
       config: {

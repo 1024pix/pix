@@ -139,19 +139,6 @@ const getCertificationCandidates = async function (request, h, dependencies = { 
   return dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
 };
 
-const addCertificationCandidate = async function (request, h, dependencies = { certificationCandidateSerializer }) {
-  const sessionId = request.params.id;
-  const certificationCandidate = await dependencies.certificationCandidateSerializer.deserialize(request.payload);
-  const complementaryCertification = request.payload.data.attributes['complementary-certification'] ?? null;
-  const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({
-    sessionId,
-    certificationCandidate,
-    complementaryCertification,
-  });
-
-  return h.response(dependencies.certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();
-};
-
 const deleteCertificationCandidate = async function (request) {
   const certificationCandidateId = request.params.certificationCandidateId;
 
@@ -414,7 +401,6 @@ const sessionController = {
   getCandidatesImportSheet,
   getCertificationCandidates,
   getCertificationPDFAttestationsForSession,
-  addCertificationCandidate,
   deleteCertificationCandidate,
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,
