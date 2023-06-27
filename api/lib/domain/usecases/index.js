@@ -422,6 +422,9 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './organizations-administration') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './sessions-mass-import') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './target-profile-management') })),
+  ...(await importNamedExportsFromDirectory({
+    path: join(path, '../../certification/domain/session/candidate/usecases'),
+  })),
   findPaginatedFilteredTargetProfileOrganizations,
   getCampaignDetailsManagement,
 };

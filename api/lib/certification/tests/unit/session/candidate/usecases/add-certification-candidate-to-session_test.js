@@ -1,14 +1,14 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { addCertificationCandidateToSession } from '../../../../lib/domain/usecases/add-certification-candidate-to-session.js';
-import { CpfBirthInformationValidation } from '../../../../lib/domain/services/certification-cpf-service.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../../../../tests/test-helper.js';
+import { addCertificationCandidateToSession } from '../../../../../domain/session/candidate/usecases/add-certification-candidate-to-session.js';
+import { CpfBirthInformationValidation } from '../../../../../../domain/services/certification-cpf-service.js';
 
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CpfBirthInformationValidationError,
   CertificationCandidateAddError,
   CertificationCandidateOnFinalizedSessionError,
-} from '../../../../lib/domain/errors.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
+} from '../../../../../../domain/errors.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../domain/constants/certification-candidates-errors.js';
 
 describe('Unit | UseCase | add-certification-candidate-to-session', function () {
   let certificationCandidateRepository;
