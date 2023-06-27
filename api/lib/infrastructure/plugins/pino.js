@@ -51,6 +51,9 @@ const plugin = {
     });
 
     server.events.on('request', function (request, event) {
+      if (event.channel !== 'error') {
+        return;
+      }
       if (event.error) {
         logger.error(
           {
