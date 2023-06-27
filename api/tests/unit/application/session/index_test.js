@@ -6,7 +6,7 @@ import streamToPromise from 'stream-to-promise';
 import { NotFoundError } from '../../../../lib/application/http-errors.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
+import { sessionController } from '../../../../src/certification/shared/application/session-controller.js';
 import { sessionForSupervisingController } from '../../../../lib/application/sessions/session-for-supervising-controller.js';
 import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
 import { finalizedSessionController } from '../../../../lib/application/sessions/finalized-session-controller.js';

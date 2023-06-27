@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { securityPreHandlers } from '../security-pre-handlers.js';
-import { sessionController } from './session-controller.js';
+import { sessionController } from '../../../src/certification/shared/application/session-controller.js';
 import { sessionForSupervisingController } from './session-for-supervising-controller.js';
 import { sessionWithCleaCertifiedCandidateController } from './session-with-clea-certified-candidate-controller.js';
 import { finalizedSessionController } from './finalized-session-controller.js';

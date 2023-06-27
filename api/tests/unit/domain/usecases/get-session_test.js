@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { getSession } from '../../../../lib/domain/usecases/get-session.js';
+import { getSession } from '../../../../src/certification/session/domain/usecases/get-session.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | get-session', function () {

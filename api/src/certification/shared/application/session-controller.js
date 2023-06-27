@@ -1,29 +1,29 @@
 import moment from 'moment';
-import { SessionPublicationBatchError } from '../http-errors.js';
-import { usecases } from '../../domain/usecases/index.js';
-import { tokenService } from '../../domain/services/token-service.js';
-import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
-import * as sessionValidator from '../../domain/validators/session-validator.js';
-import * as events from '../../domain/events/index.js';
-import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
-import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
-import * as certificationCandidateSerializer from '../../infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
-import * as certificationReportSerializer from '../../infrastructure/serializers/jsonapi/certification-report-serializer.js';
-import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
-import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
-import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
-import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
-import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
-import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
-import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
-import * as supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
-import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
+import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import * as sessionResultsLinkService from '../../../../lib/domain/services/session-results-link-service.js';
+import * as sessionValidator from '../../../../lib/domain/validators/session-validator.js';
+import * as events from '../../../../lib/domain/events/index.js';
+import * as sessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/session-serializer.js';
+import * as jurySessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer.js';
+import * as certificationCandidateSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
+import * as certificationReportSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer.js';
+import * as juryCertificationSummarySerializer from '../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
+import * as juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository.js';
+import * as jurySessionRepository from '../../../../lib/infrastructure/repositories/sessions/jury-session-repository.js';
+import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as certificationResultUtils from '../../../../lib/infrastructure/utils/csv/certification-results.js';
+import { fillCandidatesImportSheet } from '../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
+import * as supervisorKitPdf from '../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf.js';
+import * as certificationAttestationPdf from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import lodash from 'lodash';
 
 const { trim } = lodash;
 
-import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
-import { logger } from '../../infrastructure/logger.js';
+import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
+import { logger } from '../../../../lib/infrastructure/logger.js';
 
 const findPaginatedFilteredJurySessions = async function (
   request,

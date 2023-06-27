@@ -1,5 +1,5 @@
 import { expect, sinon, hFake, domainBuilder, catchErr } from '../../../test-helper.js';
-import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
+import { sessionController } from '../../../../src/certification/shared/application/session-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
