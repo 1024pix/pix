@@ -1,6 +1,9 @@
+import * as url from 'url';
 import { expect, catchErr } from '../../../test-helper.js';
 import { SiecleXmlImportError } from '../../../../lib/domain/errors.js';
 import * as organizationLearnersXmlService from '../../../../lib/domain/services/organization-learners-xml-service.js';
+
+const fixturesDirPath = `${url.fileURLToPath(new URL('../../../', import.meta.url))}tooling/fixtures/`;
 
 describe('Integration | Services | organization-learnerz-xml-service', function () {
   describe('extractOrganizationLearnersInformationFromSIECLE', function () {
@@ -8,7 +11,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-two-valid-students.xml`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-with-two-valid-students.xml`;
       const expectedOrganizationLearners = [
         {
           lastName: 'HANDMADE',
@@ -60,7 +63,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-registrations-no-longer-in-school.xml`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-with-registrations-no-longer-in-school.xml`;
       const expectedOrganizationLearners = [];
 
       // when
@@ -77,7 +80,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // given
       const wrongUAIFromSIECLE = '123ABC';
       const organization = { externalId: wrongUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-wrong-uai.xml`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-with-wrong-uai.xml`;
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
@@ -93,7 +96,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // given
       const wrongUAIFromSIECLE = '123ABC';
       const organization = { externalId: wrongUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-no-uai.xml`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-with-no-uai.xml`;
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
@@ -109,7 +112,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-duplicate-national-student-id.xml`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id.xml`;
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
@@ -126,7 +129,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-duplicate-national-student-id-and-unclosed-tag.xml`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id-and-unclosed-tag.xml`;
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
@@ -143,7 +146,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-no-national-student-id.xml`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-with-no-national-student-id.xml`;
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
@@ -159,7 +162,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-student-with-no-sex.xml`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-student-with-no-sex.xml`;
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
@@ -174,7 +177,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
         // given
         const validUAIFromSIECLE = '123ABC';
         const organization = { externalId: validUAIFromSIECLE };
-        const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-french-student-with-no-birth-city-code.xml`;
+        const path = `${fixturesDirPath}/siecle-file/siecle-french-student-with-no-birth-city-code.xml`;
         // when
         const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
           path,
