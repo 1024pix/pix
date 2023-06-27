@@ -7,34 +7,41 @@
   flex-direction: column;
   gap: 36px;
 
-  &__header, &__body , &__body-finish{
+  &__header, &__body , &__body-start, &__body-finish {
     display: flex;
     justify-content: center;
     width: 960px;
+  }
+
+  &__header {
+    flex-direction: column;
+    gap: 10px;
+    height: 140px;
     background: #F2FDFF;
     box-shadow: 0px 4px 8px rgb(7 20 46 / 8%);
     border-radius: 24px;
   }
 
-  &__header{
-    flex-direction: column;
-    gap: 10px;
-    height: 140px;
-  }
-
-  &__body, &__body-finish{
-    gap: 25px;
-    height: 507px;
+  &__body, &__body-start , &__body-finish {
     position: relative;
     align-items: center;
   }
 
-  &__body {
+  &__body, &__body-start {
     flex-direction: column;
     padding: 16px 24px 24px;
+    background: #F2FDFF;
+    box-shadow: 0px 4px 8px rgb(7 20 46 / 8%);
+    border-radius: 24px;
+    height: 507px;
+  }
+
+  &__body-start {
+    gap: 25px;
   }
 
   &__body-finish {
+    gap: 25px;
     flex-direction: row;
     padding: 16px 60px 24px;
   }
