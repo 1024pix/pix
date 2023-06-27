@@ -27,6 +27,7 @@
       "thematic-result-name": "{name} (Y/N)"
     },
     "common": {
+      "campaign-code": "Code",
       "campaign-id": "Campaign ID",
       "campaign-name": "Campaign's name",
       "file-name": "Results-{name}-{id}-{date}.csv",
