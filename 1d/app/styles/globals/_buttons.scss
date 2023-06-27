@@ -7,6 +7,17 @@
   padding: 16px 48px;
   border-radius: 30px;
 
+  &--small {
+    font-size: 1rem;
+    padding: 8px 24px;
+    border-style: none;
+    box-shadow: none;
+  }
+
+  &:hover {
+    background-color: #495AA0;
+  }
+
   &--modal {
     font-size: 1rem;
   }
