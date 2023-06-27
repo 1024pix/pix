@@ -6,7 +6,7 @@ import {
   PIX_PLUS_EDU_2ND_DEGRE,
 } from '../../../../../lib/domain/models/ComplementaryCertification.js';
 import * as certificationCandidatesOdsService from '../../../../../lib/domain/services/certification-candidates-ods-service.js';
-import * as certificationCpfService from '../../../../../lib/domain/services/certification-cpf-service.js';
+import * as certificationCpfService from '../../../../../lib/certification/shared/services/certification-cpf-service.js';
 import * as certificationCpfCountryRepository from '../../../../../lib/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationCpfCityRepository from '../../../../../lib/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCenterRepository from '../../../../../lib/infrastructure/repositories/certification-center-repository.js';

@@ -60,7 +60,7 @@ import * as certificationChallengesService from '../../domain/services/certifica
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationCpfCityRepository from '../../infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../infrastructure/repositories/certification-cpf-country-repository.js';
-import * as certificationCpfService from '../../domain/services/certification-cpf-service.js';
+import * as certificationCpfService from '../../certification/shared/services/certification-cpf-service.js';
 import * as certificationIssueReportRepository from '../../infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationLsRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';
 import * as certificationOfficerRepository from '../../infrastructure/repositories/certification-officer-repository.js';
@@ -153,6 +153,7 @@ import * as sessionForSupervisorKitRepository from '../../infrastructure/reposit
 import * as sessionJuryCommentRepository from '../../infrastructure/repositories/sessions/session-jury-comment-repository.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
 import * as sessionRepository from '../../infrastructure/repositories/sessions/session-repository.js';
+import * as sessionRepositoryBoundedContext from '../../certification/infrastructure/repositories/session-repository.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
 import * as sessionValidator from '../validators/session-validator.js';
 import * as sessionXmlService from '../../domain/services/session-xml-service.js';
@@ -368,6 +369,7 @@ const dependencies = {
   sessionJuryCommentRepository,
   sessionPublicationService,
   sessionRepository,
+  sessionRepositoryBoundedContext,
   sessionSummaryRepository,
   sessionValidator,
   sessionXmlService,

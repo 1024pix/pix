@@ -1,5 +1,5 @@
 import * as sessionValidator from '../../validators/session-validator.js';
-import * as certificationCpfService from '../certification-cpf-service.js';
+import * as certificationCpfService from '../../../certification/shared/services/certification-cpf-service.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../constants/sessions-errors.js';
 import dayjs from 'dayjs';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../constants/certification-candidates-errors.js';

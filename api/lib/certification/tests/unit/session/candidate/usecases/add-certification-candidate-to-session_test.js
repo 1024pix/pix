@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../../../../../tests/test-helper.js';
 import { addCertificationCandidateToSession } from '../../../../../domain/session/candidate/usecases/add-certification-candidate-to-session.js';
-import { CpfBirthInformationValidation } from '../../../../../../domain/services/certification-cpf-service.js';
+import { CpfBirthInformationValidation } from '../../../../../shared/services/certification-cpf-service.js';
 
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
