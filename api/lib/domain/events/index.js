@@ -31,7 +31,7 @@ import * as organizationRepository from '../../infrastructure/repositories/organ
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as scoringCertificationService from '../services/scoring/scoring-certification-service.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
-import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
+import * as supervisorAccessRepository from '../../../src/certification/session/infrastructure/repositories/supervisor-access-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as userRepository from '../../infrastructure/repositories/user-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';

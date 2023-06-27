@@ -152,7 +152,7 @@ import * as sessionForSupervisingRepository from '../../infrastructure/repositor
 import * as sessionForSupervisorKitRepository from '../../infrastructure/repositories/sessions/session-for-supervisor-kit-repository.js';
 import * as sessionJuryCommentRepository from '../../infrastructure/repositories/sessions/session-jury-comment-repository.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
-import * as sessionRepository from '../../infrastructure/repositories/sessions/session-repository.js';
+import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
 import * as sessionValidator from '../validators/session-validator.js';
 import * as sessionXmlService from '../../domain/services/session-xml-service.js';
@@ -164,7 +164,7 @@ import * as stageCollectionRepository from '../../infrastructure/repositories/us
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as supOrganizationLearnerRepository from '../../infrastructure/repositories/sup-organization-learner-repository.js';
 import * as supOrganizationParticipantRepository from '../../infrastructure/repositories/sup-organization-participant-repository.js';
-import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
+import * as supervisorAccessRepository from '../../../src/certification/session/infrastructure/repositories/supervisor-access-repository.js';
 import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
 import * as targetProfileForAdminRepository from '../../infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as targetProfileForUpdateRepository from '../../infrastructure/repositories/target-profile-for-update-repository.js';

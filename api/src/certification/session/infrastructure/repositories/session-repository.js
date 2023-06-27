@@ -1,12 +1,12 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../domain/errors.js';
-import { Session } from '../../../domain/models/Session.js';
-import { CertificationCenter } from '../../../domain/models/CertificationCenter.js';
-import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
-import { ComplementaryCertification } from '../../../domain/models/ComplementaryCertification.js';
-import { DomainTransaction } from '../../DomainTransaction.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { Session } from '../../../../../lib/domain/models/Session.js';
+import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { ComplementaryCertification } from '../../../../../lib/domain/models/ComplementaryCertification.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 
 const save = async function (sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {
   const knexConn = knexTransaction ?? knex;

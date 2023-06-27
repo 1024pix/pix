@@ -1,4 +1,4 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 
 const create = async function ({ sessionId, userId }) {
   await knex('supervisor-accesses').insert({ sessionId, userId });

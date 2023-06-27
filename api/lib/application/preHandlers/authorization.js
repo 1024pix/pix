@@ -1,6 +1,6 @@
 import { NotFoundError } from '../http-errors.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
-import * as sessionRepository from '../../infrastructure/repositories/sessions/session-repository.js';
+import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
 
 const verifySessionAuthorization = async (request, h, dependencies = { sessionRepository }) => {
   const userId = request.auth.credentials.userId;
