@@ -3,14 +3,16 @@ import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-
+import ENV from 'pix-orga/config/environment';
 export default class List extends Component {
   @tracked showDeletionModal = false;
 
   @service currentUser;
 
-  get isUserAdmin() {
-    return this.currentUser.isAdminInOrganization;
+  get canDeleteParticipant() {
+    const isFeatureEnabled = ENV.APP.FT_DELETE_PARTICIPANT;
+
+    return isFeatureEnabled && this.currentUser.isAdminInOrganization;
   }
 
   get headerId() {
