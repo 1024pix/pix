@@ -1,7 +1,7 @@
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-import { statuses } from '../models/Session.js';
+import { statuses } from '../../../src/certification/session/domain/model/Session.js';
 import { types } from '../models/CertificationCenter.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../constants/sessions-errors.js';
 import { EntityValidationError } from '../errors.js';

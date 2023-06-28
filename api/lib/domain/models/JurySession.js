@@ -1,4 +1,4 @@
-import { statuses } from './Session.js';
+import { statuses } from '../../../src/certification/session/domain/model/Session.js';
 
 class JurySession {
   constructor({

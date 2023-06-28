@@ -1,4 +1,4 @@
-import { Session } from '../../../../lib/domain/models/Session.js';
+import { Session } from '../../../../src/certification/session/domain/model/Session.js';
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import _ from 'lodash';
 

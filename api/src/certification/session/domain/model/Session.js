@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { config } from '../../config.js';
-import { CertificationVersion } from './CertificationVersion.js';
+import { config } from '../../../../../lib/config.js';
+import { CertificationVersion } from '../../../../../lib/domain/models/CertificationVersion.js';
 
 const CREATED = 'created';
 const FINALIZED = 'finalized';

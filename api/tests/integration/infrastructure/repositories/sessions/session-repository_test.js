@@ -1,7 +1,7 @@
 import { databaseBuilder, expect, knex, domainBuilder, catchErr } from '../../../../test-helper.js';
 import _ from 'lodash';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { Session, statuses } from '../../../../../lib/domain/models/Session.js';
+import { Session, statuses } from '../../../../../src/certification/session/domain/model/Session.js';
 import * as sessionRepository from '../../../../../src/certification/session/infrastructure/repositories/session-repository.js';
 
 describe('Integration | Repository | Session', function () {
