@@ -103,5 +103,8 @@
   },
   "peerDependencies": {
     "markdown-link-check": "^3.8.6"
-  }
+  },
+  "workspaces": [
+    "admin"
+  ]
 }
