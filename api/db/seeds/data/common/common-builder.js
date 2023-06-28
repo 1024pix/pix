@@ -3,12 +3,14 @@ import { badges } from '../../../constants.js';
 const { ROLES } = PIX_ADMIN;
 
 // IDS
-/// USERS
+// COMPLEMENTARY CERTIFICATIONS
 const CLEA_COMPLEMENTARY_CERTIFICATION_ID = 52;
 const PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID = 53;
 const PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 54;
 const PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 55;
-const REAL_PIX_SUPER_ADMIN = 90000;
+
+// USERS
+const REAL_PIX_SUPER_ADMIN_ID = 90000;
 
 // TARGET PROFILES
 const CLEA_TARGET_PROFILE_ID = 56;
@@ -75,13 +77,13 @@ async function commonBuilder({ databaseBuilder }) {
 
 function _createSuperAdmin(databaseBuilder) {
   databaseBuilder.factory.buildUser.withRawPassword({
-    id: REAL_PIX_SUPER_ADMIN,
+    id: REAL_PIX_SUPER_ADMIN_ID,
     firstName: 'NextSuper',
     lastName: 'NextAdmin',
     email: 'superadmin@example.net',
     rawPassword: 'pix123',
   });
-  databaseBuilder.factory.buildPixAdminRole({ userId: REAL_PIX_SUPER_ADMIN, role: ROLES.SUPER_ADMIN });
+  databaseBuilder.factory.buildPixAdminRole({ userId: REAL_PIX_SUPER_ADMIN_ID, role: ROLES.SUPER_ADMIN });
 }
 
 function _createTags(databaseBuilder) {
@@ -100,7 +102,7 @@ function _createComplementaryCertifications(databaseBuilder) {
   _createClea(databaseBuilder);
   _createDroit(databaseBuilder);
   _createPixEdu1erDegre(databaseBuilder);
-  _createPixEdu2emeDegre(databaseBuilder);
+  _createPixEdu2ndDegre(databaseBuilder);
 }
 
 function _createClea(databaseBuilder) {
@@ -247,12 +249,8 @@ function _createClea(databaseBuilder) {
 }
 
 function _createDroit(databaseBuilder) {
-  databaseBuilder.factory.buildComplementaryCertification({
-    label: 'Pix+ Droit',
-    key: 'DROIT',
+  databaseBuilder.factory.buildComplementaryCertification.droit({
     id: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-    minimumReproducibilityRate: 75,
-    minimumEarnedPix: null,
   });
   databaseBuilder.factory.buildTargetProfile({
     id: PIX_DROIT_TARGET_PROFILE_ID,
@@ -617,13 +615,8 @@ function _createDroit(databaseBuilder) {
 }
 
 function _createPixEdu1erDegre(databaseBuilder) {
-  databaseBuilder.factory.buildComplementaryCertification({
-    label: 'Pix+ Édu 1er degré',
-    key: badges.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+  databaseBuilder.factory.buildComplementaryCertification.pixEdu1erDegre({
     id: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-    minimumReproducibilityRate: 70,
-    minimumEarnedPix: null,
-    hasExternalJury: true,
   });
   databaseBuilder.factory.buildTargetProfile({
     id: PIX_EDU_1ER_DEGRE_TARGET_PROFILE_ID,
@@ -868,14 +861,9 @@ function _createPixEdu1erDegre(databaseBuilder) {
   });
 }
 
-function _createPixEdu2emeDegre(databaseBuilder) {
-  databaseBuilder.factory.buildComplementaryCertification({
-    label: 'Pix+ Édu 2nd degré',
-    key: badges.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+function _createPixEdu2ndDegre(databaseBuilder) {
+  databaseBuilder.factory.buildComplementaryCertification.pixEdu2ndDegre({
     id: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-    minimumReproducibilityRate: 70,
-    minimumEarnedPix: null,
-    hasExternalJury: true,
   });
   databaseBuilder.factory.buildTargetProfile({
     id: PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID,
