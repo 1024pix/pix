@@ -1,11 +1,11 @@
-import { databaseBuilder, expect, knex, domainBuilder, catchErr } from '../../../../../../tests/test-helper.js';
-import { BookshelfCertificationCandidate } from '../../../../../infrastructure/orm-models/CertificationCandidate.js';
-import * as certificationCandidateRepository from '../../../../infrastructure/repositories/certification-candidate-repository.js';
+import { databaseBuilder, expect, knex, domainBuilder, catchErr } from '../../../test-helper.js';
+import { BookshelfCertificationCandidate } from '../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
+import * as certificationCandidateRepository from '../../../../lib/infrastructure/repositories/certification-candidate-repository.js';
 import {
   NotFoundError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
-} from '../../../../../domain/errors.js';
-import { ComplementaryCertification } from '../../../../../domain/models/ComplementaryCertification.js';
+} from '../../../../lib/domain/errors.js';
+import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | CertificationCandidate', function () {
