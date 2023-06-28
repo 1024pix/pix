@@ -1,9 +1,9 @@
 import { expect, catchErr, databaseBuilder } from '../../../test-helper.js';
-import { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError } from '../../../../lib/domain/errors.js';
+import { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError } from '../../../../lib/shared/domain/errors.js';
 
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
-import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
-import { updateUserDetailsForAdministration } from '../../../../lib/domain/usecases/update-user-details-for-administration.js';
+import * as userRepository from '../../../../lib/shared/infrastructure/repositories/user-repository.js';
+import { UserDetailsForAdmin } from '../../../../lib/shared/domain/models/UserDetailsForAdmin.js';
+import { updateUserDetailsForAdministration } from '../../../../lib/shared/domain/usecases/update-user-details-for-administration.js';
 
 describe('Integration | UseCases | updateUserDetailsForAdministration', function () {
   let userId;

@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', function () {
   describe('#serialize', function () {

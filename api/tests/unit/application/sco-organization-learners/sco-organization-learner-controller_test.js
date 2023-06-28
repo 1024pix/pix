@@ -1,6 +1,6 @@
 import { expect, hFake, sinon } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { scoOrganizationLearnerController } from '../../../../lib/application/sco-organization-learners/sco-organization-learner-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { scoOrganizationLearnerController } from '../../../../lib/shared/application/sco-organization-learners/sco-organization-learner-controller.js';
 
 describe('Unit | Application | Controller | sco-organization-learner', function () {
   describe('#createUserAndReconcileToOrganizationLearnerFromExternalUser', function () {

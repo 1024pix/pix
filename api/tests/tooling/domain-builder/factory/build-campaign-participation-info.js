@@ -1,4 +1,4 @@
-import { CampaignParticipationInfo } from '../../../../lib/domain/read-models/CampaignParticipationInfo.js';
+import { CampaignParticipationInfo } from '../../../../lib/shared/domain/read-models/CampaignParticipationInfo.js';
 
 function buildCampaignParticipationInfo({
   participantFirstName = 'participantFirstName',

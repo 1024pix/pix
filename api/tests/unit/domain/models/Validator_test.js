@@ -1,6 +1,6 @@
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { Validator } from '../../../../lib/domain/models/Validator.js';
-import { Validation } from '../../../../lib/domain/models/Validation.js';
+import { AnswerStatus } from '../../../../lib/shared/domain/models/AnswerStatus.js';
+import { Validator } from '../../../../lib/shared/domain/models/Validator.js';
+import { Validation } from '../../../../lib/shared/domain/models/Validation.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Validator', function () {

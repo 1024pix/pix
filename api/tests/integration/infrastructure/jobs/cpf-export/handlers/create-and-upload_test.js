@@ -1,6 +1,6 @@
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
-import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
-import * as cpfCertificationXmlExportService from '../../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
+import { createAndUpload } from '../../../../../../lib/shared/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
+import * as cpfCertificationXmlExportService from '../../../../../../lib/shared/domain/services/cpf-certification-xml-export-service.js';
 import { createUnzip } from 'node:zlib';
 
 import fs from 'fs';

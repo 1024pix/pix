@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 
@@ -14,7 +14,7 @@ import {
 } from '../../../test-helper.js';
 
 import { config as settings } from '../../../../lib/config.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
 import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Campaign Controller', function () {

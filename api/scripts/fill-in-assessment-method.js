@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { knex } from '../db/knex-database-connection.js';
-import { logger } from '../lib/infrastructure/logger.js';
+import { logger } from '../lib/shared/infrastructure/logger.js';
 
 async function fillInAssessmentMethod() {
   const chunkSize = 50000;

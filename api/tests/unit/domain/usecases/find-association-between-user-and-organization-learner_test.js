@@ -1,12 +1,12 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { findAssociationBetweenUserAndOrganizationLearner } from '../../../../lib/domain/usecases/find-association-between-user-and-organization-learner.js';
-import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
+import { findAssociationBetweenUserAndOrganizationLearner } from '../../../../lib/shared/domain/usecases/find-association-between-user-and-organization-learner.js';
+import { OrganizationLearner } from '../../../../lib/shared/domain/models/OrganizationLearner.js';
 
 import {
   CampaignCodeError,
   UserNotAuthorizedToAccessEntityError,
   OrganizationLearnerDisabledError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | find-association-between-user-and-organization-learner', function () {
   let organizationLearnerReceivedStub;

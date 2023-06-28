@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
 
 describe('Unit | UseCase | find-paginated-filtered-target-profile-summaries-for-admin', function () {
   it('should return the result of the repository call', async function () {

@@ -1,7 +1,7 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as poleEmploiService from '../../../../lib/domain/services/pole-emploi-service.js';
-import * as poleEmploiSendingRepository from '../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import * as poleEmploiService from '../../../../lib/shared/domain/services/pole-emploi-service.js';
+import * as poleEmploiSendingRepository from '../../../../lib/shared/infrastructure/repositories/pole-emploi-sending-repository.js';
 import { config as settings } from '../../../../lib/config.js';
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 

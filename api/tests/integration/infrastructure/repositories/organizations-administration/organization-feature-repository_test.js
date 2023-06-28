@@ -1,6 +1,6 @@
 import { expect, databaseBuilder } from '../../../../test-helper.js';
 import { knex } from '../../../../../db/knex-database-connection.js';
-import * as organizationFeatureRepository from '../../../../../lib/infrastructure/repositories/organizations-administration/organization-feature-repository.js';
+import * as organizationFeatureRepository from '../../../../../lib/shared/infrastructure/repositories/organizations-administration/organization-feature-repository.js';
 
 describe('Integration | Repository | Organization feature', function () {
   let organizationId;

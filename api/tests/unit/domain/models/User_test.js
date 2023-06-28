@@ -1,5 +1,5 @@
 import { sinon, expect, domainBuilder } from '../../../test-helper.js';
-import { User } from '../../../../lib/domain/models/User.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
 
 describe('Unit | Domain | Models | User', function () {
   let config;

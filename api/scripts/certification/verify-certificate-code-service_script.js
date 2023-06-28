@@ -1,7 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable import/namespace */
 import _ from 'lodash';
-import * as verifyCertificationCodeService from '../../lib/domain/services/verify-certificate-code-service.js';
+import * as verifyCertificationCodeService from '../../lib/shared/domain/services/verify-certificate-code-service.js';
 // eslint-disable-next-line n/no-missing-import, import/no-unresolved, n/no-unpublished-import
 import * as verifyCertificateCodeRepository from '../../../../lib/infrastructure/repositories/verify-certificate-code-repository.js';
 

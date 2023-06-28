@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer', function () {
   describe('#serialize', function () {

@@ -1,7 +1,7 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { OrganizationLearnerActivity } from '../../../../lib/domain/read-models/OrganizationLearnerActivity.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { OrganizationLearnerActivity } from '../../../../lib/shared/domain/read-models/OrganizationLearnerActivity.js';
+import { CampaignTypes } from '../../../../lib/shared/domain/models/CampaignTypes.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 describe('Unit | Domain | Read-Models | OrganizationLearnerActivity', function () {
   it('computes the activity statistics for every status of every campaign types', function () {

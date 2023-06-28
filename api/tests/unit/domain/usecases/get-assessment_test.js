@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { getAssessment } from '../../../../lib/domain/usecases/get-assessment.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { getAssessment } from '../../../../lib/shared/domain/usecases/get-assessment.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
 
 describe('Unit | UseCase | get-assessment', function () {
   let assessment;

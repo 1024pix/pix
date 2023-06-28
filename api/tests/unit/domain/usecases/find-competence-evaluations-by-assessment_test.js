@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { findCompetenceEvaluationsByAssessment } from '../../../../lib/domain/usecases/find-competence-evaluations-by-assessment.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { findCompetenceEvaluationsByAssessment } from '../../../../lib/shared/domain/usecases/find-competence-evaluations-by-assessment.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | find-competence-evaluations-by-assessment', function () {
   const userId = 1;

@@ -1,8 +1,8 @@
 import { sinon, databaseBuilder, expect, domainBuilder } from '../../../test-helper.js';
-import { BookshelfTargetProfile } from '../../../../lib/infrastructure/orm-models/TargetProfile.js';
-import { BookshelfTargetProfileShare } from '../../../../lib/infrastructure/orm-models/TargetProfileShare.js';
-import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
-import * as targetProfileAdapter from '../../../../lib/infrastructure/adapters/target-profile-adapter.js';
+import { BookshelfTargetProfile } from '../../../../lib/shared/infrastructure/orm-models/TargetProfile.js';
+import { BookshelfTargetProfileShare } from '../../../../lib/shared/infrastructure/orm-models/TargetProfileShare.js';
+import { TargetProfile } from '../../../../lib/shared/domain/models/TargetProfile.js';
+import * as targetProfileAdapter from '../../../../lib/shared/infrastructure/adapters/target-profile-adapter.js';
 
 describe('Unit | Infrastructure | Adapter | targetProfileAdapter', function () {
   it('should adapt TargetProfile object to domain', function () {

@@ -24,7 +24,7 @@ chai.use(sinonChai);
 import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
 
 _.each(customChaiHelpers, chai.use);
-import { learningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache } from '../lib/shared/infrastructure/caches/learning-content-cache.js';
 
 import { config } from '../lib/config.js';
 
@@ -40,12 +40,12 @@ nock.disableNetConnect();
 
 import { buildLearningContent as learningContentBuilder } from './tooling/learning-content-builder/index.js';
 
-import * as tokenService from '../lib/domain/services/token-service.js';
-import { Membership } from '../lib/domain/models/Membership.js';
+import * as tokenService from '../lib/shared/domain/services/token-service.js';
+import { Membership } from '../lib/shared/domain/models/Membership.js';
 
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
-import { PIX_ADMIN } from '../lib/domain/constants.js';
+import { PIX_ADMIN } from '../lib/shared/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 import { createTempFile, removeTempFile } from './tooling/temporary-file.js';

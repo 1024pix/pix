@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
 
 const { createCertificationCenterMembershipForScoOrganizationMember } = usecases;
 

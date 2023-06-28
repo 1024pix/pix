@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { JuryCertification } from '../../../../lib/domain/models/JuryCertification.js';
+import { JuryCertification } from '../../../../lib/shared/domain/models/JuryCertification.js';
 
 describe('Unit | Domain | Models | JuryCertification', function () {
   describe('#from', function () {

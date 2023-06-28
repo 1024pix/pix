@@ -1,8 +1,8 @@
 import { sinon, expect, domainBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { assessmentController } from '../../../../lib/application/assessments/assessment-controller.js';
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { assessmentController } from '../../../../lib/shared/application/assessments/assessment-controller.js';
+import { AssessmentEndedError } from '../../../../lib/shared/domain/errors.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { LOCALE } from '../../../../lib/shared/domain/constants.js';
 
 const { FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 

@@ -1,14 +1,14 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import bcrypt from 'bcrypt';
 import { config as settings } from '../../../../lib/config.js';
-import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors.js';
-import * as prescriberRepository from '../../../../lib/infrastructure/repositories/prescriber-repository.js';
-import { Prescriber } from '../../../../lib/domain/read-models/Prescriber.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
-import { Tag } from '../../../../lib/domain/models/Tag.js';
-import * as apps from '../../../../lib/domain/constants.js';
+import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/shared/domain/errors.js';
+import * as prescriberRepository from '../../../../lib/shared/infrastructure/repositories/prescriber-repository.js';
+import { Prescriber } from '../../../../lib/shared/domain/read-models/Prescriber.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
+import { UserOrgaSettings } from '../../../../lib/shared/domain/models/UserOrgaSettings.js';
+import { Organization } from '../../../../lib/shared/domain/models/Organization.js';
+import { Tag } from '../../../../lib/shared/domain/models/Tag.js';
+import * as apps from '../../../../lib/shared/domain/constants.js';
 
 describe('Integration | Infrastructure | Repository | Prescriber', function () {
   const userToInsert = {

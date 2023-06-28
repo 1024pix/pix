@@ -1,4 +1,4 @@
-import { PrivateCertificate } from '../../../../lib/domain/models/PrivateCertificate.js';
+import { PrivateCertificate } from '../../../../lib/shared/domain/models/PrivateCertificate.js';
 
 const buildPrivateCertificate = function ({
   id = 1,

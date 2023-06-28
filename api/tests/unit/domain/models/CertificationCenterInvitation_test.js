@@ -1,6 +1,6 @@
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { CertificationCenterInvitation } from '../../../../lib/shared/domain/models/CertificationCenterInvitation.js';
 import { expect, sinon } from '../../../test-helper.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../../lib/shared/domain/errors.js';
 import randomString from 'randomstring';
 
 describe('Unit | Domain | Models | CertificationCenterInvitation', function () {

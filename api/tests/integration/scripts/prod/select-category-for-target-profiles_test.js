@@ -3,7 +3,7 @@ import {
   setCategoriesToTargetProfiles,
   setCategoryToTargetProfiles,
 } from '../../../../scripts/prod/select-category-for-target-profiles.js';
-import { categories } from '../../../../lib/domain/models/TargetProfile.js';
+import { categories } from '../../../../lib/shared/domain/models/TargetProfile.js';
 
 describe('Integration | Scripts | select-category-for-target-profiles.js', function () {
   let firstTargetProfileId;

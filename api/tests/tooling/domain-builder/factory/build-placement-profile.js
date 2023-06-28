@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { PlacementProfile } from '../../../../lib/domain/models/PlacementProfile.js';
+import { PlacementProfile } from '../../../../lib/shared/domain/models/PlacementProfile.js';
 import { buildUserCompetence } from './build-user-competence.js';
 
 const buildPlacementProfile = function buildPlacementProfile({

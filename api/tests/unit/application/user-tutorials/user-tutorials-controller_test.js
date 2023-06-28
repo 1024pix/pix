@@ -1,6 +1,6 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
-import { userTutorialsController } from '../../../../lib/application/user-tutorials/user-tutorials-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { userTutorialsController } from '../../../../lib/shared/application/user-tutorials/user-tutorials-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
 
 describe('Unit | Controller | User-tutorials', function () {
   describe('#add', function () {

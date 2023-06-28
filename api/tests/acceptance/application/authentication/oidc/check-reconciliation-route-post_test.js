@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, knex } from '../../../../test-helper.js';
 import { createServer } from '../../../../../server.js';
 import jsonwebtoken from 'jsonwebtoken';
-import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
+import * as authenticationSessionService from '../../../../../lib/shared/domain/services/authentication/authentication-session-service.js';
 
 describe('Acceptance | Application | Oidc | Routes', function () {
   describe('POST /api/oidc/user/check-reconciliation', function () {

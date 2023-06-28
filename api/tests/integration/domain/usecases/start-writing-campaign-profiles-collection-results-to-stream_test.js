@@ -3,14 +3,14 @@ import stream from 'stream';
 const { PassThrough } = stream;
 
 import { expect, mockLearningContent, databaseBuilder, streamToPromise } from '../../../test-helper.js';
-import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
+import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../lib/shared/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
 
-import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
-import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
-import * as competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository.js';
-import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
-import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
+import * as campaignRepository from '../../../../lib/shared/infrastructure/repositories/campaign-repository.js';
+import * as campaignParticipationRepository from '../../../../lib/shared/infrastructure/repositories/campaign-participation-repository.js';
+import * as competenceRepository from '../../../../lib/shared/infrastructure/repositories/competence-repository.js';
+import * as organizationRepository from '../../../../lib/shared/infrastructure/repositories/organization-repository.js';
+import * as userRepository from '../../../../lib/shared/infrastructure/repositories/user-repository.js';
+import * as placementProfileService from '../../../../lib/shared/domain/services/placement-profile-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {

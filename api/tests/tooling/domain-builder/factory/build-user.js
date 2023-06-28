@@ -1,4 +1,4 @@
-import { User } from '../../../../lib/domain/models/User.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
 import { buildMembership } from './build-membership.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
 import { buildAuthenticationMethod } from './build-authentication-method.js';

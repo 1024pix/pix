@@ -1,6 +1,6 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { findUserForOidcReconciliation } from '../../../../lib/domain/usecases/find-user-for-oidc-reconciliation.js';
-import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../lib/domain/errors.js';
+import { findUserForOidcReconciliation } from '../../../../lib/shared/domain/usecases/find-user-for-oidc-reconciliation.js';
+import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
   let authenticationMethodRepository, userRepository, pixAuthenticationService, authenticationSessionService;

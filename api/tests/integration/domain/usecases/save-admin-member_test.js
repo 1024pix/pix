@@ -1,11 +1,11 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
-import { saveAdminMember } from '../../../../lib/domain/usecases/save-admin-member.js';
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { saveAdminMember } from '../../../../lib/shared/domain/usecases/save-admin-member.js';
+import { PIX_ADMIN } from '../../../../lib/shared/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 
-import * as adminMemberRepository from '../../../../lib/infrastructure/repositories/admin-member-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as adminMemberRepository from '../../../../lib/shared/infrastructure/repositories/admin-member-repository.js';
+import * as userRepository from '../../../../lib/shared/infrastructure/repositories/user-repository.js';
 
 describe('Integration | UseCases | save-admin-member', function () {
   context('when admin member exists and is disabled', function () {

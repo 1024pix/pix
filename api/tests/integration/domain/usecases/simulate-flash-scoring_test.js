@@ -1,9 +1,9 @@
 import { expect, mockLearningContent, domainBuilder } from '../../../test-helper.js';
-import { ScoringSimulationContext } from '../../../../lib/domain/models/ScoringSimulationContext.js';
-import { ScoringSimulation } from '../../../../lib/domain/models/ScoringSimulation.js';
-import { ScoringSimulationResult } from '../../../../lib/domain/models/ScoringSimulationResult.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { ScoringSimulationContext } from '../../../../lib/shared/domain/models/ScoringSimulationContext.js';
+import { ScoringSimulation } from '../../../../lib/shared/domain/models/ScoringSimulation.js';
+import { ScoringSimulationResult } from '../../../../lib/shared/domain/models/ScoringSimulationResult.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { AnswerStatus } from '../../../../lib/shared/domain/models/AnswerStatus.js';
 
 describe('Integration | UseCases | simulateFlashScoring', function () {
   const locale = 'fr-fr';

@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, domainBuilder } from '../../../../test-helper.js';
-import * as sessionSummaryRepository from '../../../../../lib/infrastructure/repositories/sessions/session-summary-repository.js';
+import * as sessionSummaryRepository from '../../../../../lib/shared/infrastructure/repositories/sessions/session-summary-repository.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | Session Summary', function () {

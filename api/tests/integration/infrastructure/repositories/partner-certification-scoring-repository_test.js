@@ -1,8 +1,8 @@
 import { expect, databaseBuilder, domainBuilder, knex, sinon } from '../../../test-helper.js';
 import lodash from 'lodash';
 const { omit } = lodash;
-import * as partnerCertificationScoringRepository from '../../../../lib/infrastructure/repositories/partner-certification-scoring-repository.js';
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import * as partnerCertificationScoringRepository from '../../../../lib/shared/infrastructure/repositories/partner-certification-scoring-repository.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/shared/domain/models/ComplementaryCertificationCourseResult.js';
 
 describe('Integration | Repository | Partner Certification Scoring', function () {
   const COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME = 'complementary-certification-course-results';

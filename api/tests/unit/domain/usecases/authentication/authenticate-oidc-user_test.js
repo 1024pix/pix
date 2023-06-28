@@ -1,10 +1,10 @@
 import { expect, sinon, catchErr } from '../../../../test-helper.js';
-import { UnexpectedOidcStateError } from '../../../../../lib/domain/errors.js';
-import { logger } from '../../../../../lib/infrastructure/logger.js';
-import { authenticateOidcUser } from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user.js';
-import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
-import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { UnexpectedOidcStateError } from '../../../../../lib/shared/domain/errors.js';
+import { logger } from '../../../../../lib/shared/infrastructure/logger.js';
+import { authenticateOidcUser } from '../../../../../lib/shared/domain/usecases/authentication/authenticate-oidc-user.js';
+import { AuthenticationSessionContent } from '../../../../../lib/shared/domain/models/AuthenticationSessionContent.js';
+import { AuthenticationMethod } from '../../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import * as OidcIdentityProviders from '../../../../../lib/shared/domain/constants/oidc-identity-providers.js';
 
 describe('Unit | UseCase | authenticate-oidc-user', function () {
   let oidcAuthenticationService;

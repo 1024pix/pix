@@ -1,4 +1,4 @@
-import { SessionSummary } from '../../../../lib/domain/read-models/SessionSummary.js';
+import { SessionSummary } from '../../../../lib/shared/domain/read-models/SessionSummary.js';
 
 const buildSessionSummary = function ({
   id = 123,

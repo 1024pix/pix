@@ -1,5 +1,5 @@
-import { CertificationChallengeWithType } from '../../../../lib/domain/models/CertificationChallengeWithType.js';
-import { Challenge } from '../../../../lib/domain/models/Challenge.js';
+import { CertificationChallengeWithType } from '../../../../lib/shared/domain/models/CertificationChallengeWithType.js';
+import { Challenge } from '../../../../lib/shared/domain/models/Challenge.js';
 
 const buildCertificationChallengeWithType = function ({
   id = 123,

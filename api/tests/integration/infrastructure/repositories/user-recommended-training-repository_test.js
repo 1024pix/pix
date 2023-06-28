@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-import * as userRecommendedTrainingRepository from '../../../../lib/infrastructure/repositories/user-recommended-training-repository.js';
-import { UserRecommendedTraining } from '../../../../lib/domain/read-models/UserRecommendedTraining.js';
+import * as userRecommendedTrainingRepository from '../../../../lib/shared/infrastructure/repositories/user-recommended-training-repository.js';
+import { UserRecommendedTraining } from '../../../../lib/shared/domain/read-models/UserRecommendedTraining.js';
 
 describe('Integration | Repository | user-recommended-training-repository', function () {
   describe('#save', function () {

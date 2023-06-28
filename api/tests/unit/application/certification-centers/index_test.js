@@ -2,10 +2,10 @@ import fs from 'fs';
 import { writeFile, stat, unlink } from 'fs/promises';
 
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { certificationCenterController } from '../../../../lib/application/certification-centers/certification-center-controller.js';
+import { securityPreHandlers } from '../../../../lib/shared/application/security-pre-handlers.js';
+import { certificationCenterController } from '../../../../lib/shared/application/certification-centers/certification-center-controller.js';
 
-import * as moduleUnderTest from '../../../../lib/application/certification-centers/index.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/certification-centers/index.js';
 import FormData from 'form-data';
 import streamToPromise from 'stream-to-promise';
 

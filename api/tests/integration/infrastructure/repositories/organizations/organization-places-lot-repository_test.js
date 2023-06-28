@@ -1,10 +1,10 @@
 import { expect, databaseBuilder, catchErr, sinon } from '../../../../test-helper.js';
 import { knex } from '../../../../../db/knex-database-connection.js';
-import * as organizationPlacesLotRepository from '../../../../../lib/infrastructure/repositories/organizations/organization-places-lot-repository.js';
-import { OrganizationPlacesLotManagement } from '../../../../../lib/domain/read-models/OrganizationPlacesLotManagement.js';
-import { OrganizationPlacesLot } from '../../../../../lib/domain/models/OrganizationPlacesLot.js';
-import * as categories from '../../../../../lib/domain/constants/organization-places-categories.js';
-import { NotFoundError, DeletedError } from '../../../../../lib/domain/errors.js';
+import * as organizationPlacesLotRepository from '../../../../../lib/shared/infrastructure/repositories/organizations/organization-places-lot-repository.js';
+import { OrganizationPlacesLotManagement } from '../../../../../lib/shared/domain/read-models/OrganizationPlacesLotManagement.js';
+import { OrganizationPlacesLot } from '../../../../../lib/shared/domain/models/OrganizationPlacesLot.js';
+import * as categories from '../../../../../lib/shared/domain/constants/organization-places-categories.js';
+import { NotFoundError, DeletedError } from '../../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Repository | Organization Place', function () {
   describe('#findByOrganizationId', function () {

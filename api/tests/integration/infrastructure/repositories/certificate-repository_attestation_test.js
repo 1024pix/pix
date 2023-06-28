@@ -7,9 +7,9 @@ import {
   mockLearningContent,
 } from '../../../test-helper.js';
 
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as certificationRepository from '../../../../lib/infrastructure/repositories/certificate-repository.js';
-import { status } from '../../../../lib/domain/models/AssessmentResult.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import * as certificationRepository from '../../../../lib/shared/infrastructure/repositories/certificate-repository.js';
+import { status } from '../../../../lib/shared/domain/models/AssessmentResult.js';
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', function () {
   const minimalLearningContent = [

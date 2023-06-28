@@ -1,4 +1,4 @@
-import { AuthenticationMethod } from '../../lib/domain/models/AuthenticationMethod.js';
+import { AuthenticationMethod } from '../../lib/shared/domain/models/AuthenticationMethod.js';
 
 const up = function (knex) {
   // eslint-disable-next-line knex/avoid-injections

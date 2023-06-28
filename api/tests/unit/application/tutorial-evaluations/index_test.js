@@ -1,7 +1,7 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { tutorialEvaluationsController } from '../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/tutorial-evaluations/index.js';
-import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
+import { tutorialEvaluationsController } from '../../../../lib/shared/application/tutorial-evaluations/tutorial-evaluations-controller.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/tutorial-evaluations/index.js';
+import { TutorialEvaluation } from '../../../../lib/shared/domain/models/TutorialEvaluation.js';
 
 describe('Unit | Router | tutorial-evaluations-router', function () {
   describe('PUT /api/users/tutorials/{tutorialId}/evaluate', function () {

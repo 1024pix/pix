@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, knex } from '../../test-helper.js';
-import { Membership } from '../../../lib/domain/models/Membership.js';
-import { BookshelfCertificationCenterMembership } from '../../../lib/infrastructure/orm-models/CertificationCenterMembership.js';
+import { Membership } from '../../../lib/shared/domain/models/Membership.js';
+import { BookshelfCertificationCenterMembership } from '../../../lib/shared/infrastructure/orm-models/CertificationCenterMembership.js';
 
 import {
   getCertificationCenterIdWithMembershipsUserIdByExternalId,

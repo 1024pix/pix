@@ -1,6 +1,6 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/skill-set-serializer.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/skill-set-serializer.js';
 import { expect } from '../../../../test-helper.js';
-import { SkillSet } from '../../../../../lib/domain/models/SkillSet.js';
+import { SkillSet } from '../../../../../lib/shared/domain/models/SkillSet.js';
 
 describe('Unit | Serializer | JSONAPI | skill-set-serializer', function () {
   describe('#serialize', function () {

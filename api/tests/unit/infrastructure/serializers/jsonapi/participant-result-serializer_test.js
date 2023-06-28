@@ -1,8 +1,8 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/participant-result-serializer.js';
-import { AssessmentResult } from '../../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
-import { StageCollection } from '../../../../../lib/domain/models/user-campaign-results/StageCollection.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/participant-result-serializer.js';
+import { AssessmentResult } from '../../../../../lib/shared/domain/read-models/participant-results/AssessmentResult.js';
+import { KnowledgeElement } from '../../../../../lib/shared/domain/models/KnowledgeElement.js';
+import { StageCollection } from '../../../../../lib/shared/domain/models/user-campaign-results/StageCollection.js';
 
 describe('Unit | Serializer | JSON API | participant-result-serializer', function () {
   context('#serialize', function () {

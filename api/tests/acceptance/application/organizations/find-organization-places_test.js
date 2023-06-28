@@ -6,7 +6,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import * as organizationPlacesLotCategories from '../../../../lib/domain/constants/organization-places-categories.js';
+import * as organizationPlacesLotCategories from '../../../../lib/shared/domain/constants/organization-places-categories.js';
 
 describe('Acceptance | Route | Organizations', function () {
   describe('GET /api/admin/organizations/{id}/places', function () {

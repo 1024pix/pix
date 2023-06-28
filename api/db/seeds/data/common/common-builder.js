@@ -1,4 +1,4 @@
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../../lib/shared/domain/constants.js';
 import { badges } from '../../../constants.js';
 const { ROLES } = PIX_ADMIN;
 

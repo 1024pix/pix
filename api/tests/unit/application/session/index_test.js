@@ -3,16 +3,16 @@ import { writeFile, stat, unlink } from 'fs/promises';
 
 import FormData from 'form-data';
 import streamToPromise from 'stream-to-promise';
-import { NotFoundError } from '../../../../lib/application/http-errors.js';
+import { NotFoundError } from '../../../../lib/shared/application/http-errors.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
-import { sessionForSupervisingController } from '../../../../lib/application/sessions/session-for-supervising-controller.js';
-import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
-import { finalizedSessionController } from '../../../../lib/application/sessions/finalized-session-controller.js';
-import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
-import * as moduleUnderTest from '../../../../lib/application/sessions/index.js';
-import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
+import { securityPreHandlers } from '../../../../lib/shared/application/security-pre-handlers.js';
+import { sessionController } from '../../../../lib/shared/application/sessions/session-controller.js';
+import { sessionForSupervisingController } from '../../../../lib/shared/application/sessions/session-for-supervising-controller.js';
+import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/shared/application/sessions/session-with-clea-certified-candidate-controller.js';
+import { finalizedSessionController } from '../../../../lib/shared/application/sessions/finalized-session-controller.js';
+import { authorization } from '../../../../lib/shared/application/preHandlers/authorization.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/sessions/index.js';
+import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../lib/shared/application/preHandlers/session-supervisor-authorization.js';
 import * as url from 'url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

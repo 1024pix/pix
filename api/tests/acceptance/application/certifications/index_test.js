@@ -8,9 +8,9 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { generateCertificateVerificationCode } from '../../../../lib/shared/domain/services/verify-certificate-code-service.js';
+import { CertificationCenterInvitation } from '../../../../lib/shared/domain/models/CertificationCenterInvitation.js';
 
 describe('Acceptance | API | Certifications', function () {
   let server, options;

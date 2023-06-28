@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, sinon } from '../../../test-helper.js';
-import * as organizationPlacesCapacityRepository from '../../../../lib/infrastructure/repositories/organization-places-capacity-repository.js';
-import * as categories from '../../../../lib/domain/constants/organization-places-categories.js';
+import * as organizationPlacesCapacityRepository from '../../../../lib/shared/infrastructure/repositories/organization-places-capacity-repository.js';
+import * as categories from '../../../../lib/shared/domain/constants/organization-places-categories.js';
 
 describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacityRepository', function () {
   describe('#findByOrganizationId', function () {

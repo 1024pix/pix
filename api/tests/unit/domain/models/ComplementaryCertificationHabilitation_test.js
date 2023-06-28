@@ -1,4 +1,4 @@
-import { ComplementaryCertificationHabilitation } from '../../../../lib/domain/models/ComplementaryCertificationHabilitation.js';
+import { ComplementaryCertificationHabilitation } from '../../../../lib/shared/domain/models/ComplementaryCertificationHabilitation.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
 import _ from 'lodash';
 

@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { getLearningContentByTargetProfile } from '../../../../lib/domain/usecases/get-learning-content-by-target-profile.js';
+import { getLearningContentByTargetProfile } from '../../../../lib/shared/domain/usecases/get-learning-content-by-target-profile.js';
 
 describe('Unit | UseCase | get-learning-content-by-target-profile', function () {
   const learningContentRepository = {};

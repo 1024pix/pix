@@ -1,4 +1,4 @@
-import { CertificationAssessmentScore } from '../../../../lib/domain/models/CertificationAssessmentScore.js';
+import { CertificationAssessmentScore } from '../../../../lib/shared/domain/models/CertificationAssessmentScore.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationAssessmentScore', function () {

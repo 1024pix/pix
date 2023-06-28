@@ -1,4 +1,4 @@
-import { Badge } from '../../../../lib/domain/models/Badge.js';
+import { Badge } from '../../../../lib/shared/domain/models/Badge.js';
 import { buildBadgeCriterion } from './build-badge-criterion.js';
 import { buildSkillSet } from './build-skill-set.js';
 

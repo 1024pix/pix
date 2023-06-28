@@ -1,5 +1,5 @@
 import { expect, catchErr } from '../../../test-helper.js';
-import { NotFoundError, FileValidationError } from '../../../../lib/domain/errors.js';
+import { NotFoundError, FileValidationError } from '../../../../lib/shared/domain/errors.js';
 
 import {
   parseCsv,
@@ -10,7 +10,7 @@ import {
 } from '../../../../scripts/helpers/csvHelpers.js';
 
 import { batchOrganizationOptionsWithHeader } from '../../../../scripts/create-organizations-with-tags-and-target-profiles.js';
-import { UnprocessableEntityError } from '../../../../lib/application/http-errors.js';
+import { UnprocessableEntityError } from '../../../../lib/shared/application/http-errors.js';
 
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

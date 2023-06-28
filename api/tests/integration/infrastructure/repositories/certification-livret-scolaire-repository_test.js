@@ -1,6 +1,6 @@
-import * as certificationLsRepository from '../../../../lib/infrastructure/repositories/certification-livret-scolaire-repository.js';
+import * as certificationLsRepository from '../../../../lib/shared/infrastructure/repositories/certification-livret-scolaire-repository.js';
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-import { status } from '../../../../lib/domain/read-models/livret-scolaire/CertificateStatus.js';
+import { status } from '../../../../lib/shared/domain/read-models/livret-scolaire/CertificateStatus.js';
 
 import {
   buildUser,

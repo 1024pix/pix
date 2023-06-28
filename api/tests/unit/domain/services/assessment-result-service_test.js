@@ -1,8 +1,8 @@
 import { expect, sinon } from '../../../test-helper.js';
 
-import * as service from '../../../../lib/domain/services/assessment-result-service.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
-import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
+import * as service from '../../../../lib/shared/domain/services/assessment-result-service.js';
+import { AssessmentResult } from '../../../../lib/shared/domain/models/AssessmentResult.js';
+import { CompetenceMark } from '../../../../lib/shared/domain/models/CompetenceMark.js';
 
 describe('Unit | Domain | Services | assessment-results', function () {
   describe('#save', function () {

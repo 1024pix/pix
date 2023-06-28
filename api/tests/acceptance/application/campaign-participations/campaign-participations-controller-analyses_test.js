@@ -1,5 +1,5 @@
 import { createServer } from '../../../../server.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
 
 import {
   expect,

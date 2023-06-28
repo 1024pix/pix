@@ -1,8 +1,8 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { improveCompetenceEvaluation } from '../../../../lib/domain/usecases/improve-competence-evaluation.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { MAX_REACHABLE_LEVEL } from '../../../../lib/domain/constants.js';
-import { ImproveCompetenceEvaluationForbiddenError } from '../../../../lib/domain/errors.js';
+import { improveCompetenceEvaluation } from '../../../../lib/shared/domain/usecases/improve-competence-evaluation.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { MAX_REACHABLE_LEVEL } from '../../../../lib/shared/domain/constants.js';
+import { ImproveCompetenceEvaluationForbiddenError } from '../../../../lib/shared/domain/errors.js';
 
 const domainTransaction = Symbol('DomainTransaction');
 

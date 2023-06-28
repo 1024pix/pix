@@ -1,6 +1,6 @@
 import { sinon, expect, catchErr, domainBuilder } from '../../../test-helper.js';
-import { UserNotAuthorizedToGenerateUsernamePasswordError } from '../../../../lib/domain/errors.js';
-import { generateUsernameWithTemporaryPassword } from '../../../../lib/domain/usecases/generate-username-with-temporary-password.js';
+import { UserNotAuthorizedToGenerateUsernamePasswordError } from '../../../../lib/shared/domain/errors.js';
+import { generateUsernameWithTemporaryPassword } from '../../../../lib/shared/domain/usecases/generate-username-with-temporary-password.js';
 
 describe('Unit | UseCase | generate-username-with-temporary-password', function () {
   const expectedUsername = 'john.harry0207';

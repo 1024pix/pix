@@ -1,10 +1,10 @@
 import { expect, knex, domainBuilder, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
-import { AlreadyExistingEntityError, OrganizationTagNotFound } from '../../../../lib/domain/errors.js';
-import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
+import { OrganizationTag } from '../../../../lib/shared/domain/models/OrganizationTag.js';
+import { AlreadyExistingEntityError, OrganizationTagNotFound } from '../../../../lib/shared/domain/errors.js';
+import * as organizationTagRepository from '../../../../lib/shared/infrastructure/repositories/organization-tag-repository.js';
 import lodash from 'lodash';
 const { omit } = lodash;
-import { BookshelfOrganizationTag } from '../../../../lib/infrastructure/orm-models/OrganizationTag.js';
+import { BookshelfOrganizationTag } from '../../../../lib/shared/infrastructure/orm-models/OrganizationTag.js';
 
 describe('Integration | Repository | OrganizationTagRepository', function () {
   describe('#create', function () {

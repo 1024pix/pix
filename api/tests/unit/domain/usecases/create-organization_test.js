@@ -1,7 +1,7 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { createOrganization } from '../../../../lib/domain/usecases/create-organization.js';
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/Organization.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { createOrganization } from '../../../../lib/shared/domain/usecases/create-organization.js';
+import { OrganizationForAdmin } from '../../../../lib/shared/domain/models/organizations-administration/Organization.js';
+import { EntityValidationError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | create-organization', function () {
   let organizationCreationValidator;

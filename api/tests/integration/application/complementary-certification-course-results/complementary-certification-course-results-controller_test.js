@@ -1,8 +1,8 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { InvalidJuryLevelError } from '../../../../lib/domain/errors.js';
-import * as moduleUnderTest from '../../../../lib/application/complementary-certification-course-results/index.js';
+import { securityPreHandlers } from '../../../../lib/shared/application/security-pre-handlers.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { InvalidJuryLevelError } from '../../../../lib/shared/domain/errors.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/complementary-certification-course-results/index.js';
 
 describe('Integration | Application | complementary-certification-course-results | complementary-certification-course-results-controller', function () {
   let sandbox;

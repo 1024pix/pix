@@ -1,6 +1,6 @@
 import { expect, hFake, sinon, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { Course } from '../../../../lib/domain/models/Course.js';
-import { courseController } from '../../../../lib/application/courses/course-controller.js';
+import { Course } from '../../../../lib/shared/domain/models/Course.js';
+import { courseController } from '../../../../lib/shared/application/courses/course-controller.js';
 
 describe('Unit | Controller | course-controller', function () {
   let courseServiceStub;

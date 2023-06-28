@@ -1,7 +1,7 @@
 import { expect, EMPTY_BLANK_AND_NULL, domainBuilder, catchErr } from '../../../test-helper.js';
-import { CertificationReport } from '../../../../lib/domain/models/CertificationReport.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { InvalidCertificationReportForFinalization } from '../../../../lib/domain/errors.js';
+import { CertificationReport } from '../../../../lib/shared/domain/models/CertificationReport.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { InvalidCertificationReportForFinalization } from '../../../../lib/shared/domain/errors.js';
 import lodash from 'lodash';
 const { keys } = lodash;
 describe('Unit | Domain | Models | CertificationReport', function () {

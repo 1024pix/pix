@@ -1,9 +1,9 @@
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
-import { assessmentController } from '../../../../lib/application/assessments/assessment-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as events from '../../../../lib/domain/events/index.js';
-import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { assessmentController } from '../../../../lib/shared/application/assessments/assessment-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import * as events from '../../../../lib/shared/domain/events/index.js';
+import { AssessmentCompleted } from '../../../../lib/shared/domain/events/AssessmentCompleted.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | assessment-controller', function () {
   describe('#createForPix1d', function () {

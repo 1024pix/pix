@@ -1,6 +1,6 @@
 import { expect, knex, domainBuilder, sinon, databaseBuilder } from '../../../test-helper.js';
-import { correctAnswer } from '../../../../lib/domain/usecases/correct-answer.js';
-import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
+import { correctAnswer } from '../../../../lib/shared/domain/usecases/correct-answer.js';
+import * as answerRepository from '../../../../lib/shared/infrastructure/repositories/answer-repository.js';
 
 describe('Integration | UseCases | correct-answer', function () {
   let createdAnswerRecordId;

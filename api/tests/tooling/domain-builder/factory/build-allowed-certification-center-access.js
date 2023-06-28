@@ -1,4 +1,4 @@
-import { AllowedCertificationCenterAccess } from '../../../../lib/domain/read-models/AllowedCertificationCenterAccess.js';
+import { AllowedCertificationCenterAccess } from '../../../../lib/shared/domain/read-models/AllowedCertificationCenterAccess.js';
 
 function buildAllowedCertificationCenterAccess({
   id = 123,

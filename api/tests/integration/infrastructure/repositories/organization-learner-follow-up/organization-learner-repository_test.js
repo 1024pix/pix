@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, catchErr } from '../../../../test-helper.js';
-import * as organizationLearnerFollowUpRepository from '../../../../../lib/infrastructure/repositories/organization-learner-follow-up/organization-learner-repository.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
+import * as organizationLearnerFollowUpRepository from '../../../../../lib/shared/infrastructure/repositories/organization-learner-follow-up/organization-learner-repository.js';
+import { NotFoundError } from '../../../../../lib/shared/domain/errors.js';
+import { AuthenticationMethod } from '../../../../../lib/shared/domain/models/AuthenticationMethod.js';
 
 describe('Integration | Infrastructure | Repository | Organization Learner Follow Up | Organization Learner', function () {
   describe('#get', function () {

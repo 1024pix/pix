@@ -11,7 +11,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

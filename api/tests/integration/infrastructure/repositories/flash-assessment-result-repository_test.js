@@ -1,5 +1,5 @@
 import { expect, knex, databaseBuilder } from '../../../test-helper.js';
-import * as flashAssessmentResultRepository from '../../../../lib/infrastructure/repositories/flash-assessment-result-repository.js';
+import * as flashAssessmentResultRepository from '../../../../lib/shared/infrastructure/repositories/flash-assessment-result-repository.js';
 
 describe('Integration | Infrastructure | Repository | FlashAssessmentResultRepository', function () {
   afterEach(async function () {

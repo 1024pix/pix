@@ -5,8 +5,8 @@ import {
   generateValidRequestAuthorizationHeaderForApplication,
 } from '../../../test-helper.js';
 
-import { poleEmploiController } from '../../../../lib/application/pole-emploi/pole-emploi-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/pole-emploi/index.js';
+import { poleEmploiController } from '../../../../lib/shared/application/pole-emploi/pole-emploi-controller.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/pole-emploi/index.js';
 
 describe('Unit | Router | pole-emploi-router', function () {
   describe('GET /api/pole-emploi/envois', function () {

@@ -1,6 +1,6 @@
 import { expect, knex, databaseBuilder } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { Feedback } from '../../../../lib/infrastructure/orm-models/Feedback.js';
+import { Feedback } from '../../../../lib/shared/infrastructure/orm-models/Feedback.js';
 
 describe('Acceptance | Controller | feedback-controller', function () {
   let server;

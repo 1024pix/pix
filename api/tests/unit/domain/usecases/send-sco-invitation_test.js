@@ -1,12 +1,12 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { sendScoInvitation } from '../../../../lib/domain/usecases/send-sco-invitation.js';
+import { sendScoInvitation } from '../../../../lib/shared/domain/usecases/send-sco-invitation.js';
 
 import {
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | send-sco-invitation', function () {
   let organizationRepository, organizationInvitationRepository, organizationInvitationService;

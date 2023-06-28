@@ -1,4 +1,4 @@
-import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
+import { CertificationResult } from '../../../../lib/shared/domain/models/CertificationResult.js';
 
 const buildCertificationResult = function ({
   id = 123,

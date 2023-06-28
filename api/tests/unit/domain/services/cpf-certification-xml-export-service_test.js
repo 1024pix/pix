@@ -10,7 +10,7 @@ import timezone from 'dayjs/plugin/timezone.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import * as cpfCertificationXmlExportService from '../../../../lib/domain/services/cpf-certification-xml-export-service.js';
+import * as cpfCertificationXmlExportService from '../../../../lib/shared/domain/services/cpf-certification-xml-export-service.js';
 
 describe('Unit | Services | cpf-certification-xml-export-service', function () {
   let clock;

@@ -1,8 +1,8 @@
-import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipation } from '../../../../lib/shared/domain/models/CampaignParticipation.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 import { expect, domainBuilder, sinon, catchErr } from '../../../test-helper.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { CampaignTypes } from '../../../../lib/shared/domain/models/CampaignTypes.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
 
 import {
   ArchivedCampaignError,
@@ -10,7 +10,7 @@ import {
   AlreadySharedCampaignParticipationError,
   CantImproveCampaignParticipationError,
   CampaignParticipationDeletedError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 const { TO_SHARE, SHARED } = CampaignParticipationStatuses;
 

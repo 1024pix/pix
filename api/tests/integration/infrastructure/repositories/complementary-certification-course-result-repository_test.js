@@ -1,8 +1,8 @@
 import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
-import { knex } from '../../../../lib/infrastructure/bookshelf.js';
+import { knex } from '../../../../lib/shared/infrastructure/bookshelf.js';
 import _ from 'lodash';
-import * as complementaryCertificationCourseResultRepository from '../../../../lib/infrastructure/repositories/complementary-certification-course-result-repository.js';
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import * as complementaryCertificationCourseResultRepository from '../../../../lib/shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/shared/domain/models/ComplementaryCertificationCourseResult.js';
 
 describe('Integration | Repository | complementary-certification-courses-result-repository', function () {
   describe('#getPixSourceResultByComplementaryCertificationCourseId', function () {

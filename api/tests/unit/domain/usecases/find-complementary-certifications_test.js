@@ -1,5 +1,5 @@
 import { expect, domainBuilder, sinon } from '../../../test-helper.js';
-import { findComplementaryCertifications } from '../../../../lib/domain/usecases/find-complementary-certifications.js';
+import { findComplementaryCertifications } from '../../../../lib/shared/domain/usecases/find-complementary-certifications.js';
 
 describe('Unit | UseCase | find-complementary-certifications', function () {
   let complementaryCertificationRepository;

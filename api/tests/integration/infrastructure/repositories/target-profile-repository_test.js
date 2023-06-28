@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { expect, databaseBuilder, catchErr, knex, domainBuilder } from '../../../test-helper.js';
-import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
-import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { NotFoundError, ObjectValidationError, InvalidSkillSetError } from '../../../../lib/domain/errors.js';
+import { TargetProfile } from '../../../../lib/shared/domain/models/TargetProfile.js';
+import * as targetProfileRepository from '../../../../lib/shared/infrastructure/repositories/target-profile-repository.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
+import { NotFoundError, ObjectValidationError, InvalidSkillSetError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {

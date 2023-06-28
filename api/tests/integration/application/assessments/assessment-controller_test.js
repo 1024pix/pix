@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { assessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
-import * as moduleUnderTest from '../../../../lib/application/assessments/index.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { assessmentAuthorization } from '../../../../lib/shared/application/preHandlers/assessment-authorization.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/assessments/index.js';
 
 describe('Integration | Application | Assessments | assessment-controller', function () {
   let assessment;

@@ -2,7 +2,7 @@ import chai from 'chai';
 
 const { expect } = chai;
 
-import { paginate } from '../../../../lib/infrastructure/utils/paginate.js';
+import { paginate } from '../../../../lib/shared/infrastructure/utils/paginate.js';
 
 describe('Unit | Utils | paginate', function () {
   describe('#paginate', function () {

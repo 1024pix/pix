@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { expect, databaseBuilder, domainBuilder, knex } from '../../../test-helper.js';
-import * as campaignAnalysisRepository from '../../../../lib/infrastructure/repositories/campaign-analysis-repository.js';
-import { CampaignAnalysis } from '../../../../lib/domain/read-models/CampaignAnalysis.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import * as campaignAnalysisRepository from '../../../../lib/shared/infrastructure/repositories/campaign-analysis-repository.js';
+import { CampaignAnalysis } from '../../../../lib/shared/domain/read-models/CampaignAnalysis.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 

@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { User } from '../../../../lib/domain/models/User.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
 
 describe('Unit | UseCase | find-paginated-filtered-users', function () {
   it('should search users with filtering and pagination', async function () {

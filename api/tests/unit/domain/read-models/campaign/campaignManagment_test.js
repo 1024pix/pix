@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import { CampaignManagement } from '../../../../../lib/domain/read-models/CampaignManagement.js';
+import { CampaignManagement } from '../../../../../lib/shared/domain/read-models/CampaignManagement.js';
 
 describe('campaignManagement', function () {
   describe('#totalParticipationsCount', function () {

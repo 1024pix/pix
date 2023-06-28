@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
+import { TrainingTriggerTube } from '../../../../lib/shared/domain/models/TrainingTriggerTube.js';
 
 describe('Unit | Domain | Models | TrainingTriggerTube', function () {
   describe('#constructor', function () {

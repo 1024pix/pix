@@ -1,14 +1,14 @@
 import { expect, databaseBuilder, domainBuilder, catchErr, knex, mockLearningContent } from '../../../test-helper.js';
 
-import * as trainingRepository from '../../../../lib/infrastructure/repositories/training-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { TrainingSummary } from '../../../../lib/domain/read-models/TrainingSummary.js';
-import { Training } from '../../../../lib/domain/models/Training.js';
-import { UserRecommendedTraining } from '../../../../lib/domain/read-models/UserRecommendedTraining.js';
-import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
-import { TrainingForAdmin } from '../../../../lib/domain/read-models/TrainingForAdmin.js';
-import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
-import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
+import * as trainingRepository from '../../../../lib/shared/infrastructure/repositories/training-repository.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { TrainingSummary } from '../../../../lib/shared/domain/read-models/TrainingSummary.js';
+import { Training } from '../../../../lib/shared/domain/models/Training.js';
+import { UserRecommendedTraining } from '../../../../lib/shared/domain/read-models/UserRecommendedTraining.js';
+import { TrainingTriggerForAdmin } from '../../../../lib/shared/domain/read-models/TrainingTriggerForAdmin.js';
+import { TrainingForAdmin } from '../../../../lib/shared/domain/read-models/TrainingForAdmin.js';
+import { TrainingTrigger } from '../../../../lib/shared/domain/models/TrainingTrigger.js';
+import { TrainingTriggerTube } from '../../../../lib/shared/domain/models/TrainingTriggerTube.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | training-repository', function () {

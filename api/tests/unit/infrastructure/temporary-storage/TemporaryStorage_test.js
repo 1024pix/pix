@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { TemporaryStorage } from '../../../../lib/infrastructure/temporary-storage/TemporaryStorage.js';
+import { TemporaryStorage } from '../../../../lib/shared/infrastructure/temporary-storage/TemporaryStorage.js';
 
 describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', function () {
   describe('#save', function () {

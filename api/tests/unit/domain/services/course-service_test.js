@@ -1,5 +1,5 @@
-import * as courseService from '../../../../lib/domain/services/course-service.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
+import * as courseService from '../../../../lib/shared/domain/services/course-service.js';
+import { logger } from '../../../../lib/shared/infrastructure/logger.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Service | Course Service', function () {

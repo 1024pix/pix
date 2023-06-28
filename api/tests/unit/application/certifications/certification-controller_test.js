@@ -1,8 +1,8 @@
 import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
-import { certificationController } from '../../../../lib/application/certifications/certification-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
-import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
+import { certificationController } from '../../../../lib/shared/application/certifications/certification-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { ChallengeNeutralized } from '../../../../lib/shared/domain/events/ChallengeNeutralized.js';
+import { ChallengeDeneutralized } from '../../../../lib/shared/domain/events/ChallengeDeneutralized.js';
 
 describe('Unit | Controller | certifications-controller', function () {
   describe('#findUserCertifications', function () {

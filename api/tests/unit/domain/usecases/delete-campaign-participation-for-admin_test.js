@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { CampaignParticipation } from '../../../../lib/shared/domain/models/CampaignParticipation.js';
 
 const { deleteCampaignParticipationForAdmin } = usecases;
 

@@ -1,10 +1,10 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../../test-helper.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { Tag } from '../../../../../lib/domain/models/Tag.js';
-import { OrganizationTag } from '../../../../../lib/domain/models/OrganizationTag.js';
-import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/Organization.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
-import { usecases } from '../../../../../lib/domain/usecases/index.js';
+import { NotFoundError } from '../../../../../lib/shared/domain/errors.js';
+import { Tag } from '../../../../../lib/shared/domain/models/Tag.js';
+import { OrganizationTag } from '../../../../../lib/shared/domain/models/OrganizationTag.js';
+import { OrganizationForAdmin } from '../../../../../lib/shared/domain/models/organizations-administration/Organization.js';
+import * as OidcIdentityProviders from '../../../../../lib/shared/domain/constants/oidc-identity-providers.js';
+import { usecases } from '../../../../../lib/shared/domain/usecases/index.js';
 const { updateOrganizationInformation } = usecases;
 
 describe('Unit | UseCase | organizations-administration | update-organization-information', function () {

@@ -1,6 +1,6 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
-import * as userEmailRepository from '../../../../lib/infrastructure/repositories/user-email-repository.js';
-import { EmailModificationDemand } from '../../../../lib/domain/models/EmailModificationDemand.js';
+import * as userEmailRepository from '../../../../lib/shared/infrastructure/repositories/user-email-repository.js';
+import { EmailModificationDemand } from '../../../../lib/shared/domain/models/EmailModificationDemand.js';
 
 describe('Integration | Repository | UserEmailRepository', function () {
   describe('#saveEmailModificationDemand', function () {

@@ -21,7 +21,7 @@ import {
 import { participateToAssessmentCampaign } from '../campaign-participations-builder.js';
 import { TARGET_PROFILE_PIX_DROIT_ID } from '../target-profiles-builder.js';
 import { SUP_STUDENT_ASSOCIATED_ID, SUP_UNIVERSITY_ID } from '../organizations-sup-builder.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 const { SHARED } = CampaignParticipationStatuses;
 
 function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {

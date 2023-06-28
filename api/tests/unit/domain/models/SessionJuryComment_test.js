@@ -1,4 +1,4 @@
-import { SessionJuryComment } from '../../../../lib/domain/models/SessionJuryComment.js';
+import { SessionJuryComment } from '../../../../lib/shared/domain/models/SessionJuryComment.js';
 import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 import _ from 'lodash';
 

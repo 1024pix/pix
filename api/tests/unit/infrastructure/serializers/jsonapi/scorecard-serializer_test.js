@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/scorecard-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | scorecard-serializer', function () {
   describe('#serialize()', function () {

@@ -1,9 +1,9 @@
-import * as scoringService from '../../../../../lib/domain/services/scoring/scoring-service.js';
+import * as scoringService from '../../../../../lib/shared/domain/services/scoring/scoring-service.js';
 import {
   PIX_COUNT_BY_LEVEL,
   MAX_REACHABLE_LEVEL,
   MAX_REACHABLE_PIX_BY_COMPETENCE,
-} from '../../../../../lib/domain/constants.js';
+} from '../../../../../lib/shared/domain/constants.js';
 import { expect, domainBuilder } from '../../../../test-helper.js';
 
 describe('Unit | Service | Scoring Service', function () {

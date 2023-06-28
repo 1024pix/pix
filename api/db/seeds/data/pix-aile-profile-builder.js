@@ -1,6 +1,6 @@
-import { Assessment } from '../../../lib/domain/models/Assessment.js';
-import { CompetenceEvaluation } from '../../../lib/domain/models/CompetenceEvaluation.js';
-import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
+import { Assessment } from '../../../lib/shared/domain/models/Assessment.js';
+import { CompetenceEvaluation } from '../../../lib/shared/domain/models/CompetenceEvaluation.js';
+import { KnowledgeElement } from '../../../lib/shared/domain/models/KnowledgeElement.js';
 import moment from 'moment';
 import _ from 'lodash';
 

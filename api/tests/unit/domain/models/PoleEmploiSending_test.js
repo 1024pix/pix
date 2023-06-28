@@ -1,4 +1,4 @@
-import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
+import { PoleEmploiSending } from '../../../../lib/shared/domain/models/PoleEmploiSending.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | PoleEmploiSending', function () {

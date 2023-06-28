@@ -4,7 +4,7 @@ import {
   SkillSet,
   CappedTube,
   SCOPES,
-} from '../../../../lib/domain/models/BadgeDetails.js';
+} from '../../../../lib/shared/domain/models/BadgeDetails.js';
 
 const buildBadgeDetails = function buildBadgeDetails({
   id = 123,

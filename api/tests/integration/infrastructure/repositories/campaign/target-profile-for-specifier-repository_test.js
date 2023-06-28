@@ -1,7 +1,7 @@
 import { expect, databaseBuilder } from '../../../../test-helper.js';
-import * as TargetProfileForSpecifierRepository from '../../../../../lib/infrastructure/repositories/campaign/target-profile-for-specifier-repository.js';
-import { TargetProfileForSpecifier } from '../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier.js';
-import { categories } from '../../../../../lib/domain/models/TargetProfile.js';
+import * as TargetProfileForSpecifierRepository from '../../../../../lib/shared/infrastructure/repositories/campaign/target-profile-for-specifier-repository.js';
+import { TargetProfileForSpecifier } from '../../../../../lib/shared/domain/read-models/campaign/TargetProfileForSpecifier.js';
+import { categories } from '../../../../../lib/shared/domain/models/TargetProfile.js';
 
 describe('Integration | Infrastructure | Repository | target-profile-for-campaign-repository', function () {
   describe('#availableForOrganization', function () {

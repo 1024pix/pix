@@ -3,7 +3,7 @@ import lodash from 'lodash';
 const { pick } = lodash;
 
 import { expect, hFake } from '../test-helper.js';
-import { BadRequestError } from '../../lib/application/http-errors.js';
+import { BadRequestError } from '../../lib/shared/application/http-errors.js';
 import { handleFailAction } from '../../lib/validate.js';
 
 describe('Unit | Validate', function () {

@@ -1,9 +1,9 @@
 import { expect, databaseBuilder, knex, sinon, catchErr } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
-import { mailService } from '../../../../lib/domain/services/mail-service.js';
-import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../lib/domain/errors.js';
-import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { CertificationCenterInvitation } from '../../../../lib/shared/domain/models/CertificationCenterInvitation.js';
+import { mailService } from '../../../../lib/shared/domain/services/mail-service.js';
+import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../lib/shared/domain/errors.js';
+import { EmailingAttempt } from '../../../../lib/shared/domain/models/EmailingAttempt.js';
 
 describe('Integration | UseCase | create-or-update-certification-center-invitation-for-admin', function () {
   let clock;

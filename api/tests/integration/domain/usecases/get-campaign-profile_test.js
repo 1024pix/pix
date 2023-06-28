@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { LOCALE } from '../../../../lib/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

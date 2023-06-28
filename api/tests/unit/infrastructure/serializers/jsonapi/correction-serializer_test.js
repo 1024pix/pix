@@ -1,10 +1,10 @@
 import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/correction-serializer.js';
-import { Correction } from '../../../../../lib/domain/models/Correction.js';
-import { Hint } from '../../../../../lib/domain/models/Hint.js';
-import { TutorialForUser } from '../../../../../lib/domain/read-models/TutorialForUser.js';
-import { UserSavedTutorial } from '../../../../../lib/domain/models/UserSavedTutorial.js';
-import { TutorialEvaluation } from '../../../../../lib/domain/models/TutorialEvaluation.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/correction-serializer.js';
+import { Correction } from '../../../../../lib/shared/domain/models/Correction.js';
+import { Hint } from '../../../../../lib/shared/domain/models/Hint.js';
+import { TutorialForUser } from '../../../../../lib/shared/domain/read-models/TutorialForUser.js';
+import { UserSavedTutorial } from '../../../../../lib/shared/domain/models/UserSavedTutorial.js';
+import { TutorialEvaluation } from '../../../../../lib/shared/domain/models/TutorialEvaluation.js';
 
 describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
   describe('#serialize()', function () {

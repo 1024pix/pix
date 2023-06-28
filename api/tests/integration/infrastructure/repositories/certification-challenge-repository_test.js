@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { expect, knex, domainBuilder, databaseBuilder } from '../../../test-helper.js';
-import { CertificationChallenge } from '../../../../lib/domain/models/CertificationChallenge.js';
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
-import * as certificationChallengeRepository from '../../../../lib/infrastructure/repositories/certification-challenge-repository.js';
+import { CertificationChallenge } from '../../../../lib/shared/domain/models/CertificationChallenge.js';
+import { AssessmentEndedError } from '../../../../lib/shared/domain/errors.js';
+import * as certificationChallengeRepository from '../../../../lib/shared/infrastructure/repositories/certification-challenge-repository.js';
 
 describe('Integration | Repository | Certification Challenge', function () {
   describe('#save', function () {

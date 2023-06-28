@@ -1,4 +1,4 @@
-import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
+import { OrganizationLearner } from '../../../../lib/shared/domain/models/OrganizationLearner.js';
 import { buildOrganization } from './build-organization.js';
 
 function buildOrganizationLearner({

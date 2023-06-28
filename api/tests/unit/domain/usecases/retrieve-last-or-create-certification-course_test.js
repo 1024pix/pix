@@ -7,12 +7,12 @@ import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   UnexpectedUserAccountError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
-import { ComplementaryCertificationCourse } from '../../../../lib/domain/models/ComplementaryCertificationCourse.js';
+import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/shared/domain/usecases/retrieve-last-or-create-certification-course.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { CertificationCourse } from '../../../../lib/shared/domain/models/CertificationCourse.js';
+import { ComplementaryCertificationCourse } from '../../../../lib/shared/domain/models/ComplementaryCertificationCourse.js';
 import _ from 'lodash';
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', function () {

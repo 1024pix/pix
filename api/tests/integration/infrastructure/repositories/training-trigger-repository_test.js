@@ -9,12 +9,12 @@ import {
   catchErr,
 } from '../../../test-helper.js';
 
-import * as trainingTriggerRepository from '../../../../lib/infrastructure/repositories/training-trigger-repository.js';
-import { TrainingTrigger, TrainingTriggerTube } from '../../../../lib/domain/models/index.js';
-import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
+import * as trainingTriggerRepository from '../../../../lib/shared/infrastructure/repositories/training-trigger-repository.js';
+import { TrainingTrigger, TrainingTriggerTube } from '../../../../lib/shared/domain/models/index.js';
+import { TrainingTriggerForAdmin } from '../../../../lib/shared/domain/read-models/TrainingTriggerForAdmin.js';
 import _ from 'lodash';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { logger } from '../../../../lib/shared/infrastructure/logger.js';
 
 describe('Integration | Repository | training-trigger-repository', function () {
   let learningContent;

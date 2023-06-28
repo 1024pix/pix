@@ -1,9 +1,9 @@
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
 import bluebird from 'bluebird';
-import * as userToCreateRepository from '../lib/infrastructure/repositories/user-to-create-repository.js';
-import * as authenticationMethodRepository from '../lib/infrastructure/repositories/authentication-method-repository.js';
-import * as userService from '../lib/domain/services/user-service.js';
-import * as encryptionService from '../lib/domain/services/encryption-service.js';
+import * as userToCreateRepository from '../lib/shared/infrastructure/repositories/user-to-create-repository.js';
+import * as authenticationMethodRepository from '../lib/shared/infrastructure/repositories/authentication-method-repository.js';
+import * as userService from '../lib/shared/domain/services/user-service.js';
+import * as encryptionService from '../lib/shared/domain/services/encryption-service.js';
 import { disconnect } from '../db/knex-database-connection.js';
 import * as url from 'url';
 

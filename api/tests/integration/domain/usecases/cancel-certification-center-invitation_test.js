@@ -1,8 +1,8 @@
 import { catchErr, databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
-import { NotFoundError, UncancellableCertificationCenterInvitationError } from '../../../../lib/domain/errors.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { CertificationCenterInvitation } from '../../../../lib/shared/domain/models/CertificationCenterInvitation.js';
+import { NotFoundError, UncancellableCertificationCenterInvitationError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | UseCases | cancel-certification-center-invitation', function () {
   describe('when the invitation exists', function () {

@@ -1,7 +1,7 @@
 import Redlock from 'redlock';
 import { expect, sinon } from '../../../test-helper.js';
 import { config as settings } from '../../../../lib/config.js';
-import { RedisCache } from '../../../../lib/infrastructure/caches/RedisCache.js';
+import { RedisCache } from '../../../../lib/shared/infrastructure/caches/RedisCache.js';
 
 describe('Unit | Infrastructure | Cache | redis-cache', function () {
   let stubbedClient;

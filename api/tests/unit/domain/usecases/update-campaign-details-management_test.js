@@ -1,6 +1,6 @@
 import { expect, catchErr, domainBuilder, sinon } from '../../../test-helper.js';
-import { updateCampaignDetailsManagement } from '../../../../lib/domain/usecases/update-campaign-details-management.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { updateCampaignDetailsManagement } from '../../../../lib/shared/domain/usecases/update-campaign-details-management.js';
+import { EntityValidationError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | update-campaign-details-management', function () {
   let campaignManagementRepository;

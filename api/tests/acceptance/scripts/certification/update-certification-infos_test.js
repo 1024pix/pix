@@ -2,7 +2,7 @@ import { expect, databaseBuilder, knex, sinon } from '../../../test-helper.js';
 import { writeFile, rm } from 'fs/promises';
 import lodash from 'lodash';
 const { values } = lodash;
-import { logger } from '../../../../lib/infrastructure/logger.js';
+import { logger } from '../../../../lib/shared/infrastructure/logger.js';
 import { updateCertificationInfos, headers } from '../../../../scripts/certification/update-certification-infos.js';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

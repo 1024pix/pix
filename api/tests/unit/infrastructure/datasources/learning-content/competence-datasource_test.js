@@ -1,7 +1,7 @@
 import { expect, sinon } from '../../../../test-helper.js';
-import { competenceDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/competence-datasource.js';
-import { lcms } from '../../../../../lib/infrastructure/lcms.js';
-import { learningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { competenceDatasource } from '../../../../../lib/shared/infrastructure/datasources/learning-content/competence-datasource.js';
+import { lcms } from '../../../../../lib/shared/infrastructure/lcms.js';
+import { learningContentCache } from '../../../../../lib/shared/infrastructure/caches/learning-content-cache.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | CompetenceDatasource', function () {
   beforeEach(function () {

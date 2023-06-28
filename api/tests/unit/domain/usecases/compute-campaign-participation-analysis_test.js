@@ -1,11 +1,11 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
 import {
   UserNotAuthorizedToAccessEntityError,
   CampaignParticipationDeletedError,
-} from '../../../../lib/domain/errors.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+} from '../../../../lib/shared/domain/errors.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
+import { LOCALE } from '../../../../lib/shared/domain/constants.js';
 
 const { computeCampaignParticipationAnalysis } = usecases;
 const { FRENCH_SPOKEN } = LOCALE;

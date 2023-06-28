@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as campaignToJoinSerializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
+import * as campaignToJoinSerializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function () {
   describe('#serialize()', function () {

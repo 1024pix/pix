@@ -9,7 +9,7 @@ import bluebird from 'bluebird';
 
 import { readFile } from 'fs/promises';
 
-import { logger } from '../../lib/infrastructure/logger.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
 // Usage: node scripts/update-certifications-infos path/data.csv path/sessionsId.csv
 // data.csv
 // #externalId,birthdate,birthINSEECode,birthPostalCode,birthCity,birthCountry

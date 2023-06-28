@@ -1,8 +1,8 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer.js';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { SamlIdentityProviders } from '../../../../../lib/domain/constants/saml-identity-providers.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/prescriber-serializer.js';
+import { Membership } from '../../../../../lib/shared/domain/models/Membership.js';
+import { SamlIdentityProviders } from '../../../../../lib/shared/domain/constants/saml-identity-providers.js';
 
 describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
   describe('#serialize', function () {

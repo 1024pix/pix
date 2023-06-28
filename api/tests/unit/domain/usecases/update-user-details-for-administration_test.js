@@ -4,10 +4,10 @@ import {
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import { User } from '../../../../lib/domain/models/User.js';
-import { updateUserDetailsForAdministration } from '../../../../lib/domain/usecases/update-user-details-for-administration.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
+import { updateUserDetailsForAdministration } from '../../../../lib/shared/domain/usecases/update-user-details-for-administration.js';
 
 describe('Unit | UseCase | update-user-details-for-administration', function () {
   const userId = 1;

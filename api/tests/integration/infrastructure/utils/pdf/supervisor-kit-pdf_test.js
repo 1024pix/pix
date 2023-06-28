@@ -1,9 +1,9 @@
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import { isSameBinary } from '../../../../tooling/binary-comparator.js';
-import { getSupervisorKitPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf.js';
+import { getSupervisorKitPdfBuffer } from '../../../../../lib/shared/infrastructure/utils/pdf/supervisor-kit-pdf.js';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import * as url from 'url';
-import { LOCALE } from '../../../../../lib/domain/constants.js';
+import { LOCALE } from '../../../../../lib/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 

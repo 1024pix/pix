@@ -1,8 +1,8 @@
 import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper.js';
-import * as accountRecoveryDemandRepository from '../../../../lib/infrastructure/repositories/account-recovery-demand-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { AccountRecoveryDemand } from '../../../../lib/domain/models/AccountRecoveryDemand.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as accountRecoveryDemandRepository from '../../../../lib/shared/infrastructure/repositories/account-recovery-demand-repository.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { AccountRecoveryDemand } from '../../../../lib/shared/domain/models/AccountRecoveryDemand.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
 import lodash from 'lodash';
 const { omit } = lodash;
 

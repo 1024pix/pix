@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import * as certificationBadgesService from '../../../../lib/domain/services/certification-badges-service.js';
+import * as certificationBadgesService from '../../../../lib/shared/domain/services/certification-badges-service.js';
 
 describe('Unit | Service | certification-badges-service', function () {
   describe('#findStillValidBadgeAcquisitions', function () {

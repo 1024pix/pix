@@ -1,4 +1,4 @@
-import { CertifiedProfile } from '../../../../lib/domain/read-models/CertifiedProfile.js';
+import { CertifiedProfile } from '../../../../lib/shared/domain/read-models/CertifiedProfile.js';
 
 const buildCertifiedProfile = function buildCertifiedProfile({
   id = 123,

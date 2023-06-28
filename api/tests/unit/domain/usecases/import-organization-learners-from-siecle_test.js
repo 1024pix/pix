@@ -1,8 +1,8 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { importOrganizationLearnersFromSIECLEFormat } from '../../../../lib/domain/usecases/import-organization-learners-from-siecle.js';
-import { FileValidationError, SiecleXmlImportError } from '../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
+import { importOrganizationLearnersFromSIECLEFormat } from '../../../../lib/shared/domain/usecases/import-organization-learners-from-siecle.js';
+import { FileValidationError, SiecleXmlImportError } from '../../../../lib/shared/domain/errors.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
+import { OrganizationLearner } from '../../../../lib/shared/domain/models/OrganizationLearner.js';
 import fs from 'fs/promises';
 
 import { getI18n } from '../../../tooling/i18n/i18n.js';

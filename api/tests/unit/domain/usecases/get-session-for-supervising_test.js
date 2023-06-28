@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { getSessionForSupervising } from '../../../../lib/domain/usecases/get-session-for-supervising.js';
-import { constants } from '../../../../lib/domain/constants.js';
+import { getSessionForSupervising } from '../../../../lib/shared/domain/usecases/get-session-for-supervising.js';
+import { constants } from '../../../../lib/shared/domain/constants.js';
 import dayjs from 'dayjs';
 
 const START_DATETIME_STUB = new Date('2022-10-01T13:00:00Z');

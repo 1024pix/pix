@@ -4,11 +4,11 @@ import {
   AlreadyRegisteredEmailError,
   InvalidPasswordForUpdateEmailError,
   UserNotAuthorizedToUpdateEmailError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
 
 describe('Unit | UseCase | send-verification-code', function () {
   let authenticationMethodRepository;

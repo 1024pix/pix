@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import PgBoss from 'pg-boss';
-import { logger } from '../../lib/infrastructure/logger.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
 import { disconnect } from '../../db/knex-database-connection.js';
 
 async function main() {

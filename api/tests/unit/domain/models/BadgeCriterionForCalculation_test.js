@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { BadgeCriterionForCalculation } from '../../../../lib/domain/models/BadgeCriterionForCalculation.js';
+import { BadgeCriterionForCalculation } from '../../../../lib/shared/domain/models/BadgeCriterionForCalculation.js';
 
 describe('Unit | Domain | Models | BadgeCriterionForCalculation', function () {
   describe('#getAcquisitionPercentage', function () {

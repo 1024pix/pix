@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | user-anonymized-details-for-admin-serializer', function () {
   describe('#serialize', function () {

@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { startCampaignParticipation } from '../../../../lib/domain/usecases/start-campaign-participation.js';
-import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
-import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
+import { startCampaignParticipation } from '../../../../lib/shared/domain/usecases/start-campaign-participation.js';
+import { CampaignParticipationStarted } from '../../../../lib/shared/domain/events/CampaignParticipationStarted.js';
+import { CampaignParticipant } from '../../../../lib/shared/domain/models/CampaignParticipant.js';
 
 describe('Unit | UseCase | start-campaign-participation', function () {
   const userId = 19837482;

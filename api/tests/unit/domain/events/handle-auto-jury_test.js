@@ -1,13 +1,13 @@
 import { sinon, expect, catchErr, domainBuilder } from '../../../test-helper.js';
-import { handleAutoJury } from '../../../../lib/domain/events/handle-auto-jury.js';
-import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
-import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
-import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { handleAutoJury } from '../../../../lib/shared/domain/events/handle-auto-jury.js';
+import { SessionFinalized } from '../../../../lib/shared/domain/events/SessionFinalized.js';
+import { AutoJuryDone } from '../../../../lib/shared/domain/events/AutoJuryDone.js';
+import { CertificationJuryDone } from '../../../../lib/shared/domain/events/CertificationJuryDone.js';
+import { AnswerStatus } from '../../../../lib/shared/domain/models/AnswerStatus.js';
 import {
   CertificationIssueReportSubcategories,
   CertificationIssueReportCategory,
-} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+} from '../../../../lib/shared/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | Domain | Events | handle-auto-jury', function () {
   it('fails when event is not of correct type', async function () {

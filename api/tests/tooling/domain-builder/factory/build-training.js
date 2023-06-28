@@ -1,4 +1,4 @@
-import { Training } from '../../../../lib/domain/models/Training.js';
+import { Training } from '../../../../lib/shared/domain/models/Training.js';
 
 const buildTraining = function ({
   id = 'training1',

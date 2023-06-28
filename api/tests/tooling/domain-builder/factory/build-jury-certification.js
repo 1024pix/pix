@@ -1,4 +1,4 @@
-import { JuryCertification } from '../../../../lib/domain/models/JuryCertification.js';
+import { JuryCertification } from '../../../../lib/shared/domain/models/JuryCertification.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 import { buildCompetenceMark } from './build-competence-mark.js';
 

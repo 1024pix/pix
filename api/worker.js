@@ -4,14 +4,14 @@ dotenv.config();
 import PgBoss from 'pg-boss';
 import _ from 'lodash';
 import { config } from './lib/config.js';
-import { logger } from './lib/infrastructure/logger.js';
-import { JobQueue } from './lib/infrastructure/jobs/JobQueue.js';
-import { ParticipationResultCalculationJob } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
-import { SendSharedParticipationResultsToPoleEmploiJob } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
-import { ParticipationResultCalculationJobHandler } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
-import { SendSharedParticipationResultsToPoleEmploiHandler } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
-import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
-import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
+import { logger } from './lib/shared/infrastructure/logger.js';
+import { JobQueue } from './lib/shared/infrastructure/jobs/JobQueue.js';
+import { ParticipationResultCalculationJob } from './lib/shared/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
+import { SendSharedParticipationResultsToPoleEmploiJob } from './lib/shared/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
+import { ParticipationResultCalculationJobHandler } from './lib/shared/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
+import { SendSharedParticipationResultsToPoleEmploiHandler } from './lib/shared/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
+import { scheduleCpfJobs } from './lib/shared/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
+import { MonitoredJobQueue } from './lib/shared/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
 import * as url from 'url';
 
 async function runJobs() {

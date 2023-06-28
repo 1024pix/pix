@@ -1,8 +1,8 @@
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
-import { archiveCampaignFromCampaignCode } from '../../lib/domain/usecases/archive-campaign-from-campaign-code.js';
-import * as campaignForArchivingRepository from '../../lib/infrastructure/repositories/campaign/campaign-for-archiving-repository.js';
+import { archiveCampaignFromCampaignCode } from '../../lib/shared/domain/usecases/archive-campaign-from-campaign-code.js';
+import * as campaignForArchivingRepository from '../../lib/shared/infrastructure/repositories/campaign/campaign-for-archiving-repository.js';
 import bluebird from 'bluebird';
-import { ProgressionLogger } from '../../lib/infrastructure/utils/progression-logger.js';
+import { ProgressionLogger } from '../../lib/shared/infrastructure/utils/progression-logger.js';
 import { disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
 

@@ -1,7 +1,7 @@
 import { expect, mockLearningContent, databaseBuilder, knex } from '../../../test-helper.js';
 import { computeParticipantResultsShared as computeParticipationResults } from '../../../../scripts/prod/compute-participation-results.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignTypes } from '../../../../lib/shared/domain/models/CampaignTypes.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

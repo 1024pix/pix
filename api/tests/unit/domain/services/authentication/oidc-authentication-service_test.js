@@ -1,24 +1,24 @@
 import { expect, sinon, catchErr } from '../../../../test-helper.js';
 import { config as settings } from '../../../../../lib/config.js';
 
-import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
+import { OidcAuthenticationService } from '../../../../../lib/shared/domain/services/authentication/oidc-authentication-service.js';
 import jsonwebtoken from 'jsonwebtoken';
-import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
-import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
+import { httpAgent } from '../../../../../lib/shared/infrastructure/http/http-agent.js';
+import { AuthenticationSessionContent } from '../../../../../lib/shared/domain/models/AuthenticationSessionContent.js';
 
 import {
   InvalidExternalAPIResponseError,
   OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
-} from '../../../../../lib/domain/errors.js';
+} from '../../../../../lib/shared/domain/errors.js';
 
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
-import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
-import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
-import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
-import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
+import { DomainTransaction } from '../../../../../lib/shared/infrastructure/DomainTransaction.js';
+import { UserToCreate } from '../../../../../lib/shared/domain/models/UserToCreate.js';
+import { AuthenticationMethod } from '../../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import * as OidcIdentityProviders from '../../../../../lib/shared/domain/constants/oidc-identity-providers.js';
+import { monitoringTools } from '../../../../../lib/shared/infrastructure/monitoring-tools.js';
+import { OIDC_ERRORS } from '../../../../../lib/shared/domain/constants.js';
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#isReady', function () {

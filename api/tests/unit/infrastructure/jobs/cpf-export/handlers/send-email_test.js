@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../../../test-helper.js';
-import { sendEmail } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/send-email.js';
+import { sendEmail } from '../../../../../../lib/shared/infrastructure/jobs/cpf-export/handlers/send-email.js';
 import cronParser from 'cron-parser';
 import { config } from '../../../../../../lib/config.js';
 const { cpf } = config;

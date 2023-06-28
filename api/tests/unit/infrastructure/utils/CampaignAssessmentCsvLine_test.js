@@ -1,7 +1,7 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { CampaignAssessmentCsvLine } from '../../../../lib/infrastructure/utils/CampaignAssessmentCsvLine.js';
-import * as campaignParticipationService from '../../../../lib/domain/services/campaign-participation-service.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { CampaignAssessmentCsvLine } from '../../../../lib/shared/infrastructure/utils/CampaignAssessmentCsvLine.js';
+import * as campaignParticipationService from '../../../../lib/shared/domain/services/campaign-participation-service.js';
+import { KnowledgeElement } from '../../../../lib/shared/domain/models/KnowledgeElement.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {

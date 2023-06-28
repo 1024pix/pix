@@ -1,15 +1,15 @@
 import bluebird from 'bluebird';
 
-import { NotFoundError } from '../lib/domain/errors.js';
+import { NotFoundError } from '../lib/shared/domain/errors.js';
 import { parseCsvWithHeader } from '../scripts/helpers/csvHelpers.js';
 import { disconnect } from '../db/knex-database-connection.js';
 
-import * as bookshelfToDomainConverter from '../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
-import { BookshelfOrganization } from '../lib/infrastructure/orm-models/Organization.js';
+import * as bookshelfToDomainConverter from '../lib/shared/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { BookshelfOrganization } from '../lib/shared/infrastructure/orm-models/Organization.js';
 
-import * as organizationInvitationService from '../lib/domain/services/organization-invitation-service.js';
-import * as organizationRepository from '../lib/infrastructure/repositories/organization-repository.js';
-import * as organizationInvitationRepository from '../lib/infrastructure/repositories/organization-invitation-repository.js';
+import * as organizationInvitationService from '../lib/shared/domain/services/organization-invitation-service.js';
+import * as organizationRepository from '../lib/shared/infrastructure/repositories/organization-repository.js';
+import * as organizationInvitationRepository from '../lib/shared/infrastructure/repositories/organization-invitation-repository.js';
 import * as url from 'url';
 
 const TAGS = ['JOIN_ORGA'];

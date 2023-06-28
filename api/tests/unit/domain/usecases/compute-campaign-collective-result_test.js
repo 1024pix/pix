@@ -1,6 +1,6 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/shared/domain/errors.js';
 
 const { computeCampaignCollectiveResult } = usecases;
 

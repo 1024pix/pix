@@ -1,5 +1,5 @@
 import { sinon } from '../../test-helper.js';
-import { _forTestOnly } from '../../../lib/domain/events/index.js';
+import { _forTestOnly } from '../../../lib/shared/domain/events/index.js';
 
 function buildEventDispatcherAndHandlersForTest() {
   const handlerStubs = {};

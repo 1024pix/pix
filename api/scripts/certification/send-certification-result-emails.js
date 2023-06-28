@@ -3,11 +3,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import bluebird from 'bluebird';
-import { logger } from '../../lib/infrastructure/logger.js';
-import * as sessionRepository from '../../lib/infrastructure/repositories/sessions/session-repository.js';
-import * as certificationCenterRepository from '../../lib/infrastructure/repositories/certification-center-repository.js';
-import * as mailService from '../../lib/domain/services/mail-service.js';
-import { manageEmails } from '../../lib/domain/services/session-publication-service.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
+import * as sessionRepository from '../../lib/shared/infrastructure/repositories/sessions/session-repository.js';
+import * as certificationCenterRepository from '../../lib/shared/infrastructure/repositories/certification-center-repository.js';
+import * as mailService from '../../lib/shared/domain/services/mail-service.js';
+import { manageEmails } from '../../lib/shared/domain/services/session-publication-service.js';
 import { disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
 import path from 'path';

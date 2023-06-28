@@ -2,9 +2,9 @@ import lodash from 'lodash';
 const { omit } = lodash;
 
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
 
-import * as userService from '../../../../lib/domain/services/user-service.js';
+import * as userService from '../../../../lib/shared/domain/services/user-service.js';
 
 describe('Unit | Service | user-service', function () {
   let domainTransaction;

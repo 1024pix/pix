@@ -1,7 +1,7 @@
-import { getCorrectionForAnswer } from '../../../../lib/domain/usecases/get-correction-for-answer.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { Answer } from '../../../../lib/domain/models/Answer.js';
-import { AssessmentNotCompletedError, NotFoundError } from '../../../../lib/domain/errors.js';
+import { getCorrectionForAnswer } from '../../../../lib/shared/domain/usecases/get-correction-for-answer.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { Answer } from '../../../../lib/shared/domain/models/Answer.js';
+import { AssessmentNotCompletedError, NotFoundError } from '../../../../lib/shared/domain/errors.js';
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | UseCase | getCorrectionForAnswer', function () {

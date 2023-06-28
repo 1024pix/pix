@@ -1,6 +1,6 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
-import { campaignController } from '../../../../lib/application/campaigns-administration/campaign-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { campaignController } from '../../../../lib/shared/application/campaigns-administration/campaign-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
 
 describe('Unit | Application | Controller | Campaign Administration', function () {
   describe('#archiveCampaigns', function () {

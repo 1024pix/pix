@@ -11,12 +11,12 @@ import {
   organizeOrganizationsByExternalId,
 } from './helpers/organizations-by-external-id-helper.js';
 import { parseCsv } from './helpers/csvHelpers.js';
-import { Organization } from '../lib/domain/models/Organization.js';
-import { Tag } from '../lib/domain/models/Tag.js';
-import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
-import * as organizationRepository from '../lib/infrastructure/repositories/organization-repository.js';
-import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
-import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
+import { Organization } from '../lib/shared/domain/models/Organization.js';
+import { Tag } from '../lib/shared/domain/models/Tag.js';
+import { OrganizationTag } from '../lib/shared/domain/models/OrganizationTag.js';
+import * as organizationRepository from '../lib/shared/infrastructure/repositories/organization-repository.js';
+import * as tagRepository from '../lib/shared/infrastructure/repositories/tag-repository.js';
+import * as organizationTagRepository from '../lib/shared/infrastructure/repositories/organization-tag-repository.js';
 import { disconnect } from '../db/knex-database-connection.js';
 
 import * as url from 'url';

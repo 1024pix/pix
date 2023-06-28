@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { getCertificationPointOfContact } from '../../../../lib/domain/usecases/get-certification-point-of-contact.js';
+import { getCertificationPointOfContact } from '../../../../lib/shared/domain/usecases/get-certification-point-of-contact.js';
 
 describe('Unit | UseCase | get-certification-point-of-contact', function () {
   const userId = 123;

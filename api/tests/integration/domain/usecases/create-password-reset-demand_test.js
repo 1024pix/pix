@@ -1,12 +1,12 @@
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
-import * as mailService from '../../../../lib/domain/services/mail-service.js';
-import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
-import * as resetPasswordDemandRepository from '../../../../lib/infrastructure/repositories/reset-password-demands-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as mailService from '../../../../lib/shared/domain/services/mail-service.js';
+import * as resetPasswordService from '../../../../lib/shared/domain/services/reset-password-service.js';
+import * as resetPasswordDemandRepository from '../../../../lib/shared/infrastructure/repositories/reset-password-demands-repository.js';
+import * as userRepository from '../../../../lib/shared/infrastructure/repositories/user-repository.js';
 
-import { UserNotFoundError } from '../../../../lib/domain/errors.js';
-import { createPasswordResetDemand } from '../../../../lib/domain/usecases/create-password-reset-demand.js';
+import { UserNotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { createPasswordResetDemand } from '../../../../lib/shared/domain/usecases/create-password-reset-demand.js';
 
 describe('Integration | UseCases | create-password-reset-demand', function () {
   const email = 'user@example.net';

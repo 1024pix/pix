@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as certificationCenterMembershipSerializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
+import * as certificationCenterMembershipSerializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | certification-center-membership-serializer', function () {
   describe('#serialize', function () {

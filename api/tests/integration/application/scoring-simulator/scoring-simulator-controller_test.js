@@ -1,11 +1,11 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { ScoringSimulationResult } from '../../../../lib/domain/models/ScoringSimulationResult.js';
-import { ScoringSimulation } from '../../../../lib/domain/models/ScoringSimulation.js';
-import { Answer } from '../../../../lib/domain/models/Answer.js';
-import { ScoringSimulationContext } from '../../../../lib/domain/models/ScoringSimulationContext.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import * as moduleUnderTest from '../../../../lib/application/scoring-simulator/index.js';
+import { ScoringSimulationResult } from '../../../../lib/shared/domain/models/ScoringSimulationResult.js';
+import { ScoringSimulation } from '../../../../lib/shared/domain/models/ScoringSimulation.js';
+import { Answer } from '../../../../lib/shared/domain/models/Answer.js';
+import { ScoringSimulationContext } from '../../../../lib/shared/domain/models/ScoringSimulationContext.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { securityPreHandlers } from '../../../../lib/shared/application/security-pre-handlers.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/scoring-simulator/index.js';
 
 describe('Integration | Application | Scoring-simulator | scoring-simulator-controller', function () {
   let httpTestServer;

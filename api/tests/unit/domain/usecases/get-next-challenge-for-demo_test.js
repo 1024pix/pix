@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
-import { getNextChallengeForDemo } from '../../../../lib/domain/usecases/get-next-challenge-for-demo.js';
+import { AssessmentEndedError } from '../../../../lib/shared/domain/errors.js';
+import { getNextChallengeForDemo } from '../../../../lib/shared/domain/usecases/get-next-challenge-for-demo.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', function () {
   describe('#get-next-challenge-for-demo', function () {

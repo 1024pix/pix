@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/framework-areas-serializer.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/framework-areas-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
   describe('#serialize', function () {

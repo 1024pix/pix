@@ -1,6 +1,6 @@
 import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-login-serializer.js';
-import { UserLogin } from '../../../../../lib/domain/models/UserLogin.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/user-login-serializer.js';
+import { UserLogin } from '../../../../../lib/shared/domain/models/UserLogin.js';
 
 describe('Unit | Serializer | JSONAPI | user-login-serializer', function () {
   describe('#serialize', function () {

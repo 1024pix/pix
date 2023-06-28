@@ -1,9 +1,9 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
-import * as campaignManagementRepository from '../../../../lib/infrastructure/repositories/campaign-management-repository.js';
+import * as campaignManagementRepository from '../../../../lib/shared/infrastructure/repositories/campaign-management-repository.js';
 import _ from 'lodash';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { knex } from '../../../../lib/infrastructure/bookshelf.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignTypes } from '../../../../lib/shared/domain/models/CampaignTypes.js';
+import { knex } from '../../../../lib/shared/infrastructure/bookshelf.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 

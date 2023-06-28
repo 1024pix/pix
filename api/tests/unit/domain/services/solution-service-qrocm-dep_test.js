@@ -1,11 +1,11 @@
 import { expect, catchErr, sinon } from '../../../test-helper.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { YamlParsingError } from '../../../../lib/domain/errors.js';
+import { AnswerStatus } from '../../../../lib/shared/domain/models/AnswerStatus.js';
+import { YamlParsingError } from '../../../../lib/shared/domain/errors.js';
 import {
   getCorrectionDetails,
   match,
   getCorrection,
-} from '../../../../lib/domain/services/solution-service-qrocm-dep.js';
+} from '../../../../lib/shared/domain/services/solution-service-qrocm-dep.js';
 
 const ANSWER_PARTIALLY = AnswerStatus.PARTIALLY;
 const ANSWER_OK = AnswerStatus.OK;

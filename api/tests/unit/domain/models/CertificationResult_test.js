@@ -1,4 +1,4 @@
-import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
+import { CertificationResult } from '../../../../lib/shared/domain/models/CertificationResult.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationResult', function () {

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { createServer } from '../../../../server.js';
 import { databaseBuilder, generateValidRequestAuthorizationHeader, mockLearningContent } from '../../../test-helper.js';
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../../lib/shared/domain/constants.js';
 
 const {
   ROLES: { SUPER_ADMIN },

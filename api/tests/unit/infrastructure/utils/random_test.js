@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { random } from '../../../../lib/infrastructure/utils/random.js';
+import { random } from '../../../../lib/shared/infrastructure/utils/random.js';
 import _ from 'lodash';
 
 describe('Unit | Infrastructure | Utils | Random', function () {

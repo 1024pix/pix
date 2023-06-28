@@ -5,7 +5,7 @@ import {
   removeSpecialCharacters,
   applyPreTreatments,
   applyTreatments,
-} from '../../../../lib/domain/services/validation-treatments.js';
+} from '../../../../lib/shared/domain/services/validation-treatments.js';
 
 describe('Unit | Service | Validation Treatments', function () {
   describe('#normalizeAndRemoveAccents', function () {

@@ -1,4 +1,4 @@
-import { createAccessTokenFromRefreshToken } from '../../../../lib/domain/usecases/create-access-token-from-refresh-token.js';
+import { createAccessTokenFromRefreshToken } from '../../../../lib/shared/domain/usecases/create-access-token-from-refresh-token.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-access-token-from-refresh-token', function () {

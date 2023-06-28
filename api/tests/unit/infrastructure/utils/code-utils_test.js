@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { generateNumericalString } from '../../../../lib/infrastructure/utils/code-utils.js';
+import { generateNumericalString } from '../../../../lib/shared/infrastructure/utils/code-utils.js';
 
 describe('Unit | Utils | code-utils', function () {
   describe('#generateNumericalString', function () {

@@ -4,15 +4,15 @@ import {
   PIX_PLUS_DROIT,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} from '../../../../../lib/domain/models/ComplementaryCertification.js';
-import * as certificationCandidatesOdsService from '../../../../../lib/domain/services/certification-candidates-ods-service.js';
+} from '../../../../../lib/shared/domain/models/ComplementaryCertification.js';
+import * as certificationCandidatesOdsService from '../../../../../lib/shared/domain/services/certification-candidates-ods-service.js';
 import * as certificationCpfService from '../../../../../lib/certification/shared/services/certification-cpf-service.js';
 import * as certificationCpfCountryRepository from '../../../../../lib/certification/shared/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationCpfCityRepository from '../../../../../lib/certification/shared/infrastructure/repositories/certification-cpf-city-repository.js';
-import * as certificationCenterRepository from '../../../../../lib/infrastructure/repositories/certification-center-repository.js';
-import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
+import * as certificationCenterRepository from '../../../../../lib/shared/infrastructure/repositories/certification-center-repository.js';
+import * as complementaryCertificationRepository from '../../../../../lib/shared/infrastructure/repositories/complementary-certification-repository.js';
 import { CertificationCandidate } from '../../../../../lib/certification/shared/models/CertificationCandidate.js';
-import { CertificationCandidatesImportError } from '../../../../../lib/domain/errors.js';
+import { CertificationCandidatesImportError } from '../../../../../lib/shared/domain/errors.js';
 import fs from 'fs';
 
 const { promises } = fs;
@@ -25,7 +25,7 @@ import { getI18n } from '../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
 import * as url from 'url';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/shared/domain/constants/certification-candidates-errors.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

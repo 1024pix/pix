@@ -1,7 +1,7 @@
 import { databaseBuffer } from '../database-buffer.js';
 import { buildUser } from './build-user.js';
 import { buildOrganization } from './build-organization.js';
-import { Membership } from '../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../lib/shared/domain/models/Membership.js';
 import _ from 'lodash';
 
 const buildMembership = function ({

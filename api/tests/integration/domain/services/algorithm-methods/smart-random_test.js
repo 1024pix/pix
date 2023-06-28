@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import { AnswerStatus } from '../../../../../lib/domain/models/AnswerStatus.js';
-import * as SmartRandom from '../../../../../lib/domain/services/algorithm-methods/smart-random.js';
+import { AnswerStatus } from '../../../../../lib/shared/domain/models/AnswerStatus.js';
+import * as SmartRandom from '../../../../../lib/shared/domain/services/algorithm-methods/smart-random.js';
 import _ from 'lodash';
 
 const KNOWLEDGE_ELEMENT_STATUS = {

@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import * as useCase from '../../../../lib/application/usecases/checkAdminMemberHasRoleCertif.js';
+import { tokenService } from '../../../../lib/shared/domain/services/token-service.js';
+import * as useCase from '../../../../lib/shared/application/usecases/checkAdminMemberHasRoleCertif.js';
 
 describe('Unit | Application | Use Case | checkAdminMemberHasRoleCertifUseCase', function () {
   const userId = '1234';

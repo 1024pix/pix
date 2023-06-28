@@ -1,6 +1,6 @@
 import { catchErr, expect, sinon } from '../../../test-helper.js';
-import { UserCantBeCreatedError } from '../../../../lib/domain/errors.js';
-import { authenticateAnonymousUser } from '../../../../lib/domain/usecases/authenticate-anonymous-user.js';
+import { UserCantBeCreatedError } from '../../../../lib/shared/domain/errors.js';
+import { authenticateAnonymousUser } from '../../../../lib/shared/domain/usecases/authenticate-anonymous-user.js';
 
 describe('Unit | UseCase | authenticate-anonymous-user', function () {
   let campaignCode;

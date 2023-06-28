@@ -1,5 +1,5 @@
 import { expect, sinon, hFake } from '../../../test-helper.js';
-import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
+import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../lib/shared/application/preHandlers/session-supervisor-authorization.js';
 
 describe('Unit | Pre-handler | Supervisor Authorization', function () {
   let supervisorAccessRepository;

@@ -4,8 +4,8 @@ import lodash from 'lodash';
 
 const { cloneDeep } = lodash;
 
-import { Feedback } from '../../../../lib/infrastructure/orm-models/Feedback.js';
-import * as moduleUnderTest from '../../../../lib/application/feedbacks/index.js';
+import { Feedback } from '../../../../lib/shared/infrastructure/orm-models/Feedback.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/feedbacks/index.js';
 
 describe('Unit | Controller | feedback-controller', function () {
   let httpTestServer;

@@ -1,13 +1,13 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { _forTestOnly } from '../../../../lib/domain/events/index.js';
+import { _forTestOnly } from '../../../../lib/shared/domain/events/index.js';
 const { handleCertificationRescoring } = _forTestOnly.handlers;
-import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
-import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
-import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
-import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
-import { CertificationComputeError } from '../../../../lib/domain/errors.js';
+import { ChallengeNeutralized } from '../../../../lib/shared/domain/events/ChallengeNeutralized.js';
+import { ChallengeDeneutralized } from '../../../../lib/shared/domain/events/ChallengeDeneutralized.js';
+import { CertificationJuryDone } from '../../../../lib/shared/domain/events/CertificationJuryDone.js';
+import { CertificationAssessment } from '../../../../lib/shared/domain/models/CertificationAssessment.js';
+import { CertificationResult } from '../../../../lib/shared/domain/models/CertificationResult.js';
+import { AssessmentResult } from '../../../../lib/shared/domain/models/AssessmentResult.js';
+import { CertificationComputeError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | Domain | Events | handle-certification-rescoring', function () {
   it('computes and persists the assessment result and competence marks when computation succeeds', async function () {

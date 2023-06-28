@@ -1,9 +1,9 @@
 import { sinon, expect, hFake, generateValidRequestAuthorizationHeader, domainBuilder } from '../../../test-helper.js';
 
-import { certificationCourseController } from '../../../../lib/application/certification-courses/certification-course-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
+import { certificationCourseController } from '../../../../lib/shared/application/certification-courses/certification-course-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
+import { CertificationCourse } from '../../../../lib/shared/domain/models/CertificationCourse.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   let certificationDetailsSerializer;

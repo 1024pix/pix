@@ -1,11 +1,11 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { _forTestOnly } from '../../../../lib/domain/events/index.js';
+import { _forTestOnly } from '../../../../lib/shared/domain/events/index.js';
 const { handleCertificationScoring } = _forTestOnly.handlers;
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
-import { CertificationComputeError } from '../../../../lib/domain/errors.js';
-import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
-import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
-import { CertificationScoringCompleted } from '../../../../lib/domain/events/CertificationScoringCompleted.js';
+import { AssessmentResult } from '../../../../lib/shared/domain/models/AssessmentResult.js';
+import { CertificationComputeError } from '../../../../lib/shared/domain/errors.js';
+import { AssessmentCompleted } from '../../../../lib/shared/domain/events/AssessmentCompleted.js';
+import { CertificationCourse } from '../../../../lib/shared/domain/models/CertificationCourse.js';
+import { CertificationScoringCompleted } from '../../../../lib/shared/domain/events/CertificationScoringCompleted.js';
 
 describe('Unit | Domain | Events | handle-certification-scoring', function () {
   let scoringCertificationService;

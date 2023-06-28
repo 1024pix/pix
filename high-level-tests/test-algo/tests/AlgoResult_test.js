@@ -8,7 +8,7 @@ describe('AlgoResult', () => {
   let domainBuilder;
 
   beforeEach(async function() {
-    AnswerStatus = (await import('../../../api/lib/domain/models/AnswerStatus.js')).AnswerStatus;
+    AnswerStatus = (await import('../../../api/lib/shared/domain/models/AnswerStatus.js')).AnswerStatus;
     domainBuilder = (await import(
       '../../../api/tests/tooling/domain-builder/domain-builder.js'
     )).domainBuilder;

@@ -1,12 +1,12 @@
 import { sinon, expect, domainBuilder, hFake } from '../../../test-helper.js';
-import { User } from '../../../../lib/domain/models/User.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import * as queryParamsUtils from '../../../../lib/shared/infrastructure/utils/query-params-utils.js';
+import * as requestResponseUtils from '../../../../lib/shared/infrastructure/utils/request-response-utils.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { userController } from '../../../../lib/application/users/user-controller.js';
-import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { userController } from '../../../../lib/shared/application/users/user-controller.js';
+import { UserOrganizationForAdmin } from '../../../../lib/shared/domain/read-models/UserOrganizationForAdmin.js';
 
 describe('Unit | Controller | user-controller', function () {
   let userSerializer;

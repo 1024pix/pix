@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { PlacementProfile } from '../../../../lib/domain/models/PlacementProfile.js';
-import { UserCompetence } from '../../../../lib/domain/models/UserCompetence.js';
+import { PlacementProfile } from '../../../../lib/shared/domain/models/PlacementProfile.js';
+import { UserCompetence } from '../../../../lib/shared/domain/models/UserCompetence.js';
 
 describe('Unit | Domain | Models | PlacementProfile', function () {
   describe('#constructor', function () {

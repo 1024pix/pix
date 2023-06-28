@@ -10,12 +10,12 @@ const { performance } = perf_hooks;
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
-import { CampaignParticipation } from '../../lib/domain/models/CampaignParticipation.js';
-import { logger } from '../../lib/infrastructure/logger.js';
-import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository.js';
-import * as badgeForCalculationRepository from '../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
-import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
-import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { CampaignParticipation } from '../../lib/shared/domain/models/CampaignParticipation.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
+import * as badgeAcquisitionRepository from '../../lib/shared/infrastructure/repositories/badge-acquisition-repository.js';
+import * as badgeForCalculationRepository from '../../lib/shared/infrastructure/repositories/badge-for-calculation-repository.js';
+import * as knowledgeElementRepository from '../../lib/shared/infrastructure/repositories/knowledge-element-repository.js';
+import { learningContentCache as cache } from '../../lib/shared/infrastructure/caches/learning-content-cache.js';
 import * as url from 'url';
 
 const MAX_RANGE_SIZE = 100_000;

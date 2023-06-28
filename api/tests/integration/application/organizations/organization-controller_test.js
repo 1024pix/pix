@@ -1,12 +1,12 @@
 import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { ScoOrganizationParticipant } from '../../../../lib/domain/read-models/ScoOrganizationParticipant.js';
-import { SupOrganizationParticipant } from '../../../../lib/domain/read-models/SupOrganizationParticipant.js';
-import { getCertificationAttestationsPdf as certificationAttestationPdf } from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
-import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
-import { NoCertificationAttestationForDivisionError } from '../../../../lib/domain/errors.js';
+import { securityPreHandlers } from '../../../../lib/shared/application/security-pre-handlers.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { OrganizationInvitation } from '../../../../lib/shared/domain/models/OrganizationInvitation.js';
+import { ScoOrganizationParticipant } from '../../../../lib/shared/domain/read-models/ScoOrganizationParticipant.js';
+import { SupOrganizationParticipant } from '../../../../lib/shared/domain/read-models/SupOrganizationParticipant.js';
+import { getCertificationAttestationsPdf as certificationAttestationPdf } from '../../../../lib/shared/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/organizations/index.js';
+import { NoCertificationAttestationForDivisionError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Application | Organizations | organization-controller', function () {
   let sandbox;

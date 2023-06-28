@@ -1,7 +1,7 @@
 import { catchErr, expect, sinon } from '../../../test-helper.js';
-import { AlreadyRegisteredEmailError, EntityValidationError } from '../../../../lib/domain/errors.js';
-import { User } from '../../../../lib/domain/models/User.js';
-import { createUser } from '../../../../lib/domain/usecases/create-user.js';
+import { AlreadyRegisteredEmailError, EntityValidationError } from '../../../../lib/shared/domain/errors.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
+import { createUser } from '../../../../lib/shared/domain/usecases/create-user.js';
 
 describe('Unit | UseCase | create-user', function () {
   const userId = 123;

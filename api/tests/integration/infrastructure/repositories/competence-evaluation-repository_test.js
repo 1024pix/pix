@@ -1,10 +1,10 @@
 import { expect, knex, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import * as competenceEvaluationRepository from '../../../../lib/infrastructure/repositories/competence-evaluation-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { CompetenceEvaluation } from '../../../../lib/shared/domain/models/CompetenceEvaluation.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import * as competenceEvaluationRepository from '../../../../lib/shared/infrastructure/repositories/competence-evaluation-repository.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
 import _ from 'lodash';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
 
 describe('Integration | Repository | Competence Evaluation', function () {
   const STARTED = 'started';

@@ -1,9 +1,9 @@
 import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as certificationAssessmentRepository from '../../../../lib/infrastructure/repositories/certification-assessment-repository.js';
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
-import { Challenge } from '../../../../lib/domain/models/Challenge.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import * as certificationAssessmentRepository from '../../../../lib/shared/infrastructure/repositories/certification-assessment-repository.js';
+import { CertificationAssessment } from '../../../../lib/shared/domain/models/CertificationAssessment.js';
+import { Challenge } from '../../../../lib/shared/domain/models/Challenge.js';
+import { AnswerStatus } from '../../../../lib/shared/domain/models/AnswerStatus.js';
 import _ from 'lodash';
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', function () {

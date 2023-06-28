@@ -1,7 +1,7 @@
-import { CertificationCenterInvitedUser } from '../../../../lib/domain/models/CertificationCenterInvitedUser.js';
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { CertificationCenterInvitedUser } from '../../../../lib/shared/domain/models/CertificationCenterInvitedUser.js';
+import { CertificationCenterInvitation } from '../../../../lib/shared/domain/models/CertificationCenterInvitation.js';
 import { expect, catchErr, domainBuilder } from '../../../test-helper.js';
-import { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } from '../../../../lib/domain/errors.js';
+import { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | Domain | Models | CertificationCenterInvitedUser', function () {
   describe('#acceptInvitation', function () {

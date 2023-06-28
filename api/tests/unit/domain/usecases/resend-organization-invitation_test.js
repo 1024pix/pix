@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { resendOrganizationInvitation } from '../../../../lib/domain/usecases/resend-organization-invitation.js';
+import { resendOrganizationInvitation } from '../../../../lib/shared/domain/usecases/resend-organization-invitation.js';
 
 describe('Unit | UseCase | resend-organization-invitation', function () {
   describe('#resendOrganizationInvitation', function () {

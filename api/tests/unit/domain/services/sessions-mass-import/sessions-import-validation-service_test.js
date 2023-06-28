@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder } from '../../../../test-helper.js';
-import * as sessionsImportValidationService from '../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service.js';
+import * as sessionsImportValidationService from '../../../../../lib/shared/domain/services/sessions-mass-import/sessions-import-validation-service.js';
 import { CpfBirthInformationValidation } from '../../../../../lib/certification/shared/services/certification-cpf-service.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/shared/domain/constants/certification-candidates-errors.js';
 import lodash from 'lodash';
 const { noop } = lodash;
 

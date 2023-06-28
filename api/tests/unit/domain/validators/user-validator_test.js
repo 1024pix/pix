@@ -1,7 +1,7 @@
 import { expect, catchErr } from '../../../test-helper.js';
-import { User } from '../../../../lib/domain/models/User.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
-import * as userValidator from '../../../../lib/domain/validators/user-validator.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
+import { EntityValidationError } from '../../../../lib/shared/domain/errors.js';
+import * as userValidator from '../../../../lib/shared/domain/validators/user-validator.js';
 
 const MISSING_VALUE = '';
 

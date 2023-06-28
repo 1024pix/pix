@@ -1,4 +1,4 @@
-import { CampaignCollectiveResult } from '../../../../lib/domain/read-models/CampaignCollectiveResult.js';
+import { CampaignCollectiveResult } from '../../../../lib/shared/domain/read-models/CampaignCollectiveResult.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function () {

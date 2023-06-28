@@ -1,5 +1,5 @@
 import { expect } from '../../test-helper.js';
-import { BaseHttpError, MissingQueryParamError } from '../../../lib/application/http-errors.js';
+import { BaseHttpError, MissingQueryParamError } from '../../../lib/shared/application/http-errors.js';
 
 describe('Unit | Application | HTTP Errors', function () {
   describe('#BaseHttpError', function () {

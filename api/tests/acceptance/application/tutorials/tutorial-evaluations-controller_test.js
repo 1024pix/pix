@@ -7,7 +7,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
+import { TutorialEvaluation } from '../../../../lib/shared/domain/models/TutorialEvaluation.js';
 
 describe('Acceptance | Controller | tutorial-evaluations-controller', function () {
   let server;

@@ -3,7 +3,7 @@ import { buildComplementaryCertificationCourse } from './build-complementary-cer
 import { buildComplementaryCertification } from './build-complementary-certification.js';
 import { buildCertificationCourse } from './build-certification-course.js';
 import _ from 'lodash';
-import { ComplementaryCertificationCourseResult } from '../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { ComplementaryCertificationCourseResult } from '../../../lib/shared/domain/models/ComplementaryCertificationCourseResult.js';
 
 const buildComplementaryCertificationCourseResult = function ({
   complementaryCertificationCourseId,

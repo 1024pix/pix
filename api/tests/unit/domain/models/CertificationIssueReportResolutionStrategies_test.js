@@ -2,8 +2,8 @@ import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
-import { CertificationIssueReportResolutionAttempt } from '../../../../lib/domain/models/CertificationIssueReportResolutionAttempt.js';
+} from '../../../../lib/shared/domain/models/CertificationIssueReportCategory.js';
+import { CertificationIssueReportResolutionAttempt } from '../../../../lib/shared/domain/models/CertificationIssueReportResolutionAttempt.js';
 import {
   CertificationIssueReportResolutionStrategies,
   neutralizeWithoutCheckingStrategy,
@@ -12,7 +12,7 @@ import {
   neutralizeIfTimedChallengeStrategy,
   neutralizeOrValidateIfFocusedChallengeStrategy,
   doNotResolveStrategy,
-} from '../../../../lib/domain/models/CertificationIssueReportResolutionStrategies.js';
+} from '../../../../lib/shared/domain/models/CertificationIssueReportResolutionStrategies.js';
 
 describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies', function () {
   context('#NEUTRALIZE_WITHOUT_CHECKING', function () {

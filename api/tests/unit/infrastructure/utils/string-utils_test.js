@@ -8,7 +8,7 @@ import {
   normalizeAndSortChars,
   normalize,
   toArrayOfFixedLengthStringsConservingWords,
-} from '../../../../lib/infrastructure/utils/string-utils.js';
+} from '../../../../lib/shared/infrastructure/utils/string-utils.js';
 
 describe('Unit | Utils | string-utils', function () {
   const zeroWidthSpaceChar = '​';

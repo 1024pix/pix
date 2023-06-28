@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import { CampaignAuthorization } from '../../../../../lib/application/preHandlers/models/CampaignAuthorization.js';
+import { CampaignAuthorization } from '../../../../../lib/shared/application/preHandlers/models/CampaignAuthorization.js';
 
 describe('Unit | Domain | models | CampaignAuthorization', function () {
   describe('#isAllowedToManage', function () {

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.js';
-import * as scoringCertificationService from '../../../../../lib/domain/services/scoring/scoring-certification-service.js';
-import { states } from '../../../../../lib/domain/models/CertificationAssessment.js';
-import { CertificationComputeError } from '../../../../../lib/domain/errors.js';
+import * as scoringCertificationService from '../../../../../lib/shared/domain/services/scoring/scoring-certification-service.js';
+import { states } from '../../../../../lib/shared/domain/models/CertificationAssessment.js';
+import { CertificationComputeError } from '../../../../../lib/shared/domain/errors.js';
 
 function _buildUserCompetence(competence, pixScore, estimatedLevel) {
   return domainBuilder.buildUserCompetence({ ...competence, estimatedLevel, pixScore });

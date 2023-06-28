@@ -1,4 +1,4 @@
-import { CampaignParticipationBadge } from '../../../../lib/domain/models/CampaignParticipationBadge.js';
+import { CampaignParticipationBadge } from '../../../../lib/shared/domain/models/CampaignParticipationBadge.js';
 
 const buildCampaignParticipationBadge = function ({
   id = 123,

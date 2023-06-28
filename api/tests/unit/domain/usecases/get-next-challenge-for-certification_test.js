@@ -1,8 +1,8 @@
 import { domainBuilder, expect, sinon, catchErr } from '../../../test-helper.js';
-import { getNextChallengeForCertification } from '../../../../lib/domain/usecases/get-next-challenge-for-certification.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import { getNextChallengeForCertification } from '../../../../lib/shared/domain/usecases/get-next-challenge-for-certification.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { CertificationVersion } from '../../../../lib/shared/domain/models/CertificationVersion.js';
+import { AssessmentEndedError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', function () {
   describe('#getNextChallengeForCertification', function () {

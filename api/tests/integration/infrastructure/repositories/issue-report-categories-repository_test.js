@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-import * as issueReportCategoryRepository from '../../../../lib/infrastructure/repositories/issue-report-category-repository.js';
+import * as issueReportCategoryRepository from '../../../../lib/shared/infrastructure/repositories/issue-report-category-repository.js';
 
 describe('Integration | Repository | Issue Report Categories', function () {
   afterEach(async function () {

@@ -5,15 +5,15 @@ import * as dotenv from 'dotenv';
 
 dotenv.config({ path: `${__dirname}/../.env` });
 
-import { logger } from '../../lib/infrastructure/logger.js';
-import { usecases } from '../../lib/domain/usecases/index.js';
-import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
-import * as certificationBadgesService from '../../lib/domain/services/certification-badges-service.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
+import { usecases } from '../../lib/shared/domain/usecases/index.js';
+import { learningContentCache as cache } from '../../lib/shared/infrastructure/caches/learning-content-cache.js';
+import * as placementProfileService from '../../lib/shared/domain/services/placement-profile-service.js';
+import * as certificationBadgesService from '../../lib/shared/domain/services/certification-badges-service.js';
 // Usage: node scripts/get-certifications-eligibility 1234
 
 import { disconnect } from '../../db/knex-database-connection.js';
-import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
+import { temporaryStorage } from '../../lib/shared/infrastructure/temporary-storage/index.js';
 
 async function getUserCertificationsEligibility(userId) {
   logger.info('Starting script get-user-certifications-eligibility');

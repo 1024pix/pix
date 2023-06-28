@@ -6,8 +6,8 @@ import {
   mockLearningContent,
 } from '../../../test-helper.js';
 
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { KnowledgeElement } from '../../../../lib/shared/domain/models/KnowledgeElement.js';
+import { LOCALE } from '../../../../lib/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

@@ -1,6 +1,6 @@
 import { expect, catchErr } from '../../../test-helper.js';
-import { SCOCertificationCandidate } from '../../../../lib/domain/models/SCOCertificationCandidate.js';
-import { InvalidCertificationCandidate } from '../../../../lib/domain/errors.js';
+import { SCOCertificationCandidate } from '../../../../lib/shared/domain/models/SCOCertificationCandidate.js';
+import { InvalidCertificationCandidate } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | Domain | Models | SCO Certification Candidate', function () {
   describe('validate', function () {

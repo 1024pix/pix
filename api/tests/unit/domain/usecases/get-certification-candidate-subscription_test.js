@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { getCertificationCandidateSubscription } from '../../../../lib/domain/usecases/get-certification-candidate-subscription.js';
+import { getCertificationCandidateSubscription } from '../../../../lib/shared/domain/usecases/get-certification-candidate-subscription.js';
 
 describe('Unit | UseCase | get-certification-candidate-subscription', function () {
   let certificationBadgesService;

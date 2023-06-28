@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import yargs from 'yargs';
-import { unpublishSession } from '../../lib/domain/usecases/unpublish-session.js';
-import { publishSession } from '../../lib/domain/usecases/publish-session.js';
-import * as finalizedSessionRepository from '../../lib/infrastructure/repositories/sessions/finalized-session-repository.js';
-import * as sessionRepository from '../../lib/infrastructure/repositories/sessions/session-repository.js';
-import * as certificationRepository from '../../lib/infrastructure/repositories/certification-repository.js';
-import * as sessionPublicationService from '../../lib/domain/services/session-publication-service.js';
+import { unpublishSession } from '../../lib/shared/domain/usecases/unpublish-session.js';
+import { publishSession } from '../../lib/shared/domain/usecases/publish-session.js';
+import * as finalizedSessionRepository from '../../lib/shared/infrastructure/repositories/sessions/finalized-session-repository.js';
+import * as sessionRepository from '../../lib/shared/infrastructure/repositories/sessions/session-repository.js';
+import * as certificationRepository from '../../lib/shared/infrastructure/repositories/certification-repository.js';
+import * as sessionPublicationService from '../../lib/shared/domain/services/session-publication-service.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';

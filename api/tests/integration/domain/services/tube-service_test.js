@@ -1,7 +1,7 @@
 import { expect } from '../../../test-helper.js';
-import { Skill } from '../../../../lib/domain/models/Skill.js';
-import { Tube } from '../../../../lib/domain/models/Tube.js';
-import { computeTubesFromSkills } from '../../../../lib/domain/services/tube-service.js';
+import { Skill } from '../../../../lib/shared/domain/models/Skill.js';
+import { Tube } from '../../../../lib/shared/domain/models/Tube.js';
+import { computeTubesFromSkills } from '../../../../lib/shared/domain/services/tube-service.js';
 
 describe('Integration | Domain | Services | TubeService', function () {
   describe('#computeTubesFromSkills', function () {

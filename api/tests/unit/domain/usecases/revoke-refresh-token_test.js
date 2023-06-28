@@ -1,4 +1,4 @@
-import { revokeRefreshToken } from '../../../../lib/domain/usecases/revoke-refresh-token.js';
+import { revokeRefreshToken } from '../../../../lib/shared/domain/usecases/revoke-refresh-token.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | revoke-refresh-token', function () {

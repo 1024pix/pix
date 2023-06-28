@@ -1,4 +1,4 @@
-import { Solution } from '../../../../lib/domain/models/Solution.js';
+import { Solution } from '../../../../lib/shared/domain/models/Solution.js';
 
 const buildSolution = function ({
   id = 'recCHAL123',

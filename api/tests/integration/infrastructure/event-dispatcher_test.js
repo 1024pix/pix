@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../test-helper.js';
-import { EventDispatcher } from '../../../lib/infrastructure/events/EventDispatcher.js';
+import { EventDispatcher } from '../../../lib/shared/infrastructure/events/EventDispatcher.js';
 
 function getEventHandlerMock() {
   return sinon.stub();

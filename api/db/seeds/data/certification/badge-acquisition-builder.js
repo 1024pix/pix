@@ -31,7 +31,7 @@ import {
 } from '../target-profiles-builder.js';
 
 import { PRO_COMPANY_ID, PRO_LEARNER_ASSOCIATED_ID } from '../organizations-pro-builder.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 const { SHARED } = CampaignParticipationStatuses;
 
 function badgeAcquisitionBuilder({ databaseBuilder }) {

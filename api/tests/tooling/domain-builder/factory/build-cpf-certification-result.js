@@ -1,4 +1,4 @@
-import { CpfCertificationResult } from '../../../../lib/domain/read-models/CpfCertificationResult.js';
+import { CpfCertificationResult } from '../../../../lib/shared/domain/read-models/CpfCertificationResult.js';
 
 const buildCpfCertificationResult = function ({
   id = 1234,

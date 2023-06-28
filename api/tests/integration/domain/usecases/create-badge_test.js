@@ -2,19 +2,19 @@ import _ from 'lodash';
 
 import { expect, databaseBuilder, mockLearningContent, knex, catchErr, sinon } from '../../../test-helper.js';
 
-import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
-import * as badgeCriteriaRepository from '../../../../lib/infrastructure/repositories/badge-criteria-repository.js';
-import * as skillSetRepository from '../../../../lib/infrastructure/repositories/skill-set-repository.js';
-import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
-import { createBadge } from '../../../../lib/domain/usecases/create-badge.js';
-import { Badge } from '../../../../lib/domain/models/Badge.js';
+import * as badgeRepository from '../../../../lib/shared/infrastructure/repositories/badge-repository.js';
+import * as badgeCriteriaRepository from '../../../../lib/shared/infrastructure/repositories/badge-criteria-repository.js';
+import * as skillSetRepository from '../../../../lib/shared/infrastructure/repositories/skill-set-repository.js';
+import * as targetProfileRepository from '../../../../lib/shared/infrastructure/repositories/target-profile-repository.js';
+import { createBadge } from '../../../../lib/shared/domain/usecases/create-badge.js';
+import { Badge } from '../../../../lib/shared/domain/models/Badge.js';
 
 import {
   AlreadyExistingEntityError,
   NotFoundError,
   InvalidSkillSetError,
   MissingBadgeCriterionError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | UseCases | create-badge', function () {
   let targetProfileId;

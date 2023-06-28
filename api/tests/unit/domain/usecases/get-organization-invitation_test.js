@@ -1,11 +1,11 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { getOrganizationInvitation } from '../../../../lib/domain/usecases/get-organization-invitation.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { getOrganizationInvitation } from '../../../../lib/shared/domain/usecases/get-organization-invitation.js';
+import { OrganizationInvitation } from '../../../../lib/shared/domain/models/OrganizationInvitation.js';
 import {
   NotFoundError,
   AlreadyExistingInvitationError,
   CancelledInvitationError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-organization-invitation', function () {
   let organizationInvitationRepository;

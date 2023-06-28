@@ -1,10 +1,10 @@
 import { catchErr, expect, domainBuilder, databaseBuilder, sinon, knex } from '../../../test-helper.js';
-import { NotFoundError, MissingAttributesError } from '../../../../lib/domain/errors.js';
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/Organization.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
-import { SamlIdentityProviders } from '../../../../lib/domain/constants/saml-identity-providers.js';
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import { NotFoundError, MissingAttributesError } from '../../../../lib/shared/domain/errors.js';
+import { OrganizationForAdmin } from '../../../../lib/shared/domain/models/organizations-administration/Organization.js';
+import { OrganizationInvitation } from '../../../../lib/shared/domain/models/OrganizationInvitation.js';
+import * as organizationForAdminRepository from '../../../../lib/shared/infrastructure/repositories/organization-for-admin-repository.js';
+import { SamlIdentityProviders } from '../../../../lib/shared/domain/constants/saml-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/shared/domain/constants/oidc-identity-providers.js';
 
 describe('Integration | Repository | Organization-for-admin', function () {
   let clock;

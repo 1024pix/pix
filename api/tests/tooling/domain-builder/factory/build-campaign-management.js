@@ -1,5 +1,5 @@
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { CampaignManagement } from '../../../../lib/domain/read-models/CampaignManagement.js';
+import { CampaignTypes } from '../../../../lib/shared/domain/models/CampaignTypes.js';
+import { CampaignManagement } from '../../../../lib/shared/domain/read-models/CampaignManagement.js';
 
 const buildCampaignManagement = function ({
   id = 1,

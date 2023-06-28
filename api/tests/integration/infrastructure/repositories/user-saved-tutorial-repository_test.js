@@ -1,6 +1,6 @@
 import { expect, knex, databaseBuilder } from '../../../test-helper.js';
-import * as userSavedTutorialRepository from '../../../../lib/infrastructure/repositories/user-saved-tutorial-repository.js';
-import { UserSavedTutorial } from '../../../../lib/domain/models/UserSavedTutorial.js';
+import * as userSavedTutorialRepository from '../../../../lib/shared/infrastructure/repositories/user-saved-tutorial-repository.js';
+import { UserSavedTutorial } from '../../../../lib/shared/domain/models/UserSavedTutorial.js';
 
 describe('Integration | Infrastructure | Repository | user-saved-tutorial-repository', function () {
   let userId;

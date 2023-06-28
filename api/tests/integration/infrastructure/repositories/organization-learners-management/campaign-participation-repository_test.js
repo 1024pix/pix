@@ -1,6 +1,6 @@
 import { expect, knex, databaseBuilder, sinon } from '../../../../test-helper.js';
-import { removeByOrganizationLearnerIds } from '../../../../../lib/infrastructure/repositories/organization-learners-management/campaign-participation-repository.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { removeByOrganizationLearnerIds } from '../../../../../lib/shared/infrastructure/repositories/organization-learners-management/campaign-participation-repository.js';
+import { DomainTransaction } from '../../../../../lib/shared/infrastructure/DomainTransaction.js';
 
 describe('Integration | Repository | Organization Learners Management | Campaign Participation', function () {
   describe('#removeByOrganizationLearnerIds', function () {

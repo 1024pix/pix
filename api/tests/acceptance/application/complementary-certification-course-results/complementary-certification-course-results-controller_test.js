@@ -6,7 +6,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/shared/domain/models/ComplementaryCertificationCourseResult.js';
 
 describe('Acceptance | API | Certifications', function () {
   describe('POST /api/admin/complementary-certification-course-results', function () {

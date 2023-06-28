@@ -1,9 +1,9 @@
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
-import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
-import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import * as OidcIdentityProviders from '../../../../lib/shared/domain/constants/oidc-identity-providers.js';
+import * as authenticationMethodRepository from '../../../../lib/shared/infrastructure/repositories/authentication-method-repository.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
 
 describe('Integration | Repository | AuthenticationMethod', function () {
   const hashedPassword = 'ABCDEF1234';

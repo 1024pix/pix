@@ -1,4 +1,4 @@
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
+import { CertificationAssessment } from '../../../../lib/shared/domain/models/CertificationAssessment.js';
 import { buildCertificationChallengeWithType } from './build-certification-challenge-with-type.js';
 
 const buildCertificationAssessment = function ({

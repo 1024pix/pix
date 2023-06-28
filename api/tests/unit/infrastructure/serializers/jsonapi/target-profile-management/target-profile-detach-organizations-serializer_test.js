@@ -1,5 +1,5 @@
 import { expect } from '../../../../../test-helper.js';
-import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/target-profiles-management/target-profile-detach-organizations-serializer.js';
+import * as serializer from '../../../../../../lib/shared/infrastructure/serializers/jsonapi/target-profiles-management/target-profile-detach-organizations-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-detach-organizations-serializer', function () {
   describe('#serialize', function () {

@@ -13,11 +13,11 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
+import { OrganizationInvitation } from '../../../../lib/shared/domain/models/OrganizationInvitation.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { AssessmentResult } from '../../../../lib/shared/domain/models/AssessmentResult.js';
+import { CampaignTypes } from '../../../../lib/shared/domain/models/CampaignTypes.js';
 
 describe('Acceptance | Application | organization-controller', function () {
   let server;

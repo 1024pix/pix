@@ -1,4 +1,4 @@
-import { Stage } from '../../../../lib/domain/models/Stage.js';
+import { Stage } from '../../../../lib/shared/domain/models/Stage.js';
 
 const buildStage = function ({
   id = 123,

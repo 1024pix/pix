@@ -1,7 +1,7 @@
 import bluebird from 'bluebird';
 import { disconnect } from '../db/knex-database-connection.js';
 import { parseCsvWithHeader } from '../scripts/helpers/csvHelpers.js';
-import { BookshelfOrganization } from '../lib/infrastructure/orm-models/Organization.js';
+import { BookshelfOrganization } from '../lib/shared/infrastructure/orm-models/Organization.js';
 import * as url from 'url';
 
 async function updateOrganizationEmailByExternalId(externalId, email) {

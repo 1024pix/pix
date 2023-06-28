@@ -1,6 +1,6 @@
 import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/course-serializer.js';
-import { Course } from '../../../../../lib/domain/models/Course.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/course-serializer.js';
+import { Course } from '../../../../../lib/shared/domain/models/Course.js';
 
 describe('Unit | Serializer | JSONAPI | course-serializer', function () {
   describe('#serialize()', function () {

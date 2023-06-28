@@ -7,9 +7,9 @@ import {
   EntityValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
   NotFoundError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
 
 describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', function () {
   const organizationId = 1;

@@ -1,5 +1,5 @@
 import { catchErr, expect } from '../../../../test-helper.js';
-import { importNamedExportsFromDirectory } from '../../../../../lib/infrastructure/utils/import-named-exports-from-directory.js';
+import { importNamedExportsFromDirectory } from '../../../../../lib/shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 

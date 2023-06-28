@@ -1,4 +1,4 @@
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/shared/domain/constants/oidc-identity-providers.js';
 
 function _buildUserWithCnavAuthenticationMethod(databaseBuilder) {
   const user = databaseBuilder.factory.buildUser.withoutPixAuthenticationMethod({

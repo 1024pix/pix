@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
+import * as resetPasswordService from '../../../../lib/shared/domain/services/reset-password-service.js';
 
 describe('Integration | Service | Password Service', function () {
   describe('#generateTemporaryKey', function () {

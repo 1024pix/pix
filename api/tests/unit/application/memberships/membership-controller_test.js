@@ -1,7 +1,7 @@
 import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
-import { membershipController } from '../../../../lib/application/memberships/membership-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { membershipController } from '../../../../lib/shared/application/memberships/membership-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
 
 describe('Unit | Controller | membership-controller', function () {
   describe('#create', function () {

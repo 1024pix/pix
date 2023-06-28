@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { Assessment } from '../../../lib/domain/models/Assessment.js';
-import { CampaignParticipationStatuses } from '../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
+import { Assessment } from '../../../lib/shared/domain/models/Assessment.js';
+import { CampaignParticipationStatuses } from '../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
+import { KnowledgeElement } from '../../../lib/shared/domain/models/KnowledgeElement.js';
 import { PIX_SUPER_ADMIN_ID } from './users-builder.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;

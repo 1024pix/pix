@@ -1,5 +1,5 @@
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
-import { Bookshelf } from '../lib/infrastructure/bookshelf.js';
+import { Bookshelf } from '../lib/shared/infrastructure/bookshelf.js';
 import { disconnect } from '../db/knex-database-connection.js';
 
 function prepareDataForInsert(rawCertificationCenters) {

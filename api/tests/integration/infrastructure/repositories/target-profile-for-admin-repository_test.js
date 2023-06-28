@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
-import { TargetProfileForAdmin } from '../../../../lib/domain/models/TargetProfileForAdmin.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import * as targetProfileForAdminRepository from '../../../../lib/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
+import { TargetProfileForAdmin } from '../../../../lib/shared/domain/models/TargetProfileForAdmin.js';
 
 describe('Integration | Repository | target-profile-for-admin', function () {
   describe('#get', function () {

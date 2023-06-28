@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import { expect, mockLearningContent, databaseBuilder, catchErr, domainBuilder } from '../../../test-helper.js';
-import { Tutorial } from '../../../../lib/domain/models/Tutorial.js';
-import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as tutorialRepository from '../../../../lib/infrastructure/repositories/tutorial-repository.js';
-import { TutorialForUser } from '../../../../lib/domain/read-models/TutorialForUser.js';
-import { UserSavedTutorial } from '../../../../lib/domain/models/UserSavedTutorial.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { Tutorial } from '../../../../lib/shared/domain/models/Tutorial.js';
+import { TutorialEvaluation } from '../../../../lib/shared/domain/models/TutorialEvaluation.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import * as tutorialRepository from '../../../../lib/shared/infrastructure/repositories/tutorial-repository.js';
+import { TutorialForUser } from '../../../../lib/shared/domain/read-models/TutorialForUser.js';
+import { UserSavedTutorial } from '../../../../lib/shared/domain/models/UserSavedTutorial.js';
+import { KnowledgeElement } from '../../../../lib/shared/domain/models/KnowledgeElement.js';
+import { LOCALE } from '../../../../lib/shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN } = LOCALE;
 

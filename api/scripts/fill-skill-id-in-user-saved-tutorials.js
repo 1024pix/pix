@@ -4,12 +4,12 @@ dotenv.config();
 import lodash from 'lodash';
 const { groupBy } = lodash;
 import { knex, disconnect } from '../db/knex-database-connection.js';
-import { UserSavedTutorial } from '../lib/domain/models/UserSavedTutorial.js';
-import { KnowledgeElement } from '../lib/domain/models/KnowledgeElement.js';
-import { UserSavedTutorialWithTutorial } from '../lib/domain/models/UserSavedTutorialWithTutorial.js';
-import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
-import { tutorialDatasource } from '../lib/infrastructure/datasources/learning-content/tutorial-datasource.js';
-import { skillDatasource } from '../lib/infrastructure/datasources/learning-content/skill-datasource.js';
+import { UserSavedTutorial } from '../lib/shared/domain/models/UserSavedTutorial.js';
+import { KnowledgeElement } from '../lib/shared/domain/models/KnowledgeElement.js';
+import { UserSavedTutorialWithTutorial } from '../lib/shared/domain/models/UserSavedTutorialWithTutorial.js';
+import * as knowledgeElementRepository from '../lib/shared/infrastructure/repositories/knowledge-element-repository.js';
+import { tutorialDatasource } from '../lib/shared/infrastructure/datasources/learning-content/tutorial-datasource.js';
+import { skillDatasource } from '../lib/shared/infrastructure/datasources/learning-content/skill-datasource.js';
 import * as url from 'url';
 
 async function getAllUserSavedTutorialsWithoutSkillId() {

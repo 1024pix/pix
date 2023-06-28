@@ -10,9 +10,9 @@ import {
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
   ForbiddenAccess,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { tokenService } from '../../../../lib/shared/domain/services/token-service.js';
 import { config as settings } from '../../../../lib/config.js';
 
 describe('Unit | Domain | Service | Token Service', function () {

@@ -2,14 +2,14 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 import { knex, disconnect } from '../../db/knex-database-connection.js';
-import { SessionFinalized } from '../../lib/domain/events/SessionFinalized.js';
-import * as certificationAssessmentRepository from '../../lib/infrastructure/repositories/certification-assessment-repository.js';
-import * as challengeRepository from '../../lib/infrastructure/repositories/challenge-repository.js';
-import * as certificationIssueReportRepository from '../../lib/infrastructure/repositories/certification-issue-report-repository.js';
-import * as certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository.js';
-import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';
-import * as events from '../../lib/domain/events/index.js';
-import { logger } from '../../lib/infrastructure/logger.js';
+import { SessionFinalized } from '../../lib/shared/domain/events/SessionFinalized.js';
+import * as certificationAssessmentRepository from '../../lib/shared/infrastructure/repositories/certification-assessment-repository.js';
+import * as challengeRepository from '../../lib/shared/infrastructure/repositories/challenge-repository.js';
+import * as certificationIssueReportRepository from '../../lib/shared/infrastructure/repositories/certification-issue-report-repository.js';
+import * as certificationCourseRepository from '../../lib/shared/infrastructure/repositories/certification-course-repository.js';
+import { handleAutoJury } from '../../lib/shared/domain/events/handle-auto-jury.js';
+import * as events from '../../lib/shared/domain/events/index.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
 import * as url from 'url';
 
 const modulePath = url.fileURLToPath(import.meta.url);

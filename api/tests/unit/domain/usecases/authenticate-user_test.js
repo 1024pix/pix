@@ -1,16 +1,16 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { authenticateUser } from '../../../../lib/domain/usecases/authenticate-user.js';
-import { User } from '../../../../lib/domain/models/User.js';
-import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
+import { authenticateUser } from '../../../../lib/shared/domain/usecases/authenticate-user.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
+import { AdminMember } from '../../../../lib/shared/domain/models/AdminMember.js';
 
 import {
   UserNotFoundError,
   MissingOrInvalidCredentialsError,
   ForbiddenAccess,
   UserShouldChangePasswordError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import * as appMessages from '../../../../lib/domain/constants.js';
+import * as appMessages from '../../../../lib/shared/domain/constants.js';
 
 describe('Unit | Application | UseCase | authenticate-user', function () {
   let refreshTokenService;

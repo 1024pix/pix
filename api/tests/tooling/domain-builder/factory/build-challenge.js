@@ -1,5 +1,5 @@
-import { Challenge } from '../../../../lib/domain/models/Challenge.js';
-import { Validator } from '../../../../lib/domain/models/Validator.js';
+import { Challenge } from '../../../../lib/shared/domain/models/Challenge.js';
+import { Validator } from '../../../../lib/shared/domain/models/Validator.js';
 import { buildSkill } from './build-skill.js';
 
 const buildChallenge = function ({

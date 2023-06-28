@@ -6,7 +6,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
 
 describe('Acceptance | Controller | organization-learner', function () {
   let server;

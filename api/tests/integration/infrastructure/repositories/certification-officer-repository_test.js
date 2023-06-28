@@ -1,8 +1,8 @@
 import { databaseBuilder, expect, catchErr } from '../../../test-helper.js';
-import * as certificationOfficerRepository from '../../../../lib/infrastructure/repositories/certification-officer-repository.js';
+import * as certificationOfficerRepository from '../../../../lib/shared/infrastructure/repositories/certification-officer-repository.js';
 
-import { UserNotFoundError } from '../../../../lib/domain/errors.js';
-import { CertificationOfficer } from '../../../../lib/domain/models/CertificationOfficer.js';
+import { UserNotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { CertificationOfficer } from '../../../../lib/shared/domain/models/CertificationOfficer.js';
 
 describe('Integration | Repository | CertificationOfficer', function () {
   describe('#get', function () {

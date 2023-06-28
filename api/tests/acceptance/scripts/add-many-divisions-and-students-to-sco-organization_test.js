@@ -1,7 +1,7 @@
 import { expect, databaseBuilder } from '../../test-helper.js';
 import { SCO_MIDDLE_SCHOOL_ID } from '../../../db/seeds/data/organizations-sco-builder.js';
-import { knex } from '../../../lib/infrastructure/bookshelf.js';
-import { BookshelfOrganizationLearner } from '../../../lib/infrastructure/orm-models/OrganizationLearner.js';
+import { knex } from '../../../lib/shared/infrastructure/bookshelf.js';
+import { BookshelfOrganizationLearner } from '../../../lib/shared/infrastructure/orm-models/OrganizationLearner.js';
 import { addManyDivisionsAndStudentsToScoCertificationCenter } from '../../../scripts/data-generation/add-many-divisions-and-students-to-sco-organization.js';
 
 describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organization', function () {

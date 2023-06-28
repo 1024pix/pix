@@ -2,7 +2,7 @@ import { buildAnswer } from './build-answer.js';
 import { buildAssessment } from './build-assessment.js';
 import { buildUser } from './build-user.js';
 import { databaseBuffer } from '../database-buffer.js';
-import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../lib/shared/domain/models/KnowledgeElement.js';
 import _ from 'lodash';
 
 const buildKnowledgeElement = function ({

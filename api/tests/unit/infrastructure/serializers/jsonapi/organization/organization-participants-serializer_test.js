@@ -1,7 +1,7 @@
 import { expect } from '../../../../../test-helper.js';
-import { OrganizationParticipant } from '../../../../../../lib/domain/read-models/OrganizationParticipant.js';
-import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/organization/organization-participants-serializer.js';
-import { CampaignParticipationStatuses as campaignParticipationsStatuses } from '../../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { OrganizationParticipant } from '../../../../../../lib/shared/domain/read-models/OrganizationParticipant.js';
+import * as serializer from '../../../../../../lib/shared/infrastructure/serializers/jsonapi/organization/organization-participants-serializer.js';
+import { CampaignParticipationStatuses as campaignParticipationsStatuses } from '../../../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 describe('Unit | Serializer | JSONAPI | organization-participants-serializer', function () {
   describe('#serialize', function () {
     it('should convert an organization participant model object into JSON API data', function () {

@@ -1,7 +1,7 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { campaignController } from '../../../../lib/application/campaigns-administration/campaign-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/campaigns-administration/index.js';
+import { securityPreHandlers } from '../../../../lib/shared/application/security-pre-handlers.js';
+import { campaignController } from '../../../../lib/shared/application/campaigns-administration/campaign-controller.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/campaigns-administration/index.js';
 
 describe('Unit | Application | Router | campaign-participation-router ', function () {
   describe('PATCH /api/admin/campaigns/archive-campaigns', function () {

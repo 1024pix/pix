@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
-import { UserSavedTutorial } from '../../../../../lib/domain/models/UserSavedTutorial.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
+import { UserSavedTutorial } from '../../../../../lib/shared/domain/models/UserSavedTutorial.js';
 
 describe('Unit | Serializer | JSONAPI | user-saved-tutorial-serializer', function () {
   describe('#serialize', function () {

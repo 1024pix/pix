@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
+import * as skillRepository from '../../../lib/shared/infrastructure/repositories/skill-repository.js';
 
 async function fillCampaignSkills() {
   const campaigns = await knex('campaigns')

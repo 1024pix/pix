@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, domainBuilder, catchErr, sinon } from '../../../test-helper.js';
-import * as certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
-import { CertificationCenterForAdmin } from '../../../../lib/domain/models/CertificationCenterForAdmin.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as certificationCenterForAdminRepository from '../../../../lib/shared/infrastructure/repositories/certification-center-for-admin-repository.js';
+import { CertificationCenterForAdmin } from '../../../../lib/shared/domain/models/CertificationCenterForAdmin.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Repository | certification-center-for-admin', function () {
   let clock;

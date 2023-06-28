@@ -1,4 +1,4 @@
-import { JurySession } from '../../../../lib/domain/models/JurySession.js';
+import { JurySession } from '../../../../lib/shared/domain/models/JurySession.js';
 import { domainBuilder } from '../domain-builder.js';
 import _ from 'lodash';
 

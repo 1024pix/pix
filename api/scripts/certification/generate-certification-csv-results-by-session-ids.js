@@ -9,10 +9,10 @@ import fs from 'fs';
 import bluebird from 'bluebird';
 import lodash from 'lodash';
 const { isEmpty } = lodash;
-import { logger } from '../../lib/infrastructure/logger.js';
-import * as certificationResultUtils from '../../lib/infrastructure/utils/csv/certification-results.js';
-import { usecases } from '../../lib/domain/usecases/index.js';
-import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
+import * as certificationResultUtils from '../../lib/shared/infrastructure/utils/csv/certification-results.js';
+import { usecases } from '../../lib/shared/domain/usecases/index.js';
+import { temporaryStorage } from '../../lib/shared/infrastructure/temporary-storage/index.js';
 import { disconnect } from '../../db/knex-database-connection.js';
 
 /**

@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
-import * as targetProfileSummaryForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-summary-for-admin-repository.js';
+import * as targetProfileSummaryForAdminRepository from '../../../../lib/shared/infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 
 describe('Integration | Repository | Target-profile-summary-for-admin', function () {
   describe('#findPaginatedFiltered', function () {

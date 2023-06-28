@@ -1,13 +1,13 @@
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 
-import { Organization } from '../../../../lib/domain/models/Organization.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { ScoOrganizationParticipant } from '../../../../lib/domain/read-models/ScoOrganizationParticipant.js';
-import { SupOrganizationParticipant } from '../../../../lib/domain/read-models/SupOrganizationParticipant.js';
-import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import { Organization } from '../../../../lib/shared/domain/models/Organization.js';
+import { OrganizationInvitation } from '../../../../lib/shared/domain/models/OrganizationInvitation.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
+import { ScoOrganizationParticipant } from '../../../../lib/shared/domain/read-models/ScoOrganizationParticipant.js';
+import { SupOrganizationParticipant } from '../../../../lib/shared/domain/read-models/SupOrganizationParticipant.js';
+import { organizationController } from '../../../../lib/shared/application/organizations/organization-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import * as queryParamsUtils from '../../../../lib/shared/infrastructure/utils/query-params-utils.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {

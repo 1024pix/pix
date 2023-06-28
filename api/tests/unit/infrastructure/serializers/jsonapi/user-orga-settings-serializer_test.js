@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer.js';
-import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/user-orga-settings-serializer.js';
+import { UserOrgaSettings } from '../../../../../lib/shared/domain/models/UserOrgaSettings.js';
 
 describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function () {
   describe('#serialize', function () {

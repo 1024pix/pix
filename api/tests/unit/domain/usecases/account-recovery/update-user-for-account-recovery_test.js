@@ -1,8 +1,8 @@
 import { expect, domainBuilder, sinon } from '../../../../test-helper.js';
-import { updateUserForAccountRecovery } from '../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery.js';
-import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
-import { User } from '../../../../../lib/domain/models/User.js';
+import { updateUserForAccountRecovery } from '../../../../../lib/shared/domain/usecases/account-recovery/update-user-for-account-recovery.js';
+import { AuthenticationMethod } from '../../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import { DomainTransaction } from '../../../../../lib/shared/infrastructure/DomainTransaction.js';
+import { User } from '../../../../../lib/shared/domain/models/User.js';
 
 describe('Unit | Usecases | update-user-for-account-recovery', function () {
   let userRepository,

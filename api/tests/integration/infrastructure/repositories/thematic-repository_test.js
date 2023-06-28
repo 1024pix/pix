@@ -1,6 +1,6 @@
 import { expect, mockLearningContent, domainBuilder } from '../../../test-helper.js';
-import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
-import { Thematic } from '../../../../lib/domain/models/Thematic.js';
+import * as thematicRepository from '../../../../lib/shared/infrastructure/repositories/thematic-repository.js';
+import { Thematic } from '../../../../lib/shared/domain/models/Thematic.js';
 
 describe('Integration | Repository | thematic-repository', function () {
   describe('#list', function () {

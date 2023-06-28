@@ -1,4 +1,4 @@
-import { Session } from '../../../../lib/domain/models/Session.js';
+import { Session } from '../../../../lib/shared/domain/models/Session.js';
 
 const buildSession = function ({
   id = 123,

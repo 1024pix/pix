@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { findPaginatedCampaignManagements } from '../../../../lib/domain/usecases/find-paginated-campaign-managements.js';
+import { findPaginatedCampaignManagements } from '../../../../lib/shared/domain/usecases/find-paginated-campaign-managements.js';
 
 describe('Unit | Domain | Use Cases | find-paginated-campaign-managments', function () {
   describe('#findPaginatedCampaignManagement', function () {

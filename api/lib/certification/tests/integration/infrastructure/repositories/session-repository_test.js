@@ -1,6 +1,6 @@
 import { databaseBuilder, expect, catchErr } from '../../../../../../tests/test-helper.js';
-import { NotFoundError } from '../../../../../domain/errors.js';
-import { Session } from '../../../../../domain/models/Session.js';
+import { NotFoundError } from '../../../../../shared/domain/errors.js';
+import { Session } from '../../../../../shared/domain/models/Session.js';
 import * as sessionRepository from '../../../../infrastructure/repositories/session-repository.js';
 
 describe('Integration | Repository | Session', function () {

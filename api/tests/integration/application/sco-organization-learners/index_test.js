@@ -1,7 +1,7 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { scoOrganizationLearnerController } from '../../../../lib/application/sco-organization-learners/sco-organization-learner-controller.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import * as moduleUnderTest from '../../../../lib/application/sco-organization-learners/index.js';
+import { scoOrganizationLearnerController } from '../../../../lib/shared/application/sco-organization-learners/sco-organization-learner-controller.js';
+import { securityPreHandlers } from '../../../../lib/shared/application/security-pre-handlers.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/sco-organization-learners/index.js';
 
 describe('Integration | Application | Route | sco-organization-learners', function () {
   let httpTestServer;

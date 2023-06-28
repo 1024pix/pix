@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
 
 describe('Acceptance | Controller | membership-controller', function () {
   let server;

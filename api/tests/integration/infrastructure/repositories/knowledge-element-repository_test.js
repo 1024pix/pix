@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { expect, knex, domainBuilder, databaseBuilder, sinon } from '../../../test-helper.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { KnowledgeElement } from '../../../../lib/shared/domain/models/KnowledgeElement.js';
+import * as knowledgeElementRepository from '../../../../lib/shared/infrastructure/repositories/knowledge-element-repository.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

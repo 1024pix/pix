@@ -1,4 +1,4 @@
-import { BadgeCriterion } from '../../../lib/domain/models/BadgeCriterion.js';
+import { BadgeCriterion } from '../../../lib/shared/domain/models/BadgeCriterion.js';
 import { databaseBuffer } from '../database-buffer.js';
 
 const buildBadgeCriterion = function ({

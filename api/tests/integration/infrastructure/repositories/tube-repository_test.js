@@ -1,5 +1,5 @@
 import { expect, mockLearningContent, domainBuilder } from '../../../test-helper.js';
-import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
+import * as tubeRepository from '../../../../lib/shared/infrastructure/repositories/tube-repository.js';
 
 describe('Integration | Repository | tube-repository', function () {
   describe('#get', function () {

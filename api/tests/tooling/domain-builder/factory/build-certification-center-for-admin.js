@@ -1,4 +1,4 @@
-import { CertificationCenterForAdmin } from '../../../../lib/domain/models/CertificationCenterForAdmin.js';
+import { CertificationCenterForAdmin } from '../../../../lib/shared/domain/models/CertificationCenterForAdmin.js';
 
 const buildCertificationCenterForAdmin = function ({
   id = 1,

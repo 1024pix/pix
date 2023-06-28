@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { CertificationChallenge } from '../../../../lib/domain/models/CertificationChallenge.js';
+import { CertificationChallenge } from '../../../../lib/shared/domain/models/CertificationChallenge.js';
 
 describe('Unit | Domain | Models | CertificationChallenge', function () {
   describe('#static createForPixCertification', function () {

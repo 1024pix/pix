@@ -1,7 +1,7 @@
 import { expect } from '../../../test-helper.js';
-import { Area } from '../../../../lib/domain/models/Area.js';
-import { CampaignParticipationResult } from '../../../../lib/domain/models/CampaignParticipationResult.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { Area } from '../../../../lib/shared/domain/models/Area.js';
+import { CampaignParticipationResult } from '../../../../lib/shared/domain/models/CampaignParticipationResult.js';
+import { KnowledgeElement } from '../../../../lib/shared/domain/models/KnowledgeElement.js';
 
 describe('Unit | Domain | Models | CampaignParticipationResult', function () {
   describe('#buildFrom', function () {

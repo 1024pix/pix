@@ -5,10 +5,10 @@ import {
   InvalidVerificationCodeError,
   UserNotAuthorizedToUpdateEmailError,
   EmailModificationDemandNotFoundOrExpiredError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import { EmailModificationDemand } from '../../../../lib/domain/models/EmailModificationDemand.js';
-import { updateUserEmailWithValidation } from '../../../../lib/domain/usecases/update-user-email-with-validation.js';
+import { EmailModificationDemand } from '../../../../lib/shared/domain/models/EmailModificationDemand.js';
+import { updateUserEmailWithValidation } from '../../../../lib/shared/domain/usecases/update-user-email-with-validation.js';
 
 describe('Unit | UseCase | update-user-email-with-validation', function () {
   let userEmailRepository;

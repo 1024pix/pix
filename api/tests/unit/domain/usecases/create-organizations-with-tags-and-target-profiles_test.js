@@ -1,16 +1,16 @@
 import { expect, catchErr, sinon, domainBuilder } from '../../../test-helper.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
-import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
-import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
+import { Organization } from '../../../../lib/shared/domain/models/Organization.js';
+import { OrganizationTag } from '../../../../lib/shared/domain/models/OrganizationTag.js';
+import { DomainTransaction as domainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
+import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/shared/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 
 import {
   ManyOrganizationsFoundError,
   ObjectValidationError,
   OrganizationAlreadyExistError,
   OrganizationTagNotFound,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {
   let organizationRepositoryStub;

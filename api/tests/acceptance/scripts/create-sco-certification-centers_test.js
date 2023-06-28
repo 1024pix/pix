@@ -1,5 +1,5 @@
 import { expect, knex } from '../../test-helper.js';
-import { BookshelfCertificationCenter } from '../../../lib/infrastructure/orm-models/CertificationCenter.js';
+import { BookshelfCertificationCenter } from '../../../lib/shared/infrastructure/orm-models/CertificationCenter.js';
 import { createScoCertificationCenters } from '../../../scripts/create-sco-certification-centers.js';
 
 describe('Acceptance | Scripts | create-sco-certification-centers.js', function () {

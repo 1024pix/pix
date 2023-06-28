@@ -7,7 +7,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { constants } from '../../../../lib/domain/constants.js';
+import { constants } from '../../../../lib/shared/domain/constants.js';
 
 describe('Acceptance | Controller | users-controller-get-user-profile-for-admin', function () {
   let options;

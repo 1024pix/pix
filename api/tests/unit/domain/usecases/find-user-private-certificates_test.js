@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { findUserPrivateCertificates } from '../../../../lib/domain/usecases/find-user-private-certificates.js';
+import { findUserPrivateCertificates } from '../../../../lib/shared/domain/usecases/find-user-private-certificates.js';
 
 describe('Unit | UseCase | find-user-private-certificates', function () {
   const certificateRepository = {};

@@ -12,12 +12,12 @@ import perf_hooks from 'perf_hooks';
 const { performance } = perf_hooks;
 
 import XLSX from 'xlsx';
-import { logger } from '../../../lib/infrastructure/logger.js';
-import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { logger } from '../../../lib/shared/infrastructure/logger.js';
+import { learningContentCache as cache } from '../../../lib/shared/infrastructure/caches/learning-content-cache.js';
 import { knex, disconnect } from '../../../db/knex-database-connection.js';
-import { normalizeAndRemoveAccents } from '../../../lib/domain/services/validation-treatments.js';
+import { normalizeAndRemoveAccents } from '../../../lib/shared/domain/services/validation-treatments.js';
 import { autoMigrateTargetProfile } from './common.js';
-import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
+import * as tubeRepository from '../../../lib/shared/infrastructure/repositories/tube-repository.js';
 
 let allTubes;
 

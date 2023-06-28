@@ -1,5 +1,5 @@
 import { buildCampaignLearningContent } from './build-campaign-learning-content.js';
-import { CampaignCollectiveResult } from '../../../../lib/domain/read-models/CampaignCollectiveResult.js';
+import { CampaignCollectiveResult } from '../../../../lib/shared/domain/read-models/CampaignCollectiveResult.js';
 
 const buildCampaignCollectiveResult = function ({
   id = 123,

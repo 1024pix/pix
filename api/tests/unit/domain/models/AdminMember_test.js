@@ -1,10 +1,10 @@
 import { expect } from '../../../test-helper.js';
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../../lib/shared/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 
-import { ObjectValidationError } from '../../../../lib/domain/errors.js';
-import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
+import { ObjectValidationError } from '../../../../lib/shared/domain/errors.js';
+import { AdminMember } from '../../../../lib/shared/domain/models/AdminMember.js';
 
 describe('Unit | Domain | Models | AdminMember', function () {
   describe('constructor', function () {

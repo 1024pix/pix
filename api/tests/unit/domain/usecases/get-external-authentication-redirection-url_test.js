@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { User } from '../../../../lib/domain/models/User.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { getExternalAuthenticationRedirectionUrl } from '../../../../lib/domain/usecases/get-external-authentication-redirection-url.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import { getExternalAuthenticationRedirectionUrl } from '../../../../lib/shared/domain/usecases/get-external-authentication-redirection-url.js';
 
 describe('Unit | UseCase | get-external-authentication-redirection-url', function () {
   let userRepository;

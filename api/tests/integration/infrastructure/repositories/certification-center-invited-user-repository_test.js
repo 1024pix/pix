@@ -3,10 +3,10 @@ import lodash from 'lodash';
 const { omit } = lodash;
 
 import { expect, databaseBuilder, catchErr, sinon, knex } from '../../../test-helper.js';
-import * as certificationCenterInvitedUserRepository from '../../../../lib/infrastructure/repositories/certification-center-invited-user-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
-import { CertificationCenterInvitedUser } from '../../../../lib/domain/models/CertificationCenterInvitedUser.js';
+import * as certificationCenterInvitedUserRepository from '../../../../lib/shared/infrastructure/repositories/certification-center-invited-user-repository.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { CertificationCenterInvitation } from '../../../../lib/shared/domain/models/CertificationCenterInvitation.js';
+import { CertificationCenterInvitedUser } from '../../../../lib/shared/domain/models/CertificationCenterInvitedUser.js';
 
 describe('Integration | Repository | CertificationCenterInvitedUserRepository', function () {
   describe('#get', function () {

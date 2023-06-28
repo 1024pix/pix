@@ -41,11 +41,11 @@ import {
   LocaleFormatError,
   LocaleNotSupportedError,
   CertificationCandidateNotFoundError,
-} from '../../../lib/domain/errors.js';
+} from '../../../lib/shared/domain/errors.js';
 
-import { HttpErrors } from '../../../lib/application/http-errors.js';
-import { handle } from '../../../lib/application/error-manager.js';
-import { SESSION_SUPERVISING } from '../../../lib/domain/constants/session-supervising.js';
+import { HttpErrors } from '../../../lib/shared/application/http-errors.js';
+import { handle } from '../../../lib/shared/application/error-manager.js';
+import { SESSION_SUPERVISING } from '../../../lib/shared/domain/constants/session-supervising.js';
 
 describe('Unit | Application | ErrorManager', function () {
   describe('#handle', function () {

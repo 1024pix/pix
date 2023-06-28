@@ -1,4 +1,4 @@
-import { Progression } from '../../../../lib/domain/models/Progression.js';
+import { Progression } from '../../../../lib/shared/domain/models/Progression.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Progression', function () {

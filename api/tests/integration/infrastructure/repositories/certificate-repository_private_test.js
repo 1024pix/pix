@@ -7,8 +7,8 @@ import {
   mockLearningContent,
 } from '../../../test-helper.js';
 
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as certificateRepository from '../../../../lib/infrastructure/repositories/certificate-repository.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import * as certificateRepository from '../../../../lib/shared/infrastructure/repositories/certificate-repository.js';
 
 describe('Integration | Infrastructure | Repository | Certificate_private', function () {
   const minimalLearningContent = [

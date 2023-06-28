@@ -1,7 +1,7 @@
 import { expect, sinon, hFake } from '../../../test-helper.js';
-import { cacheController } from '../../../../lib/application/cache/cache-controller.js';
-import * as learningContentDatasources from '../../../../lib/infrastructure/datasources/learning-content/index.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
+import { cacheController } from '../../../../lib/shared/application/cache/cache-controller.js';
+import * as learningContentDatasources from '../../../../lib/shared/infrastructure/datasources/learning-content/index.js';
+import { logger } from '../../../../lib/shared/infrastructure/logger.js';
 
 describe('Unit | Controller | cache-controller', function () {
   describe('#refreshCacheEntry', function () {

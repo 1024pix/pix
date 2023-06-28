@@ -1,6 +1,6 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { scorecardController } from '../../../../lib/application/scorecards/scorecard-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/scorecards/index.js';
+import { scorecardController } from '../../../../lib/shared/application/scorecards/scorecard-controller.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/scorecards/index.js';
 
 describe('Unit | Router | scorecard-router', function () {
   describe('GET /api/scorecards/{id}', function () {

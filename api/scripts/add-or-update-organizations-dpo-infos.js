@@ -6,8 +6,8 @@ import _ from 'lodash';
 import bluebird from 'bluebird';
 import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
 import { disconnect } from '../db/knex-database-connection.js';
-import { updateOrganizationDataProtectionOfficerInformation } from '../lib/domain/usecases/update-organization-data-protection-officer-information.js';
-import * as dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import { updateOrganizationDataProtectionOfficerInformation } from '../lib/shared/domain/usecases/update-organization-data-protection-officer-information.js';
+import * as dataProtectionOfficerRepository from '../lib/shared/infrastructure/repositories/data-protection-officer-repository.js';
 
 import * as url from 'url';
 

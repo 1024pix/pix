@@ -1,7 +1,7 @@
 import { sinon, expect, nock, catchErr } from '../../../test-helper.js';
 import { config } from '../../../../lib/config.js';
-import { SendinblueProvider } from '../../../../lib/infrastructure/mailers/SendinblueProvider.js';
-import { MailingProviderInvalidEmailError } from '../../../../lib/infrastructure/mailers/MailingProviderInvalidEmailError.js';
+import { SendinblueProvider } from '../../../../lib/shared/infrastructure/mailers/SendinblueProvider.js';
+import { MailingProviderInvalidEmailError } from '../../../../lib/shared/infrastructure/mailers/MailingProviderInvalidEmailError.js';
 const { mailing } = config;
 
 describe('Unit | Class | SendinblueProvider', function () {

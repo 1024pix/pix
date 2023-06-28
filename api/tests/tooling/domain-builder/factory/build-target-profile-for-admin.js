@@ -3,7 +3,7 @@ import { buildCompetence } from './build-competence.js';
 import { buildThematic } from './build-thematic.js';
 import { buildTube } from './build-tube.js';
 import { buildStageCollection } from './target-profile-management/build-stage-collection.js';
-import { TargetProfileForAdmin } from '../../../../lib/domain/models/TargetProfileForAdmin.js';
+import { TargetProfileForAdmin } from '../../../../lib/shared/domain/models/TargetProfileForAdmin.js';
 
 const buildTargetProfileForAdmin = function ({
   id = 123,

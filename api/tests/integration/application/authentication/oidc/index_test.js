@@ -1,12 +1,12 @@
 import { expect, sinon, HttpTestServer, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
-import { oidcController } from '../../../../../lib/application/authentication/oidc/oidc-controller.js';
-import * as moduleUnderTest from '../../../../../lib/application/authentication/oidc/index.js';
+import { oidcController } from '../../../../../lib/shared/application/authentication/oidc/oidc-controller.js';
+import * as moduleUnderTest from '../../../../../lib/shared/application/authentication/oidc/index.js';
 
 import {
   UserNotFoundError,
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
-} from '../../../../../lib/domain/errors.js';
+} from '../../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Application | Route | OidcRouter', function () {
   let server;

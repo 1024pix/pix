@@ -1,5 +1,5 @@
 import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
 import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | Users', function () {

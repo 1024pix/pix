@@ -3,26 +3,26 @@ const { pick } = lodash;
 
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
-import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
-import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
-import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
-import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
-import * as encryptionService from '../../../../lib/domain/services/encryption-service.js';
-import * as mailService from '../../../../lib/domain/services/mail-service.js';
-import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
-import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
-import * as userService from '../../../../lib/domain/services/user-service.js';
-import { createAndReconcileUserToOrganizationLearner } from '../../../../lib/domain/usecases/create-and-reconcile-user-to-organization-learner.js';
-import * as passwordValidator from '../../../../lib/domain/validators/password-validator.js';
-import * as userValidator from '../../../../lib/domain/validators/user-validator.js';
+import * as authenticationMethodRepository from '../../../../lib/shared/infrastructure/repositories/authentication-method-repository.js';
+import * as campaignRepository from '../../../../lib/shared/infrastructure/repositories/campaign-repository.js';
+import * as organizationLearnerRepository from '../../../../lib/shared/infrastructure/repositories/organization-learner-repository.js';
+import * as userRepository from '../../../../lib/shared/infrastructure/repositories/user-repository.js';
+import * as userToCreateRepository from '../../../../lib/shared/infrastructure/repositories/user-to-create-repository.js';
+import * as encryptionService from '../../../../lib/shared/domain/services/encryption-service.js';
+import * as mailService from '../../../../lib/shared/domain/services/mail-service.js';
+import * as obfuscationService from '../../../../lib/shared/domain/services/obfuscation-service.js';
+import * as userReconciliationService from '../../../../lib/shared/domain/services/user-reconciliation-service.js';
+import * as userService from '../../../../lib/shared/domain/services/user-service.js';
+import { createAndReconcileUserToOrganizationLearner } from '../../../../lib/shared/domain/usecases/create-and-reconcile-user-to-organization-learner.js';
+import * as passwordValidator from '../../../../lib/shared/domain/validators/password-validator.js';
+import * as userValidator from '../../../../lib/shared/domain/validators/user-validator.js';
 
 import {
   CampaignCodeError,
   EntityValidationError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | UseCases | create-and-reconcile-user-to-organization-learner', function () {
   const pickUserAttributes = ['firstName', 'lastName', 'email', 'username', 'cgu'];

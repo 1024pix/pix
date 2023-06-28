@@ -3,8 +3,8 @@ import { buildCampaign } from './build-campaign.js';
 import { buildCampaignParticipation } from './build-campaign-participation.js';
 import { buildCampaignSkill } from './build-campaign-skill.js';
 import { buildUser } from './build-user.js';
-import { Assessment } from '../../../lib/domain/models/Assessment.js';
-import { CampaignParticipationStatuses } from '../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { Assessment } from '../../../lib/shared/domain/models/Assessment.js';
+import { CampaignParticipationStatuses } from '../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 

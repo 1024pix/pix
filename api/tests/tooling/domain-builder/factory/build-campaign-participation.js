@@ -1,5 +1,5 @@
-import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipation } from '../../../../lib/shared/domain/models/CampaignParticipation.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 import { buildCampaign } from './build-campaign.js';
 const { SHARED } = CampaignParticipationStatuses;
 

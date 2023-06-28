@@ -1,5 +1,5 @@
 import { PIX_SUPER_ADMIN_ID, PIX_SUPPORT_ID, PIX_METIER_ID, PIX_CERTIF_ID } from './users-builder.js';
-import { PIX_ADMIN } from '../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../lib/shared/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

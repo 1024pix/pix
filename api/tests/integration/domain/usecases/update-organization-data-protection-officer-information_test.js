@@ -1,7 +1,7 @@
 import { knex, expect, databaseBuilder } from '../../../test-helper.js';
-import { DataProtectionOfficer } from '../../../../lib/domain/models/DataProtectionOfficer.js';
-import { updateOrganizationDataProtectionOfficerInformation } from '../../../../lib/domain/usecases/update-organization-data-protection-officer-information.js';
-import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import { DataProtectionOfficer } from '../../../../lib/shared/domain/models/DataProtectionOfficer.js';
+import { updateOrganizationDataProtectionOfficerInformation } from '../../../../lib/shared/domain/usecases/update-organization-data-protection-officer-information.js';
+import * as dataProtectionOfficerRepository from '../../../../lib/shared/infrastructure/repositories/data-protection-officer-repository.js';
 
 describe('Integration | UseCases | update-organization-data-protection-officer-information', function () {
   afterEach(async function () {

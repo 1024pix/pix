@@ -1,9 +1,9 @@
 import { catchErr, expect, databaseBuilder, mockLearningContent, domainBuilder } from '../../../test-helper.js';
-import * as participantResultRepository from '../../../../lib/infrastructure/repositories/participant-result-repository.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import * as participantResultRepository from '../../../../lib/shared/infrastructure/repositories/participant-result-repository.js';
+import { KnowledgeElement } from '../../../../lib/shared/domain/models/KnowledgeElement.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { SessionSummary } from '../../../../lib/domain/read-models/SessionSummary.js';
+import { SessionSummary } from '../../../../lib/shared/domain/read-models/SessionSummary.js';
 
 describe('Unit | Domain | Read-Models | SessionSummary', function () {
   describe('#static from', function () {

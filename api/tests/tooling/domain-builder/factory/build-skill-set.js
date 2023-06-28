@@ -1,4 +1,4 @@
-import { SkillSet } from '../../../../lib/domain/models/SkillSet.js';
+import { SkillSet } from '../../../../lib/shared/domain/models/SkillSet.js';
 
 const buildSkillSet = function ({ id = 1, badgeId = 64, name = 'name', skillIds = ['recABC', 'recDEF'] } = {}) {
   return new SkillSet({

@@ -1,7 +1,7 @@
 import { expect, catchErr, databaseBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/shared/domain/errors.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

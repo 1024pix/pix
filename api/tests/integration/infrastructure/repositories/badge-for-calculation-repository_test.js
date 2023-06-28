@@ -6,8 +6,8 @@ import {
   learningContentBuilder,
 } from '../../../test-helper.js';
 
-import * as badgeForCalculationRepository from '../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
-import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
+import * as badgeForCalculationRepository from '../../../../lib/shared/infrastructure/repositories/badge-for-calculation-repository.js';
+import { BadgeCriterion } from '../../../../lib/shared/domain/models/BadgeCriterion.js';
 
 describe('Integration | Repository | BadgeForCalculation', function () {
   const campaignSkillsId = [

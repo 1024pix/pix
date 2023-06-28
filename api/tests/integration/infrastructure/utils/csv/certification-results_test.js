@@ -5,7 +5,7 @@ import {
   getDivisionCertificationResultsCsv,
   REJECTED_AUTOMATICALLY_COMMENT,
   getCleaCertifiedCandidateCsv,
-} from '../../../../../lib/infrastructure/utils/csv/certification-results.js';
+} from '../../../../../lib/shared/infrastructure/utils/csv/certification-results.js';
 
 describe('Integration | Infrastructure | Utils | csv | certification-results', function () {
   context('#getSessionCertificationResultsCsv', function () {

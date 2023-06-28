@@ -1,8 +1,8 @@
 import { sinon, expect, domainBuilder, hFake, catchErr } from '../../../test-helper.js';
-import { campaignController } from '../../../../lib/application/campaigns/campaign-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { UserNotAuthorizedToAccessEntityError, ForbiddenAccess } from '../../../../lib/domain/errors.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { campaignController } from '../../../../lib/shared/application/campaigns/campaign-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { UserNotAuthorizedToAccessEntityError, ForbiddenAccess } from '../../../../lib/shared/domain/errors.js';
+import { LOCALE } from '../../../../lib/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

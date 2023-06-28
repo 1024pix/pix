@@ -1,6 +1,6 @@
 import { domainBuilder, sinon, hFake, expect } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/shared/application/sessions/session-with-clea-certified-candidate-controller.js';
 
 describe('Unit | Controller | session-with-clea-certified-candidate', function () {
   describe('#getCleaCertifiedCandidateDataCsv', function () {

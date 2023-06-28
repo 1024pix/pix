@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
 
 describe('Unit | UseCase | get-target-profile-for-admin', function () {
   it('should get target profile for admin', async function () {

@@ -8,9 +8,9 @@ import {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-} from '../../../domain/errors.js';
+} from '../../../shared/domain/errors.js';
 
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../domain/constants/certification-candidates-errors.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 
 const BILLING_MODES = {
   FREE: 'FREE',

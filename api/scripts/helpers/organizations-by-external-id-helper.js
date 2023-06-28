@@ -1,4 +1,4 @@
-import * as organizationRepository from '../../lib/infrastructure/repositories/organization-repository.js';
+import * as organizationRepository from '../../lib/shared/infrastructure/repositories/organization-repository.js';
 
 function organizeOrganizationsByExternalId(organizations) {
   const organizationsByExternalId = {};

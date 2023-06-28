@@ -9,7 +9,7 @@ import {
 } from '../../../test-helper.js';
 
 import _ from 'lodash';
-import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
+import { BadgeCriterion } from '../../../../lib/shared/domain/models/BadgeCriterion.js';
 
 describe('Acceptance | API | Campaign Assessment Result', function () {
   const JAFFA_COLOR = 'jaffa';

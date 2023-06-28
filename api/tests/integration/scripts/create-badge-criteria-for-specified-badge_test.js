@@ -5,7 +5,7 @@ import {
   checkSkillSetIds,
   copySkillSets,
 } from '../../../scripts/create-badge-criteria-for-specified-badge.js';
-import { BadgeCriterion } from '../../../lib/domain/models/BadgeCriterion.js';
+import { BadgeCriterion } from '../../../lib/shared/domain/models/BadgeCriterion.js';
 
 describe('Integration | Scripts | create-badge-criteria-for-specified-badge', function () {
   describe('#checkBadgeExistence', function () {

@@ -1,5 +1,5 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
-import * as groupRepository from '../../../../lib/infrastructure/repositories/group-repository.js';
+import * as groupRepository from '../../../../lib/shared/infrastructure/repositories/group-repository.js';
 
 describe('Integration | Repository | Group', function () {
   describe('#findByCampaignId', function () {

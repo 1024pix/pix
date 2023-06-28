@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import { StageCollection } from '../../../../../lib/domain/models/user-campaign-results/StageCollection.js';
+import { StageCollection } from '../../../../../lib/shared/domain/models/user-campaign-results/StageCollection.js';
 
 describe('Unit | Domain | Models | StageCollection', function () {
   context('getReachedStageIndex', function () {

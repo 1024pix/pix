@@ -1,9 +1,9 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
-import * as campaignToJoinRepository from '../../../../lib/infrastructure/repositories/campaign-to-join-repository.js';
-import { CampaignToJoin } from '../../../../lib/domain/read-models/CampaignToJoin.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as campaignToJoinRepository from '../../../../lib/shared/infrastructure/repositories/campaign-to-join-repository.js';
+import { CampaignToJoin } from '../../../../lib/shared/domain/read-models/CampaignToJoin.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
+import * as OidcIdentityProviders from '../../../../lib/shared/domain/constants/oidc-identity-providers.js';
 
 describe('Integration | Repository | CampaignToJoin', function () {
   describe('#get', function () {

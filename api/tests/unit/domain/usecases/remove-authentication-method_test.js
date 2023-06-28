@@ -1,8 +1,8 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { removeAuthenticationMethod } from '../../../../lib/domain/usecases/remove-authentication-method.js';
-import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import { removeAuthenticationMethod } from '../../../../lib/shared/domain/usecases/remove-authentication-method.js';
+import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../lib/shared/domain/errors.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import * as OidcIdentityProviders from '../../../../lib/shared/domain/constants/oidc-identity-providers.js';
 
 describe('Unit | UseCase | remove-authentication-method', function () {
   let userRepository;

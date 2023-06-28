@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { authenticateExternalUser } from '../../../../lib/domain/usecases/authenticate-external-user.js';
+import { authenticateExternalUser } from '../../../../lib/shared/domain/usecases/authenticate-external-user.js';
 
 import {
   MissingOrInvalidCredentialsError,
@@ -8,9 +8,9 @@ import {
   UnexpectedUserAccountError,
   UserShouldChangePasswordError,
   UserAlreadyExistsWithAuthenticationMethodError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
 
 describe('Unit | Application | UseCase | authenticate-external-user', function () {
   let tokenService;

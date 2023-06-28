@@ -1,5 +1,5 @@
 import { expect, sinon, hFake } from '../../../../tests/test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../shared/domain/usecases/index.js';
 import { sessionController } from '../../../certification/application/session/session-controller.js';
 
 describe('Unit | Controller | sessionController', function () {

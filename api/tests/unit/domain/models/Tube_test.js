@@ -1,4 +1,4 @@
-import { Tube } from '../../../../lib/domain/models/Tube.js';
+import { Tube } from '../../../../lib/shared/domain/models/Tube.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Tube', function () {

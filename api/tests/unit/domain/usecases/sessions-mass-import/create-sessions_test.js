@@ -1,8 +1,8 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../../test-helper.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { createSessions } from '../../../../../lib/domain/usecases/sessions-mass-import/create-sessions.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
-import { Session } from '../../../../../lib/domain/models/Session.js';
+import { NotFoundError } from '../../../../../lib/shared/domain/errors.js';
+import { createSessions } from '../../../../../lib/shared/domain/usecases/sessions-mass-import/create-sessions.js';
+import { DomainTransaction } from '../../../../../lib/shared/infrastructure/DomainTransaction.js';
+import { Session } from '../../../../../lib/shared/domain/models/Session.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {
   let certificationCandidateRepository;

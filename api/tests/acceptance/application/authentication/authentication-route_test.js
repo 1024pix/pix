@@ -1,8 +1,8 @@
 import querystring from 'querystring';
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { tokenService } from '../../../../lib/shared/domain/services/token-service.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import { PIX_ADMIN } from '../../../../lib/shared/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

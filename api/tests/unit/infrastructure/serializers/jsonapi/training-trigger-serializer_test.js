@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/training-trigger-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function () {
   describe('#serialize', function () {

@@ -1,4 +1,4 @@
-import { CertificationRescoringCompleted } from '../../../../lib/domain/events/CertificationRescoringCompleted.js';
+import { CertificationRescoringCompleted } from '../../../../lib/shared/domain/events/CertificationRescoringCompleted.js';
 
 const buildCertificationRescoringCompletedEvent = function ({
   certificationCourseId = 123,

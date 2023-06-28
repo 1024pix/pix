@@ -18,9 +18,9 @@ import {
   main,
 } from '../../../scripts/fill-skill-id-in-user-saved-tutorials.js';
 
-import { UserSavedTutorial } from '../../../lib/domain/models/UserSavedTutorial.js';
-import { UserSavedTutorialWithTutorial } from '../../../lib/domain/models/UserSavedTutorialWithTutorial.js';
-import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
+import { UserSavedTutorial } from '../../../lib/shared/domain/models/UserSavedTutorial.js';
+import { UserSavedTutorialWithTutorial } from '../../../lib/shared/domain/models/UserSavedTutorialWithTutorial.js';
+import { KnowledgeElement } from '../../../lib/shared/domain/models/KnowledgeElement.js';
 
 describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', function () {
   describe('#main', function () {

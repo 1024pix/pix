@@ -1,5 +1,5 @@
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { CampaignParticipationForUserManagement } from '../../../../lib/domain/read-models/CampaignParticipationForUserManagement.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationForUserManagement } from '../../../../lib/shared/domain/read-models/CampaignParticipationForUserManagement.js';
 
 const buildCampaignParticipationForUserManagement = function ({
   id = 1,

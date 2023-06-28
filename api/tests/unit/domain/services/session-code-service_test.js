@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import * as sessionCodeService from '../../../../lib/domain/services/session-code-service.js';
+import * as sessionCodeService from '../../../../lib/shared/domain/services/session-code-service.js';
 
 describe('Unit | Service | CodeSession', function () {
   describe('#getNewSessionCode', function () {

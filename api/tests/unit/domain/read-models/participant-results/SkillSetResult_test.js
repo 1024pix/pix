@@ -1,6 +1,6 @@
 import { domainBuilder, expect } from '../../../../test-helper.js';
-import { SkillSetResult } from '../../../../../lib/domain/read-models/participant-results/SkillSetResult.js';
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { SkillSetResult } from '../../../../../lib/shared/domain/read-models/participant-results/SkillSetResult.js';
+import { KnowledgeElement } from '../../../../../lib/shared/domain/models/KnowledgeElement.js';
 
 describe('Unit | Domain | Read-Models | ParticipantResults | SkillSetResult', function () {
   it('computes the result for the given competence', function () {

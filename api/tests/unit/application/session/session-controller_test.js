@@ -1,14 +1,14 @@
 import { expect, sinon, hFake, domainBuilder, catchErr } from '../../../test-helper.js';
-import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
-import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
-import { SessionPublicationBatchResult } from '../../../../lib/domain/models/SessionPublicationBatchResult.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
-import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
-import * as certificationResultUtils from '../../../../lib/infrastructure/utils/csv/certification-results.js';
-import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import * as events from '../../../../lib/domain/events/index.js';
+import { sessionController } from '../../../../lib/shared/application/sessions/session-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/shared/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
+import { UserLinkedToCertificationCandidate } from '../../../../lib/shared/domain/events/UserLinkedToCertificationCandidate.js';
+import { SessionPublicationBatchResult } from '../../../../lib/shared/domain/models/SessionPublicationBatchResult.js';
+import { logger } from '../../../../lib/shared/infrastructure/logger.js';
+import { SessionPublicationBatchError } from '../../../../lib/shared/application/http-errors.js';
+import * as certificationResultUtils from '../../../../lib/shared/infrastructure/utils/csv/certification-results.js';
+import * as queryParamsUtils from '../../../../lib/shared/infrastructure/utils/query-params-utils.js';
+import * as events from '../../../../lib/shared/domain/events/index.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Controller | sessionController', function () {

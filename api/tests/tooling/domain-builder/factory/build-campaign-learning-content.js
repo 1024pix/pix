@@ -1,4 +1,4 @@
-import { CampaignLearningContent } from '../../../../lib/domain/models/CampaignLearningContent.js';
+import { CampaignLearningContent } from '../../../../lib/shared/domain/models/CampaignLearningContent.js';
 import { buildLearningContent } from './build-learning-content.js';
 
 function buildCampaignLearningContent(learningContent = buildLearningContent()) {

@@ -3,11 +3,11 @@ import stream from 'stream';
 const { PassThrough } = stream;
 
 import { expect, sinon, domainBuilder, streamToPromise, catchErr } from '../../../test-helper.js';
-import { startWritingCampaignAssessmentResultsToStream } from '../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream.js';
-import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../lib/domain/errors.js';
-import * as campaignCsvExportService from '../../../../lib/domain/services/campaign-csv-export-service.js';
+import { startWritingCampaignAssessmentResultsToStream } from '../../../../lib/shared/domain/usecases/start-writing-campaign-assessment-results-to-stream.js';
+import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../lib/shared/domain/errors.js';
+import * as campaignCsvExportService from '../../../../lib/shared/domain/services/campaign-csv-export-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
-import { StageCollection } from '../../../../lib/domain/models/user-campaign-results/StageCollection.js';
+import { StageCollection } from '../../../../lib/shared/domain/models/user-campaign-results/StageCollection.js';
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   const campaignRepository = { get: () => undefined };

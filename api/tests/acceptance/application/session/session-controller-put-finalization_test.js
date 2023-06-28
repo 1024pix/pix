@@ -11,9 +11,9 @@ import { createServer } from '../../../../server.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
+} from '../../../../lib/shared/domain/models/CertificationIssueReportCategory.js';
+import { AnswerStatus } from '../../../../lib/shared/domain/models/AnswerStatus.js';
+import { CertificationResult } from '../../../../lib/shared/domain/models/CertificationResult.js';
 
 describe('Acceptance | Controller | sessions-controller', function () {
   let options;

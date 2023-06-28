@@ -1,4 +1,4 @@
-import { SupOrganizationLearner } from '../../../../lib/domain/models/SupOrganizationLearner.js';
+import { SupOrganizationLearner } from '../../../../lib/shared/domain/models/SupOrganizationLearner.js';
 import { buildOrganization } from './build-organization.js';
 
 function buildSupOrganizationLearner({

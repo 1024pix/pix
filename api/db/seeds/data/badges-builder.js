@@ -19,7 +19,7 @@ const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE_BADGE_ID = 127;
 const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID = 128;
 const PIX_EMPLOI_CLEA_BADGE_ID_V3 = 129;
 
-import { BadgeCriterion } from '../../../lib/domain/models/BadgeCriterion.js';
+import { BadgeCriterion } from '../../../lib/shared/domain/models/BadgeCriterion.js';
 import { badges } from '../../constants.js';
 
 import {

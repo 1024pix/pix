@@ -1,6 +1,6 @@
 import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/authentication-serializer.js';
-import { Authentication } from '../../../../../lib/domain/models/Authentication.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/authentication-serializer.js';
+import { Authentication } from '../../../../../lib/shared/domain/models/Authentication.js';
 
 describe('Unit | Serializer | JSONAPI | authentication-serializer', function () {
   const expectedJsonAnswer = {

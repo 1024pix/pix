@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/membership-serializer.js';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/membership-serializer.js';
+import { Membership } from '../../../../../lib/shared/domain/models/Membership.js';
 
 describe('Unit | Serializer | JSONAPI | membership-serializer', function () {
   describe('#serialize', function () {

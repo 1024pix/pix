@@ -1,6 +1,6 @@
 import { expect, mockLearningContent } from '../../../test-helper.js';
-import * as missionRepository from '../../../../lib/infrastructure/repositories/mission-repository.js';
-import { Mission } from '../../../../lib/domain/models/Mission.js';
+import * as missionRepository from '../../../../lib/shared/infrastructure/repositories/mission-repository.js';
+import { Mission } from '../../../../lib/shared/domain/models/Mission.js';
 
 describe('Integration | Repository | mission-repository', function () {
   describe('#get', function () {

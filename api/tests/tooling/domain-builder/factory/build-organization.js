@@ -1,4 +1,4 @@
-import { Organization } from '../../../../lib/domain/models/Organization.js';
+import { Organization } from '../../../../lib/shared/domain/models/Organization.js';
 
 function buildOrganization({
   id = 123,

@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
-import * as prescriberRoleRepository from '../../../../lib/infrastructure/repositories/prescriber-role-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as prescriberRoleRepository from '../../../../lib/shared/infrastructure/repositories/prescriber-role-repository.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Repository | Campaign', function () {
   describe('#getForCampaign', function () {

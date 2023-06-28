@@ -1,4 +1,4 @@
-import { CertificationCenter, types } from '../../../../lib/domain/models/CertificationCenter.js';
+import { CertificationCenter, types } from '../../../../lib/shared/domain/models/CertificationCenter.js';
 
 const buildCertificationCenter = function ({
   id = 1,

@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { superviseSession } from '../../../../lib/domain/usecases/supervise-session.js';
-import { InvalidSessionSupervisingLoginError, SessionNotAccessible } from '../../../../lib/domain/errors.js';
+import { superviseSession } from '../../../../lib/shared/domain/usecases/supervise-session.js';
+import { InvalidSessionSupervisingLoginError, SessionNotAccessible } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | supervise-session', function () {
   let sessionRepository;

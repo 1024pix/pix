@@ -1,10 +1,10 @@
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 
-import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
-import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/Organization.js';
-import * as organizationCreationValidator from '../../../../lib/domain/validators/organization-creation-validator.js';
-import { createOrganization } from '../../../../lib/domain/usecases/create-organization.js';
+import * as organizationForAdminRepository from '../../../../lib/shared/infrastructure/repositories/organization-for-admin-repository.js';
+import * as dataProtectionOfficerRepository from '../../../../lib/shared/infrastructure/repositories/data-protection-officer-repository.js';
+import { OrganizationForAdmin } from '../../../../lib/shared/domain/models/organizations-administration/Organization.js';
+import * as organizationCreationValidator from '../../../../lib/shared/domain/validators/organization-creation-validator.js';
+import { createOrganization } from '../../../../lib/shared/domain/usecases/create-organization.js';
 
 describe('Integration | UseCases | create-organization', function () {
   afterEach(async function () {

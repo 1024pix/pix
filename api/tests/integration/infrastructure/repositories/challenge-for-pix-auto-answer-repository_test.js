@@ -1,5 +1,5 @@
 import { expect, mockLearningContent } from '../../../test-helper.js';
-import * as challengeForPixAutoAnswerRepository from '../../../../lib/infrastructure/repositories/challenge-for-pix-auto-answer-repository.js';
+import * as challengeForPixAutoAnswerRepository from '../../../../lib/shared/infrastructure/repositories/challenge-for-pix-auto-answer-repository.js';
 
 describe('Integration | Repository | challenge-for-pix-auto-answer-repository', function () {
   describe('#get', function () {

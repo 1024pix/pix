@@ -1,7 +1,7 @@
 import { sinon, expect, hFake, catchErr, domainBuilder } from '../../../../test-helper.js';
-import { oidcController } from '../../../../../lib/application/authentication/oidc/oidc-controller.js';
-import { usecases } from '../../../../../lib/domain/usecases/index.js';
-import { UnauthorizedError } from '../../../../../lib/application/http-errors.js';
+import { oidcController } from '../../../../../lib/shared/application/authentication/oidc/oidc-controller.js';
+import { usecases } from '../../../../../lib/shared/domain/usecases/index.js';
+import { UnauthorizedError } from '../../../../../lib/shared/application/http-errors.js';
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';

@@ -6,7 +6,7 @@ import {
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
 
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { CertificationCenterInvitation } from '../../../../lib/shared/domain/models/CertificationCenterInvitation.js';
 import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Certification center invitations', function () {

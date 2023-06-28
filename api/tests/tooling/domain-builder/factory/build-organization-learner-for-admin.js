@@ -1,4 +1,4 @@
-import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
+import { OrganizationLearnerForAdmin } from '../../../../lib/shared/domain/read-models/OrganizationLearnerForAdmin.js';
 
 const buildOrganizationLearnerForAdmin = function ({
   id = 123,

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { RedisClient } from '../../../../lib/infrastructure/utils/RedisClient.js';
+import { RedisClient } from '../../../../lib/shared/infrastructure/utils/RedisClient.js';
 import { config } from '../../../../lib/config.js';
 import { expect } from '../../../test-helper.js';
 

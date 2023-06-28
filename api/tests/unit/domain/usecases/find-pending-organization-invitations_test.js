@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { findPendingOrganizationInvitations } from '../../../../lib/domain/usecases/find-pending-organization-invitations.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { findPendingOrganizationInvitations } from '../../../../lib/shared/domain/usecases/find-pending-organization-invitations.js';
+import { OrganizationInvitation } from '../../../../lib/shared/domain/models/OrganizationInvitation.js';
 
 describe('Unit | UseCase | find-pending-organization-invitations', function () {
   it('should succeed', async function () {

@@ -5,8 +5,8 @@ dotenv.config();
 import yargs from 'yargs';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
-import * as certificationRepository from '../../lib/infrastructure/repositories/certification-repository.js';
-import * as verifyCertificateCodeService from '../../lib/domain/services/verify-certificate-code-service.js';
+import * as certificationRepository from '../../lib/shared/infrastructure/repositories/certification-repository.js';
+import * as verifyCertificateCodeService from '../../lib/shared/domain/services/verify-certificate-code-service.js';
 import * as url from 'url';
 
 const uniqueConstraintViolationCode = '23505';

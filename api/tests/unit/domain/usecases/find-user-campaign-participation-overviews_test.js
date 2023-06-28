@@ -1,5 +1,5 @@
 import { sinon } from '../../../test-helper.js';
-import { findUserCampaignParticipationOverviews } from '../../../../lib/domain/usecases/find-user-campaign-participation-overviews.js';
+import { findUserCampaignParticipationOverviews } from '../../../../lib/shared/domain/usecases/find-user-campaign-participation-overviews.js';
 describe('Unit | UseCase | find-user-campaign-participation-overviews', function () {
   let campaignParticipationOverviewRepository;
 

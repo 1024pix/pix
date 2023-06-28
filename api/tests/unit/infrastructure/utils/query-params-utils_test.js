@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { extractParameters } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import { extractParameters } from '../../../../lib/shared/infrastructure/utils/query-params-utils.js';
 
 describe('Unit | Utils | Query Params Utils', function () {
   describe('#extractParameters', function () {

@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import { TargetProfileForSpecifier } from '../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier.js';
+import { TargetProfileForSpecifier } from '../../../../../lib/shared/domain/read-models/campaign/TargetProfileForSpecifier.js';
 
 describe('TargetProfileForSpecifier', function () {
   describe('#constructor', function () {

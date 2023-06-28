@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import { logger } from '../lib/infrastructure/logger.js';
-import { learningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
+import { logger } from '../lib/shared/infrastructure/logger.js';
+import { learningContentCache } from '../lib/shared/infrastructure/caches/learning-content-cache.js';
 
-import * as learningContentDatasource from '../lib/infrastructure/datasources/learning-content/datasource.js';
+import * as learningContentDatasource from '../lib/shared/infrastructure/datasources/learning-content/datasource.js';
 
 logger.info('Starting refreshing Learning Content');
 learningContentDatasource

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { expect, databaseBuilder, knex } from '../../test-helper.js';
-import { BookshelfOrganizationInvitation } from '../../../lib/infrastructure/orm-models/OrganizationInvitation.js';
+import { BookshelfOrganizationInvitation } from '../../../lib/shared/infrastructure/orm-models/OrganizationInvitation.js';
 
 import {
   getOrganizationByExternalId,

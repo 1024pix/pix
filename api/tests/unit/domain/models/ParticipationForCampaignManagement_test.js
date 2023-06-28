@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { ParticipationForCampaignManagement } from '../../../../lib/domain/models/ParticipationForCampaignManagement.js';
+import { ParticipationForCampaignManagement } from '../../../../lib/shared/domain/models/ParticipationForCampaignManagement.js';
 
 describe('Unit | Domain | Models | ParticipationForCampaignManagement', function () {
   context('#userFullName', function () {

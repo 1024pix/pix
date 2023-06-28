@@ -7,11 +7,11 @@ import {
 } from '../../../test-helper.js';
 
 const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import * as campaignParticipationOverviewRepository from '../../../../lib/infrastructure/repositories/campaign-participation-overview-repository.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import * as campaignParticipationOverviewRepository from '../../../../lib/shared/infrastructure/repositories/campaign-participation-overview-repository.js';
 import _ from 'lodash';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
+import { CampaignTypes } from '../../../../lib/shared/domain/models/CampaignTypes.js';
 
 let userId;
 

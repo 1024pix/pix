@@ -1,4 +1,4 @@
-import { SessionForSupervising } from '../../../../lib/domain/read-models/SessionForSupervising.js';
+import { SessionForSupervising } from '../../../../lib/shared/domain/read-models/SessionForSupervising.js';
 
 const buildSessionForSupervising = function ({
   id = 123,

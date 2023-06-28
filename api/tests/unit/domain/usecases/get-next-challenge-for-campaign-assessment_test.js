@@ -1,8 +1,8 @@
-import * as flash from '../../../../lib/domain/services/algorithm-methods/flash.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import * as flash from '../../../../lib/shared/domain/services/algorithm-methods/flash.js';
+import { AnswerStatus } from '../../../../lib/shared/domain/models/AnswerStatus.js';
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import { getNextChallengeForCampaignAssessment } from '../../../../lib/shared/domain/usecases/get-next-challenge-for-campaign-assessment.js';
+import { AssessmentEndedError } from '../../../../lib/shared/domain/errors.js';
 import { config } from '../../../../lib/config.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {

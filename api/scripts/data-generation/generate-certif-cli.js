@@ -11,9 +11,9 @@ import bluebird from 'bluebird';
 import lodash from 'lodash';
 
 const { maxBy } = lodash;
-import { logger } from '../../lib/infrastructure/logger.js';
-import { getNewSessionCode } from '../../lib/domain/services/session-code-service.js';
-import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
+import { getNewSessionCode } from '../../lib/shared/domain/services/session-code-service.js';
+import { temporaryStorage } from '../../lib/shared/infrastructure/temporary-storage/index.js';
 import {
   makeUserPixCertifiable,
   makeUserPixDroitCertifiable,
@@ -22,8 +22,8 @@ import {
 } from '../../db/seeds/data/certification/tooling.js';
 import { DatabaseBuilder } from '../../db/database-builder/database-builder.js';
 import { databaseBuffer } from '../../db/database-builder/database-buffer.js';
-import { learningContentCache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
+import { learningContentCache } from '../../lib/shared/infrastructure/caches/learning-content-cache.js';
+import { CampaignParticipationStatuses } from '../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

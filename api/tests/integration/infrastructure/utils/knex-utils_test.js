@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { expect, databaseBuilder } from '../../../test-helper.js';
-import { fetchPage, DEFAULT_PAGINATION } from '../../../../lib/infrastructure/utils/knex-utils.js';
-import { knex } from '../../../../lib/infrastructure/bookshelf.js';
+import { fetchPage, DEFAULT_PAGINATION } from '../../../../lib/shared/infrastructure/utils/knex-utils.js';
+import { knex } from '../../../../lib/shared/infrastructure/bookshelf.js';
 
 describe('Integration | Infrastructure | Utils | Knex utils', function () {
   describe('fetchPage', function () {

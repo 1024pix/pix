@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
-import * as countryRepository from '../../../../lib/infrastructure/repositories/country-repository.js';
-import { Country } from '../../../../lib/domain/read-models/Country.js';
+import * as countryRepository from '../../../../lib/shared/infrastructure/repositories/country-repository.js';
+import { Country } from '../../../../lib/shared/domain/read-models/Country.js';
 
 describe('Integration | Repository | country-repository', function () {
   describe('#findAll', function () {

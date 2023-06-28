@@ -1,7 +1,7 @@
-import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
+import { CertificationCourse } from '../../../../lib/shared/domain/models/CertificationCourse.js';
 import { buildAssessment } from './build-assessment.js';
-import { CertificationIssueReport } from '../../../../lib/domain/models/CertificationIssueReport.js';
-import { CertificationIssueReportCategory } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { CertificationIssueReport } from '../../../../lib/shared/domain/models/CertificationIssueReport.js';
+import { CertificationIssueReportCategory } from '../../../../lib/shared/domain/models/CertificationIssueReportCategory.js';
 
 function buildCertificationCourse({
   id = 123,

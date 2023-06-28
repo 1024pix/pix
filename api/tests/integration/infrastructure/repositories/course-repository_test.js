@@ -1,7 +1,7 @@
 import { expect, domainBuilder, catchErr, mockLearningContent } from '../../../test-helper.js';
-import { Course } from '../../../../lib/domain/models/Course.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as courseRepository from '../../../../lib/infrastructure/repositories/course-repository.js';
+import { Course } from '../../../../lib/shared/domain/models/Course.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import * as courseRepository from '../../../../lib/shared/infrastructure/repositories/course-repository.js';
 
 describe('Integration | Repository | course-repository', function () {
   describe('#get', function () {

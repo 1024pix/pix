@@ -1,8 +1,8 @@
 import * as url from 'url';
 import _ from 'lodash';
 import { expect, catchErr } from '../../../test-helper.js';
-import { CsvImportError } from '../../../../lib/domain/errors.js';
-import { extractOrganizationLearnersInformation } from '../../../../lib/domain/services/organization-learners-csv-service.js';
+import { CsvImportError } from '../../../../lib/shared/domain/errors.js';
+import { extractOrganizationLearnersInformation } from '../../../../lib/shared/domain/services/organization-learners-csv-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 

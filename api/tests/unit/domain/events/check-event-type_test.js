@@ -1,5 +1,5 @@
 import { expect, catchErr } from '../../../test-helper.js';
-import { checkEventTypes } from '../../../../lib/domain/events/check-event-types.js';
+import { checkEventTypes } from '../../../../lib/shared/domain/events/check-event-types.js';
 
 describe('Unit | Domain | Events | check-event-types', function () {
   it('throw with right message when event of wrong type ', async function () {

@@ -1,9 +1,9 @@
-import { normalizeAndSortChars } from '../../../infrastructure/utils/string-utils.js';
+import { normalizeAndSortChars } from '../../../shared/infrastructure/utils/string-utils.js';
 import lodash from 'lodash';
 
 const { isEmpty } = lodash;
 
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../domain/constants/certification-candidates-errors.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 
 const CpfValidationStatus = {
   FAILURE: 'FAILURE',

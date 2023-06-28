@@ -2,10 +2,10 @@ import lodash from 'lodash';
 const { isUndefined, isNil } = lodash;
 
 import { databaseBuffer } from '../database-buffer.js';
-import { AuthenticationMethod } from '../../../lib/domain/models/AuthenticationMethod.js';
-import { Membership } from '../../../lib/domain/models/Membership.js';
+import { AuthenticationMethod } from '../../../lib/shared/domain/models/AuthenticationMethod.js';
+import { Membership } from '../../../lib/shared/domain/models/Membership.js';
 
-import * as encrypt from '../../../lib/domain/services/encryption-service.js';
+import * as encrypt from '../../../lib/shared/domain/services/encryption-service.js';
 
 import { buildPixAdminRole } from './build-pix-admin-role.js';
 import { buildOrganization } from './build-organization.js';
@@ -13,7 +13,7 @@ import { buildMembership } from './build-membership.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
 import { DEFAULT_PASSWORD } from '../../seeds/data/users-builder.js';
-import { PIX_ADMIN } from '../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../lib/shared/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

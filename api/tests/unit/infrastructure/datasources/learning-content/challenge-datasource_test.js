@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { expect, sinon, catchErr } from '../../../../test-helper.js';
-import { lcms } from '../../../../../lib/infrastructure/lcms.js';
-import { challengeDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/challenge-datasource.js';
-import { learningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
-import { LearningContentResourceNotFound } from '../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { lcms } from '../../../../../lib/shared/infrastructure/lcms.js';
+import { challengeDatasource } from '../../../../../lib/shared/infrastructure/datasources/learning-content/challenge-datasource.js';
+import { learningContentCache } from '../../../../../lib/shared/infrastructure/caches/learning-content-cache.js';
+import { LearningContentResourceNotFound } from '../../../../../lib/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatasource', function () {
   let competence1,

@@ -1,7 +1,7 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { lcms } from '../../../../lib/infrastructure/lcms.js';
-import { learningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
-import { createLcmsRelease } from '../../../../lib/domain/usecases/create-lcms-release.js';
+import { lcms } from '../../../../lib/shared/infrastructure/lcms.js';
+import { learningContentCache } from '../../../../lib/shared/infrastructure/caches/learning-content-cache.js';
+import { createLcmsRelease } from '../../../../lib/shared/domain/usecases/create-lcms-release.js';
 
 describe('Unit | UseCase | create-lcms-release', function () {
   it('call the createRelease on the lcms module', async function () {

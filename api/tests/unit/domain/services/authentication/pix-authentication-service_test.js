@@ -1,8 +1,8 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.js';
-import { PasswordNotMatching, UserNotFoundError } from '../../../../../lib/domain/errors.js';
-import { User } from '../../../../../lib/domain/models/User.js';
-import { UserLogin } from '../../../../../lib/domain/models/UserLogin.js';
-import * as pixAuthenticationService from '../../../../../lib/domain/services/authentication/pix-authentication-service.js';
+import { PasswordNotMatching, UserNotFoundError } from '../../../../../lib/shared/domain/errors.js';
+import { User } from '../../../../../lib/shared/domain/models/User.js';
+import { UserLogin } from '../../../../../lib/shared/domain/models/UserLogin.js';
+import * as pixAuthenticationService from '../../../../../lib/shared/domain/services/authentication/pix-authentication-service.js';
 
 describe('Unit | Domain | Services | pix-authentication-service', function () {
   describe('#getUserByUsernameAndPassword', function () {

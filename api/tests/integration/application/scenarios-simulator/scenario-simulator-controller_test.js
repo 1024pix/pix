@@ -1,10 +1,10 @@
 import { expect, sinon, HttpTestServer, domainBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as moduleUnderTest from '../../../../lib/application/scenarios-simulator/index.js';
-import { random } from '../../../../lib/infrastructure/utils/random.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-answer-status-service.js';
-import { pickChallengeService } from '../../../../lib/domain/services/pick-challenge-service.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/scenarios-simulator/index.js';
+import { random } from '../../../../lib/shared/infrastructure/utils/random.js';
+import { securityPreHandlers } from '../../../../lib/shared/application/security-pre-handlers.js';
+import { pickAnswerStatusService } from '../../../../lib/shared/domain/services/pick-answer-status-service.js';
+import { pickChallengeService } from '../../../../lib/shared/domain/services/pick-challenge-service.js';
 
 describe('Integration | Application | Scoring-simulator | scenario-simulator-controller', function () {
   let httpTestServer;

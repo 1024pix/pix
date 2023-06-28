@@ -1,5 +1,5 @@
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
-import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
+import { createAndUpload } from '../../../../../../lib/shared/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
 import stream from 'stream';
 import * as uuidService from 'uuid';
 

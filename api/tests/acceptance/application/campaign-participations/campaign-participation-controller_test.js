@@ -1,6 +1,6 @@
 import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 import {
   expect,

@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { Cache } from '../../../../lib/infrastructure/caches/Cache.js';
+import { Cache } from '../../../../lib/shared/infrastructure/caches/Cache.js';
 
 describe('Unit | Infrastructure | Caches | Cache', function () {
   const cacheInstance = new Cache();

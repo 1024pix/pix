@@ -4,9 +4,9 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
-import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
-import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
+import * as organizationTagRepository from '../lib/shared/infrastructure/repositories/organization-tag-repository.js';
+import * as tagRepository from '../lib/shared/infrastructure/repositories/tag-repository.js';
+import { OrganizationTag } from '../lib/shared/domain/models/OrganizationTag.js';
 import { parseCsv } from './helpers/csvHelpers.js';
 import lodash from 'lodash';
 

@@ -3,15 +3,15 @@ const { pick } = lodash;
 
 import { catchErr, domainBuilder, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
-import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
-import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
-import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
+import * as authenticationMethodRepository from '../../../../lib/shared/infrastructure/repositories/authentication-method-repository.js';
+import * as organizationLearnerRepository from '../../../../lib/shared/infrastructure/repositories/organization-learner-repository.js';
+import * as userRepository from '../../../../lib/shared/infrastructure/repositories/user-repository.js';
+import * as userToCreateRepository from '../../../../lib/shared/infrastructure/repositories/user-to-create-repository.js';
 
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { OrganizationLearnerNotFound } from '../../../../lib/domain/errors.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import { OrganizationLearnerNotFound } from '../../../../lib/shared/domain/errors.js';
 
-import * as userService from '../../../../lib/domain/services/user-service.js';
+import * as userService from '../../../../lib/shared/domain/services/user-service.js';
 
 describe('Integration | Domain | Services | user-service', function () {
   const hashedPassword = 'Abcdef1234';

@@ -1,7 +1,7 @@
 import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/validation-error-serializer.js';
 
-import { Bookshelf } from '../../../../../lib/infrastructure/bookshelf.js';
+import { Bookshelf } from '../../../../../lib/shared/infrastructure/bookshelf.js';
 
 describe('Unit | Serializer | JSONAPI | validation-error-serializer', function () {
   describe('#serialize', function () {

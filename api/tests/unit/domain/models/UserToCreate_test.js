@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { UserToCreate } from '../../../../lib/domain/models/UserToCreate.js';
+import { UserToCreate } from '../../../../lib/shared/domain/models/UserToCreate.js';
 
 describe('Unit | Domain | Models | UserToCreate', function () {
   describe('constructor', function () {

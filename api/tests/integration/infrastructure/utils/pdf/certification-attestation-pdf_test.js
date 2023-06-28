@@ -1,8 +1,8 @@
 import { domainBuilder, expect, nock, catchErr, sinon } from '../../../../test-helper.js';
 import dayjs from 'dayjs';
 import { isSameBinary } from '../../../../tooling/binary-comparator.js';
-import { getCertificationAttestationsPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
-import { CertificationAttestationGenerationError } from '../../../../../lib/domain/errors.js';
+import { getCertificationAttestationsPdfBuffer } from '../../../../../lib/shared/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import { CertificationAttestationGenerationError } from '../../../../../lib/shared/domain/errors.js';
 import fs from 'fs';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import { writeFile } from 'fs/promises';

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import randomString from 'randomstring';
-import { OrganizationLearner } from '../../lib/domain/models/OrganizationLearner.js';
-import { OrganizationLearnersCouldNotBeSavedError } from '../../lib/domain/errors.js';
+import { OrganizationLearner } from '../../lib/shared/domain/models/OrganizationLearner.js';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../lib/shared/domain/errors.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
 

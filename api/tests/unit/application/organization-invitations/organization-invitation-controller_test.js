@@ -1,7 +1,7 @@
 import { expect, sinon, catchErr, domainBuilder, hFake } from '../../../test-helper.js';
-import { MissingQueryParamError } from '../../../../lib/application/http-errors.js';
-import { organizationInvitationController } from '../../../../lib/application/organization-invitations/organization-invitation-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { MissingQueryParamError } from '../../../../lib/shared/application/http-errors.js';
+import { organizationInvitationController } from '../../../../lib/shared/application/organization-invitations/organization-invitation-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
 
 describe('Unit | Application | Organization-Invitations | organization-invitation-controller', function () {
   describe('#acceptOrganizationInvitation', function () {

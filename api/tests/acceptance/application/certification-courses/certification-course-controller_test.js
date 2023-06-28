@@ -9,11 +9,11 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { CertificationIssueReportCategory } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
-import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
+import { CertificationIssueReportCategory } from '../../../../lib/shared/domain/models/CertificationIssueReportCategory.js';
+import { CertificationAssessment } from '../../../../lib/shared/domain/models/CertificationAssessment.js';
+import { KnowledgeElement } from '../../../../lib/shared/domain/models/KnowledgeElement.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { CertificationVersion } from '../../../../lib/shared/domain/models/CertificationVersion.js';
 
 describe('Acceptance | API | Certification Course', function () {
   let server;

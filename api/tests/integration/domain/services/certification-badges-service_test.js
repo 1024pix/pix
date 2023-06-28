@@ -6,9 +6,9 @@ import {
   domainBuilder,
 } from '../../../test-helper.js';
 
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
 
-import * as certificationBadgesService from '../../../../lib/domain/services/certification-badges-service.js';
+import * as certificationBadgesService from '../../../../lib/shared/domain/services/certification-badges-service.js';
 
 const listSkill = ['web1', 'web2', 'web3', 'web4'];
 const learningContent = [

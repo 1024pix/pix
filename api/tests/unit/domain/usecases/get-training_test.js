@@ -1,6 +1,6 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { getTraining } from '../../../../lib/domain/usecases/get-training.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { getTraining } from '../../../../lib/shared/domain/usecases/get-training.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-training', function () {
   let trainingRepository;

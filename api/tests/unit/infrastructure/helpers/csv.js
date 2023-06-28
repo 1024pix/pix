@@ -1,6 +1,6 @@
 import { expect, catchErr } from '../../../test-helper.js';
-import { FileValidationError } from '../../../../lib/domain/errors.js';
-import { parseCsvWithHeader, checkCsvHeader } from '../../../../lib/infrastructure/helpers/csv.js';
+import { FileValidationError } from '../../../../lib/shared/domain/errors.js';
+import { parseCsvWithHeader, checkCsvHeader } from '../../../../lib/shared/infrastructure/helpers/csv.js';
 import lodash from 'lodash';
 
 const { isEmpty } = lodash;

@@ -3,8 +3,8 @@ import {
   escapeFileName,
   extractUserIdFromRequest,
   extractLocaleFromRequest,
-} from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+} from '../../../../lib/shared/infrastructure/utils/request-response-utils.js';
+import { LOCALE } from '../../../../lib/shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 

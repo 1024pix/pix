@@ -5,9 +5,9 @@ import {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/shared/domain/constants/certification-candidates-errors.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 

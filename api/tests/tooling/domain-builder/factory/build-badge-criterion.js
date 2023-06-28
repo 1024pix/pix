@@ -1,4 +1,4 @@
-import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
+import { BadgeCriterion } from '../../../../lib/shared/domain/models/BadgeCriterion.js';
 
 const buildBadgeCriterion = function ({
   id = 1,

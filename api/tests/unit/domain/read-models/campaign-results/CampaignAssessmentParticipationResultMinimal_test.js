@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import { CampaignAssessmentParticipationResultMinimal } from '../../../../../lib/domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal.js';
+import { CampaignAssessmentParticipationResultMinimal } from '../../../../../lib/shared/domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal.js';
 
 describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentParticipationResultMinimal', function () {
   describe('constructor', function () {

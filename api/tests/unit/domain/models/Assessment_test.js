@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
 
 describe('Unit | Domain | Models | Assessment', function () {
   describe('#constuctor', function () {

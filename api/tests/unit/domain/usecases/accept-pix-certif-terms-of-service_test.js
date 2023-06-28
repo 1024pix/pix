@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { acceptPixCertifTermsOfService } from '../../../../lib/domain/usecases/accept-pix-certif-terms-of-service.js';
+import { acceptPixCertifTermsOfService } from '../../../../lib/shared/domain/usecases/accept-pix-certif-terms-of-service.js';
 
 describe('Unit | UseCase | accept-pix-certif-terms-of-service', function () {
   let userRepository;

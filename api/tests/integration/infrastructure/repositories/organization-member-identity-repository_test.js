@@ -1,6 +1,6 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
-import { OrganizationMemberIdentity } from '../../../../lib/domain/models/OrganizationMemberIdentity.js';
-import * as organizationMemberIdentityRepository from '../../../../lib/infrastructure/repositories/organization-member-identity-repository.js';
+import { OrganizationMemberIdentity } from '../../../../lib/shared/domain/models/OrganizationMemberIdentity.js';
+import * as organizationMemberIdentityRepository from '../../../../lib/shared/infrastructure/repositories/organization-member-identity-repository.js';
 
 describe('Integration | Repository | organizationMemberIdentityRepository', function () {
   describe('#findAllByOrganizationId', function () {

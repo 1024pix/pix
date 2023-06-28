@@ -1,7 +1,7 @@
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { getNextChallengeForPix1d } from '../../../../lib/shared/domain/usecases/get-next-challenge-for-pix1d.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { AnswerStatus } from '../../../../lib/shared/domain/models/AnswerStatus.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function () {
   context('should calculate the good challenge number', function () {

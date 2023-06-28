@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import _ from 'lodash';
-import * as targetProfileShareRepository from '../../../../lib/infrastructure/repositories/target-profile-share-repository.js';
+import * as targetProfileShareRepository from '../../../../lib/shared/infrastructure/repositories/target-profile-share-repository.js';
 
 describe('Integration | Repository | Target-profile-share', function () {
   describe('#addTargetProfilesToOrganization', function () {

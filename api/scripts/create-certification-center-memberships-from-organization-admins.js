@@ -2,7 +2,7 @@ import _ from 'lodash';
 import bluebird from 'bluebird';
 
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
-import { Membership } from '../lib/domain/models/Membership.js';
+import { Membership } from '../lib/shared/domain/models/Membership.js';
 import { knex, disconnect } from '../db/knex-database-connection.js';
 import * as url from 'url';
 

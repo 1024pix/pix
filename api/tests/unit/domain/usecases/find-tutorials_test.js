@@ -1,8 +1,8 @@
 import { sinon, expect, domainBuilder } from '../../../test-helper.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
-import { findTutorials } from '../../../../lib/domain/usecases/find-tutorials.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/shared/domain/errors.js';
+import { KnowledgeElement } from '../../../../lib/shared/domain/models/KnowledgeElement.js';
+import { Scorecard } from '../../../../lib/shared/domain/models/Scorecard.js';
+import { findTutorials } from '../../../../lib/shared/domain/usecases/find-tutorials.js';
 
 describe('Unit | UseCase | find-tutorials', function () {
   let authenticatedUserId;

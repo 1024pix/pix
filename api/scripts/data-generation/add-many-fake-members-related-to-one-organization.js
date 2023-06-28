@@ -1,5 +1,5 @@
-import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
-import { MembershipUpdateError, UserCantBeCreatedError, ForbiddenAccess } from '../../lib/domain/errors.js';
+import { DomainTransaction } from '../../lib/shared/infrastructure/DomainTransaction.js';
+import { MembershipUpdateError, UserCantBeCreatedError, ForbiddenAccess } from '../../lib/shared/domain/errors.js';
 import lodash from 'lodash';
 const { times } = lodash;
 import { knex, disconnect } from '../../db/knex-database-connection.js';

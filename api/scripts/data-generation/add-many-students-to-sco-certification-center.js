@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { SCO_MIDDLE_SCHOOL_ID } from '../../db/seeds/data/organizations-sco-builder.js';
-import { OrganizationLearner } from '../../lib/domain/models/OrganizationLearner.js';
-import { OrganizationLearnersCouldNotBeSavedError } from '../../lib/domain/errors.js';
-import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
+import { OrganizationLearner } from '../../lib/shared/domain/models/OrganizationLearner.js';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../lib/shared/domain/errors.js';
+import { DomainTransaction } from '../../lib/shared/infrastructure/DomainTransaction.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
 

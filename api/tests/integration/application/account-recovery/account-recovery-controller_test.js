@@ -1,7 +1,7 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { NotFoundError, UserNotFoundError } from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as moduleUnderTest from '../../../../lib/application/account-recovery/index.js';
+import { NotFoundError, UserNotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/account-recovery/index.js';
 
 describe('Integration | Application | Account-Recovery | account-recovery-controller', function () {
   let httpTestServer;

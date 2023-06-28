@@ -1,7 +1,7 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { complementaryCertificationController } from '../../../../lib/application/complementary-certifications/complementary-certification-controller.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import * as moduleUnderTest from '../../../../lib/application/complementary-certifications/index.js';
+import { complementaryCertificationController } from '../../../../lib/shared/application/complementary-certifications/complementary-certification-controller.js';
+import { securityPreHandlers } from '../../../../lib/shared/application/security-pre-handlers.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/complementary-certifications/index.js';
 
 describe('Unit | Application | Router | complementary-certifications-router', function () {
   describe('GET /api/habilitations', function () {

@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { catchErr, expect, knex, domainBuilder, databaseBuilder } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
-import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
-import { SamlIdentityProviders } from '../../../../lib/domain/constants/saml-identity-providers.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { Organization } from '../../../../lib/shared/domain/models/Organization.js';
+import * as organizationRepository from '../../../../lib/shared/infrastructure/repositories/organization-repository.js';
+import { SamlIdentityProviders } from '../../../../lib/shared/domain/constants/saml-identity-providers.js';
 
 describe('Integration | Repository | Organization', function () {
   describe('#create', function () {

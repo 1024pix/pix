@@ -1,7 +1,7 @@
 import { sinon, expect, domainBuilder } from '../../../test-helper.js';
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
-import { deneutralizeChallenge } from '../../../../lib/domain/usecases/deneutralize-challenge.js';
-import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
+import { CertificationAssessment } from '../../../../lib/shared/domain/models/CertificationAssessment.js';
+import { deneutralizeChallenge } from '../../../../lib/shared/domain/usecases/deneutralize-challenge.js';
+import { ChallengeDeneutralized } from '../../../../lib/shared/domain/events/ChallengeDeneutralized.js';
 
 describe('Unit | UseCase | deneutralize-challenge', function () {
   it('deneutralizes a challenge by its recId', async function () {

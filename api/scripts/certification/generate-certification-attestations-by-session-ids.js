@@ -7,12 +7,12 @@ import bluebird from 'bluebird';
 import lodash from 'lodash';
 
 const { isEmpty, compact } = lodash;
-import { logger } from '../../lib/infrastructure/logger.js';
-import * as certificateRepository from '../../lib/infrastructure/repositories/certificate-repository.js';
-import * as certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository.js';
-import * as certificationAttestationPdf from '../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
-import { NotFoundError } from '../../lib/domain/errors.js';
-import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
+import * as certificateRepository from '../../lib/shared/infrastructure/repositories/certificate-repository.js';
+import * as certificationCourseRepository from '../../lib/shared/infrastructure/repositories/certification-course-repository.js';
+import * as certificationAttestationPdf from '../../lib/shared/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import { NotFoundError } from '../../lib/shared/domain/errors.js';
+import { learningContentCache as cache } from '../../lib/shared/infrastructure/caches/learning-content-cache.js';
 import { disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
 

@@ -1,11 +1,11 @@
-import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
+import { CampaignParticipant } from '../../../../lib/shared/domain/models/CampaignParticipant.js';
 import { expect, domainBuilder, catchErr } from '../../../test-helper.js';
 
 import {
   EntityValidationError,
   ForbiddenAccess,
   AlreadyExistingCampaignParticipationError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | Domain | Models | CampaignParticipant', function () {
   describe('#start', function () {

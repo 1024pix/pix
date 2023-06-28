@@ -1,6 +1,6 @@
 import { databaseBuffer } from '../database-buffer.js';
 import { buildOrganization } from './build-organization.js';
-import { OrganizationInvitation } from '../../../lib/domain/models/OrganizationInvitation.js';
+import { OrganizationInvitation } from '../../../lib/shared/domain/models/OrganizationInvitation.js';
 import _ from 'lodash';
 
 const buildOrganizationInvitation = function ({

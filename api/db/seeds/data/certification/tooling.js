@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import bluebird from 'bluebird';
-import * as skillRepository from '../../../../lib/infrastructure/repositories/skill-repository.js';
-import * as competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository.js';
-import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
-import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
+import * as skillRepository from '../../../../lib/shared/infrastructure/repositories/skill-repository.js';
+import * as competenceRepository from '../../../../lib/shared/infrastructure/repositories/competence-repository.js';
+import * as challengeRepository from '../../../../lib/shared/infrastructure/repositories/challenge-repository.js';
+import * as badgeRepository from '../../../../lib/shared/infrastructure/repositories/badge-repository.js';
+import { logger } from '../../../../lib/shared/infrastructure/logger.js';
 import { knex } from '../../../../db/knex-database-connection.js';
-import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../../lib/shared/domain/models/ComplementaryCertification.js';
 
 let allChallenges = [];
 let allPixCompetences = [];

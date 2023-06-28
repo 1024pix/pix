@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
-import { JuryCertificationSummary } from '../../../../../lib/domain/read-models/JuryCertificationSummary.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
+import { JuryCertificationSummary } from '../../../../../lib/shared/domain/read-models/JuryCertificationSummary.js';
 
 describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', function () {
   describe('#serialize()', function () {

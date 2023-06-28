@@ -1,7 +1,7 @@
 import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { CampaignParticipationResultsShared } from '../../../../lib/domain/events/CampaignParticipationResultsShared.js';
-import { shareCampaignResult } from '../../../../lib/domain/usecases/share-campaign-result.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/shared/domain/errors.js';
+import { CampaignParticipationResultsShared } from '../../../../lib/shared/domain/events/CampaignParticipationResultsShared.js';
+import { shareCampaignResult } from '../../../../lib/shared/domain/usecases/share-campaign-result.js';
 
 describe('Unit | UseCase | share-campaign-result', function () {
   let campaignParticipationRepository;

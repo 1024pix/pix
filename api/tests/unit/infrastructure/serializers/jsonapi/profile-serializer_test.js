@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/profile-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | profile', function () {
   describe('#serialize()', function () {

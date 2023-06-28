@@ -1,7 +1,7 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
-import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../lib/shared/domain/errors.js';
+import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../lib/shared/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 

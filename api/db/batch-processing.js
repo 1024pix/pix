@@ -1,5 +1,5 @@
 const BATCH_SIZE = 10;
-import { logger } from '../lib/infrastructure/logger.js';
+import { logger } from '../lib/shared/infrastructure/logger.js';
 
 function batch(knex, elementsToUpdate, treatment) {
   function _innerTreatment(knex, remainingElementsToUpdate, countOfBatches, batchesDone) {

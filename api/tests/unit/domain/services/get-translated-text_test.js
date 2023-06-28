@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import * as service from '../../../../lib/domain/services/get-translated-text.js';
+import * as service from '../../../../lib/shared/domain/services/get-translated-text.js';
 describe('Unit | Domain | Services | get-translated-text', function () {
   describe('#getTranslatedKey', function () {
     const translatedKey = {

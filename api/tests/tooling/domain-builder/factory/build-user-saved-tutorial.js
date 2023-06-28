@@ -1,4 +1,4 @@
-import { UserSavedTutorial } from '../../../../lib/domain/models/UserSavedTutorial.js';
+import { UserSavedTutorial } from '../../../../lib/shared/domain/models/UserSavedTutorial.js';
 
 const buildUserSavedTutorial = function ({
   id = 111,

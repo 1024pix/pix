@@ -1,6 +1,6 @@
 import { databaseBuilder, expect, knex } from '../../../test-helper.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
+import { tokenService } from '../../../../lib/shared/domain/services/token-service.js';
+import * as resetPasswordService from '../../../../lib/shared/domain/services/reset-password-service.js';
 
 import { config } from '../../../../lib/config.js';
 import { createServer } from '../../../../server.js';

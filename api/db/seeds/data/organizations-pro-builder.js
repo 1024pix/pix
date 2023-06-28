@@ -1,11 +1,11 @@
-import { Membership } from '../../../lib/domain/models/Membership.js';
-import { OrganizationInvitation } from '../../../lib/domain/models/OrganizationInvitation.js';
-import { PIX_ADMIN } from '../../../lib/domain/constants.js';
+import { Membership } from '../../../lib/shared/domain/models/Membership.js';
+import { OrganizationInvitation } from '../../../lib/shared/domain/models/OrganizationInvitation.js';
+import { PIX_ADMIN } from '../../../lib/shared/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 
 import { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } from './users-builder.js';
-import * as OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../lib/shared/domain/constants/oidc-identity-providers.js';
 import { logoUrl } from '../src/dragonAndCoBase64.js';
 const PRO_COMPANY_ID = 1;
 const PRO_POLE_EMPLOI_ID = 4;

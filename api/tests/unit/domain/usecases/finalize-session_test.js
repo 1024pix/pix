@@ -1,5 +1,5 @@
 import { sinon, expect, catchErr, domainBuilder } from '../../../test-helper.js';
-import { finalizeSession } from '../../../../lib/domain/usecases/finalize-session.js';
+import { finalizeSession } from '../../../../lib/shared/domain/usecases/finalize-session.js';
 
 import {
   SessionAlreadyFinalizedError,
@@ -7,9 +7,9 @@ import {
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
   InvalidCertificationReportForFinalization,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
+import { SessionFinalized } from '../../../../lib/shared/domain/events/SessionFinalized.js';
 
 describe('Unit | UseCase | finalize-session', function () {
   let sessionId;

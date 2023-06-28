@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { acceptOrganizationInvitation } from '../../../../lib/domain/usecases/accept-organization-invitation.js';
-import { OrganizationInvitedUser } from '../../../../lib/domain/models/OrganizationInvitedUser.js';
-import { AlreadyExistingMembershipError } from '../../../../lib/domain/errors.js';
+import { acceptOrganizationInvitation } from '../../../../lib/shared/domain/usecases/accept-organization-invitation.js';
+import { OrganizationInvitedUser } from '../../../../lib/shared/domain/models/OrganizationInvitedUser.js';
+import { AlreadyExistingMembershipError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | accept-organization-invitation', function () {
   let organizationInvitedUserRepository;

@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
 
 describe('Integration | Usecase | Handle Badge Acquisition', function () {
   let userId, assessment, badgeCompleted;

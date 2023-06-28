@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { logger } from '../../lib/infrastructure/logger.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
 import { PgClient } from '../PgClient.js';
 import { PGSQL_DUPLICATE_DATABASE_ERROR } from '../../db/pgsql-errors.js';
 

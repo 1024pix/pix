@@ -8,10 +8,10 @@ import {
   catchErr,
 } from '../../../test-helper.js';
 
-import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
-import { Campaign } from '../../../../lib/domain/models/Campaign.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as campaignRepository from '../../../../lib/shared/infrastructure/repositories/campaign-repository.js';
+import { Campaign } from '../../../../lib/shared/domain/models/Campaign.js';
+import { CampaignTypes } from '../../../../lib/shared/domain/models/CampaignTypes.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | Campaign', function () {

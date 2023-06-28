@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { StudentForEnrolment } from '../../../../lib/domain/read-models/StudentForEnrolment.js';
-import { findStudentsForEnrolment } from '../../../../lib/domain/usecases/find-students-for-enrolment.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { StudentForEnrolment } from '../../../../lib/shared/domain/read-models/StudentForEnrolment.js';
+import { findStudentsForEnrolment } from '../../../../lib/shared/domain/usecases/find-students-for-enrolment.js';
 
 describe('Unit | UseCase | find-students-for-enrolment', function () {
   const certificationCenterId = 1;

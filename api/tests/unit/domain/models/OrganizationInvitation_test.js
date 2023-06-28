@@ -1,6 +1,6 @@
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { OrganizationInvitation } from '../../../../lib/shared/domain/models/OrganizationInvitation.js';
 import { expect } from '../../../test-helper.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | Domain | Models | OrganizationInvitation', function () {
   describe('constructor', function () {

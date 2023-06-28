@@ -1,7 +1,7 @@
 import { expect, sinon, hFake } from '../../../test-helper.js';
 import { knex } from '../../../../db/knex-database-connection.js';
-import { redisMonitor } from '../../../../lib/infrastructure/utils/redis-monitor.js';
-import { healthcheckController } from '../../../../lib/application/healthcheck/healthcheck-controller.js';
+import { redisMonitor } from '../../../../lib/shared/infrastructure/utils/redis-monitor.js';
+import { healthcheckController } from '../../../../lib/shared/application/healthcheck/healthcheck-controller.js';
 
 describe('Unit | Controller | healthcheckController', function () {
   describe('#get', function () {

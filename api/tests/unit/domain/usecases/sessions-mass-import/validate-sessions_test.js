@@ -1,10 +1,10 @@
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
-import { validateSessions } from '../../../../../lib/domain/usecases/sessions-mass-import/validate-sessions.js';
-import { Session } from '../../../../../lib/domain/models/Session.js';
+import { validateSessions } from '../../../../../lib/shared/domain/usecases/sessions-mass-import/validate-sessions.js';
+import { Session } from '../../../../../lib/shared/domain/models/Session.js';
 import { CpfBirthInformationValidation } from '../../../../../lib/certification/shared/services/certification-cpf-service.js';
 import { CertificationCandidate } from '../../../../../lib/certification/shared/models/CertificationCandidate.js';
-import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
-import { SessionMassImportReport } from '../../../../../lib/domain/models/SessionMassImportReport.js';
+import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/shared/domain/constants/sessions-errors.js';
+import { SessionMassImportReport } from '../../../../../lib/shared/domain/models/SessionMassImportReport.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Unit | UseCase | sessions-mass-import | validate-sessions', function () {

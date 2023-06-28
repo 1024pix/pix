@@ -1,7 +1,7 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { serializer as scoOrganizationInvitationSerializer } from '../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer.js';
-import * as moduleUnderTest from '../../../../lib/application/organization-invitations/index.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { serializer as scoOrganizationInvitationSerializer } from '../../../../lib/shared/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/organization-invitations/index.js';
 
 import {
   AlreadyExistingInvitationError,
@@ -11,7 +11,7 @@ import {
   OrganizationNotFoundError,
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Application | Organization-invitations | organization-invitation-controller', function () {
   let sandbox;

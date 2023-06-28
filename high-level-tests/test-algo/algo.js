@@ -28,14 +28,14 @@ async function answerTheChallenge({
   userKE,
 }) {
   const AnswerStatus = (
-    await import('../../api/lib/domain/models/AnswerStatus.js')
+    await import('../../api/lib/shared/domain/models/AnswerStatus.js')
   ).AnswerStatus;
   const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
 
   const KnowledgeElement = (
-    await import('../../api/lib/domain/models/KnowledgeElement.js')
+    await import('../../api/lib/shared/domain/models/KnowledgeElement.js')
   ).KnowledgeElement;
-  Answer = (await import('../../api/lib/domain/models/Answer.js')).Answer;
+  Answer = (await import('../../api/lib/shared/domain/models/Answer.js')).Answer;
 
   let result;
   const isFirstAnswer = !allAnswers.length;
@@ -122,7 +122,7 @@ async function _getReferentiel({
   let dataFetcher;
   if (!dependencies?.dataFetcher) {
     dataFetcher = await import(
-      '../../api/lib/domain/services/algorithm-methods/data-fetcher.js'
+      '../../api/lib/shared/domain/services/algorithm-methods/data-fetcher.js'
     );
   } else {
     dataFetcher = dependencies.dataFetcher;
@@ -175,10 +175,10 @@ async function _getChallenge({
   allAnswers,
 }) {
   const smartRandom = await import(
-    '../../api/lib/domain/services/algorithm-methods/smart-random.js'
+    '../../api/lib/shared/domain/services/algorithm-methods/smart-random.js'
   );
   const { pickChallengeService } = await import(
-    '../../api/lib/domain/services/pick-challenge-service.js'
+    '../../api/lib/shared/domain/services/pick-challenge-service.js'
   );
   const result = smartRandom.getPossibleSkillsForNextChallenge({
     knowledgeElements,
@@ -290,13 +290,13 @@ async function launchTest(argv) {
 
   const usersKE = _readUsersKEFile(usersKEFile);
   const skillRepository = await import(
-    '../../api/lib/infrastructure/repositories/skill-repository.js'
+    '../../api/lib/shared/infrastructure/repositories/skill-repository.js'
   );
   const challengeRepository = await import(
-    '../../api/lib/infrastructure/repositories/challenge-repository.js'
+    '../../api/lib/shared/infrastructure/repositories/challenge-repository.js'
   );
   const improvementService = await import(
-    '../../api/lib/domain/services/improvement-service.js'
+    '../../api/lib/shared/domain/services/improvement-service.js'
   );
   const { challenges, targetSkills } = await _getReferentiel({
     assessment,

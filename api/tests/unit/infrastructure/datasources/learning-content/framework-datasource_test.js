@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../../test-helper.js';
-import { frameworkDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/framework-datasource.js';
-import { lcms } from '../../../../../lib/infrastructure/lcms.js';
+import { frameworkDatasource } from '../../../../../lib/shared/infrastructure/datasources/learning-content/framework-datasource.js';
+import { lcms } from '../../../../../lib/shared/infrastructure/lcms.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | FrameworkDatasource', function () {
   describe('#list', function () {

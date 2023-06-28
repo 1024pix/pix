@@ -1,8 +1,8 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecases/correct-answer-then-update-assessment.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { AnswerStatus } from '../../../../lib/shared/domain/models/AnswerStatus.js';
+import { KnowledgeElement } from '../../../../lib/shared/domain/models/KnowledgeElement.js';
+import { correctAnswerThenUpdateAssessment } from '../../../../lib/shared/domain/usecases/correct-answer-then-update-assessment.js';
 
 import {
   ChallengeNotAskedError,
@@ -10,7 +10,7 @@ import {
   ForbiddenAccess,
   CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', function () {
   const userId = 1;

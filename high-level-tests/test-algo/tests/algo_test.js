@@ -14,7 +14,7 @@ describe('#answerTheChallenge', () => {
     challenge = { id: 'recId' };
     newKe = { id: 'KE-id' };
     KnowledgeElement = (
-      await import('../../../api/lib/domain/models/KnowledgeElement.js')
+      await import('../../../api/lib/shared/domain/models/KnowledgeElement.js')
     ).KnowledgeElement;
     sinon
       .stub(KnowledgeElement, 'createKnowledgeElementsForAnswer')

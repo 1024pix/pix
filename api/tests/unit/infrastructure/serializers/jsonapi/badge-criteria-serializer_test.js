@@ -1,6 +1,6 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/badge-criteria-serializer.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/badge-criteria-serializer.js';
 import { expect } from '../../../../test-helper.js';
-import { BadgeCriterion } from '../../../../../lib/domain/models/BadgeCriterion.js';
+import { BadgeCriterion } from '../../../../../lib/shared/domain/models/BadgeCriterion.js';
 
 describe('Unit | Serializer | JSONAPI | badge-criteria-serializer', function () {
   describe('#serialize', function () {

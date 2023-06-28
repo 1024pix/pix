@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper.js';
-import * as CampaignProfileRepository from '../../../../lib/infrastructure/repositories/campaign-profile-repository.js';
-import { PIX_COUNT_BY_LEVEL, LOCALE } from '../../../../lib/domain/constants.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as CampaignProfileRepository from '../../../../lib/shared/infrastructure/repositories/campaign-profile-repository.js';
+import { PIX_COUNT_BY_LEVEL, LOCALE } from '../../../../lib/shared/domain/constants.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 

@@ -1,4 +1,4 @@
-import { CampaignAnalysis } from '../../../../lib/domain/read-models/CampaignAnalysis.js';
+import { CampaignAnalysis } from '../../../../lib/shared/domain/read-models/CampaignAnalysis.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {

@@ -1,4 +1,4 @@
-import { SessionForSupervisorKit } from '../../../../lib/domain/read-models/SessionForSupervisorKit.js';
+import { SessionForSupervisorKit } from '../../../../lib/shared/domain/read-models/SessionForSupervisorKit.js';
 
 const buildSessionForSupervisorKit = function ({
   id = 123,

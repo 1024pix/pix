@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { ResultCompetence } from '../../../../lib/domain/models/ResultCompetence.js';
-import { ResultCompetenceTree } from '../../../../lib/domain/models/ResultCompetenceTree.js';
+import { ResultCompetence } from '../../../../lib/shared/domain/models/ResultCompetence.js';
+import { ResultCompetenceTree } from '../../../../lib/shared/domain/models/ResultCompetenceTree.js';
 
 describe('Unit | Domain | Models | ResultCompetence', function () {
   describe('#generateTreeFromCompetenceMarks', function () {

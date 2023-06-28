@@ -7,15 +7,15 @@ import {
   sinon,
 } from '../../../test-helper.js';
 
-import { handlePoleEmploiParticipationStarted } from '../../../../lib/domain/events/handle-pole-emploi-participation-started.js';
-import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
-import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
-import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
-import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
-import * as poleEmploiSendingRepository from '../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
-import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
-import { CampaignParticipationStarted as CampaignParticipationStartedEvent } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
+import { handlePoleEmploiParticipationStarted } from '../../../../lib/shared/domain/events/handle-pole-emploi-participation-started.js';
+import * as assessmentRepository from '../../../../lib/shared/infrastructure/repositories/assessment-repository.js';
+import * as campaignRepository from '../../../../lib/shared/infrastructure/repositories/campaign-repository.js';
+import * as campaignParticipationRepository from '../../../../lib/shared/infrastructure/repositories/campaign-participation-repository.js';
+import * as organizationRepository from '../../../../lib/shared/infrastructure/repositories/organization-repository.js';
+import * as poleEmploiSendingRepository from '../../../../lib/shared/infrastructure/repositories/pole-emploi-sending-repository.js';
+import * as targetProfileRepository from '../../../../lib/shared/infrastructure/repositories/target-profile-repository.js';
+import * as userRepository from '../../../../lib/shared/infrastructure/repositories/user-repository.js';
+import { CampaignParticipationStarted as CampaignParticipationStartedEvent } from '../../../../lib/shared/domain/events/CampaignParticipationStarted.js';
 
 describe('Integration | Event | Handle Pole emploi participation started', function () {
   let campaignParticipationId, userId, event, poleEmploiNotifier, responseCode;

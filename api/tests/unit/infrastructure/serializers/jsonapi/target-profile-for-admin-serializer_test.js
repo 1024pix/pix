@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
-import { TargetProfileForAdmin } from '../../../../../lib/domain/models/TargetProfileForAdmin.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
+import { TargetProfileForAdmin } from '../../../../../lib/shared/domain/models/TargetProfileForAdmin.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', function () {
   describe('#serialize', function () {

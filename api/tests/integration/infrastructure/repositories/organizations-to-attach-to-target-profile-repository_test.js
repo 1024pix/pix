@@ -1,6 +1,6 @@
 import { expect, domainBuilder, databaseBuilder, knex, catchErr } from '../../../test-helper.js';
-import * as organizationsToAttachToTargetProfileRepository from '../../../../lib/infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as organizationsToAttachToTargetProfileRepository from '../../../../lib/shared/infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Repository | Organizations-to-attach-to-target-profile', function () {
   describe('#attachOrganizations', function () {

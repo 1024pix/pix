@@ -6,7 +6,7 @@ import _ from 'lodash';
 import bluebird from 'bluebird';
 import { disconnect } from '../db/knex-database-connection.js';
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
-import * as authenticationMethodRepository from '../lib/infrastructure/repositories/authentication-method-repository.js';
+import * as authenticationMethodRepository from '../lib/shared/infrastructure/repositories/authentication-method-repository.js';
 import * as url from 'url';
 
 const modulePath = url.fileURLToPath(import.meta.url);

@@ -1,8 +1,8 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
-import { trainingController } from '../../../../lib/application/trainings/training-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { trainingController } from '../../../../lib/shared/application/trainings/training-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { TrainingTrigger } from '../../../../lib/shared/domain/models/TrainingTrigger.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | training-controller', function () {
   describe('#findPaginatedTrainingSummaries', function () {

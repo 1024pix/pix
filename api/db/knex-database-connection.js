@@ -4,8 +4,8 @@ const types = pg.types;
 import _ from 'lodash';
 
 const { get } = _;
-import { logger } from '../lib/infrastructure/logger.js';
-import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
+import { logger } from '../lib/shared/infrastructure/logger.js';
+import { monitoringTools } from '../lib/shared/infrastructure/monitoring-tools.js';
 import { config } from '../lib/config.js';
 import perf_hooks from 'perf_hooks';
 

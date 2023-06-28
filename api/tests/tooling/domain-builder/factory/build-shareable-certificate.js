@@ -1,4 +1,4 @@
-import { ShareableCertificate } from '../../../../lib/domain/models/ShareableCertificate.js';
+import { ShareableCertificate } from '../../../../lib/shared/domain/models/ShareableCertificate.js';
 
 const buildShareableCertificate = function ({
   id = 1,

@@ -1,6 +1,6 @@
 import { expect, catchErr, sinon } from '../../../../test-helper.js';
-import { SiecleFileStreamer } from '../../../../../lib/infrastructure/utils/xml/siecle-file-streamer.js';
-import { FileValidationError, SiecleXmlImportError } from '../../../../../lib/domain/errors.js';
+import { SiecleFileStreamer } from '../../../../../lib/shared/infrastructure/utils/xml/siecle-file-streamer.js';
+import { FileValidationError, SiecleXmlImportError } from '../../../../../lib/shared/domain/errors.js';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

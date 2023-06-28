@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../../../test-helper.js';
-import { planner } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/planner.js';
+import { planner } from '../../../../../../lib/shared/infrastructure/jobs/cpf-export/handlers/planner.js';
 import dayjs from 'dayjs';
 import { config } from '../../../../../../lib/config.js';
 const { cpf } = config;

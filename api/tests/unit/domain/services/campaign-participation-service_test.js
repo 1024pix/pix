@@ -1,6 +1,6 @@
 import { expect } from '../../../test-helper.js';
 
-import * as campaignParticipationService from './../../../../lib/domain/services/campaign-participation-service.js';
+import * as campaignParticipationService from '../../../../lib/shared/domain/services/campaign-participation-service.js';
 
 describe('Unit | Service | Campaign Participation Service', function () {
   describe('progress', function () {

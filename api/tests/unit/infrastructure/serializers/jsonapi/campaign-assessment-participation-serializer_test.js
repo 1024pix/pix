@@ -1,8 +1,8 @@
 import { expect } from '../../../../test-helper.js';
-import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
-import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { CampaignAssessmentParticipation } from '../../../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
+import { Assessment } from '../../../../../lib/shared/domain/models/Assessment.js';
+import { CampaignParticipationStatuses } from '../../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
+import { CampaignAssessmentParticipation } from '../../../../../lib/shared/domain/read-models/CampaignAssessmentParticipation.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serializer', function () {
   describe('#serialize()', function () {

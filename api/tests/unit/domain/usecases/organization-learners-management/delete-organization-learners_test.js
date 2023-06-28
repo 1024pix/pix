@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../../test-helper.js';
-import { deleteOrganizationLearners } from '../../../../../lib/domain/usecases/organization-learners-management/delete-organization-learners.js';
+import { deleteOrganizationLearners } from '../../../../../lib/shared/domain/usecases/organization-learners-management/delete-organization-learners.js';
 
 describe('Unit | UseCase | Organization Learners Management | Delete Organization Learners', function () {
   let campaignParticipationRepository;

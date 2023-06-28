@@ -10,10 +10,10 @@ import {
   PreconditionFailedError,
   UnauthorizedError,
   UnprocessableEntityError,
-} from '../../../lib/application/http-errors.js';
+} from '../../../lib/shared/application/http-errors.js';
 
-import { EntityValidationError } from '../../../lib/domain/errors.js';
-import { handleDomainAndHttpErrors } from '../../../lib/application/pre-response-utils.js';
+import { EntityValidationError } from '../../../lib/shared/domain/errors.js';
+import { handleDomainAndHttpErrors } from '../../../lib/shared/application/pre-response-utils.js';
 
 describe('Integration | Application | PreResponse-utils', function () {
   describe('#handleDomainAndHttpErrors', function () {

@@ -9,15 +9,15 @@ import { getI18n } from '../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
 import { expect, catchErr } from '../../../../test-helper.js';
-import { UnprocessableEntityError } from '../../../../../lib/application/http-errors.js';
-import { getTransformationStructsForPixCertifCandidatesImport } from '../../../../../lib/infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
+import { UnprocessableEntityError } from '../../../../../lib/shared/application/http-errors.js';
+import { getTransformationStructsForPixCertifCandidatesImport } from '../../../../../lib/shared/infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
 
 import {
   getContentXml,
   extractTableDataFromOdsFile,
   validateOdsHeaders,
   getSheetDataRowsFromOdsBuffer,
-} from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
+} from '../../../../../lib/shared/infrastructure/utils/ods/read-ods-utils.js';
 
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

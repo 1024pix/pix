@@ -1,11 +1,11 @@
 import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import * as campaignAssessmentParticipationResultRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { KnowledgeElement } from '../../../../lib/shared/domain/models/KnowledgeElement.js';
+import * as campaignAssessmentParticipationResultRepository from '../../../../lib/shared/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
+import { LOCALE } from '../../../../lib/shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Repository | Campaign Assessment Participation Result', function () {
   describe('#getByCampaignIdAndCampaignParticipationId', function () {

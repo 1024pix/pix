@@ -1,5 +1,5 @@
 import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { linkUserToSessionCertificationCandidate } from '../../../../lib/domain/usecases/link-user-to-session-certification-candidate.js';
+import { linkUserToSessionCertificationCandidate } from '../../../../lib/shared/domain/usecases/link-user-to-session-certification-candidate.js';
 
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
@@ -8,10 +8,10 @@ import {
   UserAlreadyLinkedToCandidateInSessionError,
   SessionNotAccessible,
   UnexpectedUserAccountError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
-import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
+import { UserLinkedToCertificationCandidate } from '../../../../lib/shared/domain/events/UserLinkedToCertificationCandidate.js';
+import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/shared/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 
 describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', function () {
   const sessionId = 42;

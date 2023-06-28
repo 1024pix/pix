@@ -1,8 +1,8 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
-import { User } from '../../../../lib/domain/models/User.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as obfuscationService from '../../../../lib/shared/domain/services/obfuscation-service.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | Service | user-authentication-method-obfuscation-service', function () {
   let authenticationMethodRepository;

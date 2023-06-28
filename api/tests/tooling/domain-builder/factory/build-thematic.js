@@ -1,4 +1,4 @@
-import { Thematic } from '../../../../lib/domain/models/Thematic.js';
+import { Thematic } from '../../../../lib/shared/domain/models/Thematic.js';
 
 const buildThematic = function buildThematic({
   id = 'recThem1',

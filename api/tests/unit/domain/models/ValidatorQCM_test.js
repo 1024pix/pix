@@ -1,6 +1,6 @@
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { Validation } from '../../../../lib/domain/models/Validation.js';
-import { ValidatorQCM } from '../../../../lib/domain/models/ValidatorQCM.js';
+import { AnswerStatus } from '../../../../lib/shared/domain/models/AnswerStatus.js';
+import { Validation } from '../../../../lib/shared/domain/models/Validation.js';
+import { ValidatorQCM } from '../../../../lib/shared/domain/models/ValidatorQCM.js';
 import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ValidatorQCM', function () {

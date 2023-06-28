@@ -1,7 +1,7 @@
-import { Membership } from '../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../lib/shared/domain/models/Membership.js';
 import { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } from './users-builder.js';
-import { SamlIdentityProviders } from '../../../lib/domain/constants/saml-identity-providers.js';
-import { PIX_ADMIN } from '../../../lib/domain/constants.js';
+import { SamlIdentityProviders } from '../../../lib/shared/domain/constants/saml-identity-providers.js';
+import { PIX_ADMIN } from '../../../lib/shared/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

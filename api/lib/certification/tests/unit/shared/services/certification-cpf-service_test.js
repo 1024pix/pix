@@ -3,7 +3,7 @@ import {
   CpfBirthInformationValidation,
   getBirthInformation,
 } from '../../../../shared/services/certification-cpf-service.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../shared/domain/constants/certification-candidates-errors.js';
 
 describe('Unit | Service | Certification CPF service', function () {
   let certificationCpfCountryRepository;

@@ -2,10 +2,10 @@ import querystring from 'querystring';
 import dayjs from 'dayjs';
 import { expect, sinon, catchErr } from '../../../../test-helper.js';
 import { config as settings } from '../../../../../lib/config.js';
-import { UnexpectedUserAccountError } from '../../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
-import { notify } from '../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
+import { UnexpectedUserAccountError } from '../../../../../lib/shared/domain/errors.js';
+import { AuthenticationMethod } from '../../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import * as OidcIdentityProviders from '../../../../../lib/shared/domain/constants/oidc-identity-providers.js';
+import { notify } from '../../../../../lib/shared/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 
 describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function () {
   describe('#notify', function () {

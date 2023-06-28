@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
-import { tagController } from '../../../../lib/application/tags/tag-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { tagController } from '../../../../lib/shared/application/tags/tag-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
 
 describe('Unit | Application | Tags | tag-controller', function () {
   describe('#create', function () {

@@ -1,15 +1,15 @@
 import _ from 'lodash';
 import { expect, databaseBuilder, knex, sinon, catchErr } from '../../../test-helper.js';
 
-import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
-import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
-import { mailService } from '../../../../lib/domain/services/mail-service.js';
+import * as organizationInvitationRepository from '../../../../lib/shared/infrastructure/repositories/organization-invitation-repository.js';
+import * as organizationRepository from '../../../../lib/shared/infrastructure/repositories/organization-repository.js';
+import { mailService } from '../../../../lib/shared/domain/services/mail-service.js';
 
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { createOrUpdateOrganizationInvitation } from '../../../../lib/domain/services/organization-invitation-service.js';
-import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
-import { SendingEmailError } from '../../../../lib/domain/errors.js';
+import { OrganizationInvitation } from '../../../../lib/shared/domain/models/OrganizationInvitation.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
+import { createOrUpdateOrganizationInvitation } from '../../../../lib/shared/domain/services/organization-invitation-service.js';
+import { EmailingAttempt } from '../../../../lib/shared/domain/models/EmailingAttempt.js';
+import { SendingEmailError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Service | Organization-Invitation Service', function () {
   describe('#createOrUpdateOrganizationInvitation', function () {

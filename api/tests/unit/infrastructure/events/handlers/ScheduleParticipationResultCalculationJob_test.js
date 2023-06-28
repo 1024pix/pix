@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../../test-helper.js';
-import { Event } from '../../../../../lib/domain/events/Event.js';
-import { ScheduleParticipationResultCalculationJob } from '../../../../../lib/infrastructure/events/subscribers/ScheduleParticipationResultCalculationJob.js';
+import { Event } from '../../../../../lib/shared/domain/events/Event.js';
+import { ScheduleParticipationResultCalculationJob } from '../../../../../lib/shared/infrastructure/events/subscribers/ScheduleParticipationResultCalculationJob.js';
 
 describe('Unit | Infrastructure | Events | Handler | ParticipationResultCalculation', function () {
   describe('#handle', function () {

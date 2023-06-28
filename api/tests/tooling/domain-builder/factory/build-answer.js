@@ -1,5 +1,5 @@
-import { Answer } from '../../../../lib/domain/models/Answer.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { Answer } from '../../../../lib/shared/domain/models/Answer.js';
+import { AnswerStatus } from '../../../../lib/shared/domain/models/AnswerStatus.js';
 
 function buildAnswer({
   id = 123,

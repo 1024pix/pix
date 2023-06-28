@@ -28,7 +28,7 @@ import {
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from './certification-centers-builder.js';
 
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
 import { CertificationCandidate } from '../../../../lib/certification/shared/models/CertificationCandidate.js';
 const { BILLING_MODES } = CertificationCandidate;
 

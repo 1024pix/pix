@@ -1,9 +1,9 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
-import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
-import * as scorecardService from '../../../../lib/domain/services/scorecard-service.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { Scorecard } from '../../../../lib/shared/domain/models/Scorecard.js';
+import { CompetenceEvaluation } from '../../../../lib/shared/domain/models/CompetenceEvaluation.js';
+import * as scorecardService from '../../../../lib/shared/domain/services/scorecard-service.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 

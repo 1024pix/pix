@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { CampaignAssessmentParticipationCompetenceResult } from '../../../../lib/domain/read-models/CampaignAssessmentParticipationCompetenceResult.js';
+import { CampaignAssessmentParticipationCompetenceResult } from '../../../../lib/shared/domain/read-models/CampaignAssessmentParticipationCompetenceResult.js';
 
 describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResult', function () {
   describe('constructor', function () {

@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
 import { catchErr, expect, knex, databaseBuilder } from '../../../test-helper.js';
-import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
-import { BookshelfUserOrgaSettings } from '../../../../lib/infrastructure/orm-models/UserOrgaSettings.js';
-import { UserOrgaSettingsCreationError } from '../../../../lib/domain/errors.js';
+import { UserOrgaSettings } from '../../../../lib/shared/domain/models/UserOrgaSettings.js';
+import { BookshelfUserOrgaSettings } from '../../../../lib/shared/infrastructure/orm-models/UserOrgaSettings.js';
+import { UserOrgaSettingsCreationError } from '../../../../lib/shared/domain/errors.js';
 
-import * as userOrgaSettingsRepository from '../../../../lib/infrastructure/repositories/user-orga-settings-repository.js';
+import * as userOrgaSettingsRepository from '../../../../lib/shared/infrastructure/repositories/user-orga-settings-repository.js';
 
 describe('Integration | Repository | UserOrgaSettings', function () {
   const USER_PICKED_PROPERTIES = [

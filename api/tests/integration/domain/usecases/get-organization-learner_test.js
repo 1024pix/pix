@@ -1,8 +1,8 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
 
-import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-follow-up/organization-learner-repository.js';
-import { OrganizationLearner } from '../../../../lib/domain/read-models/organization-learner-follow-up/OrganizationLearner.js';
-import { getOrganizationLearner } from '../../../../lib/domain/usecases/get-organization-learner.js';
+import * as organizationLearnerRepository from '../../../../lib/shared/infrastructure/repositories/organization-learner-follow-up/organization-learner-repository.js';
+import { OrganizationLearner } from '../../../../lib/shared/domain/read-models/organization-learner-follow-up/OrganizationLearner.js';
+import { getOrganizationLearner } from '../../../../lib/shared/domain/usecases/get-organization-learner.js';
 
 describe('Integration | UseCases | get-organization-learner', function () {
   it('should return organization learner given organizationLearnerId', async function () {

@@ -1,11 +1,11 @@
 import { expect } from '../../../../../test-helper.js';
-import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/certification-ls-serializer.js';
+import * as serializer from '../../../../../../lib/shared/infrastructure/serializers/jsonapi/certifications-livret-scolaire/certification-ls-serializer.js';
 
 import {
   buildCertificateForLS,
   buildReferentialOfCompetences,
   buildCertificationsResults,
-} from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/factory/build-certification-result-for-ls.js';
+} from '../../../../../../lib/shared/infrastructure/serializers/jsonapi/certifications-livret-scolaire/factory/build-certification-result-for-ls.js';
 
 const VALIDATED_CERTIFICATION = 'validated';
 const REJECTED_CERTIFICATION = 'rejected';

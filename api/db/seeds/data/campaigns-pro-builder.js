@@ -23,7 +23,7 @@ import {
   participateToAssessmentCampaign,
   participateToProfilesCollectionCampaign,
 } from './campaign-participations-builder.js';
-import { CampaignParticipationStatuses } from '../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
 const POLE_EMPLOI_CAMPAIGN_ID = 5;

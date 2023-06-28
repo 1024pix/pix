@@ -1,5 +1,5 @@
 import { databaseBuilder, expect, knex, domainBuilder } from '../../../test-helper.js';
-import * as scoCertificationCandidateRepository from '../../../../lib/infrastructure/repositories/sco-certification-candidate-repository.js';
+import * as scoCertificationCandidateRepository from '../../../../lib/shared/infrastructure/repositories/sco-certification-candidate-repository.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | SCOCertificationCandidate', function () {

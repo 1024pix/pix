@@ -1,6 +1,6 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
-import { certificationIssueReportController } from '../../../../lib/application/certification-issue-reports/certification-issue-report-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { certificationIssueReportController } from '../../../../lib/shared/application/certification-issue-reports/certification-issue-report-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
 
 describe('Unit | Controller | certification-issue-report-controller', function () {
   describe('#deleteCertificationIssueReport', function () {

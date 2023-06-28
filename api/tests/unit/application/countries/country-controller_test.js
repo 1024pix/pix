@@ -1,7 +1,7 @@
 import { expect, hFake, sinon, generateValidRequestAuthorizationHeader, domainBuilder } from '../../../test-helper.js';
 
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { countryController } from '../../../../lib/application/countries/country-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { countryController } from '../../../../lib/shared/application/countries/country-controller.js';
 
 describe('Unit | Controller | country-controller', function () {
   describe('#findCountries', function () {

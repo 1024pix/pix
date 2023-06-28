@@ -1,4 +1,4 @@
-import { DataProtectionOfficer } from '../../../../lib/domain/models/DataProtectionOfficer.js';
+import { DataProtectionOfficer } from '../../../../lib/shared/domain/models/DataProtectionOfficer.js';
 
 function _buildDataProtectionOfficer({
   id = 10001,

@@ -1,8 +1,8 @@
 import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper.js';
-import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { updateExpiredPassword } from '../../../../lib/domain/usecases/update-expired-password.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
+import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/shared/domain/errors.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import { updateExpiredPassword } from '../../../../lib/shared/domain/usecases/update-expired-password.js';
+import { logger } from '../../../../lib/shared/infrastructure/logger.js';
 
 describe('Unit | UseCase | update-expired-password', function () {
   const passwordResetToken = 'PASSWORD_RESET_TOKEN';

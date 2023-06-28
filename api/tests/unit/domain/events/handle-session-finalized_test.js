@@ -1,9 +1,9 @@
 import { catchErr, expect, domainBuilder, sinon } from '../../../test-helper.js';
-import { handleSessionFinalized as handleFinalizedSession } from '../../../../lib/domain/events/handle-session-finalized.js';
-import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
-import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult.js';
-import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
-import { FinalizedSession } from '../../../../lib/domain/models/FinalizedSession.js';
+import { handleSessionFinalized as handleFinalizedSession } from '../../../../lib/shared/domain/events/handle-session-finalized.js';
+import { JuryCertificationSummary } from '../../../../lib/shared/domain/read-models/JuryCertificationSummary.js';
+import { status as assessmentResultStatuses } from '../../../../lib/shared/domain/models/AssessmentResult.js';
+import { AutoJuryDone } from '../../../../lib/shared/domain/events/AutoJuryDone.js';
+import { FinalizedSession } from '../../../../lib/shared/domain/models/FinalizedSession.js';
 
 const juryCertificationSummaryRepository = { findBySessionId: sinon.stub() };
 const finalizedSessionRepository = { save: sinon.stub() };

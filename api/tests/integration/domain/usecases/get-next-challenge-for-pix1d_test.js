@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
+import { getNextChallengeForPix1d } from '../../../../lib/shared/domain/usecases/get-next-challenge-for-pix1d.js';
 
 describe('Integration | Domain | Use Cases | get-next-challenge-for-pix1d', function () {
   describe('#get-next-challenge-for-pix1d', function () {

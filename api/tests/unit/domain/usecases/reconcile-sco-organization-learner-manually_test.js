@@ -1,13 +1,13 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { OrganizationLearner } from '../../../../lib/shared/domain/models/OrganizationLearner.js';
 
 import {
   CampaignCodeError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
   UserShouldNotBeReconciledOnAnotherAccountError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | reconcile-sco-organization-learner-manually', function () {
   let campaignCode;

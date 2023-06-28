@@ -25,9 +25,9 @@ import {
 } from './certification-candidates-builder.js';
 
 import { CERTIFICATION_CHALLENGES_DATA } from './certification-data.js';
-import { CertificationIssueReportCategory } from './../../../../lib/domain/models/CertificationIssueReportCategory.js';
-import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { CertificationIssueReportCategory } from '../../../../lib/shared/domain/models/CertificationIssueReportCategory.js';
+import { generateCertificateVerificationCode } from '../../../../lib/shared/domain/services/verify-certificate-code-service.js';
+import { AssessmentResult } from '../../../../lib/shared/domain/models/AssessmentResult.js';
 
 const ASSESSMENT_SUCCESS_IN_SESSION_TO_FINALIZE_ID = 100;
 const ASSESSMENT_FAILURE_IN_SESSION_TO_FINALIZE_ID = 101;

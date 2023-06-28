@@ -1,6 +1,6 @@
 import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
-import { OrganizationMemberIdentity } from '../../../../../lib/domain/models/OrganizationMemberIdentity.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
+import { OrganizationMemberIdentity } from '../../../../../lib/shared/domain/models/OrganizationMemberIdentity.js';
 
 describe('Unit | Serializer | organization-members-serializer', function () {
   describe('#serialize', function () {

@@ -6,7 +6,7 @@ import lodash from 'lodash';
 const { groupBy, sum, has, partition, negate } = lodash;
 
 import { readCsvFile, parseCsvData } from '../helpers/csvHelpers.js';
-import { categories } from '../../lib/domain/models/TargetProfile.js';
+import { categories } from '../../lib/shared/domain/models/TargetProfile.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
 

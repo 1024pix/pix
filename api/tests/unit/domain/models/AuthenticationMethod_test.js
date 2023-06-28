@@ -1,7 +1,7 @@
 import { expect } from '../../../test-helper.js';
-import { ObjectValidationError } from '../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import { ObjectValidationError } from '../../../../lib/shared/domain/errors.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import * as OidcIdentityProviders from '../../../../lib/shared/domain/constants/oidc-identity-providers.js';
 
 describe('Unit | Domain | Models | AuthenticationMethod', function () {
   describe('buildPixAuthenticationMethod', function () {

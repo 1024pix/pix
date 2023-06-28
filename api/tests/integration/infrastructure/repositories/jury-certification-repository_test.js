@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as juryCertificationRepository from '../../../../lib/infrastructure/repositories/jury-certification-repository.js';
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
+import * as juryCertificationRepository from '../../../../lib/shared/infrastructure/repositories/jury-certification-repository.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/shared/domain/models/ComplementaryCertificationCourseResult.js';
 
 describe('Integration | Infrastructure | Repository | Jury Certification', function () {
   describe('#get', function () {

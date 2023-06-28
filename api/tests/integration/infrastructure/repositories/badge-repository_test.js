@@ -1,11 +1,11 @@
 import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper.js';
-import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
-import { Badge } from '../../../../lib/domain/models/Badge.js';
-import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
-import { SkillSet } from '../../../../lib/domain/models/SkillSet.js';
+import * as badgeRepository from '../../../../lib/shared/infrastructure/repositories/badge-repository.js';
+import { Badge } from '../../../../lib/shared/domain/models/Badge.js';
+import { BadgeCriterion } from '../../../../lib/shared/domain/models/BadgeCriterion.js';
+import { SkillSet } from '../../../../lib/shared/domain/models/SkillSet.js';
 import lodash from 'lodash';
 const { omit } = lodash;
-import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingEntityError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Repository | Badge', function () {
   let targetProfileWithSkillSets;

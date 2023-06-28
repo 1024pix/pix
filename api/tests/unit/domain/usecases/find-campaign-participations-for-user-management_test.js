@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { findCampaignParticipationsForUserManagement } from '../../../../lib/domain/usecases/find-campaign-participations-for-user-management.js';
+import { findCampaignParticipationsForUserManagement } from '../../../../lib/shared/domain/usecases/find-campaign-participations-for-user-management.js';
 
 describe('Unit | UseCase | findCampaignParticipationsForUserManagement', function () {
   const userId = 1;

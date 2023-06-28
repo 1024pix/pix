@@ -1,4 +1,4 @@
-import { handleTrainingRecommendation } from '../../../../lib/domain/usecases/handle-training-recommendation.js';
+import { handleTrainingRecommendation } from '../../../../lib/shared/domain/usecases/handle-training-recommendation.js';
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | UseCase | handle-training-recommendation', function () {

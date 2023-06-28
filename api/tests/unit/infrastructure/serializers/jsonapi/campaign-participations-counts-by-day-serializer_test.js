@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-participations-counts-by-day-serializer', function () {
   describe('#serialize', function () {

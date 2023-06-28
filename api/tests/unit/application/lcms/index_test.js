@@ -1,7 +1,7 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { lcmsController } from '../../../../lib/application/lcms/lcms-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/lcms/index.js';
+import { securityPreHandlers } from '../../../../lib/shared/application/security-pre-handlers.js';
+import { lcmsController } from '../../../../lib/shared/application/lcms/lcms-controller.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/lcms/index.js';
 
 describe('Unit | Router | lcms-router', function () {
   let httpTestServer;

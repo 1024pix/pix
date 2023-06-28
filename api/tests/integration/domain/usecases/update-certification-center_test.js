@@ -1,9 +1,9 @@
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
-import { CertificationCenterForAdmin } from '../../../../lib/domain/models/CertificationCenterForAdmin.js';
-import { updateCertificationCenter } from '../../../../lib/domain/usecases/update-certification-center.js';
-import * as certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
-import * as complementaryCertificationHabilitationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository.js';
-import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import { CertificationCenterForAdmin } from '../../../../lib/shared/domain/models/CertificationCenterForAdmin.js';
+import { updateCertificationCenter } from '../../../../lib/shared/domain/usecases/update-certification-center.js';
+import * as certificationCenterForAdminRepository from '../../../../lib/shared/infrastructure/repositories/certification-center-for-admin-repository.js';
+import * as complementaryCertificationHabilitationRepository from '../../../../lib/shared/infrastructure/repositories/complementary-certification-habilitation-repository.js';
+import * as dataProtectionOfficerRepository from '../../../../lib/shared/infrastructure/repositories/data-protection-officer-repository.js';
 
 describe('Integration | UseCases | update-certification-center', function () {
   afterEach(async function () {

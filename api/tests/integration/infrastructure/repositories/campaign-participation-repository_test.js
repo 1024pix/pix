@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import { sinon, expect, knex, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { Campaign } from '../../../../lib/domain/models/Campaign.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { Campaign } from '../../../../lib/shared/domain/models/Campaign.js';
+import { CampaignTypes } from '../../../../lib/shared/domain/models/CampaignTypes.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { CampaignParticipation } from '../../../../lib/shared/domain/models/CampaignParticipation.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
+import * as campaignParticipationRepository from '../../../../lib/shared/infrastructure/repositories/campaign-participation-repository.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
+import { NotFoundError } from '../../../../lib/shared/domain/errors.js';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 

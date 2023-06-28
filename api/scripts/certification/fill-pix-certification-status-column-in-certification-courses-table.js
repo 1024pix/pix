@@ -5,12 +5,12 @@ import perf_hooks from 'perf_hooks';
 
 const { performance } = perf_hooks;
 
-import { logger } from '../../lib/infrastructure/logger.js';
-import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
+import { learningContentCache as cache } from '../../lib/shared/infrastructure/caches/learning-content-cache.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import yargs from 'yargs';
 import bluebird from 'bluebird';
-import { status } from '../../lib/domain/models/AssessmentResult.js';
+import { status } from '../../lib/shared/domain/models/AssessmentResult.js';
 import readline from 'readline';
 import * as url from 'url';
 

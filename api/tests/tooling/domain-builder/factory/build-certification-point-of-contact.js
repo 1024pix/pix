@@ -1,4 +1,4 @@
-import { CertificationPointOfContact } from '../../../../lib/domain/read-models/CertificationPointOfContact.js';
+import { CertificationPointOfContact } from '../../../../lib/shared/domain/read-models/CertificationPointOfContact.js';
 import { buildAllowedCertificationCenterAccess } from './build-allowed-certification-center-access.js';
 
 const buildCertificationPointOfContact = function ({

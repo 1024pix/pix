@@ -6,7 +6,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
 
 describe('Acceptance | Route | Users', function () {
   describe('POST /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}', function () {

@@ -1,4 +1,4 @@
-import { CertificationCandidateSubscription } from '../../../../lib/domain/read-models/CertificationCandidateSubscription.js';
+import { CertificationCandidateSubscription } from '../../../../lib/shared/domain/read-models/CertificationCandidateSubscription.js';
 
 const buildCertificationCandidateSubscription = function ({
   id = 1234,

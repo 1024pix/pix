@@ -1,5 +1,5 @@
-import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { JuryCertificationSummary } from '../../../../lib/shared/domain/read-models/JuryCertificationSummary.js';
+import { AssessmentResult } from '../../../../lib/shared/domain/models/AssessmentResult.js';
 
 const buildJuryCertificationSummary = function ({
   id = 123,

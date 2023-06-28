@@ -9,8 +9,8 @@ const { readFile, access } = promises;
 import lodash from 'lodash';
 import papa from 'papaparse';
 
-import { NotFoundError, FileValidationError } from '../../lib/domain/errors.js';
-import { UnprocessableEntityError } from '../../lib/application/http-errors.js';
+import { NotFoundError, FileValidationError } from '../../lib/shared/domain/errors.js';
+import { UnprocessableEntityError } from '../../lib/shared/application/http-errors.js';
 
 const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',

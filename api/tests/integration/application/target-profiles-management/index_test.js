@@ -6,8 +6,8 @@ import {
   HttpTestServer,
 } from '../../../test-helper.js';
 
-import { targetProfilesManagementController } from '../../../../lib/application/target-profiles-management/target-profile-management-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/target-profiles-management/index.js';
+import { targetProfilesManagementController } from '../../../../lib/shared/application/target-profiles-management/target-profile-management-controller.js';
+import * as moduleUnderTest from '../../../../lib/shared/application/target-profiles-management/index.js';
 
 describe('Integration | Application | target-profiles-management | Routes ', function () {
   describe('DELETE /api/admin/target-profiles/{id}/detach-organizations', function () {

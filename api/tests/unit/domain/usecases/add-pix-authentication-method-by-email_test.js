@@ -1,6 +1,6 @@
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { addPixAuthenticationMethodByEmail } from '../../../../lib/domain/usecases/add-pix-authentication-method-by-email.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { addPixAuthenticationMethodByEmail } from '../../../../lib/shared/domain/usecases/add-pix-authentication-method-by-email.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
 
 describe('Unit | UseCase | add-pix-authentication-method-by-email', function () {
   let userRepository, authenticationMethodRepository;

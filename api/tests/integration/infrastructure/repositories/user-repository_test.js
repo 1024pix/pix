@@ -8,19 +8,19 @@ import {
   AlreadyRegisteredUsernameError,
   NotFoundError,
   UserNotFoundError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import { User } from '../../../../lib/domain/models/User.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
-import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
-import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
+import { AuthenticationMethod } from '../../../../lib/shared/domain/models/AuthenticationMethod.js';
+import { UserDetailsForAdmin } from '../../../../lib/shared/domain/models/UserDetailsForAdmin.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
+import { CertificationCenter } from '../../../../lib/shared/domain/models/CertificationCenter.js';
+import { CertificationCenterMembership } from '../../../../lib/shared/domain/models/CertificationCenterMembership.js';
+import { Organization } from '../../../../lib/shared/domain/models/Organization.js';
+import { OrganizationLearnerForAdmin } from '../../../../lib/shared/domain/read-models/OrganizationLearnerForAdmin.js';
+import * as OidcIdentityProviders from '../../../../lib/shared/domain/constants/oidc-identity-providers.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
+import * as userRepository from '../../../../lib/shared/infrastructure/repositories/user-repository.js';
 
 const expectedUserDetailsForAdminAttributes = [
   'id',

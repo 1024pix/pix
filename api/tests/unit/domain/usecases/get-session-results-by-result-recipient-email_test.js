@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { getSessionResultsByResultRecipientEmail } from '../../../../lib/domain/usecases/get-session-results-by-result-recipient-email.js';
+import { getSessionResultsByResultRecipientEmail } from '../../../../lib/shared/domain/usecases/get-session-results-by-result-recipient-email.js';
 
 describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-email', function () {
   const sessionRepository = { getWithCertificationCandidates: null };

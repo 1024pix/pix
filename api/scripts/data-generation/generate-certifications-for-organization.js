@@ -1,7 +1,7 @@
 import yargs from 'yargs';
 import _ from 'lodash';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
-import { competenceDatasource } from '../../lib/infrastructure/datasources/learning-content/competence-datasource.js';
+import { competenceDatasource } from '../../lib/shared/infrastructure/datasources/learning-content/competence-datasource.js';
 import * as url from 'url';
 
 const CERTIF_ERROR_RATE = 0.05;

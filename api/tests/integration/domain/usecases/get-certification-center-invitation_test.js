@@ -1,11 +1,11 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { CertificationCenterInvitation } from '../../../../lib/shared/domain/models/CertificationCenterInvitation.js';
 import {
   NotFoundError,
   AlreadyExistingInvitationError,
   CancelledInvitationError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | API | getCertificationCenterInvitation', function () {
   describe('when an invitation exists', function () {

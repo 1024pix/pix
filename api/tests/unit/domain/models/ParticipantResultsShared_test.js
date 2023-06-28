@@ -1,7 +1,7 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { ParticipantResultsShared } from '../../../../lib/domain/models/ParticipantResultsShared.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
+import { ParticipantResultsShared } from '../../../../lib/shared/domain/models/ParticipantResultsShared.js';
+import { KnowledgeElement } from '../../../../lib/shared/domain/models/KnowledgeElement.js';
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/shared/domain/constants.js';
 import lodash from 'lodash';
 const { noop } = lodash;
 

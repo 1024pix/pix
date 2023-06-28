@@ -1,7 +1,7 @@
 import { buildCampaignParticipation } from './build-campaign-participation.js';
 import lodash from 'lodash';
 const { isUndefined } = lodash;
-import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
+import { PoleEmploiSending } from '../../../../lib/shared/domain/models/PoleEmploiSending.js';
 
 const buildPoleEmploiSending = function ({
   type = PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_SHARING,

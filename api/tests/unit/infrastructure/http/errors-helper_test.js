@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { serializeHttpErrorResponse } from '../../../../lib/infrastructure/http/errors-helper.js';
+import { serializeHttpErrorResponse } from '../../../../lib/shared/infrastructure/http/errors-helper.js';
 
 describe('serializeHttpErrorResponse', function () {
   describe('when http error data is null', function () {

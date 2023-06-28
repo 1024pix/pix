@@ -2,16 +2,16 @@ import lodash from 'lodash';
 const { omit, pick } = lodash;
 
 import { expect, knex, databaseBuilder, catchErr, sinon, domainBuilder } from '../../../test-helper.js';
-import { BookshelfCertificationCenterMembership } from '../../../../lib/infrastructure/orm-models/CertificationCenterMembership.js';
-import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
-import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
-import { User } from '../../../../lib/domain/models/User.js';
+import { BookshelfCertificationCenterMembership } from '../../../../lib/shared/infrastructure/orm-models/CertificationCenterMembership.js';
+import { CertificationCenter } from '../../../../lib/shared/domain/models/CertificationCenter.js';
+import { CertificationCenterMembership } from '../../../../lib/shared/domain/models/CertificationCenterMembership.js';
+import { User } from '../../../../lib/shared/domain/models/User.js';
 import {
   CertificationCenterMembershipDisableError,
   AlreadyExistingMembershipError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../lib/shared/domain/errors.js';
 
-import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
+import * as certificationCenterMembershipRepository from '../../../../lib/shared/infrastructure/repositories/certification-center-membership-repository.js';
 
 describe('Integration | Repository | Certification Center Membership', function () {
   describe('#save', function () {

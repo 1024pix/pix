@@ -1,7 +1,7 @@
 import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
-import { accountRecoveryController } from '../../../../lib/application/account-recovery/account-recovery-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { accountRecoveryController } from '../../../../lib/shared/application/account-recovery/account-recovery-controller.js';
+import { usecases } from '../../../../lib/shared/domain/usecases/index.js';
+import { DomainTransaction } from '../../../../lib/shared/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | account-recovery-controller', function () {
   describe('#sendEmailForAccountRecovery', function () {

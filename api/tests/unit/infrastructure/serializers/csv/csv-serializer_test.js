@@ -1,9 +1,9 @@
 import { expect, sinon, catchErr } from '../../../../test-helper.js';
-import * as csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
-import { logger } from '../../../../../lib/infrastructure/logger.js';
+import * as csvSerializer from '../../../../../lib/shared/infrastructure/serializers/csv/csv-serializer.js';
+import { logger } from '../../../../../lib/shared/infrastructure/logger.js';
 import _ from 'lodash';
-import { FileValidationError } from '../../../../../lib/domain/errors.js';
-import { emptySession } from '../../../../../lib/infrastructure/utils/csv/sessions-import.js';
+import { FileValidationError } from '../../../../../lib/shared/domain/errors.js';
+import { emptySession } from '../../../../../lib/shared/infrastructure/utils/csv/sessions-import.js';
 
 describe('Unit | Serializer | CSV | csv-serializer', function () {
   describe('#serializeLine', function () {

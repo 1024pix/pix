@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { enrolStudentsToSession } from '../../../../lib/domain/usecases/enrol-students-to-session.js';
-import { SCOCertificationCandidate } from '../../../../lib/domain/models/SCOCertificationCandidate.js';
-import { ForbiddenAccess, UnknownCountryForStudentEnrolmentError } from '../../../../lib/domain/errors.js';
+import { enrolStudentsToSession } from '../../../../lib/shared/domain/usecases/enrol-students-to-session.js';
+import { SCOCertificationCandidate } from '../../../../lib/shared/domain/models/SCOCertificationCandidate.js';
+import { ForbiddenAccess, UnknownCountryForStudentEnrolmentError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | enrol-students-to-session', function () {
   context('when referent is allowed to Pix Certif', function () {

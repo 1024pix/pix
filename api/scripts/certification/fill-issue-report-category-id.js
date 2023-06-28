@@ -1,4 +1,4 @@
-import { logger } from '../../lib/infrastructure/logger.js';
+import { logger } from '../../lib/shared/infrastructure/logger.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
 import * as url from 'url';

@@ -1,6 +1,6 @@
 import { expect, catchErr } from '../../../test-helper.js';
-import * as organizationCreationValidator from '../../../../lib/domain/validators/organization-creation-validator.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import * as organizationCreationValidator from '../../../../lib/shared/domain/validators/organization-creation-validator.js';
+import { EntityValidationError } from '../../../../lib/shared/domain/errors.js';
 
 const MISSING_VALUE = '';
 

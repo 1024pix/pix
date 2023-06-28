@@ -1,10 +1,10 @@
 import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper.js';
 
-import * as campaignManagementRepository from '../../../../lib/infrastructure/repositories/campaign-management-repository.js';
-import * as campaignValidator from '../../../../lib/domain/validators/campaign-validator.js';
-import { updateCampaignDetailsManagement } from '../../../../lib/domain/usecases/update-campaign-details-management.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import * as campaignManagementRepository from '../../../../lib/shared/infrastructure/repositories/campaign-management-repository.js';
+import * as campaignValidator from '../../../../lib/shared/domain/validators/campaign-validator.js';
+import { updateCampaignDetailsManagement } from '../../../../lib/shared/domain/usecases/update-campaign-details-management.js';
+import { CampaignParticipationStatuses } from '../../../../lib/shared/domain/models/CampaignParticipationStatuses.js';
+import { EntityValidationError } from '../../../../lib/shared/domain/errors.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

@@ -1,7 +1,7 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { createOrganizationInvitationByAdmin } from '../../../../lib/domain/usecases/create-organization-invitation-by-admin.js';
-import { OrganizationArchivedError } from '../../../../lib/domain/errors.js';
+import { Membership } from '../../../../lib/shared/domain/models/Membership.js';
+import { createOrganizationInvitationByAdmin } from '../../../../lib/shared/domain/usecases/create-organization-invitation-by-admin.js';
+import { OrganizationArchivedError } from '../../../../lib/shared/domain/errors.js';
 
 describe('Unit | UseCase | create-organization-invitation-by-admin', function () {
   describe('#createOrganizationInvitationByAdmin', function () {

@@ -1,4 +1,4 @@
-import { PoleEmploiPayload } from '../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
+import { PoleEmploiPayload } from '../../../../../lib/shared/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import { expect, domainBuilder } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', function () {

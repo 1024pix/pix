@@ -1,9 +1,9 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
-import { Organization } from '../../../../../lib/domain/models/Organization.js';
-import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/Organization.js';
-import { Tag } from '../../../../../lib/domain/models/Tag.js';
-import { SamlIdentityProviders } from '../../../../../lib/domain/constants/saml-identity-providers.js';
+import * as serializer from '../../../../../lib/shared/infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
+import { Organization } from '../../../../../lib/shared/domain/models/Organization.js';
+import { OrganizationForAdmin } from '../../../../../lib/shared/domain/models/organizations-administration/Organization.js';
+import { Tag } from '../../../../../lib/shared/domain/models/Tag.js';
+import { SamlIdentityProviders } from '../../../../../lib/shared/domain/constants/saml-identity-providers.js';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
   describe('#serialize', function () {

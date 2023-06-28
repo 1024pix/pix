@@ -3,12 +3,12 @@ import * as url from 'url';
 
 dotenv.config();
 import _ from 'lodash';
-import { calculateScoringInformationForCompetence } from '../lib/domain/services/scoring/scoring-service.js';
+import { calculateScoringInformationForCompetence } from '../lib/shared/domain/services/scoring/scoring-service.js';
 import { buildKnowledgeElement } from '../db/database-builder/factory/build-knowledge-element.js';
-import * as tubeRepository from '../lib/infrastructure/repositories/tube-repository.js';
-import * as skillRepository from '../lib/infrastructure/repositories/skill-repository.js';
-import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
-import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
+import * as tubeRepository from '../lib/shared/infrastructure/repositories/tube-repository.js';
+import * as skillRepository from '../lib/shared/infrastructure/repositories/skill-repository.js';
+import * as knowledgeElementRepository from '../lib/shared/infrastructure/repositories/knowledge-element-repository.js';
+import { learningContentCache as cache } from '../lib/shared/infrastructure/caches/learning-content-cache.js';
 import { disconnect } from '../db/knex-database-connection.js';
 
 async function getUserSkillsGroupedByTubeId(elements) {

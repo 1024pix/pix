@@ -1,8 +1,8 @@
 import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
-import * as assessmentResultRepository from '../../../../lib/infrastructure/repositories/assessment-result-repository.js';
-import { MissingAssessmentId } from '../../../../lib/domain/errors.js';
+import { Assessment } from '../../../../lib/shared/domain/models/Assessment.js';
+import { AssessmentResult } from '../../../../lib/shared/domain/models/AssessmentResult.js';
+import * as assessmentResultRepository from '../../../../lib/shared/infrastructure/repositories/assessment-result-repository.js';
+import { MissingAssessmentId } from '../../../../lib/shared/domain/errors.js';
 
 describe('Integration | Repository | AssessmentResult', function () {
   describe('#save', function () {

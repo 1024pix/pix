@@ -1,6 +1,6 @@
-import { FlashAssessmentAlgorithm } from '../../../../lib/domain/models/index.js';
+import { FlashAssessmentAlgorithm } from '../../../../lib/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import { AssessmentEndedError } from '../../../../lib/shared/domain/errors.js';
 
 describe('FlashAssessmentAlgorithm', function () {
   describe('#getPossibleNextChallenges', function () {
