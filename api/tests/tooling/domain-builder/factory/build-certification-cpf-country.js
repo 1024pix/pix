@@ -1,4 +1,4 @@
-import { CertificationCpfCountry } from '../../../../lib/domain/models/CertificationCpfCountry.js';
+import { CertificationCpfCountry } from '../../../../lib/certification/shared/models/CertificationCpfCountry.js';
 
 function buildCertificationCpfCountry({
   id = 123,

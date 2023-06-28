@@ -8,7 +8,7 @@ import {
   IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS,
 } from './candidates-import-placeholders.js';
 
-import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../lib/certification/shared/models/CertificationCandidate.js';
 
 import _ from 'lodash';
 import { CandidateData } from './CandidateData.js';

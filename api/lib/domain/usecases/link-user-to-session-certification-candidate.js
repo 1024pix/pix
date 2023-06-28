@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { CertificationCandidate } from '../models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../certification/shared/models/CertificationCandidate.js';
 
 import {
   CertificationCandidateByPersonalInfoNotFoundError,

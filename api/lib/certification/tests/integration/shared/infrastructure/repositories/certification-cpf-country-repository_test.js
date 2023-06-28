@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, domainBuilder } from '../../../../../../../tests/test-helper.js';
 import * as certificationCpfCountryRepository from '../../../../../shared/infrastructure/repositories/certification-cpf-country-repository.js';
-import { CertificationCpfCountry } from '../../../../../../domain/models/CertificationCpfCountry.js';
+import { CertificationCpfCountry } from '../../../../../shared/models/CertificationCpfCountry.js';
 
 describe('Integration | Repository | certificationCpfCountryRepository', function () {
   describe('#getByMatcher', function () {

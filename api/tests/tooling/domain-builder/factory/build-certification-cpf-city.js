@@ -1,4 +1,4 @@
-import { CertificationCpfCity } from '../../../../lib/domain/models/CertificationCpfCity.js';
+import { CertificationCpfCity } from '../../../../lib/certification/shared/models/CertificationCpfCity.js';
 
 function buildCertificationCpfCity({
   id = 123,

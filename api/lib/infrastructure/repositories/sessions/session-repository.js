@@ -4,7 +4,7 @@ import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../domain/errors.js';
 import { Session } from '../../../domain/models/Session.js';
 import { CertificationCenter } from '../../../domain/models/CertificationCenter.js';
-import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../certification/shared/models/CertificationCandidate.js';
 import { ComplementaryCertification } from '../../../domain/models/ComplementaryCertification.js';
 import { DomainTransaction } from '../../DomainTransaction.js';
 

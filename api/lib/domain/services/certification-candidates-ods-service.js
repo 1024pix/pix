@@ -1,6 +1,6 @@
 import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
-import { CertificationCandidate } from '../models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../certification/shared/models/CertificationCandidate.js';
 import {
   CLEA,
   PIX_PLUS_DROIT,

@@ -2,7 +2,7 @@ import { NotFoundError } from '../../errors.js';
 import bluebird from 'bluebird';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { Session } from '../../models/Session.js';
-import { CertificationCandidate } from '../../models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../certification/shared/models/CertificationCandidate.js';
 
 const createSessions = async function ({
   userId,

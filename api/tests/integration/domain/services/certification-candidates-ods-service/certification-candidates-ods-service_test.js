@@ -11,7 +11,7 @@ import * as certificationCpfCountryRepository from '../../../../../lib/certifica
 import * as certificationCpfCityRepository from '../../../../../lib/certification/shared/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCenterRepository from '../../../../../lib/infrastructure/repositories/certification-center-repository.js';
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
-import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../../lib/certification/shared/models/CertificationCandidate.js';
 import { CertificationCandidatesImportError } from '../../../../../lib/domain/errors.js';
 import fs from 'fs';
 
