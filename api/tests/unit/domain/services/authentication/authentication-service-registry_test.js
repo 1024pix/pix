@@ -1,6 +1,6 @@
 import { expect, catchErrSync } from '../../../../test-helper.js';
 import * as authenticationRegistry from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
-import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
+import { InvalidIdentityProviderError } from '../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Services | authentication registry', function () {
   describe('#getOidcProviderServices', function () {

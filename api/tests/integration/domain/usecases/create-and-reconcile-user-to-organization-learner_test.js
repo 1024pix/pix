@@ -22,7 +22,7 @@ import {
   EntityValidationError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | UseCases | create-and-reconcile-user-to-organization-learner', function () {
   const pickUserAttributes = ['firstName', 'lastName', 'email', 'username', 'cgu'];

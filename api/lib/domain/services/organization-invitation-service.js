@@ -6,7 +6,7 @@ import {
   SendingEmailError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 const _generateCode = () => {
   return randomString.generate({ length: 10, capitalization: 'uppercase' });

@@ -3,7 +3,7 @@ import {
   CertificationCandidateAddError,
   CertificationCandidateOnFinalizedSessionError,
   CpfBirthInformationValidationError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 const addCertificationCandidateToSession = async function ({
   sessionId,

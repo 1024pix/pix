@@ -1,5 +1,5 @@
-import { SESSION_SUPERVISING } from './constants/session-supervising.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from './constants/certification-candidates-errors.js';
+import { SESSION_SUPERVISING } from '../../../lib/domain/constants/session-supervising.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../lib/domain/constants/certification-candidates-errors.js';
 
 class DomainError extends Error {
   constructor(message, code, meta) {

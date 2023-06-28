@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
-import { MissingAssessmentId, AssessmentResultNotCreatedError } from '../../domain/errors.js';
+import { MissingAssessmentId, AssessmentResultNotCreatedError } from '../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../domain/models/CompetenceMark.js';

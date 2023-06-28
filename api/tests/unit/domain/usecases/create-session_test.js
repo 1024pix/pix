@@ -1,8 +1,8 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
 
 import { createSession } from '../../../../lib/domain/usecases/create-session.js';
-import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
-import { Session } from '../../../../src/certification/session/domain/model/Session.js';
+import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
+import { Session } from '../../../../src/certification/session/domain/models/Session.js';
 
 describe('Unit | UseCase | create-session', function () {
   let certificationCenterRepository;

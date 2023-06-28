@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Course } from '../models/Course.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 import * as courseRepository from '../../infrastructure/repositories/course-repository.js';
 

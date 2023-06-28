@@ -1,4 +1,4 @@
-import { AlreadyExistingAdminMemberError } from '../errors.js';
+import { AlreadyExistingAdminMemberError } from '../../../src/shared/domain/errors.js';
 import { AdminMember } from '../models/AdminMember.js';
 
 const saveAdminMember = async function ({ email, role, userRepository, adminMemberRepository }) {

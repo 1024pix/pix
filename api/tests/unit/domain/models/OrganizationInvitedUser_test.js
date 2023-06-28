@@ -5,7 +5,7 @@ import {
   NotFoundError,
   AlreadyExistingMembershipError,
   AlreadyAcceptedOrCancelledInvitationError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Models | OrganizationInvitedUser', function () {
   describe('#acceptInvitation', function () {

@@ -1,6 +1,6 @@
 import { sinon, expect, domainBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { assessmentController } from '../../../../lib/application/assessments/assessment-controller.js';
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import { AssessmentEndedError } from '../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { LOCALE } from '../../../../lib/domain/constants.js';
 

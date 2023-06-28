@@ -3,7 +3,7 @@ import { User } from '../../../../lib/domain/models/User.js';
 import {
   PasswordResetDemandNotFoundError,
   UserNotAuthorizedToUpdatePasswordError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 import { updateUserPassword } from '../../../../lib/domain/usecases/update-user-password.js';
 
 describe('Unit | UseCase | update-user-password', function () {

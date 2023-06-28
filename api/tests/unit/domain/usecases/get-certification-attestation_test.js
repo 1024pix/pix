@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { getCertificationAttestation as get } from '../../../../lib/domain/usecases/certificate/get-certification-attestation.js';
 
 describe('Unit | UseCase | get-certification-attestation', function () {

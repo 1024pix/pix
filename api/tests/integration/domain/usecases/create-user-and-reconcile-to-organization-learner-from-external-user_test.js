@@ -18,7 +18,7 @@ import {
   NotFoundError,
   ObjectValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { createUserAndReconcileToOrganizationLearnerFromExternalUser as createUserAndReconcileToOrganizationLearnerByExternalUser } from '../../../../lib/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user.js';
 

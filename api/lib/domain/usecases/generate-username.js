@@ -2,7 +2,7 @@ import {
   CampaignCodeError,
   OrganizationLearnerNotFound,
   OrganizationLearnerAlreadyLinkedToUserError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import lodash from 'lodash';

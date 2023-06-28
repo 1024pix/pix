@@ -5,7 +5,7 @@ import {
   OrganizationWithoutEmailError,
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 const sendScoInvitation = async function ({
   uai,

@@ -1,4 +1,4 @@
-import { AuthenticationKeyExpired, MissingUserAccountError } from '../errors.js';
+import { AuthenticationKeyExpired, MissingUserAccountError } from '../../../src/shared/domain/errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
 const reconcileOidcUser = async function ({

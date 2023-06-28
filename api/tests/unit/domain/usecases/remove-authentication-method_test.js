@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { removeAuthenticationMethod } from '../../../../lib/domain/usecases/remove-authentication-method.js';
-import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../src/shared/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 

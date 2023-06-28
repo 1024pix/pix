@@ -2,7 +2,7 @@ import * as flash from '../../../../lib/domain/services/algorithm-methods/flash.
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import { AssessmentEndedError } from '../../../../src/shared/domain/errors.js';
 import { config } from '../../../../lib/config.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {

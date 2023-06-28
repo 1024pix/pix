@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { expect, knex, databaseBuilder, catchErr, sinon } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';

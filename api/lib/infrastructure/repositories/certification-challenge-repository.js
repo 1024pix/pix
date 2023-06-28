@@ -3,7 +3,7 @@ import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-conver
 import { DomainTransaction } from '../DomainTransaction.js';
 import { BookshelfCertificationChallenge } from '../orm-models/CertificationChallenge.js';
 import { logger } from '../../infrastructure/logger.js';
-import { AssessmentEndedError } from '../../domain/errors.js';
+import { AssessmentEndedError } from '../../../src/shared/domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationChallenge } from '../../domain/models/CertificationChallenge.js';
 

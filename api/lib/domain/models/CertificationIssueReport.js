@@ -4,7 +4,7 @@ import {
   InvalidCertificationIssueReportForSaving,
   DeprecatedCertificationIssueReportCategoryError,
   DeprecatedCertificationIssueReportSubcategoryError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import {
   CertificationIssueReportCategory as CertificationIssueReportCategories,

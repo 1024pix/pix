@@ -11,8 +11,8 @@ import * as certificationCpfCountryRepository from '../../../../../lib/infrastru
 import * as certificationCpfCityRepository from '../../../../../lib/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCenterRepository from '../../../../../lib/infrastructure/repositories/certification-center-repository.js';
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
-import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
-import { CertificationCandidatesImportError } from '../../../../../lib/domain/errors.js';
+import { CertificationCandidate } from '../../../../../src/certification/candidate/domain/models/CertificationCandidate.js';
+import { CertificationCandidatesImportError } from '../../../../../src/shared/domain/errors.js';
 import fs from 'fs';
 
 const { promises } = fs;

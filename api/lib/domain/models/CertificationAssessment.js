@@ -4,7 +4,10 @@ const Joi = BaseJoi.extend(JoiDate);
 import { validateEntity } from '../validators/entity-validator.js';
 import _ from 'lodash';
 
-import { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } from '../errors.js';
+import {
+  ChallengeToBeNeutralizedNotFoundError,
+  ChallengeToBeDeneutralizedNotFoundError,
+} from '../../../src/shared/domain/errors.js';
 
 import { AnswerStatus } from './AnswerStatus.js';
 import { NeutralizationAttempt } from './NeutralizationAttempt.js';

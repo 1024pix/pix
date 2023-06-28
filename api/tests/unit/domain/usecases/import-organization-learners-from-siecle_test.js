@@ -1,6 +1,6 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
 import { importOrganizationLearnersFromSIECLEFormat } from '../../../../lib/domain/usecases/import-organization-learners-from-siecle.js';
-import { FileValidationError, SiecleXmlImportError } from '../../../../lib/domain/errors.js';
+import { FileValidationError, SiecleXmlImportError } from '../../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
 import fs from 'fs/promises';

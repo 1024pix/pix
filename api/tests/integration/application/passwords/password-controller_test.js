@@ -5,7 +5,7 @@ import {
   InvalidTemporaryKeyError,
   PasswordResetDemandNotFoundError,
   UserNotFoundError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as moduleUnderTest from '../../../../lib/application/passwords/index.js';

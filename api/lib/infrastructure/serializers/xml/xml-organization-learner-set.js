@@ -3,7 +3,7 @@ import lodash from 'lodash';
 
 const { isEmpty, isNil, each } = lodash;
 
-import { SiecleXmlImportError } from '../../../domain/errors.js';
+import { SiecleXmlImportError } from '../../../../src/shared/domain/errors.js';
 
 const ERRORS = {
   INE_REQUIRED: 'INE_REQUIRED',

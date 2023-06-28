@@ -1,5 +1,5 @@
 import { BookshelfUser } from '../orm-models/User.js';
-import { UserNotFoundError } from '../../domain/errors.js';
+import { UserNotFoundError } from '../../../src/shared/domain/errors.js';
 import { CertificationOfficer } from '../../domain/models/CertificationOfficer.js';
 
 const get = async function (certificationOfficerId) {

@@ -10,7 +10,7 @@ import {
   ObjectValidationError,
   OrganizationAlreadyExistError,
   OrganizationTagNotFound,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {
   let organizationRepositoryStub;

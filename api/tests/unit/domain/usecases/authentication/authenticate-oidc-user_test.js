@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr } from '../../../../test-helper.js';
-import { UnexpectedOidcStateError } from '../../../../../lib/domain/errors.js';
+import { UnexpectedOidcStateError } from '../../../../../src/shared/domain/errors.js';
 import { logger } from '../../../../../lib/infrastructure/logger.js';
 import { authenticateOidcUser } from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';

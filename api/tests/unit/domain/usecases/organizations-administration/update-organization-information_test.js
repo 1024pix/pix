@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../../test-helper.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { Tag } from '../../../../../lib/domain/models/Tag.js';
 import { OrganizationTag } from '../../../../../lib/domain/models/OrganizationTag.js';
 import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/Organization.js';

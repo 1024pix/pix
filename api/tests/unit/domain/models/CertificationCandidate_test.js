@@ -1,11 +1,11 @@
 import { expect, domainBuilder, catchErr } from '../../../test-helper.js';
-import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../src/certification/candidate/domain/models/CertificationCandidate.js';
 
 import {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';

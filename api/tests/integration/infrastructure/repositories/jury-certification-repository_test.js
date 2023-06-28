@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as juryCertificationRepository from '../../../../lib/infrastructure/repositories/jury-certification-repository.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 

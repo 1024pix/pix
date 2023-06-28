@@ -4,7 +4,7 @@ import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 
-import { AlreadyExistingAdminMemberError, UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingAdminMemberError, UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
 
 describe('Unit | UseCase | save-admin-member', function () {

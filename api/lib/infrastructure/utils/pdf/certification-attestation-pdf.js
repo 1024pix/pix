@@ -9,7 +9,7 @@ import axios from 'axios';
 import * as url from 'url';
 
 import { AttestationViewModel } from './AttestationViewModel.js';
-import { CertificationAttestationGenerationError } from '../../../domain/errors.js';
+import { CertificationAttestationGenerationError } from '../../../../src/shared/domain/errors.js';
 import { logger } from '../../logger.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

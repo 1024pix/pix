@@ -10,7 +10,7 @@ import {
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
   ForbiddenAccess,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { tokenService } from '../../../../lib/domain/services/token-service.js';
 import { config as settings } from '../../../../lib/config.js';

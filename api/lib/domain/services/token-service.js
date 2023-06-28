@@ -6,7 +6,7 @@ import {
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
   ForbiddenAccess,
-} from '../../domain/errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { config } from '../../config.js';
 

@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import bcrypt from 'bcrypt';
 import { config as settings } from '../../../../lib/config.js';
-import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { ForbiddenAccess, UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as prescriberRepository from '../../../../lib/infrastructure/repositories/prescriber-repository.js';
 import { Prescriber } from '../../../../lib/domain/read-models/Prescriber.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';

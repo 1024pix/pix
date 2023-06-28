@@ -3,7 +3,7 @@ import { CertificationResult } from '../models/CertificationResult.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
 import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
 import bluebird from 'bluebird';
-import { CertificationComputeError } from '../errors.js';
+import { CertificationComputeError } from '../../../src/shared/domain/errors.js';
 import { ChallengeNeutralized } from './ChallengeNeutralized.js';
 import { ChallengeDeneutralized } from './ChallengeDeneutralized.js';
 import { CertificationJuryDone } from './CertificationJuryDone.js';

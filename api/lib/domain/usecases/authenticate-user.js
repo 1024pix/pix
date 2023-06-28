@@ -8,7 +8,7 @@ import {
   LocaleNotSupportedError,
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
-} from '../../domain/errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { PIX_ORGA, PIX_ADMIN } from '../constants.js';
 

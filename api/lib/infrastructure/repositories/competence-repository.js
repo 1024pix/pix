@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
 import { Competence } from '../../domain/models/Competence.js';
 import { competenceDatasource } from '../datasources/learning-content/competence-datasource.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { LOCALE, PIX_ORIGIN } from '../../domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;

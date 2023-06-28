@@ -6,7 +6,7 @@ import {
   CertificationCenterMembershipCreationError,
   AlreadyExistingMembershipError,
   CertificationCenterMembershipDisableError,
-} from '../../domain/errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationCenter } from '../../domain/models/CertificationCenter.js';

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { NotFoundError } from '../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { CampaignAssessmentParticipation } from '../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';

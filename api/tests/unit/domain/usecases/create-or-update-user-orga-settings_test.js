@@ -1,6 +1,6 @@
 import { createOrUpdateUserOrgaSettings } from '../../../../lib/domain/usecases/create-or-update-user-orga-settings.js';
 import { expect, catchErr, sinon } from '../../../test-helper.js';
-import { UserNotMemberOfOrganizationError } from '../../../../lib/domain/errors.js';
+import { UserNotMemberOfOrganizationError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | create-or-update-user-orga-settings', function () {
   const userId = 1;

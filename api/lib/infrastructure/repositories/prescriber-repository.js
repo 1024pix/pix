@@ -5,7 +5,7 @@ import { BookshelfUser } from '../orm-models/User.js';
 import { BookshelfMembership } from '../orm-models/Membership.js';
 import { BookshelfUserOrgaSettings } from '../orm-models/UserOrgaSettings.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-import { ForbiddenAccess, UserNotFoundError } from '../../domain/errors.js';
+import { ForbiddenAccess, UserNotFoundError } from '../../../src/shared/domain/errors.js';
 import { Prescriber } from '../../domain/read-models/Prescriber.js';
 import * as apps from '../../domain/constants.js';
 

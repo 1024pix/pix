@@ -8,7 +8,7 @@ import {
   AlreadyRegisteredUsernameError,
   NotFoundError,
   UserNotFoundError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { User } from '../../../../lib/domain/models/User.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';

@@ -6,7 +6,7 @@ import lodash from 'lodash';
 
 const { isEmpty, difference } = lodash;
 
-import { FileValidationError, NotFoundError } from '../../domain/errors.js';
+import { FileValidationError, NotFoundError } from '../../../src/shared/domain/errors.js';
 import papa from 'papaparse';
 
 const ERRORS = {

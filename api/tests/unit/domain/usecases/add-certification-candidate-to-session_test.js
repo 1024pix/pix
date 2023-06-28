@@ -7,7 +7,7 @@ import {
   CpfBirthInformationValidationError,
   CertificationCandidateAddError,
   CertificationCandidateOnFinalizedSessionError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
 
 describe('Unit | UseCase | add-certification-candidate-to-session', function () {

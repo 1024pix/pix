@@ -7,7 +7,7 @@ import querystring from 'querystring';
 import { AuthenticationMethod } from '../../../domain/models/AuthenticationMethod.js';
 import * as OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers.js';
 import { config } from '../../../config.js';
-import { UnexpectedUserAccountError } from '../../../domain/errors.js';
+import { UnexpectedUserAccountError } from '../../../../src/shared/domain/errors.js';
 
 const notify = async (userId, payload, dependencies) => {
   const { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools } = dependencies;

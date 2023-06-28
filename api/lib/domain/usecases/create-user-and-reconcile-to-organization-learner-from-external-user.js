@@ -1,4 +1,4 @@
-import { CampaignCodeError, ObjectValidationError } from '../errors.js';
+import { CampaignCodeError, ObjectValidationError } from '../../../src/shared/domain/errors.js';
 import { User } from '../models/User.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';

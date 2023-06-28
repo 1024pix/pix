@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as certificationAssessmentRepository from '../../../../lib/infrastructure/repositories/certification-assessment-repository.js';
 import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
 import { Challenge } from '../../../../lib/domain/models/Challenge.js';

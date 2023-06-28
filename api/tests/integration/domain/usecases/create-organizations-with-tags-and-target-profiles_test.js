@@ -20,7 +20,7 @@ import {
   EntityValidationError,
   ObjectValidationError,
   TargetProfileInvalidError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';

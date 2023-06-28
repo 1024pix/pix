@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import bluebird from 'bluebird';
-import { NotFoundError } from '../lib/domain/errors.js';
+import { NotFoundError } from '../src/shared/domain/errors.js';
 import { BadgeCriterion } from '../lib/domain/models/BadgeCriterion.js';
 import * as badgeRepository from '../lib/infrastructure/repositories/badge-repository.js';
 import * as badgeCriteriaRepository from '../lib/infrastructure/repositories/badge-criteria-repository.js';

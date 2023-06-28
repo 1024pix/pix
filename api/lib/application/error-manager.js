@@ -3,7 +3,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 const { Error: JSONAPIError } = jsonapiSerializer;
 
 import { HttpErrors } from './http-errors.js';
-import * as DomainErrors from '../domain/errors.js';
+import * as DomainErrors from '../../src/shared/domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils.js';
 import * as translations from '../../translations/index.js';

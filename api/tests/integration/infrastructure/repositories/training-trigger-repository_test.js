@@ -13,7 +13,7 @@ import * as trainingTriggerRepository from '../../../../lib/infrastructure/repos
 import { TrainingTrigger, TrainingTriggerTube } from '../../../../lib/domain/models/index.js';
 import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
 import _ from 'lodash';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 
 describe('Integration | Repository | training-trigger-repository', function () {

@@ -1,5 +1,5 @@
 import { expect, knex, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
+import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../src/shared/domain/errors.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import * as UserToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
 import { UserToCreate } from '../../../../lib/domain/models/UserToCreate.js';

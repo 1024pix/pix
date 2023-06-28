@@ -1,7 +1,7 @@
 import { knex, expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import * as knowledgeElementSnapshotRepository from '../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
-import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingEntityError } from '../../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Integration | Repository | KnowledgeElementSnapshotRepository', function () {

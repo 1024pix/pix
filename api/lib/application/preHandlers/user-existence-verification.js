@@ -1,6 +1,6 @@
 import * as userRepository from '../../../lib/infrastructure/repositories/user-repository.js';
 import * as errorSerializer from '../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer.js';
-import { UserNotFoundError } from '../../domain/errors.js';
+import { UserNotFoundError } from '../../../src/shared/domain/errors.js';
 
 const verifyById = function (request, h, dependencies = { userRepository, errorSerializer }) {
   return dependencies.userRepository.get(request.params.id).catch((err) => {

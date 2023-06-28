@@ -6,7 +6,7 @@ import {
   OrganizationWithoutEmailError,
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | send-sco-invitation', function () {
   let organizationRepository, organizationInvitationRepository, organizationInvitationService;

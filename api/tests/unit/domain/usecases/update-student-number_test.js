@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingEntityError } from '../../../../src/shared/domain/errors.js';
 import { updateStudentNumber } from '../../../../lib/domain/usecases/update-student-number.js';
 
 describe('Unit | UseCase | update-student-number', function () {

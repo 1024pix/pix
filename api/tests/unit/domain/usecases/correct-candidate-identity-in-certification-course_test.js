@@ -2,7 +2,7 @@ import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js'
 import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
 import { correctCandidateIdentityInCertificationCourse } from '../../../../lib/domain/usecases/correct-candidate-identity-in-certification-course.js';
 import { CpfBirthInformationValidation } from '../../../../lib/domain/services/certification-cpf-service.js';
-import { CpfBirthInformationValidationError } from '../../../../lib/domain/errors.js';
+import { CpfBirthInformationValidationError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | correct-candidate-identity-in-certification-course', function () {
   let certificationCourseRepository;

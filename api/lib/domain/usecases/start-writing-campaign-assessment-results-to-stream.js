@@ -7,7 +7,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 import { CONCURRENCY_HEAVY_OPERATIONS, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../infrastructure/constants.js';
-import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../errors.js';
+import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../src/shared/domain/errors.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 import { CampaignLearningContent } from '../models/CampaignLearningContent.js';
 

@@ -1,5 +1,5 @@
 import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../src/shared/domain/errors.js';
 import { CampaignParticipationResultsShared } from '../../../../lib/domain/events/CampaignParticipationResultsShared.js';
 import { shareCampaignResult } from '../../../../lib/domain/usecases/share-campaign-result.js';
 

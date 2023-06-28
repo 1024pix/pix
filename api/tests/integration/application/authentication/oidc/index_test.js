@@ -6,7 +6,7 @@ import {
   UserNotFoundError,
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
-} from '../../../../../lib/domain/errors.js';
+} from '../../../../../src/shared/domain/errors.js';
 
 describe('Integration | Application | Route | OidcRouter', function () {
   let server;

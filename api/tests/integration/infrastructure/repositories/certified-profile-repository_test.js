@@ -2,7 +2,7 @@ import { expect, databaseBuilder, mockLearningContent, domainBuilder, catchErr }
 import { CertifiedProfile } from '../../../../lib/domain/read-models/CertifiedProfile.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import * as certifiedProfileRepository from '../../../../lib/infrastructure/repositories/certified-profile-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | Certified Profile', function () {
   describe('#get', function () {

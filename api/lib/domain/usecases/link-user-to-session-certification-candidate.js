@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { CertificationCandidate } from '../models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../src/certification/candidate/domain/models/CertificationCandidate.js';
 
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
@@ -8,7 +8,7 @@ import {
   UserAlreadyLinkedToCandidateInSessionError,
   SessionNotAccessible,
   UnexpectedUserAccountError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { UserLinkedToCertificationCandidate } from '../events/UserLinkedToCertificationCandidate.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../events/UserAlreadyLinkedToCertificationCandidate.js';

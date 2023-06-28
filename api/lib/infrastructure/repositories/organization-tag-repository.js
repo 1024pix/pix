@@ -2,7 +2,7 @@ import { BookshelfOrganizationTag } from '../orm-models/OrganizationTag.js';
 import { Bookshelf } from '../bookshelf.js';
 import * as knexUtils from '../utils/knex-utils.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-import { AlreadyExistingEntityError, OrganizationTagNotFound } from '../../domain/errors.js';
+import { AlreadyExistingEntityError, OrganizationTagNotFound } from '../../../src/shared/domain/errors.js';
 import lodash from 'lodash';
 
 const { omit } = lodash;

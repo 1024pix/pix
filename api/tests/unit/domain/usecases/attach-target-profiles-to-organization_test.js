@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { attachTargetProfilesToOrganization } from '../../../../lib/domain/usecases/attach-target-profiles-to-organization.js';
 
 describe('Unit | UseCase | attach-target-profiles-to-organization', function () {

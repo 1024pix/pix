@@ -2,7 +2,7 @@ import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../..
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
 import * as assessmentResultRepository from '../../../../lib/infrastructure/repositories/assessment-result-repository.js';
-import { MissingAssessmentId } from '../../../../lib/domain/errors.js';
+import { MissingAssessmentId } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | AssessmentResult', function () {
   describe('#save', function () {

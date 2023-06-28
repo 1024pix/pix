@@ -1,6 +1,6 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
 import { createOrganizationInvitations } from '../../../../lib/domain/usecases/create-organization-invitations.js';
-import { OrganizationArchivedError } from '../../../../lib/domain/errors.js';
+import { OrganizationArchivedError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | create-organization-invitations', function () {
   let organizationInvitationRepository, organizationRepository, organizationInvitationService;

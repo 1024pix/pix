@@ -1,7 +1,7 @@
-import { ForbiddenAccess } from '../errors.js';
+import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 import * as sessionValidator from '../validators/session-validator.js';
 import * as sessionCodeService from '../services/session-code-service.js';
-import { Session } from '../../../src/certification/session/domain/model/Session.js';
+import { Session } from '../../../src/certification/session/domain/models/Session.js';
 import { CertificationVersion } from '../models/CertificationVersion.js';
 
 const createSession = async function ({

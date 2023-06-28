@@ -9,7 +9,7 @@ import { OrganizationInvitation } from '../../../../lib/domain/models/Organizati
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { createOrUpdateOrganizationInvitation } from '../../../../lib/domain/services/organization-invitation-service.js';
 import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
-import { SendingEmailError } from '../../../../lib/domain/errors.js';
+import { SendingEmailError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Service | Organization-Invitation Service', function () {
   describe('#createOrUpdateOrganizationInvitation', function () {

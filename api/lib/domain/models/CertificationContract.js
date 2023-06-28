@@ -1,4 +1,4 @@
-import { CertificationComputeError } from '../../../lib/domain/errors.js';
+import { CertificationComputeError } from '../../../src/shared/domain/errors.js';
 import _ from 'lodash';
 
 class CertificationContract {

@@ -14,7 +14,7 @@ import {
   NotFoundError,
   InvalidSkillSetError,
   MissingBadgeCriterionError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | UseCases | create-badge', function () {
   let targetProfileId;

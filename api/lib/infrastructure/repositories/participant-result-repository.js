@@ -12,7 +12,7 @@ import * as campaignRepository from './campaign-repository.js';
 import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
 import * as flash from '../../domain/services/algorithm-methods/flash.js';
 import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetcher.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, locale }) {
   const participationResults = await _getParticipationResults(userId, campaignId, locale);

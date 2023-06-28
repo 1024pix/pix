@@ -1,4 +1,4 @@
-import { CertificationCandidateAlreadyLinkedToUserError } from '../../domain/errors.js';
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../../src/shared/domain/errors.js';
 import bluebird from 'bluebird';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 

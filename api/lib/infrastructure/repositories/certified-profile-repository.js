@@ -9,7 +9,7 @@ import {
   CertifiedSkill,
 } from '../../domain/read-models/CertifiedProfile.js';
 
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
 import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
 import { competenceDatasource } from '../datasources/learning-content/competence-datasource.js';

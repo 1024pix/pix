@@ -2,7 +2,7 @@ import {
   CampaignCodeError,
   UserNotAuthorizedToAccessEntityError,
   OrganizationLearnerDisabledError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 const findAssociationBetweenUserAndOrganizationLearner = async function ({
   authenticatedUserId,

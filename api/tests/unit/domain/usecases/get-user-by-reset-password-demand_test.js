@@ -5,7 +5,7 @@ import {
   InvalidTemporaryKeyError,
   PasswordResetDemandNotFoundError,
   UserNotFoundError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { getUserByResetPasswordDemand } from '../../../../lib/domain/usecases/get-user-by-reset-password-demand.js';
 

@@ -1,6 +1,9 @@
 import { Assessment } from '../models/Assessment.js';
 
-import { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntityError } from '../../domain/errors.js';
+import {
+  AlreadySharedCampaignParticipationError,
+  UserNotAuthorizedToAccessEntityError,
+} from '../../../src/shared/domain/errors.js';
 
 const beginCampaignParticipationImprovement = async function ({
   campaignParticipationId,

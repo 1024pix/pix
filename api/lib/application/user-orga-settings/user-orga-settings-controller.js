@@ -1,5 +1,5 @@
 import * as userOrgaSettingsSerializer from '../../infrastructure/serializers/jsonapi/user-orga-settings-serializer.js';
-import { UserNotAuthorizedToCreateResourceError } from '../../domain/errors.js';
+import { UserNotAuthorizedToCreateResourceError } from '../../../src/shared/domain/errors.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 const createOrUpdate = async function (request, h, dependencies = { userOrgaSettingsSerializer }) {

@@ -1,7 +1,7 @@
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { BookshelfCompetenceEvaluation } from '../orm-models/CompetenceEvaluation.js';
 import _ from 'lodash';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const save = async function ({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {

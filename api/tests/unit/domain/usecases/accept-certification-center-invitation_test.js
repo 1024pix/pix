@@ -2,7 +2,7 @@ import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js'
 import { acceptCertificationCenterInvitation } from '../../../../lib/domain/usecases/accept-certification-center-invitation.js';
 import { CertificationCenterInvitedUser } from '../../../../lib/domain/models/CertificationCenterInvitedUser.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
-import { AlreadyExistingMembershipError } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingMembershipError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | accept-certification-center-invitation', function () {
   it('should throw an error if user is already member of the certification center', async function () {

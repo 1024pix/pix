@@ -1,4 +1,4 @@
-import { AssessmentEndedError } from '../errors.js';
+import { AssessmentEndedError } from '../../../src/shared/domain/errors.js';
 import { _ } from '../../infrastructure/utils/lodash-utils.js';
 import { logger } from '../../infrastructure/logger.js';
 

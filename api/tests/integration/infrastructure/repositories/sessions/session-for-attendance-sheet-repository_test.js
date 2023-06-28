@@ -1,5 +1,5 @@
 import { databaseBuilder, expect, catchErr } from '../../../../test-helper.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import * as sessionForAttendanceSheetRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository.js';
 import { SessionForAttendanceSheet } from '../../../../../lib/domain/read-models/SessionForAttendanceSheet.js';
 import { CertificationCandidateForAttendanceSheet } from '../../../../../lib/domain/read-models/CertificationCandidateForAttendanceSheet.js';

@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { ObjectValidationError } from '../../../../lib/domain/errors.js';
+import { ObjectValidationError } from '../../../../src/shared/domain/errors.js';
 import Joi from 'joi';
 import { validateEntity } from '../../../../lib/domain/validators/entity-validator.js';
 

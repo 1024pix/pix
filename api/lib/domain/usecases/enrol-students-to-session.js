@@ -1,6 +1,6 @@
 import { SCOCertificationCandidate } from '../models/SCOCertificationCandidate.js';
 import _ from 'lodash';
-import { ForbiddenAccess, UnknownCountryForStudentEnrolmentError } from '../errors.js';
+import { ForbiddenAccess, UnknownCountryForStudentEnrolmentError } from '../../../src/shared/domain/errors.js';
 const INSEE_PREFIX_CODE = '99';
 
 const enrolStudentsToSession = async function ({

@@ -4,7 +4,7 @@ import {
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { User } from '../../../../lib/domain/models/User.js';
 import { updateUserDetailsForAdministration } from '../../../../lib/domain/usecases/update-user-details-for-administration.js';

@@ -1,5 +1,5 @@
 import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { getAdminMemberDetails } from '../../../../lib/domain/usecases/get-admin-member-details.js';
 
 describe('Unit | UseCase | get-admin-member-details', function () {

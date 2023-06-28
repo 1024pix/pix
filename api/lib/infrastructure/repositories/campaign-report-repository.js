@@ -3,7 +3,7 @@ import { CampaignReport } from '../../domain/read-models/CampaignReport.js';
 import { TargetProfileForSpecifier } from '../../domain/read-models/campaign/TargetProfileForSpecifier.js';
 import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
 import { fetchPage } from '../utils/knex-utils.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import _ from 'lodash';
 import { filterByFullName } from '../utils/filter-utils.js';
 import * as campaignRepository from './campaign-repository.js';

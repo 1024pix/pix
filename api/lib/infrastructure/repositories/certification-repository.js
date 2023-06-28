@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { CertificationCourseNotPublishableError } from '../../../lib/domain/errors.js';
+import { CertificationCourseNotPublishableError } from '../../../src/shared/domain/errors.js';
 import { status } from '../../../lib/domain/models/AssessmentResult.js';
 
 const publishCertificationCoursesBySessionId = async function (sessionId) {

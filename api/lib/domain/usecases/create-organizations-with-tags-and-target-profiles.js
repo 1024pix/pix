@@ -13,7 +13,7 @@ import {
   OrganizationTagNotFound,
   ObjectValidationError,
   TargetProfileInvalidError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 const SEPARATOR = '_';
 

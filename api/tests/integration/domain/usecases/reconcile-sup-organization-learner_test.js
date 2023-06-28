@@ -3,7 +3,7 @@ import * as userReconciliationService from '../../../../lib/domain/services/user
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as supOrganizationLearnerRepository from '../../../../lib/infrastructure/repositories/sup-organization-learner-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
-import { NotFoundError, OrganizationLearnerAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
+import { NotFoundError, OrganizationLearnerAlreadyLinkedToUserError } from '../../../../src/shared/domain/errors.js';
 import { reconcileSupOrganizationLearner } from '../../../../lib/domain/usecases/reconcile-sup-organization-learner.js';
 
 describe('Integration | UseCases | reconcile-sup-organization-learner', function () {

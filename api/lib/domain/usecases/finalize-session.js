@@ -3,7 +3,7 @@ import {
   SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { SessionFinalized } from '../events/SessionFinalized.js';
 import bluebird from 'bluebird';

@@ -1,6 +1,6 @@
 import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper.js';
 import * as accountRecoveryDemandRepository from '../../../../lib/infrastructure/repositories/account-recovery-demand-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { AccountRecoveryDemand } from '../../../../lib/domain/models/AccountRecoveryDemand.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import lodash from 'lodash';

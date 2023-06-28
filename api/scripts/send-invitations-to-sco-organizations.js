@@ -1,6 +1,6 @@
 import bluebird from 'bluebird';
 
-import { NotFoundError } from '../lib/domain/errors.js';
+import { NotFoundError } from '../src/shared/domain/errors.js';
 import { parseCsvWithHeader } from '../scripts/helpers/csvHelpers.js';
 import { disconnect } from '../db/knex-database-connection.js';
 

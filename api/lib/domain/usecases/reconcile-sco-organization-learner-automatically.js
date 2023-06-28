@@ -1,4 +1,4 @@
-import { CampaignCodeError, UserCouldNotBeReconciledError } from '../../domain/errors.js';
+import { CampaignCodeError, UserCouldNotBeReconciledError } from '../../../src/shared/domain/errors.js';
 import _ from 'lodash';
 
 const reconcileScoOrganizationLearnerAutomatically = async function ({

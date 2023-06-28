@@ -4,7 +4,7 @@ import { PrivateCertificate } from '../../domain/models/PrivateCertificate.js';
 import { ShareableCertificate } from '../../domain/models/ShareableCertificate.js';
 import { CertificationAttestation } from '../../domain/models/CertificationAttestation.js';
 import { CertifiedBadge } from '../../../lib/domain/read-models/CertifiedBadge.js';
-import { NotFoundError } from '../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import * as competenceTreeRepository from './competence-tree-repository.js';
 import { ResultCompetenceTree } from '../../domain/models/ResultCompetenceTree.js';
 import { CompetenceMark } from '../../domain/models/CompetenceMark.js';

@@ -1,5 +1,5 @@
 import { TargetProfileForCreation } from '../models/TargetProfileForCreation.js';
-import { TargetProfileCannotBeCreated } from '../errors.js';
+import { TargetProfileCannotBeCreated } from '../../../src/shared/domain/errors.js';
 
 const createTargetProfile = async function ({
   targetProfileCreationCommand,

@@ -1,4 +1,4 @@
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { Skill } from '../../domain/models/Skill.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
 

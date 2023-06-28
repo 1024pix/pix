@@ -1,4 +1,4 @@
-import { ForbiddenAccess } from '../errors.js';
+import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 const getParticipantsDivision = async function ({ userId, campaignId, campaignRepository, divisionRepository }) {
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {

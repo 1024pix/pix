@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Joi from 'joi';
 
-import { InvalidCertificationReportForFinalization } from '../errors.js';
+import { InvalidCertificationReportForFinalization } from '../../../src/shared/domain/errors.js';
 
 const NO_EXAMINER_COMMENT = null;
 

@@ -9,7 +9,7 @@ import {
   OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
-} from '../../errors.js';
+} from '../../../../src/shared/domain/errors.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
 import { config } from '../../../config.js';

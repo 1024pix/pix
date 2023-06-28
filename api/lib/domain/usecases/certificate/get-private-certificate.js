@@ -1,4 +1,4 @@
-import { NotFoundError } from '../../errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 const getPrivateCertificate = async function ({ certificationId, userId, locale, certificateRepository }) {
   const privateCertificate = await certificateRepository.getPrivateCertificate(certificationId, { locale });

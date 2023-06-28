@@ -1,7 +1,7 @@
 import { expect, catchErr } from '../../../test-helper.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import * as service from '../../../../lib/domain/services/solution-service-qrocm-ind.js';
-import { YamlParsingError } from '../../../../lib/domain/errors.js';
+import { YamlParsingError } from '../../../../src/shared/domain/errors.js';
 
 const ANSWER_OK = AnswerStatus.OK;
 const ANSWER_KO = AnswerStatus.KO;

@@ -1,5 +1,5 @@
 import { expect, catchErrSync } from '../../../test-helper.js';
-import { LocaleFormatError, LocaleNotSupportedError } from '../../../../lib/domain/errors.js';
+import { LocaleFormatError, LocaleNotSupportedError } from '../../../../src/shared/domain/errors.js';
 import { getCanonicalLocale } from '../../../../lib/domain/services/locale-service.js';
 
 describe('#getCanonicalLocale', function () {

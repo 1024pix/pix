@@ -2,7 +2,7 @@ import { AssessmentResult } from '../models/AssessmentResult.js';
 import { CertificationScoringCompleted } from './CertificationScoringCompleted.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
 import bluebird from 'bluebird';
-import { CertificationComputeError } from '../errors.js';
+import { CertificationComputeError } from '../../../src/shared/domain/errors.js';
 import { AssessmentCompleted } from './AssessmentCompleted.js';
 import { checkEventTypes } from './check-event-types.js';
 

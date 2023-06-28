@@ -1,4 +1,4 @@
-import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../src/shared/domain/errors.js';
 import { CampaignLearningContent } from '../models/CampaignLearningContent.js';
 
 const computeCampaignAnalysis = async function ({

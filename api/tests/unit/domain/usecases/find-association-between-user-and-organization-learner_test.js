@@ -6,7 +6,7 @@ import {
   CampaignCodeError,
   UserNotAuthorizedToAccessEntityError,
   OrganizationLearnerDisabledError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | find-association-between-user-and-organization-learner', function () {
   let organizationLearnerReceivedStub;

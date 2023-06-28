@@ -10,7 +10,7 @@ import {
   OrganizationLearnerNotFound,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';

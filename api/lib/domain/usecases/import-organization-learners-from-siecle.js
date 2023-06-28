@@ -1,4 +1,4 @@
-import { FileValidationError, SiecleXmlImportError } from '../errors.js';
+import { FileValidationError, SiecleXmlImportError } from '../../../src/shared/domain/errors.js';
 import * as fs from 'fs/promises';
 
 const { isEmpty, chunk } = lodash;

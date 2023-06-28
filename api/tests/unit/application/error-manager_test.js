@@ -41,7 +41,7 @@ import {
   LocaleFormatError,
   LocaleNotSupportedError,
   CertificationCandidateNotFoundError,
-} from '../../../lib/domain/errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { HttpErrors } from '../../../lib/application/http-errors.js';
 import { handle } from '../../../lib/application/error-manager.js';

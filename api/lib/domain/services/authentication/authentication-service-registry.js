@@ -1,4 +1,4 @@
-import { InvalidIdentityProviderError } from '../../errors.js';
+import { InvalidIdentityProviderError } from '../../../../src/shared/domain/errors.js';
 import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authentication-service.js';
 import { CnavOidcAuthenticationService } from './cnav-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';

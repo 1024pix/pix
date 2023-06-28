@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, catchErr, mockLearningContent } from '../../../test-helper.js';
-import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../../../src/shared/domain/errors.js';
 import { getCampaign } from '../../../../lib/domain/usecases/get-campaign.js';
 import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';

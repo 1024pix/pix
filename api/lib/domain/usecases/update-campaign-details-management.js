@@ -1,4 +1,4 @@
-import { EntityValidationError } from '../errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 
 const updateCampaignDetailsManagement = async function ({
   campaignId,

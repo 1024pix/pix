@@ -8,7 +8,7 @@ import {
   UserAlreadyLinkedToCandidateInSessionError,
   SessionNotAccessible,
   UnexpectedUserAccountError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';

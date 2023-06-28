@@ -6,7 +6,7 @@ import { ScoOrganizationParticipant } from '../../../../lib/domain/read-models/S
 import { SupOrganizationParticipant } from '../../../../lib/domain/read-models/SupOrganizationParticipant.js';
 import { getCertificationAttestationsPdf as certificationAttestationPdf } from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
-import { NoCertificationAttestationForDivisionError } from '../../../../lib/domain/errors.js';
+import { NoCertificationAttestationForDivisionError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Application | Organizations | organization-controller', function () {
   let sandbox;

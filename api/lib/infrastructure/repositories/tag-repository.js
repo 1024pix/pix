@@ -1,5 +1,5 @@
 import * as knexUtils from '../utils/knex-utils.js';
-import { AlreadyExistingEntityError, NotFoundError } from '../../domain/errors.js';
+import { AlreadyExistingEntityError, NotFoundError } from '../../../src/shared/domain/errors.js';
 import lodash from 'lodash';
 
 const { omit } = lodash;

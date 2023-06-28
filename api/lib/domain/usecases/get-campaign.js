@@ -1,4 +1,4 @@
-import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../domain/errors.js';
+import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../../src/shared/domain/errors.js';
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 
 const getCampaign = async function ({

@@ -1,7 +1,7 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
 import { flagSessionResultsAsSentToPrescriber } from '../../../../lib/domain/usecases/flag-session-results-as-sent-to-prescriber.js';
-import { Session } from '../../../../src/certification/session/domain/model/Session.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { Session } from '../../../../src/certification/session/domain/models/Session.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', function () {
   let sessionId;

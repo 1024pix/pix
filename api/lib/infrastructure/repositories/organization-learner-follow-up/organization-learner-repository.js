@@ -1,5 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { OrganizationLearner } from '../../../domain/read-models/organization-learner-follow-up/OrganizationLearner.js';
 import { CampaignTypes } from '../../../domain/models/CampaignTypes.js';
 import { CampaignParticipationStatuses } from '../../../domain/models/CampaignParticipationStatuses.js';

@@ -5,7 +5,7 @@ import {
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserNotFoundError,
   UserHasAlreadyLeftSCO,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import lodash from 'lodash';
 

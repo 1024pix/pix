@@ -7,7 +7,7 @@ import {
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
   UserShouldNotBeReconciledOnAnotherAccountError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | reconcile-sco-organization-learner-manually', function () {
   let campaignCode;

@@ -1,6 +1,6 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
 import { deleteOrganizationPlaceLot } from '../../../../lib/domain/usecases/delete-organization-place-lot.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | delete-organization-place-lot', function () {
   it('should delete the organization place lot', async function () {

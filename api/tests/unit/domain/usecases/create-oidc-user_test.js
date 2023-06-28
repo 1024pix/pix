@@ -2,7 +2,7 @@ import { expect, sinon, catchErr } from '../../../test-helper.js';
 import {
   AuthenticationKeyExpired,
   UserAlreadyExistsWithAuthenticationMethodError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 import { createOidcUser } from '../../../../lib/domain/usecases/create-oidc-user.js';
 
 describe('Unit | UseCase | create-oidc-user', function () {

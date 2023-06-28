@@ -1,7 +1,7 @@
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-import { EntityValidationError } from '../errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import * as categories from '../constants/organization-places-categories.js';
 
 const schema = Joi.object({

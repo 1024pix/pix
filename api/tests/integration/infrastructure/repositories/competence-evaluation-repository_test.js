@@ -2,7 +2,7 @@ import { expect, knex, databaseBuilder, catchErr } from '../../../test-helper.js
 import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import * as competenceEvaluationRepository from '../../../../lib/infrastructure/repositories/competence-evaluation-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import _ from 'lodash';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 

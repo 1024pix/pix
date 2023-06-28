@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, catchErr, knex } from '../../../test-helper.js';
 import * as certificationRepository from '../../../../lib/infrastructure/repositories/certification-repository.js';
-import { CertificationCourseNotPublishableError } from '../../../../lib/domain/errors.js';
+import { CertificationCourseNotPublishableError } from '../../../../src/shared/domain/errors.js';
 import { status } from '../../../../lib/domain/models/AssessmentResult.js';
 
 describe('Integration | Repository | Certification', function () {

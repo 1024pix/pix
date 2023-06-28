@@ -3,7 +3,7 @@ import { expect, mockLearningContent, domainBuilder, catchErr } from '../../../t
 import { Challenge } from '../../../../lib/domain/models/Challenge.js';
 import { Validator } from '../../../../lib/domain/models/Validator.js';
 import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | challenge-repository', function () {
   describe('#get', function () {

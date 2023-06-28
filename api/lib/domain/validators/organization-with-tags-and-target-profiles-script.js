@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { EntityValidationError } from '../errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { Organization } from '../models/Organization.js';
 import { Membership } from '../models/Membership.js';
 import { getValidOidcProviderCodes } from '../constants/oidc-identity-providers.js';

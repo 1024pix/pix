@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { NotFoundError } from '../../../domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { knex } from '../../bookshelf.js';
 import { BookshelfFinalizedSession } from '../../orm-models/FinalizedSession.js';
 

@@ -1,6 +1,6 @@
 import { CampaignProfile } from '../../../lib/domain/read-models/CampaignProfile.js';
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
-import { NotFoundError } from '../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import * as competenceRepository from './competence-repository.js';
 import * as areaRepository from './area-repository.js';

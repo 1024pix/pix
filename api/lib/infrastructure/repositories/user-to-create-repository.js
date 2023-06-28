@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import { OrganizationLearnerAlreadyLinkedToUserError } from '../../domain/errors.js';
+import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../src/shared/domain/errors.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../../domain/constants.js';
 import { User } from '../../domain/models/User.js';
 import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../db/pgsql-errors.js';

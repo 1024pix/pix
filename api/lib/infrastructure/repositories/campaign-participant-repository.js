@@ -4,7 +4,7 @@ const { pick } = lodash;
 
 import { CampaignParticipant } from '../../domain/models/CampaignParticipant.js';
 import { CampaignToStartParticipation } from '../../domain/models/CampaignToStartParticipation.js';
-import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../domain/errors.js';
+import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../../src/shared/domain/errors.js';
 import * as campaignRepository from '../repositories/campaign-repository.js';
 import { knex } from '../../../db/knex-database-connection.js';
 

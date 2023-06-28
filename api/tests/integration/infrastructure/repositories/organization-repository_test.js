@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { catchErr, expect, knex, domainBuilder, databaseBuilder } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { Organization } from '../../../../lib/domain/models/index.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';

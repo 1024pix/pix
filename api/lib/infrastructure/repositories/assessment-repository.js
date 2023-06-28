@@ -6,7 +6,7 @@ import lodash from 'lodash';
 
 const { groupBy, map, head, uniqBy, omit } = lodash;
 
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 
 const getWithAnswers = async function (id) {

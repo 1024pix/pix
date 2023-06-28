@@ -3,7 +3,7 @@ import {
   ChallengeNotAskedError,
   CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { Examiner } from '../models/Examiner.js';
 import { KnowledgeElement } from '../models/KnowledgeElement.js';

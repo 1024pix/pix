@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { Organization } from '../../domain/models/Organization.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { knex } from '../../../db/knex-database-connection.js';

@@ -1,4 +1,4 @@
-import { CertificationCandidateForbiddenDeletionError } from '../errors.js';
+import { CertificationCandidateForbiddenDeletionError } from '../../../src/shared/domain/errors.js';
 
 const deleteUnlinkedCertificationCandidate = async function ({
   certificationCandidateId,

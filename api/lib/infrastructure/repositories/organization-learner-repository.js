@@ -6,7 +6,7 @@ import {
   OrganizationLearnersCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
-} from '../../domain/errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';

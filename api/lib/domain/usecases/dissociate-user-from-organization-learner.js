@@ -1,4 +1,4 @@
-import { OrganizationLearnerCannotBeDissociatedError } from '../errors.js';
+import { OrganizationLearnerCannotBeDissociatedError } from '../../../src/shared/domain/errors.js';
 
 const dissociateUserFromOrganizationLearner = async function ({
   organizationLearnerId,

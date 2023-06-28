@@ -4,7 +4,7 @@ import * as certificationCandidateRepository from '../../../../src/certification
 import {
   NotFoundError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
 import _ from 'lodash';
 

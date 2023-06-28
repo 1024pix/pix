@@ -1,4 +1,4 @@
-import { UserCantBeCreatedError } from '../errors.js';
+import { UserCantBeCreatedError } from '../../../src/shared/domain/errors.js';
 import { UserToCreate } from '../models/UserToCreate.js';
 
 const authenticateAnonymousUser = async function ({

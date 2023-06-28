@@ -3,7 +3,7 @@ import { areaDatasource } from '../datasources/learning-content/area-datasource.
 import * as competenceRepository from './competence-repository.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import _ from 'lodash';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 function _toDomain({ areaData, locale }) {
   const translatedTitle = getTranslatedKey(areaData.title_i18n, locale);

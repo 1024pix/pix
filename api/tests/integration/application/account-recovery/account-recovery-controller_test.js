@@ -1,5 +1,5 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { NotFoundError, UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError, UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as moduleUnderTest from '../../../../lib/application/account-recovery/index.js';
 

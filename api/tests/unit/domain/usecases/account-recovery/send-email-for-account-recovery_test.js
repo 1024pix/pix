@@ -1,6 +1,6 @@
 import { sinon, expect, catchErr } from '../../../../test-helper.js';
 import { sendEmailForAccountRecovery } from '../../../../../lib/domain/usecases/account-recovery/send-email-for-account-recovery.js';
-import { AlreadyRegisteredEmailError } from '../../../../../lib/domain/errors.js';
+import { AlreadyRegisteredEmailError } from '../../../../../src/shared/domain/errors.js';
 import { AccountRecoveryDemand } from '../../../../../lib/domain/models/AccountRecoveryDemand.js';
 
 describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-account-recovery', function () {

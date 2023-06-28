@@ -7,7 +7,7 @@ import { CampaignParticipation } from '../../../../lib/domain/models/CampaignPar
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 

@@ -5,7 +5,7 @@ import {
   NotFoundError,
   AlreadyExistingInvitationError,
   CancelledInvitationError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-organization-invitation', function () {
   let organizationInvitationRepository;

@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import { AssessmentEndedError } from '../../../../src/shared/domain/errors.js';
 import { getNextChallengeForDemo } from '../../../../lib/domain/usecases/get-next-challenge-for-demo.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', function () {

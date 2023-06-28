@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { getCampaignAssessmentParticipationResult } from '../../../../lib/domain/usecases/get-campaign-assessment-participation-result.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-campaign-assessment-participation-result', function () {
   let campaignRepository, campaignAssessmentParticipationResultRepository;

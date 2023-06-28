@@ -5,7 +5,7 @@ const { ROLES } = PIX_ADMIN;
 
 import * as adminMemberRepository from '../../../../lib/infrastructure/repositories/admin-member-repository.js';
 import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
-import { AdminMemberError } from '../../../../lib/domain/errors.js';
+import { AdminMemberError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
   describe('#findAll', function () {

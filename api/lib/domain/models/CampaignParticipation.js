@@ -6,7 +6,7 @@ import {
   AlreadySharedCampaignParticipationError,
   CantImproveCampaignParticipationError,
   CampaignParticipationDeletedError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { CampaignParticipationStatuses } from './CampaignParticipationStatuses.js';
 

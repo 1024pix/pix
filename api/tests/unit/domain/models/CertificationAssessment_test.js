@@ -9,7 +9,7 @@ import {
   ObjectValidationError,
   ChallengeToBeNeutralizedNotFoundError,
   ChallengeToBeDeneutralizedNotFoundError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Models | CertificationAssessment', function () {
   describe('constructor', function () {

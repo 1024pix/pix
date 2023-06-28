@@ -1,4 +1,4 @@
-import { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } from '../../../src/shared/domain/errors.js';
 import * as algorithmDataFetcherService from '../services/algorithm-methods/data-fetcher.js';
 
 const getNextChallengeForCompetenceEvaluation = async function ({

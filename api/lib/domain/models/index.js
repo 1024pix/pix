@@ -34,7 +34,7 @@ import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerSta
 import { CertificationAssessment } from './CertificationAssessment.js';
 import { CertificationAssessmentScore } from './CertificationAssessmentScore.js';
 import { CertificationAttestation } from './CertificationAttestation.js';
-import { CertificationCandidate } from './CertificationCandidate.js';
+import { CertificationCandidate } from '../../../src/certification/candidate/domain/models/CertificationCandidate.js';
 import { CertificationCandidateForSupervising } from './CertificationCandidateForSupervising.js';
 import { CertificationCenter } from './CertificationCenter.js';
 import { CertificationCenterForAdmin } from './CertificationCenterForAdmin.js';
@@ -111,7 +111,7 @@ import { ScoringSimulation } from './ScoringSimulation.js';
 import { ScoringSimulationContext } from './ScoringSimulationContext.js';
 import { ScoringSimulationDataset } from './ScoringSimulationDataset.js';
 import { ScoringSimulationResult } from './ScoringSimulationResult.js';
-import { Session } from '../../../src/certification/session/domain/model/Session.js';
+import { Session } from '../../../src/certification/session/domain/models/Session.js';
 import { SessionJuryComment } from './SessionJuryComment.js';
 import { SessionPublicationBatchResult } from './SessionPublicationBatchResult.js';
 import { ShareableCertificate } from './ShareableCertificate.js';

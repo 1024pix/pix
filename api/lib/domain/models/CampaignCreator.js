@@ -1,6 +1,6 @@
 import { CampaignForCreation } from './CampaignForCreation.js';
 import { CampaignTypes } from './CampaignTypes.js';
-import { UserNotAuthorizedToCreateCampaignError } from '../errors.js';
+import { UserNotAuthorizedToCreateCampaignError } from '../../../src/shared/domain/errors.js';
 
 class CampaignCreator {
   constructor(availableTargetProfileIds) {

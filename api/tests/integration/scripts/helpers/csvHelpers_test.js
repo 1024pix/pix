@@ -1,5 +1,5 @@
 import { expect, catchErr } from '../../../test-helper.js';
-import { FileValidationError, NotFoundError } from '../../../../lib/domain/errors.js';
+import { FileValidationError, NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { checkCsvHeader } from '../../../../scripts/helpers/csvHelpers.js';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

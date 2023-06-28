@@ -3,7 +3,7 @@ import { expect, databaseBuilder, catchErr, knex, domainBuilder } from '../../..
 import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { NotFoundError, ObjectValidationError, InvalidSkillSetError } from '../../../../lib/domain/errors.js';
+import { NotFoundError, ObjectValidationError, InvalidSkillSetError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {

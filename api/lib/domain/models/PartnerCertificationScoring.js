@@ -2,7 +2,7 @@ import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
 import { validateEntity } from '../validators/entity-validator.js';
-import { NotImplementedError } from '../errors.js';
+import { NotImplementedError } from '../../../src/shared/domain/errors.js';
 
 const SOURCES = {
   PIX: 'PIX',

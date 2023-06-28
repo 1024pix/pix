@@ -1,4 +1,4 @@
-import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../src/shared/domain/errors.js';
 
 const findCompetenceEvaluationsByAssessment = async function ({
   userId,

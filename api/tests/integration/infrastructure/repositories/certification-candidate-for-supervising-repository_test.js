@@ -1,6 +1,6 @@
 import { catchErr, databaseBuilder, expect, knex, domainBuilder } from '../../../test-helper.js';
 import * as certificationCandidateForSupervisingRepository from '../../../../lib/infrastructure/repositories/certification-candidate-for-supervising-repository.js';
-import { CertificationCandidateNotFoundError } from '../../../../lib/domain/errors.js';
+import { CertificationCandidateNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 describe('Integration | Repository | certification candidate for supervising', function () {

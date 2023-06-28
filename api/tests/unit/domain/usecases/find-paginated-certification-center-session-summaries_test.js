@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
+import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 import { findPaginatedCertificationCenterSessionSummaries } from '../../../../lib/domain/usecases/find-paginated-certification-center-session-summaries.js';
 
 describe('Unit | Domain | Use Cases | find-paginated-certification-center-session-summaries', function () {

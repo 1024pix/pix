@@ -1,7 +1,7 @@
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { BookshelfUserOrgaSettings } from '../orm-models/UserOrgaSettings.js';
 import * as knexUtils from '../utils/knex-utils.js';
-import { UserOrgaSettingsCreationError } from '../../domain/errors.js';
+import { UserOrgaSettingsCreationError } from '../../../src/shared/domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { UserOrgaSettings } from '../../domain/models/UserOrgaSettings.js';
 

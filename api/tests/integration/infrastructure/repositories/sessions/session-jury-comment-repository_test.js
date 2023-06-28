@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, domainBuilder, catchErr } from '../../../../test-helper.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import * as sessionJuryCommentRepository from '../../../../../lib/infrastructure/repositories/sessions/session-jury-comment-repository.js';
 
 describe('Integration | Infrastructure | Repository | session-jury-comment-repository', function () {

@@ -2,7 +2,7 @@ import { databaseBuilder, expect, domainBuilder, catchErr } from '../../../test-
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
 import * as certificationPointOfContactRepository from '../../../../lib/infrastructure/repositories/certification-point-of-contact-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | CertificationPointOfContact', function () {
   describe('#get', function () {

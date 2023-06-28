@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { TrainingTriggerForAdmin } from '../../domain/read-models/TrainingTriggerForAdmin.js';
 import { TrainingTriggerTube } from '../../domain/models/TrainingTriggerTube.js';

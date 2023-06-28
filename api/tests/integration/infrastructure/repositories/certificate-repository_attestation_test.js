@@ -7,7 +7,7 @@ import {
   mockLearningContent,
 } from '../../../test-helper.js';
 
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as certificationRepository from '../../../../lib/infrastructure/repositories/certificate-repository.js';
 import { status } from '../../../../lib/domain/models/AssessmentResult.js';
 

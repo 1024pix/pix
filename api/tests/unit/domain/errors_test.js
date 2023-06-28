@@ -1,5 +1,5 @@
 import { expect } from '../../test-helper.js';
-import * as errors from '../../../lib/domain/errors.js';
+import * as errors from '../../../src/shared/domain/errors.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../lib/domain/constants/certification-candidates-errors.js';
 
 describe('Unit | Domain | Errors', function () {

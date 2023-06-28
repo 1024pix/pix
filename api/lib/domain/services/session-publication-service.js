@@ -2,7 +2,7 @@ import {
   SendingEmailToResultRecipientError,
   SessionAlreadyPublishedError,
   SendingEmailToRefererError,
-} from '../../domain/errors.js';
+} from '../../../src/shared/domain/errors.js';
 import * as mailService from '../../domain/services/mail-service.js';
 import lodash from 'lodash';
 

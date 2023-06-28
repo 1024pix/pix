@@ -4,7 +4,7 @@ const { omit } = lodash;
 
 import { expect, databaseBuilder, catchErr, sinon, knex } from '../../../test-helper.js';
 import * as certificationCenterInvitedUserRepository from '../../../../lib/infrastructure/repositories/certification-center-invited-user-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { CertificationCenterInvitedUser } from '../../../../lib/domain/models/CertificationCenterInvitedUser.js';
 

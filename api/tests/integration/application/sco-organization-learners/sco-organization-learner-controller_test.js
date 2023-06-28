@@ -7,7 +7,7 @@ import {
   NotFoundError,
   UserNotAuthorizedToUpdatePasswordError,
   UserNotAuthorizedToGenerateUsernamePasswordError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Application | sco-organization-learners | sco-organization-learner-controller', function () {
   let sandbox;

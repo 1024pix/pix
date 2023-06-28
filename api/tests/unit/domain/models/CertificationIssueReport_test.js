@@ -9,7 +9,7 @@ import {
   InvalidCertificationIssueReportForSaving,
   DeprecatedCertificationIssueReportSubcategoryError,
   DeprecatedCertificationIssueReportCategoryError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';

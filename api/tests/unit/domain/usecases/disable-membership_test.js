@@ -1,6 +1,6 @@
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 import { disableMembership } from '../../../../lib/domain/usecases/disable-membership.js';
-import { MembershipUpdateError } from '../../../../lib/domain/errors.js';
+import { MembershipUpdateError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | disable-membership', function () {
   let membershipRepository;

@@ -3,7 +3,7 @@ import { BookshelfTargetProfile } from '../orm-models/TargetProfile.js';
 import * as targetProfileAdapter from '../adapters/target-profile-adapter.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError, ObjectValidationError, InvalidSkillSetError } from '../../domain/errors.js';
+import { NotFoundError, ObjectValidationError, InvalidSkillSetError } from '../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { TargetProfile } from '../../domain/models/TargetProfile.js';
 

@@ -1,6 +1,6 @@
 import { expect, catchErr, databaseBuilder } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../src/shared/domain/errors.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;

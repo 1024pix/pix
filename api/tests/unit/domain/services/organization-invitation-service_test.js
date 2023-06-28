@@ -11,7 +11,7 @@ import {
 import {
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
 
 describe('Unit | Service | Organization-Invitation Service', function () {

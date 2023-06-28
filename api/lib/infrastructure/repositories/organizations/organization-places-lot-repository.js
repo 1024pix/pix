@@ -1,6 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { OrganizationPlacesLotManagement } from '../../../domain/read-models/OrganizationPlacesLotManagement.js';
-import { NotFoundError, DeletedError } from '../../../domain/errors.js';
+import { NotFoundError, DeletedError } from '../../../../src/shared/domain/errors.js';
 
 const findByOrganizationId = async function (organizationId) {
   const results = await knex('organization-places')

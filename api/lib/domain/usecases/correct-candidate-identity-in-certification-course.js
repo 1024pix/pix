@@ -1,4 +1,4 @@
-import { CpfBirthInformationValidationError } from '../errors.js';
+import { CpfBirthInformationValidationError } from '../../../src/shared/domain/errors.js';
 
 const correctCandidateIdentityInCertificationCourse = async function ({
   command: {

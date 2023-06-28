@@ -29,7 +29,7 @@ import {
 } from './certification-centers-builder.js';
 
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../src/certification/candidate/domain/models/CertificationCandidate.js';
 const { BILLING_MODES } = CertificationCandidate;
 
 const A_LOT_OF_CANDIDATES_COUNT = 150;

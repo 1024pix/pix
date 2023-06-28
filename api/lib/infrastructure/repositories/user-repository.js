@@ -11,7 +11,7 @@ import {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
-} from '../../domain/errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { User } from '../../domain/models/User.js';
 import { UserDetailsForAdmin } from '../../domain/models/UserDetailsForAdmin.js';

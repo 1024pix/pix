@@ -1,6 +1,6 @@
 import bluebird from 'bluebird';
 
-import { OrganizationArchivedError } from '../errors.js';
+import { OrganizationArchivedError } from '../../../src/shared/domain/errors.js';
 
 const createOrganizationInvitations = async function ({
   organizationId,

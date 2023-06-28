@@ -4,6 +4,10 @@ ls:
 
   .dir: kebab-case
 
+  src:
+    models:
+      .js: camelCase
+
   lib:
     application:
       preHandlers:

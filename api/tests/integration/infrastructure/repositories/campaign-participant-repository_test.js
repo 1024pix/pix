@@ -5,7 +5,7 @@ import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParti
 import { CampaignToStartParticipation } from '../../../../lib/domain/models/CampaignToStartParticipation.js';
 import lodash from 'lodash';
 const { pick } = lodash;
-import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 const campaignParticipationDBAttributes = [
   'id',

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { NoOrganizationToAttach } from '../errors.js';
+import { NoOrganizationToAttach } from '../../../src/shared/domain/errors.js';
 
 class OrganizationsToAttachToTargetProfile {
   constructor({ id }) {

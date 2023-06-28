@@ -4,7 +4,7 @@ import { deleteUnassociatedBadge } from '../../../../lib/domain/usecases/delete-
 import {
   AcquiredBadgeForbiddenDeletionError,
   CertificationBadgeForbiddenDeletionError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | delete-unassociated-badge', function () {
   let badgeId;

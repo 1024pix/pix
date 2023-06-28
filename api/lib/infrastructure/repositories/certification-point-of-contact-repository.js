@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { CertificationPointOfContact } from '../../domain/read-models/CertificationPointOfContact.js';
 import { AllowedCertificationCenterAccess } from '../../domain/read-models/AllowedCertificationCenterAccess.js';
 

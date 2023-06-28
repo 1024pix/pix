@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { InvalidStageError } from '../../errors.js';
+import { InvalidStageError } from '../../../../src/shared/domain/errors.js';
 
 const DEFAULT_VALUE_FIRST_SKILL = -1;
 

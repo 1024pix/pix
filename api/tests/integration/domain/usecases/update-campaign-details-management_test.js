@@ -4,7 +4,7 @@ import * as campaignManagementRepository from '../../../../lib/infrastructure/re
 import * as campaignValidator from '../../../../lib/domain/validators/campaign-validator.js';
 import { updateCampaignDetailsManagement } from '../../../../lib/domain/usecases/update-campaign-details-management.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { getScoCertificationResultsByDivision } from '../../../../lib/domain/usecases/get-sco-certification-results-by-division.js';
-import { NoCertificationResultForDivision } from '../../../../lib/domain/errors.js';
+import { NoCertificationResultForDivision } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-sco-certification-results-by-division', function () {
   const scoCertificationCandidateRepository = { findIdsByOrganizationIdAndDivision: null };

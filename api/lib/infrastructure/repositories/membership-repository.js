@@ -1,5 +1,5 @@
 import { BookshelfMembership } from '../orm-models/Membership.js';
-import { MembershipCreationError, MembershipUpdateError, NotFoundError } from '../../domain/errors.js';
+import { MembershipCreationError, MembershipUpdateError, NotFoundError } from '../../../src/shared/domain/errors.js';
 import { Membership } from '../../domain/models/Membership.js';
 import { User } from '../../domain/models/User.js';
 import { Organization } from '../../domain/models/Organization.js';

@@ -1,4 +1,4 @@
-import { NotFoundError } from '../errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 const getAdminMemberDetails = async function ({ adminMemberRepository, userId }) {
   const adminMemberDetail = await adminMemberRepository.get({ userId });

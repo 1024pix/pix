@@ -8,7 +8,7 @@ import {
   MissingOrInvalidCredentialsError,
   ForbiddenAccess,
   UserShouldChangePasswordError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import * as appMessages from '../../../../lib/domain/constants.js';
 

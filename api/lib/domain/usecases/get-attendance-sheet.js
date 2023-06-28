@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
-import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../src/shared/domain/errors.js';
 
 import {
   EXTRA_EMPTY_CANDIDATE_ROWS,

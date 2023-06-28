@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../src/shared/domain/errors.js';
 import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';

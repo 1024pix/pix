@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { StudentForEnrolment } from '../../../../lib/domain/read-models/StudentForEnrolment.js';
 import { findStudentsForEnrolment } from '../../../../lib/domain/usecases/find-students-for-enrolment.js';
 

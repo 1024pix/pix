@@ -7,7 +7,7 @@ import lodash from 'lodash';
 const { omit } = lodash;
 
 import * as knexUtils from '../utils/knex-utils.js';
-import { AlreadyExistingEntityError } from '../../domain/errors.js';
+import { AlreadyExistingEntityError } from '../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const TABLE_NAME = 'badges';

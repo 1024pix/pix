@@ -1,4 +1,4 @@
-import { PasswordNotMatching } from '../../errors.js';
+import { PasswordNotMatching } from '../../../../src/shared/domain/errors.js';
 import * as encryptionService from '../encryption-service.js';
 import * as userLoginRepository from '../../../infrastructure/repositories/user-login-repository.js';
 

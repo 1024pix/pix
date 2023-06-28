@@ -10,7 +10,7 @@ import {
   AlreadySharedCampaignParticipationError,
   CantImproveCampaignParticipationError,
   CampaignParticipationDeletedError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 const { TO_SHARE, SHARED } = CampaignParticipationStatuses;
 

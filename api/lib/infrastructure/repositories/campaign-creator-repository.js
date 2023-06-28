@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { CampaignCreator } from '../../../lib/domain/models/CampaignCreator.js';
-import { UserNotAuthorizedToCreateCampaignError } from '../../domain/errors.js';
+import { UserNotAuthorizedToCreateCampaignError } from '../../../src/shared/domain/errors.js';
 
 async function get({ userId, organizationId, ownerId }) {
   await _checkUserIsAMemberOfOrganization({ organizationId, userId });

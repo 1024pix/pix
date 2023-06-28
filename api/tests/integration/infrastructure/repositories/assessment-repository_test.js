@@ -1,7 +1,7 @@
 import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper.js';
 import _ from 'lodash';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
 import { Answer } from '../../../../lib/domain/models/Answer.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';

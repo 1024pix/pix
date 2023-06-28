@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { expect, databaseBuilder, catchErr, mockLearningContent } from '../../../test-helper.js';
 import * as campaignReportRepository from '../../../../lib/infrastructure/repositories/campaign-report-repository.js';
 import { CampaignReport } from '../../../../lib/domain/read-models/CampaignReport.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;

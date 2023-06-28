@@ -9,7 +9,7 @@ import { User } from '../../../../lib/domain/models/User.js';
 import {
   CertificationCenterMembershipDisableError,
   AlreadyExistingMembershipError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 

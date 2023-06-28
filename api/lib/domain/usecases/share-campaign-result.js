@@ -1,4 +1,4 @@
-import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../src/shared/domain/errors.js';
 import { CampaignParticipationResultsShared } from '../events/CampaignParticipationResultsShared.js';
 
 const shareCampaignResult = async function ({

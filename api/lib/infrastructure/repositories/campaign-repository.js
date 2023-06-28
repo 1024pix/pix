@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 import * as skillRepository from './skill-repository.js';

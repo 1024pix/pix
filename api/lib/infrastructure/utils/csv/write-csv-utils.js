@@ -1,6 +1,6 @@
 import { parseAsync } from 'json2csv';
 
-import { CsvParsingError } from '../../../../lib/domain/errors.js';
+import { CsvParsingError } from '../../../../src/shared/domain/errors.js';
 
 async function getCsvContent({ data, delimiter = ';', eol = '\n', fileHeaders, withBOM = true }) {
   try {

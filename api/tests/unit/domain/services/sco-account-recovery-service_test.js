@@ -10,7 +10,7 @@ import {
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserNotFoundError,
   UserHasAlreadyLeftSCO,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { config } from '../../../../lib/config.js';
 import dayjs from 'dayjs';

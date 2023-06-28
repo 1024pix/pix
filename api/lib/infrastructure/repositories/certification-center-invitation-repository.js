@@ -1,6 +1,6 @@
 import { CertificationCenterInvitation } from '../../domain/models/CertificationCenterInvitation.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 const CERTIFICATION_CENTER_INVITATIONS = 'certification-center-invitations';
 

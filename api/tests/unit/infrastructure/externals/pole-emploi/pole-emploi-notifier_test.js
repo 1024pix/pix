@@ -2,7 +2,7 @@ import querystring from 'querystring';
 import dayjs from 'dayjs';
 import { expect, sinon, catchErr } from '../../../../test-helper.js';
 import { config as settings } from '../../../../../lib/config.js';
-import { UnexpectedUserAccountError } from '../../../../../lib/domain/errors.js';
+import { UnexpectedUserAccountError } from '../../../../../src/shared/domain/errors.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { notify } from '../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';

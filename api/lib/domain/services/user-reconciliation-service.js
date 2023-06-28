@@ -10,7 +10,7 @@ import {
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } from './string-comparison-service.js';
 import { normalizeAndRemoveAccents, removeSpecialCharacters } from './validation-treatments.js';

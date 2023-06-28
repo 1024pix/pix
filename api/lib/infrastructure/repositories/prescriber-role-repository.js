@@ -1,4 +1,4 @@
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { prescriberRoles } from '../../application/preHandlers/models/CampaignAuthorization.js';
 

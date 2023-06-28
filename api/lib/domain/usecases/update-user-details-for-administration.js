@@ -6,7 +6,7 @@ import {
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 const updateUserDetailsForAdministration = async function ({ userId, userDetailsForAdministration, userRepository }) {
   const { email, username } = userDetailsForAdministration;

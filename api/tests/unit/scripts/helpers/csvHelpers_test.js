@@ -1,5 +1,5 @@
 import { expect, catchErr } from '../../../test-helper.js';
-import { NotFoundError, FileValidationError } from '../../../../lib/domain/errors.js';
+import { NotFoundError, FileValidationError } from '../../../../src/shared/domain/errors.js';
 
 import {
   parseCsv,

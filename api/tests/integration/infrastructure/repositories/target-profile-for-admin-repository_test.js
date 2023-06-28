@@ -1,5 +1,5 @@
 import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { TargetProfileForAdmin } from '../../../../lib/domain/models/TargetProfileForAdmin.js';
 

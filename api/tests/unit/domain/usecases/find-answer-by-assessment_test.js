@@ -1,6 +1,6 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
 import { findAnswerByAssessment } from '../../../../lib/domain/usecases/find-answer-by-assessment.js';
-import { UserNotAuthorizedToAccessEntityError, EntityValidationError } from '../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToAccessEntityError, EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function () {
   const assessmentId = 123;

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { OrganizationLearnersCouldNotBeSavedError } from '../../domain/errors.js';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../../src/shared/domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { BookshelfOrganizationLearner } from '../orm-models/OrganizationLearner.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';

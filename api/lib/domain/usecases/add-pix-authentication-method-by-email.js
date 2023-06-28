@@ -1,4 +1,4 @@
-import { AuthenticationMethodAlreadyExistsError } from '../errors.js';
+import { AuthenticationMethodAlreadyExistsError } from '../../../src/shared/domain/errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 

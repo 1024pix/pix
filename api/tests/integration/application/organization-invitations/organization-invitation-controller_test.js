@@ -11,7 +11,7 @@ import {
   OrganizationNotFoundError,
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Application | Organization-invitations | organization-invitation-controller', function () {
   let sandbox;

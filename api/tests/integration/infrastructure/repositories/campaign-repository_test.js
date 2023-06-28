@@ -11,7 +11,7 @@ import {
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import { Campaign } from '../../../../lib/domain/models/Campaign.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | Campaign', function () {

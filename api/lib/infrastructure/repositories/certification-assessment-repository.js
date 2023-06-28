@@ -6,7 +6,7 @@ import { Answer } from '../../domain/models/Answer.js';
 import * as challengeRepository from './challenge-repository.js';
 import * as answerStatusDatabaseAdapter from '../adapters/answer-status-database-adapter.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 async function _getCertificationChallenges(certificationCourseId, knexConn) {
   const allChallenges = await challengeRepository.findOperative();

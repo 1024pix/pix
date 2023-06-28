@@ -5,7 +5,7 @@ import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js'
 import { SkillSet } from '../../../../lib/domain/models/SkillSet.js';
 import lodash from 'lodash';
 const { omit } = lodash;
-import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingEntityError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | Badge', function () {
   let targetProfileWithSkillSets;

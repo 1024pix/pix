@@ -2,7 +2,7 @@ import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js'
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
 const { handleCertificationScoring } = _forTestOnly.handlers;
 import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
-import { CertificationComputeError } from '../../../../lib/domain/errors.js';
+import { CertificationComputeError } from '../../../../src/shared/domain/errors.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
 import { CertificationScoringCompleted } from '../../../../lib/domain/events/CertificationScoringCompleted.js';

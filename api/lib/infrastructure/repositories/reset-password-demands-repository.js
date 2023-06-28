@@ -1,5 +1,5 @@
 import { ResetPasswordDemand } from '../orm-models/ResetPasswordDemand.js';
-import { PasswordResetDemandNotFoundError } from '../../../lib/domain/errors.js';
+import { PasswordResetDemandNotFoundError } from '../../../src/shared/domain/errors.js';
 
 const create = function (demand) {
   return new ResetPasswordDemand(demand).save();

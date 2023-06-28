@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { isEmpty } = lodash;
 
-import { NoCertificationResultForDivision } from '../errors.js';
+import { NoCertificationResultForDivision } from '../../../src/shared/domain/errors.js';
 
 const getScoCertificationResultsByDivision = async function ({
   organizationId,

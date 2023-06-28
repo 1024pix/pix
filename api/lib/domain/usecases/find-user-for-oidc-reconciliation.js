@@ -1,4 +1,4 @@
-import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../errors.js';
+import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../src/shared/domain/errors.js';
 
 const findUserForOidcReconciliation = async function ({
   authenticationKey,

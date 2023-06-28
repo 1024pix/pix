@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { CertificationCandidateNotFoundError } from '../../domain/errors.js';
+import { CertificationCandidateNotFoundError } from '../../../src/shared/domain/errors.js';
 import { CertificationCandidateForSupervising } from '../../domain/models/CertificationCandidateForSupervising.js';
 
 const get = async function (certificationCandidateId) {

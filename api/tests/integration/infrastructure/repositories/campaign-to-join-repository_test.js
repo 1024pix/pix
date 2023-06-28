@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import * as campaignToJoinRepository from '../../../../lib/infrastructure/repositories/campaign-to-join-repository.js';
 import { CampaignToJoin } from '../../../../lib/domain/read-models/CampaignToJoin.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 

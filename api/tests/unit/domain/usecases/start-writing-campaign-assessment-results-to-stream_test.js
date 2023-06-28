@@ -4,7 +4,7 @@ const { PassThrough } = stream;
 
 import { expect, sinon, domainBuilder, streamToPromise, catchErr } from '../../../test-helper.js';
 import { startWritingCampaignAssessmentResultsToStream } from '../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream.js';
-import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../src/shared/domain/errors.js';
 import * as campaignCsvExportService from '../../../../lib/domain/services/campaign-csv-export-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 import { StageCollection } from '../../../../lib/domain/models/user-campaign-results/StageCollection.js';

@@ -1,5 +1,5 @@
 import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper.js';
-import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { ForbiddenAccess, UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { updateExpiredPassword } from '../../../../lib/domain/usecases/update-expired-password.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';

@@ -1,5 +1,5 @@
 import { expect, knex, domainBuilder, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { AlreadyExistingEntityError, NotFoundError } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingEntityError, NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import * as tagRepository from '../../../../lib/infrastructure/repositories/tag-repository.js';
 

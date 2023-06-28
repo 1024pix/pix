@@ -7,7 +7,7 @@ import { CertificationJuryDone } from '../../../../lib/domain/events/Certificati
 import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
 import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
 import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
-import { CertificationComputeError } from '../../../../lib/domain/errors.js';
+import { CertificationComputeError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Events | handle-certification-rescoring', function () {
   it('computes and persists the assessment result and competence marks when computation succeeds', async function () {

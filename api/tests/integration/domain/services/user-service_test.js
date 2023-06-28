@@ -9,7 +9,7 @@ import * as userRepository from '../../../../lib/infrastructure/repositories/use
 import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
-import { OrganizationLearnerNotFound } from '../../../../lib/domain/errors.js';
+import { OrganizationLearnerNotFound } from '../../../../src/shared/domain/errors.js';
 
 import * as userService from '../../../../lib/domain/services/user-service.js';
 

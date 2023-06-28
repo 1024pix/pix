@@ -1,10 +1,10 @@
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-import { statuses } from '../../../src/certification/session/domain/model/Session.js';
+import { statuses } from '../../../src/certification/session/domain/models/Session.js';
 import { types } from '../models/CertificationCenter.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../constants/sessions-errors.js';
-import { EntityValidationError } from '../errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };

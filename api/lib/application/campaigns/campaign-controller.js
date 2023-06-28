@@ -18,7 +18,7 @@ import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import { escapeFileName, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
-import { ForbiddenAccess } from '../../domain/errors.js';
+import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 const save = async function (request, h, dependencies = { campaignReportSerializer }) {
   const { userId: creatorId } = request.auth.credentials;

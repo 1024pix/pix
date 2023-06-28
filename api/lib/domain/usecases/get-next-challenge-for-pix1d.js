@@ -1,4 +1,4 @@
-import { NotFoundError } from '../errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 export async function getNextChallengeForPix1d({
   assessmentId,

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
-import { NoSkillsInCampaignError, NotFoundError } from '../../domain/errors.js';
+import { NoSkillsInCampaignError, NotFoundError } from '../../../src/shared/domain/errors.js';
 import * as tubeRepository from './tube-repository.js';
 import * as thematicRepository from './thematic-repository.js';
 import * as campaignRepository from './campaign-repository.js';

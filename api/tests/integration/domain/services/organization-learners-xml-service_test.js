@@ -1,6 +1,6 @@
 import * as url from 'url';
 import { expect, catchErr } from '../../../test-helper.js';
-import { SiecleXmlImportError } from '../../../../lib/domain/errors.js';
+import { SiecleXmlImportError } from '../../../../src/shared/domain/errors.js';
 import * as organizationLearnersXmlService from '../../../../lib/domain/services/organization-learners-xml-service.js';
 
 const fixturesDirPath = `${url.fileURLToPath(new URL('../../../', import.meta.url))}tooling/fixtures/`;

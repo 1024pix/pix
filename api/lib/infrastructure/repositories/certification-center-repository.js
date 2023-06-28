@@ -3,7 +3,7 @@ import { BookshelfCertificationCenter } from '../orm-models/CertificationCenter.
 import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 function _toDomain(bookshelfCertificationCenter) {
   const dbCertificationCenter = bookshelfCertificationCenter.toJSON();

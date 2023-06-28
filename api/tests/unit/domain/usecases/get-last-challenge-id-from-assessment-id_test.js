@@ -1,6 +1,6 @@
 import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { getLastChallengeIdFromAssessmentId } from '../../../../lib/domain/usecases/get-last-challenge-id-from-assessment-id.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-last-challenge-id-from-assessment-id', function () {
   let assessment;

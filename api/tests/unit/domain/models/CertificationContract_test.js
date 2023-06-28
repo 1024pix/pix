@@ -1,5 +1,5 @@
 import { expect, domainBuilder, catchErr } from '../../../test-helper.js';
-import { CertificationComputeError } from '../../../../lib/domain/errors.js';
+import { CertificationComputeError } from '../../../../src/shared/domain/errors.js';
 import { CertificationContract } from '../../../../lib/domain/models/CertificationContract.js';
 import _ from 'lodash';
 

@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationCenterInvitedUser } from '../../domain/models/CertificationCenterInvitedUser.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 const get = async function ({ certificationCenterInvitationId, email }) {
   const invitation = await knex('certification-center-invitations')

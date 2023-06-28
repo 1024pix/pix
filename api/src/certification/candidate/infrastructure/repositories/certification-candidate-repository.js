@@ -9,10 +9,10 @@ import {
   NotFoundError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
-} from '../../../../../lib/domain/errors.js';
+} from '../../../../shared/domain/errors.js';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../domain/models/CertificationCandidate.js';
 import { ComplementaryCertification } from '../../../../../lib/domain/models/ComplementaryCertification.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 

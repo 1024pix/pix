@@ -9,7 +9,7 @@ import {
 } from '../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-placeholders.js';
 
 import _ from 'lodash';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
   describe('getAttendanceSheet', function () {

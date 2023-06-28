@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, domainBuilder, catchErr, knex, mockLearningContent } from '../../../test-helper.js';
 
 import * as trainingRepository from '../../../../lib/infrastructure/repositories/training-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { TrainingSummary } from '../../../../lib/domain/read-models/TrainingSummary.js';
 import { Training } from '../../../../lib/domain/models/Training.js';
 import { UserRecommendedTraining } from '../../../../lib/domain/read-models/UserRecommendedTraining.js';

@@ -7,7 +7,7 @@ import { CampaignParticipation } from '../../domain/models/CampaignParticipation
 import { Assessment } from '../../domain/models/Assessment.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 

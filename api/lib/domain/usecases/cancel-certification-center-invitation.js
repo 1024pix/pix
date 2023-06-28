@@ -1,4 +1,4 @@
-import { UncancellableCertificationCenterInvitationError } from '../../domain/errors.js';
+import { UncancellableCertificationCenterInvitationError } from '../../../src/shared/domain/errors.js';
 
 const cancelCertificationCenterInvitation = async function ({
   certificationCenterInvitationId,

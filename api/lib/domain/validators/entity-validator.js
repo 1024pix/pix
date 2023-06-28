@@ -1,4 +1,4 @@
-import { ObjectValidationError } from '../errors.js';
+import { ObjectValidationError } from '../../../src/shared/domain/errors.js';
 
 const validateEntity = function (schema, entity) {
   const { error } = schema.validate(entity);

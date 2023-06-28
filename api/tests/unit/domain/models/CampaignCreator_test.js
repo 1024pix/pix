@@ -2,7 +2,7 @@ import { CampaignCreator } from '../../../../lib/domain/models/CampaignCreator.j
 import { expect, catchErr } from '../../../test-helper.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { CampaignForCreation } from '../../../../lib/domain/models/CampaignForCreation.js';
-import { UserNotAuthorizedToCreateCampaignError, EntityValidationError } from '../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToCreateCampaignError, EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Models | CampaignCreator', function () {
   describe('#createCampaign', function () {

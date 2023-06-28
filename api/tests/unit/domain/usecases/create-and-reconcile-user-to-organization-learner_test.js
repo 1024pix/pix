@@ -7,7 +7,7 @@ import {
   EntityValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
   NotFoundError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 

@@ -4,7 +4,7 @@ import bluebird from 'bluebird';
 import { Bookshelf } from '../bookshelf.js';
 import { CertificationReport } from '../../domain/models/CertificationReport.js';
 import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';
-import { CertificationCourseUpdateError } from '../../domain/errors.js';
+import { CertificationCourseUpdateError } from '../../../src/shared/domain/errors.js';
 import { toDomain } from './certification-course-repository.js';
 
 const findBySessionId = async function (sessionId) {

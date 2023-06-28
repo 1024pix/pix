@@ -1,4 +1,4 @@
-import { SessionStartedDeletionError } from '../errors.js';
+import { SessionStartedDeletionError } from '../../../src/shared/domain/errors.js';
 
 const deleteSession = async function ({ sessionId, sessionRepository, certificationCourseRepository }) {
   if (await _isSessionStarted(certificationCourseRepository, sessionId)) {

@@ -6,7 +6,7 @@ import {
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | Service | user-reconciliation-service', function () {
   let organizationLearners;

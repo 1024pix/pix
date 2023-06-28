@@ -1,7 +1,7 @@
 import { Training } from '../../domain/models/Training.js';
 import { TrainingSummary } from '../../domain/read-models/TrainingSummary.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { UserRecommendedTraining } from '../../domain/read-models/UserRecommendedTraining.js';
 import { fetchPage } from '../utils/knex-utils.js';

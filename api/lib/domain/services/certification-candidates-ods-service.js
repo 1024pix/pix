@@ -1,13 +1,13 @@
 import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
-import { CertificationCandidate } from '../models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../src/certification/candidate/domain/models/CertificationCandidate.js';
 import {
   CLEA,
   PIX_PLUS_DROIT,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
 } from '../models/ComplementaryCertification.js';
-import { CertificationCandidatesImportError } from '../errors.js';
+import { CertificationCandidatesImportError } from '../../../src/shared/domain/errors.js';
 import _ from 'lodash';
 import bluebird from 'bluebird';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';

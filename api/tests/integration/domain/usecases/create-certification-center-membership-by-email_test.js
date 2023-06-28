@@ -1,5 +1,5 @@
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
-import { UserNotFoundError, AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
+import { UserNotFoundError, AlreadyExistingEntityError } from '../../../../src/shared/domain/errors.js';
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 
 import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';

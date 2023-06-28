@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { isEmpty } = lodash;
 
-import { UserNotAuthorizedToGenerateUsernamePasswordError } from '../errors.js';
+import { UserNotAuthorizedToGenerateUsernamePasswordError } from '../../../src/shared/domain/errors.js';
 
 const generateUsernameWithTemporaryPassword = async function ({
   organizationLearnerId,

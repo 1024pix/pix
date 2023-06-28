@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
 import { BookshelfKnowledgeElementSnapshot } from '../orm-models/KnowledgeElementSnapshot.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
-import { AlreadyExistingEntityError } from '../../domain/errors.js';
+import { AlreadyExistingEntityError } from '../../../src/shared/domain/errors.js';
 import * as knexUtils from '../utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 

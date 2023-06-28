@@ -1,6 +1,6 @@
 import { BookshelfOrganizationInvitation } from '../orm-models/OrganizationInvitation.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import _ from 'lodash';

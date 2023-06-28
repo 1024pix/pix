@@ -1,5 +1,5 @@
 import { expect, catchErr, databaseBuilder } from '../../../test-helper.js';
-import { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError } from '../../../../lib/domain/errors.js';
+import { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError } from '../../../../src/shared/domain/errors.js';
 
 import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';

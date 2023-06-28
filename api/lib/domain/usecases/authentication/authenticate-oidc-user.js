@@ -1,4 +1,4 @@
-import { UnexpectedOidcStateError } from '../../errors.js';
+import { UnexpectedOidcStateError } from '../../../../src/shared/domain/errors.js';
 import { logger } from '../../../infrastructure/logger.js';
 
 const authenticateOidcUser = async function ({

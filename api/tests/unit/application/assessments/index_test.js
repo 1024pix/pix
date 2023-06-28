@@ -4,7 +4,7 @@ import { assessmentAuthorization } from '../../../../lib/application/preHandlers
 import { assessmentController } from '../../../../lib/application/assessments/assessment-controller.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import * as moduleUnderTest from '../../../../lib/application/assessments/index.js';
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import { AssessmentEndedError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | Application | Router | assessment-router', function () {
   describe('POST /api/assessments', function () {

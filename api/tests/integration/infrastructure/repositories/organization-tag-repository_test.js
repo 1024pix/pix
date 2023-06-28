@@ -1,6 +1,6 @@
 import { expect, knex, domainBuilder, databaseBuilder, catchErr } from '../../../test-helper.js';
 import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
-import { AlreadyExistingEntityError, OrganizationTagNotFound } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingEntityError, OrganizationTagNotFound } from '../../../../src/shared/domain/errors.js';
 import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
 import lodash from 'lodash';
 const { omit } = lodash;

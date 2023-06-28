@@ -3,7 +3,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import {
   UserNotAuthorizedToAccessEntityError,
   CampaignParticipationDeletedError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { LOCALE } from '../../../../lib/domain/constants.js';
 

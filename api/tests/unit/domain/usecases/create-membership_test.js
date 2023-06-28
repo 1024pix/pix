@@ -1,7 +1,7 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
 import { createMembership } from '../../../../lib/domain/usecases/create-membership.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { OrganizationArchivedError } from '../../../../lib/domain/errors.js';
+import { OrganizationArchivedError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | create-membership', function () {
   it('should insert a new membership with role ADMIN', async function () {

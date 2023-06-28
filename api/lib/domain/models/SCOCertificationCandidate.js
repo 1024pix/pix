@@ -1,7 +1,7 @@
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-import { InvalidCertificationCandidate } from '../errors.js';
+import { InvalidCertificationCandidate } from '../../../src/shared/domain/errors.js';
 
 const scoCertificationCandidateValidationJoiSchema = Joi.object({
   firstName: Joi.string().required().empty(null),

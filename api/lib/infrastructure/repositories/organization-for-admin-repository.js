@@ -1,4 +1,4 @@
-import { NotFoundError, MissingAttributesError } from '../../domain/errors.js';
+import { NotFoundError, MissingAttributesError } from '../../../src/shared/domain/errors.js';
 import { OrganizationForAdmin } from '../../domain/models/organizations-administration/Organization.js';
 import { Tag } from '../../domain/models/Tag.js';
 import { knex } from '../../../db/knex-database-connection.js';

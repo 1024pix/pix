@@ -2,7 +2,7 @@ import { expect, sinon, catchErr } from '../../../test-helper.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import _ from 'lodash';
 
 describe('Unit | UseCase | start-or-resume-competence-evaluation', function () {

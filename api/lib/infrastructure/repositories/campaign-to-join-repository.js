@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { CampaignToJoin } from '../../domain/read-models/CampaignToJoin.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const get = async function (id, domainTransaction = DomainTransaction.emptyTransaction()) {

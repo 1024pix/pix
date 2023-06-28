@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { isEmpty } = lodash;
 
-import { UserNotAuthorizedToUpdatePasswordError } from '../errors.js';
+import { UserNotAuthorizedToUpdatePasswordError } from '../../../src/shared/domain/errors.js';
 
 const updateOrganizationLearnerDependentUserPassword = async function ({
   organizationId,

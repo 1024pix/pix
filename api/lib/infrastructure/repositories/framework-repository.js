@@ -1,6 +1,6 @@
 import { Framework } from '../../domain/models/Framework.js';
 import { frameworkDatasource } from '../datasources/learning-content/framework-datasource.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import _ from 'lodash';
 
 async function list() {

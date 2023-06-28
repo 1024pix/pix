@@ -1,6 +1,6 @@
 import { AssessmentCompleted } from '../events/AssessmentCompleted.js';
 import { CampaignParticipationStatuses } from '../models/CampaignParticipationStatuses.js';
-import { AlreadyRatedAssessmentError } from '../errors.js';
+import { AlreadyRatedAssessmentError } from '../../../src/shared/domain/errors.js';
 
 const completeAssessment = async function ({
   assessmentId,

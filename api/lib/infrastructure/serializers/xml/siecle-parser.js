@@ -1,4 +1,4 @@
-import { SiecleXmlImportError } from '../../../domain/errors.js';
+import { SiecleXmlImportError } from '../../../../src/shared/domain/errors.js';
 import xml2js from 'xml2js';
 import saxPath from 'saxpath';
 import lodash from 'lodash';

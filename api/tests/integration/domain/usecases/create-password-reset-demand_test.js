@@ -5,7 +5,7 @@ import * as resetPasswordService from '../../../../lib/domain/services/reset-pas
 import * as resetPasswordDemandRepository from '../../../../lib/infrastructure/repositories/reset-password-demands-repository.js';
 import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
 
-import { UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { UserNotFoundError } from '../../../../src/shared/domain/errors.js';
 import { createPasswordResetDemand } from '../../../../lib/domain/usecases/create-password-reset-demand.js';
 
 describe('Integration | UseCases | create-password-reset-demand', function () {

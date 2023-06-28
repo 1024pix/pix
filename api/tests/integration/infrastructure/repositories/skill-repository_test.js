@@ -1,7 +1,7 @@
 import { expect, mockLearningContent, domainBuilder, catchErr } from '../../../test-helper.js';
 import { Skill } from '../../../../lib/domain/models/Skill.js';
 import * as skillRepository from '../../../../lib/infrastructure/repositories/skill-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | skill-repository', function () {
   describe('#list', function () {

@@ -1,5 +1,5 @@
 import { expect, catchErr } from '../../../test-helper.js';
-import { FileValidationError } from '../../../../lib/domain/errors.js';
+import { FileValidationError } from '../../../../src/shared/domain/errors.js';
 import { parseCsvWithHeader, checkCsvHeader } from '../../../../lib/infrastructure/helpers/csv.js';
 import lodash from 'lodash';
 

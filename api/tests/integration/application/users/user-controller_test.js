@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../src/shared/domain/errors.js';
 import { AssessmentResult } from '../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
 import * as moduleUnderTest from '../../../../lib/application/users/index.js';
 

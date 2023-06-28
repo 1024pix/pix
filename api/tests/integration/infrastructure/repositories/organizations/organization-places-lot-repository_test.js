@@ -4,7 +4,7 @@ import * as organizationPlacesLotRepository from '../../../../../lib/infrastruct
 import { OrganizationPlacesLotManagement } from '../../../../../lib/domain/read-models/OrganizationPlacesLotManagement.js';
 import { OrganizationPlacesLot } from '../../../../../lib/domain/models/OrganizationPlacesLot.js';
 import * as categories from '../../../../../lib/domain/constants/organization-places-categories.js';
-import { NotFoundError, DeletedError } from '../../../../../lib/domain/errors.js';
+import { NotFoundError, DeletedError } from '../../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | Organization Place', function () {
   describe('#findByOrganizationId', function () {

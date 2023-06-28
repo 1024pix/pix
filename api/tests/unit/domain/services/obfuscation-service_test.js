@@ -2,7 +2,7 @@ import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js'
 import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | Service | user-authentication-method-obfuscation-service', function () {
   let authenticationMethodRepository;

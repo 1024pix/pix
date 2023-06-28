@@ -1,4 +1,4 @@
-import { ObjectValidationError } from '../errors.js';
+import { ObjectValidationError } from '../../../src/shared/domain/errors.js';
 import { Answer } from './Answer.js';
 
 const courseIdMessage = {

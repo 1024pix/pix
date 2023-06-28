@@ -1,4 +1,4 @@
-import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../domain/errors.js';
+import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../../src/shared/domain/errors.js';
 
 const getOrganizationInvitation = async function ({
   organizationInvitationId,

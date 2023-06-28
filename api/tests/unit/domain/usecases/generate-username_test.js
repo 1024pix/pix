@@ -6,7 +6,7 @@ import {
   CampaignCodeError,
   OrganizationLearnerNotFound,
   OrganizationLearnerAlreadyLinkedToUserError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 const { generateUsername } = usecases;
 

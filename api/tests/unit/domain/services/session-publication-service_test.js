@@ -6,7 +6,7 @@ import {
   SendingEmailToResultRecipientError,
   SessionAlreadyPublishedError,
   SendingEmailToRefererError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';

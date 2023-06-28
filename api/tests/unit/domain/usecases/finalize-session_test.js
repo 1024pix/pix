@@ -7,7 +7,7 @@ import {
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
   InvalidCertificationReportForFinalization,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
 

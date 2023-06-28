@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const { isObject, values } = _;
-import { FileValidationError, SiecleXmlImportError } from '../../../domain/errors.js';
+import { FileValidationError, SiecleXmlImportError } from '../../../../src/shared/domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../monitoring-tools.js';
 import fs from 'fs';
 

@@ -1,6 +1,6 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
 import { reconcileOidcUser } from '../../../../lib/domain/usecases/reconcile-oidc-user.js';
-import { AuthenticationKeyExpired, MissingUserAccountError } from '../../../../lib/domain/errors.js';
+import { AuthenticationKeyExpired, MissingUserAccountError } from '../../../../src/shared/domain/errors.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 
 describe('Unit | UseCase | reconcile-oidc-user', function () {

@@ -6,7 +6,7 @@ import lodash from 'lodash';
 const { difference, isEmpty } = lodash;
 import papa from 'papaparse';
 
-import { NotFoundError, FileValidationError } from '../../domain/errors.js';
+import { NotFoundError, FileValidationError } from '../../../src/shared/domain/errors.js';
 
 const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',

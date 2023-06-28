@@ -11,7 +11,7 @@ import {
   OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
-} from '../../../../../lib/domain/errors.js';
+} from '../../../../../src/shared/domain/errors.js';
 
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';

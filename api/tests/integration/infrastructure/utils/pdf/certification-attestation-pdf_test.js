@@ -2,7 +2,7 @@ import { domainBuilder, expect, nock, catchErr, sinon } from '../../../../test-h
 import dayjs from 'dayjs';
 import { isSameBinary } from '../../../../tooling/binary-comparator.js';
 import { getCertificationAttestationsPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
-import { CertificationAttestationGenerationError } from '../../../../../lib/domain/errors.js';
+import { CertificationAttestationGenerationError } from '../../../../../src/shared/domain/errors.js';
 import fs from 'fs';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import { writeFile } from 'fs/promises';

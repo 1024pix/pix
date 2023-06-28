@@ -1,4 +1,4 @@
-import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../src/shared/domain/errors.js';
 import { Scorecard } from '../models/Scorecard.js';
 import { KnowledgeElement } from '../models/KnowledgeElement.js';
 import _ from 'lodash';

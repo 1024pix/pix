@@ -2,7 +2,7 @@ import { expect, databaseBuilder, knex, sinon, catchErr } from '../../../test-he
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
-import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../lib/domain/errors.js';
+import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../src/shared/domain/errors.js';
 import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
 
 describe('Integration | UseCase | create-or-update-certification-center-invitation-for-admin', function () {

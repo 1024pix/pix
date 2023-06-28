@@ -9,7 +9,7 @@ import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   UnexpectedUserAccountError,
-} from '../errors.js';
+} from '../../../src/shared/domain/errors.js';
 
 import { config } from '../../config.js';
 import bluebird from 'bluebird';

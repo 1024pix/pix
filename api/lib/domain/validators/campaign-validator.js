@@ -3,7 +3,7 @@ import lodash from 'lodash';
 
 const { first } = lodash;
 
-import { EntityValidationError } from '../errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { CampaignTypes } from '../models/CampaignTypes.js';
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };

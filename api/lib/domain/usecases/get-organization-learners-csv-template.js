@@ -1,5 +1,5 @@
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
-import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../src/shared/domain/errors.js';
 import { SupOrganizationLearnerImportHeader } from '../../infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 
 const getOrganizationLearnersCsvTemplate = async function ({ userId, organizationId, i18n, membershipRepository }) {

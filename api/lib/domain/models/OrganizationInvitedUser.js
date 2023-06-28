@@ -2,7 +2,7 @@ import {
   AlreadyExistingMembershipError,
   NotFoundError,
   AlreadyAcceptedOrCancelledInvitationError,
-} from '../../domain/errors.js';
+} from '../../../src/shared/domain/errors.js';
 import { roles } from './Membership.js';
 import { OrganizationInvitation } from './OrganizationInvitation.js';
 

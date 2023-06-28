@@ -5,7 +5,7 @@ import {
   EntityValidationError,
   ForbiddenAccess,
   AlreadyExistingCampaignParticipationError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Models | CampaignParticipant', function () {
   describe('#start', function () {

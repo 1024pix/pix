@@ -1,4 +1,4 @@
-import { NotFoundError, NoCampaignParticipationForUserAndCampaign } from '../errors.js';
+import { NotFoundError, NoCampaignParticipationForUserAndCampaign } from '../../../src/shared/domain/errors.js';
 
 const getUserCampaignAssessmentResult = async function ({
   userId,

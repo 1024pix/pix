@@ -3,7 +3,7 @@ import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 
-import { ObjectValidationError } from '../../../../lib/domain/errors.js';
+import { ObjectValidationError } from '../../../../src/shared/domain/errors.js';
 import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
 
 describe('Unit | Domain | Models | AdminMember', function () {

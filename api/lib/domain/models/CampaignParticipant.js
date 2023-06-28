@@ -1,4 +1,8 @@
-import { EntityValidationError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } from '../errors.js';
+import {
+  EntityValidationError,
+  ForbiddenAccess,
+  AlreadyExistingCampaignParticipationError,
+} from '../../../src/shared/domain/errors.js';
 
 import { CampaignParticipation } from './CampaignParticipation.js';
 import { Assessment } from './Assessment.js';
