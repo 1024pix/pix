@@ -163,6 +163,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           isAcquired: true,
           isValid: true,
           isCertifiable: false,
+          isAlwaysVisible: true,
         });
         const unacquiredDisplayedBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a green badge',
