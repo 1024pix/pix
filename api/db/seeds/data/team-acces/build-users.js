@@ -7,7 +7,7 @@ function _buildUserWithCnavAuthenticationMethod(databaseBuilder) {
   });
 
   databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-    identityProvider: OidcIdentityProviders.CNAV.service.code,
+    identityProvider: OidcIdentityProviders.CNAV.code,
     userId: user.id,
   });
 }
@@ -19,7 +19,7 @@ function _buildUserWithFwbAuthenticationMethod(databaseBuilder) {
   });
 
   databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-    identityProvider: OidcIdentityProviders.FWB.service.code,
+    identityProvider: OidcIdentityProviders.FWB.code,
     userId: user.id,
   });
 }
@@ -31,7 +31,7 @@ function _buildUserWithPoleEmploiAuthenticationMethod(databaseBuilder) {
   });
 
   databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-    identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
+    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
     userId: user.id,
   });
 }
