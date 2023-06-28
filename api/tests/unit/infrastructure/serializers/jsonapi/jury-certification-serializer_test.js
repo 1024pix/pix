@@ -38,6 +38,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
         commentForOrganization: 'comment',
         commentForJury: 'ça va',
         competenceMarks,
+        version: 2,
         certificationIssueReports,
         commonComplementaryCertificationCourseResult:
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
@@ -101,6 +102,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             'comment-for-candidate': 'coucou',
             'comment-for-jury': 'ça va',
             'comment-for-organization': 'comment',
+            version: 2,
           },
           relationships: {
             'certification-issue-reports': {
