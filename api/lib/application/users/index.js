@@ -9,6 +9,18 @@ import { config } from '../../config.js';
 import { EntityValidationError } from '../../domain/errors.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
+import { IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
+
+const reassignAuthenticationMethodJoiSchema = Joi.object({
+  data: {
+    attributes: {
+      'user-id': identifiersType.userId,
+      'identity-provider': Joi.string()
+        .valid(IDENTITY_PROVIDERS.GAR.code, OidcIdentityProviders.POLE_EMPLOI.code, OidcIdentityProviders.CNAV.code)
+        .required(),
+    },
+  },
+});
 
 const { passwordValidationPattern } = config.account;
 
@@ -310,14 +322,10 @@ const register = async function (server) {
             userId: identifiersType.userId,
             authenticationMethodId: identifiersType.authenticationMethodId,
           }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'user-id': identifiersType.userId,
-                'identity-provider': Joi.string().valid('GAR', OidcIdentityProviders.POLE_EMPLOI.code).required(),
-              },
-            },
-          }),
+          payload: reassignAuthenticationMethodJoiSchema,
+          options: {
+            abortEarly: false,
+          },
         },
         pre: [
           {
@@ -355,7 +363,7 @@ const register = async function (server) {
               attributes: {
                 type: Joi.string()
                   .valid(
-                    'GAR',
+                    IDENTITY_PROVIDERS.GAR.code,
                     'EMAIL',
                     'USERNAME',
                     OidcIdentityProviders.POLE_EMPLOI.code,
