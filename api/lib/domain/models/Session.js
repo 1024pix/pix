@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { config } from '../../config.js';
+import { CertificationVersion } from './CertificationVersion.js';
 
 const CREATED = 'created';
 const FINALIZED = 'finalized';
@@ -40,7 +41,7 @@ class Session {
     certificationCenterId,
     assignedCertificationOfficerId,
     supervisorPassword = Session.generateSupervisorPassword(),
-    version,
+    version = CertificationVersion.V2,
   } = {}) {
     this.id = id;
     this.accessCode = accessCode;
