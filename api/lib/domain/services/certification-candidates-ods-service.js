@@ -6,7 +6,7 @@ import {
   PIX_PLUS_DROIT,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} from '../models/ComplementaryCertification.js';
+} from '../../../src/certification/shared/domain/models/ComplementaryCertification.js';
 import { CertificationCandidatesImportError } from '../../../src/shared/domain/errors.js';
 import _ from 'lodash';
 import bluebird from 'bluebird';

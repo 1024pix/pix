@@ -3,7 +3,7 @@ import {
   CLEA,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} from '../../../domain/models/ComplementaryCertification.js';
+} from '../../../../src/certification/shared/domain/models/ComplementaryCertification.js';
 
 const IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS = [
   'headers.birthcity',

@@ -13,7 +13,7 @@ import {
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CertificationCandidate } from '../../domain/models/CertificationCandidate.js';
-import { ComplementaryCertification } from '../../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../shared/domain/models/ComplementaryCertification.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 
 const linkToUser = async function ({ id, userId }) {

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { BookshelfCertificationCenter } from '../orm-models/CertificationCenter.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
-import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../src/certification/shared/domain/models/ComplementaryCertification.js';
 import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 function _toDomain(bookshelfCertificationCenter) {

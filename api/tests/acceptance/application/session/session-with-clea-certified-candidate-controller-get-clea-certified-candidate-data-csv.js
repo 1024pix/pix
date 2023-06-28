@@ -1,6 +1,6 @@
 import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { CLEA } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import { CLEA } from '../../../../src/certification/shared/domain/models/ComplementaryCertification.js';
 
 describe('Acceptance | Controller | session-with-clea-certified-candidate', function () {
   describe('GET /api/sessions/{id}/certified-clea-candidate-data', function () {

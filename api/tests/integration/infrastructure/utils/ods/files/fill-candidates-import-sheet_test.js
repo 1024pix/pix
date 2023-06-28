@@ -14,7 +14,7 @@ import {
   CLEA,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} from '../../../../../../lib/domain/models/ComplementaryCertification.js';
+} from '../../../../../../src/certification/shared/domain/models/ComplementaryCertification.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 import * as url from 'url';

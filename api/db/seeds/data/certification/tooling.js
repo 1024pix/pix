@@ -6,7 +6,7 @@ import * as challengeRepository from '../../../../lib/infrastructure/repositorie
 import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { knex } from '../../../../db/knex-database-connection.js';
-import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../../src/certification/shared/domain/models/ComplementaryCertification.js';
 
 let allChallenges = [];
 let allPixCompetences = [];

@@ -6,7 +6,10 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { CLEA, PIX_PLUS_EDU_1ER_DEGRE } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import {
+  CLEA,
+  PIX_PLUS_EDU_1ER_DEGRE,
+} from '../../../../src/certification/shared/domain/models/ComplementaryCertification.js';
 
 describe('Acceptance | API | complementary-certification-controller', function () {
   let server;

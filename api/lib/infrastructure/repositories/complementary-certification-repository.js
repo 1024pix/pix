@@ -1,4 +1,4 @@
-import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../src/certification/shared/domain/models/ComplementaryCertification.js';
 import { knex } from '../../../db/knex-database-connection.js';
 
 function _toDomain(row) {
