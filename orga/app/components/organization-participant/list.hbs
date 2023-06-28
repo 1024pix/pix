@@ -10,7 +10,7 @@
         <:manager as |allSelected someSelected toggleAll selectedParticipants reset|>
           <InElement @destinationId={{this.headerId}}>
             <tr>
-              {{#if this.isUserAdmin}}
+              {{#if this.canDeleteParticipant}}
                 <Table::Header class="table__column--small">
                   <PixCheckbox
                     @screenReaderOnly={{true}}
@@ -107,7 +107,7 @@
             {{on "click" (fn @onClickLearner participant.id)}}
             class="tr--clickable"
           >
-            {{#if this.isUserAdmin}}
+            {{#if this.canDeleteParticipant}}
               <td class="table__column" {{on "click" (fn this.onClick toggleParticipant)}}>
                 <PixCheckbox @screenReaderOnly={{true}} @checked={{isParticipantSelected}}>
                   {{t

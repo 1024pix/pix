@@ -5,6 +5,7 @@ import { render, fillByLabel, clickByName } from '@1024pix/ember-testing-library
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import sinon from 'sinon';
+import ENV from 'pix-orga/config/environment';
 
 module('Integration | Component | OrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -694,6 +695,12 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       this.triggerFiltering = sinon.stub();
       this.set('fullNameFilter', null);
       this.set('certificabilityFilter', []);
+
+      ENV.APP.FT_DELETE_PARTICIPANT = true;
+    });
+
+    hooks.afterEach(function () {
+      ENV.APP.FT_DELETE_PARTICIPANT = false;
     });
 
     test('it should display checkboxes', async function (assert) {
@@ -1068,7 +1075,15 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     });
   });
 
-  module('when user is not admin of organisation', function () {
+  module('when user is not admin of organisation', function (hooks) {
+    hooks.beforeEach(function () {
+      ENV.APP.FT_DELETE_PARTICIPANT = true;
+    });
+
+    hooks.afterEach(function () {
+      ENV.APP.FT_DELETE_PARTICIPANT = false;
+    });
+
     test('it should not display checkboxes', async function (assert) {
       //given
       class CurrentUserStub extends Service {
