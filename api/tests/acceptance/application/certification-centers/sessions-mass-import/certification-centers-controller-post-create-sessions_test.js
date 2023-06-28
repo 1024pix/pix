@@ -37,7 +37,6 @@ describe('Acceptance | Controller | certification-centers-controller-post-create
           accessCode: 'accessCode',
           supervisorPassword: 'KV2CP',
           certificationCandidates: [],
-          version: 2,
         };
         const newCachedSessionUUID = await temporarySessionsStorageForMassImportService.save({
           sessions: [sessionToSave],
