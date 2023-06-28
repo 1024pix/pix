@@ -1,3 +1,4 @@
+import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
 import { JuryCertification } from '../../../../lib/domain/models/JuryCertification.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 import { buildCompetenceMark } from './build-competence-mark.js';
@@ -29,6 +30,7 @@ const buildJuryCertification = function ({
   certificationIssueReports = [buildCertificationIssueReport()],
   commonComplementaryCertificationCourseResult = null,
   complementaryCertificationCourseResultWithExternal = {},
+  version = CertificationVersion.V2,
 } = {}) {
   return new JuryCertification({
     certificationCourseId,
@@ -57,6 +59,7 @@ const buildJuryCertification = function ({
     certificationIssueReports,
     commonComplementaryCertificationCourseResult,
     complementaryCertificationCourseResultWithExternal,
+    version,
   });
 };
 

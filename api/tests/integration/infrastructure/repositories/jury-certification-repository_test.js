@@ -166,6 +166,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         commentForJury: 'Un commentaire jury',
         competenceMarks: [expectedCompetenceMark],
         certificationIssueReports: [],
+        version: 2,
         commonComplementaryCertificationCourseResult: {
           acquired: true,
           id: 123,

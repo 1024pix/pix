@@ -80,6 +80,7 @@ function _selectJuryCertifications() {
       isPublished: 'certification-courses.isPublished',
       createdAt: 'certification-courses.createdAt',
       completedAt: 'certification-courses.completedAt',
+      version: 'certification-courses.version',
       assessmentId: 'assessments.id',
       assessmentResultId: 'assessment-results.id',
       pixScore: 'assessment-results.pixScore',
