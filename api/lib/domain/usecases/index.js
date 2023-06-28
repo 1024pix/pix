@@ -58,8 +58,8 @@ import * as certificationCenterRepository from '../../infrastructure/repositorie
 import * as certificationChallengeRepository from '../../infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
-import * as certificationCpfCityRepository from '../../infrastructure/repositories/certification-cpf-city-repository.js';
-import * as certificationCpfCountryRepository from '../../infrastructure/repositories/certification-cpf-country-repository.js';
+import * as certificationCpfCityRepository from '../../certification/shared/infrastructure/repositories/certification-cpf-city-repository.js';
+import * as certificationCpfCountryRepository from '../../certification/shared/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationCpfService from '../../certification/shared/services/certification-cpf-service.js';
 import * as certificationIssueReportRepository from '../../infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationLsRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';

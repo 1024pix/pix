@@ -7,8 +7,8 @@ import {
 } from '../../../../../lib/domain/models/ComplementaryCertification.js';
 import * as certificationCandidatesOdsService from '../../../../../lib/domain/services/certification-candidates-ods-service.js';
 import * as certificationCpfService from '../../../../../lib/certification/shared/services/certification-cpf-service.js';
-import * as certificationCpfCountryRepository from '../../../../../lib/infrastructure/repositories/certification-cpf-country-repository.js';
-import * as certificationCpfCityRepository from '../../../../../lib/infrastructure/repositories/certification-cpf-city-repository.js';
+import * as certificationCpfCountryRepository from '../../../../../lib/certification/shared/infrastructure/repositories/certification-cpf-country-repository.js';
+import * as certificationCpfCityRepository from '../../../../../lib/certification/shared/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCenterRepository from '../../../../../lib/infrastructure/repositories/certification-center-repository.js';
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
@@ -21,10 +21,12 @@ const { readFile } = promises;
 
 import _ from 'lodash';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
+
 const i18n = getI18n();
 
 import * as url from 'url';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
