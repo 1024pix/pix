@@ -734,6 +734,24 @@
     },
     "organization-participants": {
       "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
+      "action-bar": {
+        "delete-button": "Delete",
+        "error-message": "{count, plural, =1 {An error has occurred. {firstname} {lastname} has not been deleted from the participants list.} other {An error has occurred. The {count} selected participants have not been deleted from the list}}",
+        "information": "{count, plural, =1 {{count} selected participant} other {{count} selected participants}}",
+        "success-message": "{count, plural, =1 {{firstname} {lastname} has successfully been deleted from the participants list.} other {The {count} selected participants have successfully been deleted from the list.}}"
+      },
+      "deletion-modal": {
+        "confirmation-checkbox": "I confirm that I have understood the impacts of the {count} deletions",
+        "delete-button": "Yes, I delete",
+        "many-items": {
+          "title": "Delete '<strong>'{count}'</strong>' selected participants?",
+          "content": "These participants will no longer be visible in Pix Orga.'<br/>'All their participations to campaigns will be deleted.This will have an impact on the results and analytics for these campaigns. They won’t able to participate again in campaigns in which they have already taken part in the past. However, they will still be able to take part in new campaigns.'<br/><strong>Please note that this action is irreversible.</strong>'"
+        },
+        "one-item": {
+          "title": "Delete '<strong>'{firstname} {lastname}'</strong>' of your participants?",
+          "content": "This participant will no longer be visible in Pix Orga.'<br/>'All their participations to campaigns will be deleted. This will have an impact on the results and analytics for these campaigns. They won't able to participate again in campaigns in which they have already taken part in the past. However, they will still be able to take part in new campaigns.'<br/><strong>Please note that this action is irreversible.</strong>'"
+        }
+      },
       "empty-state": {
         "action": "See my campaigns",
         "call-to-action": "Share with them a link to join an existing campaign or create a new campaign.",
@@ -760,6 +778,7 @@
       "page-title": "Participants",
       "table": {
         "column": {
+          "checkbox": "Select/Unselect {firstname} {lastname}",
           "first-name": "First name",
           "is-certifiable": {
             "label": "Eligibility for certification",
@@ -775,6 +794,7 @@
             "label": "Last name"
           },
           "latest-participation": "Latest participation",
+          "mainCheckbox": "Select/Unselect whole column",
           "participation-count": {
             "ariaLabelDefaultSort": "The array is not yet sorted by number of participations. Click to sort ascending.",
             "ariaLabelSortDown": "The array is sorted by descending number of participations. Click to sort ascending.",
