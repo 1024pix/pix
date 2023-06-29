@@ -19,7 +19,8 @@
     }
   }
 
-  &.correction-qroc-box-answer--wrong {
+  &.correction-qroc-box-answer--wrong,
+  &.correction-qroc-box-answer--aband {
     vertical-align: -2.5em;
   }
 }
