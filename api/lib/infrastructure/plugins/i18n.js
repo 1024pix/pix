@@ -10,6 +10,10 @@ const options = {
   languageHeaderField: 'Accept-Language',
   objectNotation: true,
   updateFiles: false,
+  mustacheConfig: {
+    tags: ['{', '}'],
+    disable: false,
+  },
 };
 
 export { plugin, options };
