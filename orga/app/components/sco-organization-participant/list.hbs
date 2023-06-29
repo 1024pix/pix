@@ -31,7 +31,17 @@
         <Table::Header @size="medium">
           {{t "pages.sco-organization-participants.table.column.date-of-birth"}}
         </Table::Header>
-        <Table::Header @size="medium">{{t "pages.sco-organization-participants.table.column.division"}}</Table::Header>
+        <Table::HeaderSort
+          @display="left"
+          @size="medium"
+          @onSort={{@sortByDivision}}
+          @order={{@divisionSort}}
+          @ariaLabelDefaultSort={{t "pages.sco-organization-participants.table.column.division.ariaLabelDefaultSort"}}
+          @ariaLabelSortUp={{t "pages.sco-organization-participants.table.column.division.ariaLabelSortUp"}}
+          @ariaLabelSortDown={{t "pages.sco-organization-participants.table.column.division.ariaLabelSortDown"}}
+        >
+          {{t "pages.sco-organization-participants.table.column.division.label"}}
+        </Table::HeaderSort>
         <Table::Header @size="medium">
           {{t "pages.sco-organization-participants.table.column.login-method"}}
         </Table::Header>

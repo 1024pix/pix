@@ -158,4 +158,22 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
       });
     });
   });
+
+  module('#sortByDivision', function () {
+    test('update sorting value and reset other', function (assert) {
+      // given
+      controller.divisionSort = null;
+      controller.participationCountOrder = 'Godzilla';
+      controller.lastnameSort = 'Kong';
+      controller.pageNumber = 9999;
+      // when
+      controller.sortByDivision('desc');
+
+      // then
+      assert.strictEqual(controller.divisionSort, 'desc');
+      assert.strictEqual(controller.participationCountOrder, null);
+      assert.strictEqual(controller.lastnameSort, null);
+      assert.strictEqual(controller.pageNumber, null);
+    });
+  });
 });
