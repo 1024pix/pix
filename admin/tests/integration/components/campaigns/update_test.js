@@ -24,7 +24,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
 
     // then
     assert.dom(screen.getByRole('textbox', { name: "Texte de la page d'accueil" })).hasAttribute('maxLength', '5000');
-    assert.dom(screen.getByRole('textbox', { name: 'obligatoire Nom de la campagne' })).hasValue('Ceci est un nom');
+    assert.dom(screen.getByRole('textbox', { name: '* Nom de la campagne' })).hasValue('Ceci est un nom');
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
   });
