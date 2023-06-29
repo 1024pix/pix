@@ -4,18 +4,30 @@
     {{unless this.isStillValid 'badge-card-certifiable badge-card-certifiable--not-acquired'}}"
 >
   <div class="badge-card-certifiable__header">
-    <div class="badge-card__status">
-      <h3>
-        <span>
-          {{#if this.isStillValid}}
-            <FaIcon @icon="circle-check" class="badge-card-status__acquired-icon" />
-          {{else}}
-            <FaIcon @icon="times-circle" class="badge-card-status__not-acquired-icon" />
-          {{/if}}
-        </span>
-        {{@title}}
-      </h3>
+    <div class="badge-card-certifiable-header__content">
+      <p class="badge-card-certifiable-header-content__status">
+        {{#if this.isStillValid}}
+          <FaIcon @icon="circle-check" class="badge-card-content-header-status__acquired-icon" />
+          {{t "pages.skill-review.badge-card.acquired"}}
+        {{else}}
+          <FaIcon @icon="circle-xmark" class="badge-card-content-header-status__not-acquired-icon" />
+          {{t "pages.skill-review.badge-card.not-acquired"}}
+        {{/if}}
+      </p>
+      {{#if this.showProgression}}
+        <PixProgressGauge
+          class="badge-card-certifiable-header-content__progression"
+          @value={{@acquisitionPercentage}}
+          @label={{t "pages.skill-review.badge-card.progress-bar-label"}}
+        />
+      {{/if}}
     </div>
+    <h3 class="badge-card-certifiable-header__title">
+      {{@title}}
+    </h3>
   </div>
-  <div class="badge-card-certifiable__image"><img src="{{@imageUrl}}" alt="{{@altMessage}}" /></div>
+  <div
+    class="badge-card-certifiable__image
+      {{unless this.isStillValid 'badge-card-certifiable__image badge-card-certifiable__image--not-acquired'}}"
+  ><img src="{{@imageUrl}}" alt="{{@altMessage}}" /></div>
 </div>
