@@ -185,8 +185,56 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           isAlwaysVisible: false,
           isCertifiable: true,
         });
+        const acquiredIsValidCertifiableBadge = server.create('campaign-participation-badge', {
+          altMessage: 'Yon won a blue badge',
+          imageUrl: '/images/badges/blue.svg',
+          message: 'Congrats, you won a blue badge',
+          acquisitionPercentage: 63,
+          isAcquired: true,
+          isValid: true,
+          isCertifiable: true,
+          isAlwaysVisible: false,
+        });
+        const acquiredCertifiableNotValidBadge = server.create('campaign-participation-badge', {
+          altMessage: 'Yon won a white badge',
+          imageUrl: '/images/badges/white.svg',
+          message: 'Congrats, you won a white badge',
+          isAcquired: true,
+          acquisitionPercentage: 88,
+          isValid: false,
+          isAlwaysVisible: false,
+          isCertifiable: true,
+        });
+        const unacquiredCertifiableHiddenBadge = server.create('campaign-participation-badge', {
+          altMessage: 'Yon won a red badge',
+          imageUrl: '/images/badges/red.svg',
+          message: 'Congrats, you won a red badge',
+          isAcquired: false,
+          acquisitionPercentage: 0,
+          isValid: true,
+          isAlwaysVisible: false,
+          isCertifiable: true,
+        });
+        const unacquiredCertifiableDisplayedBadge = server.create('campaign-participation-badge', {
+          altMessage: 'Yon won a brown badge',
+          imageUrl: '/images/badges/brown.svg',
+          message: 'Congrats, you won a brown badge',
+          isAcquired: false,
+          acquisitionPercentage: 67,
+          isValid: true,
+          isAlwaysVisible: true,
+          isCertifiable: true,
+        });
         campaignParticipationResult.update({
-          campaignParticipationBadges: [acquiredBadge, unacquiredDisplayedBadge, unacquiredHiddenBadge],
+          campaignParticipationBadges: [
+            acquiredBadge,
+            unacquiredDisplayedBadge,
+            unacquiredHiddenBadge,
+            acquiredIsValidCertifiableBadge,
+            acquiredCertifiableNotValidBadge,
+            unacquiredCertifiableHiddenBadge,
+            unacquiredCertifiableDisplayedBadge,
+          ],
         });
 
         // when
@@ -196,7 +244,19 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         assert.strictEqual(findAll('.badge-card').length, 2);
         assert.strictEqual(
           screen
-            .getByRole('progressbar', { name: 'Pourcentage de réussite du résultat thématique' })
+            .getAllByRole('progressbar', { name: 'Pourcentage de réussite du résultat thématique' })[0]
+            .textContent.trim(),
+          '88%'
+        );
+        assert.strictEqual(
+          screen
+            .getAllByRole('progressbar', { name: 'Pourcentage de réussite du résultat thématique' })[1]
+            .textContent.trim(),
+          '67%'
+        );
+        assert.strictEqual(
+          screen
+            .getAllByRole('progressbar', { name: 'Pourcentage de réussite du résultat thématique' })[2]
             .textContent.trim(),
           '20%'
         );
