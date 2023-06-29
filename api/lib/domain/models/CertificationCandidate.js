@@ -32,10 +32,10 @@ const certificationCandidateValidationJoiSchema = Joi.object({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code,
     'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code,
   }),
-  email: Joi.string().email().allow(null).empty('').optional().messages({
+  email: Joi.string().allow(null).empty('').optional().messages({
     'string.email': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
   }),
-  resultRecipientEmail: Joi.string().email().empty(['', null]).optional().messages({
+  resultRecipientEmail: Joi.string().empty(['', null]).optional().messages({
     'string.email': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
   }),
   externalId: Joi.string().allow(null).empty(['', null]).optional().messages({
