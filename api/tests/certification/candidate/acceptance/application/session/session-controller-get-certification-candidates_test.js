@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../../test-helper.js';
+import { createServer } from '../../../../../../server.js';
 import _ from 'lodash';
 
 describe('Acceptance | Controller | session-controller-get-certification-candidates', function () {
