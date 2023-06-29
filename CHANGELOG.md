@@ -1,5 +1,50 @@
 # Pix Changelog
 
+## v4.11.0 (29/06/2023)
+
+
+### :boom: BREAKING CHANGE
+- [#6229](https://github.com/1024pix/pix/pull/6229) [BREAKING] Ajouter la fonctionnalité d'activer/désactiver facilement un SSO OIDC (PIX-7749).
+
+### :rocket: Amélioration
+- [#6444](https://github.com/1024pix/pix/pull/6444) [FEATURE] Permettre aux organisation type PRO de supprimer des prescrits (PIX-6616).
+- [#6483](https://github.com/1024pix/pix/pull/6483) [FEATURE] Ajoute le champ areKnowledgeElementsResettable dans la table target-profiles (PIX-8486).
+- [#6491](https://github.com/1024pix/pix/pull/6491) [FEATURE] Ajout du code campagne dans l'export csv des campagnes (PIX-8478).
+- [#6461](https://github.com/1024pix/pix/pull/6461) [FEATURE] Afficher la notion de progressivité sur les résultats thématiques en lacunes non certifiants (PIX-8057).
+- [#6487](https://github.com/1024pix/pix/pull/6487) [FEATURE] Pix1D - Ajouter un bouton de retour vers l'accueil à la page de fin de mission (Pix-8481).
+- [#6457](https://github.com/1024pix/pix/pull/6457) [FEATURE] Enregistrement au fur et à mesure des challenges passés en certif V3 (PIX-8452).
+- [#6320](https://github.com/1024pix/pix/pull/6320) [FEATURE] Retravailler l'accessibilité des signalements de problème en épreuve (PIX-7668).
+- [#6471](https://github.com/1024pix/pix/pull/6471) [FEATURE] Afficher une bannière annonçant l'ouverture de l'import de session en masse sur Pix Certif (PIX-6964).
+- [#6458](https://github.com/1024pix/pix/pull/6458) [FEATURE] Pix1D - Prévenir l'élève s'il n'a pas terminé son activité à la validation (PIX-8281).
+- [#6463](https://github.com/1024pix/pix/pull/6463) [FEATURE] Modifier le texte sur la double mire SSO PIX-8407.
+- [#6448](https://github.com/1024pix/pix/pull/6448) [FEATURE] Ajouter un aria-label sur les liens d'aide sur les épreuves sur Pix-App (PIX-8076).
+
+### :building_construction: Tech
+- [#6411](https://github.com/1024pix/pix/pull/6411) [TECH] Utiliser les nouvelles seeds pour la team xp eval (PIX-8225).
+- [#6492](https://github.com/1024pix/pix/pull/6492) [TECH] Partager la configuration ESLint.
+- [#6401](https://github.com/1024pix/pix/pull/6401) [TECH] Mettre à jour les seeds de la Team Accès (PIX-8208).
+- [#6443](https://github.com/1024pix/pix/pull/6443) [TECH] Créer un jeu de données pour une session demarrée (PIX-8409).
+- [#6455](https://github.com/1024pix/pix/pull/6455) [TECH] Uniformisations des règles de lint de traductions.
+- [#6464](https://github.com/1024pix/pix/pull/6464) [TECH] Supprimer les faux positifs sur les tests automatisés en utilisant VScode (PIX-8663).
+
+### :bug: Correction
+- [#6495](https://github.com/1024pix/pix/pull/6495) [BUGFIX] Rectifier l'alignement des réponses d'un QROCm passé (PIX-8488).
+- [#6500](https://github.com/1024pix/pix/pull/6500) [BUGFIX] Ajout de la version de session pour l'import en masse (PIX-8510).
+- [#6499](https://github.com/1024pix/pix/pull/6499) [BUGFIX] Suppression d'un objet non existant lors de la génération des nouvelles seeds.
+- [#6493](https://github.com/1024pix/pix/pull/6493) [BUGFIX] Trace seulement les vraies erreurs dans l'API (PIX-8484).
+- [#6473](https://github.com/1024pix/pix/pull/6473) [BUGFIX] Corrige le script test:api:watch cassé depuis le passage aux modules ESM.
+
+### :coffee: Autre
+- [#6494](https://github.com/1024pix/pix/pull/6494) [BUMP] Lock file maintenance (api).
+- [#6485](https://github.com/1024pix/pix/pull/6485) [BUMP] Update dependency ember-file-upload to v8 (admin).
+- [#6484](https://github.com/1024pix/pix/pull/6484) [BUMP] Update dependency ember-file-upload to v8 (certif).
+- [#6479](https://github.com/1024pix/pix/pull/6479) [BUMP] Lock file maintenance (dossier racine).
+- [#6478](https://github.com/1024pix/pix/pull/6478) [BUMP] Update dependency mocha to v10 (dossier racine).
+- [#6475](https://github.com/1024pix/pix/pull/6475) [BUMP] Update dependency husky to v8 (dossier racine).
+- [#6474](https://github.com/1024pix/pix/pull/6474) [BUMP] Update dependency lint-staged to v13 (dossier racine).
+- [#6472](https://github.com/1024pix/pix/pull/6472) [BUMP] Update eslint (major).
+- [#6469](https://github.com/1024pix/pix/pull/6469) [CLEANUP] Supprime la version en doublon en haut du changelog.
+
 ## v4.10.0 (26/06/2023)
 
 
