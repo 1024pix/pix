@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { get } = lodash;
 
-import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { ForbiddenAccess, UserNotFoundError } from '../../domain/errors.js';
 import { logger } from '../../../lib/infrastructure/logger.js';
 
@@ -28,7 +28,7 @@ const updateExpiredPassword = async function ({
 
   const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
     userId: foundUser.id,
-    identityProvider: AuthenticationMethod.identityProviders.PIX,
+    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
   });
 
   const shouldChangePassword = get(authenticationMethod, 'authenticationComplement.shouldChangePassword');

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
-import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { NotFoundError } from '../errors.js';
 
 const CONNEXION_TYPES = {
@@ -17,7 +17,7 @@ const TWO_PARTS = 2;
 async function getUserAuthenticationMethodWithObfuscation(user, dependencies = { authenticationMethodRepository }) {
   const garAuthenticationMethod = await dependencies.authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
     userId: user.id,
-    identityProvider: AuthenticationMethod.identityProviders.GAR,
+    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
   });
   if (garAuthenticationMethod) return { authenticatedBy: CONNEXION_TYPES.samlId, value: null };
 

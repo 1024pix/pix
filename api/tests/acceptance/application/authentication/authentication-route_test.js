@@ -1,7 +1,7 @@
 import querystring from 'querystring';
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -441,7 +441,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
         // then
         const authenticationMethods = await knex('authentication-methods').where({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
           userId: user.id,
           externalIdentifier: 'SAMLJACKSONID',
         });

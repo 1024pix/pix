@@ -4,10 +4,11 @@ import * as knexUtils from '../utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../domain/errors.js';
 import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 
 function _toDomain(authenticationMethodDTO) {
-  if (authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.PIX) {
+  if (authenticationMethodDTO.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
     authenticationMethodDTO.externalIdentifier = undefined;
   }
   const authenticationComplement = _toAuthenticationComplement(
@@ -22,7 +23,7 @@ function _toDomain(authenticationMethodDTO) {
 }
 
 function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationComplement) {
-  if (identityProvider === AuthenticationMethod.identityProviders.PIX) {
+  if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
     return new AuthenticationMethod.PixAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 
@@ -30,7 +31,7 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
     return new AuthenticationMethod.OidcAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 
-  if (identityProvider === AuthenticationMethod.identityProviders.GAR) {
+  if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.GAR.code) {
     const methodWasCreatedWithoutUserFirstAndLastName = bookshelfAuthenticationComplement === null;
     if (methodWasCreatedWithoutUserFirstAndLastName) {
       return undefined;
@@ -89,7 +90,7 @@ const createPasswordThatShouldBeChanged = async function ({
     });
     const authenticationMethod = new AuthenticationMethod({
       authenticationComplement,
-      identityProvider: AuthenticationMethod.identityProviders.PIX,
+      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       userId,
     });
     const authenticationMethodForDB = _.pick(authenticationMethod, [
@@ -154,7 +155,7 @@ const hasIdentityProviderPIX = async function ({ userId }) {
     .from(AUTHENTICATION_METHODS_TABLE)
     .where({
       userId,
-      identityProvider: AuthenticationMethod.identityProviders.PIX,
+      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
     })
     .first();
 
@@ -186,7 +187,7 @@ const updateChangedPassword = async function (
   const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE)
     .where({
       userId,
-      identityProvider: AuthenticationMethod.identityProviders.PIX,
+      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
     })
     .update({ authenticationComplement, updatedAt: new Date() })
     .returning(COLUMNS);
@@ -211,7 +212,7 @@ const updatePasswordThatShouldBeChanged = async function ({
   const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE)
     .where({
       userId,
-      identityProvider: AuthenticationMethod.identityProviders.PIX,
+      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
     })
     .update({ authenticationComplement, updatedAt: new Date() })
     .returning(COLUMNS);
@@ -231,7 +232,7 @@ const updateExpiredPassword = async function ({ userId, hashedPassword }) {
   const [authenticationMethodDTO] = await knex(AUTHENTICATION_METHODS_TABLE)
     .where({
       userId,
-      identityProvider: AuthenticationMethod.identityProviders.PIX,
+      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
     })
     .update({ authenticationComplement, updatedAt: new Date() })
     .returning(COLUMNS);

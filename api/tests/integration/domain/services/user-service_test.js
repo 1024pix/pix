@@ -8,7 +8,7 @@ import * as organizationLearnerRepository from '../../../../lib/infrastructure/r
 import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
 import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
 
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { OrganizationLearnerNotFound } from '../../../../lib/domain/errors.js';
 
 import * as userService from '../../../../lib/domain/services/user-service.js';
@@ -55,7 +55,7 @@ describe('Integration | Domain | Services | user-service', function () {
 
       const foundAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
         userId: foundUser.id,
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       });
       expect(pick(foundAuthenticationMethod, authenticationMethodPickedAttributes)).to.deep.equal(
         expectedAuthenticationMethod
@@ -116,7 +116,7 @@ describe('Integration | Domain | Services | user-service', function () {
           password: hashedPassword,
           shouldChangePassword: true,
         },
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       };
 
       // when
@@ -225,7 +225,7 @@ describe('Integration | Domain | Services | user-service', function () {
 
           // then
           const foundAuthenticationMethod = await knex('authentication-methods').where({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
+            identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             externalIdentifier: samlId,
           });
           expect(foundAuthenticationMethod).to.have.lengthOf(1);

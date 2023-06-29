@@ -111,10 +111,6 @@ class AuthenticationMethod {
   }
 }
 
-const legacyIdentityProviderCodeMapping = Object.fromEntries(
-  Object.entries(NON_OIDC_IDENTITY_PROVIDERS).map(([_, val]) => [val.code, val.code])
-);
-AuthenticationMethod.identityProviders = legacyIdentityProviderCodeMapping;
 AuthenticationMethod.PixAuthenticationComplement = PixAuthenticationComplement;
 AuthenticationMethod.OidcAuthenticationComplement = OidcAuthenticationComplement;
 AuthenticationMethod.GARAuthenticationComplement = GARAuthenticationComplement;

@@ -1,6 +1,7 @@
 import { expect, domainBuilder, sinon } from '../../../../test-helper.js';
 import { updateUserForAccountRecovery } from '../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { User } from '../../../../../lib/domain/models/User.js';
 
@@ -71,7 +72,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
 
       // then
       const expectedAuthenticationMethodFromPix = new AuthenticationMethod({
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
         authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
           password: hashedPassword,
           shouldChangePassword: false,

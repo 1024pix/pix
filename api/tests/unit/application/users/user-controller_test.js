@@ -1,6 +1,6 @@
 import { sinon, expect, domainBuilder, hFake } from '../../../test-helper.js';
 import { User } from '../../../../lib/domain/models/User.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
@@ -1166,7 +1166,7 @@ describe('Unit | Controller | user-controller', function () {
             data: {
               attributes: {
                 'user-id': targetUserId,
-                'identity-provider': AuthenticationMethod.identityProviders.GAR,
+                'identity-provider': NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
               },
             },
           },
