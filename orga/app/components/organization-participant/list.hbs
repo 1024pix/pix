@@ -1,99 +1,64 @@
-<OrganizationParticipant::LearnerFilters
-  @learnersCount={{@participants.meta.rowCount}}
-  @fullName={{@fullName}}
-  @certificabilityFilter={{@certificabilityFilter}}
-  @triggerFiltering={{@triggerFiltering}}
-  @onResetFilter={{@onResetFilter}}
-/>
+<div id={{this.filtersId}} />
 
 <div class="panel">
   <table class="table content-text content-text--small">
     <caption class="screen-reader-only">{{t "pages.organization-participants.table.description"}}</caption>
-    <thead>
-      <tr>
-        <Table::HeaderSort
-          @display="left"
-          @size="medium"
-          @onSort={{@sortByLastname}}
-          @order={{@lastnameSort}}
-          @ariaLabelDefaultSort={{t "pages.organization-participants.table.column.last-name.ariaLabelDefaultSort"}}
-          @ariaLabelSortUp={{t "pages.organization-participants.table.column.last-name.ariaLabelSortUp"}}
-          @ariaLabelSortDown={{t "pages.organization-participants.table.column.last-name.ariaLabelSortDown"}}
-        >
-          {{t "pages.organization-participants.table.column.last-name.label"}}
-        </Table::HeaderSort>
-        <Table::Header @size="wide">{{t "pages.organization-participants.table.column.first-name"}}</Table::Header>
-        <Table::HeaderSort
-          @size="medium"
-          @align="center"
-          @onSort={{@sortByParticipationCount}}
-          @order={{@participationCountOrder}}
-          @ariaLabelDefaultSort={{t
-            "pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort"
-          }}
-          @ariaLabelSortUp={{t "pages.organization-participants.table.column.participation-count.ariaLabelSortUp"}}
-          @ariaLabelSortDown={{t "pages.organization-participants.table.column.participation-count.ariaLabelSortDown"}}
-        >
-          {{t "pages.organization-participants.table.column.participation-count.label"}}
-        </Table::HeaderSort>
-        <Table::Header @size="medium" @align="center">
-          {{t "pages.organization-participants.table.column.latest-participation"}}
-        </Table::Header>
-        <Table::Header @size="medium" @align="center">
-          <div class="organization-participant-list-page__certificability-header">
-            {{t "pages.organization-participants.table.column.is-certifiable.label"}}
-            <Ui::CertificabilityTooltip
-              @aria-label={{t "pages.organization-participants.table.column.is-certifiable.tooltip.aria-label"}}
-              @content={{t "pages.organization-participants.table.column.is-certifiable.tooltip.content"}}
-            />
-          </div>
-        </Table::Header>
-      </tr>
-    </thead>
+    <thead id={{this.headerId}} />
 
-    {{#if @participants}}
-      <tbody>
-        {{#each @participants as |participant index|}}
-          <tr
-            aria-label={{t "pages.organization-participants.table.row-title"}}
-            {{on "click" (fn @onClickLearner participant.id)}}
-            class="tr--clickable"
-          >
-            <td class="table__column">
-              <LinkTo
-                @route="authenticated.organization-participants.organization-participant"
-                @model={{participant.id}}
-              >
-                {{participant.lastName}}
-              </LinkTo>
-            </td>
-            <td class="ellipsis" title={{participant.firstName}}>{{participant.firstName}}</td>
-            <td class="table__column--center">{{participant.participationCount}}</td>
-            <td>
-              <div class="organization-participant-list-page__last-participation">
-                <span>{{dayjs-format participant.lastParticipationDate "DD/MM/YYYY"}}</span>
-                <Ui::LastParticipationDateTooltip
-                  @id={{index}}
-                  @campaignName={{participant.campaignName}}
-                  @campaignType={{participant.campaignType}}
-                  @participationStatus={{participant.participationStatus}}
-                />
-              </div>
-            </td>
-            <td class="table__column--center">
-              <Ui::IsCertifiable @isCertifiable={{participant.isCertifiable}} />
-              {{#if participant.certifiableAt}}
-                <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
-                    participant.certifiableAt
-                    "DD/MM/YYYY"
-                    allow-empty=true
-                  }}</span>
-              {{/if}}
-            </td>
-          </tr>
-        {{/each}}
-      </tbody>
-    {{/if}}
+    <tbody>
+      <SelectableList @items={{@participants}}>
+        <:manager as |allSelected someSelected toggleAll selectedParticipants reset|>
+          <InElement @destinationId={{this.headerId}}>
+            <OrganizationParticipant::TableHeaders
+              @allSelected={{allSelected}}
+              @someSelected={{someSelected}}
+              @showCheckbox={{this.showCheckbox}}
+              @lastnameSort={{@lastnameSort}}
+              @hasParticipants={{this.hasParticipants}}
+              @participationCountOrder={{@participationCountOrder}}
+              @onToggleAll={{toggleAll}}
+              @onSortByLastname={{(fn this.addResetOnFunction @sortByLastname reset)}}
+              @onSortByParticipationCount={{(fn this.addResetOnFunction @sortByParticipationCount reset)}}
+            />
+          </InElement>
+          {{#if someSelected}}
+            <InElement @destinationId={{this.actionBarId}}>
+              <OrganizationParticipant::ActionBar
+                @count={{selectedParticipants.length}}
+                @openDeletionModal={{this.openDeletionModal}}
+              />
+              <OrganizationParticipant::DeletionModal
+                @showModal={{this.showDeletionModal}}
+                @itemsToDelete={{selectedParticipants}}
+                @onTriggerAction={{(fn this.deleteParticipants selectedParticipants reset)}}
+                @onCloseModal={{this.closeDeletionModal}}
+              />
+            </InElement>
+          {{/if}}
+          <InElement @destinationId={{this.paginationId}} @waitForElement={{true}}>
+            <Table::PaginationControl @pagination={{@participants.meta}} @onChange={{reset}} />
+          </InElement>
+          <InElement @destinationId={{this.filtersId}}>
+            <OrganizationParticipant::LearnerFilters
+              @learnersCount={{@participants.meta.rowCount}}
+              @fullName={{@fullName}}
+              @certificabilityFilter={{@certificabilityFilter}}
+              @onTriggerFiltering={{(fn this.addResetOnFunction @triggerFiltering reset)}}
+              @onResetFilter={{(fn this.addResetOnFunction @onResetFilter reset)}}
+            />
+          </InElement>
+        </:manager>
+        <:item as |participant toggleParticipant isParticipantSelected|>
+          <OrganizationParticipant::TableRow
+            @showCheckbox={{this.showCheckbox}}
+            @participant={{participant}}
+            @isParticipantSelected={{isParticipantSelected}}
+            @onToggleParticipant={{(fn this.addStopPropagationOnFunction toggleParticipant)}}
+            @onClickLearner={{(fn @onClickLearner participant.id)}}
+          />
+        </:item>
+      </SelectableList>
+    </tbody>
   </table>
 
   {{#unless @participants}}
@@ -103,4 +68,5 @@
   {{/unless}}
 </div>
 
-<Table::PaginationControl @pagination={{@participants.meta}} />
+<div id={{this.actionBarId}} />
+<div id={{this.paginationId}} />

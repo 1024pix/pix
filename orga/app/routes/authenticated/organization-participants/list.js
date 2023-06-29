@@ -1,4 +1,5 @@
-import { service } from '@ember/service';
+import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 
 export default class ListRoute extends Route {
@@ -41,5 +42,10 @@ export default class ListRoute extends Route {
       controller.participationCountOrder = null;
       controller.lastnameSort = 'asc';
     }
+  }
+
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }

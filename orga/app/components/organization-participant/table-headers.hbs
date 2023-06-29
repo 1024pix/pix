@@ -1,0 +1,48 @@
+<tr>
+  {{#if @showCheckbox}}
+    <Table::Header class="table__column--small">
+      <PixCheckbox
+        @screenReaderOnly={{true}}
+        @checked={{@someSelected}}
+        @isIndeterminate={{(not @allSelected)}}
+        disabled={{(not @hasParticipants)}}
+        {{on "click" @onToggleAll}}
+      >{{t "pages.organization-participants.table.column.mainCheckbox"}}</PixCheckbox>
+    </Table::Header>
+  {{/if}}
+  <Table::HeaderSort
+    @display="left"
+    @size="medium"
+    @onSort={{@onSortByLastname}}
+    @order={{@lastnameSort}}
+    @ariaLabelDefaultSort={{t "pages.organization-participants.table.column.last-name.ariaLabelDefaultSort"}}
+    @ariaLabelSortUp={{t "pages.organization-participants.table.column.last-name.ariaLabelSortUp"}}
+    @ariaLabelSortDown={{t "pages.organization-participants.table.column.last-name.ariaLabelSortDown"}}
+  >
+    {{t "pages.organization-participants.table.column.last-name.label"}}
+  </Table::HeaderSort>
+  <Table::Header @size="wide">{{t "pages.organization-participants.table.column.first-name"}}</Table::Header>
+  <Table::HeaderSort
+    @size="medium"
+    @align="center"
+    @onSort={{@onSortByParticipationCount}}
+    @order={{@participationCountOrder}}
+    @ariaLabelDefaultSort={{t "pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort"}}
+    @ariaLabelSortUp={{t "pages.organization-participants.table.column.participation-count.ariaLabelSortUp"}}
+    @ariaLabelSortDown={{t "pages.organization-participants.table.column.participation-count.ariaLabelSortDown"}}
+  >
+    {{t "pages.organization-participants.table.column.participation-count.label"}}
+  </Table::HeaderSort>
+  <Table::Header @size="medium" @align="center">
+    {{t "pages.organization-participants.table.column.latest-participation"}}
+  </Table::Header>
+  <Table::Header @size="medium" @align="center">
+    <div class="organization-participant-list-page__certificability-header">
+      {{t "pages.organization-participants.table.column.is-certifiable.label"}}
+      <Ui::CertificabilityTooltip
+        @aria-label={{t "pages.organization-participants.table.column.is-certifiable.tooltip.aria-label"}}
+        @content={{t "pages.organization-participants.table.column.is-certifiable.tooltip.content"}}
+      />
+    </div>
+  </Table::Header>
+</tr>
