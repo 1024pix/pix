@@ -45,7 +45,6 @@
               name={{block.randomName}}
               type="text"
               class="challenge-response__proposal"
-              @ariaLabel={{block.ariaLabel}}
               placeholder={{block.placeholder}}
               autocomplete="nope"
               data-test="challenge-response-proposal-selector"
@@ -60,7 +59,6 @@
             type="number"
             min="0"
             data-test="challenge-response-proposal-selector"
-            @ariaLabel={{block.ariaLabel}}
             placeholder={{block.placeholder}}
             @value={{this.userAnswer}}
             {{on "change" this.updateUserAnswerValue}}
