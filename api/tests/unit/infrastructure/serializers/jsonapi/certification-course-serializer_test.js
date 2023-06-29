@@ -18,6 +18,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         challenges: ['challenge1', 'challenge2'],
         certificationIssueReports: [],
         hasSeenEndTestScreen: true,
+        version: 2,
       });
 
       const issueReport = new CertificationIssueReport({
@@ -68,6 +69,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         challenges: ['challenge1', 'challenge2'],
         certificationIssueReports: undefined,
         hasSeenEndTestScreen: true,
+        version: 2,
       });
 
       const jsonCertificationCourseWithAssessment = {
@@ -109,6 +111,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         challenges: undefined,
         certificationIssueReports: undefined,
         hasSeenEndTestScreen: true,
+        version: 2,
       });
 
       const jsonCertificationCourseWithAssessment = {
