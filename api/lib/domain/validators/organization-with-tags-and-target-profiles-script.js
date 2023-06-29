@@ -3,6 +3,7 @@ import { EntityValidationError } from '../errors.js';
 import { Organization } from '../models/Organization.js';
 import { Membership } from '../models/Membership.js';
 import { getValidOidcProviderCodes } from '../constants/oidc-identity-providers.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 const schema = Joi.object({
   type: Joi.string()
@@ -27,7 +28,7 @@ const schema = Joi.object({
   }),
   identityProviderForCampaigns: Joi.string()
     .allow(null)
-    .valid('GAR', ...getValidOidcProviderCodes())
+    .valid(NON_OIDC_IDENTITY_PROVIDERS.GAR.code, ...getValidOidcProviderCodes())
     .messages({
       'any.only': `L'organisme fourni doit avoir l'une des valeurs suivantes : GAR,${getValidOidcProviderCodes()}`,
     }),

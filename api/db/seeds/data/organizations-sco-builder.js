@@ -1,6 +1,6 @@
 import { Membership } from '../../../lib/domain/models/index.js';
 import { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } from './users-builder.js';
-import { IDENTITY_PROVIDERS } from '../../../lib/domain/constants/identity-providers.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../lib/domain/constants/identity-providers.js';
 import { PIX_ADMIN } from '../../../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -74,7 +74,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     externalId: SCO_COLLEGE_EXTERNAL_ID,
     documentationUrl: 'https://pix.fr/',
     provinceCode: '12',
-    identityProviderForCampaigns: IDENTITY_PROVIDERS.GAR.code,
+    identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
     createdBy: middleSchoolsCreator.id,
   });
   databaseBuilder.factory.buildOrganization({
@@ -86,7 +86,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     externalId: SCO_COLLEGE_WITHOUT_STUDENT_EXTERNAL_ID,
     documentationUrl: 'https://pix.fr/',
     provinceCode: '12',
-    identityProviderForCampaigns: IDENTITY_PROVIDERS.GAR.code,
+    identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
     createdBy: middleSchoolsCreator.id,
   });
 
@@ -339,7 +339,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     externalId: GREAT_OAK_CERTIF_CENTER_EXTERNAL_ID,
     documentationUrl: 'https://pix.fr/',
     provinceCode: '12',
-    identityProviderForCampaigns: IDENTITY_PROVIDERS.GAR.code,
+    identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
     createdBy: middleSchoolsCreator.id,
   });
   const greatOakSchoolAdmin = databaseBuilder.factory.buildUser.withRawPassword({

@@ -4,7 +4,7 @@ import { userVerification } from '../../../../lib/application/preHandlers/user-e
 import { userController } from '../../../../lib/application/users/user-controller.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import * as moduleUnderTest from '../../../../lib/application/users/index.js';
-import { IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Unit | Router | user-router', function () {
   describe('POST /api/users', function () {
@@ -934,7 +934,7 @@ describe('Unit | Router | user-router', function () {
     describe('POST /api/admin/users/{id}/remove-authentication', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
-        IDENTITY_PROVIDERS.GAR.code,
+        NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
         'EMAIL',
         'USERNAME',
         // eslint-disable-next-line mocha/no-setup-in-describe
@@ -1064,81 +1064,81 @@ describe('Unit | Router | user-router', function () {
 
     describe('POST /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      [IDENTITY_PROVIDERS.GAR.code, OidcIdentityProviders.POLE_EMPLOI.code, OidcIdentityProviders.CNAV.code].forEach(
-        (identityProvider) => {
-          it(`should return 200 when user role is "SUPER_ADMIN" and identity provider is "${identityProvider}"`, async function () {
-            // given
-            sinon
-              .stub(userController, 'reassignAuthenticationMethods')
-              .callsFake((request, h) => h.response({}).code(204));
-            sinon
-              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-              .callsFake((request, h) => h.response(true));
-            sinon
-              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
-              .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-            const httpTestServer = new HttpTestServer();
-            await httpTestServer.register(moduleUnderTest);
-            const payload = {
-              data: {
-                attributes: {
-                  'user-id': 2,
-                  'identity-provider': identityProvider,
-                },
+      [
+        NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+        OidcIdentityProviders.POLE_EMPLOI.code,
+        OidcIdentityProviders.CNAV.code,
+      ].forEach((identityProvider) => {
+        it(`should return 200 when user role is "SUPER_ADMIN" and identity provider is "${identityProvider}"`, async function () {
+          // given
+          sinon
+            .stub(userController, 'reassignAuthenticationMethods')
+            .callsFake((request, h) => h.response({}).code(204));
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response(true));
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+          const payload = {
+            data: {
+              attributes: {
+                'user-id': 2,
+                'identity-provider': identityProvider,
               },
-            };
+            },
+          };
 
-            // when
-            const { statusCode } = await httpTestServer.request(
-              'POST',
-              '/api/admin/users/1/authentication-methods/1',
-              payload
-            );
+          // when
+          const { statusCode } = await httpTestServer.request(
+            'POST',
+            '/api/admin/users/1/authentication-methods/1',
+            payload
+          );
 
-            // then
-            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
-            sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
-            expect(statusCode).to.equal(204);
-          });
+          // then
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+          sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
+          expect(statusCode).to.equal(204);
+        });
 
-          it(`should return 200 when user role is "SUPPORT" and identity provider is "${identityProvider}"`, async function () {
-            // given
-            sinon
-              .stub(userController, 'reassignAuthenticationMethods')
-              .callsFake((request, h) => h.response({}).code(204));
-            sinon
-              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-              .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-            sinon
-              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
-              .callsFake((request, h) => h.response(true));
-            const httpTestServer = new HttpTestServer();
-            await httpTestServer.register(moduleUnderTest);
-            const payload = {
-              data: {
-                attributes: {
-                  'user-id': 3,
-                  'identity-provider': identityProvider,
-                },
+        it(`should return 200 when user role is "SUPPORT" and identity provider is "${identityProvider}"`, async function () {
+          // given
+          sinon
+            .stub(userController, 'reassignAuthenticationMethods')
+            .callsFake((request, h) => h.response({}).code(204));
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+          const payload = {
+            data: {
+              attributes: {
+                'user-id': 3,
+                'identity-provider': identityProvider,
               },
-            };
+            },
+          };
 
-            // when
-            const { statusCode } = await httpTestServer.request(
-              'POST',
-              '/api/admin/users/1/authentication-methods/1',
-              payload
-            );
+          // when
+          const { statusCode } = await httpTestServer.request(
+            'POST',
+            '/api/admin/users/1/authentication-methods/1',
+            payload
+          );
 
-            // then
-            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
-            sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
-            expect(statusCode).to.equal(204);
-          });
-        }
-      );
+          // then
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+          sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
+          expect(statusCode).to.equal(204);
+        });
+      });
 
       it('returns 400 when "userId" is not a number', async function () {
         // given
@@ -1206,7 +1206,7 @@ describe('Unit | Router | user-router', function () {
           data: {
             attributes: {
               'user-id': 'invalid-user-id',
-              'identity-provider': IDENTITY_PROVIDERS.GAR.code,
+              'identity-provider': NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             },
           },
         };
@@ -1238,7 +1238,7 @@ describe('Unit | Router | user-router', function () {
           data: {
             attributes: {
               'user-id': 2,
-              'identity-provider': IDENTITY_PROVIDERS.GAR.code,
+              'identity-provider': NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             },
           },
         };
