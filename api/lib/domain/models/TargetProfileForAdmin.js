@@ -11,6 +11,7 @@ class TargetProfileForAdmin {
     imageUrl,
     category,
     isSimplifiedAccess,
+    areKnowledgeElementsResettable,
     badges,
     stageCollection,
     areas = [],
@@ -29,6 +30,7 @@ class TargetProfileForAdmin {
     this.imageUrl = imageUrl;
     this.category = category;
     this.isSimplifiedAccess = isSimplifiedAccess;
+    this.areKnowledgeElementsResettable = areKnowledgeElementsResettable;
     this.badges = badges;
     this.stageCollection = stageCollection;
     this.areas = areas.map(
