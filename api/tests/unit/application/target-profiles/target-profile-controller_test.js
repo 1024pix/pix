@@ -1,4 +1,4 @@
-import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import { targetProfileController } from '../../../../lib/application/target-profiles/target-profile-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
@@ -333,6 +333,39 @@ describe('Unit | Controller | target-profile-controller', function () {
       // then
       expect(usecases.findPaginatedTargetProfileTrainingSummaries).to.have.been.calledWith(useCaseParameters);
       expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
+      expect(response).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe('#getTargetProfileForAdmin', function () {
+    it('should return targetProfileForAdmin', async function () {
+      // given
+      const targetProfileId = 123;
+      const expectedResult = Symbol('serialized-target-profile-for-admin');
+      const targetProfileForAdmin = Symbol('targetProfileForAdmin');
+      const useCaseParameters = {
+        targetProfileId,
+      };
+
+      sinon.stub(usecases, 'getTargetProfileForAdmin').withArgs(useCaseParameters).resolves(targetProfileForAdmin);
+
+      const targetProfileForAdminSerializer = {
+        serialize: sinon.stub(),
+      };
+      targetProfileForAdminSerializer.serialize.withArgs(targetProfileForAdmin).returns(expectedResult);
+
+      // when
+      const response = await targetProfileController.getTargetProfileForAdmin(
+        {
+          params: {
+            id: targetProfileId,
+          },
+        },
+        hFake,
+        { targetProfileForAdminSerializer }
+      );
+
+      // then
       expect(response).to.deep.equal(expectedResult);
     });
   });
