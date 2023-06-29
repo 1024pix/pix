@@ -629,6 +629,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         query: {
           'sort[participationCount]': 'asc',
           'sort[lastnameSort]': 'asc',
+          'sort[divisionSort]': 'desc',
         },
       };
       usecases.findPaginatedFilteredScoParticipants.resolves({});
@@ -644,6 +645,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         sort: {
           participationCount: 'asc',
           lastnameSort: 'asc',
+          divisionSort: 'desc',
         },
       });
     });
