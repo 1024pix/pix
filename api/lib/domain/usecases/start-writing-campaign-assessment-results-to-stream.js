@@ -158,6 +158,7 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate, 
   return [
     translate('campaign-export.common.organization-name'),
     translate('campaign-export.common.campaign-id'),
+    translate('campaign-export.common.campaign-code'),
     translate('campaign-export.common.campaign-name'),
     translate('campaign-export.assessment.target-profile-name'),
     translate('campaign-export.common.participant-lastname'),
