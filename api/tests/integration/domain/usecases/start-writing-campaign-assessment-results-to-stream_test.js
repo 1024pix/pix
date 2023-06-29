@@ -131,6 +131,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
       const csvSecondLine =
         `"${organization.name}";` +
         `${campaign.id};` +
+        `"${campaign.code}";` +
         `"'${campaign.name}";` +
         `"'${targetProfile.name}";` +
         `"'${organizationLearner.lastName}";` +

@@ -55,6 +55,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
 
         campaign.id = 123;
+        campaign.code = 'ABCDEF';
         campaign.name = 'test';
         organization.name = 'Umbrella';
 
@@ -73,6 +74,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
         const csvExcpectedLine =
           `"${organization.name}";` +
           `${campaign.id};` +
+          `"${campaign.code}";` +
           `"${campaign.name}";` +
           `"${campaignParticipationResultData.participantLastName}";` +
           `"${campaignParticipationResultData.participantFirstName}";` +
@@ -107,6 +109,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
 
         campaign.id = 123;
+        campaign.code = 'ABCDEF';
         campaign.name = 'test';
         organization.name = 'Umbrella';
 
@@ -125,6 +128,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
         const csvExcpectedLine =
           `"${organization.name}";` +
           `${campaign.id};` +
+          `"${campaign.code}";` +
           `"${campaign.name}";` +
           `"${campaignParticipationResultData.participantLastName}";` +
           `"${campaignParticipationResultData.participantFirstName}";` +
@@ -161,6 +165,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
 
         campaign.id = 123;
+        campaign.code = 'ABCDEF';
         campaign.name = 'test';
         organization.name = 'Umbrella';
 
@@ -179,6 +184,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
         const csvExcpectedLine =
           `"${organization.name}";` +
           `${campaign.id};` +
+          `"${campaign.code}";` +
           `"${campaign.name}";` +
           `"${campaignParticipationResultData.participantLastName}";` +
           `"${campaignParticipationResultData.participantFirstName}";` +
@@ -219,6 +225,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
 
         campaign.id = 123;
+        campaign.code = 'ABCDEF';
         campaign.name = 'test';
         organization.name = 'Umbrella';
 
@@ -237,6 +244,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
         const csvExcpectedLine =
           `"${organization.name}";` +
           `${campaign.id};` +
+          `"${campaign.code}";` +
           `"${campaign.name}";` +
           `"${campaignParticipationResultData.participantLastName}";` +
           `"${campaignParticipationResultData.participantFirstName}";` +
@@ -279,6 +287,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
 
         campaign.id = 123;
+        campaign.code = 'ABCDEF';
         campaign.name = 'test';
         organization.name = 'Umbrella';
 
@@ -299,6 +308,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
         const csvExcpectedLine =
           `"${organization.name}";` +
           `${campaign.id};` +
+          `"${campaign.code}";` +
           `"${campaign.name}";` +
           `"${campaignParticipationResultData.participantLastName}";` +
           `"${campaignParticipationResultData.participantFirstName}";` +
@@ -341,6 +351,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
 
           campaign.id = 123;
+          campaign.code = 'ABCDEF';
           campaign.name = 'test';
           organization.name = 'Umbrella';
 
@@ -360,6 +371,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           const csvExcpectedLine =
             `"${organization.name}";` +
             `${campaign.id};` +
+            `"${campaign.code}";` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
             `"${campaignParticipationResultData.participantFirstName}";` +
@@ -397,6 +409,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
 
           campaign.id = 123;
+          campaign.code = 'ABCDEF';
           campaign.name = 'test';
           organization.name = 'Umbrella';
 
@@ -416,6 +429,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           const csvExcpectedLine =
             `"${organization.name}";` +
             `${campaign.id};` +
+            `"${campaign.code}";` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
             `"${campaignParticipationResultData.participantFirstName}";` +
@@ -460,6 +474,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
 
           campaign.id = 123;
+          campaign.code = 'ABCDEF';
           campaign.name = 'test';
           organization.name = 'Umbrella';
 
@@ -479,6 +494,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           const csvExcpectedLine =
             `"${organization.name}";` +
             `${campaign.id};` +
+            `"${campaign.code}";` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
             `"${campaignParticipationResultData.participantFirstName}";` +
@@ -522,6 +538,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
 
           campaign.id = 123;
+          campaign.code = 'ABCDEF';
           campaign.name = 'test';
           organization.name = 'Umbrella';
 
@@ -542,6 +559,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           const csvExcpectedLine =
             `"${organization.name}";` +
             `${campaign.id};` +
+            `"${campaign.code}";` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
             `"${campaignParticipationResultData.participantFirstName}";` +
@@ -580,6 +598,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
 
           campaign.id = 123;
+          campaign.code = 'ABCDEF';
           campaign.name = 'test';
           organization.name = 'Umbrella';
 
@@ -600,6 +619,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           const csvExcpectedLine =
             `"${organization.name}";` +
             `${campaign.id};` +
+            `"${campaign.code}";` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
             `"${campaignParticipationResultData.participantFirstName}";` +
@@ -638,6 +658,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
 
           campaign.id = 123;
+          campaign.code = 'ABCDEF';
           campaign.name = 'test';
           organization.name = 'Umbrella';
 
@@ -658,6 +679,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           const csvExcpectedLine =
             `"${organization.name}";` +
             `${campaign.id};` +
+            `"${campaign.code}";` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
             `"${campaignParticipationResultData.participantFirstName}";` +
@@ -703,6 +725,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
 
           campaign.id = 123;
+          campaign.code = 'ABCDEF';
           campaign.name = 'test';
           organization.name = 'Umbrella';
 
@@ -722,6 +745,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           const csvExcpectedLine =
             `"${organization.name}";` +
             `${campaign.id};` +
+            `"${campaign.code}";` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
             `"${campaignParticipationResultData.participantFirstName}";` +

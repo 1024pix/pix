@@ -59,6 +59,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       const expectedHeader =
         '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
+        '"Code";' +
         '"Nom de la campagne";' +
         '"Nom du Participant";' +
         '"Prénom du Participant";' +
@@ -98,6 +99,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       const expectedHeader =
         '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
+        '"Code";' +
         '"Nom de la campagne";' +
         '"Nom du Participant";' +
         '"Prénom du Participant";' +
@@ -138,6 +140,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       const expectedHeader =
         '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
+        '"Code";' +
         '"Nom de la campagne";' +
         '"Nom du Participant";' +
         '"Prénom du Participant";' +
@@ -177,6 +180,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       const expectedHeader =
         '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
+        '"Code";' +
         '"Nom de la campagne";' +
         '"Nom du Participant";' +
         '"Prénom du Participant";' +
