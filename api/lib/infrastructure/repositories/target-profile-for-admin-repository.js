@@ -26,7 +26,8 @@ const get = async function ({ id, locale = FRENCH_FRANCE }) {
       'target-profiles.comment',
       'target-profiles.ownerOrganizationId',
       'target-profiles.category',
-      'target-profiles.isSimplifiedAccess'
+      'target-profiles.isSimplifiedAccess',
+      'target-profiles.areKnowledgeElementsResettable'
     )
     .where('id', id)
     .first();
