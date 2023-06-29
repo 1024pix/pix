@@ -3,17 +3,18 @@ import { writeFile, stat, unlink } from 'fs/promises';
 
 import FormData from 'form-data';
 import streamToPromise from 'stream-to-promise';
-import { NotFoundError } from '../../../../lib/application/http-errors.js';
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { sessionController } from '../../../../src/certification/shared/application/session-controller.js';
-import { sessionForSupervisingController } from '../../../../lib/application/sessions/session-for-supervising-controller.js';
-import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
-import { finalizedSessionController } from '../../../../lib/application/sessions/finalized-session-controller.js';
-import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
-import * as moduleUnderTest from '../../../../lib/application/sessions/index.js';
-import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
+import { NotFoundError } from '../../../../../lib/application/http-errors.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
+import { sessionController } from '../../../../../src/certification/shared/application/session-controller.js';
+import { sessionForSupervisingController } from '../../../../../lib/application/sessions/session-for-supervising-controller.js';
+import { sessionWithCleaCertifiedCandidateController } from '../../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
+import { finalizedSessionController } from '../../../../../lib/application/sessions/finalized-session-controller.js';
+import { authorization } from '../../../../../lib/application/preHandlers/authorization.js';
+import * as moduleUnderTest from '../../../../../src/certification/shared/application/index.js';
+import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../../lib/application/preHandlers/session-supervisor-authorization.js';
 import * as url from 'url';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Application | Sessions | Routes', function () {
@@ -228,12 +229,18 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('id validation', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/sessions/salut' } },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'GET', url: '/api/sessions/salut' },
+      },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
         request: { method: 'GET', url: '/api/sessions/9999999999' },
       },
-      { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/admin/sessions/salut' } },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'GET', url: '/api/admin/sessions/salut' },
+      },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
         request: { method: 'GET', url: '/api/admin/sessions/9999999999' },
@@ -244,60 +251,102 @@ describe('Unit | Application | Sessions | Routes', function () {
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'GET', url: '/api/sessions/9999999999/attendance-sheet' },
+        request: {
+          method: 'GET',
+          url: '/api/sessions/9999999999/attendance-sheet',
+        },
       },
-      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/sessions/salut' } },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'PATCH', url: '/api/sessions/salut' },
+      },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
         request: { method: 'PATCH', url: '/api/sessions/9999999999' },
       },
       {
         condition: 'session ID params is not a number',
-        request: { method: 'GET', url: '/api/sessions/salut/certification-candidates' },
+        request: {
+          method: 'GET',
+          url: '/api/sessions/salut/certification-candidates',
+        },
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'GET', url: '/api/sessions/9999999999/certification-candidates' },
+        request: {
+          method: 'GET',
+          url: '/api/sessions/9999999999/certification-candidates',
+        },
       },
       {
         condition: 'session ID params is not a number',
-        request: { method: 'POST', url: '/api/sessions/salut/certification-candidates' },
+        request: {
+          method: 'POST',
+          url: '/api/sessions/salut/certification-candidates',
+        },
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'POST', url: '/api/sessions/9999999999/certification-candidates' },
+        request: {
+          method: 'POST',
+          url: '/api/sessions/9999999999/certification-candidates',
+        },
       },
       {
         condition: 'session ID params is not a number',
-        request: { method: 'DELETE', url: '/api/sessions/salut/certification-candidates/1' },
+        request: {
+          method: 'DELETE',
+          url: '/api/sessions/salut/certification-candidates/1',
+        },
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'DELETE', url: '/api/sessions/9999999999/certification-candidates/1' },
+        request: {
+          method: 'DELETE',
+          url: '/api/sessions/9999999999/certification-candidates/1',
+        },
       },
       {
         condition: 'certification candidate ID params is not a number',
-        request: { method: 'DELETE', url: '/api/sessions/1/certification-candidates/salut' },
+        request: {
+          method: 'DELETE',
+          url: '/api/sessions/1/certification-candidates/salut',
+        },
       },
       {
         condition: 'certification candidate ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'DELETE', url: '/api/sessions/1/certification-candidates/9999999999' },
+        request: {
+          method: 'DELETE',
+          url: '/api/sessions/1/certification-candidates/9999999999',
+        },
       },
       {
         condition: 'session ID params is not a number',
-        request: { method: 'GET', url: '/api/admin/sessions/salut/jury-certification-summaries' },
+        request: {
+          method: 'GET',
+          url: '/api/admin/sessions/salut/jury-certification-summaries',
+        },
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'GET', url: '/api/admin/sessions/9999999999/jury-certification-summaries' },
+        request: {
+          method: 'GET',
+          url: '/api/admin/sessions/9999999999/jury-certification-summaries',
+        },
       },
       {
         condition: 'session ID params is not a number',
-        request: { method: 'POST', url: '/api/sessions/salut/candidate-participation' },
+        request: {
+          method: 'POST',
+          url: '/api/sessions/salut/candidate-participation',
+        },
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'POST', url: '/api/sessions/9999999999/candidate-participation' },
+        request: {
+          method: 'POST',
+          url: '/api/sessions/9999999999/candidate-participation',
+        },
       },
       {
         condition: 'session ID params is not a number',
@@ -305,7 +354,10 @@ describe('Unit | Application | Sessions | Routes', function () {
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'PUT', url: '/api/sessions/9999999999/finalization' },
+        request: {
+          method: 'PUT',
+          url: '/api/sessions/9999999999/finalization',
+        },
       },
       {
         condition: 'session ID params is not a number',
@@ -313,39 +365,66 @@ describe('Unit | Application | Sessions | Routes', function () {
       },
       {
         condition: 'session ID params is not a number',
-        request: { method: 'PATCH', url: '/api/admin/sessions/salut/unpublish' },
+        request: {
+          method: 'PATCH',
+          url: '/api/admin/sessions/salut/unpublish',
+        },
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/publish' },
+        request: {
+          method: 'PATCH',
+          url: '/api/admin/sessions/9999999999/publish',
+        },
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/unpublish' },
+        request: {
+          method: 'PATCH',
+          url: '/api/admin/sessions/9999999999/unpublish',
+        },
       },
       {
         condition: 'session ID params is not a number',
-        request: { method: 'PUT', url: '/api/admin/sessions/salut/results-sent-to-prescriber' },
+        request: {
+          method: 'PUT',
+          url: '/api/admin/sessions/salut/results-sent-to-prescriber',
+        },
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'PUT', url: '/api/admin/sessions/9999999999/results-sent-to-prescriber' },
+        request: {
+          method: 'PUT',
+          url: '/api/admin/sessions/9999999999/results-sent-to-prescriber',
+        },
       },
       {
         condition: 'session ID params is not a number',
-        request: { method: 'PATCH', url: '/api/admin/sessions/salut/certification-officer-assignment' },
+        request: {
+          method: 'PATCH',
+          url: '/api/admin/sessions/salut/certification-officer-assignment',
+        },
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/certification-officer-assignment' },
+        request: {
+          method: 'PATCH',
+          url: '/api/admin/sessions/9999999999/certification-officer-assignment',
+        },
       },
       {
         condition: 'session ID params is not a number',
-        request: { method: 'GET', url: '/api/sessions/hello/certified-clea-candidate-data' },
+        request: {
+          method: 'GET',
+          url: '/api/sessions/hello/certified-clea-candidate-data',
+        },
       },
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'GET', url: '/api/sessions/9999999999/certified-clea-candidate-data' },
+        request: {
+          method: 'GET',
+          url: '/api/sessions/9999999999/certified-clea-candidate-data',
+        },
       },
     ].forEach(({ condition, request }) => {
       it(`should return 400 when ${condition}`, async function () {

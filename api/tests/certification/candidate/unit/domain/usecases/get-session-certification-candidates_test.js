@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { getSessionCertificationCandidates } from '../../../../src/certification/candidate/domain/usecases/get-session-certification-candidates.js';
+import { expect, sinon } from '../../../../../test-helper.js';
+import { getSessionCertificationCandidates } from '../../../../../../src/certification/candidate/domain/usecases/get-session-certification-candidates.js';
 
 describe('Unit | Domain | Use Cases | get-session-certification-candidates', function () {
   const sessionId = 'sessionId';

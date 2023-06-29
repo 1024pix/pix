@@ -1,16 +1,16 @@
-import { expect, sinon, hFake, domainBuilder, catchErr } from '../../../test-helper.js';
-import { sessionController } from '../../../../src/certification/shared/application/session-controller.js';
-import { usecases as certificationUsecases } from '../../../../src/certification/shared/domain/usecases/index.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
-import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
-import { SessionPublicationBatchResult } from '../../../../lib/domain/models/SessionPublicationBatchResult.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
-import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
-import * as certificationResultUtils from '../../../../lib/infrastructure/utils/csv/certification-results.js';
-import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import * as events from '../../../../lib/domain/events/index.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { expect, sinon, hFake, domainBuilder, catchErr } from '../../../../test-helper.js';
+import { sessionController } from '../../../../../src/certification/shared/application/session-controller.js';
+import { usecases as certificationUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases } from '../../../../../lib/domain/usecases/index.js';
+import { UserAlreadyLinkedToCertificationCandidate } from '../../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
+import { UserLinkedToCertificationCandidate } from '../../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
+import { SessionPublicationBatchResult } from '../../../../../lib/domain/models/SessionPublicationBatchResult.js';
+import { logger } from '../../../../../lib/infrastructure/logger.js';
+import { SessionPublicationBatchError } from '../../../../../lib/application/http-errors.js';
+import * as certificationResultUtils from '../../../../../lib/infrastructure/utils/csv/certification-results.js';
+import * as queryParamsUtils from '../../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as events from '../../../../../lib/domain/events/index.js';
+import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Controller | sessionController', function () {
   let request;

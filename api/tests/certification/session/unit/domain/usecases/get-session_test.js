@@ -1,6 +1,6 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { getSession } from '../../../../src/certification/session/domain/usecases/get-session.js';
-import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { expect, sinon, catchErr, domainBuilder } from '../../../../../test-helper.js';
+import { getSession } from '../../../../../../src/certification/session/domain/usecases/get-session.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-session', function () {
   let sessionRepository;

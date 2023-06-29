@@ -4,9 +4,9 @@ import {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   insertUserWithRoleCertif,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
+import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Controller | session-controller-get', function () {
   let server, options;
