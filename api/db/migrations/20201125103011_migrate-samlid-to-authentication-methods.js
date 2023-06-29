@@ -1,5 +1,4 @@
-import { AuthenticationMethod } from '../../lib/domain/models/AuthenticationMethod.js';
-
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../lib/domain/constants/identity-providers.js';
 const up = function (knex) {
   // eslint-disable-next-line knex/avoid-injections
   return knex.raw(
@@ -16,7 +15,7 @@ const down = async function (knex) {
   );
 
   return await knex('authentication-methods')
-    .where({ identityProvider: AuthenticationMethod.identityProviders.GAR })
+    .where({ identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code })
     .delete();
 };
 

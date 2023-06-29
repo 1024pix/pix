@@ -262,25 +262,6 @@ module('Integration | Component | users | user-detail-personal-information/authe
           }
         }
 
-        module('when user has "Sunlight Navigations" authentication method', function () {
-          test('should display information', async function (assert) {
-            // given
-            this.set('user', {
-              authenticationMethods: [{ identityProvider: 'SUNLIGHT_NAVIGATIONS' }],
-            });
-            this.owner.register('service:access-control', AccessControlStub);
-            this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
-
-            // when
-            const screen = await render(
-              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
-            );
-
-            // then
-            assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations")).exists();
-          });
-        });
-
         module('when user does not have "Sunlight Navigations" authentication method', function () {
           test('should display information', async function (assert) {
             // given
@@ -300,7 +281,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
           });
         });
 
-        module('when user has more authentication methods', function () {
+        module('when user has one or more authentication methods', function () {
           test('should display information, delete and reassign buttons', async function (assert) {
             // given
             const toggleDisplayRemoveAuthenticationMethodModalStub = sinon.stub();

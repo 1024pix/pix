@@ -8,6 +8,7 @@ import {
 } from '../errors.js';
 
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 async function authenticateExternalUser({
   username,
@@ -73,7 +74,7 @@ async function _addGarAuthenticationMethod({
   await _checkIfSamlIdIsNotReconciledWithAnotherUser({ samlId, userId, userRepository });
 
   const garAuthenticationMethod = new AuthenticationMethod({
-    identityProvider: AuthenticationMethod.identityProviders.GAR,
+    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
     externalIdentifier: samlId,
     userId,
     authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({

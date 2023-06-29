@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 
 import { config } from '../../config.js';
 import * as localeService from '../services/locale-service.js';
-import { AuthenticationMethod } from './AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 class User {
   constructor(
@@ -83,7 +83,7 @@ class User {
 
   get shouldChangePassword() {
     const pixAuthenticationMethod = this.authenticationMethods.find(
-      (authenticationMethod) => authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.PIX
+      (authenticationMethod) => authenticationMethod.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code
     );
 
     return pixAuthenticationMethod ? pixAuthenticationMethod.authenticationComplement.shouldChangePassword : null;

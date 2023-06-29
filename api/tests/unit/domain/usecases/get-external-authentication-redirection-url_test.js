@@ -1,6 +1,7 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { getExternalAuthenticationRedirectionUrl } from '../../../../lib/domain/usecases/get-external-authentication-redirection-url.js';
 
 describe('Unit | UseCase | get-external-authentication-redirection-url', function () {
@@ -142,7 +143,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         const authenticationMethodWithoutFirstAndLastName = new AuthenticationMethod({
           id: 1234,
           userId: user.id,
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
           authenticationComplement: null,
           externalIdentifier: 'saml-id',
           createdAt: new Date('2020-01-01'),
@@ -150,7 +151,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         });
         userRepository.getBySamlId.withArgs('saml-id').resolves(user);
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.GAR })
+          .withArgs({ userId: user.id, identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code })
           .resolves(authenticationMethodWithoutFirstAndLastName);
 
         // when
@@ -166,7 +167,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
           id: authenticationMethodWithoutFirstAndLastName.id,
           userId: user.id,
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
           userFirstName: 'Vassili',
           userLastName: 'Lisitsa',
           externalIdentifier: 'saml-id',
@@ -185,7 +186,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         });
         userRepository.getBySamlId.withArgs('saml-id').resolves(user);
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.GAR })
+          .withArgs({ userId: user.id, identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code })
           .resolves(authenticationMethod);
 
         // when
@@ -201,7 +202,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
           id: authenticationMethod.id,
           userId: user.id,
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
           userFirstName: 'Valentina',
           userLastName: 'Lisitsa',
           externalIdentifier: 'saml-id',
@@ -220,7 +221,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         });
         userRepository.getBySamlId.withArgs('saml-id').resolves(user);
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.GAR })
+          .withArgs({ userId: user.id, identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code })
           .resolves(authenticationMethod);
 
         // when
@@ -236,7 +237,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
           id: authenticationMethod.id,
           userId: user.id,
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
           userFirstName: 'Valentina',
           userLastName: 'Volk',
           externalIdentifier: 'saml-id',
@@ -255,7 +256,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         });
         userRepository.getBySamlId.withArgs('saml-id').resolves(user);
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.GAR })
+          .withArgs({ userId: user.id, identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code })
           .resolves(authenticationMethod);
 
         // when

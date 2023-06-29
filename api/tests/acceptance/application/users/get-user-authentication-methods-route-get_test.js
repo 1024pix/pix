@@ -1,5 +1,5 @@
 import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | Users', function () {
@@ -33,7 +33,7 @@ describe('Acceptance | Route | Users', function () {
             type: 'authentication-methods',
             id: garAuthenticationMethod.id.toString(),
             attributes: {
-              'identity-provider': AuthenticationMethod.identityProviders.GAR,
+              'identity-provider': NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             },
           },
         ],

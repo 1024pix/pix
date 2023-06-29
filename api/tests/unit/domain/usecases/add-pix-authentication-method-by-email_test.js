@@ -1,6 +1,7 @@
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { addPixAuthenticationMethodByEmail } from '../../../../lib/domain/usecases/add-pix-authentication-method-by-email.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Unit | UseCase | add-pix-authentication-method-by-email', function () {
   let userRepository, authenticationMethodRepository;
@@ -75,7 +76,7 @@ describe('Unit | UseCase | add-pix-authentication-method-by-email', function () 
       // then
       const authenticationMethodFromPix = new AuthenticationMethod({
         userId: user.id,
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
         authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
           password: hashedPassword,
           shouldChangePassword: false,

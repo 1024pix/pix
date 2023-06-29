@@ -11,7 +11,7 @@ import {
 } from '../../../../lib/domain/errors.js';
 
 import { User } from '../../../../lib/domain/models/User.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
@@ -134,7 +134,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // when
         const foundUser = await userRepository.findByExternalIdentifier({
           externalIdentityId,
-          identityProvider: AuthenticationMethod.identityProviders.PIX,
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
         });
 
         // then
@@ -1178,7 +1178,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
           // then
           const pixAuthenticationMethod = userDetailsForAdmin.authenticationMethods.find(
-            ({ identityProvider }) => identityProvider === AuthenticationMethod.identityProviders.PIX
+            ({ identityProvider }) => identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code
           );
           expect(userDetailsForAdmin.authenticationMethods.length).to.equal(2);
           expect(pixAuthenticationMethod).to.deep.equal({
@@ -1186,7 +1186,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
               shouldChangePassword: false,
             },
             id: expectedPixAuthenticationMethod.id,
-            identityProvider: AuthenticationMethod.identityProviders.PIX,
+            identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
           });
         });
       });

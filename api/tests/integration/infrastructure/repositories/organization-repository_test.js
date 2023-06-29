@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { catchErr, expect, knex, domainBuilder, databaseBuilder } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
+import { Organization } from '../../../../lib/domain/models/index.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
-import { SamlIdentityProviders } from '../../../../lib/domain/constants/saml-identity-providers.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Integration | Repository | Organization', function () {
   describe('#create', function () {
@@ -82,7 +82,7 @@ describe('Integration | Repository | Organization', function () {
         logoUrl: 'http://new.logo.url',
         externalId: '999Z527F',
         provinceCode: '999',
-        identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
+        identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
         isManagingStudents: true,
         credit: 50,
         email: 'email@example.net',
@@ -109,7 +109,7 @@ describe('Integration | Repository | Organization', function () {
         externalId: '999Z527F',
         provinceCode: '999',
         isManagingStudents: true,
-        identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
+        identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
         credit: 50,
         email: 'email@example.net',
         documentationUrl: 'https://pix.fr/',
@@ -153,7 +153,7 @@ describe('Integration | Repository | Organization', function () {
           credit: 154,
           externalId: '100',
           provinceCode: '75',
-          identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
+          identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
           isManagingStudents: 'true',
           email: 'sco.generic.account@example.net',
           documentationUrl: 'https://pix.fr/',
@@ -185,7 +185,7 @@ describe('Integration | Repository | Organization', function () {
           email: 'sco.generic.account@example.net',
           targetProfileShares: [],
           organizationInvitations: [],
-          identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
+          identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
           tags: [{ id: tag.id, name: 'SUPER-TAG' }],
           documentationUrl: 'https://pix.fr/',
           createdBy: insertedOrganization.createdBy,

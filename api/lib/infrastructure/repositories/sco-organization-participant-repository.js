@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { filterByFullName } from '../utils/filter-utils.js';
-import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { fetchPage } from '../utils/knex-utils.js';
 import { ScoOrganizationParticipant } from '../../domain/read-models/ScoOrganizationParticipant.js';
@@ -147,7 +147,7 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
     .leftJoin('authentication-methods', function () {
       this.on('users.id', 'authentication-methods.userId').andOnVal(
         'authentication-methods.identityProvider',
-        AuthenticationMethod.identityProviders.GAR
+        NON_OIDC_IDENTITY_PROVIDERS.GAR.code
       );
     })
     .leftJoin('campaigns', function () {

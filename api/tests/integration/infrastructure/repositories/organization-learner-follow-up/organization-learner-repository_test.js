@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, catchErr } from '../../../../test-helper.js';
 import * as organizationLearnerFollowUpRepository from '../../../../../lib/infrastructure/repositories/organization-learner-follow-up/organization-learner-repository.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
 
 describe('Integration | Infrastructure | Repository | Organization Learner Follow Up | Organization Learner', function () {
   describe('#get', function () {
@@ -132,8 +132,8 @@ describe('Integration | Infrastructure | Repository | Organization Learner Follo
             const organizationLearner = await organizationLearnerFollowUpRepository.get(organizationLearnerId);
 
             expect(organizationLearner.authenticationMethods).to.deep.equal([
-              AuthenticationMethod.identityProviders.PIX,
-              AuthenticationMethod.identityProviders.GAR,
+              NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+              NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             ]);
           });
         });

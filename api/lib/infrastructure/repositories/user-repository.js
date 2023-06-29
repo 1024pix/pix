@@ -21,6 +21,7 @@ import { CertificationCenterMembership } from '../../domain/models/Certification
 import { Organization } from '../../domain/models/Organization.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
 import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 import { UserLogin } from '../../domain/models/UserLogin.js';
 
@@ -196,7 +197,7 @@ const getBySamlId = async function (samlId) {
   const bookshelfUser = await BookshelfUser.query((qb) => {
     qb.innerJoin('authentication-methods', function () {
       this.on('users.id', 'authentication-methods.userId')
-        .andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.GAR)
+        .andOnVal('authentication-methods.identityProvider', NON_OIDC_IDENTITY_PROVIDERS.GAR.code)
         .andOnVal('authentication-methods.externalIdentifier', samlId);
     });
   }).fetch({ require: false, withRelated: 'authenticationMethods' });
@@ -485,7 +486,7 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
 
   const authenticationMethods = authenticationMethodsDTO.map((authenticationMethod) => {
     const isPixAuthenticationMethodWithAuthenticationComplement =
-      authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.PIX &&
+      authenticationMethod.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code &&
       authenticationMethod.authenticationComplement;
     if (isPixAuthenticationMethodWithAuthenticationComplement) {
       // eslint-disable-next-line no-unused-vars
@@ -561,7 +562,7 @@ function _getAuthenticationComplementAndExternalIdentifier(authenticationMethodB
   let authenticationComplement = authenticationMethodBookshelf.get('authenticationComplement');
   let externalIdentifier = authenticationMethodBookshelf.get('externalIdentifier');
 
-  if (identityProvider === AuthenticationMethod.identityProviders.PIX) {
+  if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
     authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
       password: authenticationComplement.password,
       shouldChangePassword: Boolean(authenticationComplement.shouldChangePassword),

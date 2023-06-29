@@ -11,6 +11,7 @@ import {
 } from '../../../../lib/domain/errors.js';
 
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Unit | Application | UseCase | authenticate-external-user', function () {
   let tokenService;
@@ -227,7 +228,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
 
         // then
         const expectedAuthenticationMethod = new AuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
           externalIdentifier: samlId,
           userId: user.id,
           authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({
@@ -278,7 +279,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
 
         // then
         const expectedAuthenticationMethod = new AuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
           externalIdentifier,
           userId: user.id,
           authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({
