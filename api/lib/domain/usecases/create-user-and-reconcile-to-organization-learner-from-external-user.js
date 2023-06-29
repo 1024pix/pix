@@ -1,6 +1,6 @@
 import { CampaignCodeError, ObjectValidationError } from '../errors.js';
 import { User } from '../models/User.js';
-import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 
 const createUserAndReconcileToOrganizationLearnerFromExternalUser = async function ({
@@ -80,7 +80,7 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
       await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({
         externalIdentifier: externalUser.samlId,
         userId: error.meta.userId,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
       });
       const organizationLearner = await organizationLearnerRepository.reconcileUserToOrganizationLearner({
         userId: error.meta.userId,

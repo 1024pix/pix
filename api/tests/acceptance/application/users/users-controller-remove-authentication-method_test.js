@@ -7,7 +7,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Acceptance | Controller | users-controller-remove-authentication-method', function () {
   let server;
@@ -62,7 +62,7 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
 
       // then
       const pixAuthenticationMethod = await knex('authentication-methods')
-        .where({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.PIX })
+        .where({ userId: user.id, identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code })
         .first();
       expect(pixAuthenticationMethod).to.be.undefined;
     });
