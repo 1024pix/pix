@@ -3,6 +3,7 @@ const { isUndefined, isNil } = lodash;
 
 import { databaseBuffer } from '../database-buffer.js';
 import { AuthenticationMethod } from '../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../lib/domain/constants/identity-providers.js';
 import { Membership } from '../../../lib/domain/models/Membership.js';
 
 import * as encrypt from '../../../lib/domain/services/encryption-service.js';
@@ -31,7 +32,7 @@ function _buildPixAuthenticationMethod({
   const values = {
     id,
     userId,
-    identityProvider: AuthenticationMethod.identityProviders.PIX,
+    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
     authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
       password: hashedPassword,
       shouldChangePassword,

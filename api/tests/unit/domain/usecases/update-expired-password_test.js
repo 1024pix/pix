@@ -1,6 +1,6 @@
 import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper.js';
 import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { updateExpiredPassword } from '../../../../lib/domain/usecases/update-expired-password.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 
@@ -60,7 +60,7 @@ describe('Unit | UseCase | update-expired-password', function () {
     expect(encryptionService.hashPassword).to.have.been.calledOnceWith(newPassword);
     expect(authenticationMethodRepository.findOneByUserIdAndIdentityProvider).to.have.been.calledOnceWith({
       userId: user.id,
-      identityProvider: AuthenticationMethod.identityProviders.PIX,
+      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
     });
     expect(authenticationMethodRepository.updateExpiredPassword).to.have.been.calledOnceWith({
       userId: user.id,

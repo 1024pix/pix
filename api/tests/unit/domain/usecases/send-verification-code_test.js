@@ -6,7 +6,7 @@ import {
   UserNotAuthorizedToUpdateEmailError,
 } from '../../../../lib/domain/errors.js';
 
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 
@@ -56,7 +56,7 @@ describe('Unit | UseCase | send-verification-code', function () {
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider
       .withArgs({
         userId,
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       })
       .resolves(
         domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
@@ -101,7 +101,7 @@ describe('Unit | UseCase | send-verification-code', function () {
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider
       .withArgs({
         userId,
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       })
       .resolves(
         domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
@@ -176,7 +176,7 @@ describe('Unit | UseCase | send-verification-code', function () {
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider
       .withArgs({
         userId,
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       })
       .resolves(
         domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({

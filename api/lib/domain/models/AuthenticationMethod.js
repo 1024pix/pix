@@ -2,11 +2,8 @@ import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
 import { validateEntity } from '../validators/entity-validator.js';
-
-const identityProviders = {
-  PIX: 'PIX',
-  GAR: 'GAR',
-};
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
+import { getValidOidcProviderCodes, POLE_EMPLOI, CNAV, FWB } from '../constants/oidc-identity-providers.js';
 
 class PixAuthenticationComplement {
   constructor({ password, shouldChangePassword } = {}) {
@@ -58,21 +55,21 @@ class GARAuthenticationComplement {
 const validationSchema = Joi.object({
   id: Joi.number().optional(),
   identityProvider: Joi.string()
-    .valid(...Object.values(identityProviders), 'POLE_EMPLOI', 'CNAV', 'FWB')
+    .valid(NON_OIDC_IDENTITY_PROVIDERS.PIX.code, NON_OIDC_IDENTITY_PROVIDERS.GAR.code, ...getValidOidcProviderCodes())
     .required(),
   authenticationComplement: Joi.when('identityProvider', [
-    { is: identityProviders.PIX, then: Joi.object().instance(PixAuthenticationComplement).required() },
-    { is: 'POLE_EMPLOI', then: Joi.object().instance(OidcAuthenticationComplement).required() },
-    { is: identityProviders.GAR, then: Joi.any().empty() },
-    { is: 'CNAV', then: Joi.any().empty() },
-    { is: 'FWB', then: Joi.any().empty() },
+    { is: NON_OIDC_IDENTITY_PROVIDERS.PIX.code, then: Joi.object().instance(PixAuthenticationComplement).required() },
+    { is: POLE_EMPLOI.code, then: Joi.object().instance(OidcAuthenticationComplement).required() },
+    { is: NON_OIDC_IDENTITY_PROVIDERS.GAR.code, then: Joi.any().empty() },
+    { is: CNAV.code, then: Joi.any().empty() },
+    { is: FWB.code, then: Joi.any().empty() },
   ]),
   externalIdentifier: Joi.when('identityProvider', [
-    { is: identityProviders.GAR, then: Joi.string().required() },
-    { is: 'POLE_EMPLOI', then: Joi.string().required() },
-    { is: identityProviders.PIX, then: Joi.any().forbidden() },
-    { is: 'CNAV', then: Joi.string().required() },
-    { is: 'FWB', then: Joi.string().required() },
+    { is: NON_OIDC_IDENTITY_PROVIDERS.PIX.code, then: Joi.any().forbidden() },
+    { is: NON_OIDC_IDENTITY_PROVIDERS.GAR.code, then: Joi.string().required() },
+    { is: POLE_EMPLOI.code, then: Joi.string().required() },
+    { is: CNAV.code, then: Joi.string().required() },
+    { is: FWB.code, then: Joi.string().required() },
   ]),
   userId: Joi.number().integer().required(),
   createdAt: Joi.date().optional(),
@@ -104,7 +101,7 @@ class AuthenticationMethod {
     const authenticationComplement = new PixAuthenticationComplement({ password, shouldChangePassword });
     return new AuthenticationMethod({
       id,
-      identityProvider: identityProviders.PIX,
+      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       authenticationComplement,
       externalIdentifier: undefined,
       createdAt,
@@ -114,7 +111,6 @@ class AuthenticationMethod {
   }
 }
 
-AuthenticationMethod.identityProviders = identityProviders;
 AuthenticationMethod.PixAuthenticationComplement = PixAuthenticationComplement;
 AuthenticationMethod.OidcAuthenticationComplement = OidcAuthenticationComplement;
 AuthenticationMethod.GARAuthenticationComplement = GARAuthenticationComplement;

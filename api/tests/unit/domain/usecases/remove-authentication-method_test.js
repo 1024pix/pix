@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { removeAuthenticationMethod } from '../../../../lib/domain/usecases/remove-authentication-method.js';
 import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 
 describe('Unit | UseCase | remove-authentication-method', function () {
@@ -77,7 +77,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         // then
         expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
           userId: user.id,
-          identityProvider: AuthenticationMethod.identityProviders.PIX,
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
         });
       });
     });
@@ -130,7 +130,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         // then
         expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
           userId: user.id,
-          identityProvider: AuthenticationMethod.identityProviders.PIX,
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
         });
       });
     });
@@ -168,7 +168,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // then
       expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
         userId: user.id,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
       });
     });
   });

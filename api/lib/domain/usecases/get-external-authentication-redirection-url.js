@@ -1,4 +1,5 @@
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 const getExternalAuthenticationRedirectionUrl = async function ({
   userAttributes,
@@ -47,7 +48,7 @@ async function _getUrlWithAccessToken({
 async function _saveUserFirstAndLastName({ authenticationMethodRepository, user, externalUser }) {
   const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
     userId: user.id,
-    identityProvider: AuthenticationMethod.identityProviders.GAR,
+    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
   });
 
   if (

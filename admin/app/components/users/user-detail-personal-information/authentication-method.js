@@ -22,10 +22,10 @@ export default class AuthenticationMethod extends Component {
     );
   }
 
-  get pixAuthenticationMethod() {
-    return this.args.user.authenticationMethods.find(
+  get shouldChangePassword() {
+    return !!this.args.user.authenticationMethods.find(
       (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
-    );
+    )?.authenticationComplement?.shouldChangePassword;
   }
 
   get hasEmailAuthenticationMethod() {
@@ -76,33 +76,31 @@ export default class AuthenticationMethod extends Component {
     return userAuthenticationMethods.length > 1 || (userAuthenticationMethods.length === 1 && hasUsername && hasEmail);
   }
 
-  get oidcAuthenticationMethods() {
+  get userOidcAuthenticationMethods() {
     return this.oidcIdentityProviders.list.map((oidcIdentityProvider) => {
-      const hasAuthenticationMethod = this.args.user.authenticationMethods.any(
+      const userHasThisOidcAuthenticationMethod = this.args.user.authenticationMethods.any(
         (authenticationMethod) => authenticationMethod.identityProvider === oidcIdentityProvider.code
       );
 
       return {
         code: oidcIdentityProvider.code,
         name: oidcIdentityProvider.organizationName,
-        hasAuthenticationMethod,
-        canBeRemoved: hasAuthenticationMethod && this._hasMultipleAuthenticationMethods(),
-        canBeReassigned: hasAuthenticationMethod,
+        userHasThisOidcAuthenticationMethod,
+        canBeRemovedFromUserAuthenticationMethods:
+          userHasThisOidcAuthenticationMethod && this._hasMultipleAuthenticationMethods(),
+        canBeReassignedToAnotherUser: userHasThisOidcAuthenticationMethod,
       };
     });
   }
 
   @action
-  toggleAddAuthenticationMethodModal() {
-    this.showAddAuthenticationMethodModal = !this.showAddAuthenticationMethodModal;
-    this.showAlreadyExistingEmailError = false;
-    this.newEmail = '';
+  onChangeNewEmail(event) {
+    this.newEmail = event.target.value;
   }
 
   @action
-  toggleReassignGarAuthenticationMethodModal() {
-    this.showReassignGarAuthenticationMethodModal = !this.showReassignGarAuthenticationMethodModal;
-    this.targetUserId = '';
+  onChangeTargetUserId(event) {
+    this.targetUserId = event.target.value;
   }
 
   @action
@@ -139,29 +137,30 @@ export default class AuthenticationMethod extends Component {
   }
 
   @action
-  onChangeNewEmail(event) {
-    this.newEmail = event.target.value;
-  }
-
-  @action
-  onChangeTargetUserId(event) {
-    this.targetUserId = event.target.value;
-  }
-
-  @action
-  toggleReassignOidcAuthenticationMethodModal(oidcAuthenticationMethod) {
-    this.targetUserId = '';
-    this.selectedOidcAuthenticationMethod = oidcAuthenticationMethod ? { ...oidcAuthenticationMethod } : null;
-    this.showReassignOidcAuthenticationMethodModal = !this.showReassignOidcAuthenticationMethodModal;
-  }
-
-  @action
   async submitReassignOidcAuthenticationMethod(oidcAuthenticationMethodCode) {
     await this.args.reassignAuthenticationMethod({
       targetUserId: this.targetUserId,
       identityProvider: oidcAuthenticationMethodCode,
     });
+    this.showReassignOidcAuthenticationMethodModal = !this.showReassignOidcAuthenticationMethodModal;
+  }
 
-    this.showReassignOidcAuthenticationMethodModal = false;
+  @action
+  toggleAddAuthenticationMethodModal() {
+    this.showAddAuthenticationMethodModal = !this.showAddAuthenticationMethodModal;
+    this.showAlreadyExistingEmailError = false;
+    this.newEmail = '';
+  }
+
+  @action
+  toggleReassignGarAuthenticationMethodModal() {
+    this.showReassignGarAuthenticationMethodModal = !this.showReassignGarAuthenticationMethodModal;
+    this.targetUserId = '';
+  }
+
+  @action
+  toggleReassignOidcAuthenticationMethodModal(oidcAuthenticationMethod) {
+    this.selectedOidcAuthenticationMethod = oidcAuthenticationMethod ? { ...oidcAuthenticationMethod } : null;
+    this.showReassignOidcAuthenticationMethodModal = !this.showReassignOidcAuthenticationMethodModal;
   }
 }

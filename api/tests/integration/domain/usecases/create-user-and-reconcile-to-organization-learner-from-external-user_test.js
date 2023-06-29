@@ -11,7 +11,7 @@ import { tokenService } from '../../../../lib/domain/services/token-service.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import * as userService from '../../../../lib/domain/services/user-service.js';
 
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 import {
   CampaignCodeError,
@@ -299,7 +299,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             expect(organizationLearnerInDB[0].userId).to.equal(otherAccount.id);
 
             const authenticationMethodInDB = await knex('authentication-methods').where({
-              identityProvider: AuthenticationMethod.identityProviders.GAR,
+              identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
               userId: otherAccount.id,
             });
             expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
@@ -352,7 +352,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             expect(organizationLearnerInDB[0].userId).to.equal(otherAccount.id);
 
             const authenticationMethodInDB = await knex('authentication-methods').where({
-              identityProvider: AuthenticationMethod.identityProviders.GAR,
+              identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
               userId: otherAccount.id,
             });
             expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);

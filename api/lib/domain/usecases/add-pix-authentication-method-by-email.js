@@ -1,5 +1,6 @@
 import { AuthenticationMethodAlreadyExistsError } from '../errors.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 const addPixAuthenticationMethodByEmail = async function ({
   userId,
@@ -21,7 +22,7 @@ const addPixAuthenticationMethodByEmail = async function ({
 
     const authenticationMethodFromPix = new AuthenticationMethod({
       userId,
-      identityProvider: AuthenticationMethod.identityProviders.PIX,
+      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
         password: hashedPassword,
         shouldChangePassword: false,

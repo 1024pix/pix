@@ -1,4 +1,5 @@
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../constants/identity-providers.js';
 
 const updateUserForAccountRecovery = async function ({
   password,
@@ -30,7 +31,7 @@ const updateUserForAccountRecovery = async function ({
   } else {
     const authenticationMethodFromPix = new AuthenticationMethod({
       userId,
-      identityProvider: AuthenticationMethod.identityProviders.PIX,
+      identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
         password: hashedPassword,
         shouldChangePassword: false,

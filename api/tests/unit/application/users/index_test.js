@@ -4,6 +4,7 @@ import { userVerification } from '../../../../lib/application/preHandlers/user-e
 import { userController } from '../../../../lib/application/users/user-controller.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import * as moduleUnderTest from '../../../../lib/application/users/index.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Unit | Router | user-router', function () {
   describe('POST /api/users', function () {
@@ -933,7 +934,7 @@ describe('Unit | Router | user-router', function () {
     describe('POST /api/admin/users/{id}/remove-authentication', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
-        'GAR',
+        NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
         'EMAIL',
         'USERNAME',
         // eslint-disable-next-line mocha/no-setup-in-describe
@@ -1063,7 +1064,11 @@ describe('Unit | Router | user-router', function () {
 
     describe('POST /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      ['GAR', OidcIdentityProviders.POLE_EMPLOI.code].forEach((identityProvider) => {
+      [
+        NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+        OidcIdentityProviders.POLE_EMPLOI.code,
+        OidcIdentityProviders.CNAV.code,
+      ].forEach((identityProvider) => {
         it(`should return 200 when user role is "SUPER_ADMIN" and identity provider is "${identityProvider}"`, async function () {
           // given
           sinon
@@ -1135,7 +1140,7 @@ describe('Unit | Router | user-router', function () {
         });
       });
 
-      it('should return 400 when "userId" is not a number', async function () {
+      it('returns 400 when "userId" is not a number', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -1151,7 +1156,7 @@ describe('Unit | Router | user-router', function () {
         expect(JSON.parse(payload).errors[0].detail).to.equal('"userId" must be a number');
       });
 
-      it('should return 400 when "authenticationMethodId" is not a number', async function () {
+      it('returns 400 when "authenticationMethodId" is not a number', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -1167,21 +1172,21 @@ describe('Unit | Router | user-router', function () {
         expect(JSON.parse(payload).errors[0].detail).to.equal('"authenticationMethodId" must be a number');
       });
 
-      it('should return 400 when the payload is invalid', async function () {
+      it('returns 400 when the payload contains an invalid identity provider', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
         const payload = {
           data: {
             attributes: {
-              'user-id': 'invalid-user-id',
+              'user-id': 1,
               'identity-provider': 'invalid-identity-provider',
             },
           },
         };
 
         // when
-        const { statusCode } = await httpTestServer.request(
+        const { statusCode, result } = await httpTestServer.request(
           'POST',
           '/api/admin/users/1/authentication-methods/1',
           payload
@@ -1189,9 +1194,36 @@ describe('Unit | Router | user-router', function () {
 
         // then
         expect(statusCode).to.equal(400);
+        expect(result.errors[0].detail).to.equal(
+          '"data.attributes.identity-provider" must be one of [GAR, POLE_EMPLOI, CNAV]'
+        );
+      });
+      it('returns 400 when the payload contains an invalid user id', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+        const payload = {
+          data: {
+            attributes: {
+              'user-id': 'invalid-user-id',
+              'identity-provider': NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+            },
+          },
+        };
+
+        // when
+        const { statusCode, result } = await httpTestServer.request(
+          'POST',
+          '/api/admin/users/1/authentication-methods/1',
+          payload
+        );
+
+        // then
+        expect(statusCode).to.equal(400);
+        expect(result.errors[0].detail).to.equal('"data.attributes.user-id" must be a number');
       });
 
-      it(`should return 403 when user don't have access (CERTIF | METIER)`, async function () {
+      it(`returns 403 when user don't have access (CERTIF | METIER)`, async function () {
         // given
         sinon.stub(userController, 'reassignAuthenticationMethods').returns('ok');
         sinon
@@ -1206,7 +1238,7 @@ describe('Unit | Router | user-router', function () {
           data: {
             attributes: {
               'user-id': 2,
-              'identity-provider': 'GAR',
+              'identity-provider': NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             },
           },
         };

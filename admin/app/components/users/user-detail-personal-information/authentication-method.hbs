@@ -24,9 +24,7 @@
   <ul>
     <li class="authentication-method__connexions-information">
       {{t "components.users.user-detail-personal-information.authentication-method.should-change-password-status"}}
-      {{#if this.pixAuthenticationMethod.authenticationComplement.shouldChangePassword}}{{t
-          "common.words.yes"
-        }}{{else}}{{t "common.words.no"}}{{/if}}
+      {{#if this.shouldChangePassword}}{{t "common.words.yes"}}{{else}}{{t "common.words.no"}}{{/if}}
     </li>
   </ul>
 {{/if}}
@@ -142,20 +140,20 @@
       </td>
     </tr>
 
-    {{#each this.oidcAuthenticationMethods as |oidcAuthenticationMethod|}}
+    {{#each this.userOidcAuthenticationMethods as |userOidcAuthenticationMethod|}}
       <tr>
-        <td class="authentication-method-table__name-column">{{oidcAuthenticationMethod.name}}</td>
+        <td class="authentication-method-table__name-column">{{userOidcAuthenticationMethod.name}}</td>
         <td>
-          {{#if oidcAuthenticationMethod.hasAuthenticationMethod}}
+          {{#if userOidcAuthenticationMethod.userHasThisOidcAuthenticationMethod}}
             <FaIcon
               @icon="circle-check"
-              aria-label="L'utilisateur a une méthode de connexion {{oidcAuthenticationMethod.name}}"
+              aria-label="L'utilisateur a une méthode de connexion {{userOidcAuthenticationMethod.name}}"
               class="authentication-method-table__check"
             />
           {{else}}
             <FaIcon
               @icon="circle-xmark"
-              aria-label="L'utilisateur n'a pas de méthode de connexion {{oidcAuthenticationMethod.name}}"
+              aria-label="L'utilisateur n'a pas de méthode de connexion {{userOidcAuthenticationMethod.name}}"
               class="authentication-method-table__uncheck"
             />
           {{/if}}
@@ -163,17 +161,17 @@
         <td class="authentication-method-table__actions-column">
           {{#if this.accessControl.hasAccessToUsersActionsScope}}
             <div>
-              {{#if oidcAuthenticationMethod.canBeRemoved}}
+              {{#if userOidcAuthenticationMethod.canBeRemovedFromUserAuthenticationMethods}}
                 <PixButton
                   class="user-authentication-method__remove-button"
                   @size="small"
                   @backgroundColor="red"
-                  @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal oidcAuthenticationMethod.code}}
+                  @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal userOidcAuthenticationMethod.code}}
                 >Supprimer</PixButton>
               {{/if}}
-              {{#if oidcAuthenticationMethod.canBeReassigned}}
+              {{#if userOidcAuthenticationMethod.canBeReassignedToAnotherUser}}
                 <PixButton
-                  @triggerAction={{fn this.toggleReassignOidcAuthenticationMethodModal oidcAuthenticationMethod}}
+                  @triggerAction={{fn this.toggleReassignOidcAuthenticationMethodModal userOidcAuthenticationMethod}}
                   @size="small"
                 >
                   Déplacer cette méthode de connexion
