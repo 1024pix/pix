@@ -1,7 +1,7 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
 import { Organization, OrganizationForAdmin, Tag } from '../../../../../lib/domain/models/index.js';
-import { IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
   describe('#serialize', function () {
@@ -21,7 +21,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         dataProtectionOfficerFirstName: 'Justin',
         dataProtectionOfficerLastName: 'Ptipeu',
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
-        identityProviderForCampaigns: IDENTITY_PROVIDERS.GAR.code,
+        identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
       });
       const meta = { some: 'meta' };
 
@@ -54,7 +54,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'data-protection-officer-last-name': organization.dataProtectionOfficerLastName,
             'data-protection-officer-email': organization.dataProtectionOfficerEmail,
             'creator-full-name': organization.creatorFullName,
-            'identity-provider-for-campaigns': IDENTITY_PROVIDERS.GAR.code,
+            'identity-provider-for-campaigns': NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
           },
           relationships: {
             'organization-memberships': {
@@ -121,7 +121,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         createdBy: 10,
         documentationUrl: 'https://pix.fr/',
         showSkills: false,
-        identityProviderForCampaigns: IDENTITY_PROVIDERS.GAR.code,
+        identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
         dataProtectionOfficerFirstName: 'Justin',
         dataProtectionOfficerLastName: 'Ptipeu',
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',

@@ -3,7 +3,7 @@ import { NotFoundError, MissingAttributesError } from '../../../../lib/domain/er
 import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/Organization.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/index.js';
 import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
-import { IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 
 describe('Integration | Repository | Organization-for-admin', function () {
@@ -221,7 +221,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         credit: 50,
         email: 'email@example.net',
         documentationUrl: 'https://pix.fr/',
-        identityProviderForCampaigns: IDENTITY_PROVIDERS.GAR.code,
+        identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
       });
       const organizationSaved = await organizationForAdminRepository.update(organizationToUpdate);
 
@@ -251,7 +251,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         dataProtectionOfficerEmail: undefined,
         creatorFirstName: undefined,
         creatorLastName: undefined,
-        identityProviderForCampaigns: IDENTITY_PROVIDERS.GAR.code,
+        identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
         enableMultipleSendingAssessment: undefined,
         tags: [{ id: tagId, name: 'orga tag' }],
       });

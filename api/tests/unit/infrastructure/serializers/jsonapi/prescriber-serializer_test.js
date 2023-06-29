@@ -2,7 +2,7 @@ import { expect, domainBuilder } from '../../../../test-helper.js';
 
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer.js';
 import { Membership } from '../../../../../lib/domain/models/index.js';
-import { IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
 
 describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
   describe('#serialize', function () {
@@ -106,7 +106,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
       it('should serialize prescriber with identityProviderForCampaigns', function () {
         // given
         const organization = domainBuilder.buildOrganization({
-          identityProviderForCampaigns: IDENTITY_PROVIDERS.GAR.code,
+          identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
         });
         const membership = domainBuilder.buildMembership({ organization });
 
