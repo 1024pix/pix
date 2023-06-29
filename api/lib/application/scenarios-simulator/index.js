@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { securityPreHandlers } from '../security-pre-handlers.js';
-import { scenarioSimulatorController } from './scenario-simulator-controller.js';
+import { scenarioSimulatorController } from '../../../src/certification/assessment/application/scenario-simulator-controller.js';
 
 const _baseScenarioParametersValidator = Joi.object().keys({
   assessmentId: Joi.string().required(),
