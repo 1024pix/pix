@@ -339,6 +339,10 @@ const configuration = (function () {
         cron: process.env.CPF_SEND_EMAIL_JOB_CRON || '0 0 1 1 *',
       },
     },
+
+    v3Certification: {
+      numberOfChallengesPerCourse: process.env.V3_CERTIFICATION_NUMBER_OF_CHALLENGES_PER_COURSE || 20,
+    },
   };
 
   if (config.environment === 'development') {

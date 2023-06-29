@@ -1,6 +1,6 @@
 import { CertificationVersion } from '../models/CertificationVersion.js';
 import { CertificationChallenge, FlashAssessmentAlgorithm } from '../models/index.js';
-import { MAX_NEXT_GEN_CERTIFICATION_CHALLENGES } from '../constants.js';
+import { config } from '../../config.js';
 
 const getNextChallengeForCertification = async function ({
   algorithmDataFetcherService,
@@ -35,7 +35,7 @@ const getNextChallengeForCertification = async function ({
     });
 
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
-      maximumAssessmentLength: MAX_NEXT_GEN_CERTIFICATION_CHALLENGES,
+      maximumAssessmentLength: config.v3Certification.numberOfChallengesPerCourse,
     });
 
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
