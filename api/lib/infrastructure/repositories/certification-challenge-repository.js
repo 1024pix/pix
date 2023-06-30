@@ -27,19 +27,6 @@ const save = async function ({ certificationChallenge, domainTransaction = Domai
   return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationChallenge, savedCertificationChallenge);
 };
 
-const getByChallengeIdAndCourseId = async function ({ challengeId, courseId }) {
-  const certificationChallenge = await knex('certification-challenges').where({ challengeId, courseId }).first();
-
-  if (!certificationChallenge) {
-    return;
-  }
-
-  return CertificationChallenge.from({
-    challenge: certificationChallenge,
-    certificationCourseId: courseId,
-  });
-};
-
 const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, courseId) {
   const answeredChallengeIds = Bookshelf.knex('answers').select('challengeId').where({ assessmentId });
 
@@ -80,9 +67,4 @@ const getNextNonAnsweredChallengeByCourseIdForV3 = async function (assessmentId,
   });
 };
 
-export {
-  save,
-  getByChallengeIdAndCourseId,
-  getNextNonAnsweredChallengeByCourseId,
-  getNextNonAnsweredChallengeByCourseIdForV3,
-};
+export { save, getNextNonAnsweredChallengeByCourseId, getNextNonAnsweredChallengeByCourseIdForV3 };
