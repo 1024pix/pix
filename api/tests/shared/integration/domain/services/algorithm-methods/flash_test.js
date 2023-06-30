@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../../../test-helper.js';
 import * as flash from '../../../../../../src/shared/domain/services/algorithm-methods/flash.js';
-import { AnswerStatus } from '../../../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { config } from '../../../../../../lib/config.js';
 
 describe('Integration | Domain | Algorithm-methods | Flash', function () {

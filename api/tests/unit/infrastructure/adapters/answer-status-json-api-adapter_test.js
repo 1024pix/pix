@@ -1,5 +1,5 @@
 import { AnswerStatusJsonApiAdapter } from '../../../../lib/infrastructure/adapters/answer-status-json-api-adapter.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 
 import chai from 'chai';
 

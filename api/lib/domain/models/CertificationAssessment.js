@@ -1,5 +1,6 @@
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+
 const Joi = BaseJoi.extend(JoiDate);
 import { validateEntity } from '../validators/entity-validator.js';
 import _ from 'lodash';
@@ -9,7 +10,7 @@ import {
   ChallengeToBeDeneutralizedNotFoundError,
 } from '../../../src/shared/domain/errors.js';
 
-import { AnswerStatus } from './AnswerStatus.js';
+import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
 import { NeutralizationAttempt } from './NeutralizationAttempt.js';
 import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerStatusChangeAttempt.js';
 import { CertificationVersion } from './CertificationVersion.js';

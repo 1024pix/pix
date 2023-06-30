@@ -1,5 +1,5 @@
 import * as flash from '../../../../src/shared/domain/services/algorithm-methods/flash.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
 import { AssessmentEndedError } from '../../../../src/shared/domain/errors.js';

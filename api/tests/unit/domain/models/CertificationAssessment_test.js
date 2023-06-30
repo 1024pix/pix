@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { NeutralizationAttempt } from '../../../../lib/domain/models/NeutralizationAttempt.js';
 import { CertificationAnswerStatusChangeAttempt } from '../../../../lib/domain/models/CertificationAnswerStatusChangeAttempt.js';
 import { expect, domainBuilder } from '../../../test-helper.js';

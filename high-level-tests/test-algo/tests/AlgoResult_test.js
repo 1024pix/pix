@@ -8,10 +8,14 @@ describe('AlgoResult', () => {
   let domainBuilder;
 
   beforeEach(async function() {
-    AnswerStatus = (await import('../../../api/lib/domain/models/AnswerStatus.js')).AnswerStatus;
-    domainBuilder = (await import(
-      '../../../api/tests/tooling/domain-builder/domain-builder.js'
-    )).domainBuilder;
+    AnswerStatus = (
+      await import('../../../api/src/shared/domain/models/AnswerStatus.js')
+    ).AnswerStatus;
+    domainBuilder = (
+      await import(
+        '../../../api/tests/tooling/domain-builder/domain-builder.js'
+      )
+    ).domainBuilder;
   });
 
   describe('#log', () => {

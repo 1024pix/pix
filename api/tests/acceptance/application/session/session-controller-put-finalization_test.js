@@ -12,7 +12,7 @@ import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
 
 describe('Acceptance | Controller | sessions-controller', function () {

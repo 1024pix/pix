@@ -2,7 +2,7 @@ import { AccountRecoveryDemand } from './AccountRecoveryDemand.js';
 import { AdminMember } from './AdminMember.js';
 import { Answer } from '../../../src/shared/domain/models/Answer.js';
 import { AnswerCollectionForScoring } from './AnswerCollectionForScoring.js';
-import { AnswerStatus } from './AnswerStatus.js';
+import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
 import { Area } from './Area.js';
 import { Assessment } from './Assessment.js';
 import { FlashAssessmentAlgorithm } from '../../../src/shared/domain/models/FlashAssessmentAlgorithm.js';

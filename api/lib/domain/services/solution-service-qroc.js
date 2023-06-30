@@ -6,8 +6,9 @@ import {
 import lodash from 'lodash';
 import { applyTreatments, applyPreTreatments } from './validation-treatments.js';
 import { validateAnswer } from './string-comparison-service.js';
-import { AnswerStatus } from '../models/AnswerStatus.js';
+import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
 import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
+
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
 const { every, isEmpty, isString, map } = lodash;
 

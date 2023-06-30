@@ -1,16 +1,16 @@
-"use strict";
-require("dotenv").config();
-const hashInt = require("hash-int");
-const fs = require("fs");
-const { find, isEmpty } = require("lodash");
-const AlgoResult = require("./AlgoResult.js");
+'use strict';
+require('dotenv').config();
+const hashInt = require('hash-int');
+const fs = require('fs');
+const { find, isEmpty } = require('lodash');
+const AlgoResult = require('./AlgoResult.js');
 
 let campaignRepository;
 let Answer;
 
 function _readUsersKEFile(path) {
   if (path) {
-    const file = fs.readFileSync(path, "utf-8");
+    const file = fs.readFileSync(path, 'utf-8');
     if (file) {
       return JSON.parse(file);
     }
@@ -28,35 +28,35 @@ async function answerTheChallenge({
   userKE,
 }) {
   const AnswerStatus = (
-    await import("../../api/lib/domain/models/AnswerStatus.js")
+    await import('../../api/src/shared/domain/models/AnswerStatus.js')
   ).AnswerStatus;
   const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
 
   const KnowledgeElement = (
-    await import("../../api/lib/domain/models/KnowledgeElement.js")
+    await import('../../api/lib/domain/models/KnowledgeElement.js')
   ).KnowledgeElement;
-  Answer = (await import("../../api/src/shared/domain/models/Answer.js"))
+  Answer = (await import('../../api/src/shared/domain/models/Answer.js'))
     .Answer;
 
   let result;
   const isFirstAnswer = !allAnswers.length;
   switch (userResult) {
-    case "ok":
+    case 'ok':
       result = AnswerStatus.OK;
       break;
-    case "ko":
+    case 'ko':
       result = AnswerStatus.KO;
       break;
-    case "random":
+    case 'random':
       result = POSSIBLE_ANSWER_STATUSES[Math.round(Math.random())];
       break;
-    case "firstOKthenKO":
+    case 'firstOKthenKO':
       result = isFirstAnswer ? AnswerStatus.OK : AnswerStatus.KO;
       break;
-    case "firstKOthenOK":
+    case 'firstKOthenOK':
       result = isFirstAnswer ? AnswerStatus.KO : AnswerStatus.OK;
       break;
-    case "KE": {
+    case 'KE': {
       const ke = find(userKE, (ke) => challenge.skill.id === ke.skillId);
       const status = ke ? ke.status : KnowledgeElement.StatusType.INVALIDATED;
       result =
@@ -73,7 +73,7 @@ async function answerTheChallenge({
   const _getSkillsFilteredByStatus = (
     knowledgeElements,
     targetSkills,
-    status
+    status,
   ) => {
     return knowledgeElements
       .filter((knowledgeElement) => knowledgeElement.status === status)
@@ -88,12 +88,12 @@ async function answerTheChallenge({
       previouslyFailedSkills: _getSkillsFilteredByStatus(
         allKnowledgeElements,
         targetSkills,
-        KnowledgeElement.StatusType.INVALIDATED
+        KnowledgeElement.StatusType.INVALIDATED,
       ),
       previouslyValidatedSkills: _getSkillsFilteredByStatus(
         allKnowledgeElements,
         targetSkills,
-        KnowledgeElement.StatusType.VALIDATED
+        KnowledgeElement.StatusType.VALIDATED,
       ),
       targetSkills,
       userId,
@@ -123,7 +123,7 @@ async function _getReferentiel({
   let dataFetcher;
   if (!dependencies?.dataFetcher) {
     dataFetcher = await import(
-      "../../api/lib/domain/services/algorithm-methods/data-fetcher.js"
+      '../../api/lib/domain/services/algorithm-methods/data-fetcher.js'
     );
   } else {
     dataFetcher = dependencies.dataFetcher;
@@ -176,10 +176,10 @@ async function _getChallenge({
   allAnswers,
 }) {
   const smartRandom = await import(
-    "../../api/lib/domain/services/algorithm-methods/smart-random.js"
+    '../../api/lib/domain/services/algorithm-methods/smart-random.js'
   );
   const { pickChallengeService } = await import(
-    "../../api/src/shared/domain/services/pick-challenge-service.js"
+    '../../api/src/shared/domain/services/pick-challenge-service.js'
   );
   const result = smartRandom.getPossibleSkillsForNextChallenge({
     knowledgeElements,
@@ -222,7 +222,7 @@ async function proceedAlgo(
   knowledgeElements,
   allAnswers,
   userResult,
-  userKE
+  userKE,
 ) {
   let isAssessmentOver = false;
   const algoResult = new AlgoResult();
@@ -246,7 +246,7 @@ async function proceedAlgo(
           userId: assessment.userId,
           allKnowledgeElements: knowledgeElements,
           targetSkills,
-          userResult: isEmpty(userKE) ? userResult : "KE",
+          userResult: isEmpty(userKE) ? userResult : 'KE',
           userKE,
         });
       allAnswers = updatedAnswers;
@@ -291,13 +291,13 @@ async function launchTest(argv) {
 
   const usersKE = _readUsersKEFile(usersKEFile);
   const skillRepository = await import(
-    "../../api/lib/infrastructure/repositories/skill-repository.js"
+    '../../api/lib/infrastructure/repositories/skill-repository.js'
   );
   const challengeRepository = await import(
-    "../../api/src/shared/infrastructure/repositories/challenge-repository.js"
+    '../../api/src/shared/infrastructure/repositories/challenge-repository.js'
   );
   const improvementService = await import(
-    "../../api/lib/domain/services/improvement-service.js"
+    '../../api/lib/domain/services/improvement-service.js'
   );
   const { challenges, targetSkills } = await _getReferentiel({
     assessment,
@@ -319,7 +319,7 @@ async function launchTest(argv) {
       knowledgeElements,
       allAnswers,
       userResult,
-      userKE
+      userKE,
     );
   });
 

@@ -1,4 +1,4 @@
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from './AnswerStatus.js';
 import _ from 'lodash';
 
 class Answer {
