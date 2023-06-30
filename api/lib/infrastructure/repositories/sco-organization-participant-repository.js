@@ -87,6 +87,7 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
   const orderByClause = [
     'view-active-organization-learners.lastName',
     'view-active-organization-learners.firstName',
+    'view-active-organization-learners.division',
     'view-active-organization-learners.id',
   ];
   if (sort?.participationCount) {
@@ -99,6 +100,13 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
     orderByClause.unshift({
       column: 'view-active-organization-learners.lastName',
       order: sort.lastnameSort == 'desc' ? 'desc' : 'asc',
+    });
+  }
+
+  if (sort?.divisionSort) {
+    orderByClause.unshift({
+      column: 'view-active-organization-learners.division',
+      order: sort.divisionSort == 'desc' ? 'desc' : 'asc',
     });
   }
 
