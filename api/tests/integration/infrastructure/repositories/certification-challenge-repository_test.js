@@ -3,6 +3,7 @@ import { expect, knex, domainBuilder, databaseBuilder } from '../../../test-help
 import { CertificationChallenge } from '../../../../lib/domain/models/CertificationChallenge.js';
 import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
 import * as certificationChallengeRepository from '../../../../lib/infrastructure/repositories/certification-challenge-repository.js';
+import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
 
 describe('Integration | Repository | Certification Challenge', function () {
   describe('#save', function () {
@@ -30,34 +31,6 @@ describe('Integration | Repository | Certification Challenge', function () {
       expect(savedCertificationChallenge).to.be.an.instanceOf(CertificationChallenge);
       expect(savedCertificationChallenge).to.have.property('id').and.not.null;
       expect(_.omit(savedCertificationChallenge, 'id')).to.deep.equal(_.omit(certificationChallenge, 'id'));
-    });
-  });
-
-  describe('#getByChallengeIdAndCourseId', function () {
-    it('should return a certification challenge', async function () {
-      // given
-      const challengeId = 'challengeId';
-      const certifCourseId1 = databaseBuilder.factory.buildCertificationCourse().id;
-      const certifCourseId2 = databaseBuilder.factory.buildCertificationCourse().id;
-      const certificationChallenge = databaseBuilder.factory.buildCertificationChallenge({
-        courseId: certifCourseId1,
-        challengeId,
-      });
-      databaseBuilder.factory.buildCertificationChallenge({
-        courseId: certifCourseId2,
-        challengeId,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const saveCertificationChallenge = await certificationChallengeRepository.getByChallengeIdAndCourseId({
-        challengeId,
-        courseId: certifCourseId1,
-      });
-
-      // then
-      expect(saveCertificationChallenge).to.be.an.instanceOf(CertificationChallenge);
-      expect(saveCertificationChallenge.challengeId).to.equal(certificationChallenge.id);
     });
   });
 
@@ -146,6 +119,106 @@ describe('Integration | Repository | Certification Challenge', function () {
           assessmentId,
           certificationCourseId
         );
+
+        // then
+        expect(nextCertificationChallenge).to.be.instanceOf(CertificationChallenge);
+        expect(nextCertificationChallenge.id).to.equal(firstUnansweredChallengeId);
+      });
+    });
+  });
+
+  describe('#getNextNonAnsweredChallengeByCourseIdForV3', function () {
+    context('no non answered certification challenge', function () {
+      let certificationCourseId, assessmentId;
+      before(async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({}).id;
+        certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          userId,
+          version: CertificationVersion.V3,
+        }).id;
+        assessmentId = databaseBuilder.factory.buildAssessment({ userId, certificationCourseId }).id;
+        const challenge = databaseBuilder.factory.buildCertificationChallenge({
+          challengeId: 'recChallenge1',
+          courseId: certificationCourseId,
+          associatedSkill: '@brm7',
+          competenceId: 'recCompetenceId1',
+        });
+        databaseBuilder.factory.buildAnswer({
+          challengeId: challenge.challengeId,
+          value: 'Un Pancake',
+          assessmentId,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return null if no non answered challenge is found', async function () {
+        // when
+        const result = await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3(
+          assessmentId,
+          certificationCourseId
+        );
+
+        // then
+        expect(result).to.be.null;
+      });
+    });
+
+    context('there is some non answered certification challenge(s)', function () {
+      let certificationCourseId, assessmentId;
+      const firstUnansweredChallengeId = 1;
+
+      before(async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({}).id;
+        certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          userId,
+          version: CertificationVersion.V3,
+        }).id;
+        assessmentId = databaseBuilder.factory.buildAssessment({ userId, certificationCourseId }).id;
+        const answeredChallenge = databaseBuilder.factory.buildCertificationChallenge({
+          challengeId: 'recChallenge1',
+          courseId: certificationCourseId,
+          associatedSkillName: '@brm7',
+          competenceId: 'recCompetenceId1',
+        });
+        const firstUnansweredChallengeById = {
+          id: firstUnansweredChallengeId,
+          challengeId: 'recChallenge2',
+          courseId: certificationCourseId,
+          associatedSkillName: '@brm24',
+          competenceId: 'recCompetenceId2',
+          createdAt: '2020-06-20T00:00:00Z',
+        };
+        const secondUnansweredChallengeById = {
+          id: firstUnansweredChallengeId + 1,
+          challengeId: 'recChallenge2',
+          courseId: certificationCourseId,
+          associatedSkillName: '@brm24',
+          competenceId: 'recCompetenceId2',
+          createdAt: '2020-06-21T00:00:00Z',
+        };
+
+        // "Second" is inserted first as we check the order is chosen on the specified id
+        databaseBuilder.factory.buildCertificationChallenge(secondUnansweredChallengeById);
+        databaseBuilder.factory.buildCertificationChallenge(firstUnansweredChallengeById);
+        databaseBuilder.factory.buildAnswer({
+          challengeId: answeredChallenge.challengeId,
+          value: 'Un Pancake',
+          assessmentId,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should get challenges in the creation order', async function () {
+        // when
+        const nextCertificationChallenge =
+          await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3(
+            assessmentId,
+            certificationCourseId
+          );
 
         // then
         expect(nextCertificationChallenge).to.be.instanceOf(CertificationChallenge);

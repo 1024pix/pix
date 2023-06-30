@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 class CertificationChallenge {
   constructor({
     id,
@@ -19,18 +17,6 @@ class CertificationChallenge {
     this.courseId = courseId;
     this.isNeutralized = isNeutralized;
     this.certifiableBadgeKey = certifiableBadgeKey;
-  }
-
-  static from({ challenge, certificationCourseId, isNeutralized, certifiableBadgeKey }) {
-    return new CertificationChallenge({
-      associatedSkillName: challenge.associatedSkillName ?? challenge.skill.name,
-      associatedSkillId: challenge.associatedSkillId ?? challenge.skill.id,
-      challengeId: challenge.id,
-      courseId: certificationCourseId,
-      competenceId: challenge.competenceId,
-      isNeutralized: _.isUndefined(isNeutralized) ? challenge.isNeutralized : isNeutralized,
-      certifiableBadgeKey: _.isUndefined(certifiableBadgeKey) ? challenge.certifiableBadgeKey : certifiableBadgeKey,
-    });
   }
 
   static createForPixCertification({ associatedSkillName, associatedSkillId, challengeId, competenceId }) {

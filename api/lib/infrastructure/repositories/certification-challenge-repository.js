@@ -27,19 +27,6 @@ const save = async function ({ certificationChallenge, domainTransaction = Domai
   return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationChallenge, savedCertificationChallenge);
 };
 
-const getByChallengeIdAndCourseId = async function ({ challengeId, courseId }) {
-  const certificationChallenge = await knex('certification-challenges').where({ challengeId, courseId }).first();
-
-  if (!certificationChallenge) {
-    return;
-  }
-
-  return CertificationChallenge.from({
-    challenge: certificationChallenge,
-    certificationCourseId: courseId,
-  });
-};
-
 const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, courseId) {
   const answeredChallengeIds = Bookshelf.knex('answers').select('challengeId').where({ assessmentId });
 
@@ -58,4 +45,24 @@ const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, cour
   return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationChallenge, certificationChallenge);
 };
 
-export { save, getByChallengeIdAndCourseId, getNextNonAnsweredChallengeByCourseId };
+const getNextNonAnsweredChallengeByCourseIdForV3 = async function (assessmentId, courseId) {
+  const answeredChallengeIds = await knex('answers').select('challengeId').where({ assessmentId });
+  const mappedAnsweredChallengeIds = answeredChallengeIds.map(({ challengeId }) => challengeId);
+
+  const certificationChallenge = await knex('certification-challenges')
+    .where({ courseId })
+    .whereNotIn('challengeId', mappedAnsweredChallengeIds)
+    .orderBy('id', 'asc')
+    .first();
+
+  if (!certificationChallenge) {
+    return null;
+  }
+
+  logContext.challengeId = certificationChallenge.id;
+  logger.trace(logContext, 'found challenge');
+
+  return new CertificationChallenge(certificationChallenge);
+};
+
+export { save, getNextNonAnsweredChallengeByCourseId, getNextNonAnsweredChallengeByCourseIdForV3 };
