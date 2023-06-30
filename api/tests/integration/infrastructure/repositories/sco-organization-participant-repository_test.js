@@ -835,174 +835,255 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
     });
 
     describe('When sco participants are sorted', function () {
-      it('should return sco participants sorted by ascendant participation count', async function () {
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-        const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-        const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+      describe('by participation count', function () {
+        it('should return sco participants sorted by ascendant', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+          const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+          const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
 
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaignId,
-          organizationLearnerId: organizationLearnerId1,
-        });
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: otherCampaignId,
-          organizationLearnerId: organizationLearnerId1,
-        });
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaignId,
-          organizationLearnerId: organizationLearnerId3,
-        });
-        await databaseBuilder.commit();
-        // when
-        const { data: participants } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
-          organizationId,
-          sort: {
-            participationCount: 'asc',
-          },
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: otherCampaignId,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId,
+            organizationLearnerId: organizationLearnerId3,
+          });
+          await databaseBuilder.commit();
+          // when
+          const { data: participants } =
+            await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+              organizationId,
+              sort: {
+                participationCount: 'asc',
+              },
+            });
+
+          // then
+          expect(participants.length).to.equal(3);
+          expect(participants[0].id).to.equal(organizationLearnerId2);
+          expect(participants[1].id).to.equal(organizationLearnerId3);
+          expect(participants[2].id).to.equal(organizationLearnerId1);
         });
 
-        // then
-        expect(participants.length).to.equal(3);
-        expect(participants[0].id).to.equal(organizationLearnerId2);
-        expect(participants[1].id).to.equal(organizationLearnerId3);
-        expect(participants[2].id).to.equal(organizationLearnerId1);
+        it('should return sco participants sorted by descendant', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+          const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+          const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: otherCampaignId,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId,
+            organizationLearnerId: organizationLearnerId3,
+          });
+          await databaseBuilder.commit();
+          // when
+          const { data: participants } =
+            await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+              organizationId,
+              sort: {
+                participationCount: 'desc',
+              },
+            });
+
+          // then
+          expect(participants.length).to.equal(3);
+          expect(participants[0].id).to.equal(organizationLearnerId1);
+          expect(participants[1].id).to.equal(organizationLearnerId3);
+          expect(participants[2].id).to.equal(organizationLearnerId2);
+        });
+
+        it('should return sco participants sorted by name if identical participation count', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Aaaah',
+          }).id;
+          const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Dupont',
+          }).id;
+          const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Dupond',
+          }).id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          await databaseBuilder.commit();
+          // when
+          const { data: participants } =
+            await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+              organizationId,
+              sort: {
+                participationCount: 'asc',
+              },
+            });
+
+          // then
+          expect(participants.length).to.equal(3);
+          expect(participants[0].id).to.equal(organizationLearnerId3);
+          expect(participants[1].id).to.equal(organizationLearnerId2);
+          expect(participants[2].id).to.equal(organizationLearnerId1);
+        });
       });
 
-      it('should return sco participants sorted by descendant participation count', async function () {
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-        const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-        const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+      describe('by lastname', function () {
+        it('should return sco participants sorted by ascendant', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const narutoId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Naruto',
+          }).id;
+          const sasukeId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Sasuke',
+          }).id;
+          const itachiId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Itachi',
+          }).id;
 
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaignId,
-          organizationLearnerId: organizationLearnerId1,
-        });
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: otherCampaignId,
-          organizationLearnerId: organizationLearnerId1,
-        });
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaignId,
-          organizationLearnerId: organizationLearnerId3,
-        });
-        await databaseBuilder.commit();
-        // when
-        const { data: participants } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
-          organizationId,
-          sort: {
-            participationCount: 'desc',
-          },
+          await databaseBuilder.commit();
+          // when
+          const { data: participants } =
+            await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+              organizationId,
+              sort: {
+                lastnameSort: 'asc',
+              },
+            });
+
+          // then
+          expect(participants.length).to.equal(3);
+          expect(participants[0].id).to.equal(itachiId);
+          expect(participants[1].id).to.equal(narutoId);
+          expect(participants[2].id).to.equal(sasukeId);
         });
 
-        // then
-        expect(participants.length).to.equal(3);
-        expect(participants[0].id).to.equal(organizationLearnerId1);
-        expect(participants[1].id).to.equal(organizationLearnerId3);
-        expect(participants[2].id).to.equal(organizationLearnerId2);
+        it('should return sco participants sorted by descendant', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const narutoId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Naruto',
+          }).id;
+          const sasukeId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Sasuke',
+          }).id;
+          const itachiId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Itachi',
+          }).id;
+
+          await databaseBuilder.commit();
+          // when
+          const { data: participants } =
+            await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+              organizationId,
+              sort: {
+                lastnameSort: 'desc',
+              },
+            });
+
+          // then
+          expect(participants.length).to.equal(3);
+          expect(participants[0].id).to.equal(sasukeId);
+          expect(participants[1].id).to.equal(narutoId);
+          expect(participants[2].id).to.equal(itachiId);
+        });
       });
 
-      it('should return sco participants sorted by name if participation count are identical', async function () {
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          lastName: 'Aaaah',
-        }).id;
-        const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          lastName: 'Dupont',
-        }).id;
-        const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          lastName: 'Dupond',
-        }).id;
+      describe('by divisions', function () {
+        it('should return sco participants sorted by ascendant', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const narutoId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Naruto',
+            division: '3A',
+          }).id;
+          const sasukeId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Sasuke',
+            division: '5A',
+          }).id;
+          const itachiId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Itachi',
+            division: '3B',
+          }).id;
 
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaignId,
-          organizationLearnerId: organizationLearnerId1,
-        });
-        await databaseBuilder.commit();
-        // when
-        const { data: participants } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
-          organizationId,
-          sort: {
-            participationCount: 'asc',
-          },
-        });
+          await databaseBuilder.commit();
+          // when
+          const { data: participants } =
+            await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+              organizationId,
+              sort: {
+                divisionSort: 'asc',
+              },
+            });
 
-        // then
-        expect(participants.length).to.equal(3);
-        expect(participants[0].id).to.equal(organizationLearnerId3);
-        expect(participants[1].id).to.equal(organizationLearnerId2);
-        expect(participants[2].id).to.equal(organizationLearnerId1);
-      });
-
-      it('should return sco participants sorted by ascendant lastname', async function () {
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const narutoId = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          lastName: 'Naruto',
-        }).id;
-        const sasukeId = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          lastName: 'Sasuke',
-        }).id;
-        const itachiId = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          lastName: 'Itachi',
-        }).id;
-
-        await databaseBuilder.commit();
-        // when
-        const { data: participants } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
-          organizationId,
-          sort: {
-            lastnameSort: 'asc',
-          },
+          // then
+          expect(participants.length).to.equal(3);
+          expect(participants[0].id).to.equal(narutoId);
+          expect(participants[1].id).to.equal(itachiId);
+          expect(participants[2].id).to.equal(sasukeId);
         });
 
-        // then
-        expect(participants.length).to.equal(3);
-        expect(participants[0].id).to.equal(itachiId);
-        expect(participants[1].id).to.equal(narutoId);
-        expect(participants[2].id).to.equal(sasukeId);
-      });
+        it('should return sco participants sorted by descendant', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const narutoId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Naruto',
+            division: '3A',
+          }).id;
+          const sasukeId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Sasuke',
+            division: '5A',
+          }).id;
+          const itachiId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Itachi',
+            division: '3B',
+          }).id;
 
-      it('should return sco participants sorted by descendant lastname', async function () {
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const narutoId = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          lastName: 'Naruto',
-        }).id;
-        const sasukeId = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          lastName: 'Sasuke',
-        }).id;
-        const itachiId = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          lastName: 'Itachi',
-        }).id;
+          await databaseBuilder.commit();
+          // when
+          const { data: participants } =
+            await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+              organizationId,
+              sort: {
+                divisionSort: 'desc',
+              },
+            });
 
-        await databaseBuilder.commit();
-        // when
-        const { data: participants } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
-          organizationId,
-          sort: {
-            lastnameSort: 'desc',
-          },
+          // then
+          expect(participants.length).to.equal(3);
+          expect(participants[0].id).to.equal(sasukeId);
+          expect(participants[1].id).to.equal(itachiId);
+          expect(participants[2].id).to.equal(narutoId);
         });
-
-        // then
-        expect(participants.length).to.equal(3);
-        expect(participants[0].id).to.equal(sasukeId);
-        expect(participants[1].id).to.equal(narutoId);
-        expect(participants[2].id).to.equal(itachiId);
       });
     });
 

@@ -13,6 +13,7 @@ export default class ListRoute extends Route {
     pageSize: { refreshModel: true },
     participationCountOrder: { refreshModel: true },
     lastnameSort: { refreshModel: true },
+    divisionSort: { refreshModel: true },
   };
 
   @service currentUser;
@@ -30,6 +31,7 @@ export default class ListRoute extends Route {
       sort: {
         participationCount: params.participationCountOrder,
         lastnameSort: params.lastnameSort,
+        divisionSort: params.divisionSort,
       },
       page: {
         number: params.pageNumber,
@@ -48,6 +50,7 @@ export default class ListRoute extends Route {
       controller.pageSize = 50;
       controller.participationCountOrder = null;
       controller.lastnameSort = 'asc';
+      controller.divisionSort = null;
     }
   }
 

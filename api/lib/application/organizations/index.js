@@ -796,6 +796,7 @@ const register = async function (server) {
             'filter[certificability][]': [Joi.string(), Joi.array().items(Joi.string())],
             'sort[participationCount]': Joi.string().empty(''),
             'sort[lastnameSort]': Joi.string().empty(''),
+            'sort[divisionSort]': Joi.string().empty(''),
           }),
         },
         handler: organizationController.findPaginatedFilteredScoParticipants,
