@@ -36,17 +36,21 @@ const getNextChallengeForCertification = async function ({
 
     const challenge = pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
 
-    const certificationChallenge = new CertificationChallenge({
-      associatedSkillName: challenge.skill.name,
-      associatedSkillId: challenge.skill.id,
-      challengeId: challenge.id,
-      courseId: certificationCourse.getId(),
-      competenceId: challenge.competenceId,
+    const certificationChallenge = CertificationChallenge.from({
+      challenge,
+      certificationCourseId: certificationCourse.getId(),
       isNeutralized: false,
       certifiableBadgeKey: null,
     });
 
-    await certificationChallengeRepository.save({ certificationChallenge });
+    const alreadySavedChallenge = await certificationChallengeRepository.getByChallengeIdAndCourseId({
+      challengeId: certificationChallenge.challengeId,
+      courseId: certificationChallenge.courseId,
+    });
+
+    if (!alreadySavedChallenge) {
+      await certificationChallengeRepository.save({ certificationChallenge });
+    }
 
     return challenge;
   } else {

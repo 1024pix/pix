@@ -3,6 +3,7 @@ import { getNextChallengeForCertification } from '../../../../lib/domain/usecase
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
 import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import { CertificationChallenge } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', function () {
   describe('#getNextChallengeForCertification', function () {
@@ -69,7 +70,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
     context('for a v3 certification', function () {
       context('when there are challenges left to answer', function () {
-        it('should return the next Challenge', async function () {
+        it('should save the returned the next challenge', async function () {
           // given
           const answerRepository = Symbol('AnswerRepository');
           const challengeRepository = Symbol('ChallengeRepository');
@@ -84,6 +85,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
           };
           const certificationChallengeRepository = {
             save: sinon.stub(),
+            getByChallengeIdAndCourseId: sinon.stub(),
           };
           const algorithmDataFetcherService = {
             fetchForFlashCampaigns: sinon.stub(),
@@ -116,6 +118,18 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             .returns(nextChallengeToAnswer);
           pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
 
+          const alreadySavedCertificationChallenge = CertificationChallenge.from({
+            challenge: nextChallengeToAnswer,
+            certificationCourseId: v3CertificationCourse.getId(),
+          });
+
+          certificationChallengeRepository.getByChallengeIdAndCourseId
+            .withArgs({
+              challengeId: alreadySavedCertificationChallenge.challengeId,
+              courseId: alreadySavedCertificationChallenge.courseId,
+            })
+            .resolves();
+
           // when
           const challenge = await getNextChallengeForCertification({
             algorithmDataFetcherService,
@@ -131,6 +145,89 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           // then
           expect(challenge).to.equal(nextChallengeToAnswer);
+        });
+
+        context('when resuming the session', function () {
+          it('should not save the returned challenge', async function () {
+            // given
+            const answerRepository = Symbol('AnswerRepository');
+            const challengeRepository = Symbol('ChallengeRepository');
+            const flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
+            const alreadySeenChallenge = domainBuilder.buildChallenge();
+            const v3CertificationCourse = domainBuilder.buildCertificationCourse({
+              version: CertificationVersion.V3,
+            });
+            const assessment = domainBuilder.buildAssessment();
+            const certificationCourseRepository = {
+              get: sinon.stub(),
+            };
+            const certificationChallengeRepository = {
+              save: sinon.stub(),
+              getByChallengeIdAndCourseId: sinon.stub(),
+            };
+            const algorithmDataFetcherService = {
+              fetchForFlashCampaigns: sinon.stub(),
+            };
+            const pickChallengeService = {
+              chooseNextChallenge: sinon.stub(),
+            };
+            const locale = 'fr-FR';
+
+            certificationCourseRepository.get
+              .withArgs(assessment.certificationCourseId)
+              .resolves(v3CertificationCourse);
+            algorithmDataFetcherService.fetchForFlashCampaigns
+              .withArgs({
+                answerRepository,
+                challengeRepository,
+                flashAssessmentResultRepository,
+                assessmentId: assessment.id,
+                locale,
+              })
+              .resolves({
+                allAnswers: [],
+                challenges: [alreadySeenChallenge],
+                estimatedLevel: 0,
+              });
+
+            const chooseNextChallengeImpl = sinon.stub();
+            chooseNextChallengeImpl
+              .withArgs({
+                possibleChallenges: [alreadySeenChallenge],
+              })
+              .returns(alreadySeenChallenge);
+
+            pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
+
+            const alreadySavedCertificationChallenge = new CertificationChallenge({
+              challengeId: alreadySeenChallenge.id,
+              courseId: v3CertificationCourse.getId(),
+            });
+
+            certificationChallengeRepository.getByChallengeIdAndCourseId
+              .withArgs({
+                challengeId: alreadySavedCertificationChallenge.challengeId,
+                courseId: alreadySavedCertificationChallenge.courseId,
+              })
+              .resolves(alreadySeenChallenge);
+
+            // when
+            const challenge = await getNextChallengeForCertification({
+              algorithmDataFetcherService,
+              assessment,
+              answerRepository,
+              challengeRepository,
+              flashAssessmentResultRepository,
+              pickChallengeService,
+              certificationCourseRepository,
+              certificationChallengeRepository,
+              locale,
+            });
+
+            // then
+            expect(challenge).to.equal(alreadySeenChallenge);
+            expect(certificationChallengeRepository.save).not.to.have.been.called;
+          });
         });
       });
 
