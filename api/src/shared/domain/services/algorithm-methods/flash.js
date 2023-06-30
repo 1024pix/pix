@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { orderBy, range, sortBy, sortedUniqBy, sumBy } = lodash;
 
-import { config } from '../../../config.js';
+import { config } from '../../../../../lib/config.js';
 
 const DEFAULT_ESTIMATED_LEVEL = 0;
 const START_OF_SAMPLES = -9;
@@ -187,7 +187,7 @@ function _getInferredChallenges({ challenges, estimatedLevel }) {
  * the challenge with the lowest minimum capability,
  * prioritizing validated challenges over archived ones.
  *
- * @param {import('../../../../src/shared/domain/models/Challenge.js')[]} challenges
+ * @param {import("../../models/Challenge.js")[]} challenges
  * @returns A list of challenges for scoring inferrence
  */
 function _findChallengesForInferrence(challenges) {

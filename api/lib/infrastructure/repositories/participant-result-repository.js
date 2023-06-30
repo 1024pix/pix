@@ -10,7 +10,7 @@ import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as flashAssessmentResultRepository from './flash-assessment-result-repository.js';
 import * as campaignRepository from './campaign-repository.js';
 import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
-import * as flash from '../../domain/services/algorithm-methods/flash.js';
+import * as flash from '../../../src/shared/domain/services/algorithm-methods/flash.js';
 import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetcher.js';
 import { NotFoundError } from '../../../src/shared/domain/errors.js';
 

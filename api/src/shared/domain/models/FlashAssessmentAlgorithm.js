@@ -3,7 +3,7 @@ import {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
   getReward,
-} from '../../../../lib/domain/services/algorithm-methods/flash.js';
+} from '../services/algorithm-methods/flash.js';
 import { MAX_NEXT_GEN_CERTIFICATION_CHALLENGES } from '../../../../lib/domain/constants.js';
 
 class FlashAssessmentAlgorithm {
