@@ -35,7 +35,8 @@ async function answerTheChallenge({
   const KnowledgeElement = (
     await import("../../api/lib/domain/models/KnowledgeElement.js")
   ).KnowledgeElement;
-  Answer = (await import("../../api/lib/domain/models/Answer.js")).Answer;
+  Answer = (await import("../../api/src/shared/domain/models/Answer.js"))
+    .Answer;
 
   let result;
   const isFirstAnswer = !allAnswers.length;

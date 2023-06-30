@@ -6,7 +6,7 @@ import { challengeDatasource } from '../datasources/learning-content/challenge-d
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
-import { Answer } from '../../domain/models/Answer.js';
+import { Answer } from '../../../src/shared/domain/models/Answer.js';
 
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 

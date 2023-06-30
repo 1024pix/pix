@@ -1,6 +1,6 @@
-import { Answer } from '../../../../lib/domain/models/Answer.js';
-import { Skill } from '../../../../lib/domain/models/Skill.js';
-import { expect, domainBuilder } from '../../../test-helper.js';
+import { Answer } from '../../../../../src/shared/domain/models/Answer.js';
+import { Skill } from '../../../../../lib/domain/models/Skill.js';
+import { expect, domainBuilder } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Answer', function () {
   describe('constructor', function () {

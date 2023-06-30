@@ -1,4 +1,4 @@
-import { AnswerStatus } from './AnswerStatus.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import _ from 'lodash';
 
 class Answer {
@@ -27,16 +27,20 @@ class Answer {
     this.timeSpent = timeSpent;
   }
 
+  get binaryOutcome() {
+    return AnswerStatus.isOK(this.result) ? 1 : 0;
+  }
+
+  get hasTimedOut() {
+    return _.isInteger(this.timeout) && this.timeout < 0;
+  }
+
   isOk() {
     return this.result.isOK();
   }
 
   isPartially() {
     return this.result.isPARTIALLY();
-  }
-
-  get binaryOutcome() {
-    return AnswerStatus.isOK(this.result) ? 1 : 0;
   }
 
   /**
@@ -53,10 +57,6 @@ class Answer {
     }
     // XXX : to avoid problem when challenge has no skill/ when we cannot get challenge
     return baseDifficulty;
-  }
-
-  get hasTimedOut() {
-    return _.isInteger(this.timeout) && this.timeout < 0;
   }
 
   setTimeSpentFrom({ now, lastQuestionDate }) {

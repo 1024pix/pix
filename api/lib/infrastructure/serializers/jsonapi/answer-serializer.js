@@ -1,4 +1,4 @@
-import { Answer } from '../../../domain/models/Answer.js';
+import { Answer } from '../../../../src/shared/domain/models/Answer.js';
 import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;

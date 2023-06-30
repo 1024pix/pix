@@ -1,6 +1,6 @@
 import { getCorrectionForAnswer } from '../../../../lib/domain/usecases/get-correction-for-answer.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { Answer } from '../../../../lib/domain/models/Answer.js';
+import { Answer } from '../../../../src/shared/domain/models/Answer.js';
 import { AssessmentNotCompletedError, NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
 

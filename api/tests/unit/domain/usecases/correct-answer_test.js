@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { Answer } from '../../../../lib/domain/models/Answer.js';
+import { Answer } from '../../../../src/shared/domain/models/Answer.js';
 import { correctAnswer } from '../../../../lib/domain/usecases/correct-answer.js';
 import { Challenge } from '../../../../src/shared/domain/models/Challenge.js';
 

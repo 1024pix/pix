@@ -1,5 +1,5 @@
 import { ObjectValidationError } from '../../../src/shared/domain/errors.js';
-import { Answer } from './Answer.js';
+import { Answer } from '../../../src/shared/domain/models/Answer.js';
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
