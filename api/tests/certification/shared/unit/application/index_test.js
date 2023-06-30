@@ -11,7 +11,7 @@ import { sessionForSupervisingController } from '../../../../../lib/application/
 import { sessionWithCleaCertifiedCandidateController } from '../../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
 import { finalizedSessionController } from '../../../../../lib/application/sessions/finalized-session-controller.js';
 import { authorization } from '../../../../../lib/application/preHandlers/authorization.js';
-import * as moduleUnderTest from '../../../../../src/certification/shared/application/index.js';
+import * as moduleUnderTest from '../../../../../lib/application/sessions/index.js';
 import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../../lib/application/preHandlers/session-supervisor-authorization.js';
 import * as url from 'url';
 

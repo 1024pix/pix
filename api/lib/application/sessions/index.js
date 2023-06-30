@@ -1,13 +1,13 @@
 import Joi from 'joi';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { sessionController } from './session-controller.js';
-import { sessionForSupervisingController } from '../../../../lib/application/sessions/session-for-supervising-controller.js';
-import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
-import { finalizedSessionController } from '../../../../lib/application/sessions/finalized-session-controller.js';
-import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
-import { sendJsonApiError, UnprocessableEntityError } from '../../../../lib/application/http-errors.js';
-import { assessmentSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { sessionController } from '../../../src/certification/shared/application/session-controller.js';
+import { sessionForSupervisingController } from './session-for-supervising-controller.js';
+import { sessionWithCleaCertifiedCandidateController } from './session-with-clea-certified-candidate-controller.js';
+import { finalizedSessionController } from './finalized-session-controller.js';
+import { authorization } from '../preHandlers/authorization.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
+import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
 
 const register = async function (server) {
   server.route([
