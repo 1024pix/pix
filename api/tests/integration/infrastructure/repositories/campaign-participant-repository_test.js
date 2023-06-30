@@ -389,6 +389,44 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       });
     });
 
+    context('when there is a deleted organization learner', function () {
+      it('should create new participation with new organization learner', async function () {
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+
+        const { id: deletedOrganizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          deletedAt: new Date(),
+        });
+
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          idPixLabel: null,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: deletedOrganizationLearnerId,
+          deletedAt: new Date(),
+          campaignId,
+        });
+
+        await databaseBuilder.commit();
+
+        const campaignParticipant = await makeCampaignParticipant({
+          campaignAttributes: { idPixLabel: null },
+          userIdentity,
+          participantExternalId: null,
+          isRestricted: false,
+        });
+
+        const id = await DomainTransaction.execute(async (domainTransaction) => {
+          return campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        });
+
+        const startedParticipation = await knex('campaign-participations').where('id', id).first();
+
+        expect(startedParticipation.organizationLearnerId).not.to.equal(deletedOrganizationLearnerId);
+      });
+    });
+
     context('when there is an exception', function () {
       context('when there already is a participation for this campaign', function () {
         it('throws an exception AlreadyExistingCampaignParticipationError', async function () {
@@ -604,6 +642,38 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         expect(campaignParticipant.previousCampaignParticipationForUser).to.be.null;
+      });
+    });
+
+    context('when there is a deleted organization learner', function () {
+      it('find the organization learner', async function () {
+        const campaignToStartParticipation = buildCampaignWithSkills({ organizationId });
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+          organizationId,
+        });
+        const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+          userId,
+          organizationId,
+          deletedAt: new Date(),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId,
+          campaignId,
+          deletedAt: new Date(),
+        });
+
+        await databaseBuilder.commit();
+
+        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+          return campaignParticipantRepository.get({
+            userId,
+            campaignId: campaignToStartParticipation.id,
+            domainTransaction,
+          });
+        });
+
+        expect(campaignParticipant.organizationLearnerId).to.equal(null);
       });
     });
 
