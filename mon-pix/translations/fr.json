@@ -1123,7 +1123,7 @@
         "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects."
       },
       "login-form": {
-        "title": "Vous avez déjà un compte Pix ?",
+        "title": "J’ai déjà un compte Pix",
         "button": "Je me connecte",
         "description": "Connectez-vous pour lier votre compte existant et récupérer vos compétences déjà évaluées",
         "email": "Adresse e-mail",
