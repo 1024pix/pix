@@ -18,6 +18,10 @@
     text-align: center;
     color: $pix-error-70;
     margin-top: $pix-spacing-m;
+
+    & a {
+      text-decoration: underline;
+    }
   }
 
   &__forgotten-password {
