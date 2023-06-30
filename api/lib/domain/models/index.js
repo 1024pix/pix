@@ -7,7 +7,7 @@ import { Area } from './Area.js';
 import { Assessment } from './Assessment.js';
 import { FlashAssessmentAlgorithm } from '../../../src/shared/domain/models/FlashAssessmentAlgorithm.js';
 import { AssessmentResult } from './AssessmentResult.js';
-import { AssessmentSimulator } from './AssessmentSimulator.js';
+import { AssessmentSimulator } from '../../../src/certification/assessment/domain/models/AssessmentSimulator.js';
 import { Authentication } from './Authentication.js';
 import { AuthenticationMethod } from './AuthenticationMethod.js';
 import { AuthenticationSessionContent } from './AuthenticationSessionContent.js';
