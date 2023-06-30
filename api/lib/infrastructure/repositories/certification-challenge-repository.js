@@ -62,9 +62,7 @@ const getNextNonAnsweredChallengeByCourseIdForV3 = async function (assessmentId,
   logContext.challengeId = certificationChallenge.id;
   logger.trace(logContext, 'found challenge');
 
-  return CertificationChallenge.from({
-    challenge: certificationChallenge,
-  });
+  return new CertificationChallenge(certificationChallenge);
 };
 
 export { save, getNextNonAnsweredChallengeByCourseId, getNextNonAnsweredChallengeByCourseIdForV3 };
