@@ -72,5 +72,32 @@ describe('Integration | Repository | Organization Learners Management | Campaign
 
       expect(campaignParticipationResult.length).to.equal(0);
     });
+
+    it('should not override participations already deleted', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign();
+      const { organizationLearnerId } = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        deletedAt: new Date('2021-05-01'),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      await DomainTransaction.execute(async (domainTransaction) => {
+        await removeByOrganizationLearnerIds({
+          organizationLearnerIds: [organizationLearnerId],
+          userId,
+          domainTransaction,
+        });
+      });
+      // then
+      const campaignParticipationResult = await knex('campaign-participations')
+        .select('deletedAt', 'deletedBy')
+        .where({ organizationLearnerId })
+        .first();
+
+      expect(campaignParticipationResult.deletedAt).to.deep.equal(new Date('2021-05-01'));
+    });
   });
 });
