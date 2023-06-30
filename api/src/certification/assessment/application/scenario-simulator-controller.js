@@ -1,4 +1,4 @@
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../shared/domain/usecases/index.js';
 import { extractLocaleFromRequest } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { random } from '../../../../lib/infrastructure/utils/random.js';
 import { scenarioSimulatorBatchSerializer } from '../../../../lib/infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';

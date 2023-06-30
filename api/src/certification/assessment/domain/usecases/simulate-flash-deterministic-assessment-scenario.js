@@ -1,4 +1,4 @@
-import { AssessmentSimulator, FlashAssessmentAlgorithm } from '../models/index.js';
+import { AssessmentSimulator, FlashAssessmentAlgorithm } from '../../../../../lib/domain/models/index.js';
 
 export async function simulateFlashDeterministicAssessmentScenario({
   challengeRepository,

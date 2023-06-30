@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path';
 import * as certificationCandidateRepository from '../../../candidate/infrastructure/repositories/certification-candidate-repository.js';
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
 import * as supervisorAccessRepository from '../../../session/infrastructure/repositories/supervisor-access-repository.js';
+import * as challengeRepository from '../../../../../lib/infrastructure/repositories/challenge-repository.js';
 
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -12,6 +13,7 @@ const dependencies = {
   sessionRepository,
   supervisorAccessRepository,
   certificationCandidateRepository,
+  challengeRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -23,6 +25,10 @@ const usecasesWithoutInjectedDependencies = {
   })),
   ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../candidate/domain/usecases/'),
+    ignoredFileNames: ['index.js'],
+  })),
+  ...(await importNamedExportsFromDirectory({
+    path: join(path, '../../../assessment/domain/usecases/'),
     ignoredFileNames: ['index.js'],
   })),
 };
