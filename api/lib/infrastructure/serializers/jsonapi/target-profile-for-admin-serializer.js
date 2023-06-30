@@ -23,6 +23,7 @@ const serialize = function (targetProfiles) {
       'imageUrl',
       'category',
       'isSimplifiedAccess',
+      'areKnowledgeElementsResettable',
       'badges',
       'stageCollection',
       'areas',
