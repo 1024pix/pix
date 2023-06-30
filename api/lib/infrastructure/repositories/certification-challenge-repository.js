@@ -4,6 +4,8 @@ import { DomainTransaction } from '../DomainTransaction.js';
 import { BookshelfCertificationChallenge } from '../orm-models/CertificationChallenge.js';
 import { logger } from '../../infrastructure/logger.js';
 import { AssessmentEndedError } from '../../domain/errors.js';
+import { knex } from '../../../db/knex-database-connection.js';
+import { CertificationChallenge } from '../../domain/models/CertificationChallenge.js';
 
 const logContext = {
   zone: 'certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId',
@@ -25,6 +27,19 @@ const save = async function ({ certificationChallenge, domainTransaction = Domai
   return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationChallenge, savedCertificationChallenge);
 };
 
+const getByChallengeIdAndCourseId = async function ({ challengeId, courseId }) {
+  const certificationChallenge = await knex('certification-challenges').where({ challengeId, courseId }).first();
+
+  if (!certificationChallenge) {
+    return;
+  }
+
+  return CertificationChallenge.from({
+    challenge: certificationChallenge,
+    certificationCourseId: courseId,
+  });
+};
+
 const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, courseId) {
   const answeredChallengeIds = Bookshelf.knex('answers').select('challengeId').where({ assessmentId });
 
@@ -43,4 +58,4 @@ const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, cour
   return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationChallenge, certificationChallenge);
 };
 
-export { save, getNextNonAnsweredChallengeByCourseId };
+export { save, getByChallengeIdAndCourseId, getNextNonAnsweredChallengeByCourseId };

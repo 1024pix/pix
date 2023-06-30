@@ -33,6 +33,34 @@ describe('Integration | Repository | Certification Challenge', function () {
     });
   });
 
+  describe('#getByChallengeIdAndCourseId', function () {
+    it('should return a certification challenge', async function () {
+      // given
+      const challengeId = 'challengeId';
+      const certifCourseId1 = databaseBuilder.factory.buildCertificationCourse().id;
+      const certifCourseId2 = databaseBuilder.factory.buildCertificationCourse().id;
+      const certificationChallenge = databaseBuilder.factory.buildCertificationChallenge({
+        courseId: certifCourseId1,
+        challengeId,
+      });
+      databaseBuilder.factory.buildCertificationChallenge({
+        courseId: certifCourseId2,
+        challengeId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const saveCertificationChallenge = await certificationChallengeRepository.getByChallengeIdAndCourseId({
+        challengeId,
+        courseId: certifCourseId1,
+      });
+
+      // then
+      expect(saveCertificationChallenge).to.be.an.instanceOf(CertificationChallenge);
+      expect(saveCertificationChallenge.challengeId).to.equal(certificationChallenge.id);
+    });
+  });
+
   describe('#getNextNonAnsweredChallengeByCourseId', function () {
     context('no non answered certification challenge', function () {
       let certificationCourseId, assessmentId;
