@@ -56,14 +56,7 @@ const getNextChallengeForCertification = async function ({
       certifiableBadgeKey: null,
     });
 
-    const alreadySavedChallenge = await certificationChallengeRepository.getByChallengeIdAndCourseId({
-      challengeId: challenge.id,
-      courseId: certificationChallenge.courseId,
-    });
-
-    if (!alreadySavedChallenge) {
-      await certificationChallengeRepository.save({ certificationChallenge });
-    }
+    await certificationChallengeRepository.save({ certificationChallenge });
 
     return challenge;
   } else {

@@ -3,7 +3,6 @@ import { getNextChallengeForCertification } from '../../../../lib/domain/usecase
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
 import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
-import { CertificationChallenge } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', function () {
   describe('#getNextChallengeForCertification', function () {
@@ -87,7 +86,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
           };
           const certificationChallengeRepository = {
             save: sinon.stub(),
-            getByChallengeIdAndCourseId: sinon.stub(),
             getNextNonAnsweredChallengeByCourseIdForV3: sinon.stub(),
           };
           const algorithmDataFetcherService = {
@@ -125,18 +123,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             .returns(nextChallengeToAnswer);
           pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
 
-          const alreadySavedCertificationChallenge = CertificationChallenge.from({
-            challenge: nextChallengeToAnswer,
-            certificationCourseId: v3CertificationCourse.getId(),
-          });
-
-          certificationChallengeRepository.getByChallengeIdAndCourseId
-            .withArgs({
-              challengeId: alreadySavedCertificationChallenge.challengeId,
-              courseId: alreadySavedCertificationChallenge.courseId,
-            })
-            .resolves();
-
           // when
           const challenge = await getNextChallengeForCertification({
             algorithmDataFetcherService,
@@ -168,7 +154,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             };
             const certificationChallengeRepository = {
               save: sinon.stub(),
-              getByChallengeIdAndCourseId: sinon.stub(),
               getNextNonAnsweredChallengeByCourseIdForV3: sinon.stub(),
             };
             const challengeRepository = {
