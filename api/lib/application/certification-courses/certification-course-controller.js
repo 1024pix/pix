@@ -10,7 +10,7 @@ import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
 import * as assessmentResultService from '../../domain/services/assessment-result-service.js';
 
-import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import { extractLocaleFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 
 const getCertificationDetails = async function (request, h, dependencies = { certificationDetailsSerializer }) {
   const certificationCourseId = request.params.id;

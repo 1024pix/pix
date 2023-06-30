@@ -1,5 +1,5 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import { scenarioSimulatorBatchSerializer } from '../../../../../lib/infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
+import { expect, domainBuilder } from '../../../../../../test-helper.js';
+import { scenarioSimulatorBatchSerializer } from '../../../../../../../src/certification/assessment/infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | scenario-simulator-batch-serializer', function () {
   describe('#serialize', function () {

@@ -17,7 +17,10 @@ import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/di
 import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
-import { escapeFileName, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import {
+  escapeFileName,
+  extractLocaleFromRequest,
+} from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 const save = async function (request, h, dependencies = { campaignReportSerializer }) {

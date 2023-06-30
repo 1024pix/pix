@@ -14,7 +14,7 @@ import * as juryCertificationSummarySerializer from '../../../../lib/infrastruct
 import * as juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository.js';
 import * as jurySessionRepository from '../../../../lib/infrastructure/repositories/sessions/jury-session-repository.js';
 import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import * as certificationResultUtils from '../../../../lib/infrastructure/utils/csv/certification-results.js';
 import { fillCandidatesImportSheet } from '../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import * as supervisorKitPdf from '../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf.js';

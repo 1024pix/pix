@@ -24,7 +24,7 @@ import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils
 import {
   extractUserIdFromRequest,
   extractLocaleFromRequest,
-} from '../../infrastructure/utils/request-response-utils.js';
+} from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 dayjs.extend(customParseFormat);

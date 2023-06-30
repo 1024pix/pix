@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import hashInt from 'hash-int';
-import * as pseudoRandom from '../../infrastructure/utils/pseudo-random.js';
+import * as pseudoRandom from '../../../../lib/infrastructure/utils/pseudo-random.js';
 const NON_EXISTING_ITEM = null;
 const VALIDATED_STATUS = 'validé';
 

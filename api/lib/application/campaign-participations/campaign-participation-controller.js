@@ -12,7 +12,7 @@ import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/tr
 import {
   extractUserIdFromRequest,
   extractLocaleFromRequest,
-} from '../../infrastructure/utils/request-response-utils.js';
+} from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const save = async function (request, h, dependencies = { campaignParticipationSerializer, monitoringTools }) {

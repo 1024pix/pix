@@ -1,10 +1,10 @@
-import { expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { expect, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
 import {
   escapeFileName,
   extractUserIdFromRequest,
   extractLocaleFromRequest,
-} from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+} from '../../../../../src/shared/infrastructure/utils/request-response-utils.js';
+import { LOCALE } from '../../../../../lib/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 

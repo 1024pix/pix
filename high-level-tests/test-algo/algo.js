@@ -178,7 +178,7 @@ async function _getChallenge({
     '../../api/lib/domain/services/algorithm-methods/smart-random.js'
   );
   const { pickChallengeService } = await import(
-    '../../api/lib/domain/services/pick-challenge-service.js'
+    '../../api/src/shared/domain/services/pick-challenge-service.js'
   );
   const result = smartRandom.getPossibleSkillsForNextChallenge({
     knowledgeElements,

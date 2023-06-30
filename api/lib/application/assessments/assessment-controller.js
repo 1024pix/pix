@@ -11,7 +11,7 @@ import * as competenceEvaluationSerializer from '../../infrastructure/serializer
 import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
-} from '../../infrastructure/utils/request-response-utils.js';
+} from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import * as certificationChallengeRepository from '../../infrastructure/repositories/certification-challenge-repository.js';
 
 import { Examiner } from '../../domain/models/Examiner.js';

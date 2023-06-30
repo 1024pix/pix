@@ -197,7 +197,7 @@ import { campaignParticipantActivityRepository } from '../../infrastructure/repo
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
 import { getCompetenceLevel } from '../../domain/services/get-competence-level.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
-import { pickChallengeService } from '../services/pick-challenge-service.js';
+import { pickChallengeService } from '../../../src/shared/domain/services/pick-challenge-service.js';
 import { tokenService } from '../../domain/services/token-service.js';
 
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
