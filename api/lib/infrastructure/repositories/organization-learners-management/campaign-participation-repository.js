@@ -2,6 +2,7 @@ const removeByOrganizationLearnerIds = function ({ organizationLearnerIds, userI
   return domainTransaction
     .knexTransaction('campaign-participations')
     .whereIn('organizationLearnerId', organizationLearnerIds)
+    .whereNull('deletedAt')
     .update({ deletedAt: new Date(), deletedBy: userId });
 };
 
