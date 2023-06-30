@@ -37,7 +37,7 @@ import * as userRepository from '../../infrastructure/repositories/user-reposito
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as finalizedSessionRepository from '../../infrastructure/repositories/sessions/finalized-session-repository.js';
-import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import { logger } from '../../infrastructure/logger.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
@@ -84,6 +84,7 @@ const dependencies = {
 };
 
 import * as dependency from '../../infrastructure/repositories/partner-certification-scoring-repository.js';
+
 const partnerCertificationScoringRepository = injectDependencies(dependency, dependencies);
 dependencies.partnerCertificationScoringRepository = partnerCertificationScoringRepository;
 

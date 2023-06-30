@@ -2,7 +2,7 @@ import _ from 'lodash';
 import bluebird from 'bluebird';
 import * as skillRepository from '../../../../lib/infrastructure/repositories/skill-repository.js';
 import * as competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository.js';
-import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { knex } from '../../../../db/knex-database-connection.js';

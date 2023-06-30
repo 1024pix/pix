@@ -4,7 +4,7 @@ import { Assessment } from '../../domain/models/Assessment.js';
 import { AssessmentResult } from '../../domain/read-models/participant-results/AssessmentResult.js';
 import * as competenceRepository from './competence-repository.js';
 import * as answerRepository from './answer-repository.js';
-import * as challengeRepository from './challenge-repository.js';
+import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as areaRepository from './area-repository.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as flashAssessmentResultRepository from './flash-assessment-result-repository.js';
