@@ -148,6 +148,110 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           ]);
         });
       });
+
+      context('When resuming certification session after leaving', function () {
+        it('should return the last challenge the user has seen before leaving the session', async function () {
+          const user = databaseBuilder.factory.buildUser({ id: userId });
+          const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
+          const sessionId = databaseBuilder.factory.buildSession({
+            certificationCenterId,
+            version: CertificationVersion.V3,
+          }).id;
+          databaseBuilder.factory.buildCertificationCandidate({
+            userId: user.id,
+            sessionId,
+          });
+          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+            isPublished: false,
+            version: CertificationVersion.V3,
+            userId: user.id,
+            sessionId,
+          }).id;
+          databaseBuilder.factory.buildCertificationChallenge({
+            associatedSkillName: '@web3',
+            associatedSkillId: skillWeb3Id,
+            challengeId: secondChallengeId,
+            competenceId,
+            courseId: certificationCourseId,
+          });
+          databaseBuilder.factory.buildAssessment({
+            id: assessmentId,
+            type: Assessment.types.CERTIFICATION,
+            certificationCourseId,
+            userId: user.id,
+            lastQuestionDate: new Date('2020-01-20'),
+            state: 'started',
+            lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+          });
+          databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+          await databaseBuilder.commit();
+
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/assessments/${assessmentId}/next`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.result.data.id).to.equal(secondChallengeId);
+        });
+      });
+    });
+
+    context('When passing a V2 certification session', function () {
+      context('When resuming certification session after leaving', function () {
+        it('should return the last challenge the user has seen before leaving the session', async function () {
+          const user = databaseBuilder.factory.buildUser({ id: userId });
+          const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
+          const sessionId = databaseBuilder.factory.buildSession({
+            certificationCenterId,
+          }).id;
+          databaseBuilder.factory.buildCertificationCandidate({
+            userId: user.id,
+            sessionId,
+          });
+          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+            isPublished: false,
+            userId: user.id,
+            sessionId,
+          }).id;
+          databaseBuilder.factory.buildCertificationChallenge({
+            associatedSkillName: '@web3',
+            associatedSkillId: skillWeb3Id,
+            challengeId: firstChallengeId,
+            competenceId,
+            courseId: certificationCourseId,
+          });
+          databaseBuilder.factory.buildAssessment({
+            id: assessmentId,
+            type: Assessment.types.CERTIFICATION,
+            certificationCourseId,
+            userId: user.id,
+            lastQuestionDate: new Date('2020-01-20'),
+            state: 'started',
+            lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+          });
+          databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+          await databaseBuilder.commit();
+
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/assessments/${assessmentId}/next`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.result.data.id).to.equal(firstChallengeId);
+        });
+      });
     });
   });
 });
