@@ -41,6 +41,10 @@
   color: $pix-neutral-0;
   border-radius: 3px;
   padding: 8px;
+  
+  & a {
+    text-decoration: underline;
+  }
 }
 
 .login-form__control {
