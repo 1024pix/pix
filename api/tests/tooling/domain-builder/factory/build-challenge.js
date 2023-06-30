@@ -1,4 +1,4 @@
-import { Challenge } from '../../../../lib/domain/models/Challenge.js';
+import { Challenge } from '../../../../src/shared/domain/models/Challenge.js';
 import { Validator } from '../../../../lib/domain/models/Validator.js';
 import { buildSkill } from './build-skill.js';
 

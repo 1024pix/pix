@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Challenge } from '../../../../lib/domain/models/Challenge.js';
+import { Challenge } from '../../domain/models/Challenge.js';
 import { challengeDatasource } from '../../../../lib/infrastructure/datasources/learning-content/challenge-datasource.js';
 import { skillDatasource } from '../../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
 import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';

@@ -1,4 +1,4 @@
-import { Type } from './Challenge.js';
+import { Type } from '../../../src/shared/domain/models/Challenge.js';
 
 class CertificationChallengeWithType {
   constructor({

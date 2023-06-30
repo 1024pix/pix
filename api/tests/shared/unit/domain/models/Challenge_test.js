@@ -1,12 +1,12 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
-import { Challenge } from '../../../../lib/domain/models/Challenge.js';
-import { Skill } from '../../../../lib/domain/models/Skill.js';
-import { Validator } from '../../../../lib/domain/models/Validator.js';
-import { ValidatorQCM } from '../../../../lib/domain/models/ValidatorQCM.js';
-import { ValidatorQCU } from '../../../../lib/domain/models/ValidatorQCU.js';
-import { ValidatorQROC } from '../../../../lib/domain/models/ValidatorQROC.js';
-import { ValidatorQROCMDep } from '../../../../lib/domain/models/ValidatorQROCMDep.js';
-import { ValidatorQROCMInd } from '../../../../lib/domain/models/ValidatorQROCMInd.js';
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
+import { Skill } from '../../../../../lib/domain/models/Skill.js';
+import { Validator } from '../../../../../lib/domain/models/Validator.js';
+import { ValidatorQCM } from '../../../../../lib/domain/models/ValidatorQCM.js';
+import { ValidatorQCU } from '../../../../../lib/domain/models/ValidatorQCU.js';
+import { ValidatorQROC } from '../../../../../lib/domain/models/ValidatorQROC.js';
+import { ValidatorQROCMDep } from '../../../../../lib/domain/models/ValidatorQROCMDep.js';
+import { ValidatorQROCMInd } from '../../../../../lib/domain/models/ValidatorQROCMInd.js';
 
 describe('Unit | Domain | Models | Challenge', function () {
   describe('#constructor', function () {
