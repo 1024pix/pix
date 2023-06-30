@@ -15,6 +15,7 @@ const buildTargetProfile = function ({
   comment = null,
   category = 'OTHER',
   migration_status = 'N/A',
+  areKnowledgeElementsResettable = false,
 } = {}) {
   ownerOrganizationId = _.isUndefined(ownerOrganizationId) ? buildOrganization().id : ownerOrganizationId;
 
@@ -31,6 +32,7 @@ const buildTargetProfile = function ({
     comment,
     category,
     migration_status,
+    areKnowledgeElementsResettable,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'target-profiles',

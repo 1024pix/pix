@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { TargetProfileForAdmin } from '../../../../lib/domain/models/TargetProfileForAdmin.js';
@@ -32,6 +32,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           comment: 'i like it',
           category: 'SOME_CATEGORY',
           isSimplifiedAccess: true,
+          areKnowledgeElementsResettable: false,
         });
         databaseBuilder.factory.buildTargetProfileTube({
           targetProfileId: targetProfileDB.id,
@@ -124,6 +125,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           comment: 'i like it',
           category: 'SOME_CATEGORY',
           isSimplifiedAccess: true,
+          areKnowledgeElementsResettable: true,
         });
         databaseBuilder.factory.buildTargetProfileTube({
           targetProfileId: targetProfileDB.id,
@@ -436,6 +438,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           imageUrl: targetProfileDB.imageUrl,
           category: targetProfileDB.category,
           isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
+          areKnowledgeElementsResettable: targetProfileDB.areKnowledgeElementsResettable,
           badges: [expectedBadge1, expectedBadge2],
           stageCollection: expectedStageCollection,
           areas: [areaA],
@@ -461,6 +464,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           comment: 'i like it',
           category: 'SOME_CATEGORY',
           isSimplifiedAccess: true,
+          areKnowledgeElementsResettable: false,
         });
         databaseBuilder.factory.buildTargetProfileTube({
           targetProfileId: targetProfileDB.id,
@@ -580,6 +584,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           imageUrl: targetProfileDB.imageUrl,
           category: targetProfileDB.category,
           isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
+          areKnowledgeElementsResettable: targetProfileDB.areKnowledgeElementsResettable,
           areas: [areaA],
           competences: [compA_areaA],
           thematics: [themA_compA_areaA],
