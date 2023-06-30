@@ -31,17 +31,28 @@ async function save(campaignParticipant, domainTransaction) {
 
 async function _createNewOrganizationLearner(organizationLearner, queryBuilder) {
   if (organizationLearner) {
-    const [{ id }] = await queryBuilder('organization-learners')
-      .insert({
+    const existingOrganizationLearner = await queryBuilder('view-active-organization-learners')
+      .where({
         userId: organizationLearner.userId,
         organizationId: organizationLearner.organizationId,
-        firstName: organizationLearner.firstName,
-        lastName: organizationLearner.lastName,
       })
-      .onConflict(['userId', 'organizationId'])
-      .merge({ isDisabled: false })
-      .returning('id');
-    return id;
+      .first();
+
+    if (existingOrganizationLearner) {
+      const [{ id }] = await queryBuilder('organization-learners').update({ isDisabled: false }).returning('id');
+      return id;
+    } else {
+      const [{ id }] = await queryBuilder('organization-learners').insert(
+        {
+          userId: organizationLearner.userId,
+          organizationId: organizationLearner.organizationId,
+          firstName: organizationLearner.firstName,
+          lastName: organizationLearner.lastName,
+        },
+        ['id']
+      );
+      return id;
+    }
   }
 }
 
