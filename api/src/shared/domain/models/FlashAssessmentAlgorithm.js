@@ -1,10 +1,10 @@
-import { AssessmentEndedError } from '../../../src/shared/domain/errors.js';
+import { AssessmentEndedError } from '../errors.js';
 import {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
   getReward,
-} from '../services/algorithm-methods/flash.js';
-import { MAX_NEXT_GEN_CERTIFICATION_CHALLENGES } from '../constants.js';
+} from '../../../../lib/domain/services/algorithm-methods/flash.js';
+import { MAX_NEXT_GEN_CERTIFICATION_CHALLENGES } from '../../../../lib/domain/constants.js';
 
 class FlashAssessmentAlgorithm {
   constructor({ warmUpLength, forcedCompetences, maximumAssessmentLength } = {}) {

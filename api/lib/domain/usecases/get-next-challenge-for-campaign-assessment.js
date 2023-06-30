@@ -1,5 +1,5 @@
 import { AssessmentEndedError } from '../../../src/shared/domain/errors.js';
-import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js';
+import { FlashAssessmentAlgorithm } from '../../../src/shared/domain/models/FlashAssessmentAlgorithm.js';
 
 const getNextChallengeForCampaignAssessment = async function ({
   challengeRepository,

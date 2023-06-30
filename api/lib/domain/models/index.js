@@ -5,7 +5,7 @@ import { AnswerCollectionForScoring } from './AnswerCollectionForScoring.js';
 import { AnswerStatus } from './AnswerStatus.js';
 import { Area } from './Area.js';
 import { Assessment } from './Assessment.js';
-import { FlashAssessmentAlgorithm } from './FlashAssessmentAlgorithm.js';
+import { FlashAssessmentAlgorithm } from '../../../src/shared/domain/models/FlashAssessmentAlgorithm.js';
 import { AssessmentResult } from './AssessmentResult.js';
 import { AssessmentSimulator } from './AssessmentSimulator.js';
 import { Authentication } from './Authentication.js';
@@ -150,6 +150,7 @@ import { ValidatorQCU } from './ValidatorQCU.js';
 import { ValidatorQROC } from './ValidatorQROC.js';
 import { ValidatorQROCMDep } from './ValidatorQROCMDep.js';
 import { ValidatorQROCMInd } from './ValidatorQROCMInd.js';
+
 export {
   AccountRecoveryDemand,
   AdminMember,
