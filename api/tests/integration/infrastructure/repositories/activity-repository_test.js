@@ -62,7 +62,7 @@ describe('Integration | Repository | activityRepository', function () {
         //given
         const assessmentId = '789045';
         databaseBuilder.factory.buildActivity();
-        databaseBuilder.commit();
+        await databaseBuilder.commit();
 
         // when
         const error = await catchErr(activityRepository.getLastActivity)(assessmentId);
@@ -108,7 +108,7 @@ describe('Integration | Repository | activityRepository', function () {
         //given
         const assessmentId = '789045';
         databaseBuilder.factory.buildActivity();
-        databaseBuilder.commit();
+        await databaseBuilder.commit();
 
         // when
         const activities = await activityRepository.getAllByAssessmentId(assessmentId);
