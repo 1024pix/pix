@@ -206,7 +206,7 @@ class CertificationCandidate {
       },
     });
     if (error) {
-      throw new CertificationCandidatesError({ code: error.details[0].message });
+      throw new CertificationCandidatesError({ code: error.details?.[0]?.message });
     }
   }
 
