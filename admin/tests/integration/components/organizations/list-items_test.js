@@ -25,7 +25,6 @@ module('Integration | Component | Organizations::ListItems', function (hooks) {
 
   test('it should not display an Actions column to detach organizations', async function (assert) {
     // given
-    currentUser.adminMember = { isSupport: true };
     const screen = await render(
       hbs`<Organizations::ListItems
   @organizations={{this.organizations}}
@@ -33,6 +32,7 @@ module('Integration | Component | Organizations::ListItems', function (hooks) {
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
+  @showDetachColumn={{false}}
 />`
     );
 
@@ -51,6 +51,7 @@ module('Integration | Component | Organizations::ListItems', function (hooks) {
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
+  @showDetachColumn={{true}}
 />`
       );
 
@@ -72,6 +73,7 @@ module('Integration | Component | Organizations::ListItems', function (hooks) {
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
   @targetProfileName={{this.targetProfile.name}}
+  @showDetachColumn={{true}}
 />`
       );
 
@@ -93,6 +95,7 @@ module('Integration | Component | Organizations::ListItems', function (hooks) {
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
+  @showDetachColumn={{true}}
 />`
       );
       const detachButton = screen.getAllByRole('button', { name: 'Détacher' })[0];

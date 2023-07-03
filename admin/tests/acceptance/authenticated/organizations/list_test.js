@@ -54,6 +54,18 @@ module('Acceptance | Organizations | List', function (hooks) {
       assert.dom(screen.getByLabelText('Organisation Tac')).exists();
     });
 
+    test('it should not show an Actions column', async function (assert) {
+      // given
+      server.create('organization', { name: 'Tic' });
+      server.create('organization', { name: 'Tac' });
+
+      // when
+      const screen = await visit('/organizations/list');
+
+      // then
+      assert.dom(screen.queryByText('Actions')).doesNotExist();
+    });
+
     test('it should allow creation of a new organization', async function (assert) {
       // given & when
       const screen = await visit('/organizations/list');
