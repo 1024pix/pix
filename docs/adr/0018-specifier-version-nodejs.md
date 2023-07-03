@@ -4,7 +4,9 @@ Date : 2020-01-18
 
 ## État
 
-Accepté
+Amendé par [0049-specifier-version-nodejs.md][0049]
+
+[0049]: ./0049-specifier-version-nodejs.md
 
 ## Contexte
 
