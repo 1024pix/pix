@@ -122,6 +122,34 @@ module('Integration | Component | Campaign::List', function (hooks) {
       assert.dom(screen.getByText('campagne 2')).exists();
     });
 
+    test('it should display the code of the campaigns', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const campaign1 = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        code: 'AAAAAA111',
+      });
+      const campaign2 = store.createRecord('campaign', {
+        id: 2,
+        name: 'campagne 2',
+        code: 'BBBBBB222',
+      });
+      const campaigns = [campaign1, campaign2];
+
+      this.set('campaigns', campaigns);
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+      );
+
+      // then
+      assert.dom(screen.getByText('AAAAAA111')).exists();
+      assert.dom(screen.getByText('BBBBBB222')).exists();
+    });
+
     test('it should display the owner of the campaigns', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
