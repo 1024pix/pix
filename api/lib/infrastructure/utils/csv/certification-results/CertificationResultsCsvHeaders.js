@@ -41,10 +41,10 @@ class CertificationResultsCsvHeaders {
     this.translate = i18n.__;
   }
 
-  getColumn(columnIndex, headerKey, params = {}) {
+  getColumn(columnIndex, headerKey, headerParams = {}) {
     return {
       value: `col${columnIndex}`,
-      label: this.translate(CertificationResultsCsvHeaders.HEADERS[headerKey], params),
+      label: this.translate(CertificationResultsCsvHeaders.HEADERS[headerKey], headerParams),
     };
   }
 

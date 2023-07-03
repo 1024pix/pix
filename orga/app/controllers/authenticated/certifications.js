@@ -35,11 +35,10 @@ export default class AuthenticatedCertificationsController extends Controller {
         );
       }
 
-      const currentLanguage = this.intl.primaryLocale;
       const organizationId = this.currentUser.organization.id;
       const url = `/api/organizations/${organizationId}/certification-results?division=${encodeURIComponent(
         this.selectedDivision
-      )}&lang=${currentLanguage}`;
+      )}&lang=${this.selectedLanguage}`;
 
       let token = '';
 

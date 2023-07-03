@@ -92,13 +92,14 @@ class CertificationResultsCsvValues {
   }
 
   getComplementaryCertificationStatus({ certificationResult, sessionComplementaryCertificationsLabel }) {
-    let status = this.getTranslation(CertificationResultsCsvValues.VALUES.COMPLEMENTARY_CERTIFICATION_NOT_DONE);
     if (certificationResult.isCancelled()) {
       return this.getTranslation(CertificationResultsCsvValues.VALUES.COMPLEMENTARY_CERTIFICATION_CANCELLED);
     }
     const complementaryCertificationCourseResult = certificationResult.complementaryCertificationCourseResults.find(
       ({ label }) => label === sessionComplementaryCertificationsLabel
     );
+
+    let status = this.getTranslation(CertificationResultsCsvValues.VALUES.COMPLEMENTARY_CERTIFICATION_NOT_DONE);
     if (complementaryCertificationCourseResult) {
       status = this.getTranslation(
         complementaryCertificationCourseResult.acquired
