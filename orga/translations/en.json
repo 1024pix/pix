@@ -590,14 +590,15 @@
       "no-campaign": "No campaign. To start, click on 'Create a campaign'.",
       "table": {
         "column": {
-          "campaign": "Name of the campaign",
+          "code": "Code",
           "created-by": "Owner",
           "created-on": "Created on",
+          "name": "Name of the campaign",
           "participants": "Participants",
           "results": "Results submitted"
         },
-        "description-all-campaigns": "This is the list of all the campaigns created in you Pix Orga. It includes their owner name, creation date, number of participants and number of received results.",
-        "description-my-campaigns": "This is the list of the campaigns you own. It includes their creation date, number of participants and number of received results.",
+        "description-all-campaigns": "This is the list of all the campaigns created in you Pix Orga. It includes their code, their owner name, creation date, number of participants and number of received results.",
+        "description-my-campaigns": "This is the list of the campaigns you own. It includes their code, their creation date, number of participants and number of received results.",
         "empty": "No campaign",
         "row-title": "Campaign"
       },

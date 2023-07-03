@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { service } from '@ember/service';
+import { action } from '@ember/object';
 
 export default class List extends Component {
   @service intl;
@@ -10,5 +11,10 @@ export default class List extends Component {
     } else {
       return this.intl.t('pages.campaigns-list.table.description-my-campaigns');
     }
+  }
+
+  @action
+  stopPropagation(event) {
+    event.stopPropagation();
   }
 }
