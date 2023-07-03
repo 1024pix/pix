@@ -1,4 +1,4 @@
-import { buildAssessment } from './build-assessment.js';
+import { buildPix1dAssessment } from './build-assessment.js';
 import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
 import { Activity } from '../../../lib/domain/models/Activity.js';
@@ -10,7 +10,7 @@ const buildActivity = function ({
   createdAt = new Date('2020-01-01'),
   status = Activity.status.STARTED,
 } = {}) {
-  assessmentId = _.isUndefined(assessmentId) ? buildAssessment().id : assessmentId;
+  assessmentId = _.isUndefined(assessmentId) ? buildPix1dAssessment().id : assessmentId;
 
   const values = {
     id,
