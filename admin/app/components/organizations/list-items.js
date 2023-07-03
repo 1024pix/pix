@@ -5,14 +5,9 @@ import { inject as service } from '@ember/service';
 
 export default class ActionsOnUsersRoleInOrganization extends Component {
   @service notifications;
-  @service currentUser;
 
   @tracked showModal = false;
   @tracked organizationToDetach;
-
-  get isSuperAdminOrMetier() {
-    return this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isMetier;
-  }
 
   @action
   openModal(organization) {
