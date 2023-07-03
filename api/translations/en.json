@@ -129,10 +129,10 @@
   "certification-result-email": {
     "title": "View the results of the certification session n° {sessionId} !",
     "params": {
-      "FindOutMore": "Find out more about",
       "doNotReply": "This is an automatic email, please do not reply.",
       "download": "Download the results",
       "emailValidFor": "This link is valid for thirty days.",
+      "findOutMore": "Find out more about ",
       "guidelines": "The reporting transmitted by the certification centre has been taken into account - if need be - by the Pix examining body. You will find guidelines to help you read these results here.",
       "guidelinesLinkName": "Interpretation of specifiers' results",
       "overviewText": "Hello, here are the results of the certifications that you have recommended to your audiences",
