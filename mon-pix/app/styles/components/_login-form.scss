@@ -9,6 +9,10 @@
     color: red;
     font-size: 0.75rem;
     font-family: $font-roboto;
+
+    & a {
+      text-decoration: underline;
+    }
   }
 
   &__forgotten-password {
