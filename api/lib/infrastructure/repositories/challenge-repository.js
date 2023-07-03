@@ -26,7 +26,7 @@ const get = async function (id) {
 
 /**
  *
- * Pour Pix1D, les missions ont été stocké dans le LCMS de la manière suivante :
+ * Pour Pix1D, les missions ont été stockées dans le LCMS de la manière suivante :
  * - un theme est une mission
  * - un sujet est une activité
  * - une épreuve reste une épreuve
