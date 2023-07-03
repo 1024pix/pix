@@ -28,8 +28,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       it('should return the pix score', function () {
         // given
         const certifResult = domainBuilder.buildCertificationResult.validated(aCertificationResultData);
+
         // when
         const result = new CertificationResultsCsvValues(i18n).formatPixScore(certifResult);
+
         // then
         expect(result).to.equal(55);
       });
@@ -39,8 +41,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       it('should return "0"', function () {
         // given
         const certifResult = domainBuilder.buildCertificationResult.rejected(aCertificationResultData);
+
         // when
         const result = new CertificationResultsCsvValues(i18n).formatPixScore(certifResult);
+
         // then
         expect(result).to.equal('0');
       });
@@ -50,8 +54,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       it('should return "-"', function () {
         // given
         const certifResult = domainBuilder.buildCertificationResult.error(aCertificationResultData);
+
         // when
         const result = new CertificationResultsCsvValues(i18n).formatPixScore(certifResult);
+
         // then
         expect(result).to.equal('-');
       });
@@ -61,8 +67,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       it('should return "-"', function () {
         // given
         const certifResult = domainBuilder.buildCertificationResult.cancelled(aCertificationResultData);
+
         // when
         const result = new CertificationResultsCsvValues(i18n).formatPixScore(certifResult);
+
         // then
         expect(result).to.equal('-');
       });
@@ -88,8 +96,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       it('should return the cancelled translation', function () {
         // given
         const certifResult = domainBuilder.buildCertificationResult.cancelled(aCertificationResultData);
+
         // when
         const result = new CertificationResultsCsvValues(i18n).formatStatus(certifResult);
+
         // then
         expect(result).to.equal('Annulée');
       });
@@ -99,8 +109,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       it('should return the validated translation', function () {
         // given
         const certifResult = domainBuilder.buildCertificationResult.validated(aCertificationResultData);
+
         // when
         const result = new CertificationResultsCsvValues(i18n).formatStatus(certifResult);
+
         // then
         expect(result).to.equal('Validée');
       });
@@ -110,8 +122,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       it('should return the rejected translation', function () {
         // given
         const certifResult = domainBuilder.buildCertificationResult.rejected(aCertificationResultData);
+
         // when
         const result = new CertificationResultsCsvValues(i18n).formatStatus(certifResult);
+
         // then
         expect(result).to.equal('Rejetée');
       });
@@ -121,8 +135,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       it('should return the error translation', function () {
         // given
         const certifResult = domainBuilder.buildCertificationResult.error(aCertificationResultData);
+
         // when
         const result = new CertificationResultsCsvValues(i18n).formatStatus(certifResult);
+
         // then
         expect(result).to.equal('En erreur');
       });
@@ -132,8 +148,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       it('should return the started translation', function () {
         // given
         const certifResult = domainBuilder.buildCertificationResult.started(aCertificationResultData);
+
         // when
         const result = new CertificationResultsCsvValues(i18n).formatStatus(certifResult);
+
         // then
         expect(result).to.equal('Démarrée');
       });
@@ -172,11 +190,13 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
             }),
           ],
         });
+
         // when
         const result = new CertificationResultsCsvValues(i18n).getCompetenceLevel({
           certificationResult,
           competenceIndex: '1.1',
         });
+
         // then
         expect(result).to.equal(3);
       });
@@ -199,11 +219,13 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
             }),
           ],
         });
+
         // when
         const result = new CertificationResultsCsvValues(i18n).getCompetenceLevel({
           certificationResult,
           competenceIndex: '1.1',
         });
+
         // then
         expect(result).to.equal(0);
       });
@@ -226,11 +248,13 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
             }),
           ],
         });
+
         // when
         const result = new CertificationResultsCsvValues(i18n).getCompetenceLevel({
           certificationResult,
           competenceIndex: '1.1',
         });
+
         // then
         expect(result).to.equal(0);
       });
@@ -240,8 +264,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       it('should return "-"', function () {
         // given
         const certificationResult = domainBuilder.buildCertificationResult.error(aCertificationResultData);
+
         // when
         const result = new CertificationResultsCsvValues(i18n).getCompetenceLevel({ certificationResult });
+
         // then
         expect(result).to.equal('-');
       });
@@ -251,8 +277,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       it('should return "-"', function () {
         // given
         const certificationResult = domainBuilder.buildCertificationResult.cancelled(aCertificationResultData);
+
         // when
         const result = new CertificationResultsCsvValues(i18n).getCompetenceLevel({ certificationResult });
+
         // then
         expect(result).to.equal('-');
       });
@@ -281,8 +309,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
           ...aCertificationResultData,
           emitter: CertificationResult.emitters.PIX_ALGO,
         });
+
         // when
         const result = new CertificationResultsCsvValues(i18n).getCommentForOrganization(certificationResult);
+
         // then
         expect(result).to.equal(
           "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix"
@@ -293,8 +323,10 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
     it('should return the comment', function () {
       // given
       const certificationResult = domainBuilder.buildCertificationResult.validated(aCertificationResultData);
+
       // when
       const result = new CertificationResultsCsvValues(i18n).getCommentForOrganization(certificationResult);
+
       // then
       expect(result).to.equal('RAS');
     });
