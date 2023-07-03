@@ -13,6 +13,10 @@ const archiveCampaigns = async function (request, h, dependencies = { csvCampaig
   return h.response(null).code(204);
 };
 
-const campaignController = { archiveCampaigns };
+const createCampaigns = async function (_, h) {
+  return h.response(null).code(204);
+};
+
+const campaignController = { archiveCampaigns, createCampaigns };
 
 export { campaignController };
