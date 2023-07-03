@@ -1,5 +1,4 @@
 import { SESSION_SUPERVISING } from './constants/session-supervising.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from './constants/certification-candidates-errors.js';
 
 class DomainError extends Error {
   constructor(message, code, meta) {
@@ -565,74 +564,9 @@ class CertificationCandidateForbiddenDeletionError extends DomainError {
   }
 }
 
-class CertificationCandidateAddError extends DomainError {
-  constructor({ message = 'Candidat de certification invalide.', code = null } = {}) {
-    super(message, code);
-  }
-
-  static fromInvalidCertificationCandidateError(error) {
-    let code;
-
-    if (error.why === 'not_a_billing_mode') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code;
-    } else if (error.why === 'prepayment_code_null') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code;
-    } else if (error.why === 'prepayment_code_not_null') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code;
-    } else if (error.why === 'birthdate_must_be_greater') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_MUST_BE_GREATER.code;
-    } else if (error.why === 'not_a_date' || error.why === 'date_format') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code;
-    } else if (error.why === 'email_format') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code;
-    } else if (error.why === 'not_a_string') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_STRING.code;
-    } else if (error.why === 'not_a_number') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_NUMBER.code;
-    } else if (error.why === 'required') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_REQUIRED.code;
-    } else if (error.why === 'not_a_sex_code') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code;
-    } else if (error.why === 'extra_time_percentage_out_of_range') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code;
-    }
-
-    return new CertificationCandidateAddError({ code });
-  }
-}
-
-class CertificationCandidatesImportError extends DomainError {
+class CertificationCandidatesError extends DomainError {
   constructor({ message = "Quelque chose s'est mal passé. Veuillez réessayer", code = null, meta = null } = {}) {
     super(message, code, meta);
-  }
-
-  static fromInvalidCertificationCandidateError(error, keyLabelMap, lineNumber) {
-    const label = error.key in keyLabelMap ? keyLabelMap[error.key].replace(/\* /, '') : 'none';
-    let code;
-
-    if (error.why === 'not_a_date' || error.why === 'date_format') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code;
-    } else if (error.why === 'email_format') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code;
-    } else if (error.why === 'not_a_string') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_STRING.code;
-    } else if (error.why === 'not_a_number') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_MUST_BE_A_NUMBER.code;
-    } else if (error.why === 'required') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_INFORMATION_REQUIRED.code;
-    } else if (error.why === 'not_a_sex_code') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code;
-    } else if (error.why === 'not_a_billing_mode') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code;
-    } else if (error.why === 'prepayment_code_null') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code;
-    } else if (error.why === 'prepayment_code_not_null') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code;
-    } else if (error.why === 'extra_time_percentage_out_of_range') {
-      code = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code;
-    }
-
-    return new CertificationCandidatesImportError({ code, meta: { line: lineNumber, label } });
   }
 }
 
@@ -1210,12 +1144,6 @@ class InvalidExternalAPIResponseError extends DomainError {
   }
 }
 
-class CpfBirthInformationValidationError extends DomainError {
-  constructor({ message, code = null, meta = {} }) {
-    super(message, code, meta);
-  }
-}
-
 class NoOrganizationToAttach extends DomainError {
   constructor(message) {
     super(message);
@@ -1381,7 +1309,6 @@ export {
   CertificationAttestationGenerationError,
   CertificationBadgeForbiddenDeletionError,
   CertificationCandidateOnFinalizedSessionError,
-  CertificationCandidateAddError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
@@ -1392,7 +1319,7 @@ export {
   CertificationCandidateNotFoundError,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-  CertificationCandidatesImportError,
+  CertificationCandidatesError,
   CertificationCenterMembershipCreationError,
   CertificationCenterMembershipDisableError,
   CertificationComputeError,
@@ -1406,7 +1333,6 @@ export {
   ChallengeToBeDeneutralizedNotFoundError,
   CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually,
   CompetenceResetError,
-  CpfBirthInformationValidationError,
   CsvImportError,
   CsvParsingError,
   DeprecatedCertificationIssueReportCategoryError,

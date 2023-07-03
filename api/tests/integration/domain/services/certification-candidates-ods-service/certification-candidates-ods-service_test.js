@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, catchErr, domainBuilder } from '../../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
 import {
   CLEA,
   PIX_PLUS_DROIT,
@@ -12,19 +12,19 @@ import * as certificationCpfCityRepository from '../../../../../lib/infrastructu
 import * as certificationCenterRepository from '../../../../../lib/infrastructure/repositories/certification-center-repository.js';
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
-import { CertificationCandidatesImportError } from '../../../../../lib/domain/errors.js';
+import { CertificationCandidatesError } from '../../../../../lib/domain/errors.js';
 import fs from 'fs';
+import _ from 'lodash';
+import { getI18n } from '../../../../tooling/i18n/i18n.js';
+import * as url from 'url';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 
 const { promises } = fs;
 
 const { readFile } = promises;
 
-import _ from 'lodash';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
-import * as url from 'url';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
@@ -66,7 +66,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     await databaseBuilder.commit();
   });
 
-  it('should throw a CertificationCandidatesImportError if there is an error in the file', async function () {
+  it('should throw a CertificationCandidatesError if there is an error in the file', async function () {
     // given
     const odsFilePath = `${__dirname}/attendance_sheet_extract_mandatory_ko_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
@@ -87,12 +87,12 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     });
 
     // then
-    expect(error).to.be.instanceOf(CertificationCandidatesImportError);
-    expect(error.code).to.equal('CANDIDATE_INFORMATION_REQUIRED');
-    expect(error.meta).to.deep.equal({ line: 13, label: 'Prénom' });
+    expect(error).to.be.instanceOf(CertificationCandidatesError);
+    expect(error.code).to.equal('CANDIDATE_FIRST_NAME_REQUIRED');
+    expect(error.meta).to.deep.equal({ line: 13 });
   });
 
-  it('should throw a CertificationCandidatesImportError if there is an error in the birth information', async function () {
+  it('should throw a CertificationCandidatesError if there is an error in the birth information', async function () {
     // given
     const odsFilePath = `${__dirname}/attendance_sheet_extract_birth_ko_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
@@ -113,7 +113,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     });
 
     // then
-    expect(error).to.be.instanceOf(CertificationCandidatesImportError);
+    expect(error).to.be.instanceOf(CertificationCandidatesError);
     expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID.code);
   });
 
@@ -301,7 +301,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
         // then
         expect(error).to.deepEqualInstance(
-          new CertificationCandidatesImportError({
+          new CertificationCandidatesError({
             code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
             message: 'A candidate cannot have more than one complementary certification',
             meta: {

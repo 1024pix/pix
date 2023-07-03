@@ -7,7 +7,7 @@ import {
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
 } from '../models/ComplementaryCertification.js';
-import { CertificationCandidatesImportError } from '../errors.js';
+import { CertificationCandidatesError } from '../errors.js';
 import _ from 'lodash';
 import bluebird from 'bluebird';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
@@ -84,7 +84,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       ) {
         line = parseInt(line) + 1;
 
-        throw new CertificationCandidatesImportError({
+        throw new CertificationCandidatesError({
           code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
           message: 'A candidate cannot have more than one complementary certification',
           meta: { line },
@@ -127,7 +127,10 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       try {
         certificationCandidate.validate(isSco);
       } catch (err) {
-        _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line);
+        throw new CertificationCandidatesError({
+          code: err.code,
+          meta: { line: parseInt(line) + 1 },
+        });
       }
 
       return certificationCandidate;
@@ -163,33 +166,24 @@ function _nullifyObjectWithOnlyNilValues(data) {
   return null;
 }
 
-function _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line) {
-  const keyLabelMap = tableHeaderTargetPropertyMap.reduce((acc, obj) => {
-    acc[obj.property] = obj.header;
-    return acc;
-  }, {});
-  line = parseInt(line) + 1;
-  throw CertificationCandidatesImportError.fromInvalidCertificationCandidateError(err, keyLabelMap, line);
-}
-
 function _handleBirthInformationValidationError(cpfBirthInformation, line) {
   line = parseInt(line) + 1;
   const { birthCountry, birthINSEECode, birthPostalCode, birthCity, firstErrorCode } = cpfBirthInformation;
-  throw new CertificationCandidatesImportError({
+  throw new CertificationCandidatesError({
     code: firstErrorCode,
     meta: { line, birthCountry, birthINSEECode, birthPostalCode, birthCity },
   });
 }
 
 function _handleVersionError() {
-  throw new CertificationCandidatesImportError({
+  throw new CertificationCandidatesError({
     code: 'INVALID_DOCUMENT',
     message: 'This version of the document is unknown.',
   });
 }
 
 function _handleParsingError() {
-  throw new CertificationCandidatesImportError({ code: 'INVALID_DOCUMENT', message: 'Le document est invalide.' });
+  throw new CertificationCandidatesError({ code: 'INVALID_DOCUMENT', message: 'Le document est invalide.' });
 }
 
 async function _buildComplementaryCertificationsForLine({
