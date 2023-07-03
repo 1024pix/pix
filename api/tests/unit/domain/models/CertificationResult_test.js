@@ -406,35 +406,6 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
   });
 
-  context('#getUniqComplementaryCertificationCourseResultHeaders', function () {
-    it('should return an array of unique headers', function () {
-      // given
-      const complementaryCertificationCourseResults = [
-        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'CléA Numérique' }),
-        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Droit' }),
-        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'CléA Numérique' }),
-        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Edu 1er degré' }),
-        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Edu 2nd degré' }),
-      ];
-      const certificationResult = domainBuilder.buildCertificationResult({
-        complementaryCertificationCourseResults,
-      });
-
-      const expectedComplementaryCertificationCourseLabels = [
-        'Certification CléA Numérique',
-        'Certification Pix+ Droit',
-        'Certification Pix+ Edu 1er degré',
-        'Certification Pix+ Edu 2nd degré',
-      ];
-
-      // when
-      const result = certificationResult.getUniqComplementaryCertificationCourseResultHeaders();
-
-      // then
-      expect(result).to.deep.equal(expectedComplementaryCertificationCourseLabels);
-    });
-  });
-
   context('#getUniqComplementaryCertificationCourseResultLabels', function () {
     it('should return an array of unique labels', function () {
       // given
@@ -461,82 +432,6 @@ describe('Unit | Domain | Models | CertificationResult', function () {
 
       // then
       expect(result).to.deep.equal(expectedComplementaryCertificationCourseLabels);
-    });
-  });
-
-  context('#getComplementaryCertificationStatus', function () {
-    context('when complementary certification is acquired', function () {
-      it('should return "Validée"', function () {
-        // given
-        const label = 'default label';
-        const complementaryResult = domainBuilder.buildCertificationResult({
-          complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              acquired: true,
-              label,
-            }),
-          ],
-        });
-
-        // when
-        const result = complementaryResult.getComplementaryCertificationStatus(label);
-
-        // then
-        expect(result).to.deep.equal('Validée');
-      });
-    });
-
-    context('when complementary certification is not acquired', function () {
-      it('should return "Rejetée"', function () {
-        // given
-        const label = 'default label';
-        const complementaryResult = domainBuilder.buildCertificationResult({
-          complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              acquired: false,
-              label,
-            }),
-          ],
-        });
-
-        // when
-        const result = complementaryResult.getComplementaryCertificationStatus(label);
-
-        // then
-        expect(result).to.deep.equal('Rejetée');
-      });
-    });
-
-    context('when complementary certification is not taken', function () {
-      it('should return "Non passée"', function () {
-        // given
-        const label = 'default label';
-        const complementaryResult = domainBuilder.buildCertificationResult({
-          complementaryCertificationCourseResults: [],
-        });
-
-        // when
-        const result = complementaryResult.getComplementaryCertificationStatus(label);
-
-        // then
-        expect(result).to.deep.equal('Non passée');
-      });
-    });
-
-    context('when certification result is cancelled', function () {
-      it('should return "Annulée"', function () {
-        // given
-        const label = 'default label';
-        const complementaryResult = domainBuilder.buildCertificationResult({
-          status: CertificationResult.status.CANCELLED,
-        });
-
-        // when
-        const result = complementaryResult.getComplementaryCertificationStatus(label);
-
-        // then
-        expect(result).to.deep.equal('Annulée');
-      });
     });
   });
 });

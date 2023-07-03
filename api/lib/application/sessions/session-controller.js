@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { SessionPublicationBatchError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { tokenService } from '../../domain/services/token-service.js';
@@ -14,7 +13,7 @@ import * as juryCertificationSummaryRepository from '../../infrastructure/reposi
 import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
-import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
+import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import * as supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
 import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
@@ -182,7 +181,8 @@ const getJuryCertificationSummaries = async function (
 
 const generateSessionResultsDownloadLink = async function (request, h, dependencies = { sessionResultsLinkService }) {
   const sessionId = request.params.id;
-  const sessionResultsLink = dependencies.sessionResultsLinkService.generateResultsLink(sessionId);
+  const i18n = request.i18n;
+  const sessionResultsLink = dependencies.sessionResultsLinkService.generateResultsLink({ sessionId, i18n });
 
   return h.response({ sessionResultsLink });
 };
@@ -190,24 +190,22 @@ const generateSessionResultsDownloadLink = async function (request, h, dependenc
 const getSessionResultsToDownload = async function (
   request,
   h,
-  dependencies = { tokenService, certificationResultUtils }
+  dependencies = { tokenService, getSessionCertificationResultsCsv }
 ) {
   const token = request.params.token;
   const { sessionId } = dependencies.tokenService.extractSessionId(token);
   const { session, certificationResults } = await usecases.getSessionResults({ sessionId });
 
-  const csvResult = await dependencies.certificationResultUtils.getSessionCertificationResultsCsv({
+  const csvResult = await dependencies.getSessionCertificationResultsCsv({
     session,
     certificationResults,
+    i18n: request.i18n,
   });
 
-  const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
-  const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
-
   return h
-    .response(csvResult)
+    .response(csvResult.content)
     .header('Content-Type', 'text/csv;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename=${fileName}`);
+    .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
 };
 
 const getCertificationPDFAttestationsForSession = async function (
@@ -236,26 +234,25 @@ const getCertificationPDFAttestationsForSession = async function (
 const getSessionResultsByRecipientEmail = async function (
   request,
   h,
-  dependencies = { tokenService, certificationResultUtils }
+  dependencies = { tokenService, getSessionCertificationResultsCsv }
 ) {
   const token = request.params.token;
+
   const { resultRecipientEmail, sessionId } = dependencies.tokenService.extractResultRecipientEmailAndSessionId(token);
   const { session, certificationResults } = await usecases.getSessionResultsByResultRecipientEmail({
     sessionId,
     resultRecipientEmail,
   });
-  const csvResult = await dependencies.certificationResultUtils.getSessionCertificationResultsCsv({
+  const csvResult = await dependencies.getSessionCertificationResultsCsv({
     session,
     certificationResults,
+    i18n: request.i18n,
   });
 
-  const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
-  const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
-
   return h
-    .response(csvResult)
+    .response(csvResult.content)
     .header('Content-Type', 'text/csv;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename=${fileName}`);
+    .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
 };
 
 const getCertificationReports = async function (request, h, dependencies = { certificationReportSerializer }) {

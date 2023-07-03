@@ -11,6 +11,8 @@ export default class AuthenticatedCertificationsController extends Controller {
   @service notifications;
   @service intl;
 
+  @tracked selectedLanguage = this.intl.primaryLocale;
+
   @tracked selectedDivision = '';
 
   get hasDivisions() {
@@ -36,7 +38,7 @@ export default class AuthenticatedCertificationsController extends Controller {
       const organizationId = this.currentUser.organization.id;
       const url = `/api/organizations/${organizationId}/certification-results?division=${encodeURIComponent(
         this.selectedDivision
-      )}`;
+      )}&lang=${this.selectedLanguage}`;
 
       let token = '';
 

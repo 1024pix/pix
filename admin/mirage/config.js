@@ -97,7 +97,9 @@ export default function () {
   this.post('/admin/sessions/publish-in-batch', () => {
     return new Response(200);
   });
-  this.get('/admin/sessions/:id/generate-results-download-link', { sessionResultsLink: 'http://link-to-results.fr' });
+  this.get('/admin/sessions/:id/generate-results-download-link', {
+    sessionResultsLink: 'http://link-to-results.fr?lang=fr',
+  });
 
   this.get('/admin/users');
   this.get('/admin/users/:id');

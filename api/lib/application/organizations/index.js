@@ -704,6 +704,10 @@ const register = async function (server) {
           params: Joi.object({
             id: identifiersType.organizationId,
           }),
+          query: Joi.object({
+            division: Joi.string().optional(),
+            lang: Joi.string().optional().valid('fr', 'en'),
+          }),
         },
         handler: organizationController.downloadCertificationResults,
         tags: ['api', 'organizations'],

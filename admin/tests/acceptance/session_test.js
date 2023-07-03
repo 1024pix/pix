@@ -160,7 +160,7 @@ module('Acceptance | Session pages', function (hooks) {
         });
 
         module('copy link button', function () {
-          test("it should copy 'http://link-to-results.fr' in navigator clipboard on click", async function (assert) {
+          test("it should copy 'http://link-to-results.fr?lang=fr' in navigator clipboard on click", async function (assert) {
             // given
 
             // We were unable to access clipboard in test environment so we used a stub
@@ -171,7 +171,7 @@ module('Acceptance | Session pages', function (hooks) {
             await clickByName('Lien de téléchargement des résultats');
 
             // then
-            assert.ok(writeTextStub.calledWithExactly('http://link-to-results.fr'));
+            assert.ok(writeTextStub.calledWithExactly('http://link-to-results.fr?lang=fr'));
           });
         });
       });
