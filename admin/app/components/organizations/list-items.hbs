@@ -7,7 +7,7 @@
           <th><label for="name">Nom</label></th>
           <th><label for="type">Type</label></th>
           <th><label for="externalId">Identifiant externe</label></th>
-          {{#if this.isSuperAdminOrMetier}}
+          {{#if @showDetachColumn}}
             <th>Actions</th>
           {{/if}}
         </tr>
@@ -48,7 +48,7 @@
               class="table-admin-input form-control"
             />
           </td>
-          {{#if this.isSuperAdminOrMetier}}
+          {{#if @showDetachColumn}}
             <td></td>
           {{/if}}
         </tr>
@@ -66,7 +66,7 @@
               <td>{{organization.name}}</td>
               <td>{{organization.type}}</td>
               <td>{{organization.externalId}}</td>
-              {{#if this.isSuperAdminOrMetier}}
+              {{#if @showDetachColumn}}
                 <td>
                   <PixButton @backgroundColor="red" @size="small" @triggerAction={{(fn this.openModal organization)}}>
                     Détacher

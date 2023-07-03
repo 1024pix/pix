@@ -8,9 +8,14 @@ export default class Organizations extends Component {
   @service store;
   @service notifications;
   @service router;
+  @service currentUser;
 
   @tracked organizationsToAttach = '';
   @tracked existingTargetProfile = '';
+
+  get isSuperAdminOrMetier() {
+    return this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isMetier;
+  }
 
   get isDisabledAttachOrganizationsFromExistingTargetProfile() {
     return this.existingTargetProfile === '';
