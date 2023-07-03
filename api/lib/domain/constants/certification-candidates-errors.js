@@ -88,12 +88,24 @@ const CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_FIRST_NAME_REQUIRED',
     getMessage: () => '',
   },
+  CANDIDATE_FIRST_NAME_MUST_BE_A_STRING: {
+    code: 'CANDIDATE_FIRST_NAME_MUST_BE_A_STRING',
+    getMessage: () => '',
+  },
+  CANDIDATE_EXTERNAL_ID_MUST_BE_A_STRING: {
+    code: 'CANDIDATE_EXTERNAL_ID_MUST_BE_A_STRING',
+    getMessage: () => '',
+  },
   CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID: {
     code: 'CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID',
     getMessage: () => 'La valeur du code INSEE doit être "99" pour un pays étranger.',
   },
   CANDIDATE_LAST_NAME_REQUIRED: {
     code: 'CANDIDATE_LAST_NAME_REQUIRED',
+    getMessage: () => '',
+  },
+  CANDIDATE_LAST_NAME_MUST_BE_A_STRING: {
+    code: 'CANDIDATE_LAST_NAME_MUST_BE_A_STRING',
     getMessage: () => '',
   },
   CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION: {
@@ -116,24 +128,16 @@ const CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_SESSION_ID_REQUIRED',
     getMessage: () => '',
   },
+  CANDIDATE_SESSION_ID_NOT_A_NUMBER: {
+    code: 'CANDIDATE_SESSION_ID_NOT_A_NUMBER',
+    getMessage: () => '',
+  },
   CANDIDATE_SEX_NOT_VALID: {
     code: 'CANDIDATE_SEX_NOT_VALID',
     getMessage: () => '',
   },
   CANDIDATE_SEX_REQUIRED: {
     code: 'CANDIDATE_SEX_REQUIRED',
-    getMessage: () => '',
-  },
-  CANDIDATE_INFORMATION_MUST_BE_A_STRING: {
-    code: 'CANDIDATE_INFORMATION_MUST_BE_A_STRING',
-    getMessage: () => '',
-  },
-  CANDIDATE_INFORMATION_MUST_BE_A_NUMBER: {
-    code: 'CANDIDATE_INFORMATION_MUST_BE_A_NUMBER',
-    getMessage: () => '',
-  },
-  CANDIDATE_INFORMATION_REQUIRED: {
-    code: 'CANDIDATE_INFORMATION_REQUIRED',
     getMessage: () => '',
   },
 };

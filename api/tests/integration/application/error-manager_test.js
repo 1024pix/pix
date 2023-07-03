@@ -1,4 +1,4 @@
-import { expect, sinon, HttpTestServer } from '../../test-helper.js';
+import { expect, HttpTestServer, sinon } from '../../test-helper.js';
 import * as DomainErrors from '../../../lib/domain/errors.js';
 
 describe('Integration | API | Controller Error', function () {
@@ -757,8 +757,8 @@ describe('Integration | API | Controller Error', function () {
       expect(payload.errors).to.have.lengthOf(3);
     });
 
-    it('responds UnprocessableEntity when a CertificationCandidatesImportError occurs', async function () {
-      routeHandler.throws(new DomainErrors.CertificationCandidatesImportError());
+    it('responds UnprocessableEntity when a CertificationCandidatesError occurs', async function () {
+      routeHandler.throws(new DomainErrors.CertificationCandidatesError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);

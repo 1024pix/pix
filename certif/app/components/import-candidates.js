@@ -35,7 +35,7 @@ export default class ImportCandidates extends Component {
     if (error?.code) {
       if (error.meta?.line) {
         return `${errorPrefix} ${this.intl.t(`common.labels.line`, { line: error.meta.line })}
-        ${this.intl.t(`common.api-error-messages.certification-candidates-import.${error.code}`, {
+        ${this.intl.t(`common.api-error-messages.certification-candidate.${error.code}`, {
           ...error.meta,
         })}`;
       }

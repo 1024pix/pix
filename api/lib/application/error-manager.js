@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import jsonapiSerializer from 'jsonapi-serializer';
-const { Error: JSONAPIError } = jsonapiSerializer;
-
 import { HttpErrors } from './http-errors.js';
 import * as DomainErrors from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils.js';
 import * as translations from '../../translations/index.js';
+
+const { Error: JSONAPIError } = jsonapiSerializer;
 
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
 
@@ -186,10 +186,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CertificationCandidatePersonalInfoWrongFormat) {
     return new HttpErrors.BadRequestError("Un ou plusieurs champs d'informations d'identité sont au mauvais format.");
   }
-  if (error instanceof DomainErrors.CertificationCandidateAddError) {
-    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
-  }
-  if (error instanceof DomainErrors.CertificationCandidatesImportError) {
+  if (error instanceof DomainErrors.CertificationCandidatesError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.CertificationCandidateForbiddenDeletionError) {
@@ -442,10 +439,6 @@ function _mapToHttpError(error) {
 
   if (error instanceof DomainErrors.MultipleOrganizationLearnersWithDifferentNationalStudentIdError) {
     return new HttpErrors.ConflictError(error.message);
-  }
-
-  if (error instanceof DomainErrors.CpfBirthInformationValidationError) {
-    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 
   if (error instanceof DomainErrors.UncancellableOrganizationInvitationError) {
