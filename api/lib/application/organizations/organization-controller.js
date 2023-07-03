@@ -28,7 +28,7 @@ import {
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 dayjs.extend(customParseFormat);
-import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
+import { getDivisionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-division-certification-results-csv.js';
 import { getCertificationAttestationsPdf as certificationAttestationPdf } from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
 
@@ -221,23 +221,26 @@ const downloadCertificationAttestationsForDivision = async function (
     .header('Content-Type', 'application/pdf');
 };
 
-const downloadCertificationResults = async function (request, h, dependencies = { certificationResultUtils }) {
+const downloadCertificationResults = async function (
+  request,
+  h,
+  dependencies = { getDivisionCertificationResultsCsv }
+) {
   const organizationId = request.params.id;
   const { division } = request.query;
 
   const certificationResults = await usecases.getScoCertificationResultsByDivision({ organizationId, division });
 
-  const csvResult = await dependencies.certificationResultUtils.getDivisionCertificationResultsCsv({
+  const csvResult = await dependencies.getDivisionCertificationResultsCsv({
+    division,
     certificationResults,
+    i18n: request.i18n,
   });
 
-  const now = dayjs();
-  const fileName = `${now.format('YYYYMMDD')}_resultats_${division}.csv`;
-
   return h
-    .response(csvResult)
+    .response(csvResult.content)
     .header('Content-Type', 'text/csv;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename="${fileName}"`);
+    .header('Content-Disposition', `attachment; filename="${csvResult.filename}"`);
 };
 
 const findTargetProfiles = async function (request, h, dependencies = { targetProfileForSpecifierSerializer }) {

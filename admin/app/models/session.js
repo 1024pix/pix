@@ -141,6 +141,9 @@ export default class Session extends Model {
     path: 'generate-results-download-link',
     type: 'get',
     urlType: 'findRecord',
+    before(attributes) {
+      return { lang: attributes.lang };
+    },
     after(response) {
       return response.sessionResultsLink;
     },

@@ -12,6 +12,7 @@ export default class IndexController extends Controller {
   @service accessControl;
   @service session;
   @service fileSaver;
+  @service intl;
 
   @alias('model') sessionModel;
 
@@ -61,7 +62,7 @@ export default class IndexController extends Controller {
   @action
   async copyResultsDownloadLink() {
     try {
-      const link = await this.sessionModel.getDownloadLink();
+      const link = await this.sessionModel.getDownloadLink({ lang: this.intl.primaryLocale });
       await navigator.clipboard.writeText(link);
       this._displaySuccessTooltip();
     } catch (err) {

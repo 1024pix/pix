@@ -128,24 +128,6 @@ class CertificationResult {
     ];
   }
 
-  getUniqComplementaryCertificationCourseResultHeaders() {
-    return this.getUniqComplementaryCertificationCourseResultLabels().map((label) => `Certification ${label}`);
-  }
-
-  getComplementaryCertificationStatus(sessionComplementaryCertificationsLabel) {
-    let status = 'Non passée';
-    if (this.isCancelled()) {
-      return 'Annulée';
-    }
-    const complementaryCertificationCourseResult = this.complementaryCertificationCourseResults.find(
-      ({ label }) => label === sessionComplementaryCertificationsLabel
-    );
-    if (complementaryCertificationCourseResult) {
-      status = complementaryCertificationCourseResult.acquired ? 'Validée' : 'Rejetée';
-    }
-    return status;
-  }
-
   _getCertificationCourseResultByPartnerKeys(partnerKeys) {
     return this.complementaryCertificationCourseResults.find(({ partnerKey }) => partnerKeys.includes(partnerKey));
   }

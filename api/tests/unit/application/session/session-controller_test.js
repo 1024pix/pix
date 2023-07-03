@@ -6,7 +6,6 @@ import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/event
 import { SessionPublicationBatchResult } from '../../../../lib/domain/models/SessionPublicationBatchResult.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
-import * as certificationResultUtils from '../../../../lib/infrastructure/utils/csv/certification-results.js';
 import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
 import * as events from '../../../../lib/domain/events/index.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
@@ -344,78 +343,83 @@ describe('Unit | Controller | sessionController', function () {
   describe('#getSessionResultsByRecipientEmail ', function () {
     it('should return csv content and fileName', async function () {
       // given
+      const i18n = getI18n();
       const session = { id: 1, date: '2020/01/01', time: '12:00' };
-      const tokenService = {
-        extractResultRecipientEmailAndSessionId: sinon.stub(),
+      const dependencies = {
+        getSessionCertificationResultsCsv: sinon.stub(),
+        tokenService: {
+          extractResultRecipientEmailAndSessionId: sinon.stub(),
+        },
       };
-      tokenService.extractResultRecipientEmailAndSessionId
+      dependencies.tokenService.extractResultRecipientEmailAndSessionId
         .withArgs('abcd1234')
         .returns({ sessionId: 1, resultRecipientEmail: 'user@example.net' });
+
       sinon
         .stub(usecases, 'getSessionResultsByResultRecipientEmail')
         .withArgs({ sessionId: session.id, resultRecipientEmail: 'user@example.net' })
         .resolves({
           session,
           certificationResults: [],
-          fileName: '20200101_1200_resultats_session_1.csv',
         });
-      const certificationResultUtils = {
-        getSessionCertificationResultsCsv: sinon.stub(),
-      };
-      certificationResultUtils.getSessionCertificationResultsCsv
-        .withArgs({ session, certificationResults: [] })
-        .resolves('csv content');
+
+      dependencies.getSessionCertificationResultsCsv
+        .withArgs({ session, certificationResults: [], i18n })
+        .resolves({ content: 'csv content', filename: '20200101_1200_resultats_session_1.csv' });
 
       // when
       const response = await sessionController.getSessionResultsByRecipientEmail(
-        { params: { token: 'abcd1234' } },
+        { i18n, params: { token: 'abcd1234' } },
         hFake,
-        { tokenService, certificationResultUtils }
+        dependencies
       );
 
       // then
-      const expectedCsv = 'csv content';
-      const expectedHeader = 'attachment; filename=20200101_1200_resultats_session_1.csv';
-      expect(response.source.trim()).to.deep.equal(expectedCsv.trim());
-      expect(response.headers['Content-Disposition']).to.equal(expectedHeader);
+      expect(response.source).to.deep.equal('csv content');
+      expect(response.headers['Content-Disposition']).to.equal(
+        'attachment; filename=20200101_1200_resultats_session_1.csv'
+      );
     });
   });
 
   describe('#getSessionResultsToDownload ', function () {
     it('should return results to download', async function () {
       // given
+      const i18n = getI18n();
       const session = { id: 1, date: '2020/01/01', time: '12:00' };
       const sessionId = session.id;
       const fileName = `20200101_1200_resultats_session_${sessionId}.csv`;
       const certificationResults = [];
       const token = Symbol('a beautiful token');
       const request = {
+        i18n,
         params: { id: sessionId, token },
         auth: {
           credentials: { userId },
         },
       };
-      const tokenService = {
-        extractSessionId: sinon.stub(),
+      const dependencies = {
+        getSessionCertificationResultsCsv: sinon.stub(),
+        tokenService: {
+          extractSessionId: sinon.stub(),
+        },
       };
-      tokenService.extractSessionId.withArgs(token).returns({ sessionId });
-      sinon.stub(usecases, 'getSessionResults').withArgs({ sessionId }).resolves({
-        session,
-        certificationResults,
-      });
+      dependencies.tokenService.extractSessionId.withArgs(token).returns({ sessionId });
+      dependencies.getSessionCertificationResultsCsv
+        .withArgs({
+          session,
+          certificationResults,
+          i18n: request.i18n,
+        })
+        .returns({ content: 'csv-string', filename: fileName });
+      sinon.stub(usecases, 'getSessionResults').withArgs({ sessionId }).resolves({ session, certificationResults });
 
       // when
-      const response = await sessionController.getSessionResultsToDownload(request, hFake, {
-        tokenService,
-        certificationResultUtils,
-      });
+      const response = await sessionController.getSessionResultsToDownload(request, hFake, dependencies);
 
       // then
-      const expectedHeader = `attachment; filename=${fileName}`;
-      const expectedCsv =
-        '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"';
-      expect(response.source.trim()).to.deep.equal(expectedCsv);
-      expect(response.headers['Content-Disposition']).to.equal(expectedHeader);
+      expect(response.source).to.deep.equal('csv-string');
+      expect(response.headers['Content-Disposition']).to.equal(`attachment; filename=${fileName}`);
     });
   });
 

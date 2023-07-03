@@ -152,6 +152,41 @@
       "viewResultsInProfile": "Les candidats peuvent consulter leur résultat depuis leur profil Pix."
     }
   },
+  "certification-results-csv": {
+    "filenames": {
+      "DIVISION_CERTIFICATION_RESULTS_FILENAME": "{dateWithTime}_resultats_{division}.csv",
+      "SESSION_CERTIFICATION_RESULTS_FILENAME": "{dateWithTime}_resultats_session_{sessionId}.csv"
+    },
+    "headers": {
+      "BIRTHDATE": "Date de naissance",
+      "BIRTHPLACE": "Lieu de naissance",
+      "CERTIFICATION_CENTER": "Centre de certification",
+      "CERTIFICATION_DATE": "Date de passage de la certification",
+      "CERTIFICATION_LABEL": "Certification {label}",
+      "CERTIFICATION_NUMBER": "Numéro de certification",
+      "EXTERNAL_ID": "Identifiant Externe",
+      "FIRSTNAME": "Prénom",
+      "JURY_COMMENT_FOR_ORGANIZATION": "Commentaire jury pour l’organisation",
+      "LASTNAME": "Nom",
+      "PIX_SCORE": "Nombre de Pix",
+      "REGISTRATION_STATUS": "Statut à l'inscription",
+      "SESSION_ID": "Session",
+      "SKILL_LABEL": "{skillIndex}",
+      "STATUS": "Statut"
+    },
+    "values": {
+      "CERTIFICATION_CANCELLED": "Annulée",
+      "CERTIFICATION_IN_ERROR": "En erreur",
+      "CERTIFICATION_REJECTED": "Rejetée",
+      "CERTIFICATION_STARTED": "Démarrée",
+      "CERTIFICATION_VALIDATED": "Validée",
+      "COMPLEMENTARY_CERTIFICATION_CANCELLED": "Annulée",
+      "COMPLEMENTARY_CERTIFICATION_NOT_DONE": "Non passée",
+      "COMPLEMENTARY_CERTIFICATION_REJECTED": "Rejetée",
+      "COMPLEMENTARY_CERTIFICATION_VALIDATED": "Validée",
+      "REJECTED_AUTOMATICALLY_COMMENT": "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix"
+    }
+  },
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
