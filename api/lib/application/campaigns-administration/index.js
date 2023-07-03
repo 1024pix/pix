@@ -44,6 +44,25 @@ const register = async function (server) {
         tags: ['api', 'organization-learners'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/admin/campaigns',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
+          },
+        ],
+        handler: campaignController.createCampaigns,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés ayant pour rôle SUPER_ADMIN**\n' +
+            '- Elle permet de créer des campagnes à partir d‘un fichier au format CSV\n' +
+            '- Elle ne retourne aucune valeur',
+        ],
+        tags: ['api', 'campaigns'],
+      },
+    },
   ]);
 };
 

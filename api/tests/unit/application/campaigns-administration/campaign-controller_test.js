@@ -29,4 +29,15 @@ describe('Unit | Application | Controller | Campaign Administration', function (
       expect(response.statusCode).to.be.equal(204);
     });
   });
+  describe('#createCampaigns', function () {
+    it('should return a 204', async function () {
+      // given
+      sinon.stub(usecases, 'createCampaigns');
+      usecases.createCampaigns.withArgs({});
+      // when
+      const response = await campaignController.createCampaigns(sinon.stub(), hFake);
+      // then
+      expect(response.statusCode).to.be.equal(204);
+    });
+  });
 });
