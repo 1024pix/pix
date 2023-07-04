@@ -32,8 +32,9 @@ describe('Unit | Application | Controller | Campaign Administration', function (
   describe('#createCampaigns', function () {
     it('should return a 204', async function () {
       // given
+      const userId = 12;
       sinon.stub(usecases, 'createCampaigns');
-      usecases.createCampaigns.withArgs({});
+      usecases.createCampaigns.withArgs({ userId });
       // when
       const response = await campaignController.createCampaigns(sinon.stub(), hFake);
       // then
