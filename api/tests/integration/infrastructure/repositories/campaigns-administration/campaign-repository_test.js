@@ -6,7 +6,7 @@ describe('Integration | Infrastructure | Repository | Campaign Administration | 
   const now = new Date('2023-02-02');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {
@@ -70,6 +70,53 @@ describe('Integration | Infrastructure | Repository | Campaign Administration | 
 
       // when
       expect(call).to.not.throw();
+    });
+  });
+
+  describe('#createCampaigns', function () {
+    afterEach(function () {
+      return knex('campaigns').delete();
+    });
+
+    it('creates campaigns', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+
+      await databaseBuilder.commit();
+
+      const campaignsToCreate = [
+        {
+          targetProfileId,
+          name: 'CampaignToCreate',
+          organizationId,
+          title: 'CampaignToCreate',
+          customLandingPageText: 'CampaignToCreate',
+          ownerId: userId,
+          creatorId: userId,
+        },
+      ];
+
+      // when
+      await campaignRepository.createCampaigns(campaignsToCreate);
+
+      const createdCampaign = await knex('campaigns')
+        .select(
+          'targetProfileId',
+          'name',
+          'organizationId',
+          'title',
+          'customLandingPageText',
+          'creatorId',
+          'createdAt',
+          'ownerId'
+        )
+        .where('name', campaignsToCreate[0].name)
+        .first();
+
+      // then
+      expect(createdCampaign).to.deep.equal({ ...campaignsToCreate[0], createdAt: now });
     });
   });
 });
