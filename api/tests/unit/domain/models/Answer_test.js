@@ -17,7 +17,6 @@ describe('Unit | Domain | Models | Answer', function () {
         levelup: {},
         timeSpent: 30,
         isFocusedOut: false,
-        activityId: 12,
       };
 
       const expectedAnswer = {
@@ -31,7 +30,6 @@ describe('Unit | Domain | Models | Answer', function () {
         levelup: {},
         timeSpent: 30,
         isFocusedOut: false,
-        activityId: 12,
       };
 
       // when
