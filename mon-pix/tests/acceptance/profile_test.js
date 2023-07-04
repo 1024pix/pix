@@ -36,7 +36,6 @@ module('Acceptance | Profile', function (hooks) {
       assert.ok(screen.getByText(user.profile.pixScore));
     });
 
-    // eslint-disable-next-line qunit/require-expect
     test('should display scorecards classified accordingly to each area', async function (assert) {
       // when
       const screen = await visit('/competences');

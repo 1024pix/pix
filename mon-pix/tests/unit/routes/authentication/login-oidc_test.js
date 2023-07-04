@@ -243,8 +243,6 @@ module('Unit | Route | login-oidc', function (hooks) {
       assert.ok(true);
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
     test('should throw error if CGUs are already validated and authenticate fails', async function (assert) {
       // given
       const authenticateStub = sinon.stub().rejects({ errors: [{ detail: 'there was an error' }] });
@@ -268,8 +266,6 @@ module('Unit | Route | login-oidc', function (hooks) {
     });
 
     module('when the identity provider does not provide all the user required information', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('throws an error', async function (assert) {
         // given
         const authenticateStub = sinon.stub().rejects({

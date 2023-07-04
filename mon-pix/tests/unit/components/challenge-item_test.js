@@ -256,8 +256,6 @@ module('Unit | Component | Challenge | Item', function (hooks) {
       });
     });
     module('when saving fails', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should remove temporary answer and send error', async function (assert) {
         // given
         const error = { message: 'error' };
