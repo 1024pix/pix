@@ -1,4 +1,5 @@
-const createCampaigns = function () {
+const createCampaigns = async function ({ userId, campaignAdministrationRepository }) {
+  campaignAdministrationRepository.createCampaigns(userId);
   return;
 };
 
