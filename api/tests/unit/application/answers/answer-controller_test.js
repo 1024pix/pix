@@ -24,9 +24,9 @@ describe('Unit | Controller | answer-controller', function () {
     const assessmentId = 12;
     const challengeId = 'recdTpx4c0kPPDTtf';
     const result = null;
+    const resultDetails = null;
     const timeout = null;
     const focusedOut = false;
-    const resultDetails = null;
     const value = 'NumA = "4", NumB = "1", NumC = "3", NumD = "2"';
     const locale = 'fr-fr';
 
@@ -147,6 +147,7 @@ describe('Unit | Controller | answer-controller', function () {
       });
     });
   });
+
   describe('#saveForPix1d', function () {
     const answerId = 1212;
     const assessmentId = 12;
