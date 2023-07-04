@@ -13,7 +13,6 @@ class Answer {
     assessmentId,
     challengeId,
     timeSpent,
-    activityId,
   } = {}) {
     this.id = id;
     // XXX result property should not be auto-created from result to an AnswerStatus Object
@@ -26,7 +25,6 @@ class Answer {
     this.assessmentId = assessmentId;
     this.challengeId = challengeId;
     this.timeSpent = timeSpent;
-    this.activityId = activityId;
   }
 
   isOk() {
