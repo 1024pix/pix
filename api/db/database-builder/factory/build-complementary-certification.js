@@ -50,4 +50,67 @@ buildComplementaryCertification.clea = function ({
   });
 };
 
+buildComplementaryCertification.droit = function ({
+  id = databaseBuffer.getNextId(),
+  minimumReproducibilityRate = 75,
+  minimumEarnedPix = null,
+  hasComplementaryReferential = false,
+  hasExternalJury = false,
+  certificationExtraTime = 45,
+}) {
+  return buildComplementaryCertification({
+    id,
+    label: 'Pix+ Droit',
+    key: ComplementaryCertification.PIX_PLUS_DROIT,
+    createdAt: new Date('2020-01-01'),
+    minimumReproducibilityRate,
+    minimumEarnedPix,
+    hasComplementaryReferential,
+    hasExternalJury,
+    certificationExtraTime,
+  });
+};
+
+buildComplementaryCertification.pixEdu1erDegre = function ({
+  id = databaseBuffer.getNextId(),
+  minimumReproducibilityRate = 70,
+  minimumEarnedPix = null,
+  hasComplementaryReferential = false,
+  hasExternalJury = true,
+  certificationExtraTime = 45,
+}) {
+  return buildComplementaryCertification({
+    id,
+    label: 'Pix+ Édu 1er degré',
+    key: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+    createdAt: new Date('2020-01-01'),
+    minimumReproducibilityRate,
+    minimumEarnedPix,
+    hasComplementaryReferential,
+    hasExternalJury,
+    certificationExtraTime,
+  });
+};
+
+buildComplementaryCertification.pixEdu2ndDegre = function ({
+  id = databaseBuffer.getNextId(),
+  minimumReproducibilityRate = 70,
+  minimumEarnedPix = null,
+  hasComplementaryReferential = false,
+  hasExternalJury = true,
+  certificationExtraTime = 45,
+}) {
+  return buildComplementaryCertification({
+    id,
+    label: 'Pix+ Édu 2nd degré',
+    key: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+    createdAt: new Date('2020-01-01'),
+    minimumReproducibilityRate,
+    minimumEarnedPix,
+    hasComplementaryReferential,
+    hasExternalJury,
+    certificationExtraTime,
+  });
+};
+
 export { buildComplementaryCertification };
