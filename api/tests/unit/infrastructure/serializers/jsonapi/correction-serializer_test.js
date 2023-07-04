@@ -90,8 +90,6 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
             skillId: 'skill1',
           }),
         ],
-        answersEvaluation: [true],
-        solutionsWithoutGoodAnswers: ['Solution1', 'Solution2'],
       });
 
       // when
@@ -101,8 +99,6 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
       expect(json).to.deep.equal({
         data: {
           attributes: {
-            'answers-evaluation': [true],
-            'solutions-without-good-answers': ['Solution1', 'Solution2'],
             hint: 'Indice Facile',
             solution: 'Correction value',
             'solution-to-display': 'Correction to be displayed',
