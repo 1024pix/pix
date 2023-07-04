@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v4.12.0 (04/07/2023)
+
+
+### :rocket: Amélioration
+- [#6442](https://github.com/1024pix/pix/pull/6442) [FEATURE] api: Modification du mail des résultats de certification (PIX-8239).
+- [#6354](https://github.com/1024pix/pix/pull/6354) [FEATURE] Traduction des CSV des résultats de certification (PIX-8085).
+- [#6482](https://github.com/1024pix/pix/pull/6482) [FEATURE] ajout d'une colonne à la liste de campagnes pour afficher leurs codes (PIX-8477).
+- [#6496](https://github.com/1024pix/pix/pull/6496) [FEATURE] Retourner le nouveau champ areKnowledgeElementsResettable dans l'API.
+- [#6477](https://github.com/1024pix/pix/pull/6477) [FEATURE] Empêcher un challenge d'être enregistré deux fois pendant une certif V3 (PIX-8470).
+
+### :building_construction: Tech
+- [#6497](https://github.com/1024pix/pix/pull/6497) [TECH] Amélioration et correction des certification complémentaire dans les nouveaux seeds (PIX-8506).
+- [#6462](https://github.com/1024pix/pix/pull/6462) [TECH] Nettoyage des erreurs liés à l'ajout d'un candidat à une session de certification (PIX-8445).
+- [#6512](https://github.com/1024pix/pix/pull/6512) [TECH] Vérrouiller la version Node de l'API en v16.
+- [#6488](https://github.com/1024pix/pix/pull/6488) [TECH] Récupération du dernier challenge vu lors d'une reprise de session (PIX-8258).
+- [#6454](https://github.com/1024pix/pix/pull/6454) [TECH] Ajouter des tests au prehandler assessment-authorization (PIX-8022).
+
+### :bug: Correction
+- [#6511](https://github.com/1024pix/pix/pull/6511) [BUGFIX] Réparer l'affichage du lien contenu dans le message de blocage de compte sur Pix App, Orga, Certif, Admin (PIX-8501).
+- [#6510](https://github.com/1024pix/pix/pull/6510) [BUGFIX] Améliorer le texte sur la double mire SSO (PIX-8529).
+- [#6509](https://github.com/1024pix/pix/pull/6509) [BUGFIX] Permettre de revenir dans une organisation PRO après suppression (Pix-8527).
+- [#6505](https://github.com/1024pix/pix/pull/6505) [BUGFIX] Ajouter la possibilité de trier la page élèves par Classe (PIX-8479).
+
+### :coffee: Autre
+- [#6514](https://github.com/1024pix/pix/pull/6514) [BUG] Retirer la colonne Actions de la liste d'Organisations (PIX-8535).
+- [#6292](https://github.com/1024pix/pix/pull/6292) [ADMIN] Permettre de déplacer une méthode de connexion via SSO vers un autre utilisateur (PIX-7738).
+
 ## v4.11.0 (29/06/2023)
 
 
