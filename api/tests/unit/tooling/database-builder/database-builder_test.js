@@ -114,6 +114,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
 
     beforeEach(function () {
       databaseBuilder = new DatabaseBuilder({ knex: null });
+      databaseBuilder.isFirstCommit = false;
       sinon.stub(console, 'error');
     });
 
@@ -121,47 +122,49 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [];
     });
 
-    it('should init the database by cleaning it except for specific tables when this is the first call ever to commit()', async function () {
-      // given
-      const insertStub = sinon.stub().resolves();
-      const trxStub = sinon.stub().returns({ insert: insertStub });
-      trxStub.commit = sinon.stub().resolves();
-      const knex = {
-        raw: sinon.stub(),
-        client: { database: sinon.stub().returns() },
-        transaction: sinon.stub().resolves(trxStub),
-      };
-      knex.raw.onCall(0).resolves({
-        rows: [
-          { table_name: 'table1' },
-          { table_name: 'table2' },
-          { table_name: 'knex_migrations' },
-          { table_name: 'knex_migrations_lock' },
-        ],
+    context('when it is the first time the method is called', function () {
+      beforeEach(function () {
+        databaseBuilder.isFirstCommit = true;
       });
-      knex.raw.onCall(1).resolves();
-      knex.raw.onCall(2).resolves({
-        rows: [{ table_name: 'table2' }, { table_name: 'table1' }],
+
+      it('should init the database by cleaning tables according to dirtyness map order except for specific tables', async function () {
+        // given
+        const insertStub = sinon.stub().resolves();
+        const trxStub = sinon.stub().returns({ insert: insertStub });
+        trxStub.commit = sinon.stub().resolves();
+        const knex = {
+          raw: sinon.stub(),
+          client: { database: sinon.stub().returns() },
+          transaction: sinon.stub().resolves(trxStub),
+        };
+        knex.raw.onCall(0).resolves({
+          rows: [{ table_name: 'table2' }, { table_name: 'knex_migrations' }, { table_name: 'table1' }],
+        });
+        knex.raw.onCall(1).resolves();
+        databaseBuilder.knex = knex;
+        databaseBuilder.isFirstCommit = true;
+
+        // when
+        await databaseBuilder.commit();
+
+        // then
+        const dirtinessMap = databaseBuilder.tablesOrderedByDependencyWithDirtinessMap;
+        expect(knex.raw).to.have.been.calledWithExactly('TRUNCATE "table2","table1"');
+        expect(dirtinessMap).to.deep.equal([
+          {
+            table: 'table2',
+            isDirty: false,
+          },
+          {
+            table: 'knex_migrations',
+            isDirty: false,
+          },
+          {
+            table: 'table1',
+            isDirty: false,
+          },
+        ]);
       });
-      databaseBuilder.knex = knex;
-      databaseBuilder.isFirstCommit = true;
-
-      // when
-      await databaseBuilder.commit();
-
-      // then
-      const dirtinessMap = databaseBuilder.tablesOrderedByDependencyWithDirtinessMap;
-      expect(knex.raw).to.have.been.calledWithExactly('TRUNCATE "table1","table2"');
-      expect(dirtinessMap).to.deep.equal([
-        {
-          table: 'table2',
-          isDirty: false,
-        },
-        {
-          table: 'table1',
-          isDirty: false,
-        },
-      ]);
     });
 
     it('should insert values in database buffer into the database', async function () {
@@ -174,7 +177,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
         transaction: sinon.stub().resolves(trxStub),
       };
       databaseBuilder.knex = knex;
-      databaseBuilder.isFirstCommit = false;
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
         {
           table: 'table2',
@@ -210,7 +212,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
         transaction: sinon.stub().resolves(trxStub),
       };
       databaseBuilder.knex = knex;
-      databaseBuilder.isFirstCommit = false;
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
         {
           table: 'table2',
@@ -243,7 +244,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
         transaction: sinon.stub().resolves(trxStub),
       };
       databaseBuilder.knex = knex;
-      databaseBuilder.isFirstCommit = false;
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
         {
           table: 'table2',
@@ -293,7 +293,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
         transaction: sinon.stub().resolves(trxStub),
       };
       databaseBuilder.knex = knex;
-      databaseBuilder.isFirstCommit = false;
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
         {
           table: 'table2',
@@ -328,7 +327,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
         client: { database: () => undefined },
         transaction: sinon.stub().resolves(trxFake),
       };
-      databaseBuilder.isFirstCommit = false;
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
         {
           table: 'table1',
@@ -354,7 +352,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
         transaction: sinon.stub().resolves(trxStub),
       };
       databaseBuilder.knex = knex;
-      databaseBuilder.isFirstCommit = false;
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
         {
           table: 'table2',
