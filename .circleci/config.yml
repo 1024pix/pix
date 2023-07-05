@@ -104,7 +104,7 @@ jobs:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
       - image: redis:6.2.10-alpine
-    resource_class: medium
+    resource_class: medium+
     working_directory: ~/pix/api
     steps:
       - attach_workspace:
