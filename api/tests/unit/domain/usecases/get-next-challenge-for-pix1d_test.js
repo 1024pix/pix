@@ -115,11 +115,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         expect(activityRepository.save).to.not.have.been.called;
       });
     });
-    context('when there is an answer for the given assessmentId and activity', function () {
+    context('when there is a correct answer for the given assessmentId and activity', function () {
       it('should call the challengeRepository with an challenge number equal to 2 ', async function () {
-        const answer = domainBuilder.buildAnswer({ assessmentId });
+        const activityAnswer = domainBuilder.buildActivityAnswer({ assessmentId });
         assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-        activityAnswerRepository.findByActivity.withArgs(activityId).resolves([answer]);
+        activityAnswerRepository.findByActivity.withArgs(activityId).resolves([activityAnswer]);
         challengeRepository.getForPix1D.resolves({ 'a challenge': 'a challenge' });
         activityRepository.getLastActivity
           .withArgs(assessmentId)
@@ -139,8 +139,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
   });
   context('when there is no more challenge', function () {
     beforeEach(function () {
-      const answer = domainBuilder.buildAnswer({ assessmentId });
-      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([answer]);
+      const activityAnswer = domainBuilder.buildActivityAnswer({ assessmentId });
+      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([activityAnswer]);
       challengeRepository.getForPix1D.rejects(new NotFoundError('No challenge found'));
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
       const activity = new Activity({ id: activityId, level: Activity.levels.CHALLENGE });
@@ -177,8 +177,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
   });
   context('when there is no more challenge for the tutorial activity', function () {
     it('should get the first challenge of the training activity', async function () {
-      const answer = domainBuilder.buildAnswer({ assessmentId });
-      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([answer]);
+      const activityAnswer = domainBuilder.buildActivityAnswer({ assessmentId });
+      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([activityAnswer]);
       activityRepository.getLastActivity
         .withArgs(assessmentId)
         .resolves({ id: activityId, level: Activity.levels.TUTORIAL });
@@ -217,8 +217,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
   });
   context('when there is no more challenge for the training activity', function () {
     it('should get the first challenge of the validation activity', async function () {
-      const answer = domainBuilder.buildAnswer({ assessmentId });
-      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([answer]);
+      const activityAnswer = domainBuilder.buildActivityAnswer({ assessmentId });
+      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([activityAnswer]);
       activityRepository.getLastActivity
         .withArgs(assessmentId)
         .resolves({ id: activityId, level: Activity.levels.TRAINING });
@@ -256,18 +256,18 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
     });
   });
 
-  context('when last answer is wrong', function () {
+  context('when last answer is wrong and there is no more activity', function () {
     beforeEach(function () {
-      const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.KO });
+      const activityAnswer = domainBuilder.buildActivityAnswer({ assessmentId, result: AnswerStatus.KO });
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([answer]);
+      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([activityAnswer]);
       assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
       activityRepository.getLastActivity
         .withArgs(assessmentId)
-        .resolves({ id: activityId, level: Activity.levels.TUTORIAL });
+        .resolves({ id: activityId, level: Activity.levels.CHALLENGE });
       activityRepository.getAllByAssessmentId
         .withArgs(assessmentId)
-        .resolves([new Activity({ level: Activity.levels.TUTORIAL, status: Activity.status.FAILED })]);
+        .resolves([new Activity({ level: Activity.levels.CHALLENGE, status: Activity.status.FAILED })]);
     });
     it('should complete the assessment', async function () {
       // given
@@ -275,7 +275,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       // when
       expect(assessmentRepository.completeByAssessmentId).to.have.been.calledOnceWith(assessmentId);
     });
-
     it('should not return new challenge', async function () {
       // when
       const result = await getNextChallengeForPix1d({ assessmentId, ...dependencies });
@@ -295,19 +294,19 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
     });
   });
 
-  context('when last challenge skipped', function () {
+  context('when last challenge skipped and there is no more activity', function () {
     beforeEach(function () {
-      const answer = domainBuilder.buildAnswer({ assessmentId, result: AnswerStatus.SKIPPED });
+      const activityAnswer = domainBuilder.buildActivityAnswer({ assessmentId, result: AnswerStatus.SKIPPED });
 
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([answer]);
+      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([activityAnswer]);
       assessmentRepository.completeByAssessmentId.withArgs(assessmentId).resolves({ missionId });
       activityRepository.getLastActivity
         .withArgs(assessmentId)
-        .resolves({ id: activityId, level: Activity.levels.TUTORIAL });
+        .resolves({ id: activityId, level: Activity.levels.CHALLENGE });
       activityRepository.getAllByAssessmentId
         .withArgs(assessmentId)
-        .resolves([new Activity({ level: Activity.levels.TUTORIAL, status: Activity.status.SKIPPED })]);
+        .resolves([new Activity({ level: Activity.levels.CHALLENGE, status: Activity.status.SKIPPED })]);
     });
     it('should complete the assessment', async function () {
       await getNextChallengeForPix1d({ assessmentId, ...dependencies });
@@ -336,7 +335,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
 
   context('when user answered the last challenge of an activity and start a new one', function () {
     it('should update the activity with the status succeeded', async function () {
-      const answer = domainBuilder.buildAnswer({ result: AnswerStatus.OK });
+      const activityAnswer = domainBuilder.buildActivityAnswer({ result: AnswerStatus.OK });
       const activity = new Activity({
         id: activityId,
         level: Activity.levels.TUTORIAL,
@@ -345,22 +344,18 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
 
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
       activityRepository.getLastActivity.withArgs(assessmentId).resolves(activity);
-      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([answer]);
+      activityRepository.getAllByAssessmentId.withArgs(assessmentId).resolves([activity]);
+      activityAnswerRepository.findByActivity.withArgs(activityId).resolves([activityAnswer]);
       challengeRepository.getForPix1D
         .withArgs({ missionId, activityLevel: Activity.levels.TUTORIAL, challengeNumber: 2 })
         .rejects(new NotFoundError());
 
       // when
-      try {
-        await getNextChallengeForPix1d({ assessmentId, ...dependencies });
-      } catch {
-        // check catch error in other unit test
-      } finally {
-        expect(activityRepository.updateStatus).to.have.been.calledOnceWith({
-          activityId,
-          status: Activity.status.SUCCEEDED,
-        });
-      }
+      await getNextChallengeForPix1d({ assessmentId, ...dependencies });
+      expect(activityRepository.updateStatus).to.have.been.calledOnceWith({
+        activityId,
+        status: Activity.status.SUCCEEDED,
+      });
     });
   });
 });
