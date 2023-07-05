@@ -2,6 +2,8 @@ import { NotFoundError } from '../errors.js';
 import { Activity } from '../models/Activity.js';
 import { getNextActivityLevel } from '../services/algorithm-methods/pix1d.js';
 
+const FIRST_CHALLENGE_NB = 1;
+
 export async function getNextChallengeForPix1d({
   assessmentId,
   assessmentRepository,
@@ -10,33 +12,43 @@ export async function getNextChallengeForPix1d({
   activityRepository,
 }) {
   const { missionId } = await assessmentRepository.get(assessmentId);
-  let currentActivity;
+  const currentActivity = await _getCurrentActivity(activityRepository, assessmentId);
+
   let answers = [];
-  try {
-    currentActivity = await activityRepository.getLastActivity(assessmentId);
+  let challenge;
+  if (currentActivity) {
     answers = await activityAnswerRepository.findByActivity(currentActivity.id);
-    if (_lastAnswerStatus(answers) === 'ok' || answers.length === 0) {
+    if (_shouldLookForNextChallengeInActivity(answers)) {
       const challengeNumber = answers.length + 1;
-      return await challengeRepository.getForPix1D({
-        missionId,
-        activityLevel: currentActivity.level,
-        challengeNumber,
-      });
+      challenge = await _getNextChallenge(missionId, currentActivity.level, challengeNumber, challengeRepository);
     }
+  }
+  if (!challenge) {
+    challenge = _getNextActivityChallenge(
+      missionId,
+      currentActivity,
+      assessmentId,
+      _lastAnswerStatus(answers),
+      challengeRepository,
+      assessmentRepository,
+      activityRepository
+    );
+  }
+  return challenge;
+}
+
+async function _getNextChallenge(missionId, activityLevel, challengeNumber, challengeRepository) {
+  try {
+    return await challengeRepository.getForPix1D({
+      missionId,
+      activityLevel,
+      challengeNumber,
+    });
   } catch (error) {
     if (!(error instanceof NotFoundError)) {
       throw error;
     }
   }
-  return _getNextActivityChallenge(
-    currentActivity,
-    assessmentRepository,
-    assessmentId,
-    activityRepository,
-    challengeRepository,
-    missionId,
-    _lastAnswerStatus(answers)
-  );
 }
 
 const _lastAnswerStatus = function (answers) {
@@ -47,14 +59,28 @@ const _lastAnswerStatus = function (answers) {
   return lastAnswerResult.status;
 };
 
+async function _getCurrentActivity(activityRepository, assessmentId) {
+  try {
+    return await activityRepository.getLastActivity(assessmentId);
+  } catch (error) {
+    if (!(error instanceof NotFoundError)) {
+      throw error;
+    }
+  }
+}
+
+function _shouldLookForNextChallengeInActivity(answers) {
+  return _lastAnswerStatus(answers) === 'ok' || answers.length === 0;
+}
+
 async function _getNextActivityChallenge(
-  currentActivity,
-  assessmentRepository,
-  assessmentId,
-  activityRepository,
-  challengeRepository,
   missionId,
-  lastAnswerStatus
+  currentActivity,
+  assessmentId,
+  lastAnswerStatus,
+  challengeRepository,
+  assessmentRepository,
+  activityRepository
 ) {
   if (lastAnswerStatus) {
     await activityRepository.updateStatus({ activityId: currentActivity.id, status: status[lastAnswerStatus] });
@@ -65,7 +91,7 @@ async function _getNextActivityChallenge(
     return await challengeRepository.getForPix1D({
       missionId,
       activityLevel: nextActivityLevel,
-      challengeNumber: 1,
+      challengeNumber: FIRST_CHALLENGE_NB,
     });
   }
   assessmentRepository.completeByAssessmentId(assessmentId);
