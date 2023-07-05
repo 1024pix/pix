@@ -66,7 +66,7 @@ function parseCsvWithHeader(filePath, options = OPTIONS_WITH_HEADER) {
 
 async function _parseCsv(filePath, options) {
   const cleanedData = await _readCsvFile(filePath);
-  return _parseCsvData(cleanedData, options);
+  return parseCsvData(cleanedData, options);
 }
 
 async function _readCsvFile(filePath) {
@@ -81,9 +81,9 @@ async function _readCsvFile(filePath) {
   return rawData.replace(/^\uFEFF/, '');
 }
 
-async function _parseCsvData(cleanedData, options) {
+async function parseCsvData(cleanedData, options) {
   const { data } = papa.parse(cleanedData, options);
   return data;
 }
 
-export { checkCsvHeader, parseCsvWithHeader };
+export { checkCsvHeader, parseCsvWithHeader, parseCsvData };
