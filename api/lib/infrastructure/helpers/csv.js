@@ -65,11 +65,11 @@ function parseCsvWithHeader(filePath, options = OPTIONS_WITH_HEADER) {
 }
 
 async function _parseCsv(filePath, options) {
-  const cleanedData = await _readCsvFile(filePath);
+  const cleanedData = await readCsvFile(filePath);
   return parseCsvData(cleanedData, options);
 }
 
-async function _readCsvFile(filePath) {
+async function readCsvFile(filePath) {
   try {
     await access(filePath, fs.constants.F_OK);
   } catch (err) {
@@ -86,4 +86,6 @@ async function parseCsvData(cleanedData, options) {
   return data;
 }
 
-export { checkCsvHeader, parseCsvWithHeader, parseCsvData };
+const csvHelper = { checkCsvHeader, parseCsvWithHeader, parseCsvData, readCsvFile };
+
+export { checkCsvHeader, parseCsvWithHeader, parseCsvData, csvHelper };
