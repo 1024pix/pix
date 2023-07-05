@@ -98,26 +98,21 @@ class DatabaseBuilder {
   }
 
   async _init() {
+    await this._initTablesOrderedByDependencyWithDirtinessMap();
     if (this.emptyFirst) {
       await this._emptyDatabase();
     }
-    await this._initTablesOrderedByDependencyWithDirtinessMap();
     this.isFirstCommit = false;
   }
 
   async _emptyDatabase() {
-    const query =
-      'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?';
-    const resultSet = await this.knex.raw(query, [this.knex.client.database()]);
-    const rows = resultSet.rows;
-    const tableNames = _.map(rows, 'table_name');
-    const tablesToDelete = _.without(
-      tableNames,
+    const sortedTables = _.without(
+      _.map(this.tablesOrderedByDependencyWithDirtinessMap, 'table'),
       'knex_migrations',
       'knex_migrations_lock',
       'view-active-organization-learners'
     );
-    const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();
+    const tables = _.map(sortedTables, (tableToDelete) => `"${tableToDelete}"`).join();
     // eslint-disable-next-line knex/avoid-injections
     return this.knex.raw(`TRUNCATE ${tables}`);
   }
