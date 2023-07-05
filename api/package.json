@@ -81,7 +81,7 @@
     "validator": "^13.7.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.1/xlsx-0.19.1.tgz",
     "xml-buffer-tostring": "^0.2.0",
-    "xml2js": "^0.5.0",
+    "xml2js": "^0.6.0",
     "xmlbuilder2": "^3.0.2",
     "xregexp": "^5.1.1",
     "yargs": "^17.5.1"
