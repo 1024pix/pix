@@ -10,7 +10,7 @@
           {{t "pages.skill-review.badge-card.not-acquired"}}
         {{/if}}
       </p>
-      {{#if @isAlwaysVisible}}
+      {{#if this.showProgression}}
         <PixProgressGauge
           @value={{@acquisitionPercentage}}
           @label={{t "pages.skill-review.badge-card.progress-bar-label"}}
