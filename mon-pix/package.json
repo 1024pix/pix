@@ -40,7 +40,7 @@
   "devDependencies": {
     "@1024pix/ember-testing-library": "^0.6.1",
     "@1024pix/pix-ui": "^35.0.0",
-    "@1024pix/pix-ui-webcomponents": "github:1024pix/pix-ui-webcomponents#init-pix-button-lit",
+    "@1024pix/pix-ui-webcomponents": "github:1024pix/pix-ui-webcomponents#init-pix-button-vuejs",
     "@1024pix/stylelint-config": "^3.0.0",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-proposal-decorators": "^7.20.2",
@@ -128,5 +128,8 @@
     "stylelint-order": "^6.0.0",
     "webpack": "^5.76.0",
     "xss": "^1.0.13"
+  },
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.8.0"
   }
 }
