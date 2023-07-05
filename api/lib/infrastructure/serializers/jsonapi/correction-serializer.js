@@ -21,15 +21,7 @@ const serialize = function (correction) {
       answersEvaluation: correction.answersEvaluation,
       solutionsWithoutGoodAnswers: correction.solutionsWithoutGoodAnswers,
     }),
-    attributes: [
-      'solution',
-      'solutionToDisplay',
-      'hint',
-      'tutorials',
-      'learningMoreTutorials',
-      'answersEvaluation',
-      'solutionsWithoutGoodAnswers',
-    ],
+    attributes: ['solution', 'solutionToDisplay', 'hint', 'tutorials', 'learningMoreTutorials'],
     tutorials: tutorialAttributes,
     learningMoreTutorials: tutorialAttributes,
     typeForAttribute(attribute) {
@@ -40,10 +32,6 @@ const serialize = function (correction) {
           return 'user-saved-tutorial';
         case 'learningMoreTutorials':
           return 'tutorials';
-        case 'answersEvaluation':
-          return 'answers-evaluation';
-        case 'solutionsWithoutGoodAnswers':
-          return 'solutions-without-good-answers';
         default:
           return attribute;
       }

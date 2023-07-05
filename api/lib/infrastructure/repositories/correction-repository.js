@@ -5,24 +5,13 @@ import { Hint } from '../../domain/models/Hint.js';
 import { challengeDatasource } from '../datasources/learning-content/challenge-datasource.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
-import { Challenge } from '../../domain/models/Challenge.js';
-import { Answer } from '../../domain/models/Answer.js';
 
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 
-const getByChallengeId = async function ({
-  challengeId,
-  answerValue,
-  userId,
-  locale,
-  tutorialRepository,
-  fromDatasourceObject,
-  getCorrection,
-} = {}) {
+const getByChallengeId = async function ({ challengeId, userId, locale, tutorialRepository } = {}) {
   const challenge = await challengeDatasource.get(challengeId);
   const skill = await _getSkill(challenge);
   const hint = await _getHint({ skill, locale });
-  const solution = fromDatasourceObject(challenge);
   let correctionDetails;
 
   const tutorials = await _getTutorials({
@@ -39,10 +28,6 @@ const getByChallengeId = async function ({
     locale,
     tutorialRepository,
   });
-
-  if (challenge.type === Challenge.Type.QROCM_DEP && answerValue !== Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
-    correctionDetails = getCorrection({ solution, answerValue });
-  }
 
   return new Correction({
     id: challenge.id,
