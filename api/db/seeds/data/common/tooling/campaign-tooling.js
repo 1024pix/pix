@@ -398,6 +398,7 @@ function _buildCampaign({
 }
 
 let emailIndex = 0;
+
 async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId, requiredParticipantCount) {
   const userAndLearnerIds = [];
 
@@ -448,13 +449,21 @@ async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId
 
 async function _getProfile(profileName) {
   let answersAndKnowledgeElements;
-  if (profileName === 'BEGINNER')
-    answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForBeginnerProfile();
-  if (profileName === 'INTERMEDIATE')
-    answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForIntermediateProfile();
-  if (profileName === 'ADVANCED')
-    answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForAdvancedProfile();
-  if (profileName === 'PERFECT')
-    answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForPerfectProfile();
+  switch (profileName) {
+    case 'BEGINNER':
+      answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForBeginnerProfile();
+      break;
+    case 'INTERMEDIATE':
+      answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForIntermediateProfile();
+      break;
+    case 'ADVANCED':
+      answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForAdvancedProfile();
+      break;
+    case 'PERFECT':
+      answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForPerfectProfile();
+      break;
+    default:
+      answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForPerfectProfile();
+  }
   return answersAndKnowledgeElements;
 }
