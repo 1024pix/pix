@@ -25,9 +25,6 @@ ls:
 ignore:
   - .git
   - node_modules
-  - .nyc_output
   - db/migrations
   - db/seeds
   - scripts
-  - nyc.config.js
-  - codemods

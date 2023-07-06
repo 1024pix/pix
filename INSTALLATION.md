@@ -200,6 +200,7 @@ Ce repository est configuré pour indiquer aux IDE Webstorm et Vscode la configu
 Malgré cela, il peut arriver que des erreurs de lint soient introduites.
 
 Pour tenter de les corriger automatiquement lors du commit, installer un hook de pre-commit.
+
 ```
 npm run local:trigger-lint-on-commit
 ```
@@ -208,33 +209,6 @@ Si vous souhaitez désactiver
 
 ```
 npm run local:prevent-trigger-lint-on-commit
-```
-
-#### Obtenir la couverture de test
-
-> Test coverage is a percentage measure of the degree to which the source code of a program is executed when a
-> particular test suite is run.
-[Source](https://en.wikipedia.org/wiki/Code_coverage)
-
-Il n'y a pas d'objectif de couverture de test dans la suite de test.
-
-Les [pratiques actuelles de test automatisé](./docs/test.md) sont considérées comme suffisantes.
-
-La couverture de tests est utilisée à des fins de développement pour :
-
-- détecter du code non utilisé suite à un refactoring, afin de le supprimer;
-- détecter du code non testé, afin de le tester, dans le cadre d'amélioration continue.
-
-La couverture de tests n'est disponible que
-
-- dans l'API, pour le dossier `lib`;
-- en local.
-
-Elle est obtenue avec la commande suivante.
-
-``` shell
-cd api
-npm run local:test:coverage
 ```
 
 #### Tracer de manière détaillée l'envoi d'email
