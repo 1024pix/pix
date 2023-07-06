@@ -131,6 +131,7 @@ jobs:
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             TEST_REDIS_URL: redis://localhost:6379
+            AUTH_SECRET: secret
             MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
             MOCHA_REPORTER: mocha-junit-reporter
           when: always
@@ -335,6 +336,7 @@ jobs:
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
+            AUTH_SECRET: secret
           background: true
           command: npm start
 
@@ -412,6 +414,7 @@ jobs:
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
+            AUTH_SECRET: secret
           background: true
           command: npm start
 
