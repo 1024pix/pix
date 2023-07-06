@@ -15,9 +15,19 @@ export default class LoginForm extends Component {
   @tracked errorMessage;
 
   @action
+  updateLogin(event) {
+    this.email = event.target.value?.trim();
+  }
+
+  @action
+  updatePassword(event) {
+    this.password = event.target.value?.trim();
+  }
+
+  @action
   async authenticateUser(event) {
     event.preventDefault();
-    const identification = this.email ? this.email.trim() : '';
+    const identification = this.email;
     const password = this.password;
     const scope = 'pix-admin';
     try {
