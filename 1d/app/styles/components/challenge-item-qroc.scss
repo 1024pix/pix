@@ -1,9 +1,12 @@
 .challenge-item-qroc {
-  padding: 50px 150px;
+  padding: 20px 20px;
+  display: flex;
 }
 
 .challenge-proposals {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: left;
 }
 
@@ -23,7 +26,7 @@
   &.pix-input__input--default {
     background-color: #F4F5F7;
     border: none;
-    border-bottom: 1px solid #FFBE00;
+    border-bottom: 1px solid #556BCC;
     border-radius: 4px 4px 0 0;
   }
 }
