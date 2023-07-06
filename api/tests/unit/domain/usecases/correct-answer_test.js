@@ -1,15 +1,23 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { Answer } from '../../../../lib/domain/models/Answer.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { correctAnswer } from '../../../../lib/domain/usecases/correct-answer.js';
 import { Challenge } from '../../../../lib/domain/models/Challenge.js';
+import { ActivityAnswer } from '../../../../lib/domain/models/ActivityAnswer.js';
+import { AnswerStatus } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | Domain | Use Cases | correct-answer', function () {
   it('should save the answer', async function () {
     const challengeRepository = { get: sinon.stub() };
-    const answerRepository = { save: sinon.stub() };
+    const activityAnswerRepository = { save: sinon.stub() };
+    const activityRepository = { getLastActivity: sinon.stub() };
     const assessmentId = 'rec1234pix1d';
     const challengeId = 'oneChallengeId';
-    const answer = domainBuilder.buildAnswer({ challengeId, assessmentId, result: null, resultDetails: null });
+    const activityId = '123';
+    const activityAnswer = domainBuilder.buildActivityAnswer({
+      challengeId,
+      activityId: null,
+      result: null,
+      resultDetails: null,
+    });
     const validator = domainBuilder.buildValidator.ofTypeQCU();
     const challenge = domainBuilder.buildChallenge({
       id: challengeId,
@@ -18,21 +26,25 @@ describe('Unit | Domain | Use Cases | correct-answer', function () {
       format: 'grand',
     });
 
-    const correctedAnswer = new Answer({ ...answer, result: 'ok' });
+    const correctedAnswer = new ActivityAnswer({ ...activityAnswer, result: AnswerStatus.OK, activityId });
     const savedAnswer = Symbol('answer');
 
     //given
     challengeRepository.get.withArgs(challengeId).resolves(challenge);
-    answerRepository.save.withArgs(correctedAnswer).resolves(savedAnswer);
+    activityRepository.getLastActivity.withArgs(assessmentId).resolves({ id: activityId });
+    activityAnswerRepository.save.resolves(savedAnswer);
 
     // when
     const result = await correctAnswer({
-      answer,
-      answerRepository,
+      activityAnswer,
+      assessmentId,
+      activityAnswerRepository,
       challengeRepository,
+      activityRepository,
     });
 
     // then
+    expect(activityAnswerRepository.save).to.have.been.calledWithMatch(correctedAnswer);
     expect(result).to.equal(savedAnswer);
   });
 });

@@ -14,7 +14,7 @@ module('Acceptance | Challenge', function (hooks) {
     this.server.create('challenge');
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
-    await click(within(document.querySelector('.challenge-actions')).getByRole('button', { name: 'Je vérifie' }));
+    await click(within(document.querySelector('.challenge-actions')).getByRole('button', { name: 'Je continue' }));
 
     // then
     assert.dom(screen.getByText("Pour valider la mission, tu dois terminer l'activité.")).isVisible();

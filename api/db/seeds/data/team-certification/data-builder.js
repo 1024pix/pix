@@ -15,6 +15,7 @@ const SCO_CERTIFICATION_MANAGING_STUDENTS_CERTIFICATION_CENTER_USER_ID = TEAM_CE
 const PRO_CERTIFICATION_CENTER_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
 const PRO_ORGANIZATION_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 3;
 const V3_CERTIFICATION_CENTER_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 4;
+const CERTIFIABLE_SUCCESS_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 5;
 /// ORGAS
 const SCO_MANAGING_STUDENTS_ORGANIZATION_ID = TEAM_CERTIFICATION_OFFSET_ID;
 const PRO_ORGANIZATION_ID = TEAM_CERTIFICATION_OFFSET_ID + 1;
@@ -39,6 +40,7 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createProOrganization({ databaseBuilder });
   await _createProCertificationCenter({ databaseBuilder });
   await _createV3PilotCertificationCenter({ databaseBuilder });
+  await _createSuccessCertifiableUser({ databaseBuilder });
   await _createScoSession({ databaseBuilder });
   await _createPublishedScoSession({ databaseBuilder });
   await _createSession({ databaseBuilder });
@@ -280,6 +282,29 @@ async function _createSession({ databaseBuilder }) {
       candidatesToRegisterCount: 10,
       hasComplementaryCertificationsToRegister: true,
     },
+  });
+}
+
+async function _createSuccessCertifiableUser({ databaseBuilder }) {
+  const userId = databaseBuilder.factory.buildUser.withRawPassword({
+    id: CERTIFIABLE_SUCCESS_USER_ID,
+    firstName: 'Certifiable',
+    lastName: 'Certif',
+    email: 'certif-success@example.net',
+    cgu: true,
+    lang: 'fr',
+    lastTermsOfServiceValidatedAt: new Date(),
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
+    mustValidateTermsOfService: false,
+    pixOrgaTermsOfServiceAccepted: false,
+    pixCertifTermsOfServiceAccepted: false,
+    hasSeenAssessmentInstructions: false,
+    shouldChangePassword: false,
+  }).id;
+
+  await tooling.profile.createPerfectProfile({
+    databaseBuilder,
+    userId,
   });
 }
 

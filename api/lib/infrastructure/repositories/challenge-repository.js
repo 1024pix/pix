@@ -9,6 +9,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { config } from '../../config.js';
 import { tubeDatasource } from '../datasources/learning-content/index.js';
 import { logger } from '../../infrastructure/logger.js';
+import { Activity } from '../../domain/models/Activity.js';
 
 const get = async function (id) {
   try {
@@ -25,7 +26,7 @@ const get = async function (id) {
 
 /**
  *
- * Pour Pix1D, les missions ont été stocké dans le LCMS de la manière suivante :
+ * Pour Pix1D, les missions ont été stockées dans le LCMS de la manière suivante :
  * - un theme est une mission
  * - un sujet est une activité
  * - une épreuve reste une épreuve
@@ -51,9 +52,7 @@ const getForPix1D = async function ({ missionId, activityLevel, challengeNumber 
     const skillName = `${skillNamePrefix}${challengeNumber}`;
     const skills = await skillDatasource.findAllByName(skillName);
     if (skills.length === 0) {
-      throw new NotFoundError(
-        `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`
-      );
+      _throwNotFoundError(activityLevel, missionId, challengeNumber);
     }
     if (skills.length > 1) {
       logger.warn(`Plus d'un acquis trouvé avec le nom ${skillName}. Le 1er challenge trouvé va être retourné.`);
@@ -62,13 +61,45 @@ const getForPix1D = async function ({ missionId, activityLevel, challengeNumber 
     return _toDomain({ challengeDataObject: challenge });
   } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
-      throw new NotFoundError(
-        `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`
-      );
+      _throwNotFoundError(activityLevel, missionId, challengeNumber);
     }
     throw error;
   }
 };
+
+async function _getMissionNamePrefix(missionId) {
+  const [firstTube] = await tubeDatasource.findByThematicId(missionId);
+  const activityName = firstTube === undefined ? '' : firstTube.name;
+  return activityName.split('_')[0];
+}
+
+function _getPix1dSkillNamePrefix(missionNamePrefix, activityLevel) {
+  return `${missionNamePrefix}_${_getPix1dLevelName(activityLevel)}`;
+}
+
+function _getPix1dLevelName(activityLevel) {
+  let levelName;
+  switch (activityLevel) {
+    case Activity.levels.TUTORIAL:
+      levelName = 'di';
+      break;
+    case Activity.levels.TRAINING:
+      levelName = 'en';
+      break;
+    case Activity.levels.VALIDATION:
+      levelName = 'va';
+      break;
+    default:
+      return 'de';
+  }
+  return levelName;
+}
+
+function _throwNotFoundError(activityLevel, missionId, challengeNumber) {
+  throw new NotFoundError(
+    `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`
+  );
+}
 
 const getMany = async function (ids) {
   try {
@@ -218,14 +249,4 @@ function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThr
     shuffled: challengeDataObject.shuffled,
     successProbabilityThreshold,
   });
-}
-
-function _getPix1dSkillNamePrefix(missionNamePrefix, activityLevel) {
-  return `${missionNamePrefix}_${activityLevel}`;
-}
-
-async function _getMissionNamePrefix(missionId) {
-  const [firstTube] = await tubeDatasource.findByThematicId(missionId);
-  const activityName = firstTube === undefined ? '' : firstTube.name;
-  return activityName.split('_')[0];
 }

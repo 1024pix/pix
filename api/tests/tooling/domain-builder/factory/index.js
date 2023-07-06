@@ -1,7 +1,9 @@
 import { buildAccountRecoveryDemand } from './build-account-recovery-demand.js';
 import { buildAdminMember } from './build-admin-member.js';
 import { buildAllowedCertificationCenterAccess } from './build-allowed-certification-center-access.js';
+import { buildActivityAnswer } from './build-activity-answer.js';
 import { buildAnswer } from './build-answer.js';
+import { buildActivity } from './build-activity.js';
 import { buildArea } from './build-area.js';
 import { buildAssessment } from './build-assessment.js';
 import { buildAssessmentResult } from './build-assessment-result.js';
@@ -150,7 +152,9 @@ export {
   buildAccountRecoveryDemand,
   buildAdminMember,
   buildAllowedCertificationCenterAccess,
+  buildActivityAnswer,
   buildAnswer,
+  buildActivity,
   buildArea,
   buildAssessment,
   buildAssessmentResult,

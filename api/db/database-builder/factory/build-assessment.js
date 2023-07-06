@@ -53,5 +53,27 @@ const buildAssessment = function ({
     values,
   });
 };
+const buildPix1dAssessment = function ({
+  id = databaseBuffer.getNextId(),
+  type = Assessment.types.PIX1D_MISSION,
+  state = Assessment.states.STARTED,
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-02'),
+  method = Assessment.methods.PIX1D,
+} = {}) {
+  const values = {
+    id,
+    type,
+    state,
+    createdAt,
+    updatedAt,
+    method,
+  };
 
-export { buildAssessment };
+  return databaseBuffer.pushInsertable({
+    tableName: 'assessments',
+    values,
+  });
+};
+
+export { buildAssessment, buildPix1dAssessment };

@@ -142,7 +142,6 @@
     "lint:js:uncached": "eslint . --ext js",
     "lint:translations": "eslint --ext .json  --format ../node_modules/eslint-plugin-i18n-json/formatter.js translations",
     "lint:translations:fix": "npm run lint:translations -- --fix",
-    "local:test:coverage": "nyc npm test",
     "postdeploy": "DEBUG=knex:* npm run db:migrate",
     "preinstall": "npx check-engine",
     "scalingo-postbuild": "node scripts/generate-cron > cron.json",
@@ -161,8 +160,5 @@
     "test:api:watch": "NODE_ENV=test nodemon --exec 'mocha --recursive tests --reporter dot'",
     "test:api:bail": "npm run test:api:unit -- --bail && npm run test:api:integration -- --bail && npm run test:api:acceptance -- --bail",
     "test:lint": "npm test && npm run lint"
-  },
-  "optionalDependencies": {
-    "nyc": "^15.1.0"
   }
 }

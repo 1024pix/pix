@@ -16,18 +16,17 @@ export default class Item extends Component {
     this.answerValue = value;
   }
 
-  _createAnswer(challenge) {
-    return this.store.createRecord('answer', { challenge });
+  _createActivityAnswer(challenge) {
+    return this.store.createRecord('activity-answer', { challenge });
   }
 
   @action
   async validateAnswer() {
     if (this.answerValue) {
-      this.answer = this._createAnswer(this.args.challenge);
+      this.answer = this._createActivityAnswer(this.args.challenge);
       this.answer.value = this.answerValue;
-      this.answer.assessment = this.args.assessment;
       try {
-        await this.answer.save();
+        await this.answer.save({ adapterOptions: { assessmentId: this.args.assessment.id } });
         this.answerHasBeenValidated = true;
       } catch (error) {
         this.answer.rollbackAttributes();
@@ -50,6 +49,7 @@ export default class Item extends Component {
     //TODO: Réinitiliser this.answer
     //On voulait réinitialiser this.answer à null pour repartir sur de bonnes bases,
     //mais on ne le fait pas car sinon on affiche une valeur non désirée dans la modale;
+    this.answerValue = null;
     this.router.transitionTo('assessment.resume');
   }
 

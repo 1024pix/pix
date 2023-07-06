@@ -25,7 +25,7 @@ export default class Challenge extends Model {
   @attr('boolean') autoReply;
   @attr('boolean') focused;
 
-  @belongsTo('answer') answer;
+  @belongsTo('activity-answer') activityAnswer;
 
   @computed('embedUrl', 'embedTitle', 'embedHeight')
   get hasValidEmbedDocument() {
