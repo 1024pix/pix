@@ -7,6 +7,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | users-controller-is-certifiable', function () {
   let server;
@@ -33,7 +34,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
               fr: 'Mener une recherche et une veille d’information',
             },
             index: '1.1',
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
             areaId: 'recvoGdo7z2z7pXWa',
             thematics: [
               {
@@ -59,7 +60,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
               fr: 'Gérer les données',
             },
             index: '1.2',
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
             areaId: 'recvoGdo7z2z7pXWa',
             thematics: [
               {
@@ -85,7 +86,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
               fr: 'Traiter les données',
             },
             index: '1.3',
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
             areaId: 'recvoGdo7z2z7pXWa',
             thematics: [
               {
@@ -121,7 +122,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
               fr: 'Intéragir',
             },
             index: '2.1',
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
             areaId: 'recDH19F7kKrfL3Ii',
             thematics: [
               {
@@ -147,7 +148,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
               fr: 'Partager et publier',
             },
             index: '2.2',
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
             areaId: 'recDH19F7kKrfL3Ii',
             thematics: [
               {

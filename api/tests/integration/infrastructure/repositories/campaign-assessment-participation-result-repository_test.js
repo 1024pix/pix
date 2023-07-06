@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import * as campaignAssessmentParticipationResultRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { LOCALE, CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 
@@ -28,7 +28,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
             index: '1.1',
             areaId: 'recArea0',
             skillIds: ['skill1'],
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
             name_i18n: {
               fr: 'Compétence 1',
               en: 'English competence 1',
@@ -39,7 +39,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
             index: '1.2',
             areaId: 'recArea0',
             skillIds: ['skill2'],
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
             name_i18n: {
               fr: 'Compétence 2',
               en: 'English competence 2',

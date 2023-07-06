@@ -4,7 +4,7 @@ import * as certificationChallengesService from '../../../../lib/domain/services
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
 import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
-import { PIX_COUNT_BY_LEVEL } from '../../../../lib/domain/constants.js';
+import { PIX_COUNT_BY_LEVEL, CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Integration | CertificationChallengeService | pickCertificationChallenge', function () {
   const placementDate = new Date('2020-01-01');
@@ -27,7 +27,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           id: 'recArea1_Competence1',
           areaId: 'recArea1',
           skillIds: ['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2'],
-          origin: 'Pix',
+          origin: CORE_FRAMEWORK_NAME,
         },
       ],
       tubes: [
@@ -120,7 +120,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           id: 'recArea1_Competence1',
           areaId: 'recArea1',
           skillIds: ['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2'],
-          origin: 'Pix',
+          origin: CORE_FRAMEWORK_NAME,
         },
       ],
       tubes: [
@@ -212,13 +212,13 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           id: 'recArea1_Competence1',
           areaId: 'recArea1',
           skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-          origin: 'Pix',
+          origin: CORE_FRAMEWORK_NAME,
         },
         {
           id: 'recArea1_Competence2',
           areaId: 'recArea1',
           skillIds: ['recArea1_Competence2_Tube1_Skill1'],
-          origin: 'Pix',
+          origin: CORE_FRAMEWORK_NAME,
         },
       ],
       tubes: [
@@ -319,7 +319,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           id: 'recArea1_Competence2',
           areaId: 'recArea1',
           skillIds: ['recArea1_Competence2_Tube1_Skill1'],
-          origin: 'Pix',
+          origin: CORE_FRAMEWORK_NAME,
         },
       ],
       tubes: [
@@ -414,7 +414,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           id: 'recArea1_Competence1',
           areaId: 'recArea1',
           skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-          origin: 'Pix',
+          origin: CORE_FRAMEWORK_NAME,
         },
       ],
       tubes: [
@@ -497,7 +497,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           id: 'recArea1_Competence1',
           areaId: 'recArea1',
           skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-          origin: 'Pix',
+          origin: CORE_FRAMEWORK_NAME,
         },
       ],
       tubes: [
@@ -598,7 +598,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           id: 'recArea1_Competence1',
           areaId: 'recArea1',
           skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-          origin: 'Pix',
+          origin: CORE_FRAMEWORK_NAME,
         },
       ],
       tubes: [

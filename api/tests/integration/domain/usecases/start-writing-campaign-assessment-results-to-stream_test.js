@@ -6,6 +6,7 @@ import { expect, mockLearningContent, databaseBuilder, streamToPromise } from '.
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   describe('#startWritingCampaignAssessmentResultsToStream', function () {
@@ -106,7 +107,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
             index: '1.1',
             skillIds: ['recSkillWeb1', 'recSkillWeb2', 'recSkillWeb3'],
             areaId: 'recArea1',
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
           },
         ],
         thematics: [],

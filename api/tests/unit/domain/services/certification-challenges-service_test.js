@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { PIX_ORIGIN } from '../../../../lib/domain/constants.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 import { PlacementProfile } from '../../../../lib/domain/models/PlacementProfile.js';
 import * as certificationChallengesService from '../../../../lib/domain/services/certification-challenges-service.js';
 
@@ -1667,7 +1667,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
 
     it('should exclude skill which origin is Pix', async function () {
       // given
-      learningContent.findCompetence('comp_faireBienDedans_id').origin = PIX_ORIGIN;
+      learningContent.findCompetence('comp_faireBienDedans_id').origin = CORE_FRAMEWORK_NAME;
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
         answerId: 1,
@@ -1816,7 +1816,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
 
     it('should return an empty array when there is only challenges from origin Pix', async function () {
       // given
-      learningContent.competences.forEach((competence) => (competence.origin = PIX_ORIGIN));
+      learningContent.competences.forEach((competence) => (competence.origin = CORE_FRAMEWORK_NAME));
 
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({

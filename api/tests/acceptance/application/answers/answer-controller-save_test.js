@@ -7,7 +7,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { LOCALE, CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_FRANCE, ENGLISH_SPOKEN } = LOCALE;
 
@@ -53,7 +53,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
               id: competenceId,
               areaId: 'recArea1',
               skillIds: ['recSkill1'],
-              origin: 'Pix',
+              origin: CORE_FRAMEWORK_NAME,
               name_i18n: {
                 fr: 'Nom de la competence FR',
                 en: 'Nom de la competence EN',
@@ -274,7 +274,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
               id: 'recCompetence',
               areaId: 'recArea1',
               skillIds: ['recSkill1'],
-              origin: 'Pix',
+              origin: CORE_FRAMEWORK_NAME,
             },
           ],
           skills: [
@@ -353,7 +353,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
                 id: 'recCompetence',
                 areaId: 'recArea1',
                 skillIds: ['recSkill1'],
-                origin: 'Pix',
+                origin: CORE_FRAMEWORK_NAME,
               },
             ],
             skills: [
@@ -431,7 +431,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
                 id: 'recCompetence',
                 areaId: 'recArea1',
                 skillIds: ['recSkill1'],
-                origin: 'Pix',
+                origin: CORE_FRAMEWORK_NAME,
               },
             ],
             skills: [
@@ -517,7 +517,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
                 id: 'recCompetence',
                 areaId: 'recArea1',
                 skillIds: ['recSkill1'],
-                origin: 'Pix',
+                origin: CORE_FRAMEWORK_NAME,
               },
             ],
             skills: [

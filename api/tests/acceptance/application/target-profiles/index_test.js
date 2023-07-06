@@ -11,6 +11,7 @@ import {
 import { createServer } from '../../../../server.js';
 import lodash from 'lodash';
 const { omit } = lodash;
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Route | target-profiles', function () {
   let server;
@@ -25,7 +26,7 @@ describe('Acceptance | Route | target-profiles', function () {
         id: 'recArea1_Competence1',
         areaId: 'recArea1',
         skillIds: [skillId],
-        origin: 'Pix',
+        origin: CORE_FRAMEWORK_NAME,
       },
     ],
     thematics: [],

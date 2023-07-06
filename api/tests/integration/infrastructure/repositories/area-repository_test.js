@@ -3,6 +3,7 @@ import { expect, domainBuilder, mockLearningContent, catchErr } from '../../../t
 import { Area } from '../../../../lib/domain/models/Area.js';
 import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | area-repository', function () {
   describe('#list', function () {
@@ -158,9 +159,9 @@ describe('Integration | Repository | area-repository', function () {
         areas: [area0, area1],
         competences: [
           { id: 'recCompetence0', origin: 'NotPix', areaId: 'recArea0' },
-          { id: 'recCompetence1', origin: 'Pix', areaId: 'recArea0' },
+          { id: 'recCompetence1', origin: CORE_FRAMEWORK_NAME, areaId: 'recArea0' },
           { id: 'recCompetence2', origin: 'NotPix', areaId: 'recArea1' },
-          { id: 'recCompetence3', origin: 'Pix', areaId: 'recArea1' },
+          { id: 'recCompetence3', origin: CORE_FRAMEWORK_NAME, areaId: 'recArea1' },
         ],
       };
 

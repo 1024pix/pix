@@ -38,7 +38,7 @@ describe('Acceptance | Controller | users-controller-get-user-profile-for-admin'
       fr: 'Une description',
     },
     index: '1.1',
-    origin: 'Pix',
+    origin: constants.CORE_FRAMEWORK_NAME,
     areaId: 'recvoGdo7z2z7pXWa',
   };
 

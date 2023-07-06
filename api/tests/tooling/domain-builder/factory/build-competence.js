@@ -1,4 +1,5 @@
 import { Competence } from '../../../../lib/domain/models/Competence.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 const buildCompetence = function ({
   id = 'recCOMP1',
@@ -9,7 +10,7 @@ const buildCompetence = function ({
   skillIds = [],
   thematicIds = [],
   tubes = [],
-  origin = 'Pix',
+  origin = CORE_FRAMEWORK_NAME,
 } = {}) {
   return new Competence({
     id,

@@ -4,6 +4,7 @@ import { certificationCourseController } from '../../../../lib/application/certi
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   let certificationDetailsSerializer;
@@ -366,7 +367,7 @@ describe('Unit | Controller | certification-course-controller', function () {
         id: 'recCompetence1',
         name: 'competence_1',
         areaId: 'recArea1',
-        origin: 'Pix',
+        origin: CORE_FRAMEWORK_NAME,
       });
       const area1 = domainBuilder.buildCertifiedArea({
         id: 'recArea1',

@@ -6,6 +6,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | frameworks-controller', function () {
   let server;
@@ -66,7 +67,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
         },
         areaId: 'areaPix1',
         index: 0,
-        origin: 'Pix',
+        origin: CORE_FRAMEWORK_NAME,
         thematicIds: ['thematicPix1_1_1'],
       },
       {

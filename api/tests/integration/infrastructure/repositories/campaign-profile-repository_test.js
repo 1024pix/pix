@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper.js';
 import * as CampaignProfileRepository from '../../../../lib/infrastructure/repositories/campaign-profile-repository.js';
-import { PIX_COUNT_BY_LEVEL, LOCALE } from '../../../../lib/domain/constants.js';
+import { PIX_COUNT_BY_LEVEL, LOCALE, CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
@@ -134,8 +134,18 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         const learningContent = {
           areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
           competences: [
-            { id: 'rec1', origin: 'Pix', areaId: 'recArea1', name_i18n: { fr: 'French1', en: 'English1' } },
-            { id: 'rec2', origin: 'Pix', areaId: 'recArea1', name_i18n: { fr: 'French2', en: 'English2' } },
+            {
+              id: 'rec1',
+              origin: CORE_FRAMEWORK_NAME,
+              areaId: 'recArea1',
+              name_i18n: { fr: 'French1', en: 'English1' },
+            },
+            {
+              id: 'rec2',
+              origin: CORE_FRAMEWORK_NAME,
+              areaId: 'recArea1',
+              name_i18n: { fr: 'French2', en: 'English2' },
+            },
             { id: 'rec3', origin: 'Other', areaId: 'recArea1' },
           ],
           skills: [

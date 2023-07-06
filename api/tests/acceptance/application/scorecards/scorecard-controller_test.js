@@ -7,7 +7,7 @@ import {
 } from '../../../test-helper.js';
 
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { LOCALE, CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 
@@ -32,7 +32,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
       fr: 'Une description',
     },
     index: '1.1',
-    origin: 'Pix',
+    origin: CORE_FRAMEWORK_NAME,
     areaId: 'recvoGdo7z2z7pXWa',
   };
 

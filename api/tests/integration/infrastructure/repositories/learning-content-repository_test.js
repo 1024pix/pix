@@ -9,6 +9,7 @@ import {
 
 import { NoSkillsInCampaignError, NotFoundError } from '../../../../lib/domain/errors.js';
 import * as learningContentRepository from '../../../../lib/infrastructure/repositories/learning-content-repository.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | learning-content', function () {
   let learningContent;
@@ -38,7 +39,7 @@ describe('Integration | Repository | learning-content', function () {
                 name_i18n: { fr: 'competence1_nomFr', en: 'competence1_nameEn' },
                 index: 1,
                 description_i18n: { fr: 'competence1_descriptionFr', en: 'competence1_descriptionEn' },
-                origin: 'Pix',
+                origin: CORE_FRAMEWORK_NAME,
                 thematics: [
                   {
                     id: 'recThematic1',
@@ -80,7 +81,7 @@ describe('Integration | Repository | learning-content', function () {
                 name_i18n: { fr: 'competence2_nomFr', en: 'competence2_nameEn' },
                 index: 2,
                 description_i18n: { fr: 'competence2_descriptionFr', en: 'competence2_descriptionEn' },
-                origin: 'Pix',
+                origin: CORE_FRAMEWORK_NAME,
                 thematics: [
                   {
                     id: 'recThematic2',
@@ -181,7 +182,7 @@ describe('Integration | Repository | learning-content', function () {
                 name_i18n: { fr: 'competence3_nomFr', en: 'competence3_nameEn' },
                 index: 1,
                 description_i18n: { fr: 'competence3_descriptionFr', en: 'competence3_descriptionEn' },
-                origin: 'Pix',
+                origin: CORE_FRAMEWORK_NAME,
                 thematics: [
                   {
                     id: 'recThematic3',
