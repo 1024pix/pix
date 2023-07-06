@@ -37,6 +37,7 @@ const serialize = function (juryCertification) {
       'commonComplementaryCertificationCourseResult',
       'complementaryCertificationCourseResultWithExternal',
       'certificationIssueReports',
+      'version',
     ],
 
     commonComplementaryCertificationCourseResult: {
