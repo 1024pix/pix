@@ -10,6 +10,13 @@ import '@formatjs/intl-pluralrules/locale-data/en';
 import '@formatjs/intl-pluralrules/locale-data/fr';
 import '@formatjs/intl-getcanonicallocales/polyfill';
 
+import '@webcomponents/shadydom';
+import { defineCustomElements, applyPolyfills } from '@1024pix/pix-ui-webcomponents/loader';
+(async function () {
+  await applyPolyfills();
+  await defineCustomElements();
+})();
+
 if (config.sentry.enabled) {
   InitSentryForEmber();
 }
