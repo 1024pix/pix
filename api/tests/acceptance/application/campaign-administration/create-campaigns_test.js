@@ -21,12 +21,14 @@ describe('Acceptance | Application | campaign-controller-create-campaigns', func
       });
 
       it('creates campaigns', async function () {
+        const buffer = 'targetProfileId;name;externalId\n1;chaussette;1237457A';
         const options = {
           method: 'POST',
           url: '/api/admin/campaigns',
           headers: {
             authorization: generateValidRequestAuthorizationHeader(userId),
           },
+          payload: buffer,
         };
 
         const response = await server.inject(options);
