@@ -54,6 +54,18 @@ const register = async function (server) {
             assign: 'hasRoleSuperAdmin',
           },
         ],
+        payload: {
+          maxBytes: TWENTY_MEGABYTES,
+          parse: 'gunzip',
+          failAction: (_, h) => {
+            return sendJsonApiError(
+              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+                maxSize: '20',
+              }),
+              h
+            );
+          },
+        },
         handler: campaignController.createCampaigns,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés ayant pour rôle SUPER_ADMIN**\n' +
