@@ -1,5 +1,5 @@
-const createCampaigns = async function ({ userId, campaignAdministrationRepository }) {
-  campaignAdministrationRepository.createCampaigns(userId);
+const createCampaigns = async function ({ campaignsToCreate, userId, campaignAdministrationRepository }) {
+  await campaignAdministrationRepository.createCampaigns(campaignsToCreate, userId);
   return;
 };
 
