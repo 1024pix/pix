@@ -10,11 +10,21 @@
             @height={{@challenge.embedHeight}}
           />
         {{/if}}
-        {{#if @challenge.autoReply}}
-          <Challenge::ChallengeItemAutoReply @setAnswerValue={{this.setAnswerValue}} />
-        {{else}}
-          <Challenge::ChallengeItemQroc @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} />
-        {{/if}}
+        <div class="challenge-item-playground-bottom">
+          {{#if @challenge.illustrationUrl}}
+            <div>
+              <Challenge::ChallengeIllustration
+                @src={{@challenge.illustrationUrl}}
+                @alt={{@challenge.illustrationAlt}}
+              />
+            </div>
+          {{/if}}
+          {{#if @challenge.autoReply}}
+            <Challenge::ChallengeItemAutoReply @setAnswerValue={{this.setAnswerValue}} />
+          {{else}}
+            <Challenge::ChallengeItemQroc @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} />
+          {{/if}}
+        </div>
       </div>
     </div>
   </div>
