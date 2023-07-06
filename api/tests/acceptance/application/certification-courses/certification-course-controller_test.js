@@ -14,6 +14,7 @@ import { CertificationAssessment } from '../../../../lib/domain/models/Certifica
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
+import { config } from '../../../../lib/config.js';
 
 describe('Acceptance | API | Certification Course', function () {
   let server;
@@ -860,7 +861,7 @@ describe('Acceptance | API | Certification Course', function () {
             const [certificationCourse] = await knex('certification-courses').where({ userId, sessionId });
             expect(certificationCourse.version).to.equal(CertificationVersion.V3);
             expect(response.result.data.attributes).to.include({
-              'nb-challenges': 0,
+              'nb-challenges': config.v3Certification.numberOfChallengesPerCourse,
             });
           });
         });
