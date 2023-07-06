@@ -4,7 +4,6 @@
 **/dist
 **/tmp
 **/coverage
-**/.nyc_output
 **/pix.log.*
 
 # dependencies
