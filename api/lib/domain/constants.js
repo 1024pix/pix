@@ -27,7 +27,7 @@ const MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL = 2;
 
 const ALL_TREATMENTS = ['t1', 't2', 't3'];
 const LEVENSHTEIN_DISTANCE_MAX_RATE = 0.25;
-const PIX_ORIGIN = 'Pix';
+const PIX_ORIGIN = 'Core';
 
 const PIX_ORGA = {
   SCOPE: 'pix-orga',
