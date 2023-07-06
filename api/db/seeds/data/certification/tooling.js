@@ -7,6 +7,7 @@ import * as badgeRepository from '../../../../lib/infrastructure/repositories/ba
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 let allChallenges = [];
 let allPixCompetences = [];
@@ -74,7 +75,7 @@ async function _cacheLearningContent() {
   if (allChallenges.length === 0) {
     const allCompetences = await competenceRepository.list();
     allChallenges = await challengeRepository.list();
-    allPixCompetences = _.filter(allCompetences, { origin: 'Pix' });
+    allPixCompetences = _.filter(allCompetences, { origin: CORE_FRAMEWORK_NAME });
     allDroitCompetences = _.filter(allCompetences, { origin: 'Droit' });
     allEduCompetences = _.filter(allCompetences, { origin: 'Edu' });
     await bluebird.mapSeries(allCompetences, async (competence) => {

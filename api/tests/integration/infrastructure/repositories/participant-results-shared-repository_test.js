@@ -1,7 +1,7 @@
 import { expect, knex, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
 import { participantResultsSharedRepository } from '../../../../lib/infrastructure/repositories/participant-results-shared-repository.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
+import { MAX_REACHABLE_PIX_BY_COMPETENCE, CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | Campaign Participant Result Shared Repository', function () {
   describe('#save', function () {
@@ -134,11 +134,11 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
             { id: 'skill_5', competenceId: 'competence_5' },
           ],
           competences: [
-            { id: 'competence_1', origin: 'Pix' },
-            { id: 'competence_2', origin: 'Pix' },
-            { id: 'competence_3', origin: 'Pix' },
-            { id: 'competence_4', origin: 'Pix' },
-            { id: 'competence_5', origin: 'Pix' },
+            { id: 'competence_1', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_2', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_3', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_4', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_5', origin: CORE_FRAMEWORK_NAME },
           ],
         };
         mockLearningContent(learningContent);
@@ -171,11 +171,11 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
             { id: 'skill_5', competenceId: 'competence_5' },
           ],
           competences: [
-            { id: 'competence_1', origin: 'Pix' },
-            { id: 'competence_2', origin: 'Pix' },
-            { id: 'competence_3', origin: 'Pix' },
-            { id: 'competence_4', origin: 'Pix' },
-            { id: 'competence_5', origin: 'Pix' },
+            { id: 'competence_1', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_2', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_3', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_4', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_5', origin: CORE_FRAMEWORK_NAME },
           ],
         };
         mockLearningContent(learningContent);
@@ -311,11 +311,11 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
             { id: 'skill_5', competenceId: 'competence_5', status: 'actif' },
           ],
           competences: [
-            { id: 'competence_1', origin: 'Pix' },
-            { id: 'competence_2', origin: 'Pix' },
-            { id: 'competence_3', origin: 'Pix' },
-            { id: 'competence_4', origin: 'Pix' },
-            { id: 'competence_5', origin: 'Pix' },
+            { id: 'competence_1', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_2', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_3', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_4', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_5', origin: CORE_FRAMEWORK_NAME },
           ],
         };
         mockLearningContent(learningContent);

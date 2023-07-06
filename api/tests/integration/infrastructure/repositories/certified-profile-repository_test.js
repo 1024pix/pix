@@ -3,6 +3,7 @@ import { CertifiedProfile } from '../../../../lib/domain/read-models/CertifiedPr
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import * as certifiedProfileRepository from '../../../../lib/infrastructure/repositories/certified-profile-repository.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | Certified Profile', function () {
   describe('#get', function () {
@@ -28,7 +29,7 @@ describe('Integration | Repository | Certified Profile', function () {
             index: 'competence1_1_index',
             areaId: 'recArea1',
             skillIds: ['recArea1_Competence1_Tube1_Skill2'],
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
           },
           {
             id: 'recArea1_Competence2',
@@ -103,7 +104,7 @@ describe('Integration | Repository | Certified Profile', function () {
         id: 'recArea1_Competence1',
         name: 'competence1_1_name',
         areaId: 'recArea1',
-        origin: 'Pix',
+        origin: CORE_FRAMEWORK_NAME,
       });
       const area1 = domainBuilder.buildCertifiedArea({
         id: 'recArea1',
@@ -207,7 +208,7 @@ describe('Integration | Repository | Certified Profile', function () {
             index: 'competence1_1_index',
             areaId: 'recArea1',
             skillIds: ['recArea1_Competence1_Tube1_Skill2'],
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
           },
           {
             id: 'recArea1_Competence2',

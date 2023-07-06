@@ -2,6 +2,7 @@ import { expect, mockLearningContent, databaseBuilder, knex } from '../../../tes
 import { computeParticipantResultsShared as computeParticipationResults } from '../../../../scripts/prod/compute-participation-results.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 
@@ -25,9 +26,9 @@ describe('computeParticipationResults', function () {
           { id: 'skill_3', competenceId: 'competence_3', status: 'actif' },
         ],
         competences: [
-          { id: 'competence_1', origin: 'Pix' },
-          { id: 'competence_2', origin: 'Pix' },
-          { id: 'competence_3', origin: 'Pix' },
+          { id: 'competence_1', origin: CORE_FRAMEWORK_NAME },
+          { id: 'competence_2', origin: CORE_FRAMEWORK_NAME },
+          { id: 'competence_3', origin: CORE_FRAMEWORK_NAME },
         ],
       };
       mockLearningContent(learningContent);
@@ -104,11 +105,11 @@ describe('computeParticipationResults', function () {
             { id: 'skill_5', competenceId: 'competence_5', status: 'actif' },
           ],
           competences: [
-            { id: 'competence_1', origin: 'Pix' },
-            { id: 'competence_2', origin: 'Pix' },
-            { id: 'competence_3', origin: 'Pix' },
-            { id: 'competence_4', origin: 'Pix' },
-            { id: 'competence_5', origin: 'Pix' },
+            { id: 'competence_1', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_2', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_3', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_4', origin: CORE_FRAMEWORK_NAME },
+            { id: 'competence_5', origin: CORE_FRAMEWORK_NAME },
           ],
         };
         mockLearningContent(learningContent);

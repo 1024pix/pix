@@ -3,7 +3,7 @@ import { LearningContentResourceNotFound } from '../datasources/learning-content
 import { Competence } from '../../domain/models/Competence.js';
 import { competenceDatasource } from '../datasources/learning-content/competence-datasource.js';
 import { NotFoundError } from '../../domain/errors.js';
-import { LOCALE, PIX_ORIGIN } from '../../domain/constants.js';
+import { LOCALE, CORE_FRAMEWORK_NAME } from '../../domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
@@ -31,7 +31,7 @@ const list = function ({ locale } = { locale: FRENCH_FRANCE }) {
 
 const listPixCompetencesOnly = async function ({ locale } = { locale: FRENCH_FRANCE }) {
   const allCompetences = await _list({ locale });
-  return allCompetences.filter((competence) => competence.origin === PIX_ORIGIN);
+  return allCompetences.filter((competence) => competence.origin === CORE_FRAMEWORK_NAME);
 };
 
 const get = async function ({ id, locale }) {

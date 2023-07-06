@@ -14,6 +14,7 @@ import { createServer } from '../../../../server.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | users-controller-reset-scorecard', function () {
   let options;
@@ -26,7 +27,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
     name_i18n: { fr: 'Mener une recherche et une veille d’information' },
     description_i18n: { fr: 'descriptionCompetence1' },
     index: '1.1',
-    origin: 'Pix',
+    origin: CORE_FRAMEWORK_NAME,
     areaId: 'recvoGdo7z2z7pXWa',
   };
   const area = {

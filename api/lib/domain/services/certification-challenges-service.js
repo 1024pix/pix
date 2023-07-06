@@ -5,7 +5,7 @@ import { CertificationChallenge } from '../models/CertificationChallenge.js';
 import {
   MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION,
   MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
-  PIX_ORIGIN,
+  CORE_FRAMEWORK_NAME,
 } from '../constants.js';
 
 import { KnowledgeElement } from '../models/KnowledgeElement.js';
@@ -58,7 +58,7 @@ const pickCertificationChallengesForPixPlus = async function (
     learningContent,
   });
 
-  const excludedOrigins = [PIX_ORIGIN];
+  const excludedOrigins = [CORE_FRAMEWORK_NAME];
   const skillIdsByDecreasingDifficultyGroupedByArea =
     certifiableProfile.getOrderedCertifiableSkillsByDecreasingDifficultyGroupedByAreaId(excludedOrigins);
 

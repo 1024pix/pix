@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { LOCALE } from '../../../lib/domain/constants.js';
+import { LOCALE, CORE_FRAMEWORK_NAME } from '../../../lib/domain/constants.js';
 
 const { FRENCH_FRANCE, FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
@@ -104,7 +104,7 @@ const buildLearningContent = function (learningContent) {
           id: competence.id,
           skillIds: competenceSkills.flat().map((skill) => skill.id),
           areaId: area.id,
-          origin: competence.origin || 'Pix',
+          origin: competence.origin || CORE_FRAMEWORK_NAME,
           index: competence.index,
           name_i18n: competence.name_i18n,
           description_i18n: competence.description_i18n,

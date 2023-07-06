@@ -12,6 +12,7 @@ import * as organizationRepository from '../../../../lib/infrastructure/reposito
 import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
 import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {
   describe('#startWritingCampaignProfilesCollectionResultsToStream', function () {
@@ -102,13 +103,13 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
             id: 'recCompetence1',
             areaId: 'recArea1',
             skillIds: [skillWeb1.id, skillWeb2.id, skillWeb3.id],
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
           },
           {
             id: 'recCompetence2',
             areaId: 'recArea2',
             skillIds: [skillUrl1.id, skillUrl8.id],
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
           },
         ],
         skills,

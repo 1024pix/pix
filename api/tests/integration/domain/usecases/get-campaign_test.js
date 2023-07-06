@@ -4,6 +4,7 @@ import { getCampaign } from '../../../../lib/domain/usecases/get-campaign.js';
 import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as campaignReportRepository from '../../../../lib/infrastructure/repositories/campaign-report-repository.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Integration | UseCase | get-campaign', function () {
   context('Error case', function () {
@@ -52,7 +53,7 @@ describe('Integration | UseCase | get-campaign', function () {
             id: 'recArea1_Competence1',
             areaId: 'recArea1',
             skillIds: [skillId],
-            origin: 'Pix',
+            origin: CORE_FRAMEWORK_NAME,
           },
         ],
         thematics: [],

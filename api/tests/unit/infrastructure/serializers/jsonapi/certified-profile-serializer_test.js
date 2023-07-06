@@ -1,5 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certified-profile-serializer.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function () {
   describe('#serialize', function () {
@@ -28,7 +29,7 @@ describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function 
         id: 'recCompetence1',
         name: 'competence_1',
         areaId: 'recArea1',
-        origin: 'Pix',
+        origin: CORE_FRAMEWORK_NAME,
       });
       const area1 = domainBuilder.buildCertifiedArea({
         id: 'recArea1',
@@ -125,7 +126,7 @@ describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function 
             attributes: {
               name: 'competence_1',
               'area-id': 'recArea1',
-              origin: 'Pix',
+              origin: CORE_FRAMEWORK_NAME,
             },
           },
           {

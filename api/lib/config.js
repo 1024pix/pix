@@ -91,6 +91,7 @@ const configuration = (function () {
     lcms: {
       url: _removeTrailingSlashFromUrl(process.env.CYPRESS_LCMS_API_URL || process.env.LCMS_API_URL || ''),
       apiKey: process.env.CYPRESS_LCMS_API_KEY || process.env.LCMS_API_KEY,
+      coreFrameworkName: process.env.CORE_FRAMEWORK_NAME || 'Pix',
     },
 
     logging: {

@@ -2,6 +2,7 @@ import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent }
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { TargetProfileForAdmin } from '../../../../lib/domain/models/TargetProfileForAdmin.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | target-profile-for-admin', function () {
   describe('#get', function () {
@@ -71,7 +72,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               },
               index: '1',
               areaId: 'recAreaA',
-              origin: 'Pix',
+              origin: CORE_FRAMEWORK_NAME,
               thematicIds: ['recThemA', 'recThemB'],
             },
           ],
@@ -213,7 +214,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               },
               index: '1',
               areaId: 'recAreaA',
-              origin: 'Pix',
+              origin: CORE_FRAMEWORK_NAME,
               thematicIds: ['recThemA', 'recThemB'],
             },
             {
@@ -223,7 +224,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               },
               index: '5',
               areaId: 'recAreaA',
-              origin: 'Pix',
+              origin: CORE_FRAMEWORK_NAME,
               thematicIds: ['recThemC', 'recThemD'],
             },
           ],
@@ -495,7 +496,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               },
               index: '1',
               areaId: 'recAreaA',
-              origin: 'Pix',
+              origin: CORE_FRAMEWORK_NAME,
               thematicIds: ['recThemA', 'recThemB'],
             },
           ],

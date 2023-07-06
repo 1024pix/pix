@@ -2,6 +2,7 @@ import { expect, databaseBuilder, mockLearningContent, knex } from '../../../tes
 import { CampaignProfilesCollectionParticipationSummary } from '../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../../../lib/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 
@@ -625,7 +626,7 @@ const buildLearningContentData = () => {
     index: '1.1',
     areaId: 'recArea1',
     skillIds: [skillWeb1.id, skillWeb2.id],
-    origin: 'Pix',
+    origin: CORE_FRAMEWORK_NAME,
   };
 
   const competence2 = {
@@ -636,7 +637,7 @@ const buildLearningContentData = () => {
     index: '3.2',
     areaId: 'recArea3',
     skillIds: [skillUrl1.id, skillUrl8.id],
-    origin: 'Pix',
+    origin: CORE_FRAMEWORK_NAME,
   };
 
   const competences = [competence1, competence2];

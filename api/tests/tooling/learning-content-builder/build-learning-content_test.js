@@ -7,6 +7,7 @@ import { skillDatasource } from '../../../lib/infrastructure/datasources/learnin
 import { challengeDatasource } from '../../../lib/infrastructure/datasources/learning-content/challenge-datasource.js';
 import { courseDatasource } from '../../../lib/infrastructure/datasources/learning-content/course-datasource.js';
 import { frameworkDatasource } from '../../../lib/infrastructure/datasources/learning-content/framework-datasource.js';
+import { CORE_FRAMEWORK_NAME } from '../../../lib/domain/constants.js';
 
 describe('Integration | buildLearningContent', function () {
   it('builds areas and frameworks', async function () {
@@ -125,14 +126,14 @@ describe('Integration | buildLearningContent', function () {
     expect(competences[0].name_i18n.en).to.deep.equal('competence1_nameEn');
     expect(competences[0].description_i18n.fr).to.deep.equal('competence1_descriptionFr');
     expect(competences[0].description_i18n.en).to.deep.equal('competence1_descriptionEn');
-    expect(competences[0].origin).to.deep.equal('Pix');
+    expect(competences[0].origin).to.deep.equal(CORE_FRAMEWORK_NAME);
     expect(competences[1].id).to.deep.equal('recArea1_Competence2');
     expect(competences[1].areaId).to.deep.equal('recArea1');
     expect(competences[1].name_i18n.fr).to.deep.equal('competence2_nomFr');
     expect(competences[1].name_i18n.en).to.deep.equal('competence2_nameEn');
     expect(competences[1].description_i18n.fr).to.deep.equal('competence2_descriptionFr');
     expect(competences[1].description_i18n.en).to.deep.equal('competence2_descriptionEn');
-    expect(competences[1].origin).to.deep.equal('Pix');
+    expect(competences[1].origin).to.deep.equal(CORE_FRAMEWORK_NAME);
     expect(competences[2].id).to.deep.equal('recArea2_Competence1');
     expect(competences[2].areaId).to.deep.equal('recArea2');
     expect(competences[2].name_i18n.fr).to.deep.equal('domaine2_competence1_nomFr');

@@ -8,6 +8,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profile', function () {
   const userId = 100;
@@ -40,7 +41,7 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
           fr: 'Mener une recherche et une veille d’information',
         },
         index: '1.1',
-        origin: 'Pix',
+        origin: CORE_FRAMEWORK_NAME,
         areaId: 'recvoGdo7z2z7pXWa',
       },
     ],

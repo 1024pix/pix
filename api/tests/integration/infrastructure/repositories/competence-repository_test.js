@@ -1,5 +1,6 @@
 import { expect, mockLearningContent, domainBuilder } from '../../../test-helper.js';
 import * as competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository.js';
+import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | competence-repository', function () {
   describe('#get', function () {
@@ -149,7 +150,7 @@ describe('Integration | Repository | competence-repository', function () {
   describe('#listPixCompetencesOnly', function () {
     it('should return the competences with only Pix as origin', async function () {
       // given
-      const pixCompetence = domainBuilder.buildCompetence({ origin: 'Pix' });
+      const pixCompetence = domainBuilder.buildCompetence({ origin: CORE_FRAMEWORK_NAME });
       const nonPixCompetence = domainBuilder.buildCompetence({ origin: 'Continuum Espace temps' });
       const learningContent = {
         competences: [
@@ -185,7 +186,7 @@ describe('Integration | Repository | competence-repository', function () {
     it('should return the competences with appropriate translations', async function () {
       // given
       const locale = 'en';
-      const competence = domainBuilder.buildCompetence({ origin: 'Pix' });
+      const competence = domainBuilder.buildCompetence({ origin: CORE_FRAMEWORK_NAME });
       const learningContent = {
         competences: [
           {
