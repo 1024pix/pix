@@ -4,13 +4,13 @@ import {
   getEstimatedLevelAndErrorRate,
   getReward,
 } from '../services/algorithm-methods/flash.js';
-import { MAX_NEXT_GEN_CERTIFICATION_CHALLENGES } from '../constants.js';
+import { config } from '../../config.js';
 
 class FlashAssessmentAlgorithm {
   constructor({ warmUpLength, forcedCompetences, maximumAssessmentLength } = {}) {
     this.warmUpLength = warmUpLength;
     this.forcedCompetences = forcedCompetences;
-    this.maximumAssessmentLength = maximumAssessmentLength || MAX_NEXT_GEN_CERTIFICATION_CHALLENGES;
+    this.maximumAssessmentLength = maximumAssessmentLength || config.v3Certification.numberOfChallengesPerCourse;
   }
 
   getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel }) {
