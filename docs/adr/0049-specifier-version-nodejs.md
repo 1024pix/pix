@@ -1,4 +1,4 @@
-# 18. Spécifier la version de NodeJS
+# 49. Spécifier la version de NodeJS
 
 Date : 2023-07-03
 
@@ -14,59 +14,82 @@ En discussion
 
 ## Contexte
 
-Suite à l'ADR 18, nous avons constaté plusieurs limites à notre manière de préciser les versions de Node.js compatibles :
-- On ne peut pas fixer de version mineure de Node.js malgré que l'API ne fonctionne pas dans les version antérieures à la 16.15. Toute personne souhaitant installer Pix peut avoir ce soucis.
-- Les développeurs peuvent ne pas monter leur version de Node.js pendant très longtemps, ce qui induit un écart important entre la version utilisée en local, de la CI et de l'exécution en production. Cet écart ne permet pas de prévoir les comportements de l'application entre ces 3 environnements.
-- Ces écarts sont assez difficiles à comprendre.
+Avec l'ADR 18, nous avons choisi :
+- PAAS : préciser la version majeure de Node uniquement.
+- CI : préciser une version exacte de Node.
+- Local : préciser la version majeure de Node uniquement.
 
-### Solution n°1 : Forcer la même version complète de Node sur les environnements
+Nous avons constaté plusieurs limites à ce choix :
+- L'API ne fonctionne plus en version antérieure à Node@v16.15. L'ADR précédant ne nous permet pas de fixer de version mineure minimum donc un risque d'incompatibilité est présent.
+- Fixer la version majeure uniquement peut provoquer des problèmes de reproductibilité car nos 3 environnements ont chacun une version de Node différente. Notamment en local, il est arrivé que certains développeurs restent en version antérieure à la 16.15 lorsque nous avons dû supprimer la compatibilité de ces versions.
 
-On peut mettre à jour les 3 versions correspondantes aux 3 environnements en même temps.
+### Solution n°1 : Forcer la même version exacte minimum de Node sur tous les environnements
+
+Cette solution consiste à mettre à jour les 3 versions des 3 environnements en même temps.
 
 #### Avantages
-- Pas d'écart de version possible entre les 3 environnements.
-- Clarification du choix de version : toujours la même.
+- Limite l'écart de version possible entre les 3 environnements.
+- Clarification du choix de version compatible.
 - Moins de gestion de compatibilité sur des versions non gérées.
-- Probablement automatisable.
-- Mises à jour de Node pour les développeurs plus régulière.
+- Automatisable avec Renovate.
+- Mises à jour de sécurité de Node en local plus régulière.
+- Alerte en local que la version utilisée n'est pas bonne.
 
 #### Inconvénients
-- Mises à jour de Node pour les développeurs plus régulière, nécessite des `nvm install`/`nvm use`.
-- On calque les montées de versions de Node au bon vouloir de Circle CI de mettre à jour leurs images.
+- Nécessite des `nvm install` plus réguliers.
+- On synchronise les montées de versions de Node avec les mises à jour des images Node de Circle CI.
 - Retard minime possible à cause du délai de mise à jour des versions de Node côté Circle CI.
 
-### Solution n°2 : Forcer la même version complète de Node dans le .nvmrc et le `engines`.
+### Solution n°2 : Forcer la même version exacte minimum de Node en local et sur le PAAS
 
-Pour ne pas se lier à Circle CI.
+Notre CI évoluerai de son côté, pour éviter la synchronisation avec les images Node Circle CI.
 
 #### Avantages
-- Aucun écart lié à Node entre l'environnement de dev et de production.
-- Écart de version minime entre les 3 environnements.
+- Limite l'écart de version possible entre les 3 environnements.
+- Clarification du choix de version compatible.
 - Moins de gestion de compatibilité sur des versions non gérées.
-- Probablement automatisable.
-- Mises à jour de Node pour les développeurs plus régulière.
-- Minimise les soucis de sécurité potentiels en production.
+- Automatisable avec Renovate.
+- Mises à jour de sécurité de Node en local plus régulière.
+- Alerte en local que la version utilisée n'est pas bonne.
 
 #### Inconvénients
-- La CI peut ne pas être exactement la même version que les 2 autres environnements.
-- Mises à jour de Node pour les développeurs plus régulière, nécessite des `nvm install`/`nvm use`.
+- Nécessite des `nvm install` plus réguliers.
+- La reproductibilité en CI n'est pas assurée.
 
-### Solution n°3 : Ajouter une version mineure de Node dans le .nvmrc et le `engines`
+### Solution n°3 : Ajouter la version mineure minimum de Node en local et sur le PAAS
 
-Permettre de spécifier une version mineure (en plus de la majeure) pour préciser la version minimale nécessaire. C'est ce qui a été fait pour l'API avec #6512 car elle ne fonctionnait plus à partir d'une certaine version mineure de Node.
+Permettre de spécifier une version mineure (en plus de la majeure) pour préciser la version minimale nécessaire. C'est ce qui a été fait sur le PAAS pour l'API avec #6512 car elle ne fonctionnait plus avec des versions inférieures à la 16.15 de Node.
 
 #### Avantages
 - Gestion plus fine de la compatibilité.
 - Permet de forcer la mise à jour des développeurs quand une version mineure n'est plus compatible.
-- Garantie qu'on utilise la dernière version de Node en production donc normalement une meilleure sécurité.
 
 #### Inconvénients
-- C'est subjectif de savoir si une montée de version est nécessaire ou pas. Il faut préciser quand est-ce que c'est nécessaire ?
-- L'écart entre les versions des 3 environnements (et les soucis que ça cause) reste présent.
+- La reproductibilité entre les 3 environnements n'est pas assurée.
+- Non automatisable avec Renovate.
+- Nécessite des `nvm install` plus réguliers.
 
 ## Décision
-A discuter en Tech Days avant de faire une proposition.
+
+Lors des Tech Days 2023, une équipe s'est formée sur le sujet des montées de version. Après avoir corrigé la version de Node embarquée dans l'API qui était impaire, nous avons expérimenté les montées de version automatisées de Node sur [un fork du monorepo](https://github.com/1024pix/pix-renovate-test).
+
+En faisant évoluer [notre configuration Renovate](https://github.com/1024pix/renovate-config), nous avons observé que l'outil force l'ajout du numéro de patch si on précise la version mineure requise.
+
+Fort de ces expérimentations, l'équipe propose de choisir [la solution 1](### Solution n°1 : Forcer la même version exacte minimum de Node sur tous les environnements).
 
 ## Conséquences
 
-/!\ Compatibilité Pix UI lors de la mise à jour.
+Il faut migrer le format d'écriture des numéros de versions de Node et npm :
+- Dans les `.nvmrc`, préciser le numéro de version exacte. Exemple : `16.20.1`
+- Dans les `package.json`, préciser le numéro de version exacte minimum de `node`. On propose d'utiliser le même format que pour les dépendances. Exemple : `^16.20.1`.
+- Dans les `package.json`, préciser le numéro de version exacte minimum de `npm`. Exemple : `^8.13.2`.
+
+> **Note**
+>
+> Suite à cette implémentation, les développeurs devront relancer un `nvm install`, cela deviendra une habitude.
+
+Renovate nous proposera dès lors les montées de versions groupées de Node et npm dès qu'une nouvelle version de l'image Node Circle CI est publiée.
+
+On peut commencer cette migration par le monorepo, avant de migrer nos dépendances comme `pix-ui`.
+
+Sur le PAAS, rien ne change car on utilisera toujours la dernière version disponible.
