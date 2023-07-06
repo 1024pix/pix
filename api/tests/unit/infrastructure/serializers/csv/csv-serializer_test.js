@@ -492,7 +492,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertification: null,
+                  complementaryCertifications: [],
                   line: 2,
                 },
                 {
@@ -510,7 +510,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertification: null,
+                  complementaryCertifications: [],
                   line: 4,
                 },
               ],
@@ -540,7 +540,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertification: null,
+                  complementaryCertifications: [],
                   line: 3,
                 },
               ],
@@ -593,7 +593,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   prepaymentCode: '43',
                   resultRecipientEmail: 'robindahood@email.fr',
                   sex: 'M',
-                  complementaryCertification: null,
+                  complementaryCertifications: [],
                   line: 2,
                 },
                 {
@@ -611,7 +611,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   prepaymentCode: '43',
                   resultRecipientEmail: 'robindahood@email.fr',
                   sex: 'M',
-                  complementaryCertification: null,
+                  complementaryCertifications: [],
                   line: 3,
                 },
               ],
@@ -664,7 +664,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertification: null,
+                  complementaryCertifications: [],
                   line: 3,
                 },
               ],
@@ -725,7 +725,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                     billingMode: '',
                     prepaymentCode: expectedParsedPrepaymentCode,
                     sex: '',
-                    complementaryCertification: null,
+                    complementaryCertifications: [],
                     line: 2,
                   },
                 ],
@@ -772,7 +772,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 prepaymentCode: '43',
                 resultRecipientEmail: 'robindahood@email.fr',
                 sex: 'M',
-                complementaryCertification: 'Pix certif complementaire',
+                complementaryCertifications: ['Pix certif complementaire'],
                 line: 2,
               },
             ],
@@ -805,7 +805,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertification: null,
+            complementaryCertifications: [],
           };
 
           const candidateWithoutFirstName = {
@@ -823,7 +823,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertification: null,
+            complementaryCertifications: [],
           };
 
           const candidateWithoutBirthdate = {
@@ -841,7 +841,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertification: null,
+            complementaryCertifications: [],
           };
 
           const candidateWithoutSex = {
@@ -859,7 +859,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertification: null,
+            complementaryCertifications: [],
           };
 
           const candidateWithoutBillingMode = {
@@ -877,7 +877,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: '',
             prepaymentCode: '43',
-            complementaryCertification: null,
+            complementaryCertifications: [],
           };
 
           const candidateWithoutBirthCountry = {
@@ -895,7 +895,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertification: null,
+            complementaryCertifications: [],
           };
 
           // given

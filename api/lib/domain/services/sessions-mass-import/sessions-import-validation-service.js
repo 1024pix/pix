@@ -111,6 +111,34 @@ const getUniqueCandidates = function (candidates) {
   return { uniqueCandidates, duplicateCandidateErrors };
 };
 
+const getValidatedComplementaryCertificationForMassImport = async function ({
+  complementaryCertifications = [],
+  line,
+  complementaryCertificationRepository,
+}) {
+  const certificationCandidateErrors = [];
+
+  if (complementaryCertifications?.length > 1) {
+    _addToErrorList({
+      errorList: certificationCandidateErrors,
+      line,
+      codes: [CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code],
+    });
+
+    return { certificationCandidateErrors, complementaryCertification: null };
+  }
+
+  if (complementaryCertifications?.[0]) {
+    const complementaryCertification = await complementaryCertificationRepository.getByLabel({
+      label: complementaryCertifications[0],
+    });
+
+    return { certificationCandidateErrors, complementaryCertification };
+  }
+
+  return { certificationCandidateErrors, complementaryCertification: null };
+};
+
 const getValidatedCandidateBirthInformation = async function ({
   candidate,
   isSco,
@@ -189,7 +217,13 @@ const validateCandidateEmails = async function ({ candidate, line, dependencies 
   return certificationCandidateErrors;
 };
 
-export { validateSession, getUniqueCandidates, getValidatedCandidateBirthInformation, validateCandidateEmails };
+export {
+  validateSession,
+  getUniqueCandidates,
+  getValidatedCandidateBirthInformation,
+  validateCandidateEmails,
+  getValidatedComplementaryCertificationForMassImport,
+};
 
 function _isDateAndTimeValid(session) {
   return dayjs(`${session.date} ${session.time}`, 'YYYY-MM-DD HH:mm', true).isValid();
