@@ -29,6 +29,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         commentForCandidate: 'coucou',
         commentForOrganization: 'comment',
         commentForJury: 'ça va',
+        version: 2,
       };
     });
 
@@ -108,6 +109,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         commentForCandidate: 'coucou',
         commentForOrganization: 'comment',
         commentForJury: 'ça va',
+        version: 2,
         competenceMarks: [expectedCompetenceMark],
         certificationIssueReports,
         commonComplementaryCertificationCourseResult,

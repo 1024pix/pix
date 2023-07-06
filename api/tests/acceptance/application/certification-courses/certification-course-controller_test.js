@@ -342,6 +342,7 @@ describe('Acceptance | API | Certification Course', function () {
           'comment-for-candidate': 'comment candidate',
           'comment-for-jury': 'comment jury',
           'comment-for-organization': 'comment organization',
+          version: 2,
           'competences-with-mark': [
             {
               area_code: '3',

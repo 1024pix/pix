@@ -43,6 +43,7 @@ export default class Certification extends Model {
   @attr() pixScore;
   @attr() competencesWithMark;
   @attr('boolean', { defaultValue: false }) isPublished;
+  @attr('number') version;
   @belongsTo('complementary-certification-course-result-with-external')
   complementaryCertificationCourseResultWithExternal;
   @belongsTo('common-complementary-certification-course-result') commonComplementaryCertificationCourseResult;
