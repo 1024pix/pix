@@ -79,16 +79,16 @@ Fort de ces expérimentations, l'équipe propose de choisir [la solution 1](### 
 
 ## Conséquences
 
-Il faut migrer le format d'écriture des numéros de versions de Node et npm :
+Il faut migrer le format d'écriture des numéros de versions de Node.js :
 - Dans les `.nvmrc`, préciser le numéro de version exacte. Exemple : `16.20.1`
 - Dans les `package.json`, préciser le numéro de version exacte minimum de `node`. On propose d'utiliser le même format que pour les dépendances. Exemple : `^16.20.1`.
-- Dans les `package.json`, préciser le numéro de version exacte minimum de `npm`. Exemple : `^8.13.2`.
+- Dans les `package.json`, ne pas préciser le numéro de version exacte minimum de `npm` pour utiliser celle embarquée par défaut par Node.js. On peut directement supprimer cette contrainte pour éviter les soucis lors des futures de migration de Node.
 
 > **Note**
 >
 > Suite à cette implémentation, les développeurs devront relancer un `nvm install`, cela deviendra une habitude.
 
-Renovate nous proposera dès lors les montées de versions groupées de Node et npm dès qu'une nouvelle version de l'image Node Circle CI est publiée.
+Renovate nous proposera dès lors les montées de versions groupées de Node dès qu'une nouvelle version de l'image Node Circle CI est publiée.
 
 On peut commencer cette migration par le monorepo, avant de migrer nos dépendances comme `pix-ui`.
 
