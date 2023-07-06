@@ -102,13 +102,25 @@ async function _createValidCertificationCandidates({
       translate,
     });
 
+    const certificationCandidateErrorsList = [];
+
+    const complementaryCertificationValidation =
+      await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
+        complementaryCertifications: certificationCandidate.complementaryCertifications,
+        line: certificationCandidate.line,
+        complementaryCertificationRepository,
+      });
+
+    certificationCandidateErrorsList.push(...complementaryCertificationValidation.certificationCandidateErrors);
+
     const domainCertificationCandidate = new CertificationCandidate({
       ...certificationCandidate,
       sessionId,
       billingMode: billingMode || certificationCandidate.billingMode,
+      complementaryCertification: complementaryCertificationValidation.complementaryCertification,
     });
 
-    const { certificationCandidateErrors, cpfBirthInformation } =
+    const candidateBirthInformationValidation =
       await sessionsImportValidationService.getValidatedCandidateBirthInformation({
         candidate: domainCertificationCandidate,
         isSco,
@@ -118,18 +130,12 @@ async function _createValidCertificationCandidates({
         certificationCpfCityRepository,
       });
 
-    if (certificationCandidateErrors?.length > 0) {
-      sessionsMassImportReport.addErrorReports(certificationCandidateErrors);
+    certificationCandidateErrorsList.push(...candidateBirthInformationValidation.certificationCandidateErrors);
+
+    if (certificationCandidateErrorsList?.length > 0) {
+      sessionsMassImportReport.addErrorReports(certificationCandidateErrorsList);
     } else {
-      domainCertificationCandidate.updateBirthInformation(cpfBirthInformation);
-
-      if (domainCertificationCandidate.complementaryCertification) {
-        const complementaryCertification = await complementaryCertificationRepository.getByLabel({
-          label: domainCertificationCandidate.complementaryCertification,
-        });
-
-        domainCertificationCandidate.complementaryCertification = complementaryCertification;
-      }
+      domainCertificationCandidate.updateBirthInformation(candidateBirthInformationValidation.cpfBirthInformation);
     }
 
     const candidateEmailsErrors = await sessionsImportValidationService.validateCandidateEmails({

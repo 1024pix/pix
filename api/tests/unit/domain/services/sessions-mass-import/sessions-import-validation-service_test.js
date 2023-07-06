@@ -436,6 +436,77 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
   });
 
+  describe('#getValidatedComplementaryCertificationForMassImport', function () {
+    context('when the parsed data has no complementary certification', function () {
+      it('should return no errors nor complementary certification', async function () {
+        // given
+        const complementaryCertifications = [];
+        const line = 12;
+
+        // when
+        const { certificationCandidateErrors, complementaryCertification } =
+          await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
+            complementaryCertifications,
+            line,
+            complementaryCertificationRepository: {},
+          });
+
+        // then
+        expect(certificationCandidateErrors).to.be.empty;
+        expect(complementaryCertification).to.deep.null;
+      });
+    });
+
+    context('when the parsed data has one complementary certification', function () {
+      it('should return the complementary certification', async function () {
+        // given
+        const complementaryCertifications = ['Pix+ Édu 2nd degré'];
+        const line = 12;
+        const complementaryCertificationRepository = {
+          getByLabel: sinon.stub().resolves({ id: 3, key: 'EDU_2ND_DEGRE', label: 'Pix+ Édu 2nd degré' }),
+        };
+
+        // when
+        const { certificationCandidateErrors, complementaryCertification } =
+          await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
+            complementaryCertifications,
+            line,
+            complementaryCertificationRepository,
+          });
+
+        // then
+        expect(certificationCandidateErrors).to.be.empty;
+        expect(complementaryCertification).to.deep.equal({ id: 3, key: 'EDU_2ND_DEGRE', label: 'Pix+ Édu 2nd degré' });
+      });
+    });
+
+    context('when the parsed data has multiple complementary certifications', function () {
+      it('should return an error', async function () {
+        // given
+        const complementaryCertifications = ['Pix+ Édu 2nd degré', 'Pix+ Droit'];
+        const line = 12;
+
+        // when
+        const { certificationCandidateErrors, complementaryCertification } =
+          await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
+            complementaryCertifications,
+            line,
+            complementaryCertificationRepository: {},
+          });
+
+        // then
+        expect(certificationCandidateErrors).to.deep.equal([
+          {
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+            line,
+            isBlocking: true,
+          },
+        ]);
+        expect(complementaryCertification).to.be.null;
+      });
+    });
+  });
+
   describe('#getValidatedCandidateBirthInformation', function () {
     context('when the parsed data is valid', function () {
       it('should return an empty certificationCandidateErrors', async function () {
