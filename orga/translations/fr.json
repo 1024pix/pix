@@ -1011,6 +1011,7 @@
           },
           "last-participation-date": "Dernière participation",
           "login-method": "Méthode(s) de connexion",
+          "mainCheckbox": "Selectionner/Deselectionner toute la colonne",
           "participation-count": {
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
             "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant.",
