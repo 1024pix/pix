@@ -55,6 +55,11 @@ export default class SigninForm extends Component {
     this.password = event.target.value?.trim();
   }
 
+  @action
+  testButton(event) {
+   console.log('from ember', event)
+  }
+
   async _handleApiError(responseError) {
     const errors = get(responseError, 'responseJSON.errors');
     const error = Array.isArray(errors) && errors.length > 0 && errors[0];
