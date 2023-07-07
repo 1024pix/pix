@@ -982,6 +982,7 @@
       "page-title": "Students",
       "table": {
         "column": {
+          "checkbox": "Select/Unselect {firstname} {lastname}",
           "date-of-birth": "Date of birth",
           "division": {
             "ariaLabelDefaultSort": "The table is currently not sorted by class. Click to sort by alphanumeric order.",
