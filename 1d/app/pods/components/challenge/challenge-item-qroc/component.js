@@ -2,11 +2,15 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import generateRandomString from '../../../../utils/generate-random-string';
 import proposalsAsBlocks from '../../../..//utils/proposals-as-blocks';
+import { tracked } from '@glimmer/tracking';
 
 export default class ChallengeItemQroc extends Component {
+  @tracked qrocProposalAnswerValue = '';
+
   @action
   onChangeSelect(value) {
-    this.args.setAnswerValue(value);
+    this.qrocProposalAnswerValue = value;
+    this.args.setAnswerValue(this.qrocProposalAnswerValue);
   }
 
   @action
