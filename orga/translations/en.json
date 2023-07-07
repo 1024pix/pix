@@ -1008,6 +1008,7 @@
           },
           "last-participation-date": "Latest participation",
           "login-method": "Log in method(s)",
+          "mainCheckbox": "Select/Unselect whole column",
           "participation-count": {
             "ariaLabelDefaultSort": "The array is not yet sorted by number of participations. Click to sort ascending.",
             "ariaLabelSortDown": "The array is sorted by descending number of participations. Click to sort ascending.",
