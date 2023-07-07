@@ -34,20 +34,9 @@ function deserializeForSessionsImport({ parsedCsvData, hasBillingMode }) {
 
   const csvBillingModeKey = headers.billingMode;
   const csvPrepaymentCodeKey = headers.prepaymentCode;
-  const firstCsvLine = parsedCsvData[0];
+  const firstCsvLine = parsedCsvData?.[0];
 
-  if (
-    _isScoAndHasBillingModeColumnsInCsv({
-      hasBillingMode,
-      firstCsvLine,
-      csvBillingModeKey,
-      csvPrepaymentCodeKey,
-    })
-  ) {
-    throw new FileValidationError('CSV_HEADERS_NOT_VALID');
-  }
-
-  _verifyHeaders({ expectedHeadersKeys, headers, firstCsvLine, hasBillingMode });
+  _verifiyFileIntegrity({ firstCsvLine, hasBillingMode, csvBillingModeKey, csvPrepaymentCodeKey, expectedHeadersKeys });
 
   parsedCsvData.forEach((lineDTO, index) => {
     const dataFromColumnName = _getDataFromColumnNames({ expectedHeadersKeys, headers, line: lineDTO });
@@ -228,6 +217,28 @@ function _getComplementaryCertificationLabel(key, COMPLEMENTARY_CERTIFICATION_SU
   return key.replace(COMPLEMENTARY_CERTIFICATION_SUFFIX, '').trim();
 }
 
+function _verifiyFileIntegrity({
+  firstCsvLine,
+  hasBillingMode,
+  csvBillingModeKey,
+  csvPrepaymentCodeKey,
+  expectedHeadersKeys,
+}) {
+  if (
+    _isCsvEmpty(firstCsvLine) ||
+    _isScoAndHasBillingModeColumnsInCsv({
+      hasBillingMode,
+      firstCsvLine,
+      csvBillingModeKey,
+      csvPrepaymentCodeKey,
+    })
+  ) {
+    throw new FileValidationError('CSV_HEADERS_NOT_VALID');
+  }
+
+  _verifyHeaders({ expectedHeadersKeys, headers, firstCsvLine, hasBillingMode });
+}
+
 function _verifyHeaders({ expectedHeadersKeys, firstCsvLine, headers, hasBillingMode }) {
   expectedHeadersKeys.forEach((key) => {
     const matchingCsvColumnValue = firstCsvLine[headers[key]];
@@ -331,6 +342,10 @@ function _createCandidate({
 
 function _generateUniqueKey({ address, room, date, time }) {
   return address + room + date + time;
+}
+
+function _isCsvEmpty(firstCsvLine) {
+  return !firstCsvLine;
 }
 
 function serializeLine(lineArray) {

@@ -76,6 +76,37 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
   });
 
   describe('#deserializeForSessionsImport', function () {
+    describe('when csv is empty', function () {
+      it('should throw an error', async function () {
+        const parsedCsvData = [];
+
+        // when
+        const error = await catchErr(csvSerializer.deserializeForSessionsImport)({
+          parsedCsvData,
+          hasBillingMode: true,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_HEADERS_NOT_VALID');
+      });
+    });
+
+    describe('when csv is undefined', function () {
+      it('should throw an error', async function () {
+        const parsedCsvData = undefined;
+
+        // when
+        const error = await catchErr(csvSerializer.deserializeForSessionsImport)({
+          parsedCsvData,
+          hasBillingMode: true,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_HEADERS_NOT_VALID');
+      });
+    });
     describe('when one or more headers are missing', function () {
       it('should throw an error', async function () {
         const parsedCsvData = [
