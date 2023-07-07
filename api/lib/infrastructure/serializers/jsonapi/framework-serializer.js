@@ -5,7 +5,7 @@ const { Serializer } = jsonapiSerializer;
 const serialize = function (frameworks) {
   return new Serializer('framework', {
     ref: 'id',
-    attributes: ['name', 'areas'],
+    attributes: ['name', 'areas', 'isCore'],
     areas: {
       ref: true,
       ignoreRelationshipData: true,
