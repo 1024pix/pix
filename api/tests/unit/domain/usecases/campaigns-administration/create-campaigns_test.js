@@ -1,36 +1,60 @@
-import { expect, sinon } from '../../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import { createCampaigns } from '../../../../../lib/domain/usecases/campaigns-administration/create-campaigns.js';
 
-describe.only('Unit | UseCase | create-campaign', function () {
-  it('Should save these informations', async function () {
-    const campaignAdministrationRepository = {
-      createCampaigns: sinon.stub(async () => {
-        return;
-      }),
-    };
-    const userId = Symbol('userId');
-    const campaignsToCreate = [];
-
-    await createCampaigns({
-      userId,
-      campaignAdministrationRepository,
-    });
-
-    expect(campaignAdministrationRepository.createCampaigns).to.have.been.calledWith(campaignsToCreate, userId);
-  });
-
-  it.skip('should retrieve organization informations', async function () {
+describe('Unit | UseCase | campaign-administration | create-campaign', function () {
+  it('should create campaigns', async function () {
     const campaignAdministrationRepository = {
       createCampaigns: sinon.stub(),
     };
-    const userId = Symbol('userId');
-    const organization = databaseBuilder.factory.buildOrganization({ id: 3, externalId: '1237457A' });
+    const creatorId = Symbol('creatorId');
+    const code = Symbol('code');
+    const administrator = domainBuilder.buildUser();
+    const organization = domainBuilder.buildOrganization({ id: 3, externalId: '1237457A', ownerId: administrator.id });
+    const membership = domainBuilder.buildMembership({
+      user: administrator,
+      organization,
+      organizationRole: 'ADMIN',
+    });
+    const campaignRepository = Symbol('campaignRepository');
+    const campaignCodeGeneratorStub = {
+      generate: sinon.stub().withArgs(campaignRepository).resolves(code),
+    };
+
+    const campaignsToCreate = [
+      {
+        organizationId: organization.id,
+        name: 'My Campaign',
+        targetProfileId: 3,
+      },
+    ];
+
+    const campaignsWithAllData = [
+      {
+        organizationId: organization.id,
+        name: 'My Campaign',
+        targetProfileId: 3,
+        ownerId: administrator.id,
+        creatorId,
+        code,
+      },
+    ];
+
+    campaignAdministrationRepository.createCampaigns.withArgs(campaignsWithAllData).resolves();
+
+    const membershipRepository = {
+      findAdminsByOrganizationId: sinon.stub(),
+    };
+    membershipRepository.findAdminsByOrganizationId.withArgs(organization.id).resolves([membership]);
 
     await createCampaigns({
-      userId,
+      campaignsToCreate,
+      creatorId,
       campaignAdministrationRepository,
+      membershipRepository,
+      campaignRepository,
+      campaignCodeGenerator: campaignCodeGeneratorStub,
     });
 
-    expect().to.be.equal(organization.id);
+    expect(campaignAdministrationRepository.createCampaigns).to.have.been.calledWith(campaignsWithAllData);
   });
 });
