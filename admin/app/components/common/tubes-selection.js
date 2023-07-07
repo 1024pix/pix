@@ -26,7 +26,7 @@ export default class TubesSelection extends Component {
   }
 
   setDefaultFrameworks() {
-    const pixFramework = this.args.frameworks.find((framework) => framework.name === 'Pix');
+    const pixFramework = this.args.frameworks.find((framework) => framework.name === 'Core');
     this.selectedFrameworkIds = [pixFramework.id];
   }
 
