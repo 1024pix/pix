@@ -985,6 +985,7 @@
       "page-title": "Élèves",
       "table": {
         "column": {
+          "checkbox": "Sélectionner/Déselectionner {firstname} {lastname}",
           "date-of-birth": "Date de naissance",
           "division": {
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par classe. Cliquez pour trier par ordre alphanumérique.",
