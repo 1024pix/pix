@@ -3,6 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { CONNECTION_TYPES } from '../../helpers/connection-types';
+import { guidFor } from '@ember/object/internals';
 
 export default class ScoList extends Component {
   @service currentUser;
@@ -40,6 +41,18 @@ export default class ScoList extends Component {
     ];
   }
 
+  get showCheckbox() {
+    return this.currentUser?.organization.type === 'SCO' && this.currentUser?.organization.isManagingStudents;
+  }
+
+  get headerId() {
+    return guidFor(this) + 'mainCheckbox';
+  }
+
+  get hasStudents() {
+    return Boolean(this.args.students.length);
+  }
+
   @action
   openAuthenticationMethodModal(student, event) {
     event.stopPropagation();
@@ -50,5 +63,11 @@ export default class ScoList extends Component {
   @action
   closeAuthenticationMethodModal() {
     this.isShowingAuthenticationMethodModal = false;
+  }
+
+  @action
+  addStopPropagationOnFunction(toggleStudent, event) {
+    event.stopPropagation();
+    toggleStudent();
   }
 }
