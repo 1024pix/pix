@@ -76,7 +76,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
 
       test('it should redirect to target profile creation form on click "Nouveau profil cible"', async function (assert) {
         // given
-        server.create('framework', { id: 'framework', name: 'Pix' });
+        server.create('framework', { id: 'framework', name: 'Pix', isCore: true });
         await visit('/target-profiles/list');
 
         // when

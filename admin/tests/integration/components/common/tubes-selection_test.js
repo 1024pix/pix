@@ -56,7 +56,7 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
       }),
     ];
 
-    const frameworks = [store.createRecord('framework', { id: 'frameworkId', name: 'Pix', areas })];
+    const frameworks = [store.createRecord('framework', { id: 'frameworkId', name: 'Pix', areas, isCore: true })];
     this.set('frameworks', frameworks);
 
     const onChangeFunction = sinon.stub();

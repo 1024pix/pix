@@ -1,5 +1,5 @@
 export function createLearningContent(server) {
-  const framework_f1 = _createFramework(server, 'Pix');
+  const framework_f1 = _createFramework({ server, name: 'Pix', isCore: true });
   const area_f1_a1 = _createArea('area_f1_a1', framework_f1, server);
   const area_f1_a2 = _createArea('area_f1_a2', framework_f1, server);
   const competence_f1_a1_c1 = _createCompetence('competence_f1_a1_c1', area_f1_a1, server);
@@ -14,15 +14,15 @@ export function createLearningContent(server) {
   _createTube('tube_f1_a1_c1_th2_tu1', true, true, thematic_f1_a1_c1_th2, server);
   _createTube('tube_f1_a1_c2_th1_tu1', true, true, thematic_f1_a1_c2_th1, server);
   _createTube('tube_f1_a2_c1_th1_tu1', true, true, thematic_f1_a2_c1_th1, server);
-  const framework_f2 = _createFramework(server, 'Pix + Cuisine');
+  const framework_f2 = _createFramework({ server, name: 'Pix + Cuisine', isCore: false });
   const area_f2_a1 = _createArea('area_f2_a1', framework_f2, server);
   const competence_f2_a1_c1 = _createCompetence('competence_f2_a1_c1', area_f2_a1, server);
   const thematic_f2_a1_c1_th1 = _createThematic('thematic_f2_a1_c1_th1', competence_f2_a1_c1, server);
   _createTube('tube_f2_a1_c1_th1_tu1', false, false, thematic_f2_a1_c1_th1, server);
 }
 
-function _createFramework(server, name) {
-  return server.create('framework', { name, areas: [] });
+function _createFramework({ server, name, isCore }) {
+  return server.create('framework', { name, isCore, areas: [] });
 }
 
 function _createArea(variableName, framework, server) {

@@ -12,7 +12,7 @@ module('Unit | Component | common/tubes-selection', function (hooks) {
   hooks.beforeEach(function () {
     component = createComponent('component:common/tubes-selection', {
       frameworks: [
-        { name: 'Pix', id: 'id1' },
+        { name: 'Pix', id: 'id1', isCore: true },
         { name: 'framework2', id: 'id2' },
       ],
       onChange: sinon.stub(),
@@ -38,7 +38,7 @@ module('Unit | Component | common/tubes-selection', function (hooks) {
       const result = component.selectedFrameworks;
 
       // then
-      assert.deepEqual(result, [{ name: 'Pix', id: 'id1' }]);
+      assert.deepEqual(result, [{ name: 'Pix', id: 'id1', isCore: true }]);
     });
   });
 

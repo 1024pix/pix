@@ -25,7 +25,7 @@ module('Acceptance | Target profile creation', function (hooks) {
       module('when admin member has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
         test('it should be accessible for an authenticated user', async function (assert) {
           // given
-          server.create('framework', { id: 'framework', name: 'Pix' });
+          server.create('framework', { id: 'framework', name: 'Pix', isCore: true });
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
           // when
@@ -37,7 +37,7 @@ module('Acceptance | Target profile creation', function (hooks) {
 
         test('it should set target-profiles menubar item active', async function (assert) {
           // given
-          server.create('framework', { id: 'framework', name: 'Pix' });
+          server.create('framework', { id: 'framework', name: 'Pix', isCore: true });
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
           // when
