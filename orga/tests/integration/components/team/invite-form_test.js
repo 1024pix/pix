@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
-
 import { hbs } from 'ember-cli-htmlbars';
+import sinon from 'sinon';
 
 import { fillByLabel } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -12,11 +12,14 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
   hooks.beforeEach(function () {
     this.set('inviteSpy', () => {});
     this.set('cancelSpy', () => {});
+    this.set('updateEmail', sinon.spy());
   });
 
   test('it should contain email input and validation button', async function (assert) {
     // when
-    await render(hbs`<Team::InviteForm @onSubmit={{this.inviteSpy}} @onCancel={{this.cancelSpy}} />`);
+    await render(
+      hbs`<Team::InviteForm @onSubmit={{this.inviteSpy}} @onCancel={{this.cancelSpy}} @onUpdateEmail={{this.updateEmail}} />`,
+    );
 
     // then
     assert.dom('#email').exists();
@@ -28,7 +31,12 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
     // given
     this.set('email', 'toto@org.fr');
     await render(
-      hbs`<Team::InviteForm @email={{this.email}} @onSubmit={{this.inviteSpy}} @onCancel={{this.cancelSpy}} />`,
+      hbs`<Team::InviteForm
+  @email={{this.email}}
+  @onSubmit={{this.inviteSpy}}
+  @onCancel={{this.cancelSpy}}
+  @onUpdateEmail={{this.updateEmail}}
+/>`,
     );
 
     // when
@@ -36,6 +44,6 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
     await fillByLabel(inputLabel, 'dev@example.net');
 
     // then
-    assert.deepEqual(this.email, 'dev@example.net');
+    assert.ok(this.updateEmail.called);
   });
 });

@@ -40,6 +40,11 @@ export default class NewController extends Controller {
   }
 
   @action
+  updateEmail(event) {
+    this.model.email = event.target.value;
+  }
+
+  @action
   cancel() {
     this.transitionToRoute('authenticated.team.list.invitations');
   }

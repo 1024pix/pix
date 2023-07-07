@@ -237,6 +237,7 @@
       @id="custom-landing-page-text"
       @maxlength="5000"
       @value={{this.campaign.customLandingPageText}}
+      {{on "change" this.onChangeCampaignCustomLandingPageText}}
       rows="8"
     />
   </div>
