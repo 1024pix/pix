@@ -1,73 +1,72 @@
 /* stylelint-disable selector-class-pattern */
 .login-page {
-  background: $pix-primary-app-gradient;
-  color: $pix-neutral-0;
+  background: linear-gradient(180deg, #ac3dff 0%, #7712ff 100%);
+  color: $pix-neutral-80;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-}
 
-.login-page__main {
-  width: 400px;
-  margin: 0 auto;
-}
-
-.login-page__header {
-  height: 129px;
-  margin-top: 48px;
-  text-align: center;
-
-  &__title {
-    margin-bottom: $pix-spacing-s;
+  &__main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    background-size: cover;
   }
-}
 
-.login-page__section--login-form {
-  margin: 48px 0;
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: $pix-spacing-m;
+    align-items: center;
+    max-width: 609px;
+    margin-bottom: $pix-spacing-s;
+    padding: 40px 60px;
+    background-color: $pix-neutral-0;
+    border-radius: 10px;
+  }
 }
 
 .login-form {
-  background: $pix-neutral-0;
-  border-radius: 3px;
-  box-shadow: 0 10px 10px rgb(0 0 0 / 10%);
-  box-sizing: border-box;
-  padding: 48px;
-}
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 440px;
+  width: 440px;
 
-.login-form__error {
-  background-color: $pix-error-50;
-  color: $pix-neutral-0;
-  border-radius: 3px;
-  padding: 8px;
-  
-  & a {
-    text-decoration: underline;
+  &__title {
+    @extend %pix-title-m;
+
+    font-family: $font-open-sans;
+    font-weight: $font-normal;
+    color: $pix-neutral-80;
+    margin-top: $pix-spacing-m;
+  }
+
+  &__information {
+    text-align: center;
+    color: $pix-neutral-80;
+    font-size: 0.875rem;
+  }
+
+  &__header {
+    text-align: center;
+  }
+
+  &__logo {
+    width: 220px;
   }
 }
 
-.login-form__control {
-  margin-top: 24px;
-  width: 100%;
-  cursor: pointer;
-  box-sizing: border-box;
-}
+.login-form__error {
+  color: $pix-error-70;
+  padding: 8px 0;
 
-.login-form__control:first-child {
-  margin-top: 0;
-}
-
-.login-form__field {
-  box-sizing: border-box;
-  width: 100%;
-  border-radius: 3px;
-  font-size: 14px;
-  padding: 8px;
-  border: 1px solid $pix-neutral-22;
-  line-height: 22px;
-}
-
-.login-form__button {
-  width: 100%;
+  & a {
+    text-decoration: underline;
+  }
 }
