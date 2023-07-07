@@ -42,6 +42,7 @@ import { commonBuilder } from './data/common/common-builder.js';
 import { teamContenuDataBuilder } from './data/team-contenu/data-builder.js';
 import { teamCertificationDataBuilder } from './data/team-certification/data-builder.js';
 import { teamEvaluationDataBuilder } from './data/team-evaluation/data-builder.js';
+import { teamPrescriptionDataBuilder } from './data/team-prescription/data-builder.js';
 import { certificationCpfCityBuilder } from './data/certification/certification-cpf-city-builder.js';
 import { certificationCpfCountryBuilder } from './data/certification/certification-cpf-country-builder.js';
 import { teamAccesDataBuilder } from './data/team-acces/data-builder.js';
@@ -55,6 +56,7 @@ const seed = async function (knex) {
     await teamContenuDataBuilder({ databaseBuilder });
     await teamCertificationDataBuilder({ databaseBuilder });
     await teamEvaluationDataBuilder({ databaseBuilder });
+    await teamPrescriptionDataBuilder({ databaseBuilder });
     await databaseBuilder.commit();
     await databaseBuilder.fixSequences();
   } else {
