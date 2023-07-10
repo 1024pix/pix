@@ -56,7 +56,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       const validSessionData = _createValidSessionData();
       const complementaryCertification = { id: 3, key: 'EDU_2ND_DEGRE', label: 'Pix+ Édu 2nd degré' };
       sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
-        certificationCandidateErrors: [],
+        certificationCandidateComplementaryErrors: [],
         complementaryCertification,
       });
       sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
@@ -218,7 +218,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           .resolves({ certificationCandidateErrors: [], cpfBirthInformation: cpfBirthInformationValidation3 });
 
         sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
-          certificationCandidateErrors: [],
+          certificationCandidateComplementaryErrors: [],
           complementaryCertification: null,
         });
 
@@ -284,7 +284,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     it('should not save in temporary storage', async function () {
       // given
       sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
-        certificationCandidateErrors: [],
+        certificationCandidateComplementaryErrors: [],
         complementaryCertification: null,
       });
       sessionsImportValidationService.validateSession.resolves([
@@ -337,7 +337,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         ];
 
         sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
-          certificationCandidateErrors: [],
+          certificationCandidateComplementaryErrors: [],
           complementaryCertification: null,
         });
         sessionsImportValidationService.validateSession.resolves(['Veuillez indiquer un nom de site.']);
@@ -390,7 +390,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         ];
 
         sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
-          certificationCandidateErrors: [],
+          certificationCandidateComplementaryErrors: [],
           complementaryCertification: null,
         });
         sessionsImportValidationService.validateSession.resolves([]);
@@ -471,6 +471,10 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           },
         ];
 
+        sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+          certificationCandidateComplementaryErrors: [],
+          complementaryCertification: null,
+        });
         sessionsImportValidationService.validateSession.resolves([]);
         sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
           certificationCandidateErrors: [],

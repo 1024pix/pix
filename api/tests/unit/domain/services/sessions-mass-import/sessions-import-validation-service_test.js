@@ -444,7 +444,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         const line = 12;
 
         // when
-        const { certificationCandidateErrors, complementaryCertification } =
+        const { certificationCandidateComplementaryErrors, complementaryCertification } =
           await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
             complementaryCertifications,
             line,
@@ -452,7 +452,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           });
 
         // then
-        expect(certificationCandidateErrors).to.be.empty;
+        expect(certificationCandidateComplementaryErrors).to.be.empty;
         expect(complementaryCertification).to.deep.null;
       });
     });
@@ -467,7 +467,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         };
 
         // when
-        const { certificationCandidateErrors, complementaryCertification } =
+        const { certificationCandidateComplementaryErrors, complementaryCertification } =
           await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
             complementaryCertifications,
             line,
@@ -475,7 +475,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           });
 
         // then
-        expect(certificationCandidateErrors).to.be.empty;
+        expect(certificationCandidateComplementaryErrors).to.be.empty;
         expect(complementaryCertification).to.deep.equal({ id: 3, key: 'EDU_2ND_DEGRE', label: 'Pix+ Édu 2nd degré' });
       });
     });
@@ -487,7 +487,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         const line = 12;
 
         // when
-        const { certificationCandidateErrors, complementaryCertification } =
+        const { certificationCandidateComplementaryErrors, complementaryCertification } =
           await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
             complementaryCertifications,
             line,
@@ -495,7 +495,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           });
 
         // then
-        expect(certificationCandidateErrors).to.deep.equal([
+        expect(certificationCandidateComplementaryErrors).to.deep.equal([
           {
             code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
             line,

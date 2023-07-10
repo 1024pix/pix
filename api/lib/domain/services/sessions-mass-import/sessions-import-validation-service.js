@@ -116,16 +116,16 @@ const getValidatedComplementaryCertificationForMassImport = async function ({
   line,
   complementaryCertificationRepository,
 }) {
-  const certificationCandidateErrors = [];
+  const certificationCandidateComplementaryErrors = [];
 
-  if (complementaryCertifications?.length > 1) {
+  if (_hasMoreThanOneComplementaryCertifications(complementaryCertifications)) {
     _addToErrorList({
-      errorList: certificationCandidateErrors,
+      errorList: certificationCandidateComplementaryErrors,
       line,
       codes: [CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code],
     });
 
-    return { certificationCandidateErrors, complementaryCertification: null };
+    return { certificationCandidateComplementaryErrors, complementaryCertification: null };
   }
 
   if (complementaryCertifications?.[0]) {
@@ -133,10 +133,10 @@ const getValidatedComplementaryCertificationForMassImport = async function ({
       label: complementaryCertifications[0],
     });
 
-    return { certificationCandidateErrors, complementaryCertification };
+    return { certificationCandidateComplementaryErrors, complementaryCertification };
   }
 
-  return { certificationCandidateErrors, complementaryCertification: null };
+  return { certificationCandidateComplementaryErrors, complementaryCertification: null };
 };
 
 const getValidatedCandidateBirthInformation = async function ({
@@ -224,6 +224,10 @@ export {
   validateCandidateEmails,
   getValidatedComplementaryCertificationForMassImport,
 };
+
+function _hasMoreThanOneComplementaryCertifications(complementaryCertifications) {
+  return complementaryCertifications?.length > 1;
+}
 
 function _isDateAndTimeValid(session) {
   return dayjs(`${session.date} ${session.time}`, 'YYYY-MM-DD HH:mm', true).isValid();
