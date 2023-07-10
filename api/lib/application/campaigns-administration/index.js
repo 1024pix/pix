@@ -56,6 +56,7 @@ const register = async function (server) {
         ],
         payload: {
           maxBytes: TWENTY_MEGABYTES,
+          output: 'file',
           parse: 'gunzip',
           failAction: (_, h) => {
             return sendJsonApiError(
