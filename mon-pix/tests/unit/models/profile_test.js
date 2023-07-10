@@ -38,4 +38,24 @@ module('Unit | Model | Profile model', function (hooks) {
       );
     });
   });
+
+  module('@numberOfCompetences', function () {
+    test('should return the number of unique competences', function (assert) {
+      // given
+      const area1 = store.createRecord('area', { code: 1 });
+      const area2 = store.createRecord('area', { code: 2 });
+
+      const scorecard1 = store.createRecord('scorecard', { area: area1, competenceId: 'rec1' });
+      const scorecard2 = store.createRecord('scorecard', { area: area1, competenceId: 'rec2' });
+      const scorecard3 = store.createRecord('scorecard', { area: area2, competenceId: 'rec3' });
+      const model = store.createRecord('profile');
+      model.scorecards = [scorecard1, scorecard2, scorecard3];
+
+      // when
+      const numberOfCompetences = model.numberOfCompetences;
+
+      // then
+      assert.deepEqual(numberOfCompetences, 3);
+    });
+  });
 });

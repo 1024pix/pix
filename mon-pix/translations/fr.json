@@ -1196,7 +1196,7 @@
           "no-level": "Compétence non commencée"
         }
       },
-      "first-title": "Vous avez 16 compétences à tester. '<br>'On se concentre et c'est partix&nbsp;!",
+      "first-title": "Vous avez {numberOfCompetences} compétences à tester. '<br>'On se concentre et c'est partix&nbsp;!",
       "resume-campaign-banner": {
         "accessibility": {
           "resume": "Continuer votre parcours",
