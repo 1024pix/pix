@@ -1,4 +1,4 @@
-import { clickByName, visit, fillByLabel } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
@@ -77,6 +77,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
         comment: 'Commentaire Privé.',
         category: 'SUBJECT',
         isSimplifiedAccess: true,
+        areKnowledgeElementsResettable: false,
       });
 
       // when
@@ -89,6 +90,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
       assert.dom(_findByNestedText(screen, 'Public : Oui')).exists();
       assert.dom(_findByNestedText(screen, 'Obsolète : Non')).exists();
       assert.dom(_findByNestedText(screen, 'Parcours Accès Simplifié : Oui')).exists();
+      assert.dom(_findByNestedText(screen, 'Permettre la remise à zero des acquis du Profil Cible : Non')).exists();
       assert.dom(screen.getByText('456')).exists();
       assert.dom(screen.getByText('Top profil cible.')).exists();
       assert.dom(screen.getByText('Commentaire Privé.')).exists();
