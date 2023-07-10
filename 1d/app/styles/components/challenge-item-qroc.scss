@@ -1,26 +1,27 @@
-.challenge-item-qroc {
-  padding: 20px 20px;
-  display: flex;
-}
-
 .challenge-proposals {
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: left;
+  width: 100%;
+  height: fit-content;
+}
+
+.qroc_input-label {
+  display: inline;
 }
 
 .challenge-response__proposal{
-  &--sentence{
-    width: 500px;
+  &--short-text{
+    width: 50%;
   }
 
   &--number{
-    width: 200px;
+    width: 50%;
   }
 
   &--paragraph{
-    width: 800px;
+    max-width: 100%;
   }
 
   &.pix-input__input--default {

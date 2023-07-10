@@ -1,14 +1,12 @@
-<div>
-  {{#if this.displayPlaceholder}}
-    <div class="challenge-illustration__placeholder" aria-label="{{t 'pages.challenge.illustration.placeholder'}}">
-      <FaIcon @icon="image" />
-    </div>
-  {{/if}}
+{{#if this.displayPlaceholder}}
+  <div class="challenge-illustration__placeholder" aria-label="{{t 'pages.challenge.illustration.placeholder'}}">
+    <FaIcon @icon="image" />
+  </div>
+{{/if}}
 
-  <img
-    src="{{@src}}"
-    alt="{{@alt}}"
-    class="challenge-illustration__loaded-image {{this.hiddenClass}}"
-    {{on "load" this.onImageLoaded}}
-  />
-</div>
+<img
+  src="{{@src}}"
+  alt="{{@alt}}"
+  class="challenge-illustration__loaded-image {{this.hiddenClass}}"
+  {{on "load" this.onImageLoaded}}
+/>

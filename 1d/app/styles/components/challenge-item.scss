@@ -38,18 +38,32 @@
 
   &__playground {
     background-color: white;
-    height: 100%;
-    flex: 1;
     display: flex;
-    flex-direction: column;
-    justify-content: center
+    justify-content: space-evenly;
+    flex-flow: row wrap;
+    padding: 50px;
+    flex-grow: 1;
+    align-content: center;
   }
-}
 
-.challenge-item-playground-bottom {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  margin: 30px;
+  &__image, &__qroc {
+    width : 49%;
+    display: flex;
+  }
+
+  &__qroc {
+    padding: 20px 20px;
+    align-items: center;
+  }
+
+  &__autoreply {
+    width: 0;
+  }
+
+
+  &__embed {
+    display: block;
+    width: 100%;
+  }
 }
 
