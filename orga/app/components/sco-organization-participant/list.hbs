@@ -18,7 +18,7 @@
 
     <tbody>
       <SelectableList @items={{@students}}>
-        <:manager as |allSelected someSelected toggleAll|>
+        <:manager as |allSelected someSelected toggleAll selectedStudents reset|>
           <InElement @destinationId={{this.headerId}}>
             <ScoOrganizationParticipant::TableHeaders
               @showCheckbox={{this.showCheckbox}}
@@ -34,6 +34,17 @@
               @hasStudents={{this.hasStudents}}
             />
           </InElement>
+          <InElement @destinationId={{this.paginationControlId}} @waitForElement={{true}}>
+            <Table::PaginationControl @pagination={{@students.meta}} @onChange={{reset}} />
+          </InElement>
+          {{#if someSelected}}
+            <InElement @destinationId={{this.actionBarId}}>
+              <ScoOrganizationParticipant::ActionBar
+                @count={{selectedStudents.length}}
+                @openResetPasswordModal={{this.openResetPasswordModal}}
+              />
+            </InElement>
+          {{/if}}
         </:manager>
         <:item as |student toggleStudent isStudentSelected index|>
           <ScoOrganizationParticipant::TableRow
@@ -60,6 +71,8 @@
     </div>
   {{/if}}
 </div>
+<div id={{this.actionBarId}} />
+<div id={{this.paginationControlId}} />
 
 <ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @organizationId={{this.currentUser.organization.id}}
@@ -67,5 +80,3 @@
   @display={{this.isShowingAuthenticationMethodModal}}
   @onClose={{this.closeAuthenticationMethodModal}}
 />
-
-<Table::PaginationControl @pagination={{@students.meta}} />

@@ -888,6 +888,10 @@
     },
     "sco-organization-participants": {
       "title": "{count, plural, =0 {Élèves} =1 {Élève ({count})} other {Élèves ({count})}}",
+      "action-bar": {
+        "information": "{count, plural, =1 {{count} élève sélectionné} other {{count} élèves sélectionnés}}",
+        "reset-password-button": "Réinitialiser les mots de passes des élèves sélectionnés"
+      },
       "actions": {
         "import-file": {
           "file-type-separator": " ou ",
@@ -985,7 +989,7 @@
         "column": {
           "checkbox": "Sélectionner/Déselectionner {firstname} {lastname}",
           "date-of-birth": "Date de naissance",
-          "division":  {
+          "division": {
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par classe. Cliquez pour trier par ordre alphanumérique.",
             "ariaLabelSortDown": "Le tableau est trié par classe, dans l'ordre alphanumérique inverse. Cliquez pour trier par ordre alphanumérique.",
             "ariaLabelSortUp": "Le tableau est trié par classe, dans l'ordre alphanumérique. Cliquez pour trier par ordre alphanumérique inverse.",
