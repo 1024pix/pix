@@ -353,6 +353,7 @@ const configuration = (function () {
 
     config.lcms.apiKey = 'test-api-key';
     config.lcms.url = 'https://lcms-test.pix.fr/api';
+    config.lcms.coreFrameworkName = 'Core';
 
     config.domain.tldFr = '.fr';
     config.domain.tldOrg = '.org';

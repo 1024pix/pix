@@ -1,13 +1,14 @@
 import { expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/framework-serializer.js';
+import { Framework } from '../../../../../lib/domain/models/Framework.js';
 
 describe('Unit | Serializer | JSONAPI | framework-serializer', function () {
   describe('#serialize', function () {
     it('should return a serialized JSON data object', function () {
       // given
       const frameworks = [
-        { id: 'frameworkId1', name: 'frameworkName1' },
-        { id: 'frameworkId2', name: 'frameworkName2' },
+        new Framework({ id: 'frameworkId1', name: 'Core' }),
+        new Framework({ id: 'frameworkId2', name: 'frameworkName2' }),
       ];
 
       const expectedSerializedResult = {
@@ -15,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | framework-serializer', function () {
           {
             type: 'frameworks',
             id: 'frameworkId1',
-            attributes: { name: 'frameworkName1' },
+            attributes: { name: 'Core', 'is-core': true },
             relationships: {
               areas: {
                 links: {
@@ -27,7 +28,7 @@ describe('Unit | Serializer | JSONAPI | framework-serializer', function () {
           {
             type: 'frameworks',
             id: 'frameworkId2',
-            attributes: { name: 'frameworkName2' },
+            attributes: { name: 'frameworkName2', 'is-core': false },
             relationships: {
               areas: {
                 links: {

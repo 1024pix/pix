@@ -2,16 +2,18 @@ import {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
   mockLearningContent,
+  sinon,
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { CORE_FRAMEWORK_NAME } from '../../../../lib/domain/constants.js';
+import { constants } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | frameworks-controller', function () {
   let server;
 
-  const learningContent = {
+  const createLearningContent = () => ({
     frameworks: [
       {
         id: 'frameworkPix',
@@ -67,7 +69,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
         },
         areaId: 'areaPix1',
         index: 0,
-        origin: CORE_FRAMEWORK_NAME,
+        origin: constants.CORE_FRAMEWORK_NAME,
         thematicIds: ['thematicPix1_1_1'],
       },
       {
@@ -182,10 +184,89 @@ describe('Acceptance | Controller | frameworks-controller', function () {
         tubeId: 'tubeCuisine1_1_1_1',
       },
     ],
-  };
+  });
 
   beforeEach(async function () {
     server = await createServer();
+  });
+
+  describe('GET /api/admin/frameworks', function () {
+    describe('User is authenticated', function () {
+      let superAdmin;
+
+      it('should return response code 200 and serialized frameworks', async function () {
+        // given
+        sinon.stub(constants, 'CORE_FRAMEWORK_NAME').value('Pix');
+        superAdmin = await insertUserWithRoleSuperAdmin();
+        await databaseBuilder.commit();
+        mockLearningContent(createLearningContent());
+
+        const options = {
+          method: 'GET',
+          url: '/api/admin/frameworks',
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+          },
+        };
+
+        const expected = {
+          data: [
+            {
+              type: 'frameworks',
+              id: 'frameworkPix',
+              attributes: {
+                name: 'Pix',
+                'is-core': true,
+              },
+              relationships: {
+                areas: {
+                  links: {
+                    related: '/api/admin/frameworks/frameworkPix/areas',
+                  },
+                },
+              },
+            },
+            {
+              type: 'frameworks',
+              id: 'frameworkFrance',
+              attributes: {
+                name: 'France',
+                'is-core': false,
+              },
+              relationships: {
+                areas: {
+                  links: {
+                    related: '/api/admin/frameworks/frameworkFrance/areas',
+                  },
+                },
+              },
+            },
+            {
+              type: 'frameworks',
+              id: 'frameworkCuisine',
+              attributes: {
+                name: 'Cuisine',
+                'is-core': false,
+              },
+              relationships: {
+                areas: {
+                  links: {
+                    related: '/api/admin/frameworks/frameworkCuisine/areas',
+                  },
+                },
+              },
+            },
+          ],
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expected);
+      });
+    });
   });
 
   describe('GET /api/frameworks/pix/areas-for-user', function () {
@@ -195,7 +276,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
       beforeEach(async function () {
         userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
-        mockLearningContent(learningContent);
+        mockLearningContent(createLearningContent());
       });
 
       it('should return response code 200', async function () {
@@ -275,7 +356,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({ userId });
       await databaseBuilder.commit();
-      mockLearningContent(learningContent);
+      mockLearningContent(createLearningContent());
     });
 
     it('should return response code 200', async function () {
