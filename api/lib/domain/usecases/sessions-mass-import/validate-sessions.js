@@ -102,22 +102,22 @@ async function _createValidCertificationCandidates({
       translate,
     });
 
-    const certificationCandidateErrorsList = [];
+    const certificationCandidateErrors = [];
 
-    const complementaryCertificationValidation =
+    const { certificationCandidateComplementaryErrors, complementaryCertification } =
       await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
         complementaryCertifications: certificationCandidate.complementaryCertifications,
         line: certificationCandidate.line,
         complementaryCertificationRepository,
       });
 
-    certificationCandidateErrorsList.push(...complementaryCertificationValidation.certificationCandidateErrors);
+    certificationCandidateErrors.push(...certificationCandidateComplementaryErrors);
 
     const domainCertificationCandidate = new CertificationCandidate({
       ...certificationCandidate,
       sessionId,
       billingMode: billingMode || certificationCandidate.billingMode,
-      complementaryCertification: complementaryCertificationValidation.complementaryCertification,
+      complementaryCertification,
     });
 
     const candidateBirthInformationValidation =
@@ -130,10 +130,10 @@ async function _createValidCertificationCandidates({
         certificationCpfCityRepository,
       });
 
-    certificationCandidateErrorsList.push(...candidateBirthInformationValidation.certificationCandidateErrors);
+    certificationCandidateErrors.push(...candidateBirthInformationValidation.certificationCandidateErrors);
 
-    if (certificationCandidateErrorsList?.length > 0) {
-      sessionsMassImportReport.addErrorReports(certificationCandidateErrorsList);
+    if (certificationCandidateErrors?.length > 0) {
+      sessionsMassImportReport.addErrorReports(certificationCandidateErrors);
     } else {
       domainCertificationCandidate.updateBirthInformation(candidateBirthInformationValidation.cpfBirthInformation);
     }
