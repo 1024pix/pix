@@ -6,7 +6,6 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
     const campaignAdministrationRepository = {
       createCampaigns: sinon.stub(),
     };
-    const creatorId = Symbol('creatorId');
     const code1 = Symbol('code1');
     const code2 = Symbol('code2');
     const administrator = domainBuilder.buildUser();
@@ -26,13 +25,13 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
         organizationId: organization.id,
         name: 'My Campaign',
         targetProfileId: 3,
-        creatorId,
+        creatorId: 1,
       },
       {
         organizationId: organization.id,
         name: 'My Campaign',
         targetProfileId: 3,
-        creatorId,
+        creatorId: 2,
       },
     ];
 
@@ -42,7 +41,7 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
         name: 'My Campaign',
         targetProfileId: 3,
         ownerId: administrator.id,
-        creatorId,
+        creatorId: 1,
         code: code1,
       },
       {
@@ -50,7 +49,7 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
         name: 'My Campaign',
         targetProfileId: 3,
         ownerId: administrator.id,
-        creatorId,
+        creatorId: 2,
         code: code2,
       },
     ];
@@ -66,7 +65,6 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
 
     await createCampaigns({
       campaignsToCreate,
-      creatorId,
       campaignAdministrationRepository,
       membershipRepository,
       campaignRepository,

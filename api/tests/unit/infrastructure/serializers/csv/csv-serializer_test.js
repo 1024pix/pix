@@ -1049,6 +1049,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         'Nom de la campagne*',
         'Identifiant du profil cible*',
         "Libellé de l'identifiant externe*",
+        'Identifiant du créateur*',
       ];
 
       // when
@@ -1065,11 +1066,11 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
   describe('#parseForCampaignsImport', function () {
     const headerCsv =
-      "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe*;Titre du parcours;Descriptif du parcours\n";
+      "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe*;Identifiant du créateur*;Titre du parcours;Descriptif du parcours\n";
 
     it('should return parsed campaign data', async function () {
       // given
-      const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;titre 1;descriptif 1\n2;chapeau;1234;identifiant;titre 2;descriptif 2`;
+      const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;789;titre 1;descriptif 1\n2;chapeau;1234;identifiant;666;titre 2;descriptif 2`;
 
       // when
       const [firstCampaign, secondCampaign] = await csvSerializer.parseForCampaignsImport(csv);
@@ -1083,6 +1084,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           idPixLabel: 'numéro étudiant',
           title: 'titre 1',
           customLandingPageText: 'descriptif 1',
+          creatorId: 789,
         },
         {
           organizationId: 2,
@@ -1091,6 +1093,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           idPixLabel: 'identifiant',
           title: 'titre 2',
           customLandingPageText: 'descriptif 2',
+          creatorId: 666,
         },
       ];
       expect(firstCampaign).to.deep.equal(parsedData[0]);
@@ -1100,7 +1103,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
     describe('when organizationId field is not valid', function () {
       it('should throw an error when empty', async function () {
         // given
-        const campaignWithoutOrganizationIdCsv = `${headerCsv};chaussette;1234;numéro étudiant`;
+        const campaignWithoutOrganizationIdCsv = `${headerCsv};chaussette;1234;numéro étudiant;789`;
 
         // when
         const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutOrganizationIdCsv);
@@ -1108,11 +1111,12 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         // then
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant de l\'organisation*"');
       });
 
       it('should throw an error when not a number', async function () {
         // given
-        const campaignWithoutOrganizationIdCsv = `${headerCsv};not valid;chaussette;1234;numéro étudiant`;
+        const campaignWithoutOrganizationIdCsv = `${headerCsv};not valid;chaussette;1234;numéro étudiant;789`;
 
         // when
         const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutOrganizationIdCsv);
@@ -1120,13 +1124,14 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         // then
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant de l\'organisation*"');
       });
     });
 
     describe('when targetProfileId field is not valid', function () {
       it('should throw an error when empty', async function () {
         // given
-        const campaignWithoutTargetProfileIdCsv = `${headerCsv}1;chaussette;;numéro étudiant`;
+        const campaignWithoutTargetProfileIdCsv = `${headerCsv}1;chaussette;;numéro étudiant;789`;
 
         // when
         const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutTargetProfileIdCsv);
@@ -1134,6 +1139,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         // then
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant du profil cible*"');
       });
 
       it('should throw an error when not a number', async function () {
@@ -1146,6 +1152,35 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         // then
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant du profil cible*"');
+      });
+    });
+
+    describe('when creatorId field is not valid', function () {
+      it('should throw an error when empty', async function () {
+        // given
+        const campaignWithoutCreatorIdCsv = `${headerCsv}1;chaussette;1234;numéro étudiant;;`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutCreatorIdCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant du créateur*"');
+      });
+
+      it('should throw an error when not a number', async function () {
+        // given
+        const campaignWithoutCreatorIdCsv = `${headerCsv}1;chaussette;1234;not valid;numéro étudiant;not valid`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutCreatorIdCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant du créateur*"');
       });
     });
 
@@ -1160,6 +1195,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         // then
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('"empty" is not a valid value for "Nom de la campagne*"');
       });
     });
 
@@ -1174,6 +1210,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         // then
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('"empty" is not a valid value for "Libellé de l\'identifiant externe*"');
       });
     });
   });

@@ -164,6 +164,7 @@ const requiredFieldNamesForCampaignsImport = [
   'Nom de la campagne*',
   'Identifiant du profil cible*',
   "Libellé de l'identifiant externe*",
+  'Identifiant du créateur*',
 ];
 
 async function deserializeForCampaignsImport(file, { checkCsvHeader, readCsvFile, parseCsvData } = csvHelper) {
@@ -183,11 +184,18 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
       if (typeof value === 'string') {
         value = value.trim();
       }
-      if (["Identifiant de l'organisation*", 'Identifiant du profil cible*'].includes(columnName)) {
+      if (
+        ["Identifiant de l'organisation*", 'Identifiant du profil cible*', 'Identifiant du créateur*'].includes(
+          columnName
+        )
+      ) {
         value = parseInt(value, 10);
       }
       if (requiredFieldNamesForCampaignsImport.includes(columnName) && !value) {
-        throw new FileValidationError('CSV_CONTENT_NOT_VALID');
+        throw new FileValidationError(
+          'CSV_CONTENT_NOT_VALID',
+          `${value === '' ? '"empty"' : value} is not a valid value for "${columnName}"`
+        );
       }
       return value;
     },
@@ -199,6 +207,7 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
     name: data['Nom de la campagne*'],
     targetProfileId: data['Identifiant du profil cible*'],
     idPixLabel: data["Libellé de l'identifiant externe*"],
+    creatorId: data['Identifiant du créateur*'],
     title: data['Titre du parcours'],
     customLandingPageText: data['Descriptif du parcours'],
   }));

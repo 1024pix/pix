@@ -1,6 +1,5 @@
 const createCampaigns = async function ({
   campaignsToCreate,
-  creatorId,
   campaignAdministrationRepository,
   membershipRepository,
   campaignRepository,
@@ -15,7 +14,6 @@ const createCampaigns = async function ({
       return {
         ...campaign,
         ownerId: administrator.user.id,
-        creatorId,
         code: await campaignCodeGenerator.generate(campaignRepository),
       };
     })
