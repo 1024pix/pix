@@ -1045,4 +1045,62 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       assert.contains('L’administrateur doit importer la base élèves en cliquant sur le bouton importer.');
     });
   });
+
+  module('when organization has type "SCO" and manage students', function () {
+    test('displays checkboxes', async function (assert) {
+      // given
+      this.set('noop', sinon.stub());
+
+      store = this.owner.lookup('service:store');
+
+      const division = store.createRecord('division', { id: '3BF', name: '3BF' });
+      class CurrentUserStub extends Service {
+        organization = store.createRecord('organization', {
+          id: 1,
+          divisions: [division],
+          type: 'SCO',
+          isManagingStudents: true,
+        });
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      this.set('students', students);
+      this.set('search', null);
+      this.set('divisions', []);
+      this.set('connectionTypes', []);
+      this.set('certificability', []);
+
+      // when
+      const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
+
+      const mainCheckbox = screen.getByRole('checkbox', {
+        name: this.intl.t('pages.sco-organization-participants.table.column.mainCheckbox'),
+      });
+      const studentCheckBox = screen.getByRole('checkbox', {
+        name: this.intl.t('pages.sco-organization-participants.table.column.checkbox', {
+          firstname: students[0].firstName,
+          lastname: students[0].lastName,
+        }),
+      });
+
+      // then
+      assert.dom(mainCheckbox).exists();
+      assert.dom(studentCheckBox).exists();
+    });
+  });
 });
