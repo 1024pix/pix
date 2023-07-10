@@ -11,13 +11,6 @@ import { LOCALE } from '../../domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 
-const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
-const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
-const PIX_ORGA_NAME_EN = 'Pix Orga - Noreply';
-const PIX_CERTIF_NAME_FR = 'Pix Certif - Ne pas répondre';
-const PIX_CERTIF_NAME_EN = 'Pix Certif - Noreply';
-const PIX_NAME_FR = 'PIX - Ne pas répondre';
-const PIX_NAME_EN = 'PIX - Noreply';
 const HELPDESK_FRENCH_FRANCE = 'https://support.pix.fr';
 const HELPDESK_ENGLISH_SPOKEN = 'https://support.pix.org/en/support/home';
 const HELPDESK_FRENCH_SPOKEN = 'https://support.pix.org';
@@ -30,7 +23,6 @@ const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
 const SCO_ACCOUNT_RECOVERY_TAG = 'SCO_ACCOUNT_RECOVERY';
 
 function sendAccountCreationEmail(email, locale, redirectionUrl) {
-  let pixName;
   let accountCreationEmailSubject;
   let variables;
 
@@ -44,7 +36,6 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
       ...frTranslations['pix-account-creation-email'].params,
     };
 
-    pixName = PIX_NAME_FR;
     accountCreationEmailSubject = frTranslations['pix-account-creation-email'].subject;
   } else if (locale === ENGLISH_SPOKEN) {
     variables = {
@@ -56,7 +47,6 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
       ...enTranslations['pix-account-creation-email'].params,
     };
 
-    pixName = PIX_NAME_EN;
     accountCreationEmailSubject = enTranslations['pix-account-creation-email'].subject;
   } else {
     variables = {
@@ -68,13 +58,10 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
       ...frTranslations['pix-account-creation-email'].params,
     };
 
-    pixName = PIX_NAME_FR;
     accountCreationEmailSubject = frTranslations['pix-account-creation-email'].subject;
   }
 
   return mailer.sendEmail({
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: pixName,
     to: email,
     subject: accountCreationEmailSubject,
     template: mailer.accountCreationTemplateId,
@@ -121,8 +108,6 @@ function sendCertificationResultEmail({
   };
 
   return mailer.sendEmail({
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: `${PIX_NAME_FR} / ${PIX_NAME_EN}`,
     to: email,
     template: mailer.certificationResultTemplateId,
     variables: templateParams,
@@ -132,7 +117,6 @@ function sendCertificationResultEmail({
 function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
   const localeParam = locale ? locale : FRENCH_FRANCE;
 
-  let pixName = PIX_NAME_FR;
   let resetPasswordEmailSubject = frTranslations['reset-password-demand-email'].subject;
 
   let templateParams = {
@@ -164,13 +148,10 @@ function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
       helpdeskURL: HELPDESK_ENGLISH_SPOKEN,
     };
 
-    pixName = PIX_NAME_EN;
     resetPasswordEmailSubject = enTranslations['reset-password-demand-email'].subject;
   }
 
   return mailer.sendEmail({
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: pixName,
     to: email,
     subject: resetPasswordEmailSubject,
     template: mailer.passwordResetTemplateId,
@@ -180,7 +161,6 @@ function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
 
 function sendOrganizationInvitationEmail({ email, organizationName, organizationInvitationId, code, locale, tags }) {
   locale = locale ? locale : FRENCH_FRANCE;
-  let pixOrgaName = PIX_ORGA_NAME_FR;
   let sendOrganizationInvitationEmailSubject = frTranslations['organization-invitation-email'].subject;
 
   let templateParams = {
@@ -221,13 +201,10 @@ function sendOrganizationInvitationEmail({ email, organizationName, organization
       supportUrl: HELPDESK_ENGLISH_SPOKEN,
       ...enTranslations['organization-invitation-email'].params,
     };
-    pixOrgaName = PIX_ORGA_NAME_EN;
     sendOrganizationInvitationEmailSubject = enTranslations['organization-invitation-email'].subject;
   }
 
   return mailer.sendEmail({
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: pixOrgaName,
     to: email,
     subject: sendOrganizationInvitationEmailSubject,
     template: mailer.organizationInvitationTemplateId,
@@ -277,8 +254,6 @@ function sendScoOrganizationInvitationEmail({
   }
 
   return mailer.sendEmail({
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: PIX_ORGA_NAME_FR,
     to: email,
     subject: 'Accès à votre espace Pix Orga',
     template: mailer.organizationInvitationScoTemplateId,
@@ -294,7 +269,7 @@ function sendCertificationCenterInvitationEmail({
   code,
   locale,
 }) {
-  let templateParams, fromName, subject;
+  let templateParams, subject;
   const frenchFranceTemplateParams = {
     certificationCenterName,
     pixHomeName: `pix${config.domain.tldFr}`,
@@ -333,26 +308,21 @@ function sendCertificationCenterInvitationEmail({
     case FRENCH_SPOKEN:
       templateParams = frenchSpokenTemplateParams;
       subject = frTranslations['certification-center-invitation-email'].subject;
-      fromName = PIX_CERTIF_NAME_FR;
       break;
 
     case ENGLISH_SPOKEN:
       templateParams = englishSpokenTemplateParams;
-      fromName = PIX_CERTIF_NAME_EN;
       subject = enTranslations['certification-center-invitation-email'].subject;
       break;
 
     default:
       templateParams = frenchFranceTemplateParams;
       subject = frTranslations['certification-center-invitation-email'].subject;
-      fromName = PIX_CERTIF_NAME_FR;
       break;
   }
 
   return mailer.sendEmail({
     subject,
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName,
     to: email,
     template: mailer.certificationCenterInvitationTemplateId,
     variables: templateParams,
@@ -360,7 +330,6 @@ function sendCertificationCenterInvitationEmail({
 }
 
 function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
-  const pixName = PIX_NAME_FR;
   const redirectionUrl = `${config.domain.pixApp + config.domain.tldFr}/recuperer-mon-compte/${temporaryKey}`;
   const variables = {
     firstName,
@@ -370,8 +339,6 @@ function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
   };
 
   return mailer.sendEmail({
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: pixName,
     to: email,
     subject: 'Récupération de votre compte Pix',
     template: mailer.accountRecoveryTemplateId,
@@ -382,8 +349,6 @@ function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
 
 function sendVerificationCodeEmail({ code, email, locale, translate }) {
   const options = {
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: PIX_NAME_FR,
     to: email,
     template: mailer.emailVerificationCodeTemplateId,
     tags: [EMAIL_VERIFICATION_CODE_TAG],
@@ -426,8 +391,6 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
 
 function sendCpfEmail({ email, generatedFiles }) {
   const options = {
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: PIX_NAME_FR,
     to: email,
     template: mailer.cpfEmailTemplateId,
     variables: { generatedFiles },
@@ -440,8 +403,6 @@ function sendNotificationToCertificationCenterRefererForCleaResults({ email, ses
   const formattedSessionDate = dayjs(sessionDate).locale('fr').format('DD/MM/YYYY');
 
   const options = {
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: PIX_NAME_FR,
     to: email,
     template: mailer.acquiredCleaResultTemplateId,
     variables: { sessionId, sessionDate: formattedSessionDate },

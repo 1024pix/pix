@@ -18,7 +18,6 @@ import { LOCALE } from '../../../../lib/domain/constants.js';
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | Service | MailService', function () {
-  const senderEmailAddress = 'ne-pas-repondre@pix.fr';
   const userEmailAddress = 'user@example.net';
 
   beforeEach(function () {
@@ -32,8 +31,6 @@ describe('Unit | Service | MailService', function () {
 
       // given
       const expectedOptions = {
-        from: senderEmailAddress,
-        to: userEmailAddress,
         subject: 'Votre compte Pix a bien été créé',
         template: 'test-account-creation-template-id',
       };
@@ -74,7 +71,6 @@ describe('Unit | Service | MailService', function () {
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('PIX - Ne pas répondre');
           expect(options.variables).to.include({
             homeName: 'pix.org',
             homeUrl: 'https://pix.org/fr/',
@@ -93,7 +89,6 @@ describe('Unit | Service | MailService', function () {
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('PIX - Ne pas répondre');
           expect(options.variables).to.include({
             homeName: 'pix.fr',
             homeUrl: 'https://pix.fr',
@@ -112,7 +107,6 @@ describe('Unit | Service | MailService', function () {
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('PIX - Noreply');
           expect(options.variables).to.include({
             homeName: 'pix.org',
             homeUrl: 'https://pix.org/en-gb/',
@@ -155,8 +149,6 @@ describe('Unit | Service | MailService', function () {
       const options = mailer.sendEmail.firstCall.args[0];
 
       expect(options).to.deep.equal({
-        from: 'ne-pas-repondre@pix.fr',
-        fromName: 'PIX - Ne pas répondre / PIX - Noreply',
         to: userEmailAddress,
         template: 'test-certification-result-template-id',
         variables: {
@@ -183,7 +175,6 @@ describe('Unit | Service | MailService', function () {
   });
 
   describe('#sendResetPasswordDemandEmail', function () {
-    const from = senderEmailAddress;
     const to = userEmailAddress;
     const template = 'test-password-reset-template-id';
     const temporaryKey = 'token';
@@ -192,10 +183,8 @@ describe('Unit | Service | MailService', function () {
       it(`should call mailer with translated texts if locale is ${ENGLISH_SPOKEN}`, async function () {
         // given
         const expectedOptions = {
-          from,
           to,
           template,
-          fromName: 'PIX - Noreply',
           subject: mainTranslationsMapping.en['reset-password-demand-email'].subject,
           variables: {
             locale: ENGLISH_SPOKEN,
@@ -220,10 +209,8 @@ describe('Unit | Service | MailService', function () {
       it(`should call mailer with translated texts if locale is ${FRENCH_SPOKEN}`, async function () {
         // given
         const expectedOptions = {
-          from,
           to,
           template,
-          fromName: 'PIX - Ne pas répondre',
           subject: mainTranslationsMapping.fr['reset-password-demand-email'].subject,
           variables: {
             locale: FRENCH_SPOKEN,
@@ -248,10 +235,8 @@ describe('Unit | Service | MailService', function () {
       it(`should call mailer with translated texts if locale is ${FRENCH_FRANCE}`, async function () {
         // given
         const expectedOptions = {
-          from,
           to,
           template,
-          fromName: 'PIX - Ne pas répondre',
           subject: mainTranslationsMapping.fr['reset-password-demand-email'].subject,
           variables: {
             locale: FRENCH_FRANCE,
@@ -276,10 +261,8 @@ describe('Unit | Service | MailService', function () {
       it(`should call mailer with fr-fr translated texts if locale is undefined`, async function () {
         // given
         const expectedOptions = {
-          from,
           to,
           template,
-          fromName: 'PIX - Ne pas répondre',
           subject: mainTranslationsMapping.fr['reset-password-demand-email'].subject,
           variables: {
             locale: FRENCH_FRANCE,
@@ -324,7 +307,6 @@ describe('Unit | Service | MailService', function () {
 
       // then
       const expectedOptions = {
-        from: senderEmailAddress,
         to: userEmailAddress,
         variables: {
           organizationName,
@@ -332,7 +314,6 @@ describe('Unit | Service | MailService', function () {
       };
       const options = mailer.sendEmail.firstCall.args[0];
 
-      expect(options.from).to.equal(expectedOptions.from);
       expect(options.to).to.equal(expectedOptions.to);
       expect(options.variables.organizationName).to.equal(expectedOptions.variables.organizationName);
     });
@@ -393,7 +374,6 @@ describe('Unit | Service | MailService', function () {
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('Pix Orga - Ne pas répondre');
           expect(options.subject).to.equal(mainTranslationsMapping.fr['organization-invitation-email'].subject);
           expect(options.variables).to.include({
             pixHomeName: 'pix.org',
@@ -416,7 +396,6 @@ describe('Unit | Service | MailService', function () {
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('Pix Orga - Ne pas répondre');
           expect(options.subject).to.equal(mainTranslationsMapping.fr['organization-invitation-email'].subject);
           expect(options.variables).to.include({
             pixHomeName: 'pix.fr',
@@ -439,7 +418,6 @@ describe('Unit | Service | MailService', function () {
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('Pix Orga - Ne pas répondre');
           expect(options.subject).to.equal(mainTranslationsMapping.fr['organization-invitation-email'].subject);
           expect(options.variables).to.include({
             pixHomeName: 'pix.fr',
@@ -462,7 +440,6 @@ describe('Unit | Service | MailService', function () {
 
           // then
           const options = mailer.sendEmail.firstCall.args[0];
-          expect(options.fromName).to.equal('Pix Orga - Noreply');
           expect(options.subject).to.equal(mainTranslationsMapping.en['organization-invitation-email'].subject);
           expect(options.variables).to.include({
             pixHomeName: 'pix.org',
@@ -478,8 +455,6 @@ describe('Unit | Service | MailService', function () {
   });
 
   describe('#sendScoOrganizationInvitationEmail', function () {
-    const fromName = 'Pix Orga - Ne pas répondre';
-
     const subject = 'Accès à votre espace Pix Orga';
     const template = 'test-organization-invitation-sco-demand-template-id';
 
@@ -495,8 +470,6 @@ describe('Unit | Service | MailService', function () {
     it('should call mail provider with pix-orga url, organization-invitation id, code and null tags', async function () {
       // given
       const expectedOptions = {
-        from: senderEmailAddress,
-        fromName,
         to: userEmailAddress,
         subject,
         template,
@@ -545,8 +518,6 @@ describe('Unit | Service | MailService', function () {
       expect(sendEmailParameters.subject).to.equal(
         mainTranslationsMapping.fr['certification-center-invitation-email'].subject
       );
-      expect(sendEmailParameters.from).to.equal(senderEmailAddress);
-      expect(sendEmailParameters.fromName).to.equal('Pix Certif - Ne pas répondre');
       expect(sendEmailParameters.to).to.equal('invited@example.net');
       expect(sendEmailParameters.variables).to.include({
         certificationCenterName: 'Centre Pixou',
@@ -578,7 +549,6 @@ describe('Unit | Service | MailService', function () {
         expect(sendEmailParameters.subject).to.equal(
           mainTranslationsMapping.fr['certification-center-invitation-email'].subject
         );
-        expect(sendEmailParameters.fromName).to.equal('Pix Certif - Ne pas répondre');
         expect(sendEmailParameters.variables).to.include({
           certificationCenterName: 'Centre Pixi',
           pixHomeName: 'pix.org',
@@ -610,7 +580,6 @@ describe('Unit | Service | MailService', function () {
         expect(sendEmailParameters.subject).to.equal(
           mainTranslationsMapping.en['certification-center-invitation-email'].subject
         );
-        expect(sendEmailParameters.fromName).to.equal('Pix Certif - Noreply');
         expect(sendEmailParameters.variables).to.include({
           certificationCenterName: 'Centre Pixi',
           pixHomeName: 'pix.org',
@@ -643,8 +612,6 @@ describe('Unit | Service | MailService', function () {
 
       // then
       const expectedOptions = {
-        from: senderEmailAddress,
-        to: email,
         subject: 'Récupération de votre compte Pix',
         template: 'test-account-recovery-template-id',
         tags: ['SCO_ACCOUNT_RECOVERY'],
@@ -756,8 +723,6 @@ describe('Unit | Service | MailService', function () {
 
       // then
       expect(mailer.sendEmail).to.have.been.calledWith({
-        from: 'ne-pas-repondre@pix.fr',
-        fromName: 'PIX - Ne pas répondre',
         to: email,
         template: mailer.cpfEmailTemplateId,
         variables: { generatedFiles },
@@ -781,8 +746,6 @@ describe('Unit | Service | MailService', function () {
 
       // then
       expect(mailer.sendEmail).to.have.been.calledWith({
-        from: 'ne-pas-repondre@pix.fr',
-        fromName: 'PIX - Ne pas répondre',
         to: email,
         template: mailer.acquiredCleaResultTemplateId,
         variables: { sessionId, sessionDate: '01/01/2022' },
