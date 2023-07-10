@@ -3,28 +3,29 @@
     <div class="challenge-item__container">
       <Challenge::ChallengeInstruction @instruction={{@challenge.instruction}} />
       <div class="challenge-item__playground">
-        {{#if @challenge.hasValidEmbedDocument}}
-          <Challenge::ChallengeEmbedSimulator
-            @url={{@challenge.embedUrl}}
-            @title={{@challenge.embedTitle}}
-            @height={{@challenge.embedHeight}}
-          />
+        {{#if @challenge.illustrationUrl}}
+          <div class="challenge-item__image">
+            <Challenge::ChallengeIllustration @src={{@challenge.illustrationUrl}} @alt={{@challenge.illustrationAlt}} />
+          </div>
         {{/if}}
-        <div class="challenge-item-playground-bottom">
-          {{#if @challenge.illustrationUrl}}
-            <div>
-              <Challenge::ChallengeIllustration
-                @src={{@challenge.illustrationUrl}}
-                @alt={{@challenge.illustrationAlt}}
-              />
-            </div>
-          {{/if}}
-          {{#if @challenge.autoReply}}
+        {{#if @challenge.hasValidEmbedDocument}}
+          <div class="challenge-item__embed">
+            <Challenge::ChallengeEmbedSimulator
+              @url={{@challenge.embedUrl}}
+              @title={{@challenge.embedTitle}}
+              @height={{@challenge.embedHeight}}
+            />
+          </div>
+        {{/if}}
+        {{#if @challenge.autoReply}}
+          <div class="challenge-item__autoreply">
             <Challenge::ChallengeItemAutoReply @setAnswerValue={{this.setAnswerValue}} />
-          {{else}}
+          </div>
+        {{else}}
+          <div class="challenge-item__qroc">
             <Challenge::ChallengeItemQroc @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} />
-          {{/if}}
-        </div>
+          </div>
+        {{/if}}
       </div>
     </div>
   </div>
