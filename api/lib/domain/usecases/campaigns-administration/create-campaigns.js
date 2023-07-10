@@ -8,11 +8,13 @@ const createCampaigns = async function ({
 }) {
   const enrichedCampaignsData = await Promise.all(
     campaignsToCreate.map(async (campaign) => {
-      const [administrator] = await membershipRepository.findAdminsByOrganizationId(campaign.organizationId);
+      const [administrator] = await membershipRepository.findAdminsByOrganizationId({
+        organizationId: campaign.organizationId,
+      });
 
       return {
         ...campaign,
-        ownerId: administrator.id,
+        ownerId: administrator.user.id,
         creatorId,
         code: await campaignCodeGenerator.generate(campaignRepository),
       };
