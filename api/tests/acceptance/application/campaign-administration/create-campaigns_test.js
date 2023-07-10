@@ -1,6 +1,7 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 const { ROLES } = PIX_ADMIN;
 
@@ -9,6 +10,10 @@ let server;
 describe('Acceptance | Application | campaign-controller-create-campaigns', function () {
   beforeEach(async function () {
     server = await createServer();
+  });
+
+  afterEach(async function () {
+    await knex('campaigns').delete();
   });
 
   describe('POST /api/admin/campaigns', function () {
@@ -21,7 +26,14 @@ describe('Acceptance | Application | campaign-controller-create-campaigns', func
       });
 
       it('creates campaigns', async function () {
-        const buffer = 'targetProfileId;name;externalId\n1;chaussette;1237457A';
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({ organizationId, userId, organizationRole: Membership.roles.ADMIN });
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
+        await databaseBuilder.commit();
+
+        const buffer = `Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe*;Titre du parcours;Descriptif du parcours
+          ${organizationId};Parcours importé par CSV;${targetProfileId};numéro d'étudiant;;
+          ${organizationId};Autre parcours importé par CSV;${targetProfileId};numéro d'étudiant;Titre;Superbe descriptif de parcours`;
         const options = {
           method: 'POST',
           url: '/api/admin/campaigns',
