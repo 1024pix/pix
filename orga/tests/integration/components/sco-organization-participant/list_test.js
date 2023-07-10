@@ -1103,4 +1103,56 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       assert.dom(studentCheckBox).exists();
     });
   });
+
+  module('action bar', function () {
+    test('displays action bar', async function (assert) {
+      //given
+      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+
+      store = this.owner.lookup('service:store');
+
+      const division = store.createRecord('division', { id: '3BF', name: '3BF' });
+
+      class CurrentUserStub extends Service {
+        organization = store.createRecord('organization', {
+          id: 1,
+          divisions: [division],
+          type: 'SCO',
+          isManagingStudents: true,
+        });
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      this.set('students', students);
+      this.set('search', null);
+      this.set('divisions', []);
+      this.set('connectionTypes', []);
+      this.set('certificability', []);
+
+      //when
+      const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
+
+      const firstStudent = screen.getAllByRole('checkbox')[1];
+      await click(firstStudent);
+
+      //then
+      assert
+        .dom(screen.getByText(this.intl.t('pages.sco-organization-participants.action-bar.information', { count: 1 })))
+        .exists();
+    });
+  });
 });
