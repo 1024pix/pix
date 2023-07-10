@@ -1,5 +1,5 @@
 import { memberAction } from 'ember-api-actions';
-import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import ENV from 'pix-admin/config/environment';
 import { service } from '@ember/service';
 import formatList from '../utils/format-select-options';
@@ -28,6 +28,7 @@ export default class TargetProfile extends Model {
   @attr('string') ownerOrganizationId;
   @attr('string') category;
   @attr('boolean') isSimplifiedAccess;
+  @attr('boolean') areKnowledgeElementsResettable;
   @attr('number') maxLevel;
 
   @hasMany('badge') badges;
