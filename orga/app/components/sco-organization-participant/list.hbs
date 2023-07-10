@@ -41,7 +41,14 @@
             <InElement @destinationId={{this.actionBarId}}>
               <ScoOrganizationParticipant::ActionBar
                 @count={{selectedStudents.length}}
-                @openResetPasswordModal={{this.openResetPasswordModal}}
+                @openResetPasswordModal={{(fn this.openResetPasswordModal selectedStudents)}}
+              />
+              <ScoOrganizationParticipant::ResetPasswordModal
+                @showModal={{this.showResetPasswordModal}}
+                @totalSelectedStudents={{selectedStudents.length}}
+                @totalAffectedStudents={{this.affectedStudents.length}}
+                @onTriggerAction={{(fn this.resetPasswordForStudents this.affectedStudents reset)}}
+                @onCloseModal={{this.closeResetPasswordModal}}
               />
             </InElement>
           {{/if}}

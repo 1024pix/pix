@@ -8,9 +8,13 @@ import { guidFor } from '@ember/object/internals';
 export default class ScoList extends Component {
   @service currentUser;
   @service intl;
+
   @tracked isLoadingDivisions;
   @tracked student = null;
   @tracked isShowingAuthenticationMethodModal = false;
+  @tracked showResetPasswordModal = false;
+
+  @tracked affectedStudents = [];
 
   constructor() {
     super(...arguments);
@@ -76,6 +80,19 @@ export default class ScoList extends Component {
   @action
   openResetPasswordModal(students, event) {
     event.stopPropagation();
+    this.affectedStudents = students.filter((student) => student.authenticationMethods.includes('identifiant'));
+    this.showResetPasswordModal = true;
+  }
+
+  @action
+  closeResetPasswordModal() {
+    this.showResetPasswordModal = false;
+  }
+
+  @action
+  async resetPasswordForStudents(affectedStudents, resetSelectedStudents) {
+    this.closeResetPasswordModal();
+    resetSelectedStudents();
   }
 
   @action

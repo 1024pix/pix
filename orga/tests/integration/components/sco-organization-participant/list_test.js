@@ -1104,30 +1104,30 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     });
   });
 
-  module('action bar', function () {
-    test('displays action bar', async function (assert) {
-      //given
-      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
-
-      store = this.owner.lookup('service:store');
-
-      const division = store.createRecord('division', { id: '3BF', name: '3BF' });
-
+  module('action bar', function (hooks) {
+    hooks.beforeEach(function () {
       class CurrentUserStub extends Service {
         organization = store.createRecord('organization', {
           id: 1,
-          divisions: [division],
+          divisions: [store.createRecord('division', { id: '3Z', name: '3Z' })],
           type: 'SCO',
           isManagingStudents: true,
         });
       }
+
       this.owner.register('service:current-user', CurrentUserStub);
 
-      this.set('students', students);
       this.set('search', null);
       this.set('divisions', []);
       this.set('connectionTypes', []);
       this.set('certificability', []);
+    });
+
+    test('displays action bar', async function (assert) {
+      //given
+      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+
+      this.set('students', students);
 
       //when
       const screen = await render(hbs`<ScoOrganizationParticipant::List
@@ -1153,6 +1153,160 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       assert
         .dom(screen.getByText(this.intl.t('pages.sco-organization-participants.action-bar.information', { count: 1 })))
         .exists();
+    });
+
+    test('opens the reset password modal', async function (assert) {
+      //given
+      const spiderStudent = { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] };
+      const peterStudent = {
+        id: 2,
+        firstName: 'Peter',
+        lastName: 'Parker',
+        authenticationMethods: ['email', 'identifiant'],
+      };
+      const milesStudent = { id: 3, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] };
+      const students = [spiderStudent, peterStudent, milesStudent];
+
+      this.set('students', students);
+
+      //when
+      const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
+
+      const firstStudentToResetPassword = screen.getAllByRole('checkbox')[2];
+      const secondStudentToResetPassword = screen.getAllByRole('checkbox')[3];
+
+      await click(firstStudentToResetPassword);
+      await click(secondStudentToResetPassword);
+
+      const resetPasswordButton = await screen.findByRole('button', {
+        name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+      });
+
+      await click(resetPasswordButton);
+
+      await screen.findByRole('dialog');
+
+      const modalTitle = await screen.findByRole('heading', {
+        level: 1,
+        name: this.intl.t('pages.sco-organization-participants.reset-password-modal.title'),
+      });
+
+      const confirmationButton = await screen.findByRole('button', {
+        name: this.intl.t('common.actions.confirm'),
+      });
+
+      //then
+      assert.dom(modalTitle).exists();
+      assert.dom(confirmationButton).exists();
+    });
+
+    module('when the reset password modal is open', function () {
+      module('when there is no student selected with "identifiant" as an authentication method', function () {
+        test('"Confirm" button is disabled', async function (assert) {
+          //given
+          const students = [{ id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] }];
+
+          this.set('students', students);
+
+          //when
+          const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
+          const student = await screen.getAllByRole('checkbox')[1];
+          await click(student);
+          const resetPasswordButton = await screen.findByRole('button', {
+            name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+          });
+          await click(resetPasswordButton);
+          await screen.findByRole('dialog');
+          const modalTitle = await screen.findByRole('heading', {
+            level: 1,
+            name: this.intl.t('pages.sco-organization-participants.reset-password-modal.title'),
+          });
+          const confirmationButton = await screen.findByRole('button', {
+            name: this.intl.t('common.actions.confirm'),
+          });
+
+          //then
+          assert.dom(modalTitle).exists();
+          assert.true(confirmationButton.disabled);
+        });
+      });
+
+      module('when there is at least one student with "identifiant" as an authentication method', function () {
+        test('"Confirm button is enabled"', async function (assert) {
+          //given
+          const students = [
+            { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+            { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+          ];
+
+          this.set('students', students);
+
+          //when
+          const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
+          const firstStudent = await screen.getAllByRole('checkbox')[1];
+          const secondStudent = await screen.getAllByRole('checkbox')[2];
+          await click(firstStudent);
+          await click(secondStudent);
+          const resetPasswordButton = await screen.findByRole('button', {
+            name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+          });
+          await click(resetPasswordButton);
+          await screen.findByRole('dialog');
+          const modalTitle = await screen.findByRole('heading', {
+            level: 1,
+            name: this.intl.t('pages.sco-organization-participants.reset-password-modal.title'),
+          });
+          const confirmationButton = await screen.findByRole('button', {
+            name: this.intl.t('common.actions.confirm'),
+          });
+
+          //then
+          assert.dom(modalTitle).exists();
+          assert.false(confirmationButton.disabled);
+        });
+      });
     });
   });
 });

@@ -146,6 +146,7 @@
       "back": "Retour",
       "cancel": "Annuler",
       "close": "Fermer",
+      "confirm": "Confirmer",
       "global": "Actions",
       "link-to-participant": "Voir toute l'activité du participant"
     },
@@ -987,6 +988,13 @@
       "no-participants": "Aucun élève pour l’instant !",
       "no-participants-action": "L’administrateur doit importer la base élèves en cliquant sur le bouton importer.",
       "page-title": "Élèves",
+      "reset-password-modal": {
+        "title": "Réinitialisation de mot de passe des élèves avec identifiants",
+        "content-message-1": "Sur {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} élève</strong>} other {<strong>{totalSelectedStudents} élèves</strong>}} que vous avez sélectionné, {totalAffectedStudents, plural, =0 {<strong>aucun mot de passe</strong> sera réinitialisé} =1 {le mot de passe de <strong>{totalAffectedStudents} élève</strong> va être réinitialisé.} other {les mots de passe de <strong>{totalAffectedStudents} élèves</strong> vont être réinitialisé.}}",
+        "content-message-2": "Un fichier CSV sera généré contenant les identifiants ainsi que les mots de passe à usage unique.",
+        "content-message-3": "Communiquez ces nouveaux mots de passe à usage unique aux élèves. Lorsqu'ils se connecteront avec ce mot de passe, Pix leur demandera d'en saisir un nouveau.",
+        "warning-message": "Seuls les mots de passe des accès par identifiants peuvent être réinitialisés. Les accès par adresse email et Mediacentre ne seront pas impactés."
+      },
       "table": {
         "column": {
           "checkbox": "Sélectionner/Déselectionner {firstname} {lastname}",
