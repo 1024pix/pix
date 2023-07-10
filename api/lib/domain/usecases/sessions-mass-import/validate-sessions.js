@@ -132,6 +132,13 @@ async function _createValidCertificationCandidates({
       }
     }
 
+    const candidateEmailsErrors = await sessionsImportValidationService.validateCandidateEmails({
+      candidate: domainCertificationCandidate,
+      line: certificationCandidate.line,
+    });
+
+    sessionsMassImportReport.addErrorReports(candidateEmailsErrors);
+
     return domainCertificationCandidate;
   });
 }

@@ -1,20 +1,31 @@
 import _ from 'lodash';
 
 import {
-  expect,
   databaseBuilder,
   domainBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   knex,
+  sinon,
 } from '../../../test-helper.js';
+import { clearResolveMx, setResolveMx } from '../../../../lib/infrastructure/mail-check.js';
 
 import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | session-controller-post-certification-candidates', function () {
   let server;
+  let resolveMx;
 
   beforeEach(async function () {
     server = await createServer();
+    resolveMx = sinon.stub();
+    resolveMx.resolves();
+    setResolveMx(resolveMx);
+  });
+
+  afterEach(async function () {
+    server = await createServer();
+    clearResolveMx();
   });
 
   describe('#save', function () {

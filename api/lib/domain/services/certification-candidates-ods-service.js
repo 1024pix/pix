@@ -11,6 +11,7 @@ import { CertificationCandidatesError } from '../errors.js';
 import _ from 'lodash';
 import bluebird from 'bluebird';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
+import * as mailCheckImplementation from '../../infrastructure/mail-check.js';
 
 export { extractCertificationCandidatesFromCandidatesImportSheet };
 
@@ -24,6 +25,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   certificationCpfCityRepository,
   complementaryCertificationRepository,
   certificationCenterRepository,
+  mailCheck = mailCheckImplementation,
 }) {
   const translate = i18n.__;
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
@@ -57,6 +59,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
     Object.entries(certificationCandidatesDataByLine),
     async ([line, certificationCandidateData]) => {
       let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity, billingMode } = certificationCandidateData;
+      const { email, resultRecipientEmail } = certificationCandidateData;
       const { hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre } =
         certificationCandidateData;
 
@@ -110,6 +113,28 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
 
       if (billingMode) {
         billingMode = CertificationCandidate.parseBillingMode({ billingMode, translate });
+      }
+
+      if (resultRecipientEmail) {
+        try {
+          await mailCheck.checkDomainIsValid(resultRecipientEmail);
+        } catch {
+          throw new CertificationCandidatesError({
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
+            meta: { line, email: resultRecipientEmail },
+          });
+        }
+      }
+
+      if (email) {
+        try {
+          await mailCheck.checkDomainIsValid(email);
+        } catch {
+          throw new CertificationCandidatesError({
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
+            meta: { line, email },
+          });
+        }
       }
 
       const certificationCandidate = new CertificationCandidate({

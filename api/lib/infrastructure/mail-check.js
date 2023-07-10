@@ -4,9 +4,19 @@ const { Resolver } = promises;
 
 const resolver = new Resolver();
 
+let resolveMx = resolver.resolveMx.bind(resolver);
+
 const checkDomainIsValid = function (emailAddress) {
   const domain = emailAddress.replace(/.*@/g, '');
-  return resolver.resolveMx(domain).then(() => true);
+  return resolveMx(domain).then(() => true);
 };
 
-export { checkDomainIsValid };
+const setResolveMx = function (resolveMxFn) {
+  resolveMx = resolveMxFn;
+};
+
+const clearResolveMx = function () {
+  resolveMx = resolver.resolveMx.bind(resolver);
+};
+
+export { checkDomainIsValid, setResolveMx, clearResolveMx };
