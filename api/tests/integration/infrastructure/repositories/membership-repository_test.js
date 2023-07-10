@@ -182,6 +182,83 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
     });
   });
 
+  describe('#findAdminsByOrganizationId', function () {
+    it('should return all the admin for a given organization ID with only required relationships', async function () {
+      // given
+      const organization_1 = databaseBuilder.factory.buildOrganization();
+      const organization_2 = databaseBuilder.factory.buildOrganization();
+
+      const user_1 = databaseBuilder.factory.buildUser();
+      const user_2 = databaseBuilder.factory.buildUser();
+      const user_3 = databaseBuilder.factory.buildUser();
+
+      databaseBuilder.factory.buildMembership({
+        organizationRole: Membership.roles.ADMIN,
+        organizationId: organization_1.id,
+        userId: user_1.id,
+      });
+      databaseBuilder.factory.buildMembership({
+        organizationRole: Membership.roles.MEMBER,
+        organizationId: organization_1.id,
+        userId: user_2.id,
+      });
+      databaseBuilder.factory.buildMembership({
+        organizationRole: Membership.roles.ADMIN,
+        organizationId: organization_2.id,
+        userId: user_3.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const memberships = await membershipRepository.findAdminsByOrganizationId({ organizationId: organization_1.id });
+
+      // then
+      expect(_.map(memberships, 'user.id')).to.have.members([user_1.id]);
+    });
+
+    it('should order memberships by id', async function () {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      const user_1 = databaseBuilder.factory.buildUser();
+      const user_2 = databaseBuilder.factory.buildUser();
+      const user_3 = databaseBuilder.factory.buildUser();
+
+      const organizationRole = Membership.roles.ADMIN;
+
+      const membership_3 = databaseBuilder.factory.buildMembership({
+        id: 789,
+        organizationRole,
+        organizationId: organization.id,
+        userId: user_3.id,
+      });
+      const membership_2 = databaseBuilder.factory.buildMembership({
+        id: 456,
+        organizationRole,
+        organizationId: organization.id,
+        userId: user_2.id,
+      });
+      const membership_1 = databaseBuilder.factory.buildMembership({
+        id: 123,
+        organizationRole,
+        organizationId: organization.id,
+        userId: user_1.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const memberships = await membershipRepository.findAdminsByOrganizationId({ organizationId: organization.id });
+
+      // then
+      expect(_.map(memberships, 'id')).to.deep.include.ordered.members([
+        membership_1.id,
+        membership_2.id,
+        membership_3.id,
+      ]);
+    });
+  });
   describe('#findPaginatedFiltered', function () {
     let organizationId;
 
