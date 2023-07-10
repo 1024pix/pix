@@ -887,6 +887,10 @@
     },
     "sco-organization-participants": {
       "title": "{count, plural, =0 {Students} =1 {Student ({count})} other {Students ({count})}}",
+      "action-bar": {
+        "information": "{count, plural, =1 {{count} student selected} other {{count} students selected}}",
+        "reset-password-button": "Reset passwords for selected students"
+      },
       "actions": {
         "import-file": {
           "file-type-separator": " or ",

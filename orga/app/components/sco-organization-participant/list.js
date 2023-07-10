@@ -49,6 +49,14 @@ export default class ScoList extends Component {
     return guidFor(this) + 'mainCheckbox';
   }
 
+  get actionBarId() {
+    return guidFor(this) + 'actionBar';
+  }
+
+  get paginationControlId() {
+    return guidFor(this) + 'paginationCOntrol';
+  }
+
   get hasStudents() {
     return Boolean(this.args.students.length);
   }
@@ -63,6 +71,11 @@ export default class ScoList extends Component {
   @action
   closeAuthenticationMethodModal() {
     this.isShowingAuthenticationMethodModal = false;
+  }
+
+  @action
+  openResetPasswordModal(students, event) {
+    event.stopPropagation();
   }
 
   @action
