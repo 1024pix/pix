@@ -3,6 +3,8 @@ import {
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatesError,
 } from '../errors.js';
+import * as mailCheckImplementation from '../../infrastructure/mail-check.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 
 const addCertificationCandidateToSession = async function ({
   sessionId,
@@ -13,6 +15,7 @@ const addCertificationCandidateToSession = async function ({
   certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
+  mailCheck = mailCheckImplementation,
 }) {
   certificationCandidate.sessionId = sessionId;
 
@@ -58,6 +61,27 @@ const addCertificationCandidateToSession = async function ({
   certificationCandidate.updateBirthInformation(cpfBirthInformation);
 
   certificationCandidate.complementaryCertification = complementaryCertification;
+
+  if (certificationCandidate.resultRecipientEmail) {
+    try {
+      await mailCheck.checkDomainIsValid(certificationCandidate.resultRecipientEmail);
+    } catch {
+      throw new CertificationCandidatesError({
+        code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
+        meta: { email: certificationCandidate.resultRecipientEmail },
+      });
+    }
+  }
+  if (certificationCandidate.email) {
+    try {
+      await mailCheck.checkDomainIsValid(certificationCandidate.email);
+    } catch {
+      throw new CertificationCandidatesError({
+        code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
+        meta: { email: certificationCandidate.email },
+      });
+    }
+  }
 
   return await certificationCandidateRepository.saveInSession({
     certificationCandidate,

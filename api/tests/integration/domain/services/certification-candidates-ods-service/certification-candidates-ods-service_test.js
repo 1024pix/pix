@@ -1,4 +1,4 @@
-import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import {
   CLEA,
   PIX_PLUS_DROIT,
@@ -30,6 +30,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
   let userId;
   let sessionId;
+  let mailCheck;
 
   beforeEach(async function () {
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
@@ -64,12 +65,15 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       INSEECode: '01065',
     });
     await databaseBuilder.commit();
+
+    mailCheck = { checkDomainIsValid: sinon.stub() };
   });
 
   it('should throw a CertificationCandidatesError if there is an error in the file', async function () {
     // given
     const odsFilePath = `${__dirname}/attendance_sheet_extract_mandatory_ko_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
+    mailCheck.checkDomainIsValid.resolves();
 
     // when
     const error = await catchErr(
@@ -84,6 +88,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       certificationCenterRepository,
       complementaryCertificationRepository,
       isSco: true,
+      mailCheck,
     });
 
     // then
@@ -96,6 +101,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     // given
     const odsFilePath = `${__dirname}/attendance_sheet_extract_birth_ko_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
+    mailCheck.checkDomainIsValid.resolves();
 
     // when
     const error = await catchErr(
@@ -110,11 +116,43 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       certificationCenterRepository,
       complementaryCertificationRepository,
       isSco: true,
+      mailCheck,
     });
 
     // then
     expect(error).to.be.instanceOf(CertificationCandidatesError);
     expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID.code);
+  });
+
+  it('should throw a CertificationCandidatesImportError if there are email errors', async function () {
+    // given
+    const odsFilePath = `${__dirname}/attendance_sheet_extract_recipient_email_ko_test.ods`;
+    const odsBuffer = await readFile(odsFilePath);
+    mailCheck.checkDomainIsValid.withArgs('jack@d.it').throws();
+
+    // when
+    const error = await catchErr(
+      certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
+    )({
+      i18n,
+      sessionId,
+      odsBuffer,
+      certificationCpfService,
+      certificationCpfCountryRepository,
+      certificationCpfCityRepository,
+      certificationCenterRepository,
+      complementaryCertificationRepository,
+      isSco: true,
+      mailCheck,
+    });
+
+    // then
+    const certificationCandidatesError = new CertificationCandidatesError({
+      code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
+      meta: { email: 'jack@d.it', line: 1 },
+    });
+
+    expect(error).to.deepEqualInstance(certificationCandidatesError);
   });
 
   it('should return extracted and validated certification candidates', async function () {
@@ -135,6 +173,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         certificationCpfCityRepository,
         certificationCenterRepository,
         complementaryCertificationRepository,
+        mailCheck,
       });
 
     // then
@@ -297,6 +336,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           certificationCenterRepository,
           complementaryCertificationRepository,
           isSco: false,
+          mailCheck,
         });
 
         // then
@@ -314,6 +354,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     it('should return extracted and validated certification candidates with complementary certification', async function () {
       // given
+      mailCheck.checkDomainIsValid.resolves();
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         label: 'CléA Numérique',
         key: CLEA,
@@ -449,6 +490,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           certificationCenterRepository,
           complementaryCertificationRepository,
           isSco: false,
+          mailCheck,
         });
 
       // then
@@ -458,6 +500,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
   it('should return extracted and validated certification candidates with billing information', async function () {
     // given
+    mailCheck.checkDomainIsValid.resolves();
     const isSco = false;
 
     const userId = databaseBuilder.factory.buildUser().id;
@@ -552,6 +595,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         certificationCpfCityRepository,
         certificationCenterRepository,
         complementaryCertificationRepository,
+        mailCheck,
       });
 
     // then
@@ -562,6 +606,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const isSco = true;
     const odsFilePath = `${__dirname}/attendance_sheet_extract_ok_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
+    mailCheck.checkDomainIsValid.resolves();
 
     // when
     const actualCertificationCandidates =
@@ -575,6 +620,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         certificationCpfCityRepository,
         certificationCenterRepository,
         complementaryCertificationRepository,
+        mailCheck,
       });
 
     // then
