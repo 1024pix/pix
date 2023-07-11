@@ -1,3 +1,4 @@
+{{!-- template-lint-disable  --}}
 {{page-title "Profil " @model.id " | Pix Admin" replace=true}}
 <header class="page-header">
   <div class="page-title">
@@ -30,6 +31,7 @@
               {{@model.ownerOrganizationId}}
             </LinkTo>
           </li>
+          <li><span class="bold">Permettre la remise à zero des acquis du Profil Cible : </span>{{this.areKnowledgeElementsResettable}}</li>
           {{#if @model.description}}
             <li>
               <span class="bold">Description : </span>

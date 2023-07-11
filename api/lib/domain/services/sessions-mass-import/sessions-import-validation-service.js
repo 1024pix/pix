@@ -3,6 +3,7 @@ import * as certificationCpfService from '../certification-cpf-service.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../constants/sessions-errors.js';
 import dayjs from 'dayjs';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../constants/certification-candidates-errors.js';
+import * as mailCheck from '../../../infrastructure/mail-check.js';
 
 const validateSession = async function ({
   session,
@@ -110,6 +111,34 @@ const getUniqueCandidates = function (candidates) {
   return { uniqueCandidates, duplicateCandidateErrors };
 };
 
+const getValidatedComplementaryCertificationForMassImport = async function ({
+  complementaryCertifications = [],
+  line,
+  complementaryCertificationRepository,
+}) {
+  const certificationCandidateComplementaryErrors = [];
+
+  if (_hasMoreThanOneComplementaryCertifications(complementaryCertifications)) {
+    _addToErrorList({
+      errorList: certificationCandidateComplementaryErrors,
+      line,
+      codes: [CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code],
+    });
+
+    return { certificationCandidateComplementaryErrors, complementaryCertification: null };
+  }
+
+  if (complementaryCertifications?.[0]) {
+    const complementaryCertification = await complementaryCertificationRepository.getByLabel({
+      label: complementaryCertifications[0],
+    });
+
+    return { certificationCandidateComplementaryErrors, complementaryCertification };
+  }
+
+  return { certificationCandidateComplementaryErrors, complementaryCertification: null };
+};
+
 const getValidatedCandidateBirthInformation = async function ({
   candidate,
   isSco,
@@ -168,7 +197,37 @@ const getValidatedCandidateBirthInformation = async function ({
   };
 };
 
-export { validateSession, getUniqueCandidates, getValidatedCandidateBirthInformation };
+const validateCandidateEmails = async function ({ candidate, line, dependencies = { mailCheck } }) {
+  const certificationCandidateErrors = [];
+  await _validateEmail({
+    email: candidate.resultRecipientEmail,
+    mailCheck: dependencies.mailCheck,
+    errorCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
+    certificationCandidateErrors,
+    line,
+  });
+  await _validateEmail({
+    email: candidate.email,
+    mailCheck: dependencies.mailCheck,
+    errorCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
+    certificationCandidateErrors,
+    line,
+  });
+
+  return certificationCandidateErrors;
+};
+
+export {
+  validateSession,
+  getUniqueCandidates,
+  getValidatedCandidateBirthInformation,
+  validateCandidateEmails,
+  getValidatedComplementaryCertificationForMassImport,
+};
+
+function _hasMoreThanOneComplementaryCertifications(complementaryCertifications) {
+  return complementaryCertifications?.length > 1;
+}
 
 function _isDateAndTimeValid(session) {
   return dayjs(`${session.date} ${session.time}`, 'YYYY-MM-DD HH:mm', true).isValid();
@@ -196,6 +255,20 @@ function _addToErrorList({ errorList, line, codes = [], isBlocking = true }) {
 
 function _hasSessionInfo(session) {
   return session.address || session.room || session.date || session.time || session.examiner;
+}
+
+async function _validateEmail({ email, mailCheck, errorCode, certificationCandidateErrors, line }) {
+  if (email) {
+    try {
+      await mailCheck.checkDomainIsValid(email);
+    } catch {
+      return _addToErrorList({
+        errorList: certificationCandidateErrors,
+        line,
+        codes: [errorCode],
+      });
+    }
+  }
 }
 
 async function _isSessionStarted({ certificationCourseRepository, sessionId }) {

@@ -1,8 +1,9 @@
-import { expect, sinon, domainBuilder } from '../../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import * as sessionsImportValidationService from '../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service.js';
 import { CpfBirthInformationValidation } from '../../../../../lib/domain/services/certification-cpf-service.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 import lodash from 'lodash';
+
 const { noop } = lodash;
 
 describe('Unit | Service | sessions import validation Service', function () {
@@ -387,6 +388,121 @@ describe('Unit | Service | sessions import validation Service', function () {
 
         // then
         expect(sessionErrors).to.have.deep.members([{ line: 1, code: 'EMPTY_SESSION', isBlocking: false }]);
+      });
+    });
+  });
+
+  context('#validateCandidateEmails', function () {
+    context('when result recipient email has invalid domain', function () {
+      it('should return a blocking certificationCandidateError', async function () {
+        // given
+        const certificationCandidate = _buildValidCandidateData();
+        const mailCheckStub = {
+          checkDomainIsValid: sinon.stub().throws(),
+        };
+
+        // when
+        const sessionErrors = await sessionsImportValidationService.validateCandidateEmails({
+          candidate: certificationCandidate,
+          line: 1,
+          dependencies: { mailCheck: mailCheckStub },
+        });
+
+        // then
+        expect(sessionErrors).to.have.deep.members([
+          { line: 1, code: 'CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID', isBlocking: true },
+          { line: 1, code: 'CANDIDATE_EMAIL_NOT_VALID', isBlocking: true },
+        ]);
+      });
+    });
+    context('when result recipient email has valid domain', function () {
+      it('should return an empty certificationCandidateErrors', async function () {
+        // given
+        const certificationCandidate = _buildValidCandidateData();
+        const mailCheckStub = {
+          checkDomainIsValid: sinon.stub().resolves(),
+        };
+
+        // when
+        const sessionErrors = await sessionsImportValidationService.validateCandidateEmails({
+          candidate: certificationCandidate,
+          line: 1,
+          dependencies: { mailCheck: mailCheckStub },
+        });
+
+        // then
+        expect(sessionErrors).to.be.empty;
+      });
+    });
+  });
+
+  describe('#getValidatedComplementaryCertificationForMassImport', function () {
+    context('when the parsed data has no complementary certification', function () {
+      it('should return no errors nor complementary certification', async function () {
+        // given
+        const complementaryCertifications = [];
+        const line = 12;
+
+        // when
+        const { certificationCandidateComplementaryErrors, complementaryCertification } =
+          await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
+            complementaryCertifications,
+            line,
+            complementaryCertificationRepository: {},
+          });
+
+        // then
+        expect(certificationCandidateComplementaryErrors).to.be.empty;
+        expect(complementaryCertification).to.deep.null;
+      });
+    });
+
+    context('when the parsed data has one complementary certification', function () {
+      it('should return the complementary certification', async function () {
+        // given
+        const complementaryCertifications = ['Pix+ Édu 2nd degré'];
+        const line = 12;
+        const complementaryCertificationRepository = {
+          getByLabel: sinon.stub().resolves({ id: 3, key: 'EDU_2ND_DEGRE', label: 'Pix+ Édu 2nd degré' }),
+        };
+
+        // when
+        const { certificationCandidateComplementaryErrors, complementaryCertification } =
+          await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
+            complementaryCertifications,
+            line,
+            complementaryCertificationRepository,
+          });
+
+        // then
+        expect(certificationCandidateComplementaryErrors).to.be.empty;
+        expect(complementaryCertification).to.deep.equal({ id: 3, key: 'EDU_2ND_DEGRE', label: 'Pix+ Édu 2nd degré' });
+      });
+    });
+
+    context('when the parsed data has multiple complementary certifications', function () {
+      it('should return an error', async function () {
+        // given
+        const complementaryCertifications = ['Pix+ Édu 2nd degré', 'Pix+ Droit'];
+        const line = 12;
+
+        // when
+        const { certificationCandidateComplementaryErrors, complementaryCertification } =
+          await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
+            complementaryCertifications,
+            line,
+            complementaryCertificationRepository: {},
+          });
+
+        // then
+        expect(certificationCandidateComplementaryErrors).to.deep.equal([
+          {
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+            line,
+            isBlocking: true,
+          },
+        ]);
+        expect(complementaryCertification).to.be.null;
       });
     });
   });

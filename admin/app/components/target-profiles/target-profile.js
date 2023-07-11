@@ -26,6 +26,10 @@ export default class TargetProfile extends Component {
     return this.args.model.isSimplifiedAccess ? 'Oui' : 'Non';
   }
 
+  get areKnowledgeElementsResettable() {
+    return this.args.model.areKnowledgeElementsResettable ? 'Oui' : 'Non';
+  }
+
   @action
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;

@@ -1,14 +1,25 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, sinon } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { clearResolveMx, setResolveMx } from '../../../../lib/infrastructure/mail-check.js';
 import fs from 'fs';
 import * as url from 'url';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Acceptance | Controller | session-controller-import-certification-candidates-from-attendance-sheet', function () {
   let server;
+  let resolveMx;
 
   beforeEach(async function () {
     server = await createServer();
+    resolveMx = sinon.stub();
+    resolveMx.resolves();
+    setResolveMx(resolveMx);
+  });
+
+  afterEach(async function () {
+    server = await createServer();
+    clearResolveMx();
   });
 
   describe('POST /api/sessions/{id}/certification-candidates/import', function () {
