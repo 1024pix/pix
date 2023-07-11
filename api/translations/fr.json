@@ -291,7 +291,7 @@
   },
   "pix-account-creation-email": {
     "params": {
-      "title": "Votre compte Pix a bien été créé !",
+      "title": "Votre compte Pix4Pix a bien été créé !",
       "askForHelp": "Besoin d’aide, contactez-nous",
       "disclaimer": "Si vous n'êtes pas à l’origine de cette création de compte, vous pouvez en demander la suppression",
       "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
@@ -301,7 +301,7 @@
       "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
       "subtitle": "Vous pouvez désormais commencer les tests."
     },
-    "subject": "Votre compte Pix a bien été créé"
+    "subject": "Votre compte Pix4Pix a bien été créé"
   },
   "reset-password-demand-email": {
     "params": {
@@ -315,7 +315,7 @@
       "resetMyPassword": "Définir un nouveau mot de passe",
       "weCannotSendYourPassword": "Bonjour, pour des raisons de sécurité, nous ne vous envoyons pas votre mot de passe par e-mail."
     },
-    "subject": "Demande de réinitialisation de mot de passe Pix"
+    "subject": "Demande de réinitialisation de mot de passe Pix4Pix"
   },
   "verification-code-email": {
     "body": {
