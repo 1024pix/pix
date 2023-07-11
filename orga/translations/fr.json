@@ -235,6 +235,9 @@
       "pix": "Pix"
     },
     "main": {
+      "button": {
+        "title": "Ouvrir le menu"
+      },
       "aria-label": "Navigation principale",
       "campaigns": "Campagnes",
       "certifications": "Certifications",
@@ -249,7 +252,7 @@
       "aria-label": "Navigation de la section équipe"
     },
     "user-logged-menu": {
-      "button": "Ouvrir le menu utilisateur",
+      "button": "Sélectionner une organisation",
       "logout": "Se déconnecter"
     }
   },

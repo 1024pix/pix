@@ -1,0 +1,24 @@
+<PixSidebar
+  @showSidebar={{@showSidebar}}
+  @onClose={{@onClose}}
+  @title={{this.fullName}}
+  id="principal-menu"
+>
+  <:content>
+    <div role="navigation">
+      <Layout::NavbarList />
+    </div>
+
+    <Layout::UserLoggedMenu />
+  </:content>
+  <:footer>
+    <div class="navbar-burger-menu-footer">
+      <LinkTo @route="logout" class="navbar-burger-menu-footer__item navbar-burger-item">
+        <span class="navbar-burger-menu-footer__item--icon navbar-item--icon">
+          <FaIcon @icon="power-off" />
+        </span>
+        {{t "navigation.user-logged-menu.logout"}}
+      </LinkTo>
+    </div>
+  </:footer>
+</PixSidebar>

@@ -232,6 +232,9 @@
       "pix": "Pix"
     },
     "main": {
+      "button": {
+        "title": "Open menu"
+      },
       "aria-label": "Main navigation",
       "campaigns": "Campaigns",
       "certifications": "Certifications",
@@ -246,7 +249,7 @@
       "aria-label": "Team members navigation"
     },
     "user-logged-menu": {
-      "button": "Open user menu",
+      "button": "Select an organization",
       "logout": "Log out"
     }
   },

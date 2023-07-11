@@ -4,7 +4,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import { render } from '@1024pix/ember-testing-library';
 
-module('Integration | Component | Layout::Sidebar', function (hooks) {
+module('Integration | Component | Layout::NavbarList', function (hooks) {
   setupRenderingTest(hooks);
 
   module('when the user is authenticated on orga.pix.fr', function (hooks) {
@@ -25,7 +25,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      await render(hbs`<Layout::Sidebar />`);
+      await render(hbs`<Layout::NavbarList />`);
 
       // then
       assert.dom('a[href="https://pix.fr"]').exists();
@@ -42,7 +42,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       const intl = this.owner.lookup('service:intl');
       intl.setLocale(['fr', 'fr']);
 
-      const screen = await render(hbs`<Layout::Sidebar />`);
+      const screen = await render(hbs`<Layout::NavbarList />`);
 
       assert.dom(screen.getByText('Campagnes')).exists();
       assert.dom(screen.getByText('Équipe')).exists();
@@ -56,7 +56,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       const intl = this.owner.lookup('service:intl');
       intl.setLocale(['fr', 'fr']);
 
-      const screen = await render(hbs`<Layout::Sidebar />`);
+      const screen = await render(hbs`<Layout::NavbarList />`);
 
       assert.dom(screen.getByText('Documentation')).exists();
     });
@@ -74,7 +74,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       intl.setLocale(['fr', 'fr']);
 
       // when
-      const screen = await render(hbs`<Layout::Sidebar />`);
+      const screen = await render(hbs`<Layout::NavbarList />`);
 
       // then
       assert.dom(screen.getByText('Participants')).exists();
@@ -94,7 +94,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       intl.setLocale(['fr', 'fr']);
 
       // when
-      const screen = await render(hbs`<Layout::Sidebar />`);
+      const screen = await render(hbs`<Layout::NavbarList />`);
 
       // then
       assert.dom(screen.getByText('Étudiants')).exists();
@@ -112,7 +112,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       intl.setLocale(['fr', 'fr']);
 
       // when
-      const screen = await render(hbs`<Layout::Sidebar />`);
+      const screen = await render(hbs`<Layout::NavbarList />`);
 
       // then
       assert.dom(screen.getByText('Participants')).exists();
@@ -132,7 +132,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       intl.setLocale(['fr', 'fr']);
 
       // when
-      const screen = await render(hbs`<Layout::Sidebar />`);
+      const screen = await render(hbs`<Layout::NavbarList />`);
 
       // then
       assert.dom(screen.getByText('Élèves')).exists();
@@ -150,13 +150,13 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       intl.setLocale(['fr', 'fr']);
 
       // when
-      const screen = await render(hbs`<Layout::Sidebar />`);
+      const screen = await render(hbs`<Layout::NavbarList />`);
 
       // then
       assert.dom(screen.getByText('Participants')).exists();
     });
 
-    test('it should display Certifications menu in the sidebar-menu when user is SCOManagingStudents', async function (assert) {
+    test('it should display Certifications menu in the NavbarList-menu when user is SCOManagingStudents', async function (assert) {
       // given
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'SCO' });
@@ -169,13 +169,13 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       intl.setLocale(['fr', 'fr']);
 
       // when
-      const screen = await render(hbs`<Layout::Sidebar />`);
+      const screen = await render(hbs`<Layout::NavbarList />`);
 
       // then
       assert.dom(screen.getByText('Certifications')).exists();
     });
 
-    test('it should hide Certification menu in the sidebar-menu', async function (assert) {
+    test('it should hide Certification menu in the NavbarList-menu', async function (assert) {
       // given
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'SCO' });
@@ -188,26 +188,10 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       intl.setLocale(['fr', 'fr']);
 
       // when
-      const screen = await render(hbs`<Layout::Sidebar />`);
+      const screen = await render(hbs`<Layout::NavbarList />`);
 
       // then
       assert.dom(screen.queryByLabelText('Certifications')).isNotVisible();
     });
-  });
-
-  test('[a11y] it should contain accessibility aria-label nav', async function (assert) {
-    // given
-    class CurrentUserStub extends Service {
-      organization = Object.create({ id: 1, isPro: true });
-    }
-    this.owner.register('service:current-user', CurrentUserStub);
-    const intl = this.owner.lookup('service:intl');
-    intl.setLocale(['fr', 'fr']);
-
-    // when
-    const screen = await render(hbs`<Layout::Sidebar />`);
-
-    // then
-    assert.dom(screen.getByLabelText('Navigation principale')).exists();
   });
 });

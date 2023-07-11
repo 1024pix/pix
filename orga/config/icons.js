@@ -5,6 +5,7 @@ module.exports = function () {
       'arrow-left',
       'arrow-right',
       'award',
+      'bars',
       'book',
       'bullhorn',
       'check',

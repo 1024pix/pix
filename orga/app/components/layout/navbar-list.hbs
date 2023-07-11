@@ -1,0 +1,73 @@
+<ul>
+  <li>
+    <LinkTo @route="authenticated.campaigns" class="navbar-list__item navbar-burger-item">
+      <span class="navbar-list__item--icon navbar-item--icon">
+        <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="" role="none" />
+      </span>
+      {{t "navigation.main.campaigns"}}
+    </LinkTo>
+  </li>
+  <li>
+    {{#if this.shouldDisplayCertificationsEntry}}
+      <LinkTo @route="authenticated.certifications" class="navbar-list__item navbar-burger-item">
+        <span class="navbar-list__item--icon navbar-item--icon">
+          <FaIcon @icon="award" />
+        </span>
+        {{t "navigation.main.certifications"}}
+      </LinkTo>
+    {{/if}}
+  </li>
+  <li>
+    {{#if this.currentUser.isSCOManagingStudents}}
+      <LinkTo @route="authenticated.sco-organization-participants" class="navbar-list__item navbar-burger-item">
+        <span class="navbar-list__item--icon navbar-item--icon">
+          <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
+        </span>
+        {{t "navigation.main.sco-organization-participants"}}
+      </LinkTo>
+    {{/if}}
+  </li>
+  <li>
+    {{#if this.isNotManagingStudents}}
+      <LinkTo @route="authenticated.organization-participants" class="navbar-list__item navbar-burger-item">
+        <span class="navbar-list__item--icon navbar-item--icon">
+          <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
+        </span>
+        {{t "navigation.main.organization-participants"}}
+      </LinkTo>
+    {{/if}}
+  </li>
+  <li>
+    {{#if this.currentUser.isSUPManagingStudents}}
+      <LinkTo @route="authenticated.sup-organization-participants" class="navbar-list__item navbar-burger-item">
+        <span class="navbar-list__item--icon navbar-item--icon">
+          <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
+        </span>
+        {{t "navigation.main.sup-organization-participants"}}
+      </LinkTo>
+    {{/if}}
+  </li>
+  <li>
+    <LinkTo @route="authenticated.team" class="navbar-list__item navbar-burger-item">
+      <span class="navbar-list__item--icon navbar-item--icon">
+        <img src="{{this.rootURL}}/icons/users-light.svg" alt="" role="none" />
+      </span>
+      {{t "navigation.main.team"}}
+    </LinkTo>
+  </li>
+  <li>
+    {{#if this.documentationUrl}}
+      <a
+        class="navbar-list__item navbar-burger-item"
+        href={{this.documentationUrl}}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="navbar-list__item--icon navbar-item--icon">
+          <img src="{{this.rootURL}}/icons/book-light.svg" alt="" role="none" />
+        </span>
+        {{t "navigation.main.documentation"}}
+      </a>
+    {{/if}}
+  </li>
+</ul>

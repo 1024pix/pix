@@ -1,7 +1,7 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 
-export default class SidebarMenu extends Component {
+export default class NavbarList extends Component {
   @service currentUser;
   @service url;
 

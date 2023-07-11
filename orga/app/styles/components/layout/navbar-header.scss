@@ -1,0 +1,16 @@
+.navbar-header {
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+    padding: 10px 0;
+  }
+
+  &__burger-icon {
+    color: $pix-neutral-70;
+    font-size: 1.625rem;
+    cursor: pointer;
+  }
+}

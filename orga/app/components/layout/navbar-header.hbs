@@ -1,0 +1,19 @@
+<div class="navbar-header">
+  <div class="navbar-header__container">
+    <nav role="navigation" aria-label={{t "navigation.main.aria-label"}}>
+      <button
+        class="navbar-header__burger-icon"
+        {{on "click" this.openMenu}}
+        type="button"
+        aria-labelledby="nav-mobile-button"
+        aria-expanded="{{this.isMenuOpen}}"
+        aria-controls="principale-menu"
+      >
+        <span id="nav-mobile-button" class="screen-reader-only">{{t "navigation.main.button.title"}}</span>
+        <FaIcon @icon="bars" />
+      </button>
+
+      <Layout::NavbarBurgerMenu @showSidebar={{this.isMenuOpen}} @onClose={{this.closeMenu}} />
+    </nav>
+  </div>
+</div>
