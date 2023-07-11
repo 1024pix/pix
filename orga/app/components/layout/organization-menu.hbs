@@ -1,0 +1,26 @@
+<button
+  type="button"
+  {{on "click" this.toggleUserMenu}}
+  aria-haspopup="listbox"
+  aria-expanded="{{this.isMenuOpen}}"
+  aria-label={{t "navigation.user-logged-menu.button"}}
+  class="organization-menu-button"
+  ...attributes
+>
+  <span class="organization-menu-button__text">
+    <span>{{this.organizationName}}</span>
+  </span>
+  {{#if this.isMenuOpen}}
+    <FaIcon @icon="chevron-up" class="organization-menu-button__chevron organization-menu-button__chevron--up" />
+  {{else}}
+    <FaIcon @icon="chevron-down" class="organization-menu-button__chevron" />
+  {{/if}}
+</button>
+
+<Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} class="organization-menu">
+  {{#each this.eligibleOrganizations as |organization|}}
+    <Dropdown::Item @onClick={{fn this.onOrganizationChange organization}}>
+      {{organization.name}}
+    </Dropdown::Item>
+  {{/each}}
+</Dropdown::Content>

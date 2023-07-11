@@ -1,0 +1,50 @@
+.organization-menu-button {
+  color: $pix-neutral-80;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin: 20px 0 0 12px;
+  height: 40px;
+  border: 1px solid $pix-neutral-80;
+  border-radius: 5px;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: $pix-neutral-70;
+    text-decoration: none;
+  }
+
+  &:focus {
+    border-radius: 4px;
+    box-shadow: inset 0px 0px 0px 1.6px $pix-primary;
+    outline: none;
+  }
+
+  &__text {
+    text-align: left;
+    font-size: 0.875rem;
+    text-transform: capitalize;
+    padding-left: $pix-spacing-xs;
+    width: 260px;
+    overflow: hidden;
+  }
+
+  &__chevron {
+    margin-right: 8px;
+
+    &--up {
+      color: $pix-primary;
+    }
+  }
+}
+
+.organization-menu {;
+  width: 400px;
+  max-width: 100%;
+  z-index: 2;
+
+  &__icon {
+    margin-right: 8px;
+  }
+}

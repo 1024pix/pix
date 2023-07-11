@@ -3,18 +3,15 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-export default class UserLoggedMenu extends Component {
+export default class OrganizationMenu extends Component {
   @service currentUser;
   @service router;
   @service store;
 
   @tracked isMenuOpen = false;
 
-  get organizationNameAndExternalId() {
+  get organizationName() {
     const organization = this.currentUser.organization;
-    if (organization.externalId) {
-      return `${organization.name} (${organization.externalId})`;
-    }
     return organization.name;
   }
 
