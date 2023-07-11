@@ -685,6 +685,29 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
     });
 
+    describe('#getByIds', function () {
+      it('returns users from provided ids', async function () {
+        //given
+        const paul = databaseBuilder.factory.buildUser({
+          firstname: 'paul',
+        });
+        const jacques = databaseBuilder.factory.buildUser({
+          firstname: 'jacques',
+        });
+
+        await databaseBuilder.commit();
+
+        const ids = [paul.id, jacques.id];
+
+        //when
+        const results = await userRepository.getByIds(ids);
+        const resultsWithIdOnly = results.map((result) => result.id);
+
+        //then
+        expect(resultsWithIdOnly).to.have.members(ids);
+      });
+    });
+
     describe('#getByUsernameOrEmailWithRolesAndPassword', function () {
       beforeEach(async function () {
         await _insertUserWithOrganizationsAndCertificationCenterAccesses();

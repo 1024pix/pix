@@ -95,6 +95,12 @@ const getById = async function (userId) {
   return new User(foundUser);
 };
 
+const getByIds = async function (userIds) {
+  const dbUsers = await knex('users').whereIn('id', userIds);
+
+  return dbUsers.map((dbUser) => new User(dbUser));
+};
+
 const getForObfuscation = async function (userId) {
   const foundUser = await knex.select('id', 'email', 'username').from('users').where({ id: userId }).first();
   if (!foundUser) {
@@ -444,6 +450,7 @@ export {
   get,
   getByEmail,
   getById,
+  getByIds,
   getBySamlId,
   getByUsernameOrEmailWithRolesAndPassword,
   getForObfuscation,
