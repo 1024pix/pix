@@ -164,7 +164,7 @@ function _hasSessionIdAndCandidateInformation(data) {
 
 function _getDataFromColumnNames({ expectedHeadersKeys, headers, line }) {
   const data = {};
-  data.complementaryCertification = _extractComplementaryCertificationLabelFromLine(line);
+  data.complementaryCertifications = _extractComplementaryCertificationLabelsFromLine(line);
 
   expectedHeadersKeys.forEach((key) => {
     const headerLabel = headers[key];
@@ -187,21 +187,20 @@ function _getDataFromColumnNames({ expectedHeadersKeys, headers, line }) {
   return data;
 }
 
-function _extractComplementaryCertificationLabelFromLine(line) {
-  let complementaryCertificationLabel = null;
+function _extractComplementaryCertificationLabelsFromLine(line) {
+  const complementaryCertificationLabels = [];
 
   Object.keys(line).map((header) => {
     if (_isComplementaryCertification(header)) {
       const complementaryCertificationValue = line[header];
       if (_isTrueValue(complementaryCertificationValue)) {
-        complementaryCertificationLabel = _getComplementaryCertificationLabel(
-          header,
-          COMPLEMENTARY_CERTIFICATION_SUFFIX
+        complementaryCertificationLabels.push(
+          _getComplementaryCertificationLabel(header, COMPLEMENTARY_CERTIFICATION_SUFFIX)
         );
       }
     }
   });
-  return complementaryCertificationLabel;
+  return complementaryCertificationLabels;
 }
 
 function _isTrueValue(complementaryCertificationValue) {
@@ -317,7 +316,7 @@ function _createCandidate({
   billingMode,
   prepaymentCode,
   sex,
-  complementaryCertification,
+  complementaryCertifications,
   line,
 }) {
   return {
@@ -335,7 +334,7 @@ function _createCandidate({
     billingMode,
     prepaymentCode,
     sex,
-    complementaryCertification,
+    complementaryCertifications,
     line,
   };
 }

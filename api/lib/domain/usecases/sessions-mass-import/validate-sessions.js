@@ -102,13 +102,25 @@ async function _createValidCertificationCandidates({
       translate,
     });
 
+    const certificationCandidateErrors = [];
+
+    const { certificationCandidateComplementaryErrors, complementaryCertification } =
+      await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
+        complementaryCertifications: certificationCandidate.complementaryCertifications,
+        line: certificationCandidate.line,
+        complementaryCertificationRepository,
+      });
+
+    certificationCandidateErrors.push(...certificationCandidateComplementaryErrors);
+
     const domainCertificationCandidate = new CertificationCandidate({
       ...certificationCandidate,
       sessionId,
       billingMode: billingMode || certificationCandidate.billingMode,
+      complementaryCertification,
     });
 
-    const { certificationCandidateErrors, cpfBirthInformation } =
+    const candidateBirthInformationValidation =
       await sessionsImportValidationService.getValidatedCandidateBirthInformation({
         candidate: domainCertificationCandidate,
         isSco,
@@ -118,18 +130,12 @@ async function _createValidCertificationCandidates({
         certificationCpfCityRepository,
       });
 
+    certificationCandidateErrors.push(...candidateBirthInformationValidation.certificationCandidateErrors);
+
     if (certificationCandidateErrors?.length > 0) {
       sessionsMassImportReport.addErrorReports(certificationCandidateErrors);
     } else {
-      domainCertificationCandidate.updateBirthInformation(cpfBirthInformation);
-
-      if (domainCertificationCandidate.complementaryCertification) {
-        const complementaryCertification = await complementaryCertificationRepository.getByLabel({
-          label: domainCertificationCandidate.complementaryCertification,
-        });
-
-        domainCertificationCandidate.complementaryCertification = complementaryCertification;
-      }
+      domainCertificationCandidate.updateBirthInformation(candidateBirthInformationValidation.cpfBirthInformation);
     }
 
     const candidateEmailsErrors = await sessionsImportValidationService.validateCandidateEmails({

@@ -37,6 +37,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
 
     sessionsImportValidationService = {
+      getValidatedComplementaryCertificationForMassImport: sinon.stub(),
       getValidatedCandidateBirthInformation: sinon.stub(),
       validateSession: sinon.stub(),
       getUniqueCandidates: sinon.stub(),
@@ -53,6 +54,11 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       const userId = 1234;
       const cachedValidatedSessionsKey = 'uuid';
       const validSessionData = _createValidSessionData();
+      const complementaryCertification = { id: 3, key: 'EDU_2ND_DEGRE', label: 'Pix+ Édu 2nd degré' };
+      sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+        certificationCandidateComplementaryErrors: [],
+        complementaryCertification,
+      });
       sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
         certificationCandidateErrors: [],
         cpfBirthInformation: {
@@ -119,6 +125,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
               externalId: 'htehte',
               extraTimePercentage: '20',
               billingMode: 'FREE',
+              complementaryCertification,
             }),
           ],
           supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
@@ -144,6 +151,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
               externalId: 'htehte',
               extraTimePercentage: '20',
               billingMode: 'FREE',
+              complementaryCertification,
             }),
           ],
           supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
@@ -203,11 +211,16 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         cpfBirthInformationValidation3.success({ ...candidate3 });
         sessionsImportValidationService.getValidatedCandidateBirthInformation
           .onFirstCall()
-          .resolves({ cpfBirthInformation: cpfBirthInformationValidation1 })
+          .resolves({ certificationCandidateErrors: [], cpfBirthInformation: cpfBirthInformationValidation1 })
           .onSecondCall()
-          .resolves({ cpfBirthInformation: cpfBirthInformationValidation2 })
+          .resolves({ certificationCandidateErrors: [], cpfBirthInformation: cpfBirthInformationValidation2 })
           .onThirdCall()
-          .resolves({ cpfBirthInformation: cpfBirthInformationValidation3 });
+          .resolves({ certificationCandidateErrors: [], cpfBirthInformation: cpfBirthInformationValidation3 });
+
+        sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+          certificationCandidateComplementaryErrors: [],
+          complementaryCertification: null,
+        });
 
         sessionsImportValidationService.validateCandidateEmails.resolves([]);
         temporarySessionsStorageForMassImportService.save.resolves(cachedValidatedSessionsKey);
@@ -270,6 +283,10 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   context('when session or candidate information is not valid', function () {
     it('should not save in temporary storage', async function () {
       // given
+      sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+        certificationCandidateComplementaryErrors: [],
+        complementaryCertification: null,
+      });
       sessionsImportValidationService.validateSession.resolves([
         { code: 'Veuillez indiquer un nom de site.', isBlocking: true },
       ]);
@@ -319,6 +336,10 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           },
         ];
 
+        sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+          certificationCandidateComplementaryErrors: [],
+          complementaryCertification: null,
+        });
         sessionsImportValidationService.validateSession.resolves(['Veuillez indiquer un nom de site.']);
         sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
           certificationCandidateErrors: ['lastName required'],
@@ -368,6 +389,10 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           },
         ];
 
+        sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+          certificationCandidateComplementaryErrors: [],
+          complementaryCertification: null,
+        });
         sessionsImportValidationService.validateSession.resolves([]);
         sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
           certificationCandidateErrors: [],
@@ -446,6 +471,10 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           },
         ];
 
+        sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+          certificationCandidateComplementaryErrors: [],
+          complementaryCertification: null,
+        });
         sessionsImportValidationService.validateSession.resolves([]);
         sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
           certificationCandidateErrors: [],
