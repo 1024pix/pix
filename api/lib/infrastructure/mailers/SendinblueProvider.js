@@ -6,17 +6,13 @@ import { config } from '../../config.js';
 import { MailingProviderInvalidEmailError } from './MailingProviderInvalidEmailError.js';
 
 const { mailing } = config;
-function _formatPayload({ to, fromName, from, subject, template, variables, tags }) {
+function _formatPayload({ to, subject, template, variables, tags }) {
   const payload = {
     to: [
       {
         email: to,
       },
     ],
-    sender: {
-      name: fromName,
-      email: from,
-    },
     subject,
     templateId: parseInt(template),
     headers: {

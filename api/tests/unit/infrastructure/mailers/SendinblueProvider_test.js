@@ -10,7 +10,6 @@ describe('Unit | Class | SendinblueProvider', function () {
   });
 
   describe('#sendEmail', function () {
-    const senderEmailAddress = 'no-reply@example.net';
     const userEmailAddress = 'user@example.net';
     const templateId = 129291;
 
@@ -34,9 +33,7 @@ describe('Unit | Class | SendinblueProvider', function () {
         it('should call the given sendinblue api instance', async function () {
           // given
           const options = {
-            from: senderEmailAddress,
             to: userEmailAddress,
-            fromName: 'Ne pas repondre',
             subject: 'Creation de compte',
             template: templateId,
           };
@@ -47,10 +44,6 @@ describe('Unit | Class | SendinblueProvider', function () {
                 email: userEmailAddress,
               },
             ],
-            sender: {
-              name: 'Ne pas repondre',
-              email: senderEmailAddress,
-            },
             subject: 'Creation de compte',
             templateId,
             headers: {
@@ -72,9 +65,7 @@ describe('Unit | Class | SendinblueProvider', function () {
             const tags = ['TEST'];
 
             const options = {
-              from: senderEmailAddress,
               to: userEmailAddress,
-              fromName: 'Ne pas repondre',
               subject: 'Creation de compte',
               template: templateId,
               tags,
@@ -86,10 +77,6 @@ describe('Unit | Class | SendinblueProvider', function () {
                   email: userEmailAddress,
                 },
               ],
-              sender: {
-                name: 'Ne pas repondre',
-                email: senderEmailAddress,
-              },
               subject: 'Creation de compte',
               templateId,
               headers: {
@@ -111,9 +98,7 @@ describe('Unit | Class | SendinblueProvider', function () {
             const tags = null;
 
             const options = {
-              from: senderEmailAddress,
               to: userEmailAddress,
-              fromName: 'Ne pas repondre',
               subject: 'Creation de compte',
               template: templateId,
               tags,
@@ -125,10 +110,6 @@ describe('Unit | Class | SendinblueProvider', function () {
                   email: userEmailAddress,
                 },
               ],
-              sender: {
-                name: 'Ne pas repondre',
-                email: senderEmailAddress,
-              },
               subject: 'Creation de compte',
               templateId,
               headers: {
@@ -150,9 +131,7 @@ describe('Unit | Class | SendinblueProvider', function () {
         it('should throw a MailingProviderInvalidEmailError with provider message', async function () {
           // given
           const options = {
-            from: senderEmailAddress,
             to: userEmailAddress,
-            fromName: 'Ne pas repondre',
             subject: 'Creation de compte',
             template: templateId,
           };
