@@ -74,9 +74,9 @@ async function getCertificationAttestationsPdfBuffer({
 
   const buffer = await _finalizeDocument(generatedPdfDoc);
 
-  const fileName = `${translate('certification-confirmation.file-name')}-${dayjs(certificates[0].deliveredAt).format(
-    'YYYYMMDD'
-  )}.pdf`;
+  const fileName = translate('certification-confirmation.file-name', {
+    deliveredAt: dayjs(certificates[0].deliveredAt).format('YYYYMMDD'),
+  });
 
   return {
     buffer,
