@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v4.13.1 (11/07/2023)
+
+
+### :rocket: Amélioration
+- [#6571](https://github.com/1024pix/pix/pull/6571) [FEATURE] Améliorer le style des embeds (PIX-8112).
+
 ## v4.13.0 (11/07/2023)
 
 
