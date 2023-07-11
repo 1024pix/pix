@@ -3,12 +3,14 @@ import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authenti
 import { CnavOidcAuthenticationService } from './cnav-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
 import { PaysdelaloireOidcAuthenticationService } from './paysdelaloire-oidc-authentication-service.js';
+import { GoogleOidcAuthenticationService } from './GoogleOidcAuthenticationService.js';
 
 const allOidcProviderServices = [
   new PoleEmploiOidcAuthenticationService(),
   new CnavOidcAuthenticationService(),
   new FwbOidcAuthenticationService(),
   new PaysdelaloireOidcAuthenticationService(),
+  new GoogleOidcAuthenticationService(),
 ];
 
 const readyOidcProviderServices = allOidcProviderServices.filter((oidcProvider) => oidcProvider.isReady);

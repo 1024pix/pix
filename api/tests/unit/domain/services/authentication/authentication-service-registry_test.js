@@ -13,6 +13,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       expect(serviceCodes).to.contain('POLE_EMPLOI');
       expect(serviceCodes).to.contain('CNAV');
       expect(serviceCodes).to.contain('FWB');
+      expect(serviceCodes).to.contain('GOOGLE');
     });
   });
 
@@ -26,6 +27,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       expect(serviceCodes).to.contain('POLE_EMPLOI');
       expect(serviceCodes).to.contain('CNAV');
       expect(serviceCodes).not.to.contain('FWB');
+      expect(serviceCodes).not.to.contain('GOOGLE');
     });
   });
 
