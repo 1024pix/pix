@@ -31,7 +31,7 @@ describe('Unit | Service | MailService', function () {
 
       // given
       const expectedOptions = {
-        subject: 'Votre compte Pix a bien été créé',
+        subject: 'Votre compte Pix4Pix a bien été créé',
         template: 'test-account-creation-template-id',
       };
 
