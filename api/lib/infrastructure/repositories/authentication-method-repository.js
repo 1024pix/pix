@@ -289,7 +289,19 @@ const update = async function ({ id, authenticationComplement }) {
   await knex(AUTHENTICATION_METHODS_TABLE).where({ id }).update({ authenticationComplement, updatedAt: new Date() });
 };
 
+const batchUpdatePasswordThatShouldBeChanged = function ({
+  usersToUpdateWithNewPassword,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  return Promise.all(
+    usersToUpdateWithNewPassword.map(({ userId, hashedPassword }) =>
+      updatePasswordThatShouldBeChanged({ userId, hashedPassword, domainTransaction })
+    )
+  );
+};
+
 export {
+  batchUpdatePasswordThatShouldBeChanged,
   create,
   createPasswordThatShouldBeChanged,
   findOneByUserIdAndIdentityProvider,
