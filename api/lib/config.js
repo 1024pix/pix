@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv';
-dotenv.config();
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable n/no-process-env */
 import path from 'path';
@@ -9,6 +8,8 @@ import ms from 'ms';
 import { getArrayOfStrings } from '../lib/infrastructure/utils/string-utils.js';
 
 import * as url from 'url';
+
+dotenv.config();
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -219,6 +220,7 @@ const configuration = (function () {
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT
       ),
       isPix1dEnabled: isFeatureEnabled(process.env.FT_PIX_1D_ENABLED),
+      isTargetProfileVersioningEnabled: isFeatureEnabled(process.env.FT_TARGET_PROFILE_VERSIONING),
       isDifferentiatedTimeInvigilatorPortalEnabled: isFeatureEnabled(
         process.env.FT_DIFFERENTIATED_TIME_INVIGILATOR_PORTAL
       ),
@@ -369,6 +371,7 @@ const configuration = (function () {
     config.featureToggles.isMassiveSessionManagementEnabled = false;
     config.featureToggles.isPix1dEnabled = true;
     config.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled = true;
+    config.featureToggles.isTargetProfileVersioningEnabled = true;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
