@@ -285,6 +285,16 @@ const configuration = (function () {
       },
     },
 
+    google: {
+      isEnabled: isFeatureEnabled(process.env.GOOGLE_ENABLED),
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      tokenUrl: process.env.GOOGLE_TOKEN_URL,
+      authenticationUrl: process.env.GOOGLE_AUTHENTICATION_URL,
+      userInfoUrl: process.env.GOOGLE_USER_INFO_URL,
+      accessTokenLifespanMs: ms(process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '7d'),
+    },
+
     authenticationSession: {
       temporaryStorage: {
         expirationDelaySeconds:
