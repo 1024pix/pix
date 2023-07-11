@@ -205,6 +205,15 @@ const configuration = (function () {
         idTokenLifespanMs: ms(process.env.FWB_ID_TOKEN_LIFESPAN || '7d'),
       },
     },
+    google: {
+      isEnabled: false,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      tokenUrl: process.env.GOOGLE_TOKEN_URL,
+      authenticationUrl: process.env.GOOGLE_AUTHENTICATION_URL,
+      userInfoUrl: process.env.GOOGLE_USER_INFO_URL,
+      accessTokenLifespanMs: ms(process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '7d'),
+    },
     hapi: {
       options: {},
       enableRequestMonitoring: isFeatureEnabled(process.env.ENABLE_REQUEST_MONITORING),
@@ -433,6 +442,14 @@ const configuration = (function () {
 
     config.fwb.isEnabled = false;
     config.fwb.logoutUrl = 'http://logout-url.org';
+
+    config.google.isEnabled = false;
+    config.google.isEnabledInPixAdmin = true;
+    config.google.clientId = 'PIX_google_CLIENT_ID';
+    config.google.authenticationUrl = 'http://idp.google/auth';
+    config.google.userInfoUrl = 'http://userInfoUrl.fr';
+    config.google.tokenUrl = 'http://idp.google/token';
+    config.google.clientSecret = 'PIX_GOOGLE_CLIENT_SECRET';
 
     config.saml.accessTokenLifespanMs = 1000;
 
