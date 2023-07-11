@@ -6,7 +6,8 @@ import lodash from 'lodash';
 
 const { isEmpty } = lodash;
 
-import { checkCsvHeader, parseCsvWithHeader } from '../../helpers/csv.js';
+import { csvHelper } from '../../helpers/csv.js';
+const { checkCsvHeader, parseCsvWithHeader } = csvHelper;
 
 function _csvFormulaEscapingPrefix(data) {
   const mayBeInterpretedAsFormula = /^[-@=+]/.test(data);
@@ -156,6 +157,60 @@ async function deserializeForOrganizationsImport(file) {
   await checkCsvHeader({ filePath: file, requiredFieldNames });
 
   return await parseCsvWithHeader(file, batchOrganizationOptionsWithHeader);
+}
+
+const requiredFieldNamesForCampaignsImport = [
+  "Identifiant de l'organisation*",
+  'Nom de la campagne*',
+  'Identifiant du profil cible*',
+  "Libellé de l'identifiant externe*",
+  'Identifiant du créateur*',
+];
+
+async function deserializeForCampaignsImport(file, { checkCsvHeader, readCsvFile, parseCsvData } = csvHelper) {
+  await checkCsvHeader({ filePath: file, requiredFieldNames: requiredFieldNamesForCampaignsImport });
+
+  const cleanedData = await readCsvFile(file);
+  return parseForCampaignsImport(cleanedData, { parseCsvData });
+}
+
+async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper) {
+  const batchCampaignsOptionsWithHeader = {
+    skipEmptyLines: true,
+    header: true,
+    dynamicTyping: false,
+    transformHeader: (header) => header?.trim(),
+    transform: (value, columnName) => {
+      if (typeof value === 'string') {
+        value = value.trim();
+      }
+      if (
+        ["Identifiant de l'organisation*", 'Identifiant du profil cible*', 'Identifiant du créateur*'].includes(
+          columnName
+        )
+      ) {
+        value = parseInt(value, 10);
+      }
+      if (requiredFieldNamesForCampaignsImport.includes(columnName) && !value) {
+        throw new FileValidationError(
+          'CSV_CONTENT_NOT_VALID',
+          `${value === '' ? '"empty"' : value} is not a valid value for "${columnName}"`
+        );
+      }
+      return value;
+    },
+  };
+  const data = await parseCsvData(cleanedData, batchCampaignsOptionsWithHeader);
+
+  return data.map((data) => ({
+    organizationId: data["Identifiant de l'organisation*"],
+    name: data['Nom de la campagne*'],
+    targetProfileId: data['Identifiant du profil cible*'],
+    idPixLabel: data["Libellé de l'identifiant externe*"],
+    creatorId: data['Identifiant du créateur*'],
+    title: data['Titre du parcours'],
+    customLandingPageText: data['Descriptif du parcours'],
+  }));
 }
 
 function _hasSessionIdAndCandidateInformation(data) {
@@ -351,4 +406,10 @@ function serializeLine(lineArray) {
   return lineArray.map(_csvSerializeValue).join(';') + '\n';
 }
 
-export { serializeLine, deserializeForSessionsImport, deserializeForOrganizationsImport };
+export {
+  serializeLine,
+  deserializeForSessionsImport,
+  deserializeForOrganizationsImport,
+  deserializeForCampaignsImport,
+  parseForCampaignsImport,
+};

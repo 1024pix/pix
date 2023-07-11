@@ -1,5 +1,44 @@
 # Pix Changelog
 
+## v4.13.0 (11/07/2023)
+
+
+### :rocket: Amélioration
+- [#6559](https://github.com/1024pix/pix/pull/6559) [FEATURE] Création d'un endpoint pour la création de campagnes en masse (PIX-8519).
+- [#6425](https://github.com/1024pix/pix/pull/6425) [FEATURE] Vérifier la conformité des adresses e-mail lors de l'ajout d'un candidat sur Pix Certif (PIX-7888).
+- [#6506](https://github.com/1024pix/pix/pull/6506) [FEATURE] Affiche la remise à zéro des acquis dans le détail du profil cible dans Pix Admin (PIX-8521).
+- [#6409](https://github.com/1024pix/pix/pull/6409) [FEATURE] Pix1D - Passage de mission avec algorithme d'apprentissage (PIX-8382).
+- [#6502](https://github.com/1024pix/pix/pull/6502) [FEATURE] Possibilité pour les centres V3 pilotes d'importer en masses des sessions (PIX-8511).
+- [#6504](https://github.com/1024pix/pix/pull/6504) [FEATURE] Afficher le nombre de questions passées et total dans le compteur (PIX-8512).
+- [#6501](https://github.com/1024pix/pix/pull/6501) [FEATURE] Suppression de l'onglet Profil pour les certifications V3 (PIX-8494).
+- [#6508](https://github.com/1024pix/pix/pull/6508) [FEATURE] Afficher la notion de progressivité sur les résultats thématiques certifiants (PIX-8440).
+
+### :building_construction: Tech
+- [#6526](https://github.com/1024pix/pix/pull/6526) [TECH] A l'initialisation du databaseBuilder, s'assurer que le vidage de la BDD respecte l'ordre de dépendance des tables (PIX-8544).
+- [#6552](https://github.com/1024pix/pix/pull/6552) [TECH] Supprimer la métrique de couverture de code plus disponible.
+- [#6543](https://github.com/1024pix/pix/pull/6543) [TECH] Spécifie les versions spécifique de ember-source et d'ember-data sur mon-pix qui fonctionnent.
+- [#6507](https://github.com/1024pix/pix/pull/6507) [TECH] Amélioration du code de récupération des éléments de correction d'un QROCm-dep (PIX-8214).
+- [#6530](https://github.com/1024pix/pix/pull/6530) [TECH] :wrench: Unifier la version d'image postgres utilisée.
+- [#6515](https://github.com/1024pix/pix/pull/6515) [TECH] Mise à jour de stylelint-config-standard-scss en v10.
+
+### :bug: Correction
+- [#6553](https://github.com/1024pix/pix/pull/6553) [BUGFIX] Import en masse impossible avec des certifications complémentaires (PIX-8531).
+- [#6520](https://github.com/1024pix/pix/pull/6520) [BUGFIX] Jeter une erreur si fichier d'import en masse de session vide (PIX-8543).
+
+### :coffee: Autre
+- [#6565](https://github.com/1024pix/pix/pull/6565) [BUMP] Update dependency stylelint to v15.10.1 [SECURITY].
+- [#6562](https://github.com/1024pix/pix/pull/6562) [BUMP] Update dependency stylelint to v15.10.1 [SECURITY].
+- [#6546](https://github.com/1024pix/pix/pull/6546) [BUMP] Lock file maintenance (mon-pix).
+- [#6547](https://github.com/1024pix/pix/pull/6547) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.7.0 (certif).
+- [#6544](https://github.com/1024pix/pix/pull/6544) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.7.0 (admin).
+- [#6542](https://github.com/1024pix/pix/pull/6542) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.7.0 (orga).
+- [#6541](https://github.com/1024pix/pix/pull/6541) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.7.0 (mon-pix).
+- [#6540](https://github.com/1024pix/pix/pull/6540) [BUMP] Update dependency xml2js to ^0.6.0 (api).
+- [#6539](https://github.com/1024pix/pix/pull/6539) [BUMP] Update dependency scalingo to ^0.8.0 (api).
+- [#6537](https://github.com/1024pix/pix/pull/6537) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.7.0 (1d).
+- [#6531](https://github.com/1024pix/pix/pull/6531) [BUMP] Update dependency ember-cli to ~4.12.0 (1d).
+- [#6532](https://github.com/1024pix/pix/pull/6532) [BUMP] Update dependency ember-cli to ~4.12.0 (admin).
+
 ## v4.12.0 (04/07/2023)
 
 

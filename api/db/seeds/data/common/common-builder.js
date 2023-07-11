@@ -1,5 +1,7 @@
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 import { badges } from '../../../constants.js';
+import { createTargetProfile } from './tooling/target-profile-tooling.js';
+
 const { ROLES } = PIX_ADMIN;
 
 // IDS
@@ -17,6 +19,7 @@ const CLEA_TARGET_PROFILE_ID = 56;
 const PIX_DROIT_TARGET_PROFILE_ID = 59;
 const PIX_EDU_1ER_DEGRE_TARGET_PROFILE_ID = 66;
 const PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID = 67;
+const PIX_PUBLIC_TARGET_PROFILE_ID = 76;
 
 // CERTIFIABLE BADGES
 const CLEA_CERTIFIABLE_BADGE_ID = 57;
@@ -72,6 +75,7 @@ async function commonBuilder({ databaseBuilder }) {
   _createComplementaryCertifications(databaseBuilder);
   _createCountries(databaseBuilder);
   _createCities(databaseBuilder);
+  await _createPublicTargetProfile(databaseBuilder);
   await databaseBuilder.commit();
 }
 
@@ -1227,5 +1231,24 @@ function _createCities(databaseBuilder) {
     name: 'LES ABYMES',
     postalCode: '97139',
     INSEECode: '97101',
+  });
+}
+
+function _createPublicTargetProfile(databaseBuilder) {
+  return createTargetProfile({
+    databaseBuilder,
+    targetProfileId: PIX_PUBLIC_TARGET_PROFILE_ID,
+    isPublic: true,
+    name: 'Profil Cible Public',
+    configTargetProfile: {
+      frameworks: [
+        {
+          chooseCoreFramework: true,
+          countTubes: 2,
+          minLevel: 2,
+          maxLevel: 3,
+        },
+      ],
+    },
   });
 }

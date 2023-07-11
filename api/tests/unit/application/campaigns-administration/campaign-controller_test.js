@@ -1,4 +1,4 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 import { campaignController } from '../../../../lib/application/campaigns-administration/campaign-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 
@@ -27,6 +27,30 @@ describe('Unit | Application | Controller | Campaign Administration', function (
 
       // then
       expect(response.statusCode).to.be.equal(204);
+    });
+  });
+  describe('#createCampaigns', function () {
+    it('should return a 204', async function () {
+      // given
+      const userId = Symbol('userId');
+      const path = Symbol('path');
+      const csvSerializerStub = { deserializeForCampaignsImport: sinon.stub() };
+      const request = { auth: { credentials: { userId } }, payload: { path } };
+      sinon.stub(usecases, 'createCampaigns');
+      const deserializedCampaignsToCreate = Symbol('deserializedCampaignsToCreate');
+      csvSerializerStub.deserializeForCampaignsImport.withArgs(path).resolves(deserializedCampaignsToCreate);
+
+      // when
+      const response = await campaignController.createCampaigns(request, hFake, {
+        csvSerializer: csvSerializerStub,
+      });
+
+      // then
+      expect(response.statusCode).to.be.equal(204);
+      expect(usecases.createCampaigns).to.have.been.calledWithExactly({
+        campaignsToCreate: deserializedCampaignsToCreate,
+      });
+      expect(csvSerializerStub.deserializeForCampaignsImport).to.have.been.called;
     });
   });
 });
