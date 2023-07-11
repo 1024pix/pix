@@ -258,12 +258,19 @@
 
       {{#if @shouldDisplayPaymentOptions}}
         <div
-          class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double"
+          class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double new-certification-candidate-modal__form__field__fix-alert"
         >
           <label for="billing-mode" class="label">
             <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
             {{t "common.forms.certification-labels.pricing"}}
           </label>
+          {{! template-lint-disable require-input-label }}
+          <input
+            class="new-certification-candidate-modal__form__field__fix-alert__input"
+            required
+            value={{@candidateData.billingMode}}
+            type="text"
+          />
           <PixSelect
             @id="billing-mode"
             class="birth-country-selector"
@@ -272,7 +279,6 @@
             @value={{@candidateData.billingMode}}
             @placeholder={{this.billingMenuPlaceholder}}
             @hideDefaultOption={{true}}
-            required
           />
         </div>
         <div
