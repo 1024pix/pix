@@ -10,8 +10,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
 
       // then
       const serviceCodes = services.map((service) => service.code);
-      expect(serviceCodes).to.contain('POLE_EMPLOI');
-      expect(serviceCodes).to.contain('CNAV');
+      expect(serviceCodes).to.exactlyContain(['POLE_EMPLOI', 'CNAV', 'GOOGLE']);
     });
   });
 

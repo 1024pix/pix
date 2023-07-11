@@ -428,6 +428,13 @@ const configuration = (function () {
 
     config.fwb.logoutUrl = 'http://logout-url.org';
 
+    config.google.isEnabled = true;
+    config.google.clientId = 'PIX_google_CLIENT_ID';
+    config.google.authenticationUrl = 'http://idp.google/auth';
+    config.google.userInfoUrl = 'http://userInfoUrl.fr';
+    config.google.tokenUrl = 'http://idp.google/token';
+    config.google.clientSecret = 'PIX_GOOGLE_CLIENT_SECRET';
+
     config.saml.accessTokenLifespanMs = 1000;
 
     config.apimRegisterApplicationsCredentials = [

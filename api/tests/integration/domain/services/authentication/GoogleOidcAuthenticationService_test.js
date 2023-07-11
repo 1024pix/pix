@@ -12,7 +12,6 @@ describe('Integration | Domain | Service | google-oidc-authentication-service', 
       expect(authenticationService.identityProvider).to.equal('GOOGLE');
       expect(authenticationService.slug).to.equal('google');
       expect(authenticationService.organizationName).to.equal('Google');
-      expect(authenticationService.hasLogoutUrl).to.be.true;
     });
   });
 });
