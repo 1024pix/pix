@@ -1,0 +1,33 @@
+<header class="page-header">
+  <h1 class="page-title">Toutes les certifications complémentaires</h1>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    <div class="content-text content-text--small">
+      <div class="table-admin">
+        <table>
+          <thead>
+            <tr>
+              <th class="table__column table__column--id">
+                <label for="id">ID</label>
+              </th>
+              <th>
+                <label for="name">Nom</label>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each @complementaryCertifications as |complementaryCertification|}}
+              <tr aria-label="">
+                <td class="table__column table__column--id">{{complementaryCertification.id}}</td>
+                <td>{{complementaryCertification.label}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
