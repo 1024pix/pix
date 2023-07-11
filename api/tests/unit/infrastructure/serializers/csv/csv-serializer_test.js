@@ -1034,6 +1034,186 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       expect(secondSession.certificationCandidates[2].line).to.equal(5);
     });
   });
+
+  describe('#deserializeForCampaignsImport', function () {
+    it('should check required headers', async function () {
+      // given
+      const filePath = 'file://campaigns.csv';
+      const checkCsvHeaderStub = sinon.stub();
+      const readCsvFileStub = sinon.stub();
+      const parseCsvDataStub = sinon.stub();
+      parseCsvDataStub.resolves([]);
+
+      const requiredFieldNames = [
+        "Identifiant de l'organisation*",
+        'Nom de la campagne*',
+        'Identifiant du profil cible*',
+        "Libellé de l'identifiant externe*",
+        'Identifiant du créateur*',
+      ];
+
+      // when
+      await csvSerializer.deserializeForCampaignsImport(filePath, {
+        checkCsvHeader: checkCsvHeaderStub,
+        readCsvFile: readCsvFileStub,
+        parseCsvData: parseCsvDataStub,
+      });
+
+      // then
+      expect(checkCsvHeaderStub).to.have.been.calledWith({ filePath, requiredFieldNames });
+    });
+  });
+
+  describe('#parseForCampaignsImport', function () {
+    const headerCsv =
+      "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe*;Identifiant du créateur*;Titre du parcours;Descriptif du parcours\n";
+
+    it('should return parsed campaign data', async function () {
+      // given
+      const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;789;titre 1;descriptif 1\n2;chapeau;1234;identifiant;666;titre 2;descriptif 2`;
+
+      // when
+      const [firstCampaign, secondCampaign] = await csvSerializer.parseForCampaignsImport(csv);
+
+      // then
+      const parsedData = [
+        {
+          organizationId: 1,
+          name: 'chaussette',
+          targetProfileId: 1234,
+          idPixLabel: 'numéro étudiant',
+          title: 'titre 1',
+          customLandingPageText: 'descriptif 1',
+          creatorId: 789,
+        },
+        {
+          organizationId: 2,
+          name: 'chapeau',
+          targetProfileId: 1234,
+          idPixLabel: 'identifiant',
+          title: 'titre 2',
+          customLandingPageText: 'descriptif 2',
+          creatorId: 666,
+        },
+      ];
+      expect(firstCampaign).to.deep.equal(parsedData[0]);
+      expect(secondCampaign).to.deep.equal(parsedData[1]);
+    });
+
+    describe('when organizationId field is not valid', function () {
+      it('should throw an error when empty', async function () {
+        // given
+        const campaignWithoutOrganizationIdCsv = `${headerCsv};chaussette;1234;numéro étudiant;789`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutOrganizationIdCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant de l\'organisation*"');
+      });
+
+      it('should throw an error when not a number', async function () {
+        // given
+        const campaignWithoutOrganizationIdCsv = `${headerCsv};not valid;chaussette;1234;numéro étudiant;789`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutOrganizationIdCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant de l\'organisation*"');
+      });
+    });
+
+    describe('when targetProfileId field is not valid', function () {
+      it('should throw an error when empty', async function () {
+        // given
+        const campaignWithoutTargetProfileIdCsv = `${headerCsv}1;chaussette;;numéro étudiant;789`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutTargetProfileIdCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant du profil cible*"');
+      });
+
+      it('should throw an error when not a number', async function () {
+        // given
+        const campaignWithoutTargetProfileIdCsv = `${headerCsv}1;chaussette;not valid;numéro étudiant`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutTargetProfileIdCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant du profil cible*"');
+      });
+    });
+
+    describe('when creatorId field is not valid', function () {
+      it('should throw an error when empty', async function () {
+        // given
+        const campaignWithoutCreatorIdCsv = `${headerCsv}1;chaussette;1234;numéro étudiant;;`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutCreatorIdCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant du créateur*"');
+      });
+
+      it('should throw an error when not a number', async function () {
+        // given
+        const campaignWithoutCreatorIdCsv = `${headerCsv}1;chaussette;1234;not valid;numéro étudiant;not valid`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutCreatorIdCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant du créateur*"');
+      });
+    });
+
+    describe('when name field is not valid', function () {
+      it('should throw an error', async function () {
+        // given
+        const campaignWithoutNameCsv = `${headerCsv}1;;1234;numéro étudiant`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutNameCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('"empty" is not a valid value for "Nom de la campagne*"');
+      });
+    });
+
+    describe('when pixIdLabel field is not valid', function () {
+      it('should throw an error', async function () {
+        // given
+        const campaignWithoutPixIdLabelCsv = `${headerCsv}1;chaussette;1234;`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutPixIdLabelCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('"empty" is not a valid value for "Libellé de l\'identifiant externe*"');
+      });
+    });
+  });
 });
 
 function _line({

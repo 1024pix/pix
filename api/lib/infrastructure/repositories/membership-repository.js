@@ -77,6 +77,29 @@ const findByOrganizationId = async function ({ organizationId }) {
   return bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships);
 };
 
+const findAdminsByOrganizationId = async function ({ organizationId }) {
+  const membershipsDTO = await knex('memberships')
+    .select([
+      'memberships.id as membershipId',
+      'memberships.organizationRole',
+      'memberships.updatedByUserId',
+      'users.id as userId',
+      'users.*',
+    ])
+    .innerJoin('users', 'memberships.userId', 'users.id')
+    .where({
+      organizationId,
+      disabledAt: null,
+      organizationRole: Membership.roles.ADMIN,
+    })
+    .orderBy('memberships.id', 'ASC');
+
+  return membershipsDTO.map((membershipDTO) => {
+    const user = new User({ ...membershipDTO, id: membershipDTO.userId });
+    return new Membership({ ...membershipDTO, user, id: membershipDTO.membershipId });
+  });
+};
+
 const findPaginatedFiltered = async function ({ organizationId, filter, page }) {
   const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
   const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
@@ -142,6 +165,7 @@ export {
   create,
   get,
   findByOrganizationId,
+  findAdminsByOrganizationId,
   findPaginatedFiltered,
   findByUserIdAndOrganizationId,
   findByUserId,
