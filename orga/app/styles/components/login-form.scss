@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   max-width: 440px;
+  width: 440px;
 
   &__information {
     @extend %pix-body-s;

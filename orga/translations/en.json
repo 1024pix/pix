@@ -644,7 +644,7 @@
       "forgotten-password-url": "https://app.pix.org/mot-de-passe-oublie?lang=en",
       "invitation-already-accepted": "This invitation has already been accepted. Please log in or contact the administrator of your Pix Orga space.",
       "invitation-was-cancelled": "This invitation is no longer valid. Please contact the administrator of your Pix Orga space.",
-      "is-only-accessible": "Pix Orga is only accessible to invited members. Please contact your Pix Orga administrator in order to be invited.",
+      "is-only-accessible": "Pix4Pix Orga is only accessible to invited members.",
       "login": "Log in",
       "only-for-admin": "only for school administrations",
       "password": "Password"
