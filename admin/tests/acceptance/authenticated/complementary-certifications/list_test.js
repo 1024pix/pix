@@ -19,9 +19,10 @@ module('Acceptance | Complementary certifications | List', function (hooks) {
     });
   });
 
-  module('When admin member is logged in', function () {
+  module.only('When admin member is logged in', function () {
     module('when admin member has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function (hooks) {
       hooks.beforeEach(async () => {
+        server.create('feature-toggle', { isTargetProfileVersioningEnabled: true });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       });
 
@@ -31,6 +32,29 @@ module('Acceptance | Complementary certifications | List', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/complementary-certifications/list');
+      });
+
+      test('it should set target profiles versioning menubar item active', async function (assert) {
+        // when
+        const screen = await visit(`/complementary-certifications/list`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Versioning des profils cibles' })).hasClass('active');
+      });
+
+      test('it should render the complementary certifications list', async function (assert) {
+        // given
+        server.create('complementary-certification', { id: 1, key: 'AN', label: 'TOINE' });
+
+        // when
+        const screen = await visit('/complementary-certifications/list');
+
+        // then
+        assert.dom(screen.getByText('ID')).exists({ count: 1 });
+        assert.dom(screen.getByText('1')).exists({ count: 1 });
+
+        assert.dom(screen.getByText('Nom')).exists({ count: 1 });
+        assert.dom(screen.getByText('TOINE')).exists({ count: 1 });
       });
     });
   });
