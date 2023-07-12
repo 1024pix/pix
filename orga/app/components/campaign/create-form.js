@@ -11,8 +11,6 @@ export default class CreateForm extends Component {
   @tracked campaign;
   @tracked wantIdPix = false;
   @tracked multipleSendingsEnabled = true;
-  @tracked isCampaignGoalAssessment = null;
-  @tracked isCampaignGoalProfileCollection = null;
   @tracked targetProfile;
   @tracked targetProfilesOptions = [];
   @tracked ownerId;
@@ -65,6 +63,14 @@ export default class CreateForm extends Component {
     }
   }
 
+  get isCampaignGoalAssessment() {
+    return this.campaign.type === 'ASSESSMENT';
+  }
+
+  get isCampaignGoalProfileCollection() {
+    return this.campaign.type === 'PROFILES_COLLECTION';
+  }
+
   @action
   askLabelIdPix() {
     this.wantIdPix = true;
@@ -92,16 +98,12 @@ export default class CreateForm extends Component {
   @action
   setCampaignGoal(event) {
     if (event.target.value === 'collect-participants-profile') {
-      this.isCampaignGoalAssessment = false;
-      this.isCampaignGoalProfileCollection = true;
       this.campaign.multipleSendings = true;
       this.campaign.title = null;
       this.campaign.targetProfile = null;
       this.targetProfile = null;
       this.campaign.type = 'PROFILES_COLLECTION';
     } else {
-      this.isCampaignGoalAssessment = true;
-      this.isCampaignGoalProfileCollection = false;
       this.campaign.multipleSendings = false;
       this.campaign.type = 'ASSESSMENT';
     }
