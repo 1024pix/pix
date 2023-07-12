@@ -180,6 +180,21 @@ const checkScoAccountRecovery = async function (
   );
 };
 
+const updateOrganizationLearnersPassword = async function (request, h) {
+  const payload = request.payload.data.attributes;
+  const userId = request.auth.credentials.userId;
+  const organizationId = payload['organization-id'];
+  const organizationLearnersId = payload['organization-learners-id'];
+
+  await usecases.updateOrganizationLearnersPassword({
+    userId,
+    organizationId,
+    organizationLearnersId,
+  });
+
+  return h.response().code(200);
+};
+
 const scoOrganizationLearnerController = {
   reconcileScoOrganizationLearnerManually,
   reconcileScoOrganizationLearnerAutomatically,
@@ -189,6 +204,7 @@ const scoOrganizationLearnerController = {
   updatePassword,
   generateUsernameWithTemporaryPassword,
   checkScoAccountRecovery,
+  updateOrganizationLearnersPassword,
 };
 
 export { scoOrganizationLearnerController };
