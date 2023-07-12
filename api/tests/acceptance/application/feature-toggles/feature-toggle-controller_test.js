@@ -25,6 +25,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
             'is-massive-session-management-enabled': false,
             'is-pix1d-enabled': true,
             'is-differentiated-time-invigilator-portal-enabled': true,
+            'is-target-profile-versioning-enabled': true,
           },
         },
       };
