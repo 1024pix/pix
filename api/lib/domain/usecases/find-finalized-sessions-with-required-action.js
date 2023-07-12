@@ -1,5 +1,5 @@
-const findFinalizedSessionsWithRequiredAction = function ({ finalizedSessionRepository }) {
-  return finalizedSessionRepository.findFinalizedSessionsWithRequiredAction();
+const findFinalizedSessionsWithRequiredAction = function ({ finalizedSessionRepository, version }) {
+  return finalizedSessionRepository.findFinalizedSessionsWithRequiredAction({ version });
 };
 
 export { findFinalizedSessionsWithRequiredAction };

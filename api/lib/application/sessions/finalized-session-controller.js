@@ -1,6 +1,7 @@
 import { usecases } from '../../domain/usecases/index.js';
 import * as toBePublishedSessionSerializer from '../../infrastructure/serializers/jsonapi/to-be-published-session-serializer.js';
 import * as withRequiredActionSessionSerializer from '../../infrastructure/serializers/jsonapi/with-required-action-session-serializer.js';
+import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 
 const findFinalizedSessionsToPublish = async function (request, h, dependencies = { toBePublishedSessionSerializer }) {
   const finalizedSessionsToPublish = await usecases.findFinalizedSessionsToPublish();
@@ -12,7 +13,8 @@ const findFinalizedSessionsWithRequiredAction = async function (
   h,
   dependencies = { withRequiredActionSessionSerializer },
 ) {
-  const finalizedSessionsWithRequiredAction = await usecases.findFinalizedSessionsWithRequiredAction();
+  const { filter } = extractParameters(request.query);
+  const finalizedSessionsWithRequiredAction = await usecases.findFinalizedSessionsWithRequiredAction(filter);
   return dependencies.withRequiredActionSessionSerializer.serialize(finalizedSessionsWithRequiredAction);
 };
 
