@@ -400,8 +400,8 @@ export default function () {
     return schema.countries.all();
   });
 
-  this.get('/habilitations', (schema) => {
-    return schema.habilitations.all();
+  this.get('/complementary-certifications', (schema) => {
+    return schema.complementaryCertifications.all();
   });
 
   this.put('/admin/sessions/:id/comment', (schema, request) => {

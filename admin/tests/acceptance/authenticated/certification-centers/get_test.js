@@ -48,8 +48,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   test('should display Certification center habilitations', async function (assert) {
     // given
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-    const habilitation1 = server.create('habilitation', { key: 'E', label: 'Pix+Edu' });
-    const habilitation2 = server.create('habilitation', { key: 'S', label: 'Pix+Surf' });
+    const habilitation1 = server.create('complementary-certification', { key: 'E', label: 'Pix+Edu' });
+    const habilitation2 = server.create('complementary-certification', { key: 'S', label: 'Pix+Surf' });
 
     const certificationCenter = server.create('certification-center', {
       name: 'Center 1',
@@ -69,8 +69,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   test('should highlight the habilitations of the current certification center', async function (assert) {
     // given
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-    const habilitation1 = server.create('habilitation', { key: 'E', label: 'Pix+Edu' });
-    const habilitation2 = server.create('habilitation', { key: 'S', label: 'Pix+Surf' });
+    const habilitation1 = server.create('complementary-certification', { key: 'E', label: 'Pix+Edu' });
+    const habilitation2 = server.create('complementary-certification', { key: 'S', label: 'Pix+Surf' });
     const certificationCenter = server.create('certification-center', {
       name: 'Center 1',
       externalId: 'ABCDEF',
@@ -78,7 +78,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       habilitations: [habilitation1, habilitation2],
     });
 
-    server.create('habilitation', { key: 'S', label: 'Pix+Autre' });
+    server.create('complementary-certification', { key: 'S', label: 'Pix+Autre' });
 
     // when
     const screen = await visit(`/certification-centers/${certificationCenter.id}`);
@@ -151,8 +151,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      server.create('habilitation', { key: 'S', label: 'Pix+Surf' });
-      server.create('habilitation', { key: 'A', label: 'Pix+Autre' });
+      server.create('complementary-certification', { key: 'S', label: 'Pix+Surf' });
+      server.create('complementary-certification', { key: 'A', label: 'Pix+Autre' });
 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Editer les informations');
