@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
         data: [
           {
             id: '11',
-            type: 'habilitations',
+            type: 'complementary-certifications',
             attributes: {
               label: 'Pix+Edu',
               key: 'EDU',
@@ -34,7 +34,7 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
           },
           {
             id: '22',
-            type: 'habilitations',
+            type: 'complementary-certifications',
             attributes: {
               label: 'Cléa Numérique',
               key: 'CLEA',
