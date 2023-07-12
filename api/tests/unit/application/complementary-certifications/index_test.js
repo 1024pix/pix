@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../../lib/application/security-pre-ha
 import * as moduleUnderTest from '../../../../lib/application/complementary-certifications/index.js';
 
 describe('Unit | Application | Router | complementary-certifications-router', function () {
-  describe('GET /api/habilitations', function () {
+  describe('GET /api/complementary-certifications', function () {
     it('should return 403 HTTP status code when the user authenticated is not SuperAdmin', async function () {
       // given
       sinon
@@ -15,7 +15,7 @@ describe('Unit | Application | Router | complementary-certifications-router', fu
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('GET', '/api/habilitations');
+      const response = await httpTestServer.request('GET', '/api/complementary-certifications');
 
       // then
       expect(response.statusCode).to.equal(403);
