@@ -748,8 +748,8 @@
         "confirmation-checkbox": "Je confirme avoir bien compris les impacts des {count} suppressions",
         "delete-button": "Oui, je supprime",
         "many-items": {
-          "title": "Êtes vous sûr de vouloir supprimer '<strong>'{count}'</strong>' participants ?",
-          "content": "Ces participants ne seront plus visibles dans Pix Orga.'<br/>'Toutes leurs participations aux campagnes seront supprimées. Cela impactera donc les résultats et analyses pour leurs campagnes. Ils ne pourront pas participer à nouveau aux campagnes auxquelles ils avaient participé par le passé. Cependant des participations à de nouvelles campagne resteront possible.'<br/><strong>'Attention, cette action est irréversible.'</strong>'"
+          "title": "Êtes-vous sûr(e) de vouloir supprimer '<strong>'{count}'</strong>' participants ?",
+          "content": "Ces participants ne seront plus visibles dans Pix Orga.'<br/>'Toutes leurs participations aux campagnes seront supprimées. Cela impactera donc les résultats et analyses pour leurs campagnes. Ils ne pourront pas participer à nouveau aux campagnes auxquelles ils avaient participé par le passé. Cependant des participations à de nouvelles campagnes resteront possibles.'<br/><strong>'Attention, cette action est irréversible.'</strong>'"
         },
         "one-item": {
           "title": "Supprimer '<strong>'{firstname} {lastname}'</strong>' de vos participants ?",
