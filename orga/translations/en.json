@@ -348,6 +348,7 @@
         "create": "Create a campaign",
         "delete": "Delete"
       },
+      "copy-of": "Copy of",
       "external-id-label": {
         "label": "external user ID label",
         "question-label": "Do you need an external user ID?",
