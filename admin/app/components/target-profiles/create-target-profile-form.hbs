@@ -8,11 +8,11 @@
         @label="Nom (obligatoire) : "
         required={{true}}
         aria-required={{true}}
-        {{on "change" this.updateTargetProfileName}}
+        {{on "change" (fn this.updateTargetProfileValue "name")}}
       />
       <PixSelect
         @label="Catégorie :"
-        @onChange={{this.onCategoryChange}}
+        @onChange={{fn this.updateTargetProfileValue "category"}}
         @value={{@targetProfile.category}}
         @options={{this.optionsList}}
         @placeholder="-"
@@ -44,7 +44,7 @@
           type="number"
           aria-required={{true}}
           placeholder="7777"
-          {{on "change" this.updateOwnerOrganizationId}}
+          {{on "change" (fn this.updateTargetProfileValue "ownerOrganizationId")}}
         />
       </div>
     </Card>
@@ -63,7 +63,7 @@
         @label="Lien de l'image du profil cible : "
         @information="L'url à saisir doit être celle d'OVH. Veuillez
           vous rapprocher des équipes tech et produit pour la réalisation de celle-ci."
-        {{on "change" this.updateImageUrl}}
+        {{on "change" (fn this.updateTargetProfileValue "imageUrl")}}
       />
       <div class="form-group">
         <label class="textarea-label" for="description">Description : </label>
