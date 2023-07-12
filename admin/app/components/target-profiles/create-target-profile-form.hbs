@@ -73,12 +73,20 @@
           @maxlength="500"
           rows="4"
           @value={{@targetProfile.description}}
+          {{on "change" (fn this.updateTargetProfileValue "description")}}
         />
       </div>
 
       <div class="form-group">
         <label class="textarea-label" for="comment">Commentaire (usage interne) : </label>
-        <PixTextarea class="form-control" id="comment" @maxlength="500" rows="4" @value={{@targetProfile.comment}} />
+        <PixTextarea
+          class="form-control"
+          id="comment"
+          @maxlength="500"
+          rows="4"
+          @value={{@targetProfile.comment}}
+          {{on "change" (fn this.updateTargetProfileValue "comment")}}
+        />
       </div>
     </Card>
   </section>

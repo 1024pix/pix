@@ -132,4 +132,9 @@ export default class Update extends Component {
       await this._update();
     }
   }
+
+  @action
+  updateFormValue(key, event) {
+    this.form[key] = event.target.value;
+  }
 }

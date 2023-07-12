@@ -62,6 +62,11 @@ export default class JuryComment extends Component {
     }
   }
 
+  @action
+  updateCommentBeingEdited(event) {
+    this.commentBeingEdited = event.target.value;
+  }
+
   get commentExists() {
     return this.comment !== null;
   }
