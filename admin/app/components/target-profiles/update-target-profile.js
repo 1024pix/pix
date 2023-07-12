@@ -89,11 +89,6 @@ export default class UpdateTargetProfile extends Component {
   }
 
   @action
-  onImageUrlChanged(event) {
-    this.form.imageUrl = event.target.value;
-  }
-
-  @action
   updateFormValue(key, event) {
     this.form[key] = event.target.value;
   }
