@@ -4,10 +4,10 @@ const { Serializer } = jsonapiSerializer;
 
 import { ComplementaryCertification } from '../../../domain/models/ComplementaryCertification.js';
 
-const serialize = function (habilitation) {
-  return new Serializer('habilitation', {
+const serialize = function (complementaryCertifications) {
+  return new Serializer('complementary-certification', {
     attributes: ['label', 'key'],
-  }).serialize(habilitation);
+  }).serialize(complementaryCertifications);
 };
 
 const deserialize = function (jsonAPI) {
