@@ -27,6 +27,7 @@ async function simulateFlashAssessmentScenario(
     warmUpLength,
     forcedCompetences,
     useObsoleteChallenges,
+    challengePickProbability,
   } = request.payload;
 
   const pickAnswerStatus = _getPickAnswerStatusMethod(dependencies.pickAnswerStatusService, request.payload);
@@ -35,10 +36,15 @@ async function simulateFlashAssessmentScenario(
 
   const result = await Promise.all(
     _.range(0, numberOfIterations).map(async (index) => {
+      const pickChallenge = dependencies.pickChallengeService.chooseNextChallenge(
+        `${assessmentId}-${index}`,
+        challengePickProbability
+      );
+
       const usecaseParams = _.omitBy(
         {
           pickAnswerStatus,
-          pickChallenge: dependencies.pickChallengeService.chooseNextChallenge(`${assessmentId}-${index}`),
+          pickChallenge,
           locale,
           stopAtChallenge,
           initialCapacity,
@@ -75,9 +81,11 @@ async function importScenarios(
     await Promise.all(
       parsedCsvData.map(async (answerStatusArray, index) => {
         const pickAnswerStatus = pickAnswerStatusService.pickAnswerStatusFromArray(answerStatusArray);
+        const pickChallenge = dependencies.pickChallengeService.chooseNextChallenge(index);
+
         return usecases.simulateFlashDeterministicAssessmentScenario({
           pickAnswerStatus,
-          pickChallenge: dependencies.pickChallengeService.chooseNextChallenge(index),
+          pickChallenge,
           locale,
         });
       }),
