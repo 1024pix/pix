@@ -1305,6 +1305,12 @@
           "img": "FWB connect"
         }
       },
+      "google": {
+        "title": "Sign in with Google",
+        "link": {
+          "img": "Google SSO"
+        }
+      },
       "or": "OR",
       "pole-emploi": {
         "title": "Log in via Pôle Emploi",

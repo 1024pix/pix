@@ -10,9 +10,13 @@ const FWB = {
   code: 'FWB',
   configKey: 'fwb',
 };
+const GOOGLE = {
+  code: 'GOOGLE',
+  configKey: 'google',
+};
 
 function getValidOidcProviderCodes() {
-  return [POLE_EMPLOI.code, CNAV.code, FWB.code];
+  return [POLE_EMPLOI.code, CNAV.code, FWB.code, GOOGLE.code];
 }
 
-export { getValidOidcProviderCodes, POLE_EMPLOI, CNAV, FWB };
+export { getValidOidcProviderCodes, POLE_EMPLOI, CNAV, FWB, GOOGLE };

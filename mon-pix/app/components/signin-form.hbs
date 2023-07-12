@@ -60,6 +60,18 @@
       </PixButton>
     </div>
 
+    <div class="sign-form-body__bottom-decoration">
+      <span>{{t "pages.sign-in.or"}}</span>
+    </div>
+    <LinkTo
+      @route="authentication.login-oidc"
+      @model="google"
+      class="sign-form-body__oidc-connect-link oidc-provider-google"
+    >
+      <img src="/images/logo/google-logo.svg" alt="" />
+      <span>{{t "pages.sign-in.google.title"}}</span>
+    </LinkTo>
+
     {{#if this.displayPoleEmploiButton}}
       <div class="sign-form-body__bottom-decoration">
         <span>{{t "pages.sign-in.or"}}</span>

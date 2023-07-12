@@ -194,6 +194,16 @@
   background-color: #1B2E57;
 }
 
+.oidc-provider-google {
+  box-shadow: 0 0 0 2px $pix-neutral-70;
+
+  &:focus,
+  &:hover,
+  &:focus-within {
+    background-color: $pix-neutral-15;
+  }
+}
+
 .oidc-provider-fwb {
   color: $pix-neutral-70;
   background-color: #EDEDED;

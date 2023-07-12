@@ -285,6 +285,16 @@ const configuration = (function () {
       },
     },
 
+    google: {
+      isEnabled: isFeatureEnabled(process.env.GOOGLE_ENABLED),
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      tokenUrl: process.env.GOOGLE_TOKEN_URL,
+      authenticationUrl: process.env.GOOGLE_AUTHENTICATION_URL,
+      userInfoUrl: process.env.GOOGLE_USER_INFO_URL,
+      accessTokenLifespanMs: ms(process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '7d'),
+    },
+
     authenticationSession: {
       temporaryStorage: {
         expirationDelaySeconds:
@@ -417,6 +427,13 @@ const configuration = (function () {
     config.cnav.clientSecret = 'PIX_CNAV_CLIENT_SECRET';
 
     config.fwb.logoutUrl = 'http://logout-url.org';
+
+    config.google.isEnabled = true;
+    config.google.clientId = 'PIX_google_CLIENT_ID';
+    config.google.authenticationUrl = 'http://idp.google/auth';
+    config.google.userInfoUrl = 'http://userInfoUrl.fr';
+    config.google.tokenUrl = 'http://idp.google/token';
+    config.google.clientSecret = 'PIX_GOOGLE_CLIENT_SECRET';
 
     config.saml.accessTokenLifespanMs = 1000;
 
