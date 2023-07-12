@@ -10,4 +10,8 @@ export default class Profile extends Model {
   get areas() {
     return this.scorecards.mapBy('area').uniqBy('code');
   }
+
+  get numberOfCompetences() {
+    return this.scorecards.uniqBy('competenceId').length;
+  }
 }

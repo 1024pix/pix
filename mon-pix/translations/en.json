@@ -1196,7 +1196,7 @@
           "no-level": "Competence not started"
         }
       },
-      "first-title": "You have 16 competences to test. '<br>'Get your thinking hat on and off we go!",
+      "first-title": "You have {numberOfCompetences} competences to test. '<br>'Get your thinking hat on and off we go!",
       "resume-campaign-banner": {
         "accessibility": {
           "resume": "Resume your customised test",

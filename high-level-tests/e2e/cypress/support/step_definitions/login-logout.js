@@ -58,7 +58,7 @@ Then(`je suis redirigé vers le profil de {string}`, (firstName) => {
     expect(userName.text()).to.contains(firstName);
   });
   cy.get(".rounded-panel-title").should((title) => {
-    expect(title.text()).to.contains("Vous avez 16 compétences à tester.");
+    expect(title.text()).to.contains("Vous avez 6 compétences à tester.");
   });
 });
 
