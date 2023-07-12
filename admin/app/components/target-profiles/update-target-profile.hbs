@@ -51,7 +51,7 @@
           @information="L'url à saisir doit être celle d'OVH. Veuillez
             vous rapprocher des équipes tech et produit pour la réalisation de celle-ci."
           @value={{this.form.imageUrl}}
-          {{on "change" this.onImageUrlChanged}}
+          {{on "change" (fn this.updateFormValue "imageUrl")}}
         />
       </div>
       <div class="form-field">
