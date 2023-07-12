@@ -1,4 +1,4 @@
-name: Merge on Dev
+name: Notify team if API configuration file has been changed
 on:
   push:
     branches:
@@ -9,11 +9,11 @@ permissions:
   pull-requests: read
 
 jobs:
-  notify-team:
-    name: Notify team on config file changed
+  check-and-notify:
+    name: Check and notify
     runs-on: ubuntu-latest
     steps:
-      - name: Notify team on config file change
+      - name: Run external action
         uses: 1024pix/notify-team-on-config-file-change@v1
         with:
           GITHUB_TOKEN: ${{ github.token }}
