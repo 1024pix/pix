@@ -106,6 +106,11 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/admin/sessions/with-required-action',
       config: {
+        validate: {
+          query: Joi.object({
+            'filter[version]': Joi.number(),
+          }),
+        },
         pre: [
           {
             method: (request, h) =>
