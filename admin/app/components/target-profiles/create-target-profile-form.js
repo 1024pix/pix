@@ -44,6 +44,11 @@ export default class CreateTargetProfileForm extends Component {
   }
 
   @action
+  updateTargetProfileValue(key, event) {
+    this.args.targetProfile[key] = event.target.value;
+  }
+
+  @action
   async onSubmit(event) {
     try {
       this.submitting = true;

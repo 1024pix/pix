@@ -93,6 +93,11 @@ export default class UpdateTargetProfile extends Component {
     this.form.imageUrl = event.target.value;
   }
 
+  @action
+  updateFormValue(key, event) {
+    this.form[key] = event.target.value;
+  }
+
   async _updateTargetProfile() {
     const model = this.args.model;
     model.name = this.form.name;

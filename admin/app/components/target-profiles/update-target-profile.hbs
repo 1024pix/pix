@@ -69,6 +69,7 @@
           @maxlength="500"
           class={{if (v-get this.form "description" "isInvalid") "form-control is-invalid" "form-control"}}
           @value={{this.form.description}}
+          {{on "change" (fn this.updateFormValue "description")}}
         />
       </div>
       <div class="form-field">
@@ -86,6 +87,7 @@
           @maxlength="500"
           class={{if (v-get this.form "comment" "isInvalid") "form-control is-invalid" "form-control"}}
           @value={{this.form.comment}}
+          {{on "change" (fn this.updateFormValue "comment")}}
         />
       </div>
       <div class="form-actions">
