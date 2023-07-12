@@ -1306,7 +1306,7 @@
         }
       },
       "google": {
-        "title": "Se connecter via SSO Google",
+        "title": "Se connecter avec Google",
         "link": {
           "img": "SSO Google"
         }
