@@ -11,6 +11,7 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/id
 
 describe('Acceptance | Controller | sco-organization-learners', function () {
   let server;
+  const BASE_PATH = '/api/sco-organization-learners';
 
   beforeEach(async function () {
     server = await createServer();
@@ -665,6 +666,55 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
           email: 'jude.law@example.net',
           'latest-organization-name': 'Super Collège Hollywoodien',
         },
+      });
+    });
+  });
+
+  describe('PUT /api/sco-organization-learners/passwords', function () {
+    context('when successfully update organization learners passwords', function () {
+      it('returns an HTTP status code 200', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+
+        const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
+        databaseBuilder.factory.buildMembership({ organizationId, userId });
+
+        const paul = databaseBuilder.factory.buildUser.withRawPassword({ firstName: 'Paul', username: 'paul' });
+        const jacques = databaseBuilder.factory.buildUser.withRawPassword({
+          firstName: 'Jacques',
+          username: 'jacques',
+        });
+
+        const organizationLearnersId = [
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            userId: paul.id,
+          }).id,
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            userId: jacques.id,
+          }).id,
+        ];
+
+        await databaseBuilder.commit();
+
+        // when
+        const { statusCode } = await server.inject({
+          method: 'PUT',
+          url: `${BASE_PATH}/passwords`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          payload: {
+            data: {
+              attributes: {
+                'organization-id': organizationId,
+                'organization-learners-id': organizationLearnersId,
+              },
+            },
+          },
+        });
+
+        // then
+        expect(statusCode).to.equal(200);
       });
     });
   });
