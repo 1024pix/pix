@@ -55,7 +55,7 @@
     </fieldset>
 
     <div class="sign-form-body__bottom-button">
-      <pix-button first="coucou" isDisabled="{{false}}" {{on 'click' this.testButton}}></pix-button>
+      <pix-button isDisabled="{{false}}" backgroundColor="{{'green'}}" shape="rounded" {{on 'click' this.testButton}}>Hello</pix-button>
       <PixButton @type="submit" @shape="rounded">
         {{t "pages.sign-in.actions.submit"}}
       </PixButton>
