@@ -139,7 +139,9 @@ module('Acceptance | Team List', function (hooks) {
         });
       });
       await visit('/equipe/membres?pageNumber=2');
-      await visit('/campagnes');
+      const screen = await visitScreen('/campagnes');
+      await clickByName('Ouvrir le menu');
+      await screen.findByRole('dialog');
 
       // when
       await clickByName('Équipe');

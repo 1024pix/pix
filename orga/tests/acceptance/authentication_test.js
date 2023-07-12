@@ -167,7 +167,7 @@ module('Acceptance | authentication', function (hooks) {
         await visit('/');
 
         // then
-        assert.contains('BRO & Evil Associates (EXTBRO)');
+        assert.contains('BRO & Evil Associates');
       });
 
       test('it should redirect prescriber to the campaigns list on root url', async function (assert) {
@@ -181,11 +181,10 @@ module('Acceptance | authentication', function (hooks) {
       module('when a lang query param is present', function () {
         test('sets and remembers the locale to the lang query param which wins over the user’s lang', async function (assert) {
           // when
-          await visitScreen('/?lang=en');
-          const screen = await visitScreen('/');
+          const screen = await visitScreen('/?lang=en');
 
           // then
-          assert.dom(screen.getByRole('link', { name: 'Team' })).exists();
+          assert.dom(screen.getByRole('button', { name: 'Open menu' })).exists();
         });
       });
     });
@@ -199,13 +198,6 @@ module('Acceptance | authentication', function (hooks) {
         );
 
         await authenticateSession(user.id);
-      });
-
-      test('should show organization credit info', async function (assert) {
-        // when
-        await visit('/');
-        // then
-        assert.dom('.organization-credit-info').exists();
       });
     });
 

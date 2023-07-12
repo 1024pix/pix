@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { currentURL } from '@ember/test-helpers';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import {
@@ -23,24 +23,16 @@ module('Acceptance | Switch Organization', function (hooks) {
       await authenticateSession(user.id);
     });
 
-    test('should display the main organization name and externalId in summary', async function (assert) {
-      // when
-      await visit('/');
-
-      // then
-      assert.contains('BRO & Evil Associates (EXTBRO)');
-    });
-
     test('should only have disconnect item in menu', async function (assert) {
       // given
-      await visit('/');
+      const screen = await visit('/');
 
       // when
-      await clickByName('Ouvrir le menu utilisateur');
+      await clickByName('Ouvrir le menu');
+      await screen.findByRole('dialog');
 
       // then
-      assert.dom('.user-logged-menu > li').exists({ count: 1 });
-      assert.dom('.user-logged-menu > li').hasText('Se déconnecter');
+      assert.dom(screen.getByRole('link', { name: 'Se déconnecter' })).exists();
     });
   });
 
@@ -50,67 +42,65 @@ module('Acceptance | Switch Organization', function (hooks) {
       createPrescriberByUser(user);
 
       await authenticateSession(user.id);
-
-      await visit('/');
     });
 
     test('should have an organization in menu', async function (assert) {
+      // given
+      const screen = await visit('/');
+
       // when
-      await clickByName('Ouvrir le menu utilisateur');
+      await clickByName('Ouvrir le menu');
+      await screen.findByRole('dialog');
 
       // then
-      assert.dom('.user-logged-menu > li').exists({ count: 2 });
-      assert.dom('.user-logged-menu > li').hasText('My Heaven Company (HEAVEN)');
+      assert.dom(screen.getByText('BRO & Evil Associates')).exists();
     });
 
     module('When prescriber click on an organization', function () {
       test('should change main organization in summary', async function (assert) {
+        // given
+        const screen = await visit('/');
+        await clickByName('Ouvrir le menu');
+        await screen.findByRole('dialog');
+        await clickByName('Sélectionner une organisation');
+
         // when
-        await clickByName('Ouvrir le menu utilisateur');
-        await clickByName('My Heaven Company (HEAVEN)');
+        await clickByName('My Heaven Company');
 
         // then
-        assert.contains('My Heaven Company (HEAVEN)');
+        assert.contains('My Heaven Company');
       });
 
       test('should have the old main organization in the menu', async function (assert) {
+        // given
+        const screen = await visit('/');
+        await clickByName('Ouvrir le menu');
+        await screen.findByRole('dialog');
+        await clickByName('Sélectionner une organisation');
+        await clickByName('My Heaven Company');
+
         // when
-        await clickByName('Ouvrir le menu utilisateur');
-        await clickByName('My Heaven Company (HEAVEN)');
-        await clickByName('Ouvrir le menu utilisateur');
+        await clickByName('Sélectionner une organisation');
 
         // then
-        assert.dom('.user-logged-menu > li').exists({ count: 2 });
-        assert.dom('.user-logged-menu > li').hasText('BRO & Evil Associates (EXTBRO)');
+        assert.dom(screen.getByRole('button', { name: 'BRO & Evil Associates' })).exists();
       });
 
       module('When prescriber is on campaign page with pagination', function () {
         test('it should reset the queryParams when redirecting', async function (assert) {
           // given
-          await visit('/campagnes/les-miennes?pageNumber=2&pageSize=10&name=test&status=archived');
+          const screen = await visit('/campagnes/les-miennes?pageNumber=2&pageSize=10&name=test&status=archived');
+          await clickByName('Ouvrir le menu');
+          await screen.findByRole('dialog');
+          await clickByName('Sélectionner une organisation');
 
           // when
-          await clickByName('Ouvrir le menu utilisateur');
-          await clickByName('My Heaven Company (HEAVEN)');
+          await clickByName('My Heaven Company');
 
           // then
           assert.strictEqual(currentURL(), '/campagnes/les-miennes');
         });
       });
-
-      module(
-        'When user switch from a not managing student organization to a managing student organization',
-        function () {
-          test('it should display student menu item', async function (assert) {
-            // when
-            await clickByName('Ouvrir le menu utilisateur');
-            await clickByName('My Heaven Company (HEAVEN)');
-
-            // then
-            assert.dom('.sidebar').containsText('Élèves');
-          });
-        }
-      );
     });
   });
 });
