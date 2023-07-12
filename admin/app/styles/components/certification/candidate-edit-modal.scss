@@ -28,6 +28,13 @@
       .radio-button-container {
         display: flex;
         gap: 10px;
+
+        // PixUI defines a margin-top to stack radio buttons vertically.
+        // In our case, we want the radio buttons to be stacked horizontally
+        // so we reset the margin-top value.
+        .pix-radio-button + .pix-radio-button {
+          margin-top: 0;
+        }
       }
     }
   }

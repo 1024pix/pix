@@ -28,18 +28,20 @@
         <div class="radio-button-container">
           <PixRadioButton
             name="sex"
-            @label="Femme"
             checked={{if (eq this.sex "F") true}}
             {{on "change" (fn this.updateSexValue "F")}}
             required
-          />
+          >
+            Femme
+          </PixRadioButton>
           <PixRadioButton
             name="sex"
-            @label="Homme"
             checked={{if (eq this.sex "M") true}}
             {{on "change" (fn this.updateSexValue "M")}}
             required
-          />
+          >
+            Homme
+          </PixRadioButton>
         </div>
       </div>
 
@@ -74,18 +76,20 @@
           <div class="radio-button-container">
             <PixRadioButton
               name="birth-geo-code-option"
-              @label="Code INSEE"
               checked={{if (eq this.selectedBirthGeoCodeOption "insee") true}}
               {{on "change" (fn this.selectBirthGeoCodeOption "insee")}}
               required
-            />
+            >
+              Code INSEE
+            </PixRadioButton>
             <PixRadioButton
               name="birth-geo-code-option"
-              @label="Code postal"
               checked={{if (eq this.selectedBirthGeoCodeOption "postal") true}}
               {{on "change" (fn this.selectBirthGeoCodeOption "postal")}}
               required
-            />
+            >
+              Code postal
+            </PixRadioButton>
           </div>
         </div>
       {{/if}}
