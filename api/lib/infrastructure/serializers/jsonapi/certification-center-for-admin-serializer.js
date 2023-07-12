@@ -31,6 +31,9 @@ const serialize = function (certificationCenters, meta) {
       'dataProtectionOfficerEmail',
       'habilitations',
     ],
+    typeForAttribute: (attribute) => {
+      if (attribute === 'habilitations') return 'complementary-certifications';
+    },
     certificationCenterMemberships: {
       ref: 'id',
       ignoreRelationshipData: true,

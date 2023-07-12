@@ -39,7 +39,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
               data: [
                 {
                   id: '1',
-                  type: 'habilitations',
+                  type: 'complementary-certifications',
                 },
               ],
             },
@@ -48,7 +48,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
         included: [
           {
             id: '1',
-            type: 'habilitations',
+            type: 'complementary-certifications',
             attributes: {
               key: 'SURF',
               label: 'Pix+surf',
