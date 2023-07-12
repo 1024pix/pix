@@ -18,6 +18,14 @@
   },
   "components": {
     "administration": {
+      "campaigns-import": {
+        "title": "Création en masse de campagnes",
+        "description": "Les campagnes déjà existantes ne seront pas modifiées. Il n'y a pas de contrôle pour empêcher les doublons.",
+        "notifications": {
+          "success": "Les campagnes ont bien été créées."
+        },
+        "upload-button": "Importer un fichier CSV"
+      },
       "organizations-import": {
         "title": "Création en masse d'organisations",
         "description": "Les organisations déjà existantes ne seront pas modifiées.",

@@ -443,6 +443,8 @@ export default function () {
     return schema.create('tag', { name: tagName });
   });
 
+  this.post('/admin/campaigns', async () => new Response(204));
+
   this.get('/oidc/identity-providers', () => {
     return {
       data: [
