@@ -17,9 +17,7 @@ export default class CreateForm extends Component {
 
   constructor() {
     super(...arguments);
-    this.campaign = {
-      organization: this.currentUser.organization,
-    };
+    this.campaign = this.args.campaign;
     this._setTargetProfilesOptions(this.args.targetProfiles);
     this.ownerId = this.currentUser.prescriber.id;
     this.isMultipleSendingAssessmentEnabled = this.currentUser.prescriber.enableMultipleSendingAssessment;
@@ -85,8 +83,9 @@ export default class CreateForm extends Component {
 
   @action
   selectTargetProfile(targetProfileId) {
-    this.targetProfile = this.args.targetProfiles.find((targetProfile) => targetProfile.id === targetProfileId);
-    this.campaign.targetProfile = this.targetProfile;
+    this.campaign.targetProfile = this.args.targetProfiles.find(
+      (targetProfile) => targetProfile.id === targetProfileId,
+    );
   }
 
   @action
@@ -98,14 +97,9 @@ export default class CreateForm extends Component {
   @action
   setCampaignGoal(event) {
     if (event.target.value === 'collect-participants-profile') {
-      this.campaign.multipleSendings = true;
-      this.campaign.title = null;
-      this.campaign.targetProfile = null;
-      this.targetProfile = null;
-      this.campaign.type = 'PROFILES_COLLECTION';
+      this.campaign.setType('PROFILES_COLLECTION');
     } else {
-      this.campaign.multipleSendings = false;
-      this.campaign.type = 'ASSESSMENT';
+      this.campaign.setType('ASSESSMENT');
     }
   }
 
@@ -128,14 +122,13 @@ export default class CreateForm extends Component {
   onChangeCampaignOwner(newOwnerId) {
     const selectedMember = this.args.membersSortedByFullName.find((member) => newOwnerId === member.id);
     if (selectedMember) {
-      this.ownerId = selectedMember.id;
+      this.campaign.ownerId = selectedMember.id;
     }
   }
 
   @action
   onSubmit(event) {
     event.preventDefault();
-    this.campaign.ownerId = this.ownerId;
     this.args.onSubmit(this.campaign);
   }
 }
