@@ -987,8 +987,11 @@ class UserNotAuthorizedToCertifyError extends DomainError {
 }
 
 class UserNotAuthorizedToUpdatePasswordError extends DomainError {
-  constructor(message = "L'utilisateur n'est pas autorisé à mettre à jour ce mot de passe.") {
-    super(message);
+  constructor(
+    message = "L'utilisateur n'est pas autorisé à mettre à jour ce mot de passe.",
+    code = 'USER_NOT_AUTHORIZED_TO_UPDATE_PASSWORD'
+  ) {
+    super(message, code);
   }
 }
 
