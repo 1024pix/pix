@@ -1,4 +1,5 @@
-name: Notify team if API configuration file has been changed
+name: Notify team if API configuration file has been changed on dev
+
 on:
   push:
     branches:
