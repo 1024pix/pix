@@ -13,12 +13,11 @@ export default class NewController extends Controller {
   @tracked errors;
 
   @action
-  async createCampaign(campaignAttributes) {
+  async createCampaign() {
     this.notifications.clearAll();
     this.errors = null;
 
     try {
-      this.model.campaign.setProperties(campaignAttributes);
       await this.model.campaign.save();
     } catch (errorResponse) {
       errorResponse.errors.forEach((error) => {
