@@ -90,8 +90,8 @@ Router.map(function () {
       });
     });
 
-    this.route('complementary-certifications', function () {
-      this.route('list');
+    this.route('target-profiles-versioning', function () {
+      this.route('complementary-certifications');
     });
 
     this.route('target-profiles', function () {

@@ -5,6 +5,6 @@ export default class IndexRoute extends Route {
   @service router;
 
   beforeModel() {
-    this.router.transitionTo('authenticated.complementary-certifications.list');
+    this.router.transitionTo('authenticated.target-profiles-versioning.complementary-certifications');
   }
 }
