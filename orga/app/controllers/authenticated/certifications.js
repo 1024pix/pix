@@ -68,17 +68,16 @@ export default class AuthenticatedCertificationsController extends Controller {
         );
       }
 
+      const lang = this.intl.primaryLocale;
       const organizationId = this.currentUser.organization.id;
-      const url = `/api/organizations/${organizationId}/certification-attestations?division=${this.selectedDivision}&isFrenchDomainExtension=${this.currentDomain.isFranceDomain}`;
-      const fileName = 'attestations_pix.pdf';
-
+      const url = `/api/organizations/${organizationId}/certification-attestations?division=${this.selectedDivision}&isFrenchDomainExtension=${this.currentDomain.isFranceDomain}&lang=${lang}`;
       let token = '';
 
       if (this.session.isAuthenticated) {
         token = this.session.data.authenticated.access_token;
       }
 
-      await this.fileSaver.save({ url, fileName, token });
+      await this.fileSaver.save({ url, token });
     } catch (error) {
       if (_isErrorNotFound(error)) {
         this.notifications.info(

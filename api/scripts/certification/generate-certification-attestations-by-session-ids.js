@@ -15,6 +15,18 @@ import { NotFoundError } from '../../lib/domain/errors.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
+import i18n from 'i18n';
+import path from 'path';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+const directory = path.resolve(path.join(__dirname, '../../translations'));
+i18n.configure({
+  locales: ['fr', 'en'],
+  defaultLocale: 'fr',
+  directory,
+  objectNotation: true,
+  updateFiles: false,
+});
 
 /**
  * Avant de lancer le script, remplacer la variable DATABASE_URL par l'url de la base de réplication
@@ -61,6 +73,7 @@ async function main() {
 
     const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
       certificates: certificationAttestations,
+      i18n,
     });
 
     const filename = `attestation-pix-session-${sessionId}.pdf`;

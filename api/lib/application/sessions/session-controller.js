@@ -218,10 +218,12 @@ const getCertificationPDFAttestationsForSession = async function (
   const attestations = await usecases.getCertificationAttestationsForSession({
     sessionId,
   });
+  const i18n = request.i18n;
 
   const { buffer } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
     certificates: attestations,
     isFrenchDomainExtension,
+    i18n,
   });
 
   const fileName = `attestation-pix-session-${sessionId}.pdf`;

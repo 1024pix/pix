@@ -145,59 +145,127 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
   });
 
   module('#downloadAttestation', function () {
-    test('should call the file-saver service for downloadAttestation with the right parameters', async function (assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated/certifications');
+    module('when domain is french', function () {
+      test('should call the file-saver service for downloadAttestation with the right parameters', async function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/certifications');
 
-      const token = 'a token';
-      const fileName = 'attestations_pix.pdf';
-      const organizationId = 12345;
-      const selectedDivision = '3èmea';
+        const token = 'a token';
+        const organizationId = 12345;
+        const selectedDivision = '3èmea';
 
-      controller.selectedDivision = selectedDivision;
+        controller.selectedDivision = selectedDivision;
 
-      controller.session = {
-        isAuthenticated: true,
-        data: {
-          authenticated: {
-            access_token: token,
+        controller.session = {
+          isAuthenticated: true,
+          data: {
+            authenticated: {
+              access_token: token,
+            },
           },
-        },
-      };
+        };
 
-      controller.currentUser = {
-        organization: {
-          id: organizationId,
-        },
-      };
+        controller.currentUser = {
+          organization: {
+            id: organizationId,
+          },
+        };
 
-      controller.fileSaver = {
-        save: sinon.stub(),
-      };
+        controller.fileSaver = {
+          save: sinon.stub(),
+        };
 
-      controller.currentDomain = {
-        isFranceDomain: true,
-      };
+        controller.currentDomain = {
+          isFranceDomain: true,
+        };
 
-      controller.model = {
-        options: [{ label: '3èmeA', value: '3èmeA' }],
-      };
+        controller.intl = {
+          primaryLocale: 'fr',
+        };
 
-      const event = {
-        preventDefault: sinon.stub(),
-      };
+        controller.model = {
+          options: [{ label: '3èmeA', value: '3èmeA' }],
+        };
 
-      // when
-      await controller.downloadAttestation(event);
+        const event = {
+          preventDefault: sinon.stub(),
+        };
 
-      // then
-      assert.ok(
-        controller.fileSaver.save.calledWith({
-          token,
-          fileName,
-          url: `/api/organizations/${organizationId}/certification-attestations?division=${selectedDivision}&isFrenchDomainExtension=true`,
-        })
-      );
+        // when
+        await controller.downloadAttestation(event);
+
+        // then
+        assert.ok(
+          controller.fileSaver.save.calledWith({
+            token,
+            url: `/api/organizations/${organizationId}/certification-attestations?division=${selectedDivision}&isFrenchDomainExtension=true&lang=fr`,
+          })
+        );
+      });
+    });
+
+    module('when domain is not french', function () {
+      module('when user lang is en', function () {
+        test('should call the file-saver service for downloadAttestation with the right parameters', async function (assert) {
+          // given
+          const controller = this.owner.lookup('controller:authenticated/certifications');
+
+          const token = 'a token';
+          const organizationId = 12345;
+          const selectedDivision = '3èmea';
+
+          controller.selectedDivision = selectedDivision;
+
+          controller.session = {
+            isAuthenticated: true,
+            data: {
+              authenticated: {
+                access_token: token,
+              },
+            },
+          };
+
+          controller.currentUser = {
+            organization: {
+              id: organizationId,
+            },
+            prescriber: {
+              lang: 'en',
+            },
+          };
+
+          controller.fileSaver = {
+            save: sinon.stub(),
+          };
+
+          controller.currentDomain = {
+            isFranceDomain: false,
+          };
+
+          controller.intl = {
+            primaryLocale: 'en',
+          };
+
+          controller.model = {
+            options: [{ label: '3èmeA', value: '3èmeA' }],
+          };
+
+          const event = {
+            preventDefault: sinon.stub(),
+          };
+
+          // when
+          await controller.downloadAttestation(event);
+
+          // then
+          assert.ok(
+            controller.fileSaver.save.calledWith({
+              token,
+              url: `/api/organizations/${organizationId}/certification-attestations?division=${selectedDivision}&isFrenchDomainExtension=false&lang=en`,
+            })
+          );
+        });
+      });
     });
 
     test('it should not call fileSaver for downloadAttestation service and display an error if division is invalid', async function (assert) {

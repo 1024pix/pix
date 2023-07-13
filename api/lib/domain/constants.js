@@ -56,6 +56,10 @@ const LOCALE = {
   FRENCH_FRANCE: 'fr-fr',
   FRENCH_SPOKEN: 'fr',
 };
+const LANG = {
+  ENGLISH: 'en',
+  FRENCH: 'fr',
+};
 const SUPPORTED_LOCALES = ['en', 'fr', 'fr-BE', 'fr-FR'];
 
 const STUDENT_RECONCILIATION_ERRORS = {
@@ -168,6 +172,7 @@ export {
   PIX_ORGA,
   PIX_ADMIN,
   PIX_CERTIF,
+  LANG,
   LOCALE,
   STUDENT_RECONCILIATION_ERRORS,
   SUPPORTED_LOCALES,
