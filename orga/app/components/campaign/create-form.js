@@ -11,7 +11,6 @@ export default class CreateForm extends Component {
   @tracked campaign;
   @tracked wantIdPix = Boolean(this.campaign.idPixLabel);
   @tracked multipleSendingsEnabled = true;
-  @tracked targetProfile;
   @tracked targetProfilesOptions = [];
 
   constructor() {
