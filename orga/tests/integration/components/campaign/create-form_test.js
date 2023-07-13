@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -63,6 +63,27 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     assert.dom('textarea').hasAttribute('maxLength', '5000');
   });
 
+  test("it should display campaign's name", async function (assert) {
+    // given
+    this.campaign.name = 'Campagne de test';
+
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+
+    assert
+      .dom(screen.getByRole('textbox', { name: t('pages.campaign-creation.name.label') }))
+      .hasValue('Campagne de test');
+  });
+
   test('it should display block information for owner', async function (assert) {
     // when
     const screen = await render(
@@ -115,6 +136,129 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
     // then
     assert.dom(screen.getByText(t('common.form.mandatory-fields'))).exists();
+  });
+
+  module('when campaign is of type ASSESSMENT', function () {
+    test('it should have checked ASSESSMENT', async function (assert) {
+      // given
+      this.campaign.type = 'ASSESSMENT';
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      // then
+      assert.dom(screen.getByLabelText(t('pages.campaign-creation.purpose.assessment'))).isChecked();
+    });
+
+    test('it should fill target-profile fields', async function (assert) {
+      // given
+      const targetProfile = store.createRecord('target-profile', {
+        id: '1',
+        name: 'Target profile 1',
+        description: 'Description 1',
+        category: 'Category 1',
+      });
+      this.targetProfiles = [targetProfile];
+      this.campaign.type = 'ASSESSMENT';
+      this.campaign.targetProfile = targetProfile;
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      // then
+      assert.strictEqual(
+        screen.getByRole('button', { name: t('pages.campaign-creation.target-profiles-list-label') }).innerText,
+        targetProfile.name,
+      );
+    });
+
+    test('it should fill multiple sendings fields', async function (assert) {
+      // given
+      prescriber.enableMultipleSendingAssessment = true;
+      this.campaign.type = 'ASSESSMENT';
+      this.campaign.multipleSendings = true;
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      // then
+      const radiogroup = screen.getByRole('radiogroup', {
+        name: t('pages.campaign-creation.multiple-sendings.assessments.question-label'),
+      });
+      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
+    });
+  });
+
+  module('when campaign is of type PROFILES_COLLECTION', function () {
+    test('it should have checked PROFILES_COLLECTION', async function (assert) {
+      // given
+      this.campaign.type = 'PROFILES_COLLECTION';
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      assert.dom(screen.getByLabelText(t('pages.campaign-creation.purpose.profiles-collection'))).isChecked();
+    });
+
+    test('it should fill multiple sendings fields', async function (assert) {
+      // given
+      this.campaign.type = 'PROFILES_COLLECTION';
+      this.campaign.multipleSendings = true;
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      // then
+      const radiogroup = screen.getByRole('radiogroup', {
+        name: t('pages.campaign-creation.multiple-sendings.profiles.question-label'),
+      });
+      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
+    });
   });
 
   module('when user choose to create a campaign of type ASSESSMENT', function () {
@@ -488,7 +632,83 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     });
   });
 
+  test('it should fill external user ID selection (yes)', async function (assert) {
+    // given
+    this.campaign.idPixLabel = 'Numéro étudiant';
+
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+
+    // then
+    const radiogroup = screen.getByRole('radiogroup', {
+      name: t('pages.campaign-creation.external-id-label.question-label'),
+    });
+    assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
+    assert
+      .dom(
+        screen.getByRole('textbox', {
+          name: `${t('pages.campaign-creation.external-id-label.label')} ${t(
+            'pages.campaign-creation.external-id-label.suggestion',
+          )}`,
+        }),
+      )
+      .hasValue('Numéro étudiant');
+  });
+
+  test('it should fill external user ID selection (no)', async function (assert) {
+    // given
+    this.campaign.idPixLabel = null;
+
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+
+    // then
+    const radiogroup = screen.getByRole('radiogroup', {
+      name: t('pages.campaign-creation.external-id-label.question-label'),
+    });
+    assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.no'))).isChecked();
+  });
+
   module('when user has not chosen yet to ask or not an external user ID', function () {
+    test('it should not fill external user ID selection', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      // then
+      const radiogroup = screen.getByRole('radiogroup', {
+        name: t('pages.campaign-creation.external-id-label.question-label'),
+      });
+      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.no'))).isNotChecked();
+      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isNotChecked();
+    });
+
     test('it should not display gdpr footnote', async function (assert) {
       // when
       await render(
@@ -564,6 +784,49 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       const label = screen.getByLabelText(new RegExp(t('pages.campaign-creation.external-id-label.label')));
       assert.true(label.hasAttribute('aria-required', false));
     });
+  });
+
+  test('it should fill campaign title', async function (assert) {
+    // given
+    this.campaign.type = 'ASSESSMENT';
+    this.campaign.title = 'Mon titre de parcours';
+
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+
+    assert
+      .dom(screen.getByRole('textbox', { name: t('pages.campaign-creation.test-title.label') }))
+      .hasValue('Mon titre de parcours');
+  });
+
+  test('it should fill campaign landing page text', async function (assert) {
+    // given
+    this.campaign.customLandingPageText = 'Mon texte de landing page';
+
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+
+    assert
+      .dom(screen.getByRole('textbox', { name: t('pages.campaign-creation.landing-page-text.label') }))
+      .hasValue('Mon texte de landing page');
   });
 
   test('it should send campaign creation action when submitted', async function (assert) {
