@@ -10,7 +10,6 @@ export default class CreateForm extends Component {
 
   @tracked campaign;
   @tracked wantIdPix = Boolean(this.campaign.idPixLabel);
-  @tracked multipleSendingsEnabled = true;
   @tracked targetProfilesOptions = [];
 
   constructor() {
@@ -95,7 +94,6 @@ export default class CreateForm extends Component {
 
   @action
   selectMultipleSendingsStatus(value) {
-    this.multipleSendingsEnabled = value;
     this.campaign.multipleSendings = value;
   }
 
