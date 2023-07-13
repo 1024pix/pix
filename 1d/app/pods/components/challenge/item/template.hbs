@@ -21,9 +21,15 @@
           <div class="challenge-item__autoreply">
             <Challenge::ChallengeItemAutoReply @setAnswerValue={{this.setAnswerValue}} />
           </div>
-        {{else}}
+        {{/if}}
+        {{#if @challenge.isQROC}}
           <div class="challenge-item__qroc">
             <Challenge::ChallengeItemQroc @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} />
+          </div>
+        {{/if}}
+        {{#if @challenge.isQROCM}}
+          <div class="challenge-item__qrocm">
+            <Challenge::ChallengeItemQrocm @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} />
           </div>
         {{/if}}
       </div>

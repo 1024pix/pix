@@ -20,12 +20,18 @@ export default Factory.extend({
   proposals() {
     return 'Rue de : ${Rue#}';
   },
-  withTextArea: trait({
+  QROCWithTextArea: trait({
     format: 'paragraphe',
   }),
   QROCWithSelect: trait({
     type: 'QROC',
     instruction: 'Un QROC est une question',
     proposals: 'Select: ${banana#tomatoPlaceholder§saladAriaLabel options=["good-answer","bad-answer"]}',
+  }),
+  QROCM: trait({
+    type: 'QROCM-dep',
+    instruction: 'Trouve les bonnes réponses.',
+    proposals:
+      'Le prénom est : ${prenom §prenom}\n\nLe livre est : ${livre# - Sélectionne - §livre options=["good-answer","bad-answer"]}',
   }),
 });
