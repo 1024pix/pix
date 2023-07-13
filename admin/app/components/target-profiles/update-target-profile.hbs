@@ -51,7 +51,7 @@
           @information="L'url à saisir doit être celle d'OVH. Veuillez
             vous rapprocher des équipes tech et produit pour la réalisation de celle-ci."
           @value={{this.form.imageUrl}}
-          {{on "change" this.onImageUrlChanged}}
+          {{on "change" (fn this.updateFormValue "imageUrl")}}
         />
       </div>
       <div class="form-field">
@@ -69,6 +69,7 @@
           @maxlength="500"
           class={{if (v-get this.form "description" "isInvalid") "form-control is-invalid" "form-control"}}
           @value={{this.form.description}}
+          {{on "change" (fn this.updateFormValue "description")}}
         />
       </div>
       <div class="form-field">
@@ -86,6 +87,7 @@
           @maxlength="500"
           class={{if (v-get this.form "comment" "isInvalid") "form-control is-invalid" "form-control"}}
           @value={{this.form.comment}}
+          {{on "change" (fn this.updateFormValue "comment")}}
         />
       </div>
       <div class="form-actions">
