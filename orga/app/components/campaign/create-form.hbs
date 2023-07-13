@@ -29,7 +29,7 @@
     <PixSelect
       @options={{this.campaignOwnerOptions}}
       @onChange={{this.onChangeCampaignOwner}}
-      @value={{this.ownerId}}
+      @value="{{this.campaign.ownerId}}"
       @isSearchable={{true}}
       @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
       @searchLabel={{t "pages.campaign-creation.owner.search-placeholder"}}

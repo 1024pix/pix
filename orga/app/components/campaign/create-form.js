@@ -13,13 +13,11 @@ export default class CreateForm extends Component {
   @tracked multipleSendingsEnabled = true;
   @tracked targetProfile;
   @tracked targetProfilesOptions = [];
-  @tracked ownerId;
 
   constructor() {
     super(...arguments);
     this.campaign = this.args.campaign;
     this._setTargetProfilesOptions(this.args.targetProfiles);
-    this.ownerId = this.currentUser.prescriber.id;
     this.isMultipleSendingAssessmentEnabled = this.currentUser.prescriber.enableMultipleSendingAssessment;
   }
 
