@@ -48,6 +48,7 @@
         rows="8"
         @maxlength="5000"
         @value={{this.form.customLandingPageText}}
+        {{on "change" (fn this.updateFormValue "customLandingPageText")}}
         class="form-control {{if (v-get this.form 'customLandingPageText' 'isInvalid') 'is-invalid'}}"
       />
 
@@ -67,6 +68,7 @@
           rows="8"
           @maxlength="5000"
           @value={{this.form.customResultPageText}}
+          {{on "change" (fn this.updateFormValue "customResultPageText")}}
           class="form-control {{if (v-get this.form 'customResultPageText' 'isInvalid') 'is-invalid'}}"
         />
         {{#if (v-get this.form "customResultPageText" "isInvalid")}}

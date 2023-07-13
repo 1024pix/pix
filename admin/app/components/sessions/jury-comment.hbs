@@ -6,6 +6,7 @@
         <PixTextarea
           placeholder="Ajouter un commentaire…"
           @value={{this.commentBeingEdited}}
+          {{on "change" this.updateCommentBeingEdited}}
           class="jury-comment__field"
           @id="jury-comment-field"
           aria-label="Texte du commentaire"
