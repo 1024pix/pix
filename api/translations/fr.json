@@ -137,6 +137,13 @@
     },
     "subject": "Invitation à rejoindre Pix Certif"
   },
+  "certification-confirmation": {
+    "absolute-max-level-indication": "Lorsque les 8 niveaux du référentiel Pix seront disponibles, ce nombre maximum sera de 1024 pix.",
+    "file-name": "attestation-pix-{deliveredAt}.pdf",
+    "from-birthplace": " à { birthplace }",
+    "max-level": "(niveaux sur { maxReachableLevelOnCertificationDate })",
+    "max-reachable-level-indication": "* À la date d’obtention de cette certification, le nombre maximum de pix atteignable était de { maxReachableScore }, correspondant au niveau { maxReachableLevelOnCertificationDate }."
+  },
   "certification-result-email": {
     "title": "Consultez les résultats de la session de certification n° {sessionId} !",
     "params": {

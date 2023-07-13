@@ -3,6 +3,9 @@ import Joi from 'joi';
 import { certificationController } from './certification-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { LANG } from '../../domain/constants.js';
+
+const { FRENCH, ENGLISH } = LANG;
 
 const register = async function (server) {
   server.route([
@@ -65,6 +68,7 @@ const register = async function (server) {
           }),
           query: Joi.object({
             isFrenchDomainExtension: Joi.boolean().required(),
+            lang: Joi.string().valid(FRENCH, ENGLISH),
           }),
         },
         handler: certificationController.getPDFAttestation,

@@ -7,6 +7,8 @@ import fs from 'fs';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import { writeFile } from 'fs/promises';
 import * as url from 'url';
+import { getI18n } from '../../../../tooling/i18n/i18n.js';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation Pdf', function () {
@@ -48,10 +50,13 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       ],
     });
     const referencePdfPath = 'certification-attestation-pdf_test_full.pdf';
+    const i18n = getI18n();
 
     // when
     const { buffer } = await getCertificationAttestationsPdfBuffer({
       certificates: [certificate],
+      isFrenchDomainExtension: true,
+      i18n,
       creationDate: new Date('2021-01-01'),
     });
 
@@ -81,10 +86,13 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       ],
     });
     const referencePdfPath = 'certification-attestation-pdf_test_full_edu_temporary.pdf';
+    const i18n = getI18n();
 
     // when
     const { buffer } = await getCertificationAttestationsPdfBuffer({
       certificates: [certificate],
+      isFrenchDomainExtension: true,
+      i18n,
       creationDate: new Date('2021-01-01'),
     });
 
@@ -114,10 +122,13 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       ],
     });
     const referencePdfPath = 'certification-attestation-pdf_test_full_edu.pdf';
+    const i18n = getI18n();
 
     // when
     const { buffer } = await getCertificationAttestationsPdfBuffer({
       certificates: [certificate],
+      isFrenchDomainExtension: true,
+      i18n,
       creationDate: new Date('2021-01-01'),
     });
 
@@ -196,6 +207,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
         deliveredAt: deliveredAfterStartDate,
       });
     const referencePdfPath = 'certification-attestation-pdf_several_pages.pdf';
+    const i18n = getI18n();
 
     // when
     const { buffer } = await getCertificationAttestationsPdfBuffer({
@@ -206,6 +218,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
         certificateComplementaryCertificationsAndWithProfessionalizingMessage,
       ],
       isFrenchDomainExtension: true,
+      i18n,
       creationDate: new Date('2021-01-01'),
     });
 
@@ -234,20 +247,54 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
         },
       ],
     });
+    const i18n = getI18n();
 
     // when
     const error = await catchErr(getCertificationAttestationsPdfBuffer)({
       certificates: [certificate],
+      isFrenchDomainExtension: true,
+      i18n,
       creationDate: new Date('2021-01-01'),
     });
 
     // then
     expect(error).to.be.an.instanceOf(CertificationAttestationGenerationError);
   });
+
+  it('should generate certification confirmation in english', async function () {
+    // given
+    const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
+    const certificate = domainBuilder.buildCertificationAttestation({
+      id: 1,
+      firstName: 'Jean',
+      lastName: 'Bon',
+      resultCompetenceTree,
+      certifiedBadges: [],
+    });
+    const referencePdfPath = 'EN-certification-confirmation-pdf_test.pdf';
+    const i18n = getI18n();
+    i18n.setLocale('en');
+
+    // when
+    const { buffer } = await getCertificationAttestationsPdfBuffer({
+      certificates: [certificate],
+      isFrenchDomainExtension: false,
+      i18n,
+      creationDate: new Date('2021-01-01'),
+    });
+
+    await _writeFile(buffer, referencePdfPath);
+
+    // then
+    expect(
+      await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
+      referencePdfPath + ' is not generated as expected'
+    ).to.be.true;
+  });
 });
 
 async function _writeFile(buffer, outputFilename, dryRun = true) {
-  // Note: to update the reference pdf, set dryRun to false.
+  // Note: to update or create the reference pdf, set dryRun to false.
   if (!dryRun) {
     await writeFile(`${__dirname}/${outputFilename}`, buffer);
   }
