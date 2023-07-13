@@ -4,6 +4,7 @@ import {
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
   USER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
 } from '../constants/update-organization-learners-password-errors.js';
+import { OrganizationLearnerPasswordDTO } from '../models/OrganizationLearnerPasswordDTO.js';
 
 const updateOrganizationLearnersPassword = async function ({
   organizationId,
@@ -35,7 +36,11 @@ const updateOrganizationLearnersPassword = async function ({
     );
   }
 
-  const studentIds = organizationLearners.map((organizationLearner) => organizationLearner.userId);
+  const organizationLearnersMap = new Map();
+  const studentIds = organizationLearners.map((organizationLearner) => {
+    organizationLearnersMap.set(organizationLearner.userId, organizationLearner);
+    return organizationLearner.userId;
+  });
   const students = await userRepository.getByIds(studentIds);
   const studentsHaveAuthenticationMethodWithUsername = students.every((student) => student.username);
 
@@ -43,17 +48,28 @@ const updateOrganizationLearnersPassword = async function ({
     throw new UserNotAuthorizedToUpdatePasswordError(errorMessage, ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE);
   }
 
+  const organizationLearnersGeneratedPassword = [];
+
   const usersToUpdateWithNewPassword = await Promise.all(
-    students.map(async (student) => {
+    students.map(async ({ id: userId, username }) => {
       const generatedPassword = passwordGenerator.generateSimplePassword();
       const hashedPassword = await encryptionService.hashPassword(generatedPassword);
-      return { userId: student.id, hashedPassword };
+
+      organizationLearnersGeneratedPassword.push(
+        new OrganizationLearnerPasswordDTO({
+          username,
+          password: generatedPassword,
+          division: organizationLearnersMap.get(userId).division,
+        })
+      );
+
+      return { userId, hashedPassword };
     })
   );
 
   await authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged({ usersToUpdateWithNewPassword });
 
-  return true;
+  return organizationLearnersGeneratedPassword;
 };
 
 export { updateOrganizationLearnersPassword };
