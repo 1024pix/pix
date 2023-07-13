@@ -6,6 +6,7 @@ import {
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
   USER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
 } from '../../../../lib/domain/constants/update-organization-learners-password-errors.js';
+import { OrganizationLearnerPasswordDTO } from '../../../../lib/domain/models/OrganizationLearnerPasswordDTO.js';
 
 describe('Unit | UseCases | Update organization learners password', function () {
   const hashedPassword = '21fedcba';
@@ -29,13 +30,13 @@ describe('Unit | UseCases | Update organization learners password', function () 
     context(
       'when a list of organization learners with an authentication method "identifiant" is provided',
       function () {
-        it('updates organization learners passwords and returns true', async function () {
+        it('updates organization learners passwords and returns organization learners with their generated password', async function () {
           // given
           const studentIds = ['3', '4'];
           const organizationId = 1;
           const organizationLearnersId = [
-            { organizationId: 1, userId: studentIds[0] },
-            { organizationId: 1, userId: studentIds[1] },
+            { organizationId: 1, userId: studentIds[0], division: '3B' },
+            { organizationId: 1, userId: studentIds[1], division: '3B' },
           ];
           const userId = 2;
           const userWithMemberships = { id: 2, hasAccessToOrganization: sinon.stub().returns(true) };
@@ -54,7 +55,7 @@ describe('Unit | UseCases | Update organization learners password', function () 
           authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged = sinon.stub().resolves();
 
           // when
-          const result = await updateOrganizationLearnersPassword({
+          const organizationLearnersGeneratedPassword = await updateOrganizationLearnersPassword({
             organizationId,
             organizationLearnersId,
             userId,
@@ -72,7 +73,18 @@ describe('Unit | UseCases | Update organization learners password', function () 
           expect(authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged).to.have.been.calledWith({
             usersToUpdateWithNewPassword: userIdHashedPassword,
           });
-          expect(result).to.be.true;
+          expect(organizationLearnersGeneratedPassword).to.have.deep.members([
+            new OrganizationLearnerPasswordDTO({
+              username: 'Paul',
+              password: generatedPassword,
+              division: '3B',
+            }),
+            new OrganizationLearnerPasswordDTO({
+              username: 'Jacques',
+              password: generatedPassword,
+              division: '3B',
+            }),
+          ]);
         });
       }
     );
