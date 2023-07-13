@@ -9,7 +9,7 @@ export default class CreateForm extends Component {
   @service intl;
 
   @tracked campaign;
-  @tracked wantIdPix = false;
+  @tracked wantIdPix = Boolean(this.campaign.idPixLabel);
   @tracked multipleSendingsEnabled = true;
   @tracked targetProfile;
   @tracked targetProfilesOptions = [];
@@ -65,6 +65,14 @@ export default class CreateForm extends Component {
 
   get isCampaignGoalProfileCollection() {
     return this.campaign.type === 'PROFILES_COLLECTION';
+  }
+
+  get isExternalIdNotSelectedChecked() {
+    return this.campaign.idPixLabel === null;
+  }
+
+  get isExternalIdSelectedChecked() {
+    return this.wantIdPix === true;
   }
 
   @action

@@ -20,6 +20,7 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
         { id: 7, fullName: 'Thierry Golo' },
       ];
       const component = await createGlimmerComponent('component:campaign/create-form', {
+        campaign: {},
         membersSortedByFullName,
         targetProfiles: [],
       });
@@ -29,7 +30,7 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
       await component.onChangeCampaignOwner(newOwnerId);
 
       //then
-      assert.deepEqual(component.ownerId, 7);
+      assert.deepEqual(component.campaign.ownerId, 7);
     });
   });
 
@@ -41,6 +42,7 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
       }
       this.owner.register('service:current-user', CurrentUserStub);
       const component = await createGlimmerComponent('component:campaign/create-form', {
+        campaign: {},
         targetProfiles: [],
         membersSortedByFullName: [{ id: 1, fullName: 'Just me' }],
       });
@@ -59,6 +61,7 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
       }
       this.owner.register('service:current-user', CurrentUserStub);
       const component = await createGlimmerComponent('component:campaign/create-form', {
+        campaign: {},
         targetProfiles: [],
         membersSortedByFullName: [{ id: 1, fullName: 'Just me' }],
       });
