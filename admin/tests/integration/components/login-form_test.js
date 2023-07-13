@@ -168,4 +168,36 @@ module('Integration | Component | login-form', function (hooks) {
     // then
     assert.dom(screen.getByRole('link', { name: 'Se connecter avec Google' })).exists();
   });
+
+  module('when user has no pix account', function () {
+    test('should displays a specific error message', async function (assert) {
+      // given
+      this.set('isUserShouldCreateAnAccount', true);
+
+      // when
+      const screen = await render(hbs`<LoginForm @isUserShouldCreateAnAccount={{this.isUserShouldCreateAnAccount}}/>`);
+
+      // then
+      assert.dom(screen.getByText("Vous n'avez pas de compte Pix.")).exists();
+    });
+  });
+
+  module('when api throw an unknown error', function () {
+    test('should displays an error message', async function (assert) {
+      // given
+      this.set('isUnknownErrorOccurs', true);
+
+      // when
+      const screen = await render(hbs`<LoginForm @isUnknownErrorOccurs={{this.isUnknownErrorOccurs}}/>`);
+
+      // then
+      assert
+        .dom(
+          screen.getByText(
+            'Une erreur est survenue. Veuillez recommencer ou contacter les administrateurs de la plateforme.',
+          ),
+        )
+        .exists();
+    });
+  });
 });

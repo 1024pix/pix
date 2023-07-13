@@ -130,4 +130,8 @@ Router.map(function () {
     this.route('administration');
     this.route('tools');
   });
+
+  this.route('authentication', { path: '/connexion' }, function () {
+    this.route('login-oidc', { path: '/:identity_provider_slug' });
+  });
 });

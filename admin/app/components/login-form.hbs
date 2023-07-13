@@ -45,3 +45,15 @@
   <img src="/google-logo.svg" alt="" />
   <span>Se connecter avec Google</span>
 </LinkTo>
+
+{{#if @isUserShouldCreateAnAccount}}
+  <PixMessage @type="alert">
+    Vous n'avez pas de compte Pix.
+  </PixMessage>
+{{/if}}
+
+{{#if @isUnknownErrorOccurs}}
+  <PixMessage @type="alert">
+    Une erreur est survenue. Veuillez recommencer ou contacter les administrateurs de la plateforme.
+  </PixMessage>
+{{/if}}

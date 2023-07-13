@@ -1,7 +1,10 @@
 <div class="login-page">
   <main class="login-page__main">
     <section class="login-page__section">
-      <LoginForm />
+      <LoginForm
+        @isUnknownErrorOccurs={{this.isUnknownErrorOccurs}}
+        @isUserShouldCreateAnAccount={{this.isUserShouldCreateAnAccount}}
+      />
     </section>
 
     <footer>
