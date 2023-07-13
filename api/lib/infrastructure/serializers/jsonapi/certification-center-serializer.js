@@ -7,6 +7,9 @@ import { CertificationCenter } from '../../../domain/models/CertificationCenter.
 const serialize = function (certificationCenters, meta) {
   return new Serializer('certification-center', {
     attributes: ['name', 'type', 'externalId', 'createdAt', 'certificationCenterMemberships', 'habilitations'],
+    typeForAttribute: (attribute) => {
+      if (attribute === 'habilitations') return 'complementary-certifications';
+    },
     certificationCenterMemberships: {
       ref: 'id',
       ignoreRelationshipData: true,

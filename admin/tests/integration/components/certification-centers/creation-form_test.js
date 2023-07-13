@@ -59,8 +59,8 @@ module('Integration | Component | certification-centers/creation-form', function
     test('should add habilitation to certification center on checked checkbox', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const habilitation1 = store.createRecord('habilitation', { key: 'E', label: 'Pix+Edu' });
-      const habilitation2 = store.createRecord('habilitation', { key: 'S', label: 'Pix+Surf' });
+      const habilitation1 = store.createRecord('complementary-certification', { key: 'E', label: 'Pix+Edu' });
+      const habilitation2 = store.createRecord('complementary-certification', { key: 'S', label: 'Pix+Surf' });
       this.certificationCenter = store.createRecord('certification-center');
       this.habilitations = EmberArray([habilitation1, habilitation2]);
       this.stub = () => {};
@@ -84,8 +84,8 @@ module('Integration | Component | certification-centers/creation-form', function
     test('should remove habilitation to certification center on unchecked checkbox', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const habilitation1 = store.createRecord('habilitation', { key: 'E', label: 'Pix+Edu' });
-      const habilitation2 = store.createRecord('habilitation', { key: 'S', label: 'Pix+Surf' });
+      const habilitation1 = store.createRecord('complementary-certification', { key: 'E', label: 'Pix+Edu' });
+      const habilitation2 = store.createRecord('complementary-certification', { key: 'S', label: 'Pix+Surf' });
       this.certificationCenter = store.createRecord('certification-center', {
         habilitations: [habilitation2],
       });

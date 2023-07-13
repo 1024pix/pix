@@ -15,13 +15,13 @@ describe('Acceptance | API | complementary-certification-controller', function (
     server = await createServer();
   });
 
-  describe('GET /api/habilitations/', function () {
+  describe('GET /api/complementary-certifications/', function () {
     it('should return 200 HTTP status code', async function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
       const options = {
         method: 'GET',
-        url: '/api/habilitations',
+        url: '/api/complementary-certifications',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
         },
@@ -46,7 +46,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
       expect(response.result).to.deep.equal({
         data: [
           {
-            type: 'habilitations',
+            type: 'complementary-certifications',
             id: '1',
             attributes: {
               label: 'Pix+ Edu 1er degré',
@@ -54,7 +54,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
             },
           },
           {
-            type: 'habilitations',
+            type: 'complementary-certifications',
             id: '2',
             attributes: {
               label: 'Cléa Numérique',

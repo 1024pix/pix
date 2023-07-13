@@ -20,8 +20,8 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     });
     await createAuthenticateSession({ userId });
 
-    server.create('habilitation', { key: 'S', label: 'Pix+Surf' });
-    server.create('habilitation', { key: 'A', label: 'Pix+Autre' });
+    server.create('complementary-certification', { key: 'S', label: 'Pix+Surf' });
+    server.create('complementary-certification', { key: 'A', label: 'Pix+Autre' });
 
     const name = 'name';
     const type = { label: 'Organisation professionnelle', value: 'PRO' };
