@@ -1,10 +1,24 @@
 import Service, { inject as service } from '@ember/service';
+import isEmpty from 'lodash/isEmpty';
 
 export default class OidcIdentityProviders extends Service {
   @service store;
 
   get list() {
     return this.store.peekAll('oidc-identity-provider').toArray();
+  }
+
+  getIdentityProviderNamesByAuthenticationMethods(methods) {
+    const identityProviderCodes = methods.map(({ identityProvider }) => identityProvider);
+    return this.list
+      .filter((provider) => identityProviderCodes.includes(provider.code))
+      .map((provider) => provider.organizationName);
+  }
+
+  isFwbActivated() {
+    const identityProviderSlug = 'fwb';
+    const oidcIdentityProviders = this.list.filter((provider) => provider.id === identityProviderSlug);
+    return !isEmpty(oidcIdentityProviders);
   }
 
   async load() {
