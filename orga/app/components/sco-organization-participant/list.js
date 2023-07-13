@@ -8,6 +8,7 @@ import { guidFor } from '@ember/object/internals';
 export default class ScoList extends Component {
   @service currentUser;
   @service intl;
+  @service store;
 
   @tracked isLoadingDivisions;
   @tracked student = null;
@@ -91,8 +92,16 @@ export default class ScoList extends Component {
 
   @action
   async resetPasswordForStudents(affectedStudents, resetSelectedStudents) {
-    this.closeResetPasswordModal();
-    resetSelectedStudents();
+    const affectedStudentsIds = affectedStudents.map((affectedStudents) => affectedStudents.id);
+    try {
+      await this.store
+        .adapterFor('sco-organization-participant')
+        .resetOrganizationLearnersPassword(this.currentUser.organization.id, affectedStudentsIds);
+      this.closeResetPasswordModal();
+      resetSelectedStudents();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   @action

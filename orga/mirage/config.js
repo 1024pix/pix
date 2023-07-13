@@ -393,6 +393,10 @@ export default function () {
     });
   });
 
+  this.put('/sco-organization-learners/passwords', () => {
+    return emptyData;
+  });
+
   this.post('/sco-organization-learners/username-password-generation', (schema) => {
     return schema.dependentUsers.create({
       username: 'user.gar3112',
