@@ -5,7 +5,7 @@ import { visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
-module.only('Acceptance | Complementary certifications | List', function (hooks) {
+module('Acceptance | Complementary certifications | List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
