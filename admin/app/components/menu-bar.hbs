@@ -56,7 +56,10 @@
       <li class="menu-bar__entry">
         <PixTooltip @position="right" @inline={{true}}>
           <:triggerElement>
-            <LinkTo @route="authenticated.complementary-certifications.list" class="menu-bar__link">
+            <LinkTo
+              @route="authenticated.target-profiles-versioning.complementary-certifications"
+              class="menu-bar__link"
+            >
               <FaIcon @icon="stamp" @title="Versioning des profils cibles" />
             </LinkTo>
           </:triggerElement>
