@@ -13,7 +13,7 @@
       type="text"
       class="input"
       maxlength="255"
-      {{on "change" this.onChangeCampaignName}}
+      {{on "change" (fn this.onChangeCampaignValue "name")}}
       @value={{this.campaign.name}}
       required={{true}}
       aria-required={{true}}
@@ -207,7 +207,7 @@
         @label={{t "pages.campaign-creation.external-id-label.label"}}
         maxlength="255"
         @requiredLabel={{t "pages.campaign-creation.external-id-label.required"}}
-        {{on "change" this.onChangeExternalIdLabel}}
+        {{on "change" (fn this.onChangeCampaignValue "idPixLabel")}}
         @value={{this.campaign.idPixLabel}}
       />
       {{#if @errors.idPixLabel}}
@@ -225,7 +225,7 @@
         @id="campaign-title"
         @name="campaign-title"
         maxlength="50"
-        {{on "change" this.onChangeCampaignTitle}}
+        {{on "change" (fn this.onChangeCampaignValue "title")}}
         @value={{this.campaign.title}}
       />
     </div>
