@@ -52,6 +52,18 @@
         </PixTooltip>
       </li>
     {{/if}}
+    {{#if this.accessControl.hasAccessToTargetProfileVersioningScope}}
+      <li class="menu-bar__entry">
+        <PixTooltip @position="right" @inline={{true}}>
+          <:triggerElement>
+            <LinkTo @route="authenticated.complementary-certifications.list" class="menu-bar__link">
+              <FaIcon @icon="stamp" @title="Versioning des profils cibles" />
+            </LinkTo>
+          </:triggerElement>
+          <:tooltip>Versioning des profils cibles</:tooltip>
+        </PixTooltip>
+      </li>
+    {{/if}}
     {{#if this.accessControl.hasAccessToTargetProfilesActionsScope}}
       <li class="menu-bar__entry">
         <PixTooltip @position="right" @inline={{true}}>

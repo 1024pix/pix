@@ -1,9 +1,9 @@
-import Service from '@ember/service';
-import { service } from '@ember/service';
+import Service, { service } from '@ember/service';
 
 export default class AccessControlService extends Service {
   @service currentUser;
   @service router;
+  @service featureToggles;
 
   get hasAccessToUsersActionsScope() {
     return this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isSupport;
@@ -54,5 +54,16 @@ export default class AccessControlService extends Service {
 
   get hasAccessToOrganizationPlacesActionsScope() {
     return !!(this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isMetier);
+  }
+
+  get hasAccessToTargetProfileVersioningScope() {
+    return (
+      this.featureToggles.featureToggles.isTargetProfileVersioningEnabled &&
+      !!(
+        this.currentUser.adminMember.isSuperAdmin ||
+        this.currentUser.adminMember.isSupport ||
+        this.currentUser.adminMember.isMetier
+      )
+    );
   }
 }

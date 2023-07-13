@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
@@ -292,6 +293,78 @@ module('Unit | Service | access-control', function (hooks) {
 
       // when / then
       assert.false(service.hasAccessToCertificationActionsScope);
+    });
+  });
+
+  module('#hasAccessToTargetProfileVersioningActionsScope', function () {
+    test('should be false if FT_TARGET_PROFILE_VERSIONING is false', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isSuperAdmin: true };
+      this.owner.lookup('service:store');
+      class FeatureTogglesStub extends Service {
+        featureToggles = { isTargetProfileVersioningEnabled: false };
+      }
+      this.owner.register('service:featureToggles', FeatureTogglesStub);
+
+      const service = this.owner.lookup('service:access-control');
+
+      // when / then
+      assert.false(service.hasAccessToTargetProfileVersioningScope);
+    });
+
+    module('when FT_TARGET_PROFILE_VERSIONING is true ', function (hooks) {
+      hooks.beforeEach(async function () {
+        this.owner.lookup('service:store');
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isTargetProfileVersioningEnabled: true };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+      });
+
+      test('should be true if current admin member is Super admin', function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isSuperAdmin: true };
+
+        const service = this.owner.lookup('service:access-control');
+
+        // when / then
+        assert.true(service.hasAccessToTargetProfileVersioningScope);
+      });
+
+      test('should be true if user is Support', function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isSupport: true };
+
+        const service = this.owner.lookup('service:access-control');
+
+        // when / then
+        assert.true(service.hasAccessToTargetProfileVersioningScope);
+      });
+
+      test('should be false if user is Certif', function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isCertif: true };
+
+        const service = this.owner.lookup('service:access-control');
+
+        // when / then
+        assert.false(service.hasAccessToTargetProfileVersioningScope);
+      });
+
+      test('should be true if user is Metier', function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isMetier: true };
+
+        const service = this.owner.lookup('service:access-control');
+
+        // when / then
+        assert.true(service.hasAccessToTargetProfileVersioningScope);
+      });
     });
   });
 
