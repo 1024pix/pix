@@ -5,6 +5,7 @@ import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library
 import Service from '@ember/service';
 import sinon from 'sinon';
 import { hbs } from 'ember-cli-htmlbars';
+import { waitForDialog } from '../../../helpers/wait-for';
 
 module('Integration | Component | ScoOrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -1123,6 +1124,10 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificability', []);
     });
 
+    hooks.afterEach(function () {
+      sinon.restore();
+    });
+
     test('displays action bar', async function (assert) {
       //given
       const students = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
@@ -1260,7 +1265,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       });
 
       module('when there is at least one student with "identifiant" as an authentication method', function () {
-        test('"Confirm button is enabled"', async function (assert) {
+        test('"Confirm" button is enabled', async function (assert) {
           //given
           const students = [
             { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
@@ -1305,6 +1310,56 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           //then
           assert.dom(modalTitle).exists();
           assert.false(confirmationButton.disabled);
+        });
+
+        test('closes dialog', async function (assert) {
+          //given
+          const store = this.owner.lookup('service:store');
+          sinon.stub(store, 'adapterFor').returns({ resetOrganizationLearnersPassword: sinon.stub().resolves() });
+
+          const students = [
+            { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+            { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+          ];
+
+          this.set('students', students);
+
+          //when
+          const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
+
+          const firstStudent = await screen.getAllByRole('checkbox')[1];
+          const secondStudent = await screen.getAllByRole('checkbox')[2];
+          await click(firstStudent);
+          await click(secondStudent);
+
+          const resetPasswordButton = await screen.findByRole('button', {
+            name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+          });
+          await click(resetPasswordButton);
+          await waitForDialog();
+
+          const confirmationButton = await screen.findByRole('button', {
+            name: this.intl.t('common.actions.confirm'),
+          });
+          await click(confirmationButton);
+          const resetPasswordsModal = await screen.queryByRole('dialog');
+
+          //then
+          assert.dom(resetPasswordsModal).isNotVisible();
         });
       });
     });
