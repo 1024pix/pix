@@ -110,18 +110,8 @@ export default class CreateForm extends Component {
   }
 
   @action
-  onChangeCampaignName(event) {
-    this.campaign.name = event.target.value;
-  }
-
-  @action
-  onChangeExternalIdLabel(event) {
-    this.campaign.idPixLabel = event.target.value;
-  }
-
-  @action
-  onChangeCampaignTitle(event) {
-    this.campaign.title = event.target.value;
+  onChangeCampaignValue(key, event) {
+    this.campaign[key] = event.target.value;
   }
 
   @action
