@@ -89,7 +89,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
               data: [
                 {
                   id: '1',
-                  type: 'habilitations',
+                  type: 'complementary-certifications',
                 },
               ],
             },
@@ -98,7 +98,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
         included: [
           {
             id: '1',
-            type: 'habilitations',
+            type: 'complementary-certifications',
             attributes: {
               key: 'SURF',
               label: 'Pix+surf',

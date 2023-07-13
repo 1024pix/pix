@@ -5,7 +5,7 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/habilitations',
+      path: '/api/complementary-certifications',
       config: {
         pre: [
           {
@@ -20,7 +20,7 @@ const register = async function (server) {
           },
         ],
         handler: complementaryCertificationController.findComplementaryCertifications,
-        tags: ['api'],
+        tags: ['api', 'admin'],
         notes: [
           'Cette route est utilisée par Pix Admin',
           'Elle renvoie la liste des certifications complémentaires existantes.',

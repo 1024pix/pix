@@ -15,7 +15,7 @@ module('Unit | Route | authenticated/certification-centers/get', function (hooks
     store.findRecord = sinon.stub();
     store.findRecord.withArgs('certification-center', 777).resolves(certificationCenter);
     store.findAll = sinon.stub();
-    store.findAll.withArgs('habilitation').resolves(habilitations);
+    store.findAll.withArgs('complementary-certification').resolves(habilitations);
 
     // when
     const result = await route.model({ certification_center_id: 777 });

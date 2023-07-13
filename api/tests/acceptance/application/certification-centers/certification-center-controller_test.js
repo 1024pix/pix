@@ -85,7 +85,7 @@ describe('Acceptance | API | Certification Center', function () {
                   data: [
                     {
                       id: '12',
-                      type: 'habilitations',
+                      type: 'complementary-certifications',
                     },
                   ],
                 },
@@ -120,7 +120,7 @@ describe('Acceptance | API | Certification Center', function () {
           included: [
             {
               id: '12',
-              type: 'habilitations',
+              type: 'complementary-certifications',
               attributes: {
                 label: 'Pix+Edu 1er degré',
                 key: 'EDU_1ER_DEGRE',
@@ -196,7 +196,7 @@ describe('Acceptance | API | Certification Center', function () {
                 habilitations: {
                   data: [
                     {
-                      type: 'habilitations',
+                      type: 'complementary-certifications',
                       id: `${complementaryCertification.id}`,
                     },
                   ],
@@ -234,7 +234,7 @@ describe('Acceptance | API | Certification Center', function () {
                 habilitations: {
                   data: [
                     {
-                      type: 'habilitations',
+                      type: 'complementary-certifications',
                       id: `${complementaryCertification.id}`,
                     },
                   ],
