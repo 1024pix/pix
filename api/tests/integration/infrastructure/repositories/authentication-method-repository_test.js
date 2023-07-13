@@ -1189,4 +1189,69 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       expect(untouchedAuthenticationMethod.updatedAt).to.deep.equal(new Date('2018-01-01'));
     });
   });
+
+  describe('#batchUpdatePasswordThatShouldBeChanged', function () {
+    it('updates password for provided users list', async function () {
+      // given
+      const pierre = databaseBuilder.factory.buildUser.withRawPassword({ firstName: 'Pierre' });
+      const pierreNewHashedPassword = 'PierrePasswordHashed';
+      const paul = databaseBuilder.factory.buildUser.withRawPassword({ firstName: 'Paul' });
+      const paulNewHashedPassword = 'PaulPasswordHashed';
+      const usersToUpdateWithNewPassword = [
+        { userId: pierre.id, hashedPassword: pierreNewHashedPassword },
+        { userId: paul.id, hashedPassword: paulNewHashedPassword },
+      ];
+
+      await databaseBuilder.commit();
+
+      // when
+      await authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged({ usersToUpdateWithNewPassword });
+
+      // then
+      const authenticationMethods = await knex('authentication-methods')
+        .pluck('authenticationComplement')
+        .whereIn('userId', [pierre.id, paul.id]);
+
+      expect(authenticationMethods[0].password).to.equal(pierreNewHashedPassword);
+      expect(authenticationMethods[0].shouldChangePassword).to.be.true;
+
+      expect(authenticationMethods[1].password).to.equal(paulNewHashedPassword);
+      expect(authenticationMethods[1].shouldChangePassword).to.be.true;
+    });
+
+    describe('when database transaction fails', function () {
+      it('does not alter users authentication methods', async function () {
+        // given
+        const miles = databaseBuilder.factory.buildUser({ firstName: 'Miles' });
+        const milesNewHashedPassword = 'PierrePasswordHashed';
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          id: 123,
+          userId: miles.id,
+          hashedPassword,
+          shouldChangePassword: false,
+        });
+        await databaseBuilder.commit();
+
+        const usersToUpdateWithNewPassword = [{ userId: miles.id, hashedPassword: milesNewHashedPassword }];
+
+        // when
+        await catchErr(async function () {
+          await DomainTransaction.execute(async (domainTransaction) => {
+            await authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged({
+              usersToUpdateWithNewPassword,
+              domainTransaction,
+            });
+            throw new Error('Error occurs in transaction');
+          });
+        })();
+
+        // then
+        const [authenticationComplement] = await knex('authentication-methods')
+          .pluck('authenticationComplement')
+          .where({ id: 123 });
+        expect(authenticationComplement.password).to.equal(hashedPassword);
+        expect(authenticationComplement.shouldChangePassword).to.be.false;
+      });
+    });
+  });
 });
