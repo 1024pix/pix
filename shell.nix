@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> { } }:
 
 let
   lib = import <nixpkgs/lib>;
@@ -6,17 +6,18 @@ let
     python = pkgs.python310;
   };
 
-  nodejsVersion = lib.fileContents ./.nvmrc;
+  nodejsVersion = "16.19.1";
 
   nodejs = buildNodeJs {
     enableNpm = true;
     version = nodejsVersion;
-    sha256 = "sha256-BetkGT45H6iiwVnA9gwXGCRxUWX4DGf8q528lE4wxiM=";
+    sha256 = "sha256-F/txZAYZgSWzDJTdPRdWIHspdwViav4W2NxHmmWh2LU=";
   };
 
   NPM_CONFIG_PREFIX = toString ./npm_config_prefix;
 
-in pkgs.mkShell {
+in
+pkgs.mkShell {
   packages = with pkgs; [
     nodejs
   ];
@@ -27,4 +28,3 @@ in pkgs.mkShell {
     export PATH="${NPM_CONFIG_PREFIX}/bin:$PATH"
   '';
 }
-
