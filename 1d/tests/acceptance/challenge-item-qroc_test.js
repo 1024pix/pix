@@ -1,4 +1,4 @@
-import { click, fillIn, findAll } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -18,10 +18,10 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
     test('should render challenge information and question', async function (assert) {
       // when
-      await visit(`/assessments/${assessment.id}/challenges`);
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
       // then
-      assert.dom('.challenge-response__proposal').exists({ count: 1 });
-      assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Rue de : '));
+      assert.dom('.challenge-item-proposals__response').exists({ count: 1 });
+      assert.dom(screen.getByText('Rue de :')).exists();
     });
 
     test.skip('should display the warning dialog if user validates without writing an answer in input', async function (assert) {
@@ -48,15 +48,15 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
   module('with text-area format', function (hooks) {
     hooks.beforeEach(async function () {
       assessment = this.server.create('assessment');
-      this.server.create('challenge', 'withTextArea');
+      this.server.create('challenge', 'QROCWithTextArea');
     });
 
     test('should render challenge information and question', async function (assert) {
       // when
-      await visit(`/assessments/${assessment.id}/challenges`);
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
       // then
-      assert.dom('.challenge-response__proposal').exists({ count: 1 });
-      assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Rue de : '));
+      assert.dom('.challenge-item-proposals__response').exists({ count: 1 });
+      assert.dom(screen.getByText('Rue de :')).exists();
     });
 
     test.skip('should display the warning dialog if user validates without writing an answer in input', async function (assert) {
@@ -88,11 +88,11 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
     test('should render challenge information and question', async function (assert) {
       // given
-      await visit(`/assessments/${assessment.id}/challenges`);
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
 
       // then
-      assert.dom('.challenge-response__proposal').exists({ count: 1 });
-      assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Select: '));
+      assert.dom('.challenge-item-proposals__response').exists({ count: 1 });
+      assert.dom(screen.getByText('Select:')).exists();
     });
 
     test('should allow selecting a value', async function (assert) {

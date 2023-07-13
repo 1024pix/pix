@@ -1,4 +1,4 @@
-<div class="challenge-proposals">
+<div class="challenge-item-proposals">
   {{#each this._blocks as |block|}}
     {{#if block.text}}
       <label for="qroc_input">
@@ -13,7 +13,7 @@
       {{#if (eq block.type "select")}}
         <PixSelect
           data-uid="qroc-proposal-uid"
-          class="challenge-response__proposal"
+          class="challenge-item-proposals__response"
           @label={{block.ariaLabel}}
           @screenReaderOnly={{true}}
           @placeholder={{block.placeholder}}
@@ -25,7 +25,7 @@
       {{else if (eq @challenge.format "paragraphe")}}
         <PixTextarea
           @id="qroc_input"
-          class="challenge-response__proposal challenge-response__proposal--paragraph"
+          class="challenge-item-proposals__response challenge-item-proposals__response--paragraph"
           rows="5"
           placeholder={{block.placeholder}}
           name={{block.randomName}}
@@ -38,7 +38,7 @@
           @id="qroc_input"
           name={{block.randomName}}
           type="text"
-          class="challenge-response__proposal challenge-response__proposal--sentence"
+          class="challenge-item-proposals__response"
           placeholder={{block.placeholder}}
           autocomplete="nope"
           data-uid="qroc-proposal-uid"
@@ -47,7 +47,7 @@
       {{else if (eq @challenge.format "nombre")}}
         <PixInput
           @id="qroc_input"
-          class="challenge-response__proposal challenge-response__proposal--number"
+          class="challenge-item-proposals__response challenge-item-proposals__response--number"
           name={{block.randomName}}
           type="number"
           min="0"
@@ -58,7 +58,7 @@
         />
       {{else}}
         <PixInput
-          class="challenge-response__proposal challenge-response__proposal--short-text"
+          class="challenge-item-proposals__response challenge-item-proposals__response--short-text"
           @id="qroc_input"
           @ariaLabel={{block.ariaLabel}}
           type="text"
