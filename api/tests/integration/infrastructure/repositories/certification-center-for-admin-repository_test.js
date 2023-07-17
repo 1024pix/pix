@@ -184,7 +184,7 @@ describe('Integration | Repository | certification-center-for-admin', function (
           ...certificationCenter,
           name: 'Great Oak Certification Center',
           updatedAt: updatedCertificationCenter.updatedAt,
-        })
+        }),
       );
     });
   });

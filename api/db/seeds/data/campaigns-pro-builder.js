@@ -461,7 +461,7 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
       user,
       organizationLearnerId: user.id,
       status: STARTED,
-    })
+    }),
   );
   userIdsNotShared.forEach((user) =>
     participateToAssessmentCampaign({
@@ -470,7 +470,7 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
       user,
       organizationLearnerId: user.id,
       status: TO_SHARE,
-    })
+    }),
   );
   userIdsNotShared2.forEach((user) => {
     const campaignParticipationId = participateToAssessmentCampaign({
@@ -493,7 +493,7 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
       user,
       organizationLearnerId: user.id,
       status: SHARED,
-    })
+    }),
   );
   userIdsCompletedShared2.forEach((user) => {
     const campaignParticipationId = participateToAssessmentCampaign({
@@ -537,7 +537,7 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
       user,
       organizationLearnerId: user.id,
       status: STARTED,
-    })
+    }),
   );
   userIdsNotShared.forEach((user) =>
     participateToAssessmentCampaign({
@@ -546,7 +546,7 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
       user,
       organizationLearnerId: user.id,
       status: TO_SHARE,
-    })
+    }),
   );
   userIdsNotShared2.forEach((user) =>
     participateToAssessmentCampaign({
@@ -556,7 +556,7 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
       organizationLearnerId: user.id,
       status: TO_SHARE,
       isImprovingOldParticipation: true,
-    })
+    }),
   );
   userIdsCompletedShared.forEach((user) =>
     participateToAssessmentCampaign({
@@ -565,7 +565,7 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
       user,
       organizationLearnerId: user.id,
       status: SHARED,
-    })
+    }),
   );
   userIdsCompletedShared2.forEach((user) =>
     participateToAssessmentCampaign({
@@ -575,7 +575,7 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
       organizationLearnerId: user.id,
       status: SHARED,
       isImprovingOldParticipation: true,
-    })
+    }),
   );
 }
 
@@ -607,7 +607,7 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
         userId: certifUser.id,
         organizationId: PRO_COMPANY_ID,
       });
-    }
+    },
   );
 
   [...userIdsNotShared, certifRegularUser4, certifRegularUser5].forEach((user) =>
@@ -617,7 +617,7 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
       user,
       organizationLearnerId: user.id,
       status: TO_SHARE,
-    })
+    }),
   );
   [...userIdsShared, certifRegularUser1, certifRegularUser2, certifRegularUser3].forEach((user) =>
     participateToProfilesCollectionCampaign({
@@ -627,7 +627,7 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
       organizationLearnerId: user.id,
       status: SHARED,
       sharedAt,
-    })
+    }),
   );
 
   //multiple sendings profiles collection campaign
@@ -639,7 +639,7 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
       organizationLearnerId: user.id,
       status: SHARED,
       isCertifiable: userIdsCertifiable.includes(user.id),
-    })
+    }),
   );
   userIdsNotShared.forEach((user) =>
     participateToProfilesCollectionCampaign({
@@ -650,7 +650,7 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
       status: TO_SHARE,
       isImprovingOldParticipation: true,
       isCertifiable: null,
-    })
+    }),
   );
   [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach((user) =>
     participateToProfilesCollectionCampaign({
@@ -660,7 +660,7 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
       organizationLearnerId: user.id,
       status: SHARED,
       isImprovingOldParticipation: true,
-    })
+    }),
   );
 
   //deleted participations

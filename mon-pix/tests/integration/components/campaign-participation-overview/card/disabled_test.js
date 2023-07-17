@@ -27,18 +27,20 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
 
         // when
         const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
+          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`,
         );
 
         // then
         assert.ok(screen.getByRole('heading', { name: 'My organization' }));
         assert.ok(screen.getByText('My campaign'));
         assert.ok(
-          screen.getByText('Parcours désactivé par votre organisation.Vous ne pouvez plus envoyer vos résultats.')
+          screen.getByText('Parcours désactivé par votre organisation.Vous ne pouvez plus envoyer vos résultats.'),
         );
         assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.tag.disabled')));
         assert.ok(
-          screen.getByText(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' }))
+          screen.getByText(
+            this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' }),
+          ),
         );
       });
 
@@ -56,18 +58,20 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
 
         // when
         const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
+          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`,
         );
 
         // then
         assert.ok(screen.getByRole('heading', { name: 'My organization' }));
         assert.ok(screen.getByText('My campaign'));
         assert.ok(
-          screen.getByText('Parcours désactivé par votre organisation.Vous ne pouvez plus envoyer vos résultats.')
+          screen.getByText('Parcours désactivé par votre organisation.Vous ne pouvez plus envoyer vos résultats.'),
         );
         assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.tag.disabled')));
         assert.ok(
-          screen.getByText(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' }))
+          screen.getByText(
+            this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' }),
+          ),
         );
       });
 
@@ -85,7 +89,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
 
         // when
         const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
+          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`,
         );
 
         // then
@@ -109,7 +113,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
 
         // when
         const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
+          hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`,
         );
 
         // then
@@ -132,7 +136,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
 
           // when
           const screen = await render(
-            hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
+            hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`,
           );
 
           // then
@@ -158,7 +162,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
 
           // when
           const screen = await render(
-            hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`
+            hbs`<CampaignParticipationOverview::Card::Disabled @model={{this.campaignParticipationOverview}} />`,
           );
 
           // then

@@ -126,7 +126,7 @@ const getRefererEmails = async function (certificationCenterId) {
     .join(
       'certification-center-memberships',
       'certification-center-memberships.certificationCenterId',
-      'certification-centers.id'
+      'certification-centers.id',
     )
     .join('users', 'users.id', 'certification-center-memberships.userId')
     .where('certification-centers.id', certificationCenterId)

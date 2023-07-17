@@ -44,7 +44,7 @@ class AnswerCollectionForScoring {
 
   numberOfChallengesForCompetence(competenceId) {
     const challengesForCompetence = this.challengesWithAnswers.filter(
-      (challengeWithAnswer) => challengeWithAnswer.competenceId() === competenceId
+      (challengeWithAnswer) => challengeWithAnswer.competenceId() === competenceId,
     );
     const numberOfChallenges = _(challengesForCompetence)
       .map((challenge) => {
@@ -60,7 +60,7 @@ class AnswerCollectionForScoring {
 
   numberOfCorrectAnswersForCompetence(competenceId) {
     const challengesWithAnswersForCompetence = this.challengesWithAnswers.filter(
-      (challengeWithAnswer) => challengeWithAnswer.competenceId() === competenceId
+      (challengeWithAnswer) => challengeWithAnswer.competenceId() === competenceId,
     );
     let nbOfCorrectAnswers = 0;
     challengesWithAnswersForCompetence.forEach((challengeWithAnswer) => {
@@ -80,7 +80,7 @@ class AnswerCollectionForScoring {
 
   numberOfNeutralizedChallengesForCompetence(competenceId) {
     const answersForCompetence = this.challengesWithAnswers.filter(
-      (challengeWithAnswer) => challengeWithAnswer.competenceId() === competenceId
+      (challengeWithAnswer) => challengeWithAnswer.competenceId() === competenceId,
     );
     return _(answersForCompetence)
       .map((answer) => {

@@ -110,7 +110,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}}/>`
+        hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}}/>`,
       );
 
       // then
@@ -173,8 +173,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       // then
       assert.ok(
         find('.challenge-statement__instruction-section > .sr-only').textContent.includes(
-          this.intl.t('pages.challenge.statement.sr-only.embed')
-        )
+          this.intl.t('pages.challenge.statement.sr-only.embed'),
+        ),
       );
     });
 
@@ -193,8 +193,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       // then
       assert.ok(
         find('.challenge-statement__instruction-section > .sr-only').textContent.includes(
-          this.intl.t('pages.challenge.statement.sr-only.alternative-instruction')
-        )
+          this.intl.t('pages.challenge.statement.sr-only.alternative-instruction'),
+        ),
       );
     });
   });
@@ -440,7 +440,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
         // then
         assert.strictEqual(
           find('span[data-test-id="challenge-statement__text-content"]').textContent.trim(),
-          'Choisissez le type de fichier que vous voulez utiliser'
+          'Choisissez le type de fichier que vous voulez utiliser',
         );
       });
 

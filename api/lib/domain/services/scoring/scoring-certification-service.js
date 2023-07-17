@@ -30,7 +30,7 @@ function _getCompetenceMarksWithCertifiedLevelAndScore(
   certificationChallenges,
   continueOnError,
   answerCollection,
-  allAreas
+  allAreas,
 ) {
   return listCompetences.map((competence) => {
     const challengesForCompetence = _.filter(certificationChallenges, { competenceId: competence.id });
@@ -89,7 +89,7 @@ function _getResult(answers, certificationChallenges, testedCompetences, allArea
   const hasEnoughNonNeutralizedChallengesToBeTrusted =
     CertificationContract.hasEnoughNonNeutralizedChallengesToBeTrusted(
       answerCollection.numberOfChallenges(),
-      answerCollection.numberOfNonNeutralizedChallenges()
+      answerCollection.numberOfNonNeutralizedChallenges(),
     );
 
   if (!reproducibilityRate.isEnoughToBeCertified()) {
@@ -107,7 +107,7 @@ function _getResult(answers, certificationChallenges, testedCompetences, allArea
     certificationChallenges,
     continueOnError,
     answerCollection,
-    allAreas
+    allAreas,
   );
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competenceMarks);
 
@@ -150,13 +150,13 @@ const calculateCertificationAssessmentScore = async function ({
   // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
   const matchingCertificationChallenges = _selectChallengesMatchingCompetences(
     certificationAssessment.certificationChallenges,
-    testedCompetences
+    testedCompetences,
   );
 
   // map sur challenges filtre sur challenge Id
   const matchingAnswers = _selectAnswersMatchingCertificationChallenges(
     certificationAssessment.certificationAnswersByDate,
-    matchingCertificationChallenges
+    matchingCertificationChallenges,
   );
 
   const allAreas = await dependencies.areaRepository.list();

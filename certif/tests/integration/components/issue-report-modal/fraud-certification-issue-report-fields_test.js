@@ -45,8 +45,8 @@ module('Integration | Component | issue-report-modal/fraud-certification-issue-r
     assert
       .dom(
         screen.getByText(
-          'Merci de transmettre le procès-verbal de fraude rempli pendant la session de certification en utilisant'
-        )
+          'Merci de transmettre le procès-verbal de fraude rempli pendant la session de certification en utilisant',
+        ),
       )
       .exists();
     assert.dom(screen.getByText('ce formulaire')).exists();

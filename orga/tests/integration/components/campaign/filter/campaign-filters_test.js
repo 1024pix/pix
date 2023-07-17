@@ -20,7 +20,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
   @onFilter={{this.triggerFilteringSpy}}
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
-/>`
+/>`,
     );
 
     // then
@@ -43,7 +43,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
   @nameFilter={{this.nameFilter}}
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
-/>`
+/>`,
       );
 
       // When
@@ -64,7 +64,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
   @listOnlyCampaignsOfCurrentUser={{true}}
-/>`
+/>`,
       );
 
       // then
@@ -83,7 +83,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
   @onFilter={{this.triggerFiltering}}
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
-/>`
+/>`,
     );
 
     await fillByLabel(t('pages.campaigns-list.filter.by-name'), 'Sal');
@@ -103,7 +103,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
   @onFilter={{this.triggerFiltering}}
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
-/>`
+/>`,
     );
 
     await fillByLabel(t('pages.campaigns-list.filter.by-owner'), 'Sal');
@@ -119,7 +119,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
   @onFilter={{this.triggerFilteringSpy}}
   @onClearFilters={{this.onClickClearFiltersSpy}}
   @numResults={{1}}
-/>`
+/>`,
     );
 
     // then

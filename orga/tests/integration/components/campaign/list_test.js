@@ -20,7 +20,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
@@ -36,7 +36,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
@@ -58,7 +58,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
@@ -85,7 +85,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
@@ -114,7 +114,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
@@ -142,7 +142,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
@@ -169,7 +169,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
@@ -200,7 +200,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
@@ -222,7 +222,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
@@ -244,7 +244,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
       // when
       await render(
-        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
@@ -271,7 +271,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
   @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
-/>`
+/>`,
         );
 
         // then
@@ -295,7 +295,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
   @allCampaignsContext={{false}}
-/>`
+/>`,
       );
 
       // then
@@ -315,7 +315,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
   @onFilter={{this.noop}}
   @onClickCampaign={{this.noop}}
   @allCampaignsContext={{true}}
-/>`
+/>`,
       );
 
       // then

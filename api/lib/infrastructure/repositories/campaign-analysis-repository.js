@@ -23,7 +23,7 @@ const getCampaignAnalysis = async function (campaignId, campaignLearningContent,
   await bluebird.mapSeries(userIdsAndSharedDatesChunks, async (userIdsAndSharedDates) => {
     const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
       Object.fromEntries(userIdsAndSharedDates),
-      campaignLearningContent
+      campaignLearningContent,
     );
     campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
   });
@@ -35,7 +35,7 @@ const getCampaignParticipationAnalysis = async function (
   campaignId,
   campaignParticipation,
   campaignLearningContent,
-  tutorials
+  tutorials,
 ) {
   const campaignAnalysis = new CampaignAnalysis({
     campaignId,
@@ -46,7 +46,7 @@ const getCampaignParticipationAnalysis = async function (
 
   const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
     { [campaignParticipation.userId]: campaignParticipation.sharedAt },
-    campaignLearningContent
+    campaignLearningContent,
   );
   campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
 

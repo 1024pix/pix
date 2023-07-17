@@ -38,7 +38,7 @@ module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
       this.route = 'someRoute';
       this.routeId = 'someRouteId';
       await render(
-        hbs`<Ui::PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @backButtonAriaLabel='Une instruction' />`
+        hbs`<Ui::PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @backButtonAriaLabel='Une instruction' />`,
       );
 
       // when

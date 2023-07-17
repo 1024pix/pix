@@ -212,7 +212,7 @@ export default class EnrolledCandidates extends Component {
         ({ lastName, firstName, birthdate }) =>
           lastName.toLowerCase() === currentLastName.toLowerCase() &&
           firstName.toLowerCase() === currentFirstName.toLowerCase() &&
-          birthdate === currentBirthdate
+          birthdate === currentBirthdate,
       ) !== undefined
     );
   }

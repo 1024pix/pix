@@ -41,7 +41,7 @@ const categoryCandidateInformationChangesJoiSchema = Joi.object({
     .required()
     .valid(
       CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
-      CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE
+      CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE,
     ),
 });
 
@@ -63,7 +63,7 @@ const categoryInChallengeJoiSchema = Joi.object({
       CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
       CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
       CertificationIssueReportSubcategories.SKIP_ON_OOPS,
-      CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE
+      CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
     ),
 });
 

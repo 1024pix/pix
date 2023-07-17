@@ -68,14 +68,14 @@ export default class ImportController extends Controller {
     if (warnings['study-scheme']) {
       const studySchemes = uniq(warnings['study-scheme'].map((warning) => warning.value)).join(', ');
       warningMessages.push(
-        this.intl.t('pages.sup-organization-participants-import.warnings.study-scheme', { studySchemes })
+        this.intl.t('pages.sup-organization-participants-import.warnings.study-scheme', { studySchemes }),
       );
     }
     return this.notifications.sendWarning(
       this.intl.t('pages.sup-organization-participants-import.global-success-with-warnings', {
         warnings: warningMessages.join(''),
         htmlSafe: true,
-      })
+      }),
     );
   }
 
@@ -88,7 +88,7 @@ export default class ImportController extends Controller {
         if (error.status === '412' || error.status === '413') {
           const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
           return this.notifications.sendError(
-            this.intl.t('pages.sup-organization-participants-import.error-wrapper', { message, htmlSafe: true })
+            this.intl.t('pages.sup-organization-participants-import.error-wrapper', { message, htmlSafe: true }),
           );
         }
         return this.notifications.sendError(globalErrorMessage, {

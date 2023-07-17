@@ -61,7 +61,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
               'firstName',
               'lastName',
               'email',
-              'sessionId'
+              'sessionId',
             );
             expect(session.accessCode).to.exist;
             expect(session.certificationCenterId).to.equal(certificationCenterId);
@@ -69,7 +69,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
             expect(certificationCandidates).to.have.length(2);
             const name = `${type}1`.toLowerCase();
             expect(
-              _.pick(organizationLearner, ['birthdate', 'firstName', 'lastName', 'email', 'sessionId'])
+              _.pick(organizationLearner, ['birthdate', 'firstName', 'lastName', 'email', 'sessionId']),
             ).to.deep.equal(_.omit(certificationCandidates[0], ['sessionId']));
 
             expect(certificationCandidates[0]).to.deep.equals({
@@ -150,7 +150,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
             'firstName',
             'lastName',
             'sessionId',
-            'email'
+            'email',
           );
 
           expect(session.accessCode).to.exist;

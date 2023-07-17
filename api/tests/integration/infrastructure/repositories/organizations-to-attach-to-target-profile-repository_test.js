@@ -22,7 +22,7 @@ describe('Integration | Repository | Organizations-to-attach-to-target-profile',
       targetProfileOrganizations.attach([organization1.id, organization2.id]);
 
       const results = await organizationsToAttachToTargetProfileRepository.attachOrganizations(
-        targetProfileOrganizations
+        targetProfileOrganizations,
       );
 
       expect(results).to.deep.equal({ duplicatedIds: [], attachedIds: [organization1.id, organization2.id] });
@@ -66,7 +66,7 @@ describe('Integration | Repository | Organizations-to-attach-to-target-profile',
         targetProfileOrganizations.attach([unknownOrganizationId, organizationId]);
 
         const error = await catchErr(organizationsToAttachToTargetProfileRepository.attachOrganizations)(
-          targetProfileOrganizations
+          targetProfileOrganizations,
         );
 
         expect(error).to.be.an.instanceOf(NotFoundError);
@@ -94,7 +94,7 @@ describe('Integration | Repository | Organizations-to-attach-to-target-profile',
         targetProfileOrganizations.attach([firstOrganization.id, secondOrganization.id]);
 
         const result = await organizationsToAttachToTargetProfileRepository.attachOrganizations(
-          targetProfileOrganizations
+          targetProfileOrganizations,
         );
 
         expect(result).to.deep.equal({ duplicatedIds: [firstOrganization.id], attachedIds: [secondOrganization.id] });

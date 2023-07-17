@@ -15,7 +15,7 @@ const BookshelfSkillSet = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfSkillSet };

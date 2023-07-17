@@ -30,7 +30,7 @@ const correctAnswersForAllChallenges = () =>
       { challengeId: 'challenge_K_for_competence_4', result: 'ok' },
       { challengeId: 'challenge_L_for_competence_4', result: 'ok' },
     ],
-    domainBuilder.buildAnswer
+    domainBuilder.buildAnswer,
   );
 
 const wrongAnswersForAllChallenges = () =>
@@ -49,7 +49,7 @@ const wrongAnswersForAllChallenges = () =>
       { challengeId: 'challenge_K_for_competence_4', result: 'ko' },
       { challengeId: 'challenge_L_for_competence_4', result: 'ko' },
     ],
-    domainBuilder.buildAnswer
+    domainBuilder.buildAnswer,
   );
 
 const answersToHaveOnlyTheLastCompetenceFailed = () =>
@@ -68,7 +68,7 @@ const answersToHaveOnlyTheLastCompetenceFailed = () =>
       { challengeId: 'challenge_K_for_competence_4', result: 'ko' },
       { challengeId: 'challenge_L_for_competence_4', result: 'ko' },
     ],
-    domainBuilder.buildAnswer
+    domainBuilder.buildAnswer,
   );
 
 const answersWithReproducibilityRateLessThan80 = () =>
@@ -87,7 +87,7 @@ const answersWithReproducibilityRateLessThan80 = () =>
       { challengeId: 'challenge_K_for_competence_4', result: 'ko' },
       { challengeId: 'challenge_L_for_competence_4', result: 'ok' },
     ],
-    domainBuilder.buildAnswer
+    domainBuilder.buildAnswer,
   );
 
 const challenges = _.map(
@@ -165,7 +165,7 @@ const challenges = _.map(
       type: 'QCM',
     },
   ],
-  domainBuilder.buildCertificationChallengeWithType
+  domainBuilder.buildCertificationChallengeWithType,
 );
 
 const competence_1 = domainBuilder.buildCompetence({
@@ -287,7 +287,7 @@ describe('Unit | Service | Certification Result Service', function () {
             { challengeId: 'challenge_K_for_competence_4', result: 'ok' },
             { challengeId: 'challenge_L_for_competence_4', result: 'ok' },
           ],
-          domainBuilder.buildAnswer
+          domainBuilder.buildAnswer,
         );
 
         const certificationAssessment = {
@@ -339,7 +339,7 @@ describe('Unit | Service | Certification Result Service', function () {
             { challengeId: 'challenge_J_for_competence_4', result: 'ok' },
             { challengeId: 'challenge_K_for_competence_4', result: 'ok' },
           ],
-          domainBuilder.buildAnswer
+          domainBuilder.buildAnswer,
         );
 
         const certificationAssessment = {
@@ -371,7 +371,7 @@ describe('Unit | Service | Certification Result Service', function () {
         // then
         expect(error).to.be.instanceOf(CertificationComputeError);
         expect(error.message).to.equal(
-          "L’utilisateur n’a pas répondu à toutes les questions, alors qu'aucune raison d'abandon n'a été fournie."
+          "L’utilisateur n’a pas répondu à toutes les questions, alors qu'aucune raison d'abandon n'a été fournie.",
         );
       });
     });
@@ -393,7 +393,7 @@ describe('Unit | Service | Certification Result Service', function () {
             { challengeId: 'challenge_J_for_competence_4', result: 'ok' },
             { challengeId: 'challenge_K_for_competence_4', result: 'ok' },
           ],
-          domainBuilder.buildAnswer
+          domainBuilder.buildAnswer,
         );
 
         const challenges = _.map(
@@ -453,7 +453,7 @@ describe('Unit | Service | Certification Result Service', function () {
               type: 'QCM',
             },
           ],
-          domainBuilder.buildCertificationChallengeWithType
+          domainBuilder.buildCertificationChallengeWithType,
         );
 
         const certificationAssessment = {
@@ -726,7 +726,7 @@ describe('Unit | Service | Certification Result Service', function () {
                   { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
                   { challengeId: 'challenge_C_for_competence_1', result: 'ko' },
                 ],
-                domainBuilder.buildAnswer
+                domainBuilder.buildAnswer,
               );
 
               const challenges = _.map(
@@ -747,7 +747,7 @@ describe('Unit | Service | Certification Result Service', function () {
                     associatedSkillName: '@skillChallengeC_1',
                   },
                 ],
-                domainBuilder.buildCertificationChallengeWithType
+                domainBuilder.buildCertificationChallengeWithType,
               );
 
               const userCompetences = [_buildUserCompetence(competence_1, positionedScore, positionedLevel)];
@@ -977,7 +977,7 @@ describe('Unit | Service | Certification Result Service', function () {
                 associatedSkillName: '@skillChallengeC_6',
               },
             ],
-            domainBuilder.buildCertificationChallengeWithType
+            domainBuilder.buildCertificationChallengeWithType,
           );
 
           placementProfileService = {
@@ -997,7 +997,7 @@ describe('Unit | Service | Certification Result Service', function () {
               { challengeId: 'challenge_B_for_competence_6', result: 'ok' },
               { challengeId: 'challenge_C_for_competence_6', result: 'ko' },
             ],
-            domainBuilder.buildAnswer
+            domainBuilder.buildAnswer,
           );
 
           const expectedCertifiedCompetences = [
@@ -1073,7 +1073,7 @@ describe('Unit | Service | Certification Result Service', function () {
                 type: 'QCM',
               },
             ],
-            domainBuilder.buildCertificationChallengeWithType
+            domainBuilder.buildCertificationChallengeWithType,
           );
 
           placementProfileService = {
@@ -1098,7 +1098,7 @@ describe('Unit | Service | Certification Result Service', function () {
               { challengeId: 'challenge_B_for_competence_6', result: 'ok' },
               { challengeId: 'challenge_C_for_competence_6', result: 'ko' },
             ],
-            domainBuilder.buildAnswer
+            domainBuilder.buildAnswer,
           );
 
           const expectedCertifiedCompetences = [
@@ -1142,7 +1142,7 @@ describe('Unit | Service | Certification Result Service', function () {
               { challengeId: 'challenge_B_for_competence_6', result: 'ok' },
               { challengeId: 'challenge_C_for_competence_6', result: 'ok' },
             ],
-            domainBuilder.buildAnswer
+            domainBuilder.buildAnswer,
           );
 
           const expectedCertifiedCompetences = [
@@ -1199,7 +1199,7 @@ describe('Unit | Service | Certification Result Service', function () {
                 associatedSkillName: '@skillChallengeN_6',
               },
             ],
-            domainBuilder.buildCertificationChallengeWithType
+            domainBuilder.buildCertificationChallengeWithType,
           );
           certificationAssessment.certificationChallenges = challenges;
 
@@ -1210,7 +1210,7 @@ describe('Unit | Service | Certification Result Service', function () {
               { challengeId: 'challenge_M_for_competence_5', result: 'ok' },
               { challengeId: 'challenge_N_for_competence_6', result: 'ok' },
             ],
-            domainBuilder.buildAnswer
+            domainBuilder.buildAnswer,
           );
         });
 

@@ -236,7 +236,7 @@ describe('Unit | Router | organization-router', function () {
       const response = await httpTestServer.request(
         'POST',
         '/api/admin/organizations/1/attach-target-profiles',
-        payload
+        payload,
       );
 
       // then
@@ -265,7 +265,7 @@ describe('Unit | Router | organization-router', function () {
       const response = await httpTestServer.request(
         'POST',
         '/api/admin/organizations/1/attach-target-profiles',
-        payload
+        payload,
       );
 
       // then
@@ -294,7 +294,7 @@ describe('Unit | Router | organization-router', function () {
       const response = await httpTestServer.request(
         'POST',
         '/api/admin/organizations/coucou/attach-target-profiles',
-        payload
+        payload,
       );
 
       // then
@@ -835,7 +835,7 @@ describe('Unit | Router | organization-router', function () {
 
           expect(response.statusCode).to.equal(200);
         });
-      }
+      },
     );
 
     context('when the user is not admin for the organization', function () {
@@ -844,7 +844,7 @@ describe('Unit | Router | organization-router', function () {
         sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
         organizationController.replaceSupOrganizationLearners.resolves('ok');
         securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) =>
-          h.response().code(403).takeover()
+          h.response().code(403).takeover(),
         );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);

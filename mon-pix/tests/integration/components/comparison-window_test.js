@@ -40,7 +40,7 @@ module('Integration | Component | comparison-window', function (hooks) {
 
       // when
       await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
       );
 
       // then
@@ -51,7 +51,7 @@ module('Integration | Component | comparison-window', function (hooks) {
     test('should render challenge instruction', async function (assert) {
       // when
       await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
       );
 
       // then
@@ -61,7 +61,7 @@ module('Integration | Component | comparison-window', function (hooks) {
     test('should render a closed feedback panel', async function (assert) {
       //when
       await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
       );
 
       //then
@@ -75,7 +75,7 @@ module('Integration | Component | comparison-window', function (hooks) {
 
       // when
       await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
       );
 
       // then
@@ -91,7 +91,7 @@ module('Integration | Component | comparison-window', function (hooks) {
 
       // when
       await render(
-        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+        hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
       );
 
       // then
@@ -108,7 +108,7 @@ module('Integration | Component | comparison-window', function (hooks) {
 
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
         );
 
         // then
@@ -128,7 +128,7 @@ module('Integration | Component | comparison-window', function (hooks) {
 
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
         );
 
         // then
@@ -145,7 +145,7 @@ module('Integration | Component | comparison-window', function (hooks) {
 
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
         );
 
         // then
@@ -159,7 +159,7 @@ module('Integration | Component | comparison-window', function (hooks) {
       test('should not render corrected answers when challenge has no type', async function (assert) {
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
         );
         // then
         assert.dom('div[data-test-id="comparison-window__corrected-answers--qroc"]').doesNotExist();
@@ -174,7 +174,7 @@ module('Integration | Component | comparison-window', function (hooks) {
 
             // when
             await render(
-              hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+              hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
             );
 
             // then
@@ -190,7 +190,7 @@ module('Integration | Component | comparison-window', function (hooks) {
 
             // when
             await render(
-              hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+              hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
             );
 
             // then
@@ -206,7 +206,7 @@ module('Integration | Component | comparison-window', function (hooks) {
 
             // when
             await render(
-              hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+              hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
             );
 
             // then
@@ -222,7 +222,7 @@ module('Integration | Component | comparison-window', function (hooks) {
         answer.set('challenge', challenge);
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
         );
         // then
         assert.dom('div[data-test-id="comparison-window__corrected-answers--qrocm"]').exists();
@@ -234,7 +234,7 @@ module('Integration | Component | comparison-window', function (hooks) {
         answer.set('challenge', challenge);
         // when
         await render(
-          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`
+          hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`,
         );
         // then
         assert.dom('.qcm-solution-panel').exists();

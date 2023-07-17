@@ -317,7 +317,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
             const certificationCenterName = '   Coucou le dév qui lit ce message !   ';
             expect(sessionValidator.validateAndNormalizeFilters({ certificationCenterName })).to.not.throw;
             expect(
-              sessionValidator.validateAndNormalizeFilters({ certificationCenterName }).certificationCenterName
+              sessionValidator.validateAndNormalizeFilters({ certificationCenterName }).certificationCenterName,
             ).to.equal(certificationCenterName.trim());
           });
         });

@@ -14,7 +14,7 @@ function attachTargetProfileToOrganizations(schema, request) {
   const params = JSON.parse(request.requestBody);
   const organizationsToAttach = params['organization-ids'];
   organizationsToAttach.forEach((organizationId) =>
-    schema.organizations.create({ id: organizationId, name: `Organization ${organizationId}` })
+    schema.organizations.create({ id: organizationId, name: `Organization ${organizationId}` }),
   );
 
   return { data: { attributes: { 'duplicated-ids': [], 'attached-ids': organizationsToAttach } } };
@@ -38,7 +38,7 @@ function createTargetProfile(schema, request) {
     schema.create('tube', {
       ...tube.attrs,
       level: tubesByLevel.find((tubeByLevel) => tubeByLevel.id === tube.id).level,
-    })
+    }),
   );
 
   const tubeIds = tubes.map((tube) => tube.id);
@@ -152,7 +152,7 @@ function createBadge(schema, request) {
       schema.create('badge-criterion', {
         scope: 'CampaignParticipation',
         threshold: parseInt(params.data.attributes['campaign-threshold']),
-      })
+      }),
     );
   for (const cappedTubeCriterion of params.data.attributes['capped-tubes-criteria']) {
     const criterion = schema.create('badge-criterion', {

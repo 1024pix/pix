@@ -27,7 +27,7 @@ module('Unit | Route | login-oidc', function (hooks) {
             });
           },
           ApplicationError,
-          'access_denied: Access was denied.'
+          'access_denied: Access was denied.',
         );
       });
     });
@@ -228,7 +228,7 @@ module('Unit | Route | login-oidc', function (hooks) {
       // when
       const response = await route.model(
         { identity_provider_slug: 'oidc-partner' },
-        { to: { queryParams: { code: 'test' } } }
+        { to: { queryParams: { code: 'test' } } },
       );
 
       // then
@@ -301,7 +301,7 @@ module('Unit | Route | login-oidc', function (hooks) {
           // then
           assert.strictEqual(
             error.message,
-            "Un ou des champs obligatoires (Champs manquants : given_name}) n'ont pas été renvoyés par votre fournisseur d'identité OIDC partner."
+            "Un ou des champs obligatoires (Champs manquants : given_name}) n'ont pas été renvoyés par votre fournisseur d'identité OIDC partner.",
           );
         }
       });

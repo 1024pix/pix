@@ -48,7 +48,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       // when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`,
       );
 
       // then
@@ -65,7 +65,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       // when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`,
       );
 
       // then
@@ -126,7 +126,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
   @participation={{this.participation}}
   @idPixLabel={{this.idPixLabel}}
   @updateParticipantExternalId={{this.updateParticipantExternalId}}
-/>`
+/>`,
       );
       await clickByName('Modifier');
 
@@ -142,7 +142,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
   @participation={{this.participation}}
   @idPixLabel={{this.idPixLabel}}
   @updateParticipantExternalId={{this.updateParticipantExternalId}}
-/>`
+/>`,
       );
       await clickByName('Modifier');
 
@@ -163,7 +163,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
   @participation={{this.participation}}
   @idPixLabel={{this.idPixLabel}}
   @updateParticipantExternalId={{this.updateParticipantExternalId}}
-/>`
+/>`,
       );
       await clickByName('Modifier');
 
@@ -184,7 +184,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
   @participation={{this.participation}}
   @idPixLabel={{this.idPixLabel}}
   @updateParticipantExternalId={{this.updateParticipantExternalId}}
-/>`
+/>`,
       );
       await clickByName('Modifier');
 
@@ -205,7 +205,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
   @participation={{this.participation}}
   @idPixLabel={{this.idPixLabel}}
   @updateParticipantExternalId={{this.updateParticipantExternalId}}
-/>`
+/>`,
       );
       await clickByName('Modifier');
 
@@ -235,7 +235,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       //when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`,
       );
 
       // expect

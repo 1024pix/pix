@@ -74,7 +74,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     // then
     sinon.assert.calledWith(
       notifications.success,
-      this.intl.t('pages.team-invitations.invitation-cancelled-succeed-message')
+      this.intl.t('pages.team-invitations.invitation-cancelled-succeed-message'),
     );
     assert.ok(true);
   });

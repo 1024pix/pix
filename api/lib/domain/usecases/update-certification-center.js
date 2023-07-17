@@ -47,7 +47,7 @@ const updateCertificationCenter = async function ({
   const updatedCertificationCenter = await certificationCenterForAdminRepository.update(certificationCenter);
 
   const habilitations = await complementaryCertificationHabilitationRepository.findByCertificationCenterId(
-    updatedCertificationCenter.id
+    updatedCertificationCenter.id,
   );
   updatedCertificationCenter.habilitations = habilitations.map((habilitation) => {
     return new ComplementaryCertification({

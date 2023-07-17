@@ -11,7 +11,7 @@ const get = async function (idSession) {
       'sessions.room',
       'sessions.examiner',
       'sessions.accessCode',
-      'sessions.supervisorPassword'
+      'sessions.supervisorPassword',
     )
     .from('sessions')
     .where({ 'sessions.id': idSession })

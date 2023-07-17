@@ -25,7 +25,7 @@ const BookshelfBadge = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfBadge };

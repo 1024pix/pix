@@ -93,7 +93,7 @@ function printTargetProfileTubesAsSeed(tubesData) {
   const print = `[${tubesData
     .map(({ tubeId, level }) => `{ tubeId: \`${tubeId}\`, level: ${level} }`)
     .join(
-      ','
+      ',',
     )}].map(({ tubeId, level }) => { databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: PUT_TARGET_PROFILE_ID_PLS, tubeId, level }); });`;
   console.log(print);
 }
@@ -118,11 +118,11 @@ function printBadgeCriteriaAsSeed(badgeCriteriaData, i) {
     .map(
       ({ scope, threshold, cappedTubes, name }) =>
         `{ scope: \`${scope}\`, threshold: ${threshold}, cappedTubes: ${escapedOrNull(
-          JSON.stringify(cappedTubes)
-        )}, name: ${escapedOrNull(name)}}`
+          JSON.stringify(cappedTubes),
+        )}, name: ${escapedOrNull(name)}}`,
     )
     .join(
-      ','
+      ',',
     )}].map(({ scope, threshold, cappedTubes, name }) => { databaseBuilder.factory.buildBadgeCriterion({ badgeId: PUT_BADGE_${i}_ID_PLS, scope, threshold, cappedTubes, name }); });`;
   console.log(print);
 }

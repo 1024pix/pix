@@ -13,7 +13,7 @@ const getSessionForSupervising = async function ({
   await bluebird.map(
     sessionForSupervising.certificationCandidates,
     _computeComplementaryCertificationEligibility(certificationBadgesService),
-    { concurrency: infraConstants.CONCURRENCY_HEAVY_OPERATIONS }
+    { concurrency: infraConstants.CONCURRENCY_HEAVY_OPERATIONS },
   );
 
   sessionForSupervising.certificationCandidates.forEach(_computeTheoricalEndDateTime);

@@ -81,7 +81,7 @@ const findOnePendingByOrganizationIdAndEmail = function ({ organizationId, email
   return BookshelfOrganizationInvitation.query((qb) =>
     qb
       .where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
-      .whereRaw('LOWER("email") = ?', `${email.toLowerCase()}`)
+      .whereRaw('LOWER("email") = ?', `${email.toLowerCase()}`),
   )
     .fetch({ require: false })
     .then(_toDomain);

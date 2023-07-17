@@ -110,7 +110,7 @@ describe('Integration | Infrastructure | Repository | Campaign Administration | 
           'customLandingPageText',
           'creatorId',
           'createdAt',
-          'ownerId'
+          'ownerId',
         )
         .where('name', campaignsToCreate[0].name)
         .first();

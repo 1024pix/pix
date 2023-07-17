@@ -73,7 +73,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
             sessionId,
             eligibleSubscription: null,
             nonEligibleSubscription: null,
-          })
+          }),
         );
       });
     });
@@ -132,7 +132,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
             sessionId,
             eligibleSubscription: null,
             nonEligibleSubscription: null,
-          })
+          }),
         );
       });
     });

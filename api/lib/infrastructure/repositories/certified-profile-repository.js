@@ -90,7 +90,7 @@ async function _createCertifiedTubes(certifiedSkills) {
 async function _createCertifiedCompetences(certifiedTubes) {
   const certifiedTubesByCompetence = _.groupBy(certifiedTubes, 'competenceId');
   const learningContentCompetences = await competenceDatasource.findByRecordIds(
-    Object.keys(certifiedTubesByCompetence)
+    Object.keys(certifiedTubesByCompetence),
   );
   return learningContentCompetences.map((learningContentCompetence) => {
     const name = learningContentCompetence.name_i18n.fr;

@@ -101,7 +101,7 @@ export default class ListController extends Controller {
       if (['422', '412', '413'].includes(error.status)) {
         const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
         return this.notifications.sendError(
-          this.intl.t('pages.sco-organization-participants.import.error-wrapper', { message, htmlSafe: true })
+          this.intl.t('pages.sco-organization-participants.import.error-wrapper', { message, htmlSafe: true }),
         );
       }
       return this.notifications.sendError(globalErrorMessage, {

@@ -125,7 +125,7 @@ class CertificationAssessment {
     const certificationChallengesForBadge = _.filter(this.certificationChallenges, { certifiableBadgeKey });
     const challengeIds = _.map(certificationChallengesForBadge, 'challengeId');
     const answersForBadge = _.filter(this.certificationAnswersByDate, ({ challengeId }) =>
-      _.includes(challengeIds, challengeId)
+      _.includes(challengeIds, challengeId),
     );
     return {
       certificationChallenges: certificationChallengesForBadge,
@@ -145,7 +145,7 @@ class CertificationAssessment {
     this.certificationChallenges.forEach((certificationChallenge) => {
       if (
         !this.certificationAnswersByDate.some(
-          (certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId
+          (certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId,
         )
       ) {
         certificationChallenge.skipAutomatically();
@@ -157,7 +157,7 @@ class CertificationAssessment {
     this.certificationChallenges.map((certificationChallenge) => {
       if (
         !this.certificationAnswersByDate.some(
-          (certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId
+          (certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId,
         )
       ) {
         certificationChallenge.neutralize();

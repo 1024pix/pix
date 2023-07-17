@@ -15,7 +15,7 @@ class JobPgBoss {
         retryDelay: this.retryDelay,
         data,
         on_complete: true,
-      }
+      },
     );
   }
 }

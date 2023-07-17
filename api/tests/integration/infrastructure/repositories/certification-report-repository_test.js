@@ -159,7 +159,7 @@ describe('Integration | Repository | CertificationReport', function () {
         // when
         const error = await catchErr(
           certificationReportRepository.finalizeAll,
-          certificationReportRepository
+          certificationReportRepository,
         )([certificationReport1, certificationReport2]);
 
         // then

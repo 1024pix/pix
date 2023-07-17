@@ -26,7 +26,7 @@ const updateStudentNumber = async function (studentId, studentNumber) {
     { studentNumber },
     {
       patch: true,
-    }
+    },
   );
 };
 

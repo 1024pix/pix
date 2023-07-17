@@ -104,7 +104,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         // then
         expect(err).to.be.instanceOf(NotFoundError);
         expect(err.message).to.deep.equal(
-          "Les sujets [recTube1, recTube3] du profil cible 1 n'existent pas dans le référentiel."
+          "Les sujets [recTube1, recTube3] du profil cible 1 n'existent pas dans le référentiel.",
         );
       });
     });

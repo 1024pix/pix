@@ -137,7 +137,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function () {
       const command = await serializer.deserializeCertificationCandidateModificationCommand(
         payload,
         certificationCourseId,
-        userId
+        userId,
       );
 
       // then

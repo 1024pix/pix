@@ -33,7 +33,7 @@ const down = function (knex) {
       t.integer('assessmentResultId').unsigned();
     })
     .then(() =>
-      knex(TABLE_NAME_COMPETENCE_MARKS).select('id', 'level', 'score', 'area_code', 'competence_code', 'correctionId')
+      knex(TABLE_NAME_COMPETENCE_MARKS).select('id', 'level', 'score', 'area_code', 'competence_code', 'correctionId'),
     )
     .then((allMarks) => {
       return batch(knex, allMarks, (mark) => {

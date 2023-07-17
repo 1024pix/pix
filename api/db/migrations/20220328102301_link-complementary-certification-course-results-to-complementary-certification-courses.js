@@ -57,7 +57,7 @@ const up = async function (knex) {
         await knex(COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE)
           .update(COMPLEMENTARY_CERTIFICATION_COURSE_ID_COLUMN, complementaryCertificationCourseId)
           .where({ id: complementaryCertificationCourseResultId });
-      }
+      },
     );
   }
 
@@ -72,7 +72,7 @@ const up = async function (knex) {
   async function _getComplementaryCertifCourseIdForComplementaryCertifCourseResultId() {
     const complementaryCertificationCourses = await knex(COMPLEMENTARY_CERTIFICATION_COURSES_TABLE).select('*');
     const complementaryCertificationCourseResults = await knex(COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE).select(
-      '*'
+      '*',
     );
 
     return complementaryCertificationCourseResults.map((cccr) => {
@@ -85,7 +85,7 @@ const up = async function (knex) {
       const complementaryCertificationCourseId = complementaryCertificationCourses.find(
         (ccc) =>
           ccc.complementaryCertificationId === complementaryCertificationId &&
-          ccc.certificationCourseId === certificationCourseId
+          ccc.certificationCourseId === certificationCourseId,
       ).id;
 
       return { complementaryCertificationCourseResultId, complementaryCertificationCourseId };
@@ -117,7 +117,7 @@ const up = async function (knex) {
         .from(COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE)
         // eslint-disable-next-line knex/avoid-injections
         .whereRaw(
-          `"${CERTIFICATION_COURSE_ID}" not in (select "${CERTIFICATION_COURSE_ID}" from "complementary-certification-courses")`
+          `"${CERTIFICATION_COURSE_ID}" not in (select "${CERTIFICATION_COURSE_ID}" from "complementary-certification-courses")`,
         )
     );
   }

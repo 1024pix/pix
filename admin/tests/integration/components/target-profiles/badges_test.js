@@ -94,8 +94,8 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
       assert
         .dom(
           screen.getByText(
-            "Êtes-vous sûr de vouloir supprimer ce résultat thématique ? (Uniquement si le RT n'a pas encore été assigné)"
-          )
+            "Êtes-vous sûr de vouloir supprimer ce résultat thématique ? (Uniquement si le RT n'a pas encore été assigné)",
+          ),
         )
         .exists();
     });
@@ -117,8 +117,8 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
       assert
         .dom(
           screen.queryByText(
-            "Êtes-vous sûr de vouloir supprimer ce résultat thématique ? (Uniquement si le RT n'a pas encore été assigné)"
-          )
+            "Êtes-vous sûr de vouloir supprimer ce résultat thématique ? (Uniquement si le RT n'a pas encore été assigné)",
+          ),
         )
         .doesNotExist();
     });

@@ -54,7 +54,7 @@ module('Unit | Controller | authenticated/organizations/get', function (hooks) {
         sinon.assert.calledOnce(controller.model.rollbackAttributes);
         sinon.assert.calledWith(
           controller.notifications.error,
-          this.intl.t('pages.organizations.notifications.errors.payload-too-large', { maxSizeInMegaBytes: '2.5' })
+          this.intl.t('pages.organizations.notifications.errors.payload-too-large', { maxSizeInMegaBytes: '2.5' }),
         );
         assert.ok(true);
       });

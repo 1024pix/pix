@@ -35,7 +35,7 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
           lang,
           role,
           organizationId: 1,
-        })
+        }),
       );
     });
 

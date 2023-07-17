@@ -33,7 +33,7 @@ const skillDatasource = datasource.extend({
   async findOperativeByRecordIds(skillIds) {
     const skills = await this.list();
     return skills.filter(
-      (skillData) => _.includes(OPERATIVE_STATUSES, skillData.status) && _.includes(skillIds, skillData.id)
+      (skillData) => _.includes(OPERATIVE_STATUSES, skillData.status) && _.includes(skillIds, skillData.id),
     );
   },
 
@@ -56,7 +56,7 @@ const skillDatasource = datasource.extend({
     const skills = await this.list();
     return _.filter(
       skills,
-      (skill) => skill.competenceId === competenceId && _.includes(OPERATIVE_STATUSES, skill.status)
+      (skill) => skill.competenceId === competenceId && _.includes(OPERATIVE_STATUSES, skill.status),
     );
   },
 
@@ -64,7 +64,7 @@ const skillDatasource = datasource.extend({
     const skills = await this.list();
     return _.filter(
       skills,
-      (skill) => competenceIds.includes(skill.competenceId) && _.includes(OPERATIVE_STATUSES, skill.status)
+      (skill) => competenceIds.includes(skill.competenceId) && _.includes(OPERATIVE_STATUSES, skill.status),
     );
   },
 });

@@ -146,7 +146,7 @@ module('Unit | Component | toggable-login-form', (hooks) => {
                 // then
                 assert.strictEqual(
                   component.errorMessage,
-                  this.intl.t('common.api-error-messages.internal-server-error')
+                  this.intl.t('common.api-error-messages.internal-server-error'),
                 );
                 assert.false(component.isLoading);
                 assert.true(component.isErrorMessagePresent);

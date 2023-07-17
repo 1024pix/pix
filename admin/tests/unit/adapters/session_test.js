@@ -84,14 +84,14 @@ module('Unit | Adapter | session', function (hooks) {
         await adapter.updateRecord(
           null,
           { modelName: 'session' },
-          { id: 123, adapterOptions: { certificationOfficerAssignment: true } }
+          { id: 123, adapterOptions: { certificationOfficerAssignment: true } },
         );
 
         // then
         sinon.assert.calledWith(
           adapter.ajax,
           'http://localhost:3000/api/admin/sessions/123/certification-officer-assignment',
-          'PATCH'
+          'PATCH',
         );
         assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
       });

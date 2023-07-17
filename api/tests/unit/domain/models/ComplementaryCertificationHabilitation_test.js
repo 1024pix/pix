@@ -20,7 +20,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationHabilitation', func
 
   it('should create an object with all the requires properties', function () {
     expect(_.keys(complementaryCertificationHabilitation)).to.have.deep.members(
-      COMPLEMENTARY_CERTIFICATION_HABILITATION_PROPS
+      COMPLEMENTARY_CERTIFICATION_HABILITATION_PROPS,
     );
   });
 

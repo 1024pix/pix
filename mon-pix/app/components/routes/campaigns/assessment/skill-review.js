@@ -72,7 +72,7 @@ export default class SkillReview extends Component {
     return badges.filter(
       (badge) =>
         (badge.isCertifiable && badge.isAcquired && !badge.isValid) ||
-        (badge.isCertifiable && !badge.isAcquired && badge.isAlwaysVisible)
+        (badge.isCertifiable && !badge.isAcquired && badge.isAlwaysVisible),
     );
   }
 

@@ -277,7 +277,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // when
         const error = await catchErr(
           oidcAuthenticationService.exchangeCodeForTokens,
-          oidcAuthenticationService
+          oidcAuthenticationService,
         )({
           code: 'AUTH_CODE',
           redirectUri: 'pix.net/connexion/oidc',
@@ -362,7 +362,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           {
             ...payload,
           },
-          'secret'
+          'secret',
         );
       }
 
@@ -398,7 +398,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
             {
               ...payload,
             },
-            'secret'
+            'secret',
           );
         }
 
@@ -505,7 +505,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(errorResponse).to.be.instanceOf(InvalidExternalAPIResponseError);
         expect(errorResponse.message).to.be.equal(
-          'Une erreur est survenue en récupérant les informations des utilisateurs.'
+          'Une erreur est survenue en récupérant les informations des utilisateurs.',
         );
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
           message: {
@@ -540,7 +540,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // when
         const error = await catchErr(
           oidcAuthenticationService.getUserInfoFromEndpoint,
-          oidcAuthenticationService
+          oidcAuthenticationService,
         )({
           accessToken,
           userInfoUrl,
@@ -549,7 +549,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(OidcUserInfoFormatError);
         expect(error.message).to.be.equal(
-          `Les informations utilisateur renvoyées par votre fournisseur d'identité ${organizationName} ne sont pas au format attendu.`
+          `Les informations utilisateur renvoyées par votre fournisseur d'identité ${organizationName} ne sont pas au format attendu.`,
         );
         expect(error.code).to.be.equal(OIDC_ERRORS.USER_INFO.badResponseFormat.code);
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
@@ -589,7 +589,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // when
         const error = await catchErr(
           oidcAuthenticationService.getUserInfoFromEndpoint,
-          oidcAuthenticationService
+          oidcAuthenticationService,
         )({
           accessToken: 'accessToken',
           userInfoUrl: 'userInfoUrl',

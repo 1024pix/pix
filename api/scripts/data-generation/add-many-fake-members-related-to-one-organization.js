@@ -71,7 +71,7 @@ async function main() {
   const memberRole = process.argv[4];
   const initialIdStart = parseInt(process.argv[5]) || INITIAL_ID;
   console.log(
-    `Starting adding ${numberOfUsers} users with ${memberRole} role to organization with id ${organizationId}`
+    `Starting adding ${numberOfUsers} users with ${memberRole} role to organization with id ${organizationId}`,
   );
   console.log(`User ids starting at ${initialIdStart}`);
 

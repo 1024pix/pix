@@ -15,7 +15,7 @@ const getBySessionId = async function (sessionId) {
       'certification-courses.birthINSEECode',
       'certification-courses.birthCountry',
       'certification-courses.sex',
-      'certification-courses.createdAt'
+      'certification-courses.createdAt',
     )
     .innerJoin('certification-candidates', function () {
       this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' }).andOn({
@@ -25,17 +25,17 @@ const getBySessionId = async function (sessionId) {
     .innerJoin(
       'complementary-certification-courses',
       'complementary-certification-courses.certificationCourseId',
-      'certification-courses.id'
+      'certification-courses.id',
     )
     .innerJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-courses.complementaryCertificationId'
+      'complementary-certification-courses.complementaryCertificationId',
     )
     .innerJoin(
       'complementary-certification-course-results',
       'complementary-certification-course-results.complementaryCertificationCourseId',
-      'complementary-certification-courses.id'
+      'complementary-certification-courses.id',
     )
     .where({
       'certification-courses.sessionId': sessionId,

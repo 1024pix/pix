@@ -15,7 +15,7 @@ async function _retrieveLastScoredAssessmentIds() {
     WHERE cc."completedAt" IS NOT NULL
     ORDER BY cc."updatedAt" DESC LIMIT ??;
   `,
-    ASSESSMENT_COUNT
+    ASSESSMENT_COUNT,
   );
   return result.rows.map((row) => row.id);
 }
@@ -27,7 +27,7 @@ async function _computeScore(assessmentIds) {
       try {
         const certificationAssessment = await certificationAssessmentRepository.get(assessmentId);
         const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore(
-          certificationAssessment
+          certificationAssessment,
         );
         return certificationAssessmentScore;
       } catch (err) {
@@ -36,7 +36,7 @@ async function _computeScore(assessmentIds) {
         return { message };
       }
     },
-    { concurrency: ~~process.env.CONCURRENCY || 10 }
+    { concurrency: ~~process.env.CONCURRENCY || 10 },
   );
   return scores;
 }

@@ -315,7 +315,7 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
 
         // then
         expect(result).to.equal(
-          "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix"
+          "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix",
         );
       });
     });

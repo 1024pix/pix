@@ -102,7 +102,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
         const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
           campaignId,
           learningContent,
-          tutorials
+          tutorials,
         );
 
         // then
@@ -151,7 +151,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
             campaignId,
             learningContent,
-            tutorials
+            tutorials,
           );
 
           // then
@@ -190,7 +190,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
             campaignId,
             learningContent,
-            tutorials
+            tutorials,
           );
 
           // then
@@ -225,7 +225,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
             campaignId,
             learningContent,
-            tutorials
+            tutorials,
           );
 
           // then
@@ -245,13 +245,13 @@ describe('Integration | Repository | Campaign analysis repository', function () 
             'Fred',
             campaignId,
             shareDate,
-            false
+            false,
           );
           const userWithCampaignParticipationJoe = _createUserWithSharedCampaignParticipation(
             'Joe',
             campaignId,
             shareDate,
-            false
+            false,
           );
           const userWithNonSharedParticipation = _createUserWithNonSharedCampaignParticipation('Paul', campaignId);
           const fredId = userWithCampaignParticipationFred.userId;
@@ -313,7 +313,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
             ],
             (knowledgeElement) => {
               databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
-            }
+            },
           );
 
           return databaseBuilder.commit();
@@ -325,7 +325,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
             campaignId,
             learningContent,
-            tutorials
+            tutorials,
           );
 
           // then
@@ -349,7 +349,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
             'Fred',
             campaignId,
             shareDate,
-            true
+            true,
           );
           _createUserWithNonSharedCampaignParticipation('Fred', campaignId);
           const fredId = userWithCampaignParticipationFred.userId;
@@ -390,7 +390,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
             ],
             (knowledgeElement) => {
               databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
-            }
+            },
           );
 
           return databaseBuilder.commit();
@@ -402,7 +402,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(
             campaignId,
             learningContent,
-            tutorials
+            tutorials,
           );
 
           // then
@@ -433,7 +433,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           'Fred',
           campaignId,
           sharedAt,
-          false
+          false,
         );
         userId = userWithCampaignParticipation.userId;
         campaignParticipation = { userId, sharedAt };
@@ -484,7 +484,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           campaignId,
           campaignParticipation,
           learningContent,
-          tutorials
+          tutorials,
         );
 
         // then
@@ -545,7 +545,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
             ],
             (knowledgeElement) => {
               databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
-            }
+            },
           );
 
           return databaseBuilder.commit();
@@ -558,7 +558,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
             campaignId,
             campaignParticipation,
             learningContent,
-            tutorials
+            tutorials,
           );
 
           // then

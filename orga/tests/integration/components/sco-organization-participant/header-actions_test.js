@@ -15,7 +15,7 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
 
       // when
       const screen = await renderScreen(
-        hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`
+        hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`,
       );
 
       // then
@@ -28,7 +28,7 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
 
       // when
       const screen = await renderScreen(
-        hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`
+        hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`,
       );
 
       // then
@@ -46,7 +46,7 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
           this.owner.register('service:current-user', CurrentUserStub);
           this.set('importStudentsSpy', () => {});
           return render(
-            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} />`
+            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} />`,
           );
         });
 
@@ -69,7 +69,7 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
           this.set('importStudentsSpy', () => {});
           this.owner.register('service:current-user', CurrentUserStub);
           return render(
-            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} />`
+            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} />`,
           );
         });
 

@@ -15,7 +15,7 @@ class LearningContentCache extends Cache {
       this.distributedCache = new DistributedCache(
         new InMemoryCache(),
         config.caching.redisUrl,
-        LEARNING_CONTENT_CHANNEL
+        LEARNING_CONTENT_CHANNEL,
       );
       this.redisCache = new RedisCache(config.caching.redisUrl);
 

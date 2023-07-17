@@ -30,7 +30,7 @@ module('Unit | Model | session', function (hooks) {
       // when/then
       assert.strictEqual(
         model.urlToDownloadSupervisorKitPdf,
-        `${config.APP.API_HOST}/api/sessions/1/supervisor-kit?accessToken=123&lang=dk`
+        `${config.APP.API_HOST}/api/sessions/1/supervisor-kit?accessToken=123&lang=dk`,
       );
     });
   });
@@ -64,7 +64,7 @@ module('Unit | Model | session', function (hooks) {
       // when/then
       assert.strictEqual(
         model.urlToDownloadAttendanceSheet,
-        `${config.APP.API_HOST}/api/sessions/1/attendance-sheet?accessToken=123`
+        `${config.APP.API_HOST}/api/sessions/1/attendance-sheet?accessToken=123`,
       );
     });
   });
@@ -112,7 +112,7 @@ module('Unit | Model | session', function (hooks) {
       // when/then
       assert.strictEqual(
         model.urlToDownloadCandidatesImportTemplate,
-        `${config.APP.API_HOST}/api/sessions/1/candidates-import-sheet?accessToken=123&lang=dk`
+        `${config.APP.API_HOST}/api/sessions/1/candidates-import-sheet?accessToken=123&lang=dk`,
       );
     });
   });

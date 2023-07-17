@@ -19,7 +19,7 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
 
     it('should return 0 if there is no places', async function () {
       const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId
+        organizationId,
       );
 
       expect(organizationPlacesCapacity.categories).to.have.deep.members([
@@ -41,7 +41,7 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       await databaseBuilder.commit();
 
       const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId
+        organizationId,
       );
 
       expect(organizationPlacesCapacity.categories).to.have.deep.members([
@@ -66,7 +66,7 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       await databaseBuilder.commit();
 
       const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId
+        organizationId,
       );
 
       expect(organizationPlacesCapacity.categories).to.have.deep.members([
@@ -84,7 +84,7 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       await databaseBuilder.commit();
 
       const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId
+        organizationId,
       );
 
       expect(organizationPlacesCapacity.categories).to.include.deep.members([
@@ -103,7 +103,7 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       await databaseBuilder.commit();
 
       const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId
+        organizationId,
       );
 
       expect(organizationPlacesCapacity.categories).to.include.deep.members([
@@ -122,7 +122,7 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       await databaseBuilder.commit();
 
       const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId
+        organizationId,
       );
 
       expect(organizationPlacesCapacity.categories).to.include.deep.members([
@@ -141,7 +141,7 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       await databaseBuilder.commit();
 
       const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId
+        organizationId,
       );
 
       expect(organizationPlacesCapacity.categories).to.include.deep.members([

@@ -31,11 +31,11 @@ class DivisionCertificationResultsCsvBuilder {
       headersGenerator.next({
         headerKey: 'SKILL_LABEL',
         headerParams: { skillIndex },
-      })
+      }),
     );
 
     ['JURY_COMMENT_FOR_ORGANIZATION', 'SESSION_ID', 'CERTIFICATION_DATE'].forEach((headerKey) =>
-      headersGenerator.next({ headerKey })
+      headersGenerator.next({ headerKey }),
     );
 
     return headersGenerator.next({ done: true }).value;
@@ -60,7 +60,7 @@ class DivisionCertificationResultsCsvBuilder {
             competenceIndex,
             certificationResult,
           }),
-        })
+        }),
       );
       rowGenerator.next({ value: this.#csvValues.getCommentForOrganization(certificationResult) });
       rowGenerator.next({ value: certificationResult.sessionId });

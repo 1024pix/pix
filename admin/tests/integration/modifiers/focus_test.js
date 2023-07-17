@@ -10,7 +10,7 @@ module('Integration | Modifiers | focus', function (hooks) {
     // when
     const screen = await render(
       hbs`<label>Pas Focus<Input placeholder='Je suis pas focus' /></label>
-<label>Focus<Input placeholder='Je suis focus' {{focus}} /></label>`
+<label>Focus<Input placeholder='Je suis focus' {{focus}} /></label>`,
     );
 
     // then

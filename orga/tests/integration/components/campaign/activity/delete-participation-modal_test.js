@@ -52,7 +52,7 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
               const nodeHasText = hasText(node);
               const childrenDontHaveText = Array.from(node.children).every((child) => !hasText(child));
               return nodeHasText && childrenDontHaveText;
-            })
+            }),
           )
           .exists();
         assert.contains(this.intl.t('pages.campaign-activity.delete-participation-modal.text'));
@@ -106,8 +106,8 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.contains(
             this.intl.t(
-              'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.started-participation'
-            )
+              'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.started-participation',
+            ),
           );
         });
 
@@ -125,8 +125,8 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.contains(
             this.intl.t(
-              'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.to-share-participation'
-            )
+              'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.to-share-participation',
+            ),
           );
         });
 
@@ -144,8 +144,8 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.contains(
             this.intl.t(
-              'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.shared-participation'
-            )
+              'pages.campaign-activity.delete-participation-modal.warning.assessment-campaign-participation.shared-participation',
+            ),
           );
         });
 
@@ -163,8 +163,8 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.contains(
             this.intl.t(
-              'pages.campaign-activity.delete-participation-modal.warning.profiles-collection-campaign-participation.to-share-participation'
-            )
+              'pages.campaign-activity.delete-participation-modal.warning.profiles-collection-campaign-participation.to-share-participation',
+            ),
           );
         });
 
@@ -182,8 +182,8 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
 
           assert.contains(
             this.intl.t(
-              'pages.campaign-activity.delete-participation-modal.warning.profiles-collection-campaign-participation.shared-participation'
-            )
+              'pages.campaign-activity.delete-participation-modal.warning.profiles-collection-campaign-participation.shared-participation',
+            ),
           );
         });
       });

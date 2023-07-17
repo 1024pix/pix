@@ -41,7 +41,7 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
   @ariaLabelDefaultSort='Trier par pertinence'
   @ariaLabelSortUp='Trié par ordre croissant'
   @ariaLabelSortDown='Trié par ordre décroissant'
->Header</Table::HeaderSort>`
+>Header</Table::HeaderSort>`,
       );
 
       await click('[aria-label="Trier par pertinence"]');
@@ -60,7 +60,7 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
   @ariaLabelDefaultSort='Trier par pertinence'
   @ariaLabelSortUp='Trié par ordre croissant'
   @ariaLabelSortDown='Trié par ordre décroissant'
->Header</Table::HeaderSort>`
+>Header</Table::HeaderSort>`,
       );
 
       await click('[aria-label="Trié par ordre décroissant"]');
@@ -79,7 +79,7 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
   @ariaLabelDefaultSort='Trier par pertinence'
   @ariaLabelSortUp='Trié par ordre croissant'
   @ariaLabelSortDown='Trié par ordre décroissant'
->Header</Table::HeaderSort>`
+>Header</Table::HeaderSort>`,
       );
 
       await click('[aria-label="Trié par ordre croissant"]');
@@ -93,7 +93,7 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
     test('should not display arrow', async function (assert) {
       // when
       await render(
-        hbs`<Table::HeaderSort @isDisabled={{true}} @ariaLabel='Trier par pertinence'>Header</Table::HeaderSort>`
+        hbs`<Table::HeaderSort @isDisabled={{true}} @ariaLabel='Trier par pertinence'>Header</Table::HeaderSort>`,
       );
 
       // then

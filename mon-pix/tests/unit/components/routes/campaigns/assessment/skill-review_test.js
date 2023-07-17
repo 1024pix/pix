@@ -767,7 +767,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           // then
           assert.strictEqual(
             url,
-            'http://www.my-url.net/resultats?foo=bar&masteryPercentage=56&externalId=1234F56&stage=6'
+            'http://www.my-url.net/resultats?foo=bar&masteryPercentage=56&externalId=1234F56&stage=6',
           );
         });
       });

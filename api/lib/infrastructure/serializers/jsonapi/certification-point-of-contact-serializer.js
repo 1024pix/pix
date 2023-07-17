@@ -52,7 +52,7 @@ const serialize = function (certificationPointOfContact) {
             pixCertifScoBlockedAccessDateCollege: access.pixCertifScoBlockedAccessDateCollege,
             pixCertifScoBlockedAccessDateLycee: access.pixCertifScoBlockedAccessDateLycee,
           };
-        }
+        },
       );
 
       return transformedCertificationPointOfContact;

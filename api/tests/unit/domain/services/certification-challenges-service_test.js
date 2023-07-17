@@ -313,7 +313,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         knowledgeElementRepository,
         answerRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -347,7 +347,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
           locale,
           knowledgeElementRepository,
           answerRepository,
-          challengeRepository
+          challengeRepository,
         );
 
         // then
@@ -370,7 +370,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
           locale,
           knowledgeElementRepository,
           answerRepository,
-          challengeRepository
+          challengeRepository,
         );
 
         // then
@@ -404,7 +404,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
           locale,
           knowledgeElementRepository,
           answerRepository,
-          challengeRepository
+          challengeRepository,
         );
 
         // then
@@ -439,7 +439,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
           locale,
           knowledgeElementRepository,
           answerRepository,
-          challengeRepository
+          challengeRepository,
         );
 
         // then
@@ -475,7 +475,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
           locale,
           knowledgeElementRepository,
           answerRepository,
-          challengeRepository
+          challengeRepository,
         );
 
         // then
@@ -530,7 +530,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         knowledgeElementRepository,
         answerRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -580,7 +580,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         knowledgeElementRepository,
         answerRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -642,7 +642,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         knowledgeElementRepository,
         answerRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -681,7 +681,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         knowledgeElementRepository,
         answerRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -725,7 +725,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         knowledgeElementRepository,
         answerRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -747,7 +747,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         knowledgeElementRepository,
         answerRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -767,7 +767,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         knowledgeElementRepository,
         answerRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -861,7 +861,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         knowledgeElementRepository,
         answerRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -974,7 +974,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         knowledgeElementRepository,
         answerRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -1002,7 +1002,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: `@${tubeName}${i}`,
             difficulty: i,
             tubeId,
-          })
+          }),
         );
       }
 
@@ -1039,7 +1039,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
             id: `${challengeBaseId}_dec${i}`,
             name: `${challengeBaseId}_dec${i}`,
             skill,
-          })
+          }),
         );
       }
       return challenges;
@@ -1173,7 +1173,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1),
       );
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
@@ -1191,7 +1191,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         learningContentRepository,
         certifiableProfileForLearningContentRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -1204,8 +1204,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses3',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1215,8 +1215,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses4',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1226,8 +1226,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@direBonjour2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1237,8 +1237,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@conduireUneVoiture2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1248,8 +1248,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@laverLesDents2',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1259,8 +1259,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@laverLesDents3',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1270,8 +1270,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireSonLit4',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1281,8 +1281,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireSonLit6',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
       expect(certificationChallengesForPlus).to.have.length(8);
@@ -1359,7 +1359,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 2));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1),
       );
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 2));
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
@@ -1376,7 +1376,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         learningContentRepository,
         certifiableProfileForLearningContentRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -1389,8 +1389,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses3',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1400,8 +1400,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses4',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1411,8 +1411,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@direBonjour2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1422,8 +1422,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@conduireUneVoiture2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1433,8 +1433,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@laverLesDents2',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1444,8 +1444,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@laverLesDents3',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1455,8 +1455,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireSonLit4',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1466,8 +1466,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireSonLit6',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
       expect(certificationChallengesForPlus).to.have.length(8);
@@ -1550,7 +1550,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1),
       );
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
@@ -1568,7 +1568,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         learningContentRepository,
         certifiableProfileForLearningContentRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -1581,8 +1581,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses4',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1592,8 +1592,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses3',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1603,8 +1603,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@conduireUneVoiture2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1614,8 +1614,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@direBonjour2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1625,8 +1625,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireSonLit6',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1636,8 +1636,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireSonLit5',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1647,8 +1647,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireSonLit4',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1658,8 +1658,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@laverLesDents3',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
 
       expect(certificationChallengesForPlus).to.deepEqualArray(expectedCertificationChallenges);
@@ -1743,7 +1743,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1),
       );
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
@@ -1761,7 +1761,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         learningContentRepository,
         certifiableProfileForLearningContentRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -1774,8 +1774,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses3',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1785,8 +1785,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses4',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1796,8 +1796,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@direBonjour2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -1807,8 +1807,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@conduireUneVoiture2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
       expect(certificationChallengesForPlus).to.have.length(4);
@@ -1893,7 +1893,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1),
       );
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
@@ -1911,7 +1911,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         learningContentRepository,
         certifiableProfileForLearningContentRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -1989,7 +1989,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1),
       );
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
@@ -2005,7 +2005,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         learningContentRepository,
         certifiableProfileForLearningContentRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -2018,8 +2018,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses3',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -2029,8 +2029,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses4',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -2040,8 +2040,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@direBonjour2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -2051,8 +2051,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@conduireUneVoiture2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -2062,8 +2062,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@laverLesDents2',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -2073,8 +2073,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@laverLesDents3',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -2084,8 +2084,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireSonLit6',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
       expect(certificationChallengesForPlus).to.have.length(7);
@@ -2162,7 +2162,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
       challenges = challenges.concat(
-        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
+        _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1),
       );
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
@@ -2179,7 +2179,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         locale,
         learningContentRepository,
         certifiableProfileForLearningContentRepository,
-        challengeRepository
+        challengeRepository,
       );
 
       // then
@@ -2192,8 +2192,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses3',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -2203,8 +2203,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@faireDesCourses4',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -2214,8 +2214,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@direBonjour2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -2225,8 +2225,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@conduireUneVoiture2',
             competenceId: 'comp_reussirDehors_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -2236,8 +2236,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@laverLesDents2',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expectedCertificationChallenges = expectedCertificationChallenges.concat(
         _createCertificationChallenge(
@@ -2247,8 +2247,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
             name: '@laverLesDents3',
             competenceId: 'comp_faireBienDedans_id',
           },
-          'BADGE_KEY'
-        )
+          'BADGE_KEY',
+        ),
       );
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
       expect(certificationChallengesForPlus).to.have.length(6);
@@ -2323,14 +2323,14 @@ describe('Unit | Service | Certification Challenge Service', function () {
         // challenges
         let challenges = [];
         challenges = challenges.concat(
-          _createChallengeWithDecl('ch_faireDesCourses3', { id: 'faireDesCourses3_id' }, 1)
+          _createChallengeWithDecl('ch_faireDesCourses3', { id: 'faireDesCourses3_id' }, 1),
         );
         challenges = challenges.concat(
-          _createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1)
+          _createChallengeWithDecl('ch_faireDesCourses4', { id: 'faireDesCourses4_id' }, 1),
         );
         challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', { id: 'direBonjour2_id' }, 1));
         challenges = challenges.concat(
-          _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1)
+          _createChallengeWithDecl('ch_conduireUneVoiture2', { id: 'conduireUneVoiture2_id' }, 1),
         );
         challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
         challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
@@ -2348,7 +2348,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
             locale,
             learningContentRepository,
             certifiableProfileForLearningContentRepository,
-            challengeRepository
+            challengeRepository,
           );
 
         // then
@@ -2361,8 +2361,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
               name: '@faireDesCourses3',
               competenceId: 'comp_reussirDehors_id',
             },
-            'BADGE_KEY'
-          )
+            'BADGE_KEY',
+          ),
         );
         expectedCertificationChallenges = expectedCertificationChallenges.concat(
           _createCertificationChallenge(
@@ -2372,8 +2372,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
               name: '@faireDesCourses4',
               competenceId: 'comp_reussirDehors_id',
             },
-            'BADGE_KEY'
-          )
+            'BADGE_KEY',
+          ),
         );
         expectedCertificationChallenges = expectedCertificationChallenges.concat(
           _createCertificationChallenge(
@@ -2383,8 +2383,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
               name: '@direBonjour2',
               competenceId: 'comp_reussirDehors_id',
             },
-            'BADGE_KEY'
-          )
+            'BADGE_KEY',
+          ),
         );
         expectedCertificationChallenges = expectedCertificationChallenges.concat(
           _createCertificationChallenge(
@@ -2394,8 +2394,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
               name: '@conduireUneVoiture2',
               competenceId: 'comp_reussirDehors_id',
             },
-            'BADGE_KEY'
-          )
+            'BADGE_KEY',
+          ),
         );
         expectedCertificationChallenges = expectedCertificationChallenges.concat(
           _createCertificationChallenge(
@@ -2405,8 +2405,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
               name: '@laverLesDents2',
               competenceId: 'comp_faireBienDedans_id',
             },
-            'BADGE_KEY'
-          )
+            'BADGE_KEY',
+          ),
         );
         expectedCertificationChallenges = expectedCertificationChallenges.concat(
           _createCertificationChallenge(
@@ -2416,8 +2416,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
               name: '@laverLesDents3',
               competenceId: 'comp_faireBienDedans_id',
             },
-            'BADGE_KEY'
-          )
+            'BADGE_KEY',
+          ),
         );
         expectedCertificationChallenges = expectedCertificationChallenges.concat(
           _createCertificationChallenge(
@@ -2427,8 +2427,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
               name: '@faireSonLit4',
               competenceId: 'comp_faireBienDedans_id',
             },
-            'BADGE_KEY'
-          )
+            'BADGE_KEY',
+          ),
         );
         expectedCertificationChallenges = expectedCertificationChallenges.concat(
           _createCertificationChallenge(
@@ -2438,8 +2438,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
               name: '@faireSonLit6',
               competenceId: 'comp_faireBienDedans_id',
             },
-            'BADGE_KEY'
-          )
+            'BADGE_KEY',
+          ),
         );
         expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
         expect(certificationChallengesForPlus).to.have.length(8);

@@ -57,7 +57,7 @@ module('Unit | Helper | scorecard-aria-label', function (hooks) {
       sinon.assert.calledWith(
         intlServiceStub.t,
         'pages.profile.competence-card.image-info.first-level',
-        expectedTranslationsParams
+        expectedTranslationsParams,
       );
       assert.ok(true);
     });
@@ -81,7 +81,7 @@ module('Unit | Helper | scorecard-aria-label', function (hooks) {
       sinon.assert.calledWith(
         intlServiceStub.t,
         'pages.profile.competence-card.image-info.level',
-        expectedTranslationsParams
+        expectedTranslationsParams,
       );
       assert.ok(true);
     });

@@ -18,7 +18,7 @@ const challengeDatasource = datasource.extend({
   async findValidatedByCompetenceId(competenceId) {
     const challenges = await this.findValidated();
     return challenges.filter(
-      (challengeData) => !_.isEmpty(challengeData.skillId) && _.includes(challengeData.competenceId, competenceId)
+      (challengeData) => !_.isEmpty(challengeData.skillId) && _.includes(challengeData.competenceId, competenceId),
     );
   },
 
@@ -74,7 +74,7 @@ const challengeDatasource = datasource.extend({
         challengeData.alpha != null &&
         challengeData.delta != null &&
         challengeData.skillId &&
-        acceptedStatuses.includes(challengeData.status)
+        acceptedStatuses.includes(challengeData.status),
     );
   },
 });

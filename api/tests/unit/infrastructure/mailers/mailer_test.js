@@ -89,7 +89,7 @@ describe('Unit | Infrastructure | Mailers | mailer', function () {
           // then
           expect(logger.warn).to.have.been.calledWith({ err: expectedError }, "Email is not valid 'test@example.net'");
           expect(result).to.deep.equal(
-            EmailingAttempt.failure('test@example.net', EmailingAttempt.errorCode.INVALID_DOMAIN)
+            EmailingAttempt.failure('test@example.net', EmailingAttempt.errorCode.INVALID_DOMAIN),
           );
         });
       });
@@ -135,14 +135,14 @@ describe('Unit | Infrastructure | Mailers | mailer', function () {
             // Then
             expect(logger.warn).to.have.been.calledOnceWith(
               { err: error },
-              `Could not send email to '${invalidEmailRecipient}'`
+              `Could not send email to '${invalidEmailRecipient}'`,
             );
             expect(result).to.deep.equal(
               EmailingAttempt.failure(
                 invalidEmailRecipient,
                 EmailingAttempt.errorCode.INVALID_EMAIL,
-                'Mailing provider invalid email error message'
-              )
+                'Mailing provider invalid email error message',
+              ),
             );
           });
         });

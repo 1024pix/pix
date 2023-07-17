@@ -16,7 +16,7 @@ export default class LoginSessionSupervisorRoute extends Route {
 
     const pixCertifTermsOfServiceAccepted = get(
       this.currentUser,
-      'certificationPointOfContact.pixCertifTermsOfServiceAccepted'
+      'certificationPointOfContact.pixCertifTermsOfServiceAccepted',
     );
     if (!pixCertifTermsOfServiceAccepted) {
       this.router.replaceWith('terms-of-service');

@@ -65,10 +65,10 @@ const findByTrainingIdForAdmin = async function ({
   return Promise.all(
     trainingTriggers.map(async (trainingTrigger) => {
       const triggerTubes = trainingTriggerTubes.filter(
-        ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id
+        ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id,
       );
       return await _toDomainForAdmin({ trainingTrigger, triggerTubes });
-    })
+    }),
   );
 };
 
@@ -86,10 +86,10 @@ const findByTrainingId = async function ({ trainingId, domainTransaction = Domai
   return Promise.all(
     trainingTriggers.map(async (trainingTrigger) => {
       const triggerTubes = trainingTriggerTubes.filter(
-        ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id
+        ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id,
       );
       return _toDomain({ trainingTrigger, triggerTubes });
-    })
+    }),
   );
 };
 
@@ -122,7 +122,7 @@ async function _toDomain({ trainingTrigger, triggerTubes }) {
     type: trainingTrigger.type,
     threshold: trainingTrigger.threshold,
     triggerTubes: triggerTubes.map(
-      ({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: tubes.find(({ id }) => id === tubeId), level })
+      ({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: tubes.find(({ id }) => id === tubeId), level }),
     ),
   });
 }
@@ -141,7 +141,7 @@ async function _toDomainForAdmin({ trainingTrigger, triggerTubes }) {
     throw new NotFoundError(
       `Les sujets [${notFoundTubeIds.join(', ')}] du déclencheur ${
         trainingTrigger.id
-      } n'existent pas dans le référentiel.`
+      } n'existent pas dans le référentiel.`,
     );
   }
 
@@ -153,7 +153,7 @@ async function _toDomainForAdmin({ trainingTrigger, triggerTubes }) {
     type: trainingTrigger.type,
     threshold: trainingTrigger.threshold,
     triggerTubes: triggerTubes.map(
-      ({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: tubes.find(({ id }) => id === tubeId), level })
+      ({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: tubes.find(({ id }) => id === tubeId), level }),
     ),
     areas: learningContent.areas,
     competences: learningContent.competences,

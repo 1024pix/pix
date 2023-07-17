@@ -362,7 +362,7 @@ describe('Unit | Application | ErrorManager', function () {
       // then
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(
         SESSION_SUPERVISING.INCORRECT_DATA.getMessage(),
-        SESSION_SUPERVISING.INCORRECT_DATA.code
+        SESSION_SUPERVISING.INCORRECT_DATA.code,
       );
     });
 
@@ -549,7 +549,7 @@ describe('Unit | Application | ErrorManager', function () {
       // then
       expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
         error.message,
-        'SENDING_EMAIL_TO_INVALID_DOMAIN'
+        'SENDING_EMAIL_TO_INVALID_DOMAIN',
       );
     });
 
@@ -632,7 +632,7 @@ describe('Unit | Application | ErrorManager', function () {
         expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(
           error.message,
           error.code,
-          error.meta
+          error.meta,
         );
       });
 
@@ -649,7 +649,7 @@ describe('Unit | Application | ErrorManager', function () {
         expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(
           error.message,
           error.code,
-          error.meta
+          error.meta,
         );
       });
 
@@ -666,7 +666,7 @@ describe('Unit | Application | ErrorManager', function () {
         expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(
           error.message,
           error.code,
-          error.meta
+          error.meta,
         );
       });
     });
@@ -677,7 +677,7 @@ describe('Unit | Application | ErrorManager', function () {
           // given
           const error = new SendingEmailToInvalidEmailAddressError(
             'invalid@email.net',
-            'Mailing provider error message'
+            'Mailing provider error message',
           );
           sinon.stub(HttpErrors, 'BadRequestError');
           const params = { request: {}, h: hFake, error };
@@ -689,7 +689,7 @@ describe('Unit | Application | ErrorManager', function () {
           expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
             error.message,
             'SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS',
-            error.meta
+            error.meta,
           );
         });
       });
@@ -710,7 +710,7 @@ describe('Unit | Application | ErrorManager', function () {
           expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
             'Given locale is in invalid format: "zzzz"',
             'INVALID_LOCALE_FORMAT',
-            { locale: 'zzzz' }
+            { locale: 'zzzz' },
           );
         });
       });
@@ -729,7 +729,7 @@ describe('Unit | Application | ErrorManager', function () {
           expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
             'Given locale is not supported : "nl-BE"',
             'LOCALE_NOT_SUPPORTED',
-            { locale: 'nl-BE' }
+            { locale: 'nl-BE' },
           );
         });
       });

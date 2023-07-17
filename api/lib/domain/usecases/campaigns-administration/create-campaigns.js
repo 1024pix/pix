@@ -16,7 +16,7 @@ const createCampaigns = async function ({
         ownerId: administrator.user.id,
         code: await campaignCodeGenerator.generate(campaignRepository),
       };
-    })
+    }),
   );
 
   return campaignAdministrationRepository.createCampaigns(enrichedCampaignsData);

@@ -73,7 +73,7 @@ describe('Integration | Repository | CompetenceMark', function () {
         ],
         (mark) => {
           return databaseBuilder.factory.buildCompetenceMark(mark).id;
-        }
+        },
       );
 
       await databaseBuilder.commit();
@@ -149,7 +149,7 @@ describe('Integration | Repository | CompetenceMark', function () {
         ],
         (mark) => {
           return databaseBuilder.factory.buildCompetenceMark(mark).id;
-        }
+        },
       );
       const expectedCompetenceMarks = [
         domainBuilder.buildCompetenceMark({
@@ -207,7 +207,7 @@ describe('Integration | Repository | CompetenceMark', function () {
         ],
         (mark) => {
           return databaseBuilder.factory.buildCompetenceMark(mark).id;
-        }
+        },
       );
       const expectedCompetenceMarks = _.map(
         [
@@ -242,7 +242,7 @@ describe('Integration | Repository | CompetenceMark', function () {
         (mark) => {
           databaseBuilder.factory.buildCompetenceMark(mark);
           return domainBuilder.buildCompetenceMark(mark);
-        }
+        },
       );
       await databaseBuilder.commit();
 

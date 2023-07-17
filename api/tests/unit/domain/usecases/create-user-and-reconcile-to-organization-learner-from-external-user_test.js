@@ -43,7 +43,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
-        organizationLearner
+        organizationLearner,
       );
       userRepository.getBySamlId.resolves(user);
 
@@ -77,7 +77,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
-        organizationLearner
+        organizationLearner,
       );
       userRepository.getBySamlId.resolves(user);
       tokenService.createAccessTokenForSaml.withArgs(user.id).resolves(token);
@@ -113,7 +113,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
-        organizationLearner
+        organizationLearner,
       );
       userRepository.getBySamlId.resolves(null);
       userService.createAndReconcileUserToOrganizationLearner.resolves(user.id);
@@ -148,7 +148,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
-        organizationLearner
+        organizationLearner,
       );
       userRepository.getBySamlId.resolves(null);
       userService.createAndReconcileUserToOrganizationLearner.resolves(user.id);

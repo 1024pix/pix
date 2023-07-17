@@ -38,7 +38,7 @@ const findTutorials = async function ({
     tubes,
     tutorialRepository,
     userId,
-    locale
+    locale,
   );
   return _.orderBy(_.flatten(tutorialsWithTubesList), 'tubeName');
 };
@@ -61,7 +61,7 @@ async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialReposito
         tutorial.skillId = skill.id;
         return tutorial;
       });
-    })
+    }),
   );
 }
 
@@ -81,6 +81,6 @@ function _getInvalidatedDirectKnowledgeElements(knowledgeElements) {
   return _.filter(
     knowledgeElements,
     (knowledgeElement) =>
-      knowledgeElement.isInvalidated && knowledgeElement.source === KnowledgeElement.SourceType.DIRECT
+      knowledgeElement.isInvalidated && knowledgeElement.source === KnowledgeElement.SourceType.DIRECT,
   );
 }

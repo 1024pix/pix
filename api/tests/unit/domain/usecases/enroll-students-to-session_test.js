@@ -67,7 +67,7 @@ describe('Unit | UseCase | enrol-students-to-session', function () {
 
       // then
       expect(scoCertificationCandidateRepository.findBySessionId(sessionId)).to.deep.equal(
-        expectedCertificationCandidates
+        expectedCertificationCandidates,
       );
       expect(scoCertificationCandidateRepository.findBySessionId(anotherSessionId)).to.deep.equal(undefined);
     });

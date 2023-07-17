@@ -29,7 +29,7 @@ const findStillValidBadgeAcquisitions = async function ({
       if (!badgeForCalculation) return null;
       const isBadgeValid = badgeForCalculation.shouldBeObtained(knowledgeElements);
       return isBadgeValid ? certifiableBadgeAcquisition : null;
-    }
+    },
   );
 
   return _.compact(badgeAcquisitions);

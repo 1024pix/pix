@@ -68,7 +68,7 @@ const register = async function (server) {
               new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
                 maxSizeInMegaBytes: '2.5',
               }),
-              h
+              h,
             );
           },
         },

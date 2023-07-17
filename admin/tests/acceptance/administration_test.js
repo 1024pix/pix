@@ -42,8 +42,8 @@ module('Acceptance | administration', function (hooks) {
         .dom(
           screen.getByText(
             'Une version du référentiel de données pédagogique est créée quotidiennement (vers 4h00) et le référentiel ' +
-              "utilisé par l'application est mis à jour (vers 6h00)."
-          )
+              "utilisé par l'application est mis à jour (vers 6h00).",
+          ),
         )
         .exists();
       assert.dom(screen.getByRole('button', { name: 'Recharger le cache' })).exists();
@@ -78,8 +78,8 @@ module('Acceptance | administration', function (hooks) {
       assert
         .dom(
           screen.getByText(
-            'La création de la version du référentiel et le rechargement du cache a bien été prise en compte.'
-          )
+            'La création de la version du référentiel et le rechargement du cache a bien été prise en compte.',
+          ),
         )
         .exists();
     });

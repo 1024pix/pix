@@ -63,15 +63,15 @@ class CandidateData {
     this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(complementaryCertification, CLEA);
     this.pixPlusDroit = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertification,
-      PIX_PLUS_DROIT
+      PIX_PLUS_DROIT,
     );
     this.pixPlusEdu1erDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertification,
-      PIX_PLUS_EDU_1ER_DEGRE
+      PIX_PLUS_EDU_1ER_DEGRE,
     );
     this.pixPlusEdu2ndDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertification,
-      PIX_PLUS_EDU_2ND_DEGRE
+      PIX_PLUS_EDU_2ND_DEGRE,
     );
     this.count = number;
     this._clearBirthInformationDataForExport();

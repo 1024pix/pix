@@ -87,7 +87,7 @@ async function _getUserIdByMatchingStudentInformationWithOrganizationLearner({
 }) {
   const matchingOrganizationLearnerId = await userReconciliationService.findMatchingCandidateIdForGivenUser(
     [latestOrganizationLearner],
-    { firstName: studentInformation.firstName, lastName: studentInformation.lastName }
+    { firstName: studentInformation.firstName, lastName: studentInformation.lastName },
   );
 
   if (!matchingOrganizationLearnerId) {

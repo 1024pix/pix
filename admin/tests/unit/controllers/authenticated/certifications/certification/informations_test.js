@@ -167,7 +167,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         // given
         const store = this.owner.lookup('service:store');
         const complementaryCertificationCourseResultWithExternal = store.createRecord(
-          'complementary-certification-course-result-with-external'
+          'complementary-certification-course-result-with-external',
         );
 
         sinon.stub(complementaryCertificationCourseResultWithExternal, 'isExternalResultEditable').get(() => true);
@@ -192,7 +192,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         // given
         const store = this.owner.lookup('service:store');
         const complementaryCertificationCourseResultWithExternal = store.createRecord(
-          'complementary-certification-course-result-with-external'
+          'complementary-certification-course-result-with-external',
         );
 
         sinon.stub(complementaryCertificationCourseResultWithExternal, 'isExternalResultEditable').get(() => false);
@@ -589,7 +589,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
           'complementary-certification-course-result-with-external',
           {
             complementaryCertificationCourseId: 12345,
-          }
+          },
         );
 
         controller.certification.editJuryLevel = sinon.stub().resolves();

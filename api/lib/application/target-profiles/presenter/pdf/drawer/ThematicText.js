@@ -51,7 +51,7 @@ function _thematicHeight(text) {
     FontManager.thematicFont,
     FontManager.thematicHeight,
     null,
-    PositionManager.thematicWidth
+    PositionManager.thematicWidth,
   );
   return FontManager.thematicFontHeight * numberOfLine;
 }

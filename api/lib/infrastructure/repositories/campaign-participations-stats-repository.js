@@ -30,7 +30,7 @@ async function _getCumulativeParticipationCountsByDay(campaignId, column) {
     FROM "campaign-participations"
     WHERE "campaignId" = :campaignId AND :column: IS NOT NULL AND "isImproved" = false AND "deletedAt" is null
     GROUP BY "day"`,
-    { column, campaignId }
+    { column, campaignId },
   );
 
   return data.map(({ day, count }) => ({ day, count: Number(count) }));

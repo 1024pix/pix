@@ -91,7 +91,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     assert.strictEqual(
       screen.getAllByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' })
         .length,
-      2
+      2,
     );
   });
 
@@ -106,7 +106,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     assert.strictEqual(
       screen.getAllByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' })
         .length,
-      1
+      1,
     );
   });
 
@@ -121,7 +121,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     assert.strictEqual(
       screen.queryAllByRole('heading', { name: 'Critère d’obtention sur une sélection de sujets du profil cible' })
         .length,
-      0
+      0,
     );
   });
 });

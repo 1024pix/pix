@@ -27,7 +27,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName: 'George' }),
-        })
+        }),
       );
     });
 
@@ -45,7 +45,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
               code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS',
             },
           ],
-        }
+        },
       );
       server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
@@ -56,7 +56,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
-        })
+        }),
       );
       assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.account-exists')));
       assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
@@ -75,7 +75,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
               status: '403',
             },
           ],
-        }
+        },
       );
       server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
@@ -86,7 +86,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
-        })
+        }),
       );
       assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.title')));
       assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
@@ -105,7 +105,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
               status: '404',
             },
           ],
-        }
+        },
       );
       server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
@@ -116,7 +116,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
-        })
+        }),
       );
       assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-invalid')));
       assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
@@ -135,7 +135,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
               status: '401',
             },
           ],
-        }
+        },
       );
       server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
@@ -146,10 +146,10 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
-        })
+        }),
       );
       assert.ok(
-        screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') })
+        screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') }),
       );
     });
   });
@@ -190,7 +190,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
               code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS',
             },
           ],
-        }
+        },
       );
       server.patch('/account-recovery', () => errorsApi);
 
@@ -205,7 +205,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
-        })
+        }),
       );
       assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.account-exists')));
       assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
@@ -225,7 +225,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
               status: '403',
             },
           ],
-        }
+        },
       );
       server.patch('/account-recovery', () => errorsApi);
 
@@ -240,7 +240,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
-        })
+        }),
       );
       assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used')));
       assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
@@ -260,7 +260,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
               status: '404',
             },
           ],
-        }
+        },
       );
       server.patch('/account-recovery', () => errorsApi);
 
@@ -275,7 +275,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
-        })
+        }),
       );
       assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-invalid')));
       assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
@@ -295,7 +295,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
               status: '401',
             },
           ],
-        }
+        },
       );
       server.patch('/account-recovery', () => errorsApi);
 
@@ -310,10 +310,10 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
-        })
+        }),
       );
       assert.ok(
-        screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') })
+        screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') }),
       );
     });
 
@@ -331,7 +331,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
               status: '500',
             },
           ],
-        }
+        },
       );
       server.patch('/account-recovery', () => errorsApi);
 
@@ -346,7 +346,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
-        })
+        }),
       );
       assert.ok(screen.getByText(this.intl.t('common.api-error-messages.internal-server-error')));
       assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));

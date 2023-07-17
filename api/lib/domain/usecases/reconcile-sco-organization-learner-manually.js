@@ -36,13 +36,13 @@ const reconcileScoOrganizationLearnerManually = async function ({
     organizationLearnerOfUserAccessingCampaign,
     userRepository,
     obfuscationService,
-    studentRepository
+    studentRepository,
   );
 
   await _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(
     reconciliationInfo.id,
     campaign.organizationId,
-    organizationLearnerRepository
+    organizationLearnerRepository,
   );
 
   await _checkIfUserIsConnectedOnAnotherAccount({
@@ -64,7 +64,7 @@ export { reconcileScoOrganizationLearnerManually };
 async function _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(
   userId,
   organizationId,
-  organizationLearnerRepository
+  organizationLearnerRepository,
 ) {
   const organizationLearnerFound = await organizationLearnerRepository.findOneByUserIdAndOrganizationId({
     userId,
@@ -92,7 +92,7 @@ async function _checkIfUserIsConnectedOnAnotherAccount({
 
   const loggedAccountReconciledOrganizationLearnersWithoutNullNationalStudentIds =
     loggedAccountReconciledOrganizationLearners.filter(
-      (organizationLearner) => !!organizationLearner.nationalStudentId
+      (organizationLearner) => !!organizationLearner.nationalStudentId,
     );
 
   if (isEmpty(loggedAccountReconciledOrganizationLearnersWithoutNullNationalStudentIds)) {
@@ -102,13 +102,13 @@ async function _checkIfUserIsConnectedOnAnotherAccount({
   const isUserNationalStudentIdDifferentFromLoggedAccount =
     loggedAccountReconciledOrganizationLearnersWithoutNullNationalStudentIds.every(
       (organizationLearner) =>
-        organizationLearner.nationalStudentId !== organizationLearnerOfUserAccessingCampaign.nationalStudentId
+        organizationLearner.nationalStudentId !== organizationLearnerOfUserAccessingCampaign.nationalStudentId,
     );
 
   if (isUserNationalStudentIdDifferentFromLoggedAccount) {
     const isUserBirthdayDifferentFromLoggedAccount =
       loggedAccountReconciledOrganizationLearnersWithoutNullNationalStudentIds.every(
-        (organizationLearner) => organizationLearner.birthdate !== organizationLearnerOfUserAccessingCampaign.birthdate
+        (organizationLearner) => organizationLearner.birthdate !== organizationLearnerOfUserAccessingCampaign.birthdate,
       );
 
     if (isUserBirthdayDifferentFromLoggedAccount) {

@@ -90,7 +90,7 @@ describe('Delete User Script', function () {
 
         // then
         expect(query).to.equal(
-          'DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (123) )'
+          'DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (123) )',
         );
       });
 
@@ -103,7 +103,7 @@ describe('Delete User Script', function () {
 
         // then
         expect(query).to.equal(
-          'DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (123,456) )'
+          'DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (123,456) )',
         );
       });
 
@@ -338,16 +338,16 @@ describe('Delete User Script', function () {
           sinon.assert.callCount(clientStub.query_and_log, 4);
 
           expect(clientStub.query_and_log).to.have.been.calledWith(
-            'DELETE FROM feedbacks WHERE "assessmentId" IN (123,456)'
+            'DELETE FROM feedbacks WHERE "assessmentId" IN (123,456)',
           );
           expect(clientStub.query_and_log).to.have.been.calledWith(
-            'DELETE FROM answers WHERE "assessmentId" IN (123,456)'
+            'DELETE FROM answers WHERE "assessmentId" IN (123,456)',
           );
           expect(clientStub.query_and_log).to.have.been.calledWith(
-            'DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (123,456) )'
+            'DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (123,456) )',
           );
           expect(clientStub.query_and_log).to.have.been.calledWith(
-            'DELETE FROM "assessment-results" WHERE "assessmentId" IN (123,456)'
+            'DELETE FROM "assessment-results" WHERE "assessmentId" IN (123,456)',
           );
         });
       });

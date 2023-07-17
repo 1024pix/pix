@@ -52,7 +52,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       await click(
         screen.getByRole('option', {
           name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-        })
+        }),
       );
 
       const contentValue = 'Prêtes-moi ta plume, pour écrire un mot';
@@ -73,7 +73,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should display a second dropdown with the list of questions when category have a nested level', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`
+          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
         );
 
         // when
@@ -84,7 +84,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(
           screen.getByRole('option', {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'),
-          })
+          }),
         );
 
         // then
@@ -100,7 +100,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should directly display the message box and the submit button when category has a textarea', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`
+          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
         );
 
         // when
@@ -111,7 +111,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(
           screen.getByRole('option', {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-          })
+          }),
         );
 
         // then
@@ -124,7 +124,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should directly display the tuto without the textbox or the send button when category has a tutorial', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`
+          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
         );
 
         // when
@@ -135,7 +135,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(
           screen.getByRole('option', {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.picture'),
-          })
+          }),
         );
 
         // then
@@ -151,7 +151,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should show the correct feedback action when selecting two different categories', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`
+          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
         );
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
@@ -161,12 +161,12 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(
           screen.getByRole('option', {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.picture'),
-          })
+          }),
         );
         await click(
           screen.getByRole('option', {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-          })
+          }),
         );
 
         // then
@@ -181,7 +181,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should hide the second dropdown when category has fewer levels after a deeper category', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`
+          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
         );
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
@@ -191,12 +191,12 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(
           screen.getByRole('option', {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'),
-          })
+          }),
         );
         await click(
           screen.getByRole('option', {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-          })
+          }),
         );
 
         // then
@@ -211,7 +211,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       test('should display tutorial with textarea with selecting related category and subcategory', async function (assert) {
         // given
         const screen = await render(
-          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`
+          hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`,
         );
         await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
@@ -221,15 +221,15 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(
           screen.getByRole('option', {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.embed'),
-          })
+          }),
         );
         await click(screen.getByRole('button', { name: 'Sélectionner une option pour préciser votre problème' }));
         await click(
           await screen.findByRole('option', {
             name: this.intl.t(
-              'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-mobile-devices-with-problems.label'
+              'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-mobile-devices-with-problems.label',
             ),
-          })
+          }),
         );
 
         // then
@@ -237,8 +237,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
           .dom(
             screen.getByText(
               'Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier.' +
-                "Précisez votre problème en indiquant votre type d'appareil (smartphone, tablette...), votre système d'exploitation et votre navigateur."
-            )
+                "Précisez votre problème en indiquant votre type d'appareil (smartphone, tablette...), votre système d'exploitation et votre navigateur.",
+            ),
           )
           .exists();
         const textareaLabel = screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
@@ -297,8 +297,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
       assert
         .dom(
           screen.getByText(
-            'Pour signaler un problème, appelez votre surveillant et communiquez-lui les informations suivantes :'
-          )
+            'Pour signaler un problème, appelez votre surveillant et communiquez-lui les informations suivantes :',
+          ),
         )
         .exists();
     });
@@ -316,7 +316,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`
+        hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`,
       );
 
       // then
@@ -337,7 +337,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`
+        hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`,
       );
 
       // then
@@ -394,7 +394,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       await click(
         screen.getByRole('option', {
           name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-        })
+        }),
       );
 
       // when
@@ -414,7 +414,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       await click(
         screen.getByRole('option', {
           name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-        })
+        }),
       );
       await fillIn(screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }), '');
 
@@ -435,7 +435,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       await click(
         screen.getByRole('option', {
           name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-        })
+        }),
       );
 
       await fillIn(screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }), '    ');

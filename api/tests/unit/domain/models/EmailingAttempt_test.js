@@ -156,7 +156,7 @@ describe('Unit | Domain | Models | EmailingAttempt', function () {
         const result = EmailingAttempt.failure(
           'example@example.net',
           EmailingAttempt.errorCode.INVALID_EMAIL,
-          'Failure error message'
+          'Failure error message',
         );
 
         // Then
@@ -164,7 +164,7 @@ describe('Unit | Domain | Models | EmailingAttempt', function () {
           'example@example.net',
           'FAILURE',
           'INVALID_EMAIL',
-          'Failure error message'
+          'Failure error message',
         );
         expect(result).to.deepEqualInstance(expectedEmailAttempt);
       });

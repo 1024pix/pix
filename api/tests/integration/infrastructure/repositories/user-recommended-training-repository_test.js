@@ -30,7 +30,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
         })
         .first();
       expect(_.omit(persistedUserRecommendedTraining, ['id', 'createdAt', 'updatedAt'])).to.deep.equal(
-        userRecommendedTraining
+        userRecommendedTraining,
       );
     });
 

@@ -53,7 +53,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
         organization,
         campaign,
         competences,
-        translate
+        translate,
       );
 
       const expectedHeader =
@@ -93,7 +93,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
         organization,
         campaign,
         competences,
-        translate
+        translate,
       );
 
       const expectedHeader =
@@ -134,7 +134,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
         organization,
         campaign,
         competences,
-        translate
+        translate,
       );
 
       const expectedHeader =
@@ -174,7 +174,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
         organization,
         campaign,
         competences,
-        translate
+        translate,
       );
 
       const expectedHeader =

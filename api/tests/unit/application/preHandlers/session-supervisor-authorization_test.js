@@ -37,7 +37,7 @@ describe('Unit | Pre-handler | Supervisor Authorization', function () {
         const response = await sessionSupervisorAuthorization.verifyByCertificationCandidateId(
           request,
           hFake,
-          dependencies
+          dependencies,
         );
 
         // then
@@ -60,7 +60,7 @@ describe('Unit | Pre-handler | Supervisor Authorization', function () {
         const response = await sessionSupervisorAuthorization.verifyByCertificationCandidateId(
           request,
           hFake,
-          dependencies
+          dependencies,
         );
 
         // then

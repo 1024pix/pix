@@ -32,7 +32,7 @@ const get = async function (userId) {
     certificationPointOfContactDTO,
   });
   const allowedCertificationCenterAccesses = await _findAllowedCertificationCenterAccesses(
-    authorizedCertificationCenterIds
+    authorizedCertificationCenterIds,
   );
 
   return new CertificationPointOfContact({
@@ -50,7 +50,7 @@ async function _removeDisabledCertificationCenterAccesses({ certificationPointOf
     .where('certification-center-memberships.userId', certificationPointOfContactDTO.id)
     .whereIn(
       'certification-center-memberships.certificationCenterId',
-      certificationPointOfContactDTO.certificationCenterIds
+      certificationPointOfContactDTO.certificationCenterIds,
     )
     .where('certification-center-memberships.disabledAt', null);
 
@@ -71,14 +71,14 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
       tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
       habilitations: knex.raw(
-        `array_agg(json_build_object('id', "complementary-certifications".id, 'label', "complementary-certifications".label, 'key', "complementary-certifications".key) order by "complementary-certifications".id)`
+        `array_agg(json_build_object('id', "complementary-certifications".id, 'label', "complementary-certifications".label, 'key', "complementary-certifications".key) order by "complementary-certifications".id)`,
       ),
     })
     .from('certification-centers')
     .leftJoin('organizations', function () {
       this.on('organizations.externalId', 'certification-centers.externalId').andOn(
         'organizations.type',
-        'certification-centers.type'
+        'certification-centers.type',
       );
     })
     .leftJoin('organization-tags', 'organization-tags.organizationId', 'organizations.id')
@@ -86,12 +86,12 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
     .leftJoin(
       'complementary-certification-habilitations',
       'complementary-certification-habilitations.certificationCenterId',
-      'certification-centers.id'
+      'certification-centers.id',
     )
     .leftJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-habilitations.complementaryCertificationId'
+      'complementary-certification-habilitations.complementaryCertificationId',
     )
     .whereIn('certification-centers.id', certificationCenterIds)
     .orderBy('certification-centers.id')
@@ -101,7 +101,7 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
     return new AllowedCertificationCenterAccess({
       ...allowedCertificationCenterAccessDTO,
       isRelatedToManagingStudentsOrganization: Boolean(
-        allowedCertificationCenterAccessDTO.isRelatedToManagingStudentsOrganization
+        allowedCertificationCenterAccessDTO.isRelatedToManagingStudentsOrganization,
       ),
       relatedOrganizationTags: _cleanTags(allowedCertificationCenterAccessDTO),
       habilitations: _cleanHabilitations(allowedCertificationCenterAccessDTO),

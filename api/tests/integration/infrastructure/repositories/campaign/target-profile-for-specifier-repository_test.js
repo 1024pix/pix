@@ -16,7 +16,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId
+          organizationId,
         );
 
         expect(targetProfileForSpecifier.tubeCount).to.equal(2);
@@ -31,7 +31,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId
+          organizationId,
         );
 
         expect(targetProfileForSpecifier.thematicResultCount).to.equal(1);
@@ -46,7 +46,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId
+          organizationId,
         );
 
         expect(targetProfileForSpecifier.hasStage).to.equal(true);
@@ -58,7 +58,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId
+          organizationId,
         );
 
         expect(targetProfileForSpecifier.category).to.equal('CUSTOM');
@@ -70,7 +70,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId
+          organizationId,
         );
 
         expect(targetProfileForSpecifier.description).to.equal('THIS IS SPARTA!');
@@ -108,7 +108,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           category: 'OTHER',
         });
         const availableTargetProfiles = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId
+          organizationId,
         );
         expect(availableTargetProfiles).to.exactlyContain([targetProfile1, targetProfile2]);
       });

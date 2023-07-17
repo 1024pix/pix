@@ -10,7 +10,7 @@ export function findPaginatedCampaignProfilesCollectionParticipationSummaries(sc
 
   const json = this.serialize(
     { modelName: 'campaign-profiles-collection-participation-summary', models: paginatedSummaries },
-    'campaign-profiles-collection-participation-summary'
+    'campaign-profiles-collection-participation-summary',
   );
   json.meta = {
     page: pagination.page,

@@ -10,7 +10,7 @@ const findFinalizedSessionsToPublish = async function (request, h, dependencies 
 const findFinalizedSessionsWithRequiredAction = async function (
   request,
   h,
-  dependencies = { withRequiredActionSessionSerializer }
+  dependencies = { withRequiredActionSessionSerializer },
 ) {
   const finalizedSessionsWithRequiredAction = await usecases.findFinalizedSessionsWithRequiredAction();
   return dependencies.withRequiredActionSessionSerializer.serialize(finalizedSessionsWithRequiredAction);

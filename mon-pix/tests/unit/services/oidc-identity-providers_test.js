@@ -65,7 +65,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
         'store',
         Service.create({
           peekAll: sinon.stub().returns([oidcPartnerObject, otherOidcPartnerObject]),
-        })
+        }),
       );
 
       // when
@@ -98,7 +98,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
         'store',
         Service.create({
           peekAll: sinon.stub().returns([fwbPartnerObject, otherOidcPartnerObject]),
-        })
+        }),
       );
 
       // when
@@ -129,7 +129,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
         'store',
         Service.create({
           peekAll: sinon.stub().returns([oidcPartnerObject, otherOidcPartnerObject]),
-        })
+        }),
       );
 
       // when

@@ -5,7 +5,7 @@ const cancelCertificationCenterInvitation = async function ({
   certificationCenterInvitationRepository,
 }) {
   const foundCertificationCenterInvitation = await certificationCenterInvitationRepository.get(
-    certificationCenterInvitationId
+    certificationCenterInvitationId,
   );
   if (!foundCertificationCenterInvitation.isPending) {
     throw new UncancellableCertificationCenterInvitationError();

@@ -10,7 +10,7 @@ const createResetDemand = async function (
   h,
   dependencies = {
     passwordResetSerializer,
-  }
+  },
 ) {
   const { email } = request.payload.data.attributes;
   const locale = extractLocaleFromRequest(request);

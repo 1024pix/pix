@@ -75,7 +75,7 @@ async function _createBadgeCriterion(badgeCriterion, domainTransaction) {
   });
   return badgeCriteriaRepository.save(
     { badgeCriterion: { ...badgeCriterion, skillSetIds: newSkillSetIds } },
-    domainTransaction
+    domainTransaction,
   );
 }
 

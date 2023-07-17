@@ -17,10 +17,10 @@ describe('get-next-commit-subject', function () {
   });
   it('should not add anything when the branch is a merge', function () {
     expect(getNextCommitSubject('Merge branch pf-42-branch', 'pf-42-branch')).to.deep.equal(
-      'Merge branch pf-42-branch'
+      'Merge branch pf-42-branch',
     );
     expect(getNextCommitSubject('Merge pull request pf-42-branch', 'pf-42-branch')).to.deep.equal(
-      'Merge pull request pf-42-branch'
+      'Merge pull request pf-42-branch',
     );
   });
 });

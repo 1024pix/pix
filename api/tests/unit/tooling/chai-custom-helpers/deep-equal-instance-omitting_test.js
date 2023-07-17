@@ -43,7 +43,7 @@ describe('Unit | chai-custom-helpers | deepEqualInstanceOmitting', function () {
         actual: otherSkillSet,
         expected: skillSet,
         operator: 'deepStrictEqual',
-      }
+      },
     );
     global.chaiErr(
       function () {
@@ -53,7 +53,7 @@ describe('Unit | chai-custom-helpers | deepEqualInstanceOmitting', function () {
         actual: anotherSkillSet,
         expected: skillSet,
         operator: 'deepStrictEqual',
-      }
+      },
     );
   });
 

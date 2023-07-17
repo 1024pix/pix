@@ -150,7 +150,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       // then
       assert.strictEqual(
         controller.get('errorMessage'),
-        controller.intl.t('pages.fill-in-campaign-code.errors.not-found')
+        controller.intl.t('pages.fill-in-campaign-code.errors.not-found'),
       );
     });
 
@@ -172,7 +172,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       // then
       assert.strictEqual(
         controller.get('errorMessage'),
-        'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.'
+        'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.',
       );
     });
   });

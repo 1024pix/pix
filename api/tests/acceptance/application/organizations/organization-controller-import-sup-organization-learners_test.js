@@ -145,7 +145,7 @@ describe('Acceptance | Application | organization-controller-import-sup-organiza
 
           expect(response.statusCode).to.equal(403);
         });
-      }
+      },
     );
   });
 });

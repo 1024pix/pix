@@ -13,7 +13,7 @@ module(
 
     hooks.beforeEach(function () {
       route = this.owner.lookup(
-        'route:authenticated/sup-organization-participants/sup-organization-participant/activity'
+        'route:authenticated/sup-organization-participants/sup-organization-participant/activity',
       );
       store = this.owner.lookup('service:store');
       route.modelFor = sinon.stub().returns({ id: '123' });
@@ -46,5 +46,5 @@ module(
       assert.strictEqual(model, undefined);
       assert.ok(route.router.replaceWith.calledWith('authenticated.sup-organization-participants'));
     });
-  }
+  },
 );

@@ -65,7 +65,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     // then
     expect(
       await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
-      referencePdfPath + ' is not generated as expected'
+      referencePdfPath + ' is not generated as expected',
     ).to.be.true;
   });
 
@@ -101,7 +101,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     // then
     expect(
       await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
-      referencePdfPath + ' is not generated as expected'
+      referencePdfPath + ' is not generated as expected',
     ).to.be.true;
   });
 
@@ -137,7 +137,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     // then
     expect(
       await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
-      referencePdfPath + ' is not generated as expected'
+      referencePdfPath + ' is not generated as expected',
     ).to.be.true;
   });
 
@@ -227,7 +227,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     // then
     expect(
       await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
-      referencePdfPath + ' is not generated as expected'
+      referencePdfPath + ' is not generated as expected',
     ).to.be.true;
   });
 
@@ -288,7 +288,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     // then
     expect(
       await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
-      referencePdfPath + ' is not generated as expected'
+      referencePdfPath + ' is not generated as expected',
     ).to.be.true;
   });
 });

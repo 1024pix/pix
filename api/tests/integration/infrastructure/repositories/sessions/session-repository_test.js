@@ -184,7 +184,7 @@ describe('Integration | Repository | Session', function () {
 
       // then
       const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-        _.pick(item, ['sessionId', 'lastName', 'firstName'])
+        _.pick(item, ['sessionId', 'lastName', 'firstName']),
       );
       expect(actualCandidates).to.have.deep.ordered.members([
         { sessionId: session.id, lastName: 'Jackson', firstName: 'Janet' },
@@ -243,10 +243,10 @@ describe('Integration | Repository | Session', function () {
       // then
       const [firstCandidateFromSession, secondCandidateFromSession] = actualSession.certificationCandidates;
       expect(firstCandidateFromSession.complementaryCertification).to.deep.equal(
-        domainBuilder.buildComplementaryCertification(pixPlusRugby)
+        domainBuilder.buildComplementaryCertification(pixPlusRugby),
       );
       expect(secondCandidateFromSession.complementaryCertification).to.deep.equal(
-        domainBuilder.buildComplementaryCertification(pixPlusFoot)
+        domainBuilder.buildComplementaryCertification(pixPlusFoot),
       );
     });
 
@@ -351,7 +351,7 @@ describe('Integration | Repository | Session', function () {
       // when
       const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
         userId,
-        sessionId
+        sessionId,
       );
 
       // then
@@ -372,7 +372,7 @@ describe('Integration | Repository | Session', function () {
       // when
       const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
         userId,
-        sessionId
+        sessionId,
       );
 
       // then
@@ -399,7 +399,7 @@ describe('Integration | Repository | Session', function () {
       // when
       const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
         userIdNotAllowed,
-        sessionId
+        sessionId,
       );
 
       // then

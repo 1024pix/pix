@@ -135,7 +135,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       sinon.assert.calledWith(send, 'refreshModel');
       sinon.assert.calledWith(
         errorMock,
-        `Une ou plusieurs erreurs se sont produites, veuillez conserver la référence suivante pour investigation auprès de l'équipe technique : ${response.errors[0].detail}`
+        `Une ou plusieurs erreurs se sont produites, veuillez conserver la référence suivante pour investigation auprès de l'équipe technique : ${response.errors[0].detail}`,
       );
       assert.ok(true);
     });

@@ -220,7 +220,7 @@ describe('Unit | Service | ScorecardService', function () {
           });
           expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
         });
-      }
+      },
     );
 
     context('when campaign exists', function () {

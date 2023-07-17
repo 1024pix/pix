@@ -14,12 +14,12 @@ const publishCertificationCoursesBySessionId = async function (sessionId) {
     .leftJoin(
       'certification-courses-last-assessment-results',
       'certification-courses.id',
-      'certification-courses-last-assessment-results.certificationCourseId'
+      'certification-courses-last-assessment-results.certificationCourseId',
     )
     .leftJoin(
       'assessment-results',
       'assessment-results.id',
-      'certification-courses-last-assessment-results.lastAssessmentResultId'
+      'certification-courses-last-assessment-results.lastAssessmentResultId',
     );
 
   const hasCertificationInError = _hasCertificationInError(certificationDTOs);

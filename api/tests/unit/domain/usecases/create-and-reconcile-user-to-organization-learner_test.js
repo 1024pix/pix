@@ -119,7 +119,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
     it('should throw a Not Found error', async function () {
       // given
       userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.throws(
-        new NotFoundError('Error message')
+        new NotFoundError('Error message'),
       );
 
       // when
@@ -155,7 +155,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
       createdUser = domainBuilder.buildUser();
 
       userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
-        organizationLearnerId
+        organizationLearnerId,
       );
       encryptionService.hashPassword.resolves(encryptedPassword);
 
@@ -184,12 +184,12 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
           userValidator.validate.throws(
             new EntityValidationError({
               invalidAttributes: [userInvalidAttribute],
-            })
+            }),
           );
           passwordValidator.validate.throws(
             new EntityValidationError({
               invalidAttributes: [passwordInvalidAttribute],
-            })
+            }),
           );
 
           const expectedInvalidAttributes = [userInvalidAttribute, passwordInvalidAttribute];
@@ -304,7 +304,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
           expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
             userAttributes.email,
             locale,
-            expectedRedirectionUrl
+            expectedRedirectionUrl,
           );
         });
 
@@ -312,7 +312,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
           it('should nor create nor associate organizationLearner', async function () {
             // given
             userService.createAndReconcileUserToOrganizationLearner.throws(
-              new OrganizationLearnerAlreadyLinkedToUserError()
+              new OrganizationLearnerAlreadyLinkedToUserError(),
             );
 
             // when
@@ -405,7 +405,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
           it('should nor create nor associate organizationLearner', async function () {
             // given
             userService.createAndReconcileUserToOrganizationLearner.throws(
-              new OrganizationLearnerAlreadyLinkedToUserError()
+              new OrganizationLearnerAlreadyLinkedToUserError(),
             );
 
             // when

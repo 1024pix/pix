@@ -13,12 +13,12 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
     .join(
       'complementary-certification-badges',
       'complementary-certification-badges.id',
-      'complementary-certification-courses.complementaryCertificationBadgeId'
+      'complementary-certification-courses.complementaryCertificationBadgeId',
     )
     .join(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-badges.complementaryCertificationId'
+      'complementary-certification-badges.complementaryCertificationId',
     )
     .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
     .where({ certificationCourseId });
@@ -37,7 +37,7 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
         complementaryCertificationBadgeKey,
         hasComplementaryReferential,
         minimumEarnedPix,
-      })
+      }),
   );
 };
 

@@ -55,7 +55,7 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
           modal.args.updateCandidateDataFromValue,
           modal.args.candidateData,
           'birthPostalCode',
-          ''
+          '',
         );
         assert.ok(true);
       });
@@ -90,7 +90,7 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
           modal.args.updateCandidateDataFromValue,
           modal.args.candidateData,
           'birthInseeCode',
-          ''
+          '',
         );
         assert.ok(true);
       });
@@ -128,7 +128,7 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
           modal.args.updateCandidateDataFromValue,
           modal.args.candidateData,
           'birthInseeCode',
-          '99'
+          '99',
         );
         assert.ok(true);
       });

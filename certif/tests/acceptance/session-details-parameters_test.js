@@ -149,8 +149,8 @@ module('Acceptance | Session Details Parameters', function (hooks) {
                 assert
                   .dom(
                     screen.getByText(
-                      'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
-                    )
+                      'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
+                    ),
                   )
                   .exists();
                 assert.strictEqual(currentURL(), `/sessions/${sessionCreatedAndStarted.id}`);
@@ -174,7 +174,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
 
           // then
           const finalizeText = screen.getByText(
-            'Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix.'
+            'Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix.',
           );
           const finalizeButton = screen.queryByRole('button', { name: 'Finaliser la session' });
 
@@ -191,7 +191,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
           assert.rejects(
             visit(`/sessions/${sessionFinalized.id}/finalisation`),
             transitionError,
-            'error raised when visiting finalisation route'
+            'error raised when visiting finalisation route',
           );
         });
       });

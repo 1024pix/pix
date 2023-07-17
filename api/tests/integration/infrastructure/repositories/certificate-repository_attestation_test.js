@@ -66,7 +66,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
       // when
       const error = await catchErr(certificationRepository.getCertificationAttestation)(
-        certificationAttestationData.id
+        certificationAttestationData.id,
       );
 
       // then
@@ -104,7 +104,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
       // when
       const error = await catchErr(certificationRepository.getCertificationAttestation)(
-        certificationAttestationData.id
+        certificationAttestationData.id,
       );
 
       // then
@@ -142,7 +142,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
       // when
       const error = await catchErr(certificationRepository.getCertificationAttestation)(
-        certificationAttestationData.id
+        certificationAttestationData.id,
       );
 
       // then
@@ -180,7 +180,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
       // when
       const error = await catchErr(certificationRepository.getCertificationAttestation)(
-        certificationAttestationData.id
+        certificationAttestationData.id,
       );
 
       // then
@@ -350,7 +350,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
       // when
       const certificationAttestation = await certificationRepository.getCertificationAttestation(
-        certificationAttestationData.id
+        certificationAttestationData.id,
       );
 
       // then
@@ -1173,7 +1173,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
       // then
       const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(
-        certificationAttestationDataNewest
+        certificationAttestationDataNewest,
       );
       expect(certificationAttestations).to.have.length(1);
       expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [

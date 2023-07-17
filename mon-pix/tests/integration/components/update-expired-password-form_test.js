@@ -39,7 +39,7 @@ module('Integration | Component | update-expired-password-form', function (hooks
       const newPassword = 'Pix12345!';
 
       const screen = await render(
-        hbs`<UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{this.resetExpiredPasswordDemand}} />`
+        hbs`<UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{this.resetExpiredPasswordDemand}} />`,
       );
 
       // when
@@ -67,7 +67,7 @@ module('Integration | Component | update-expired-password-form', function (hooks
       const newPassword = 'Pix12345!';
 
       const screen = await render(
-        hbs`<UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{this.resetExpiredPasswordDemand}} />`
+        hbs`<UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{this.resetExpiredPasswordDemand}} />`,
       );
 
       // when

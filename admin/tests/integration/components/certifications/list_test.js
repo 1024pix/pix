@@ -41,7 +41,7 @@ module('Integration | Component | certifications/list', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Certifications::List @certifications={{this.certifications}} @pagination={{this.pagination}} />`
+      hbs`<Certifications::List @certifications={{this.certifications}} @pagination={{this.pagination}} />`,
     );
 
     // then
@@ -63,7 +63,7 @@ module('Integration | Component | certifications/list', function (hooks) {
   @certifications={{this.certifications}}
   @displayHasSeenEndTestScreenColumn={{true}}
   @pagination={{this.pagination}}
-/>`
+/>`,
       );
 
       // then
@@ -86,7 +86,7 @@ module('Integration | Component | certifications/list', function (hooks) {
   @certifications={{this.certifications}}
   @displayHasSeenEndTestScreenColumn={{false}}
   @pagination={{this.pagination}}
-/>`
+/>`,
       );
 
       // then

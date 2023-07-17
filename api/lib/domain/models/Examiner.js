@@ -45,7 +45,7 @@ class Examiner {
         },
         `Received an answer whose isFocusedOut is %s whereas a %s focusedout event has already been received`,
         answer.isFocusedOut,
-        hasLastQuestionBeenFocusedOut ? 'a' : 'no'
+        hasLastQuestionBeenFocusedOut ? 'a' : 'no',
       );
     }
 
@@ -63,7 +63,7 @@ class Examiner {
           challengeId: answer.challengeId,
           assessmentId: answer.assessmentId,
         },
-        'A non focused challenge received a focused out answer'
+        'A non focused challenge received a focused out answer',
       );
     }
 

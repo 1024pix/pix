@@ -72,7 +72,7 @@ describe('Integration | Repository | Certification', function () {
           expect(isPublishedStates).to.deep.equal([true, true, true]);
           expect(pixCertificationStatuses).to.deep.equal([status.VALIDATED, status.REJECTED, null]);
         });
-      }
+      },
     );
   });
 

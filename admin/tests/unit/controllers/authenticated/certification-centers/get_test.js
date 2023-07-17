@@ -60,7 +60,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
       // then
       sinon.assert.calledWith(
         controller.notifications.error,
-        "Une erreur est survenue, le centre de certification n'a pas été mis à jour."
+        "Une erreur est survenue, le centre de certification n'a pas été mis à jour.",
       );
       assert.ok(true);
     });

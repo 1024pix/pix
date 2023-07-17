@@ -54,7 +54,7 @@ module('Acceptance | User dashboard page', function (hooks) {
 
         // when
         await click(
-          screen.getByRole('link', { name: this.intl.t('pages.fill-in-campaign-code.warning-message-logout') })
+          screen.getByRole('link', { name: this.intl.t('pages.fill-in-campaign-code.warning-message-logout') }),
         );
 
         // then
@@ -75,7 +75,7 @@ module('Acceptance | User dashboard page', function (hooks) {
               title: 'My Campaign',
               code: '123',
             },
-            'withThreeChallenges'
+            'withThreeChallenges',
           );
 
           server.create('campaign-participation-overview', {
@@ -112,7 +112,7 @@ module('Acceptance | User dashboard page', function (hooks) {
               isArchived: false,
               code: '123',
             },
-            'withThreeChallenges'
+            'withThreeChallenges',
           );
 
           server.create('campaign-participation-overview', {
@@ -271,7 +271,7 @@ module('Acceptance | User dashboard page', function (hooks) {
             // then
             assert
               .dom(
-                screen.getByRole('heading', { name: "N'oubliez pas de finaliser votre envoi de profil !", level: 2 })
+                screen.getByRole('heading', { name: "N'oubliez pas de finaliser votre envoi de profil !", level: 2 }),
               )
               .exists();
             assert.dom(screen.getByRole('link', { name: 'Continuer' })).exists();

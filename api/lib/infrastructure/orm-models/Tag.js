@@ -10,7 +10,7 @@ const BookshelfTag = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfTag };

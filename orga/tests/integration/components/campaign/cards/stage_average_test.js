@@ -18,7 +18,7 @@ module('Integration | Component | Campaign::Cards::StageAverage', function (hook
   @totalStage={{this.totalStage}}
   @reachedStage={{this.reachedStage}}
   @stages={{this.stages}}
-/>`
+/>`,
     );
 
     assert.contains(t('cards.participants-average-stages.title'));

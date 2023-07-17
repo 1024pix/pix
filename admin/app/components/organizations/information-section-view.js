@@ -11,7 +11,7 @@ export default class OrganizationInformationSection extends Component {
     const allIdentityProviderList = [...this.oidcIdentityProviders.list, GARIdentityProvider];
     const identityProvider = allIdentityProviderList.findBy(
       'code',
-      this.args.organization.identityProviderForCampaigns
+      this.args.organization.identityProviderForCampaigns,
     );
     const identityProviderName = identityProvider?.organizationName;
     return identityProviderName ?? 'Aucun';

@@ -30,14 +30,14 @@ describe('Unit | Controller | session-with-clea-certified-candidate', function (
       const response = await sessionWithCleaCertifiedCandidateController.getCleaCertifiedCandidateDataCsv(
         request,
         hFake,
-        dependencies
+        dependencies,
       );
 
       // then
       expect(response.source).to.equal('csv-string');
       expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
       expect(response.headers['Content-Disposition']).to.equal(
-        'attachment; filename=20210101_1430_candidats_certifies_clea_1.csv'
+        'attachment; filename=20210101_1430_candidats_certifies_clea_1.csv',
       );
     });
   });

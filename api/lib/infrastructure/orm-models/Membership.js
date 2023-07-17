@@ -21,7 +21,7 @@ const BookshelfMembership = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfMembership };

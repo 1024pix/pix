@@ -172,7 +172,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
       // then
       expect(error).to.be.instanceof(NotFoundError);
       expect(error.message).to.equal(
-        "Aucune méthode d'authentification trouvée dont le fournisseur d'identité est GAR ou PIX."
+        "Aucune méthode d'authentification trouvée dont le fournisseur d'identité est GAR ou PIX.",
       );
     });
   });

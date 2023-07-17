@@ -10,7 +10,7 @@ const getComplementaryCertificationCourseId = async function ({
     .innerJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-courses.complementaryCertificationId'
+      'complementary-certification-courses.complementaryCertificationId',
     )
     .where({ certificationCourseId, key: complementaryCertificationKey })
     .first();

@@ -562,7 +562,7 @@ describe('Integration | Repository | Certification Center', function () {
           expect(_.map(matchingCertificationCenters, 'externalId')).to.have.members(['c_ok_1', 'c_ok_2', 'c_ok_3']);
           expect(pagination).to.deep.equal(expectedPagination);
         });
-      }
+      },
     );
 
     context('when there are filters that should be ignored', function () {

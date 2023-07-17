@@ -102,7 +102,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
 
     beforeEach(function () {
       securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) =>
-        h.response(true)
+        h.response(true),
       );
 
       payload.data.attributes = {
@@ -123,7 +123,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
           'POST',
           '/api/sco-organization-learners/password-update',
           payload,
-          auth
+          auth,
         );
 
         // then
@@ -143,7 +143,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
             'POST',
             '/api/sco-organization-learners/password-update',
             payload,
-            auth
+            auth,
           );
 
           // then
@@ -161,7 +161,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
             'POST',
             '/api/sco-organization-learners/password-update',
             payload,
-            auth
+            auth,
           );
 
           // then
@@ -179,7 +179,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
 
     beforeEach(function () {
       securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) =>
-        h.response(true)
+        h.response(true),
       );
       payload.data.attributes = {
         'organization-learner-id': 1,
@@ -198,7 +198,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
           'POST',
           '/api/sco-organization-learners/username-password-generation',
           payload,
-          auth
+          auth,
         );
 
         // then
@@ -213,7 +213,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
         it('should resolve a 403 HTTP response', async function () {
           // given
           usecases.generateUsernameWithTemporaryPassword.rejects(
-            new UserNotAuthorizedToGenerateUsernamePasswordError()
+            new UserNotAuthorizedToGenerateUsernamePasswordError(),
           );
 
           // when
@@ -221,7 +221,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
             'POST',
             '/api/sco-organization-learners/username-password-generation',
             payload,
-            auth
+            auth,
           );
 
           // then

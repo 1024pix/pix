@@ -52,7 +52,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
 
     createdOrganizations = await organizationRepository.batchCreateOrganizations(
       organizationsToCreate,
-      domainTransaction
+      domainTransaction,
     );
 
     const dataProtectionOfficers = createdOrganizations
@@ -66,7 +66,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
 
     await dataProtectionOfficerRepository.batchAddDataProtectionOfficerToOrganization(
       dataProtectionOfficers,
-      domainTransaction
+      domainTransaction,
     );
 
     const organizationsTags = createdOrganizations.flatMap(({ id, externalId, name }) => {
@@ -91,7 +91,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
     try {
       await targetProfileShareRepository.batchAddTargetProfilesToOrganization(
         organizationsTargetProfiles,
-        domainTransaction
+        domainTransaction,
       );
     } catch (error) {
       if (error.constraint === 'target_profile_shares_targetprofileid_foreign') {
@@ -120,7 +120,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
       organizationRepository,
       organizationInvitationRepository,
       ...organizationWithEmail,
-    })
+    }),
   );
 
   return createdOrganizations;
@@ -133,20 +133,20 @@ function _checkIfOrganizationsDataAreUnique(organizations) {
 
   if (uniqOrganizations.length !== organizations.length) {
     throw new ManyOrganizationsFoundError(
-      `Plusieurs organisations (${uniqOrganizations.length}) ont le même externalId.`
+      `Plusieurs organisations (${uniqOrganizations.length}) ont le même externalId.`,
     );
   }
 }
 
 async function _checkIfOrganizationsAlreadyExistInDatabase(organizations, organizationRepository) {
   const foundOrganizations = await organizationRepository.findByExternalIdsFetchingIdsOnly(
-    organizations.map((organization) => organization.externalId)
+    organizations.map((organization) => organization.externalId),
   );
 
   if (!isEmpty(foundOrganizations)) {
     const foundOrganizationIds = foundOrganizations.map((foundOrganization) => foundOrganization.externalId);
     const message = `Les organisations avec les externalIds suivants : ${foundOrganizationIds.join(
-      ', '
+      ', ',
     )} existent déjà.`;
     throw new OrganizationAlreadyExistError(message);
   }

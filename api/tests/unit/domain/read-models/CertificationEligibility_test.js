@@ -12,7 +12,7 @@ describe('Unit | Domain | Read-models | CertificationEligibility', function () {
 
       // then
       expect(notCertifiableCertificationEligibility).to.deep.equal(
-        domainBuilder.buildCertificationEligibility({ id: userId, pixCertificationEligible: false })
+        domainBuilder.buildCertificationEligibility({ id: userId, pixCertificationEligible: false }),
       );
     });
   });

@@ -67,7 +67,7 @@ const getById = async function (
   dependencies = {
     campaignReportSerializer,
     tokenService,
-  }
+  },
 ) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
@@ -205,7 +205,7 @@ const findProfilesCollectionParticipations = async function (request) {
 const findParticipantsActivity = async function (
   request,
   h,
-  dependencies = { campaignParticipantsActivitySerializer }
+  dependencies = { campaignParticipantsActivitySerializer },
 ) {
   const campaignId = request.params.id;
 

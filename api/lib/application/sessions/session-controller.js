@@ -32,7 +32,7 @@ const findPaginatedFilteredJurySessions = async function (
     jurySessionRepository,
     jurySessionSerializer,
     sessionValidator,
-  }
+  },
 ) {
   const { filter, page } = dependencies.queryParamsUtils.extractParameters(request.query);
   const normalizedFilters = dependencies.sessionValidator.validateAndNormalizeFilters(filter);
@@ -83,7 +83,7 @@ const getAttendanceSheet = async function (request, h, dependencies = { tokenSer
 const getSupervisorKitPdf = async function (
   request,
   h,
-  dependencies = { tokenService, requestResponseUtils, supervisorKitPdf }
+  dependencies = { tokenService, requestResponseUtils, supervisorKitPdf },
 ) {
   const sessionId = request.params.id;
   const token = request.query.accessToken;
@@ -105,7 +105,7 @@ const getSupervisorKitPdf = async function (
 const getCandidatesImportSheet = async function (
   request,
   h,
-  dependencies = { tokenService, fillCandidatesImportSheet }
+  dependencies = { tokenService, fillCandidatesImportSheet },
 ) {
   const translate = request.i18n.__;
   const sessionId = request.params.id;
@@ -166,7 +166,7 @@ const getJuryCertificationSummaries = async function (
     queryParamsUtils,
     juryCertificationSummaryRepository,
     juryCertificationSummarySerializer,
-  }
+  },
 ) {
   const sessionId = request.params.id;
   const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
@@ -190,7 +190,7 @@ const generateSessionResultsDownloadLink = async function (request, h, dependenc
 const getSessionResultsToDownload = async function (
   request,
   h,
-  dependencies = { tokenService, getSessionCertificationResultsCsv }
+  dependencies = { tokenService, getSessionCertificationResultsCsv },
 ) {
   const token = request.params.token;
   const { sessionId } = dependencies.tokenService.extractSessionId(token);
@@ -211,7 +211,7 @@ const getSessionResultsToDownload = async function (
 const getCertificationPDFAttestationsForSession = async function (
   request,
   h,
-  dependencies = { certificationAttestationPdf }
+  dependencies = { certificationAttestationPdf },
 ) {
   const sessionId = request.params.id;
   const isFrenchDomainExtension = request.query.isFrenchDomainExtension;
@@ -236,7 +236,7 @@ const getCertificationPDFAttestationsForSession = async function (
 const getSessionResultsByRecipientEmail = async function (
   request,
   h,
-  dependencies = { tokenService, getSessionCertificationResultsCsv }
+  dependencies = { tokenService, getSessionCertificationResultsCsv },
 ) {
   const token = request.params.token;
 
@@ -278,7 +278,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function (r
 const enrolStudentsToSession = async function (
   request,
   h,
-  dependencies = { certificationCandidateSerializer, requestResponseUtils }
+  dependencies = { certificationCandidateSerializer, requestResponseUtils },
 ) {
   const referentId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const sessionId = request.params.id;
@@ -319,7 +319,7 @@ const finalize = async function (request, h, dependencies = { certificationRepor
   const certificationReports = await Promise.all(
     (request.payload.data.included || [])
       .filter((data) => data.type === 'certification-reports')
-      .map((data) => dependencies.certificationReportSerializer.deserialize({ data }))
+      .map((data) => dependencies.certificationReportSerializer.deserialize({ data })),
   );
 
   const event = await usecases.finalizeSession({
@@ -446,7 +446,7 @@ function _logSessionBatchPublicationErrors(result) {
         batchId: result.batchId,
         sessionId,
       },
-      sessionAndError[sessionId].message
+      sessionAndError[sessionId].message,
     );
   }
 }

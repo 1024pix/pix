@@ -60,7 +60,7 @@ const plugin = {
             tags: event.tags,
             err: event.error,
           },
-          'request error'
+          'request error',
         );
       }
     });
@@ -74,7 +74,7 @@ const plugin = {
           res: request.raw.res,
           responseTime: (info.completed !== undefined ? info.completed : info.responded) - info.received,
         },
-        'request completed'
+        'request completed',
       );
     });
   },

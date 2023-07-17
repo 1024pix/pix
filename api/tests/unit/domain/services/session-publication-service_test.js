@@ -182,10 +182,10 @@ describe('Unit | UseCase | session-publication-service', function () {
         }
         expect(mailService.sendCertificationResultEmail).to.have.been.calledTwice;
         expect(mailService.sendCertificationResultEmail.firstCall).to.have.been.calledWithMatch(
-          getCertificationResultArgs(recipient1)
+          getCertificationResultArgs(recipient1),
         );
         expect(mailService.sendCertificationResultEmail.secondCall).to.have.been.calledWithMatch(
-          getCertificationResultArgs(recipient2)
+          getCertificationResultArgs(recipient2),
         );
       });
 
@@ -352,7 +352,7 @@ describe('Unit | UseCase | session-publication-service', function () {
           });
           finalizedSessionRepository.get.withArgs({ sessionId: session.id }).resolves(finalizedSession);
           mailService.sendNotificationToCertificationCenterRefererForCleaResults.resolves(
-            EmailingAttempt.success('referer@example.net')
+            EmailingAttempt.success('referer@example.net'),
           );
           mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success("'email1@example.net'"));
           mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success("'email2@example.net'"));
@@ -375,7 +375,7 @@ describe('Unit | UseCase | session-publication-service', function () {
 
           // then
           expect(
-            mailService.sendNotificationToCertificationCenterRefererForCleaResults
+            mailService.sendNotificationToCertificationCenterRefererForCleaResults,
           ).to.have.been.calledOnceWithExactly({
             sessionId: session.id,
             sessionDate: session.date,
@@ -409,7 +409,7 @@ describe('Unit | UseCase | session-publication-service', function () {
             });
             finalizedSessionRepository.get.withArgs({ sessionId: session.id }).resolves(finalizedSession);
             mailService.sendNotificationToCertificationCenterRefererForCleaResults.resolves(
-              EmailingAttempt.failure('referer@example.net')
+              EmailingAttempt.failure('referer@example.net'),
             );
             mailService.sendCertificationResultEmail
               .onCall(0)
@@ -437,7 +437,7 @@ describe('Unit | UseCase | session-publication-service', function () {
             // then
             expect(error).to.be.an.instanceOf(SendingEmailToRefererError);
             expect(error.message).to.equal(
-              `Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : ${user.email}`
+              `Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : ${user.email}`,
             );
           });
         });

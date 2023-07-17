@@ -54,11 +54,11 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
       assert.ok(
         find('.scorecard-details-content-left__area')
           .getAttribute('class')
-          .includes(`scorecard-details-content-left__area--${scorecardWithPoints.area.color}`)
+          .includes(`scorecard-details-content-left__area--${scorecardWithPoints.area.color}`),
       );
       assert.ok(find('.scorecard-details-content-left__name').textContent.includes(scorecardWithPoints.name));
       assert.ok(
-        find('.scorecard-details-content-left__description').textContent.includes(scorecardWithPoints.description)
+        find('.scorecard-details-content-left__description').textContent.includes(scorecardWithPoints.description),
       );
     });
 
@@ -103,16 +103,16 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
         // then
         assert.strictEqual(
           find('.competence-card__level .score-value').textContent,
-          scorecardWithPoints.level.toString()
+          scorecardWithPoints.level.toString(),
         );
         assert.strictEqual(
           find('.scorecard-details-content-right-score-container__pix-earned .score-value').textContent,
-          scorecardWithPoints.earnedPix.toString()
+          scorecardWithPoints.earnedPix.toString(),
         );
         assert.ok(
           find('.scorecard-details-content-right__level-info').textContent.includes(
-            `${scorecardWithPoints.remainingPixToNextLevel} pix avant le niveau ${scorecardWithPoints.level + 1}`
-          )
+            `${scorecardWithPoints.remainingPixToNextLevel} pix avant le niveau ${scorecardWithPoints.level + 1}`,
+          ),
         );
       });
 
@@ -143,8 +143,8 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
           // then
           assert.ok(
             find('.scorecard-details-content-right__reset-message').textContent.includes(
-              `Remise à zéro disponible dans ${scorecardWithRemainingDaysBeforeReset.remainingDaysBeforeReset} jours`
-            )
+              `Remise à zéro disponible dans ${scorecardWithRemainingDaysBeforeReset.remainingDaysBeforeReset} jours`,
+            ),
           );
           assert.dom('.scorecard-details__reset-button').doesNotExist();
         });
@@ -170,8 +170,8 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
           // then
           assert.ok(
             find('.scorecard-details-reset-modal__important-message').textContent.includes(
-              `Votre niveau ${scorecardWithPoints.level} et vos ${scorecardWithPoints.earnedPix} Pix vont être supprimés de la compétence : ${scorecardWithPoints.name}.`
-            )
+              `Votre niveau ${scorecardWithPoints.level} et vos ${scorecardWithPoints.earnedPix} Pix vont être supprimés de la compétence : ${scorecardWithPoints.name}.`,
+            ),
           );
         });
 
@@ -212,8 +212,8 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
           // then
           assert.ok(
             find('.scorecard-details__improvement-countdown').textContent.includes(
-              `${scorecardWithRemainingDaysBeforeImproving.remainingDaysBeforeImproving} jours`
-            )
+              `${scorecardWithRemainingDaysBeforeImproving.remainingDaysBeforeImproving} jours`,
+            ),
           );
           assert.dom('.scorecard-details__improve-button').doesNotExist();
         });

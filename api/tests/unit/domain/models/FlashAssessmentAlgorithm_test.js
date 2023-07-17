@@ -23,7 +23,7 @@ describe('FlashAssessmentAlgorithm', function () {
             allAnswers,
             challenges,
             estimatedLevel,
-          })
+          }),
         ).to.throw(AssessmentEndedError);
       });
     });

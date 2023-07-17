@@ -41,7 +41,7 @@ describe('Integration | Application | complementary-certification-course-results
         const response = await httpTestServer.request(
           'POST',
           '/api/admin/complementary-certification-course-results',
-          payload
+          payload,
         );
 
         // then
@@ -68,7 +68,7 @@ describe('Integration | Application | complementary-certification-course-results
           const response = await httpTestServer.request(
             'POST',
             '/api/admin/complementary-certification-course-results',
-            payload
+            payload,
           );
 
           // then
@@ -89,20 +89,20 @@ describe('Integration | Application | complementary-certification-course-results
             },
           };
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) =>
-            h.response({ errors: new Error('forbidden') }).code(403)
+            h.response({ errors: new Error('forbidden') }).code(403),
           );
           securityPreHandlers.checkAdminMemberHasRoleSupport.callsFake((request, h) =>
-            h.response({ errors: new Error('forbidden') }).code(403)
+            h.response({ errors: new Error('forbidden') }).code(403),
           );
           securityPreHandlers.checkAdminMemberHasRoleCertif.callsFake((request, h) =>
-            h.response({ errors: new Error('forbidden') }).code(403)
+            h.response({ errors: new Error('forbidden') }).code(403),
           );
 
           // when
           const response = await httpTestServer.request(
             'POST',
             '/api/admin/complementary-certification-course-results',
-            payload
+            payload,
           );
 
           // then

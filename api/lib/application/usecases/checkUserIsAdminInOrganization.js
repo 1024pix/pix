@@ -4,7 +4,7 @@ const execute = function (userId, organizationId, dependencies = { membershipRep
   return dependencies.membershipRepository
     .findByUserIdAndOrganizationId({ userId, organizationId })
     .then((memberships) =>
-      memberships.reduce((isAdminInOrganization, membership) => isAdminInOrganization || membership.isAdmin, false)
+      memberships.reduce((isAdminInOrganization, membership) => isAdminInOrganization || membership.isAdmin, false),
     );
 };
 

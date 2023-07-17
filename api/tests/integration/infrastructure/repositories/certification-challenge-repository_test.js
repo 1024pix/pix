@@ -61,7 +61,7 @@ describe('Integration | Repository | Certification Challenge', function () {
         // when
         const promise = certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId(
           assessmentId,
-          certificationCourseId
+          certificationCourseId,
         );
 
         // then
@@ -117,7 +117,7 @@ describe('Integration | Repository | Certification Challenge', function () {
         // when
         const nextCertificationChallenge = await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId(
           assessmentId,
-          certificationCourseId
+          certificationCourseId,
         );
 
         // then
@@ -157,7 +157,7 @@ describe('Integration | Repository | Certification Challenge', function () {
         // when
         const result = await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3(
           assessmentId,
-          certificationCourseId
+          certificationCourseId,
         );
 
         // then
@@ -217,7 +217,7 @@ describe('Integration | Repository | Certification Challenge', function () {
         const nextCertificationChallenge =
           await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3(
             assessmentId,
-            certificationCourseId
+            certificationCourseId,
           );
 
         // then

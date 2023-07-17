@@ -12,7 +12,7 @@ const findByOrganizationId = async function (organizationId) {
       'reference',
       'category',
       'users.firstName AS creatorFirstName',
-      'users.lastName AS creatorLastName'
+      'users.lastName AS creatorLastName',
     )
     .join('users', 'users.id', 'createdBy')
     .where({ organizationId })
@@ -36,7 +36,7 @@ const get = async function (id) {
       'reference',
       'category',
       'users.firstName AS creatorFirstName',
-      'users.lastName AS creatorLastName'
+      'users.lastName AS creatorLastName',
     )
     .join('users', 'users.id', 'createdBy')
     .where({ 'organization-places.id': id })

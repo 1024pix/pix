@@ -15,7 +15,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
 
       // when
       const screen = await renderScreen(
-        hbs`<SupOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`
+        hbs`<SupOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`,
       );
 
       // then
@@ -28,7 +28,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
 
       // when
       const screen = await renderScreen(
-        hbs`<SupOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`
+        hbs`<SupOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`,
       );
 
       // then

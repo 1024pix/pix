@@ -102,13 +102,13 @@ function getEstimatedLevelAndErrorRate({ allAnswers, challenges }) {
 
     latestEstimatedLevel = samplesWithResults.reduce(
       (estimatedLevel, { sample, probability }) => estimatedLevel + sample * probability,
-      0
+      0,
     );
   }
 
   const rawErrorRate = samplesWithResults.reduce(
     (acc, { sample, probability }) => acc + probability * (sample - latestEstimatedLevel) ** 2,
-    0
+    0,
   );
 
   const correctedErrorRate = Math.sqrt(rawErrorRate - (ERROR_RATE_CLASS_INTERVAL ** 2) / 12.0); // prettier-ignore
@@ -149,17 +149,17 @@ function _getAnswersAfterWarmup({ answers, warmUpLength }) {
 
 function _filterAlreadyAnsweredCompetences({ answers, challenges, forcedCompetences, nonAnsweredChallenges }) {
   const answeredCompetenceIds = answers.map(
-    ({ challengeId }) => lodash.find(challenges, { id: challengeId }).competenceId
+    ({ challengeId }) => lodash.find(challenges, { id: challengeId }).competenceId,
   );
 
   const remainingCompetenceIds = forcedCompetences.filter(
-    (competenceId) => !answeredCompetenceIds.includes(competenceId)
+    (competenceId) => !answeredCompetenceIds.includes(competenceId),
   );
 
   const allCompetencesAreAnswered = remainingCompetenceIds.length === 0;
 
   return nonAnsweredChallenges.filter(
-    ({ competenceId }) => allCompetencesAreAnswered || remainingCompetenceIds.includes(competenceId)
+    ({ competenceId }) => allCompetencesAreAnswered || remainingCompetenceIds.includes(competenceId),
   );
 }
 
@@ -193,7 +193,7 @@ function _getInferredChallenges({ challenges, estimatedLevel }) {
 function _findChallengesForInferrence(challenges) {
   return sortedUniqBy(
     orderBy(challenges, ['skill.id', getChallengePriorityForInferrence, 'minimumCapability']),
-    'skill.id'
+    'skill.id',
   );
 }
 
@@ -230,7 +230,7 @@ function _sumPixScoreAndScoreByCompetence(challenges) {
       competenceId,
       pixScore,
     })),
-    'competenceId'
+    'competenceId',
   );
 
   return { pixScore, pixScoreByCompetence };

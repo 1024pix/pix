@@ -22,7 +22,7 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
 
       // when
       const screen = await render(
-        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`
+        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`,
       );
 
       // then
@@ -46,7 +46,7 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
 
       // when
       const screen = await render(
-        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`
+        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`,
       );
 
       // then
@@ -71,7 +71,7 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
 
       // when
       const screen = await render(
-        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`
+        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`,
       );
 
       // then
@@ -95,7 +95,7 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
 
       // when
       const screen = await render(
-        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`
+        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`,
       );
 
       // then

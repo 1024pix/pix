@@ -102,7 +102,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           organizationInvitationRepository.create.resolves(organizationInvitation);
           organizationRepository.get.resolves(organization);
           mailService.sendOrganizationInvitationEmail.resolves(
-            EmailingAttempt.failure(userEmailAddress, EmailingAttempt.errorCode.INVALID_DOMAIN)
+            EmailingAttempt.failure(userEmailAddress, EmailingAttempt.errorCode.INVALID_DOMAIN),
           );
 
           // when
@@ -119,7 +119,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           // then
           expect(error).to.be.an.instanceOf(SendingEmailToInvalidDomainError);
           expect(error.message).to.equal(
-            'Failed to send email to user@example.net because domain seems to be invalid.'
+            'Failed to send email to user@example.net because domain seems to be invalid.',
           );
         });
       });
@@ -188,7 +188,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
 
         // then
         expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(
-          organizationInvitation.id
+          organizationInvitation.id,
         );
       });
     });
@@ -214,8 +214,8 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           EmailingAttempt.failure(
             userEmailAddress,
             EmailingAttempt.errorCode.INVALID_EMAIL,
-            'Recipient email is invalid'
-          )
+            'Recipient email is invalid',
+          ),
         );
 
         // when
@@ -232,7 +232,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         // then
         expect(error).to.be.an.instanceOf(SendingEmailToInvalidEmailAddressError);
         expect(error.message).to.equal(
-          'Failed to send email to user@example.net because email address seems to be invalid.'
+          'Failed to send email to user@example.net because email address seems to be invalid.',
         );
         expect(error.meta).to.deepEqualInstance({
           emailAddress: userEmailAddress,
@@ -415,7 +415,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
 
         // then
         expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(
-          organizationInvitation.id
+          organizationInvitation.id,
         );
       });
     });
@@ -540,7 +540,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
 
         // then
         expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(
-          organizationInvitation.id
+          organizationInvitation.id,
         );
       });
     });

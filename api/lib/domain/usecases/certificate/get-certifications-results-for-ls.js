@@ -15,7 +15,7 @@ const getCertificationsResultsForLS = async function ({ uai, certificationLsRepo
     competences.map((competence) => {
       const area = { id: code, name: title };
       return new Competence({ area, id: competence.index, name: competence.name });
-    })
+    }),
   );
   const sortedCompetences = sortBy(competences, 'id');
 

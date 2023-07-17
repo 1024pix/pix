@@ -155,7 +155,7 @@ function main() {
       const certificationsRequests = Promise.all(
         certificationIds
           .map((certificationId) => buildCertificationRequest(baseUrl, authToken, certificationId))
-          .map((requestObject) => request(requestObject))
+          .map((requestObject) => request(requestObject)),
       );
 
       return certificationsRequests
@@ -166,7 +166,7 @@ function main() {
             fieldNames: HEADERS,
             del: ';',
             withBOM: true,
-          })
+          }),
         )
         .then((csv) => {
           saveInFile(csv, sessionId);

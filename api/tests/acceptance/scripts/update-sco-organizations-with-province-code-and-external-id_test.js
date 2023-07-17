@@ -420,7 +420,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
 
         // then
         expect(errorObjects).to.deep.equal(expectedErrorObjects);
-      }
+      },
     );
   });
 });

@@ -14,7 +14,7 @@ export default function index(config) {
         {},
         {
           errors: [{ status: '400', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }],
-        }
+        },
       );
     }
   });

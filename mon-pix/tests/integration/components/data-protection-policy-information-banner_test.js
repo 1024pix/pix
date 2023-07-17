@@ -22,7 +22,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
         .dom(
           screen.queryByRole('link', {
             name: this.intl.t('common.data-protection-policy-information-banner.url-label'),
-          })
+          }),
         )
         .doesNotExist();
     });
@@ -44,7 +44,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
           .dom(
             screen.queryByRole('link', {
               name: this.intl.t('common.data-protection-policy-information-banner.url-label'),
-            })
+            }),
           )
           .doesNotExist();
       });
@@ -66,7 +66,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
             .dom(
               screen.queryByRole('link', {
                 name: this.intl.t('common.data-protection-policy-information-banner.url-label'),
-              })
+              }),
             )
             .doesNotExist();
         });
@@ -87,14 +87,14 @@ module('Integration | Component | data-protection-policy-information-banner', fu
             .dom(
               screen.getByRole('link', {
                 name: this.intl.t('common.data-protection-policy-information-banner.url-label'),
-              })
+              }),
             )
             .exists();
 
           const content = screen.getByText((content) =>
             content.startsWith(
-              'Notre politique de confidentialité a évolué. Nous vous invitons à en prendre connaissance :'
-            )
+              'Notre politique de confidentialité a évolué. Nous vous invitons à en prendre connaissance :',
+            ),
           );
           assert.dom(content).exists();
         });

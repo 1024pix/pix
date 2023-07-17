@@ -6,7 +6,7 @@ import * as studentInformationForAccountRecoverySerializer from '../../infrastru
 const reconcileScoOrganizationLearnerManually = async function (
   request,
   h,
-  dependencies = { scoOrganizationLearnerSerializer }
+  dependencies = { scoOrganizationLearnerSerializer },
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
   const payload = request.payload.data.attributes;
@@ -39,7 +39,7 @@ const reconcileScoOrganizationLearnerManually = async function (
 const reconcileScoOrganizationLearnerAutomatically = async function (
   request,
   h,
-  dependencies = { scoOrganizationLearnerSerializer }
+  dependencies = { scoOrganizationLearnerSerializer },
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
   const payload = request.payload.data.attributes;
@@ -81,7 +81,7 @@ const createAndReconcileUserToOrganizationLearner = async function (
   dependencies = {
     scoOrganizationLearnerSerializer,
     requestReponseUtils,
-  }
+  },
 ) {
   const payload = request.payload.data.attributes;
   const userAttributes = {
@@ -107,7 +107,7 @@ const createAndReconcileUserToOrganizationLearner = async function (
 const createUserAndReconcileToOrganizationLearnerFromExternalUser = async function (
   request,
   h,
-  dependencies = { scoOrganizationLearnerSerializer }
+  dependencies = { scoOrganizationLearnerSerializer },
 ) {
   const { birthdate, 'campaign-code': campaignCode, 'external-user-token': token } = request.payload.data.attributes;
 
@@ -148,7 +148,7 @@ const updatePassword = async function (request, h, dependencies = { scoOrganizat
 const generateUsernameWithTemporaryPassword = async function (
   request,
   h,
-  dependencies = { scoOrganizationLearnerSerializer }
+  dependencies = { scoOrganizationLearnerSerializer },
 ) {
   const payload = request.payload.data.attributes;
   const organizationId = payload['organization-id'];
@@ -165,10 +165,10 @@ const generateUsernameWithTemporaryPassword = async function (
 const checkScoAccountRecovery = async function (
   request,
   h,
-  dependencies = { studentInformationForAccountRecoverySerializer }
+  dependencies = { studentInformationForAccountRecoverySerializer },
 ) {
   const studentInformation = await dependencies.studentInformationForAccountRecoverySerializer.deserialize(
-    request.payload
+    request.payload,
   );
 
   const studentInformationForAccountRecovery = await usecases.checkScoAccountRecovery({
@@ -176,7 +176,7 @@ const checkScoAccountRecovery = async function (
   });
 
   return h.response(
-    dependencies.studentInformationForAccountRecoverySerializer.serialize(studentInformationForAccountRecovery)
+    dependencies.studentInformationForAccountRecoverySerializer.serialize(studentInformationForAccountRecovery),
   );
 };
 

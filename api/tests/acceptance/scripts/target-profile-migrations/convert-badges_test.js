@@ -53,7 +53,7 @@ describe('Acceptance | Scripts | convert-badges', function () {
           cappedTubes: [{ id: 'alreadyConvertedTubeId', level: 1 }],
         },
       ],
-      'Echec RT déjà converti'
+      'Echec RT déjà converti',
     );
     expect(criteriaForToConvert).to.deep.equal(
       [
@@ -86,11 +86,11 @@ describe('Acceptance | Scripts | convert-badges', function () {
           ],
         },
       ],
-      'Echec RT à convertir'
+      'Echec RT à convertir',
     );
     expect(criteriaForNoSkillSets).to.deep.equal(
       [{ scope: 'CampaignParticipation', threshold: 40, name: null }],
-      'Echec RT sans skill sets'
+      'Echec RT sans skill sets',
     );
     expect(criteriaForFlooredToTubeLevel).to.deep.equal(
       [
@@ -101,7 +101,7 @@ describe('Acceptance | Scripts | convert-badges', function () {
           cappedTubes: [{ id: 'tubeD', level: 3 }],
         },
       ],
-      'Echec RT avec niveau supérieur au profil cible'
+      'Echec RT avec niveau supérieur au profil cible',
     );
     expect(criteriaForTubeNotInTargetProfile).to.deep.equal(
       [
@@ -112,7 +112,7 @@ describe('Acceptance | Scripts | convert-badges', function () {
           cappedTubes: [{ id: 'tubeE', level: 4 }],
         },
       ],
-      'Echec RT avec acquis non présent dans le profil cible'
+      'Echec RT avec acquis non présent dans le profil cible',
     );
     expect(criteriaForErrorUnknownSkill).to.deep.equal(
       [
@@ -123,7 +123,7 @@ describe('Acceptance | Scripts | convert-badges', function () {
           skillSets: [{ name: 'OnlyCriterion', skillIds: ['unknownSkillId'] }],
         },
       ],
-      'Echec RT avec acquis inconnu'
+      'Echec RT avec acquis inconnu',
     );
     expect(criteriaForErrorNoCorrespondingTube).to.deep.equal(
       [
@@ -134,13 +134,13 @@ describe('Acceptance | Scripts | convert-badges', function () {
           skillSets: [{ name: 'OnlyCriterion', skillIds: ['skillWithoutTube'] }],
         },
       ],
-      'Echec RT acquis sans sujet'
+      'Echec RT acquis sans sujet',
     );
     expect(loggerErrorStub).to.have.been.calledWith(
-      `6 Echec. Raison : Error: L'acquis "unknownSkillId" n'existe pas dans le référentiel.`
+      `6 Echec. Raison : Error: L'acquis "unknownSkillId" n'existe pas dans le référentiel.`,
     );
     expect(loggerErrorStub).to.have.been.calledWith(
-      `7 Echec. Raison : Error: Le sujet "someUnknownTube" n'existe pas dans le référentiel.`
+      `7 Echec. Raison : Error: Le sujet "someUnknownTube" n'existe pas dans le référentiel.`,
     );
   });
 });
@@ -159,7 +159,7 @@ async function _getCriteria(badgeId) {
       const skillSets = [];
       for (const skillSetId of rawCriterion.skillSetIds) {
         skillSets.push(
-          ...(await knex('skill-sets').select('name', 'skillIds').where({ id: skillSetId }).orderBy('name', 'ASC'))
+          ...(await knex('skill-sets').select('name', 'skillIds').where({ id: skillSetId }).orderBy('name', 'ASC')),
         );
       }
       criterion.skillSets = skillSets;

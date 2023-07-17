@@ -46,7 +46,7 @@ export default class LoginForm extends Component {
         await this._acceptOrganizationInvitation(
           this.args.organizationInvitationId,
           this.args.organizationInvitationCode,
-          email
+          email,
         );
       } catch (err) {
         const error = err.errors[0];

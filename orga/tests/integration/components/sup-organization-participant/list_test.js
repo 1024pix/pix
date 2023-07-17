@@ -40,7 +40,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -74,7 +74,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -114,7 +114,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
     // then
     assert.dom(screen.getByRole('link', { name: 'Kenobi' })).hasProperty('href', /\/etudiants\/33/g);
@@ -151,7 +151,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -191,7 +191,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -228,7 +228,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -264,7 +264,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -298,15 +298,15 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
     assert
       .dom(
         screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.is-certifiable.tooltip.aria-label')
-        )
+          this.intl.t('pages.sup-organization-participants.table.column.is-certifiable.tooltip.aria-label'),
+        ),
       )
       .exists();
   });
@@ -332,7 +332,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
 
       // when
@@ -363,7 +363,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
 
       await fillByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
@@ -393,7 +393,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
 
       const select = await screen.getByPlaceholderText('Rechercher par groupe');
@@ -428,7 +428,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
 
       // when
@@ -470,14 +470,14 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificabilityFilter}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
-/>`
+/>`,
       );
 
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelDefaultSort')
-        )
+          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
+        ),
       );
 
       // then
@@ -509,13 +509,13 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificabilityFilter}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
-/>`
+/>`,
       );
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelSortDown')
-        )
+          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelSortDown'),
+        ),
       );
 
       // then
@@ -547,14 +547,14 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificabilityFilter}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
-/>`
+/>`,
       );
 
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelSortUp')
-        )
+          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelSortUp'),
+        ),
       );
 
       // then
@@ -587,14 +587,14 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificabilityFilter}}
   @lastnameSort={{this.lastnameSort}}
   @sortByLastname={{this.sortByLastname}}
-/>`
+/>`,
       );
 
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.last-name.ariaLabelDefaultSort')
-        )
+          this.intl.t('pages.sup-organization-participants.table.column.last-name.ariaLabelDefaultSort'),
+        ),
       );
 
       // then
@@ -626,14 +626,14 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificabilityFilter}}
   @lastnameSort={{this.lastnameSort}}
   @sortByLastname={{this.sortByLastname}}
-/>`
+/>`,
       );
 
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.last-name.ariaLabelSortDown')
-        )
+          this.intl.t('pages.sup-organization-participants.table.column.last-name.ariaLabelSortDown'),
+        ),
       );
 
       // then
@@ -665,12 +665,14 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificabilityFilter}}
   @lastnameSort={{this.lastnameSort}}
   @sortByLastname={{this.sortByLastname}}
-/>`
+/>`,
       );
 
       // when
       await click(
-        screen.getByLabelText(this.intl.t('pages.sup-organization-participants.table.column.last-name.ariaLabelSortUp'))
+        screen.getByLabelText(
+          this.intl.t('pages.sup-organization-participants.table.column.last-name.ariaLabelSortUp'),
+        ),
       );
 
       // then
@@ -701,7 +703,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
 
       // then
@@ -731,7 +733,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @groupsFilter={{this.groupFilter}}
   @studentNumberFilter={{this.studentNumberFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
 
       // then

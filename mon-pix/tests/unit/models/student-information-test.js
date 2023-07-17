@@ -31,7 +31,7 @@ module('Unit | Model | Student-information', function (hooks) {
           lastName: 'Potter',
           ineIna: '123456789CC',
           birthdate: '2010-01-22',
-        })
+        }),
       );
 
       // when

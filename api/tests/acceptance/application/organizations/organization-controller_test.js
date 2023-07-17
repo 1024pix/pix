@@ -211,7 +211,7 @@ describe('Acceptance | Application | organization-controller', function () {
       expect(targetProfileShares).to.have.lengthOf(2);
 
       const firstTargetProfileShare = targetProfileShares.find(
-        (targetProfileShare) => targetProfileShare.organizationId === firstOrganizationCreated.id
+        (targetProfileShare) => targetProfileShare.organizationId === firstOrganizationCreated.id,
       );
       expect(firstTargetProfileShare).to.deep.include({
         organizationId: firstOrganizationCreated.id,
@@ -366,7 +366,7 @@ describe('Acceptance | Application | organization-controller', function () {
         (camp) => {
           const builtCampaign = databaseBuilder.factory.buildCampaign(camp);
           return { name: camp.name, code: camp.code, id: builtCampaign.id };
-        }
+        },
       );
       databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignsData[4].id });
       await databaseBuilder.commit();
@@ -1246,10 +1246,10 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.length).equal(2);
         expect(
-          _omit(response.result.data[0], 'id', 'attributes.updated-at', 'attributes.organization-name')
+          _omit(response.result.data[0], 'id', 'attributes.updated-at', 'attributes.organization-name'),
         ).to.deep.equal(expectedResults[0]);
         expect(
-          _omit(response.result.data[1], 'id', 'attributes.updated-at', 'attributes.organization-name')
+          _omit(response.result.data[1], 'id', 'attributes.updated-at', 'attributes.organization-name'),
         ).to.deep.equal(expectedResults[1]);
       });
     });
@@ -1442,7 +1442,7 @@ describe('Acceptance | Application | organization-controller', function () {
           'data[0].id',
           'data[0].attributes.organization-name',
           'data[1].id',
-          'data[1].attributes.organization-name'
+          'data[1].attributes.organization-name',
         );
         expect(omittedResult.data).to.deep.have.members(expectedResult.data);
       });
@@ -1910,7 +1910,7 @@ describe('Acceptance | Application | organization-controller', function () {
         { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
         { id: 3, division: '2ndA', firstName: 'Laura', lastName: 'aaaaa' },
         { id: 4, division: '2ndA', firstName: 'Bart', lastName: 'Coucou' },
-        { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' }
+        { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' },
       );
 
       await databaseBuilder.commit();
@@ -1932,6 +1932,6 @@ describe('Acceptance | Application | organization-controller', function () {
 
 function _buildOrganizationLearners(organization, ...students) {
   return students.map((student) =>
-    databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id, ...student })
+    databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id, ...student }),
   );
 }

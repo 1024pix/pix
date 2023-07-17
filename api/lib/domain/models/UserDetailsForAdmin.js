@@ -27,7 +27,7 @@ class UserDetailsForAdmin {
       anonymisedByFirstName,
       anonymisedByLastName,
     } = {},
-    dependencies = { localeService }
+    dependencies = { localeService },
   ) {
     if (locale) {
       locale = dependencies.localeService.getCanonicalLocale(locale);

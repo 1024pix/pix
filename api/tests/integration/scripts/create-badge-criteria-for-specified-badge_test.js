@@ -98,7 +98,7 @@ describe('Integration | Scripts | create-badge-criteria-for-specified-badge', fu
           // then
           expect(error).to.be.an.instanceof(Error);
           expect(error.message).to.equal(
-            'Badge criterion is invalid : SkillSetIds provided for CampaignParticipation scope'
+            'Badge criterion is invalid : SkillSetIds provided for CampaignParticipation scope',
           );
         });
       });
@@ -120,7 +120,7 @@ describe('Integration | Scripts | create-badge-criteria-for-specified-badge', fu
           // then
           expect(error).to.be.an.instanceof(Error);
           expect(error.message).to.equal(
-            'Badge criterion is invalid : SkillSetIds should be provided for SkillSet scope'
+            'Badge criterion is invalid : SkillSetIds should be provided for SkillSet scope',
           );
         });
       });

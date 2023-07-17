@@ -22,7 +22,7 @@ describe('Unit | Service | SolutionServiceQCM ', function () {
         function () {
           const result = service.match(answerValue, solutionValue);
           expect(AnswerStatus.isOK(result)).to.be.true;
-        }
+        },
       );
     });
 
@@ -40,7 +40,7 @@ describe('Unit | Service | SolutionServiceQCM ', function () {
         function () {
           const result = service.match(answerValue, solutionValue);
           expect(AnswerStatus.isKO(result)).to.be.true;
-        }
+        },
       );
     });
   });

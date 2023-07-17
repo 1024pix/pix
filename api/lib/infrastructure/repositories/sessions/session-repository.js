@@ -64,12 +64,12 @@ const getWithCertificationCandidates = async function (sessionId) {
     .leftJoin(
       'complementary-certification-subscriptions',
       'complementary-certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id'
+      'certification-candidates.id',
     )
     .leftJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-subscriptions.complementaryCertificationId'
+      'complementary-certification-subscriptions.complementaryCertificationId',
     )
     .groupBy('certification-candidates.id', 'complementary-certifications.id')
     .where({ sessionId })
@@ -106,7 +106,7 @@ const doesUserHaveCertificationCenterMembershipForSession = async function (user
     .innerJoin(
       'certification-center-memberships',
       'certification-center-memberships.certificationCenterId',
-      'certification-centers.id'
+      'certification-centers.id',
     );
   return Boolean(sessions.length);
 };
@@ -170,17 +170,17 @@ const hasSomeCleaAcquired = async function (sessionId) {
     .innerJoin(
       'complementary-certification-courses',
       'complementary-certification-courses.certificationCourseId',
-      'certification-courses.id'
+      'certification-courses.id',
     )
     .innerJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-courses.complementaryCertificationId'
+      'complementary-certification-courses.complementaryCertificationId',
     )
     .innerJoin(
       'complementary-certification-course-results',
       'complementary-certification-course-results.complementaryCertificationCourseId',
-      'complementary-certification-courses.id'
+      'complementary-certification-courses.id',
     )
     .where('sessions.id', sessionId)
     .whereNotNull('sessions.publishedAt')
@@ -236,7 +236,7 @@ function _toDomain(results) {
             key: candidateData.complementaryCertificationKey,
             label: candidateData.complementaryCertificationLabel,
           }),
-        })
+        }),
     );
 
   return new Session({

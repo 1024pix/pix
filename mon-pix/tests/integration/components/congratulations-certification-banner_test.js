@@ -17,7 +17,7 @@ module('Integration | Component | Congratulations Certification Banner', functio
 
     // when
     const screen = await render(
-      hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}} @certificationEligibility={{this.certificationEligibility}}/>`
+      hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}} @certificationEligibility={{this.certificationEligibility}}/>`,
     );
 
     // then
@@ -33,7 +33,7 @@ module('Integration | Component | Congratulations Certification Banner', functio
     this.set('certificationEligibility', store.createRecord('is-certifiable', {}));
 
     const screen = await render(
-      hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}} @certificationEligibility={{this.certificationEligibility}}/>`
+      hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}} @certificationEligibility={{this.certificationEligibility}}/>`,
     );
 
     // when
@@ -58,7 +58,7 @@ module('Integration | Component | Congratulations Certification Banner', functio
 
         // when
         const screen = await render(
-          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`
+          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`,
         );
 
         // then
@@ -84,7 +84,7 @@ module('Integration | Component | Congratulations Certification Banner', functio
 
         // when
         const screen = await render(
-          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`
+          hbs`<CongratulationsCertificationBanner @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`,
         );
 
         // then

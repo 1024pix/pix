@@ -77,7 +77,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     // when
     const error = await catchErr(
-      certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
+      certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet,
     )({
       i18n,
       sessionId,
@@ -105,7 +105,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     // when
     const error = await catchErr(
-      certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
+      certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet,
     )({
       i18n,
       sessionId,
@@ -132,7 +132,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     // when
     const error = await catchErr(
-      certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
+      certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet,
     )({
       i18n,
       sessionId,
@@ -286,7 +286,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           sessionId,
         },
       ],
-      (candidate) => new CertificationCandidate(candidate)
+      (candidate) => new CertificationCandidate(candidate),
     );
     expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
   });
@@ -325,7 +325,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
         // when
         const error = await catchErr(
-          certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
+          certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet,
         )({
           i18n,
           sessionId,
@@ -347,7 +347,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             meta: {
               line: 13,
             },
-          })
+          }),
         );
       });
     });
@@ -416,7 +416,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             sessionId,
             billingMode: 'FREE',
             complementaryCertification: domainBuilder.buildComplementaryCertification(
-              pixPlusEdu1erDegreComplementaryCertification
+              pixPlusEdu1erDegreComplementaryCertification,
             ),
           },
           {
@@ -435,7 +435,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             sessionId,
             billingMode: 'FREE',
             complementaryCertification: domainBuilder.buildComplementaryCertification(
-              pixPlusDroitComplementaryCertification
+              pixPlusDroitComplementaryCertification,
             ),
           },
           {
@@ -471,11 +471,11 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             sessionId,
             billingMode: 'FREE',
             complementaryCertification: domainBuilder.buildComplementaryCertification(
-              pixPlusEdu2ndDegreComplementaryCertification
+              pixPlusEdu2ndDegreComplementaryCertification,
             ),
           },
         ],
-        (candidate) => new CertificationCandidate(candidate)
+        (candidate) => new CertificationCandidate(candidate),
       );
 
       // when
@@ -580,7 +580,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           prepaymentCode: 'CODE1',
         },
       ],
-      (candidate) => new CertificationCandidate(candidate)
+      (candidate) => new CertificationCandidate(candidate),
     );
 
     // when
@@ -733,7 +733,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           sessionId,
         },
       ],
-      (candidate) => new CertificationCandidate(candidate)
+      (candidate) => new CertificationCandidate(candidate),
     );
     expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
   });

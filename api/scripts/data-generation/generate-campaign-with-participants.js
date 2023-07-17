@@ -78,7 +78,7 @@ function _getIdentifier(uniqId) {
 function _validateAndNormalizeOrganizationId(commandLineArgs) {
   const commandLineArgsLength = commandLineArgs.length;
   const organizationIdIndicatorIndex = commandLineArgs.findIndex(
-    (commandLineArg) => commandLineArg === '--organizationId'
+    (commandLineArg) => commandLineArg === '--organizationId',
   );
   if (organizationIdIndicatorIndex === -1 || organizationIdIndicatorIndex + 1 >= commandLineArgsLength) {
     throw new Error("ID de l'organisation obligatoire.");
@@ -86,7 +86,7 @@ function _validateAndNormalizeOrganizationId(commandLineArgs) {
   const organizationId = parseInt(commandLineArgs[organizationIdIndicatorIndex + 1]);
   if (isNaN(organizationId)) {
     throw new Error(
-      `ID de l'organisation fourni ${commandLineArgs[organizationIdIndicatorIndex + 1]} n'est pas un entier.`
+      `ID de l'organisation fourni ${commandLineArgs[organizationIdIndicatorIndex + 1]} n'est pas un entier.`,
     );
   }
   return organizationId;
@@ -95,7 +95,7 @@ function _validateAndNormalizeOrganizationId(commandLineArgs) {
 function _validateAndNormalizeTargetProfileId(commandLineArgs) {
   const commandLineArgsLength = commandLineArgs.length;
   const targetProfileIdIndicatorIndex = commandLineArgs.findIndex(
-    (commandLineArg) => commandLineArg === '--targetProfileId'
+    (commandLineArg) => commandLineArg === '--targetProfileId',
   );
   if (targetProfileIdIndicatorIndex === -1 || targetProfileIdIndicatorIndex + 1 >= commandLineArgsLength) {
     return null;
@@ -103,7 +103,7 @@ function _validateAndNormalizeTargetProfileId(commandLineArgs) {
   const targetProfileId = parseInt(commandLineArgs[targetProfileIdIndicatorIndex + 1]);
   if (isNaN(targetProfileId)) {
     throw new Error(
-      `ID du profil cible fourni ${commandLineArgs[targetProfileIdIndicatorIndex + 1]} n'est pas un entier.`
+      `ID du profil cible fourni ${commandLineArgs[targetProfileIdIndicatorIndex + 1]} n'est pas un entier.`,
     );
   }
   return targetProfileId;
@@ -112,7 +112,7 @@ function _validateAndNormalizeTargetProfileId(commandLineArgs) {
 function _validateAndNormalizeParticipantCount(commandLineArgs) {
   const commandLineArgsLength = commandLineArgs.length;
   const participantCountIndicatorIndex = commandLineArgs.findIndex(
-    (commandLineArg) => commandLineArg === '--participantCount'
+    (commandLineArg) => commandLineArg === '--participantCount',
   );
   if (participantCountIndicatorIndex === -1 || participantCountIndicatorIndex + 1 >= commandLineArgsLength) {
     throw new Error('Nombre de participants obligatoire.');
@@ -120,7 +120,7 @@ function _validateAndNormalizeParticipantCount(commandLineArgs) {
   const participantCount = parseInt(commandLineArgs[participantCountIndicatorIndex + 1]);
   if (isNaN(participantCount)) {
     throw new Error(
-      `Nombre de participations fourni ${commandLineArgs[participantCountIndicatorIndex + 1]} n'est pas un entier.`
+      `Nombre de participations fourni ${commandLineArgs[participantCountIndicatorIndex + 1]} n'est pas un entier.`,
     );
   }
   return participantCount;
@@ -137,7 +137,7 @@ function _validateAndNormalizeProfileType(commandLineArgs) {
     throw new Error(
       `Type de profil doit être une valeur parmi light, medium et all, ${
         commandLineArgs[profileTypeIndicatorIndex + 1]
-      } fourni.`
+      } fourni.`,
     );
   }
   return profileType;
@@ -154,7 +154,7 @@ function _validateAndNormalizeCampaignType(commandLineArgs) {
     throw new Error(
       `Type de campagne doit être une valeur parmi assessment et profiles_collection, ${
         commandLineArgs[campaignTypeIndicatorIndex + 1]
-      } fourni.`
+      } fourni.`,
     );
   }
   return campaignType;
@@ -412,7 +412,7 @@ async function _createAnswersAndKnowledgeElements({ campaignId, userAndAssessmen
         skillId: skill.id,
         earnedPix: status === 'validated' ? skill.pixValue : 0,
         userId: userAndAssessmentIds.find(
-          (userAndAssessmentId) => userAndAssessmentId.id === referenceAnswer.assessmentId
+          (userAndAssessmentId) => userAndAssessmentId.id === referenceAnswer.assessmentId,
         ).userId,
         competenceId: skill.competenceId,
         answerId: referenceAnswer.id,
@@ -540,7 +540,7 @@ async function generateCampaignWithParticipants({
   _log('pré-calcul des résultats ...');
   await computeParticipationResults();
   _log(
-    `Campagne: ${campaignId}\nOrganisation: ${organizationId}\nNombre de participants: ${participantCount}\nProfil Cible: ${targetProfile.id}`
+    `Campagne: ${campaignId}\nOrganisation: ${organizationId}\nNombre de participants: ${participantCount}\nProfil Cible: ${targetProfile.id}`,
   );
 }
 

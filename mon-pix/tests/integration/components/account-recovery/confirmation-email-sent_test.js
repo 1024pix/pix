@@ -15,7 +15,7 @@ module('Integration | Component | account-recovery/confirmation-email-sent', fun
       .dom(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.title'),
-        })
+        }),
       )
       .exists();
     assert
@@ -28,7 +28,7 @@ module('Integration | Component | account-recovery/confirmation-email-sent', fun
       .dom(
         screen.getByRole('link', {
           name: this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.return'),
-        })
+        }),
       )
       .exists();
   });

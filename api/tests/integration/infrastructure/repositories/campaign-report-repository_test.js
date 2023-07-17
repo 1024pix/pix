@@ -415,7 +415,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             'targetProfileName',
             'participationsCount',
             'sharedParticipationsCount',
-          ])
+          ]),
         );
       });
 
@@ -604,7 +604,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             ],
             (campaignParticipation) => {
               databaseBuilder.factory.buildCampaignParticipation(campaignParticipation);
-            }
+            },
           );
           await databaseBuilder.commit();
 
@@ -705,7 +705,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             ],
             (campaign) => {
               databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
-            }
+            },
           );
 
           await databaseBuilder.commit();
@@ -729,7 +729,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             ],
             (campaign) => {
               databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
-            }
+            },
           );
 
           await databaseBuilder.commit();
@@ -753,7 +753,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             ],
             (campaign) => {
               databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
-            }
+            },
           );
 
           await databaseBuilder.commit();
@@ -781,7 +781,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             ],
             (campaign) => {
               databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
-            }
+            },
           );
 
           await databaseBuilder.commit();
@@ -810,7 +810,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             ],
             (campaign) => {
               databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
-            }
+            },
           );
 
           await databaseBuilder.commit();
@@ -872,7 +872,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             ],
             (campaign) => {
               databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
-            }
+            },
           );
           await databaseBuilder.commit();
 
@@ -902,7 +902,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             ],
             (campaign) => {
               databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
-            }
+            },
           );
           await databaseBuilder.commit();
 

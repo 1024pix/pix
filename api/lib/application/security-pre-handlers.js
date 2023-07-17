@@ -49,7 +49,7 @@ async function checkIfUserIsBlocked(
   h,
   dependencies = {
     checkIfUserIsBlockedUseCase,
-  }
+  },
 ) {
   const { username, grant_type: grantType } = request.payload;
 
@@ -65,7 +65,7 @@ async function checkAdminMemberHasRoleSuperAdmin(
   h,
   dependencies = {
     checkAdminMemberHasRoleSuperAdminUseCase,
-  }
+  },
 ) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
@@ -179,7 +179,7 @@ function checkUserIsAdminInOrganization(request, h, dependencies = { checkUserIs
 function checkUserIsMemberOfCertificationCenter(
   request,
   h,
-  dependencies = { checkUserIsMemberOfCertificationCenterUsecase }
+  dependencies = { checkUserIsMemberOfCertificationCenterUsecase },
 ) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
@@ -202,7 +202,7 @@ function checkUserIsMemberOfCertificationCenter(
 async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
   request,
   h,
-  dependencies = { checkUserIsMemberOfCertificationCenterSessionUsecase, certificationIssueReportRepository }
+  dependencies = { checkUserIsMemberOfCertificationCenterSessionUsecase, certificationIssueReportRepository },
 ) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
@@ -213,7 +213,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIss
 
   try {
     const certificationIssueReport = await dependencies.certificationIssueReportRepository.get(
-      certificationIssueReportId
+      certificationIssueReportId,
     );
     const isMemberOfSession = await dependencies.checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
       userId,
@@ -230,7 +230,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationCou
   h,
   dependencies = {
     checkUserIsMemberOfCertificationCenterSessionUsecase,
-  }
+  },
 ) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
@@ -253,7 +253,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationCou
 async function checkUserBelongsToOrganizationManagingStudents(
   request,
   h,
-  dependencies = { checkUserBelongsToOrganizationManagingStudentsUseCase }
+  dependencies = { checkUserBelongsToOrganizationManagingStudentsUseCase },
 ) {
   if (!has(request, 'auth.credentials.userId')) {
     return _replyForbiddenError(h);
@@ -275,7 +275,7 @@ async function checkUserBelongsToOrganizationManagingStudents(
 async function checkUserBelongsToScoOrganizationAndManagesStudents(
   request,
   h,
-  dependencies = { checkUserBelongsToScoOrganizationAndManagesStudentsUseCase }
+  dependencies = { checkUserBelongsToScoOrganizationAndManagesStudentsUseCase },
 ) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
@@ -306,7 +306,7 @@ async function checkCertificationCenterIsNotScoManagingStudents(
     checkOrganizationIsScoAndManagingStudentUsecase,
     checkUserIsMemberOfCertificationCenterUsecase,
     organizationRepository,
-  }
+  },
 ) {
   if (_noCredentials(request)) {
     return _replyForbiddenError(h);
@@ -342,7 +342,7 @@ async function checkUserDoesNotBelongsToScoOrganizationManagingStudents(
   dependencies = {
     checkOrganizationIsScoAndManagingStudentUsecase,
     organizationRepository,
-  }
+  },
 ) {
   if (_noCredentials(request)) {
     return _replyForbiddenError(h);
@@ -368,7 +368,7 @@ function _noCredentials(request) {
 async function checkUserBelongsToSupOrganizationAndManagesStudents(
   request,
   h,
-  dependencies = { checkUserBelongsToSupOrganizationAndManagesStudentsUseCase }
+  dependencies = { checkUserBelongsToSupOrganizationAndManagesStudentsUseCase },
 ) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
@@ -395,7 +395,7 @@ async function checkUserBelongsToSupOrganizationAndManagesStudents(
 async function checkUserIsAdminInSCOOrganizationManagingStudents(
   request,
   h,
-  dependencies = { checkUserIsAdminAndManagingStudentsForOrganization }
+  dependencies = { checkUserIsAdminAndManagingStudentsForOrganization },
 ) {
   const userId = request.auth.credentials.userId;
   const organizationId = request.params.id;
@@ -404,7 +404,7 @@ async function checkUserIsAdminInSCOOrganizationManagingStudents(
     await dependencies.checkUserIsAdminAndManagingStudentsForOrganization.execute(
       userId,
       organizationId,
-      Organization.types.SCO
+      Organization.types.SCO,
     )
   ) {
     return h.response(true);
@@ -415,7 +415,7 @@ async function checkUserIsAdminInSCOOrganizationManagingStudents(
 async function checkUserIsAdminInSUPOrganizationManagingStudents(
   request,
   h,
-  dependencies = { checkUserIsAdminAndManagingStudentsForOrganization }
+  dependencies = { checkUserIsAdminAndManagingStudentsForOrganization },
 ) {
   const userId = request.auth.credentials.userId;
   const organizationId = request.params.id;
@@ -424,7 +424,7 @@ async function checkUserIsAdminInSUPOrganizationManagingStudents(
     await dependencies.checkUserIsAdminAndManagingStudentsForOrganization.execute(
       userId,
       organizationId,
-      Organization.types.SUP
+      Organization.types.SUP,
     )
   ) {
     return h.response(true);
@@ -436,7 +436,7 @@ async function checkUserIsAdminInSUPOrganizationManagingStudents(
 async function checkUserBelongsToLearnersOrganization(
   request,
   h,
-  dependencies = { checkUserBelongsToLearnersOrganizationUseCase }
+  dependencies = { checkUserBelongsToLearnersOrganizationUseCase },
 ) {
   if (!request.auth.credentials) {
     return _replyForbiddenError(h);
@@ -450,7 +450,7 @@ async function checkUserBelongsToLearnersOrganization(
   try {
     belongsToLearnersOrganization = await dependencies.checkUserBelongsToLearnersOrganizationUseCase.execute(
       userId,
-      organizationLearnerId
+      organizationLearnerId,
     );
   } catch (e) {
     return _replyForbiddenError(h);
@@ -471,7 +471,7 @@ async function checkUserBelongsToOrganization(request, h, dependencies = { check
 
   const belongsToOrganization = await dependencies.checkUserBelongsToOrganizationUseCase.execute(
     userId,
-    organizationId
+    organizationId,
   );
   if (belongsToOrganization) {
     return h.response(true);
@@ -482,7 +482,7 @@ async function checkUserBelongsToOrganization(request, h, dependencies = { check
 async function checkUserIsMemberOfAnOrganization(
   request,
   h,
-  dependencies = { checkUserIsMemberOfAnOrganizationUseCase }
+  dependencies = { checkUserIsMemberOfAnOrganizationUseCase },
 ) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
@@ -506,7 +506,7 @@ async function checkUserIsMemberOfAnOrganization(
 async function checkAuthorizationToManageCampaign(
   request,
   h,
-  dependencies = { checkAuthorizationToManageCampaignUsecase }
+  dependencies = { checkAuthorizationToManageCampaignUsecase },
 ) {
   const userId = request.auth.credentials.userId;
   const campaignId = request.params.id;
@@ -537,7 +537,7 @@ async function checkPix1dActivated(request, h, dependencies = { checkPix1dEnable
 async function checkUserOwnsCertificationCourse(
   request,
   h,
-  dependencies = { checkUserOwnsCertificationCourseUseCase }
+  dependencies = { checkUserOwnsCertificationCourseUseCase },
 ) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);

@@ -11,7 +11,7 @@ export function createCertificationPointOfContact(
   certificationCenterType,
   certificationCenterName = 'Centre de certification du pix',
   isRelatedOrganizationManagingStudents = false,
-  certificationCenterCount = 1
+  certificationCenterCount = 1,
 ) {
   const allowedCertificationCenterAccesses = _createCertificationCenters(certificationCenterCount, {
     certificationCenterName,
@@ -71,13 +71,13 @@ export function createScoIsManagingStudentsCertificationPointOfContactWithTermsO
 export function createCertificationPointOfContactWithTermsOfServiceAccepted(
   certificationCenterType = undefined,
   certificationCenterName = 'Centre de certification du pix',
-  isRelatedOrganizationManagingStudents = false
+  isRelatedOrganizationManagingStudents = false,
 ) {
   return createCertificationPointOfContact(
     true,
     certificationCenterType,
     certificationCenterName,
-    isRelatedOrganizationManagingStudents
+    isRelatedOrganizationManagingStudents,
   );
 }
 

@@ -61,7 +61,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       .resolves(
         domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
           hashedPassword: passwordHash,
-        })
+        }),
       );
     encryptionService.checkPassword.withArgs({ password, passwordHash }).resolves();
     codeUtilsStub.generateNumericalString.withArgs(6).returns(code);
@@ -106,7 +106,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       .resolves(
         domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
           hashedPassword: passwordHash,
-        })
+        }),
       );
     encryptionService.checkPassword.withArgs({ password, passwordHash }).resolves();
     codeUtilsStub.generateNumericalString.withArgs(6).returns(code);
@@ -181,7 +181,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       .resolves(
         domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
           hashedPassword: passwordHash,
-        })
+        }),
       );
     encryptionService.checkPassword.withArgs({ password, passwordHash }).rejects();
 

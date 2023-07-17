@@ -16,7 +16,7 @@ export default function (schema, request) {
             detail: 'participant-external-id',
           },
         ],
-      }
+      },
     );
   }
 
@@ -30,7 +30,7 @@ export default function (schema, request) {
       {},
       {
         errors: [{ status: 403 }],
-      }
+      },
     );
   }
 

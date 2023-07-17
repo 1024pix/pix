@@ -49,7 +49,7 @@ async function _computeReverts(inputFile, sample) {
   return targetProfiles
     .map((targetProfile) => {
       const stagesWLevel = targetProfile.stageCollection.stages.filter(
-        ({ isFirstSkill, level }) => !isFirstSkill && level != null
+        ({ isFirstSkill, level }) => !isFirstSkill && level != null,
       );
 
       if (stagesWLevel.length === 0) {
@@ -59,7 +59,7 @@ async function _computeReverts(inputFile, sample) {
 
       const stageReverts = fp.takeWhile(
         ({ stageId }) => stageId !== 'Seuil théorique',
-        xlsxUtils.sheet_to_json(wb.Sheets[targetProfile.id], { header: ['stageId', 'threshold', 'level'], range: 1 })
+        xlsxUtils.sheet_to_json(wb.Sheets[targetProfile.id], { header: ['stageId', 'threshold', 'level'], range: 1 }),
       );
 
       if (stageReverts.length === 0) {
@@ -68,17 +68,17 @@ async function _computeReverts(inputFile, sample) {
       }
 
       const precheckNoChanges = stageReverts.every(
-        ({ stageId, level }) => stagesWLevel.find((stage) => stage.id === stageId)?.level === level
+        ({ stageId, level }) => stagesWLevel.find((stage) => stage.id === stageId)?.level === level,
       );
 
       const precheckUnknownStage = stagesWLevel.every((stage) =>
-        stageReverts.some(({ stageId }) => stageId === stage.id)
+        stageReverts.some(({ stageId }) => stageId === stage.id),
       );
 
       if (!precheckNoChanges || !precheckUnknownStage) {
         logger.error(
           { stageReverts, stagesWLevel },
-          `Skipping target profile ${targetProfile.id} which had changes since migration`
+          `Skipping target profile ${targetProfile.id} which had changes since migration`,
         );
         return null;
       }

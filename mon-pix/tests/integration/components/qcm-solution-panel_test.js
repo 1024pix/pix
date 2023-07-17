@@ -65,7 +65,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
           // When
           await render(
-            hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+            hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
           );
 
           // Then
@@ -86,7 +86,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
           // When
           await render(
-            hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+            hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
           );
 
           // Then
@@ -108,7 +108,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
           // When
           await render(
-            hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+            hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
           );
 
           // Then
@@ -125,7 +125,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`
+        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
       );
 
       // Then
@@ -135,7 +135,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
       assert.strictEqual(labels[1].getAttribute('data-goodness'), 'good');
       assert.strictEqual(
         labels[1].innerHTML.trim(),
-        '<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a></p>'
+        '<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a></p>',
       );
     });
 
@@ -147,7 +147,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`
+        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
       );
 
       // Then
@@ -168,7 +168,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`
+        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
       );
 
       // Then
@@ -178,7 +178,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
       assert.strictEqual(labels[2].getAttribute('data-goodness'), 'good');
       assert.strictEqual(
         labels[2].innerHTML.trim(),
-        '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3"></p>'
+        '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3"></p>',
       );
     });
 
@@ -192,7 +192,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`
+        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
       );
 
       // Then
@@ -210,7 +210,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`
+        hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
       );
 
       // Then
@@ -235,7 +235,7 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
         // When
         await render(
-          hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`
+          hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`,
         );
 
         // Then

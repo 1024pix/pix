@@ -24,7 +24,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'John',
             lastName: 'Doe',
-          }
+          },
         );
 
         databaseBuilder.factory.buildAssessmentFromParticipation({
@@ -136,7 +136,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           },
           {
             campaignId: campaign.id,
-          }
+          },
         );
         await databaseBuilder.commit();
 
@@ -329,22 +329,22 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Jaja', lastName: 'Le raplapla', organizationId },
           campaignParticipation,
-          true
+          true,
         );
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Jiji', lastName: 'Le riquiqui', organizationId },
           campaignParticipation,
-          true
+          true,
         );
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Jojo', lastName: 'le rococo', organizationId },
           campaignParticipation,
-          true
+          true,
         );
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'juju', lastName: 'Le riquiqui', organizationId },
           campaignParticipation,
-          true
+          true,
         );
 
         await databaseBuilder.commit();
@@ -1060,7 +1060,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Saphira',
             lastName: 'Eurasier',
-          }
+          },
         );
 
         await databaseBuilder.commit();
@@ -1085,7 +1085,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Choupette',
             lastName: 'Eurasier',
-          }
+          },
         );
 
         databaseBuilder.factory.buildAssessmentFromParticipation(
@@ -1096,7 +1096,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Salto',
             lastName: 'Irish terrier',
-          }
+          },
         );
 
         await databaseBuilder.commit();
@@ -1122,7 +1122,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Choupette',
             lastName: 'Eurasier',
-          }
+          },
         );
 
         await databaseBuilder.commit();
@@ -1148,7 +1148,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Choupette',
             lastName: 'Eurasier',
-          }
+          },
         );
 
         await databaseBuilder.commit();
@@ -1174,7 +1174,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Choupette',
             lastName: 'Eurasier',
-          }
+          },
         );
 
         databaseBuilder.factory.buildAssessmentFromParticipation(
@@ -1185,7 +1185,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Salto',
             lastName: 'Irish terrier',
-          }
+          },
         );
 
         await databaseBuilder.commit();
@@ -1210,7 +1210,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Choupette',
             lastName: 'Eurasier',
-          }
+          },
         );
 
         databaseBuilder.factory.buildAssessmentFromParticipation(
@@ -1221,7 +1221,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Salto',
             lastName: 'Irish terrier',
-          }
+          },
         );
 
         await databaseBuilder.commit();
@@ -1247,7 +1247,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Choupette',
             lastName: 'Eurasier',
-          }
+          },
         );
 
         databaseBuilder.factory.buildAssessmentFromParticipation(
@@ -1258,7 +1258,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Choupette',
             lastName: 'Wrong',
-          }
+          },
         );
 
         await databaseBuilder.commit();
@@ -1284,7 +1284,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Salto',
             lastName: 'Irish terrier',
-          }
+          },
         );
 
         databaseBuilder.factory.buildAssessmentFromParticipation(
@@ -1295,7 +1295,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             firstName: 'Saphira',
             lastName: 'Young',
-          }
+          },
         );
 
         await databaseBuilder.commit();

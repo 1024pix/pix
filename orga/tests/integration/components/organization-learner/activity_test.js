@@ -22,7 +22,7 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
   @participations={{this.participations}}
   @statistics={{this.statistics}}
   @learner={{this.learner}}
-/>`
+/>`,
       );
 
       // then
@@ -32,8 +32,8 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
             this.intl.t('pages.organization-learner.activity.empty-state', {
               organizationLearnerFirstName: 'Bob',
               organizationLearnerLastName: 'Dylan',
-            })
-          )
+            }),
+          ),
         )
         .exists();
     });
@@ -60,7 +60,7 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
   @participations={{this.participations}}
   @statistics={{this.statistics}}
   @learner={{this.learner}}
-/>`
+/>`,
       );
 
       // then
@@ -70,8 +70,8 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
             this.intl.t('pages.organization-learner.activity.empty-state', {
               organizationLearnerFirstName: 'Bob',
               organizationLearnerLastName: 'Dylan',
-            })
-          )
+            }),
+          ),
         )
         .doesNotExist();
     });
@@ -105,14 +105,14 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
   @participations={{this.participations}}
   @statistics={{this.statistics}}
   @learner={{this.learner}}
-/>`
+/>`,
       );
 
       // then
       const assessmentCard = within(
         screen.getByRole('heading', {
           name: this.intl.t('pages.organization-learner.activity.assessment-summary'),
-        }).parentElement
+        }).parentElement,
       );
       assert.dom(assessmentCard.getByRole('definition')).containsText('6');
       assert
@@ -154,26 +154,28 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
   @participations={{this.participations}}
   @statistics={{this.statistics}}
   @learner={{this.learner}}
-/>`
+/>`,
       );
 
       // then
       const profileCollectionCard = within(
         screen.getByRole('heading', {
           name: this.intl.t('pages.organization-learner.activity.profile-collection-summary'),
-        }).parentElement
+        }).parentElement,
       );
       assert.dom(profileCollectionCard.getByRole('definition')).containsText('4');
       assert
         .dom(
           profileCollectionCard.getByText(
-            this.intl.t('pages.organization-learner.activity.cards.to-share', { count: 3 })
-          )
+            this.intl.t('pages.organization-learner.activity.cards.to-share', { count: 3 }),
+          ),
         )
         .exists();
       assert
         .dom(
-          profileCollectionCard.getByText(this.intl.t('pages.organization-learner.activity.cards.shared', { count: 1 }))
+          profileCollectionCard.getByText(
+            this.intl.t('pages.organization-learner.activity.cards.shared', { count: 1 }),
+          ),
         )
         .exists();
     });

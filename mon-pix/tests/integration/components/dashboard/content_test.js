@@ -139,7 +139,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         .exists();
       assert
         .dom(
-          screen.getByRole('link', { name: this.intl.t('pages.dashboard.recommended-competences.extra-information') })
+          screen.getByRole('link', { name: this.intl.t('pages.dashboard.recommended-competences.extra-information') }),
         )
         .exists();
     });

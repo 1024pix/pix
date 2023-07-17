@@ -64,7 +64,7 @@ async function createTraining({
           .uniq()
           .value();
       },
-      { concurrency: 3 }
+      { concurrency: 3 },
     );
     frameworkNames = Object.keys(tubeIdsByFramework);
   }
@@ -82,7 +82,7 @@ async function createTraining({
     databaseBuilder.factory.buildTargetProfileTraining({
       targetProfileId,
       trainingId,
-    })
+    }),
   );
   const cappedTubesDTO = [];
   for (const configTrigger of configTriggers) {
@@ -96,7 +96,7 @@ async function createTraining({
       for (let i = 0; i < framework.countTubes; ++i) {
         const tubeId = _pickRandomTube(
           frameworkName,
-          cappedTubesDTO.map(({ id }) => id)
+          cappedTubesDTO.map(({ id }) => id),
         );
         if (tubeId) {
           const level = _.random(framework.minLevel, framework.maxLevel);

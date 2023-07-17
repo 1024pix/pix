@@ -24,7 +24,7 @@ const findHighestCertifiable = async function ({ userId, domainTransaction = Dom
     .join(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-badges.complementaryCertificationId'
+      'complementary-certification-badges.complementaryCertificationId',
     )
     .join('campaign-participations', 'campaign-participations.id', 'badge-acquisitions.campaignParticipationId')
     .where({
@@ -39,14 +39,14 @@ const findHighestCertifiable = async function ({ userId, domainTransaction = Dom
           where "complementary-certification-badges"."complementaryCertificationId" = ccb."complementaryCertificationId"
           and ba."userId" = ? and b."isCertifiable" = true)
       `,
-      userId
+      userId,
     );
 
   const highestCertifiableBadgeAcquisitionByComplementaryCertificationId = _(certifiableBadgeAcquisitions)
     .groupBy('complementaryCertificationId')
     .values()
     .map((certifiableBadgeAcquisitionByComplementaryCertifications) =>
-      _.maxBy(certifiableBadgeAcquisitionByComplementaryCertifications, 'complementaryCertificationBadgeLevel')
+      _.maxBy(certifiableBadgeAcquisitionByComplementaryCertifications, 'complementaryCertificationBadgeLevel'),
     )
     .flatten()
     .value();
@@ -58,6 +58,6 @@ export { findHighestCertifiable };
 
 function _toDomain(certifiableBadgeAcquisitionsDto) {
   return certifiableBadgeAcquisitionsDto.map(
-    (certifiableBadgeAcquisitionDto) => new CertifiableBadgeAcquisition(certifiableBadgeAcquisitionDto)
+    (certifiableBadgeAcquisitionDto) => new CertifiableBadgeAcquisition(certifiableBadgeAcquisitionDto),
   );
 }

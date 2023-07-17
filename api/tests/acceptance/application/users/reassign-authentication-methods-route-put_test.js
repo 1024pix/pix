@@ -83,7 +83,7 @@ describe('Acceptance | Route | Users', function () {
       // then
       expect(response.statusCode).to.equal(422);
       expect(response.result.errors[0].detail).to.equal(
-        `L'utilisateur ${targetUserId} a déjà une méthode de connexion GAR.`
+        `L'utilisateur ${targetUserId} a déjà une méthode de connexion GAR.`,
       );
     });
   });

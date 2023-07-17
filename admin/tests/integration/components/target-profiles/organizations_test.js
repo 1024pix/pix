@@ -30,7 +30,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
-/>`
+/>`,
     );
 
     // then
@@ -52,7 +52,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
-/>`
+/>`,
     );
 
     // then
@@ -74,7 +74,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
-/>`
+/>`,
     );
 
     assert.dom(screen.getByText('Aucun résultat')).exists();
@@ -91,7 +91,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
-/>`
+/>`,
     );
     await fillByLabel('Rattacher une ou plusieurs organisation(s)', '1, 2');
     await clickByName('Valider le rattachement');
@@ -110,7 +110,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
-/>`
+/>`,
     );
     await fillByLabel("Rattacher les organisations d'un profil cible existant", 1);
     await clickByName('Valider le rattachement à partir de ce profil cible');
@@ -132,7 +132,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
-/>`
+/>`,
     );
 
     const detachButton = await screen.queryByRole('button', { name: 'Détacher' });
@@ -156,7 +156,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
-/>`
+/>`,
     );
 
     const detachButton = await screen.queryByRole('button', { name: 'Détacher' });
@@ -180,7 +180,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
-/>`
+/>`,
     );
 
     const detachButton = await screen.queryByRole('button', { name: 'Détacher' });
@@ -200,7 +200,7 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
   @goToOrganizationPage={{this.goToOrganizationPage}}
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
-/>`
+/>`,
     );
 
     // then

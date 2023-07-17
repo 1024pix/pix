@@ -21,7 +21,7 @@ module('Integration | Component | users | organization-memberships', function (h
 
       // when
       const screen = await render(
-        hbs`<Users::UserOrganizationMemberships @organizationMemberships={{this.organizationMemberships}} />`
+        hbs`<Users::UserOrganizationMemberships @organizationMemberships={{this.organizationMemberships}} />`,
       );
 
       // then
@@ -57,7 +57,7 @@ module('Integration | Component | users | organization-memberships', function (h
 
       // when
       const screen = await render(
-        hbs`<Users::UserOrganizationMemberships @organizationMemberships={{this.organizationMemberships}} />`
+        hbs`<Users::UserOrganizationMemberships @organizationMemberships={{this.organizationMemberships}} />`,
       );
 
       // then

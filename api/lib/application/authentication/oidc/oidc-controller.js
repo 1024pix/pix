@@ -14,7 +14,7 @@ const getRedirectLogoutUrl = async function (
   h,
   dependencies = {
     authenticationServiceRegistry,
-  }
+  },
 ) {
   const userId = request.auth.credentials.userId;
   const { identity_provider: identityProvider, logout_url_uuid: logoutUrlUUID } = request.query;
@@ -33,7 +33,7 @@ const findUserForReconciliation = async function (
   h,
   dependencies = {
     oidcSerializer,
-  }
+  },
 ) {
   const { email, password, identityProvider, authenticationKey } = request.deserializedPayload;
 
@@ -52,7 +52,7 @@ const reconcileUser = async function (
   h,
   dependencies = {
     authenticationServiceRegistry,
-  }
+  },
 ) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
   const oidcAuthenticationService =
@@ -71,7 +71,7 @@ const getAuthenticationUrl = async function (
   h,
   dependencies = {
     authenticationServiceRegistry,
-  }
+  },
 ) {
   const { identity_provider: identityProvider } = request.query;
   const oidcAuthenticationService =
@@ -85,7 +85,7 @@ const authenticateUser = async function (
   h,
   dependencies = {
     authenticationServiceRegistry,
-  }
+  },
 ) {
   const { code, identityProvider, redirectUri, stateSent, stateReceived } = request.deserializedPayload;
 
@@ -116,7 +116,7 @@ const createUser = async function (
   h,
   dependencies = {
     authenticationServiceRegistry,
-  }
+  },
 ) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
   const localeFromCookie = request.state?.locale;

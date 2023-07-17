@@ -83,7 +83,7 @@ describe('Unit | Domain | Services | assessment-results', function () {
           score: 18,
           area_code: 2,
           competence_code: 2.1,
-        })
+        }),
       );
       expect(competenceMarkRepositoryStub.save).to.have.been.calledWithMatch(
         new CompetenceMark({
@@ -92,7 +92,7 @@ describe('Unit | Domain | Services | assessment-results', function () {
           score: 27,
           area_code: 3,
           competence_code: 3.2,
-        })
+        }),
       );
     });
   });

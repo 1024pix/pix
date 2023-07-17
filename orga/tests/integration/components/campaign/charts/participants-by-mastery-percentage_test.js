@@ -30,7 +30,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByMasteryPercent
 
     // when
     const screen = await render(
-      hbs`<Campaign::Charts::ParticipantsByMasteryPercentage @campaignId={{this.campaignId}} />`
+      hbs`<Campaign::Charts::ParticipantsByMasteryPercentage @campaignId={{this.campaignId}} />`,
     );
 
     // then

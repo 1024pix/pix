@@ -140,16 +140,16 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         assert
           .dom(
             screen.getByText(
-              'Autre (si aucune des catégories ci-dessus ne correspond au signalement) - Un signalement super impactant'
-            )
+              'Autre (si aucune des catégories ci-dessus ne correspond au signalement) - Un signalement super impactant',
+            ),
           )
           .exists();
         assert.dom(screen.getByText('1 Signalement(s) non impactant(s)')).exists();
         assert
           .dom(
             screen.getByText(
-              'Modification infos candidat : Ajout/modification du temps majoré - Un signalement pas du tout impactant'
-            )
+              'Modification infos candidat : Ajout/modification du temps majoré - Un signalement pas du tout impactant',
+            ),
           )
           .exists();
       });
@@ -172,8 +172,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         assert
           .dom(
             screen.getByText(
-              'Autre (si aucune des catégories ci-dessus ne correspond au signalement) - Un signalement super impactant'
-            )
+              'Autre (si aucune des catégories ci-dessus ne correspond au signalement) - Un signalement super impactant',
+            ),
           )
           .exists();
         assert.dom(screen.queryByText('Signalement(s) non impactant(s)')).doesNotExist();
@@ -198,8 +198,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         assert
           .dom(
             screen.getByText(
-              'Modification infos candidat : Ajout/modification du temps majoré - Un signalement pas du tout impactant'
-            )
+              'Modification infos candidat : Ajout/modification du temps majoré - Un signalement pas du tout impactant',
+            ),
           )
           .exists();
         assert.dom(screen.queryByText('Signalement(s) impactant(s)')).doesNotExist();
@@ -263,8 +263,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           assert
             .dom(
               screen.getByText(
-                "Problème technique sur une question : L'image ne s'affiche pas - image disparue - Question 666"
-              )
+                "Problème technique sur une question : L'image ne s'affiche pas - image disparue - Question 666",
+              ),
             )
             .exists();
         });
@@ -334,7 +334,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                   label: 'Pix+ Édu Initiale 1er degré Confirmé',
                 },
               ],
-            }
+            },
           );
           certification.update({
             complementaryCertificationCourseResultWithExternal,
@@ -403,7 +403,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                   label: 'Pix+ Édu Initiale 1er degré Confirmé',
                 },
               ],
-            }
+            },
           );
           const certification1 = this.server.create('certification', {
             id: 398,
@@ -426,7 +426,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                   label: 'Pix+ Édu Initiale 2nd degré Confirmé',
                 },
               ],
-            }
+            },
           );
           const certification2 = this.server.create('certification', {
             id: 456,
@@ -460,7 +460,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           {
             label: 'CléA Numérique',
             status: 'Validée',
-          }
+          },
         );
 
         certification.update({
@@ -487,7 +487,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             pixResult: 'Pix+ Édu Initié (entrée dans le métier)',
             externalResult: 'Pix+ Édu Avancé',
             finalResult: 'Pix+ Édu Initié (entrée dans le métier)',
-          }
+          },
         );
         certification.update({
           complementaryCertificationCourseResultWithExternal,
@@ -568,7 +568,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               () => ({
                 errors: [{ detail: "Candidate's first name must not be blank or empty" }],
               }),
-              422
+              422,
             );
             const screen = await visit(`/certifications/${certification.id}`);
             await clickByName('Modifier les informations du candidat');
@@ -591,7 +591,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               () => ({
                 errors: [{ detail: "Candidate's first name must not be blank or empty" }],
               }),
-              422
+              422,
             );
             const screen = await visit(`/certifications/${certification.id}`);
             await clickByName('Modifier les informations du candidat');
@@ -614,7 +614,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               () => ({
                 errors: [{ detail: "Candidate's first name must not be blank or empty" }],
               }),
-              422
+              422,
             );
             const screen = await visit(`/certifications/${certification.id}`);
             await clickByName('Modifier les informations du candidat');
@@ -710,12 +710,12 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                   `/certification-issue-reports/${certificationIssueReport.id}`,
                   (schema) => {
                     const certificationIssueReportToUpdate = schema.certificationIssueReports.find(
-                      certificationIssueReport.id
+                      certificationIssueReport.id,
                     );
                     certificationIssueReportToUpdate.update({ resolvedAt: new Date(), resolution });
                     return new Response({});
                   },
-                  204
+                  204,
                 );
 
                 const screen = await visit(`/certifications/${certification.id}`);
@@ -748,7 +748,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               this.server.patch(
                 `/certification-issue-reports/${certificationIssueReport.id}`,
                 () => new Response({}),
-                500
+                500,
               );
 
               const screen = await visit(`/certifications/${certification.id}`);
@@ -788,8 +788,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           assert
             .dom(
               screen.getByText(
-                'Êtes-vous sûr·e de vouloir annuler cette certification ? Cliquez sur confirmer pour poursuivre.'
-              )
+                'Êtes-vous sûr·e de vouloir annuler cette certification ? Cliquez sur confirmer pour poursuivre.',
+              ),
             )
             .exists();
         });
@@ -841,8 +841,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           assert
             .dom(
               screen.getByText(
-                'Êtes-vous sûr·e de vouloir désannuler cette certification ? Cliquez sur confirmer pour poursuivre.'
-              )
+                'Êtes-vous sûr·e de vouloir désannuler cette certification ? Cliquez sur confirmer pour poursuivre.',
+              ),
             )
             .exists();
         });

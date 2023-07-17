@@ -19,7 +19,7 @@ const startCampaignParticipation = async function ({
 
   const createdCampaignParticipation = await campaignParticipationRepository.get(
     campaignParticipationId,
-    domainTransaction
+    domainTransaction,
   );
 
   return {

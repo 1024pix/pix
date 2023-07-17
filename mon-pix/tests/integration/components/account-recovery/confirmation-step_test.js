@@ -32,7 +32,7 @@ module('Integration | Component | confirmation-step', function (hooks) {
           name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', {
             firstName: 'Philippe',
           }),
-        })
+        }),
       )
       .exists();
     assert
@@ -42,7 +42,7 @@ module('Integration | Component | confirmation-step', function (hooks) {
       .dom(
         screen.getByRole('link', {
           name: this.intl.t('pages.account-recovery.find-sco-record.contact-support.link-text'),
-        })
+        }),
       )
       .hasAttribute('href', this.intl.t('pages.account-recovery.find-sco-record.contact-support.link-url'));
 
@@ -54,7 +54,7 @@ module('Integration | Component | confirmation-step', function (hooks) {
       .dom(
         screen.getByRole('checkbox', {
           name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'),
-        })
+        }),
       )
       .exists();
   });
@@ -78,7 +78,7 @@ module('Integration | Component | confirmation-step', function (hooks) {
       // then
       assert
         .dom(
-          screen.queryByText(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.fields.username'))
+          screen.queryByText(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.fields.username')),
         )
         .doesNotExist();
     });
@@ -105,7 +105,7 @@ module('Integration | Component | confirmation-step', function (hooks) {
     await click(
       screen.getByRole('button', {
         name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'),
-      })
+      }),
     );
 
     // then
@@ -161,12 +161,12 @@ module('Integration | Component | confirmation-step', function (hooks) {
     await click(
       screen.getByRole('checkbox', {
         name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'),
-      })
+      }),
     );
     await click(
       screen.getByRole('button', {
         name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'),
-      })
+      }),
     );
 
     // then

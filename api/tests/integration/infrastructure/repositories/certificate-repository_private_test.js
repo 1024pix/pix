@@ -305,7 +305,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
 
         const { certificationCourseId, assessmentResultId } = await _buildValidPrivateCertificate(
           privateCertificateData,
-          false
+          false,
         );
 
         const competenceMarks1 = domainBuilder.buildCompetenceMark({
@@ -416,7 +416,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
 
         const { certificationCourseId, assessmentResultId } = await _buildValidPrivateCertificate(
           privateCertificateData,
-          false
+          false,
         );
 
         const competenceMarks1 = domainBuilder.buildCompetenceMark({
@@ -1007,7 +1007,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
         partnerKey: key,
         acquired: true,
       });
-    }
+    },
   );
   await databaseBuilder.commit();
   return { certificationCourseId };

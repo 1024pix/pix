@@ -52,7 +52,7 @@ async function handleComplementaryCertificationsScoring({
           pixPlusChallenges,
           pixPlusAnswers,
           complementaryCertificationBadgeKey,
-          assessmentResult
+          assessmentResult,
         );
     } else {
       complementaryCertificationScoringWithComplementaryReferential =
@@ -78,7 +78,7 @@ function _buildComplementaryCertificationScoringWithReferential(
   challenges,
   answers,
   complementaryCertificationBadgeKey,
-  assessmentResult
+  assessmentResult,
 ) {
   const answerCollection = AnswerCollectionForScoring.from({ answers, challenges });
   const reproducibilityRate = ReproducibilityRate.from({

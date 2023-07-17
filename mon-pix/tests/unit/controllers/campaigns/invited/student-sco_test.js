@@ -50,7 +50,7 @@ module('Unit | Controller | campaigns/invited/student-sco', function (hooks) {
         sinon.assert.calledWith(
           controller.router.transitionTo,
           'campaigns.invited.fill-in-participant-external-id',
-          'AZERTY999'
+          'AZERTY999',
         );
         assert.ok(true);
       });

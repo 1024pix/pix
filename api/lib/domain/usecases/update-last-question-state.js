@@ -18,7 +18,7 @@ const updateLastQuestionState = async function ({
           challengeId: challengeId,
           assessmentId: assessmentId,
         },
-        'Trying to focusOut a non focused challenge'
+        'Trying to focusOut a non focused challenge',
       );
 
       return;
@@ -32,7 +32,7 @@ const updateLastQuestionState = async function ({
           challengeId: challengeId,
           assessmentId: assessmentId,
         },
-        'An event has been received on a answer that has already been answered'
+        'An event has been received on a answer that has already been answered',
       );
 
       return;

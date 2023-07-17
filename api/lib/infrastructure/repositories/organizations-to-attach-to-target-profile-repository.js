@@ -12,7 +12,7 @@ const attachOrganizations = async function (targetProfile) {
   const attachedOrganizationIds = await _createTargetProfileShares(rows);
 
   const duplicatedOrganizationIds = targetProfile.organizations.filter(
-    (organizationId) => !attachedOrganizationIds.includes(organizationId)
+    (organizationId) => !attachedOrganizationIds.includes(organizationId),
   );
 
   return { duplicatedIds: duplicatedOrganizationIds, attachedIds: attachedOrganizationIds };

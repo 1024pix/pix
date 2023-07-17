@@ -120,7 +120,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
         ];
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
         organizationLearnersXmlServiceStub.extractOrganizationLearnersInformationFromSIECLE.returns(
-          extractedOrganizationLearnersInformations
+          extractedOrganizationLearnersInformations,
         );
 
         const organizationLearnersToUpdate = [
@@ -147,11 +147,11 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
         ];
 
         expect(
-          organizationLearnersXmlServiceStub.extractOrganizationLearnersInformationFromSIECLE
+          organizationLearnersXmlServiceStub.extractOrganizationLearnersInformationFromSIECLE,
         ).to.have.been.calledWith(payload.path, { externalId: organizationUAI });
         expect(organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners).to.have.been.calledWith(
           organizationLearners,
-          organizationId
+          organizationId,
         );
         expect(organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners).to.not.throw();
       });
@@ -165,7 +165,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
       const extractedOrganizationLearnersInformations = [{ nationalStudentId: 'INE1' }];
       organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
       organizationLearnersXmlServiceStub.extractOrganizationLearnersInformationFromSIECLE.returns(
-        extractedOrganizationLearnersInformations
+        extractedOrganizationLearnersInformations,
       );
 
       organizationLearnerRepositoryStub.findByOrganizationId.resolves();
@@ -182,7 +182,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
 
       // then
       expect(
-        organizationLearnerRepositoryStub.disableAllOrganizationLearnersInOrganization
+        organizationLearnerRepositoryStub.disableAllOrganizationLearnersInOrganization,
       ).to.have.been.calledWithExactly({ domainTransaction, organizationId });
     });
   });

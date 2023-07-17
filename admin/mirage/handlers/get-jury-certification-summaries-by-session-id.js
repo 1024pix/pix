@@ -10,7 +10,7 @@ export function getPaginatedJuryCertificationSummariesBySessionId(schema, reques
 
   const json = this.serialize(
     { modelName: 'jury-certification-summary', models: paginatedJuryCertificationSummaries },
-    'jury-certification-summary'
+    'jury-certification-summary',
   );
 
   json.meta = {

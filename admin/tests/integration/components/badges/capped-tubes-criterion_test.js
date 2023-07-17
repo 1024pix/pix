@@ -170,7 +170,7 @@ module('Integration | Component | Badges::CappedTubes', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Badges::CappedTubesCriterion @criterion={{this.criterion}} @targetProfile={{this.targetProfile}} />`
+      hbs`<Badges::CappedTubesCriterion @criterion={{this.criterion}} @targetProfile={{this.targetProfile}} />`,
     );
     for (const button of screen.getAllByRole('button', { expanded: false })) {
       await click(button);
@@ -183,32 +183,32 @@ module('Integration | Component | Badges::CappedTubes', function (hooks) {
     const tubeRows = document.querySelectorAll('[aria-label="Sujet"]');
     assert.deepEqual(
       screen.getByTestId('toujourstriste').innerText,
-      "L'évalué doit obtenir 70% sur tous les sujets plafonnés par niveau suivants :"
+      "L'évalué doit obtenir 70% sur tous les sujets plafonnés par niveau suivants :",
     );
     assert.strictEqual(tubeRows.length, cappedTubesDTO.length);
     assert.strictEqual(
       tubeRows[0].cells[1].innerText,
-      'tube1Thematic1Competence1Area1 name : tube1Thematic1Competence1Area1 practicalTitle'
+      'tube1Thematic1Competence1Area1 name : tube1Thematic1Competence1Area1 practicalTitle',
     );
     assert.strictEqual(tubeRows[0].cells[2].innerText, '3');
     assert.strictEqual(
       tubeRows[1].cells[0].innerText,
-      'tube2Thematic1Competence1Area1 name : tube2Thematic1Competence1Area1 practicalTitle'
+      'tube2Thematic1Competence1Area1 name : tube2Thematic1Competence1Area1 practicalTitle',
     );
     assert.strictEqual(tubeRows[1].cells[1].innerText, '1');
     assert.strictEqual(
       tubeRows[2].cells[1].innerText,
-      'tube1Thematic2Competence1Area1 name : tube1Thematic2Competence1Area1 practicalTitle'
+      'tube1Thematic2Competence1Area1 name : tube1Thematic2Competence1Area1 practicalTitle',
     );
     assert.strictEqual(tubeRows[2].cells[2].innerText, '5');
     assert.strictEqual(
       tubeRows[3].cells[1].innerText,
-      'tube1Thematic1Competence2Area1 name : tube1Thematic1Competence2Area1 practicalTitle'
+      'tube1Thematic1Competence2Area1 name : tube1Thematic1Competence2Area1 practicalTitle',
     );
     assert.strictEqual(tubeRows[3].cells[2].innerText, '4');
     assert.strictEqual(
       tubeRows[4].cells[1].innerText,
-      'tube1Thematic1Competence1Area2 name : tube1Thematic1Competence1Area2 practicalTitle'
+      'tube1Thematic1Competence1Area2 name : tube1Thematic1Competence1Area2 practicalTitle',
     );
     assert.strictEqual(tubeRows[4].cells[2].innerText, '7');
   });

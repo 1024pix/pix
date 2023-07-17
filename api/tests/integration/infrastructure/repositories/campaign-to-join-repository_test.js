@@ -32,7 +32,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       expect(actualCampaign.customLandingPageText).to.equal(expectedCampaign.customLandingPageText);
       expect(actualCampaign.externalIdHelpImageUrl).to.equal(expectedCampaign.externalIdHelpImageUrl);
       expect(actualCampaign.alternativeTextToExternalIdHelpImage).to.equal(
-        expectedCampaign.alternativeTextToExternalIdHelpImage
+        expectedCampaign.alternativeTextToExternalIdHelpImage,
       );
       expect(actualCampaign.archivedAt).to.equal(expectedCampaign.archivedAt);
       expect(actualCampaign.type).to.equal(expectedCampaign.type);
@@ -92,7 +92,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       expect(actualCampaign.customLandingPageText).to.equal(expectedCampaign.customLandingPageText);
       expect(actualCampaign.externalIdHelpImageUrl).to.equal(expectedCampaign.externalIdHelpImageUrl);
       expect(actualCampaign.alternativeTextToExternalIdHelpImage).to.equal(
-        expectedCampaign.alternativeTextToExternalIdHelpImage
+        expectedCampaign.alternativeTextToExternalIdHelpImage,
       );
       expect(actualCampaign.archivedAt).to.equal(expectedCampaign.archivedAt);
       expect(actualCampaign.type).to.equal(expectedCampaign.type);

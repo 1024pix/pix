@@ -22,7 +22,7 @@ module('Unit | Component | enrolled-candidates', function (hooks) {
       const certificationCandidateData = _buildCandidate({});
       const savableCandidate = _buildCandidate(
         { ...certificationCandidateData },
-        { save: sinon.stub().resolves(), deleteRecord: sinon.stub().returns() }
+        { save: sinon.stub().resolves(), deleteRecord: sinon.stub().returns() },
       );
       const store = { createRecord: sinon.stub().returns(savableCandidate) };
 
@@ -53,7 +53,7 @@ module('Unit | Component | enrolled-candidates', function (hooks) {
       const certificationCandidateData = _buildCandidate({});
       const savableCandidate = _buildCandidate(
         { ...certificationCandidateData },
-        { save: sinon.stub().resolves(), deleteRecord: sinon.stub() }
+        { save: sinon.stub().resolves(), deleteRecord: sinon.stub() },
       );
       const store = { createRecord: sinon.stub().returns(savableCandidate) };
 

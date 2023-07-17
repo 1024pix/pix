@@ -39,7 +39,7 @@ module('Acceptance | Campaign Details', function (hooks) {
       // when
       await visitScreen('/campagnes/1');
       await click(
-        within(document.querySelector('main')).getByRole('link', { name: this.intl.t('navigation.main.campaigns') })
+        within(document.querySelector('main')).getByRole('link', { name: this.intl.t('navigation.main.campaigns') }),
       );
 
       // then

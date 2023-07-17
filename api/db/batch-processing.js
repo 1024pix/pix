@@ -21,7 +21,7 @@ function batch(knex, elementsToUpdate, treatment) {
         logger.info(
           `---- Lot ${batchesDone} : ${results.length} processed - (total: ${countOfBatches} lots, ${
             (batchesDone / countOfBatches) * 100
-          }%)`
+          }%)`,
         );
       })
       .then(() => _innerTreatment(knex, remainingElementsToUpdate, countOfBatches, batchesDone + 1));

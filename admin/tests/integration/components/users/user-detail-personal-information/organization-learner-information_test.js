@@ -27,7 +27,7 @@ module(
             hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
   @user={{this.user}}
   @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
-/>`
+/>`,
           );
 
           // then
@@ -46,7 +46,7 @@ module(
           hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
   @user={{this.user}}
   @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
-/>`
+/>`,
         );
 
         // then
@@ -66,7 +66,7 @@ module(
           hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
   @user={{this.user}}
   @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
-/>`
+/>`,
         );
 
         // then
@@ -88,7 +88,7 @@ module(
           hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
   @user={{this.user}}
   @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
-/>`
+/>`,
         );
 
         // then
@@ -108,7 +108,7 @@ module(
           hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
   @user={{this.user}}
   @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
-/>`
+/>`,
         );
 
         // then
@@ -128,7 +128,7 @@ module(
           hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
   @user={{this.user}}
   @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
-/>`
+/>`,
         );
 
         // then
@@ -149,7 +149,7 @@ module(
           hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
   @user={{this.user}}
   @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
-/>`
+/>`,
         );
 
         // then
@@ -170,7 +170,7 @@ module(
           hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
   @user={{this.user}}
   @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
-/>`
+/>`,
         );
 
         // then
@@ -190,7 +190,7 @@ module(
           hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
   @user={{this.user}}
   @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
-/>`
+/>`,
         );
 
         // then
@@ -211,7 +211,7 @@ module(
           hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
   @user={{this.user}}
   @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
-/>`
+/>`,
         );
         await clickByName('Dissocier');
 
@@ -234,7 +234,7 @@ module(
           hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation
   @user={{this.user}}
   @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
-/>`
+/>`,
         );
 
         // then
@@ -255,12 +255,12 @@ module(
 
         // When
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} />`,
         );
 
         // Then
         assert.dom(screen.queryByRole('button', { name: 'Dissocier' })).doesNotExist();
       });
     });
-  }
+  },
 );

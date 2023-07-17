@@ -95,6 +95,6 @@ function _getCertificationResultsAfterJuryUpdate(competences) {
       }
       return data;
     },
-    { count: 0, good: 0, jury: false }
+    { count: 0, good: 0, jury: false },
   );
 }

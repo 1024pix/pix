@@ -18,13 +18,13 @@ export default class AuthenticationMethod extends Component {
 
   get hasPixAuthenticationMethod() {
     return this.args.user.authenticationMethods.any(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX',
     );
   }
 
   get shouldChangePassword() {
     return !!this.args.user.authenticationMethods.find(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX',
     )?.authenticationComplement?.shouldChangePassword;
   }
 
@@ -32,7 +32,7 @@ export default class AuthenticationMethod extends Component {
     return (
       this.args.user.email &&
       this.args.user.authenticationMethods.any(
-        (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+        (authenticationMethod) => authenticationMethod.identityProvider === 'PIX',
       )
     );
   }
@@ -41,14 +41,14 @@ export default class AuthenticationMethod extends Component {
     return (
       this.args.user.username &&
       this.args.user.authenticationMethods.any(
-        (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+        (authenticationMethod) => authenticationMethod.identityProvider === 'PIX',
       )
     );
   }
 
   get hasGarAuthenticationMethod() {
     return this.args.user.authenticationMethods.any(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR'
+      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR',
     );
   }
 
@@ -79,7 +79,7 @@ export default class AuthenticationMethod extends Component {
   get userOidcAuthenticationMethods() {
     return this.oidcIdentityProviders.list.map((oidcIdentityProvider) => {
       const userHasThisOidcAuthenticationMethod = this.args.user.authenticationMethods.any(
-        (authenticationMethod) => authenticationMethod.identityProvider === oidcIdentityProvider.code
+        (authenticationMethod) => authenticationMethod.identityProvider === oidcIdentityProvider.code,
       );
 
       return {
@@ -115,7 +115,7 @@ export default class AuthenticationMethod extends Component {
     } catch (response) {
       const errors = response.errors;
       const emailAlreadyExistingError = errors.any(
-        (error) => error.status === '400' && error.code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS'
+        (error) => error.status === '400' && error.code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS',
       );
 
       if (emailAlreadyExistingError) {

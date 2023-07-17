@@ -504,7 +504,7 @@ describe('Unit | Router | user-router', function () {
       // then
       expect(result.statusCode).to.equal(422);
       expect(result.result.errors[0].detail).to.equal(
-        '"data.attributes.code" with value "9" fails to match the required pattern: /^[1-9]{6}$/'
+        '"data.attributes.code" with value "9" fails to match the required pattern: /^[1-9]{6}$/',
       );
     });
   });
@@ -578,7 +578,7 @@ describe('Unit | Router | user-router', function () {
         // when
         const response = await httpTestServer.request(
           'GET',
-          '/api/admin/users?firstName=Bruce&lastName=Wayne&email=batman@gotham.city&page=3&pageSize=25'
+          '/api/admin/users?firstName=Bruce&lastName=Wayne&email=batman@gotham.city&page=3&pageSize=25',
         );
 
         // then
@@ -593,7 +593,7 @@ describe('Unit | Router | user-router', function () {
           h
             .response({ errors: new Error('') })
             .code(403)
-            .takeover()
+            .takeover(),
         );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -601,7 +601,7 @@ describe('Unit | Router | user-router', function () {
         // when
         const response = await httpTestServer.request(
           'GET',
-          '/api/admin/users?firstName=Bruce&lastName=Wayne&email=batman@gotham.city&page=3&pageSize=25'
+          '/api/admin/users?firstName=Bruce&lastName=Wayne&email=batman@gotham.city&page=3&pageSize=25',
         );
 
         // then
@@ -633,7 +633,7 @@ describe('Unit | Router | user-router', function () {
           h
             .response({ errors: new Error('') })
             .code(403)
-            .takeover()
+            .takeover(),
         );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -850,7 +850,7 @@ describe('Unit | Router | user-router', function () {
         const { statusCode } = await httpTestServer.request(
           'POST',
           '/api/admin/users/1/add-pix-authentication-method',
-          payload
+          payload,
         );
 
         // then
@@ -877,7 +877,7 @@ describe('Unit | Router | user-router', function () {
         const { statusCode } = await httpTestServer.request(
           'POST',
           '/api/admin/users/1/add-pix-authentication-method',
-          payload
+          payload,
         );
 
         // then
@@ -895,7 +895,7 @@ describe('Unit | Router | user-router', function () {
         // when
         const { statusCode, payload } = await httpTestServer.request(
           'POST',
-          '/api/admin/users/invalid-id/add-pix-authentication-method'
+          '/api/admin/users/invalid-id/add-pix-authentication-method',
         );
 
         // then
@@ -920,7 +920,7 @@ describe('Unit | Router | user-router', function () {
         const result = await httpTestServer.request(
           'POST',
           '/api/admin/users/1/add-pix-authentication-method',
-          payload
+          payload,
         );
 
         // then
@@ -1095,7 +1095,7 @@ describe('Unit | Router | user-router', function () {
           const { statusCode } = await httpTestServer.request(
             'POST',
             '/api/admin/users/1/authentication-methods/1',
-            payload
+            payload,
           );
 
           // then
@@ -1129,7 +1129,7 @@ describe('Unit | Router | user-router', function () {
           const { statusCode } = await httpTestServer.request(
             'POST',
             '/api/admin/users/1/authentication-methods/1',
-            payload
+            payload,
           );
 
           // then
@@ -1148,7 +1148,7 @@ describe('Unit | Router | user-router', function () {
         // when
         const { statusCode, payload } = await httpTestServer.request(
           'POST',
-          '/api/admin/users/invalid-id/authentication-methods/1'
+          '/api/admin/users/invalid-id/authentication-methods/1',
         );
 
         // then
@@ -1164,7 +1164,7 @@ describe('Unit | Router | user-router', function () {
         // when
         const { statusCode, payload } = await httpTestServer.request(
           'POST',
-          '/api/admin/users/1/authentication-methods/invalid-id'
+          '/api/admin/users/1/authentication-methods/invalid-id',
         );
 
         // then
@@ -1189,13 +1189,13 @@ describe('Unit | Router | user-router', function () {
         const { statusCode, result } = await httpTestServer.request(
           'POST',
           '/api/admin/users/1/authentication-methods/1',
-          payload
+          payload,
         );
 
         // then
         expect(statusCode).to.equal(400);
         expect(result.errors[0].detail).to.equal(
-          '"data.attributes.identity-provider" must be one of [GAR, POLE_EMPLOI, CNAV]'
+          '"data.attributes.identity-provider" must be one of [GAR, POLE_EMPLOI, CNAV]',
         );
       });
       it('returns 400 when the payload contains an invalid user id', async function () {
@@ -1215,7 +1215,7 @@ describe('Unit | Router | user-router', function () {
         const { statusCode, result } = await httpTestServer.request(
           'POST',
           '/api/admin/users/1/authentication-methods/1',
-          payload
+          payload,
         );
 
         // then
@@ -1277,7 +1277,7 @@ describe('Unit | Router | user-router', function () {
           h
             .response({ errors: new Error('') })
             .code(403)
-            .takeover()
+            .takeover(),
         );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);

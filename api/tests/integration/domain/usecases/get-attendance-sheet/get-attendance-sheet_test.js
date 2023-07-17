@@ -179,7 +179,7 @@ function _createCertificationCandidatesScoForSession(sessionId) {
     (candidate) => {
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner(candidate).id;
       databaseBuilder.factory.buildCertificationCandidate({ ...candidate, organizationLearnerId });
-    }
+    },
   );
 }
 
@@ -221,6 +221,6 @@ function _createCertificationCandidatesForSession(sessionId) {
     ],
     (candidate) => {
       databaseBuilder.factory.buildCertificationCandidate(candidate);
-    }
+    },
   );
 }

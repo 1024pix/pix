@@ -49,7 +49,7 @@ module('Unit | Component | session-clea-results-download', function (hooks) {
         component.fileSaver.save.calledWith({
           token,
           url: `/api/sessions/${component.args.session.id}/certified-clea-candidate-data`,
-        })
+        }),
       );
     });
     test('should call the notifications service with the error message', async function (assert) {
@@ -87,7 +87,7 @@ module('Unit | Component | session-clea-results-download', function (hooks) {
 
       // then
       assert.ok(
-        component.notifications.error.calledWith(this.intl.t('pages.sessions.detail.panel-clea.error-message'))
+        component.notifications.error.calledWith(this.intl.t('pages.sessions.detail.panel-clea.error-message')),
       );
     });
   });

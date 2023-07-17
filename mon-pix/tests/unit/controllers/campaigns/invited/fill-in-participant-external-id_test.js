@@ -38,7 +38,7 @@ module('Unit | Controller | Campaigns | Invited | FillInParticipantExternalId', 
       sinon.assert.calledWithExactly(
         controller.router.transitionTo,
         'campaigns.campaign-landing-page',
-        controller.get('model.code')
+        controller.get('model.code'),
       );
       assert.ok(true);
     });

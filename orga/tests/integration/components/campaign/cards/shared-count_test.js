@@ -11,7 +11,7 @@ module('Integration | Component | Campaign::Cards::SharedCount', function (hooks
       this.sharedCount = 10;
 
       const screen = await render(
-        hbs`<Campaign::Cards::SharedCount @value={{this.sharedCount}} @isTypeAssessment={{true}} />`
+        hbs`<Campaign::Cards::SharedCount @value={{this.sharedCount}} @isTypeAssessment={{true}} />`,
       );
 
       assert.dom(screen.getByText(this.intl.t('cards.submitted-count.title'))).exists();
@@ -24,7 +24,7 @@ module('Integration | Component | Campaign::Cards::SharedCount', function (hooks
       this.sharedCount = 10;
 
       const screen = await render(
-        hbs`<Campaign::Cards::SharedCount @value={{this.sharedCount}} @isTypeAssessment={{false}} />`
+        hbs`<Campaign::Cards::SharedCount @value={{this.sharedCount}} @isTypeAssessment={{false}} />`,
       );
 
       assert.dom(screen.getByText(this.intl.t('cards.submitted-count.title-profiles'))).exists();

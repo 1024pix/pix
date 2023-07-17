@@ -42,7 +42,7 @@ function usernameObfuscation(username) {
   const parts = _.split(username, USERNAME_SEPARATOR, TWO_PARTS);
   const name = _.last(parts);
   return `${_.first(username)}${ASTERISK_OBFUSCATION}${USERNAME_SEPARATOR}${_.first(
-    name
+    name,
   )}${ASTERISK_OBFUSCATION}${_.last(name)}`;
 }
 

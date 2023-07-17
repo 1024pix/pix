@@ -6,13 +6,13 @@ export default class LastParticipationDateTooltip extends Component {
 
   get campaignTypeLabel() {
     return this.intl.t(
-      `pages.participants-list.latest-participation-information-tooltip.campaign-${this.args.campaignType}-type`
+      `pages.participants-list.latest-participation-information-tooltip.campaign-${this.args.campaignType}-type`,
     );
   }
 
   get participationStatusLabel() {
     return this.intl.t(
-      `pages.participants-list.latest-participation-information-tooltip.participation-${this.args.participationStatus}-status`
+      `pages.participants-list.latest-participation-information-tooltip.participation-${this.args.participationStatus}-status`,
     );
   }
 }

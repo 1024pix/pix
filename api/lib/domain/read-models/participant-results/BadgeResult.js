@@ -16,7 +16,7 @@ class BadgeResult {
     this.acquisitionPercentage = badge.acquisitionPercentage;
 
     this.skillSetResults = badge.badgeCompetences.map((badgeCompetence) =>
-      _buildSkillSetResult(badgeCompetence, knowledgeElements)
+      _buildSkillSetResult(badgeCompetence, knowledgeElements),
     );
   }
 }

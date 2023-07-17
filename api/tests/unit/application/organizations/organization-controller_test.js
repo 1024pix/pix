@@ -209,7 +209,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(dependencies.organizationSerializer.serialize).to.have.been.calledWithExactly(
         expectedResults,
-        expectedPagination
+        expectedPagination,
       );
     });
 
@@ -365,7 +365,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(dependencies.campaignReportSerializer.serialize).to.have.been.calledWithExactly(
         expectedResults,
-        expectedPagination
+        expectedPagination,
       );
     });
   });
@@ -1068,7 +1068,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(usecases.findPendingOrganizationInvitations).to.have.been.calledWith({ organizationId: organization.id });
       expect(dependencies.organizationInvitationSerializer.serialize).to.have.been.calledWith(
-        resolvedOrganizationInvitations
+        resolvedOrganizationInvitations,
       );
       expect(response).to.deep.equal(serializedOrganizationInvitations);
     });
@@ -1215,7 +1215,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const response = await organizationController.downloadCertificationAttestationsForDivision(
         request,
         hFake,
-        dependencies
+        dependencies,
       );
 
       // then
@@ -1350,7 +1350,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const response = await organizationController.getPaginatedParticipantsForAnOrganization(
         request,
         hFake,
-        dependencies
+        dependencies,
       );
 
       // then

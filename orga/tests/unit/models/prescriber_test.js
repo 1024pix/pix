@@ -26,7 +26,7 @@ module('Unit | Model | prescriber', function (hooks) {
         store.createRecord('organization', {
           name: 'Willow school',
           identityProviderForCampaigns: 'GAR',
-        })
+        }),
       );
       const userOrgaSettings = run(() => store.createRecord('userOrgaSetting', { organization }));
       const membership = run(() => store.createRecord('membership', { organizationRole: 'MEMBER', organization }));
@@ -72,7 +72,7 @@ module('Unit | Model | prescriber', function (hooks) {
       const otherOrganization = run(() => store.createRecord('organization', { id: 123, name: 'Tanglewood school' }));
       const userOrgaSettings = run(() => store.createRecord('userOrgaSetting', { organization: currentOrganization }));
       const membership = run(() =>
-        store.createRecord('membership', { organizationRole: 'MEMBER', currentOrganization })
+        store.createRecord('membership', { organizationRole: 'MEMBER', currentOrganization }),
       );
       const membership2 = run(() => store.createRecord('membership', { organizationRole: 'ADMIN', otherOrganization }));
       const memberships = [membership, membership2];

@@ -40,7 +40,7 @@ const authenticateApplication = async function ({ clientId, clientSecret, scope,
     application.source,
     scope,
     jwtConfig[application.source].secret,
-    jwtConfig[application.source].tokenLifespan
+    jwtConfig[application.source].tokenLifespan,
   );
 };
 

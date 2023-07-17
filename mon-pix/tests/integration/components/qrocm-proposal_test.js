@@ -19,7 +19,7 @@ module('Integration | Component | QROCm proposal', function (hooks) {
       this.set('answersValue', { potato: null });
       this.set('onChangeSelect', onChangeSelectStub);
       const screen = await render(
-        hbs`<QrocmProposal @proposals={{this.proposals}} @answersValue={{this.answersValue}} @onChangeSelect={{this.onChangeSelect}}/>`
+        hbs`<QrocmProposal @proposals={{this.proposals}} @answersValue={{this.answersValue}} @onChangeSelect={{this.onChangeSelect}}/>`,
       );
 
       // when
@@ -102,7 +102,7 @@ module('Integration | Component | QROCm proposal', function (hooks) {
 
             // when
             const screen = await render(
-              hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} @answerValue={{this.answerValue}} />`
+              hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} @answerValue={{this.answerValue}} />`,
             );
 
             // then
@@ -121,7 +121,7 @@ module('Integration | Component | QROCm proposal', function (hooks) {
 
             // when
             const screen = await render(
-              hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} @answerValue={{this.answerValue}} />`
+              hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} @answerValue={{this.answerValue}} />`,
             );
 
             // then
@@ -140,7 +140,7 @@ module('Integration | Component | QROCm proposal', function (hooks) {
 
             // when
             const screen = await render(
-              hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} @answerValue={{this.answerValue}} />`
+              hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} @answerValue={{this.answerValue}} />`,
             );
 
             // then

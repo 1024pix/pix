@@ -51,7 +51,7 @@ export default class Organizations extends Component {
 
       if (hasDuplicatedOrgnizations) {
         message.push(
-          `Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : ${duplicatedIds.join(', ')}`
+          `Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : ${duplicatedIds.join(', ')}`,
         );
       }
 

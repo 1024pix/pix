@@ -159,7 +159,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       }
 
       return certificationCandidate;
-    }
+    },
   );
 }
 
@@ -170,7 +170,7 @@ function _hasMoreThanOneComplementarySubscription({
   hasPixPlusEdu2ndDegre,
 }) {
   const isTrueCount = [hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre].filter(
-    (complementaryCertificationSubscription) => complementaryCertificationSubscription
+    (complementaryCertificationSubscription) => complementaryCertificationSubscription,
   ).length;
   return isTrueCount > 1;
 }
@@ -221,22 +221,22 @@ async function _buildComplementaryCertificationsForLine({
   const complementaryCertificationsInDB = await complementaryCertificationRepository.findAll();
   if (hasCleaNumerique) {
     return complementaryCertificationsInDB.find(
-      (complementaryCertification) => complementaryCertification.key === CLEA
+      (complementaryCertification) => complementaryCertification.key === CLEA,
     );
   }
   if (hasPixPlusDroit) {
     return complementaryCertificationsInDB.find(
-      (complementaryCertification) => complementaryCertification.key === PIX_PLUS_DROIT
+      (complementaryCertification) => complementaryCertification.key === PIX_PLUS_DROIT,
     );
   }
   if (hasPixPlusEdu1erDegre) {
     return complementaryCertificationsInDB.find(
-      (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_1ER_DEGRE
+      (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_1ER_DEGRE,
     );
   }
   if (hasPixPlusEdu2ndDegre) {
     return complementaryCertificationsInDB.find(
-      (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_2ND_DEGRE
+      (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_2ND_DEGRE,
     );
   }
 }

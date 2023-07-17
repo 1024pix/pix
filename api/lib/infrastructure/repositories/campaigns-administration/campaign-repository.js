@@ -13,7 +13,7 @@ const createCampaigns = function (campaignsToCreate) {
     campaignsToCreate.map((campaignToCreate) => ({
       ...campaignToCreate,
       createdAt: new Date(),
-    }))
+    })),
   );
 };
 

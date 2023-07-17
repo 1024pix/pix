@@ -24,7 +24,7 @@ module('Acceptance | Team | Add member', function (hooks) {
       const screen = await visit('/equipe');
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail professionnelle de l'agent Pix à rattacher" }),
-        'chris@to.phe'
+        'chris@to.phe',
       );
       await click(screen.getByRole('button', { name: 'Donner accès à un agent Pix' }));
 
@@ -57,7 +57,7 @@ module('Acceptance | Team | Add member', function (hooks) {
       const screen = await visit('/equipe');
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail professionnelle de l'agent Pix à rattacher" }),
-        'marie.tim@example.net'
+        'marie.tim@example.net',
       );
       await click(screen.getByRole('button', { name: 'Donner accès à un agent Pix' }));
 
@@ -83,15 +83,15 @@ module('Acceptance | Team | Add member', function (hooks) {
                   title: 'User not found',
                 },
               ],
-            }
-          )
+            },
+          ),
       );
 
       // when
       const screen = await visit('/equipe');
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail professionnelle de l'agent Pix à rattacher" }),
-        'marie.tim@example.net'
+        'marie.tim@example.net',
       );
       await click(screen.getByRole('button', { name: 'Donner accès à un agent Pix' }));
 

@@ -70,7 +70,7 @@ class JuryCertification {
       (competenceMarkDTO) =>
         new CompetenceMark({
           ...competenceMarkDTO,
-        })
+        }),
     );
 
     return new JuryCertification({

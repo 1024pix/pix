@@ -101,7 +101,7 @@ export default class ImportController extends Controller {
           sessionsCount: this.sessionsCount,
           sessionsWithoutCandidatesCount: this.sessionsWithoutCandidatesCount,
           candidatesCount: this.candidatesCount,
-        })
+        }),
       );
     } catch (error) {
       this.isImportStepOne = true;

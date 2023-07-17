@@ -14,7 +14,7 @@ export default class Sitemap extends Route {
         (scorecard = {
           competenceId: scorecard.competenceId,
           name: scorecard.name,
-        })
+        }),
     );
 
     return {

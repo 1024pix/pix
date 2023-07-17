@@ -88,12 +88,12 @@ async function _getSessionCertificationCandidateByPersonalInfo({
   });
   if (_.isEmpty(matchingSessionCandidates)) {
     throw new CertificationCandidateByPersonalInfoNotFoundError(
-      'No certification candidate matches with the provided personal info'
+      'No certification candidate matches with the provided personal info',
     );
   }
   if (matchingSessionCandidates.length > 1) {
     throw new CertificationCandidateByPersonalInfoTooManyMatchesError(
-      'More than one candidate match with the provided personal info'
+      'More than one candidate match with the provided personal info',
     );
   }
 
@@ -130,7 +130,7 @@ async function _linkUserToCandidate({ sessionId, userId, certificationCandidate,
   });
   if (existingCandidateLinkedToUser) {
     throw new UserAlreadyLinkedToCandidateInSessionError(
-      'The user is already linked to a candidate in the given session'
+      'The user is already linked to a candidate in the given session',
     );
   }
 

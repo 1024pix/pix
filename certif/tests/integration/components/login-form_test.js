@@ -118,7 +118,7 @@ module('Integration | Component | login-form', function (hooks) {
           const nodeHasText = hasText(node);
           const childrenDontHaveText = Array.from(node.children).every((child) => !hasText(child));
           return nodeHasText && childrenDontHaveText;
-        })
+        }),
       )
       .exists();
   });
@@ -208,7 +208,7 @@ module('Integration | Component | login-form', function (hooks) {
             return (
               content === 'Cette invitation n’est plus valide.Contactez l’administrateur de votre espace Pix Certif.'
             );
-          })
+          }),
         )
         .exists();
     });
@@ -227,7 +227,7 @@ module('Integration | Component | login-form', function (hooks) {
               content ===
               'Cette invitation a déjà été acceptée.Connectez-vous ou contactez l’administrateur de votre espace Pix Certif.'
             );
-          })
+          }),
         )
         .exists();
     });

@@ -266,7 +266,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               domainBuilder.buildCertificationCandidate({
                 ...foundCertificationCandidate,
                 authorizedToStart: false,
-              })
+              }),
             );
           });
         });
@@ -285,7 +285,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   userId: 2,
                   sessionId: 1,
                   authorizedToStart: true,
-                })
+                }),
               );
 
               certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
@@ -332,7 +332,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     userId: 2,
                     sessionId: 1,
                     authorizedToStart: true,
-                  })
+                  }),
                 );
 
                 certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
@@ -426,7 +426,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   maxReachableLevelOnCertificationDate: 5,
                 });
                 const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                  certificationCourseToSave.toDTO()
+                  certificationCourseToSave.toDTO(),
                 );
                 certificationCourseRepository.save
                   .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
@@ -516,7 +516,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   version: 3,
                 });
                 const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                  certificationCourseToSave.toDTO()
+                  certificationCourseToSave.toDTO(),
                 );
                 certificationCourseRepository.save
                   .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
@@ -636,7 +636,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       });
 
                       const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                        certificationCourseToSave.toDTO()
+                        certificationCourseToSave.toDTO(),
                       );
                       savedCertificationCourse._complementaryCertificationCourses = [
                         {
@@ -761,7 +761,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       });
 
                       const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                        certificationCourseToSave.toDTO()
+                        certificationCourseToSave.toDTO(),
                       );
                       savedCertificationCourse._complementaryCertificationCourses = [
                         {
@@ -864,7 +864,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         });
 
                         const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                          certificationCourseToSave.toDTO()
+                          certificationCourseToSave.toDTO(),
                         );
                         certificationCourseRepository.save
                           .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
@@ -979,7 +979,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         });
 
                         const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                          certificationCourseToSave.toDTO()
+                          certificationCourseToSave.toDTO(),
                         );
                         savedCertificationCourse._complementaryCertificationCourses = [
                           {
@@ -1091,7 +1091,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       });
 
                       const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                        certificationCourseToSave.toDTO()
+                        certificationCourseToSave.toDTO(),
                       );
                       certificationCourseRepository.save
                         .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
@@ -1122,9 +1122,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                       // then
                       expect(result.certificationCourse._complementaryCertificationCourses).to.be.empty;
-                      expect(
-                        certificationChallengesService.pickCertificationChallengesForPixPlus
-                      ).not.to.have.been.called;
+                      expect(certificationChallengesService.pickCertificationChallengesForPixPlus).not.to.have.been
+                        .called;
                     });
                   });
                 });
@@ -1188,7 +1187,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     });
 
                     const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                      certificationCourseToSave.toDTO()
+                      certificationCourseToSave.toDTO(),
                     );
                     certificationCourseRepository.save
                       .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
@@ -1219,9 +1218,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                     // then
                     expect(result.certificationCourse._challenges).to.deep.equal([challenge1, challenge2]);
-                    expect(
-                      certificationChallengesService.pickCertificationChallengesForPixPlus
-                    ).not.to.have.been.called;
+                    expect(certificationChallengesService.pickCertificationChallengesForPixPlus).not.to.have.been
+                      .called;
                   });
                 });
               });

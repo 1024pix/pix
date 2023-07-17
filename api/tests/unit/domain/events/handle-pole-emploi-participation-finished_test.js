@@ -121,7 +121,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
         assessmentRepository.get.withArgs(assessmentId).resolves(
           domainBuilder.buildAssessment({
             updatedAt: new Date('2020-01-03'),
-          })
+          }),
         );
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
         userRepository.get

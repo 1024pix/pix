@@ -13,7 +13,7 @@ function _toDomain(authenticationMethodDTO) {
   }
   const authenticationComplement = _toAuthenticationComplement(
     authenticationMethodDTO.identityProvider,
-    authenticationMethodDTO.authenticationComplement
+    authenticationMethodDTO.authenticationComplement,
   );
   return new AuthenticationMethod({
     ...authenticationMethodDTO,
@@ -70,7 +70,7 @@ const create = async function ({ authenticationMethod, domainTransaction = Domai
   } catch (err) {
     if (knexUtils.isUniqConstraintViolated(err)) {
       throw new AlreadyExistingEntityError(
-        `An authentication method already exists for the user ID ${authenticationMethod.userId} and the externalIdentifier ${authenticationMethod.externalIdentifier}.`
+        `An authentication method already exists for the user ID ${authenticationMethod.userId} and the externalIdentifier ${authenticationMethod.externalIdentifier}.`,
       );
     }
 
@@ -176,7 +176,7 @@ const removeAllAuthenticationMethodsByUserId = async function ({
 
 const updateChangedPassword = async function (
   { userId, hashedPassword },
-  domainTransaction = DomainTransaction.emptyTransaction()
+  domainTransaction = DomainTransaction.emptyTransaction(),
 ) {
   const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
     password: hashedPassword,
@@ -255,7 +255,7 @@ const updateExternalIdentifierByUserIdAndIdentityProvider = async function ({
 
   if (!authenticationMethodDTO) {
     throw new AuthenticationMethodNotFoundError(
-      `No rows updated for authentication method of type ${identityProvider} for user ${userId}.`
+      `No rows updated for authentication method of type ${identityProvider} for user ${userId}.`,
     );
   }
   return _toDomain(authenticationMethodDTO);
@@ -273,7 +273,7 @@ const updateAuthenticationComplementByUserIdAndIdentityProvider = async function
 
   if (!authenticationMethodDTO) {
     throw new AuthenticationMethodNotFoundError(
-      `No rows updated for authentication method of type ${identityProvider} for user ${userId}.`
+      `No rows updated for authentication method of type ${identityProvider} for user ${userId}.`,
     );
   }
   return _toDomain(authenticationMethodDTO);

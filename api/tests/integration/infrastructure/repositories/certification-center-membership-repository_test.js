@@ -37,7 +37,7 @@ describe('Integration | Repository | Certification Center Membership', function 
       // then
       const countCertificationCenterMembershipsAfterCreate = await BookshelfCertificationCenterMembership.count();
       expect(countCertificationCenterMembershipsAfterCreate).to.equal(
-        countCertificationCenterMembershipsBeforeCreate + 1
+        countCertificationCenterMembershipsBeforeCreate + 1,
       );
     });
 
@@ -65,7 +65,7 @@ describe('Integration | Repository | Certification Center Membership', function 
         // then
         const countCertificationCenterMembershipsAfterCreate = await BookshelfCertificationCenterMembership.count();
         expect(countCertificationCenterMembershipsAfterCreate).to.equal(
-          countCertificationCenterMembershipsBeforeCreate + 1
+          countCertificationCenterMembershipsBeforeCreate + 1,
         );
       });
     });

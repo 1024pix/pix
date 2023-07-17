@@ -27,10 +27,10 @@ describe('Unit | UseCase | find-latest-user-campaign-participations', function (
   it('should return user with his campaign participations', async function () {
     // given
     const campaignParticipation1 = campaignParticipationRepository.findLatestOngoingByUserId.resolves(
-      domainBuilder.buildCampaignParticipation({ userId })
+      domainBuilder.buildCampaignParticipation({ userId }),
     );
     const campaignParticipation2 = campaignParticipationRepository.findLatestOngoingByUserId.resolves(
-      domainBuilder.buildCampaignParticipation({ userId })
+      domainBuilder.buildCampaignParticipation({ userId }),
     );
     campaignParticipationRepository.findLatestOngoingByUserId.resolves([
       campaignParticipation1,

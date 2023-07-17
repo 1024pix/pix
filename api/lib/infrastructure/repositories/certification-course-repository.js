@@ -21,7 +21,7 @@ async function save({ certificationCourse, domainTransaction = DomainTransaction
   const options = { transacting: domainTransaction.knexTransaction };
   const savedCertificationCourseDTO = await new BookshelfCertificationCourse(certificationCourseToSaveDTO).save(
     null,
-    options
+    options,
   );
 
   const complementaryCertificationCourses = certificationCourse
@@ -55,7 +55,7 @@ async function save({ certificationCourse, domainTransaction = DomainTransaction
 async function changeCompletionDate(
   certificationCourseId,
   completedAt = null,
-  domainTransaction = DomainTransaction.emptyTransaction()
+  domainTransaction = DomainTransaction.emptyTransaction(),
 ) {
   const certificationCourseBookshelf = new BookshelfCertificationCourse({ id: certificationCourseId, completedAt });
   const savedCertificationCourse = await certificationCourseBookshelf.save(null, {
@@ -137,7 +137,7 @@ function toDomain(bookshelfCertificationCourse) {
 
   const assessment = bookshelfToDomainConverter.buildDomainObject(
     BookshelfAssessment,
-    bookshelfCertificationCourse.related('assessment')
+    bookshelfCertificationCourse.related('assessment'),
   );
   const dbCertificationCourse = bookshelfCertificationCourse.toJSON();
   return new CertificationCourse({

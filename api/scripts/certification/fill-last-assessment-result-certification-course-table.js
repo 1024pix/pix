@@ -59,7 +59,7 @@ function _findEligibleCertifications() {
       knex
         .select(1)
         .from({ 'last-assessment-results': ASSOC_TABLE_NAME })
-        .whereRaw('"certification-courses".id = "certificationCourseId"')
+        .whereRaw('"certification-courses".id = "certificationCourseId"'),
     );
 }
 
@@ -74,13 +74,13 @@ async function _getLatestAssessmentResultId(certificationCourseId) {
         .select(1)
         .from({ 'last-assessment-results': 'assessment-results' })
         .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
+        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
     )
     .whereNotExists(
       knex
         .select(1)
         .from({ 'last-assessment-results': ASSOC_TABLE_NAME })
-        .whereRaw('"certification-courses".id = "last-assessment-results"."certificationCourseId"')
+        .whereRaw('"certification-courses".id = "last-assessment-results"."certificationCourseId"'),
     )
     .first();
 

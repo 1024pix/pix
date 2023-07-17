@@ -9,13 +9,13 @@ const generateTemporaryKey = function () {
       data: crypto.randomBytes(16).toString('base64'),
     },
     config.temporaryKey.secret,
-    { expiresIn: config.temporaryKey.tokenLifespan }
+    { expiresIn: config.temporaryKey.tokenLifespan },
   );
 };
 
 const invalidateOldResetPasswordDemand = function (
   userEmail,
-  resetPasswordDemandRepository = passwordResetDemandRepository
+  resetPasswordDemandRepository = passwordResetDemandRepository,
 ) {
   return resetPasswordDemandRepository.markAsBeingUsed(userEmail);
 };
@@ -27,7 +27,7 @@ const verifyDemand = function (temporaryKey, resetPasswordDemandRepository = pas
 const hasUserAPasswordResetDemandInProgress = function (
   email,
   temporaryKey,
-  resetPasswordDemandRepository = passwordResetDemandRepository
+  resetPasswordDemandRepository = passwordResetDemandRepository,
 ) {
   return resetPasswordDemandRepository.findByUserEmail(email, temporaryKey);
 };

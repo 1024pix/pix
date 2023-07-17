@@ -47,7 +47,7 @@ module('Integration | Component | user logged menu', function (hooks) {
           screen.getByRole('button', {
             name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
             expanded: false,
-          })
+          }),
         )
         .exists();
       assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.user.account') })).doesNotExist();
@@ -62,7 +62,7 @@ module('Integration | Component | user logged menu', function (hooks) {
       await click(
         screen.getByRole('button', {
           name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
-        })
+        }),
       );
 
       // then
@@ -71,7 +71,7 @@ module('Integration | Component | user logged menu', function (hooks) {
           screen.getByRole('button', {
             name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
             expanded: true,
-          })
+          }),
         )
         .exists();
       assert.ok(screen.getByText('Hermione Granger'));
@@ -83,7 +83,7 @@ module('Integration | Component | user logged menu', function (hooks) {
       await click(
         screen.getByRole('button', {
           name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
-        })
+        }),
       );
 
       // then
@@ -96,7 +96,7 @@ module('Integration | Component | user logged menu', function (hooks) {
       await click(
         screen.getByRole('button', {
           name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
-        })
+        }),
       );
 
       // then
@@ -120,7 +120,7 @@ module('Integration | Component | user logged menu', function (hooks) {
           screen.getByRole('button', {
             name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
             expanded: false,
-          })
+          }),
         )
         .exists();
       assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.user.account') })).doesNotExist();
@@ -143,7 +143,7 @@ module('Integration | Component | user logged menu', function (hooks) {
           screen.getByRole('button', {
             name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
             expanded: false,
-          })
+          }),
         )
         .exists();
       assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.user.account') })).doesNotExist();
@@ -166,7 +166,7 @@ module('Integration | Component | user logged menu', function (hooks) {
           screen.getByRole('button', {
             name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
             expanded: false,
-          })
+          }),
         )
         .exists();
       assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.user.account') })).doesNotExist();
@@ -191,7 +191,7 @@ module('Integration | Component | user logged menu', function (hooks) {
           await click(
             screen.getByRole('button', {
               name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
-            })
+            }),
           );
 
           // then
@@ -206,7 +206,7 @@ module('Integration | Component | user logged menu', function (hooks) {
           await click(
             screen.getByRole('button', {
               name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
-            })
+            }),
           );
 
           // then
@@ -233,7 +233,7 @@ module('Integration | Component | user logged menu', function (hooks) {
         .dom(
           screen.queryByRole('button', {
             name: this.intl.t('navigation.user-logged-menu.details'),
-          })
+          }),
         )
         .doesNotExist();
     });

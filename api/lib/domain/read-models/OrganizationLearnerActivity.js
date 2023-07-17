@@ -13,7 +13,7 @@ class OrganizationLearnerActivity {
 
 function _getStatisticsForType(participations, campaignType) {
   const participationsForCampaignType = participations.filter(
-    (participation) => participation.campaignType === campaignType
+    (participation) => participation.campaignType === campaignType,
   );
 
   const { SHARED = 0, TO_SHARE = 0, STARTED = 0 } = countBy(participationsForCampaignType, 'status');

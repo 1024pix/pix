@@ -47,7 +47,7 @@ async function getCertificationAttestationsPdfBuffer({
   const lang = i18n.getLocale();
 
   const viewModels = certificates.map((certificate) =>
-    AttestationViewModel.from({ certificate, isFrenchDomainExtension, translate, lang })
+    AttestationViewModel.from({ certificate, isFrenchDomainExtension, translate, lang }),
   );
   const generatedPdfDoc = await _initializeNewPDFDocument(fontkit);
   generatedPdfDoc.setCreationDate(creationDate);
@@ -141,7 +141,7 @@ async function _embedTemplatePagesIntoDocument({ viewModels, dirname, pdfDocumen
         await _embedFirstPageFromTemplateByFilename(
           'FR-attestation-template-with-professionalizing-message-and-with-complementary-certifications.pdf',
           pdfDocument,
-          dirname
+          dirname,
         );
     }
 
@@ -150,14 +150,14 @@ async function _embedTemplatePagesIntoDocument({ viewModels, dirname, pdfDocumen
         templatePages[templates.ENWithComplementaryCertification] = await _embedFirstPageFromTemplateByFilename(
           'EN-attestation-template-with-complementary-certification.pdf',
           pdfDocument,
-          dirname
+          dirname,
         );
       } else {
         templatePages[templates.withoutProfessionalizingCertificationMessageAndWithComplementaryCertifications] =
           await _embedFirstPageFromTemplateByFilename(
             'FR-attestation-template-without-professionalizing-message-and-with-complementary-certifications.pdf',
             pdfDocument,
-            dirname
+            dirname,
           );
       }
     }
@@ -169,7 +169,7 @@ async function _embedTemplatePagesIntoDocument({ viewModels, dirname, pdfDocumen
         await _embedFirstPageFromTemplateByFilename(
           'FR-attestation-template-with-professionalizing-message-and-without-complementary-certifications.pdf',
           pdfDocument,
-          dirname
+          dirname,
         );
     }
 
@@ -178,14 +178,14 @@ async function _embedTemplatePagesIntoDocument({ viewModels, dirname, pdfDocumen
         templatePages[templates.ENWithoutComplementaryCertification] = await _embedFirstPageFromTemplateByFilename(
           'EN-attestation-template-without-complementary-certification.pdf',
           pdfDocument,
-          dirname
+          dirname,
         );
       } else {
         templatePages[templates.withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications] =
           await _embedFirstPageFromTemplateByFilename(
             'FR-attestation-template-without-professionalizing-message-and-without-complementary-certifications.pdf',
             pdfDocument,
-            dirname
+            dirname,
           );
       }
     }

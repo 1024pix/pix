@@ -7,7 +7,7 @@ const up = async function (knex) {
   });
 
   return knex.raw(
-    `ALTER TABLE "users" ADD CONSTRAINT "users_locale_check" CHECK ( "locale" IN ('fr', 'en', 'fr-FR', 'fr-BE') )`
+    `ALTER TABLE "users" ADD CONSTRAINT "users_locale_check" CHECK ( "locale" IN ('fr', 'en', 'fr-FR', 'fr-BE') )`,
   );
 };
 

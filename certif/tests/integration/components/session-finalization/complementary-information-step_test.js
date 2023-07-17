@@ -26,7 +26,7 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
     await click(
       screen.getByRole('checkbox', {
         name: 'Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.',
-      })
+      }),
     );
 
     // then
@@ -52,7 +52,7 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
     await click(
       screen.getByRole('checkbox', {
         name: "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
-      })
+      }),
     );
 
     // then
@@ -79,12 +79,12 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
     assert.false(
       screen.getByRole('checkbox', {
         name: 'Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.',
-      }).checked
+      }).checked,
     );
     assert.false(
       screen.getByRole('checkbox', {
         name: "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
-      }).checked
+      }).checked,
     );
   });
 
@@ -106,7 +106,7 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
     await click(
       screen.getByRole('checkbox', {
         name: "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
-      })
+      }),
     );
 
     // then
@@ -115,7 +115,7 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
       .dom(
         screen.getByRole('link', {
           name: 'ici un document pour vous aider à résoudre ce type de problème de connexion pour les prochaines sessions (PDF, 131ko).',
-        })
+        }),
       )
       .exists();
   });

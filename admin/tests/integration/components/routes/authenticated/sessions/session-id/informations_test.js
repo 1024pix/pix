@@ -165,7 +165,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const session = _buildSessionWithTwoJuryCertificationSummary(
           { resultsSentToPrescriberAt: new Date('2022-02-22') },
-          server
+          server,
         );
 
         // when

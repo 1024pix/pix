@@ -18,7 +18,7 @@ describe('Unit | UseCase | update-certification-center-referer', function () {
             user: domainBuilder.buildUser({
               id: 4567,
             }),
-          })
+          }),
         );
 
       // when
@@ -30,12 +30,11 @@ describe('Unit | UseCase | update-certification-center-referer', function () {
       });
 
       // then
-      expect(
-        certificationCenterMembershipRepository.updateRefererStatusByUserIdAndCertificationCenterId
-      ).to.have.been.calledTwice;
+      expect(certificationCenterMembershipRepository.updateRefererStatusByUserIdAndCertificationCenterId).to.have.been
+        .calledTwice;
 
       expect(
-        certificationCenterMembershipRepository.updateRefererStatusByUserIdAndCertificationCenterId.firstCall
+        certificationCenterMembershipRepository.updateRefererStatusByUserIdAndCertificationCenterId.firstCall,
       ).to.have.been.calledWithExactly({
         userId: 4567,
         certificationCenterId: 456,
@@ -43,7 +42,7 @@ describe('Unit | UseCase | update-certification-center-referer', function () {
       });
 
       expect(
-        certificationCenterMembershipRepository.updateRefererStatusByUserIdAndCertificationCenterId.secondCall
+        certificationCenterMembershipRepository.updateRefererStatusByUserIdAndCertificationCenterId.secondCall,
       ).to.have.been.calledWithExactly({
         userId: 1234,
         certificationCenterId: 456,
@@ -70,7 +69,7 @@ describe('Unit | UseCase | update-certification-center-referer', function () {
 
       // then
       expect(
-        certificationCenterMembershipRepository.updateRefererStatusByUserIdAndCertificationCenterId
+        certificationCenterMembershipRepository.updateRefererStatusByUserIdAndCertificationCenterId,
       ).to.have.been.calledOnceWithExactly({
         userId: 1234,
         certificationCenterId: 456,

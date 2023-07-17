@@ -50,7 +50,7 @@ module('Integration | Component | routes/authenticated/organizations | list-item
 
     // when
     await render(
-      hbs`<Organizations::ListItems @organizations={{this.organizations}} @triggerFiltering={{this.triggerFiltering}} />`
+      hbs`<Organizations::ListItems @organizations={{this.organizations}} @triggerFiltering={{this.triggerFiltering}} />`,
     );
 
     // then

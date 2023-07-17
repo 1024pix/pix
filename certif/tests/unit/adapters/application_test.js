@@ -45,7 +45,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
 
         // Then
         assert.strictEqual(applicationAdapter.headers['Accept-Language'], locale);
-      })
+      }),
     );
   });
 

@@ -62,7 +62,7 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       expect(campaignAnalysis.campaignTubeRecommendations[0].tubeDescription).to.equal(tube.practicalDescription);
       expect(campaignAnalysis.campaignTubeRecommendations[0].areaColor).to.equal(area.color);
       expect(campaignAnalysis.campaignTubeRecommendations[0].maxSkillLevel).to.equal(
-        campaignLearningContent.maxSkillDifficulty
+        campaignLearningContent.maxSkillDifficulty,
       );
     });
 

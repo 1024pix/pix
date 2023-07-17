@@ -15,7 +15,7 @@ const getCampaign = async function ({
 
   const userHasAccessToCampaign = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(
     campaignId,
-    userId
+    userId,
   );
   if (!userHasAccessToCampaign) {
     throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');

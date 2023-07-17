@@ -20,7 +20,7 @@ const findByCampaignId = async function (campaignId) {
         .join(
           'view-active-organization-learners',
           'view-active-organization-learners.id',
-          'campaign-participations.organizationLearnerId'
+          'campaign-participations.organizationLearnerId',
         )
         .where({ campaignId, isImproved: false, 'campaign-participations.deletedAt': null });
     })

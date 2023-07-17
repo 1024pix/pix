@@ -105,7 +105,7 @@ const questions = [
           {
             name: 'CléA Numérique',
             value: { candidateNumber: i + 1, key: 'CLEA' },
-          }
+          },
         );
       }
       return choices;
@@ -134,7 +134,7 @@ async function main({ centerType, candidateNumber, complementaryCertifications =
 
       await _createComplementaryCertificationHabilitations(
         { complementaryCertificationIds, certificationCenterId },
-        databaseBuilder
+        databaseBuilder,
       );
     }
 
@@ -146,7 +146,7 @@ async function main({ centerType, candidateNumber, complementaryCertifications =
         complementaryCertifications,
         organizationId,
       },
-      databaseBuilder
+      databaseBuilder,
     );
   }
 
@@ -182,7 +182,7 @@ async function _getMaxSequenceId() {
 
 async function _createComplementaryCertificationHabilitations(
   { complementaryCertificationIds, certificationCenterId },
-  databaseBuilder
+  databaseBuilder,
 ) {
   return bluebird.mapSeries(complementaryCertificationIds, async (complementaryCertificationId) => {
     databaseBuilder.factory.buildComplementaryCertificationHabilitation({
@@ -205,7 +205,7 @@ async function _createSessionAndReturnId(certificationCenterId, databaseBuilder)
 
 async function _createNonScoCertificationCandidates(
   { centerType, candidateNumber, sessionId, complementaryCertifications, organizationId },
-  databaseBuilder
+  databaseBuilder,
 ) {
   let maxUserId = await _getMaxUserId();
 
@@ -217,7 +217,7 @@ async function _createNonScoCertificationCandidates(
     const email = `${firstName}@example.net`;
     const { userId, organizationLearnerId } = await _createUser(
       { firstName, lastName, birthdate, email, organizationId, maxUserId },
-      databaseBuilder
+      databaseBuilder,
     );
     const { id: certificationCandidateId } = databaseBuilder.factory.buildCertificationCandidate({
       firstName,
@@ -231,12 +231,12 @@ async function _createNonScoCertificationCandidates(
     });
 
     const complementaryCertification = complementaryCertifications.find(
-      ({ candidateNumber }) => candidateNumber === i + 1
+      ({ candidateNumber }) => candidateNumber === i + 1,
     );
     if (complementaryCertification) {
       await _createComplementaryCertificationHability(
         { complementaryCertification, certificationCandidateId, userId, organizationLearnerId },
-        databaseBuilder
+        databaseBuilder,
       );
     }
   }
@@ -260,7 +260,7 @@ async function _createScoCertificationCandidates({ candidateNumber, sessionId, o
 
     const { organizationLearnerId } = await _createUser(
       { firstName, lastName, birthdate, email, organizationId, maxUserId },
-      databaseBuilder
+      databaseBuilder,
     );
 
     databaseBuilder.factory.buildCertificationCandidate({
@@ -279,7 +279,7 @@ async function _createScoCertificationCandidates({ candidateNumber, sessionId, o
 
 async function _createComplementaryCertificationHability(
   { complementaryCertification, certificationCandidateId, userId, organizationLearnerId },
-  databaseBuilder
+  databaseBuilder,
 ) {
   const { key } = complementaryCertification;
   const { id: complementaryCertificationId } = await knex('complementary-certifications')
@@ -352,12 +352,12 @@ async function _getResults(sessionId) {
     .leftJoin(
       'complementary-certification-subscriptions',
       'complementary-certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id'
+      'certification-candidates.id',
     )
     .leftJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-subscriptions.complementaryCertificationId'
+      'complementary-certification-subscriptions.complementaryCertificationId',
     )
     .where('sessions.id', sessionId);
 }

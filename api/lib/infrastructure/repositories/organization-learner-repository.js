@@ -19,12 +19,12 @@ import { DomainTransaction } from '../DomainTransaction.js';
 function _shouldStudentToImportBeReconciled(
   allOrganizationLearnersInSameOrganization,
   organizationLearner,
-  studentToImport
+  studentToImport,
 ) {
   const organizationLearnerWithSameUserId = allOrganizationLearnersInSameOrganization.find(
     (organizationLearnerInSameOrganization) => {
       return organizationLearnerInSameOrganization.userId === organizationLearner.account.userId;
-    }
+    },
   );
   const isOrganizationLearnerReconciled = organizationLearnerWithSameUserId != null;
   const organizationLearnerHasSameUserIdAndNationalStudentId =
@@ -56,7 +56,7 @@ const findByOrganizationId = function ({ organizationId }, transaction = DomainT
     .where({ organizationId })
     .orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC')
     .then((organizationLearners) =>
-      organizationLearners.map((organizationLearner) => new OrganizationLearner(organizationLearner))
+      organizationLearners.map((organizationLearner) => new OrganizationLearner(organizationLearner)),
     );
 };
 
@@ -112,7 +112,7 @@ const disableAllOrganizationLearnersInOrganization = async function ({ domainTra
 const addOrUpdateOrganizationOfOrganizationLearners = async function (
   organizationLearnerDatas,
   organizationId,
-  domainTransaction
+  domainTransaction,
 ) {
   const knexConn = domainTransaction.knexTransaction;
   const organizationLearnersFromFile = organizationLearnerDatas.map(
@@ -120,14 +120,14 @@ const addOrUpdateOrganizationOfOrganizationLearners = async function (
       new OrganizationLearner({
         ...organizationLearnerData,
         organizationId,
-      })
+      }),
   );
   const existingOrganizationLearners = await this.findByOrganizationId({ organizationId }, domainTransaction);
 
   const reconciledOrganizationLearnersToImport = await this._reconcileOrganizationLearners(
     organizationLearnersFromFile,
     existingOrganizationLearners,
-    domainTransaction
+    domainTransaction,
   );
 
   try {
@@ -148,7 +148,7 @@ const addOrUpdateOrganizationOfOrganizationLearners = async function (
 const _reconcileOrganizationLearners = async function (
   studentsToImport,
   allOrganizationLearnersInSameOrganization,
-  domainTransaction
+  domainTransaction,
 ) {
   const nationalStudentIdsFromFile = studentsToImport
     .map((organizationLearnerData) => organizationLearnerData.nationalStudentId)
@@ -158,7 +158,7 @@ const _reconcileOrganizationLearners = async function (
 
   organizationLearnersWithSameNationalStudentIdsAsImported.forEach((organizationLearner) => {
     const alreadyReconciledStudentToImport = studentsToImport.find(
-      (studentToImport) => studentToImport.userId === organizationLearner.account.userId
+      (studentToImport) => studentToImport.userId === organizationLearner.account.userId,
     );
 
     if (alreadyReconciledStudentToImport) {
@@ -167,14 +167,14 @@ const _reconcileOrganizationLearners = async function (
     }
 
     const studentToImport = studentsToImport.find(
-      (studentToImport) => studentToImport.nationalStudentId === organizationLearner.nationalStudentId
+      (studentToImport) => studentToImport.nationalStudentId === organizationLearner.nationalStudentId,
     );
 
     if (
       _shouldStudentToImportBeReconciled(
         allOrganizationLearnersInSameOrganization,
         organizationLearner,
-        studentToImport
+        studentToImport,
       )
     ) {
       studentToImport.userId = organizationLearner.account.userId;
@@ -242,7 +242,7 @@ const getOrganizationLearnerForAdmin = async function (organizationLearnerId) {
       'view-active-organization-learners.createdAt as createdAt',
       'view-active-organization-learners.updatedAt as updatedAt',
       'isDisabled',
-      'organizations.isManagingStudents as organizationIsManagingStudents'
+      'organizations.isManagingStudents as organizationIsManagingStudents',
     )
     .innerJoin('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
     .where({ 'view-active-organization-learners.id': organizationLearnerId })
@@ -268,7 +268,7 @@ const dissociateAllStudentsByUserId = async function ({
     .where({ userId })
     .whereIn(
       'organization-learners.organizationId',
-      knex.select('id').from('organizations').where({ isManagingStudents: true })
+      knex.select('id').from('organizations').where({ isManagingStudents: true }),
     );
 };
 
@@ -327,7 +327,7 @@ const updateUserIdWhereNull = async function ({
 
   if (!rawOrganizationLearner)
     throw new OrganizationLearnerNotFound(
-      `OrganizationLearner not found for ID ${organizationLearnerId} and user ID null.`
+      `OrganizationLearner not found for ID ${organizationLearnerId} and user ID null.`,
     );
 
   return new OrganizationLearner(rawOrganizationLearner);

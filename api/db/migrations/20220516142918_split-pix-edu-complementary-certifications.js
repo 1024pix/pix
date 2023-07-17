@@ -32,8 +32,8 @@ const up = async function (knex) {
     .whereIn(
       'id',
       pixEdu1erDegreComplementaryCertificationCourseIds.map(
-        ({ complementaryCertificationCourseId }) => complementaryCertificationCourseId
-      )
+        ({ complementaryCertificationCourseId }) => complementaryCertificationCourseId,
+      ),
     );
 };
 
@@ -63,8 +63,8 @@ const down = async function (knex) {
     .whereIn(
       'id',
       pixEdu1erDegreComplementaryCertificationCourseIds.map(
-        ({ complementaryCertificationCourseId }) => complementaryCertificationCourseId
-      )
+        ({ complementaryCertificationCourseId }) => complementaryCertificationCourseId,
+      ),
     );
 
   await knex('complementary-certifications').where({ name: 'Pix+ Édu 1er degré' }).delete();

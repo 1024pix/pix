@@ -76,7 +76,7 @@ function generateValidRequestAuthorizationHeaderForApplication(clientId = 'clien
       application.clientId,
       source,
       scope,
-      jwtConfig[application.source].secret
+      jwtConfig[application.source].secret,
     );
     return `Bearer ${accessToken}`;
   }

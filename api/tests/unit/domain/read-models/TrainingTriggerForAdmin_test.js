@@ -100,7 +100,7 @@ describe('Unit | Domain | Read-Models | TrainingTriggerForAdmin', function () {
       expect(trainingTrigger.areas[0].competences[0].thematics[0].triggerTubes).to.have.length(1);
       expect(trainingTrigger.areas[0].competences[0].thematics[0].triggerTubes[0]).to.have.property(
         'id',
-        trainingTriggerTube1.id
+        trainingTriggerTube1.id,
       );
       expect(trainingTrigger.areas[0].competences[0].thematics[1]).to.have.property('id', thematic2.id);
       expect(trainingTrigger.areas[0].competences[0].thematics[1]).to.have.property('name', thematic2.name);
@@ -108,7 +108,7 @@ describe('Unit | Domain | Read-Models | TrainingTriggerForAdmin', function () {
       expect(trainingTrigger.areas[0].competences[0].thematics[1].triggerTubes).to.have.length(1);
       expect(trainingTrigger.areas[0].competences[0].thematics[1].triggerTubes[0]).to.have.property(
         'id',
-        trainingTriggerTube2.id
+        trainingTriggerTube2.id,
       );
     });
   });

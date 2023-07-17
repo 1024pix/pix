@@ -42,7 +42,7 @@ module('Integration | Component | Organizations | Places | List', function (hook
 
         // when
         const screen = await render(
-          hbs`<Organizations::Places::List @places={{this.places}} @onDelete={{this.onDelete}} />`
+          hbs`<Organizations::Places::List @places={{this.places}} @onDelete={{this.onDelete}} />`,
         );
 
         // then
@@ -83,7 +83,7 @@ module('Integration | Component | Organizations | Places | List', function (hook
 
         // when
         const screen = await render(
-          hbs`<Organizations::Places::List @places={{this.places}} @onDelete={{this.onDelete}} />`
+          hbs`<Organizations::Places::List @places={{this.places}} @onDelete={{this.onDelete}} />`,
         );
         await click(screen.getByText('Supprimer'));
 

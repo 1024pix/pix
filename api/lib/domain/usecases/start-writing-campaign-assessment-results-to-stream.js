@@ -51,7 +51,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
     organization,
     translate,
     campaignLearningContent,
-    stageCollection
+    stageCollection,
   );
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
@@ -73,18 +73,18 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
         const userIdsAndDates = Object.fromEntries(
           campaignParticipationInfoChunk.map((campaignParticipationInfo) => {
             return [campaignParticipationInfo.userId, campaignParticipationInfo.sharedAt];
-          })
+          }),
         );
         const knowledgeElementsByUserIdAndCompetenceId =
           await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
             userIdsAndDates,
-            campaignLearningContent
+            campaignLearningContent,
           );
 
         let acquiredBadgesByCampaignParticipations;
         if (targetProfile.hasBadges) {
           const campaignParticipationsIds = campaignParticipationInfoChunk.map(
-            (campaignParticipationInfo) => campaignParticipationInfo.campaignParticipationId
+            (campaignParticipationInfo) => campaignParticipationInfo.campaignParticipationId,
           );
           acquiredBadgesByCampaignParticipations =
             await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
@@ -92,17 +92,17 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
 
         let csvLines = '';
         for (const [strParticipantId, participantKnowledgeElementsByCompetenceId] of Object.entries(
-          knowledgeElementsByUserIdAndCompetenceId
+          knowledgeElementsByUserIdAndCompetenceId,
         )) {
           const participantId = parseInt(strParticipantId);
           const campaignParticipationInfo = campaignParticipationInfoChunk.find(
-            (campaignParticipationInfo) => campaignParticipationInfo.userId === participantId
+            (campaignParticipationInfo) => campaignParticipationInfo.userId === participantId,
           );
           const acquiredBadges =
             acquiredBadgesByCampaignParticipations &&
             acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId]
               ? acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId].map(
-                  (badge) => badge.title
+                  (badge) => badge.title,
                 )
               : [];
           const csvLine = campaignCsvExportService.createOneCsvLine({
@@ -121,7 +121,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
 
         writableStream.write(csvLines);
       },
-      { concurrency: CONCURRENCY_HEAVY_OPERATIONS }
+      { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
     )
     .then(() => {
       writableStream.end();
@@ -146,7 +146,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
 
   if (!user.hasAccessToOrganization(organizationId)) {
     throw new UserNotAuthorizedToGetCampaignResultsError(
-      `User does not have an access to the organization ${organizationId}`
+      `User does not have an access to the organization ${organizationId}`,
     );
   }
 }

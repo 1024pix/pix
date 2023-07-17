@@ -36,7 +36,7 @@ class ScalingoDBClient {
       return response.data.download_url;
     } catch (error) {
       throw new Error(
-        `Unable to get the backup download link with Scalingo Database API. Response was ${error.message}`
+        `Unable to get the backup download link with Scalingo Database API. Response was ${error.message}`,
       );
     }
   }

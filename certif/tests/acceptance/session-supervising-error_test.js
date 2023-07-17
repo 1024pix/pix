@@ -43,8 +43,8 @@ module('Acceptance | Session supervising error', function (hooks) {
       assert
         .dom(
           secondScreen.getByText(
-            'Pour accéder à cette session, cliquez sur le bouton "Surveiller une session" et renseignez les informations de la session'
-          )
+            'Pour accéder à cette session, cliquez sur le bouton "Surveiller une session" et renseignez les informations de la session',
+          ),
         )
         .exists();
       assert.dom(secondScreen.getByRole('link', { name: 'Surveiller une session' })).exists();

@@ -14,7 +14,7 @@ const DEFAULT_PAGINATION = {
  */
 const fetchPage = async (
   queryBuilder,
-  { number = DEFAULT_PAGINATION.PAGE, size = DEFAULT_PAGINATION.PAGE_SIZE } = {}
+  { number = DEFAULT_PAGINATION.PAGE, size = DEFAULT_PAGINATION.PAGE_SIZE } = {},
 ) => {
   const page = number < 1 ? 1 : number;
   const offset = (page - 1) * size;

@@ -43,7 +43,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
 
           expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
           expect(error.message).to.equal(
-            `Organization does not have an access to the profile ${campaignData.targetProfileId}`
+            `Organization does not have an access to the profile ${campaignData.targetProfileId}`,
           );
         });
       });

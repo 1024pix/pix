@@ -19,7 +19,7 @@ export default function index(config) {
         {},
         {
           errors: [{ title: 'PasswordShouldChange', code: 'SHOULD_CHANGE_PASSWORD', meta: foundUser.id }],
-        }
+        },
       );
     }
 

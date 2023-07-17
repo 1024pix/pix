@@ -7,7 +7,7 @@ const get = async function (certificationCandidateId) {
     .select(
       'certification-candidates.*',
       'assessments.state AS assessmentStatus',
-      'certification-courses.createdAt AS startDateTime'
+      'certification-courses.createdAt AS startDateTime',
     )
     .leftJoin('certification-courses', function () {
       this.on('certification-courses.sessionId', '=', 'certification-candidates.sessionId');

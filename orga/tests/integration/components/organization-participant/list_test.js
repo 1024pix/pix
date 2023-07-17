@@ -35,7 +35,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -64,7 +64,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -96,7 +96,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -132,7 +132,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
     // then
     assert.dom(screen.getByRole('link', { name: 'Ruben' })).hasProperty('href', /\/participants\/56/g);
@@ -159,7 +159,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -196,7 +196,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
     const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
 
@@ -234,7 +234,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
     const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
 
@@ -243,9 +243,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     assert.dom(allRows[1]).containsText('07/01/2022');
     assert.strictEqual(
       screen.getAllByLabelText(
-        this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')
+        this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label'),
       ).length,
-      2
+      2,
     );
   });
 
@@ -274,7 +274,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -297,7 +297,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
 
       // then
@@ -326,7 +326,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
       await fillByLabel('Recherche sur le nom et prénom', 'Karam');
       // then
@@ -356,12 +356,12 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
 
       // when
       const select = await getByLabelText(
-        this.intl.t('pages.organization-participants.filters.type.certificability.label')
+        this.intl.t('pages.organization-participants.filters.type.certificability.label'),
       );
       await click(select);
       await findByRole('menu');
@@ -401,14 +401,14 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @certificabilityFilter={{this.certificabilityFilter}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
-/>`
+/>`,
       );
 
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort')
-        )
+          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
+        ),
       );
 
       // then
@@ -443,14 +443,14 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @certificabilityFilter={{this.certificabilityFilter}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
-/>`
+/>`,
       );
 
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelSortDown')
-        )
+          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelSortDown'),
+        ),
       );
 
       // then
@@ -485,14 +485,14 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @certificabilityFilter={{this.certificabilityFilter}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
-/>`
+/>`,
       );
 
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelSortUp')
-        )
+          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelSortUp'),
+        ),
       );
 
       // then
@@ -529,14 +529,14 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @certificabilityFilter={{this.certificabilityFilter}}
   @lastnameSort={{this.lastnameSort}}
   @sortByLastname={{this.sortByLastname}}
-/>`
+/>`,
       );
 
       // when
       await click(
         screen.getByLabelText(
-          this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelDefaultSort')
-        )
+          this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelDefaultSort'),
+        ),
       );
 
       // then
@@ -572,12 +572,12 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @certificabilityFilter={{this.certificabilityFilter}}
   @lastnameSort={{this.lastnameSort}}
   @sortByLastname={{this.sortByLastname}}
-/>`
+/>`,
       );
 
       // when
       await click(
-        screen.getByLabelText(this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelSortDown'))
+        screen.getByLabelText(this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelSortDown')),
       );
 
       // then
@@ -613,12 +613,12 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @certificabilityFilter={{this.certificabilityFilter}}
   @lastnameSort={{this.lastnameSort}}
   @sortByLastname={{this.sortByLastname}}
-/>`
+/>`,
       );
 
       // when
       await click(
-        screen.getByLabelText(this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelSortUp'))
+        screen.getByLabelText(this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelSortUp')),
       );
 
       // then
@@ -644,7 +644,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
 
     // then
@@ -674,13 +674,13 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
     );
     assert
       .dom(
         screen.getByLabelText(
-          this.intl.t('pages.organization-participants.table.column.is-certifiable.tooltip.aria-label')
-        )
+          this.intl.t('pages.organization-participants.table.column.is-certifiable.tooltip.aria-label'),
+        ),
       )
       .exists();
   });
@@ -783,7 +783,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
       const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
       const secondLearnerSelected = screen.getAllByRole('checkbox')[2];
@@ -819,7 +819,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
       const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
 
@@ -853,7 +853,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
       const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
 
@@ -892,14 +892,14 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
       const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
 
       await click(firstLearnerSelected);
 
       const sortButton = await screen.findByLabelText(
-        this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort')
+        this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
       );
       await click(sortButton);
 
@@ -1104,7 +1104,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @onClickLearner={{this.noop}}
   @fullName={{this.fullNameFilter}}
   @certificabilityFilter={{this.certificabilityFilter}}
-/>`
+/>`,
       );
       const checkboxes = screen.queryAllByRole('checkbox');
 

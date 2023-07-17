@@ -62,7 +62,7 @@ const up = async function (knex) {
       'recIhdrmCuEmCDAzj',
       '5.2',
       'recudHE5Omrr10qrx',
-    ]
+    ],
   );
 };
 

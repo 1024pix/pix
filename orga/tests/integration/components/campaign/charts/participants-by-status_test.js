@@ -17,11 +17,11 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
       hbs`<Campaign::Charts::ParticipantsByStatus
   @participantCountByStatus={{this.participantCountByStatus}}
   @isTypeAssessment={{true}}
-/>`
+/>`,
     );
     assert
       .dom(
-        screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-assessment', { count: 1 }))
+        screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.completed-assessment', { count: 1 })),
       )
       .exists();
     assert
@@ -43,7 +43,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
       hbs`<Campaign::Charts::ParticipantsByStatus
   @participantCountByStatus={{this.participantCountByStatus}}
   @isTypeAssessment={{true}}
-/>`
+/>`,
     );
 
     assert.dom(screen.getByText(this.intl.t('charts.participants-by-status.labels-legend.started-tooltip'))).exists();
@@ -63,7 +63,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
       hbs`<Campaign::Charts::ParticipantsByStatus
   @participantCountByStatus={{this.participantCountByStatus}}
   @isTypeAssessment={{false}}
-/>`
+/>`,
     );
 
     assert
@@ -87,7 +87,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
       hbs`<Campaign::Charts::ParticipantsByStatus
   @participantCountByStatus={{this.participantCountByStatus}}
   @isTypeAssessment={{false}}
-/>`
+/>`,
     );
 
     assert

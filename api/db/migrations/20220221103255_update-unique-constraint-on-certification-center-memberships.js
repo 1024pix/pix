@@ -3,7 +3,7 @@ const up = async function (knex) {
     table.dropUnique(['userId', 'certificationCenterId']);
   });
   return knex.raw(
-    'CREATE UNIQUE INDEX "certification-center-memberships_userid_certificationcenterid_disabledAt_unique" ON "certification-center-memberships" ("userId", "certificationCenterId") WHERE "disabledAt" IS NULL;'
+    'CREATE UNIQUE INDEX "certification-center-memberships_userid_certificationcenterid_disabledAt_unique" ON "certification-center-memberships" ("userId", "certificationCenterId") WHERE "disabledAt" IS NULL;',
   );
 };
 

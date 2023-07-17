@@ -171,7 +171,7 @@ function _makeCompetenceEvaluation({ databaseBuilder, userId, competenceId }) {
 function _makeUserReachPixScoreForCompetences({ databaseBuilder, userId, answersAndKnowledgeElementsCollection }) {
   const answersAndKnowledgeElementsByCompetenceId = _.groupBy(
     answersAndKnowledgeElementsCollection,
-    ({ keData }) => keData.competenceId
+    ({ keData }) => keData.competenceId,
   );
   for (const [competenceId, answersAndKnowledgeElements] of Object.entries(answersAndKnowledgeElementsByCompetenceId)) {
     const assessmentId = _makeCompetenceEvaluation({ databaseBuilder, userId, competenceId });

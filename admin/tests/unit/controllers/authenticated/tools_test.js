@@ -52,7 +52,7 @@ module('Unit | Controller | authenticated/tools', function (hooks) {
 
         // then
         assert.ok(
-          controller.notifications.error.calledOnceWith('Une colonne dans le fichier ne devrait pas être présente.')
+          controller.notifications.error.calledOnceWith('Une colonne dans le fichier ne devrait pas être présente.'),
         );
       });
     });

@@ -37,7 +37,7 @@ function createAccessTokenFromApplication(
   source,
   scope,
   secret = config.authentication.secret,
-  expiresIn = config.authentication.accessTokenLifespanMs
+  expiresIn = config.authentication.accessTokenLifespanMs,
 ) {
   return jsonwebtoken.sign(
     {
@@ -46,7 +46,7 @@ function createAccessTokenFromApplication(
       scope,
     },
     secret,
-    { expiresIn }
+    { expiresIn },
   );
 }
 
@@ -57,7 +57,7 @@ function createTokenForCampaignResults({ userId, campaignId }) {
       campaign_id: campaignId,
     },
     config.authentication.secret,
-    { expiresIn: config.authentication.tokenForCampaignResultLifespan }
+    { expiresIn: config.authentication.tokenForCampaignResultLifespan },
   );
 }
 
@@ -69,7 +69,7 @@ function createIdTokenForUserReconciliation(externalUser) {
       saml_id: externalUser.samlId,
     },
     config.authentication.secret,
-    { expiresIn: config.authentication.tokenForStudentReconciliationLifespan }
+    { expiresIn: config.authentication.tokenForStudentReconciliationLifespan },
   );
 }
 
@@ -86,7 +86,7 @@ function createCertificationResultsByRecipientEmailLinkToken({
     config.authentication.secret,
     {
       expiresIn: `${daysBeforeExpiration}d`,
-    }
+    },
   );
 }
 
@@ -98,7 +98,7 @@ function createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration }
     config.authentication.secret,
     {
       expiresIn: `${daysBeforeExpiration}d`,
-    }
+    },
   );
 }
 
@@ -108,7 +108,7 @@ function createPasswordResetToken(userId) {
       user_id: userId,
     },
     config.authentication.secret,
-    { expiresIn: config.authentication.passwordResetTokenLifespan }
+    { expiresIn: config.authentication.passwordResetTokenLifespan },
   );
 }
 
@@ -189,7 +189,7 @@ async function extractExternalUserFromIdToken(token) {
 
   if (!externalUser) {
     throw new InvalidExternalUserTokenError(
-      'Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.'
+      'Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.',
     );
   }
 

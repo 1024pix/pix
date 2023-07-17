@@ -18,7 +18,7 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
           user,
           reassignAuthenticationMethod,
           addPixAuthenticationMethod,
-        }
+        },
       );
       component.targetUserId = '12';
       component.showReassignOidcAuthenticationMethodModal = true;
@@ -62,7 +62,7 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
             user,
             reassignAuthenticationMethod,
             addPixAuthenticationMethod,
-          }
+          },
         );
         component.targetUserId = '12';
 
@@ -89,7 +89,7 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
             user,
             reassignAuthenticationMethod,
             addPixAuthenticationMethod,
-          }
+          },
         );
         component.targetUserId = '12';
 
@@ -139,7 +139,7 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
             user,
             reassignAuthenticationMethod,
             addPixAuthenticationMethod,
-          }
+          },
         );
 
         // when && then
@@ -202,7 +202,7 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
             user,
             reassignAuthenticationMethod,
             addPixAuthenticationMethod,
-          }
+          },
         );
 
         // when && then
@@ -263,7 +263,7 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
             user,
             reassignAuthenticationMethod,
             addPixAuthenticationMethod,
-          }
+          },
         );
 
         // when && then

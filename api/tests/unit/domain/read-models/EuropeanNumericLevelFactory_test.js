@@ -20,7 +20,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId,
             competenceId,
             level: 4,
-          })
+          }),
         );
       });
     });
@@ -44,7 +44,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '1',
             competenceId: '2',
             level: 4,
-          })
+          }),
         );
       });
     });
@@ -68,7 +68,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '2',
             competenceId: '5',
             level: 4,
-          })
+          }),
         );
       });
     });
@@ -87,7 +87,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '2',
             competenceId: '4',
             level: 4,
-          })
+          }),
         );
       });
     });
@@ -116,7 +116,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '5',
             competenceId: '4',
             level: 4,
-          })
+          }),
         );
       });
     });
@@ -140,7 +140,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '3',
             competenceId: '3',
             level: 4,
-          })
+          }),
         );
       });
     });
@@ -164,7 +164,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '4',
             competenceId: '4',
             level: 4,
-          })
+          }),
         );
       });
     });
@@ -186,7 +186,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '1',
             competenceId: '3',
             level: 6,
-          })
+          }),
         );
       });
     });
@@ -205,7 +205,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '1',
             competenceId: '3',
             level: 6,
-          })
+          }),
         );
       });
     });
@@ -224,7 +224,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '1',
             competenceId: '3',
             level: 6,
-          })
+          }),
         );
       });
     });
@@ -246,7 +246,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '3',
             competenceId: '1',
             level: 6,
-          })
+          }),
         );
       });
     });
@@ -265,7 +265,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '3',
             competenceId: '1',
             level: 6,
-          })
+          }),
         );
       });
     });
@@ -284,7 +284,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
             domainCompetenceId: '3',
             competenceId: '1',
             level: 6,
-          })
+          }),
         );
       });
     });
@@ -306,7 +306,7 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
 
         // then
         expect(europeanNumericLevels).to.deep.contains(
-          new EuropeanNumericLevel({ domainCompetenceId: '5', competenceId: '3', level: 3 })
+          new EuropeanNumericLevel({ domainCompetenceId: '5', competenceId: '3', level: 3 }),
         );
       });
     });

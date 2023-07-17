@@ -149,7 +149,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         certificationCenterName: 'A certification center name',
         sessionDate: '2021-01-29',
         sessionTime: '14:00',
-      })
+      }),
     );
   });
 
@@ -206,7 +206,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
     expect(events[0]).to.deep.equal(
       new CertificationJuryDone({
         certificationCourseId: certificationCourse.getId(),
-      })
+      }),
     );
   });
 
@@ -252,7 +252,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       expect(events[0]).to.deepEqualInstance(
         new CertificationJuryDone({
           certificationCourseId: certificationCourse.getId(),
-        })
+        }),
       );
     });
 
@@ -313,13 +313,13 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         // then
         expect(
           certificationAssessment.certificationChallenges.find(
-            (certificationChallenge) => certificationChallenge.challengeId === 'recChal123'
-          ).hasBeenSkippedAutomatically
+            (certificationChallenge) => certificationChallenge.challengeId === 'recChal123',
+          ).hasBeenSkippedAutomatically,
         ).to.be.true;
         expect(
           certificationAssessment.certificationChallenges.find(
-            (certificationChallenge) => certificationChallenge.challengeId === 'recChal456'
-          ).hasBeenSkippedAutomatically
+            (certificationChallenge) => certificationChallenge.challengeId === 'recChal456',
+          ).hasBeenSkippedAutomatically,
         ).to.be.false;
       });
     });

@@ -370,7 +370,7 @@ const _rules = {
         numberOfChallenges,
         numberOfCorrectAnswers,
         numberOfNeutralizedAnswers,
-      })
+      }),
     );
   },
 };

@@ -31,7 +31,7 @@ class CampaignParticipationResult {
       competences,
       skillIds,
       targetedKnowledgeElements,
-      allAreas
+      allAreas,
     );
 
     const validatedSkillsCount = _.sumBy(targetedCompetenceResults, 'validatedSkillsCount');
@@ -96,7 +96,7 @@ function _removeCompetencesWithoutAnyTargetedSkillsLeft(competences) {
 
 function _getTestedCompetenceResults(competence, area, targetedKnowledgeElements) {
   const targetedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElements, (ke) =>
-    _.includes(competence.skillIds, ke.skillId)
+    _.includes(competence.skillIds, ke.skillId),
   );
   const validatedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElementsForCompetence, 'isValidated');
 

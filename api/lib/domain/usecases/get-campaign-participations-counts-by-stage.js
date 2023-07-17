@@ -31,7 +31,7 @@ const getCampaignParticipationsCountByStage = async function ({
   participantsResults.forEach((participantResult) => {
     const stageReached = stageCollection.getReachedStage(
       participantResult.validatedSkillsCount,
-      participantResult.masteryRate * 100
+      participantResult.masteryRate * 100,
     );
 
     const stageIndex = participantsByStage.findIndex((data) => data.id === stageReached.id);
