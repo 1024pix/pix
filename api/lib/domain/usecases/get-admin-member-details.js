@@ -1,13 +1,14 @@
-import { NotFoundError } from '../errors.js';
+/**
+ * @typedef {import ('./index.js').AdminMemberRepository} AdminMemberRepository
+ */
 
-const getAdminMemberDetails = async function ({ adminMemberRepository, userId }) {
-  const adminMemberDetail = await adminMemberRepository.get({ userId });
-
-  if (!adminMemberDetail) {
-    throw new NotFoundError();
-  }
-
-  return adminMemberDetail;
+/**
+ * @param {Object} params
+ * @param {number} params.userId
+ * @param {AdminMemberRepository} params.adminMemberRepository
+ */
+const getAdminMemberDetails = async function ({ userId, adminMemberRepository }) {
+  return await adminMemberRepository.get({ userId });
 };
 
 export { getAdminMemberDetails };
