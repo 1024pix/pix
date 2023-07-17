@@ -19,15 +19,18 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
       });
       prescriber = { id: Symbol('prescriber id') };
     }
+
     this.owner.register('service:current-user', CurrentUserStub);
 
     const members = Symbol('list of members sorted by firstnames and lastnames');
     const findAllStub = sinon.stub();
-    const storeStub = {
-      findAll: findAllStub.resolves(members),
-      createRecord: sinon.stub(),
-    };
-    route.store = storeStub;
+
+    class StoreStub extends Service {
+      findAll = findAllStub.resolves(members);
+      createRecord = sinon.stub();
+    }
+
+    this.owner.register('service:store', StoreStub);
 
     // when
     const result = await route.model();
@@ -50,6 +53,7 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
       organization = organization;
       prescriber = prescriber;
     }
+
     this.owner.register('service:current-user', CurrentUserStub);
 
     const members = Symbol('list of members sorted by firstnames and lastnames');
@@ -59,78 +63,200 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
       ownerId: prescriber.id,
     };
 
-    const duplicatedCampaignRecord = Symbol('duplicated campaign record');
+    const createdCampaignRecord = Symbol('created campaign record');
 
     const findAllStub = sinon.stub();
     const createRecordStub = sinon.stub();
 
-    const storeStub = {
-      findAll: findAllStub.resolves(members),
-      createRecord: createRecordStub.resolves(duplicatedCampaignRecord),
-    };
-    route.store = storeStub;
+    class StoreStub extends Service {
+      findAll = findAllStub.resolves(members);
+      createRecord = createRecordStub.resolves(createdCampaignRecord);
+    }
+
+    this.owner.register('service:store', StoreStub);
 
     // when
     const model = await route.model();
 
-    assert.strictEqual(await model.campaign, duplicatedCampaignRecord);
+    assert.strictEqual(await model.campaign, createdCampaignRecord);
     sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
   });
 
-  test('should prefill campaign attributes from given source campaign', async function (assert) {
-    // given
-    const route = this.owner.lookup('route:authenticated/campaigns/new');
+  module('when duplicating a campaign', function () {
+    module('when campaign type is ASSESSMENT', function () {
+      test('should prefill campaign attributes from given source campaign', async function (assert) {
+        // given
+        const route = this.owner.lookup('route:authenticated/campaigns/new');
 
-    const organization = EmberObject.create({
-      id: 12345,
+        const organization = EmberObject.create({
+          id: 12345,
+        });
+
+        class CurrentUserStub extends Service {
+          organization = organization;
+          prescriber = { id: Symbol('prescriber id') };
+        }
+
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        const members = Symbol('list of members sorted by firstnames and lastnames');
+        const sourceCampaign = {
+          name: 'A real campaign name',
+          type: Symbol('campaign type'),
+          title: Symbol('campaign title'),
+          description: Symbol('campaign description'),
+          targetProfileId: Symbol('campaign target profile id'),
+          ownerId: Symbol('campaign owner id'),
+          multipleSendings: Symbol('campaign multiple sendings activation'),
+          idPixLabel: Symbol('campaign external id'),
+          customLandingPageText: Symbol('campaign custom landing page text'),
+        };
+        const targetProfile = Symbol('campaign target profile');
+
+        const expectedCampaignAttributes = {
+          ...sourceCampaign,
+          name: 'Copie de A real campaign name',
+          targetProfile,
+          organization,
+        };
+
+        const duplicatedCampaignRecord = Symbol('duplicated campaign record');
+
+        const findAllStub = sinon.stub();
+        const findRecordStub = sinon.stub();
+        const peekRecordStub = sinon.stub();
+        const createRecordStub = sinon.stub();
+
+        class StoreStub extends Service {
+          findAll = findAllStub.resolves(members);
+          createRecord = createRecordStub.resolves(duplicatedCampaignRecord);
+          findRecord = findRecordStub.resolves(sourceCampaign);
+          peekRecord = peekRecordStub.returns(targetProfile);
+        }
+
+        this.owner.register('service:store', StoreStub);
+
+        // when
+        const model = await route.model({ source: Symbol('source campaign id') });
+
+        assert.strictEqual(await model.campaign, duplicatedCampaignRecord);
+        sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
+      });
     });
 
-    class CurrentUserStub extends Service {
-      organization = organization;
-      prescriber = { id: Symbol('prescriber id') };
-    }
-    this.owner.register('service:current-user', CurrentUserStub);
+    module('when campaign type is PROFILES_COLLECTION', function () {
+      test('should prefill campaign attributes from given source campaign', async function (assert) {
+        // given
+        const route = this.owner.lookup('route:authenticated/campaigns/new');
 
-    const members = Symbol('list of members sorted by firstnames and lastnames');
-    const sourceCampaign = {
-      name: 'A real campaign name',
-      type: Symbol('campaign type'),
-      title: Symbol('campaign title'),
-      description: Symbol('campaign description'),
-      targetProfileId: Symbol('campaign target profile id'),
-      ownerId: Symbol('campaign owner id'),
-      multipleSendings: Symbol('campaign multiple sendings activation'),
-      idPixLabel: Symbol('campaign external id'),
-      customLandingPageText: Symbol('campaign custom landing page text'),
-    };
-    const targetProfile = Symbol('campaign target profile');
+        const organization = EmberObject.create({
+          id: 12345,
+        });
 
-    const expectedCampaignAttributes = {
-      ...sourceCampaign,
-      name: 'Copie de A real campaign name',
-      targetProfile,
-      organization,
-    };
+        class CurrentUserStub extends Service {
+          organization = organization;
+          prescriber = { id: Symbol('prescriber id') };
+        }
 
-    const duplicatedCampaignRecord = Symbol('duplicated campaign record');
+        this.owner.register('service:current-user', CurrentUserStub);
 
-    const findAllStub = sinon.stub();
-    const findRecordStub = sinon.stub();
-    const peekRecordStub = sinon.stub();
-    const createRecordStub = sinon.stub();
+        const members = Symbol('list of members sorted by firstnames and lastnames');
+        const sourceCampaign = {
+          name: 'A real campaign name',
+          type: Symbol('campaign type'),
+          title: Symbol('campaign title'),
+          description: Symbol('campaign description'),
+          ownerId: Symbol('campaign owner id'),
+          multipleSendings: Symbol('campaign multiple sendings activation'),
+          idPixLabel: Symbol('campaign external id'),
+          customLandingPageText: Symbol('campaign custom landing page text'),
+        };
 
-    const storeStub = {
-      findAll: findAllStub.resolves(members),
-      createRecord: createRecordStub.resolves(duplicatedCampaignRecord),
-      findRecord: findRecordStub.resolves(sourceCampaign),
-      peekRecord: peekRecordStub.returns(targetProfile),
-    };
-    route.store = storeStub;
+        const expectedCampaignAttributes = {
+          ...sourceCampaign,
+          name: 'Copie de A real campaign name',
+          organization,
+        };
 
-    // when
-    const model = await route.model({ source: Symbol('source campaign id') });
+        const duplicatedCampaignRecord = Symbol('duplicated campaign record');
 
-    assert.strictEqual(await model.campaign, duplicatedCampaignRecord);
-    sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
+        const findAllStub = sinon.stub();
+        const findRecordStub = sinon.stub();
+        const peekRecordStub = sinon.stub();
+        const createRecordStub = sinon.stub();
+
+        class StoreStub extends Service {
+          findAll = findAllStub.resolves(members);
+          createRecord = createRecordStub.resolves(duplicatedCampaignRecord);
+          findRecord = findRecordStub.resolves(sourceCampaign);
+          peekRecord = peekRecordStub;
+        }
+
+        this.owner.register('service:store', StoreStub);
+
+        // when
+        const model = await route.model({ source: Symbol('source campaign id') });
+
+        assert.strictEqual(await model.campaign, duplicatedCampaignRecord);
+        sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
+        sinon.assert.notCalled(peekRecordStub);
+      });
+    });
+
+    test('should return empty campaign when searching for given source campaign raises an error', async function (assert) {
+      // given
+      const organization = EmberObject.create({
+        id: 12345,
+      });
+
+      const prescriber = { id: Symbol('prescriber id') };
+
+      class CurrentUserStub extends Service {
+        organization = organization;
+        prescriber = prescriber;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const members = Symbol('list of members sorted by firstnames and lastnames');
+
+      const expectedCampaignAttributes = {
+        organization,
+        ownerId: prescriber.id,
+      };
+
+      const createdCampaignRecord = Symbol('created campaign record');
+
+      const findAllStub = sinon.stub();
+      const findRecordStub = sinon.stub();
+      const createRecordStub = sinon.stub();
+
+      class StoreStub extends Service {
+        findAll = findAllStub.resolves(members);
+        findRecord = findRecordStub.rejects(new Error());
+        createRecord = createRecordStub.resolves(createdCampaignRecord);
+      }
+
+      this.owner.register('service:store', StoreStub);
+
+      const replaceWithStub = sinon.stub();
+
+      class RouterStub extends Service {
+        replaceWith = replaceWithStub.returns();
+      }
+
+      this.owner.register('service:router', RouterStub);
+
+      const route = this.owner.lookup('route:authenticated/campaigns/new');
+
+      // when
+      const model = await route.model({ source: Symbol('source campaign id') });
+
+      assert.strictEqual(await model.campaign, createdCampaignRecord);
+      sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
+      sinon.assert.calledWithMatch(replaceWithStub, 'authenticated.campaigns.new', {
+        queryParams: { source: null },
+      });
+    });
   });
 });
