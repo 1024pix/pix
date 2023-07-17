@@ -27,6 +27,7 @@ module.exports = {
   rules: {
     'ember/no-mixins': 'off',
     'no-restricted-imports': ['error', { paths: ['lodash'] }],
+    'qunit/require-expect': ['error', 'except-simple'],
   },
   overrides: [
     // node files
