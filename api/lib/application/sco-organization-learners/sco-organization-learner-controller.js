@@ -1,6 +1,6 @@
 import { usecases } from '../../domain/usecases/index.js';
 import * as scoOrganizationLearnerSerializer from '../../infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
-import * as requestReponseUtils from '../../infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import * as studentInformationForAccountRecoverySerializer from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
 
 const reconcileScoOrganizationLearnerManually = async function (
@@ -80,7 +80,7 @@ const createAndReconcileUserToOrganizationLearner = async function (
   h,
   dependencies = {
     scoOrganizationLearnerSerializer,
-    requestReponseUtils,
+    requestResponseUtils,
   },
 ) {
   const payload = request.payload.data.attributes;
@@ -92,7 +92,7 @@ const createAndReconcileUserToOrganizationLearner = async function (
     username: payload.username,
     withUsername: payload['with-username'],
   };
-  const locale = dependencies.requestReponseUtils.extractLocaleFromRequest(request);
+  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
   await usecases.createAndReconcileUserToOrganizationLearner({
     userAttributes,
