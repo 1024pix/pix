@@ -44,8 +44,8 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     assert
       .dom(
         screen.getByText(
-          "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test"
-        )
+          "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test",
+        ),
       )
       .exists();
     assert.dom(screen.getByText('1 signalement')).exists();
@@ -88,8 +88,8 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     assert
       .dom(
         screen.getByText(
-          "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test"
-        )
+          "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test",
+        ),
       )
       .exists();
     assert.dom(screen.getByText('2 signalements')).exists();
@@ -122,7 +122,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     await click(
       await screen.findByRole('option', {
         name: 'Problème technique',
-      })
+      }),
     );
 
     // then
@@ -227,7 +227,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
       .dom(
         screen.getByRole('table', {
           name: "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
-        })
+        }),
       )
       .exists();
   });

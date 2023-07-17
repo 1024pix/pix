@@ -16,7 +16,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
 
     // when
     const { getByText } = await render(
-      hbs`<Import::StepTwoSection @sessionsCount={{this.sessionsCount}} @sessionsWithoutCandidatesCount={{this.sessionsWithoutCandidatesCount}}  @candidatesCount={{this.candidatesCount}} @errorReports={{this.errorReports}}/>`
+      hbs`<Import::StepTwoSection @sessionsCount={{this.sessionsCount}} @sessionsWithoutCandidatesCount={{this.sessionsWithoutCandidatesCount}}  @candidatesCount={{this.candidatesCount}} @errorReports={{this.errorReports}}/>`,
     );
 
     // then
@@ -181,7 +181,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
 
         // when
         const { getByText, getByRole } = await render(
-          hbs`<Import::StepTwoSection @errorReports={{this.errorReports}}/>`
+          hbs`<Import::StepTwoSection @errorReports={{this.errorReports}}/>`,
         );
 
         await click(getByRole('button', { name: '1 point d’attention non bloquant' }));

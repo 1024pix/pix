@@ -58,7 +58,7 @@ module('Acceptance | join ', function (hooks) {
           assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
           assert.strictEqual(currentURL(), '/cgu');
         });
-      }
+      },
     );
 
     module(
@@ -92,7 +92,7 @@ module('Acceptance | join ', function (hooks) {
           assert.contains('Harry Cover');
           assert.contains('Collège Truffaut');
         });
-      }
+      },
     );
   });
 });

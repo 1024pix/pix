@@ -147,7 +147,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           // when
           const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           await click(
-            screen.getByLabelText(`Voir le détail du candidat ${aCandidate.firstName} ${aCandidate.lastName}`)
+            screen.getByLabelText(`Voir le détail du candidat ${aCandidate.firstName} ${aCandidate.lastName}`),
           );
           await screen.findByRole('dialog');
 
@@ -202,8 +202,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
                 .dom(
                   screen.getByText(
                     "La version du document est inconnue.Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
-                    { exact: false }
-                  )
+                    { exact: false },
+                  ),
                 )
                 .exists();
             });
@@ -223,8 +223,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               assert
                 .dom(
                   screen.getByText(
-                    'Aucun candidat n’a été importé. Ligne 2 : Le code postal "88000" ne correspond pas à la ville "Gotham City"'
-                  )
+                    'Aucun candidat n’a été importé. Ligne 2 : Le code postal "88000" ne correspond pas à la ville "Gotham City"',
+                  ),
                 )
                 .exists();
             });
@@ -244,8 +244,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               assert
                 .dom(
                   screen.getByText(
-                    "Aucun candidat n’a été importé. Veuillez réessayer ou nous contacter via le formulaire du centre d'aide."
-                  )
+                    "Aucun candidat n’a été importé. Veuillez réessayer ou nous contacter via le formulaire du centre d'aide.",
+                  ),
                 )
                 .exists();
             });
@@ -268,9 +268,9 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
                     (errorMessage) =>
                       errorMessage.startsWith('Aucun candidat n’a été importé.') &&
                       errorMessage.endsWith(
-                        'Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
-                      )
-                  )
+                        'Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.',
+                      ),
+                  ),
                 )
                 .exists();
             });
@@ -288,7 +288,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               assert
                 .dom('.panel-actions__warning')
                 .hasText(
-                  'La session a débuté, vous ne pouvez plus importer une liste de candidats. Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
+                  'La session a débuté, vous ne pouvez plus importer une liste de candidats. Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.',
                 );
             });
           });
@@ -353,12 +353,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           await click(
             await screen.findByRole('option', {
               name: 'Prépayée',
-            })
+            }),
           );
           await fillIn(screen.getByLabelText('Code de prépaiement'), '12345');
           await fillIn(
             screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
-            'guybrush.threepwood@example.net'
+            'guybrush.threepwood@example.net',
           );
           await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
 
@@ -381,7 +381,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           assert.strictEqual(screen.getByLabelText('Code de prépaiement').value, '');
           assert.strictEqual(
             screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)').value,
-            ''
+            '',
           );
           assert.strictEqual(screen.getByLabelText('E-mail de convocation').value, '');
         });
@@ -404,7 +404,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
                   },
                 ],
               }),
-              422
+              422,
             );
 
             // when
@@ -417,8 +417,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             assert
               .dom(
                 screen.getByText(
-                  'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
-                )
+                  'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
+                ),
               )
               .exists();
           });
@@ -444,7 +444,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
                     },
                   ],
                 }),
-                422
+                422,
               );
 
               // when
@@ -508,7 +508,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               await click(
                 await screen.findByRole('option', {
                   name: 'Prépayée',
-                })
+                }),
               );
 
               await fillIn(screen.getByLabelText('Code de prépaiement'), '12345');
@@ -540,11 +540,11 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     await click(
       await screen.findByRole('option', {
         name: 'Gratuite',
-      })
+      }),
     );
     await fillIn(
       screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
-      'guybrush.threepwood@example.net'
+      'guybrush.threepwood@example.net',
     );
     await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
   }

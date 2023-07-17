@@ -94,7 +94,7 @@ export default class RegisterForm extends Component {
           id: this.args.certificationCenterInvitationId,
           code: this.args.certificationCenterInvitationCode,
           email: this.email,
-        }
+        },
       );
       await certificationCenterInvitationResponseRecord.save({
         adapterOptions: { certificationCenterInvitationId: this.args.certificationCenterInvitationId },

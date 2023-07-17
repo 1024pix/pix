@@ -49,7 +49,7 @@ module('Acceptance | Session Import', function (hooks) {
         return new Response(
           200,
           {},
-          { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] }
+          { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
         );
       });
 
@@ -202,13 +202,13 @@ module('Acceptance | Session Import', function (hooks) {
                   sessionsWithoutCandidatesCount: 1,
                   candidatesCount: 3,
                   errorReports: [],
-                }
+                },
               );
             });
 
             // when
             const { getAllByRole, getByLabelText, getByRole, getByText, queryByLabelText } = await visit(
-              '/sessions/import'
+              '/sessions/import',
             );
             const input = getByLabelText('Importer le modèle complété');
             await triggerEvent(input, 'change', { files: [file] });
@@ -241,7 +241,7 @@ module('Acceptance | Session Import', function (hooks) {
                     sessionsWithoutCandidatesCount: 1,
                     candidatesCount: 3,
                     errorReports: [{ code: 'EMPTY_SESSION', line: 1, blocking: false }],
-                  }
+                  },
                 );
               });
 
@@ -266,7 +266,7 @@ module('Acceptance | Session Import', function (hooks) {
                 return new Response(
                   200,
                   {},
-                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] }
+                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
                 );
               });
 
@@ -274,7 +274,7 @@ module('Acceptance | Session Import', function (hooks) {
                 return new Response(
                   200,
                   {},
-                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3 }
+                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3 },
                 );
               });
 
@@ -300,7 +300,7 @@ module('Acceptance | Session Import', function (hooks) {
                   return new Response(
                     200,
                     {},
-                    { sessionsCount: 1, sessionsWithoutCandidatesCount: 0, candidatesCount: 1, errorReports: [] }
+                    { sessionsCount: 1, sessionsWithoutCandidatesCount: 0, candidatesCount: 1, errorReports: [] },
                   );
                 });
 
@@ -308,7 +308,7 @@ module('Acceptance | Session Import', function (hooks) {
                   return new Response(
                     200,
                     {},
-                    { sessionsCount: 1, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] }
+                    { sessionsCount: 1, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
                   );
                 });
 
@@ -325,8 +325,8 @@ module('Acceptance | Session Import', function (hooks) {
                 assert
                   .dom(
                     screen.getByText(
-                      'Succès ! 1 session dont 0 session sans candidat créée et 1 candidat créé ou édité'
-                    )
+                      'Succès ! 1 session dont 0 session sans candidat créée et 1 candidat créé ou édité',
+                    ),
                   )
                   .exists();
               });
@@ -341,7 +341,7 @@ module('Acceptance | Session Import', function (hooks) {
                   return new Response(
                     200,
                     {},
-                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] }
+                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
                   );
                 });
 
@@ -349,7 +349,7 @@ module('Acceptance | Session Import', function (hooks) {
                   return new Response(
                     200,
                     {},
-                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] }
+                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] },
                   );
                 });
 
@@ -366,8 +366,8 @@ module('Acceptance | Session Import', function (hooks) {
                 assert
                   .dom(
                     screen.getByText(
-                      'Succès ! 2 sessions dont 0 session sans candidat créées et 3 candidats créés ou édités'
-                    )
+                      'Succès ! 2 sessions dont 0 session sans candidat créées et 3 candidats créés ou édités',
+                    ),
                   )
                   .exists();
               });
@@ -393,8 +393,8 @@ module('Acceptance | Session Import', function (hooks) {
                         title: 'Unprocessable Entity',
                       },
                     ],
-                  }
-                )
+                  },
+                ),
             );
 
             // when
@@ -426,8 +426,8 @@ module('Acceptance | Session Import', function (hooks) {
                         detail: 'Fichier non valide',
                       },
                     ],
-                  }
-                )
+                  },
+                ),
             );
 
             // when
@@ -459,8 +459,8 @@ module('Acceptance | Session Import', function (hooks) {
                         code: 'CSV_HEADERS_NOT_VALID',
                       },
                     ],
-                  }
-                )
+                  },
+                ),
             );
 
             // when
@@ -492,8 +492,8 @@ module('Acceptance | Session Import', function (hooks) {
                         code: 'CSV_DATA_REQUIRED',
                       },
                     ],
-                  }
-                )
+                  },
+                ),
             );
 
             // when
@@ -507,8 +507,8 @@ module('Acceptance | Session Import', function (hooks) {
             assert
               .dom(
                 screen.getByText(
-                  "Le modèle importé n'a pas été rempli, merci de le compléter avant de l'importer à nouveau"
-                )
+                  "Le modèle importé n'a pas été rempli, merci de le compléter avant de l'importer à nouveau",
+                ),
               )
               .exists();
           });
@@ -532,8 +532,8 @@ module('Acceptance | Session Import', function (hooks) {
             assert
               .dom(
                 screen.getByText(
-                  'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
-                )
+                  'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
+                ),
               )
               .exists();
           });

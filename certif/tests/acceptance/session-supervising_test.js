@@ -80,28 +80,28 @@ module('Acceptance | Session supervising', function (hooks) {
           .dom(
             screen.getByRole('button', {
               name: "Confirmer la présence de l'élève Star Lord",
-            })
+            }),
           )
           .exists();
         assert
           .dom(
             screen.getByRole('button', {
               name: "Confirmer la présence de l'élève Rupert Giles",
-            })
+            }),
           )
           .exists();
         assert
           .dom(
             screen.getByRole('button', {
               name: "Annuler la confirmation de présence de l'élève John Doe",
-            })
+            }),
           )
           .exists();
         assert
           .dom(
             screen.getByRole('button', {
               name: "Annuler la confirmation de présence de l'élève Buffy Summers",
-            })
+            }),
           )
           .exists();
       });

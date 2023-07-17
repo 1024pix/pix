@@ -18,13 +18,13 @@ export default class UncompletedReportsInformationStep extends Component {
     return [
       {
         label: this.intl.t(
-          'pages.session-finalization.reporting.uncompleted-reports-information.table.labels.abandonment'
+          'pages.session-finalization.reporting.uncompleted-reports-information.table.labels.abandonment',
         ),
         value: 'candidate',
       },
       {
         label: this.intl.t(
-          'pages.session-finalization.reporting.uncompleted-reports-information.table.labels.technical-problem'
+          'pages.session-finalization.reporting.uncompleted-reports-information.table.labels.technical-problem',
         ),
         value: 'technical',
       },

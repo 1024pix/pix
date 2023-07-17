@@ -184,7 +184,7 @@ export default class AddIssueReportModal extends Component {
     }
     const issueReportToSave = this.store.createRecord(
       'certification-issue-report',
-      categoryToAdd.issueReport(this.args.report)
+      categoryToAdd.issueReport(this.args.report),
     );
     try {
       await issueReportToSave.save();

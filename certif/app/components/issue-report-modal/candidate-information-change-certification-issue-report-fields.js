@@ -15,7 +15,7 @@ export default class CandidateInformationChangeCertificationIssueReportFieldsCom
 
   @tracked
   subcategoryTextAreaLabel = this.intl.t(
-    subcategoryToTextareaLabel[this.args.candidateInformationChangeCategory.subcategory]
+    subcategoryToTextareaLabel[this.args.candidateInformationChangeCategory.subcategory],
   );
 
   @action
@@ -28,13 +28,13 @@ export default class CandidateInformationChangeCertificationIssueReportFieldsCom
     {
       value: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
       label: `${subcategoryToCode[certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]} ${this.intl.t(
-        subcategoryToLabel[certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]
+        subcategoryToLabel[certificationIssueReportSubcategories.NAME_OR_BIRTHDATE],
       )}`,
     },
     {
       value: certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE,
       label: `${subcategoryToCode[certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]} ${this.intl.t(
-        subcategoryToLabel[certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]
+        subcategoryToLabel[certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE],
       )}`,
     },
   ];

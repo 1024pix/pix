@@ -110,14 +110,14 @@ module('Acceptance | Session Finalization', function (hooks) {
         .dom(
           screen.getByRole('checkbox', {
             name: 'Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.',
-          })
+          }),
         )
         .exists();
       assert
         .dom(
           screen.getByRole('checkbox', {
             name: "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
-          })
+          }),
         )
         .exists();
     });
@@ -130,15 +130,15 @@ module('Acceptance | Session Finalization', function (hooks) {
       assert
         .dom(
           screen.getByText(
-            "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
-          )
+            "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident",
+          ),
         )
         .exists();
       assert
         .dom(
           screen.getByText(
-            'Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc).'
-          )
+            'Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc).',
+          ),
         )
         .exists();
     });
@@ -282,8 +282,8 @@ module('Acceptance | Session Finalization', function (hooks) {
           assert
             .dom(
               screen.queryByText(
-                "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test"
-              )
+                "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test",
+              ),
             )
             .doesNotExist();
         });
@@ -363,8 +363,8 @@ module('Acceptance | Session Finalization', function (hooks) {
           assert
             .dom(
               screen.getByText(
-                "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test"
-              )
+                "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test",
+              ),
             )
             .exists();
         });
@@ -492,7 +492,7 @@ module('Acceptance | Session Finalization', function (hooks) {
           () => ({
             errors: [{ code: 'SESSION_WITHOUT_STARTED_CERTIFICATION' }],
           }),
-          400
+          400,
         );
         // when
         const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
@@ -504,8 +504,8 @@ module('Acceptance | Session Finalization', function (hooks) {
         assert
           .dom(
             screen.getByText(
-              "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer."
-            )
+              "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer.",
+            ),
           )
           .exists();
         assert.dom(screen.getByText('Numéro de session')).exists();
@@ -529,7 +529,7 @@ module('Acceptance | Session Finalization', function (hooks) {
                 },
               ],
             }),
-            409
+            409,
           );
           // when
           const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
@@ -543,13 +543,13 @@ module('Acceptance | Session Finalization', function (hooks) {
           assert
             .dom(
               screen.getByText(
-                'Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.'
-              )
+                'Le champ “Raison de l’abandon” a été renseigné pour un candidat qui a terminé son test de certification entre temps. La session ne peut donc pas être finalisée. Merci de rafraîchir la page avant de finaliser.',
+              ),
             )
             .exists();
           assert.dom(screen.queryByRole('heading', { name: 'Finalisation de la session' })).doesNotExist();
         });
-      }
+      },
     );
   });
 });

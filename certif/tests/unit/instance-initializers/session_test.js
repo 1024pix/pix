@@ -45,7 +45,7 @@ module('Unit | Instance Initializer | session', function (hooks) {
               expires_in: 45,
               expires_at: 1667837187635,
             },
-          })
+          }),
         );
 
         // when

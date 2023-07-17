@@ -14,7 +14,7 @@ module('Unit | Adapters | session-summary', function (hooks) {
         store.createRecord('allowed-certification-center-access', {
           id: 123,
           certificationCenterName: 'Sunnydale',
-        })
+        }),
       );
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
