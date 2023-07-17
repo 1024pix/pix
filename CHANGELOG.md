@@ -1,5 +1,39 @@
 # Pix Changelog
 
+## v4.14.0 (17/07/2023)
+
+
+### :rocket: Amélioration
+- [#6423](https://github.com/1024pix/pix/pull/6423) [FEATURE] Traduire l'attestation de certification (PIX-6691).
+- [#6572](https://github.com/1024pix/pix/pull/6572) [FEATURE] Création en masse de campagnes depuis un fichier CSV (PIX-8520).
+
+### :building_construction: Tech
+- [#6517](https://github.com/1024pix/pix/pull/6517) [TECH] Verifier les parametre de la route d'ajout de candidat (PIX-8537).
+- [#6593](https://github.com/1024pix/pix/pull/6593) [TECH] Spécifie la version spécifique d'ember-source sur admin qui fonctionne.
+- [#6596](https://github.com/1024pix/pix/pull/6596) [TECH] Mise à jour de prettier et assimilé a la version 3.
+- [#6591](https://github.com/1024pix/pix/pull/6591) [TECH] Spécifie la version spécifique d'ember-data sur orga qui fonctionne.
+- [#6592](https://github.com/1024pix/pix/pull/6592) [TECH] Spécifie les versions spécifique de ember-source et d'ember-data sur certif qui fonctionnent.
+- [#6582](https://github.com/1024pix/pix/pull/6582) [TECH] Refacto de l'API /habilitations pour les complémentaires (PIX-8631).
+- [#6583](https://github.com/1024pix/pix/pull/6583) [TECH] Harmoniser le nommage des Github actions.
+- [#6573](https://github.com/1024pix/pix/pull/6573) [TECH] Permettre de bloquer l'accès sur PixAdmin du versioning des profils cibles via Feature Toggle (PIX-8575).
+
+### :bug: Correction
+- [#6575](https://github.com/1024pix/pix/pull/6575) [BUGFIX] Corrige les typos dans la modale de confirmation de suppression de participants (PIX-8617).
+
+### :coffee: Autre
+- [#6607](https://github.com/1024pix/pix/pull/6607) [BUMP] Update dependency eslint-plugin-qunit to v8 (1d).
+- [#6601](https://github.com/1024pix/pix/pull/6601) [BUMP] Update dependency eslint-plugin-qunit to v8 (certif).
+- [#6576](https://github.com/1024pix/pix/pull/6576) [FEAT] Création de la page avec la liste de toutes les certifications complémentaires (PIX-8576).
+- [#6604](https://github.com/1024pix/pix/pull/6604) [BUMP] Update dependency ember-source to ~4.12.0 (admin).
+- [#6557](https://github.com/1024pix/pix/pull/6557) [BUMP] Update Node.js to v16.
+- [#6600](https://github.com/1024pix/pix/pull/6600) [BUMP] Update dependency eslint-plugin-qunit to v8 (mon-pix).
+- [#6599](https://github.com/1024pix/pix/pull/6599) [BUMP] Update dependency eslint-plugin-unicorn to v48 (api).
+- [#6595](https://github.com/1024pix/pix/pull/6595) [BUMP] Update dependency nodemon to v3 (api).
+- [#6538](https://github.com/1024pix/pix/pull/6538) [BUMP] Update dependency ember-source to ~4.12.0 (1d).
+- [#6589](https://github.com/1024pix/pix/pull/6589) [BUMP] Update dependency ember-cli-showdown to v7 (orga).
+- [#6588](https://github.com/1024pix/pix/pull/6588) [BUMP] Update dependency ember-cli-showdown to v7 (admin).
+- [#6578](https://github.com/1024pix/pix/pull/6578) [BUMP] Met à jour Pix UI en version 38 dans Pix Admin (PIX-8619).
+
 ## v4.13.1 (11/07/2023)
 
 
