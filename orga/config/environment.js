@@ -7,7 +7,7 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
     return number;
   }
   throw new Error(
-    `Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`
+    `Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`,
   );
 }
 

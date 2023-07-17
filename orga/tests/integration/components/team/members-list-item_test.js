@@ -196,7 +196,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         // then
         sinon.assert.calledWith(
           notifications.success,
-          this.intl.t('pages.team-members.notifications.change-member-role.success')
+          this.intl.t('pages.team-members.notifications.change-member-role.success'),
         );
         assert.ok(true);
       });
@@ -221,7 +221,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         // then
         sinon.assert.calledWith(
           notifications.error,
-          this.intl.t('pages.team-members.notifications.change-member-role.error')
+          this.intl.t('pages.team-members.notifications.change-member-role.error'),
         );
         assert.ok(true);
       });
@@ -241,7 +241,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
         // when
         screen = await render(
-          hbs`<Team::MembersListItem @membership={{this.membership}} @onRemoveMember={{this.removeMembership}} />`
+          hbs`<Team::MembersListItem @membership={{this.membership}} @onRemoveMember={{this.removeMembership}} />`,
         );
 
         await clickByName('Gérer');

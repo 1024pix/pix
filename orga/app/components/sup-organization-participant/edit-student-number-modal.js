@@ -27,7 +27,7 @@ export default class EditStudentNumberModal extends Component {
         this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.success', {
           firstName: this.args.student.firstName,
           lastName: this.args.student.lastName,
-        })
+        }),
       );
       this.close();
     } catch (errorResponse) {

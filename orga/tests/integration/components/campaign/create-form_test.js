@@ -38,7 +38,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
     );
 
     // then
@@ -57,7 +57,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
     );
 
     // then
@@ -74,7 +74,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
     );
     await click(screen.getByLabelText(t('pages.campaign-creation.owner.label'), { exact: false }));
     await screen.findByRole('listbox');
@@ -92,7 +92,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
     );
 
     // then
@@ -109,7 +109,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
       );
       await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
@@ -131,7 +131,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
       );
       await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
@@ -170,7 +170,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
@@ -212,7 +212,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
@@ -272,7 +272,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
           );
           await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
@@ -317,7 +317,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
           );
           await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
@@ -355,7 +355,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
@@ -399,7 +399,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
         );
         await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
@@ -422,7 +422,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
 
@@ -440,7 +440,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
 
@@ -462,7 +462,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
 
@@ -482,7 +482,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
       );
 
       // then
@@ -500,7 +500,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
       );
       await clickByName(t('pages.campaign-creation.no'));
 
@@ -519,7 +519,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
       );
       await clickByName(t('pages.campaign-creation.yes'));
 
@@ -536,7 +536,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
       );
       await clickByName(t('pages.campaign-creation.yes'));
 
@@ -559,7 +559,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
     );
     await fillByLabel(`* ${t('pages.campaign-creation.name.label')}`, 'Ma campagne');
     await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -607,7 +607,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
       );
       await clickByName(t('pages.campaign-creation.yes'));
 
@@ -638,7 +638,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @errors={{this.errors}}
   @targetProfiles={{this.targetProfiles}}
   @membersSortedByFullName={{this.defaultMembers}}
-/>`
+/>`,
       );
       await clickByName(t('pages.campaign-creation.purpose.assessment'));
 

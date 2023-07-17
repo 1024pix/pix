@@ -12,7 +12,7 @@ export function findFilteredPaginatedScoOrganizationParticipants(schema, request
 
   const json = this.serialize(
     { modelName: 'sco-organization-participant', models: paginatedScoOrganizationParticipants },
-    'sco-organization-participant'
+    'sco-organization-participant',
   );
   json.meta = {
     page: pagination.page,

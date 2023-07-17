@@ -45,7 +45,7 @@ module('Acceptance | Campaign Profile', function (hooks) {
     // when
     await visitScreen('/campagnes/1/profils/1');
     await click(
-      within(document.querySelector('main')).getByRole('link', { name: this.intl.t('navigation.main.campaigns') })
+      within(document.querySelector('main')).getByRole('link', { name: this.intl.t('navigation.main.campaigns') }),
     );
 
     // then

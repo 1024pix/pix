@@ -64,7 +64,7 @@ Router.map(function () {
         function () {
           this.route('results', { path: '/resultats' });
           this.route('analysis', { path: '/analyse' });
-        }
+        },
       );
       this.route('participant-profile', { path: '/:campaign_id/profils/:campaign_participation_id' });
       this.route('campaign', { path: '/:campaign_id' }, function () {

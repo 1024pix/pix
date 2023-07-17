@@ -53,7 +53,7 @@ module('Unit | Service | Error messages', function (hooks) {
       // Then
       assert.strictEqual(
         message,
-        t('api-error-messages.student-xml-import.birth-city-code-required-for-french-student')
+        t('api-error-messages.student-xml-import.birth-city-code-required-for-french-student'),
       );
     });
   });
@@ -66,7 +66,7 @@ module('Unit | Service | Error messages', function (hooks) {
     // Then
     assert.strictEqual(
       message,
-      t('api-error-messages.student-csv-import.field-min-length', { line: 1, field: 'Boo', limit: 2 })
+      t('api-error-messages.student-csv-import.field-min-length', { line: 1, field: 'Boo', limit: 2 }),
     );
   });
 
@@ -82,7 +82,7 @@ module('Unit | Service | Error messages', function (hooks) {
         line: 1,
         field: 'Boo',
         valids: `A${t('api-error-messages.or-separator')}B`,
-      })
+      }),
     );
   });
 });

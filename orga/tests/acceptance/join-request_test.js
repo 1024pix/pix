@@ -27,7 +27,7 @@ module('Acceptance | join-request', function (hooks) {
           .dom(
             screen.getByText("L'UAI/RNE de l'établissement n’est pas reconnu.", {
               exact: false,
-            })
+            }),
           )
           .exists();
       });
@@ -49,7 +49,7 @@ module('Acceptance | join-request', function (hooks) {
           .dom(
             screen.getByText("L'UAI/RNE de l'établissement n’est pas reconnu.", {
               exact: false,
-            })
+            }),
           )
           .exists();
       });
@@ -71,7 +71,7 @@ module('Acceptance | join-request', function (hooks) {
           .dom(
             screen.getByText('Nous n’avons pas d’adresse e-mail de contact associée à votre établissement.', {
               exact: false,
-            })
+            }),
           )
           .exists();
       });
@@ -80,7 +80,7 @@ module('Acceptance | join-request', function (hooks) {
         // given
         server.post(
           '/organization-invitations/sco',
-          () => new Response(500, {}, { errors: [{ status: '500', title: 'Internal Server Error' }] })
+          () => new Response(500, {}, { errors: [{ status: '500', title: 'Internal Server Error' }] }),
         );
         const screen = await visit('/demande-administration-sco');
 
@@ -96,7 +96,7 @@ module('Acceptance | join-request', function (hooks) {
           .dom(
             screen.getByText('Une erreur est survenue.', {
               exact: false,
-            })
+            }),
           )
           .exists();
       });
@@ -118,7 +118,7 @@ module('Acceptance | join-request', function (hooks) {
           .dom(
             screen.getByText("L'UAI/RNE de l'établissement n’est pas reconnu.", {
               exact: false,
-            })
+            }),
           )
           .exists();
       });
@@ -147,8 +147,8 @@ module('Acceptance | join-request', function (hooks) {
             "Un e-mail contenant la démarche à suivre a été envoyé à l'adresse e-mail de votre établissement.",
             {
               exact: false,
-            }
-          )
+            },
+          ),
         )
         .exists();
     });

@@ -7,12 +7,12 @@ export default class CompetencesAnalysis extends Component {
 
   get campaignCollectiveResultLabel() {
     const competenceCollectiveResultsCount = this.args.campaignCollectiveResult.get(
-      'campaignCompetenceCollectiveResults'
+      'campaignCompetenceCollectiveResults',
     ).length;
     return htmlSafe(
       this.intl.t('pages.campaign-review.table.competences.column.competences', {
         count: competenceCollectiveResultsCount ? competenceCollectiveResultsCount : '-',
-      })
+      }),
     );
   }
 }

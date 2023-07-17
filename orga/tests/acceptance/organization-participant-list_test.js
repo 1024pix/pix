@@ -59,7 +59,7 @@ module('Acceptance | Organization Participant List', function (hooks) {
 
         // when
         const select = getByLabelText(
-          this.intl.t('pages.organization-participants.filters.type.certificability.label')
+          this.intl.t('pages.organization-participants.filters.type.certificability.label'),
         );
         await click(select);
         await clickByText(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));

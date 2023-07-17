@@ -9,7 +9,7 @@ export default class deleteParticipationModal extends Component {
       return null;
     }
     return this.intl.t(
-      `${DELETE_PARTICIPATION_MODAL_WARNING[this.args.campaign.type][this.args.participation.status]}`
+      `${DELETE_PARTICIPATION_MODAL_WARNING[this.args.campaign.type][this.args.participation.status]}`,
     );
   }
 }

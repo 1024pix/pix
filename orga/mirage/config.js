@@ -98,7 +98,7 @@ export default function () {
       results = schema.campaigns.all();
     } else if (ownerName && !campaignName) {
       results = schema.campaigns.where(
-        ({ ownerFirstName, ownerLastName }) => ownerFirstName.includes(ownerName) || ownerLastName.includes(ownerName)
+        ({ ownerFirstName, ownerLastName }) => ownerFirstName.includes(ownerName) || ownerLastName.includes(ownerName),
       );
     } else if (!ownerName && campaignName) {
       results = schema.campaigns.where(({ name }) => name.includes(campaignName));
@@ -111,7 +111,7 @@ export default function () {
     } else {
       results = schema.campaigns.where(
         ({ ownerFirstName, ownerLastName, name }) =>
-          (ownerFirstName.includes(ownerName) || ownerLastName.includes(ownerName)) && name.includes(campaignName)
+          (ownerFirstName.includes(ownerName) || ownerLastName.includes(ownerName)) && name.includes(campaignName),
       );
     }
     const json = this.serializerOrRegistry.serialize(results, request);
@@ -222,7 +222,7 @@ export default function () {
                 "L'UAI/RNE de l'établissement ne correspond à aucun établissement dans la base de données Pix. Merci de contacter le support.",
             },
           ],
-        }
+        },
       );
     }
 
@@ -239,7 +239,7 @@ export default function () {
                 "Nous n'avons pas d'adresse e-mail de contact associé à votre établissement, merci de contacter le support pour récupérer votre accès.",
             },
           ],
-        }
+        },
       );
     }
 
@@ -282,8 +282,8 @@ export default function () {
           new Response(
             422,
             {},
-            { errors: [{ status: '422', detail: '422 - Le détail affiché est envoyé par le back' }] }
-          )
+            { errors: [{ status: '422', detail: '422 - Le détail affiché est envoyé par le back' }] },
+          ),
         );
       });
     } else if (type === 'valid-file') {
@@ -305,8 +305,8 @@ export default function () {
         new Response(
           200,
           {},
-          { data: { attributes: { warnings: [{ field: 'diploma', value: 'BAD', code: 'unknown' }] } } }
-        )
+          { data: { attributes: { warnings: [{ field: 'diploma', value: 'BAD', code: 'unknown' }] } } },
+        ),
       );
     } else if (type === 'invalid-file') {
       return new Promise((resolve) => {
@@ -380,7 +380,7 @@ export default function () {
 
   this.get(
     '/campaigns/:id/profiles-collection-participations',
-    findPaginatedCampaignProfilesCollectionParticipationSummaries
+    findPaginatedCampaignProfilesCollectionParticipationSummaries,
   );
 
   this.get('/campaign-participations/:id/analyses', (schema, request) => {

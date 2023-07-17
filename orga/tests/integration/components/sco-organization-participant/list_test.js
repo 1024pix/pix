@@ -47,7 +47,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
-/>`
+/>`,
     );
 
     // then
@@ -85,7 +85,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
-/>`
+/>`,
     );
 
     // then
@@ -125,7 +125,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
-/>`
+/>`,
     );
     // then
     assert.dom(screen.getByRole('link', { name: 'Michel' })).hasProperty('href', /\/eleves\/22/g);
@@ -161,7 +161,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
-/>`
+/>`,
     );
 
     // then
@@ -175,8 +175,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     assert
       .dom(
         screen.getByLabelText(
-          this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')
-        )
+          this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label'),
+        ),
       )
       .exists();
   });
@@ -199,7 +199,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
-/>`
+/>`,
     );
 
     // then
@@ -229,7 +229,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
-/>`
+/>`,
     );
 
     // then
@@ -257,7 +257,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
-/>`
+/>`,
       );
 
       // when
@@ -436,8 +436,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelDefaultSort')
-          )
+            this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
+          ),
         );
 
         // then
@@ -473,8 +473,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelSortDown')
-          )
+            this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelSortDown'),
+          ),
         );
 
         // then
@@ -510,8 +510,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelSortUp')
-          )
+            this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelSortUp'),
+          ),
         );
 
         // then
@@ -550,8 +550,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.last-name.ariaLabelDefaultSort')
-          )
+            this.intl.t('pages.sco-organization-participants.table.column.last-name.ariaLabelDefaultSort'),
+          ),
         );
 
         // then
@@ -587,8 +587,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.last-name.ariaLabelSortDown')
-          )
+            this.intl.t('pages.sco-organization-participants.table.column.last-name.ariaLabelSortDown'),
+          ),
         );
 
         // then
@@ -624,8 +624,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.last-name.ariaLabelSortUp')
-          )
+            this.intl.t('pages.sco-organization-participants.table.column.last-name.ariaLabelSortUp'),
+          ),
         );
 
         // then
@@ -664,8 +664,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.division.ariaLabelDefaultSort')
-          )
+            this.intl.t('pages.sco-organization-participants.table.column.division.ariaLabelDefaultSort'),
+          ),
         );
 
         // then
@@ -701,8 +701,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.division.ariaLabelSortDown')
-          )
+            this.intl.t('pages.sco-organization-participants.table.column.division.ariaLabelSortDown'),
+          ),
         );
 
         // then
@@ -738,8 +738,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         // when
         await click(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.division.ariaLabelSortUp')
-          )
+            this.intl.t('pages.sco-organization-participants.table.column.division.ariaLabelSortUp'),
+          ),
         );
 
         // then
@@ -983,8 +983,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       assert
         .dom(
           screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.tooltip.aria-label')
-          )
+            this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.tooltip.aria-label'),
+          ),
         )
         .exists();
     });

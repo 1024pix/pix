@@ -34,7 +34,7 @@ module('Unit | Adapter | membership', function (hooks) {
         await adapter.updateRecord(
           {},
           { modelName: 'membership' },
-          { id: 1, adapterOptions: { disable: true }, serialize: sinon.stub().returns(data) }
+          { id: 1, adapterOptions: { disable: true }, serialize: sinon.stub().returns(data) },
         );
 
         // then

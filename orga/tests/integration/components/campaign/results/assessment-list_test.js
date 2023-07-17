@@ -45,7 +45,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @selectedGroups={{this.groups}}
   @selectedBadges={{this.badges}}
   @selectedStages={{this.stages}}
-/>`
+/>`,
     );
 
     // then
@@ -87,7 +87,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @selectedGroups={{this.groups}}
   @selectedBadges={{this.badges}}
   @selectedStages={{this.stages}}
-/>`
+/>`,
       );
 
       // then
@@ -122,7 +122,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @selectedGroups={{this.groups}}
   @selectedBadges={{this.badges}}
   @selectedStages={{this.stages}}
-/>`
+/>`,
       );
 
       // then
@@ -157,7 +157,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @selectedGroups={{this.groups}}
   @selectedBadges={{this.badges}}
   @selectedStages={{this.stages}}
-/>`
+/>`,
       );
 
       // then
@@ -191,7 +191,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @selectedGroups={{this.groups}}
   @selectedBadges={{this.badges}}
   @selectedStages={{this.stages}}
-/>`
+/>`,
       );
 
       // then
@@ -224,7 +224,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @selectedGroups={{this.groups}}
   @selectedBadges={{this.badges}}
   @selectedStages={{this.stages}}
-/>`
+/>`,
       );
 
       // then
@@ -258,7 +258,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @selectedGroups={{this.groups}}
   @selectedBadges={{this.badges}}
   @selectedStages={{this.stages}}
-/>`
+/>`,
       );
 
       // then
@@ -292,7 +292,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
   @selectedGroups={{this.groups}}
   @selectedBadges={{this.badges}}
   @selectedStages={{this.stages}}
-/>`
+/>`,
       );
 
       // then

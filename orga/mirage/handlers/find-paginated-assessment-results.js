@@ -10,7 +10,7 @@ export function findPaginatedAssessmentResults(schema, request) {
 
   const json = this.serialize(
     { modelName: 'campaign-assessment-result-minimal', models: paginatedResults },
-    'campaign-assessment-result-minimal'
+    'campaign-assessment-result-minimal',
   );
 
   json.meta = {

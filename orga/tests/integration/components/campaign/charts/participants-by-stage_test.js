@@ -33,7 +33,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
 
     // when
     screen = await render(
-      hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{this.campaignId}} @onSelectStage={{this.onSelectStage}} />`
+      hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{this.campaignId}} @onSelectStage={{this.onSelectStage}} />`,
     );
   });
 
@@ -92,7 +92,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
 
         // when
         await render(
-          hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{this.campaignId}} @onSelectStage={{this.onSelectStage}} />`
+          hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{this.campaignId}} @onSelectStage={{this.onSelectStage}} />`,
         );
 
         // then
@@ -117,7 +117,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
 
         // when
         await render(
-          hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{this.campaignId}} @onSelectStage={{this.onSelectStage}} />`
+          hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{this.campaignId}} @onSelectStage={{this.onSelectStage}} />`,
         );
 
         // then
@@ -139,7 +139,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
 
         // when
         await render(
-          hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{this.campaignId}} @onSelectStage={{this.onSelectStage}} />`
+          hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{this.campaignId}} @onSelectStage={{this.onSelectStage}} />`,
         );
 
         // then

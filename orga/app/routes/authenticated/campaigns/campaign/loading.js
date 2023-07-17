@@ -8,7 +8,7 @@ export default class LoadingRoute extends Route {
       function () {
         this.render();
       },
-      200
+      200,
     );
   }
 }

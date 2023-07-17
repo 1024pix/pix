@@ -39,7 +39,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenBadges={{true}}
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
-/>`
+/>`,
       );
 
       // then
@@ -69,7 +69,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenBadges={{true}}
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
-/>`
+/>`,
       );
 
       // then
@@ -101,7 +101,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenBadges={{true}}
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
-/>`
+/>`,
         );
 
         await clickByName('Effacer les filtres');
@@ -133,7 +133,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenBadges={{true}}
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
-/>`
+/>`,
         );
 
         //then
@@ -163,7 +163,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenBadges={{true}}
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
-/>`
+/>`,
         );
 
         // then
@@ -192,7 +192,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenBadges={{true}}
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
-/>`
+/>`,
         );
 
         // then
@@ -223,7 +223,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
   @selectedStages={{this.selectedStages}}
-/>`
+/>`,
         );
 
         // then
@@ -250,7 +250,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenBadges={{true}}
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
-/>`
+/>`,
         );
 
         // then
@@ -282,7 +282,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
   @selectedStages={{this.selectedStages}}
-/>`
+/>`,
         );
 
         await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.stages')));
@@ -318,7 +318,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
   @selectedBadges={{this.selectedBadges}}
-/>`
+/>`,
         );
 
         // then
@@ -347,7 +347,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
   @selectedBadges={{this.selectedBadges}}
-/>`
+/>`,
         );
 
         // then
@@ -379,7 +379,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenDivisions={{true}}
   @isHiddenGroups={{true}}
   @selectedBadges={{this.selectedBadges}}
-/>`
+/>`,
         );
 
         await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.badges')));
@@ -403,7 +403,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         // when
         await render(
-          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`,
         );
 
         // then
@@ -425,7 +425,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         // when
         await render(
-          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`,
         );
 
         // then
@@ -451,13 +451,13 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
       // when
       const screen = await render(
-        hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
+        hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`,
       );
       await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.status.title')));
       await click(
         await screen.findByRole('option', {
           name: this.intl.t('components.participation-status.STARTED-ASSESSMENT'),
-        })
+        }),
       );
 
       // then
@@ -478,7 +478,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
       // when
       const screen = await render(
-        hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} @selectedStatus='STARTED' />`
+        hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} @selectedStatus='STARTED' />`,
       );
       await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.status.title')));
 
@@ -488,7 +488,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           await screen.findByRole('option', {
             name: this.intl.t('components.participation-status.STARTED-ASSESSMENT'),
             selected: true,
-          })
+          }),
         )
         .exists();
     });
@@ -507,7 +507,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
       // when
       const screen = await render(
-        hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`
+        hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`,
       );
 
       // then
@@ -520,7 +520,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           this.intl.t('components.participation-status.STARTED-ASSESSMENT'),
           this.intl.t('components.participation-status.TO_SHARE-ASSESSMENT'),
           this.intl.t('components.participation-status.SHARED-ASSESSMENT'),
-        ]
+        ],
       );
     });
 
@@ -538,7 +538,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
       // when
       const screen = await render(
-        hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`
+        hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`,
       );
 
       // then
@@ -550,7 +550,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           this.intl.t('pages.campaign-results.filters.type.status.empty'),
           this.intl.t('components.participation-status.TO_SHARE-PROFILES_COLLECTION'),
           this.intl.t('components.participation-status.SHARED-PROFILES_COLLECTION'),
-        ]
+        ],
       );
     });
   });
@@ -574,7 +574,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenGroups={{true}}
   @onResetFilter={{this.noop}}
   @onFilter={{this.noop}}
-/>`
+/>`,
       );
 
       // then
@@ -597,7 +597,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
       // when
       await render(
-        hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
+        hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`,
       );
       await fillByLabel(this.intl.t('pages.campaign-results.filters.type.search.title'), 'Sal');
 
@@ -630,7 +630,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenDivisions={{false}}
   @isHiddenGroups={{true}}
   @selectedDivisions={{this.selectedDivisions}}
-/>`
+/>`,
         );
         // then
         assert.contains('Classes');
@@ -650,13 +650,13 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenBadges={{true}}
   @isHiddenDivisions={{false}}
   @selectedDivisions={{this.selectedDivisions}}
-/>`
+/>`,
         );
         await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.divisions.placeholder')));
         await click(
           await screen.findByRole('checkbox', {
             name: 'd1',
-          })
+          }),
         );
 
         // then
@@ -704,7 +704,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenStages={{true}}
   @isHiddenBadges={{true}}
   @selectedGroups={{this.selectedGroups}}
-/>`
+/>`,
         );
         // then
         assert.contains('Groupes');
@@ -724,14 +724,14 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenStages={{true}}
   @isHiddenBadges={{true}}
   @selectedGroups={{this.selectedGroups}}
-/>`
+/>`,
         );
 
         await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.groups.title')));
         await click(
           await screen.findByRole('checkbox', {
             name: 'd1',
-          })
+          }),
         );
 
         // then
@@ -762,7 +762,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @isHiddenStages={{true}}
   @isHiddenBadges={{true}}
   @selectedGroups={{this.selectedGroups}}
-/>`
+/>`,
       );
 
       // then

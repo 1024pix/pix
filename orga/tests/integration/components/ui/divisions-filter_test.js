@@ -58,7 +58,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
       this.onSelect = sinon.stub();
 
       const screen = await render(
-        hbs`<Ui::DivisionsFilter @model={{this.campaign}} @onSelect={{this.onSelect}} @placeholder='Classes' />`
+        hbs`<Ui::DivisionsFilter @model={{this.campaign}} @onSelect={{this.onSelect}} @placeholder='Classes' />`,
       );
       await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.divisions.placeholder')));
       await click(await screen.findByRole('checkbox', { name: 'd1' }));
@@ -76,7 +76,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
       this.selected = ['d1', 'd2'];
 
       const { getByPlaceholderText } = await render(
-        hbs`<Ui::DivisionsFilter @model={{this.campaign}} @selected={{this.selected}} @placeholder='Classes' />`
+        hbs`<Ui::DivisionsFilter @model={{this.campaign}} @selected={{this.selected}} @placeholder='Classes' />`,
       );
 
       assert.ok(getByPlaceholderText('d1, d2'));

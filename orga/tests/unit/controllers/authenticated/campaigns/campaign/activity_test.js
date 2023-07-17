@@ -33,7 +33,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
 
       // then
       assert.true(
-        controller.router.transitionTo.calledWith('authenticated.campaigns.participant-assessment', 123, 456)
+        controller.router.transitionTo.calledWith('authenticated.campaigns.participant-assessment', 123, 456),
       );
     });
   });
@@ -112,7 +112,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         assert.true(
           campaignParticipantActivity.destroyRecord.calledWith({
             adapterOptions: { campaignId, campaignParticipationId: campaignParticipantActivity.id },
-          })
+          }),
         );
 
         assert.true(controller.send.calledWith('refreshModel'));
