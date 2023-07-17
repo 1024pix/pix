@@ -23,7 +23,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
     const campaignAssessmentParticipationResult = server.create(
       'campaign-assessment-participation-result',
       'withCompetenceResults',
-      { id: 1, campaignId }
+      { id: 1, campaignId },
     );
     server.create('campaign-assessment-participation', {
       id: 1,
@@ -75,7 +75,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
 
       await click(screen.getByLabelText(this.intl.t('pages.campaign-activity.table.column.status')));
       await click(
-        await screen.findByRole('option', { name: this.intl.t('components.participation-status.STARTED-ASSESSMENT') })
+        await screen.findByRole('option', { name: this.intl.t('components.participation-status.STARTED-ASSESSMENT') }),
       );
       await clickByName('Effacer les filtres');
 
@@ -106,7 +106,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
         () => ({
           errors: [{ detail: "You're not allowed to delete" }],
         }),
-        422
+        422,
       );
 
       const screen = await visit('/campagnes/1');
@@ -129,7 +129,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
 
       await click(screen.getByLabelText(this.intl.t('pages.campaign-activity.table.column.status')));
       await click(
-        await screen.findByRole('option', { name: this.intl.t('components.participation-status.STARTED-ASSESSMENT') })
+        await screen.findByRole('option', { name: this.intl.t('components.participation-status.STARTED-ASSESSMENT') }),
       );
 
       // then

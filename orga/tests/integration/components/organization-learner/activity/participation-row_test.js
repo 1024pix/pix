@@ -28,7 +28,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
 
     // when
     const screen = await render(
-      hbs`<OrganizationLearner::Activity::ParticipationRow @participation={{this.participation}} />`
+      hbs`<OrganizationLearner::Activity::ParticipationRow @participation={{this.participation}} />`,
     );
 
     // then
@@ -37,7 +37,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
       .dom(
         screen.getByRole('cell', {
           name: this.intl.t('pages.organization-learner.activity.participation-list.type.ASSESSMENT'),
-        })
+        }),
       )
       .exists();
     assert.dom(screen.getByRole('cell', { name: '01/02/2023' })).exists();
@@ -61,7 +61,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
     this.route = 'authenticated.campaigns.participant-assessment';
 
     const screen = await render(
-      hbs`<OrganizationLearner::Activity::ParticipationRow @participation={{this.participation}} />`
+      hbs`<OrganizationLearner::Activity::ParticipationRow @participation={{this.participation}} />`,
     );
 
     // when
@@ -85,7 +85,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
     this.route = 'authenticated.campaigns.participant-profile';
 
     const screen = await render(
-      hbs`<OrganizationLearner::Activity::ParticipationRow @participation={{this.participation}} />`
+      hbs`<OrganizationLearner::Activity::ParticipationRow @participation={{this.participation}} />`,
     );
 
     // when

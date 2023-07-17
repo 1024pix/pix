@@ -109,7 +109,7 @@ module('Acceptance | Switch Organization', function (hooks) {
             // then
             assert.dom('.sidebar').containsText('Élèves');
           });
-        }
+        },
       );
     });
   });

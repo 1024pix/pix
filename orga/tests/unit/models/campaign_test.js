@@ -26,7 +26,7 @@ module('Unit | Model | campaign', function (hooks) {
       });
       assert.strictEqual(
         model.urlToResult,
-        'http://localhost:3000/api/campaigns/1/csv-assessment-results?accessToken=token'
+        'http://localhost:3000/api/campaigns/1/csv-assessment-results?accessToken=token',
       );
     });
 
@@ -41,7 +41,7 @@ module('Unit | Model | campaign', function (hooks) {
       });
       assert.strictEqual(
         model.urlToResult,
-        'http://localhost:3000/api/campaigns/1/csv-profiles-collection-results?accessToken=token'
+        'http://localhost:3000/api/campaigns/1/csv-profiles-collection-results?accessToken=token',
       );
     });
   });

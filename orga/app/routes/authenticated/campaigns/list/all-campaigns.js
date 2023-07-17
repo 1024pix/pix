@@ -38,7 +38,7 @@ export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
           size: params.pageSize,
         },
       },
-      { reload: true }
+      { reload: true },
     );
   }
 

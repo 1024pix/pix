@@ -20,8 +20,8 @@ module('Unit | Adapters | Students import', function (hooks) {
       assert.ok(
         adapter.ajax.calledWith(
           'http://localhost:3000/api/organizations/1/sup-organization-learners/import-csv',
-          'POST'
-        )
+          'POST',
+        ),
       );
     });
   });
@@ -35,8 +35,8 @@ module('Unit | Adapters | Students import', function (hooks) {
       assert.ok(
         adapter.ajax.calledWith(
           'http://localhost:3000/api/organizations/1/sup-organization-learners/replace-csv',
-          'POST'
-        )
+          'POST',
+        ),
       );
     });
   });
@@ -50,8 +50,8 @@ module('Unit | Adapters | Students import', function (hooks) {
       assert.ok(
         adapter.ajax.calledWith(
           'http://localhost:3000/api/organizations/1/sco-organization-learners/import-siecle?format=csv',
-          'POST'
-        )
+          'POST',
+        ),
       );
     });
   });

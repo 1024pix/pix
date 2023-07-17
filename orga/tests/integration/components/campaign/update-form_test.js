@@ -20,7 +20,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
   test('[a11y] it should display a message that some inputs are required', async function (assert) {
     // when
     const screen = await renderScreen(
-      hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
+      hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`,
     );
 
     // then
@@ -31,7 +31,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
     test('it should display campaign title input', async function (assert) {
       // when
       const screen = await renderScreen(
-        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
+        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`,
       );
 
       // then
@@ -42,7 +42,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
     test('it should contain inputs, attributes, information block,validation and cancel buttons', async function (assert) {
       // when
       const screen = await renderScreen(
-        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
+        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`,
       );
 
       // then
@@ -67,7 +67,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
       this.updateCampaignSpy = sinon.stub();
 
       await renderScreen(
-        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
+        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`,
       );
 
       // when
@@ -82,7 +82,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
     test('it should display campaign custom landing page input', async function (assert) {
       //when
       const screen = await renderScreen(
-        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
+        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`,
       );
 
       //then
@@ -101,7 +101,7 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
 
       // when
       await renderScreen(
-        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
+        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`,
       );
 
       // then

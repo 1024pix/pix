@@ -17,7 +17,7 @@ module('Integration | Component | Participant::Assessment::Tabs', function (hook
 
     // when
     const screen = await renderScreen(
-      hbs`<Participant::Assessment::Tabs @campaignId={{this.campaignId}} @participationId={{this.participationId}} />`
+      hbs`<Participant::Assessment::Tabs @campaignId={{this.campaignId}} @participationId={{this.participationId}} />`,
     );
 
     // then
@@ -32,7 +32,7 @@ module('Integration | Component | Participant::Assessment::Tabs', function (hook
 
     // when
     const screen = await renderScreen(
-      hbs`<Participant::Assessment::Tabs @campaignId={{this.campaignId}} @participationId={{this.participationId}} />`
+      hbs`<Participant::Assessment::Tabs @campaignId={{this.campaignId}} @participationId={{this.participationId}} />`,
     );
 
     // then

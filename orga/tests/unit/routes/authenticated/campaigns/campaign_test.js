@@ -21,7 +21,7 @@ module('Unit | Route | authenticated/campaigns/campaign', function (hooks) {
       assert.strictEqual(
         redirection,
         expectedRedirection,
-        `expect transition to ${expectedRedirection}, got ${redirection}`
+        `expect transition to ${expectedRedirection}, got ${redirection}`,
       );
     };
 

@@ -70,7 +70,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
       // then
       assert.ok(
-        sessionService.authenticate.calledWith('authenticator:oauth2', 'pix@example.net', 'JeMeLoggue1024', 'pix-orga')
+        sessionService.authenticate.calledWith('authenticator:oauth2', 'pix@example.net', 'JeMeLoggue1024', 'pix-orga'),
       );
     });
   });
@@ -90,7 +90,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     test('it should be ok and call authentication service with appropriate parameters', async function (assert) {
       // given
       await renderScreen(
-        hbs`<Auth::LoginForm @isWithInvitation='true' @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`
+        hbs`<Auth::LoginForm @isWithInvitation='true' @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`,
       );
       await fillByLabel(emailInputLabel, 'pix@example.net');
       await fillByLabel(passwordInputLabel, 'JeMeLoggue1024');
@@ -100,7 +100,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
       // then
       assert.ok(
-        sessionService.authenticate.calledWith('authenticator:oauth2', 'pix@example.net', 'JeMeLoggue1024', 'pix-orga')
+        sessionService.authenticate.calledWith('authenticator:oauth2', 'pix@example.net', 'JeMeLoggue1024', 'pix-orga'),
       );
     });
   });
@@ -158,7 +158,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
           const nodeHasText = hasText(node);
           const childrenDontHaveText = Array.from(node.children).every((child) => !hasText(child));
           return nodeHasText && childrenDontHaveText;
-        })
+        }),
       )
       .exists();
   });
@@ -202,7 +202,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     test('displays the correct error message', async function (assert) {
       // given
       const screen = await renderScreen(
-        hbs`<Auth::LoginForm @isWithInvitation='true' @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`
+        hbs`<Auth::LoginForm @isWithInvitation='true' @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`,
       );
       await fillByLabel(emailInputLabel, 'pix@example.net');
       await fillByLabel(passwordInputLabel, 'JeMeLoggue1024');

@@ -121,7 +121,7 @@ module('Acceptance | authentication', function (hooks) {
         const user = createPrescriberForOrganization(
           { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', lang: 'fr' },
           { name: 'BRO & Evil Associates' },
-          'ADMIN'
+          'ADMIN',
         );
 
         await authenticateSession(user.id);
@@ -195,7 +195,7 @@ module('Acceptance | authentication', function (hooks) {
         const user = createPrescriberForOrganization(
           { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', lang: 'fr' },
           { name: 'BRO & Evil Associates', credit: 10000 },
-          'ADMIN'
+          'ADMIN',
         );
 
         await authenticateSession(user.id);
@@ -222,7 +222,7 @@ module('Acceptance | authentication', function (hooks) {
           const user = createPrescriberForOrganization(
             { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', lang: 'fr' },
             { name: 'BRO & Evil Associates', credit: 10000 },
-            'MEMBER'
+            'MEMBER',
           );
 
           await authenticateSession(user.id);
@@ -242,7 +242,7 @@ module('Acceptance | authentication', function (hooks) {
       const user = createPrescriberForOrganization(
         { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', lang: 'fr' },
         { name: 'BRO & Evil Associates' },
-        'ADMIN'
+        'ADMIN',
       );
 
       await authenticateSession(user.id);

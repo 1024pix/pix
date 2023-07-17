@@ -86,8 +86,8 @@ module('Unit | Controller | authenticated/organization-participants', function (
             count: listLearners.length,
             firstname: listLearners[0].firstName,
             lastname: listLearners[0].lastName,
-          })
-        )
+          }),
+        ),
       );
       assert.true(controller.notifications.sendError.notCalled);
     });
@@ -110,8 +110,8 @@ module('Unit | Controller | authenticated/organization-participants', function (
             count: listLearners.length,
             firstname: listLearners[0].firstName,
             lastname: listLearners[0].lastName,
-          })
-        )
+          }),
+        ),
       );
     });
   });

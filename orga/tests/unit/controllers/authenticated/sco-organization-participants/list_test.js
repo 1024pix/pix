@@ -57,7 +57,7 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun élève n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a>.</div>'
+          '<div>Aucun élève n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a>.</div>',
         );
       });
 
@@ -72,7 +72,7 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>'
+          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>',
         );
       });
 
@@ -87,7 +87,7 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>'
+          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>',
         );
       });
 
@@ -102,7 +102,7 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>'
+          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>',
         );
       });
     });

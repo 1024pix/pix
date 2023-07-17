@@ -39,7 +39,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
       const onLanguageChangeStub = sinon.stub();
       this.set('onLanguageChange', onLanguageChangeStub);
       const screen = await render(
-        hbs`<LanguageSwitcher @onLanguageChange={{this.onLanguageChange}} @selectedLanguage='en' />`
+        hbs`<LanguageSwitcher @onLanguageChange={{this.onLanguageChange}} @selectedLanguage='en' />`,
       );
 
       // when

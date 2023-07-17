@@ -37,7 +37,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
-/>`
+/>`,
     );
 
     assert.contains('Joe');
@@ -64,14 +64,14 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
-/>`
+/>`,
     );
 
     assert
       .dom(
         screen.getByLabelText(
-          this.intl.t('pages.campaign-activity.table.see-results', { firstName: 'Joe', lastName: 'La frite' })
-        )
+          this.intl.t('pages.campaign-activity.table.see-results', { firstName: 'Joe', lastName: 'La frite' }),
+        ),
       )
       .exists();
   });

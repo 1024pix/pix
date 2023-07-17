@@ -18,8 +18,8 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
     assert
       .dom(
         screen.getByLabelText(
-          this.intl.t('pages.campaign-review.table.analysis.recommendations.very-strongly-recommended')
-        )
+          this.intl.t('pages.campaign-review.table.analysis.recommendations.very-strongly-recommended'),
+        ),
       )
       .exists();
   });
@@ -35,8 +35,8 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
     assert
       .dom(
         screen.getByLabelText(
-          this.intl.t('pages.campaign-review.table.analysis.recommendations.very-strongly-recommended')
-        )
+          this.intl.t('pages.campaign-review.table.analysis.recommendations.very-strongly-recommended'),
+        ),
       )
       .exists();
   });
@@ -51,7 +51,7 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
     // then
     assert
       .dom(
-        screen.getByLabelText(this.intl.t('pages.campaign-review.table.analysis.recommendations.strongly-recommended'))
+        screen.getByLabelText(this.intl.t('pages.campaign-review.table.analysis.recommendations.strongly-recommended')),
       )
       .exists();
   });
@@ -80,8 +80,8 @@ module('Integration | Component | Campaign::Analysis::RecommendationIndicator', 
     assert
       .dom(
         screen.getByLabelText(
-          this.intl.t('pages.campaign-review.table.analysis.recommendations.moderately-recommended')
-        )
+          this.intl.t('pages.campaign-review.table.analysis.recommendations.moderately-recommended'),
+        ),
       )
       .exists();
   });

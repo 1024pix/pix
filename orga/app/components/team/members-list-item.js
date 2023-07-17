@@ -95,7 +95,7 @@ export default class MembersListItem extends Component {
 
       await this.args.onRemoveMember(membership);
       this.notifications.sendSuccess(
-        this.intl.t('pages.team-members.notifications.remove-membership.success', { memberFirstName, memberLastName })
+        this.intl.t('pages.team-members.notifications.remove-membership.success', { memberFirstName, memberLastName }),
       );
     } catch (e) {
       this.notifications.sendError(this.intl.t('pages.team-members.notifications.remove-membership.error'));

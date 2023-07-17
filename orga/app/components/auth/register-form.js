@@ -88,7 +88,7 @@ export default class RegisterForm extends Component {
       await this._acceptOrganizationInvitation(
         this.args.organizationInvitationId,
         this.args.organizationInvitationCode,
-        this.email
+        this.email,
       );
 
       await this._authenticate(this.email, this.password);

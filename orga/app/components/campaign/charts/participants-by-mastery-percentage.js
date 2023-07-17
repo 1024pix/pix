@@ -19,7 +19,7 @@ export default class ParticipantsByMasteryPercentage extends Component {
     const adapter = this.store.adapterFor('campaign-stats');
     adapter.getParticipationsByMasteryRate(campaignId).then((response) => {
       const { steps, labels, accessibilityLabels } = this._buildChartDatas(
-        response.data.attributes['result-distribution']
+        response.data.attributes['result-distribution'],
       );
       this.max = Math.max(...steps);
       this.accessibilityLabels = accessibilityLabels;
@@ -93,14 +93,14 @@ export default class ParticipantsByMasteryPercentage extends Component {
         from = 0.0;
       }
       labels.push(
-        this.intl.t('charts.participants-by-mastery-percentage.tooltip.legend', { from: from / 100, to: to / 100 })
+        this.intl.t('charts.participants-by-mastery-percentage.tooltip.legend', { from: from / 100, to: to / 100 }),
       );
 
       const dataForStep = remove(resultDistributions, ({ masteryRate }) => masteryRate * 100 <= i);
       const count = sumBy(dataForStep, 'count');
       steps.push(count);
       accessibilityLabels.push(
-        this.intl.t('charts.participants-by-mastery-percentage.label-a11y', { from: from / 100, to: to / 100, count })
+        this.intl.t('charts.participants-by-mastery-percentage.label-a11y', { from: from / 100, to: to / 100, count }),
       );
     }
 

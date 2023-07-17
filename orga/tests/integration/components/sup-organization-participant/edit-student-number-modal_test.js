@@ -41,7 +41,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
   @onClose={{this.close}}
   @student={{this.student}}
   @onSubmit={{this.onSaveStudentNumber}}
-/>`
+/>`,
         );
 
         assert.contains(`Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est :`);
@@ -58,11 +58,11 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
   @onClose={{this.close}}
   @student={{this.student}}
   @onSubmit={{this.onSaveStudentNumber}}
-/>`
+/>`,
         );
 
         assert.notContains(
-          `Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est : ${this.student.studentNumber}`
+          `Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est : ${this.student.studentNumber}`,
         );
       });
     });
@@ -75,17 +75,17 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
   @onClose={{this.close}}
   @student={{this.student}}
   @onSubmit={{this.onSaveStudentNumber}}
-/>`
+/>`,
         );
 
         // when
         await fillByLabel(
           this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
-          this.student.studentNumber
+          this.student.studentNumber,
         );
 
         const submitButton = screen.getByText(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update')
+          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
         );
 
         // then
@@ -101,19 +101,19 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
   @onClose={{this.close}}
   @student={{this.student}}
   @onSubmit={{this.onSaveStudentNumber}}
-/>`
+/>`,
         );
 
         // when
         await fillByLabel(
           this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
-          'toto'
+          'toto',
         );
         await clickByName(this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
 
         // then
         const submitButton = screen.getByText(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update')
+          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
         );
 
         assert.dom(submitButton).exists();
@@ -129,7 +129,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
   @onClose={{this.close}}
   @student={{this.student}}
   @onSubmit={{this.onSaveStudentNumber}}
-/>`
+/>`,
         );
         // given
         onSaveStudentNumberStub.withArgs(123456).resolves();
@@ -137,7 +137,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
         // when
         await fillByLabel(
           this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
-          '123456'
+          '123456',
         );
         await clickByName(this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
 
@@ -146,8 +146,8 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
         sinon.assert.calledOnce(closeStub);
         assert.ok(
           notificationsStub.sendSuccess.calledWith(
-            `La modification du numéro étudiant de ${this.student.firstName} ${this.student.lastName} a bien été effectué.`
-          )
+            `La modification du numéro étudiant de ${this.student.firstName} ${this.student.lastName} a bien été effectué.`,
+          ),
         );
       });
     });
@@ -160,13 +160,13 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
   @onClose={{this.close}}
   @student={{this.student}}
   @onSubmit={{this.onSaveStudentNumber}}
-/>`
+/>`,
         );
 
         // when
         await fillByLabel(
           this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
-          ' '
+          ' ',
         );
         await clickByName(this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
 
@@ -186,7 +186,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
   @onClose={{this.close}}
   @student={{this.student}}
   @onSubmit={{this.onSaveStudentNumber}}
-/>`
+/>`,
           );
 
           const error = {
@@ -202,15 +202,15 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
           // when
           await fillByLabel(
             this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label'),
-            '77107'
+            '77107',
           );
           await clickByName(
-            this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update')
+            this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
           );
 
           // then
           assert.contains(
-            `Le numéro étudiant saisi est déjà utilisé par l’étudiant ${this.student.firstName} ${this.student.lastName}`
+            `Le numéro étudiant saisi est déjà utilisé par l’étudiant ${this.student.firstName} ${this.student.lastName}`,
           );
         });
 
@@ -222,7 +222,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
   @onClose={{this.close}}
   @student={{this.student}}
   @onSubmit={{this.onSaveStudentNumber}}
-/>`
+/>`,
           );
 
           const error = {
@@ -243,10 +243,10 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
 
           // then
           assert.notContains(
-            `Le numéro étudiant saisi est déjà utilisé par l’étudiant ${this.student.firstName} ${this.student.lastName}`
+            `Le numéro étudiant saisi est déjà utilisé par l’étudiant ${this.student.firstName} ${this.student.lastName}`,
           );
         });
-      }
+      },
     );
 
     module('when the close button is clicked', function () {
@@ -258,7 +258,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
   @onClose={{this.close}}
   @student={{this.student}}
   @onSubmit={{this.onSaveStudentNumber}}
-/>`
+/>`,
         );
 
         const error = {
@@ -276,7 +276,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
 
         // then
         const submitButton = screen.getByText(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update')
+          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
         );
 
         assert.dom(submitButton).hasValue('');
@@ -294,7 +294,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
   @onClose={{this.close}}
   @student={{this.student}}
   @onSubmit={{this.onSaveStudentNumber}}
-/>`
+/>`,
         );
 
         const error = {
@@ -312,7 +312,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
 
         // then
         const submitButton = screen.getByText(
-          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update')
+          this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'),
         );
 
         assert.dom(submitButton).hasValue('');
@@ -333,7 +333,7 @@ module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberM
   @display={{this.display}}
   @onClose={{this.close}}
   @student={{this.student}}
-/>`
+/>`,
       );
 
       // then

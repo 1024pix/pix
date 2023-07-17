@@ -31,13 +31,13 @@ export default class AuthenticatedCertificationsController extends Controller {
     try {
       if (_isDivisionInvalid(this.selectedDivision, this.model.options)) {
         throw new Error(
-          this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: this.selectedDivision })
+          this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: this.selectedDivision }),
         );
       }
 
       const organizationId = this.currentUser.organization.id;
       const url = `/api/organizations/${organizationId}/certification-results?division=${encodeURIComponent(
-        this.selectedDivision
+        this.selectedDivision,
       )}&lang=${this.selectedLanguage}`;
 
       let token = '';
@@ -51,7 +51,7 @@ export default class AuthenticatedCertificationsController extends Controller {
       if (_isErrorNotFound(error)) {
         this.notifications.info(
           this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
-          { autoClear: false }
+          { autoClear: false },
         );
       } else {
         this.notifications.sendError(error.message, { autoClear: false });
@@ -64,7 +64,7 @@ export default class AuthenticatedCertificationsController extends Controller {
     try {
       if (_isDivisionInvalid(this.selectedDivision, this.model.options)) {
         throw new Error(
-          this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: this.selectedDivision })
+          this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: this.selectedDivision }),
         );
       }
 
@@ -82,13 +82,13 @@ export default class AuthenticatedCertificationsController extends Controller {
       if (_isErrorNotFound(error)) {
         this.notifications.info(
           this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
-          { autoClear: false }
+          { autoClear: false },
         );
       }
       if (_isErrorNoResults(error)) {
         this.notifications.info(
           this.intl.t('pages.certifications.errors.no-certificates', { selectedDivision: this.selectedDivision }),
-          { autoClear: false }
+          { autoClear: false },
         );
       } else {
         this.notifications.sendError(error.message, { autoClear: false });

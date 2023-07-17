@@ -49,7 +49,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
   @onFilter={{this.noop}}
   @selectedDivisions={{this.divisions}}
   @selectedGroups={{this.groups}}
-/>`
+/>`,
       );
 
       // then
@@ -80,7 +80,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
   @onFilter={{this.noop}}
   @selectedDivisions={{this.divisions}}
   @selectedGroups={{this.groups}}
-/>`
+/>`,
       );
 
       // then
@@ -117,7 +117,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
   @onFilter={{this.noop}}
   @selectedDivisions={{this.divisions}}
   @selectedGroups={{this.groups}}
-/>`
+/>`,
       );
 
       // then
@@ -153,7 +153,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
   @onFilter={{this.noop}}
   @selectedDivisions={{this.divisions}}
   @selectedGroups={{this.groups}}
-/>`
+/>`,
       );
 
       // then
@@ -181,7 +181,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
   @onFilter={{this.noop}}
   @selectedDivisions={{this.divisions}}
   @selectedGroups={{this.groups}}
-/>`
+/>`,
       );
 
       // then

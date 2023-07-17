@@ -60,7 +60,7 @@ module('Acceptance | Sup Student Import', function (hooks) {
         assert
           .dom('[data-test-notification-message="warning"]')
           .hasText(
-            'La liste a été importée avec succès.Cependant les valeurs suivantes n’ont pas été reconnues.Diplômes non reconnus : BAD; Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à sup@pix.fr'
+            'La liste a été importée avec succès.Cependant les valeurs suivantes n’ont pas été reconnues.Diplômes non reconnus : BAD; Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à sup@pix.fr',
           );
         assert.dom('[aria-label="Étudiant"]').exists({ count: 1 });
         assert.contains('Cover');

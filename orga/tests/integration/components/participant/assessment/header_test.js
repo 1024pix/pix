@@ -23,7 +23,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
 
     // when
     await render(
-      hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+      hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
     );
 
     // then
@@ -35,7 +35,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
     this.campaign = {};
 
     await render(
-      hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+      hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
     );
 
     assert.contains('01 janv. 2020');
@@ -46,7 +46,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
     this.campaign = {};
 
     await render(
-      hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+      hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
     );
 
     assert.contains(t('pages.assessment-individual-results.progression'));
@@ -63,7 +63,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
         this.campaign = {};
 
         await render(
-          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
         assert.contains(t('pages.campaign-individual-results.shared-date'));
@@ -77,7 +77,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
         this.campaign = {};
 
         await render(
-          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
         assert.notContains(t('pages.campaign-individual-results.shared-date'));
@@ -95,7 +95,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
         this.campaign = { idPixLabel: 'identifiant de l’élève' };
 
         await render(
-          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
         assert.contains('identifiant de l’élève');
@@ -111,7 +111,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
         this.campaign = {};
 
         await render(
-          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
         assert.notContains('identifiant de l’élève');
@@ -126,7 +126,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
         this.campaign = {};
 
         await render(
-          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
         assert.notContains(t('pages.assessment-individual-results.progression'));
@@ -150,7 +150,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           };
 
           const screen = await render(
-            hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+            hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
           assert.dom(`[aria-label="${t('pages.assessment-individual-results.result')}"]`).exists();
@@ -164,7 +164,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           this.campaign = {};
 
           await render(
-            hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+            hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
           assert.contains('65 %');
@@ -177,7 +177,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           this.participation = { isShared: true, badges: [{ id: 1, title: 'Les bases' }] };
 
           await render(
-            hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+            hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
           assert.dom(`[aria-label="${t('pages.assessment-individual-results.badges')}"]`).containsText('Les bases');
@@ -190,7 +190,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           this.participation = { isShared: true, badges: [{ id: 1, title: 'Les bases' }] };
 
           await render(
-            hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+            hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
           assert.dom(`[aria-label="${t('pages.assessment-individual-results.badges')}"]`).doesNotExist();
@@ -203,7 +203,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           this.participation = { isShared: true, badges: [] };
 
           await render(
-            hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+            hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
           assert.dom(`[aria-label="${t('pages.assessment-individual-results.badges')}"]`).doesNotExist();
@@ -217,7 +217,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
         this.campaign = {};
 
         await render(
-          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`
+          hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
         assert.dom(`[aria-label="${t('pages.assessment-individual-results.result')}"]`).doesNotExist();
