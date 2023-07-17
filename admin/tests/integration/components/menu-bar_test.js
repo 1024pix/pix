@@ -7,6 +7,14 @@ import Service from '@ember/service';
 module('Integration | Component | menu-bar', function (hooks) {
   setupRenderingTest(hooks);
 
+  hooks.beforeEach(async function () {
+    this.owner.lookup('service:store');
+    class FeatureTogglesStub extends Service {
+      featureToggles = { isTargetProfileVersioningEnabled: true };
+    }
+    this.owner.register('service:featureToggles', FeatureTogglesStub);
+  });
+
   test('should display principal navigation', async function (assert) {
     // given
     const currentUser = this.owner.lookup('service:currentUser');
@@ -168,6 +176,36 @@ module('Integration | Component | menu-bar', function (hooks) {
 
       // then
       assert.dom(screen.queryByRole('link', { name: 'Certifications' })).doesNotExist();
+    });
+  });
+
+  module('Target profile versioning tab', function () {
+    test('should contain link to "target profile versioning" management page when admin member have access to target profile versioning actions scope', async function (assert) {
+      // given
+      class AccessControlStub extends Service {
+        hasAccessToTargetProfileVersioningScope = true;
+      }
+      this.owner.register('service:accessControl', AccessControlStub);
+
+      // when
+      const screen = await render(hbs`<MenuBar />`);
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Versioning des profils cibles' })).exists();
+    });
+
+    test('should not contain link to "target profile versioning" management page when admin member does not have access to target profile versioning actions scope', async function (assert) {
+      // given
+      class AccessControlStub extends Service {
+        hasAccessToTargetProfileVersioningScope = false;
+      }
+      this.owner.register('service:accessControl', AccessControlStub);
+
+      // when
+      const screen = await render(hbs`<MenuBar />`);
+
+      // then
+      assert.dom(screen.queryByRole('link', { name: 'Versioning des profils cibles' })).doesNotExist();
     });
   });
 
