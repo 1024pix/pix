@@ -3,9 +3,10 @@ import Route from '@ember/routing/route';
 import pick from 'lodash/pick';
 
 export default class NewRoute extends Route {
-  @service store;
   @service currentUser;
   @service intl;
+  @service router;
+  @service store;
 
   queryParams = {
     source: { refreshModel: true },
@@ -20,19 +21,30 @@ export default class NewRoute extends Route {
 
     let campaignAttributes;
     if (params?.source) {
-      const from = await this.store.findRecord('campaign', params.source);
-      campaignAttributes = pick(from, [
-        'type',
-        'title',
-        'description',
-        'targetProfileId',
-        'ownerId',
-        'multipleSendings',
-        'idPixLabel',
-        'customLandingPageText',
-      ]);
-      campaignAttributes.name = `${this.intl.t('pages.campaign-creation.copy-of')} ${from.name}`;
-      campaignAttributes.targetProfile = this.store.peekRecord('target-profile', campaignAttributes.targetProfileId);
+      try {
+        const from = await this.store.findRecord('campaign', params.source);
+        campaignAttributes = pick(from, [
+          'type',
+          'title',
+          'description',
+          'targetProfileId',
+          'ownerId',
+          'multipleSendings',
+          'idPixLabel',
+          'customLandingPageText',
+        ]);
+        campaignAttributes.name = `${this.intl.t('pages.campaign-creation.copy-of')} ${from.name}`;
+        if (campaignAttributes.targetProfileId) {
+          campaignAttributes.targetProfile = this.store.peekRecord(
+            'target-profile',
+            campaignAttributes.targetProfileId,
+          );
+        }
+      } catch {
+        console.log('Campaign not found');
+        console.log({ router: this.router });
+        this.router.replaceWith('authenticated.campaigns.new', { queryParams: { source: null } });
+      }
     }
 
     return {
