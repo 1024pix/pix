@@ -1,10 +1,10 @@
-import { NotFoundError } from '../errors.js';
+import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 const getAdminMemberDetails = async function ({ adminMemberRepository, userId }) {
   const adminMemberDetail = await adminMemberRepository.get({ userId });
 
   if (!adminMemberDetail) {
-    throw new NotFoundError();
+    throw new ForbiddenAccess();
   }
 
   return adminMemberDetail;

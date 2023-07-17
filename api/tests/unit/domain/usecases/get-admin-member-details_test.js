@@ -1,5 +1,5 @@
 import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 import { getAdminMemberDetails } from '../../../../lib/domain/usecases/get-admin-member-details.js';
 
 describe('Unit | UseCase | get-admin-member-details', function () {
@@ -21,7 +21,7 @@ describe('Unit | UseCase | get-admin-member-details', function () {
   });
 
   context('when it does not exist', function () {
-    it('should thrown a NotFound error', async function () {
+    it('should thrown a ForbiddenAccess error', async function () {
       // given
       const adminMemberRepository = {
         get: sinon.stub(),
@@ -33,7 +33,7 @@ describe('Unit | UseCase | get-admin-member-details', function () {
       const error = await catchErr(getAdminMemberDetails)({ adminMemberRepository, userId: adminMember.id });
 
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error).to.be.instanceOf(ForbiddenAccess);
     });
   });
 });
