@@ -351,6 +351,7 @@
         "create": "Créer la campagne",
         "delete": "Effacer"
       },
+      "copy-of": "Copie de",
       "external-id-label": {
         "label": "Libellé de l’identifiant",
         "question-label": "Souhaitez-vous demander un identifiant externe ?",
@@ -984,7 +985,7 @@
       "table": {
         "column": {
           "date-of-birth": "Date de naissance",
-          "division":  {
+          "division": {
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par classe. Cliquez pour trier par ordre alphanumérique.",
             "ariaLabelSortDown": "Le tableau est trié par classe, dans l'ordre alphanumérique inverse. Cliquez pour trier par ordre alphanumérique.",
             "ariaLabelSortUp": "Le tableau est trié par classe, dans l'ordre alphanumérique. Cliquez pour trier par ordre alphanumérique inverse.",

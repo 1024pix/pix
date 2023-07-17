@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -12,8 +12,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   setupRenderingTest(hooks);
   setupIntl(hooks);
 
-  const prescriber = EmberObject.create({ fullName: 'Adam Troisjour', id: 1, enableMultipleSendingAssessment: false });
-  const defaultMembers = [prescriber];
+  let prescriber;
+  let defaultMembers;
+  let store;
 
   hooks.beforeEach(function () {
     this.createCampaignSpy = (event) => {
@@ -21,10 +22,23 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     };
     this.cancelSpy = () => {};
     this.errors = {};
+
+    store = this.owner.lookup('service:store');
+
+    prescriber = store.createRecord('prescriber', {
+      firstName: 'Adam',
+      lastName: 'Troisjour',
+      id: '1',
+      enableMultipleSendingAssessment: false,
+    });
+
     class CurrentUserStub extends Service {
       prescriber = prescriber;
     }
+
+    defaultMembers = [prescriber];
     this.owner.register('service:current-user', CurrentUserStub);
+    this.set('campaign', store.createRecord('campaign', { ownerId: prescriber.id }));
     this.set('defaultMembers', defaultMembers);
     this.targetProfiles = [];
   });
@@ -33,6 +47,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     // when
     await render(
       hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -48,10 +63,32 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     assert.dom('textarea').hasAttribute('maxLength', '5000');
   });
 
+  test("it should display campaign's name", async function (assert) {
+    // given
+    this.campaign.name = 'Campagne de test';
+
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+
+    assert
+      .dom(screen.getByRole('textbox', { name: t('pages.campaign-creation.name.label') }))
+      .hasValue('Campagne de test');
+  });
+
   test('it should display block information for owner', async function (assert) {
     // when
     const screen = await render(
       hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -65,10 +102,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     assert.dom(screen.getByText(t('pages.campaign-creation.owner.title'))).exists();
   });
 
-  test("it should auto complete owner field with current user's full name", async function (assert) {
+  test("it should auto complete owner field with owner's full name", async function (assert) {
     // when
     const screen = await render(
       hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -87,6 +125,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     // when
     const screen = await render(
       hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -99,11 +138,135 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     assert.dom(screen.getByText(t('common.form.mandatory-fields'))).exists();
   });
 
+  module('when campaign is of type ASSESSMENT', function () {
+    test('it should have checked ASSESSMENT', async function (assert) {
+      // given
+      this.campaign.type = 'ASSESSMENT';
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      // then
+      assert.dom(screen.getByLabelText(t('pages.campaign-creation.purpose.assessment'))).isChecked();
+    });
+
+    test('it should fill target-profile fields', async function (assert) {
+      // given
+      const targetProfile = store.createRecord('target-profile', {
+        id: '1',
+        name: 'Target profile 1',
+        description: 'Description 1',
+        category: 'Category 1',
+      });
+      this.targetProfiles = [targetProfile];
+      this.campaign.type = 'ASSESSMENT';
+      this.campaign.targetProfile = targetProfile;
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      // then
+      assert.strictEqual(
+        screen.getByRole('button', { name: t('pages.campaign-creation.target-profiles-list-label') }).innerText,
+        targetProfile.name,
+      );
+    });
+
+    test('it should fill multiple sendings fields', async function (assert) {
+      // given
+      prescriber.enableMultipleSendingAssessment = true;
+      this.campaign.type = 'ASSESSMENT';
+      this.campaign.multipleSendings = true;
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      // then
+      const radiogroup = screen.getByRole('radiogroup', {
+        name: t('pages.campaign-creation.multiple-sendings.assessments.question-label'),
+      });
+      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
+    });
+  });
+
+  module('when campaign is of type PROFILES_COLLECTION', function () {
+    test('it should have checked PROFILES_COLLECTION', async function (assert) {
+      // given
+      this.campaign.type = 'PROFILES_COLLECTION';
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      assert.dom(screen.getByLabelText(t('pages.campaign-creation.purpose.profiles-collection'))).isChecked();
+    });
+
+    test('it should fill multiple sendings fields', async function (assert) {
+      // given
+      this.campaign.type = 'PROFILES_COLLECTION';
+      this.campaign.multipleSendings = true;
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      // then
+      const radiogroup = screen.getByRole('radiogroup', {
+        name: t('pages.campaign-creation.multiple-sendings.profiles.question-label'),
+      });
+      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
+    });
+  });
+
   module('when user choose to create a campaign of type ASSESSMENT', function () {
     test('it should display fields for campaign title and target profile', async function (assert) {
       // when
       await render(
         hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -119,9 +282,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     });
 
     test('it should display the purpose explanation of an assessment campaign', async function (assert) {
-      // given
-      this.campaign = EmberObject.create({});
-
       // when
       await render(
         hbs`<Campaign::CreateForm
@@ -144,7 +304,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       test('it should display informations about target profile', async function (assert) {
         // given
         this.targetProfiles = [
-          EmberObject.create({
+          store.createRecord('target-profile', {
             id: '1',
             name: 'targetProfile1',
             description: 'description1',
@@ -152,7 +312,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             thematicResultCount: 12,
             hasStage: true,
           }),
-          EmberObject.create({
+          store.createRecord('target-profile', {
             id: '2',
             name: 'targetProfile2',
             description: 'description2',
@@ -165,6 +325,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // when
         const screen = await render(
           hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @targetProfiles={{this.targetProfiles}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
@@ -186,7 +347,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       test('it should display a message about result', async function (assert) {
         // given
         this.targetProfiles = [
-          EmberObject.create({
+          store.createRecord('target-profile', {
             id: '1',
             name: 'targetProfile1',
             description: 'description1',
@@ -194,7 +355,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             thematicResultCount: 12,
             hasStage: true,
           }),
-          EmberObject.create({
+          store.createRecord('target-profile', {
             id: '2',
             name: 'targetProfile2',
             description: 'description2',
@@ -207,6 +368,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // when
         const screen = await render(
           hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @targetProfiles={{this.targetProfiles}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
@@ -226,7 +388,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         test('it should display options in alphapetical order', async function (assert) {
           // given
           this.targetProfiles = [
-            EmberObject.create({
+            store.createRecord('target-profile', {
               id: '1',
               name: 'targetProfile4',
               description: 'description4',
@@ -235,7 +397,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               hasStage: true,
               category: 'B',
             }),
-            EmberObject.create({
+            store.createRecord('target-profile', {
               id: '2',
               name: 'targetProfile3',
               description: 'description3',
@@ -244,7 +406,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               hasStage: false,
               category: 'B',
             }),
-            EmberObject.create({
+            store.createRecord('target-profile', {
               id: '3',
               name: 'targetProfile2',
               description: 'description2',
@@ -253,7 +415,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               hasStage: true,
               category: 'A',
             }),
-            EmberObject.create({
+            store.createRecord('target-profile', {
               id: '4',
               name: 'targetProfile1',
               description: 'description1',
@@ -267,6 +429,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           // when
           const screen = await render(
             hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @targetProfiles={{this.targetProfiles}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
@@ -289,7 +452,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         test('it should display options with OTHER category at last position', async function (assert) {
           // given
           this.targetProfiles = [
-            EmberObject.create({
+            store.createRecord('target-profile', {
               id: '2',
               name: 'targetProfile3',
               description: 'description3',
@@ -298,7 +461,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               hasStage: false,
               category: 'OTHER',
             }),
-            EmberObject.create({
+            store.createRecord('target-profile', {
               id: '1',
               name: 'targetProfile4',
               description: 'description4',
@@ -312,6 +475,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           // when
           const screen = await render(
             hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @targetProfiles={{this.targetProfiles}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
@@ -336,7 +500,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     module('when the user wants to clear the content of the target profile input', function (hooks) {
       hooks.beforeEach(function () {
         this.targetProfiles = [
-          EmberObject.create({
+          store.createRecord('target-profile', {
             id: '1',
             name: 'targetProfile1',
             description: 'description1',
@@ -350,6 +514,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // when
         await render(
           hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -367,7 +532,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       test('it should display multiple sendings field', async function (assert) {
         // given
         this.targetProfiles = [
-          EmberObject.create({
+          store.createRecord('target-profile', {
             id: '1',
             name: 'targetProfile1',
             description: 'description1',
@@ -375,7 +540,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             thematicResultCount: 12,
             hasStage: true,
           }),
-          EmberObject.create({
+          store.createRecord('target-profile', {
             id: '2',
             name: 'targetProfile2',
             description: 'description2',
@@ -384,16 +549,12 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             hasStage: false,
           }),
         ];
-        const prescriber = EmberObject.create({
-          fullName: 'Adam Troisjour',
-          id: 1,
-          enableMultipleSendingAssessment: true,
-        });
-        this.set('defaultMembers', [prescriber]);
+        prescriber.enableMultipleSendingAssessment = true;
 
         // when
         const screen = await render(
           hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @targetProfiles={{this.targetProfiles}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
@@ -417,6 +578,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await render(
         hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -435,6 +597,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await render(
         hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -450,9 +613,6 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     });
 
     test('it should display the purpose explanation of a profiles collection campaign', async function (assert) {
-      // given
-      this.campaign = EmberObject.create({});
-
       // when
       await render(
         hbs`<Campaign::CreateForm
@@ -472,11 +632,88 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     });
   });
 
+  test('it should fill external user ID selection (yes)', async function (assert) {
+    // given
+    this.campaign.idPixLabel = 'Numéro étudiant';
+
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+
+    // then
+    const radiogroup = screen.getByRole('radiogroup', {
+      name: t('pages.campaign-creation.external-id-label.question-label'),
+    });
+    assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
+    assert
+      .dom(
+        screen.getByRole('textbox', {
+          name: `${t('pages.campaign-creation.external-id-label.label')} ${t(
+            'pages.campaign-creation.external-id-label.suggestion',
+          )}`,
+        }),
+      )
+      .hasValue('Numéro étudiant');
+  });
+
+  test('it should fill external user ID selection (no)', async function (assert) {
+    // given
+    this.campaign.idPixLabel = null;
+
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+
+    // then
+    const radiogroup = screen.getByRole('radiogroup', {
+      name: t('pages.campaign-creation.external-id-label.question-label'),
+    });
+    assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.no'))).isChecked();
+  });
+
   module('when user has not chosen yet to ask or not an external user ID', function () {
+    test('it should not fill external user ID selection', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+
+      // then
+      const radiogroup = screen.getByRole('radiogroup', {
+        name: t('pages.campaign-creation.external-id-label.question-label'),
+      });
+      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.no'))).isNotChecked();
+      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isNotChecked();
+    });
+
     test('it should not display gdpr footnote', async function (assert) {
       // when
       await render(
         hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -495,6 +732,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await render(
         hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -514,6 +752,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await render(
         hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -531,6 +770,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       const screen = await render(
         hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -546,6 +786,49 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     });
   });
 
+  test('it should fill campaign title', async function (assert) {
+    // given
+    this.campaign.type = 'ASSESSMENT';
+    this.campaign.title = 'Mon titre de parcours';
+
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+
+    assert
+      .dom(screen.getByRole('textbox', { name: t('pages.campaign-creation.test-title.label') }))
+      .hasValue('Mon titre de parcours');
+  });
+
+  test('it should fill campaign landing page text', async function (assert) {
+    // given
+    this.campaign.customLandingPageText = 'Mon texte de landing page';
+
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+
+    assert
+      .dom(screen.getByRole('textbox', { name: t('pages.campaign-creation.landing-page-text.label') }))
+      .hasValue('Mon texte de landing page');
+  });
+
   test('it should send campaign creation action when submitted', async function (assert) {
     // given
     const targetProfile = { name: 'targetProfile1', id: 123 };
@@ -554,6 +837,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
     const screen = await render(
       hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -569,7 +853,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     // when
     await clickByName(t('pages.campaign-creation.actions.create'));
 
-    sinon.assert.calledWithMatch(this.createCampaignSpy, { name: 'Ma campagne', targetProfile });
+    sinon.assert.calledWithExactly(this.createCampaignSpy, this.campaign);
     // then
     assert.ok(true);
   });
@@ -602,6 +886,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await render(
         hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}
@@ -633,6 +918,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // when
       await render(
         hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
   @onSubmit={{this.createCampaignSpy}}
   @onCancel={{this.cancelSpy}}
   @errors={{this.errors}}

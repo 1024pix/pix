@@ -1,4 +1,4 @@
-import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import ENV from 'pix-orga/config/environment';
 import { service } from '@ember/service';
 
@@ -87,5 +87,17 @@ export default class Campaign extends Model {
   async unarchive() {
     await this.store.adapterFor('campaign').unarchive(this);
     return this.store.findRecord('campaign', this.id);
+  }
+
+  setType(type) {
+    if (type === 'ASSESSMENT') {
+      this.multipleSendings = false;
+    }
+    if (type === 'PROFILES_COLLECTION') {
+      this.multipleSendings = true;
+      this.title = null;
+      this.targetProfile = null;
+    }
+    this.type = type;
   }
 }
