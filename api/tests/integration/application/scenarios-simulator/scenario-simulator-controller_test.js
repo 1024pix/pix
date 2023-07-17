@@ -96,7 +96,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                 forcedCompetences,
               },
               null,
-              { 'accept-language': 'en' }
+              { 'accept-language': 'en' },
             );
 
             // then
@@ -115,7 +115,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                     discriminant: challenge1.discriminant,
                   },
                 ],
-              ])
+              ]),
             );
           });
         });
@@ -159,7 +159,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   type: 'deterministic',
                 },
                 null,
-                { 'accept-language': 'en' }
+                { 'accept-language': 'en' },
               );
 
               // then
@@ -178,7 +178,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ])
+                ]),
               );
             });
           });
@@ -217,7 +217,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   type: 'deterministic',
                 },
                 null,
-                { 'accept-language': 'en' }
+                { 'accept-language': 'en' },
               );
 
               // then
@@ -236,7 +236,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ])
+                ]),
               );
             });
           });
@@ -279,7 +279,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   type: 'deterministic',
                 },
                 null,
-                { 'accept-language': 'en' }
+                { 'accept-language': 'en' },
               );
 
               const result = {
@@ -340,7 +340,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   length,
                 },
                 null,
-                { 'accept-language': 'en' }
+                { 'accept-language': 'en' },
               );
 
               // then
@@ -359,7 +359,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ])
+                ]),
               );
             });
           });
@@ -403,7 +403,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   length,
                 },
                 null,
-                { 'accept-language': 'en' }
+                { 'accept-language': 'en' },
               );
 
               // then
@@ -422,7 +422,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ])
+                ]),
               );
             });
           });
@@ -465,7 +465,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   capacity,
                 },
                 null,
-                { 'accept-language': 'en' }
+                { 'accept-language': 'en' },
               );
 
               // then
@@ -484,7 +484,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ])
+                ]),
               );
             });
           });
@@ -525,7 +525,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   initialCapacity,
                 },
                 null,
-                { 'accept-language': 'en' }
+                { 'accept-language': 'en' },
               );
 
               // then
@@ -544,7 +544,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ])
+                ]),
               );
             });
           });
@@ -639,7 +639,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
             '/api/scenario-simulator/csv-import',
             csvToImport,
             null,
-            { 'accept-language': 'en', 'Content-Type': 'text/csv;charset=utf-8' }
+            { 'accept-language': 'en', 'Content-Type': 'text/csv;charset=utf-8' },
           );
 
           // then
@@ -720,7 +720,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
             '/api/scenario-simulator/csv-import',
             csvToImport,
             null,
-            { 'accept-language': 'en', 'Content-Type': 'text/csv;charset=utf-8' }
+            { 'accept-language': 'en', 'Content-Type': 'text/csv;charset=utf-8' },
           );
 
           // then

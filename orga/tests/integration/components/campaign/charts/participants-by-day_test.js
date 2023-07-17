@@ -31,7 +31,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByDay', function
 
     // when
     await render(
-      hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{this.campaignId}} @isTypeAssessment={{true}} />`
+      hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{this.campaignId}} @isTypeAssessment={{true}} />`,
     );
 
     assert.contains('Date');
@@ -52,7 +52,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByDay', function
 
     // when
     await render(
-      hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{this.campaignId}} @isTypeAssessment={{false}} />`
+      hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{this.campaignId}} @isTypeAssessment={{false}} />`,
     );
 
     assert.contains('Date');

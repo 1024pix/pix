@@ -65,7 +65,7 @@ export { enrolStudentsToSession };
 
 function _doesSessionBelongToSameCertificationCenterAsReferent(referentCertificationCenterMemberships, session) {
   return referentCertificationCenterMemberships.some(
-    (membership) => membership.certificationCenter.id === session.certificationCenterId
+    (membership) => membership.certificationCenter.id === session.certificationCenterId,
   );
 }
 

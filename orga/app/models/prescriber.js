@@ -24,7 +24,7 @@ export default class Prescriber extends Model {
     return memberships.some(
       (membership) =>
         membership.get('organizationRole') === 'ADMIN' &&
-        membership.get('organization').get('id') === this.userOrgaSettings.get('organization').get('id')
+        membership.get('organization').get('id') === this.userOrgaSettings.get('organization').get('id'),
     );
   }
 

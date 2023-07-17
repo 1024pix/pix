@@ -144,7 +144,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
             campaignId: campaign.id,
             userId: participant.id,
             pixScore: 52,
-          }
+          },
         );
 
         await databaseBuilder.commit();

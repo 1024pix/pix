@@ -25,7 +25,7 @@ module('Integration | Component |  administration/organizations-import', functio
     // when
     const screen = await render(hbs`<Administration::OrganizationsImport />`);
     const input = await screen.findByLabelText(
-      this.intl.t('components.administration.organizations-import.upload-button')
+      this.intl.t('components.administration.organizations-import.upload-button'),
     );
     await triggerEvent(input, 'change', { files: [file] });
 
@@ -33,7 +33,7 @@ module('Integration | Component |  administration/organizations-import', functio
     assert.ok(true);
     sinon.assert.calledWith(
       notificationSuccessStub,
-      this.intl.t('components.administration.organizations-import.notifications.success')
+      this.intl.t('components.administration.organizations-import.notifications.success'),
     );
   });
 
@@ -46,9 +46,9 @@ module('Integration | Component |  administration/organizations-import', functio
           new Response(
             412,
             {},
-            { errors: [{ status: '412', title: "Un soucis avec l'import", code: '412', detail: 'Erreur d’import' }] }
+            { errors: [{ status: '412', title: "Un soucis avec l'import", code: '412', detail: 'Erreur d’import' }] },
           ),
-        412
+        412,
       );
       const file = new Blob(['foo'], { type: `valid-file` });
       const notificationErrorStub = sinon.stub().returns();
@@ -61,7 +61,7 @@ module('Integration | Component |  administration/organizations-import', functio
       // when
       const screen = await render(hbs`<Administration::OrganizationsImport />`);
       const input = await screen.findByLabelText(
-        this.intl.t('components.administration.organizations-import.upload-button')
+        this.intl.t('components.administration.organizations-import.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 

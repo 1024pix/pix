@@ -22,7 +22,7 @@ describe('Unit | Controller | mission-controller', function () {
           },
         },
         hFake,
-        { missionSerializer }
+        { missionSerializer },
       );
 
       // then

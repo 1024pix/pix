@@ -21,7 +21,7 @@ const BookshelfOrganizationLearner = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfOrganizationLearner };

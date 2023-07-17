@@ -123,7 +123,7 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
         // when
         const error = await catchErr(resetPasswordDemandsRepository.findByUserEmail)(
           'bolossdu66@example.net',
-          'salut les noobs'
+          'salut les noobs',
         );
 
         // then

@@ -177,7 +177,7 @@ export default function () {
               title: 'Already existing email error',
             },
           ],
-        }
+        },
       );
     }
 

@@ -21,7 +21,7 @@ const logger = pino(
     redact: ['req.headers.authorization'],
     enabled: logging.enabled,
   },
-  prettyPrint
+  prettyPrint,
 );
 
 export { logger };

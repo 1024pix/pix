@@ -46,11 +46,11 @@ async function runJobs() {
   monitoredJobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobHandler);
   monitoredJobQueue.performJob(
     SendSharedParticipationResultsToPoleEmploiJob.name,
-    SendSharedParticipationResultsToPoleEmploiHandler
+    SendSharedParticipationResultsToPoleEmploiHandler,
   );
   monitoredJobQueue.performJob(
     'SendSharedParticipationResultsToPoleEmploi',
-    SendSharedParticipationResultsToPoleEmploiHandler
+    SendSharedParticipationResultsToPoleEmploiHandler,
   );
 
   await scheduleCpfJobs(pgBoss);
@@ -64,7 +64,7 @@ if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
   runJobs();
 } else {
   logger.error(
-    'Worker process is started in the web process. Please unset the START_JOB_IN_WEB_PROCESS environment variable to start a dedicated worker process.'
+    'Worker process is started in the web process. Please unset the START_JOB_IN_WEB_PROCESS environment variable to start a dedicated worker process.',
   );
   // eslint-disable-next-line n/no-process-exit
   process.exit(1);

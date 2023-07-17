@@ -38,7 +38,7 @@ function buildCertificationCourse({
         certificationCourseId: id,
         category: CertificationIssueReportCategory.OTHER,
         description: examinerComment,
-      })
+      }),
     );
   }
 

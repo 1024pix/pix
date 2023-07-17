@@ -29,7 +29,7 @@ const getCampaignAssessmentParticipation = async function ({
   const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId });
   const reachedStage = stageCollection.getReachedStage(
     campaignAssessmentParticipation.validatedSkillsCount,
-    campaignAssessmentParticipation.masteryRate * 100
+    campaignAssessmentParticipation.masteryRate * 100,
   );
   campaignAssessmentParticipation.setStageInfo(reachedStage);
 

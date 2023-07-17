@@ -21,7 +21,10 @@ module('Unit | Route | authenticated/organizations/get/all-tags', function (hook
 
     // then
     assert.ok(
-      restrictAccessToStub.calledWith(['isSuperAdmin', 'isSupport', 'isMetier'], 'authenticated.organizations.get.team')
+      restrictAccessToStub.calledWith(
+        ['isSuperAdmin', 'isSupport', 'isMetier'],
+        'authenticated.organizations.get.team',
+      ),
     );
   });
 

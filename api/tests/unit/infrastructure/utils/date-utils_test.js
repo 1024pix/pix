@@ -56,16 +56,15 @@ describe('Unit | Utils | date-utils', function () {
     context('when alternativeInputFormat does not exist', function () {
       context('when dateValue does not match inputFormat', function () {
         it('should return null', function () {
-          expect(
-            convertDateValue({ dateString: '1980-05-05', inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' })
-          ).to.be.null;
+          expect(convertDateValue({ dateString: '1980-05-05', inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' }))
+            .to.be.null;
         });
       });
 
       context('when dateValue matches inputFormat', function () {
         it('should return converted date', function () {
           expect(
-            convertDateValue({ dateString: '05/05/1980', inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' })
+            convertDateValue({ dateString: '05/05/1980', inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' }),
           ).to.equal('1980-05-05');
         });
       });
@@ -80,7 +79,7 @@ describe('Unit | Utils | date-utils', function () {
               inputFormat: 'DD/MM/YYYY',
               alternativeInputFormat: 'DD/MM/YY',
               outputFormat: 'YYYY-MM-DD',
-            })
+            }),
           ).to.be.null;
         });
       });
@@ -93,7 +92,7 @@ describe('Unit | Utils | date-utils', function () {
               inputFormat: 'DD/MM/YYYY',
               alternativeInputFormat: 'DD/MM/YY',
               outputFormat: 'YYYY-MM-DD',
-            })
+            }),
           ).to.equal('1980-05-05');
         });
       });
@@ -110,7 +109,7 @@ describe('Unit | Utils | date-utils', function () {
               inputFormat: 'DD/MM/YYYY',
               alternativeInputFormat: 'DD/MM/YY',
               outputFormat: 'YYYY-MM-DD',
-            })
+            }),
           ).to.equal(expectedDate);
         });
 
@@ -125,7 +124,7 @@ describe('Unit | Utils | date-utils', function () {
               inputFormat: 'DD/MM/YYYY',
               alternativeInputFormat: 'DD/MM/YY',
               outputFormat: 'YYYY-MM-DD',
-            })
+            }),
           ).to.equal(expectedDate);
         });
       });

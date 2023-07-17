@@ -5,10 +5,10 @@ import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 const sendEmailForAccountRecovery = async function (
   request,
   h,
-  dependencies = { studentInformationForAccountRecoverySerializer }
+  dependencies = { studentInformationForAccountRecoverySerializer },
 ) {
   const studentInformation = await dependencies.studentInformationForAccountRecoverySerializer.deserialize(
-    request.payload
+    request.payload,
   );
 
   await usecases.sendEmailForAccountRecovery({ studentInformation });
@@ -19,7 +19,7 @@ const sendEmailForAccountRecovery = async function (
 const checkAccountRecoveryDemand = async function (
   request,
   h,
-  dependencies = { studentInformationForAccountRecoverySerializer }
+  dependencies = { studentInformationForAccountRecoverySerializer },
 ) {
   const temporaryKey = request.params.temporaryKey;
   const studentInformation = await usecases.getAccountRecoveryDetails({ temporaryKey });

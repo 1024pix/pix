@@ -13,7 +13,7 @@ module('Integration | Component | checkpoint-continue', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<CheckpointContinue @finalCheckpoint={{true}} @nextPageButtonText={{this.nextPageButtonText}} />`
+        hbs`<CheckpointContinue @finalCheckpoint={{true}} @nextPageButtonText={{this.nextPageButtonText}} />`,
       );
 
       // then
@@ -28,7 +28,7 @@ module('Integration | Component | checkpoint-continue', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<CheckpointContinue @finalCheckpoint={{false}} @nextPageButtonText={{this.nextPageButtonText}} />`
+        hbs`<CheckpointContinue @finalCheckpoint={{false}} @nextPageButtonText={{this.nextPageButtonText}} />`,
       );
 
       // then

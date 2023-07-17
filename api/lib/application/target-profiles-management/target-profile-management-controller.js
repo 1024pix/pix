@@ -6,7 +6,7 @@ import { deserializer } from '../../infrastructure/serializers/jsonapi/deseriali
 const detachOrganizations = async function (
   request,
   h,
-  dependencies = { targetProfileDetachOrganizationsSerializer, targetProfileRepository, deserializer }
+  dependencies = { targetProfileDetachOrganizationsSerializer, targetProfileRepository, deserializer },
 ) {
   const { organizationIds } = await dependencies.deserializer.deserialize(request.payload);
   const targetProfileId = request.params.id;
@@ -19,7 +19,7 @@ const detachOrganizations = async function (
 
   return h
     .response(
-      dependencies.targetProfileDetachOrganizationsSerializer.serialize({ detachedOrganizationIds, targetProfileId })
+      dependencies.targetProfileDetachOrganizationsSerializer.serialize({ detachedOrganizationIds, targetProfileId }),
     )
     .code(200);
 };

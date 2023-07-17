@@ -28,14 +28,14 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
 
     //  when
     const screen = await render(
-      hbs`<Authentication::OidcReconciliation @identityProviderSlug={{this.identityProviderSlug}} @authenticationMethods={{this.authenticationMethods}} @fullNameFromPix={{this.fullNameFromPix}} @fullNameFromExternalIdentityProvider={{this.fullNameFromExternalIdentityProvider}} @email={{this.email}}/>`
+      hbs`<Authentication::OidcReconciliation @identityProviderSlug={{this.identityProviderSlug}} @authenticationMethods={{this.authenticationMethods}} @fullNameFromPix={{this.fullNameFromPix}} @fullNameFromExternalIdentityProvider={{this.fullNameFromExternalIdentityProvider}} @email={{this.email}}/>`,
     );
 
     // then
     assert.ok(
       screen.getByRole('heading', {
         name: `${this.intl.t('pages.oidc-reconciliation.title')} ${this.intl.t('pages.oidc-reconciliation.sub-title')}`,
-      })
+      }),
     );
     assert.ok(screen.getByText(this.intl.t('pages.oidc-reconciliation.information')));
     assert.ok(screen.getByText('Lloyd Cé'));
@@ -48,7 +48,7 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
 
     assert.ok(screen.getByText(this.intl.t('pages.oidc-reconciliation.authentication-method-to-add')));
     assert.ok(
-      screen.getByText(`${this.intl.t('pages.oidc-reconciliation.external-connection-via')} Nouveau partenaire`)
+      screen.getByText(`${this.intl.t('pages.oidc-reconciliation.external-connection-via')} Nouveau partenaire`),
     );
 
     assert.ok(screen.getByRole('button', { name: this.intl.t('pages.oidc-reconciliation.switch-account') }));

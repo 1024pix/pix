@@ -133,14 +133,14 @@ export default class UserOverview extends Component {
   get userHasValidatePixOrgaTermsOfService() {
     return this._formatValidatedTermsOfServiceText(
       this.args.user.lastPixOrgaTermsOfServiceValidatedAt,
-      this.args.user.pixOrgaTermsOfServiceAccepted
+      this.args.user.pixOrgaTermsOfServiceAccepted,
     );
   }
 
   get userHasValidatePixCertifTermsOfService() {
     return this._formatValidatedTermsOfServiceText(
       this.args.user.lastPixCertifTermsOfServiceValidatedAt,
-      this.args.user.pixCertifTermsOfServiceAccepted
+      this.args.user.pixCertifTermsOfServiceAccepted,
     );
   }
 

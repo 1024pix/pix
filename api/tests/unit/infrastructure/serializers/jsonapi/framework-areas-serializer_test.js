@@ -172,7 +172,7 @@ describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
             thematics: [thematicWithTube, thematicWithoutTube],
             areas: [area],
           },
-          { withoutThematics }
+          { withoutThematics },
         );
 
         // then

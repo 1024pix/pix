@@ -35,7 +35,7 @@ const getByIdAndCode = async function ({ id, code }) {
     .leftJoin(
       'certification-centers',
       'certification-centers.id',
-      'certification-center-invitations.certificationCenterId'
+      'certification-center-invitations.certificationCenterId',
     )
     .where({
       'certification-center-invitations.id': id,

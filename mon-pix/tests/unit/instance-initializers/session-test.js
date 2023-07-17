@@ -35,7 +35,7 @@ module('Unit | Instance Initializer | session', function () {
               expires_in: 45,
               expires_at: 1667837187635,
             },
-          })
+          }),
         );
 
         // when
@@ -77,7 +77,7 @@ module('Unit | Instance Initializer | session', function () {
               expires_in: 45,
               expires_at: 1667837187635,
             },
-          })
+          }),
         );
 
         // when
@@ -117,7 +117,7 @@ module('Unit | Instance Initializer | session', function () {
               access_token: 'access_token',
               user_id: 1,
             },
-          })
+          }),
         );
 
         // when
@@ -155,7 +155,7 @@ module('Unit | Instance Initializer | session', function () {
               access_token: 'access_token',
               user_id: 1,
             },
-          })
+          }),
         );
 
         // when
@@ -193,7 +193,7 @@ module('Unit | Instance Initializer | session', function () {
               access_token: 'access_token',
               user_id: 1,
             },
-          })
+          }),
         );
 
         // when

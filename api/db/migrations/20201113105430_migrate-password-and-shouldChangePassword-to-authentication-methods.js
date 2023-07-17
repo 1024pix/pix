@@ -5,7 +5,7 @@ const up = async function (knex) {
       'SELECT id AS "userId", ' +
       '\'PIX\' AS "identityProvider", ' +
       'jsonb_build_object(\'password\', "password", \'shouldChangePassword\', "shouldChangePassword") AS "authenticationComplement" ' +
-      'FROM users WHERE ("password" = \'\') IS FALSE'
+      'FROM users WHERE ("password" = \'\') IS FALSE',
   );
 };
 

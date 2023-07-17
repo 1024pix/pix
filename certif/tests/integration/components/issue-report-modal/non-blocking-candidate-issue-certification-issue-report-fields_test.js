@@ -77,10 +77,10 @@ module(
       assert
         .dom(
           screen.getByText(
-            "Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux questions."
-          )
+            "Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux questions.",
+          ),
         )
         .exists();
     });
-  }
+  },
 );

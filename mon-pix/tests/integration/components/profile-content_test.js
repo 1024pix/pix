@@ -23,7 +23,7 @@ module('Integration | Component | Profile-content', function (hooks) {
               access_token: 'VALID-TOKEN',
             },
           },
-        })
+        }),
       );
 
       model = {

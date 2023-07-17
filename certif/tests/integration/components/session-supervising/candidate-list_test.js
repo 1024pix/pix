@@ -43,7 +43,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
 
       // when
       const screen = await renderScreen(
-        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
       );
 
       // then
@@ -63,7 +63,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
 
       // when
       const screen = await renderScreen(
-        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
       );
 
       // then
@@ -84,7 +84,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
           }),
         ];
         const screen = await renderScreen(
-          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
         );
 
         // when
@@ -99,8 +99,8 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
               this.intl.t('pages.session-supervising.candidate-list.authorized-to-start-candidates', {
                 authorizedToStartCandidates: 0,
                 totalCandidates: this.certificationCandidates.length,
-              })
-            )
+              }),
+            ),
           )
           .exists();
       });
@@ -127,7 +127,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
             }),
           ];
           const screen = await renderScreen(
-            hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+            hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
           );
 
           // when
@@ -149,7 +149,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
             }),
           ];
           const screen = await renderScreen(
-            hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+            hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
           );
           await fillIn(screen.getByRole('textbox', { name: 'Rechercher un candidat' }), 'Champs rempli');
 
@@ -186,7 +186,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
 
         // when
         const screen = await renderScreen(
-          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
         );
 
         // then
@@ -196,8 +196,8 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
               this.intl.t('pages.session-supervising.candidate-list.authorized-to-start-candidates', {
                 authorizedToStartCandidates: 2,
                 totalCandidates: this.certificationCandidates.length,
-              })
-            )
+              }),
+            ),
           )
           .exists();
       });
@@ -208,7 +208,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
     test('it renders a message', async function (assert) {
       // when
       const screen = await renderScreen(
-        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}} />`
+        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}} />`,
       );
 
       // then
@@ -221,7 +221,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
 
       // when
       const screen = await renderScreen(
-        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`
+        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
       );
 
       // then

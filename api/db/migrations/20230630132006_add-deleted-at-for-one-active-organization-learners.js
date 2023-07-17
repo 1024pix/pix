@@ -28,7 +28,7 @@ const up = async function (knex) {
       organizationId: ORGANIZATIONID_COLUMN,
       deletedAt: DELETEDAT_COLUMN,
       deletedBy: DELETEDBY_COLUMN,
-    }
+    },
   );
 };
 

@@ -13,8 +13,8 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     assert
       .dom(
         screen.getByLabelText(
-          this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')
-        )
+          this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label'),
+        ),
       )
       .exists();
   });
@@ -61,7 +61,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
 
     // when
     await render(
-      hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}} />`
+      hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}} />`,
     );
 
     // then
@@ -75,7 +75,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
 
     // when
     await render(
-      hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}} />`
+      hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}} />`,
     );
 
     // then
@@ -89,7 +89,7 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
 
     // when
     await render(
-      hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}} />`
+      hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}} />`,
     );
 
     // then

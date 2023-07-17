@@ -19,7 +19,7 @@ const findBySessionId = async function ({ sessionId }) {
   return certificationResultDTOs.map((certificationResultDTO) => {
     certificationResultDTO.complementaryCertificationCourseResults =
       complementaryCertificationCourseResultsByCertificationCourseId.find(
-        ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id
+        ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id,
       )?.complementaryCertificationCourseResults;
     return _toDomain(certificationResultDTO);
   });
@@ -47,7 +47,7 @@ const findByCertificationCandidateIds = async function ({ certificationCandidate
   return certificationResultDTOs.map((certificationResultDTO) => {
     certificationResultDTO.complementaryCertificationCourseResults =
       complementaryCertificationCourseResultsByCertificationCourseId.find(
-        ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id
+        ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id,
       )?.complementaryCertificationCourseResults;
     return _toDomain(certificationResultDTO);
   });
@@ -74,18 +74,18 @@ function _selectCertificationResults() {
     })
     .select(
       knex.raw(`
-        json_agg("competence-marks".* ORDER BY "competence-marks"."competence_code" asc)  as "competenceMarks"`)
+        json_agg("competence-marks".* ORDER BY "competence-marks"."competence_code" asc)  as "competenceMarks"`),
     )
     .from('certification-courses')
     .leftJoin(
       'certification-courses-last-assessment-results',
       'certification-courses.id',
-      'certification-courses-last-assessment-results.certificationCourseId'
+      'certification-courses-last-assessment-results.certificationCourseId',
     )
     .leftJoin(
       'assessment-results',
       'assessment-results.id',
-      'certification-courses-last-assessment-results.lastAssessmentResultId'
+      'certification-courses-last-assessment-results.lastAssessmentResultId',
     )
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
     .groupBy('certification-courses.id', 'assessment-results.id')
@@ -106,24 +106,24 @@ function _selectComplementaryCertificationCourseResultsBySessionId({ sessionId }
         'label', "complementary-certification-badges"."label",
         'order', "complementary-certifications".id
         ) order by "complementary-certifications".id, "complementary-certification-badges".level) as "complementaryCertificationCourseResults"
-        `)
+        `),
     )
     .join(
       'complementary-certification-courses',
       'complementary-certification-courses.id',
-      'complementary-certification-course-results.complementaryCertificationCourseId'
+      'complementary-certification-course-results.complementaryCertificationCourseId',
     )
     .join('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
     .join('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
     .join(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-badges.complementaryCertificationId'
+      'complementary-certification-badges.complementaryCertificationId',
     )
     .join(
       'certification-courses',
       'certification-courses.id',
-      'complementary-certification-courses.certificationCourseId'
+      'complementary-certification-courses.certificationCourseId',
     )
     .where({ sessionId })
     .where('complementary-certification-course-results.source', ComplementaryCertificationCourseResult.sources.PIX)

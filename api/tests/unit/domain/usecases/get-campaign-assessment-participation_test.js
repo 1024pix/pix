@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-campaign-assessment-participation', function () {
       domainBuilder.buildStageCollectionForUserCampaignResults({
         campaignId: 1,
         stages: [],
-      })
+      }),
     );
     campaignRepository = {
       checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),

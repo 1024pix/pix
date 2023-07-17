@@ -10,7 +10,7 @@ import { memberAction } from 'ember-api-actions';
 
 function _getNumberOf(juryCertificationSummaries, booleanFct) {
   return sumBy(juryCertificationSummaries.toArray(), (juryCertificationSummary) =>
-    Number(booleanFct(juryCertificationSummary))
+    Number(booleanFct(juryCertificationSummary)),
   );
 }
 
@@ -70,7 +70,7 @@ export default class Session extends Model {
   get isPublished() {
     return some(
       this.juryCertificationSummaries.toArray(),
-      (juryCertificationSummary) => juryCertificationSummary.isPublished
+      (juryCertificationSummary) => juryCertificationSummary.isPublished,
     );
   }
 
@@ -101,7 +101,7 @@ export default class Session extends Model {
   get countNotCheckedEndScreen() {
     return _getNumberOf(
       this.juryCertificationSummaries,
-      (juryCertificationSummary) => !juryCertificationSummary.hasSeenEndTestScreen
+      (juryCertificationSummary) => !juryCertificationSummary.hasSeenEndTestScreen,
     );
   }
 
@@ -110,7 +110,7 @@ export default class Session extends Model {
     return _getNumberOf(
       this.juryCertificationSummaries,
       (juryCertificationSummary) =>
-        juryCertificationSummary.isCertificationStarted || juryCertificationSummary.isCertificationInError
+        juryCertificationSummary.isCertificationStarted || juryCertificationSummary.isCertificationInError,
     );
   }
 
@@ -118,7 +118,7 @@ export default class Session extends Model {
   get countCertificationsFlaggedAsAborted() {
     return _getNumberOf(
       this.juryCertificationSummaries,
-      (juryCertificationSummary) => juryCertificationSummary.isFlaggedAborted
+      (juryCertificationSummary) => juryCertificationSummary.isFlaggedAborted,
     );
   }
 

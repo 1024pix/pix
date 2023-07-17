@@ -34,7 +34,7 @@ module('Acceptance | Profile | Start competence', function (hooks) {
       await visit('/competences');
       await setBreakpoint('tablet');
       await click(
-        `.rounded-panel-body__areas:nth-of-type(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-of-type(${competenceNumber}) .competence-card__button`
+        `.rounded-panel-body__areas:nth-of-type(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-of-type(${competenceNumber}) .competence-card__button`,
       );
 
       // then

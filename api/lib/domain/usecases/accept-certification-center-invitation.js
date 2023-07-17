@@ -24,7 +24,7 @@ const acceptCertificationCenterInvitation = async function ({
 
   if (isMembershipExisting) {
     throw new AlreadyExistingMembershipError(
-      `Certification center membership already exists for the user ID ${userId} and certification center ID ${certificationCenterId}.`
+      `Certification center membership already exists for the user ID ${userId} and certification center ID ${certificationCenterId}.`,
     );
   }
 

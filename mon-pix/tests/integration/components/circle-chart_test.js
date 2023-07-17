@@ -26,7 +26,7 @@ module('Integration | Component | circle-chart', function (hooks) {
       // then
       assert.strictEqual(
         this.element.querySelector('.circle--slice').getAttribute('stroke-dasharray'),
-        `${value}, 100`
+        `${value}, 100`,
       );
     });
 
@@ -62,7 +62,7 @@ module('Integration | Component | circle-chart', function (hooks) {
         this.element
           .querySelector('.circle-chart__content')
           .getAttribute('class')
-          .includes('circle-chart__content--big')
+          .includes('circle-chart__content--big'),
       );
     });
   });

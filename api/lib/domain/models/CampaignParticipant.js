@@ -71,7 +71,7 @@ class CampaignParticipant {
 
     if (this.previousCampaignParticipationForUser && !this.campaignToStartParticipation.multipleSendings) {
       throw new AlreadyExistingCampaignParticipationError(
-        `User ${this.userIdentity.id} has already a campaign participation with campaign ${this.campaignToStartParticipation.id}`
+        `User ${this.userIdentity.id} has already a campaign participation with campaign ${this.campaignToStartParticipation.id}`,
       );
     }
 

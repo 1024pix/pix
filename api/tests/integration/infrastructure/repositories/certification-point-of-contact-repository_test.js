@@ -102,7 +102,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
           });
           expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
         });
-      }
+      },
     );
 
     context('when user is linked to many certification centers', function () {
@@ -396,7 +396,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
           });
           expect(certificationPointOfContact).to.deepEqualInstance(expectedCertificationPointOfContact);
         });
-      }
+      },
     );
   });
 });

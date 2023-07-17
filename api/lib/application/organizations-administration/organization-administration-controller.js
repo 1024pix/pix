@@ -13,7 +13,7 @@ const updateOrganizationInformation = async function (
   h,
   dependencies = {
     organizationForAdminSerializer,
-  }
+  },
 ) {
   const organizationDeserialized = dependencies.organizationForAdminSerializer.deserialize(request.payload);
 

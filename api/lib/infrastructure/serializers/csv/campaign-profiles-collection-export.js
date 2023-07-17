@@ -21,7 +21,7 @@ class CampaignProfilesCollectionExport {
 
     const campaignParticipationResultDataChunks = _.chunk(
       campaignParticipationResultDatas,
-      CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING
+      CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
     );
 
     return bluebird.map(
@@ -29,13 +29,13 @@ class CampaignProfilesCollectionExport {
       async (campaignParticipationResultDataChunk) => {
         const placementProfiles = await this._getUsersPlacementProfiles(
           campaignParticipationResultDataChunk,
-          placementProfileService
+          placementProfileService,
         );
         const csvLines = this._buildLines(placementProfiles, campaignParticipationResultDatas);
 
         this.stream.write(csvLines);
       },
-      { concurrency: CONCURRENCY_HEAVY_OPERATIONS }
+      { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
     );
   }
 
@@ -83,7 +83,7 @@ class CampaignProfilesCollectionExport {
     let csvLines = '';
     for (const placementProfile of placementProfiles) {
       const campaignParticipationResultData = campaignParticipationResultDatas.find(
-        ({ userId }) => userId === placementProfile.userId
+        ({ userId }) => userId === placementProfile.userId,
       );
 
       const line = new CampaignProfilesCollectionResultLine(
@@ -92,7 +92,7 @@ class CampaignProfilesCollectionExport {
         campaignParticipationResultData,
         this.competences,
         placementProfile,
-        this.translate
+        this.translate,
       );
       csvLines = csvLines.concat(line.toCsvLine());
     }

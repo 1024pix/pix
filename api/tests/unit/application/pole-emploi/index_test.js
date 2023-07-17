@@ -27,7 +27,7 @@ describe('Unit | Router | pole-emploi-router', function () {
         authorization: generateValidRequestAuthorizationHeaderForApplication(
           POLE_EMPLOI_CLIENT_ID,
           POLE_EMPLOI_SOURCE,
-          POLE_EMPLOI_SCOPE
+          POLE_EMPLOI_SCOPE,
         ),
       };
       // when

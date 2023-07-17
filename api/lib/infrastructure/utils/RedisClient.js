@@ -24,7 +24,7 @@ class RedisClient {
       [this._client],
       // As said in the doc, setting retryCount to 0 and treating a failure as the resource being "locked"
       // is a good practice
-      { retryCount: 0 }
+      { retryCount: 0 },
     );
 
     this.ttl = promisify(this._wrapWithPrefix(this._client.ttl)).bind(this._client);
@@ -49,13 +49,13 @@ class RedisClient {
 
   subscribe(channel) {
     this._client.subscribe(channel, () =>
-      logger.info({ redisClient: this._clientName }, `Subscribed to channel '${channel}'`)
+      logger.info({ redisClient: this._clientName }, `Subscribed to channel '${channel}'`),
     );
   }
 
   publish(channel, message) {
     this._client.publish(channel, message, () =>
-      logger.info({ redisClient: this._clientName }, `Published on channel '${channel}'`)
+      logger.info({ redisClient: this._clientName }, `Published on channel '${channel}'`),
     );
   }
 

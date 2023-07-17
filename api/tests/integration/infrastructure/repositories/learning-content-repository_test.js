@@ -246,7 +246,7 @@ describe('Integration | Repository | learning-content', function () {
       // given
       campaignId = databaseBuilder.factory.buildCampaign().id;
       ['recSkill2', 'recSkill3'].forEach((skillId) =>
-        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId })
+        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }),
       );
       await databaseBuilder.commit();
 
@@ -269,7 +269,7 @@ describe('Integration | Repository | learning-content', function () {
       // given
       campaignId = databaseBuilder.factory.buildCampaign().id;
       ['recSkill2', 'recSkill3'].forEach((skillId) =>
-        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId })
+        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }),
       );
       await databaseBuilder.commit();
 
@@ -308,7 +308,7 @@ describe('Integration | Repository | learning-content', function () {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign().id;
       ['recSkill2', 'recSkill3'].forEach((skillId) =>
-        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId })
+        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }),
       );
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
       await databaseBuilder.commit();
@@ -321,7 +321,7 @@ describe('Integration | Repository | learning-content', function () {
 
       // when
       const campaignLearningContent = await learningContentRepository.findByCampaignParticipationId(
-        campaignParticipationId
+        campaignParticipationId,
       );
 
       // then
@@ -332,7 +332,7 @@ describe('Integration | Repository | learning-content', function () {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign().id;
       ['recSkill2', 'recSkill3'].forEach((skillId) =>
-        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId })
+        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }),
       );
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
       await databaseBuilder.commit();
@@ -346,7 +346,7 @@ describe('Integration | Repository | learning-content', function () {
       // when
       const campaignLearningContent = await learningContentRepository.findByCampaignParticipationId(
         campaignParticipationId,
-        'en'
+        'en',
       );
 
       // then
@@ -424,7 +424,7 @@ describe('Integration | Repository | learning-content', function () {
           // when
           const targetProfileLearningContent = await learningContentRepository.findByTargetProfileId(
             targetProfileId,
-            'en'
+            'en',
           );
 
           // then
@@ -501,7 +501,7 @@ function _buildDomainFrameworksFromLearningContent({ frameworks }) {
       id: framework.id,
       name: framework.name,
       areas: [],
-    })
+    }),
   );
 }
 
@@ -510,7 +510,7 @@ function _buildDomainAreasFromLearningContent({ areas }, locale) {
     domainBuilder.buildArea({
       ...area,
       title: area.title_i18n[locale],
-    })
+    }),
   );
 }
 
@@ -520,7 +520,7 @@ function _buildDomainCompetencesFromLearningContent({ competences }, locale) {
       ...competence,
       name: competence.name_i18n[locale],
       description: competence.description_i18n[locale],
-    })
+    }),
   );
 }
 
@@ -529,7 +529,7 @@ function _buildDomainThematicsFromLearningContent({ thematics }, locale) {
     domainBuilder.buildThematic({
       ...thematic,
       name: thematic.name_i18n[locale],
-    })
+    }),
   );
 }
 
@@ -539,7 +539,7 @@ function _buildDomainTubesFromLearningContent({ tubes }, locale) {
       ...tube,
       practicalTitle: tube.practicalTitle_i18n[locale],
       practicalDescription: tube.practicalDescription_i18n[locale],
-    })
+    }),
   );
 }
 

@@ -14,7 +14,7 @@ class CertificationContract {
 
     if (someUnansweredChallenges) {
       throw new CertificationComputeError(
-        "L’utilisateur n’a pas répondu à toutes les questions, alors qu'aucune raison d'abandon n'a été fournie."
+        "L’utilisateur n’a pas répondu à toutes les questions, alors qu'aucune raison d'abandon n'a été fournie.",
       );
     }
   }

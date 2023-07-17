@@ -17,7 +17,7 @@ describe('Unit | UseCase | create-certification-center', function () {
             firstName: 'Justin',
             lastName: 'Ptipeu',
             email: 'justin.ptipeu@example.net',
-          })
+          }),
         ),
       };
 
@@ -51,7 +51,7 @@ describe('Unit | UseCase | create-certification-center', function () {
             firstName: 'Justin',
             lastName: 'Ptipeu',
             email: 'justin.ptipeu@example.net',
-          })
+          }),
         ),
       };
 
@@ -89,7 +89,7 @@ describe('Unit | UseCase | create-certification-center', function () {
             firstName: 'Justin',
             lastName: 'Ptipeu',
             email: 'justin.ptipeu@example.net',
-          })
+          }),
         ),
       };
       const complementaryCertificationHabilitationRepository = {};

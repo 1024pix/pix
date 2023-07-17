@@ -65,7 +65,7 @@ module('Unit | Component | routes/campaigns/invited/fill-in-participant-external
       // then
       assert.strictEqual(
         component.errorMessage,
-        `Votre ${component.args.campaign.idPixLabel} ne doit pas dépasser les 255 caractères.`
+        `Votre ${component.args.campaign.idPixLabel} ne doit pas dépasser les 255 caractères.`,
       );
     });
   });

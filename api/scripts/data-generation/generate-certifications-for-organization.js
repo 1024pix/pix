@@ -50,7 +50,7 @@ async function _do({ organizationId, certificationCenterId }) {
     let allAssessmentIds = [];
     for (const [division, organizationLearners] of Object.entries(organizationLearnersGroupedByDivision)) {
       console.log(
-        `\tCréation des données de certification pour la classe ${division} contenant ${organizationLearners.length} prescrits...`
+        `\tCréation des données de certification pour la classe ${division} contenant ${organizationLearners.length} prescrits...`,
       );
       const sessionId = await _createSessionsWithCandidates({
         certificationCenterId,
@@ -71,7 +71,7 @@ async function _do({ organizationId, certificationCenterId }) {
     const errorCount = parseInt(allAssessmentIds.length * CERTIF_ERROR_RATE);
     const errorAssessmentIds = _.sampleSize(allAssessmentIds, errorCount);
     console.log(
-      `\tCréation des résultats de certification pour les ${errorAssessmentIds.length} certifications en erreur...`
+      `\tCréation des résultats de certification pour les ${errorAssessmentIds.length} certifications en erreur...`,
     );
     allAssessmentIds = _.difference(allAssessmentIds, errorAssessmentIds);
     await _createCertificationResultsInError({ assessmentIds: errorAssessmentIds, transaction });
@@ -82,7 +82,7 @@ async function _do({ organizationId, certificationCenterId }) {
     const rejectedCount = parseInt(allAssessmentIds.length * CERTIF_REJECTED_RATE);
     const rejectedAssessmentIds = _.sampleSize(allAssessmentIds, rejectedCount);
     console.log(
-      `\tCréation des résultats de certification pour les ${rejectedAssessmentIds.length} certifications rejetées...`
+      `\tCréation des résultats de certification pour les ${rejectedAssessmentIds.length} certifications rejetées...`,
     );
     allAssessmentIds = _.difference(allAssessmentIds, rejectedAssessmentIds);
     await _createCertificationResultsWithMarks({
@@ -94,7 +94,7 @@ async function _do({ organizationId, certificationCenterId }) {
     console.log('\tOK');
 
     console.log(
-      `\tCréation des résultats de certification pour les ${allAssessmentIds.length} certifications validées...`
+      `\tCréation des résultats de certification pour les ${allAssessmentIds.length} certifications validées...`,
     );
     await _createCertificationResultsWithMarks({
       assessmentIds: allAssessmentIds,
@@ -262,7 +262,7 @@ async function _createCertificationResultsWithMarks({ assessmentIds, status, pix
   FROM sum_score
   WHERE "assessment-results".id = sum_score."assessmentResultId"
   `,
-    assessmentResultIds.join(',')
+    assessmentResultIds.join(','),
   );
 }
 
@@ -339,7 +339,7 @@ async function main() {
       console.log(
         '\n\n Pour que ce script fonctionne pré-requis :' +
           '- Une organisation SCO isManagingStudents contenant des organization learners' +
-          '- Un centre de certif SCO'
+          '- Un centre de certif SCO',
       );
       process.exitCode = 1;
     } finally {

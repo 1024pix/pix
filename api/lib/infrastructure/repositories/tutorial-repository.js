@@ -98,7 +98,7 @@ const findPaginatedFilteredRecommendedByUserId = async function ({
         tutorialEvaluations,
         userSavedTutorials,
         skillId: skill.id,
-      })
+      }),
     );
   }
 

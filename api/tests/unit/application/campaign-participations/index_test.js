@@ -210,7 +210,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
         h
           .response({ errors: new Error('') })
           .code(403)
-          .takeover()
+          .takeover(),
       );
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

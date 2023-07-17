@@ -72,7 +72,7 @@ async function _startCompetenceEvaluation({
     competenceId,
     assessment.id,
     userId,
-    competenceEvaluationRepository
+    competenceEvaluationRepository,
   );
 
   return { competenceEvaluation, created: true };

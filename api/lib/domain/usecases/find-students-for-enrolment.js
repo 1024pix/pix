@@ -36,7 +36,7 @@ export { findStudentsForEnrolment };
 
 function _buildStudentsForEnrolment({ students, certificationCandidates }) {
   return students.map((student) =>
-    StudentForEnrolment.fromStudentsAndCertificationCandidates({ student, certificationCandidates })
+    StudentForEnrolment.fromStudentsAndCertificationCandidates({ student, certificationCandidates }),
   );
 }
 

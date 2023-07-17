@@ -20,8 +20,8 @@ module('Unit | Adapters | Validate Sessions For Mass Import', function (hooks) {
       assert.ok(
         adapter.ajax.calledWith(
           'http://localhost:3000/api/certification-centers/1/sessions/validate-for-mass-import',
-          'POST'
-        )
+          'POST',
+        ),
       );
     });
   });

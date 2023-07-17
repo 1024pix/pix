@@ -41,7 +41,7 @@ describe('Unit | UseCase | create-organization-place-lot', function () {
     });
 
     const expectedOrganizatonPlacesLotManagement = new organizationPlacesLotManagement(
-      expectedOrganizationPlacesLotData
+      expectedOrganizationPlacesLotData,
     );
 
     organizationPlacesLotRepository.create.withArgs(expectedOrganizationPlacesLotData).resolves(organizationPlaceLotId);

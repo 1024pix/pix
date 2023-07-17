@@ -27,7 +27,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
             campaignId: campaign1.id,
             userId,
           },
-          false
+          false,
         );
 
         databaseBuilder.factory.buildAssessment({
@@ -48,7 +48,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
           {
             campaignId: campaign2.id,
             userId,
-          }
+          },
         );
 
         databaseBuilder.factory.buildAssessment({
@@ -105,7 +105,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
             campaignId: campaign.id,
             userId: user1Id,
             sharedAt: new Date(),
-          }
+          },
         );
 
         databaseBuilder.factory.buildAssessment({
@@ -121,7 +121,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
             userId: user2Id,
             status: STARTED,
             sharedAt: null,
-          }
+          },
         );
 
         databaseBuilder.factory.buildAssessment({
@@ -138,7 +138,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
             status: STARTED,
             sharedAt: null,
             deletedAt: new Date(),
-          }
+          },
         );
 
         databaseBuilder.factory.buildAssessment({
@@ -207,7 +207,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
             campaignId: campaign.id,
             userId,
             sharedAt: new Date(),
-          }
+          },
         );
 
         databaseBuilder.factory.buildAssessment({

@@ -16,7 +16,7 @@ const BookshelfOrganization = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfOrganization };

@@ -76,7 +76,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
       .dom(
         screen.getByRole('link', {
           name: `${this.intl.t('pages.sitemap.cgu.subcontractors')} ${this.intl.t('navigation.external-link-title')}`,
-        })
+        }),
       )
       .hasAttribute('href', 'https://pix.fr/politique-protection-donnees-personnelles-app');
   });
@@ -94,7 +94,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
       .dom(
         screen.getByRole('link', {
           name: `${this.intl.t('pages.sitemap.accessibility.help')} ${this.intl.t('navigation.external-link-title')}`,
-        })
+        }),
       )
       .hasAttribute('href', 'https://pix.fr/aide-accessibilite');
   });
@@ -108,7 +108,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
       .dom(
         screen.getByRole('link', {
           name: `${this.intl.t('navigation.main.help')} ${this.intl.t('navigation.external-link-title')}`,
-        })
+        }),
       )
       .hasAttribute('href', 'https://support.pix.org/fr/support/home');
   });
@@ -126,7 +126,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
       .dom(
         screen.getByRole('link', {
           name: `${this.intl.t('pages.sitemap.accessibility.title')} ${this.intl.t('navigation.external-link-title')}`,
-        })
+        }),
       )
       .hasAttribute('href', 'https://pix.fr/accessibilite');
   });
@@ -144,7 +144,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
       .dom(
         screen.getByRole('link', {
           name: `${this.intl.t('navigation.footer.eula')} ${this.intl.t('navigation.external-link-title')}`,
-        })
+        }),
       )
       .hasAttribute('href', 'https://pix.fr/conditions-generales-d-utilisation');
   });
@@ -162,7 +162,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
       .dom(
         screen.getByRole('link', {
           name: `${this.intl.t('pages.sitemap.cgu.policy')} ${this.intl.t('navigation.external-link-title')}`,
-        })
+        }),
       )
       .hasAttribute('href', 'https://pix.fr/politique-protection-donnees-personnelles-app');
   });

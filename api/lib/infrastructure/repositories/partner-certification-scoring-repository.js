@@ -13,7 +13,7 @@ const save = async function ({
       source: ComplementaryCertificationCourseResult.sources.PIX,
       complementaryCertificationCourseId: partnerCertificationScoring.complementaryCertificationCourseId,
       acquired: partnerCertificationScoring.isAcquired(),
-    })
+    }),
   );
 
   const complementaryCertificationCourseResult = await knex

@@ -17,7 +17,7 @@ describe('Unit | Domain | Read-models | CertifiedBadge', function () {
           ];
           // when
           const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
-            complementaryCertificationCourseResults
+            complementaryCertificationCourseResults,
           );
 
           // then
@@ -42,7 +42,7 @@ describe('Unit | Domain | Read-models | CertifiedBadge', function () {
 
           // when
           const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
-            complementaryCertificationCourseResults
+            complementaryCertificationCourseResults,
           );
 
           // then
@@ -80,7 +80,7 @@ describe('Unit | Domain | Read-models | CertifiedBadge', function () {
 
           // when
           const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
-            complementaryCertificationCourseResults
+            complementaryCertificationCourseResults,
           );
 
           // then
@@ -110,7 +110,7 @@ describe('Unit | Domain | Read-models | CertifiedBadge', function () {
 
           // when
           const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
-            complementaryCertificationCourseResults
+            complementaryCertificationCourseResults,
           );
 
           // then
@@ -149,7 +149,7 @@ describe('Unit | Domain | Read-models | CertifiedBadge', function () {
 
             // when
             const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
-              complementaryCertificationCourseResults
+              complementaryCertificationCourseResults,
             );
 
             // then
@@ -192,7 +192,7 @@ describe('Unit | Domain | Read-models | CertifiedBadge', function () {
 
             // when
             const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
-              complementaryCertificationCourseResults
+              complementaryCertificationCourseResults,
             );
 
             // then
@@ -233,7 +233,7 @@ describe('Unit | Domain | Read-models | CertifiedBadge', function () {
 
           // when
           const certifiedBadgesDTO = CertifiedBadge.fromComplementaryCertificationCourseResults(
-            complementaryCertificationCourseResults
+            complementaryCertificationCourseResults,
           );
 
           // then

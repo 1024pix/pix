@@ -26,7 +26,7 @@ const findByOrganization = async function ({ organizationId }) {
     .leftJoin('target-profile-shares', function () {
       this.on('target-profile-shares.targetProfileId', 'target-profiles.id').on(
         'target-profile-shares.organizationId',
-        organizationId
+        organizationId,
       );
     })
     .where({ outdated: false })

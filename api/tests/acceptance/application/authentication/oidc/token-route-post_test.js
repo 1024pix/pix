@@ -56,7 +56,7 @@ describe('Acceptance | Route | oidc | token', function () {
             nonce: 'nonce',
             sub: 'sub',
           },
-          'secret'
+          'secret',
         );
 
         const getAccessTokenResponse = {
@@ -127,7 +127,7 @@ describe('Acceptance | Route | oidc | token', function () {
           nonce: 'nonce',
           sub: externalIdentifier,
         },
-        'secret'
+        'secret',
       );
       const getAccessTokenResponse = {
         access_token: 'access_token',
@@ -181,7 +181,7 @@ describe('Acceptance | Route | oidc | token', function () {
             nonce: 'nonce',
             sub: externalIdentifier,
           },
-          'secret'
+          'secret',
         );
         const getAccessTokenResponse = {
           access_token: 'access_token',
@@ -208,7 +208,7 @@ describe('Acceptance | Route | oidc | token', function () {
         expect(response.statusCode).to.equal(422);
         expect(getAccessTokenRequest.isDone()).to.be.true;
         expect(response.payload).to.equal(
-          '{"errors":[{"status":"422","title":"Unprocessable entity","detail":"Erreur lors de la récupération des tokens du partenaire."}]}'
+          '{"errors":[{"status":"422","title":"Unprocessable entity","detail":"Erreur lors de la récupération des tokens du partenaire."}]}',
         );
       });
     });
@@ -223,7 +223,7 @@ describe('Acceptance | Route | oidc | token', function () {
             nonce: 'nonce',
             sub: 'sub',
           },
-          'secret'
+          'secret',
         );
         const getAccessTokenResponse = {
           access_token: 'access_token',
@@ -273,7 +273,7 @@ describe('Acceptance | Route | oidc | token', function () {
                 nonce: 'nonce',
                 sub: externalIdentifier,
               },
-              'secret'
+              'secret',
             );
 
             const getAccessTokenResponse = {
@@ -305,7 +305,7 @@ describe('Acceptance | Route | oidc | token', function () {
             expect(getAccessTokenRequest.isDone()).to.be.true;
             expect(getUserInfoRequest.isDone()).to.be.true;
             expect(response.payload).to.equal(
-              '{"errors":[{"status":"503","title":"ServiceUnavailable","detail":"Une erreur est survenue en récupérant les informations des utilisateurs."}]}'
+              '{"errors":[{"status":"503","title":"ServiceUnavailable","detail":"Une erreur est survenue en récupérant les informations des utilisateurs."}]}',
             );
           });
         });

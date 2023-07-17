@@ -28,17 +28,17 @@ module('Unit | Component | result-item-component', function (hooks) {
   let component;
 
   module('#resultItem Computed property - undefined case', function () {
-    [undefinedAnswer, answerWithEmptyResult, answerWithUndefinedResult, answerWithNullResult].forEach(function (
-      answer
-    ) {
-      test(`should returns undefined when answer provided is: ${answer.name}`, function (assert) {
-        // when
-        component = createGlimmerComponent('result-item', { answer });
+    [undefinedAnswer, answerWithEmptyResult, answerWithUndefinedResult, answerWithNullResult].forEach(
+      function (answer) {
+        test(`should returns undefined when answer provided is: ${answer.name}`, function (assert) {
+          // when
+          component = createGlimmerComponent('result-item', { answer });
 
-        // then
-        assert.notOk(component.resultItem);
-      });
-    });
+          // then
+          assert.notOk(component.resultItem);
+        });
+      },
+    );
   });
 
   module('#resultItem Computed property - defined case', function () {

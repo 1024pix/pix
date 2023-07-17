@@ -18,7 +18,7 @@ module('Integration | Component | recovery-errors', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<AccountRecovery::RecoveryErrors @title={{this.title}} @message={{this.message}} />`
+      hbs`<AccountRecovery::RecoveryErrors @title={{this.title}} @message={{this.message}} />`,
     );
 
     // then
@@ -36,7 +36,7 @@ module('Integration | Component | recovery-errors', function (hooks) {
 
     // then
     assert.ok(
-      screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') })
+      screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') }),
     );
   });
 
@@ -46,7 +46,7 @@ module('Integration | Component | recovery-errors', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<AccountRecovery::RecoveryErrors @showBackToHomeButton={{this.showBackToHomeButton}} />`
+      hbs`<AccountRecovery::RecoveryErrors @showBackToHomeButton={{this.showBackToHomeButton}} />`,
     );
 
     // then

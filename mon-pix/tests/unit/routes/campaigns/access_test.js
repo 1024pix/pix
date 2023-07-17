@@ -66,7 +66,7 @@ module('Unit | Route | Access', function (hooks) {
       sinon.assert.calledWith(
         sessionStub.requireAuthenticationAndApprovedTermsOfService,
         { from: 'campaigns.campaign-landing-page' },
-        'inscription'
+        'inscription',
       );
       assert.ok(true);
     });
@@ -133,7 +133,7 @@ module('Unit | Route | Access', function (hooks) {
           // then
           assert.strictEqual(route.authenticationRoute, 'campaigns.join.student-sco');
         });
-      }
+      },
     );
 
     module('when campaign is SCO restricted and user has been disconnected from sco form', function () {

@@ -448,7 +448,7 @@ describe('Unit | UseCase | create-user', function () {
         expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
           userEmail,
           localeFromHeader,
-          expectedRedirectionUrl
+          expectedRedirectionUrl,
         );
       });
 
@@ -480,7 +480,7 @@ describe('Unit | UseCase | create-user', function () {
           expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
             userEmail,
             localeFromHeader,
-            expectedRedirectionUrl
+            expectedRedirectionUrl,
           );
         });
       });
@@ -514,7 +514,7 @@ describe('Unit | UseCase | create-user', function () {
           expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
             userEmail,
             localeFromHeader,
-            expectedRedirectionUrl
+            expectedRedirectionUrl,
           );
         });
       });

@@ -26,7 +26,7 @@ export default class InvitationsListItem extends Component {
       });
 
       this.notifications.sendSuccess(
-        this.intl.t('pages.team-new.success.invitation', { email: organizationInvitation.email })
+        this.intl.t('pages.team-new.success.invitation', { email: organizationInvitation.email }),
       );
     } catch (e) {
       this.notifications.sendError(this.intl.t('api-errors-messages.global'));

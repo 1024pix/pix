@@ -18,17 +18,17 @@ const findPaginatedByCertificationCenterId = async function ({ certificationCent
     })
     .select(
       knex.raw(
-        'COUNT(*) FILTER (WHERE "certification-candidates"."id" IS NOT NULL) OVER (partition by "sessions"."id") AS "enrolledCandidatesCount"'
+        'COUNT(*) FILTER (WHERE "certification-candidates"."id" IS NOT NULL) OVER (partition by "sessions"."id") AS "enrolledCandidatesCount"',
       ),
       knex.raw(
-        'COUNT(*) FILTER (WHERE "certification-courses"."id" IS NOT NULL) OVER (partition by "sessions"."id") AS "effectiveCandidatesCount"'
-      )
+        'COUNT(*) FILTER (WHERE "certification-courses"."id" IS NOT NULL) OVER (partition by "sessions"."id") AS "effectiveCandidatesCount"',
+      ),
     )
     .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
     .leftJoin('certification-courses', function () {
       this.on('certification-courses.userId', 'certification-candidates.userId').andOn(
         'certification-courses.sessionId',
-        'certification-candidates.sessionId'
+        'certification-candidates.sessionId',
       );
     })
     .where({ certificationCenterId })

@@ -46,7 +46,7 @@ const BookshelfUser = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfUser };

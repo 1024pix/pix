@@ -39,7 +39,7 @@ function _manageEmailAvailabilityError(error) {
     error,
     AlreadyRegisteredEmailError,
     'email',
-    'Cette adresse e-mail est déjà enregistrée, connectez-vous.'
+    'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
   );
 }
 
@@ -48,7 +48,7 @@ function _manageUsernameAvailabilityError(error) {
     error,
     AlreadyRegisteredUsernameError,
     'username',
-    'Cet identifiant n’est plus disponible, merci de recharger la page.'
+    'Cet identifiant n’est plus disponible, merci de recharger la page.',
   );
 }
 

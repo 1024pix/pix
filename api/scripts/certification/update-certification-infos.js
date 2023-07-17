@@ -97,7 +97,7 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
           .where({ externalId, userId });
 
         info.success++;
-      }
+      },
     );
 
     await trx.commit();

@@ -24,7 +24,7 @@ const findByCertificationCenterId = async function (certificationCenterId) {
     .join(
       'complementary-certifications',
       'complementary-certifications.id',
-      `${COMPLEMENTARY_CERTIFICATION_HABILITATIONS_TABLE_NAME}.complementaryCertificationId`
+      `${COMPLEMENTARY_CERTIFICATION_HABILITATIONS_TABLE_NAME}.complementaryCertificationId`,
     )
     .where(`${COMPLEMENTARY_CERTIFICATION_HABILITATIONS_TABLE_NAME}.certificationCenterId`, certificationCenterId);
 };

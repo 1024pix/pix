@@ -43,7 +43,7 @@ module('Integration | Component | certifications/certified-profile', function (h
 
       // when
       const screen = await render(
-        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`
+        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`,
       );
 
       // then
@@ -76,7 +76,7 @@ module('Integration | Component | certifications/certified-profile', function (h
 
       // when
       const screen = await render(
-        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`
+        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`,
       );
 
       // then
@@ -125,7 +125,7 @@ module('Integration | Component | certifications/certified-profile', function (h
 
       // when
       const screen = await render(
-        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`
+        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`,
       );
 
       // then
@@ -169,7 +169,7 @@ module('Integration | Component | certifications/certified-profile', function (h
 
       // when
       const screen = await render(
-        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`
+        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`,
       );
 
       // then

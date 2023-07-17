@@ -129,7 +129,7 @@ describe('Integration | Repository | Campaign', function () {
             'targetProfile',
             'multipleSendings',
             'ownerId',
-          ])
+          ]),
         );
       });
 
@@ -408,7 +408,7 @@ describe('Integration | Repository | Campaign', function () {
           'organization',
           'multipleSendings',
           'ownerId',
-        ])
+        ]),
       );
       const skillIds = await knex('campaign_skills').pluck('skillId').where('campaignId', savedCampaign.id);
       expect(skillIds).to.be.empty;
@@ -565,7 +565,7 @@ describe('Integration | Repository | Campaign', function () {
       //when
       const access = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(
         campaignId,
-        userWithDisabledMembershipId
+        userWithDisabledMembershipId,
       );
 
       //then

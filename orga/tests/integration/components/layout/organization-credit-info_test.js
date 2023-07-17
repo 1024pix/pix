@@ -34,7 +34,7 @@ module('Integration | Component | Layout::OrganizationCreditInfo', function (hoo
 
     // then
     assert.contains(
-      'Le nombre de crédits affichés correspond au nombre de crédits acquis par l’organisation et en cours de validité (indépendamment de leur activation).'
+      'Le nombre de crédits affichés correspond au nombre de crédits acquis par l’organisation et en cours de validité (indépendamment de leur activation).',
     );
   });
 

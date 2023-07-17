@@ -81,7 +81,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                   sentCampaignCode = JSON.parse(request.requestBody).meta['campaign-code'];
                   return schema.users.create({});
                 },
-                201
+                201,
               );
 
               // given
@@ -89,7 +89,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               const screen = await visit('/campagnes');
               await fillIn(
                 screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
-                campaign.code
+                campaign.code,
               );
               await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
@@ -107,13 +107,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await fillIn(screen.getByRole('textbox', { name: 'Nom' }), prescritUser.lastName);
               await fillIn(
                 screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }),
-                prescritUser.email
+                prescritUser.email,
               );
               await fillIn(
                 screen.getByLabelText(
-                  'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'
+                  'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
                 ),
-                prescritUser.password
+                prescritUser.password,
               );
               await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
@@ -139,7 +139,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               // when
               await fillIn(
                 screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
-                campaign.code
+                campaign.code,
               );
               await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
               await click(screen.getByRole('button', { name: 'Je commence' }));
@@ -166,14 +166,14 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                 // when
                 await fillIn(
                   screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
-                  campaign.code
+                  campaign.code,
                 );
                 await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
                 await click(screen.getByRole('button', { name: 'Je commence' }));
                 await click(screen.getByRole('button', { name: 'Se connecter' }));
                 await fillIn(
                   screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }),
-                  prescritUser.email
+                  prescritUser.email,
                 );
                 await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
                 await click(screen.getByRole('button', { name: 'Se connecter' }));
@@ -191,7 +191,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               prescritUser.mustValidateTermsOfService = true;
               await fillIn(
                 screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
-                campaign.code
+                campaign.code,
               );
               await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
               await click(screen.getByRole('button', { name: 'Je commence' }));
@@ -277,14 +277,14 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
             await fillIn(
               screen.getByRole('textbox', { name: 'obligatoire Adresse e-mail (ex: nom@exemple.fr)' }),
-              prescritUser.email
+              prescritUser.email,
             );
             await fillIn(
               screen.getByLabelText(
                 'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
-                { exact: false }
+                { exact: false },
               ),
-              'pix123'
+              'pix123',
             );
 
             await click(screen.getByRole('button', { name: "Je m'inscris" }));
@@ -292,18 +292,18 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
             assert.strictEqual(
               screen.getByRole('textbox', { name: 'obligatoire Prénom' }).value,
-              prescritUser.firstName
+              prescritUser.firstName,
             );
             assert.strictEqual(
               screen.getByRole('textbox', { name: 'obligatoire Adresse e-mail (ex: nom@exemple.fr)' }).value,
-              prescritUser.email
+              prescritUser.email,
             );
             assert.strictEqual(
               screen.getByLabelText(
                 'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
-                { exact: false }
+                { exact: false },
               ).value,
-              'pix123'
+              'pix123',
             );
 
             //go to username-based authentication window
@@ -312,9 +312,9 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             assert.strictEqual(
               screen.getByLabelText(
                 'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
-                { exact: false }
+                { exact: false },
               ).value,
-              'pix123'
+              'pix123',
             );
           });
 
@@ -812,7 +812,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             const externalUserToken =
               'aaa.' +
               btoa(
-                '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}'
+                '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}',
               ) +
               '.bbb';
             const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
@@ -830,7 +830,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             const externalUserToken =
               'aaa.' +
               btoa(
-                '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}'
+                '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}',
               ) +
               '.bbb';
             const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
@@ -849,7 +849,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             const externalUserToken =
               'aaa.' +
               btoa(
-                '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}'
+                '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}',
               ) +
               '.bbb';
             const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
@@ -869,7 +869,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             const externalUserToken =
               'aaa.' +
               btoa(
-                '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}'
+                '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}',
               ) +
               '.bbb';
             const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
@@ -923,7 +923,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               // when
               await fillIn(
                 screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
-                campaign.code
+                campaign.code,
               );
               await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
@@ -937,7 +937,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           const externalUserToken =
             'aaa.' +
             btoa(
-              '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}'
+              '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}',
             ) +
             '.bbb';
 
@@ -960,7 +960,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                       },
                     },
                   ],
-                }
+                },
               );
             });
           });
@@ -1001,7 +1001,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               {},
               {
                 errors: [{ status: 400 }],
-              }
+              },
             );
             server.post('/token-from-external-user', () => errorsApi);
 
@@ -1040,7 +1040,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                     meta: { value: expectedObfuscatedConnectionMethod },
                   },
                 ],
-              }
+              },
             );
             server.post('/token-from-external-user', () => errorsApi);
 
@@ -1065,8 +1065,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             assert
               .dom(
                 screen.getByText(
-                  "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : t***@example.net"
-                )
+                  "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : t***@example.net",
+                ),
               )
               .exists();
           });
@@ -1096,8 +1096,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             assert
               .dom(
                 screen.getByText(
-                  'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
-                )
+                  'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
+                ),
               )
               .exists();
           });
@@ -1125,7 +1125,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                         },
                       },
                     ],
-                  }
+                  },
                 );
               });
 
@@ -1137,7 +1137,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
               await fillIn(
                 screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
-                campaign.code
+                campaign.code,
               );
               await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
               await click(screen.getByRole('button', { name: 'Je commence' }));
@@ -1149,7 +1149,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await click(screen.getByRole('button', { name: 'Continuer avec mon compte Pix' }));
               await fillIn(
                 screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }),
-                userShouldChangePassword.username
+                userShouldChangePassword.username,
               );
 
               await fillIn(screen.getByLabelText('Mot de passe'), userShouldChangePassword.password);
@@ -1162,9 +1162,9 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await fillIn(
                 screen.getByLabelText(
                   'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
-                  { exact: false }
+                  { exact: false },
                 ),
-                'newPass12345!'
+                'newPass12345!',
               );
               await click(screen.getByRole('button', { name: 'Réinitialiser' }));
 

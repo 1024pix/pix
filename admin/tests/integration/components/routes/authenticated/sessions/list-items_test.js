@@ -83,7 +83,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
         .hasText(
           sessions[i].resultsSentToPrescriberAt
             ? displayedResultsSentToPrescriberAt
-            : sessions[i].resultsSentToPrescriberAt
+            : sessions[i].resultsSentToPrescriberAt,
         );
     }
     // Colonne : Centre de certification
@@ -123,7 +123,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await click(
         screen.getByRole('button', {
           name: 'Filtrer les sessions en sélectionnant un type de centre de certification',
-        })
+        }),
       );
       await screen.findByRole('listbox');
 
@@ -142,14 +142,14 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
         hbs`<Sessions::ListItems
   @certificationCenterType={{this.certificationCenterType}}
   @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}
-/>`
+/>`,
       );
 
       // when
       await click(
         screen.getByRole('button', {
           name: 'Filtrer les sessions en sélectionnant un type de centre de certification',
-        })
+        }),
       );
       await screen.findByRole('listbox');
 
@@ -169,7 +169,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await click(
         screen.getByRole('button', {
           name: 'Filtrer les sessions en sélectionnant un statut',
-        })
+        }),
       );
       await screen.findByRole('listbox');
 
@@ -186,14 +186,14 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       this.set('status', 'finalized');
       this.set('updateSessionStatusFilter', (newValue) => this.set('status', newValue));
       const screen = await render(
-        hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}} />`
+        hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}} />`,
       );
 
       // when
       await click(
         screen.getByRole('button', {
           name: 'Filtrer les sessions en sélectionnant un statut',
-        })
+        }),
       );
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Créée' }));
@@ -212,7 +212,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await click(
         screen.getByRole('button', {
           name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
-        })
+        }),
       );
       await screen.findByRole('listbox');
 
@@ -226,20 +226,20 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       // given
       this.set('resultsSentToPrescriberAt', 'true');
       this.set('updateSessionResultsSentToPrescriberFilter', (newValue) =>
-        this.set('resultsSentToPrescriberAt', newValue)
+        this.set('resultsSentToPrescriberAt', newValue),
       );
       const screen = await render(
         hbs`<Sessions::ListItems
   @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}}
   @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}
-/>`
+/>`,
       );
 
       // when
       await click(
         screen.getByRole('button', {
           name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
-        })
+        }),
       );
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Résultats non diffusés' }));

@@ -27,7 +27,7 @@ const register = async function (server) {
               grant_type: 'refresh_token',
               refresh_token: Joi.string(),
               scope: Joi.string(),
-            })
+            }),
           ),
         },
         pre: [{ method: securityPreHandlers.checkIfUserIsBlocked }],
@@ -121,7 +121,7 @@ const register = async function (server) {
           failAction: (request, h) => {
             return sendJsonApiError(
               new BadRequestError('The server could not understand the request due to invalid token.'),
-              h
+              h,
             );
           },
         },

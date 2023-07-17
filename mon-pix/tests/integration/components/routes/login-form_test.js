@@ -190,7 +190,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
 
       const screen = await render(
-        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`
+        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`,
       );
 
       await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), 'pix@example.net');
@@ -220,7 +220,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
 
       const screen = await render(
-        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`
+        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`,
       );
 
       await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), 'pix@example.net');
@@ -254,7 +254,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
 
       const screen = await render(
-        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`
+        hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`,
       );
 
       await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), 'pix@example.net');

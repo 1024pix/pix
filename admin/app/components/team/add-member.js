@@ -39,7 +39,7 @@ export default class AddMember extends Component {
       this.email = '';
       this.role = 'SUPER_ADMIN';
       this.notifications.success(
-        `L'agent ${adminMember.firstName} ${adminMember.lastName} a dorénavant accès à Pix Admin`
+        `L'agent ${adminMember.firstName} ${adminMember.lastName} a dorénavant accès à Pix Admin`,
       );
     } catch (errorResponse) {
       this.store.deleteRecord(adminMember);

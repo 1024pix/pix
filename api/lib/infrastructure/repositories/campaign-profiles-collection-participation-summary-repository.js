@@ -22,13 +22,13 @@ const findPaginatedByCampaignId = async function (campaignId, page, filters = {}
       'view-active-organization-learners.lastName AS lastName',
       'campaign-participations.participantExternalId',
       'campaign-participations.sharedAt',
-      'campaign-participations.pixScore AS pixScore'
+      'campaign-participations.pixScore AS pixScore',
     )
     .from('campaign-participations')
     .join(
       'view-active-organization-learners',
       'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId'
+      'campaign-participations.organizationLearnerId',
     )
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
@@ -67,14 +67,14 @@ async function _makeMemoizedGetPlacementProfileForUser(results) {
     chunk(sharedResults, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING),
     (sharedResultsChunk) => {
       const sharedAtDatesByUsers = Object.fromEntries(
-        sharedResultsChunk.map(({ userId, sharedAt }) => [userId, sharedAt])
+        sharedResultsChunk.map(({ userId, sharedAt }) => [userId, sharedAt]),
       );
       return placementProfileService.getPlacementProfilesWithSnapshotting({
         userIdsAndDates: sharedAtDatesByUsers,
         allowExcessPixAndLevels: false,
         competences,
       });
-    }
+    },
   );
 
   const placementProfiles = sharedResultsChunks.flat();
@@ -98,7 +98,7 @@ function _filterQuery(queryBuilder, filters) {
       queryBuilder,
       filters.search,
       'view-active-organization-learners.firstName',
-      'view-active-organization-learners.lastName'
+      'view-active-organization-learners.lastName',
     );
   }
 }

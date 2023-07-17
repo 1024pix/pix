@@ -10,11 +10,11 @@ describe('Integration | Repository | Division', function () {
 
       databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, division: division1 },
-        { campaignId: campaign.id }
+        { campaignId: campaign.id },
       );
       databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, division: division2 },
-        { campaignId: campaign.id }
+        { campaignId: campaign.id },
       );
       await databaseBuilder.commit();
 
@@ -30,11 +30,11 @@ describe('Integration | Repository | Division', function () {
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: division },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: division },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
         await databaseBuilder.commit();
 
@@ -51,7 +51,7 @@ describe('Integration | Repository | Division', function () {
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: division },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
         await databaseBuilder.commit();
 
@@ -68,7 +68,7 @@ describe('Integration | Repository | Division', function () {
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: division },
-          { campaignId: campaign.id, deletedAt: '2020-01-22' }
+          { campaignId: campaign.id, deletedAt: '2020-01-22' },
         );
 
         await databaseBuilder.commit();

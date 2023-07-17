@@ -22,7 +22,7 @@ async function main() {
 
   if (process.argv.length <= 2) {
     logger.info(
-      'Usage: NODE_TLS_REJECT_UNAUTHORIZED="0" PGSSLMODE=require node scripts/certification/send-certification-result-emails.js 1234,5678,9012'
+      'Usage: NODE_TLS_REJECT_UNAUTHORIZED="0" PGSSLMODE=require node scripts/certification/send-certification-result-emails.js 1234,5678,9012',
     );
     return;
   }

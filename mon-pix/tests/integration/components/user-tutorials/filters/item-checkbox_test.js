@@ -22,7 +22,7 @@ module('Integration | Component | User-Tutorials | Filters | ItemCheckbox', func
               @item={{this.item}}
               @currentFilters={{this.currentFilters}}
               @handleFilterChange={{this.handleFilterChange}}
-            />`
+            />`,
       );
 
       // then
@@ -44,7 +44,7 @@ module('Integration | Component | User-Tutorials | Filters | ItemCheckbox', func
               @item={{this.item}}
               @currentFilters={{this.currentFilters}}
               @handleFilterChange={{this.handleFilterChange}}
-            />`
+            />`,
       );
 
       // then

@@ -57,7 +57,7 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 
   await _blockCandidateFromRestartingWithoutExplicitValidation(
     certificationCandidate,
-    certificationCandidateRepository
+    certificationCandidateRepository,
   );
 
   if (existingCertificationCourse) {
@@ -119,7 +119,7 @@ function _validateCandidateIsAuthorizedToStart(certificationCandidate, existingC
 
 async function _blockCandidateFromRestartingWithoutExplicitValidation(
   certificationCandidate,
-  certificationCandidateRepository
+  certificationCandidateRepository,
 ) {
   certificationCandidate.authorizedToStart = false;
   await certificationCandidateRepository.update(certificationCandidate);
@@ -158,7 +158,7 @@ async function _startNewCertification({
     certificationCourseRepository,
     userId,
     sessionId,
-    domainTransaction
+    domainTransaction,
   );
   if (certificationCourseCreatedMeanwhile) {
     return {
@@ -194,18 +194,18 @@ async function _startNewCertification({
           campaignId,
           badgeKey,
           userId,
-          locale
+          locale,
         );
         challengesForCertification.push(...certificationChallenges);
       }
-    }
+    },
   );
 
   let challengesForPixCertification = [];
   if (version !== CertificationVersion.V3) {
     challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
       placementProfile,
-      locale
+      locale,
     );
     challengesForCertification.push(...challengesForPixCertification);
   }
@@ -227,7 +227,7 @@ async function _getCertificationCourseIfCreatedMeanwhile(
   certificationCourseRepository,
   userId,
   sessionId,
-  domainTransaction
+  domainTransaction,
 ) {
   return certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
     userId,
@@ -250,7 +250,7 @@ async function _createCertificationCourse({
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
   const complementaryCertificationCourses = complementaryCertificationCourseData.map(
     ({ complementaryCertificationBadgeId, complementaryCertificationId }) =>
-      new ComplementaryCertificationCourse({ complementaryCertificationBadgeId, complementaryCertificationId })
+      new ComplementaryCertificationCourse({ complementaryCertificationBadgeId, complementaryCertificationId }),
   );
   const newCertificationCourse = CertificationCourse.from({
     certificationCandidate,

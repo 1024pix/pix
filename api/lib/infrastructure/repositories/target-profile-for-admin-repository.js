@@ -27,7 +27,7 @@ const get = async function ({ id, locale = FRENCH_FRANCE }) {
       'target-profiles.ownerOrganizationId',
       'target-profiles.category',
       'target-profiles.isSimplifiedAccess',
-      'target-profiles.areKnowledgeElementsResettable'
+      'target-profiles.areKnowledgeElementsResettable',
     )
     .where('id', id)
     .first();
@@ -67,8 +67,8 @@ async function _getLearningContent(targetProfileId, tubesData, locale) {
   if (notFoundTubeIds.length > 0) {
     throw new NotFoundError(
       `Les sujets [${notFoundTubeIds.join(
-        ', '
-      )}] du profil cible ${targetProfileId} n'existent pas dans le référentiel.`
+        ', ',
+      )}] du profil cible ${targetProfileId} n'existent pas dans le référentiel.`,
     );
   }
 
@@ -107,7 +107,7 @@ async function _findBadges(targetProfileId) {
             ...badgeCriterionDTO,
             skillSets: [],
             cappedTubes: [],
-          })
+          }),
         );
       }
       if (badgeCriterionDTO.scope === SCOPES.CAPPED_TUBES) {
@@ -117,7 +117,7 @@ async function _findBadges(targetProfileId) {
             new CappedTube({
               tubeId: cappedTubeDTO.id,
               level: cappedTubeDTO.level,
-            })
+            }),
           );
         }
         criteria.push(
@@ -125,7 +125,7 @@ async function _findBadges(targetProfileId) {
             ...badgeCriterionDTO,
             skillSets: [],
             cappedTubes,
-          })
+          }),
         );
       }
     }
@@ -133,7 +133,7 @@ async function _findBadges(targetProfileId) {
       new BadgeDetails({
         ...badgeDTO,
         criteria,
-      })
+      }),
     );
   }
   return badges;

@@ -153,7 +153,7 @@ function _getSaxStream(path, encoding, reject, logError) {
     _.once((err) => {
       logError(err);
       reject(new FileValidationError(ERRORS.INVALID_FILE));
-    })
+    }),
   );
   return inputStream.pipe(decodeStream).pipe(saxParser);
 }

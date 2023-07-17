@@ -13,7 +13,7 @@ const addTargetProfilesToOrganization = async function ({ organizationId, target
 
 const batchAddTargetProfilesToOrganization = async function (
   organizationTargetProfiles,
-  domainTransaction = DomainTransaction.emptyTransaction()
+  domainTransaction = DomainTransaction.emptyTransaction(),
 ) {
   await knex
     .batchInsert('target-profile-shares', organizationTargetProfiles)

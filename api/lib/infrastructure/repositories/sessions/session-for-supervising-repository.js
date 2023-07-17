@@ -44,12 +44,12 @@ const get = async function (idSession) {
     .leftJoin(
       'complementary-certification-subscriptions',
       'complementary-certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id'
+      'certification-candidates.id',
     )
     .leftJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-subscriptions.complementaryCertificationId'
+      'complementary-certification-subscriptions.complementaryCertificationId',
     )
     .groupBy('sessions.id', 'certification-centers.id')
     .where({ 'sessions.id': idSession })
@@ -77,7 +77,7 @@ function _toDomain(results) {
         new CertificationCandidateForSupervising({
           ...candidate,
           enrolledComplementaryCertification: _toDomainComplementaryCertification(candidate.complementaryCertification),
-        })
+        }),
     );
 
   return new SessionForSupervising({

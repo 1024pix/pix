@@ -51,7 +51,7 @@ describe('Unit | Service | Validation Treatments', function () {
 
     it('should return the good result even for complex phrase', function () {
       expect(
-        removeSpecialCharacters('Th!!is., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation')
+        removeSpecialCharacters('Th!!is., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation'),
       ).to.equal('This is an example of a string with punctuation');
     });
   });

@@ -79,7 +79,7 @@ module('Acceptance | Organizations | Invitations management', function (hooks) {
         this.server.delete(
           `/admin/organizations/${organization.id}/invitations/${organizationInvitation.id}`,
           () => new Response({}),
-          500
+          500,
         );
 
         // when

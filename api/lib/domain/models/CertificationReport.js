@@ -51,7 +51,7 @@ class CertificationReport {
 
     if (!this.isCompleted && !this.abortReason) {
       throw new InvalidCertificationReportForFinalization(
-        'Abort reason is required if certificationReport is not completed'
+        'Abort reason is required if certificationReport is not completed',
       );
     }
   }

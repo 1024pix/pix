@@ -18,7 +18,7 @@ const _toStudents = function (results) {
           'birthdate',
           'updatedAt',
         ]),
-      })
+      }),
     );
   }
   return students;
@@ -26,7 +26,7 @@ const _toStudents = function (results) {
 
 const findReconciledStudentsByNationalStudentId = async function (
   nationalStudentIds,
-  domainTransaction = DomainTransaction.emptyTransaction()
+  domainTransaction = DomainTransaction.emptyTransaction(),
 ) {
   const knexConn = domainTransaction.knexTransaction || knex;
   const results = await knexConn
@@ -47,7 +47,7 @@ const findReconciledStudentsByNationalStudentId = async function (
       'users.id',
       'view-active-organization-learners.organizationId',
       'view-active-organization-learners.birthdate',
-      'users.updatedAt'
+      'users.updatedAt',
     )
     .orderBy('users.id');
 

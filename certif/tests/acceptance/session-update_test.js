@@ -93,7 +93,9 @@ module('Acceptance | Session Update', function (hooks) {
 
     // when
     await click(
-      screen.getByRole('button', { name: 'Annuler la modification de la session et retourner vers la page précédente' })
+      screen.getByRole('button', {
+        name: 'Annuler la modification de la session et retourner vers la page précédente',
+      }),
     );
 
     // then

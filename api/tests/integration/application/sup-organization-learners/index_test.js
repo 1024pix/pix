@@ -332,7 +332,7 @@ describe('Integration | Application | Route | sup-organization-learners', functi
       it('should return an error when the user is not authenticated', async function () {
         // given
         securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) =>
-          h.response().code(403).takeover()
+          h.response().code(403).takeover(),
         );
         const url = `/api/organizations/${organizationId}/sup-organization-learners/${organizationLearnerId}`;
         const payload = {

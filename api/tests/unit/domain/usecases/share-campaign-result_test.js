@@ -58,7 +58,7 @@ describe('Unit | UseCase | share-campaign-result', function () {
       expect(campaignParticipation.share).to.have.been.called;
       expect(campaignParticipationRepository.updateWithSnapshot).to.have.been.calledWithExactly(
         campaignParticipation,
-        domainTransaction
+        domainTransaction,
       );
     });
 

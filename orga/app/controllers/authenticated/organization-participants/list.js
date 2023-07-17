@@ -55,7 +55,7 @@ export default class ListController extends Controller {
     try {
       await this.store.adapterFor('organization-participant').deleteParticipants(
         this.currentUser.organization.id,
-        listLearners.map(({ id }) => id)
+        listLearners.map(({ id }) => id),
       );
       this.send('refreshModel');
       this.notifications.sendSuccess(
@@ -63,7 +63,7 @@ export default class ListController extends Controller {
           count: listLearners.length,
           firstname: listLearners[0].firstName,
           lastname: listLearners[0].lastName,
-        })
+        }),
       );
     } catch {
       this.notifications.sendError(
@@ -71,7 +71,7 @@ export default class ListController extends Controller {
           count: listLearners.length,
           firstname: listLearners[0].firstName,
           lastname: listLearners[0].lastName,
-        })
+        }),
       );
     }
   }

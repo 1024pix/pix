@@ -33,7 +33,7 @@ module('Integration | Component | Organizations::ListItems', function (hooks) {
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
   @showDetachColumn={{false}}
-/>`
+/>`,
     );
 
     // then
@@ -52,7 +52,7 @@ module('Integration | Component | Organizations::ListItems', function (hooks) {
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
   @showDetachColumn={{true}}
-/>`
+/>`,
       );
 
       // then
@@ -74,7 +74,7 @@ module('Integration | Component | Organizations::ListItems', function (hooks) {
   @detachOrganizations={{this.detachOrganizations}}
   @targetProfileName={{this.targetProfile.name}}
   @showDetachColumn={{true}}
-/>`
+/>`,
       );
 
       const detachButton = screen.getAllByRole('button', { name: 'Détacher' })[0];
@@ -96,7 +96,7 @@ module('Integration | Component | Organizations::ListItems', function (hooks) {
   @triggerFiltering={{this.triggerFiltering}}
   @detachOrganizations={{this.detachOrganizations}}
   @showDetachColumn={{true}}
-/>`
+/>`,
       );
       const detachButton = screen.getAllByRole('button', { name: 'Détacher' })[0];
 

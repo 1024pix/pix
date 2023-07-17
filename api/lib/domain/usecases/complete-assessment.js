@@ -21,7 +21,7 @@ const completeAssessment = async function ({
 
     await campaignParticipationRepository.update(
       { id: assessment.campaignParticipationId, status: TO_SHARE },
-      domainTransaction
+      domainTransaction,
     );
   }
 

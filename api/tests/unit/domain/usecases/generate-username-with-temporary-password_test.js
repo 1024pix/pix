@@ -100,7 +100,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
     // then
     expect(error).to.be.instanceof(UserNotAuthorizedToGenerateUsernamePasswordError);
     expect(error.message).to.be.equal(
-      `L'élève avec l'INE ${organizationLearner.nationalStudentId} n'appartient pas à l'organisation.`
+      `L'élève avec l'INE ${organizationLearner.nationalStudentId} n'appartient pas à l'organisation.`,
     );
   });
 
@@ -125,7 +125,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
     // then
     expect(error).to.be.instanceof(UserNotAuthorizedToGenerateUsernamePasswordError);
     expect(error.message).to.be.equal(
-      `Ce compte utilisateur dispose déjà d'un identifiant: ${userRelatedToStudent.username}.`
+      `Ce compte utilisateur dispose déjà d'un identifiant: ${userRelatedToStudent.username}.`,
     );
   });
 

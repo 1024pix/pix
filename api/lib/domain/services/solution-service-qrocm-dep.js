@@ -11,13 +11,13 @@ function applyTreatmentsToSolutions(solutions, enabledTreatments) {
     Object.entries(solutions).map(([solutionKey, acceptedSolutions]) => [
       solutionKey,
       acceptedSolutions.map((acceptedSolution) => applyTreatments(acceptedSolution.toString(), enabledTreatments)),
-    ])
+    ]),
   );
 }
 
 function applyTreatmentsToAnswers(answers, enabledTreatments) {
   return Object.fromEntries(
-    Object.entries(answers).map(([key, answer]) => [key, applyTreatments(answer.toString(), enabledTreatments)])
+    Object.entries(answers).map(([key, answer]) => [key, applyTreatments(answer.toString(), enabledTreatments)]),
   );
 }
 
@@ -41,7 +41,7 @@ function getAnswerStatus(scoring, numberOfGoodAnswers, nbOfAnswers) {
 
 function getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments, solutions) {
   return getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatments, solutions).answersEvaluation.filter(
-    Boolean
+    Boolean,
   ).length;
 }
 
@@ -110,12 +110,12 @@ const match = function ({
   const { answers, solutions, scoring } = dependencies.convertYamlToJsObjects(
     preTreatedAnswers,
     yamlSolution,
-    yamlScoring
+    yamlScoring,
   );
   const { enabledTreatments, treatedSolutions, treatedAnswers } = dependencies.treatAnswersAndSolutions(
     deactivations,
     solutions,
-    answers
+    answers,
   );
   const numberOfGoodAnswers = getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments, solutions);
   const answerStatus = getAnswerStatus(scoring, numberOfGoodAnswers, Object.keys(answers).length);

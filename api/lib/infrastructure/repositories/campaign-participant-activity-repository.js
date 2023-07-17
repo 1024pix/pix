@@ -7,7 +7,7 @@ const campaignParticipantActivityRepository = {
   async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {
     const query = knex
       .with('campaign_participants_activities_ordered', (qb) =>
-        _buildCampaignParticipationByParticipant(qb, campaignId, filters)
+        _buildCampaignParticipationByParticipant(qb, campaignId, filters),
       )
       .from('campaign_participants_activities_ordered')
       .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
@@ -35,14 +35,14 @@ function _buildCampaignParticipationByParticipant(queryBuilder, campaignId, filt
       'campaign-participations.participantExternalId',
       'campaign-participations.sharedAt',
       'campaign-participations.status',
-      'campaigns.type AS campaignType'
+      'campaigns.type AS campaignType',
     )
     .from('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .join(
       'view-active-organization-learners',
       'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId'
+      'campaign-participations.organizationLearnerId',
     )
     .modify(_filterParticipations, filters, campaignId);
 }
@@ -64,7 +64,7 @@ function _filterBySearch(queryBuilder, filters) {
       queryBuilder,
       filters.search,
       'view-active-organization-learners.firstName',
-      'view-active-organization-learners.lastName'
+      'view-active-organization-learners.lastName',
     );
   }
 }

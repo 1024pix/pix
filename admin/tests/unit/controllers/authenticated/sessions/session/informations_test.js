@@ -48,7 +48,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
 
         // then
         assert.ok(
-          controller.model.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } })
+          controller.model.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } }),
         );
         assert.ok(controller.notifications.success.calledWithExactly('La session vous a correctement été assignée'));
         assert.false(controller.isShowingAssignmentModal);

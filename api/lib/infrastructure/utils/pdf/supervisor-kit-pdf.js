@@ -108,7 +108,7 @@ function _drawSessionAddress(sessionForSupervisorKit, page, font) {
   const addressArray = _toArrayOfFixedWidthConservingWords(
     sessionForSupervisorKit.address,
     font,
-    MAX_SESSION_DETAIL_WIDTH
+    MAX_SESSION_DETAIL_WIDTH,
   );
   addressArray.forEach((address, index) => {
     page.drawText(address, {
@@ -138,7 +138,7 @@ function _drawSessionExaminer(sessionForSupervisorKit, page, font) {
   const examinerArray = _toArrayOfFixedWidthConservingWords(
     sessionForSupervisorKit.examiner,
     font,
-    MAX_SESSION_DETAIL_WIDTH
+    MAX_SESSION_DETAIL_WIDTH,
   );
   examinerArray.forEach((examiner, index) => {
     page.drawText(examiner, {

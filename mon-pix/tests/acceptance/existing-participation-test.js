@@ -29,7 +29,7 @@ module('Acceptance | Existing Participation', function (hooks) {
       assert.ok(screen.getByText('Il y a déjà une participation associée au nom de'));
       assert.ok(screen.getByText('First Last.'));
       assert.ok(
-        screen.getByText("Rapprochez-vous de votre enseignant pour qu'il supprime votre participation dans Pix Orga.")
+        screen.getByText("Rapprochez-vous de votre enseignant pour qu'il supprime votre participation dans Pix Orga."),
       );
     });
   });

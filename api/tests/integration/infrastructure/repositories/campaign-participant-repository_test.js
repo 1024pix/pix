@@ -85,7 +85,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           .first();
 
         expect(campaignParticipation).to.deep.equal(
-          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant)
+          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant),
         );
         expect(isDisabled).to.be.false;
       });
@@ -109,7 +109,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           .first();
 
         expect(campaignParticipation).to.deep.equal(
-          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant)
+          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant),
         );
       });
 
@@ -160,7 +160,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           .first();
 
         expect(campaignParticipation).to.deep.equal(
-          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant)
+          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant),
         );
         expect(assessment).to.deep.equal(getExpectedAssessment(campaignParticipation.id, campaignParticipant));
       });
@@ -384,7 +384,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           .first();
 
         expect(campaignParticipation).to.deep.equal(
-          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant)
+          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant),
         );
       });
     });
@@ -464,7 +464,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           //THEN
           expect(error).to.be.an.instanceof(AlreadyExistingCampaignParticipationError);
           expect(error.message).to.equal(
-            `User ${userIdentity.id} has already a campaign participation with campaign ${campaign.id}`
+            `User ${userIdentity.id} has already a campaign participation with campaign ${campaign.id}`,
           );
         });
       });
@@ -963,7 +963,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             assessmentMethod: 'SMART_RANDOM',
             skillCount: 1,
           },
-          ['skill1']
+          ['skill1'],
         );
         const { id: userId } = databaseBuilder.factory.buildUser();
 
@@ -1001,7 +1001,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             assessmentMethod: 'SMART_RANDOM',
             skillCount: 1,
           },
-          ['skill1']
+          ['skill1'],
         );
         buildCampaignWithSkills(
           {
@@ -1012,7 +1012,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             assessmentMethod: 'SMART_RANDOM',
             skillCount: 1,
           },
-          ['skill2']
+          ['skill2'],
         );
         const { id: userId } = databaseBuilder.factory.buildUser();
 

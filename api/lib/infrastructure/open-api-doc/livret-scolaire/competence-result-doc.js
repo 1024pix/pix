@@ -6,7 +6,7 @@ const joiObject = Joi.object({
     .example('1.1')
     .required()
     .description(
-      'ID unique de la compétence : il fait directement référence à l’attribut id du Resource Object Competence'
+      'ID unique de la compétence : il fait directement référence à l’attribut id du Resource Object Competence',
     ),
 }).description('Tableau des niveaux validés par compétence');
 

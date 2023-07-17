@@ -67,7 +67,7 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
       });
       const expectedLink = poleEmploiService.generateLink(
         { idEnvoi: sending1.id, dateEnvoi: sending1.createdAt },
-        filters
+        filters,
       );
 
       //when

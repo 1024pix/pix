@@ -46,7 +46,9 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qroc
     const solutionVariants = solutions[answerKey];
     if (!solutionVariants) {
       logger.warn(
-        `[ERREUR CLE ANSWER] La clé ${answerKey} n'existe pas. Première clé de l'épreuve : ${Object.keys(solutions)[0]}`
+        `[ERREUR CLE ANSWER] La clé ${answerKey} n'existe pas. Première clé de l'épreuve : ${
+          Object.keys(solutions)[0]
+        }`,
       );
       throw new YamlParsingError();
     }
@@ -102,7 +104,7 @@ function match({ answerValue, solution }) {
     treatedAnswers,
     treatedSolutions,
     enabledTreatments,
-    qrocBlocksTypes
+    qrocBlocksTypes,
   );
 
   // Restitution

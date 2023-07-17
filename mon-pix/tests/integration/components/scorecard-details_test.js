@@ -25,7 +25,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
 
       // then
       assert.ok(
-        screen.getByText('Area title').getAttribute('class').includes('scorecard-details-content-left__area--jaffa')
+        screen.getByText('Area title').getAttribute('class').includes('scorecard-details-content-left__area--jaffa'),
       );
     });
 
@@ -234,9 +234,9 @@ module('Integration | Component | scorecard-details', function (hooks) {
           screen.getByRole('link', {
             name: `${this.intl.t('pages.competence-details.actions.start.label')} ${this.intl.t(
               'pages.competence-details.for-competence',
-              { competence: scorecard.name }
+              { competence: scorecard.name },
             )}`,
-          })
+          }),
         );
       });
     });
@@ -261,9 +261,9 @@ module('Integration | Component | scorecard-details', function (hooks) {
           screen.getByRole('link', {
             name: `${this.intl.t('pages.competence-details.actions.continue.label')} ${this.intl.t(
               'pages.competence-details.for-competence',
-              { competence: scorecard.name }
+              { competence: scorecard.name },
             )}`,
-          })
+          }),
         );
       });
 

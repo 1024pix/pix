@@ -20,7 +20,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ongoing
 
     // when
     const screen = await render(
-      hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />`
+      hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />`,
     );
 
     // then

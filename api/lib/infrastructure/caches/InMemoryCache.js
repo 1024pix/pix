@@ -16,7 +16,7 @@ class InMemoryCache extends Cache {
     return this._syncGet(key, () =>
       this._chainPromise(() => {
         return this._syncGet(key, () => this._generateAndSet(key, generator));
-      })
+      }),
     );
   }
 

@@ -25,7 +25,7 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
   const foundUserId = _findMatchingCandidateId(
     standardizedMatchingUserCandidates,
     standardizedUser,
-    STRICT_MATCH_RATIO
+    STRICT_MATCH_RATIO,
   );
   return (
     foundUserId || _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, MAX_ACCEPTABLE_RATIO)
@@ -84,26 +84,26 @@ async function checkIfStudentHasAnAlreadyReconciledAccount(
   organizationLearner,
   userRepository,
   obfuscationService,
-  studentRepository
+  studentRepository,
 ) {
   if (!lodash.isNil(organizationLearner.userId)) {
     await _buildStudentReconciliationError(
       organizationLearner.userId,
       'IN_SAME_ORGANIZATION',
       userRepository,
-      obfuscationService
+      obfuscationService,
     );
   }
 
   const student = await studentRepository.getReconciledStudentByNationalStudentId(
-    organizationLearner.nationalStudentId
+    organizationLearner.nationalStudentId,
   );
   if (lodash.get(student, 'account')) {
     await _buildStudentReconciliationError(
       student.account.userId,
       'IN_OTHER_ORGANIZATION',
       userRepository,
-      obfuscationService
+      obfuscationService,
     );
   }
 }
@@ -172,7 +172,7 @@ function _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, sta
 function _candidateHasSimilarFirstName(
   { firstName: userFirstName },
   candidateGivenName,
-  maxAcceptableRatio = MAX_ACCEPTABLE_RATIO
+  maxAcceptableRatio = MAX_ACCEPTABLE_RATIO,
 ) {
   return (candidate) =>
     candidate[candidateGivenName] &&
@@ -182,7 +182,7 @@ function _candidateHasSimilarFirstName(
 function _candidateHasSimilarLastName({ lastName }, maxAcceptableRatio = MAX_ACCEPTABLE_RATIO) {
   return (candidate) => {
     const candidatesLastName = [candidate.lastName, candidate.preferredLastName].filter(
-      (candidateLastName) => candidateLastName
+      (candidateLastName) => candidateLastName,
     );
     return isOneStringCloseEnoughFromMultipleStrings(lastName, candidatesLastName, maxAcceptableRatio);
   };

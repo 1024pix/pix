@@ -9,7 +9,7 @@ export class BadgeCriterionForCalculation {
   getAcquisitionPercentage(knowledgeElements) {
     const knowledgeElementsInSkills = _removeKnowledgeElementsNotInSkills(knowledgeElements, this.skillIds);
     const validatedSkillsCount = knowledgeElementsInSkills.filter(
-      (knowledgeElement) => knowledgeElement.isValidated
+      (knowledgeElement) => knowledgeElement.isValidated,
     ).length;
     const totalSkillsCount = this.skillIds.length;
     const masteryPercentage = _computeMasteryPercentage(validatedSkillsCount, totalSkillsCount);

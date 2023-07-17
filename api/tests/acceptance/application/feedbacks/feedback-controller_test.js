@@ -95,7 +95,7 @@ describe('Acceptance | Controller | feedback-controller', function () {
           expect(model.id).to.be.a('number');
           expect(model.get('content')).to.equal(options.payload.data.attributes.content);
           expect(model.get('userAgent')).to.equal(
-            'Mozilla/5.0 (Linux; Android 10; MGA-AL00 Build/HUAWEIMGA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/86.0.4240.99 XWEB/4343 MMWEBSDK/20221011 Mobile Safari/537.36 MMWEBID/7309 MicroMessenger/8.0.30.2260(0x28001E3B) WeChat/arm64 Wei'
+            'Mozilla/5.0 (Linux; Android 10; MGA-AL00 Build/HUAWEIMGA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/86.0.4240.99 XWEB/4343 MMWEBSDK/20221011 Mobile Safari/537.36 MMWEBID/7309 MicroMessenger/8.0.30.2260(0x28001E3B) WeChat/arm64 Wei',
           );
           expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
           expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);

@@ -49,7 +49,7 @@ export default class CertificationJoiner extends Component {
           this.errorMessage = this.intl.t('pages.certification-start.error-messages.candidate-not-authorized-to-start');
         } else if (errorCode === 'CANDIDATE_NOT_AUTHORIZED_TO_RESUME_SESSION') {
           this.errorMessage = this.intl.t(
-            'pages.certification-start.error-messages.candidate-not-authorized-to-resume'
+            'pages.certification-start.error-messages.candidate-not-authorized-to-resume',
           );
         }
       } else {

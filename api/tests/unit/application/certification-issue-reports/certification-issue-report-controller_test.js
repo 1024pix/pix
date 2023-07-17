@@ -20,7 +20,7 @@ describe('Unit | Controller | certification-issue-report-controller', function (
             credentials: { userId },
           },
         },
-        hFake
+        hFake,
       );
 
       // then
@@ -44,7 +44,7 @@ describe('Unit | Controller | certification-issue-report-controller', function (
       };
       const manuallyResolveCertificationIssueReportStub = sinon.stub(
         usecases,
-        'manuallyResolveCertificationIssueReport'
+        'manuallyResolveCertificationIssueReport',
       );
       manuallyResolveCertificationIssueReportStub.resolves();
 

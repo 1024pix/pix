@@ -16,13 +16,13 @@ describe('Unit | Utils | url-builder', function () {
 
       it('should return campaignUrl with org domain when locale is fr', function () {
         expect(getCampaignUrl('fr', campaignCode)).to.be.equal(
-          `https://app.pix.org/campagnes/${campaignCode}/?lang=fr`
+          `https://app.pix.org/campagnes/${campaignCode}/?lang=fr`,
         );
       });
 
       it('should return campaignUrl with org domain when locale is en', function () {
         expect(getCampaignUrl('en', campaignCode)).to.be.equal(
-          `https://app.pix.org/campagnes/${campaignCode}/?lang=en`
+          `https://app.pix.org/campagnes/${campaignCode}/?lang=en`,
         );
       });
     });

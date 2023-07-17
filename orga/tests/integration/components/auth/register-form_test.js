@@ -74,7 +74,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       .exists();
     assert
       .dom(
-        screen.getByText(`${this.intl.t('pages.login-or-register.register-form.fields.cgu.data-protection-policy')}`)
+        screen.getByText(`${this.intl.t('pages.login-or-register.register-form.fields.cgu.data-protection-policy')}`),
       )
       .exists();
     assert.dom('a[href="https://pix.fr/conditions-generales-d-utilisation"]').exists();
@@ -135,7 +135,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       });
 
       screen = await renderScreen(
-        hbs`<Auth::RegisterForm @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`
+        hbs`<Auth::RegisterForm @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`,
       );
     });
 

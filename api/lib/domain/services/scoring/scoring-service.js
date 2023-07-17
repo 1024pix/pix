@@ -50,7 +50,7 @@ function calculatePixScore(knowledgeElements) {
     .groupBy('competenceId')
     .values()
     .map((knowledgeElementsByCompetence) =>
-      calculateScoringInformationForCompetence({ knowledgeElements: knowledgeElementsByCompetence })
+      calculateScoringInformationForCompetence({ knowledgeElements: knowledgeElementsByCompetence }),
     )
     .sumBy('pixScoreForCompetence');
 }

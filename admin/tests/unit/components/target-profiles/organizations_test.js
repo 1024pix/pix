@@ -41,10 +41,12 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
         assert.strictEqual(component.organizationsToAttach, '');
         assert.ok(
-          component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.', { htmlContent: true })
+          component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.', {
+            htmlContent: true,
+          }),
         );
         assert.ok(
-          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
+          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations'),
         );
       });
 
@@ -71,11 +73,11 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         assert.ok(
           component.notifications.success.calledWith(
             'Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : 1',
-            { htmlContent: true }
-          )
+            { htmlContent: true },
+          ),
         );
         assert.ok(
-          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
+          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations'),
         );
       });
 
@@ -102,11 +104,11 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         assert.ok(
           component.notifications.success.calledWith(
             'Organisation(s) rattaché(es) avec succès.<br/>Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : 1',
-            { htmlContent: true }
-          )
+            { htmlContent: true },
+          ),
         );
         assert.ok(
-          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
+          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations'),
         );
       });
     });
@@ -133,7 +135,7 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2, 3] }));
         assert.strictEqual(component.organizationsToAttach, '');
         assert.ok(
-          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
+          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations'),
         );
       });
     });
@@ -249,12 +251,12 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         assert.ok(
           component.args.targetProfile.attachOrganizationsFromExistingTargetProfile.calledWith({
             'target-profile-id': 1,
-          })
+          }),
         );
         assert.strictEqual(component.existingTargetProfile, '');
         assert.ok(component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.'));
         assert.ok(
-          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
+          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations'),
         );
       });
     });

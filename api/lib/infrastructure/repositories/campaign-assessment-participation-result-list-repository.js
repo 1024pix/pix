@@ -40,13 +40,13 @@ function _getParticipations(qb, campaignId, stageCollection, filters) {
     'campaign-participations.masteryRate',
     'campaign-participations.validatedSkillsCount',
     'campaign-participations.id AS campaignParticipationId',
-    'campaign-participations.userId'
+    'campaign-participations.userId',
   )
     .from('campaign-participations')
     .join(
       'view-active-organization-learners',
       'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId'
+      'campaign-participations.organizationLearnerId',
     )
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.status', '=', SHARED)
@@ -82,10 +82,10 @@ function _filterBySearch(queryBuilder, filters) {
       this.where(
         knex.raw(
           `CONCAT ("view-active-organization-learners"."firstName", ' ', "view-active-organization-learners"."lastName") <-> ?`,
-          search
+          search,
         ),
         '<=',
-        0.8
+        0.8,
       )
         .orWhereILike('view-active-organization-learners.lastName', `%${search}%`)
         .orWhereILike('view-active-organization-learners.firstName', `%${search}%`);
@@ -136,7 +136,7 @@ async function _buildCampaignAssessmentParticipationResultList(results, stageCol
     const badges = await getAcquiredBadges(result.campaignParticipationId);
     const participantReachedStage = stageCollection.getReachedStage(
       result.validatedSkillsCount,
-      result.masteryRate * 100
+      result.masteryRate * 100,
     );
 
     return new CampaignAssessmentParticipationResultMinimal({

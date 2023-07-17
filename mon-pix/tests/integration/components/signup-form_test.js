@@ -64,17 +64,19 @@ module('Integration | Component | SignupForm', function (hooks) {
       assert
         .dom(
           screen.getByLabelText(
-            `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`
-          )
+            `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t(
+              'pages.sign-up.fields.password.help',
+            )}`,
+          ),
         )
         .exists();
       assert
         .dom(
           screen.getByRole('textbox', {
             name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t(
-              'pages.sign-up.fields.email.help'
+              'pages.sign-up.fields.email.help',
             )}`,
-          })
+          }),
         )
         .exists();
       assert.dom(screen.getByRole('button', { name: this.intl.t('common.form.visible-password') })).exists();
@@ -120,16 +122,18 @@ module('Integration | Component | SignupForm', function (hooks) {
         .dom(
           screen.getByRole('textbox', {
             name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t(
-              'pages.sign-up.fields.email.help'
+              'pages.sign-up.fields.email.help',
             )}`,
-          })
+          }),
         )
         .hasAttribute('required');
       assert
         .dom(
           screen.getByLabelText(
-            `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`
-          )
+            `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t(
+              'pages.sign-up.fields.password.help',
+            )}`,
+          ),
         )
         .hasAttribute('required');
     });
@@ -395,7 +399,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         const passwordInput = screen.getByLabelText(
-          `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`
+          `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`,
         );
 
         // when
@@ -468,11 +472,11 @@ module('Integration | Component | SignupForm', function (hooks) {
         await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Cérien');
         await fillIn(
           screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }),
-          `${tooLargeEmail}@example.net`
+          `${tooLargeEmail}@example.net`,
         );
         await fillIn(
           screen.getByLabelText('Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'),
-          'Password123'
+          'Password123',
         );
 
         // when
@@ -524,9 +528,9 @@ module('Integration | Component | SignupForm', function (hooks) {
           await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }), 'c.b@example.net');
           await fillIn(
             screen.getByLabelText(
-              'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'
+              'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
             ),
-            'P@ssword123'
+            'P@ssword123',
           );
           await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
@@ -554,16 +558,16 @@ module('Integration | Component | SignupForm', function (hooks) {
           await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }), 'c.b@example.net');
           await fillIn(
             screen.getByLabelText(
-              'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'
+              'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
             ),
-            'P@ssword123'
+            'P@ssword123',
           );
           await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
           // then
           assert
             .dom(
-              screen.getByText(this.intl.t('pages.sign-up.errors.locale-not-supported', { localeNotSupported: 'jp' }))
+              screen.getByText(this.intl.t('pages.sign-up.errors.locale-not-supported', { localeNotSupported: 'jp' })),
             )
             .exists();
         });
@@ -669,7 +673,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         const passwordInput = screen.getByLabelText(
-          `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`
+          `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`,
         );
 
         // when
@@ -736,12 +740,12 @@ module('Integration | Component | SignupForm', function (hooks) {
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }), 'jean@example.net');
     await fillIn(
       screen.getByLabelText('Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'),
-      'Password123'
+      'Password123',
     );
     await click(
       screen.getByRole('checkbox', {
         name: "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix",
-      })
+      }),
     );
   }
 });

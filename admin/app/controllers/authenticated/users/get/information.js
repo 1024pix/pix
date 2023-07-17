@@ -47,7 +47,7 @@ export default class UserInformationController extends Controller {
       });
       this.notifications.success(`La méthode de connexion a bien été déplacé vers l'utilisateur ${targetUserId}`);
       this.notifications.success(
-        `L'utilisateur n'a plus de méthode de connexion ${reassignedAuthenticationMethodLabel}`
+        `L'utilisateur n'a plus de méthode de connexion ${reassignedAuthenticationMethodLabel}`,
       );
     } catch (errors) {
       authenticationMethod.rollbackAttributes();

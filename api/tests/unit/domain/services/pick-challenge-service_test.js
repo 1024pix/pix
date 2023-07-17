@@ -55,7 +55,7 @@ describe('Unit | Service | PickChallengeService', function () {
             skills,
             randomSeed,
             locale: FRENCH_SPOKEN,
-          })
+          }),
         );
 
         // then
@@ -132,7 +132,7 @@ describe('Unit | Service | PickChallengeService', function () {
             skills,
             randomSeed: time,
             locale: FRENCH_SPOKEN,
-          })
+          }),
         );
 
         // then

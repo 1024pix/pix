@@ -95,7 +95,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         // then
         expect(error).to.be.instanceOf(ManyOrganizationsFoundError);
         expect(error.message).to.be.equal(
-          `Plusieurs organisations (${duplicatesOrganizations.length}) ont le même externalId.`
+          `Plusieurs organisations (${duplicatesOrganizations.length}) ont le même externalId.`,
         );
       });
     });
@@ -201,7 +201,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         // then
         expect(error).to.be.instanceOf(OrganizationAlreadyExistError);
         expect(error.message).to.be.equal(
-          `Les organisations avec les externalIds suivants : ${existingOrganization.externalId}, ${anotherExistingOrganization.externalId} existent déjà.`
+          `Les organisations avec les externalIds suivants : ${existingOrganization.externalId}, ${anotherExistingOrganization.externalId} existent déjà.`,
         );
       });
     });
@@ -592,8 +592,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             'documentationUrl',
             'organizationInvitationRole',
             'emailInvitations',
-            'targetProfiles'
-          )
+            'targetProfiles',
+          ),
         );
 
         const organizationTagInDB = await knex('organization-tags')
@@ -768,8 +768,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             'documentationUrl',
             'organizationInvitationRole',
             'emailInvitations',
-            'targetProfiles'
-          )
+            'targetProfiles',
+          ),
         );
 
         const organizationTargetProfilesInDB = await knex('target-profile-shares')

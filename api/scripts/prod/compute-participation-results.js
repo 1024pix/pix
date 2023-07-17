@@ -47,7 +47,7 @@ async function _updateCampaignParticipations(campaign) {
   const participationResults = await _computeCampaignParticipationResults(campaign);
 
   const participationResultsWithIsCertifiable = participationResults.filter(
-    (participationResult) => !_.isNil(participationResult.isCertifiable)
+    (participationResult) => !_.isNil(participationResult.isCertifiable),
   );
 
   if (!_.isEmpty(participationResultsWithIsCertifiable)) {
@@ -55,21 +55,21 @@ async function _updateCampaignParticipations(campaign) {
     await knex.raw(`UPDATE "campaign-participations"
     SET "validatedSkillsCount" = "participationSkillCounts"."validatedSkillsCount", "masteryRate" = "participationSkillCounts"."masteryRate", "pixScore" = "participationSkillCounts"."pixScore", "isCertifiable" = "participationSkillCounts"."isCertifiable"
     FROM (VALUES ${_toSQLValuesWithIsCertifiable(
-      participationResultsWithIsCertifiable
+      participationResultsWithIsCertifiable,
     )}) AS "participationSkillCounts"(id, "validatedSkillsCount", "masteryRate", "pixScore", "isCertifiable")
       WHERE "campaign-participations".id = "participationSkillCounts".id`);
   }
 
   const participationResultsWithIsCertifiableAsNull = _.difference(
     participationResults,
-    participationResultsWithIsCertifiable
+    participationResultsWithIsCertifiable,
   );
   if (!_.isEmpty(participationResultsWithIsCertifiableAsNull)) {
     // eslint-disable-next-line knex/avoid-injections
     await knex.raw(`UPDATE "campaign-participations"
     SET "validatedSkillsCount" = "participationSkillCounts"."validatedSkillsCount", "masteryRate" = "participationSkillCounts"."masteryRate", "pixScore" = "participationSkillCounts"."pixScore"
     FROM (VALUES ${_toSQLValues(
-      participationResultsWithIsCertifiableAsNull
+      participationResultsWithIsCertifiableAsNull,
     )}) AS "participationSkillCounts"(id, "validatedSkillsCount", "masteryRate", "pixScore")
       WHERE "campaign-participations".id = "participationSkillCounts".id`);
   }
@@ -85,7 +85,7 @@ async function _computeCampaignParticipationResults(campaign) {
 
   const participantsResults = await bluebird.mapSeries(
     campaignParticipationInfosChunks,
-    computeResultsWithTargetedSkillIds
+    computeResultsWithTargetedSkillIds,
   );
 
   return participantsResults.flat();
@@ -124,7 +124,7 @@ async function _getKnowledgeElementsByUser(campaignParticipations) {
   const sharingDateByUserId = {};
   campaignParticipations.forEach(({ userId, sharedAt }) => (sharingDateByUserId[userId] = sharedAt));
   const knowledgeElementByUser = await knowlegeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(
-    sharingDateByUserId
+    sharingDateByUserId,
   );
   return knowledgeElementByUser;
 }
@@ -133,7 +133,7 @@ function _toSQLValues(participantsResults) {
   return participantsResults
     .map(
       ({ id, validatedSkillsCount, masteryRate, pixScore }) =>
-        `(${id}, ${validatedSkillsCount}, ${masteryRate}, ${pixScore})`
+        `(${id}, ${validatedSkillsCount}, ${masteryRate}, ${pixScore})`,
     )
     .join(', ');
 }
@@ -142,7 +142,7 @@ function _toSQLValuesWithIsCertifiable(participantsResults) {
   return participantsResults
     .map(
       ({ id, validatedSkillsCount, masteryRate, pixScore, isCertifiable }) =>
-        `(${id}, ${validatedSkillsCount}, ${masteryRate}, ${pixScore}, ${isCertifiable})`
+        `(${id}, ${validatedSkillsCount}, ${masteryRate}, ${pixScore}, ${isCertifiable})`,
     )
     .join(', ');
 }

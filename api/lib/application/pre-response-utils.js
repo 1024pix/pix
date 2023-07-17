@@ -7,7 +7,7 @@ function handleDomainAndHttpErrors(
   h,
   dependencies = {
     errorManager,
-  }
+  },
 ) {
   const response = request.response;
 

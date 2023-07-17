@@ -35,7 +35,7 @@ describe('Integration | Repository | complementary-certification-courses-result-
             await complementaryCertificationCourseResultRepository.getPixSourceResultByComplementaryCertificationCourseId(
               {
                 complementaryCertificationCourseId: 999,
-              }
+              },
             );
 
           // then
@@ -45,10 +45,10 @@ describe('Integration | Repository | complementary-certification-courses-result-
               complementaryCertificationCourseId: 999,
               partnerKey: 'PIX_TEST_1',
               source: ComplementaryCertificationCourseResult.sources.PIX,
-            })
+            }),
           );
         });
-      }
+      },
     );
 
     context(
@@ -79,13 +79,13 @@ describe('Integration | Repository | complementary-certification-courses-result-
             await complementaryCertificationCourseResultRepository.getPixSourceResultByComplementaryCertificationCourseId(
               {
                 complementaryCertificationCourseId: 99,
-              }
+              },
             );
 
           // then
           expect(result).to.be.null;
         });
-      }
+      },
     );
   });
 

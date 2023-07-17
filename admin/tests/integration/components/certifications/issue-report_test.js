@@ -32,8 +32,8 @@ module('Integration | Component | certifications/issue-report', function (hooks)
     assert
       .dom(
         screen.getByText(
-          "Problème technique non bloquant : Le fichier à télécharger ne se télécharge pas ou ne s'ouvre pas - this is a report - Question 2"
-        )
+          "Problème technique non bloquant : Le fichier à télécharger ne se télécharge pas ou ne s'ouvre pas - this is a report - Question 2",
+        ),
       )
       .exists();
   });

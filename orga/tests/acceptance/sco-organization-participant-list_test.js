@@ -141,12 +141,12 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
           // when
           const screen = await visit('/eleves');
           await click(
-            screen.getByLabelText(this.intl.t('pages.sco-organization-participants.filter.login-method.aria-label'))
+            screen.getByLabelText(this.intl.t('pages.sco-organization-participants.filter.login-method.aria-label')),
           );
           await click(
             await screen.findByRole('checkbox', {
               name: this.intl.t('pages.sco-organization-participants.connection-types.email'),
-            })
+            }),
           );
           // then
           assert.strictEqual(currentURL(), '/eleves?connectionTypes=%5B%22email%22%5D');

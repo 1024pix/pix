@@ -13,7 +13,7 @@ module('Integration | Component | Ui | Action Bar', function (hooks) {
 
     //when
     const screen = await render(
-      hbs`<Ui::ActionBar><:information>{{this.information}}</:information><:actions>{{this.actions}}</:actions></Ui::ActionBar>`
+      hbs`<Ui::ActionBar><:information>{{this.information}}</:information><:actions>{{this.actions}}</:actions></Ui::ActionBar>`,
     );
     //then
     assert.dom(screen.getByText("Je s'appelle groot")).exists();

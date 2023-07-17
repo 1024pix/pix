@@ -24,7 +24,7 @@ class SharedProfileForCampaign {
       campaignAllowsRetry,
       this.sharedAt,
       isOrganizationLearnerActive,
-      campaignParticipation?.deletedAt
+      campaignParticipation?.deletedAt,
     );
     this.maxReachableLevel = maxReachableLevel;
     this.maxReachablePixScore = maxReachablePixScore;

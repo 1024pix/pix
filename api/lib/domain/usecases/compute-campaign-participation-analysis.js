@@ -35,7 +35,7 @@ const computeCampaignParticipationAnalysis = async function ({
     campaignId,
     campaignParticipation,
     campaignLearningContent,
-    tutorials
+    tutorials,
   );
 };
 

@@ -43,11 +43,11 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
 
       assert.strictEqual(
         screen.getByRole('term').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.table.column.login-method')
+        this.intl.t('pages.sco-organization-participants.table.column.login-method'),
       );
       assert.strictEqual(
         screen.getByRole('definition').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.connection-types.email')
+        this.intl.t('pages.sco-organization-participants.connection-types.email'),
       );
     });
 
@@ -60,16 +60,16 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
 
       assert.strictEqual(
         screen.getByRole('term').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.table.column.login-method')
+        this.intl.t('pages.sco-organization-participants.table.column.login-method'),
       );
       assert.contains(
         screen.getByRole('definition').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.connection-types.email')
+        this.intl.t('pages.sco-organization-participants.connection-types.email'),
       );
 
       assert.contains(
         screen.getByRole('definition').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.connection-types.identifiant')
+        this.intl.t('pages.sco-organization-participants.connection-types.identifiant'),
       );
     });
 
@@ -78,11 +78,11 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
 
       assert.strictEqual(
         screen.queryByText(this.intl.t('pages.sco-organization-participants.table.column.login-method')),
-        null
+        null,
       );
       assert.strictEqual(
         screen.queryByText(this.intl.t('pages.sco-organization-participants.connection-types.email')),
-        null
+        null,
       );
     });
   });
@@ -96,12 +96,12 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
       this.set('certifiableAt', certifiableAt);
 
       const screen = await render(
-        hbs`<Ui::LearnerHeaderInfo @isCertifiable={{this.isCertifiable}} @certifiableAt={{this.certifiableAt}} />`
+        hbs`<Ui::LearnerHeaderInfo @isCertifiable={{this.isCertifiable}} @certifiableAt={{this.certifiableAt}} />`,
       );
 
       assert.strictEqual(
         screen.getByRole('term').textContent.trim(),
-        this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible')
+        this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'),
       );
       assert.strictEqual(screen.getByRole('definition').textContent.trim(), '01/01/2023');
     });
@@ -114,12 +114,12 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
       this.set('certifiableAt', certifiableAt);
 
       const screen = await render(
-        hbs`<Ui::LearnerHeaderInfo @isCertifiable={{this.isCertifiable}} @certifiableAt={{this.certifiableAt}} />`
+        hbs`<Ui::LearnerHeaderInfo @isCertifiable={{this.isCertifiable}} @certifiableAt={{this.certifiableAt}} />`,
       );
 
       assert.strictEqual(
         screen.queryByText(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible')),
-        null
+        null,
       );
       assert.strictEqual(screen.queryByText('01/01/2023'), null);
     });

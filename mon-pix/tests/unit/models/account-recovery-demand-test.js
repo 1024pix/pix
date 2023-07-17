@@ -22,7 +22,7 @@ module('Unit | Model | account recovery demand', function (hooks) {
           ineIna: '123456789BB',
           birthdate: '2012-07-01',
           email: 'james.potter@example.net',
-        })
+        }),
       );
 
       // when
@@ -59,7 +59,7 @@ module('Unit | Model | account recovery demand', function (hooks) {
         store.createRecord('account-recovery-demand', {
           password: 'thisismypassword',
           temporaryKey: 'temporarykey',
-        })
+        }),
       );
 
       // when

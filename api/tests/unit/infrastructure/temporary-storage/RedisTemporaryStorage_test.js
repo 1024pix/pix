@@ -89,7 +89,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
         sinon.match.any,
         JSON.stringify(value),
         EXPIRATION_PARAMETER,
-        expirationDelaySeconds
+        expirationDelaySeconds,
       );
     });
   });

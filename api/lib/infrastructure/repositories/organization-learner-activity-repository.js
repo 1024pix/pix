@@ -11,7 +11,7 @@ async function get(organizationLearnerId) {
       'campaign-participations.status',
       'campaigns.name',
       'campaigns.type',
-      'campaign-participations.campaignId'
+      'campaign-participations.campaignId',
     )
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .where('campaign-participations.organizationLearnerId', '=', organizationLearnerId)
@@ -29,7 +29,7 @@ async function get(organizationLearnerId) {
         campaignName: participation.name,
         campaignType: participation.type,
         campaignId: participation.campaignId,
-      })
+      }),
   );
   return new OrganizationLearnerActivity({ organizationLearnerId, participations });
 }

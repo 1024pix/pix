@@ -39,7 +39,7 @@ module('Integration | Component | assessment-banner', function (hooks) {
           .getByText("Besoin d'une pause ?")
           .closest('.pix-modal__overlay')
           .classList.toString()
-          .includes('pix-modal__overlay--hidden')
+          .includes('pix-modal__overlay--hidden'),
       );
     });
 
@@ -54,7 +54,7 @@ module('Integration | Component | assessment-banner', function (hooks) {
           .getByText("Besoin d'une pause ?")
           .closest('.pix-modal__overlay')
           .classList.toString()
-          .includes('pix-modal__overlay--hidden')
+          .includes('pix-modal__overlay--hidden'),
       );
     });
   });

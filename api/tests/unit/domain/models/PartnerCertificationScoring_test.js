@@ -21,14 +21,14 @@ describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
     it('should throw an ObjectValidationError when complementaryCertificationCourseId is not valid', function () {
       // when
       expect(
-        () => new PartnerCertificationScoring({ ...validArguments, complementaryCertificationCourseId: 'coucou' })
+        () => new PartnerCertificationScoring({ ...validArguments, complementaryCertificationCourseId: 'coucou' }),
       ).to.throw(ObjectValidationError);
     });
 
     it('should not throw an ObjectValidationError when partnerKey is null', function () {
       // when
       expect(() => new PartnerCertificationScoring({ ...validArguments, partnerKey: null })).to.not.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
   });

@@ -21,7 +21,7 @@ const getUserCertificationEligibility = async function ({
     ({ complementaryCertificationBadgeLabel, complementaryCertificationBadgeImageUrl }) => ({
       label: complementaryCertificationBadgeLabel,
       imageUrl: complementaryCertificationBadgeImageUrl,
-    })
+    }),
   );
 
   return new CertificationEligibility({

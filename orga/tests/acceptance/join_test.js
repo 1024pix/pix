@@ -79,7 +79,7 @@ module('Acceptance | join', function (hooks) {
           assert.strictEqual(currentURL(), `/rejoindre?code=${code}&invitationId=${organizationInvitationId}`);
           assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
         });
-      }
+      },
     );
     module('when organization-invitation does not exist', function () {
       test('redirects user to login page', async function (assert) {
@@ -287,7 +287,7 @@ module('Acceptance | join', function (hooks) {
             {
               errors: [{ status: '401' }],
             },
-            401
+            401,
           );
 
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
@@ -332,7 +332,7 @@ module('Acceptance | join', function (hooks) {
           // given
           server.post(
             `/organization-invitations/${organizationInvitationId}/response`,
-            () => new Response(409, {}, { errors: [{ status: '409' }] })
+            () => new Response(409, {}, { errors: [{ status: '409' }] }),
           );
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
           await clickByName(loginFormButton);
@@ -383,7 +383,7 @@ module('Acceptance | join', function (hooks) {
                   },
                 ],
               },
-              412
+              412,
             );
             await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
             await clickByName(loginFormButton);
@@ -397,7 +397,7 @@ module('Acceptance | join', function (hooks) {
             assert.strictEqual(currentURL(), '/cgu');
             assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
           });
-        }
+        },
       );
     });
   });
@@ -477,7 +477,7 @@ module('Acceptance | join', function (hooks) {
             await fillByLabel(this.intl.t('pages.login-or-register.register-form.fields.email.label'), 'shi@fu.me');
             await fillByLabel(
               this.intl.t('pages.login-or-register.register-form.fields.password.label'),
-              'Password4register'
+              'Password4register',
             );
             await clickByName(this.intl.t('pages.login-or-register.register-form.fields.cgu.aria-label'));
 
@@ -519,7 +519,7 @@ module('Acceptance | join', function (hooks) {
                 },
               ],
             },
-            422
+            422,
           );
 
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);

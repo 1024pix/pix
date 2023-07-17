@@ -97,8 +97,8 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         assert
           .dom(
             screen.getByText(
-              this.intl.t('common.target-profile-details.subjects', { value: this.campaign.targetProfileTubesCount })
-            )
+              this.intl.t('common.target-profile-details.subjects', { value: this.campaign.targetProfileTubesCount }),
+            ),
           )
           .exists();
       });
@@ -120,8 +120,8 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
               screen.queryByText(
                 this.intl.t('common.target-profile-details.thematic-results', {
                   value: this.campaign.targetProfileThematicResultCount,
-                })
-              )
+                }),
+              ),
             )
             .doesNotExist();
         });
@@ -142,8 +142,8 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
               screen.getByText(
                 this.intl.t('common.target-profile-details.thematic-results', {
                   value: this.campaign.targetProfileThematicResultCount,
-                })
-              )
+                }),
+              ),
             )
             .exists();
         });
@@ -376,7 +376,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         // then
         assert
           .dom(
-            screen.queryByText(this.intl.t('pages.campaign-settings.actions.editpages.campaign-settings.actions.edit'))
+            screen.queryByText(this.intl.t('pages.campaign-settings.actions.editpages.campaign-settings.actions.edit')),
           )
           .doesNotExist();
       });

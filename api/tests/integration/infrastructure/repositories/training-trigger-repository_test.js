@@ -240,7 +240,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
 
         const updatedTrainingTriggerTubes = _.sortBy(
           updatedTrainingTrigger.areas[0].competences[0].thematics[0].triggerTubes,
-          'id'
+          'id',
         );
         expect(updatedTrainingTriggerTubes).to.have.lengthOf(trainingTriggerTubes.length);
         expect(updatedTrainingTriggerTubes[0].level).to.deep.equal(trainingTriggerTubes[0].level);
@@ -343,11 +343,11 @@ describe('Integration | Repository | training-trigger-repository', function () {
       expect(result[0].areas[0].competences[0].thematics[0].triggerTubes).to.have.lengthOf(1);
       expect(result[0].areas[0].competences[0].thematics[0].triggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);
       expect(result[0].areas[0].competences[0].thematics[0].triggerTubes[0].tube.id).to.equal(
-        trainingTriggerTube.tubeId
+        trainingTriggerTube.tubeId,
       );
       expect(result[0].areas[0].competences[0].thematics[0].triggerTubes[0].tube.name).to.equal(tube.name);
       expect(result[0].areas[0].competences[0].thematics[0].triggerTubes[0].tube.practicalTitle).to.equal(
-        tube.practicalTitle
+        tube.practicalTitle,
       );
       expect(result[0].areas[0].competences[0].thematics[0].triggerTubes[0].level).to.equal(trainingTriggerTube.level);
 
@@ -365,11 +365,11 @@ describe('Integration | Repository | training-trigger-repository', function () {
       expect(result[1].areas[0].competences[0].thematics[0].triggerTubes).to.have.lengthOf(1);
       expect(result[1].areas[0].competences[0].thematics[0].triggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);
       expect(result[1].areas[0].competences[0].thematics[0].triggerTubes[0].tube.id).to.equal(
-        trainingTriggerTube2.tubeId
+        trainingTriggerTube2.tubeId,
       );
       expect(result[1].areas[0].competences[0].thematics[0].triggerTubes[0].tube.name).to.equal(tube1.name);
       expect(result[1].areas[0].competences[0].thematics[0].triggerTubes[0].tube.practicalTitle).to.equal(
-        tube1.practicalTitle
+        tube1.practicalTitle,
       );
       expect(result[1].areas[0].competences[0].thematics[0].triggerTubes[0].level).to.equal(trainingTriggerTube2.level);
     });
@@ -391,7 +391,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
         // then
         expect(error).to.be.instanceOf(NotFoundError);
         expect(error.message).to.be.equal(
-          `Les sujets [notExistTubeId] du déclencheur ${trainingTrigger.id} n'existent pas dans le référentiel.`
+          `Les sujets [notExistTubeId] du déclencheur ${trainingTrigger.id} n'existent pas dans le référentiel.`,
         );
       });
     });

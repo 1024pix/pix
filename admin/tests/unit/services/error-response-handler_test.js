@@ -124,7 +124,7 @@ module('Unit | Service | error-response-handler', function (hooks) {
       // then
       sinon.assert.calledWith(
         service.notifications.error,
-        "Échec lors de l'envoi d'un e-mail car le domaine semble invalide."
+        "Échec lors de l'envoi d'un e-mail car le domaine semble invalide.",
       );
       assert.ok(true);
     });

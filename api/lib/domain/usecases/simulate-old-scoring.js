@@ -62,7 +62,7 @@ const simulateOldScoring = async function ({ challengeRepository, simulations })
         competenceId,
         pixScore,
       })),
-      'competenceId'
+      'competenceId',
     );
 
     return new ScoringSimulationResult({ id, pixScore, pixScoreByCompetence });

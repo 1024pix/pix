@@ -33,7 +33,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
 
     // then
     expect(error.message).to.equal(
-      'event must be one of types CertificationScoringCompleted, CertificationRescoringCompleted'
+      'event must be one of types CertificationScoringCompleted, CertificationRescoringCompleted',
     );
   });
 
@@ -389,7 +389,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             domainBuilder.buildAssessmentResult.validated({
               pixScore: 45,
               reproducibilityRate: 70,
-            })
+            }),
           );
           const complementaryCertificationScoringCriteria = [
             domainBuilder.buildComplementaryCertificationScoringCriteria({
@@ -473,7 +473,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             domainBuilder.buildAssessmentResult.validated({
               pixScore: 60,
               reproducibilityRate: 70,
-            })
+            }),
           );
 
           // when
@@ -541,7 +541,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             domainBuilder.buildAssessmentResult.validated({
               pixScore: 45,
               reproducibilityRate: 75,
-            })
+            }),
           );
 
           // when
@@ -609,7 +609,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             domainBuilder.buildAssessmentResult.validated({
               pixScore: 120,
               reproducibilityRate: 75,
-            })
+            }),
           );
 
           // when

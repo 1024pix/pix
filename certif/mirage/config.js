@@ -122,7 +122,7 @@ export default function () {
               detail: 'Une erreur personnalisée.',
             },
           ],
-        }
+        },
       );
     }
     if (type === 'internal-error') {
@@ -135,7 +135,7 @@ export default function () {
               status: '500',
             },
           ],
-        }
+        },
       );
     }
     if (type === 'candidate-birth-postal-code-city-not-valid') {
@@ -154,7 +154,7 @@ export default function () {
               },
             },
           ],
-        }
+        },
       );
     }
     if (type === 'forbidden-import') {
@@ -170,7 +170,7 @@ export default function () {
               code: 'SESSION_STARTED_CANDIDATE_ALREADY_LINKED_TO_USER',
             },
           ],
-        }
+        },
       );
     }
     if (type.endsWith('add-two-candidates')) {
@@ -321,7 +321,7 @@ export default function () {
               detail: 'Fichier non valide',
             },
           ],
-        }
+        },
       );
     }
     return new Response(200);

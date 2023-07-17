@@ -39,7 +39,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
       );
 
       // expect
@@ -64,7 +64,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
       );
 
       // then
@@ -80,7 +80,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
       };
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
       );
 
       // then
@@ -96,7 +96,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
       );
 
       // then
@@ -124,7 +124,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+      hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
     );
 
     // then
@@ -140,7 +140,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
       );
 
       // then
@@ -155,7 +155,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`
+        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
       );
 
       // then

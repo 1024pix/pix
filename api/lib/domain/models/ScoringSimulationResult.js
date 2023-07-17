@@ -4,7 +4,7 @@ class ScoringSimulationResult {
     this.estimatedLevel = estimatedLevel;
     this.pixScore = pixScore;
     this.pixScoreByCompetence = pixScoreByCompetence.map(
-      (competenceScore) => new SimulationCompetenceResult(competenceScore)
+      (competenceScore) => new SimulationCompetenceResult(competenceScore),
     );
     this.error = error;
   }

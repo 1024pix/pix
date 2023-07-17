@@ -117,7 +117,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       const screen = await visit(`/organizations/${organization.id}`);
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
-        'user@example.com'
+        'user@example.com',
       );
       await clickByName('Ajouter un membre');
 
@@ -141,7 +141,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       const screen = await visit(`/organizations/${organization.id}`);
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
-        'denise@example.com'
+        'denise@example.com',
       );
       await clickByName('Ajouter un membre');
 
@@ -161,7 +161,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       const screen = await visit(`/organizations/${organization.id}`);
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
-        'unexisting@example.com'
+        'unexisting@example.com',
       );
       await clickByName('Ajouter un membre');
 

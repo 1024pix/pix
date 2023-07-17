@@ -19,7 +19,7 @@ module('Integration | Component | certification-center-invitations-action', func
       hbs`<CertificationCenters::InvitationsAction
   @createInvitation={{this.createInvitation}}
   @onChangeUserEmailToInvite={{this.noop}}
-/>`
+/>`,
     );
     await click(screen.getByRole('button', { name: 'Inviter un membre' }));
 
@@ -38,7 +38,7 @@ module('Integration | Component | certification-center-invitations-action', func
       hbs`<CertificationCenters::InvitationsAction
   @createInvitation={{this.createInvitation}}
   @onChangeUserEmailToInvite={{this.noop}}
-/>`
+/>`,
     );
 
     await click(screen.getByRole('button', { name: 'Choisir la langue de l’email d’invitation' }));

@@ -14,7 +14,7 @@ const serialize = function (juryCertificationSummary, meta) {
       result.numberOfCertificationIssueReports = juryCertificationSummary.certificationIssueReports.length;
       result.numberOfCertificationIssueReportsWithRequiredAction =
         juryCertificationSummary.certificationIssueReports.filter(
-          (issueReport) => issueReport.isImpactful && issueReport.resolvedAt === null
+          (issueReport) => issueReport.isImpactful && issueReport.resolvedAt === null,
         ).length;
       return result;
     },

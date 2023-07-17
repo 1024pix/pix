@@ -60,7 +60,7 @@ export default class EmailVerificationCode extends Component {
           this.errorMessage = this.intl.t('pages.user-account.email-verification.errors.incorrect-code');
         } else if (code === 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND') {
           this.errorMessage = this.intl.t(
-            'pages.user-account.email-verification.errors.email-modification-demand-expired'
+            'pages.user-account.email-verification.errors.email-modification-demand-expired',
           );
         }
       } else if (status === '400') {

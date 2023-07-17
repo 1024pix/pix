@@ -21,7 +21,7 @@ class CampaignCreator {
 function _checkAssessmentCampaignCreationAllowed(targetProfileId, availableTargetProfileIds) {
   if (targetProfileId && !availableTargetProfileIds.includes(targetProfileId)) {
     throw new UserNotAuthorizedToCreateCampaignError(
-      `Organization does not have an access to the profile ${targetProfileId}`
+      `Organization does not have an access to the profile ${targetProfileId}`,
     );
   }
 }

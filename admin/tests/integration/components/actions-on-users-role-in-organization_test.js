@@ -32,7 +32,7 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
 
       // when
       const screen = await render(
-        hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`
+        hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`,
       );
       await clickByName('Modifier le rôle');
 
@@ -74,7 +74,7 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
 
       // when
       const screen = await render(
-        hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`
+        hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`,
       );
 
       await clickByName("Désactiver l'agent");
@@ -99,7 +99,7 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
 
       // when
       const screen = await render(
-        hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`
+        hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`,
       );
 
       // expect

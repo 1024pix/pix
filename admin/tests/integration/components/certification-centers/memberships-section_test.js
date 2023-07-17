@@ -32,7 +32,7 @@ module('Integration | Component | certification-centers/memberships-section', fu
       hbs`<CertificationCenters::MembershipsSection
   @certificationCenterMemberships={{this.certificationCenterMemberships}}
   @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-/>`
+/>`,
     );
 
     // then
@@ -69,7 +69,7 @@ module('Integration | Component | certification-centers/memberships-section', fu
       hbs`<CertificationCenters::MembershipsSection
   @certificationCenterMemberships={{this.certificationCenterMemberships}}
   @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-/>`
+/>`,
     );
 
     // then
@@ -85,7 +85,7 @@ module('Integration | Component | certification-centers/memberships-section', fu
     const screen = await render(
       hbs`<CertificationCenters::MembershipsSection
   @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-/>`
+/>`,
     );
 
     // then

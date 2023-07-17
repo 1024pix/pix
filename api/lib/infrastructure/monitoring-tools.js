@@ -32,7 +32,7 @@ function logInfoWithCorrelationIds(data) {
       ...context,
       ...omit(data, 'message'),
     },
-    get(data, 'message', '-')
+    get(data, 'message', '-'),
   );
 }
 
@@ -43,7 +43,7 @@ function logErrorWithCorrelationIds(data) {
       ...context,
       ...omit(data, 'message'),
     },
-    get(data, 'message', '-')
+    get(data, 'message', '-'),
   );
 }
 

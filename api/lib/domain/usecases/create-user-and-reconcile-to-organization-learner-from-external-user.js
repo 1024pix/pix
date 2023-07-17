@@ -61,7 +61,7 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
       matchedOrganizationLearner,
       userRepository,
       obfuscationService,
-      studentRepository
+      studentRepository,
     );
 
     userWithSamlId = await userRepository.getBySamlId(externalUser.samlId);

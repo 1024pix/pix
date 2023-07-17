@@ -44,7 +44,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           ],
           (answer) => {
             databaseBuilder.factory.buildAnswer(answer);
-          }
+          },
         );
         await databaseBuilder.commit();
 
@@ -299,7 +299,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         ({ assessment, assessmentResult }) => {
           const assessmentId = databaseBuilder.factory.buildAssessment(assessment).id;
           databaseBuilder.factory.buildAssessmentResult({ ...assessmentResult, assessmentId });
-        }
+        },
       );
 
       await databaseBuilder.commit();
@@ -331,13 +331,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       // when
       const assessments = await assessmentRepository.findLastCompletedAssessmentsForEachCompetenceByUser(
         johnUserId,
-        limitDate
+        limitDate,
       );
 
       // then
       const assessmentsWithoutUserId = _.map(assessments, (assessment) => _.omit(assessment, ['userId', 'updatedAt']));
       const expectedAssessmentsWithoutUserId = _.map(expectedAssessments, (assessment) =>
-        _.omit(assessment, ['userId', 'updatedAt'])
+        _.omit(assessment, ['userId', 'updatedAt']),
       );
       expect(assessmentsWithoutUserId).to.deep.equal(expectedAssessmentsWithoutUserId);
     });

@@ -42,7 +42,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         // then
         const attributesToOmit = ['id', 'createdAt', 'complementaryCertification', 'userId'];
         expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deepEqualInstance(
-          _.omit(certificationCandidate, attributesToOmit)
+          _.omit(certificationCandidate, attributesToOmit),
         );
       });
 
@@ -106,7 +106,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
           // then
           const [{ complementaryCertificationId: complementaryCertificationSubscriptionIdInDB }] = await knex(
-            'complementary-certification-subscriptions'
+            'complementary-certification-subscriptions',
           )
             .select('complementaryCertificationId')
             .where({
@@ -273,7 +273,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         ],
         (candidate) => {
           databaseBuilder.factory.buildCertificationCandidate(candidate);
-        }
+        },
       );
 
       await databaseBuilder.commit();
@@ -340,12 +340,12 @@ describe('Integration | Repository | CertificationCandidate', function () {
         expect(firstCandidate.firstName).to.equal('Louis');
         expect(firstCandidate.lastName).to.equal('Chedid');
         expect(firstCandidate.complementaryCertification).to.deepEqualInstance(
-          new ComplementaryCertification({ id: rockCertification.id, label: 'Pix+Rock', key: 'ROCK' })
+          new ComplementaryCertification({ id: rockCertification.id, label: 'Pix+Rock', key: 'ROCK' }),
         );
         expect(secondCandidate.firstName).to.equal('Matthieu');
         expect(secondCandidate.lastName).to.equal('Chedid');
         expect(secondCandidate.complementaryCertification).to.deepEqualInstance(
-          new ComplementaryCertification({ id: rockCertification.id, label: 'Pix+Rock', key: 'ROCK' })
+          new ComplementaryCertification({ id: rockCertification.id, label: 'Pix+Rock', key: 'ROCK' }),
         );
 
         expect(thirdCandidate.firstName).to.equal('Hancock');
@@ -409,7 +409,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
         // when
         const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
-          personalInfoAndId
+          personalInfoAndId,
         );
 
         // then
@@ -452,7 +452,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
         // when
         const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
-          personalInfoAndId
+          personalInfoAndId,
         );
 
         // then
@@ -487,7 +487,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
       it('should not find any candidate', async function () {
         // when
         const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
-          notMatchingCandidateInfo
+          notMatchingCandidateInfo,
         );
 
         // then
@@ -521,7 +521,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
         // when
         const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
-          commonCandidateInfo
+          commonCandidateInfo,
         );
 
         // then
@@ -705,7 +705,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           domainBuilder.buildCertificationCandidate({
             id: certificationCandidate.id,
             authorizedToStart: false,
-          })
+          }),
         );
 
         // then
@@ -743,7 +743,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           domainBuilder.buildCertificationCandidate({
             id: wrongCandidateId,
             authorizedToStart: false,
-          })
+          }),
         );
 
         // then
@@ -795,7 +795,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
         // when
         const error = await catchErr(certificationCandidateRepository.getWithComplementaryCertification)(
-          wrongCandidateId
+          wrongCandidateId,
         );
 
         // then
@@ -818,7 +818,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           domainBuilder.buildCertificationCandidate({
             ...certificationCandidate,
             complementaryCertification: null,
-          })
+          }),
         );
       });
     });
@@ -845,7 +845,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           domainBuilder.buildCertificationCandidate({
             ...certificationCandidate,
             complementaryCertification: domainBuilder.buildComplementaryCertification(complementaryCertification),
-          })
+          }),
         );
       });
     });

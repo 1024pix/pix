@@ -15,7 +15,7 @@ export default function index(config) {
               title: 'Precondition failed',
             },
           ],
-        }
+        },
       );
     }
     return organizationLearnerIdentity ? organizationLearnerIdentity : { data: null };

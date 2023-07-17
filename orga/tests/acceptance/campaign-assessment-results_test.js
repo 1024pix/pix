@@ -53,7 +53,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
       // when
       const screen = await visit(
-        `/campagnes/1/resultats-evaluation?pageNumber=${changedPageNumber}&pageSize=${changedPageSize}`
+        `/campagnes/1/resultats-evaluation?pageNumber=${changedPageNumber}&pageSize=${changedPageSize}`,
       );
 
       // then

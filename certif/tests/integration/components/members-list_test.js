@@ -37,7 +37,7 @@ module('Integration | Component | members-list', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`
+        hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
       );
 
       // then
@@ -55,7 +55,7 @@ module('Integration | Component | members-list', function (hooks) {
 
         // when
         const screen = await renderScreen(
-          hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`
+          hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
         );
 
         // then
@@ -73,7 +73,7 @@ module('Integration | Component | members-list', function (hooks) {
 
         // when
         const screen = await renderScreen(
-          hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`
+          hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
         );
 
         // then
@@ -92,7 +92,7 @@ module('Integration | Component | members-list', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`
+        hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
       );
 
       // then

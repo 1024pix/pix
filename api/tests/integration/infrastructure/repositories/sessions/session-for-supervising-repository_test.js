@@ -36,7 +36,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           date: '2018-02-23',
           time: '12:00:00',
           certificationCandidates: [],
-        })
+        }),
       );
     });
 
@@ -109,7 +109,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           'authorizedToStart',
           'assessmentStatus',
           'startDateTime',
-        ])
+        ]),
       );
       expect(actualCandidates).to.have.deep.ordered.members([
         {
@@ -193,7 +193,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
 
       // then
       const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
-        _.pick(item, ['userId', 'sessionId', 'lastName', 'firstName', 'enrolledComplementaryCertification'])
+        _.pick(item, ['userId', 'sessionId', 'lastName', 'firstName', 'enrolledComplementaryCertification']),
       );
 
       expect(actualCandidates).to.have.deep.ordered.members([

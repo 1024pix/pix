@@ -15,7 +15,7 @@ const up = async function (knex) {
         certificationCenterId,
         createdAt,
       };
-    }
+    },
   );
 
   if (complementaryCertificationHabilitations.length > 0) {
@@ -25,7 +25,7 @@ const up = async function (knex) {
     const idForNextInsertion = maxIdResult.max + 1;
     // eslint-disable-next-line knex/avoid-injections
     await knex.raw(
-      `ALTER SEQUENCE "complementary-certification-habilitations_id_seq" RESTART WITH ${idForNextInsertion}`
+      `ALTER SEQUENCE "complementary-certification-habilitations_id_seq" RESTART WITH ${idForNextInsertion}`,
     );
   }
 };

@@ -79,7 +79,7 @@ describe('Unit | Controller | user-controller', function () {
               },
             },
             hFake,
-            dependencies
+            dependencies,
           );
 
           // then
@@ -127,7 +127,7 @@ describe('Unit | Controller | user-controller', function () {
               },
             },
             hFake,
-            dependencies
+            dependencies,
           );
 
           // then
@@ -329,7 +329,7 @@ describe('Unit | Controller | user-controller', function () {
           auth: { credentials: { userId } },
           params: { id: userId },
         },
-        hFake
+        hFake,
       );
 
       // then
@@ -552,7 +552,7 @@ describe('Unit | Controller | user-controller', function () {
       // then
       expect(dependencies.userForAdminSerializer.serialize).to.have.been.calledWithExactly(
         expectedResults,
-        expectedPagination
+        expectedPagination,
       );
     });
 
@@ -958,7 +958,7 @@ describe('Unit | Controller | user-controller', function () {
           params: { id: userId },
         },
         hFake,
-        { userAnonymizedDetailsForAdminSerializer }
+        { userAnonymizedDetailsForAdminSerializer },
       );
 
       // then
@@ -1214,7 +1214,7 @@ describe('Unit | Controller | user-controller', function () {
       // given
       const certificationCenterMemberships = Symbol("a list of user's certification center memberships");
       const certificationCenterMembershipsSerialized = Symbol(
-        "a list of user's certification center memberships serialized"
+        "a list of user's certification center memberships serialized",
       );
 
       const certificationCenterMembershipSerializer = { serializeForAdmin: sinon.stub() };
@@ -1257,7 +1257,7 @@ describe('Unit | Controller | user-controller', function () {
           params: { id: 1 },
         },
         hFake,
-        { userSerializer }
+        { userSerializer },
       );
 
       // then

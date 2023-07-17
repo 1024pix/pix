@@ -26,7 +26,7 @@ const updateUserForAccountRecovery = async function ({
         userId,
         hashedPassword,
       },
-      domainTransaction
+      domainTransaction,
     );
   } else {
     const authenticationMethodFromPix = new AuthenticationMethod({
@@ -41,7 +41,7 @@ const updateUserForAccountRecovery = async function ({
       {
         authenticationMethod: authenticationMethodFromPix,
       },
-      domainTransaction
+      domainTransaction,
     );
   }
 

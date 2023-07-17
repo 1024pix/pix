@@ -38,8 +38,8 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
 
     await click(
       `[aria-label="${this.intl.t(
-        'pages.session-finalization.add-issue-modal.actions.select-category-label'
-      )} '${this.intl.t(categoryToLabel[certificationIssueReportCategories.IN_CHALLENGE])}'"]`
+        'pages.session-finalization.add-issue-modal.actions.select-category-label',
+      )} '${this.intl.t(categoryToLabel[certificationIssueReportCategories.IN_CHALLENGE])}'"]`,
     );
 
     // then
@@ -100,13 +100,13 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
       />`);
 
       await click(
-        screen.getByLabelText(this.intl.t('pages.session-finalization.add-issue-modal.actions.select-subcategory'))
+        screen.getByLabelText(this.intl.t('pages.session-finalization.add-issue-modal.actions.select-subcategory')),
       );
 
       await click(
         await screen.findByRole('option', {
           name: `${subcategoryCode} ${this.intl.t(subcategoryLabel)}`,
-        })
+        }),
       );
 
       // then
@@ -115,7 +115,7 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
           screen.getByRole('option', {
             selected: true,
             name: `${subcategoryCode} ${this.intl.t(subcategoryLabel)}`,
-          })
+          }),
         )
         .exists();
     });
@@ -163,14 +163,14 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
         @maxlength={{500}}
       />`);
     await click(
-      screen.getByLabelText(this.intl.t('pages.session-finalization.add-issue-modal.actions.select-subcategory'))
+      screen.getByLabelText(this.intl.t('pages.session-finalization.add-issue-modal.actions.select-subcategory')),
     );
     await click(
       await screen.findByRole('option', {
         name: `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${this.intl.t(
-          subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]
+          subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING],
         )}`,
-      })
+      }),
     );
 
     // then
@@ -178,9 +178,9 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
       .dom(
         screen.getByRole('option', {
           name: `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${this.intl.t(
-            subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]
+            subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING],
           )}`,
-        })
+        }),
       )
       .exists();
   });

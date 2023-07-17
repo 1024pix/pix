@@ -56,7 +56,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             });
             sessionForSupervisingRepository.get.resolves(session);
             const expectedTheoricalEndDateTime = dayjs(
-              certificationCandidateWithNoComplementaryCertification.startDateTime
+              certificationCandidateWithNoComplementaryCertification.startDateTime,
             )
               .add(constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES, 'minute')
               .toDate();
@@ -70,11 +70,11 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             expect(sessionForSupervising.certificationCandidates).to.have.lengthOf(1);
             expect(sessionForSupervising.certificationCandidates[0]).to.have.deep.property(
               'startDateTime',
-              certificationCandidateWithNoComplementaryCertification.startDateTime
+              certificationCandidateWithNoComplementaryCertification.startDateTime,
             );
             expect(sessionForSupervising.certificationCandidates[0]).to.have.deep.property(
               'theoricalEndDateTime',
-              expectedTheoricalEndDateTime
+              expectedTheoricalEndDateTime,
             );
           });
         });
@@ -137,7 +137,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                     stillValidBadgeAcquisitions: [stillValidBadgeAcquisition],
                   }),
                 ],
-              })
+              }),
             );
           });
 
@@ -161,7 +161,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                     stillValidBadgeAcquisitions: [],
                   }),
                 ],
-              })
+              }),
             );
 
             const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
@@ -183,7 +183,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
                 constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
                 COMPLEMENTARY_EXTRATIME_STUB,
-              ])
+              ]),
             );
           });
         });
@@ -231,7 +231,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                     stillValidBadgeAcquisitions: [],
                   }),
                 ],
-              })
+              }),
             );
           });
 
@@ -253,7 +253,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                     stillValidBadgeAcquisitions: [],
                   }),
                 ],
-              })
+              }),
             );
 
             const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
@@ -272,7 +272,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             expect(actualSession.certificationCandidates[0].theoricalEndDateTime).to.deep.equal(
               expectedSessionEndDateTimeFromStartDateTime(START_DATETIME_STUB, [
                 constants.PIX_CERTIF.DEFAULT_SESSION_DURATION_MINUTES,
-              ])
+              ]),
             );
           });
         });

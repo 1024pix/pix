@@ -21,7 +21,7 @@ const BookshelfCompetenceEvaluation = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfCompetenceEvaluation };

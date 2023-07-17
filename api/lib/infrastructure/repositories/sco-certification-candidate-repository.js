@@ -10,7 +10,7 @@ const addNonEnrolledCandidatesToSession = async function ({ sessionId, scoCertif
     .where({ sessionId });
 
   const alreadyEnrolledCandidateOrganizationLearnerIds = alreadyEnrolledCandidate.map(
-    (candidate) => candidate.organizationLearnerId
+    (candidate) => candidate.organizationLearnerId,
   );
 
   const scoCandidateToDTO = _scoCandidateToDTOForSession(sessionId);
@@ -28,7 +28,7 @@ const findIdsByOrganizationIdAndDivision = async function ({ organizationId, div
     .join(
       'view-active-organization-learners',
       'view-active-organization-learners.id',
-      'certification-candidates.organizationLearnerId'
+      'certification-candidates.organizationLearnerId',
     )
     .where({
       'view-active-organization-learners.organizationId': organizationId,

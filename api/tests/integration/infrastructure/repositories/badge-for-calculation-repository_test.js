@@ -119,11 +119,11 @@ describe('Integration | Repository | BadgeForCalculation', function () {
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
       const expectedBadgeForCalculation1 = _buildBadgeWithCampaignParticipationAndCappedTubes(
         targetProfileId,
-        campaignSkillsId
+        campaignSkillsId,
       );
       const expectedBadgeForCalculation2 = _buildBadgeWithSkillSetsAndCampaignParticipationCriteria(
         targetProfileId,
-        campaignSkillsId
+        campaignSkillsId,
       );
       await databaseBuilder.commit();
 
@@ -144,11 +144,11 @@ describe('Integration | Repository | BadgeForCalculation', function () {
       // given
       const expectedBadgeForCalculation1 = _buildBadgeWithCampaignParticipationAndCappedTubes(
         targetProfileId,
-        campaignSkillsId
+        campaignSkillsId,
       );
       const expectedBadgeForCalculation2 = _buildBadgeWithSkillSetsAndCampaignParticipationCriteria(
         targetProfileId,
-        campaignSkillsId
+        campaignSkillsId,
       );
       _buildBadgeWithUnrealisableCriteria(targetProfileId, campaignSkillsId);
       await databaseBuilder.commit();
@@ -170,7 +170,7 @@ describe('Integration | Repository | BadgeForCalculation', function () {
       // given
       const expectedBadgeForCalculation1 = _buildBadgeWithCampaignParticipationAndCappedTubes(
         targetProfileId,
-        campaignSkillsId
+        campaignSkillsId,
       );
       const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
         campaignId,

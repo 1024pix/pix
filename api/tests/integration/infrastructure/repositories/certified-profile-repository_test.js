@@ -303,10 +303,10 @@ describe('Integration | Repository | Certified Profile', function () {
 
       // then
       const certifiedSkill1_1_1_2 = certifiedProfile.certifiedSkills.find(
-        (skill) => skill.id === 'recArea1_Competence1_Tube1_Skill2'
+        (skill) => skill.id === 'recArea1_Competence1_Tube1_Skill2',
       );
       const certifiedSkill1_2_1_1 = certifiedProfile.certifiedSkills.find(
-        (skill) => skill.id === 'recArea1_Competence2_Tube1_Skill1'
+        (skill) => skill.id === 'recArea1_Competence2_Tube1_Skill1',
       );
       expect(certifiedSkill1_1_1_2.hasBeenAskedInCertif).to.be.true;
       expect(certifiedSkill1_2_1_1.hasBeenAskedInCertif).to.be.false;

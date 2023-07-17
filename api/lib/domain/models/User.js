@@ -42,7 +42,7 @@ class User {
       hasBeenAnonymised,
       hasBeenAnonymisedBy,
     } = {},
-    dependencies = { config, localeService }
+    dependencies = { config, localeService },
   ) {
     if (locale) {
       locale = dependencies.localeService.getCanonicalLocale(locale);
@@ -83,7 +83,7 @@ class User {
 
   get shouldChangePassword() {
     const pixAuthenticationMethod = this.authenticationMethods.find(
-      (authenticationMethod) => authenticationMethod.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code
+      (authenticationMethod) => authenticationMethod.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
     );
 
     return pixAuthenticationMethod ? pixAuthenticationMethod.authenticationComplement.shouldChangePassword : null;
@@ -123,7 +123,7 @@ class User {
     return this.certificationCenterMemberships.some(
       (certificationCenterMembership) =>
         certificationCenterMembership.certificationCenter.id === certificationCenterId &&
-        isNil(certificationCenterMembership.disabledAt)
+        isNil(certificationCenterMembership.disabledAt),
     );
   }
 }

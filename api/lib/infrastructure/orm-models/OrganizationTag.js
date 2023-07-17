@@ -21,7 +21,7 @@ const BookshelfOrganizationTag = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfOrganizationTag };

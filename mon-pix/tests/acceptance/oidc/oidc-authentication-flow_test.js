@@ -42,7 +42,7 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
         // when
         await fillIn(
           screen.getByRole('textbox', { name: this.intl.t('pages.login-or-register-oidc.login-form.email') }),
-          'lloyd.ce@example.net'
+          'lloyd.ce@example.net',
         );
         await fillIn(screen.getByLabelText(this.intl.t('pages.login-or-register-oidc.login-form.password')), 'pix123');
         await click(screen.getByRole('button', { name: 'Je me connecte' }));
@@ -51,7 +51,7 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
         assert.ok(
           screen.getByRole('heading', {
             name: "Attention ! Un nouveau moyen de connexion est sur le point d'être ajouté à votre compte Pix",
-          })
+          }),
         );
       });
     });

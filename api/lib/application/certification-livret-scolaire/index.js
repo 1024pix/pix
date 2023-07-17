@@ -29,7 +29,7 @@ const register = async function (server) {
             uai: Joi.string()
               .required()
               .description(
-                'UAI/RNE (Unité Administrative Immatriculée anciennement Répertoire National des Établissements) '
+                'UAI/RNE (Unité Administrative Immatriculée anciennement Répertoire National des Établissements) ',
               ),
           }),
           headers: Joi.object({

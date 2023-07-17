@@ -5,7 +5,7 @@ import * as organizationLearnerRepository from '../../infrastructure/repositorie
 const execute = async function (
   userId,
   organizationLearnerId,
-  dependencies = { membershipRepository, organizationLearnerRepository }
+  dependencies = { membershipRepository, organizationLearnerRepository },
 ) {
   const organizationLearner = await dependencies.organizationLearnerRepository.get(organizationLearnerId);
   const memberships = await dependencies.membershipRepository.findByUserIdAndOrganizationId({

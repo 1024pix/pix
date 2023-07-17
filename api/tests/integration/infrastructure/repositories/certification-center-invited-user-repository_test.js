@@ -51,7 +51,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
           userId: user.id,
           invitation,
           status: certificationCenterInvitation.status,
-        })
+        }),
       );
     });
 
@@ -96,7 +96,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
         // then
         expect(error).to.be.an.instanceOf(NotFoundError);
         expect(error.message).to.equal(
-          'No user found for email inexistantUser@email.net for this certification center invitation'
+          'No user found for email inexistantUser@email.net for this certification center invitation',
         );
       });
     });

@@ -29,7 +29,7 @@ const findByCertificationCourseId = async function (certificationCourseId) {
       'competence-marks.competenceId',
       'competence-marks.level',
       'competence-marks.score',
-      'competence-marks.assessmentResultId'
+      'competence-marks.assessmentResultId',
     )
     .from('assessments')
     .join('assessment-results', 'assessments.id', 'assessment-results.assessmentId')
@@ -37,7 +37,7 @@ const findByCertificationCourseId = async function (certificationCourseId) {
       this.on('assessments.id', 'latest-assessment-results.assessmentId').andOn(
         'assessment-results.createdAt',
         '<',
-        'latest-assessment-results.createdAt'
+        'latest-assessment-results.createdAt',
       );
     })
     .join('competence-marks', 'assessment-results.id', 'competence-marks.assessmentResultId')

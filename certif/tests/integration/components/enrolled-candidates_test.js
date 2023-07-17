@@ -42,7 +42,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       .dom(
         screen.getByRole('table', {
           name: this.intl.t('pages.sessions.detail.candidates.list.with-details-description'),
-        })
+        }),
       )
       .exists();
   });
@@ -134,7 +134,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     // then
     assert
       .dom(
-        screen.getByRole('button', { name: `Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}` })
+        screen.getByRole('button', { name: `Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}` }),
       )
       .isVisible();
   });
@@ -227,7 +227,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
         this.set('certificationCandidates', certificationCandidates);
         this.set(
           'shouldDisplayPrescriptionScoStudentRegistrationFeature',
-          shouldDisplayPrescriptionScoStudentRegistrationFeature
+          shouldDisplayPrescriptionScoStudentRegistrationFeature,
         );
 
         // when
@@ -249,7 +249,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
           assert.dom(screen.queryByRole('link', { name: 'Inscrire des candidats' })).isNotVisible();
           assert.dom(screen.getByRole('button', { name: 'Inscrire un candidat' })).isVisible();
         }
-      })
+      }),
     );
   });
 
@@ -274,7 +274,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       this.set('certificationCandidates', [candidate]);
       this.set(
         'shouldDisplayPrescriptionScoStudentRegistrationFeature',
-        shouldDisplayPrescriptionScoStudentRegistrationFeature
+        shouldDisplayPrescriptionScoStudentRegistrationFeature,
       );
 
       // when
@@ -296,7 +296,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
         assert.dom(screen.getByRole('cell', { name: candidate.externalId })).exists();
         assert.dom(screen.getByRole('cell', { name: candidate.resultRecipientEmail })).exists();
       }
-    })
+    }),
   );
 });
 

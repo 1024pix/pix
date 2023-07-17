@@ -121,12 +121,12 @@ describe('Acceptance | Controller | training-controller', function () {
       const returnedTube = response.result.included.find((included) => included.type === 'tubes').attributes;
       expect(returnedTube.id).to.deep.equal(tubeId);
       const returnedTriggerTube = response.result.included.find(
-        (included) => included.type === 'trigger-tubes'
+        (included) => included.type === 'trigger-tubes',
       ).attributes;
       expect(returnedTriggerTube.id).to.deep.equal(trainingTriggerTube.id);
 
       const returnedTrigger = response.result.included.find(
-        (included) => included.type === 'training-triggers'
+        (included) => included.type === 'training-triggers',
       ).attributes;
       expect(returnedTrigger.id).to.deep.equal(trainingTrigger.id);
       expect(returnedTrigger['tubes-count']).to.equal(1);
@@ -135,12 +135,12 @@ describe('Acceptance | Controller | training-controller', function () {
       expect(returnedTriggerArea.id).to.deep.equal(areaId);
 
       const returnedTriggerCompetence = response.result.included.find(
-        (included) => included.type === 'competences'
+        (included) => included.type === 'competences',
       ).attributes;
       expect(returnedTriggerCompetence.id).to.deep.equal(competenceId);
 
       const returnedTriggerThematic = response.result.included.find(
-        (included) => included.type === 'thematics'
+        (included) => included.type === 'thematics',
       ).attributes;
       expect(returnedTriggerThematic.id).to.deep.equal(thematicId);
     });
@@ -271,10 +271,10 @@ describe('Acceptance | Controller | training-controller', function () {
         expect(response.result.data.attributes.title).to.deep.equal(expectedResponse.data.attributes.title);
         expect(response.result.data.attributes.link).to.deep.equal(expectedResponse.data.attributes.link);
         expect(response.result.data.attributes['editor-name']).to.deep.equal(
-          expectedResponse.data.attributes.editorName
+          expectedResponse.data.attributes.editorName,
         );
         expect(response.result.data.attributes['editor-logo-url']).to.deep.equal(
-          expectedResponse.data.attributes.editorLogoUrl
+          expectedResponse.data.attributes.editorLogoUrl,
         );
       });
     });
@@ -428,7 +428,7 @@ describe('Acceptance | Controller | training-controller', function () {
       expect(response.result.data.attributes.threshold).to.deep.equal(expectedResponse.data.attributes.threshold);
       expect(response.result.included).to.exists;
       expect(response.result.included.find(({ type }) => type === 'trigger-tubes').attributes.level).to.equal(
-        tube.level
+        tube.level,
       );
       const returnedTube = response.result.included.find(({ type }) => type === 'tubes').attributes;
       expect(returnedTube.id).to.equal(tube.tubeId);

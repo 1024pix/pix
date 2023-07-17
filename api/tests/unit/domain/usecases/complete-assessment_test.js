@@ -85,9 +85,8 @@ describe('Unit | UseCase | complete-assessment', function () {
           });
 
           // then
-          expect(
-            assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id, domainTransaction)
-          ).to.be.true;
+          expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id, domainTransaction)).to.be
+            .true;
         });
 
         it('should return a AssessmentCompleted event', async function () {
@@ -147,8 +146,8 @@ describe('Unit | UseCase | complete-assessment', function () {
         expect(
           campaignParticipationRepository.update.calledWithExactly(
             { id: assessment.campaignParticipationId, status: TO_SHARE },
-            domainTransaction
-          )
+            domainTransaction,
+          ),
         ).to.be.true;
       });
     });

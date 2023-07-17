@@ -41,7 +41,7 @@ describe('Unit | Controller | certification-report-controller', function () {
             },
           },
         },
-        hFake
+        hFake,
       );
 
       // then

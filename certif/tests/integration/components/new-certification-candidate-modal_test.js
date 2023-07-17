@@ -75,8 +75,8 @@ module('Integration | Component | new-certification-candidate-modal', function (
       .dom(
         screen.getByText(
           'Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats concernés.Le candidat verra ses résultats affichés directement sur son compte Pix.',
-          { exact: false }
-        )
+          { exact: false },
+        ),
       )
       .exists();
     assert.dom(screen.getByLabelText('E-mail de convocation')).exists();
@@ -146,8 +146,8 @@ module('Integration | Component | new-certification-candidate-modal', function (
         .dom(
           screen.getByText(
             'Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats concernés.Le candidat verra ses résultats affichés directement sur son compte Pix.',
-            { exact: false }
-          )
+            { exact: false },
+          ),
         )
         .exists();
       assert.dom(screen.getByLabelText('E-mail de convocation')).exists();
@@ -331,7 +331,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       await click(
         await screen.findByRole('option', {
           name: 'Borduristan',
-        })
+        }),
       );
 
       // then
@@ -478,7 +478,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       await click(
         await screen.findByRole('option', {
           name: 'FRANCE',
-        })
+        }),
       );
       await click(screen.getByRole('radio', { name: 'Code INSEE' }));
       await click(screen.getByRole('radio', { name: 'Certif complémentaire 1' }));
@@ -487,7 +487,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
       await fillIn(
         screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
-        'guybrush.threepwood@example.net'
+        'guybrush.threepwood@example.net',
       );
       await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
 

@@ -30,121 +30,121 @@ describe('Unit | Domain | Read-models | OrganizationLearnerForAdmin', function (
     it('should throw an ObjectValidationError when id is not valid', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, id: 'not_valid' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, id: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when firstName is not valid', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, firstName: 123456 })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, firstName: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when lastName is not valid', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, lastName: 123456 })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, lastName: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when birthdate is not valid', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, birthdate: 'not_valid' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, birthdate: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should not throw an ObjectValidationError when birthdate is null', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, birthdate: 'null' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should not throw an ObjectValidationError when division is null', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, division: null })).not.to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should not throw an ObjectValidationError when group is null', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, group: null })).not.to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when organizationId is not valid', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, organizationId: 'not_valid' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, organizationId: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when organizationName is not valid', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, organizationName: 123456 })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, organizationName: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when createdAt is not valid', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, createdAt: 'not_valid' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, createdAt: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when updatedAt is not valid', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, updatedAt: 'not_valid' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, updatedAt: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when isDisabled is not valid', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, isDisabled: 'not_valid' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, isDisabled: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when canBeDissociated is not valid', function () {
       // when
       expect(
-        () => new OrganizationLearnerForAdmin({ ...validArguments, organizationIsManagingStudents: 'not_valid' })
+        () => new OrganizationLearnerForAdmin({ ...validArguments, organizationIsManagingStudents: 'not_valid' }),
       ).to.throw(ObjectValidationError);
       expect(
-        () => new OrganizationLearnerForAdmin({ ...validArguments, organizationIsManagingStudents: undefined })
+        () => new OrganizationLearnerForAdmin({ ...validArguments, organizationIsManagingStudents: undefined }),
       ).to.throw(ObjectValidationError);
     });
   });

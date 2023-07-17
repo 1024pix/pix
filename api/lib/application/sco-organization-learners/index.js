@@ -193,7 +193,7 @@ const register = async function (server) {
           failAction: (request, h) => {
             return sendJsonApiError(
               new BadRequestError('The server could not understand the request due to invalid syntax.'),
-              h
+              h,
             );
           },
         },
@@ -249,7 +249,7 @@ const register = async function (server) {
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'ine-ina': Joi.alternatives().try(
                   Joi.string().regex(inePattern).required(),
-                  Joi.string().regex(inaPattern).required()
+                  Joi.string().regex(inaPattern).required(),
                 ),
                 birthdate: Joi.date().format('YYYY-MM-DD').required(),
               },

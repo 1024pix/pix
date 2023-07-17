@@ -40,7 +40,7 @@ function _extractObjectParameter(query, regex) {
       }
       return result;
     },
-    {}
+    {},
   );
 }
 

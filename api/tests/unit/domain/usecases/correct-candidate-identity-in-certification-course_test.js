@@ -90,7 +90,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
         birthCountry: 'FRANCE',
         birthINSEECode: null,
         birthPostalCode: '75015',
-      })
+      }),
     );
   });
 

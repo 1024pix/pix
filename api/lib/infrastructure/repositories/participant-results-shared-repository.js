@@ -11,7 +11,7 @@ async function _fetchKnowledgeElements(campaignParticipationId) {
       this.on('knowledge-element-snapshots.userId', '=', 'campaign-participations.userId').andOn(
         'knowledge-element-snapshots.snappedAt',
         '=',
-        'campaign-participations.sharedAt'
+        'campaign-participations.sharedAt',
       );
     })
     .where('campaign-participations.id', campaignParticipationId)

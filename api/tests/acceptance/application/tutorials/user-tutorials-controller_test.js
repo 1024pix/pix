@@ -88,10 +88,10 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
         expect(response.result.data.type).to.deep.equal(expectedUserSavedTutorial.data.type);
         expect(response.result.data.id).to.exist;
         expect(response.result.data.attributes['user-id']).to.deep.equal(
-          expectedUserSavedTutorial.data.attributes['user-id']
+          expectedUserSavedTutorial.data.attributes['user-id'],
         );
         expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
-          expectedUserSavedTutorial.data.attributes['tutorial-id']
+          expectedUserSavedTutorial.data.attributes['tutorial-id'],
         );
       });
 
@@ -119,13 +119,13 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           expect(response.result.data.type).to.deep.equal(expectedUserSavedTutorial.data.type);
           expect(response.result.data.id).to.exist;
           expect(response.result.data.attributes['user-id']).to.deep.equal(
-            expectedUserSavedTutorial.data.attributes['user-id']
+            expectedUserSavedTutorial.data.attributes['user-id'],
           );
           expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
-            expectedUserSavedTutorial.data.attributes['tutorial-id']
+            expectedUserSavedTutorial.data.attributes['tutorial-id'],
           );
           expect(response.result.data.attributes['skill-id']).to.deep.equal(
-            expectedUserSavedTutorial.data.attributes['skill-id']
+            expectedUserSavedTutorial.data.attributes['skill-id'],
           );
         });
       });

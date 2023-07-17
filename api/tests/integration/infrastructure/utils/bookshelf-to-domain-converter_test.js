@@ -140,7 +140,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       // when
       const domainObject = bookshelfToDomainConverter.buildDomainObject(
         BookshelfCampaignParticipation,
-        bookshelfObject
+        bookshelfObject,
       );
 
       // then

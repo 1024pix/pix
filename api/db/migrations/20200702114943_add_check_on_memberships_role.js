@@ -1,6 +1,6 @@
 const up = function (knex) {
   return knex.raw(
-    'ALTER TABLE memberships ADD CONSTRAINT "memberships_organizationRole_check" CHECK ( "organizationRole" IN (\'ADMIN\', \'MEMBER\' ) )'
+    'ALTER TABLE memberships ADD CONSTRAINT "memberships_organizationRole_check" CHECK ( "organizationRole" IN (\'ADMIN\', \'MEMBER\' ) )',
   );
 };
 

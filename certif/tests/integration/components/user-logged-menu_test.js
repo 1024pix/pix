@@ -19,13 +19,13 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       store.createRecord('allowed-certification-center-access', {
         id: 123,
         name: 'Sunnydale',
-      })
+      }),
     );
     certificationPointOfContact = run(() =>
       store.createRecord('certification-point-of-contact', {
         firstName: 'Buffy',
         lastName: 'Summers',
-      })
+      }),
     );
     class CurrentUserStub extends Service {
       certificationPointOfContact = certificationPointOfContact;
@@ -125,14 +125,14 @@ module('Integration | Component | user-logged-menu', function (hooks) {
           id: 456,
           name: 'Torreilles',
           externalId: 'externalId1',
-        })
+        }),
       );
       const allowedCertificationCenterAccessB = run(() =>
         store.createRecord('allowed-certification-center-access', {
           id: 789,
           name: 'Paris',
           externalId: 'ILPlEUT',
-        })
+        }),
       );
       certificationPointOfContact.set('allowedCertificationCenterAccesses', [
         currentAllowedCertificationCenterAccess,
@@ -158,7 +158,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
           id: 456,
           name: 'Torreilles',
           externalId: 'externalId1',
-        })
+        }),
       );
       certificationPointOfContact.set('allowedCertificationCenterAccesses', [
         currentAllowedCertificationCenterAccess,
@@ -168,7 +168,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`
+        hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`,
       );
       await click(screen.getByRole('button', { name: 'Buffy Summers Sunnydale Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Torreilles (externalId1)' }));
@@ -185,7 +185,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
           id: 456,
           name: 'Torreilles',
           externalId: 'externalId1',
-        })
+        }),
       );
       certificationPointOfContact.set('allowedCertificationCenterAccesses', [
         currentAllowedCertificationCenterAccess,
@@ -195,7 +195,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`
+        hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`,
       );
       await click(screen.getByRole('button', { name: 'Buffy Summers Sunnydale Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Torreilles (externalId1)' }));

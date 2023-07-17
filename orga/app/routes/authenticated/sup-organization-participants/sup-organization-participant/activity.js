@@ -8,7 +8,7 @@ export default class ActivityRoute extends Route {
 
   async model() {
     const organizationLearner = this.modelFor(
-      'authenticated.sup-organization-participants.sup-organization-participant'
+      'authenticated.sup-organization-participants.sup-organization-participant',
     );
     try {
       return RSVP.hash({

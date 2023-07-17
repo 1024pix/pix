@@ -29,13 +29,16 @@ module('Integration | Component | reached-stage', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<ReachedStage @reachedStage={{this.reachedStage}} @masteryRate={{this.rate}} @totalStage={{this.totalStage}} />`
+          hbs`<ReachedStage @reachedStage={{this.reachedStage}} @masteryRate={{this.rate}} @totalStage={{this.totalStage}} />`,
         );
         // then
         assert.ok(
           screen.getByText(
-            this.intl.t('pages.skill-review.stage.starsAcquired', { acquired: reachedStage - 1, total: totalStage - 1 })
-          )
+            this.intl.t('pages.skill-review.stage.starsAcquired', {
+              acquired: reachedStage - 1,
+              total: totalStage - 1,
+            }),
+          ),
         );
       });
     });

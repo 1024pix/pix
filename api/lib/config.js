@@ -182,7 +182,7 @@ const configuration = (function () {
 
     login: {
       temporaryBlockingThresholdFailureCount: _getNumber(
-        process.env.LOGIN_TEMPORARY_BLOCKING_THRESHOLD_FAILURE_COUNT || 10
+        process.env.LOGIN_TEMPORARY_BLOCKING_THRESHOLD_FAILURE_COUNT || 10,
       ),
       temporaryBlockingBaseTimeMs: ms(process.env.LOGIN_TEMPORARY_BLOCKING_BASE_TIME || '2m'),
       blockingLimitFailureCount: _getNumber(process.env.LOGIN_BLOCKING_LIMIT_FAILURE_COUNT || 50),
@@ -217,12 +217,12 @@ const configuration = (function () {
     featureToggles: {
       isMassiveSessionManagementEnabled: isFeatureEnabled(process.env.FT_MASSIVE_SESSION_MANAGEMENT),
       isAlwaysOkValidateNextChallengeEndpointEnabled: isFeatureEnabled(
-        process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT
+        process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
       ),
       isPix1dEnabled: isFeatureEnabled(process.env.FT_PIX_1D_ENABLED),
       isTargetProfileVersioningEnabled: isFeatureEnabled(process.env.FT_TARGET_PROFILE_VERSIONING),
       isDifferentiatedTimeInvigilatorPortalEnabled: isFeatureEnabled(
-        process.env.FT_DIFFERENTIATED_TIME_INVIGILATOR_PORTAL
+        process.env.FT_DIFFERENTIATED_TIME_INVIGILATOR_PORTAL,
       ),
     },
 
@@ -231,7 +231,7 @@ const configuration = (function () {
       chunkSizeForCampaignResultProcessing: _getNumber(process.env.INFRA_CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING, 10),
       chunkSizeForOrganizationLearnerDataProcessing: _getNumber(
         process.env.INFRA_CHUNK_SIZE_ORGANIZATION_LEARNER_DATA_PROCESSING,
-        1000
+        1000,
       ),
     },
 

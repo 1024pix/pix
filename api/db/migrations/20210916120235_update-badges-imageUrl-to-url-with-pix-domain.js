@@ -6,7 +6,7 @@ const PIX_URL = 'https://images.pix.fr';
 const up = function (knex) {
   // eslint-disable-next-line knex/avoid-injections
   return knex.raw(
-    `UPDATE ${TABLE_NAME} SET "${COLUMN_NAME}" = REPLACE("${COLUMN_NAME}", '${OVH_URL}', '${PIX_URL}') WHERE "${COLUMN_NAME}" LIKE '${OVH_URL}%';`
+    `UPDATE ${TABLE_NAME} SET "${COLUMN_NAME}" = REPLACE("${COLUMN_NAME}", '${OVH_URL}', '${PIX_URL}') WHERE "${COLUMN_NAME}" LIKE '${OVH_URL}%';`,
   );
 };
 

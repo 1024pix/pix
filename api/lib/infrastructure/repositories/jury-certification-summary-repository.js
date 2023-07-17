@@ -8,7 +8,7 @@ import { ComplementaryCertificationCourseResult } from '../../domain/models/Comp
 
 const findBySessionId = async function (sessionId) {
   const certificationCourseIds = await _getCertificationCoursesIdBySessionIdQuery(sessionId).pluck(
-    'certification-courses.id'
+    'certification-courses.id',
   );
   const orderResults = await _getByCertificationCourseIds(certificationCourseIds);
 
@@ -40,7 +40,7 @@ async function _getJuryCertificationSummaries(results) {
   const certificationCourseIds = results.map((row) => row.id);
   const certificationIssueReportRows = await knex('certification-issue-reports').whereIn(
     'certificationCourseId',
-    certificationCourseIds
+    certificationCourseIds,
   );
 
   const juryCertificationSummaryDTOs = _buildJuryCertificationSummaryDTOs(results, certificationIssueReportRows);
@@ -60,25 +60,25 @@ async function _getByCertificationCourseIds(orderedCertificationCourseIds) {
     .leftJoin(
       'certification-courses-last-assessment-results',
       'certification-courses.id',
-      'certification-courses-last-assessment-results.certificationCourseId'
+      'certification-courses-last-assessment-results.certificationCourseId',
     )
     .leftJoin(
       'assessment-results',
       'assessment-results.id',
-      'certification-courses-last-assessment-results.lastAssessmentResultId'
+      'certification-courses-last-assessment-results.lastAssessmentResultId',
     )
     .leftJoin(
       'complementary-certification-courses',
       'complementary-certification-courses.certificationCourseId',
-      'certification-courses.id'
+      'certification-courses.id',
     )
     .leftJoin('complementary-certification-course-results', function () {
       this.on(
         'complementary-certification-course-results.complementaryCertificationCourseId',
-        'complementary-certification-courses.id'
+        'complementary-certification-courses.id',
       ).andOnVal(
         'complementary-certification-course-results.source',
-        ComplementaryCertificationCourseResult.sources.PIX
+        ComplementaryCertificationCourseResult.sources.PIX,
       );
     })
     .leftJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
@@ -132,7 +132,7 @@ function _toDomain(juryCertificationSummaryDTO) {
   const certificationIssueReports = juryCertificationSummaryDTO.certificationIssueReports.map(
     (certificationIssueReportDTO) => {
       return new CertificationIssueReport(certificationIssueReportDTO);
-    }
+    },
   );
 
   return new JuryCertificationSummary({

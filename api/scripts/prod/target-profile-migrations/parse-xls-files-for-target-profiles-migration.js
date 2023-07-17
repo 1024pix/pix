@@ -60,7 +60,7 @@ const mapperFnc = (line) => {
   } catch (_e) {
     logger.error(
       { targetProfileId: line.id, targetProfileName: line.name },
-      "Erreur lors de la migration d'un profil cible: Ligne EXCEL incorrecte, valeur de cellule invalide"
+      "Erreur lors de la migration d'un profil cible: Ligne EXCEL incorrecte, valeur de cellule invalide",
     );
     report.push(`${line.id} - ${line.name} : Ligne EXCEL incorrecte, valeur de cellule invalide`);
     return null;
@@ -91,7 +91,7 @@ function parseMainFile(file) {
     Object.entries(tabs).map(([tab, { sheetToJsonConfig, mapper = (_) => _ }]) => [
       tab,
       XLSX.utils.sheet_to_json(workbook.Sheets[tab], sheetToJsonConfig).map(mapper),
-    ])
+    ]),
   );
 }
 
@@ -107,7 +107,7 @@ function parseMultiformFile(file) {
           .filter(({ name }) => typeof name !== 'number' && name?.startsWith('@'))
           .map(({ level, name }) => ({ normalizedName: normalizeAndRemoveAccents(name), name, level })),
       ];
-    })
+    }),
   );
 }
 
@@ -145,7 +145,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
           if (!exists) {
             logger.warn(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-              `Profil cible introuvable`
+              `Profil cible introuvable`,
             );
             return;
           }
@@ -153,7 +153,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
           if (alreadyHasTubes) {
             logger.warn(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-              `Profil cible déja migré`
+              `Profil cible déja migré`,
             );
             return;
           }
@@ -163,7 +163,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
             await _outdate(targetProfile.id, trx);
             logger.info(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-              `Profil cible marqué comme obsolète`
+              `Profil cible marqué comme obsolète`,
             );
             return;
           }
@@ -171,7 +171,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
             _checkIfTPHasUnexpectedMultiformInstructions(targetProfile.id, multiFormData);
             logger.info(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-              `Profil cible migré automatiquement`
+              `Profil cible migré automatiquement`,
             );
             return;
           }
@@ -180,7 +180,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
             await _uncap(targetProfile.id, trx);
             logger.info(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-              `Profil cible décappé`
+              `Profil cible décappé`,
             );
             return;
           }
@@ -190,7 +190,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
             logger.info(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
               'Profil cible cappé uniformément à %s',
-              targetProfile.uniformCap
+              targetProfile.uniformCap,
             );
             return;
           }
@@ -201,7 +201,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
             await _multiformCap(targetProfile, targetProfileMultiFormData, trx);
             logger.info(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-              `Profil cible cappé multiformément`
+              `Profil cible cappé multiformément`,
             );
             return;
           }
@@ -218,7 +218,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
       logger.error(
         { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
         "Erreur lors de la migration d'un profil cible: %s",
-        e
+        e,
       );
     }
   }
@@ -254,7 +254,7 @@ async function _uniformCap(id, cap, trx) {
 
 async function _multiformCap(targetProfile, instructions, trx) {
   const nonExistentTubes = instructions.filter(
-    ({ normalizedName }) => !allTubes.find((tube) => tube.normalizedName === normalizedName)
+    ({ normalizedName }) => !allTubes.find((tube) => tube.normalizedName === normalizedName),
   );
   if (nonExistentTubes.length > 0)
     throw new Error(`Les sujets suivants n'existent pas : ${nonExistentTubes.map(({ name }) => name)}`);
@@ -271,13 +271,13 @@ async function _multiformCap(targetProfile, instructions, trx) {
   if (tubeIdsInTpNotInInstructions.length > 0 && targetProfile.id !== 1774) {
     const errorTubeNames = tubeIdsInTpNotInInstructions.map((id) => allTubes.find((tube) => tube.id === id).name);
     throw new Error(
-      `Les sujets suivants sont présents dans le profil cible mais pas dans les instructions : ${errorTubeNames}`
+      `Les sujets suivants sont présents dans le profil cible mais pas dans les instructions : ${errorTubeNames}`,
     );
   }
   if (tubeIdsInInstructionNotInTp.length > 0) {
     const errorTubeNames = tubeIdsInInstructionNotInTp.map((id) => allTubes.find((tube) => tube.id === id).name);
     throw new Error(
-      `Les sujets suivants sont présents dans les instructions mais pas dans le profil cible : ${errorTubeNames}`
+      `Les sujets suivants sont présents dans les instructions mais pas dans le profil cible : ${errorTubeNames}`,
     );
   }
   for (const { id, level, name } of fullInstructions) {

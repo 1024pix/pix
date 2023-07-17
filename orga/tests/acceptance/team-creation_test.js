@@ -176,7 +176,7 @@ module('Acceptance | Team Creation', function (hooks) {
               },
             ],
           },
-          500
+          500,
         );
         await fillByLabel(inputLabel, email);
 
@@ -205,7 +205,7 @@ module('Acceptance | Team Creation', function (hooks) {
               },
             ],
           },
-          412
+          412,
         );
         await fillByLabel(inputLabel, email);
 
@@ -234,7 +234,7 @@ module('Acceptance | Team Creation', function (hooks) {
               },
             ],
           },
-          404
+          404,
         );
         await fillByLabel(inputLabel, email);
 
@@ -263,7 +263,7 @@ module('Acceptance | Team Creation', function (hooks) {
               },
             ],
           },
-          400
+          400,
         );
         await fillByLabel(inputLabel, email);
 
@@ -296,7 +296,7 @@ module('Acceptance | Team Creation', function (hooks) {
                   },
                 ],
               },
-              400
+              400,
             );
             await fillByLabel(inputLabel, email);
 
@@ -311,7 +311,7 @@ module('Acceptance | Team Creation', function (hooks) {
             assert.strictEqual(currentURL(), '/equipe/creation');
             assert.dom(screen.getByText(expectedErrorMessage)).exists();
           });
-        }
+        },
       );
     });
   });

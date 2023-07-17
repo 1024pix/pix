@@ -44,14 +44,14 @@ module('Acceptance | Campaign Participants Individual Results', function (hooks)
     const campaignAssessmentParticipationResult = server.create(
       'campaign-assessment-participation-result',
       'withCompetenceResults',
-      { id: 1, campaignId: 1 }
+      { id: 1, campaignId: 1 },
     );
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult });
 
     // when
     await visitScreen('/campagnes/1/evaluations/1');
     await click(
-      within(document.querySelector('main')).getByRole('link', { name: this.intl.t('navigation.main.campaigns') })
+      within(document.querySelector('main')).getByRole('link', { name: this.intl.t('navigation.main.campaigns') }),
     );
 
     // then
@@ -63,7 +63,7 @@ module('Acceptance | Campaign Participants Individual Results', function (hooks)
     const campaignAssessmentParticipationResult = server.create(
       'campaign-assessment-participation-result',
       'withCompetenceResults',
-      { id: 1, campaignId: 1 }
+      { id: 1, campaignId: 1 },
     );
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult });
     server.create('campaign', { id: 1, name: 'CampagneEtPrairie' });
@@ -81,7 +81,7 @@ module('Acceptance | Campaign Participants Individual Results', function (hooks)
     const campaignAssessmentParticipationResult = server.create(
       'campaign-assessment-participation-result',
       'withCompetenceResults',
-      { id: 1, campaignId: 1 }
+      { id: 1, campaignId: 1 },
     );
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult });
 
@@ -99,7 +99,7 @@ module('Acceptance | Campaign Participants Individual Results', function (hooks)
     const campaignAssessmentParticipationResult = server.create(
       'campaign-assessment-participation-result',
       'withCompetenceResults',
-      { id: 1, campaignId: 1 }
+      { id: 1, campaignId: 1 },
     );
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult });
 
@@ -115,7 +115,7 @@ module('Acceptance | Campaign Participants Individual Results', function (hooks)
     const campaignAssessmentParticipationResult = server.create(
       'campaign-assessment-participation-result',
       'withEmptyCompetenceResults',
-      { id: 1, campaignId: 1 }
+      { id: 1, campaignId: 1 },
     );
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult });
 

@@ -17,7 +17,7 @@ const up = async function (knex) {
       tableName: TABLE_NAME,
       certificationCourseTable: CERTIFICATION_COURSE_TABLE,
       columnName: COLUMN_NAME,
-    }
+    },
   );
 
   await knex(TABLE_NAME)

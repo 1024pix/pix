@@ -16,7 +16,7 @@ module('Integration | Component | Challenge | Item', function (hooks) {
         timer: false,
         format: 'phrase',
         proposals: '${myInput}',
-      })
+      }),
     );
     this.set('answer', {});
 

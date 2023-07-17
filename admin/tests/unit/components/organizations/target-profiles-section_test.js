@@ -42,7 +42,7 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
         assert.ok(
           component.notifications.success.calledWithExactly('Profil(s) cible(s) rattaché(s) avec succès.', {
             htmlContent: true,
-          })
+          }),
         );
       });
 
@@ -73,8 +73,8 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
             'Profil(s) cible(s) rattaché(s) avec succès.<br/>Le(s) profil(s) cible(s) suivant(s) étai(en)t déjà rattaché(s) à cette organisation : 1, 2.',
             {
               htmlContent: true,
-            }
-          )
+            },
+          ),
         );
       });
     });

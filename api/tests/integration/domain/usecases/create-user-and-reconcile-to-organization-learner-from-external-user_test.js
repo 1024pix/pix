@@ -240,7 +240,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
           // then
           expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
         });
-      }
+      },
     );
 
     context(
@@ -358,7 +358,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
           });
         });
-      }
+      },
     );
 
     context('When the external user is already created', function () {

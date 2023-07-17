@@ -105,9 +105,9 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
         controller.fileSaver.save.calledWith({
           token,
           url: `/api/organizations/${organizationId}/certification-results?division=${encodeURIComponent(
-            selectedDivision
+            selectedDivision,
           )}&lang=fr`,
-        })
+        }),
       );
     });
 
@@ -138,7 +138,7 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
       sinon.assert.calledWith(
         errorMock,
         this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: 'Banana bread' }),
-        { autoClear: false }
+        { autoClear: false },
       );
       assert.ok(true);
     });
@@ -199,7 +199,7 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
           controller.fileSaver.save.calledWith({
             token,
             url: `/api/organizations/${organizationId}/certification-attestations?division=${selectedDivision}&isFrenchDomainExtension=true&lang=fr`,
-          })
+          }),
         );
       });
     });
@@ -262,7 +262,7 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
             controller.fileSaver.save.calledWith({
               token,
               url: `/api/organizations/${organizationId}/certification-attestations?division=${selectedDivision}&isFrenchDomainExtension=false&lang=en`,
-            })
+            }),
           );
         });
       });
@@ -295,7 +295,7 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
       sinon.assert.calledWith(
         errorMock,
         this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: 'Americaine' }),
-        { autoClear: false }
+        { autoClear: false },
       );
       assert.ok(true);
     });

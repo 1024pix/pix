@@ -32,7 +32,7 @@ describe('Integration | UseCases | create-badge', function () {
 
     targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
     learningContent.skills.forEach((skill) =>
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill.id })
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill.id }),
     );
     existingBadgeKey = databaseBuilder.factory.buildBadge().key;
 
@@ -233,7 +233,7 @@ describe('Integration | UseCases | create-badge', function () {
       expect(error).to.be.instanceOf(InvalidSkillSetError);
       expect(error).to.haveOwnProperty(
         'message',
-        'Les acquis suivants ne font pas partie du profil cible : recSkill666'
+        'Les acquis suivants ne font pas partie du profil cible : recSkill666',
       );
     });
   });

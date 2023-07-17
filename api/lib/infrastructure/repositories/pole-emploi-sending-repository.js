@@ -14,7 +14,7 @@ const find = async function (sending, filters) {
       'pole-emploi-sendings.id AS idEnvoi',
       'pole-emploi-sendings.createdAt AS dateEnvoi',
       'pole-emploi-sendings.payload AS resultat',
-      'authentication-methods.externalIdentifier AS idPoleEmploi'
+      'authentication-methods.externalIdentifier AS idPoleEmploi',
     )
     .join('campaign-participations', 'campaign-participations.id', 'pole-emploi-sendings.campaignParticipationId')
     .join('authentication-methods', 'authentication-methods.userId', 'campaign-participations.userId')
@@ -43,7 +43,7 @@ function _olderThan(qb, sending) {
     qb.where('pole-emploi-sendings.createdAt', '<', sending.dateEnvoi).where(
       'pole-emploi-sendings.id',
       '<',
-      sending.idEnvoi
+      sending.idEnvoi,
     );
   }
 }

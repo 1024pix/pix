@@ -16,7 +16,7 @@ module('Integration | Component | hexagon-score', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<HexagonScore @maxReachablePixScore={{this.maxReachablePixScore}} @maxReachableLevel={{this.maxReachableLevel}} />`
+        hbs`<HexagonScore @maxReachablePixScore={{this.maxReachablePixScore}} @maxReachableLevel={{this.maxReachableLevel}} />`,
       );
 
       // then
@@ -30,7 +30,7 @@ module('Integration | Component | hexagon-score', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<HexagonScore @pixScore={{this.pixScore}} @maxReachablePixScore={{this.maxReachablePixScore}} @maxReachableLevel={{this.maxReachableLevel}} />`
+        hbs`<HexagonScore @pixScore={{this.pixScore}} @maxReachablePixScore={{this.maxReachablePixScore}} @maxReachableLevel={{this.maxReachableLevel}} />`,
       );
 
       // then
@@ -46,7 +46,7 @@ module('Integration | Component | hexagon-score', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<HexagonScore @maxReachablePixScore={{this.maxReachablePixScore}} @maxReachableLevel={{this.maxReachableLevel}} />`
+        hbs`<HexagonScore @maxReachablePixScore={{this.maxReachablePixScore}} @maxReachableLevel={{this.maxReachableLevel}} />`,
       );
 
       // then

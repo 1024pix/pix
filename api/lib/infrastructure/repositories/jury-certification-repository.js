@@ -27,19 +27,19 @@ const get = async function (certificationCourseId) {
       'complementary-certification-courses.id',
       'complementary-certification-badges.label',
       'complementary-certification-badges.level',
-      'complementary-certifications.hasExternalJury'
+      'complementary-certifications.hasExternalJury',
     )
     .leftJoin(
       'complementary-certification-courses',
       'complementary-certification-course-results.complementaryCertificationCourseId',
-      'complementary-certification-courses.id'
+      'complementary-certification-courses.id',
     )
     .leftJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
     .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
     .leftJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-badges.complementaryCertificationId'
+      'complementary-certification-badges.complementaryCertificationId',
     )
     .where({
       certificationCourseId: juryCertificationDTO.certificationCourseId,
@@ -95,12 +95,12 @@ function _selectJuryCertifications() {
     .leftJoin(
       'certification-courses-last-assessment-results',
       'certification-courses.id',
-      'certification-courses-last-assessment-results.certificationCourseId'
+      'certification-courses-last-assessment-results.certificationCourseId',
     )
     .leftJoin(
       'assessment-results',
       'assessment-results.id',
-      'certification-courses-last-assessment-results.lastAssessmentResultId'
+      'certification-courses-last-assessment-results.lastAssessmentResultId',
     )
     .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id');
 }
@@ -113,13 +113,13 @@ async function _toDomainWithComplementaryCertifications({
   badgeKeyAndLabelsGroupedByTargetProfile,
 }) {
   const certificationIssueReports = certificationIssueReportDTOs.map(
-    (certificationIssueReport) => new CertificationIssueReport({ ...certificationIssueReport })
+    (certificationIssueReport) => new CertificationIssueReport({ ...certificationIssueReport }),
   );
 
   const { complementaryCertificationCourseResultWithExternal, commonComplementaryCertificationCourseResult } =
     _toComplementaryCertificationCourseResultForJuryCertification(
       complementaryCertificationCourseResultDTOs,
-      badgeKeyAndLabelsGroupedByTargetProfile
+      badgeKeyAndLabelsGroupedByTargetProfile,
     );
 
   return JuryCertification.from({
@@ -133,7 +133,7 @@ async function _toDomainWithComplementaryCertifications({
 
 function _toComplementaryCertificationCourseResultForJuryCertification(
   complementaryCertificationCourseResults,
-  badgeKeyAndLabelsGroupedByTargetProfile
+  badgeKeyAndLabelsGroupedByTargetProfile,
 ) {
   const [complementaryCertificationCourseResultWithExternal, commonComplementaryCertificationCourseResult] =
     _.partition(complementaryCertificationCourseResults, 'hasExternalJury');
@@ -141,7 +141,7 @@ function _toComplementaryCertificationCourseResultForJuryCertification(
   const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
     ComplementaryCertificationCourseResultForJuryCertificationWithExternal.from(
       complementaryCertificationCourseResultWithExternal,
-      badgeKeyAndLabelsGroupedByTargetProfile
+      badgeKeyAndLabelsGroupedByTargetProfile,
     );
 
   if (commonComplementaryCertificationCourseResult.length > 1) {
@@ -161,7 +161,7 @@ async function _getBadgeKeyAndLabelsGroupedByTargetProfile() {
   const result = await knex('complementary-certification-badges')
     .select({
       aggregate: knex.raw(
-        `json_agg(json_build_object('key', "badges"."key", 'label', "complementary-certification-badges"."label") order by "badges".id)`
+        `json_agg(json_build_object('key', "badges"."key", 'label', "complementary-certification-badges"."label") order by "badges".id)`,
       ),
     })
     .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')

@@ -28,7 +28,7 @@ const up = async function (knex) {
     } else {
       // eslint-disable-next-line no-console
       console.log(
-        'Columns in table answers not migrated to bigint as there is too much data. Run api/scripts/bigint/change-answers-id-type-to-bigint-with-downtime.js.'
+        'Columns in table answers not migrated to bigint as there is too much data. Run api/scripts/bigint/change-answers-id-type-to-bigint-with-downtime.js.',
       );
     }
   }

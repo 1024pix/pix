@@ -794,7 +794,7 @@ describe('Acceptance | Route | target-profiles', function () {
       expect(response.statusCode).to.equal(200);
       expect(response.payload).to.equal('[{"id":"recTube","level":6,"frameworkId":"recFmwk","skills":["recSkill"]}]');
       expect(response.headers['content-disposition']).to.equal(
-        'attachment; filename=20201101_profil_cible_Roxane est tr_s jolie.json'
+        'attachment; filename=20201101_profil_cible_Roxane est tr_s jolie.json',
       );
       expect(response.headers['content-type']).to.equal('text/json;charset=utf-8');
     });

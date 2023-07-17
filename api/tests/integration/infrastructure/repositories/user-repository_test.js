@@ -191,17 +191,17 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           expect(matchingUsers).to.have.lengthOf(4);
           expect(matchingUsers[0].id).to.equal(alainTerieur1.id);
           expect(`${matchingUsers[0].firstName} ${matchingUsers[0].lastName}`).to.equal(
-            `${alainTerieur1.firstName} ${alainTerieur1.lastName}`
+            `${alainTerieur1.firstName} ${alainTerieur1.lastName}`,
           );
           expect(matchingUsers[1].id).to.equal(alainTerieur2.id);
           expect(`${matchingUsers[1].firstName} ${matchingUsers[1].lastName}`).to.equal(
-            `${alainTerieur2.firstName} ${alainTerieur2.lastName}`
+            `${alainTerieur2.firstName} ${alainTerieur2.lastName}`,
           );
           expect(`${matchingUsers[2].firstName} ${matchingUsers[2].lastName}`).to.equal(
-            `${alexTerieur.firstName} ${alexTerieur.lastName}`
+            `${alexTerieur.firstName} ${alexTerieur.lastName}`,
           );
           expect(`${matchingUsers[3].firstName} ${matchingUsers[3].lastName}`).to.equal(
-            `${justinPtipeu.firstName} ${justinPtipeu.lastName}`
+            `${justinPtipeu.firstName} ${justinPtipeu.lastName}`,
           );
           expect(pagination).to.deep.equal(expectedPagination);
         });
@@ -262,7 +262,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
             ],
             (user) => {
               databaseBuilder.factory.buildUser(user);
-            }
+            },
           );
 
           await databaseBuilder.commit();
@@ -297,7 +297,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
             ],
             (user) => {
               databaseBuilder.factory.buildUser(user);
-            }
+            },
           );
 
           await databaseBuilder.commit();
@@ -350,7 +350,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
             ],
             (user) => {
               databaseBuilder.factory.buildUser(user);
-            }
+            },
           );
           await databaseBuilder.commit();
           const filter = { username: '1011' };
@@ -416,7 +416,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
               ],
               (user) => {
                 databaseBuilder.factory.buildUser(user);
-              }
+              },
             );
 
             await databaseBuilder.commit();
@@ -446,7 +446,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
             ]);
             expect(pagination).to.deep.equal(expectedPagination);
           });
-        }
+        },
       );
 
       context('when there are filter that should be ignored', function () {
@@ -758,7 +758,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(firstAuthenticationMethod.userId).to.equal(passwordAuthenticationMethodInDB.userId);
         expect(firstAuthenticationMethod.externalIdentifier).to.be.null;
         expect(firstAuthenticationMethod.authenticationComplement).to.deep.equal(
-          passwordAuthenticationMethodInDB.authenticationComplement
+          passwordAuthenticationMethodInDB.authenticationComplement,
         );
       });
 
@@ -1081,7 +1081,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(userDetailsForAdmin.locale).to.equal('en');
         expect(userDetailsForAdmin.lastTermsOfServiceValidatedAt).to.deep.equal(lastTermsOfServiceValidatedAt);
         expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(
-          lastPixOrgaTermsOfServiceValidatedAt
+          lastPixOrgaTermsOfServiceValidatedAt,
         );
         expect(userDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(lastLoggedAt);
         expect(userDetailsForAdmin.lastLoggedAt).to.deep.equal(lastLoggedAt);
@@ -1178,7 +1178,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
           // then
           const pixAuthenticationMethod = userDetailsForAdmin.authenticationMethods.find(
-            ({ identityProvider }) => identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code
+            ({ identityProvider }) => identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
           );
           expect(userDetailsForAdmin.authenticationMethods.length).to.equal(2);
           expect(pixAuthenticationMethod).to.deep.equal({

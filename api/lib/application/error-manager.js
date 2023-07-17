@@ -169,12 +169,12 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.CertificationCandidateByPersonalInfoNotFoundError) {
     return new HttpErrors.NotFoundError(
-      "Aucun candidat de certification ne correspond aux informations d'identité fournies."
+      "Aucun candidat de certification ne correspond aux informations d'identité fournies.",
     );
   }
   if (error instanceof DomainErrors.CertificationCandidateByPersonalInfoTooManyMatchesError) {
     return new HttpErrors.ConflictError(
-      "Plus d'un candidat de certification correspondent aux informations d'identité fournies."
+      "Plus d'un candidat de certification correspondent aux informations d'identité fournies.",
     );
   }
   if (error instanceof DomainErrors.CertificationCandidatePersonalInfoFieldMissingError) {
@@ -509,7 +509,7 @@ function handle(request, h, error) {
     const locale = extractLocaleFromRequest(request).split('-')[0];
 
     const jsonApiError = new JSONAPIError(
-      error.invalidAttributes?.map(_formatInvalidAttribute.bind(_formatInvalidAttribute, locale))
+      error.invalidAttributes?.map(_formatInvalidAttribute.bind(_formatInvalidAttribute, locale)),
     );
     return h.response(jsonApiError).code(422);
   }

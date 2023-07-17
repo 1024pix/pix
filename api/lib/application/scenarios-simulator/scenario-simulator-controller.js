@@ -17,7 +17,7 @@ async function simulateFlashAssessmentScenario(
     pickAnswerStatusService,
     pickChallengeService,
     extractLocaleFromRequest,
-  }
+  },
 ) {
   const {
     assessmentId,
@@ -46,13 +46,13 @@ async function simulateFlashAssessmentScenario(
           forcedCompetences,
           useObsoleteChallenges,
         },
-        _.isUndefined
+        _.isUndefined,
       );
       return {
         index,
         simulationReport: await usecases.simulateFlashDeterministicAssessmentScenario(usecaseParams),
       };
-    })
+    }),
   );
 
   return dependencies.scenarioSimulatorBatchSerializer.serialize(result);
@@ -61,7 +61,7 @@ async function simulateFlashAssessmentScenario(
 async function importScenarios(
   request,
   h,
-  dependencies = { parseCsv, pickChallengeService, scenarioSimulatorBatchSerializer, extractLocaleFromRequest }
+  dependencies = { parseCsv, pickChallengeService, scenarioSimulatorBatchSerializer, extractLocaleFromRequest },
 ) {
   const parsedCsvData = await dependencies.parseCsv(request.payload.path);
 
@@ -80,7 +80,7 @@ async function importScenarios(
           pickChallenge: dependencies.pickChallengeService.chooseNextChallenge(index),
           locale,
         });
-      })
+      }),
     )
   ).map((simulationReport, index) => ({
     index,

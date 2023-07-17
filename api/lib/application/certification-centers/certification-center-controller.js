@@ -108,7 +108,7 @@ const getDivisions = async function (request) {
 const findCertificationCenterMembershipsByCertificationCenter = async function (
   request,
   h,
-  dependencies = { certificationCenterMembershipSerializer }
+  dependencies = { certificationCenterMembershipSerializer },
 ) {
   const certificationCenterId = request.params.certificationCenterId;
   const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
@@ -121,7 +121,7 @@ const findCertificationCenterMembershipsByCertificationCenter = async function (
 const findCertificationCenterMemberships = async function (
   request,
   h,
-  dependencies = { certificationCenterMembershipSerializer }
+  dependencies = { certificationCenterMembershipSerializer },
 ) {
   const certificationCenterId = request.params.certificationCenterId;
   const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
@@ -134,7 +134,7 @@ const findCertificationCenterMemberships = async function (
 const createCertificationCenterMembershipByEmail = async function (
   request,
   h,
-  dependencies = { certificationCenterMembershipSerializer }
+  dependencies = { certificationCenterMembershipSerializer },
 ) {
   const certificationCenterId = request.params.certificationCenterId;
   const { email } = request.payload;

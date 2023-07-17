@@ -34,7 +34,7 @@ const createBadge = async function ({
             scope: 'CampaignParticipation',
           },
         },
-        domainTransaction
+        domainTransaction,
       );
     }
 
@@ -49,7 +49,7 @@ const createBadge = async function ({
             skillIds: skillSetSkillsIds,
           },
         },
-        domainTransaction
+        domainTransaction,
       );
 
       await badgeCriteriaRepository.save(
@@ -61,7 +61,7 @@ const createBadge = async function ({
             skillSetIds: [skillSetId],
           },
         },
-        domainTransaction
+        domainTransaction,
       );
     }
 
@@ -70,7 +70,7 @@ const createBadge = async function ({
 
       await targetProfileRepository.hasTubesWithLevels(
         { targetProfileId, tubesWithLevels: allCappedTubes },
-        domainTransaction
+        domainTransaction,
       );
 
       for (const criterion of cappedTubesCriteria) {
@@ -84,7 +84,7 @@ const createBadge = async function ({
               cappedTubes: criterion.cappedTubes,
             },
           },
-          domainTransaction
+          domainTransaction,
         );
       }
     }

@@ -46,7 +46,7 @@ module('Integration | Component | Campaign::Charts::ResultDistribution', functio
       dataFetcher.resolves({ data: { attributes: { data: [{ id: 100498, value: 0 }] } } });
 
       const screen = await render(
-        hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}} @onSelectStage={{this.onSelectStage}} />`
+        hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}} @onSelectStage={{this.onSelectStage}} />`,
       );
       assert.dom(screen.getByRole('heading', { name: this.intl.t('charts.participants-by-stage.title') })).exists();
     });

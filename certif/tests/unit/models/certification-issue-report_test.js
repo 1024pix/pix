@@ -21,7 +21,7 @@ module('Unit | Model | certification issue report', function (hooks) {
     const store = this.owner.lookup('service:store');
 
     const models = map(certificationIssueReportCategories, (category) =>
-      store.createRecord('certification-issue-report', { category })
+      store.createRecord('certification-issue-report', { category }),
     );
 
     // when / then
@@ -37,7 +37,7 @@ module('Unit | Model | certification issue report', function (hooks) {
     const store = this.owner.lookup('service:store');
 
     const models = map(certificationIssueReportSubcategories, (subcategory) =>
-      store.createRecord('certification-issue-report', { subcategory })
+      store.createRecord('certification-issue-report', { subcategory }),
     );
 
     // when / then
@@ -53,7 +53,7 @@ module('Unit | Model | certification issue report', function (hooks) {
     const store = this.owner.lookup('service:store');
 
     const models = map(certificationIssueReportCategories, (category) =>
-      store.createRecord('certification-issue-report', { category })
+      store.createRecord('certification-issue-report', { category }),
     );
 
     // when / then
@@ -69,7 +69,7 @@ module('Unit | Model | certification issue report', function (hooks) {
     const store = this.owner.lookup('service:store');
 
     const models = map(certificationIssueReportSubcategories, (subcategory) =>
-      store.createRecord('certification-issue-report', { subcategory })
+      store.createRecord('certification-issue-report', { subcategory }),
     );
 
     // when / then

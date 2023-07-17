@@ -88,7 +88,7 @@ module('Integration | Component | tube:list', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Tube::list @frameworks={{this.frameworks}} @organization={{this.organization}} />`
+      hbs`<Tube::list @frameworks={{this.frameworks}} @organization={{this.organization}} />`,
     );
 
     await clickByName('1 · Titre domaine');

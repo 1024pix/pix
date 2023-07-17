@@ -35,7 +35,7 @@ function main() {
   const baseUrl = process.argv[2];
   const ids = parseArgs(process.argv);
   const requests = Promise.all(
-    ids.map((id) => buildRequestObject(baseUrl, id)).map((requestObject) => request(requestObject))
+    ids.map((id) => buildRequestObject(baseUrl, id)).map((requestObject) => request(requestObject)),
   );
 
   return requests.then(() => {

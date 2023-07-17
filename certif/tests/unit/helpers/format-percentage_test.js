@@ -14,7 +14,7 @@ module('Unit | Helpers | format-percentage', function () {
 
       // then
       assert.strictEqual(result, expectedResult);
-    })
+    }),
   );
 
   test('it renders an empty string if value is null', function (assert) {

@@ -100,7 +100,7 @@ describe('Unit | Service | ImprovementService', function () {
         const knowledgeElements = _.concat(
           oldKnowledgeElementsValidated,
           oldKnowledgeElementsInvalidated,
-          recentKnowledgeElements
+          recentKnowledgeElements,
         );
 
         // when

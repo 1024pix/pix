@@ -20,7 +20,7 @@ const getCertificationDetails = async function ({
     return _computeCertificationDetailsOnTheFly(
       certificationAssessment,
       placementProfileService,
-      scoringCertificationService
+      scoringCertificationService,
     );
   }
 };
@@ -30,7 +30,7 @@ export { getCertificationDetails };
 async function _computeCertificationDetailsOnTheFly(
   certificationAssessment,
   placementProfileService,
-  scoringCertificationService
+  scoringCertificationService,
 ) {
   const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
     certificationAssessment,
@@ -52,7 +52,7 @@ async function _computeCertificationDetailsOnTheFly(
 async function _retrievePersistedCertificationDetails(
   competenceMarks,
   certificationAssessment,
-  placementProfileService
+  placementProfileService,
 ) {
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId: certificationAssessment.userId,

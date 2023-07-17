@@ -39,7 +39,7 @@ module('Integration | Component | Participant::Assessment::Results', function (h
 
     // when
     await render(
-      hbs`<Participant::Assessment::Results @results={{this.campaignAssessmentParticipationResult}} @displayResults={{true}} />`
+      hbs`<Participant::Assessment::Results @results={{this.campaignAssessmentParticipationResult}} @displayResults={{true}} />`,
     );
 
     // then

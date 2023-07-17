@@ -42,7 +42,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         assert.dom('.challenge-response__alert').exists();
         assert.strictEqual(
           find('.challenge-response__alert').textContent.trim(),
-          '“Vous pouvez valider” s‘affiche quand l‘épreuve est réussie. Essayez encore ou passez.'
+          '“Vous pouvez valider” s‘affiche quand l‘épreuve est réussie. Essayez encore ou passez.',
         );
       });
 
@@ -82,7 +82,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         await click('.challenge-actions__action-validate');
         assert.strictEqual(
           find('.challenge-response__alert').textContent.trim(),
-          'Pour valider, veuillez remplir le champ texte. Sinon, passez.'
+          'Pour valider, veuillez remplir le champ texte. Sinon, passez.',
         );
       });
     });
@@ -97,7 +97,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // then
         assert.strictEqual(
           find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocChallenge.instruction
+          qrocChallenge.instruction,
         );
         assert.dom('.challenge-response__proposal').exists({ count: 1 });
         assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Entrez le <em>prénom</em> de B. Gates :'));
@@ -114,7 +114,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         assert.dom('.challenge-response__alert').exists();
         assert.strictEqual(
           find('.challenge-response__alert').textContent.trim(),
-          'Pour valider, veuillez remplir le champ texte. Sinon, passez.'
+          'Pour valider, veuillez remplir le champ texte. Sinon, passez.',
         );
       });
 
@@ -201,7 +201,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // then
         assert.strictEqual(
           find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocChallenge.instruction
+          qrocChallenge.instruction,
         );
 
         const goodAnswer = find('.comparison-window-solution__text');
@@ -235,7 +235,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       test('should display the correct challenge for first one', async function (assert) {
         assert.strictEqual(
           find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocWithFile1Challenge.instruction
+          qrocWithFile1Challenge.instruction,
         );
         assert.ok(find('.challenge-statement__action-link').href.includes(qrocWithFile1Challenge.attachments[0]));
 
@@ -249,7 +249,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         assert.strictEqual(currentURL(), `/assessments/${assessment.id}/challenges/1`);
         assert.strictEqual(
           find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocWithFile2Challenge.instruction
+          qrocWithFile2Challenge.instruction,
         );
         assert.ok(find('.challenge-statement__action-link').href.includes(qrocWithFile2Challenge.attachments[0]));
 
@@ -275,7 +275,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // then
         assert.strictEqual(
           find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocChallenge.instruction
+          qrocChallenge.instruction,
         );
         assert.dom('.challenge-response__proposal').exists({ count: 1 });
         assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Entrez le <em>prénom</em> de B. Gates :'));
@@ -292,7 +292,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         assert.dom('.challenge-response__alert').exists();
         assert.strictEqual(
           find('.challenge-response__alert').textContent.trim(),
-          'Pour valider, veuillez remplir le champ texte. Sinon, passez.'
+          'Pour valider, veuillez remplir le champ texte. Sinon, passez.',
         );
       });
 
@@ -356,7 +356,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // then
         assert.strictEqual(
           find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocChallenge.instruction
+          qrocChallenge.instruction,
         );
 
         const goodAnswer = find('.comparison-window-solution__text');
@@ -391,7 +391,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // then
         assert.strictEqual(
           find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocChallenge.instruction
+          qrocChallenge.instruction,
         );
         assert.dom('.challenge-response__proposal').exists({ count: 1 });
         assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Select: '));
@@ -481,7 +481,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // then
         assert.strictEqual(
           find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocChallenge.instruction
+          qrocChallenge.instruction,
         );
 
         const goodAnswer = find('.comparison-window-solution__text');

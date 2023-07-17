@@ -324,7 +324,7 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
       },
     ].forEach(({ duration, expectedDuration }) => {
       it(`should deserialize ${JSON.stringify(
-        duration
+        duration,
       )} with properly formatted duration : "${expectedDuration}"`, async function () {
         // given
         const jsonTraining = {

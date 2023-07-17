@@ -75,7 +75,7 @@ module('Integration | Component | user-certifications-detail-competence', functi
       test('should be grayed out (almost transparent) and not show the level', function (assert) {
         assert.strictEqual(
           find(`${COMPETENCE_SELECTOR}:nth-child(3) span`).textContent,
-          area.resultCompetences[1].level.toString()
+          area.resultCompetences[1].level.toString(),
         );
         assert.ok(find(`${COMPETENCE_SELECTOR}:nth-child(3) p`).classList.toString().includes(DISABLED_CLASS));
       });

@@ -63,7 +63,7 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
         // then
         expect(participationsForCampaignManagement).to.have.lengthOf(1);
         expect(participationsForCampaignManagement[0].participantExternalId).to.equal(
-          campaignParticipation.participantExternalId
+          campaignParticipation.participantExternalId,
         );
       });
 
@@ -118,7 +118,7 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
               campaignId,
               deletedAt: new Date('2010-10-12'),
               deletedBy: deletingUser.id,
-            }
+            },
           );
 
           await databaseBuilder.commit();

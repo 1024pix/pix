@@ -99,7 +99,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
           email: adminMember.email,
           role: 'SUPER_ADMIN',
           disabledAt: null,
-        })
+        }),
       );
     });
 
@@ -147,7 +147,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
             email: userWithPixAdminRole.email,
             role: 'METIER',
             disabledAt: now,
-          })
+          }),
         );
       });
     });
@@ -173,7 +173,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
           email: userWithPixAdminRole.email,
           role: 'SUPER_ADMIN',
           disabledAt: null,
-        })
+        }),
       );
     });
 
@@ -221,7 +221,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
             email: userWithPixAdminRole.email,
             role: 'METIER',
             disabledAt: now,
-          })
+          }),
         );
       });
     });

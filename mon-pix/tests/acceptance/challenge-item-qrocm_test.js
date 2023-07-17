@@ -27,7 +27,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         // then
         assert.strictEqual(
           find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocmDepChallenge.instruction
+          qrocmDepChallenge.instruction,
         );
 
         assert.dom('.challenge-response__proposal').exists({ count: 2 });
@@ -49,7 +49,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         assert.dom('.challenge-response__alert').exists();
         assert.strictEqual(
           find('.challenge-response__alert').textContent.trim(),
-          'Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.'
+          'Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.',
         );
       });
 
@@ -258,7 +258,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       const instructionStrippedSelect = qrocmIndSelectChallenge.instruction.slice(0, 104);
       assert.strictEqual(
         findAll('.result-item__instruction')[2].textContent.trim(),
-        `${instructionStrippedSelect}....`
+        `${instructionStrippedSelect}....`,
       );
       assert.strictEqual(findAll('.result-item__correction-button')[2].textContent.trim(), 'Réponses et tutos');
     });
@@ -270,7 +270,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       // then
       assert.strictEqual(
         find('.challenge-statement-instruction__text').textContent.trim(),
-        qrocmDepChallenge.instruction
+        qrocmDepChallenge.instruction,
       );
 
       const goodAnswers = find('.correction-qrocm__solution-text');
@@ -298,7 +298,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       // then
       assert.strictEqual(
         find('.challenge-statement-instruction__text').textContent.trim(),
-        qrocmIndChallenge.instruction
+        qrocmIndChallenge.instruction,
       );
 
       const goodAnswers = findAll('.correction-qrocm__solution-text');
@@ -327,7 +327,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       // then
       assert.strictEqual(
         find('.challenge-statement-instruction__text').textContent.trim(),
-        qrocmIndSelectChallenge.instruction
+        qrocmIndSelectChallenge.instruction,
       );
 
       const goodAnswers = findAll('.correction-qrocm__solution-text');

@@ -56,7 +56,7 @@ const evaluation = Joi.object({
     .max(8)
     .example(1)
     .description(
-      'Pour une campagne de collecte de profils, niveau de la compétence (entre 1 et 8). Vide si pas encore partagé'
+      'Pour une campagne de collecte de profils, niveau de la compétence (entre 1 et 8). Vide si pas encore partagé',
     ),
   nbSousElementValide: Joi.number()
     .example(10)
@@ -108,7 +108,7 @@ const test = Joi.object({
     .max(100)
     .example(3.14)
     .description(
-      "Uniquement pour les campagnes d'évaluation. Pourcentage de progression (obligatoire si état 2, si état > 2 alors 100%)"
+      "Uniquement pour les campagnes d'évaluation. Pourcentage de progression (obligatoire si état 2, si état > 2 alors 100%)",
     ),
   certifiable: Joi.boolean()
     .example(true)
@@ -130,7 +130,7 @@ const test = Joi.object({
     .allow(null)
     .example(3.14)
     .description(
-      "Pour une campagne d'évaluation, pourcentage de maîtrise de l'ensemble des acquis du profil. Pour une campagne de collecte de profils, score du participant. Vide si pas encore partagé"
+      "Pour une campagne d'évaluation, pourcentage de maîtrise de l'ensemble des acquis du profil. Pour une campagne de collecte de profils, score du participant. Vide si pas encore partagé",
     ),
   uniteEvaluation: Joi.string()
     .valid(...UNITS)
@@ -145,7 +145,7 @@ const poleEmploiEnvoisDoc = Joi.array()
       idEnvoi: Joi.number().required().example(1234).description("Identifiant unique de l'envoi"),
       dateEnvoi: Joi.date().required().example('2020-11-31T12:00:38.133Z').description("Instant de la demande d'envoi"),
       resultat: Joi.object({ campagne, individu, test }).required(),
-    }).label('Envoi')
+    }).label('Envoi'),
   )
   .label('Envois');
 

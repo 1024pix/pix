@@ -18,7 +18,7 @@ const add = async function (request, h, dependencies = { userSavedTutorialSerial
 const find = async function (
   request,
   h,
-  dependencies = { queryParamsUtils, requestResponseUtils, tutorialSerializer }
+  dependencies = { queryParamsUtils, requestResponseUtils, tutorialSerializer },
 ) {
   const { userId } = request.auth.credentials;
   const { page, filter: filters } = dependencies.queryParamsUtils.extractParameters(request.query);

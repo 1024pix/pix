@@ -49,7 +49,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
         });
 
         expect(_.omit(savedCertificationIssueReport, 'id')).to.deep.equal(
-          _.omit(expectedSavedCertificationIssueReport, 'id')
+          _.omit(expectedSavedCertificationIssueReport, 'id'),
         );
         expect(savedCertificationIssueReport).to.be.an.instanceOf(CertificationIssueReport);
       });
@@ -173,7 +173,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
 
       // when
       const results = await certificationIssueReportRepository.findByCertificationCourseId(
-        targetCertificationCourse.id
+        targetCertificationCourse.id,
       );
 
       // then

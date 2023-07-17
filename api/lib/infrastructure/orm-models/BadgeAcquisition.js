@@ -20,7 +20,7 @@ const BookshelfBadgeAcquisition = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfBadgeAcquisition };

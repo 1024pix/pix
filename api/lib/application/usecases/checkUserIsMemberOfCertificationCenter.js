@@ -3,7 +3,7 @@ import * as certificationCenterMembershipRepository from '../../infrastructure/r
 const execute = async function (
   userId,
   certificationCenterId,
-  dependencies = { certificationCenterMembershipRepository }
+  dependencies = { certificationCenterMembershipRepository },
 ) {
   return await dependencies.certificationCenterMembershipRepository.isMemberOfCertificationCenter({
     userId,

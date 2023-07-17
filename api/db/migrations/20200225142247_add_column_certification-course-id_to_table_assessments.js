@@ -23,7 +23,7 @@ const up = async function (knex) {
       'certification-courses.id',
       'assessments.type',
       'CERTIFICATION',
-    ]
+    ],
   );
 };
 

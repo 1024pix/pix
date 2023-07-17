@@ -13,7 +13,7 @@ describe('Integration | Application | Route | AuthenticationRouter', function ()
         token_type: 'bearer',
         access_token: 'some-jwt-access-token',
         user_id: 'the-user-id',
-      })
+      }),
     );
     sinon
       .stub(authenticationController, 'authenticateAnonymousUser')

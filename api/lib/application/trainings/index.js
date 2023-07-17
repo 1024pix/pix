@@ -214,7 +214,7 @@ const register = async function (server) {
                   Joi.object({
                     tubeId: identifiersType.tubeId.required(),
                     level: Joi.number().min(0).max(8).required(),
-                  })
+                  }),
                 ),
               }),
               type: Joi.string().valid('training-triggers'),
@@ -254,7 +254,7 @@ const register = async function (server) {
           failAction: (_request, h) => {
             return sendJsonApiError(
               new NotFoundError("L'id d'un des profils cible ou du contenu formatif n'est pas valide"),
-              h
+              h,
             );
           },
         },

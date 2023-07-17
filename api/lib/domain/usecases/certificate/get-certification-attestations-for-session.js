@@ -23,7 +23,7 @@ const getCertificationAttestationsForSession = async function ({
           throw error;
         }
       }
-    })
+    }),
   );
 
   if (isEmpty(certificationAttestations)) {

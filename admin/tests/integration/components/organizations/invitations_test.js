@@ -62,7 +62,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
           hbs`<Organizations::Invitations
   @invitations={{this.invitations}}
   @onCancelOrganizationInvitation={{this.cancelOrganizationInvitation}}
-/>`
+/>`,
         );
 
         // then
@@ -91,7 +91,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
             hbs`<Organizations::Invitations
   @invitations={{this.invitations}}
   @onCancelOrganizationInvitation={{this.cancelOrganizationInvitation}}
-/>`
+/>`,
           );
           await click(screen.getByRole('button', { name: 'Annuler l’invitation de naruto.uzumaki@example.net' }));
 
@@ -160,7 +160,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
           hbs`<Organizations::Invitations
   @invitations={{this.invitations}}
   @onCancelOrganizationInvitation={{this.cancelOrganizationInvitation}}
-/>`
+/>`,
         );
 
         // then
@@ -186,7 +186,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
           hbs`<Organizations::Invitations
   @invitations={{this.invitations}}
   @onCancelOrganizationInvitation={{this.cancelOrganizationInvitation}}
-/>`
+/>`,
         );
 
         // then

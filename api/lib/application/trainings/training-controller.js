@@ -9,7 +9,7 @@ import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils
 const findPaginatedTrainingSummaries = async function (
   request,
   h,
-  dependencies = { trainingSummarySerializer, queryParamsUtils }
+  dependencies = { trainingSummarySerializer, queryParamsUtils },
 ) {
   const { filter, page } = dependencies.queryParamsUtils.extractParameters(request.query);
   const { trainings, meta } = await usecases.findPaginatedTrainingSummaries({ filter, page });
@@ -19,7 +19,7 @@ const findPaginatedTrainingSummaries = async function (
 const findTargetProfileSummaries = async function (
   request,
   h,
-  dependencies = { targetProfileSummaryForAdminSerializer }
+  dependencies = { targetProfileSummaryForAdminSerializer },
 ) {
   const { trainingId } = request.params;
   const targetProfileSummaries = await usecases.findTargetProfileSummariesForTraining({ trainingId });

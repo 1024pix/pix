@@ -15,7 +15,7 @@ const joiObject = Joi.object({
     .valid(status)
     .required()
     .description(
-      "validated: le candidat a obtenu sa certification. rejected: le candidat a eu sa certification rejetée. pending: le candidat a passé sa certification mais elle n'est pas encore publiée"
+      "validated: le candidat a obtenu sa certification. rejected: le candidat a eu sa certification rejetée. pending: le candidat a passé sa certification mais elle n'est pas encore publiée",
     ),
   pixScore: Joi.string().example('520').required().description('Nombre de Pix validés par la certification'),
   verificationCode: Joi.string().example('P-Y468ACDE').description('Code d’attestation de la certification'),

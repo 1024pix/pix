@@ -37,7 +37,7 @@ describe('Acceptance | Route | Target-profiles', function () {
             id: targetProfile.id.toString(),
             attributes: { 'is-simplified-access': true },
           },
-        })
+        }),
       );
     });
   });

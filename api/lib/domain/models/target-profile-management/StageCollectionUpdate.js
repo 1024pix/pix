@@ -77,7 +77,7 @@ function _checkFirstSkillStageValidity(stagesDTO) {
 
 function _checkAllStagesHaveValue(stagesDTO) {
   const stagesWithoutValue = stagesDTO.filter(
-    ({ threshold, level, isFirstSkill }) => threshold === null && level === null && !isFirstSkill
+    ({ threshold, level, isFirstSkill }) => threshold === null && level === null && !isFirstSkill,
   );
   if (stagesWithoutValue.length > 0) {
     throw new InvalidStageError('Les paliers doivent avoir une valeur de seuil ou de niveau.');
@@ -97,7 +97,7 @@ function _checkAllStagesHaveUniqueValue(stagesDTO) {
         return DEFAULT_VALUE_FIRST_SKILL;
       }
       return level === null ? threshold : level;
-    })
+    }),
   );
   if (uniqValues.size !== stagesDTO.length) {
     throw new InvalidStageError('Les valeurs de seuil/niveau doivent être uniques.');
@@ -137,7 +137,7 @@ function _checkTargetProfileIds(stagesDTO, stageCollection) {
   const difference = stagesDTO.filter(({ id }) => id !== null && !currentStageIds.includes(id));
   if (difference.length > 0) {
     throw new InvalidStageError(
-      "La modification de paliers n'est autorisé que pour les paliers appartenant au profil cible."
+      "La modification de paliers n'est autorisé que pour les paliers appartenant au profil cible.",
     );
   }
 }

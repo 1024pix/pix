@@ -51,12 +51,12 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithUsernameAndEmail}}
   @display={{this.display}}
-/>`
+/>`,
         );
 
         // then
         assert.contains(
-          this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.username.label')
+          this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.username.label'),
         );
         assert.dom('#username').hasValue(username);
       });
@@ -67,19 +67,19 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithUsernameAndEmail}}
   @display={{this.display}}
-/>`
+/>`,
         );
 
         // then
         assert
           .dom(
             `button[aria-label="${this.intl.t(
-              'pages.sco-organization-participants.manage-authentication-method-modal.section.username.copy'
-            )}"]`
+              'pages.sco-organization-participants.manage-authentication-method-modal.section.username.copy',
+            )}"]`,
           )
           .hasAttribute('data-clipboard-text', username);
         assert.contains(
-          this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.username.copy')
+          this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.username.copy'),
         );
       });
 
@@ -89,14 +89,14 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithUsernameAndEmail}}
   @display={{this.display}}
-/>`
+/>`,
         );
 
         // when
         await triggerCopySuccess(
           `button[aria-label="${this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.username.copy'
-          )}"]`
+            'pages.sco-organization-participants.manage-authentication-method-modal.section.username.copy',
+          )}"]`,
         );
 
         // then
@@ -111,7 +111,7 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithUsernameAndEmail}}
   @display={{this.display}}
-/>`
+/>`,
         );
 
         // then
@@ -124,19 +124,19 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithUsernameAndEmail}}
   @display={{this.display}}
-/>`
+/>`,
         );
 
         // then
         assert
           .dom(
             `button[aria-label="${this.intl.t(
-              'pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy'
-            )}"]`
+              'pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy',
+            )}"]`,
           )
           .hasAttribute('data-clipboard-text', email);
         assert.contains(
-          this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy')
+          this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy'),
         );
       });
 
@@ -146,14 +146,14 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithUsernameAndEmail}}
   @display={{this.display}}
-/>`
+/>`,
         );
 
         // when
         await triggerCopySuccess(
           `button[aria-label="${this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy'
-          )}"]`
+            'pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy',
+          )}"]`,
         );
 
         // then
@@ -168,18 +168,18 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithEmailOnly}}
   @display={{this.display}}
-/>`
+/>`,
         );
 
         // then
         assert.contains(
-          this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.email.label')
+          this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.email.label'),
         );
         assert.dom('#email').hasValue(email);
         assert.contains(
           this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label'
-          )
+            'pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label',
+          ),
         );
       });
     });
@@ -209,14 +209,14 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithUsernameAndEmail}}
   @display={{this.display}}
-/>`
+/>`,
         );
 
         // when
         await clickByName(
           this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button'
-          )
+            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button',
+          ),
         );
 
         // then
@@ -229,26 +229,26 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithUsernameAndEmail}}
   @display={{this.display}}
-/>`
+/>`,
         );
 
         // when
         await clickByName(
           this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button'
-          )
+            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button',
+          ),
         );
 
         // then
         assert
           .dom(
             `button[aria-label="${this.intl.t(
-              'pages.sco-organization-participants.manage-authentication-method-modal.section.password.copy'
-            )}"]`
+              'pages.sco-organization-participants.manage-authentication-method-modal.section.password.copy',
+            )}"]`,
           )
           .hasAttribute('data-clipboard-text', generatedPassword);
         assert.contains(
-          this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.password.copy')
+          this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.password.copy'),
         );
       });
 
@@ -258,19 +258,19 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithUsernameAndEmail}}
   @display={{this.display}}
-/>`
+/>`,
         );
 
         // when
         await clickByName(
           this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button'
-          )
+            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button',
+          ),
         );
         await triggerCopySuccess(
           `button[aria-label="${this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.password.copy'
-          )}"]`
+            'pages.sco-organization-participants.manage-authentication-method-modal.section.password.copy',
+          )}"]`,
         );
 
         // then
@@ -283,12 +283,12 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithUsernameAndEmail}}
   @display={{this.display}}
-/>`
+/>`,
         );
         await clickByName(
           this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button'
-          )
+            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button',
+          ),
         );
         const firstGeneratedPassword = this.element.querySelector('#generated-password').value;
 
@@ -297,12 +297,12 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
           hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @student={{this.studentWithUsernameAndEmail}}
   @display={{this.display}}
-/>`
+/>`,
         );
         await clickByName(
           this.intl.t(
-            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button'
-          )
+            'pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button',
+          ),
         );
         const secondGeneratedPassword = this.element.querySelector('#generated-password').value;
 
@@ -325,15 +325,17 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
     test('should render component with GAR connection method', async function (assert) {
       // when
       await render(
-        hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentGAR}} @display={{this.display}} />`
+        hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentGAR}} @display={{this.display}} />`,
       );
 
       // then
       assert.contains(
-        this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.mediacentre.label')
+        this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.mediacentre.label'),
       );
       assert.contains(
-        this.intl.t('pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label')
+        this.intl.t(
+          'pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label',
+        ),
       );
     });
   });

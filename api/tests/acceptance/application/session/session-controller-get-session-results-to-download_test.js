@@ -49,7 +49,7 @@ describe('Acceptance | Controller | session-controller-get-session-results-to-do
             session_id: sessionId,
           },
           settings.authentication.secret,
-          { expiresIn: '30d' }
+          { expiresIn: '30d' },
         );
 
         const request = {

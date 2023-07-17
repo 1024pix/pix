@@ -42,7 +42,7 @@ module('Unit | Model | correction', function (hooks) {
         'correction',
         Object.assign({}, defaultAttributes, {
           hint: 'a fake hint',
-        })
+        }),
       );
 
       // when
@@ -59,7 +59,7 @@ module('Unit | Model | correction', function (hooks) {
         'correction',
         Object.assign({}, defaultAttributes, {
           tutorials: [givenTutorial],
-        })
+        }),
       );
 
       // when
@@ -76,7 +76,7 @@ module('Unit | Model | correction', function (hooks) {
         'correction',
         Object.assign({}, defaultAttributes, {
           learningMoreTutorials: [givenTutorial],
-        })
+        }),
       );
 
       // when

@@ -21,7 +21,7 @@ module('Integration | Component | terms-of-service | page-fr', function (hooks) 
         screen.getByRole('heading', {
           name: 'Article 5. Acceptation et opposabilité des conditions générales',
           level: 2,
-        })
+        }),
       )
       .exists();
     assert.dom(screen.getByRole('heading', { name: '5.1 Acceptation', level: 3 })).exists();

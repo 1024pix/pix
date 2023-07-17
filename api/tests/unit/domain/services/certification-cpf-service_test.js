@@ -237,7 +237,7 @@ describe('Unit | Service | Certification CPF service', function () {
             new CpfBirthInformationValidation({
               ...birthInformation,
               birthINSEECode: '1234',
-            })
+            }),
           );
         });
       });

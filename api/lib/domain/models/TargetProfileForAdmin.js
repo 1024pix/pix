@@ -44,7 +44,7 @@ class TargetProfileForAdmin {
           competences,
           thematics,
           tubes,
-        })
+        }),
     );
   }
 
@@ -79,7 +79,7 @@ class TP_Area {
             index: competence.index,
             thematics,
             tubes,
-          })
+          }),
       );
   }
 
@@ -111,7 +111,7 @@ class TP_Competence {
             name: thematic.name,
             index: thematic.index,
             tubes,
-          })
+          }),
       );
   }
 
@@ -145,7 +145,7 @@ class TP_Thematic {
             level: tube.level,
             mobile: tube.isMobileCompliant,
             tablet: tube.isTabletCompliant,
-          })
+          }),
       );
   }
 

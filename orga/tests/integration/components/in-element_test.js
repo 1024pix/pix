@@ -9,7 +9,7 @@ module('Integration | Component | In Element', function (hooks) {
   test('should found the id and renders', async function (assert) {
     const screen = await render(
       hbs`<div id='ninja'></div>
-<InElement @destinationId='ninja'>Coucou le chat</InElement>`
+<InElement @destinationId='ninja'>Coucou le chat</InElement>`,
     );
 
     assert.dom(screen.getByText('Coucou le chat')).exists();
@@ -18,7 +18,7 @@ module('Integration | Component | In Element', function (hooks) {
   test('should wait if the element does not exists yet', async function (assert) {
     const screen = await render(
       hbs`<InElement @destinationId='ninja' @waitForElement={{true}}>Coucou le chat</InElement>
-<div id='ninja'></div>`
+<div id='ninja'></div>`,
     );
 
     // then

@@ -69,8 +69,8 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       assert
         .dom(
           screen.getByText(
-            'Attention, assurez-vous que tous les candidats aient terminé leur test avant de quitter la surveillance. Pour reprendre la surveillance de cette session, vous devrez entrer à nouveau son numéro de session et son mot de passe.'
-          )
+            'Attention, assurez-vous que tous les candidats aient terminé leur test avant de quitter la surveillance. Pour reprendre la surveillance de cette session, vous devrez entrer à nouveau son numéro de session et son mot de passe.',
+          ),
         )
         .exists();
     });

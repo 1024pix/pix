@@ -510,7 +510,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/profiles-collection-participations?page[number]=1&page[size]=25'
+        '/api/campaigns/1/profiles-collection-participations?page[number]=1&page[size]=25',
       );
 
       // then
@@ -526,7 +526,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/profiles-collection-participations?filter[divisions][]="3EMEB"'
+        '/api/campaigns/1/profiles-collection-participations?filter[divisions][]="3EMEB"',
       );
 
       // then
@@ -542,7 +542,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/profiles-collection-participations?filter[divisions][]="3EMEB"&filter[divisions][]="3EMEA"'
+        '/api/campaigns/1/profiles-collection-participations?filter[divisions][]="3EMEB"&filter[divisions][]="3EMEA"',
       );
 
       // then
@@ -558,7 +558,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/profiles-collection-participations?filter[groups][]="AB1"'
+        '/api/campaigns/1/profiles-collection-participations?filter[groups][]="AB1"',
       );
 
       // then
@@ -574,7 +574,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/profiles-collection-participations?filter[groups][]="AB1"&filter[groups][]="AB2"'
+        '/api/campaigns/1/profiles-collection-participations?filter[groups][]="AB1"&filter[groups][]="AB2"',
       );
 
       // then
@@ -589,7 +589,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/profiles-collection-participations?filter[unexpected][]=5'
+        '/api/campaigns/1/profiles-collection-participations?filter[unexpected][]=5',
       );
 
       // then
@@ -604,7 +604,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/profiles-collection-participations?filter[divisions]="3EMEA"'
+        '/api/campaigns/1/profiles-collection-participations?filter[divisions]="3EMEA"',
       );
 
       // then
@@ -619,7 +619,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/profiles-collection-participations?filter[groups]="AB3"'
+        '/api/campaigns/1/profiles-collection-participations?filter[groups]="AB3"',
       );
 
       // then
@@ -634,7 +634,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/profiles-collection-participations?page[number]=a'
+        '/api/campaigns/1/profiles-collection-participations?page[number]=a',
       );
 
       // then
@@ -649,7 +649,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/profiles-collection-participations?page[size]=a'
+        '/api/campaigns/1/profiles-collection-participations?page[size]=a',
       );
 
       // then
@@ -800,7 +800,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/participants-activity?filter[divisions][]="3EMEB"'
+        '/api/campaigns/1/participants-activity?filter[divisions][]="3EMEB"',
       );
 
       // then
@@ -816,7 +816,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/participants-activity?filter[divisions][]="3EMEB"&filter[divisions][]="3EMEA"'
+        '/api/campaigns/1/participants-activity?filter[divisions][]="3EMEB"&filter[divisions][]="3EMEA"',
       );
 
       // then
@@ -841,7 +841,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/participants-activity?filter[unexpected][]=5'
+        '/api/campaigns/1/participants-activity?filter[unexpected][]=5',
       );
 
       // then
@@ -856,7 +856,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/campaigns/1/participants-activity?filter[divisions]="3EMEA"'
+        '/api/campaigns/1/participants-activity?filter[divisions]="3EMEA"',
       );
 
       // then

@@ -39,7 +39,7 @@ describe('Unit | UseCase | deneutralize-challenge', function () {
 
     // then
     expect(certificationAssessment.deneutralizeChallengeByRecId).to.have.been.calledWith(
-      challengeToBeDeneutralized.challengeId
+      challengeToBeDeneutralized.challengeId,
     );
     expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
   });

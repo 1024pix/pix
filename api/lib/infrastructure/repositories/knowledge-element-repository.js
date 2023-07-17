@@ -44,7 +44,7 @@ async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domai
 
   const knowledgeElements = _.map(
     knowledgeElementRows,
-    (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow)
+    (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow),
   );
   return _applyFilters(knowledgeElements);
 }
@@ -62,7 +62,7 @@ async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, 
 
 async function _findSnapshotsForUsers(userIdsAndDates) {
   const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(
-    userIdsAndDates
+    userIdsAndDates,
   );
 
   for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
@@ -82,7 +82,7 @@ async function _findSnapshotsForUsers(userIdsAndDates) {
 async function _countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDates, campaignLearningContent) {
   const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
   return campaignLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(
-    _.flatMap(knowledgeElementsGroupedByUser)
+    _.flatMap(knowledgeElementsGroupedByUser),
   );
 }
 
@@ -102,7 +102,7 @@ const findUniqByUserIdAndAssessmentId = async function ({ userId, assessmentId }
 
   const knowledgeElements = _.map(
     knowledgeElementRows,
-    (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow)
+    (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow),
   );
   return _applyFilters(knowledgeElements);
 };
@@ -148,8 +148,8 @@ const findByCampaignIdForSharedCampaignParticipation = async function (campaignI
       async ({ userId, sharedAt }) => {
         return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
       },
-      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }
-    )
+      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS },
+    ),
   );
 
   return _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
@@ -171,14 +171,14 @@ const countValidatedByCompetencesForUsersWithinCampaign = async function (userId
 const countValidatedByCompetencesForOneUserWithinCampaign = async function (
   userId,
   limitDate,
-  campaignLearningContent
+  campaignLearningContent,
 ) {
   return _countValidatedByCompetencesForUsersWithinCampaign({ [userId]: limitDate }, campaignLearningContent);
 };
 
 const findGroupedByCompetencesForUsersWithinLearningContent = async function (
   userIdsAndDates,
-  campaignLearningContent
+  campaignLearningContent,
 ) {
   const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
   const knowledgeElementsGroupedByUserAndCompetence = {};
@@ -215,7 +215,7 @@ const findInvalidatedAndDirectByUserId = async function (userId) {
   }
 
   return invalidatedKnowledgeElements.map(
-    (invalidatedKnowledgeElement) => new KnowledgeElement(invalidatedKnowledgeElement)
+    (invalidatedKnowledgeElement) => new KnowledgeElement(invalidatedKnowledgeElement),
   );
 };
 

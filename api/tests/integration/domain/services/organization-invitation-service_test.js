@@ -51,7 +51,7 @@ describe('Integration | Service | Organization-Invitation Service', function () 
       // then
       expect(result).to.be.instanceOf(OrganizationInvitation);
       expect(_.omit(result, ['id', 'code', 'organizationName', 'createdAt', 'updatedAt'])).to.deep.equal(
-        expectedOrganizationInvitation
+        expectedOrganizationInvitation,
       );
     });
 

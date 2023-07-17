@@ -39,7 +39,7 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
         .join(
           'view-active-organization-learners',
           'view-active-organization-learners.id',
-          'campaign-participations.organizationLearnerId'
+          'campaign-participations.organizationLearnerId',
         )
         .where({
           'campaign-participations.id': campaignParticipationId,
@@ -95,7 +95,7 @@ async function _setSkillsCount(result) {
 function _getTestedSkillsCount(skillIds, knowledgeElements) {
   const testedKnowledgeElements = _.filter(
     knowledgeElements,
-    (knowledgeElement) => knowledgeElement.isValidated || knowledgeElement.isInvalidated
+    (knowledgeElement) => knowledgeElement.isValidated || knowledgeElement.isInvalidated,
   );
   const testedSkillIds = _.map(testedKnowledgeElements, 'skillId');
   const testedTargetedSkillIdsByUser = _.intersection(testedSkillIds, skillIds);

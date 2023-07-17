@@ -51,7 +51,7 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
         controller.fileSaver.save.calledWith({
           token,
           url: '/api/certification-centers/123/import',
-        })
+        }),
       );
     });
 
@@ -97,7 +97,7 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       assert.ok(controller);
       sinon.assert.calledWith(
         controller.notifications.error,
-        "La création et l'édition de plusieurs sessions à la fois n'est pas disponible pour votre centre de certification. Veuillez utiliser la création et l'édition individuelle de session."
+        "La création et l'édition de plusieurs sessions à la fois n'est pas disponible pour votre centre de certification. Veuillez utiliser la création et l'édition individuelle de session.",
       );
     });
   });
@@ -223,7 +223,7 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       // then
       sinon.assert.calledWith(
         controller.notifications.error,
-        "La création et l'édition de plusieurs sessions à la fois n'est pas disponible pour votre centre de certification. Veuillez utiliser la création et l'édition individuelle de session."
+        "La création et l'édition de plusieurs sessions à la fois n'est pas disponible pour votre centre de certification. Veuillez utiliser la création et l'édition individuelle de session.",
       );
       assert.ok(controller);
     });

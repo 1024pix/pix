@@ -41,12 +41,12 @@ async function _checkIfTargetUserHasAlreadyAMethodWithIdentityProvider({
 }) {
   const targetUserAuthenticationMethods = await authenticationMethodRepository.findByUserId({ userId: targetUserId });
   const hasTargetAnAuthenticationMethodWithProvider = targetUserAuthenticationMethods.find(
-    (authenticationMethod) => authenticationMethod.identityProvider === identityProviderToReassign
+    (authenticationMethod) => authenticationMethod.identityProvider === identityProviderToReassign,
   );
 
   if (hasTargetAnAuthenticationMethodWithProvider) {
     throw new AuthenticationMethodAlreadyExistsError(
-      `L'utilisateur ${targetUserId} a déjà une méthode de connexion ${identityProviderToReassign}.`
+      `L'utilisateur ${targetUserId} a déjà une méthode de connexion ${identityProviderToReassign}.`,
     );
   }
 }

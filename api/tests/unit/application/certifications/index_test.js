@@ -19,7 +19,7 @@ describe('Unit | Application | Certification | Routes', function () {
             h
               .response({ errors: new Error('forbidden') })
               .code(403)
-              .takeover()
+              .takeover(),
         );
 
       const httpTestServer = new HttpTestServer();
@@ -99,7 +99,7 @@ describe('Unit | Application | Certification | Routes', function () {
             h
               .response({ errors: new Error('forbidden') })
               .code(403)
-              .takeover()
+              .takeover(),
         );
 
       const httpTestServer = new HttpTestServer();

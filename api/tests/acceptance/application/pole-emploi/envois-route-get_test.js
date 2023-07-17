@@ -61,7 +61,7 @@ describe('Acceptance | API | Pole Emploi envois', function () {
             },
             isSuccessful: true,
           },
-          'externalUserId'
+          'externalUserId',
         );
         poleEmploiSendingFactory.buildWithUser({ isSuccessful: false });
         await databaseBuilder.commit();
@@ -73,7 +73,7 @@ describe('Acceptance | API | Pole Emploi envois', function () {
             authorization: generateValidRequestAuthorizationHeaderForApplication(
               POLE_EMPLOI_CLIENT_ID,
               POLE_EMPLOI_SOURCE,
-              POLE_EMPLOI_SCOPE
+              POLE_EMPLOI_SCOPE,
             ),
           },
         };
@@ -84,7 +84,7 @@ describe('Acceptance | API | Pole Emploi envois', function () {
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.headers.link).to.equal(
-          'https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo3NjM0NSwiZGF0ZUVudm9pIjoiMjAyMS0wNS0wMVQwMDowMDowMC4wMDBaIn0=&enErreur=false'
+          'https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo3NjM0NSwiZGF0ZUVudm9pIjoiMjAyMS0wNS0wMVQwMDowMDowMC4wMDBaIn0=&enErreur=false',
         );
         expect(response.result).to.deep.equal([
           {
@@ -127,7 +127,7 @@ describe('Acceptance | API | Pole Emploi envois', function () {
           headers: {
             authorization: generateValidRequestAuthorizationHeaderForApplication(
               POLE_EMPLOI_CLIENT_ID,
-              POLE_EMPLOI_SOURCE
+              POLE_EMPLOI_SOURCE,
             ),
           },
         };

@@ -14,7 +14,7 @@ const save = async function ({ competenceEvaluation, domainTransaction = DomainT
     return competenceEvaluationCreated;
   } else {
     competenceEvaluationCreated = await new BookshelfCompetenceEvaluation(
-      _.omit(competenceEvaluation, ['assessment', 'scorecard'])
+      _.omit(competenceEvaluation, ['assessment', 'scorecard']),
     )
       .save(null, { transacting: domainTransaction.knexTransaction })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result));
@@ -26,7 +26,7 @@ const updateStatusByAssessmentId = function ({ assessmentId, status }) {
   return BookshelfCompetenceEvaluation.where({ assessmentId })
     .save({ status }, { require: true, patch: true })
     .then((updatedCompetenceEvaluation) =>
-      bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation)
+      bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation),
     );
 };
 
@@ -34,7 +34,7 @@ const updateStatusByUserIdAndCompetenceId = function ({ userId, competenceId, st
   return BookshelfCompetenceEvaluation.where({ userId, competenceId })
     .save({ status }, { require: true, patch: true })
     .then((updatedCompetenceEvaluation) =>
-      bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation)
+      bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation),
     );
 };
 
@@ -46,10 +46,10 @@ const updateAssessmentId = function ({
   return BookshelfCompetenceEvaluation.where({ assessmentId: currentAssessmentId })
     .save(
       { assessmentId: newAssessmentId },
-      { require: true, patch: true, transacting: domainTransaction.knexTransaction }
+      { require: true, patch: true, transacting: domainTransaction.knexTransaction },
     )
     .then((updatedCompetenceEvaluation) =>
-      bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation)
+      bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation),
     );
 };
 

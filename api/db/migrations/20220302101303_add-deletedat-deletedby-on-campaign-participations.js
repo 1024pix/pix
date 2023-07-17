@@ -19,7 +19,7 @@ const up = async function (knex) {
 
   // eslint-disable-next-line knex/avoid-injections
   return knex.raw(
-    `CREATE UNIQUE INDEX ${NEW_CONSTRAINT_NAME} ON "${TABLE_NAME}" ("${CAMPAIGNID_COLUMN}", "${USERID_COLUMN}" ) WHERE "${ISIMPROVED_COLUMN}" IS FALSE AND "${DELETEDAT_COLUMN}" IS NULL AND "${DELETEDBY_COLUMN}" IS NULL;`
+    `CREATE UNIQUE INDEX ${NEW_CONSTRAINT_NAME} ON "${TABLE_NAME}" ("${CAMPAIGNID_COLUMN}", "${USERID_COLUMN}" ) WHERE "${ISIMPROVED_COLUMN}" IS FALSE AND "${DELETEDAT_COLUMN}" IS NULL AND "${DELETEDBY_COLUMN}" IS NULL;`,
   );
 };
 
@@ -34,7 +34,7 @@ const down = async function (knex) {
 
   // eslint-disable-next-line knex/avoid-injections
   return knex.raw(
-    `CREATE UNIQUE INDEX ${OLD_CONSTRAINT_NAME} ON "${TABLE_NAME}" ("${CAMPAIGNID_COLUMN}", "${USERID_COLUMN}" ) WHERE "${ISIMPROVED_COLUMN}" IS FALSE;`
+    `CREATE UNIQUE INDEX ${OLD_CONSTRAINT_NAME} ON "${TABLE_NAME}" ("${CAMPAIGNID_COLUMN}", "${USERID_COLUMN}" ) WHERE "${ISIMPROVED_COLUMN}" IS FALSE;`,
   );
 };
 

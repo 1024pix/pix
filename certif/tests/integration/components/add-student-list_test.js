@@ -63,7 +63,7 @@ module('Integration | Component | add-student-list', function (hooks) {
         />
       `);
       await click(
-        screen.getByRole('textbox', { name: 'Filtrer la liste des élèves en cochant la ou les classes souhaitées' })
+        screen.getByRole('textbox', { name: 'Filtrer la liste des élèves en cochant la ou les classes souhaitées' }),
       );
       await screen.findByRole('menu');
 
@@ -96,7 +96,7 @@ module('Integration | Component | add-student-list', function (hooks) {
 
       // when
       await render(
-        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`
+        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
       );
 
       // then
@@ -126,7 +126,7 @@ module('Integration | Component | add-student-list', function (hooks) {
       this.set('divisions', divisions);
 
       const screen = await render(
-        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`
+        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
       );
 
       // when
@@ -155,7 +155,7 @@ module('Integration | Component | add-student-list', function (hooks) {
       this.set('divisions', divisions);
 
       const screen = await render(
-        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`
+        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
       );
 
       // when
@@ -192,7 +192,7 @@ module('Integration | Component | add-student-list', function (hooks) {
         this.set('divisions', divisions);
 
         const screen = await render(
-          hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`
+          hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
         );
 
         // when
@@ -221,7 +221,7 @@ module('Integration | Component | add-student-list', function (hooks) {
       this.set('divisions', divisions);
 
       const screen = await render(
-        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`
+        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
       );
 
       // when
@@ -446,7 +446,7 @@ module('Integration | Component | add-student-list', function (hooks) {
           sinon.stub(store, 'peekAll').withArgs('student').returns(students);
 
           await render(
-            hbs`<AddStudentList @studentList={{this.students}} @session={{this.session}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`
+            hbs`<AddStudentList @studentList={{this.students}} @session={{this.session}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
           );
 
           // when
@@ -454,8 +454,8 @@ module('Integration | Component | add-student-list', function (hooks) {
           await click(addButton);
           assert.ok(
             notificationMessagesService.error.calledOnceWith(
-              'Une erreur est survenue au moment d‘inscrire les candidats...'
-            )
+              'Une erreur est survenue au moment d‘inscrire les candidats...',
+            ),
           );
         });
       });
@@ -481,7 +481,7 @@ module('Integration | Component | add-student-list', function (hooks) {
         sinon.stub(store, 'peekAll').withArgs('student').returns(students);
 
         await render(
-          hbs`<AddStudentList @studentList={{this.students}} @session={{this.session}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`
+          hbs`<AddStudentList @studentList={{this.students}} @session={{this.session}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
         );
 
         // when
@@ -497,7 +497,7 @@ module('Integration | Component | add-student-list', function (hooks) {
     lastName = 'lastName',
     division = 'division',
     birthdate = 'birthdate',
-    isEnrolled = false
+    isEnrolled = false,
   ) {
     return EmberObject.create({
       firstName,
@@ -519,7 +519,7 @@ module('Integration | Component | add-student-list', function (hooks) {
     firstName = 'firstName',
     lastName = 'lastName',
     division = 'division',
-    birthdate = 'birthdate'
+    birthdate = 'birthdate',
   ) {
     return EmberObject.create({
       firstName,

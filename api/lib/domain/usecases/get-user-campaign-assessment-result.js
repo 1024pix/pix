@@ -17,19 +17,19 @@ const getUserCampaignAssessmentResult = async function ({
     const stillValidBadgeIds = await _checkStillValidBadges(
       campaignId,
       knowledgeElements,
-      badgeForCalculationRepository
+      badgeForCalculationRepository,
     );
     const badgeWithAcquisitionPercentage = await _getBadgeAcquisitionPercentage(
       campaignId,
       knowledgeElements,
-      badgeForCalculationRepository
+      badgeForCalculationRepository,
     );
 
     const badgesWithValidity = badges.map((badge) => ({
       ...badge,
       isValid: stillValidBadgeIds.includes(badge.id),
       acquisitionPercentage: badgeWithAcquisitionPercentage.find(
-        (badgeForCalculation) => badgeForCalculation.id === badge.id
+        (badgeForCalculation) => badgeForCalculation.id === badge.id,
       ).acquisitionPercentage,
     }));
 

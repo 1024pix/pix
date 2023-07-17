@@ -65,7 +65,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
         return promise.then(() => {
           return expect(stubbedClient.lockDisposer).to.have.been.calledWith(
             expectedLockedKey,
-            settings.caching.redisCacheKeyLockTTL
+            settings.caching.redisCacheKeyLockTTL,
           );
         });
       });

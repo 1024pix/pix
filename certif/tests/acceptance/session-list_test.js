@@ -163,28 +163,28 @@ module('Acceptance | Session List', function (hooks) {
         assert
           .dom(
             screen.queryByText(
-              'La certification Pix se déroulera du 14 novembre 2022 au 17 mars 2023 pour les lycées et du 6 mars au 16 juin 2023 pour les collèges. Pensez à consulter la'
-            )
+              'La certification Pix se déroulera du 14 novembre 2022 au 17 mars 2023 pour les lycées et du 6 mars au 16 juin 2023 pour les collèges. Pensez à consulter la',
+            ),
           )
           .doesNotExist();
 
         await click(
           screen.getByRole('button', {
             name: 'Harry Cover Centre SCO isNotM (ABC123) Ouvrir le menu utilisateur',
-          })
+          }),
         );
         await click(
           screen.getByRole('button', {
             name: 'Centre SCO isM (ABC123)',
-          })
+          }),
         );
 
         // then
         assert
           .dom(
             screen.getByText(
-              'La certification Pix se déroulera du 14 novembre 2022 au 17 mars 2023 pour les lycées et du 6 mars au 16 juin 2023 pour les collèges. Pensez à consulter la'
-            )
+              'La certification Pix se déroulera du 14 novembre 2022 au 17 mars 2023 pour les lycées et du 6 mars au 16 juin 2023 pour les collèges. Pensez à consulter la',
+            ),
           )
           .exists();
       });
@@ -238,7 +238,7 @@ module('Acceptance | Session List', function (hooks) {
               },
             ],
           }),
-          400
+          400,
         );
         const screen = await visit('/sessions/liste');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
@@ -272,7 +272,7 @@ module('Acceptance | Session List', function (hooks) {
               },
             ],
           }),
-          422
+          422,
         );
         const screen = await visit('/sessions/liste');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
@@ -306,7 +306,7 @@ module('Acceptance | Session List', function (hooks) {
               },
             ],
           }),
-          422
+          422,
         );
         const screen = await visit('/sessions/liste');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));

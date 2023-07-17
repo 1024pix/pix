@@ -10,17 +10,17 @@ function _buildIsCertifiable(queryBuilder, organizationLearnerId) {
     .select(
       'view-active-organization-learners.id as organizationLearnerId',
       knex.raw(
-        'FIRST_VALUE("isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"'
+        'FIRST_VALUE("isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"',
       ),
       knex.raw(
-        'FIRST_VALUE("sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAt"'
-      )
+        'FIRST_VALUE("sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAt"',
+      ),
     )
     .from('view-active-organization-learners')
     .join(
       'campaign-participations',
       'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId'
+      'campaign-participations.organizationLearnerId',
     )
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .where('campaign-participations.status', CampaignParticipationStatuses.SHARED)
@@ -42,7 +42,7 @@ async function get(organizationLearnerId) {
       'subquery.certifiableAt',
       knex.raw('array_remove(ARRAY_AGG("identityProvider"), NULL) AS "authenticationMethods"'),
       'users.email',
-      'users.username'
+      'users.username',
     )
     .from('view-active-organization-learners')
     .where('view-active-organization-learners.id', organizationLearnerId)
@@ -57,7 +57,7 @@ async function get(organizationLearnerId) {
       'view-active-organization-learners.group',
       'users.id',
       'subquery.isCertifiable',
-      'subquery.certifiableAt'
+      'subquery.certifiableAt',
     )
     .first();
   if (row) {

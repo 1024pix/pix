@@ -66,7 +66,7 @@ describe('Integration | UseCases | reconcile-sup-organization-learner', function
           // then
           expect(error).to.be.instanceof(NotFoundError);
         });
-      }
+      },
     );
 
     context('When a matching registered organization learner is found', function () {

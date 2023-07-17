@@ -25,14 +25,14 @@ const up = async function (knex) {
 
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(
-    `UPDATE "partner-certifications" SET "temporaryPartnerKey" = "partnerKey", "partnerKey" = NULL WHERE "partnerKey" IN (${pixEduBadges})`
+    `UPDATE "partner-certifications" SET "temporaryPartnerKey" = "partnerKey", "partnerKey" = NULL WHERE "partnerKey" IN (${pixEduBadges})`,
   );
 };
 
 const down = async function (knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(
-    `UPDATE "partner-certifications" SET "partnerKey" = "temporaryPartnerKey" WHERE "temporaryPartnerKey" IN (${pixEduBadges})`
+    `UPDATE "partner-certifications" SET "partnerKey" = "temporaryPartnerKey" WHERE "temporaryPartnerKey" IN (${pixEduBadges})`,
   );
 
   await knex.schema.alterTable('partner-certifications', function (table) {

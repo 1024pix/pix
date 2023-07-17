@@ -38,7 +38,7 @@ module('Unit | Model | organization', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const model = run(() =>
-        store.createRecord('organization', { archivedAt: '2022-12-25', archivistFullName: 'Anne Héantie' })
+        store.createRecord('organization', { archivedAt: '2022-12-25', archivistFullName: 'Anne Héantie' }),
       );
 
       // when

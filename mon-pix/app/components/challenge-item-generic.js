@@ -60,7 +60,7 @@ export default class ChallengeItemGeneric extends Component {
         this.args.assessment,
         this._getAnswerValue(),
         this._getTimeout(),
-        this.args.hasFocusedOutOfWindow
+        this.args.hasFocusedOutOfWindow,
       )
       .finally(() => {
         this.args.resetAllChallengeInfo();
@@ -82,7 +82,7 @@ export default class ChallengeItemGeneric extends Component {
         this.args.assessment,
         '#ABAND#',
         this._getTimeout(),
-        this.args.hasFocusedOutOfWindow
+        this.args.hasFocusedOutOfWindow,
       )
       .finally(() => {
         this.args.resetAllChallengeInfo();

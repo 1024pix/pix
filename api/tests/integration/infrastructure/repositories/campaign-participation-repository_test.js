@@ -80,7 +80,7 @@ describe('Integration | Repository | Campaign Participation', function () {
     it('should return null if there is no participations', async function () {
       // when
       const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
-        userId
+        userId,
       );
 
       // then
@@ -99,7 +99,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // when
       const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
-        userId
+        userId,
       );
 
       // then
@@ -119,7 +119,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // when
       const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
-        userId
+        userId,
       );
 
       // then
@@ -137,7 +137,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // when
       const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
-        userId
+        userId,
       );
 
       // then
@@ -156,7 +156,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // when
       const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
-        userId
+        userId,
       );
 
       // then
@@ -176,7 +176,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // when
       const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
-        userId
+        userId,
       );
 
       // then
@@ -203,7 +203,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // when
       const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
-        userId
+        userId,
       );
 
       // then
@@ -362,7 +362,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         {
           campaignId: campaign1.id,
           createdAt: new Date('2017-03-15T14:59:35Z'),
-        }
+        },
       );
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign2.id,
@@ -380,7 +380,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // then
       const attributes = participationResultDatas.map((participationResultData) =>
-        _.pick(participationResultData, ['id', 'isShared', 'sharedAt', 'participantExternalId', 'userId'])
+        _.pick(participationResultData, ['id', 'isShared', 'sharedAt', 'participantExternalId', 'userId']),
       );
       expect(attributes).to.deep.equal([
         {
@@ -402,7 +402,7 @@ describe('Integration | Repository | Campaign Participation', function () {
           campaignId: campaign1.id,
           createdAt: new Date('2017-03-15T14:59:35Z'),
           deletedAt: new Date(),
-        }
+        },
       );
       await databaseBuilder.commit();
 
@@ -412,7 +412,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // then
       const attributes = participationResultDatas.map((participationResultData) =>
-        _.pick(participationResultData, ['id', 'isShared', 'sharedAt', 'participantExternalId', 'userId'])
+        _.pick(participationResultData, ['id', 'isShared', 'sharedAt', 'participantExternalId', 'userId']),
       );
       expect(attributes).to.deep.equal([
         {
@@ -435,7 +435,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       // then
       const attributes = participationResultDatas.map((participationResultData) =>
-        _.pick(participationResultData, ['participantFirstName', 'participantLastName', 'division'])
+        _.pick(participationResultData, ['participantFirstName', 'participantLastName', 'division']),
       );
       expect(attributes).to.deep.equal([
         {

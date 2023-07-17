@@ -75,7 +75,7 @@ describe('Integration | Application | Controller | organization-administration-c
       expect(response.source.data.attributes['documentation-url']).to.equal(savedOrganization.documentationUrl);
       expect(response.source.data.attributes['show-skills']).to.equal(savedOrganization.showSkills);
       expect(response.source.data.attributes['identity-provider-for-campaigns']).to.equal(
-        savedOrganization.identityProviderForCampaigns
+        savedOrganization.identityProviderForCampaigns,
       );
     });
   });
@@ -144,7 +144,7 @@ describe('Integration | Application | Controller | organization-administration-c
     const dataOfficerUpdated = await knex('data-protection-officers').where('organizationId', organization.id).first();
 
     expect(response.source.data.attributes['data-protection-officer-first-name']).to.equal(
-      dataOfficerUpdated.firstName
+      dataOfficerUpdated.firstName,
     );
     expect(response.source.data.attributes['data-protection-officer-last-name']).to.equal(dataOfficerUpdated.lastName);
     expect(response.source.data.attributes['data-protection-officer-email']).to.equal(dataOfficerUpdated.email);

@@ -39,7 +39,7 @@ const getPreSignUrlsOfFilesModifiedAfter = async function ({ date, dependencies 
   const filesInBucket = await dependencies.s3Utils.listFiles({ client: s3Client, bucket });
 
   const keysOfFilesModifiedAfter = filesInBucket?.Contents.filter(({ LastModified }) => LastModified >= date).map(
-    ({ Key }) => Key
+    ({ Key }) => Key,
   );
 
   return await dependencies.s3Utils.preSignFiles({

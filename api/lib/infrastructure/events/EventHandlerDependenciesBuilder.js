@@ -14,7 +14,7 @@ function _buildDependencies(domainTransaction) {
     monitoringTools,
     participationResultCalculationJob: new ParticipationResultCalculationJob(domainTransaction.knexTransaction),
     sendSharedParticipationResultsToPoleEmploiJob: new SendSharedParticipationResultsToPoleEmploiJob(
-      domainTransaction.knexTransaction
+      domainTransaction.knexTransaction,
     ),
   };
 }

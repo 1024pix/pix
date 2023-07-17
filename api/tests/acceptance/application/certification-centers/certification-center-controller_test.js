@@ -210,7 +210,7 @@ describe('Acceptance | API | Certification Center', function () {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.attributes.name).to.equal('Nouveau Centre de Certif');
         expect(response.result.data.attributes['data-protection-officer-email']).to.equal(
-          'adrienne.quepourra@example.net'
+          'adrienne.quepourra@example.net',
         );
         expect(response.result.data.id).to.be.ok;
       });
@@ -336,7 +336,7 @@ describe('Acceptance | API | Certification Center', function () {
         { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
         { id: 3, division: '2ndA', firstName: 'Laura', lastName: 'aaaaa' },
         { id: 4, division: '2ndA', firstName: 'Bart', lastName: 'Coucou' },
-        { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' }
+        { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' },
       );
       await databaseBuilder.commit();
 
@@ -412,7 +412,7 @@ describe('Acceptance | API | Certification Center', function () {
           { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
           { id: 3, division: '2ndA', firstName: 'Laura', lastName: 'aaaaa' },
           { id: 4, division: '2ndA', firstName: 'Bart', lastName: 'Coucou' },
-          { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' }
+          { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' },
         );
         await databaseBuilder.commit();
 
@@ -441,7 +441,7 @@ describe('Acceptance | API | Certification Center', function () {
 
         request = _buildOrganizationLearnersNotConnectedUserRequest(
           certificationCenterWhereUserDoesNotHaveAccess,
-          session
+          session,
         );
 
         // when
@@ -505,12 +505,12 @@ describe('Acceptance | API | Certification Center', function () {
         // then
         expect(response.result.data[0].id).to.equal(certificationCenterMembership1.id.toString());
         expect(response.result.data[0].attributes['created-at']).to.deep.equal(
-          certificationCenterMembership1.createdAt
+          certificationCenterMembership1.createdAt,
         );
 
         expect(response.result.data[1].id).to.equal(certificationCenterMembership2.id.toString());
         expect(response.result.data[1].attributes['created-at']).to.deep.equal(
-          certificationCenterMembership2.createdAt
+          certificationCenterMembership2.createdAt,
         );
 
         const expectedIncluded = [
@@ -858,7 +858,7 @@ describe('Acceptance | API | Certification Center', function () {
         organizationId: organization.id,
         ...student,
         updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,
-      })
+      }),
     );
   }
 

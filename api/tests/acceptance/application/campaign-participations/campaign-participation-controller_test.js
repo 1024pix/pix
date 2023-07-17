@@ -153,7 +153,7 @@ describe('Acceptance | API | Campaign Participations', function () {
       // then
       expect(response.statusCode).to.equal(412);
       expect(response.result.errors[0].detail).to.equal(
-        `User ${user.id} has already a campaign participation with campaign ${campaignId}`
+        `User ${user.id} has already a campaign participation with campaign ${campaignId}`,
       );
     });
 

@@ -154,7 +154,7 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
               dataset: { simulations: [{ answers: [{ challengeId: 'okChallengeId', result: 'ok' }] }] },
             },
             null,
-            { 'accept-language': 'en' }
+            { 'accept-language': 'en' },
           );
 
           // then
