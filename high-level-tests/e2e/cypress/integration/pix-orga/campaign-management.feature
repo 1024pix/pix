@@ -65,6 +65,13 @@ Fonctionnalité: Gestion des Campagnes
     Et je clique sur "Créer la campagne"
     Alors je vois le détail de la campagne "Campagne de l'Ouest"
 
+  Scénario: Je duplique une campagne d'évaluation
+    Étant donné que je suis connecté à Pix Orga
+    Lorsque je duplique la campagne "1"
+    Alors je suis redirigé vers la page "creation"
+    Et je clique sur "Créer la campagne"
+    Alors je vois le détail de la campagne "Copie de Campagne de la Néra"
+
   Scénario: J'archive et je désarchive une campagne
     Étant donné que je suis connecté à Pix Orga
     Et je clique sur "Campagne du Mur"

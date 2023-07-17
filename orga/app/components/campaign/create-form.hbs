@@ -13,7 +13,8 @@
       type="text"
       class="input"
       maxlength="255"
-      {{on "change" this.onChangeCampaignName}}
+      {{on "change" (fn this.onChangeCampaignValue "name")}}
+      @value={{this.campaign.name}}
       required={{true}}
       aria-required={{true}}
     />
@@ -29,7 +30,7 @@
     <PixSelect
       @options={{this.campaignOwnerOptions}}
       @onChange={{this.onChangeCampaignOwner}}
-      @value={{this.ownerId}}
+      @value="{{this.campaign.ownerId}}"
       @isSearchable={{true}}
       @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
       @searchLabel={{t "pages.campaign-creation.owner.search-placeholder"}}
@@ -59,6 +60,7 @@
         @value="assess-participants"
         {{on "change" this.setCampaignGoal}}
         aria-describedby="campaign-goal-assessment-info"
+        checked={{this.isCampaignGoalAssessment}}
       >
         {{t "pages.campaign-creation.purpose.assessment"}}
       </PixRadioButton>
@@ -68,6 +70,7 @@
         @value="collect-participants-profile"
         {{on "change" this.setCampaignGoal}}
         aria-describedby="campaign-goal-profiles-collection-info"
+        checked={{this.isCampaignGoalProfileCollection}}
       >
         {{t "pages.campaign-creation.purpose.profiles-collection"}}
       </PixRadioButton>
@@ -108,26 +111,26 @@
         @onChange={{this.selectTargetProfile}}
         @categoriesLabel={{t "pages.campaign-creation.target-profiles-category-label"}}
         @categoriesPlaceholder={{t "pages.campaign-creation.target-profiles-category-placeholder"}}
-        @value={{this.targetProfile.id}}
+        @value={{this.campaign.targetProfile.id}}
         @requiredText={{t "common.form.mandatory-fields-title"}}
         @errorMessage={{if @errors.targetProfile (t "api-error-messages.campaign-creation.target-profile-required")}}
         @isSearchable={{true}}
         @searchLabel={{t "pages.campaign-creation.target-profiles-search-placeholder"}}
       />
-      {{#if this.targetProfile}}
+      {{#if this.campaign.targetProfile}}
         <div class="form__field-info" id="target-profile-info">
           <span class="form__field-info-title">
             <FaIcon @icon="circle-info" class="form__field-info-icon" />
-            <span>{{this.targetProfile.name}}</span>
+            <span>{{this.campaign.targetProfile.name}}</span>
           </span>
 
           <Campaign::TargetProfileDetails
             class="form__field-info-message"
-            @targetProfileDescription={{this.targetProfile.description}}
-            @hasStages={{this.targetProfile.hasStage}}
-            @hasBadges={{gt this.targetProfile.thematicResultCount 0}}
-            @targetProfileTubesCount={{this.targetProfile.tubeCount}}
-            @targetProfileThematicResultCount={{this.targetProfile.thematicResultCount}}
+            @targetProfileDescription={{this.campaign.targetProfile.description}}
+            @hasStages={{this.campaign.targetProfile.hasStage}}
+            @hasBadges={{gt this.campaign.targetProfile.thematicResultCount 0}}
+            @targetProfileTubesCount={{this.campaign.targetProfile.tubeCount}}
+            @targetProfileThematicResultCount={{this.campaign.targetProfile.thematicResultCount}}
           />
         </div>
       {{/if}}
@@ -146,6 +149,7 @@
           @value="false"
           {{on "change" (fn this.selectMultipleSendingsStatus false)}}
           aria-describedby="multiple-sendings-info"
+          checked={{not this.campaign.multipleSendings}}
         >
           {{t "pages.campaign-creation.no"}}
         </PixRadioButton>
@@ -155,6 +159,7 @@
           @value="true"
           {{on "change" (fn this.selectMultipleSendingsStatus true)}}
           aria-describedby="multiple-sendings-info"
+          checked={{this.campaign.multipleSendings}}
         >
           {{t "pages.campaign-creation.yes"}}
         </PixRadioButton>
@@ -175,10 +180,20 @@
       <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
       {{t "pages.campaign-creation.external-id-label.question-label"}}
     </p>
-    <PixRadioButton name="external-id-label" @value="false" {{on "change" this.doNotAskLabelIdPix}}>
+    <PixRadioButton
+      name="external-id-label"
+      @value="false"
+      {{on "change" this.doNotAskLabelIdPix}}
+      checked={{this.isExternalIdNotSelectedChecked}}
+    >
       {{t "pages.campaign-creation.no"}}
     </PixRadioButton>
-    <PixRadioButton name="external-id-label" @value="true" {{on "change" this.askLabelIdPix}}>
+    <PixRadioButton
+      name="external-id-label"
+      @value="true"
+      {{on "change" this.askLabelIdPix}}
+      checked={{this.isExternalIdSelectedChecked}}
+    >
       {{t "pages.campaign-creation.yes"}}
     </PixRadioButton>
   </div>
@@ -192,7 +207,8 @@
         @label={{t "pages.campaign-creation.external-id-label.label"}}
         maxlength="255"
         @requiredLabel={{t "pages.campaign-creation.external-id-label.required"}}
-        {{on "change" this.onChangeExternalIdLabel}}
+        {{on "change" (fn this.onChangeCampaignValue "idPixLabel")}}
+        @value={{this.campaign.idPixLabel}}
       />
       {{#if @errors.idPixLabel}}
         <div class="form__error error-message">
@@ -209,7 +225,8 @@
         @id="campaign-title"
         @name="campaign-title"
         maxlength="50"
-        {{on "change" this.onChangeCampaignTitle}}
+        {{on "change" (fn this.onChangeCampaignValue "title")}}
+        @value={{this.campaign.title}}
       />
     </div>
   {{/if}}
