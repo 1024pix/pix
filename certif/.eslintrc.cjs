@@ -28,6 +28,7 @@ module.exports = {
     'no-restricted-imports': ['error', { paths: ['lodash'] }],
     'no-console': 'error',
     'ember/no-array-prototype-extensions': 0,
+    'qunit/require-expect': ['error', 'except-simple'],
   },
   overrides: [
     // node files
