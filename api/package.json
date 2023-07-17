@@ -101,7 +101,7 @@
     "eslint-plugin-knex": "^0.2.1",
     "eslint-plugin-mocha": "^10.0.5",
     "eslint-plugin-n": "^16.0.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-unicorn": "^47.0.0",
     "form-data": "^4.0.0",
     "inquirer": "^9.0.0",
@@ -110,7 +110,7 @@
     "mockdate": "^3.0.5",
     "nock": "^13.2.7",
     "nodemon": "^3.0.0",
-    "prettier": "^2.7.1",
+    "prettier": "^3.0.0",
     "sinon": "^15.0.0",
     "sinon-chai": "^3.7.0",
     "stream-to-promise": "^3.0.0"
