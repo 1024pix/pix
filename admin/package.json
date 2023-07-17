@@ -70,7 +70,7 @@
     "ember-cli-mirage": "^2.4.0",
     "ember-cli-notifications": "^8.0.0",
     "ember-cli-sass": "^11.0.1",
-    "ember-cli-showdown": "^6.0.1",
+    "ember-cli-showdown": "^7.0.0",
     "ember-composable-helpers": "^5.0.0",
     "ember-concurrency": "^3.0.0",
     "ember-cp-validations": "^5.0.0",
