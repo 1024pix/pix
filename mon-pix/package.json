@@ -110,7 +110,7 @@
     "eslint-plugin-ember": "^11.2.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-qunit": "^7.3.2",
+    "eslint-plugin-qunit": "^8.0.0",
     "js-yaml": "^3.14.1",
     "jwt-decode": "^3.1.2",
     "loader.js": "^4.7.0",
