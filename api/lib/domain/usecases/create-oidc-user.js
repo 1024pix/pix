@@ -32,6 +32,7 @@ const createOidcUser = async function ({
   const user = UserToCreate.createWithTermsOfServiceAccepted({
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
+    email: userInfo.email,
     locale: localeFromCookie,
   });
 

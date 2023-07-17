@@ -367,6 +367,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       }
 
       const idToken = generateIdToken({
+        email: 'givenname.familyname@example.net',
         given_name: 'givenName',
         family_name: 'familyName',
         nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
@@ -383,6 +384,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
       // then
       expect(result).to.deep.equal({
+        email: 'givenname.familyname@example.net',
         firstName: 'givenName',
         lastName: 'familyName',
         nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
@@ -443,6 +445,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         .resolves({
           isSuccessful: true,
           data: {
+            email: 'givenname.familyname@example.net',
             given_name: 'givenName',
             family_name: 'familyName',
             nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
@@ -463,6 +466,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
       // then
       expect(result).to.deep.equal({
+        email: 'givenname.familyname@example.net',
         given_name: 'givenName',
         family_name: 'familyName',
         sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',

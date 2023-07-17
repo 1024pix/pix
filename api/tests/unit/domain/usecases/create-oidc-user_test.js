@@ -90,7 +90,12 @@ describe('Unit | UseCase | create-oidc-user', function () {
     const idToken = 'idToken';
     authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves({
       sessionContent: { idToken, accessToken: 'accessToken' },
-      userInfo: { firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'externalId' },
+      userInfo: {
+        firstName: 'Jean',
+        lastName: 'Heymar',
+        externalIdentityId: 'externalId',
+        email: 'jean.heymar@example.net',
+      },
     });
     authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
       .withArgs({ externalIdentifier: 'externalId', identityProvider: 'SOME_IDP' })
@@ -116,6 +121,7 @@ describe('Unit | UseCase | create-oidc-user', function () {
       user: {
         firstName: 'Jean',
         lastName: 'Heymar',
+        email: 'jean.heymar@example.net',
         locale: 'fr-FR',
         cgu: true,
         lastTermsOfServiceValidatedAt: now,

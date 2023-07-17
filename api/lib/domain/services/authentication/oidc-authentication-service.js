@@ -205,6 +205,7 @@ class OidcAuthenticationService {
     }
 
     return {
+      email: userInfoContent?.email,
       given_name: userInfoContent?.given_name,
       family_name: userInfoContent?.family_name,
       sub: userInfoContent?.sub,
@@ -229,7 +230,7 @@ class OidcAuthenticationService {
   }
 
   async getUserInfo({ idToken, accessToken }) {
-    const { family_name, given_name, sub, nonce } = await jsonwebtoken.decode(idToken);
+    const { family_name, given_name, sub, nonce, email } = await jsonwebtoken.decode(idToken);
     let userInfoContent;
 
     const isMandatoryUserInfoMissing = !family_name || !given_name || !sub;
@@ -239,6 +240,7 @@ class OidcAuthenticationService {
     }
 
     return {
+      email: email || userInfoContent?.email,
       firstName: given_name || userInfoContent?.given_name,
       lastName: family_name || userInfoContent?.family_name,
       externalIdentityId: sub || userInfoContent?.sub,

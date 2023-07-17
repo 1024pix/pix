@@ -55,6 +55,7 @@ describe('Acceptance | Route | oidc | token', function () {
             family_name: 'Doe',
             nonce: 'nonce',
             sub: 'sub',
+            email: 'john.doe@example.net',
           },
           'secret'
         );
@@ -80,6 +81,7 @@ describe('Acceptance | Route | oidc | token', function () {
             firstName: 'John',
             lastName: 'Doe',
             nonce: 'nonce',
+            email: 'john.doe@example.net',
           },
         };
 
