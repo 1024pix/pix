@@ -50,6 +50,10 @@ export default class CampaignView extends Component {
     );
   }
 
+  get queryForDuplicate() {
+    return { source: this.args.campaign.id };
+  }
+
   @action
   async archiveCampaign(campaignId) {
     try {
