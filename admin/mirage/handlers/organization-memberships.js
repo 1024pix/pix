@@ -21,7 +21,7 @@ export function createOrganizationMembership(schema, request) {
               'A membership for given user ID and organization ID already exists and can not be created again.',
           },
         ],
-      }
+      },
     );
   }
 
@@ -40,7 +40,7 @@ export function createOrganizationMembership(schema, request) {
             description: 'Can not create membership because user or organization were not found.',
           },
         ],
-      }
+      },
     );
   }
 

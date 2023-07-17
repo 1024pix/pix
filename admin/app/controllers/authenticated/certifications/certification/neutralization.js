@@ -20,7 +20,7 @@ export default class NeutralizationController extends Controller {
       return this.notifications.success(`La question n°${questionIndex} a été neutralisée avec succès.`);
     } catch (e) {
       return this.notifications.error(
-        `Une erreur est survenue lors de la neutralisation de la question n°${questionIndex}.`
+        `Une erreur est survenue lors de la neutralisation de la question n°${questionIndex}.`,
       );
     }
   }
@@ -36,7 +36,7 @@ export default class NeutralizationController extends Controller {
       return this.notifications.success(`La question n°${questionIndex} a été dé-neutralisée avec succès.`);
     } catch (e) {
       return this.notifications.error(
-        `Une erreur est survenue lors de la dé-neutralisation de la question n°${questionIndex}.`
+        `Une erreur est survenue lors de la dé-neutralisation de la question n°${questionIndex}.`,
       );
     }
   }

@@ -110,7 +110,7 @@ module('Integration | Component | organizations/information-section', function (
       this.owner.register('service:oidcIdentityProviders', OidcIdentittyProvidersStub);
 
       const screen = await render(
-        hbs`<Organizations::InformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`
+        hbs`<Organizations::InformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`,
       );
       await clickByName('Éditer');
 

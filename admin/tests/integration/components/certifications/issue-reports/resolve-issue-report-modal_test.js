@@ -159,7 +159,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
         sinon.assert.calledWith(
           this.resolveIssueReport,
           this.issueReport,
-          'This is a fraud, its certification has been revoked'
+          'This is a fraud, its certification has been revoked',
         );
         assert.ok(true);
       });

@@ -34,7 +34,7 @@ module('Unit | Component | actions-on-users-role-in-organization', function (hoo
         // then
         sinon.assert.calledWith(
           notificationErrorStub,
-          'Une erreur est survenue lors de la mise à jour du rôle du membre.'
+          'Une erreur est survenue lors de la mise à jour du rôle du membre.',
         );
         assert.false(component.isEditionMode);
       });

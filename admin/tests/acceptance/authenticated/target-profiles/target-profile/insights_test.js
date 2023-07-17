@@ -431,7 +431,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.getByText('Lacunes')).exists();
         assert.deepEqual(
           screen.getByTestId('triste').innerText,
-          'L‘évalué doit obtenir 50% sur l‘ensemble des sujets du profil cible.'
+          'L‘évalué doit obtenir 50% sur l‘ensemble des sujets du profil cible.',
         );
       });
 
@@ -623,16 +623,16 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.getByText('Lacunes')).exists();
         assert.deepEqual(
           screen.getByTestId('triste').innerText,
-          'L‘évalué doit obtenir 50% sur l‘ensemble des sujets du profil cible.'
+          'L‘évalué doit obtenir 50% sur l‘ensemble des sujets du profil cible.',
         );
         const labelsForCappedTubes = screen.getAllByTestId('toujourstriste');
         assert.deepEqual(
           labelsForCappedTubes[0].innerText,
-          "L'évalué doit obtenir 60% sur le groupe Le tube de l'année possédant les sujets plafonnés par niveau suivants :"
+          "L'évalué doit obtenir 60% sur le groupe Le tube de l'année possédant les sujets plafonnés par niveau suivants :",
         );
         assert.deepEqual(
           labelsForCappedTubes[1].innerText,
-          "L'évalué doit obtenir 70% sur tous les sujets plafonnés par niveau suivants :"
+          "L'évalué doit obtenir 70% sur tous les sujets plafonnés par niveau suivants :",
         );
       });
 

@@ -38,7 +38,7 @@ module('Integration | Controller | authenticated/target-profiles/target-profile/
       assert.true(
         controller.notifications.success.calledWith(`Organisation(s) détachée(s) avec succès : ${organizationId}`, {
           htmlContent: true,
-        })
+        }),
       );
     });
 
@@ -51,7 +51,7 @@ module('Integration | Controller | authenticated/target-profiles/target-profile/
 
       // then
       assert.true(
-        controller.router.transitionTo.calledWith('authenticated.target-profiles.target-profile.organizations')
+        controller.router.transitionTo.calledWith('authenticated.target-profiles.target-profile.organizations'),
       );
     });
 

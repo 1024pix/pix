@@ -146,7 +146,7 @@ module('Acceptance | Session List', function (hooks) {
           const screen = await visit('/sessions/list');
           await fillByLabel(
             "Filtrer les sessions avec le nom d'un centre de certification",
-            expectedSession.certificationCenterName.toUpperCase()
+            expectedSession.certificationCenterName.toUpperCase(),
           );
 
           // then
@@ -168,13 +168,13 @@ module('Acceptance | Session List', function (hooks) {
           await click(
             screen.getByRole('button', {
               name: 'Filtrer les sessions en sélectionnant un statut',
-            })
+            }),
           );
           await screen.findByRole('listbox');
           await click(
             screen.getByRole('option', {
               name: 'Résultats transmis par Pix',
-            })
+            }),
           );
 
           // then
@@ -208,13 +208,13 @@ module('Acceptance | Session List', function (hooks) {
           await click(
             screen.getByRole('button', {
               name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
-            })
+            }),
           );
           await screen.findByRole('listbox');
           await click(
             screen.getByRole('option', {
               name: 'Résultats diffusés',
-            })
+            }),
           );
 
           // then
@@ -230,13 +230,13 @@ module('Acceptance | Session List', function (hooks) {
           await click(
             screen.getByRole('button', {
               name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
-            })
+            }),
           );
           await screen.findByRole('listbox');
           await click(
             screen.getByRole('option', {
               name: 'Résultats non diffusés',
-            })
+            }),
           );
 
           // then

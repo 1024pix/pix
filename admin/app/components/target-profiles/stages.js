@@ -55,7 +55,7 @@ export default class Stages extends Component {
 
   get collectionHasNonZeroStages() {
     const nonZeroStages = this.args.stageCollection.stages.filter(
-      (stage) => !stage.isBeingCreated && stage.threshold !== 0 && stage.level !== 0
+      (stage) => !stage.isBeingCreated && stage.threshold !== 0 && stage.level !== 0,
     );
     return nonZeroStages.length > 0;
   }

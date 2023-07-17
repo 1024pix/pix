@@ -118,8 +118,8 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
       assert.ok(
         controller.router.transitionTo.calledWith(
           'authenticated.target-profiles.target-profile',
-          controller.model.targetProfile.id
-        )
+          controller.model.targetProfile.id,
+        ),
       );
     });
 

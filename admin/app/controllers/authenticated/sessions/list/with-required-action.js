@@ -14,7 +14,7 @@ export default class AuthenticatedSessionsWithRequiredActionListController exten
     const sessions = this.model;
     if (this.assignedToSelfOnly) {
       return sessions.filter(
-        (session) => session.assignedCertificationOfficerName === this.currentUser.adminMember.fullName
+        (session) => session.assignedCertificationOfficerName === this.currentUser.adminMember.fullName,
       );
     }
     return sessions;

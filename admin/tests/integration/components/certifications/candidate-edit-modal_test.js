@@ -25,7 +25,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
       // when
       const screen = await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
       );
 
       // then
@@ -46,7 +46,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
           birthPostalCode: '66440',
           birthplace: 'Torreilles',
           birthCountry: 'FRANCE',
-        })
+        }),
       );
       this.countries = [
         run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
@@ -55,7 +55,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
       // when
       const screen = await render(
-        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+        hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
       );
 
       // then
@@ -77,7 +77,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
             birthPostalCode: '66440',
             birthplace: 'Torreilles',
             birthCountry: 'FRANCE',
-          })
+          }),
         );
         this.countries = [
           run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
@@ -86,7 +86,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
         );
 
         // then
@@ -105,7 +105,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
             birthPostalCode: '66440',
             birthplace: 'Torreilles',
             birthCountry: 'FRANCE',
-          })
+          }),
         );
         this.countries = [
           run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
@@ -114,7 +114,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
         );
 
         // then
@@ -135,7 +135,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
             birthPostalCode: null,
             birthplace: 'Copenhague',
             birthCountry: 'DANEMARK',
-          })
+          }),
         );
         this.countries = [
           run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
@@ -144,7 +144,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
         );
 
         // then
@@ -168,7 +168,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
             birthPostalCode: '66440',
             birthplace: 'Torreilles',
             birthCountry: 'FRANCE',
-          })
+          }),
         );
         this.countries = [
           run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
@@ -177,7 +177,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
         );
 
         // then
@@ -201,7 +201,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
             birthPostalCode: null,
             birthplace: 'Torreilles',
             birthCountry: 'FRANCE',
-          })
+          }),
         );
         this.countries = [
           run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
@@ -210,7 +210,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
         );
 
         // then
@@ -234,7 +234,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
           birthInseeCode: '99101',
           birthplace: 'Copenhague',
           birthCountry: 'DANEMARK',
-        })
+        }),
       );
       this.countries = [
         run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
@@ -247,7 +247,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   @candidate={{this.candidate}}
   @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}}
   @countries={{this.countries}}
-/>`
+/>`,
       );
 
       await fillByLabel('Nom de famille', 'Belmans');
@@ -288,7 +288,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
           birthInseeCode: '99101',
           birthplace: 'Copenhague',
           birthCountry: 'DANEMARK',
-        })
+        }),
       );
       const initialCandidateInformation = this.candidate.getInformation();
       this.countries = [
@@ -302,7 +302,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   @candidate={{this.candidate}}
   @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}}
   @countries={{this.countries}}
-/>`
+/>`,
       );
       await fillByLabel('Nom de famille', 'Belmans');
       await fillByLabel('Prénom', 'Gideona');
@@ -336,7 +336,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   @candidate={{this.candidate}}
   @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}}
   @countries={{this.countries}}
-/>`
+/>`,
       );
 
       // when
@@ -359,7 +359,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   @candidate={{this.candidate}}
   @onFormSubmit={{this.onFormSubmitStub}}
   @countries={{this.countries}}
-/>`
+/>`,
       );
 
       // when
@@ -380,7 +380,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
           birthInseeCode: '99101',
           birthplace: 'Copenhague',
           birthCountry: 'DANEMARK',
-        })
+        }),
       );
       this.countries = [
         EmberObject.create({ code: '99101', name: 'DANEMARK' }),
@@ -393,7 +393,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   @candidate={{this.candidate}}
   @onFormSubmit={{this.onFormSubmitStub}}
   @countries={{this.countries}}
-/>`
+/>`,
       );
       await fillByLabel('Nom de famille', 'Belmans');
       await fillByLabel('Prénom', 'Gideon');
@@ -428,7 +428,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
             birthPostalCode: null,
             birthplace: 'PARIS 15',
             birthCountry: 'FRANCE',
-          })
+          }),
         );
         this.countries = [
           run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
@@ -442,7 +442,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   @candidate={{this.candidate}}
   @countries={{this.countries}}
   @onFormSubmit={{this.onFormSubmitStub}}
-/>`
+/>`,
         );
 
         // when
@@ -480,7 +480,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
             birthPostalCode: null,
             birthplace: 'Copenhague',
             birthCountry: 'DANEMARK',
-          })
+          }),
         );
         this.countries = [
           run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
@@ -494,7 +494,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   @candidate={{this.candidate}}
   @countries={{this.countries}}
   @onFormSubmit={{this.onFormSubmitStub}}
-/>`
+/>`,
         );
 
         // when
@@ -533,7 +533,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
             birthPostalCode: null,
             birthplace: 'Copenhague',
             birthCountry: 'DANEMARK',
-          })
+          }),
         );
         this.countries = [
           run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
@@ -547,7 +547,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   @candidate={{this.candidate}}
   @countries={{this.countries}}
   @onFormSubmit={{this.onFormSubmitStub}}
-/>`
+/>`,
         );
 
         // when
@@ -588,14 +588,14 @@ module('Integration | Component | certifications/candidate-edit-modal', function
             birthInseeCode: '75015',
             birthplace: 'PARIS 15',
             birthCountry: 'FRANCE',
-          })
+          }),
         );
         this.countries = [
           run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
           run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
         ];
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
         );
 
         // when
@@ -622,11 +622,11 @@ module('Integration | Component | certifications/candidate-edit-modal', function
             birthPostalCode: '75015',
             birthplace: 'PARIS 15',
             birthCountry: 'FRANCE',
-          })
+          }),
         );
         this.countries = [];
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
         );
 
         // when
@@ -651,11 +651,11 @@ module('Integration | Component | certifications/candidate-edit-modal', function
             birthInseeCode: '75115',
             birthplace: 'PARIS 15',
             birthCountry: 'FRANCE',
-          })
+          }),
         );
         this.countries = [];
         const screen = await render(
-          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
+          hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
         );
 
         // when

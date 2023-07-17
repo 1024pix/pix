@@ -75,7 +75,7 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
           .dom(
             screen.getByRole('heading', {
               name: this.intl.t('components.organizations.all-tags.recently-used-tags', { tagName: tag2.name }),
-            })
+            }),
           )
           .exists();
         assert.dom(screen.getByRole('button', { name: "Tag USED non assigné à l'organisation" })).exists();
@@ -106,7 +106,7 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
           .dom(
             screen.queryByRole('heading', {
               name: this.intl.t('components.organizations.all-tags.recently-used-tags', { tagName: tag2.name }),
-            })
+            }),
           )
           .doesNotExist();
       });

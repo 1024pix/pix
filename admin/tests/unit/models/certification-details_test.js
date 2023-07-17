@@ -17,7 +17,7 @@ module('Unit | Model | certification details', function (hooks) {
       const certification = run(() =>
         store.createRecord('certification-details', {
           listChallengesAndAnswers,
-        })
+        }),
       );
 
       // then
@@ -52,7 +52,7 @@ module('Unit | Model | certification details', function (hooks) {
       const certification = run(() =>
         store.createRecord('certification-details', {
           listChallengesAndAnswers: [],
-        })
+        }),
       );
 
       // when
@@ -89,7 +89,7 @@ module('Unit | Model | certification details', function (hooks) {
       const certification = run(() =>
         store.createRecord('certification-details', {
           listChallengesAndAnswers: [],
-        })
+        }),
       );
 
       // when

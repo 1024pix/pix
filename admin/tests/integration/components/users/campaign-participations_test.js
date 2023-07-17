@@ -199,7 +199,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
         hbs`<Users::CampaignParticipations
   @participations={{this.participations}}
   @removeParticipation={{this.removeParticipation}}
-/>`
+/>`,
       );
       await clickByName('Supprimer');
 

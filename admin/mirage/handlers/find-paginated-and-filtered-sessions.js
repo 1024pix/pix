@@ -22,7 +22,7 @@ export function findPaginatedAndFilteredSessions(schema, request) {
             description: 'Filter on id field must be a number.',
           },
         ],
-      }
+      },
     );
   }
   const filteredSessions = _applyFilters(sessions, filters);
@@ -87,7 +87,7 @@ function _applyFilters(
     certificationCenterExternalIdFilter,
     statusFilter,
     resultsSentToPrescriberAtFilter,
-  }
+  },
 ) {
   let filteredSessions = sessions;
   if (idFilter) {

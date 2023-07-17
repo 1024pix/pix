@@ -25,7 +25,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
         );
 
         // then
@@ -48,7 +48,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
         );
 
         // then
@@ -139,7 +139,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+        hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
       );
 
       // then
@@ -149,8 +149,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
       assert
         .dom(
           screen.getByText(
-            "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon."
-          )
+            "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.",
+          ),
         )
         .exists();
       assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
@@ -172,7 +172,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
         );
 
         // then
@@ -198,7 +198,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
           // when
           const screen = await render(
-            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
           );
           await clickByName('Modifier');
 
@@ -206,7 +206,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           assert
             .dom(screen.getByLabelText('Texte du commentaire'))
             .hasValue(
-              "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon."
+              "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.",
             );
           assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
           assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
@@ -228,7 +228,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
           // when
           const screen = await render(
-            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
           );
           await clickByName('Modifier');
           await clickByName('Annuler');
@@ -251,7 +251,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
           // when
           const screen = await render(
-            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
           );
           await clickByName('Modifier');
           await fillByLabel('Texte du commentaire', 'Qui promène son chat est au bout de la laisse.');
@@ -277,7 +277,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
           // when
           const screen = await render(
-            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
           );
           await clickByName('Supprimer');
 
@@ -325,8 +325,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
               assert
                 .dom(
                   screen.queryByText(
-                    'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…'
-                  )
+                    'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…',
+                  ),
                 )
                 .doesNotExist();
               assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
@@ -368,8 +368,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
               assert
                 .dom(
                   screen.getByText(
-                    'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…'
-                  )
+                    'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…',
+                  ),
                 )
                 .exists();
               assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
@@ -413,8 +413,8 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             assert
               .dom(
                 screen.getByText(
-                  'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…'
-                )
+                  'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…',
+                ),
               )
               .exists();
             assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
@@ -440,7 +440,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
           // when
           const screen = await render(
-            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`
+            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
           );
           this.set('author', 'XXXX');
           this.set('date', new Date(today));

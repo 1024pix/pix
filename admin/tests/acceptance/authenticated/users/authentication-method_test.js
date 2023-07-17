@@ -34,7 +34,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
 
       // then
       assert.dom(
-        screen.getByText(`nouvel-email@example.net a bien été rajouté aux méthodes de connexion de l'utilisateur`)
+        screen.getByText(`nouvel-email@example.net a bien été rajouté aux méthodes de connexion de l'utilisateur`),
       );
       assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec adresse e-mail")).exists();
     });

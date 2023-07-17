@@ -47,7 +47,7 @@ module('Integration | Component | Common:TubesSelection::Tube', function (hooks)
   @setLevelTube={{this.setLevelTube}}
   @selectedTubeIds={{this.selectedTubeIds}}
   @tubeLevels={{this.tubeLevels}}
-/>`
+/>`,
     );
     const select = screen.getByRole('button', { name: 'Sélection du niveau du sujet suivant : Tube 1' });
 
@@ -69,7 +69,7 @@ module('Integration | Component | Common:TubesSelection::Tube', function (hooks)
   @setLevelTube={{this.setLevelTube}}
   @selectedTubeIds={{this.selectedTubeIds}}
   @tubeLevels={{this.tubeLevels}}
-/>`
+/>`,
     );
     const select = screen.getByRole('button', { name: 'Sélection du niveau du sujet suivant : Tube 1' });
 

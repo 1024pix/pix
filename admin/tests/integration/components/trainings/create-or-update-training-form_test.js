@@ -53,8 +53,8 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
     assert
       .dom(
         screen.getByLabelText(
-          "Nom de l'éditeur Exemple: Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité"
-        )
+          "Nom de l'éditeur Exemple: Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité",
+        ),
       )
       .exists();
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
@@ -128,8 +128,8 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
       assert
         .dom(
           screen.getByLabelText(
-            "Nom de l'éditeur Exemple: Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité"
-          )
+            "Nom de l'éditeur Exemple: Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité",
+          ),
         )
         .exists();
       assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();

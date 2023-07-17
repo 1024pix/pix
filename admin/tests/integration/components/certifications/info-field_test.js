@@ -26,7 +26,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
     test('it should render field value with suffix when @suffix (optional) argument is provided', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Certifications::InfoField @label='Session:' @value='commencé' @suffix='unit(s)' />`
+        hbs`<Certifications::InfoField @label='Session:' @value='commencé' @suffix='unit(s)' />`,
       );
 
       // then
@@ -36,7 +36,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
     test('it should display value as link when @linkRoute (optional) argument is provided', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Certifications::InfoField @label='Session:' @value='1234' @linkRoute='authenticated.sessions.session' />`
+        hbs`<Certifications::InfoField @label='Session:' @value='1234' @linkRoute='authenticated.sessions.session' />`,
       );
 
       // then
@@ -49,7 +49,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
     test('it should be in "edition (writable) mode" when @edition (optional) argument is set to "true"', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Certifications::InfoField @label='Publiée :' @value='oui' @edition='true' @fieldId='certification-publication' />`
+        hbs`<Certifications::InfoField @label='Publiée :' @value='oui' @edition='true' @fieldId='certification-publication' />`,
       );
 
       // then
@@ -59,7 +59,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
     test('it should display field value with suffix when @suffix (optional) argument is provided', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Certifications::InfoField @label='Field label:' @value='field_value' @suffix='unit(s)' @edition='true' />`
+        hbs`<Certifications::InfoField @label='Field label:' @value='field_value' @suffix='unit(s)' @edition='true' />`,
       );
 
       // then

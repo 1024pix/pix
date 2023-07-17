@@ -13,7 +13,7 @@ module('Unit | Model | complementaryCertificationCourseResultWithExternal', func
           'complementary-certification-course-result-with-external',
           {
             pixResult: 'Rejetée',
-          }
+          },
         );
 
         // when
@@ -33,7 +33,7 @@ module('Unit | Model | complementaryCertificationCourseResultWithExternal', func
         'complementary-certification-course-result-with-external',
         {
           pixResult: 'Trop bien',
-        }
+        },
       );
 
       // when

@@ -210,7 +210,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       const certificationCenterNavigation = within(
         screen.getByRole('navigation', {
           name: 'Navigation de la section centre de certification',
-        })
+        }),
       );
       assert.dom(certificationCenterNavigation.getByRole('link', { name: 'Équipe' })).exists();
       assert.dom(certificationCenterNavigation.getByRole('link', { name: 'Invitations' })).exists();

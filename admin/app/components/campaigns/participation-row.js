@@ -23,7 +23,7 @@ export default class ParticipationRow extends Component {
   updateParticipantExternalId() {
     this.isEditionMode = false;
     this.args.participation.participantExternalId = this._checkIfParticipantExternalIdIsNull(
-      this.newParticipantExternalId
+      this.newParticipantExternalId,
     );
     return this.args.updateParticipantExternalId(this.args.participation);
   }

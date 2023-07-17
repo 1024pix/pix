@@ -49,7 +49,7 @@ module('Integration | Component | Campaigns | participations-section', function 
 
     // when
     const screen = await render(
-      hbs`<Campaigns::ParticipationsSection @participations={{this.participations}} @idPixLabel={{this.idPixLabel}} />`
+      hbs`<Campaigns::ParticipationsSection @participations={{this.participations}} @idPixLabel={{this.idPixLabel}} />`,
     );
 
     // then

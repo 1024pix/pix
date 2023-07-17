@@ -20,7 +20,7 @@ export default class ListItems extends Component {
       { value: 'PRO', label: 'Pro' },
     ];
     this.selectedCertificationCenterTypeOption = this.getCertificationCenterTypeOptionByValue(
-      this.args.certificationCenterType
+      this.args.certificationCenterType,
     );
 
     // session status
@@ -37,7 +37,7 @@ export default class ListItems extends Component {
       { value: 'false', label: 'Résultats non diffusés' },
     ];
     this.selectedSessionResultsSentToPrescriberOption = this.getSessionResultsSentToPrescriberOptionByValue(
-      this.args.resultsSentToPrescriberAt
+      this.args.resultsSentToPrescriberAt,
     );
   }
 

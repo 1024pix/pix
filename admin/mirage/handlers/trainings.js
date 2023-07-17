@@ -18,7 +18,7 @@ function findPaginatedTrainingSummaries(schema, request) {
 
   const json = this.serialize(
     { modelName: 'training-summary', models: paginatedTrainingSummaries },
-    'training-summary'
+    'training-summary',
   );
 
   json.meta = {
@@ -52,7 +52,7 @@ function getTargetProfileSummariesForTraining(schema, request) {
 
   return this.serialize(
     { modelName: 'target-profile-summary', models: targetProfileSummaries },
-    'target-profile-summary'
+    'target-profile-summary',
   );
 }
 
@@ -62,7 +62,7 @@ function attachTargetProfilesToTraining(schema, request) {
   const availableTargetProfiles = schema.targetProfileSummaries.all().models;
 
   const matchingTargetProfiles = availableTargetProfiles.filter((targetProfile) =>
-    targetProfileIdsToAttach.some((targetProfileId) => targetProfileId === targetProfile.attrs.id)
+    targetProfileIdsToAttach.some((targetProfileId) => targetProfileId === targetProfile.attrs.id),
   );
 
   const training = schema.trainings.find(trainingId);

@@ -21,7 +21,7 @@ export default class ListController extends Controller {
   @computed('model.juryCertificationSummaries.@each.status')
   get canPublish() {
     return !some(this.model.juryCertificationSummaries.toArray(), (certif) =>
-      ['error', 'started'].includes(certif.status)
+      ['error', 'started'].includes(certif.status),
     );
   }
 

@@ -8,7 +8,7 @@ export default class StageController extends Controller {
 
   get availableLevels() {
     const unavailableLevels = this.model.stageCollection.stages.map((stage) =>
-      stage.id === this.model.stage.id ? null : stage.level
+      stage.id === this.model.stage.id ? null : stage.level,
     );
     const allLevels = Array.from({ length: this.model.targetProfile.maxLevel + 1 }, (_, i) => i);
     return difference(allLevels, unavailableLevels);
@@ -16,7 +16,7 @@ export default class StageController extends Controller {
 
   get unavailableThresholds() {
     return this.model.stageCollection.stages.map((stage) =>
-      this.model.stage.id === stage.id ? null : stage.threshold
+      this.model.stage.id === stage.id ? null : stage.threshold,
     );
   }
 

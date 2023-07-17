@@ -30,7 +30,7 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
         prerequisiteThreshold: null,
         goalThreshold: null,
       },
-      'withFramework'
+      'withFramework',
     );
   });
 
@@ -53,7 +53,7 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
       await click(
         screen.getByRole('link', {
           name: this.intl.t('pages.trainings.training.triggers.prerequisite.alternative-title'),
-        })
+        }),
       );
 
       // then
@@ -66,7 +66,7 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
       // when
       const screen = await visit(`/trainings/${trainingId}/`);
       await click(
-        screen.getByRole('link', { name: this.intl.t('pages.trainings.training.triggers.goal.alternative-title') })
+        screen.getByRole('link', { name: this.intl.t('pages.trainings.training.triggers.goal.alternative-title') }),
       );
 
       // then
@@ -92,7 +92,7 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
       await click(
         screen.getByRole('link', {
           name: this.intl.t('pages.trainings.training.triggers.prerequisite.alternative-title'),
-        })
+        }),
       );
 
       const thresholdInputs = screen.getByLabelText('Seuil en % :');
@@ -124,7 +124,7 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
           .dom(
             screen.queryByRole('link', {
               name: this.intl.t('pages.trainings.training.triggers.prerequisite.alternative-title'),
-            })
+            }),
           )
           .doesNotExist();
       });
