@@ -24,3 +24,10 @@ jobs:
         run: |
           MONITORING=$(npm run monitoring:arborescence --silent)
           echo "${MONITORING}" >> $GITHUB_STEP_SUMMARY
+          echo "MONITORING_RESULT=${MONITORING}" >> $GITHUB_ENV
+      - name: "Notify Slack"
+        id: notify
+        env:
+          WEBHOOK_URL: ${{ secrets.DASHBOARD_API_ARBORESCENCE_SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST $WEBHOOK_URL -H 'Content-Type: application/json' -d "$MONITORING_RESULT"

@@ -22,6 +22,12 @@ function formatResult({ path, count }) {
   };
 }
 
+function _formatMessageForSlack(message) {
+  return JSON.stringify({
+    text: message,
+  });
+}
+
 async function main() {
   const pathsToAnalyse = ['./lib', './src'];
   const result = await Promise.all(
@@ -31,7 +37,7 @@ async function main() {
     })
   );
 
-  return console.log(JSON.stringify(result));
+  return console.log(_formatMessageForSlack(JSON.stringify(result)));
 }
 
 await main();
