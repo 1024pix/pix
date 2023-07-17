@@ -543,7 +543,7 @@ describe('Unit | Service | MailService', function () {
       const sendEmailParameters = mailer.sendEmail.firstCall.args[0];
 
       expect(sendEmailParameters.subject).to.equal(
-        mainTranslationsMapping.fr['certification-center-invitation-email'].subject
+        mainTranslationsMapping.fr['certification-center-invitation-email'].subject,
       );
       expect(sendEmailParameters.from).to.equal(senderEmailAddress);
       expect(sendEmailParameters.fromName).to.equal('Pix Certif - Ne pas répondre');
@@ -576,7 +576,7 @@ describe('Unit | Service | MailService', function () {
         // then
         const sendEmailParameters = mailer.sendEmail.firstCall.args[0];
         expect(sendEmailParameters.subject).to.equal(
-          mainTranslationsMapping.fr['certification-center-invitation-email'].subject
+          mainTranslationsMapping.fr['certification-center-invitation-email'].subject,
         );
         expect(sendEmailParameters.fromName).to.equal('Pix Certif - Ne pas répondre');
         expect(sendEmailParameters.variables).to.include({
@@ -608,7 +608,7 @@ describe('Unit | Service | MailService', function () {
         // then
         const sendEmailParameters = mailer.sendEmail.firstCall.args[0];
         expect(sendEmailParameters.subject).to.equal(
-          mainTranslationsMapping.en['certification-center-invitation-email'].subject
+          mainTranslationsMapping.en['certification-center-invitation-email'].subject,
         );
         expect(sendEmailParameters.fromName).to.equal('Pix Certif - Noreply');
         expect(sendEmailParameters.variables).to.include({
@@ -730,7 +730,7 @@ describe('Unit | Service | MailService', function () {
       // then
       const options = mailer.sendEmail.firstCall.args[0];
       expect(options.subject).to.equal(
-        translate({ phrase: 'verification-code-email.subject', locale: 'en' }, { code })
+        translate({ phrase: 'verification-code-email.subject', locale: 'en' }, { code }),
       );
       expect(options.variables).to.include({
         homeName: 'pix.org',

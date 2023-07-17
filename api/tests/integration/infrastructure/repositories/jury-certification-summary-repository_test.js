@@ -127,7 +127,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           expect(juryCertificationSummaries[0].completedAt).to.deep.equal(manyAsrCertification.completedAt);
           expect(juryCertificationSummaries[0].isPublished).to.equal(manyAsrCertification.isPublished);
           expect(juryCertificationSummaries[0].hasSeendEndTestScreen).to.equal(
-            manyAsrCertification.hasSeendEndTestScreen
+            manyAsrCertification.hasSeendEndTestScreen,
           );
         });
       });

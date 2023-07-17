@@ -168,7 +168,7 @@ describe('Unit | Application | Router | organization-learner-router', function (
       // then
       expect(response.statusCode).to.equal(200);
       expect(securityPreHandlers.checkUserBelongsToLearnersOrganization).to.have.been.calledBefore(
-        organizationLearnerController.getLearner
+        organizationLearnerController.getLearner,
       );
     });
   });

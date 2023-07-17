@@ -3,7 +3,7 @@ const getImportSessionComplementaryCertificationHabilitationsLabels = async func
   complementaryCertificationHabilitationRepository,
 }) {
   const habilitations = await complementaryCertificationHabilitationRepository.findByCertificationCenterId(
-    certificationCenterId
+    certificationCenterId,
   );
 
   const habilitationsLabels = habilitations.map((habilitation) => habilitation.label);

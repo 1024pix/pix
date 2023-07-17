@@ -169,7 +169,7 @@ async function _buildCertificationCourse(
     hasSeenEndTestScreen,
     isPublished,
     pixCertificationStatus,
-  }
+  },
 ) {
   const createdAt = new Date('2020-01-31T00:00:00Z');
   const verificationCode = await generateCertificateVerificationCode();

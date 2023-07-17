@@ -174,7 +174,7 @@ class AlreadySharedCampaignParticipationError extends DomainError {
 class CancelledInvitationError extends DomainError {
   constructor(
     message = "L'invitation à cette organisation a été annulée.",
-    code = 'CANCELLED_ORGANIZATION_INVITATION_CODE'
+    code = 'CANCELLED_ORGANIZATION_INVITATION_CODE',
   ) {
     super(message, code);
   }
@@ -183,7 +183,7 @@ class CancelledInvitationError extends DomainError {
 class UncancellableOrganizationInvitationError extends DomainError {
   constructor(
     message = "L'invitation à cette organisation ne peut pas être annulée.",
-    code = 'UNCANCELLABLE_ORGANIZATION_INVITATION_CODE'
+    code = 'UNCANCELLABLE_ORGANIZATION_INVITATION_CODE',
   ) {
     super(message, code);
   }
@@ -192,7 +192,7 @@ class UncancellableOrganizationInvitationError extends DomainError {
 class UncancellableCertificationCenterInvitationError extends DomainError {
   constructor(
     message = "L'invitation à ce centre de certification ne peut pas être annulée.",
-    code = 'UNCANCELLABLE_CERTIFICATION_CENTER_INVITATION_CODE'
+    code = 'UNCANCELLABLE_CERTIFICATION_CENTER_INVITATION_CODE',
   ) {
     super(message, code);
   }
@@ -424,7 +424,7 @@ class SendingEmailToInvalidEmailAddressError extends DomainError {
 class SendingEmailToRefererError extends DomainError {
   constructor(failedEmailReferers) {
     super(
-      `Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : ${failedEmailReferers.join(', ')}`
+      `Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : ${failedEmailReferers.join(', ')}`,
     );
   }
 }
@@ -481,7 +481,7 @@ class CertificationEndedByFinalizationError extends DomainError {
 
 class SupervisorAccessNotAuthorizedError extends DomainError {
   constructor(
-    message = "Cette session est organisée dans un centre de certification pour lequel l'espace surveillant n'a pas été activé par Pix."
+    message = "Cette session est organisée dans un centre de certification pour lequel l'espace surveillant n'a pas été activé par Pix.",
   ) {
     super(message);
   }
@@ -540,7 +540,7 @@ class CertificationCandidateDeletionError extends DomainError {
 
 class CertificationCandidateMultipleUserLinksWithinSessionError extends DomainError {
   constructor(
-    message = "Il est interdit de lier un utilisateur à plusieurs candidats de certification au sein d'une même session."
+    message = "Il est interdit de lier un utilisateur à plusieurs candidats de certification au sein d'une même session.",
   ) {
     super(message);
   }
@@ -891,7 +891,7 @@ class SessionWithoutStartedCertificationError extends DomainError {
 
 class SessionWithAbortReasonOnCompletedCertificationCourseError extends DomainError {
   constructor(
-    message = 'The field "Reason for abandonment" has been filled in for a candidate who has finished their certification exam in between. The session therefore can\'t be finalised. Please refresh the page before finalising.'
+    message = 'The field "Reason for abandonment" has been filled in for a candidate who has finished their certification exam in between. The session therefore can\'t be finalised. Please refresh the page before finalising.',
   ) {
     super(message);
     this.code = 'SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE';
@@ -900,7 +900,7 @@ class SessionWithAbortReasonOnCompletedCertificationCourseError extends DomainEr
 
 class SessionWithMissingAbortReasonError extends DomainError {
   constructor(
-    message = "Une ou plusieurs certifications non terminées n'ont pas de “Raison de l’abandon” renseignées. La session ne peut donc pas être finalisée."
+    message = "Une ou plusieurs certifications non terminées n'ont pas de “Raison de l’abandon” renseignées. La session ne peut donc pas être finalisée.",
   ) {
     super(message);
   }
@@ -1033,7 +1033,7 @@ class UserNotFoundError extends NotFoundError {
 class UnknownCountryForStudentEnrolmentError extends DomainError {
   constructor(
     { firstName, lastName },
-    message = `L'élève ${firstName} ${lastName} a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix`
+    message = `L'élève ${firstName} ${lastName} a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix`,
   ) {
     super(message);
   }
@@ -1097,7 +1097,7 @@ class OidcMissingFieldsError extends DomainError {
   constructor(
     message = 'Mandatory information returned by the identify provider about the user is missing.',
     code,
-    meta
+    meta,
   ) {
     super(message);
     this.code = code;
@@ -1109,7 +1109,7 @@ class OidcUserInfoFormatError extends DomainError {
   constructor(
     message = 'The user information returned by your identity provider is not in the expected format.',
     code,
-    meta
+    meta,
   ) {
     super(message);
     this.code = code;
@@ -1153,7 +1153,7 @@ class NoOrganizationToAttach extends DomainError {
 class InvalidVerificationCodeError extends DomainError {
   constructor(
     message = 'Le code de vérification renseigné ne correspond pas à celui enregistré.',
-    code = 'INVALID_VERIFICATION_CODE'
+    code = 'INVALID_VERIFICATION_CODE',
   ) {
     super(message, code);
   }
@@ -1162,7 +1162,7 @@ class InvalidVerificationCodeError extends DomainError {
 class EmailModificationDemandNotFoundOrExpiredError extends DomainError {
   constructor(
     message = "La demande de modification d'adresse e-mail n'existe pas ou est expirée.",
-    code = 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND'
+    code = 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND',
   ) {
     super(message, code);
   }
@@ -1171,7 +1171,7 @@ class EmailModificationDemandNotFoundOrExpiredError extends DomainError {
 class InvalidSessionSupervisingLoginError extends DomainError {
   constructor(
     message = SESSION_SUPERVISING.INCORRECT_DATA.getMessage(),
-    code = SESSION_SUPERVISING.INCORRECT_DATA.code
+    code = SESSION_SUPERVISING.INCORRECT_DATA.code,
   ) {
     super(message, code);
   }
@@ -1180,7 +1180,7 @@ class InvalidSessionSupervisingLoginError extends DomainError {
 class CandidateNotAuthorizedToJoinSessionError extends DomainError {
   constructor(
     message = 'Votre surveillant n’a pas confirmé votre présence dans la salle de test. Vous ne pouvez donc pas encore commencer votre test de certification. Merci de prévenir votre surveillant.',
-    code = 'CANDIDATE_NOT_AUTHORIZED_TO_JOIN_SESSION'
+    code = 'CANDIDATE_NOT_AUTHORIZED_TO_JOIN_SESSION',
   ) {
     super(message, code);
   }
@@ -1189,7 +1189,7 @@ class CandidateNotAuthorizedToJoinSessionError extends DomainError {
 class CandidateNotAuthorizedToResumeCertificationTestError extends DomainError {
   constructor(
     message = "Merci de contacter votre surveillant afin qu'il autorise la reprise de votre test.",
-    code = 'CANDIDATE_NOT_AUTHORIZED_TO_RESUME_SESSION'
+    code = 'CANDIDATE_NOT_AUTHORIZED_TO_RESUME_SESSION',
   ) {
     super(message, code);
   }
@@ -1239,7 +1239,7 @@ class SessionStartedDeletionError extends DomainError {
 
 class DifferentExternalIdentifierError extends DomainError {
   constructor(
-    message = "La valeur de l'externalIdentifier de la méthode de connexion ne correspond pas à celui reçu par le partenaire."
+    message = "La valeur de l'externalIdentifier de la méthode de connexion ne correspond pas à celui reçu par le partenaire.",
   ) {
     super(message);
   }

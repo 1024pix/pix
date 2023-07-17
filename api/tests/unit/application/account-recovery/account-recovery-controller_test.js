@@ -79,7 +79,7 @@ describe('Unit | Controller | account-recovery-controller', function () {
       // then
       expect(usecases.getAccountRecoveryDetails).to.have.been.calledWith({ temporaryKey });
       expect(studentInformationForAccountRecoverySerializerStub.serializeAccountRecovery).to.have.been.calledWith(
-        studentInformation
+        studentInformation,
       );
     });
   });

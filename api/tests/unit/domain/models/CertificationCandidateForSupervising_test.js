@@ -43,7 +43,7 @@ describe('Unit | Domain | Models | Certification Candidate for supervising', fun
             // then
             expect(isStillEligibleToComplementaryCertification).to.be.true;
           });
-        }
+        },
       );
 
       context(
@@ -64,7 +64,7 @@ describe('Unit | Domain | Models | Certification Candidate for supervising', fun
             // then
             expect(isStillEligibleToComplementaryCertification).to.be.false;
           });
-        }
+        },
       );
 
       context(
@@ -88,7 +88,7 @@ describe('Unit | Domain | Models | Certification Candidate for supervising', fun
             // then
             expect(isStillEligibleToComplementaryCertification).to.be.false;
           });
-        }
+        },
       );
     });
 

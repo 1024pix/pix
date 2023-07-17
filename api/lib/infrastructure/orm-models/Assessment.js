@@ -27,7 +27,7 @@ const BookshelfAssessment = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfAssessment };

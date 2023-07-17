@@ -24,7 +24,7 @@ async function save({
     assessmentResult,
   });
   return bluebird.mapSeries(competenceMarks, (competenceMark) =>
-    dependencies.competenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId }))
+    dependencies.competenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId })),
   );
 }
 

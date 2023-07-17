@@ -67,7 +67,7 @@ class OdsUtilsBuilder {
     if (restrictedList?.length) {
       validator.setAttribute(
         'table:condition',
-        `of:cell-content-is-in-list(${restrictedList.map((val) => `"${val}"`).join(';')})`
+        `of:cell-content-is-in-list(${restrictedList.map((val) => `"${val}"`).join(';')})`,
       );
       validator.setAttribute('table:allow-empty-cell', allowEmptyCell);
     }
@@ -122,7 +122,7 @@ class OdsUtilsBuilder {
       if (element) {
         element.setAttribute(
           'table:number-columns-spanned',
-          parseInt(element.getAttribute('table:number-columns-spanned')) + increment
+          parseInt(element.getAttribute('table:number-columns-spanned')) + increment,
         );
       }
     }
@@ -204,7 +204,7 @@ class OdsUtilsBuilder {
   updateXmlRows({ rowMarkerPlaceholder, rowTemplateValues, dataToInject }) {
     const { referenceRowElement, rowsContainerElement } = _getRefRowAndContainerDomElements(
       this.xmlDom,
-      rowMarkerPlaceholder
+      rowMarkerPlaceholder,
     );
 
     const cloneRowElement = _deepCloneDomElement(referenceRowElement);
@@ -244,7 +244,7 @@ function updateXmlRows({ stringifiedXml, rowMarkerPlaceholder, rowTemplateValues
 
   const { referenceRowElement, rowsContainerElement } = _getRefRowAndContainerDomElements(
     parsedXmlDom,
-    rowMarkerPlaceholder
+    rowMarkerPlaceholder,
   );
 
   const cloneRowElement = _deepCloneDomElement(referenceRowElement);
@@ -270,7 +270,7 @@ function incrementRowsColumnSpan({ stringifiedXml, startLine, endLine, increment
     if (element) {
       element.setAttribute(
         'table:number-columns-spanned',
-        parseInt(element.getAttribute('table:number-columns-spanned')) + increment
+        parseInt(element.getAttribute('table:number-columns-spanned')) + increment,
       );
     }
   }
@@ -346,7 +346,7 @@ function addValidatorRestrictedList({
   if (restrictedList?.length) {
     validator.setAttribute(
       'table:condition',
-      `of:cell-content-is-in-list(${restrictedList.map((val) => `"${val}"`).join(';')})`
+      `of:cell-content-is-in-list(${restrictedList.map((val) => `"${val}"`).join(';')})`,
     );
     validator.setAttribute('table:allow-empty-cell', allowEmptyCell);
   }
@@ -409,7 +409,7 @@ function _updateXmlElementWithData(xmlElement, dataToInject, templateValues) {
         targetXmlDomElement.parentNode,
         targetXmlDomElement,
         dataToInject[propertyName],
-        validator
+        validator,
       );
     }
   }

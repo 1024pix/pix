@@ -15,7 +15,7 @@ const BookshelfStage = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfStage };

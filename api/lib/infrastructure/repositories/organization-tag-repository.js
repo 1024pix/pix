@@ -19,7 +19,7 @@ const create = async function (organizationTag) {
   } catch (err) {
     if (knexUtils.isUniqConstraintViolated(err)) {
       throw new AlreadyExistingEntityError(
-        `The tag ${organizationTag.tagId} already exists for the organization ${organizationTag.organizationId}.`
+        `The tag ${organizationTag.tagId} already exists for the organization ${organizationTag.organizationId}.`,
       );
     }
     throw err;

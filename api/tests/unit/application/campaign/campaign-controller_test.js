@@ -190,7 +190,7 @@ describe('Unit | Application | Controller | Campaign', function () {
 
       // then
       expect(response.headers['content-disposition']).to.equal(
-        'attachment; filename="file-name with invalid_chars _____________.csv"'
+        'attachment; filename="file-name with invalid_chars _____________.csv"',
       );
     });
 
@@ -308,7 +308,7 @@ describe('Unit | Application | Controller | Campaign', function () {
 
       // then
       expect(response.headers['content-disposition']).to.equal(
-        'attachment; filename="file-name with invalid_chars _____________.csv"'
+        'attachment; filename="file-name with invalid_chars _____________.csv"',
       );
     });
 
@@ -537,7 +537,7 @@ describe('Unit | Application | Controller | Campaign', function () {
     it('should return an unauthorized error', async function () {
       // given
       const error = new UserNotAuthorizedToAccessEntityError(
-        'User does not have access to this campaign participation'
+        'User does not have access to this campaign participation',
       );
       const request = {
         params: { id: campaignId },
@@ -639,7 +639,7 @@ describe('Unit | Application | Controller | Campaign', function () {
           },
         },
         hFake,
-        { campaignReportSerializer: campaignReportSerializerStub }
+        { campaignReportSerializer: campaignReportSerializerStub },
       );
 
       // then
@@ -678,7 +678,7 @@ describe('Unit | Application | Controller | Campaign', function () {
           },
         },
         hFake,
-        { campaignReportSerializer: campaignReportSerializerStub }
+        { campaignReportSerializer: campaignReportSerializerStub },
       );
 
       // then
@@ -728,7 +728,7 @@ describe('Unit | Application | Controller | Campaign', function () {
           },
         },
         hFake,
-        { campaignParticipantsActivitySerializer: campaignParticipantsActivitySerializerStub }
+        { campaignParticipantsActivitySerializer: campaignParticipantsActivitySerializerStub },
       );
 
       // then

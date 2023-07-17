@@ -19,13 +19,13 @@ const BookshelfCertificationCenter = Bookshelf.model(
         'ComplementaryCertification',
         'complementary-certification-habilitations',
         'certificationCenterId',
-        'complementaryCertificationId'
+        'complementaryCertificationId',
       );
     },
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfCertificationCenter };

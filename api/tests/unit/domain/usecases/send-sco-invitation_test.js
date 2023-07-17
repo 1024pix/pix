@@ -90,7 +90,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
 
         expect(requestErr).to.be.instanceOf(OrganizationWithoutEmailError);
         expect(requestErr.message).to.be.equal(
-          "Nous n’avons pas d’adresse e-mail de contact associée à l'établissement concernant l'UAI/RNE 1234567A."
+          "Nous n’avons pas d’adresse e-mail de contact associée à l'établissement concernant l'UAI/RNE 1234567A.",
         );
       });
     });
@@ -113,7 +113,7 @@ describe('Unit | UseCase | send-sco-invitation', function () {
         // then
         expect(requestErr).to.be.instanceOf(ManyOrganizationsFoundError);
         expect(requestErr.message).to.be.equal(
-          "Plusieurs établissements de type SCO ont été retrouvés pour L'UAI/RNE 1234567A."
+          "Plusieurs établissements de type SCO ont été retrouvés pour L'UAI/RNE 1234567A.",
         );
       });
     });

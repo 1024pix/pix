@@ -23,11 +23,11 @@ const linkToUser = async function ({ id, userId }) {
   } catch (bookshelfError) {
     if (bookshelfError.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
       throw new CertificationCandidateMultipleUserLinksWithinSessionError(
-        'A user cannot be linked to several certification candidates within the same session'
+        'A user cannot be linked to several certification candidates within the same session',
       );
     }
     throw new CertificationCandidateCreationOrUpdateError(
-      'An error occurred while linking the certification candidate to a user'
+      'An error occurred while linking the certification candidate to a user',
     );
   }
 };
@@ -57,7 +57,7 @@ const saveInSession = async function ({
       };
 
       const insertComplementaryCertificationSubscriptionQuery = knex(
-        'complementary-certification-subscriptions'
+        'complementary-certification-subscriptions',
       ).insert(complementaryCertificationSubscriptionToSave);
 
       if (domainTransaction.knexTransaction) {
@@ -71,7 +71,7 @@ const saveInSession = async function ({
   } catch (error) {
     logger.error(error);
     throw new CertificationCandidateCreationOrUpdateError(
-      'An error occurred while saving the certification candidate in a session'
+      'An error occurred while saving the certification candidate in a session',
     );
   }
 };
@@ -106,12 +106,12 @@ const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
     .leftJoin(
       'complementary-certification-subscriptions',
       'certification-candidates.id',
-      'complementary-certification-subscriptions.certificationCandidateId'
+      'complementary-certification-subscriptions.certificationCandidateId',
     )
     .leftJoin(
       'complementary-certifications',
       'complementary-certification-subscriptions.complementaryCertificationId',
-      'complementary-certifications.id'
+      'complementary-certifications.id',
     )
     .where({ sessionId, userId })
     .groupBy('certification-candidates.id', 'complementary-certifications.id')
@@ -132,12 +132,12 @@ const findBySessionId = async function (sessionId) {
     .leftJoin(
       'complementary-certification-subscriptions',
       'certification-candidates.id',
-      'complementary-certification-subscriptions.certificationCandidateId'
+      'complementary-certification-subscriptions.certificationCandidateId',
     )
     .leftJoin(
       'complementary-certifications',
       'complementary-certification-subscriptions.complementaryCertificationId',
-      'complementary-certifications.id'
+      'complementary-certifications.id',
     )
     .groupBy('certification-candidates.id', 'complementary-certifications.id')
     .orderByRaw('LOWER("certification-candidates"."lastName") asc')
@@ -208,12 +208,12 @@ const getWithComplementaryCertification = async function (id) {
     .leftJoin(
       'complementary-certification-subscriptions',
       'complementary-certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id'
+      'certification-candidates.id',
     )
     .leftJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-subscriptions.complementaryCertificationId'
+      'complementary-certification-subscriptions.complementaryCertificationId',
     )
     .where('certification-candidates.id', id)
     .first();

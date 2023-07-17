@@ -54,7 +54,7 @@ class CampaignLearningContent {
   getValidatedKnowledgeElementsGroupedByTube(knowledgeElements) {
     return this._filterTargetedKnowledgeElementAndGroupByTube(
       knowledgeElements,
-      (knowledgeElement) => knowledgeElement.isValidated
+      (knowledgeElement) => knowledgeElement.isValidated,
     );
   }
 
@@ -65,7 +65,7 @@ class CampaignLearningContent {
   countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements) {
     const validatedGroupedByCompetence = this._filterTargetedKnowledgeElementAndGroupByCompetence(
       knowledgeElements,
-      (knowledgeElement) => knowledgeElement.isValidated
+      (knowledgeElement) => knowledgeElement.isValidated,
     );
     return _.mapValues(validatedGroupedByCompetence, 'length');
   }

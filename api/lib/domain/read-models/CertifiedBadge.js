@@ -13,7 +13,7 @@ class CertifiedBadge {
   static fromComplementaryCertificationCourseResults(complementaryCertificationCourseResults) {
     const complementaryCertificationCourseResultsByComplementaryCertificationCourseId = _.groupBy(
       complementaryCertificationCourseResults,
-      'complementaryCertificationCourseId'
+      'complementaryCertificationCourseId',
     );
 
     return Object.values(complementaryCertificationCourseResultsByComplementaryCertificationCourseId)
@@ -68,7 +68,7 @@ function _getAcquiredCertifiedBadgesDTOWithExternalJury(complementaryCertificati
   }
 
   const { partnerKey, label, imageUrl, stickerUrl, certificateMessage, acquired } = _getLowestByLevel(
-    complementaryCertificationCourseResults
+    complementaryCertificationCourseResults,
   );
 
   if (acquired) {

@@ -22,7 +22,7 @@ const cpfExport = injectDependencies(
     createAndUpload,
     sendEmail,
   },
-  dependencies
+  dependencies,
 );
 
 export { cpfExport };

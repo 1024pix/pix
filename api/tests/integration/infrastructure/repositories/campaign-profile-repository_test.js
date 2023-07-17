@@ -87,7 +87,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Greg', lastName: 'Duboire', organizationId },
-          { campaignId }
+          { campaignId },
         );
         await databaseBuilder.commit();
 
@@ -108,7 +108,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         const campaignParticipationCreated = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Greg', lastName: 'Duboire', organizationId },
-          { campaignId }
+          { campaignId },
         );
         databaseBuilder.factory.buildOrganizationLearner({
           firstName: 'Gregoire',

@@ -25,12 +25,12 @@ class SessionMassImportReport {
 
   updateSessionsCounters(sessions) {
     this.sessionsWithoutCandidatesCount = sessions.filter(
-      (session) => session.certificationCandidates.length === 0
+      (session) => session.certificationCandidates.length === 0,
     ).length;
     this.sessionsCount = sessions.length;
     this.candidatesCount = sessions.reduce(
       (currentCandidateCount, currentSession) => currentCandidateCount + currentSession.certificationCandidates.length,
-      0
+      0,
     );
   }
 }

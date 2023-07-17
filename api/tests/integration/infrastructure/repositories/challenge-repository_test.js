@@ -101,7 +101,7 @@ describe('Integration | Repository | challenge-repository', function () {
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal(
-        'Aucun challenge trouvé pour la mission : recCHAL1, le niveau TRAINING et le numéro 1'
+        'Aucun challenge trouvé pour la mission : recCHAL1, le niveau TRAINING et le numéro 1',
       );
     });
     it('should return an error when the challenge is not found', async function () {
@@ -132,7 +132,7 @@ describe('Integration | Repository | challenge-repository', function () {
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal(
-        'Aucun challenge trouvé pour la mission : recCHAL1, le niveau TUTORIAL et le numéro 1'
+        'Aucun challenge trouvé pour la mission : recCHAL1, le niveau TUTORIAL et le numéro 1',
       );
     });
     it('should return the challenge with the correct activityLevel', async function () {
@@ -182,7 +182,7 @@ describe('Integration | Repository | challenge-repository', function () {
       // then
       expect(actualChallenge).to.be.instanceOf(Challenge);
       expect(_.omit(actualChallenge, ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
-        _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer'])
+        _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
       );
     });
     it('should return the challenge for the given missionId', async function () {
@@ -237,7 +237,7 @@ describe('Integration | Repository | challenge-repository', function () {
       // then
       expect(actualChallenge).to.be.instanceOf(Challenge);
       expect(_.omit(actualChallenge, ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
-        _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer'])
+        _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
       );
     });
     it('should return the correct validor for the challenge type', async function () {
@@ -944,7 +944,7 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(validatedChallenges).to.have.lengthOf(1);
       expect(validatedChallenges[0]).to.be.instanceOf(Challenge);
       expect(_.omit(validatedChallenges[0], 'validator')).to.deep.equal(
-        _.omit(expectedValidatedChallenge, 'validator')
+        _.omit(expectedValidatedChallenge, 'validator'),
       );
     });
   });

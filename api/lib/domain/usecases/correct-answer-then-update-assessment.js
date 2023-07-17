@@ -161,12 +161,12 @@ async function _getKnowledgeElements({
     previouslyFailedSkills: _getSkillsFilteredByStatus(
       knowledgeElements,
       targetSkills,
-      KnowledgeElement.StatusType.INVALIDATED
+      KnowledgeElement.StatusType.INVALIDATED,
     ),
     previouslyValidatedSkills: _getSkillsFilteredByStatus(
       knowledgeElements,
       targetSkills,
-      KnowledgeElement.StatusType.VALIDATED
+      KnowledgeElement.StatusType.VALIDATED,
     ),
     targetSkills,
     userId: assessment.userId,

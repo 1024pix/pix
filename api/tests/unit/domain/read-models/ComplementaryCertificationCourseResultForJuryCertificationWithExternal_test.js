@@ -109,7 +109,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
       // when
       const result = ComplementaryCertificationCourseResultForJuryCertificationWithExternal.from(
         complementaryCertificationCourseResultWithExternal,
-        badgeKeyAndLabelsGroupedByTargetProfile
+        badgeKeyAndLabelsGroupedByTargetProfile,
       );
 
       // then
@@ -124,7 +124,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
             { value: 'KEY_1', label: 'Key 1' },
             { value: 'KEY_2', label: 'Key 2' },
           ],
-        })
+        }),
       );
     });
   });

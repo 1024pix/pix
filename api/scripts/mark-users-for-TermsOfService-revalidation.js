@@ -19,7 +19,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log(
-    'Start updating "mustValidateTermsOfService" column for some records of users table, from false to true.'
+    'Start updating "mustValidateTermsOfService" column for some records of users table, from false to true.',
   );
 
   const updatedUserIds = await markUsersRequiringTermsOfServiceValidationForRevalidation();

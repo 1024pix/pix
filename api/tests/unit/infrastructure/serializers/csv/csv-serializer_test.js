@@ -53,7 +53,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         csvSerializer.serializeLine([{}]);
         // then
         expect(logger.error).to.have.been.calledWith(
-          'Unknown value type in _csvSerializeValue: object: [object Object]'
+          'Unknown value type in _csvSerializeValue: object: [object Object]',
         );
       });
 

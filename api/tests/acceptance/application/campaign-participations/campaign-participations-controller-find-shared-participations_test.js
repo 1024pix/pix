@@ -65,7 +65,7 @@ describe('Acceptance | API | Campaign Participations | Results', function () {
           firstName: 'John',
           lastName: 'McClane',
         },
-        participant1
+        participant1,
       );
       databaseBuilder.factory.buildAssessmentFromParticipation(
         campaignParticipation,
@@ -75,7 +75,7 @@ describe('Acceptance | API | Campaign Participations | Results', function () {
           firstName: 'Holly',
           lastName: 'McClane',
         },
-        participant2
+        participant2,
       );
 
       return databaseBuilder.commit();

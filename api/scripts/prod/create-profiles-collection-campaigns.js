@@ -14,7 +14,7 @@ function checkData(campaignData) {
     }
     if (!name) {
       throw new Error(
-        `Ligne ${index + 1}: Le nom de campagne est obligatoire pour la campagne de collecte de profils.`
+        `Ligne ${index + 1}: Le nom de campagne est obligatoire pour la campagne de collecte de profils.`,
       );
     }
     if (!creatorId) {
@@ -45,11 +45,11 @@ async function prepareCampaigns(campaignsData) {
 
       if (isLaunchedFromCommandLine)
         process.stdout.write(
-          `Campagne de collecte de profils ${campaign.name} pour l'organisation ${campaign.organizationId} ===> ✔\n`
+          `Campagne de collecte de profils ${campaign.name} pour l'organisation ${campaign.organizationId} ===> ✔\n`,
         );
       return campaign;
     },
-    { concurrency: 10 }
+    { concurrency: 10 },
   );
 
   return campaigns.flat();

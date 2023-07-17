@@ -61,7 +61,7 @@ const findPaginatedFilteredOrganizations = async function (
   dependencies = {
     organizationSerializer,
     queryParamsUtils,
-  }
+  },
 ) {
   const options = dependencies.queryParamsUtils.extractParameters(request.query);
 
@@ -78,7 +78,7 @@ const findPaginatedFilteredCampaigns = async function (
   dependencies = {
     queryParamsUtils,
     campaignReportSerializer,
-  }
+  },
 ) {
   const organizationId = request.params.id;
   const options = dependencies.queryParamsUtils.extractParameters(request.query);
@@ -103,7 +103,7 @@ const findPaginatedCampaignManagements = async function (
   dependencies = {
     queryParamsUtils,
     campaignManagementSerializer,
-  }
+  },
 ) {
   const organizationId = request.params.id;
   const { filter, page } = dependencies.queryParamsUtils.extractParameters(request.query);
@@ -143,7 +143,7 @@ const findPaginatedFilteredMemberships = async function (request) {
 const getOrganizationMemberIdentities = async function (
   request,
   h,
-  dependencies = { organizationMemberIdentitySerializer }
+  dependencies = { organizationMemberIdentitySerializer },
 ) {
   const organizationId = request.params.id;
   const members = await usecases.getOrganizationMemberIdentities({ organizationId });
@@ -159,7 +159,7 @@ const getOrganizationPlacesCapacity = async function (request) {
 const findOrganizationPlacesLot = async function (
   request,
   h,
-  dependencies = { organizationPlacesLotManagementSerializer }
+  dependencies = { organizationPlacesLotManagementSerializer },
 ) {
   const organizationId = request.params.id;
   const places = await usecases.findOrganizationPlacesLot({ organizationId });
@@ -181,7 +181,7 @@ const createOrganizationPlacesLot = async function (
   dependencies = {
     organizationPlacesLotSerializer,
     organizationPlacesLotManagementSerializer,
-  }
+  },
 ) {
   const organizationId = request.params.id;
   const createdBy = request.auth.credentials.userId;
@@ -197,7 +197,7 @@ const createOrganizationPlacesLot = async function (
 const downloadCertificationAttestationsForDivision = async function (
   request,
   h,
-  dependencies = { certificationAttestationPdf }
+  dependencies = { certificationAttestationPdf },
 ) {
   const organizationId = request.params.id;
   const { i18n } = request;
@@ -226,7 +226,7 @@ const downloadCertificationAttestationsForDivision = async function (
 const downloadCertificationResults = async function (
   request,
   h,
-  dependencies = { getDivisionCertificationResultsCsv }
+  dependencies = { getDivisionCertificationResultsCsv },
 ) {
   const organizationId = request.params.id;
   const { division } = request.query;
@@ -277,7 +277,7 @@ const findPaginatedFilteredScoParticipants = async function (
   dependencies = {
     queryParamsUtils,
     scoOrganizationParticipantsSerializer,
-  }
+  },
 ) {
   const organizationId = request.params.id;
   const { filter, page, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
@@ -308,7 +308,7 @@ const findPaginatedFilteredSupParticipants = async function (
   dependencies = {
     queryParamsUtils,
     supOrganizationParticipantsSerializer,
-  }
+  },
 ) {
   const organizationId = request.params.id;
   const { filter, page, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
@@ -396,7 +396,7 @@ const sendInvitationByLangAndRole = async function (request, h, dependencies = {
   const organizationId = request.params.id;
   const invitationInformation =
     await dependencies.organizationInvitationSerializer.deserializeForCreateOrganizationInvitationAndSendEmail(
-      request.payload
+      request.payload,
     );
 
   const organizationInvitation = await usecases.createOrganizationInvitationByAdmin({
@@ -445,7 +445,7 @@ const getPaginatedParticipantsForAnOrganization = async function (
   dependencies = {
     queryParamsUtils,
     organizationParticipantsSerializer,
-  }
+  },
 ) {
   const organizationId = request.params.id;
   const { page, filter: filters, sort } = dependencies.queryParamsUtils.extractParameters(request.query);

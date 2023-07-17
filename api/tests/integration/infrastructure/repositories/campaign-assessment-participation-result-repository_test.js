@@ -238,7 +238,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         await databaseBuilder.commit();
 
         const error = await catchErr(
-          campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId
+          campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId,
         )({ campaignId, campaignParticipationId: 77777 });
 
         //then
@@ -257,7 +257,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         await databaseBuilder.commit();
 
         const error = await catchErr(
-          campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId
+          campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId,
         )({ campaignId, campaignParticipationId });
 
         //then

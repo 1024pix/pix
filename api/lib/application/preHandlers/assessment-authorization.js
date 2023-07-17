@@ -5,7 +5,7 @@ import * as requestResponseUtils from '../../infrastructure/utils/request-respon
 const verify = function (
   request,
   h,
-  dependencies = { requestResponseUtils, assessmentRepository, validationErrorSerializer }
+  dependencies = { requestResponseUtils, assessmentRepository, validationErrorSerializer },
 ) {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   // eslint-disable-next-line no-restricted-syntax

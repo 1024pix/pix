@@ -61,7 +61,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
       certificationCourseId: CERTIFICATION_COURSE_SUCCESS_ID,
       complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
       complementaryCertificationBadgeId: PIX_DROIT_AVANCE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    }
+    },
   );
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseSuccessDroitId,

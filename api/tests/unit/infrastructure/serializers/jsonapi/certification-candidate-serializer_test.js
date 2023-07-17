@@ -96,15 +96,15 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
       expect(deserializedCertificationCandidate.birthCity).to.equal(certificationCandidate.birthCity);
       expect(deserializedCertificationCandidate.birthCountry).to.equal(certificationCandidate.birthCountry);
       expect(deserializedCertificationCandidate.extraTimePercentage).to.equal(
-        certificationCandidate.extraTimePercentage
+        certificationCandidate.extraTimePercentage,
       );
       expect(deserializedCertificationCandidate.externalId).to.equal(certificationCandidate.externalId);
       expect(deserializedCertificationCandidate.email).to.equal(certificationCandidate.email);
       expect(deserializedCertificationCandidate.resultRecipientEmail).to.equal(
-        certificationCandidate.resultRecipientEmail
+        certificationCandidate.resultRecipientEmail,
       );
       expect(deserializedCertificationCandidate.organizationLearnerId).to.equal(
-        certificationCandidate.organizationLearnerId
+        certificationCandidate.organizationLearnerId,
       );
     });
   });

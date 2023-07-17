@@ -23,7 +23,7 @@ describe('Acceptance | Application | Oidc | Routes', function () {
             nonce: 'nonce',
             sub: 'some-user-unique-id',
           },
-          'secret'
+          'secret',
         );
         const userAuthenticationKey = await authenticationSessionService.save({
           sessionContent: { idToken },

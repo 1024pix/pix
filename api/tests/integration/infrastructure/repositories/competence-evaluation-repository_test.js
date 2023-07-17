@@ -30,7 +30,7 @@ describe('Integration | Repository | Competence Evaluation', function () {
 
       // when
       const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
       );
 
       // then
@@ -54,7 +54,7 @@ describe('Integration | Repository | Competence Evaluation', function () {
 
       // when
       const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
       );
 
       // then
@@ -80,12 +80,12 @@ describe('Integration | Repository | Competence Evaluation', function () {
         userId: assessment.userId,
       });
       await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
       );
 
       // when
       const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
       );
 
       // then
@@ -132,7 +132,7 @@ describe('Integration | Repository | Competence Evaluation', function () {
       // then
       return promise.then((competenceEvaluation) => {
         expect(_.omit(competenceEvaluation, ['assessment', 'scorecard'])).to.deep.equal(
-          _.omit(competenceEvaluationExpected, ['assessment'])
+          _.omit(competenceEvaluationExpected, ['assessment']),
         );
         expect(competenceEvaluation.assessment.id).to.deep.equal(assessmentForExpectedCompetenceEvaluation.id);
       });
@@ -184,7 +184,7 @@ describe('Integration | Repository | Competence Evaluation', function () {
       // then
       return promise.then((competenceEvaluation) => {
         expect(_.omit(competenceEvaluation, ['assessment', 'scorecard'])).to.deep.equal(
-          _.omit(competenceEvaluationExpected, ['assessment'])
+          _.omit(competenceEvaluationExpected, ['assessment']),
         );
         expect(competenceEvaluation.assessment.id).to.deep.equal(assessmentExpected.id);
       });
@@ -225,7 +225,7 @@ describe('Integration | Repository | Competence Evaluation', function () {
 
       // then
       expect(_.omit(result, ['assessment', 'scorecard'])).to.deep.equal(
-        _.omit(competenceEvaluationExpected, ['assessment'])
+        _.omit(competenceEvaluationExpected, ['assessment']),
       );
       expect(result.assessment.id).to.deep.equal(assessmentExpected.id);
     });
@@ -283,7 +283,7 @@ describe('Integration | Repository | Competence Evaluation', function () {
       return promise.then((competenceEvaluation) => {
         expect(competenceEvaluation).to.have.length(2);
         expect(_.omit(competenceEvaluation[0], ['assessment', 'scorecard'])).to.deep.equal(
-          _.omit(competenceEvaluationExpected, ['assessment'])
+          _.omit(competenceEvaluationExpected, ['assessment']),
         );
         expect(competenceEvaluation[0].assessment.id).to.deep.equal(assessmentExpected.id);
       });
@@ -322,7 +322,7 @@ describe('Integration | Repository | Competence Evaluation', function () {
       // then
       expect(competenceEvaluations).to.have.length(1);
       expect(_.omit(competenceEvaluations[0], ['assessment', 'scorecard'])).to.deep.equal(
-        _.omit(competenceEvaluationExpected, ['assessment'])
+        _.omit(competenceEvaluationExpected, ['assessment']),
       );
     });
   });

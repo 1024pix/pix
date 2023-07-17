@@ -28,7 +28,7 @@ describe('Unit | Controller | cache-controller', function () {
 
       // then
       expect(
-        learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord
+        learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord,
       ).to.have.been.calledWithExactly('recId', { property: 'updatedValue' });
       expect(response).to.be.null;
     });
@@ -42,7 +42,7 @@ describe('Unit | Controller | cache-controller', function () {
 
       // Then
       expect(
-        learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord
+        learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord,
       ).to.have.been.calledWithExactly('recId', { property: 'updatedValue' });
       expect(response).to.be.null;
     });

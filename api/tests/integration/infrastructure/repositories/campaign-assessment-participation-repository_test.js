@@ -38,7 +38,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
             ...participation,
             campaignId,
           },
-          participant
+          participant,
         );
         campaignParticipationId = assessment.campaignParticipationId;
         userId = assessment.userId;
@@ -295,7 +295,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         await databaseBuilder.commit();
 
         const error = await catchErr(
-          campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId
+          campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId,
         )({ campaignId, campaignParticipationId: 77777 });
 
         //then
@@ -317,7 +317,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         await databaseBuilder.commit();
 
         const error = await catchErr(
-          campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId
+          campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId,
         )({ campaignId, campaignParticipationId });
 
         //then

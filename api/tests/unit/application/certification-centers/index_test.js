@@ -49,7 +49,7 @@ describe('Unit | Router | certification-center-router', function () {
         h
           .response({ errors: new Error('forbidden') })
           .code(403)
-          .takeover()
+          .takeover(),
       );
 
       const httpTestServer = new HttpTestServer();
@@ -86,7 +86,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/certification-centers/1/sessions/2/students?filter[unexpected][]=5'
+        '/api/certification-centers/1/sessions/2/students?filter[unexpected][]=5',
       );
 
       // then
@@ -102,7 +102,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/certification-centers/1/sessions/2/students?filter[divisions][]="3EMEB"'
+        '/api/certification-centers/1/sessions/2/students?filter[divisions][]="3EMEB"',
       );
 
       // then
@@ -118,7 +118,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/certification-centers/1/sessions/2/students?filter[divisions][]="3EMEB"&filter[divisions][]="3EMEA"'
+        '/api/certification-centers/1/sessions/2/students?filter[divisions][]="3EMEB"&filter[divisions][]="3EMEA"',
       );
 
       // then
@@ -133,7 +133,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/certification-centers/1/sessions/2/students?filter[divisions]="3EMEA"'
+        '/api/certification-centers/1/sessions/2/students?filter[divisions]="3EMEA"',
       );
 
       // then
@@ -148,7 +148,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/certification-centers/1/sessions/2/students?page[number]=1&page[size]=25'
+        '/api/certification-centers/1/sessions/2/students?page[number]=1&page[size]=25',
       );
 
       // then
@@ -163,7 +163,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/certification-centers/1/sessions/2/students?page[number]=a'
+        '/api/certification-centers/1/sessions/2/students?page[number]=a',
       );
 
       // then
@@ -177,7 +177,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const result = await httpTestServer.request(
         'GET',
-        '/api/certification-centers/1/sessions/2/students?page[size]=a'
+        '/api/certification-centers/1/sessions/2/students?page[size]=a',
       );
 
       // then
@@ -249,7 +249,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const result = await httpTestServer.request(
         method,
-        '/api/admin/certification-centers/invalid/certification-center-memberships'
+        '/api/admin/certification-centers/invalid/certification-center-memberships',
       );
 
       // then
@@ -285,7 +285,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const result = await httpTestServer.request(
         method,
-        '/api/admin/certification-centers/invalid/certification-center-memberships'
+        '/api/admin/certification-centers/invalid/certification-center-memberships',
       );
 
       // then
@@ -360,7 +360,7 @@ describe('Unit | Router | certification-center-router', function () {
         `/api/certification-centers/${certificationCenterId}/sessions/validate-for-mass-import`,
         payload,
         null,
-        headers
+        headers,
       );
 
       // then
@@ -385,7 +385,7 @@ describe('Unit | Router | certification-center-router', function () {
           `/api/certification-centers/${certificationCenterId}/sessions/validate-for-mass-import`,
           payload,
           null,
-          headers
+          headers,
         );
 
         // then

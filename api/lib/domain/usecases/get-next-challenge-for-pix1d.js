@@ -31,7 +31,7 @@ export async function getNextChallengeForPix1d({
       _lastAnswerStatus(answers),
       challengeRepository,
       assessmentRepository,
-      activityRepository
+      activityRepository,
     );
   }
   return challenge;
@@ -80,7 +80,7 @@ async function _getNextActivityChallenge(
   lastAnswerStatus,
   challengeRepository,
   assessmentRepository,
-  activityRepository
+  activityRepository,
 ) {
   if (lastAnswerStatus) {
     await activityRepository.updateStatus({ activityId: currentActivity.id, status: status[lastAnswerStatus] });

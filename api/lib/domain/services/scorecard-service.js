@@ -80,7 +80,7 @@ async function _resetKnowledgeElements({ userId, competenceId, knowledgeElementR
     competenceId,
   });
   const resetKnowledgeElementsPromises = _.map(knowledgeElements, (knowledgeElement) =>
-    _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository })
+    _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository }),
   );
   return Promise.all(resetKnowledgeElementsPromises);
 }
@@ -122,7 +122,7 @@ async function _resetCampaignAssessments({
       assessmentRepository,
       campaignParticipationRepository,
       campaignRepository,
-    })
+    }),
   );
   return Promise.all(resetCampaignAssessmentsPromises);
 }

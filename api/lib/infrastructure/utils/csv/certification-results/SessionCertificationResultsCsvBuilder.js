@@ -18,8 +18,8 @@ class SessionCertificationResultsCsvBuilder {
     return [
       ...new Set(
         this.#certificationResults.flatMap((certificationResult) =>
-          certificationResult.getUniqComplementaryCertificationCourseResultLabels()
-        )
+          certificationResult.getUniqComplementaryCertificationCourseResultLabels(),
+        ),
       ),
     ];
   }
@@ -29,14 +29,14 @@ class SessionCertificationResultsCsvBuilder {
     headersGenerator.next();
 
     ['CERTIFICATION_NUMBER', 'FIRSTNAME', 'LASTNAME', 'BIRTHDATE', 'BIRTHPLACE', 'EXTERNAL_ID', 'STATUS'].forEach(
-      (headerKey) => headersGenerator.next({ headerKey })
+      (headerKey) => headersGenerator.next({ headerKey }),
     );
 
     this.#getComplementaryCertificationResultsLabels().forEach((label) =>
       headersGenerator.next({
         headerKey: 'CERTIFICATION_LABEL',
         headerParams: { label },
-      })
+      }),
     );
 
     headersGenerator.next({ headerKey: 'PIX_SCORE' });
@@ -45,11 +45,11 @@ class SessionCertificationResultsCsvBuilder {
       headersGenerator.next({
         headerKey: 'SKILL_LABEL',
         headerParams: { skillIndex },
-      })
+      }),
     );
 
     ['JURY_COMMENT_FOR_ORGANIZATION', 'SESSION_ID', 'CERTIFICATION_CENTER', 'CERTIFICATION_DATE'].forEach((headerKey) =>
-      headersGenerator.next({ headerKey })
+      headersGenerator.next({ headerKey }),
     );
 
     return headersGenerator.next({ done: true }).value;
@@ -76,7 +76,7 @@ class SessionCertificationResultsCsvBuilder {
             certificationResult,
             sessionComplementaryCertificationsLabel,
           }),
-        })
+        }),
       );
 
       rowGenerator.next({ value: this.#csvValues.formatPixScore(certificationResult) });
@@ -87,7 +87,7 @@ class SessionCertificationResultsCsvBuilder {
             competenceIndex,
             certificationResult,
           }),
-        })
+        }),
       );
 
       rowGenerator.next({ value: this.#csvValues.getCommentForOrganization(certificationResult) });

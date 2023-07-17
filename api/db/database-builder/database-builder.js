@@ -110,7 +110,7 @@ class DatabaseBuilder {
       _.map(this.tablesOrderedByDependencyWithDirtinessMap, 'table'),
       'knex_migrations',
       'knex_migrations_lock',
-      'view-active-organization-learners'
+      'view-active-organization-learners',
     );
     const tables = _.map(sortedTables, (tableToDelete) => `"${tableToDelete}"`).join();
     // eslint-disable-next-line knex/avoid-injections

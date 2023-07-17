@@ -149,13 +149,13 @@ describe('Integration | Repository | training-repository', function () {
       expect(result.trainingTriggers[0].areas[0].competences[0].thematics[0].id).to.equal(thematic1.id);
       expect(result.trainingTriggers[0].areas[0].competences[0].thematics[0].triggerTubes).to.have.lengthOf(1);
       expect(result.trainingTriggers[0].areas[0].competences[0].thematics[0].triggerTubes[0].id).to.deep.equal(
-        trainingTriggerTube.id
+        trainingTriggerTube.id,
       );
       expect(result.trainingTriggers[0].areas[0].competences[0].thematics[0].triggerTubes[0].tube.name).to.deep.equal(
-        tube.name
+        tube.name,
       );
       expect(result.trainingTriggers[0].areas[0].competences[0].thematics[0].triggerTubes[0].level).to.deep.equal(
-        trainingTriggerTube.level
+        trainingTriggerTube.level,
       );
     });
   });
@@ -502,8 +502,8 @@ describe('Integration | Repository | training-repository', function () {
           new TrainingTrigger({
             ...expectedGoalTrainingTrigger,
           }),
-          'triggerTubes'
-        )
+          'triggerTubes',
+        ),
       );
       expect(trainingTrigger0.triggerTubes).to.have.lengthOf(1);
       expect(trainingTrigger0.triggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);

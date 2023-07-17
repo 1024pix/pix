@@ -11,7 +11,7 @@ const markAsBeingUsed = function (email) {
     {
       patch: true,
       require: false,
-    }
+    },
   );
 };
 

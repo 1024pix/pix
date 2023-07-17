@@ -13,7 +13,7 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
       const belongsToSupOrganization = await checkUserIsAdminAndManagingStudentsForOrganization.execute(
         user.id,
         organization.id,
-        'SUP'
+        'SUP',
       );
 
       expect(belongsToSupOrganization).to.be.false;
@@ -34,7 +34,7 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
       const belongsToSupOrganization = await checkUserIsAdminAndManagingStudentsForOrganization.execute(
         user.id,
         organization.id,
-        'SUP'
+        'SUP',
       );
 
       expect(belongsToSupOrganization).to.be.true;
@@ -55,7 +55,7 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
       const belongsToSupOrganization = await checkUserIsAdminAndManagingStudentsForOrganization.execute(
         user.id,
         organization.id,
-        'SUP'
+        'SUP',
       );
 
       expect(belongsToSupOrganization).to.be.false;
@@ -76,7 +76,7 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
       const belongsToSupOrganization = await checkUserIsAdminAndManagingStudentsForOrganization.execute(
         user.id,
         organization.id,
-        'SUP'
+        'SUP',
       );
 
       expect(belongsToSupOrganization).to.be.false;
@@ -97,7 +97,7 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
       const belongsToSupOrganization = await checkUserIsAdminAndManagingStudentsForOrganization.execute(
         user.id,
         organization.id,
-        'SUP'
+        'SUP',
       );
 
       expect(belongsToSupOrganization).to.be.false;

@@ -67,7 +67,7 @@ const findProfilesCollectionResultDataByCampaignId = async function (campaignId)
     .join(
       'view-active-organization-learners',
       'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId'
+      'campaign-participations.organizationLearnerId',
     )
     .where({ campaignId, isImproved: false, 'campaign-participations.deletedAt': null });
 
@@ -83,12 +83,12 @@ const findLatestOngoingByUserId = async function (userId) {
     .select('campaign-participations.*');
   const campaigns = await knex('campaigns').whereIn(
     'id',
-    campaignParticipations.map((campaignParticipation) => campaignParticipation.campaignId)
+    campaignParticipations.map((campaignParticipation) => campaignParticipation.campaignId),
   );
   const assessments = await knex('assessments')
     .whereIn(
       'campaignParticipationId',
-      campaignParticipations.map((campaignParticipation) => campaignParticipation.id)
+      campaignParticipations.map((campaignParticipation) => campaignParticipation.id),
     )
     .orderBy('createdAt');
   return campaignParticipations.map((campaignParticipation) => {
@@ -117,7 +117,7 @@ const findOneByCampaignIdAndUserId = async function ({ campaignId, userId }) {
 
 const updateWithSnapshot = async function (
   campaignParticipation,
-  domainTransaction = DomainTransaction.emptyTransaction()
+  domainTransaction = DomainTransaction.emptyTransaction(),
 ) {
   await this.update(campaignParticipation, domainTransaction);
 
@@ -190,7 +190,7 @@ const getAllCampaignParticipationsInCampaignForASameLearner = async function ({
 
   if (!result) {
     throw new NotFoundError(
-      `There is no campaign participation with the id "${campaignParticipationId}" for the campaign wih the id "${campaignId}"`
+      `There is no campaign participation with the id "${campaignParticipationId}" for the campaign wih the id "${campaignId}"`,
     );
   }
 

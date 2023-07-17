@@ -101,7 +101,7 @@ const createTargetProfile = async function (request) {
 const findPaginatedTrainings = async function (
   request,
   h,
-  dependencies = { queryParamsUtils, trainingSummarySerializer }
+  dependencies = { queryParamsUtils, trainingSummarySerializer },
 ) {
   const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
   const targetProfileId = request.params.id;

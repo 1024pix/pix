@@ -35,7 +35,7 @@ async function _retrieveUserIds() {
     ORDER BY "users"."id" DESC
     LIMIT ?;
   `,
-    USER_COUNT
+    USER_COUNT,
   );
   return _.map(result.rows, 'id');
 }
@@ -48,7 +48,7 @@ async function _generateCertificationTest(userId, competences) {
 
   const certificationChallenges = await certificationChallengeService.pickCertificationChallenges(
     placementProfile,
-    FRENCH_FRANCE
+    FRENCH_FRANCE,
   );
   if (USER_ID) {
     console.log(JSON.stringify(certificationChallenges, null, 2));
@@ -59,7 +59,7 @@ async function _generateCertificationTest(userId, competences) {
     fp.mapValues((ccs) => ccs.map((cc) => cc.associatedSkillName.slice(-1)).join(':')),
     fp.map((levels, competenceId) => `${userId}\t${competenceId}\t${levels}`),
     fp.sortBy(fp.identity),
-    fp.forEach((line) => console.log(line))
+    fp.forEach((line) => console.log(line)),
   )(certificationChallenges);
 
   const certificationChallengesCountByCompetenceId = _.countBy(certificationChallenges, 'competenceId');
@@ -70,7 +70,7 @@ async function _generateCertificationTest(userId, competences) {
         return [userCompetence.id, certificationChallengesCountByCompetenceId[userCompetence.id]];
       }
       return [userCompetence.id, 'non-certifiable'];
-    })
+    }),
   );
 }
 
@@ -113,8 +113,8 @@ async function main() {
           updateProgress();
         }
       },
-      { concurrency: ~~process.env.CONCURRENCY || 10 }
-    )
+      { concurrency: ~~process.env.CONCURRENCY || 10 },
+    ),
   );
 
   console.error('\nGénération des tests de certification OK');

@@ -35,7 +35,7 @@ async function handleCertificationRescoring({
       certificationAssessmentScore,
       certificationAssessment,
       event,
-      assessmentResultRepository
+      assessmentResultRepository,
     );
     await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
 
@@ -105,7 +105,7 @@ async function _saveAssessmentResult(
   certificationAssessmentScore,
   certificationAssessment,
   event,
-  assessmentResultRepository
+  assessmentResultRepository,
 ) {
   let assessmentResult;
   const emitter = _getEmitterFromEvent(event);

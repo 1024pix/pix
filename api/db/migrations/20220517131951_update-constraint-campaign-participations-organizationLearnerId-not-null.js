@@ -21,7 +21,7 @@ const up = async function (knex) {
       isImproved: ISIMPROVED_COLUMN,
       deletedAt: DELETEDAT_COLUMN,
       deletedBy: DELETEDBY_COLUMN,
-    }
+    },
   );
 };
 

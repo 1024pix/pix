@@ -90,7 +90,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
 
       userRepository.getBySamlId.withArgs('saml-id-for-adele').resolves(expectedUser);
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-        domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider()
+        domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider(),
       );
       tokenService.createAccessTokenForSaml.returns('access-token');
 
@@ -119,7 +119,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
 
       userRepository.getBySamlId.resolves(user);
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-        domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider()
+        domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider(),
       );
       tokenService.createIdTokenForUserReconciliation.returns('external-user-token');
 

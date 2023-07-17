@@ -32,7 +32,7 @@ describe('Unit | UseCase | abort-certification-course', function () {
         new CertificationCourse({
           ...certificationCourse.toDTO(),
           abortReason: 'technical',
-        })
+        }),
       );
     });
 

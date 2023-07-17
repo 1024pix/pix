@@ -20,7 +20,7 @@ describe('Unit | Application | CertificationCandidates | Routes', function () {
       const response = await httpTestServer.request(
         'POST',
         '/api/certification-candidates/1/authorize-to-start',
-        payload
+        payload,
       );
 
       // then
@@ -41,7 +41,7 @@ describe('Unit | Application | CertificationCandidates | Routes', function () {
       const response = await httpTestServer.request(
         'POST',
         '/api/certification-candidates/1/authorize-to-start',
-        payload
+        payload,
       );
 
       // then
@@ -97,7 +97,7 @@ describe('Unit | Application | CertificationCandidates | Routes', function () {
       // when
       const response = await httpTestServer.request(
         'PATCH',
-        '/api/certification-candidates/1/end-assessment-by-supervisor'
+        '/api/certification-candidates/1/end-assessment-by-supervisor',
       );
 
       // then
@@ -115,7 +115,7 @@ describe('Unit | Application | CertificationCandidates | Routes', function () {
       // when
       const response = await httpTestServer.request(
         'PATCH',
-        '/api/certification-candidates/1/end-assessment-by-supervisor'
+        '/api/certification-candidates/1/end-assessment-by-supervisor',
       );
 
       // then

@@ -969,7 +969,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     ].forEach(({ value, expectedTranslation }) => {
       it(`should return ${expectedTranslation} when ${value} is translated`, function () {
         expect(CertificationCandidate.parseBillingMode({ billingMode: value, translate })).to.equal(
-          expectedTranslation
+          expectedTranslation,
         );
       });
     });
@@ -984,7 +984,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     ].forEach(({ value, expectedTranslation }) => {
       it(`should return ${expectedTranslation} when ${value} is translated`, function () {
         expect(CertificationCandidate.translateBillingMode({ billingMode: value, translate })).to.equal(
-          expectedTranslation
+          expectedTranslation,
         );
       });
     });

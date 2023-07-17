@@ -19,7 +19,7 @@ describe('Unit | UseCase | update-participation-external-id', function () {
 
     //then
     expect(
-      participationsForCampaignManagementRepository.updateParticipantExternalId
+      participationsForCampaignManagementRepository.updateParticipantExternalId,
     ).to.have.been.calledOnceWithExactly({
       campaignParticipationId: 34,
       participantExternalId: 'new1234567',

@@ -680,7 +680,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
               deactivations: testCase.deactivations,
             };
             expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-          }
+          },
         );
       });
     });
@@ -823,7 +823,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
               deactivations: testCase.deactivations,
             };
             expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-          }
+          },
         );
       });
     });
@@ -966,7 +966,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
               deactivations: testCase.deactivations,
             };
             expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-          }
+          },
         );
       });
     });
@@ -1199,7 +1199,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
               deactivations: testCase.deactivations,
             };
             expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-          }
+          },
         );
       });
     });
@@ -1406,7 +1406,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
 
             // then
             expect(result).to.deep.equal(testCase.output);
-          }
+          },
         );
       });
     });
@@ -1612,7 +1612,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
               deactivations: testCase.deactivations,
             };
             expect(match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-          }
+          },
         );
       });
     });

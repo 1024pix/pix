@@ -26,10 +26,10 @@ describe('Unit | Domain | ReadModels | organizationPlacesLotManagement', functio
       expect(organizationPlacesLotManagement.expirationDate).to.equal(rawData.expirationDate);
       expect(organizationPlacesLotManagement.reference).to.equal(rawData.reference);
       expect(organizationPlacesLotManagement.category).to.equal(
-        OrganizationPlacesLotManagement.categories[rawData.category]
+        OrganizationPlacesLotManagement.categories[rawData.category],
       );
       expect(organizationPlacesLotManagement.creatorFullName).to.equal(
-        `${rawData.creatorFirstName} ${rawData.creatorLastName}`
+        `${rawData.creatorFirstName} ${rawData.creatorLastName}`,
       );
     });
   });

@@ -3,7 +3,7 @@ const findDivisionsByOrganization = async function ({ organizationId, divisionRe
     organizationId,
   });
   const divisionsOrderedByName = divisionsOrderedByPostgres.sort((divisionA, divisionB) =>
-    divisionA.name.localeCompare(divisionB.name, 'fr')
+    divisionA.name.localeCompare(divisionB.name, 'fr'),
   );
   return divisionsOrderedByName;
 };

@@ -15,7 +15,7 @@ const BookshelfSession = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfSession };

@@ -38,7 +38,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
           new KnowledgeElement({
             ...knowledgeElementData,
             createdAt: new Date(knowledgeElementData.createdAt),
-          })
+          }),
         );
       }
       expect(actualKnowledgeElements).to.deep.equal(knowledgeElements);
@@ -86,7 +86,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
             new KnowledgeElement({
               ...knowledgeElementData,
               createdAt: new Date(knowledgeElementData.createdAt),
-            })
+            }),
           );
         }
         expect(actualKnowledgeElements).to.deep.equal(knowledgeElements);

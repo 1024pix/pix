@@ -26,7 +26,7 @@ describe('Integration | Scripts | create-organization-places-lot', function () {
       // when
       const organizationPlacesLotData = await prepareOrganizationPlacesLot(
         [organizationPlacesLotData1, organizationPlacesLotData2],
-        false
+        false,
       );
 
       // then

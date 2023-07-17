@@ -163,7 +163,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           new CertificationCourse({
             ...certificationCourse.toDTO(),
             completedAt: now,
-          })
+          }),
         );
       });
     });
@@ -230,7 +230,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           new CertificationCourse({
             ...certificationCourse.toDTO(),
             completedAt: now,
-          })
+          }),
         );
       });
 
@@ -278,7 +278,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         Symbol('userId'),
         Symbol('targetProfileId'),
         Symbol('campaignParticipationId'),
-        false
+        false,
       );
 
       // when

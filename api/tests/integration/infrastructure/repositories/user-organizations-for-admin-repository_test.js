@@ -113,7 +113,7 @@ describe('Integration | Repository | user-organizations-for-admin', function () 
             'organizationId',
             'organizationName',
             'organizationType',
-            'organizationExternalId'
+            'organizationExternalId',
           );
         expect(userOrganizations[0].organizationName).be.oneOf(['Organization 2', 'Organization 3']);
 
@@ -126,7 +126,7 @@ describe('Integration | Repository | user-organizations-for-admin', function () 
             'organizationId',
             'organizationName',
             'organizationType',
-            'organizationExternalId'
+            'organizationExternalId',
           );
         expect(userOrganizations[1].organizationName).be.oneOf(['Organization 2', 'Organization 3']);
       });

@@ -233,7 +233,7 @@ describe('Acceptance | API | Certifications', function () {
             authorization: generateValidRequestAuthorizationHeaderForApplication(
               OSMOSE_CLIENT_ID,
               OSMOSE_SOURCE,
-              OSMOSE_SCOPE
+              OSMOSE_SCOPE,
             ),
           },
         };
@@ -291,7 +291,7 @@ describe('Acceptance | API | Certifications', function () {
             authorization: generateValidRequestAuthorizationHeaderForApplication(
               OSMOSE_CLIENT_ID,
               OSMOSE_SOURCE,
-              OSMOSE_SCOPE
+              OSMOSE_SCOPE,
             ),
           },
         };
@@ -374,7 +374,7 @@ describe('Acceptance | API | Certifications', function () {
           // then
           expect(response.statusCode).to.equal(403);
         });
-      }
+      },
     );
   });
 });

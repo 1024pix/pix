@@ -121,7 +121,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
     it('should return an Organization-invitation domain object', async function () {
       // when
       const organizationInvitationSaved = await organizationInvitationRepository.markAsAccepted(
-        organizationInvitation.id
+        organizationInvitation.id,
       );
 
       // then
@@ -146,7 +146,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
 
       // when
       const organizationInvitationSaved = await organizationInvitationRepository.markAsAccepted(
-        organizationInvitation.id
+        organizationInvitation.id,
       );
 
       // then
@@ -216,7 +216,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
 
       // when
       const foundOrganizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail(
-        { organizationId, email }
+        { organizationId, email },
       );
 
       // then
@@ -229,7 +229,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       const upperEmail = email.toUpperCase();
       // when
       const foundOrganizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail(
-        { organizationId, email: upperEmail }
+        { organizationId, email: upperEmail },
       );
 
       // then
@@ -362,7 +362,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
 
       // when
       const error = await catchErr(organizationInvitationRepository.updateModificationDate)(
-        wrongOrganizationInvitationId
+        wrongOrganizationInvitationId,
       );
 
       // then

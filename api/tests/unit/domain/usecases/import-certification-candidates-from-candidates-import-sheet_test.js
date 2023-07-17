@@ -130,8 +130,8 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           });
           expect(
             certificationCandidateRepository.deleteBySessionId.calledBefore(
-              certificationCandidateRepository.saveInSession
-            )
+              certificationCandidateRepository.saveInSession,
+            ),
           ).to.be.true;
         });
       });

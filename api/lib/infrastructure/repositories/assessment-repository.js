@@ -86,7 +86,7 @@ const abortByAssessmentId = function (assessmentId) {
 const completeByAssessmentId = function (assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
   return this._updateStateById(
     { id: assessmentId, state: Assessment.states.COMPLETED },
-    domainTransaction.knexTransaction
+    domainTransaction.knexTransaction,
   );
 };
 
@@ -101,7 +101,7 @@ const getByCertificationCandidateId = async function (certificationCandidateId) 
     .innerJoin('certification-candidates', function () {
       this.on('certification-candidates.userId', 'certification-courses.userId').andOn(
         'certification-candidates.sessionId',
-        'certification-courses.sessionId'
+        'certification-courses.sessionId',
       );
     })
     .where({ 'certification-candidates.id': certificationCandidateId })
@@ -122,7 +122,7 @@ const ownedByUser = async function ({ id, userId = null }) {
 const _updateStateById = async function ({ id, state }, knexTransaction) {
   const assessment = await BookshelfAssessment.where({ id }).save(
     { state },
-    { require: true, patch: true, transacting: knexTransaction }
+    { require: true, patch: true, transacting: knexTransaction },
   );
   return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment);
 };
@@ -131,7 +131,7 @@ const updateLastQuestionDate = async function ({ id, lastQuestionDate }) {
   try {
     await BookshelfAssessment.where({ id }).save(
       { lastQuestionDate },
-      { require: true, patch: true, method: 'update' }
+      { require: true, patch: true, method: 'update' },
     );
   } catch (err) {
     if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
@@ -145,7 +145,7 @@ const updateWhenNewChallengeIsAsked = async function ({ id, lastChallengeId }) {
   try {
     await BookshelfAssessment.where({ id }).save(
       { lastChallengeId, lastQuestionState: Assessment.statesOfLastQuestion.ASKED },
-      { require: true, patch: true, method: 'update' }
+      { require: true, patch: true, method: 'update' },
     );
   } catch (err) {
     if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
@@ -159,7 +159,7 @@ const updateLastQuestionState = async function ({ id, lastQuestionState, domainT
   try {
     await BookshelfAssessment.where({ id }).save(
       { lastQuestionState },
-      { require: true, patch: true, method: 'update', transacting: domainTransaction.knexTransaction }
+      { require: true, patch: true, method: 'update', transacting: domainTransaction.knexTransaction },
     );
   } catch (err) {
     if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
@@ -189,7 +189,7 @@ export {
 
 function _selectLastAssessmentForEachCompetence(bookshelfAssessments) {
   const assessmentsGroupedByCompetence = groupBy(bookshelfAssessments, (bookshelfAssessment) =>
-    bookshelfAssessment.get('competenceId')
+    bookshelfAssessment.get('competenceId'),
   );
   return map(assessmentsGroupedByCompetence, head);
 }

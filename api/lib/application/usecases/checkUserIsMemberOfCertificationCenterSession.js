@@ -9,7 +9,7 @@ const execute = async function ({
   const certificationCourse = await dependencies.certificationCourseRepository.get(certificationCourseId);
   return dependencies.sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
     userId,
-    certificationCourse.getSessionId()
+    certificationCourse.getSessionId(),
   );
 };
 

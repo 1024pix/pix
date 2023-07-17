@@ -90,7 +90,7 @@ describe('Integration | Repository | activityAnswerRepository', function () {
       // then
       const answerInDB = await knex('activity-answers').where('id', savedAnswer.id).first();
       expect(_.pick(savedAnswer, ['challengeId', 'activityId', 'value', 'resultDetails'])).to.deep.equal(
-        _.pick(answerInDB, ['challengeId', 'activityId', 'value', 'resultDetails'])
+        _.pick(answerInDB, ['challengeId', 'activityId', 'value', 'resultDetails']),
       );
     });
   });

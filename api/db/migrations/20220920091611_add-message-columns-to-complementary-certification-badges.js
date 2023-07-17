@@ -16,7 +16,7 @@ const up = async function (knex) {
 
   const eduBadges = await knex('complementary-certification-badges').whereIn(
     'complementaryCertificationId',
-    complementaryCertificationIds
+    complementaryCertificationIds,
   );
 
   await bluebird.mapSeries(eduBadges, async ({ id, label }) => {

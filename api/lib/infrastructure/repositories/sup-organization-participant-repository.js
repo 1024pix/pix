@@ -11,7 +11,7 @@ function _setFilters(qb, { search, studentNumber, groups, certificability } = {}
       qb,
       search,
       'view-active-organization-learners.firstName',
-      'view-active-organization-learners.lastName'
+      'view-active-organization-learners.lastName',
     );
   }
   if (studentNumber) {
@@ -20,7 +20,7 @@ function _setFilters(qb, { search, studentNumber, groups, certificability } = {}
   if (groups) {
     qb.whereIn(
       knex.raw('LOWER("view-active-organization-learners"."group")'),
-      groups.map((group) => group.toLowerCase())
+      groups.map((group) => group.toLowerCase()),
     );
   }
   if (certificability) {
@@ -39,17 +39,17 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
     .select([
       'view-active-organization-learners.id as organizationLearnerId',
       knex.raw(
-        'FIRST_VALUE("isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"'
+        'FIRST_VALUE("isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"',
       ),
       knex.raw(
-        'FIRST_VALUE("sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAt"'
+        'FIRST_VALUE("sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAt"',
       ),
     ])
     .from('view-active-organization-learners')
     .join(
       'campaign-participations',
       'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId'
+      'campaign-participations.organizationLearnerId',
     )
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .where('campaign-participations.status', CampaignParticipationStatuses.SHARED)
@@ -100,19 +100,19 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
       'subquery.isCertifiable',
       'subquery.certifiableAt',
       knex.raw(
-        'FIRST_VALUE("name") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"'
+        'FIRST_VALUE("name") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"',
       ),
       knex.raw(
-        'FIRST_VALUE("campaign-participations"."status") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "participationStatus"'
+        'FIRST_VALUE("campaign-participations"."status") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "participationStatus"',
       ),
       knex.raw(
-        'FIRST_VALUE("type") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignType"'
+        'FIRST_VALUE("type") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignType"',
       ),
       knex.raw(
-        'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER(PARTITION BY "view-active-organization-learners"."id") AS "participationCount"'
+        'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER(PARTITION BY "view-active-organization-learners"."id") AS "participationCount"',
       ),
       knex.raw(
-        'max("campaign-participations"."createdAt") OVER(PARTITION BY "view-active-organization-learners"."id") AS "lastParticipationDate"'
+        'max("campaign-participations"."createdAt") OVER(PARTITION BY "view-active-organization-learners"."id") AS "lastParticipationDate"',
       ),
     ])
     .from('view-active-organization-learners')
@@ -125,7 +125,7 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
     .leftJoin('campaigns', function () {
       this.on('campaigns.id', 'campaign-participations.campaignId').andOn(
         'campaigns.organizationId',
-        'view-active-organization-learners.organizationId'
+        'view-active-organization-learners.organizationId',
       );
     })
     .where('view-active-organization-learners.isDisabled', false)

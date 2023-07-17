@@ -238,7 +238,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         function () {
           const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-        }
+        },
       );
     });
 
@@ -313,7 +313,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         function () {
           const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-        }
+        },
       );
     });
   });
@@ -440,7 +440,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         function () {
           const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-        }
+        },
       );
     });
   });
@@ -554,7 +554,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         function () {
           const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-        }
+        },
       );
     });
   });
@@ -668,7 +668,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         function () {
           const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-        }
+        },
       );
     });
   });
@@ -782,7 +782,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         function () {
           const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-        }
+        },
       );
     });
   });
@@ -896,7 +896,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         function () {
           const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-        }
+        },
       );
     });
   });
@@ -1010,7 +1010,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         function () {
           const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-        }
+        },
       );
     });
   });
@@ -1124,7 +1124,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         function () {
           const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-        }
+        },
       );
     });
   });
@@ -1238,7 +1238,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         function () {
           const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-        }
+        },
       );
     });
   });
@@ -1303,7 +1303,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
             qrocBlocksTypes: testCase.qrocBlocksTypes,
           };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
-        }
+        },
       );
     });
   });

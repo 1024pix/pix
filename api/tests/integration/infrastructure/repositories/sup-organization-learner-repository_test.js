@@ -299,7 +299,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
 
             expect(result.isDisabled).to.be.false;
           });
-        }
+        },
       );
 
       context('when there is organization learners for an other organizationId and student number', function () {
@@ -429,7 +429,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
 
           expect(result.isDisabled).to.be.false;
         });
-      }
+      },
     );
 
     context('when there is organization learners for an other organizationId and student number', function () {
@@ -485,7 +485,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
           expect(result.isDisabled).to.be.true;
           expect(result.updatedAt).to.not.deep.equal(new Date('2000-01-01'));
         });
-      }
+      },
     );
 
     context('when there is a problem', function () {

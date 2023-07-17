@@ -20,7 +20,7 @@ const BookshelfTargetProfileShare = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfTargetProfileShare };

@@ -272,7 +272,7 @@ describe('Unit | Router | training-router', function () {
 
         // then
         expect(JSON.parse(response.payload).errors[0].detail).to.equal(
-          '"data.attributes.editor-logo-url" must be a valid uri'
+          '"data.attributes.editor-logo-url" must be a valid uri',
         );
         expect(response.statusCode).to.equal(400);
       });
@@ -879,7 +879,7 @@ describe('Unit | Router | training-router', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -1265,7 +1265,7 @@ describe('Unit | Router | training-router', function () {
           const response = await httpTestServer.request(
             'POST',
             '/api/admin/trainings/1/attach-target-profiles',
-            payload
+            payload,
           );
 
           // then
@@ -1295,13 +1295,13 @@ describe('Unit | Router | training-router', function () {
           const response = await httpTestServer.request(
             'POST',
             '/api/admin/trainings/1/attach-target-profiles',
-            payload
+            payload,
           );
 
           // then
           expect(response.statusCode).to.equal(404);
           expect(response.payload).to.have.string(
-            "L'id d'un des profils cible ou du contenu formatif n'est pas valide"
+            "L'id d'un des profils cible ou du contenu formatif n'est pas valide",
           );
         });
 
@@ -1326,13 +1326,13 @@ describe('Unit | Router | training-router', function () {
           const response = await httpTestServer.request(
             'POST',
             '/api/admin/trainings/chaton/attach-target-profiles',
-            payload
+            payload,
           );
 
           // then
           expect(response.statusCode).to.equal(404);
           expect(response.payload).to.have.string(
-            "L'id d'un des profils cible ou du contenu formatif n'est pas valide"
+            "L'id d'un des profils cible ou du contenu formatif n'est pas valide",
           );
         });
       });

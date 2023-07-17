@@ -124,7 +124,7 @@ describe('Acceptance | Controller | assessment-results-controller', function () 
             emitter: 'PIX-ALGO',
             commentForJury: 'Computed',
           },
-          'id'
+          'id',
         );
 
         await knex('competence-marks').insert({

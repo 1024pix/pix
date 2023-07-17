@@ -116,13 +116,13 @@ function _buildListChallengesAndAnswers({ certificationAssessment, competencesWi
         skill: challengeForAnswer.associatedSkillName,
         value: certificationAnswer.value,
       };
-    }
+    },
   );
 
   const unansweredChallengesAndAnswers = _(certificationAssessment.certificationChallenges)
     .map((challenge) => {
       const answer = certificationAssessment.certificationAnswersByDate.find(
-        (answer) => answer.challengeId === challenge.challengeId
+        (answer) => answer.challengeId === challenge.challengeId,
       );
       if (answer) {
         return null;

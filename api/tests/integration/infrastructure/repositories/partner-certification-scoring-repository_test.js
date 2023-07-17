@@ -45,12 +45,12 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
 
       // then
       const complementaryCertificationCourseResultSaved = await knex(
-        COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME
+        COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME,
       ).select();
       expect(complementaryCertificationCourseResultSaved).to.have.length(1);
       const complementaryCertificationCourseResultSavedWithoutId = omit(
         complementaryCertificationCourseResultSaved[0],
-        'id'
+        'id',
       );
       expect(complementaryCertificationCourseResultSavedWithoutId).to.deep.equal({
         complementaryCertificationCourseId,
@@ -87,14 +87,14 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
 
       // then
       const complementaryCertificationCourseResultSaved = await knex(
-        COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME
+        COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME,
       )
         .select()
         .first();
 
       const complementaryCertificationCourseResultSavedWithoutId = omit(
         complementaryCertificationCourseResultSaved,
-        'id'
+        'id',
       );
       expect(complementaryCertificationCourseResultSavedWithoutId).to.deep.equal({
         complementaryCertificationCourseId,

@@ -187,7 +187,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       // then
       expect(error).to.be.an.instanceOf(SendingEmailToInvalidDomainError);
       expect(error.message).to.equal(
-        'Failed to send email to hatake.kakashi@konoha.fire because domain seems to be invalid.'
+        'Failed to send email to hatake.kakashi@konoha.fire because domain seems to be invalid.',
       );
     });
   });

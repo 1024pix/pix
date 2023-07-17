@@ -43,7 +43,7 @@ const updatePixCertificationStatus = async ({ count, concurrency }) => {
       }
       _logProgression(count);
     },
-    { concurrency }
+    { concurrency },
   );
   logger.info(`\n\tOK, ${failedGenerations} générations de codes échouées pour cause de code en doublon`);
 };
@@ -142,7 +142,7 @@ async function _updatePixCertificationStatus(certificationId) {
         .select(1)
         .from({ 'last-assessment-results': 'assessment-results' })
         .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
+        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
     )
     .first();
   if (!certificationDTO) throw new Error(`Went wrong for certification ${certificationId}`);

@@ -17,7 +17,7 @@ const BookshelfAuthenticationMethod = Bookshelf.model(
   {
     modelName,
     jsonColumns: ['authenticationComplement'],
-  }
+  },
 );
 
 export { BookshelfAuthenticationMethod };

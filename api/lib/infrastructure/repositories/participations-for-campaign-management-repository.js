@@ -24,7 +24,7 @@ const findPaginatedParticipationsForCampaignManagement = async function ({ campa
     .join(
       'view-active-organization-learners',
       'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId'
+      'campaign-participations.organizationLearnerId',
     )
     .leftJoin('users as deletedByUsers', 'deletedByUsers.id', 'campaign-participations.deletedBy')
     .innerJoin('users', 'users.id', 'campaign-participations.userId')
@@ -34,7 +34,7 @@ const findPaginatedParticipationsForCampaignManagement = async function ({ campa
   const { results, pagination } = await fetchPage(query, page);
 
   const participationsForCampaignManagement = results.map(
-    (attributes) => new ParticipationForCampaignManagement(attributes)
+    (attributes) => new ParticipationForCampaignManagement(attributes),
   );
   return { models: participationsForCampaignManagement, meta: { ...pagination } };
 };

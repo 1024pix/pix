@@ -12,7 +12,7 @@ describe('Integration | UseCase | get-participants-division', function () {
       const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
       databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, division: division },
-        { campaignId: campaign.id }
+        { campaignId: campaign.id },
       );
       await databaseBuilder.commit();
 
@@ -29,7 +29,7 @@ describe('Integration | UseCase | get-participants-division', function () {
       const user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, division: division },
-        { campaignId: campaign.id }
+        { campaignId: campaign.id },
       );
       await databaseBuilder.commit();
 

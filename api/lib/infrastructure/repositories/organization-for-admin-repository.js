@@ -75,7 +75,7 @@ const get = async function (id) {
     .leftJoin(
       'data-protection-officers AS dataProtectionOfficers',
       'dataProtectionOfficers.organizationId',
-      'organizations.id'
+      'organizations.id',
     )
     .where('organizations.id', id)
     .first();
@@ -94,13 +94,13 @@ const get = async function (id) {
     .join('organization-features', function () {
       this.on('features.id', 'organization-features.featureId').andOn(
         'organization-features.organizationId',
-        organization.id
+        organization.id,
       );
     })
     .pluck('key');
 
   organization.enableMultipleSendingAssessment = availableFeatures.includes(
-    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT
+    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
   );
 
   organization.tags = tags.map((tag) => {

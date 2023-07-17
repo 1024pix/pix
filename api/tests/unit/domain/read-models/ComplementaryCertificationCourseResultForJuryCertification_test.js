@@ -55,7 +55,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
           partnerKey,
           acquired,
           label,
-        })
+        }),
       );
     });
   });

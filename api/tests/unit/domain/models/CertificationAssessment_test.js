@@ -41,28 +41,28 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
     it('should throw an ObjectValidationError when userId is not valid', function () {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, userId: 'les zouzous' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when certificationCourseId is not valid', function () {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationCourseId: 'ça gaze ?' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when createdAt is not valid', function () {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, createdAt: 'coucou' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when completed is not valid', function () {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, completedAt: 'ça pétille !' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
@@ -72,7 +72,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       it(`should not throw an ObjectValidationError when state is ${value}`, function () {
         // when
         expect(() => new CertificationAssessment({ ...validArguments, state: value })).not.to.throw(
-          ObjectValidationError
+          ObjectValidationError,
         );
       });
     });
@@ -80,35 +80,35 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
     it('should throw an ObjectValidationError when status is not one of [completed, started]', function () {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, state: 'aborted' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when version is not valid', function () {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, version: 'glouglou' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when certificationChallenges is not valid', function () {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationChallenges: [] })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when certificationAnswersByDate is not valid', function () {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationAnswersByDate: 'glouglou' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should be valid when certificationAnswersByDate has no answer', function () {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationAnswersByDate: [] })).not.to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
   });
@@ -636,18 +636,18 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       // then
       expect(
         certificationAssessment.certificationChallenges.find(
-          (certificationChallenge) => certificationChallenge.challengeId === 'rec456'
-        ).hasBeenSkippedAutomatically
+          (certificationChallenge) => certificationChallenge.challengeId === 'rec456',
+        ).hasBeenSkippedAutomatically,
       ).to.be.true;
       expect(
         certificationAssessment.certificationChallenges.find(
-          (certificationChallenge) => certificationChallenge.challengeId === 'rec1234'
-        ).hasBeenSkippedAutomatically
+          (certificationChallenge) => certificationChallenge.challengeId === 'rec1234',
+        ).hasBeenSkippedAutomatically,
       ).to.be.false;
       expect(
         certificationAssessment.certificationChallenges.find(
-          (certificationChallenge) => certificationChallenge.challengeId === 'rec789'
-        ).hasBeenSkippedAutomatically
+          (certificationChallenge) => certificationChallenge.challengeId === 'rec789',
+        ).hasBeenSkippedAutomatically,
       ).to.be.false;
     });
   });
@@ -688,18 +688,18 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       // then
       expect(
         certificationAssessment.certificationChallenges.find(
-          (certificationChallenge) => certificationChallenge.challengeId === 'rec456'
-        ).isNeutralized
+          (certificationChallenge) => certificationChallenge.challengeId === 'rec456',
+        ).isNeutralized,
       ).to.be.true;
       expect(
         certificationAssessment.certificationChallenges.find(
-          (certificationChallenge) => certificationChallenge.challengeId === 'rec1234'
-        ).isNeutralized
+          (certificationChallenge) => certificationChallenge.challengeId === 'rec1234',
+        ).isNeutralized,
       ).to.be.false;
       expect(
         certificationAssessment.certificationChallenges.find(
-          (certificationChallenge) => certificationChallenge.challengeId === 'rec789'
-        ).isNeutralized
+          (certificationChallenge) => certificationChallenge.challengeId === 'rec789',
+        ).isNeutralized,
       ).to.be.false;
     });
   });
@@ -739,7 +739,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       expect(certificationAssessmentAnswer).to.deep.equal(
         domainBuilder.buildAnswer({
           challengeId: 'rec456',
-        })
+        }),
       );
     });
 

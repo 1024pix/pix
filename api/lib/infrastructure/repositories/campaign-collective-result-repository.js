@@ -22,7 +22,7 @@ const getCampaignCollectiveResult = async function (campaignId, campaignLearning
     const validatedTargetedKnowledgeElementsCountByCompetenceId =
       await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
         Object.fromEntries(userIdsAndSharedDates),
-        campaignLearningContent
+        campaignLearningContent,
       );
     campaignCollectiveResult.addValidatedSkillCountToCompetences(validatedTargetedKnowledgeElementsCountByCompetenceId);
   });

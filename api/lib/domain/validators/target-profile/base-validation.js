@@ -21,7 +21,7 @@ const schema = Joi.object({
       categories.DISCIPLINE,
       categories.OTHER,
       categories.PREDEFINED,
-      categories.SUBJECT
+      categories.SUBJECT,
     )
     .required()
     .error((errors) => first(errors))

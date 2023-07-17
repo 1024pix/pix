@@ -33,7 +33,7 @@ async function _getCertificationAnswersByDate(certificationAssessmentId, knexCon
       new Answer({
         ...answerRow,
         result: answerStatusDatabaseAdapter.fromSQLString(answerRow.result),
-      })
+      }),
   );
 }
 
@@ -56,7 +56,7 @@ const get = async function (id) {
   }
   const certificationChallenges = await _getCertificationChallenges(
     certificationAssessmentRows[0].certificationCourseId,
-    knex
+    knex,
   );
   const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRows[0].id, knex);
 
@@ -88,12 +88,12 @@ const getByCertificationCourseId = async function ({
     .first();
   if (!certificationAssessmentRow) {
     throw new NotFoundError(
-      `L'assessment de certification avec un certificationCourseId de ${certificationCourseId} n'existe pas ou son accès est restreint`
+      `L'assessment de certification avec un certificationCourseId de ${certificationCourseId} n'existe pas ou son accès est restreint`,
     );
   }
   const certificationChallenges = await _getCertificationChallenges(
     certificationAssessmentRow.certificationCourseId,
-    knexConn
+    knexConn,
   );
   const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRow.id, knexConn);
 

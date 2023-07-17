@@ -79,7 +79,7 @@ async function _convertBadge(badgeId, targetProfileTubes, trx) {
       const tubesWithLevel = await _computeTubeIdsAndLevelsForSkills(skillSet.skillIds);
       const tubesWithingTargetProfileWithLevel = _filterBadgeCriterionCappedTubesWithinTargetProfileCappedTubes(
         tubesWithLevel,
-        targetProfileTubes
+        targetProfileTubes,
       );
       newCriteria.push({
         name: skillSet.name,

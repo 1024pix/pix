@@ -88,7 +88,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           // then
           expect(error).to.be.instanceOf(AlreadyExistingEntityError);
         });
-      }
+      },
     );
 
     context('when an AuthenticationMethod already exists for an identity provider and a userId', function () {
@@ -187,7 +187,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           hashedPassword,
         });
       databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword(
-        originalAuthenticationMethod
+        originalAuthenticationMethod,
       );
       await databaseBuilder.commit();
 
@@ -255,7 +255,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         await DomainTransaction.execute(async (domainTransaction) => {
           await authenticationMethodRepository.updateChangedPassword(
             { userId, hashedPassword: 'coucou' },
-            domainTransaction
+            domainTransaction,
           );
           throw new Error('Error occurs in transaction');
         });
@@ -333,7 +333,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           new AuthenticationMethod.PixAuthenticationComplement({
             password: 'H4SHED',
             shouldChangePassword: false,
-          })
+          }),
         );
       });
     });
@@ -362,7 +362,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
             accessToken: 'AGENCENATIONALEPOURLEMPLOI',
             refreshToken: 'FRANCETRAVAIL',
             expiredDate: '2021-01-01T00:00:00.000Z',
-          })
+          }),
         );
       });
     });
@@ -389,7 +389,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           new AuthenticationMethod.GARAuthenticationComplement({
             firstName: 'Katie',
             lastName: 'McGuffin',
-          })
+          }),
         );
       });
     });
@@ -505,7 +505,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
         // when
         const error = await catchErr(
-          authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider
+          authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider,
         )({ externalIdentifier, userId, identityProvider });
 
         // then
@@ -875,7 +875,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
         // when
         const error = await catchErr(
-          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
         )({
           authenticationComplement,
           userId,

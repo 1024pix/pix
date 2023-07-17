@@ -16,7 +16,7 @@ const BookshelfFeedback = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfFeedback as Feedback };

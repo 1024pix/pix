@@ -32,10 +32,10 @@ async function prepareOrganizationPlacesLot(organizationPlacesLotData, log = tru
       });
 
       _log(
-        `Lot de ${organizationPlaceLot.count} places ${organizationPlaceLot.category} pour l'organisation ${organizationPlaceLot.organizationId} ===> ✔\n`
+        `Lot de ${organizationPlaceLot.count} places ${organizationPlaceLot.category} pour l'organisation ${organizationPlaceLot.organizationId} ===> ✔\n`,
       );
       return organizationPlaceLot;
-    }
+    },
   );
 
   return organizationPlacesLot.flat();

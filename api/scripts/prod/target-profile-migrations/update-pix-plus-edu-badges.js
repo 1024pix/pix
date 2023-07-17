@@ -64,7 +64,7 @@ function parseGenericTab(file) {
     Object.entries(tabs).map(([tab, { sheetToJsonConfig, mapper = (_) => _ }]) => [
       tab,
       XLSX.utils.sheet_to_json(workbook.Sheets[tab], sheetToJsonConfig).map(mapper),
-    ])
+    ]),
   );
 }
 
@@ -92,7 +92,7 @@ function parseCriteriaTabs(file) {
           level: plafond,
         })),
       ];
-    })
+    }),
   );
 }
 
@@ -135,7 +135,7 @@ async function _findTubeIds(badgeId, tabData, criterionName) {
   }
   if (nonExistentTubes.length > 0) {
     report.push(
-      `${badgeId} - ${criterionName}: Tubes non trouvés dans le référentiel : ${nonExistentTubes.join(', ')}`
+      `${badgeId} - ${criterionName}: Tubes non trouvés dans le référentiel : ${nonExistentTubes.join(', ')}`,
     );
     throw new Error();
   }

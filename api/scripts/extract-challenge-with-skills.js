@@ -16,23 +16,23 @@ async function findChallengesWithSkills() {
 
     const knowledgeElementsValidatedDirect = _.map(skillsOfChallenges, (skill) => _createObjectValidatedDirect(skill));
     const knowledgeElementsValidatedInferred = _.map(skillsValidatedIfChallengeIsSuccessful, (skill) =>
-      _createObjectValidatedInferred(skill)
+      _createObjectValidatedInferred(skill),
     );
 
     const knowledgeElementsInvalidatedDirect = _.map(skillsOfChallenges, (skill) =>
-      _createObjectInvalidatedDirect(skill)
+      _createObjectInvalidatedDirect(skill),
     );
     const knowledgeElementsInvalidatedInferred = _.map(skillsInvalidatedIfChallengeIsFailed, (skill) =>
-      _createObjectInvalidatedInferred(skill)
+      _createObjectInvalidatedInferred(skill),
     );
 
     knowledgeElementsToCreateForEachChallenges[challenge.id]['validated'] = _.concat(
       knowledgeElementsValidatedDirect,
-      knowledgeElementsValidatedInferred
+      knowledgeElementsValidatedInferred,
     );
     knowledgeElementsToCreateForEachChallenges[challenge.id]['invalidated'] = _.concat(
       knowledgeElementsInvalidatedDirect,
-      knowledgeElementsInvalidatedInferred
+      knowledgeElementsInvalidatedInferred,
     );
   });
 
@@ -53,7 +53,7 @@ async function _getReferentialData() {
     _.map(competences, (competence) => {
       // eslint-disable-next-line import/namespace
       return skillsRepository.findByCompetenceId(competence.id);
-    })
+    }),
   );
 
   skills = _.flatten(skills);

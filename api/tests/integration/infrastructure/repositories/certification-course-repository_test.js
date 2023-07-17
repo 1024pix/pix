@@ -55,15 +55,15 @@ describe('Integration | Repository | Certification Course', function () {
         ];
 
         expect(_.omit(retrievedCertificationCourse.toDTO(), fieldsToOmitInCertificationCourse)).to.deep.equal(
-          _.omit(certificationCourse.toDTO(), fieldsToOmitInCertificationCourse)
+          _.omit(certificationCourse.toDTO(), fieldsToOmitInCertificationCourse),
         );
 
         const fieldsToOmitInCertificationChallenge = ['id', 'courseId'];
         const certificationChallengeToBeSaved = _.map(certificationCourse.toDTO().challenges, (c) =>
-          _.omit(c, fieldsToOmitInCertificationChallenge)
+          _.omit(c, fieldsToOmitInCertificationChallenge),
         );
         const savedCertificationChallenge = _.map(savedCertificationCourse.toDTO().challenges, (c) =>
-          _.omit(c, fieldsToOmitInCertificationChallenge)
+          _.omit(c, fieldsToOmitInCertificationChallenge),
         );
 
         expect(savedCertificationChallenge).to.deep.equal(certificationChallengeToBeSaved);
@@ -138,7 +138,7 @@ describe('Integration | Repository | Certification Course', function () {
       const completionDate = new Date('2018-01-01T06:07:08Z');
       const updatedCertificationCourse = await certificationCourseRepository.changeCompletionDate(
         courseId,
-        completionDate
+        completionDate,
       );
 
       // then
@@ -205,7 +205,7 @@ describe('Integration | Repository | Certification Course', function () {
         ],
         (certificationChallenge) => {
           databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
-        }
+        },
       );
       _.each(
         [
@@ -240,7 +240,7 @@ describe('Integration | Repository | Certification Course', function () {
             complementaryCertificationCourseId,
             certificationCourseId,
           });
-        }
+        },
       );
       databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: expectedCertificationCourse.id,
@@ -402,7 +402,7 @@ describe('Integration | Repository | Certification Course', function () {
 
       // when
       const persistedUpdatedCertificationCourse = await certificationCourseRepository.update(
-        unpersistedUpdatedCertificationCourse
+        unpersistedUpdatedCertificationCourse,
       );
 
       // then
@@ -410,25 +410,25 @@ describe('Integration | Repository | Certification Course', function () {
       const unpersistedUpdatedCertificationCourseDTO = unpersistedUpdatedCertificationCourse.toDTO();
       expect(persistedUpdatedCertificationCourse.getId()).to.equal(unpersistedUpdatedCertificationCourse.getId());
       expect(persistedUpdatedCertificationCourseDTO.firstName).to.equal(
-        unpersistedUpdatedCertificationCourseDTO.firstName
+        unpersistedUpdatedCertificationCourseDTO.firstName,
       );
       expect(persistedUpdatedCertificationCourseDTO.lastName).to.equal(
-        unpersistedUpdatedCertificationCourseDTO.lastName
+        unpersistedUpdatedCertificationCourseDTO.lastName,
       );
       expect(persistedUpdatedCertificationCourseDTO.birthdate).to.equal(
-        unpersistedUpdatedCertificationCourseDTO.birthdate
+        unpersistedUpdatedCertificationCourseDTO.birthdate,
       );
       expect(persistedUpdatedCertificationCourseDTO.birthplace).to.equal(
-        unpersistedUpdatedCertificationCourseDTO.birthplace
+        unpersistedUpdatedCertificationCourseDTO.birthplace,
       );
       expect(persistedUpdatedCertificationCourseDTO.birthPostalCode).to.equal(
-        unpersistedUpdatedCertificationCourseDTO.birthPostalCode
+        unpersistedUpdatedCertificationCourseDTO.birthPostalCode,
       );
       expect(persistedUpdatedCertificationCourseDTO.birthINSEECode).to.equal(
-        unpersistedUpdatedCertificationCourseDTO.birthINSEECode
+        unpersistedUpdatedCertificationCourseDTO.birthINSEECode,
       );
       expect(persistedUpdatedCertificationCourseDTO.birthCountry).to.equal(
-        unpersistedUpdatedCertificationCourseDTO.birthCountry
+        unpersistedUpdatedCertificationCourseDTO.birthCountry,
       );
       expect(persistedUpdatedCertificationCourseDTO.sex).to.equal(unpersistedUpdatedCertificationCourseDTO.sex);
       expect(persistedUpdatedCertificationCourseDTO.isCancelled).to.be.true;
@@ -512,10 +512,10 @@ describe('Integration | Repository | Certification Course', function () {
       // then
       expect(certificationCourses).to.have.lengthOf(2);
       expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(
-        _cleanCertificationCourse(new CertificationCourse(firstCertifCourse))
+        _cleanCertificationCourse(new CertificationCourse(firstCertifCourse)),
       );
       expect(_cleanCertificationCourse(certificationCourses[1])).to.deep.equal(
-        _cleanCertificationCourse(new CertificationCourse(secondCertifCourse))
+        _cleanCertificationCourse(new CertificationCourse(secondCertifCourse)),
       );
     });
 

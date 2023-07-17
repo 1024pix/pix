@@ -168,7 +168,7 @@ describe('Integration | Application | Route | OidcRouter', function () {
           // then
           expect(response.statusCode).to.equal(409);
           expect(response.result.errors[0].detail).to.equal(
-            "La valeur de l'externalIdentifier de la méthode de connexion ne correspond pas à celui reçu par le partenaire."
+            "La valeur de l'externalIdentifier de la méthode de connexion ne correspond pas à celui reçu par le partenaire.",
           );
         });
       });

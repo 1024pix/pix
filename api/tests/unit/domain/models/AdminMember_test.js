@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | AdminMember', function () {
             new AdminMember({
               id: 1,
               role: ROLES.SUPER_ADMIN,
-            })
+            }),
         ).not.to.throw(ObjectValidationError);
       });
 
@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | AdminMember', function () {
             new AdminMember({
               id: 1,
               role: ROLES.SUPPORT,
-            })
+            }),
         ).not.to.throw(ObjectValidationError);
       });
 
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | AdminMember', function () {
             new AdminMember({
               id: 1,
               role: ROLES.METIER,
-            })
+            }),
         ).not.to.throw(ObjectValidationError);
       });
 
@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | AdminMember', function () {
             new AdminMember({
               id: 1,
               role: ROLES.CERTIF,
-            })
+            }),
         ).not.to.throw(ObjectValidationError);
       });
     });
@@ -62,7 +62,7 @@ describe('Unit | Domain | Models | AdminMember', function () {
             new AdminMember({
               id: 1,
               role: undefined,
-            })
+            }),
         ).to.throw(ObjectValidationError);
 
         expect(
@@ -70,7 +70,7 @@ describe('Unit | Domain | Models | AdminMember', function () {
             new AdminMember({
               id: 1,
               role: null,
-            })
+            }),
         ).to.throw(ObjectValidationError);
       });
     });
@@ -83,7 +83,7 @@ describe('Unit | Domain | Models | AdminMember', function () {
             new AdminMember({
               id: 1,
               role: 'SUPER ROLE DE LA MORT QUI TUE',
-            })
+            }),
         ).to.throw(ObjectValidationError);
       });
     });

@@ -74,7 +74,7 @@ describe('Unit | Service | Password Service', function () {
         await resetPasswordService.hasUserAPasswordResetDemandInProgress(
           userEmail,
           'good-temporary-key',
-          resetPasswordDemandRepository
+          resetPasswordDemandRepository,
         );
       });
     });
@@ -84,7 +84,7 @@ describe('Unit | Service | Password Service', function () {
         const promise = resetPasswordService.hasUserAPasswordResetDemandInProgress(
           userEmail,
           'bad-temporary-key',
-          resetPasswordDemandRepository
+          resetPasswordDemandRepository,
         );
         return expect(promise).to.be.rejected;
       });

@@ -53,7 +53,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             externalIdentifier: 'externalIdentifier',
             userId: 1,
-          })
+          }),
       ).not.to.throw(ObjectValidationError);
     });
 
@@ -72,7 +72,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             externalIdentifier: 'externalIdentifier',
             authenticationComplement,
             userId: 1,
-          })
+          }),
       ).not.to.throw(ObjectValidationError);
     });
 
@@ -84,7 +84,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             identityProvider: OidcIdentityProviders.CNAV.code,
             externalIdentifier: 'externalIdentifier',
             userId: 1,
-          })
+          }),
       ).not.to.throw(ObjectValidationError);
     });
 
@@ -96,11 +96,15 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             identityProvider: 'not_valid',
             externalIdentifier: 'externalIdentifier',
             userId: 1,
-          })
+          }),
       ).to.throw(ObjectValidationError);
       expect(
         () =>
-          new AuthenticationMethod({ identityProvider: undefined, externalIdentifier: 'externalIdentifier', userId: 1 })
+          new AuthenticationMethod({
+            identityProvider: undefined,
+            externalIdentifier: 'externalIdentifier',
+            userId: 1,
+          }),
       ).to.throw(ObjectValidationError);
     });
 
@@ -112,7 +116,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             externalIdentifier: undefined,
             userId: 1,
-          })
+          }),
       ).to.throw(ObjectValidationError);
       expect(
         () =>
@@ -120,7 +124,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
             externalIdentifier: undefined,
             userId: 1,
-          })
+          }),
       ).to.throw(ObjectValidationError);
       expect(
         () =>
@@ -128,7 +132,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             identityProvider: OidcIdentityProviders.CNAV.code,
             externalIdentifier: undefined,
             userId: 1,
-          })
+          }),
       ).to.throw(ObjectValidationError);
     });
 
@@ -140,7 +144,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
             authenticationComplement: undefined,
             userId: 1,
-          })
+          }),
       ).to.throw(ObjectValidationError);
     });
 
@@ -152,7 +156,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             externalIdentifier: 'externalIdentifier',
             userId: 'not_valid',
-          })
+          }),
       ).to.throw(ObjectValidationError);
       expect(
         () =>
@@ -160,7 +164,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             externalIdentifier: 'externalIdentifier',
             userId: undefined,
-          })
+          }),
       ).to.throw(ObjectValidationError);
     });
 
@@ -176,17 +180,17 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       it('should successfully instantiate object when passing all valid arguments', function () {
         // when
         expect(() => new AuthenticationMethod.PixAuthenticationComplement(validArguments)).not.to.throw(
-          ObjectValidationError
+          ObjectValidationError,
         );
       });
 
       it('should throw an ObjectValidationError when password is not valid', function () {
         // when
         expect(
-          () => new AuthenticationMethod.PixAuthenticationComplement({ ...validArguments, password: 1234 })
+          () => new AuthenticationMethod.PixAuthenticationComplement({ ...validArguments, password: 1234 }),
         ).to.throw(ObjectValidationError);
         expect(
-          () => new AuthenticationMethod.PixAuthenticationComplement({ ...validArguments, password: undefined })
+          () => new AuthenticationMethod.PixAuthenticationComplement({ ...validArguments, password: undefined }),
         ).to.throw(ObjectValidationError);
       });
 
@@ -197,11 +201,14 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             new AuthenticationMethod.PixAuthenticationComplement({
               ...validArguments,
               shouldChangePassword: 'not_valid',
-            })
+            }),
         ).to.throw(ObjectValidationError);
         expect(
           () =>
-            new AuthenticationMethod.PixAuthenticationComplement({ ...validArguments, shouldChangePassword: undefined })
+            new AuthenticationMethod.PixAuthenticationComplement({
+              ...validArguments,
+              shouldChangePassword: undefined,
+            }),
         ).to.throw(ObjectValidationError);
       });
     });
@@ -219,34 +226,34 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       it('should successfully instantiate object when passing all valid arguments', function () {
         // when
         expect(() => new AuthenticationMethod.OidcAuthenticationComplement(validArguments)).not.to.throw(
-          ObjectValidationError
+          ObjectValidationError,
         );
       });
 
       it('should throw an ObjectValidationError when accessToken is not valid', function () {
         // when
         expect(
-          () => new AuthenticationMethod.OidcAuthenticationComplement({ ...validArguments, accessToken: 1234 })
+          () => new AuthenticationMethod.OidcAuthenticationComplement({ ...validArguments, accessToken: 1234 }),
         ).to.throw(ObjectValidationError);
         expect(
-          () => new AuthenticationMethod.OidcAuthenticationComplement({ ...validArguments, accessToken: undefined })
+          () => new AuthenticationMethod.OidcAuthenticationComplement({ ...validArguments, accessToken: undefined }),
         ).to.throw(ObjectValidationError);
       });
 
       it('should throw an ObjectValidationError when refreshToken is not valid', function () {
         // when
         expect(
-          () => new AuthenticationMethod.OidcAuthenticationComplement({ ...validArguments, refreshToken: 1234 })
+          () => new AuthenticationMethod.OidcAuthenticationComplement({ ...validArguments, refreshToken: 1234 }),
         ).to.throw(ObjectValidationError);
       });
 
       it('should throw an ObjectValidationError when expiredDate is not valid', function () {
         // when
         expect(
-          () => new AuthenticationMethod.OidcAuthenticationComplement({ ...validArguments, expiredDate: 'not_valid' })
+          () => new AuthenticationMethod.OidcAuthenticationComplement({ ...validArguments, expiredDate: 'not_valid' }),
         ).to.throw(ObjectValidationError);
         expect(
-          () => new AuthenticationMethod.OidcAuthenticationComplement({ ...validArguments, expiredDate: undefined })
+          () => new AuthenticationMethod.OidcAuthenticationComplement({ ...validArguments, expiredDate: undefined }),
         ).to.throw(ObjectValidationError);
       });
     });
@@ -258,7 +265,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             new AuthenticationMethod.GARAuthenticationComplement({
               firstName: 'Margaret',
               lastName: 'Remington',
-            })
+            }),
         ).not.to.throw(ObjectValidationError);
       });
 
@@ -268,7 +275,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             new AuthenticationMethod.GARAuthenticationComplement({
               lastName: 'Remington',
               firstName: 1234,
-            })
+            }),
         ).to.throw(ObjectValidationError);
       });
 
@@ -277,7 +284,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
           () =>
             new AuthenticationMethod.GARAuthenticationComplement({
               lastName: 'Remington',
-            })
+            }),
         ).to.throw(ObjectValidationError);
       });
 
@@ -287,7 +294,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
             new AuthenticationMethod.GARAuthenticationComplement({
               firstName: 'Margaret',
               lastName: 4567,
-            })
+            }),
         ).to.throw(ObjectValidationError);
       });
 
@@ -296,7 +303,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
           () =>
             new AuthenticationMethod.GARAuthenticationComplement({
               firstName: 'Margaret',
-            })
+            }),
         ).to.throw(ObjectValidationError);
       });
     });

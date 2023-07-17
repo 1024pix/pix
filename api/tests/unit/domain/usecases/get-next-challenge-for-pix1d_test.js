@@ -71,7 +71,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
             assessmentId,
             level: Activity.levels.VALIDATION,
             status: Activity.status.STARTED,
-          })
+          }),
         );
       });
     });
@@ -83,7 +83,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
           new Activity({
             id: activityId,
             level: Activity.levels.VALIDATION,
-          })
+          }),
         );
         activityAnswerRepository.findByActivity.withArgs(activityId).resolves([]);
         challenge = Symbol('challenge');
@@ -210,7 +210,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
           assessmentId,
           level: Activity.levels.TRAINING,
           status: Activity.status.STARTED,
-        })
+        }),
       );
       expect(challenge).to.equal(expectedChallenge);
     });
@@ -250,7 +250,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
           assessmentId,
           level: Activity.levels.VALIDATION,
           status: Activity.status.STARTED,
-        })
+        }),
       );
       expect(challenge).to.equal(expectedChallenge);
     });

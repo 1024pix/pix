@@ -42,7 +42,7 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', fun
           'tags',
           'createdBy',
           'identityProviderForCampaigns',
-        ])
+        ]),
       ).to.deep.equal(expectedOrganization);
     });
   });

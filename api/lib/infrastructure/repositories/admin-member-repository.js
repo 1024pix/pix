@@ -48,7 +48,7 @@ const update = async function ({ id, attributesToUpdate }) {
   if (!updatedAdminMember) {
     throw new AdminMemberError(
       'A problem occurred while trying to update an admin member role',
-      'UPDATE_ADMIN_MEMBER_ERROR'
+      'UPDATE_ADMIN_MEMBER_ERROR',
     );
   }
 
@@ -72,7 +72,7 @@ const deactivate = async function ({ id }) {
   if (!deactivateddAdminMember) {
     throw new AdminMemberError(
       'A problem occurred while trying to deactivate an admin member',
-      'DEACTIVATE_ADMIN_MEMBER_ERROR'
+      'DEACTIVATE_ADMIN_MEMBER_ERROR',
     );
   }
 };

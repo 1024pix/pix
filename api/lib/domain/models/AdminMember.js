@@ -32,7 +32,7 @@ class AdminMember {
         updatedAt: Joi.date().allow(null).optional(),
         disabledAt: Joi.date().allow(null).optional(),
       }),
-      this
+      this,
     );
   }
 

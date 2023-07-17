@@ -30,7 +30,7 @@ describe('Integration | Application | Target-Profiles | Presenter | PDF | Learni
     const buffer = await learningContentPDFPresenter.present(
       learningContent,
       'Mon super Titre encore une fois beaucoup trop long pour tester un retour à la ligne aligné au centre',
-      'fr'
+      'fr',
     );
 
     await _writeFile(buffer, referencePdfPath);
@@ -38,7 +38,7 @@ describe('Integration | Application | Target-Profiles | Presenter | PDF | Learni
     // then
     expect(
       await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
-      referencePdfPath + ' is not generated as expected'
+      referencePdfPath + ' is not generated as expected',
     ).to.be.true;
   });
 
@@ -51,7 +51,7 @@ describe('Integration | Application | Target-Profiles | Presenter | PDF | Learni
     const buffer = await learningContentPDFPresenter.present(
       learningContent,
       'My awesome super title yet again that is too long to test a carriage return align center',
-      'en'
+      'en',
     );
 
     await _writeFile(buffer, referencePdfPath);
@@ -59,7 +59,7 @@ describe('Integration | Application | Target-Profiles | Presenter | PDF | Learni
     // then
     expect(
       await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
-      referencePdfPath + ' is not generated as expected'
+      referencePdfPath + ' is not generated as expected',
     ).to.be.true;
   });
 });
@@ -200,11 +200,11 @@ function _buildRichArea({
           id: `recTube_${areaIndex}_${competenceIndex}_${thematicIndex}_${tubeIndex}`,
           practicalTitle: mediumText.replace(
             '{placeholder}',
-            `Tube_${areaIndex}_${competenceIndex}_${thematicIndex}_${tubeIndex}`
+            `Tube_${areaIndex}_${competenceIndex}_${thematicIndex}_${tubeIndex}`,
           ),
           practicalDescription: superLongText.replace(
             '{placeholder}',
-            `Tube_${areaIndex}_${competenceIndex}_${thematicIndex}_${tubeIndex}`
+            `Tube_${areaIndex}_${competenceIndex}_${thematicIndex}_${tubeIndex}`,
           ),
         });
         thematic.tubes.push(tube);

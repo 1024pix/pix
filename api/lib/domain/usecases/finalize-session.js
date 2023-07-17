@@ -109,7 +109,7 @@ async function _removeAbortReasonFromCompletedCertificationCourses({
           sessionCertificationCourse.unabort();
           await certificationCourseRepository.update(sessionCertificationCourse);
         }
-      }
+      },
     );
   }
 }

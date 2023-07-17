@@ -366,7 +366,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         ];
         mockLearningContent({ tutorials });
         tutorials.forEach((tutorial) =>
-          databaseBuilder.factory.buildUserSavedTutorial({ userId, tutorialId: tutorial.id })
+          databaseBuilder.factory.buildUserSavedTutorial({ userId, tutorialId: tutorial.id }),
         );
         const expectedPagination = { page: 2, pageSize: 2, pageCount: 2, rowCount: 4 };
         await databaseBuilder.commit();

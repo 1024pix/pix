@@ -59,7 +59,7 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
             h
               .response({ errors: new Error('forbidden') })
               .code(403)
-              .takeover()
+              .takeover(),
         );
 
       const httpTestServer = new HttpTestServer();

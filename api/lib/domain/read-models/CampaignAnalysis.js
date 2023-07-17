@@ -87,7 +87,7 @@ class CampaignTubeRecommendation {
 
   _computeCumulativeScore(knowledgeElementsByParticipant) {
     this.cumulativeScore += _(knowledgeElementsByParticipant).sumBy((knowledgeElements) =>
-      recommendationService.computeRecommendationScore(this.tube.skills, this.maxSkillLevel, knowledgeElements)
+      recommendationService.computeRecommendationScore(this.tube.skills, this.maxSkillLevel, knowledgeElements),
     );
   }
 }

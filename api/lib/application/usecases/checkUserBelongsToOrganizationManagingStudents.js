@@ -8,7 +8,7 @@ const execute = async function (userId, organizationId, dependencies = { members
   });
   return memberships.reduce(
     (belongsToScoOrganization, membership) => belongsToScoOrganization || membership.organization.isManagingStudents,
-    false
+    false,
   );
 };
 

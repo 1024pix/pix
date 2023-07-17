@@ -218,7 +218,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       const response = await certificationCenterController.findCertificationCenterMembershipsByCertificationCenter(
         request,
         hFake,
-        { certificationCenterMembershipSerializer: certificationCenterMembershipSerializerStub }
+        { certificationCenterMembershipSerializer: certificationCenterMembershipSerializerStub },
       );
 
       // then
@@ -339,7 +339,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       // when
       const serializedSessionSummaries = await certificationCenterController.findPaginatedSessionSummaries(
         request,
-        hFake
+        hFake,
       );
 
       // then
@@ -453,7 +453,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
         hFake,
         {
           certificationCenterInvitationSerializer: certificationCenterInvitationSerializerStub,
-        }
+        },
       );
 
       // then
@@ -491,7 +491,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
         hFake,
         {
           certificationCenterInvitationSerializer: certificationCenterInvitationSerializerStub,
-        }
+        },
       );
 
       // then

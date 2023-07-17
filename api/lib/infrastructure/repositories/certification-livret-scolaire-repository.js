@@ -28,18 +28,18 @@ const getCertificatesByOrganizationUAI = async function (uai) {
     .innerJoin(
       'view-active-organization-learners',
       'view-active-organization-learners.userId',
-      'certification-courses.userId'
+      'certification-courses.userId',
     )
     .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
     .innerJoin(
       'certification-courses-last-assessment-results',
       'certification-courses.id',
-      'certification-courses-last-assessment-results.certificationCourseId'
+      'certification-courses-last-assessment-results.certificationCourseId',
     )
     .innerJoin(
       'assessment-results',
       'assessment-results.id',
-      'certification-courses-last-assessment-results.lastAssessmentResultId'
+      'certification-courses-last-assessment-results.lastAssessmentResultId',
     )
     .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
@@ -49,7 +49,7 @@ const getCertificatesByOrganizationUAI = async function (uai) {
         .from({ 'last-certification-courses': 'certification-courses' })
         .whereRaw('"last-certification-courses"."userId" = "certification-courses"."userId"')
         .whereRaw('"last-certification-courses"."isCancelled"= false')
-        .whereRaw('"certification-courses"."createdAt" < "last-certification-courses"."createdAt"')
+        .whereRaw('"certification-courses"."createdAt" < "last-certification-courses"."createdAt"'),
     )
 
     .where({ 'certification-courses.isCancelled': false })
@@ -57,7 +57,7 @@ const getCertificatesByOrganizationUAI = async function (uai) {
     .where(
       'view-active-organization-learners.organizationId',
       '=',
-      knex.select('id').from('organizations').whereRaw('LOWER("externalId") = LOWER(?)', uai)
+      knex.select('id').from('organizations').whereRaw('LOWER("externalId") = LOWER(?)', uai),
     )
 
     .groupBy(
@@ -71,7 +71,7 @@ const getCertificatesByOrganizationUAI = async function (uai) {
       'certification-courses.id',
       'sessions.id',
       'assessments.id',
-      'assessment-results.id'
+      'assessment-results.id',
     )
 
     .orderBy('lastName', 'ASC')

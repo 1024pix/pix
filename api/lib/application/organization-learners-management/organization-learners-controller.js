@@ -13,7 +13,7 @@ Nous sommes donc obligés d'injecter ces dépendances au niveau de ce controller
 const deleteOrganizationLearners = async function (
   request,
   h,
-  dependencies = { organizationLearnerRepository, campaignParticipationRepository }
+  dependencies = { organizationLearnerRepository, campaignParticipationRepository },
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
   const listLearners = request.payload.listLearners;

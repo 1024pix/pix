@@ -14,7 +14,7 @@ const getWithCertificationCandidates = async function (idSession) {
       'sessions.examiner',
       'certification-centers.name as certificationCenterName',
       'certification-centers.type as certificationCenterType',
-      'organizations.isManagingStudents'
+      'organizations.isManagingStudents',
     )
     .select({
       certificationCandidates: knex.raw(`
@@ -33,14 +33,14 @@ const getWithCertificationCandidates = async function (idSession) {
     .leftJoin('organizations', function () {
       this.on('organizations.externalId', 'certification-centers.externalId').andOn(
         'organizations.type',
-        'certification-centers.type'
+        'certification-centers.type',
       );
     })
     .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
     .leftJoin(
       'view-active-organization-learners',
       'view-active-organization-learners.id',
-      'certification-candidates.organizationLearnerId'
+      'certification-candidates.organizationLearnerId',
     )
     .groupBy('sessions.id', 'certification-centers.id', 'organizations.id')
     .where({ 'sessions.id': idSession })

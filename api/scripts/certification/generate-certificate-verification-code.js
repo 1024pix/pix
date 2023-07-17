@@ -74,7 +74,7 @@ async function _do({ count, concurrency }) {
       }
       _logProgression(count);
     },
-    { concurrency }
+    { concurrency },
   );
   console.log(`\n\tOK, ${failedGenerations} générations de codes échouées pour cause de code en doublon`);
 }

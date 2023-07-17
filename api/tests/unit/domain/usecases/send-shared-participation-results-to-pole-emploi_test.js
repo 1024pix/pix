@@ -157,7 +157,7 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
           userId,
           sharedAt: new Date('2020-01-03'),
           createdAt: new Date('2020-01-02'),
-        })
+        }),
       );
       campaignRepository.get.withArgs(campaignId).resolves(campaign);
       campaignParticipationResultRepository.getByParticipationId.withArgs(campaignParticipationId).resolves(
@@ -180,7 +180,7 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
               validatedSkillsCount: 3,
             }),
           ],
-        })
+        }),
       );
       badgeRepository.findByCampaignId.withArgs(campaignId).resolves(badges);
       badgeAcquisitionRepository.getAcquiredBadgeIds.withArgs({ badgeIds: [1], userId }).resolves(badgeAcquiredIds);
@@ -233,7 +233,7 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
           userId,
           sharedAt: new Date('2020-01-03'),
           createdAt: new Date('2020-01-02'),
-        })
+        }),
       );
       campaignRepository.get.withArgs(campaignId).resolves(campaign);
       organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
@@ -261,7 +261,7 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
           userId,
           sharedAt: new Date('2020-01-03'),
           createdAt: new Date('2020-01-02'),
-        })
+        }),
       );
       campaignRepository.get.withArgs(campaignId).resolves(campaign);
       organizationRepository.get

@@ -239,7 +239,7 @@ describe('Unit | UseCase | find-tutorials', function () {
             //then
             expect(result).to.deep.equal(expectedTutorialList);
           });
-        }
+        },
       );
 
       context('when there is no invalidated knowledge element', function () {

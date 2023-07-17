@@ -199,7 +199,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           campaign_id: campaignId,
         },
         settings.authentication.secret,
-        { expiresIn: settings.authentication.accessTokenLifespanMs }
+        { expiresIn: settings.authentication.accessTokenLifespanMs },
       );
     }
 
@@ -289,7 +289,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           campaign_id: campaignId,
         },
         settings.authentication.secret,
-        { expiresIn: settings.authentication.accessTokenLifespanMs }
+        { expiresIn: settings.authentication.accessTokenLifespanMs },
       );
     }
 
@@ -726,7 +726,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
           payload,
         },
-        payload
+        payload,
       );
 
       // then
@@ -775,7 +775,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
           payload,
         },
-        payload
+        payload,
       );
 
       // then
@@ -850,7 +850,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           headers: { authorization: generateValidRequestAuthorizationHeader(anotherUserId) },
           payload,
         },
-        payload
+        payload,
       );
 
       // then
@@ -912,7 +912,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            }
+            },
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -924,7 +924,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            }
+            },
           );
 
           await databaseBuilder.commit();
@@ -970,7 +970,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            }
+            },
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -982,7 +982,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            }
+            },
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -994,7 +994,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            }
+            },
           );
 
           await databaseBuilder.commit();
@@ -1043,7 +1043,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            }
+            },
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1055,7 +1055,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            }
+            },
           );
 
           await databaseBuilder.commit();
@@ -1101,7 +1101,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            }
+            },
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1113,7 +1113,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            }
+            },
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1125,7 +1125,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            }
+            },
           );
 
           await databaseBuilder.commit();
@@ -1173,7 +1173,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           },
           {
             campaignId: campaign.id,
-          }
+          },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1185,7 +1185,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           },
           {
             campaignId: campaign.id,
-          }
+          },
         );
 
         await databaseBuilder.commit();
@@ -1214,7 +1214,7 @@ describe('Acceptance | API | Campaign Controller', function () {
       const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
       databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, division: division },
-        { campaignId: campaign.id }
+        { campaignId: campaign.id },
       );
       await databaseBuilder.commit();
 
@@ -1238,7 +1238,7 @@ describe('Acceptance | API | Campaign Controller', function () {
       const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
       databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, group: group },
-        { campaignId: campaign.id }
+        { campaignId: campaign.id },
       );
       await databaseBuilder.commit();
 

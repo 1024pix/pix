@@ -60,12 +60,12 @@ async function fillSkillIdForGivenUserSavedTutorials(
   userSavedTutorialsWithoutSkillId,
   userId,
   tutorialsWithSkills,
-  knowledgeElements
+  knowledgeElements,
 ) {
   for (const userSavedTutorialWithoutSkillId of userSavedTutorialsWithoutSkillId) {
     const userSavedTutorial = associateTutorialToUserSavedTutorial(
       userSavedTutorialWithoutSkillId,
-      tutorialsWithSkills
+      tutorialsWithSkills,
     );
     if (!userSavedTutorial.tutorial) {
       console.log(`Outdated tutorial ${userSavedTutorialWithoutSkillId.tutorialId}`);
@@ -148,7 +148,7 @@ async function main() {
       userSavedTutorialsWithoutSkillIdGroupedByUserId[userId],
       userId,
       tutorialsWithSkills,
-      knowledgeElements
+      knowledgeElements,
     );
   }
 

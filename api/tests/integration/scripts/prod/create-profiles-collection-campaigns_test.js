@@ -156,7 +156,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       // then
       expect(error).to.be.instanceOf(Error);
       expect(error.message).to.equal(
-        "Ligne 1: L'organizationId est obligatoire pour la campagne de collecte de profils."
+        "Ligne 1: L'organizationId est obligatoire pour la campagne de collecte de profils.",
       );
     });
 
@@ -188,7 +188,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       // then
       expect(error).to.be.instanceOf(Error);
       expect(error.message).to.equal(
-        'Ligne 1: Le nom de campagne est obligatoire pour la campagne de collecte de profils.'
+        'Ligne 1: Le nom de campagne est obligatoire pour la campagne de collecte de profils.',
       );
     });
   });

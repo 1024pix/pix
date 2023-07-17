@@ -18,7 +18,7 @@ const createSession = async function ({
   const userWithCertifCenters = await userRepository.getWithCertificationCenterMemberships(userId);
   if (!userWithCertifCenters.hasAccessToCertificationCenter(certificationCenterId)) {
     throw new ForbiddenAccess(
-      "L'utilisateur n'est pas membre du centre de certification dans lequel il souhaite créer une session"
+      "L'utilisateur n'est pas membre du centre de certification dans lequel il souhaite créer une session",
     );
   }
 

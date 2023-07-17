@@ -502,7 +502,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
               '  - false\n' +
               'solutionsWithoutGoodAnswers:\n' +
               '  - Yahoo\n' +
-              '  - Bing\n'
+              '  - Bing\n',
           );
         });
       });

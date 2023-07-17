@@ -7,7 +7,7 @@ const getCertificationCandidateSubscription = async function ({
   certificationCenterRepository,
 }) {
   const certificationCandidate = await certificationCandidateRepository.getWithComplementaryCertification(
-    certificationCandidateId
+    certificationCandidateId,
   );
 
   if (!certificationCandidate.complementaryCertification) {
@@ -30,7 +30,7 @@ const getCertificationCandidateSubscription = async function ({
   if (certificationCenter.isHabilitated(certificationCandidate.complementaryCertification.key)) {
     const isSubscriptionEligible = certifiableBadgeAcquisitions.some(
       ({ complementaryCertificationKey }) =>
-        complementaryCertificationKey === certificationCandidate.complementaryCertification.key
+        complementaryCertificationKey === certificationCandidate.complementaryCertification.key,
     );
 
     if (isSubscriptionEligible) {

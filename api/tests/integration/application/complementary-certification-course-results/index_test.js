@@ -31,7 +31,7 @@ describe('Integration | Application | Route | Certifications', function () {
       const response = await httpTestServer.request(
         'POST',
         '/api/admin/complementary-certification-course-results',
-        payload
+        payload,
       );
 
       // then

@@ -51,13 +51,13 @@ const findByUserId = async function (userId) {
       'certification-centers.type',
       'certification-centers.externalId',
       'certification-centers.createdAt AS certificationCenterCreatedAt',
-      'certification-centers.updatedAt AS certificationCenterUpdatedAt'
+      'certification-centers.updatedAt AS certificationCenterUpdatedAt',
     )
     .from('certification-center-memberships')
     .leftJoin(
       'certification-centers',
       'certification-centers.id',
-      'certification-center-memberships.certificationCenterId'
+      'certification-center-memberships.certificationCenterId',
     )
     .where({
       userId,
@@ -79,7 +79,7 @@ const findActiveByCertificationCenterIdSortedById = async function ({ certificat
 
   return bookshelfToDomainConverter.buildDomainObjects(
     BookshelfCertificationCenterMembership,
-    certificationCenterMemberships
+    certificationCenterMemberships,
   );
 };
 
@@ -94,12 +94,12 @@ const save = async function ({ userId, certificationCenterId }) {
 
     return bookshelfToDomainConverter.buildDomainObject(
       BookshelfCertificationCenterMembership,
-      newCertificationCenterMembership
+      newCertificationCenterMembership,
     );
   } catch (err) {
     if (knexUtils.isUniqConstraintViolated(err)) {
       throw new AlreadyExistingMembershipError(
-        `User is already member of certification center ${certificationCenterId}`
+        `User is already member of certification center ${certificationCenterId}`,
       );
     }
     if (knexUtils.foreignKeyConstraintViolated(err)) {

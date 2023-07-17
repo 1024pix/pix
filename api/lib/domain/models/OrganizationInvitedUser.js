@@ -27,7 +27,7 @@ class OrganizationInvitedUser {
 
     if (this.currentRole && !this.invitation.role) {
       throw new AlreadyExistingMembershipError(
-        `User is already member of organisation ${this.invitation.organizationId}`
+        `User is already member of organisation ${this.invitation.organizationId}`,
       );
     }
 

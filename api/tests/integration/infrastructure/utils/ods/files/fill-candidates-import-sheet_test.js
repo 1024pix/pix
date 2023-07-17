@@ -128,7 +128,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         ],
         (candidate) => {
           databaseBuilder.factory.buildCertificationCandidate(candidate);
-        }
+        },
       );
 
       await databaseBuilder.commit();

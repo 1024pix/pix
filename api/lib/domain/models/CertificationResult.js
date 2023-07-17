@@ -64,12 +64,12 @@ class CertificationResult {
           ...competenceMarkDTO,
           area_code: competenceMarkDTO.area_code.toString(),
           competence_code: competenceMarkDTO.competence_code.toString(),
-        })
+        }),
     );
     const complementaryCertificationCourseResults = _.compact(
-      certificationResultDTO.complementaryCertificationCourseResults
+      certificationResultDTO.complementaryCertificationCourseResults,
     ).map(
-      (complementaryCertifCourseResult) => new ComplementaryCertificationCourseResult(complementaryCertifCourseResult)
+      (complementaryCertifCourseResult) => new ComplementaryCertificationCourseResult(complementaryCertifCourseResult),
     );
 
     return new CertificationResult({
@@ -123,7 +123,7 @@ class CertificationResult {
         _(this.complementaryCertificationCourseResults)
           .orderBy('id')
           .map(({ label }) => label)
-          .value()
+          .value(),
       ),
     ];
   }

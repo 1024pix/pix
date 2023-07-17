@@ -62,7 +62,7 @@ async function _generatePlacementProfileV1({ userId, profileDate, competences })
   });
   const userLastAssessments = await assessmentRepository.findLastCompletedAssessmentsForEachCompetenceByUser(
     placementProfile.userId,
-    placementProfile.profileDate
+    placementProfile.profileDate,
   );
   placementProfile.userCompetences = await _createUserCompetencesV1({
     competences,
@@ -92,7 +92,7 @@ function _createUserCompetencesV2({
 
     const directlyValidatedCompetenceSkills = _matchingDirectlyValidatedSkillsForCompetence(
       knowledgeElementsForCompetence,
-      skillMap
+      skillMap,
     );
     return new UserCompetence({
       id: competence.id,

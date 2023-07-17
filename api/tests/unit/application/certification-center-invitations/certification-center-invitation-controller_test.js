@@ -23,7 +23,7 @@ describe('Unit | Application | Certification-center-Invitations | Certification-
       // when
       const response = await certificationCenterInvitationController.acceptCertificationCenterInvitation(
         request,
-        hFake
+        hFake,
       );
 
       // then
@@ -60,7 +60,7 @@ describe('Unit | Application | Certification-center-Invitations | Certification-
           auth: { credentials: { userId: 1 } },
           params: { certificationCenterInvitationId },
         },
-        hFake
+        hFake,
       );
 
       // then

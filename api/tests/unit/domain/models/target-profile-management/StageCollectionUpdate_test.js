@@ -352,11 +352,11 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 // then
                 expect(err).to.be.instanceOf(InvalidStageError);
                 expect(err.message).to.equal(
-                  "La modification de paliers n'est autorisé que pour les paliers appartenant au profil cible."
+                  "La modification de paliers n'est autorisé que pour les paliers appartenant au profil cible.",
                 );
               }
             });
-          }
+          },
         );
         context('when collection has several first skill stages', function () {
           it('should throw an error', function () {
@@ -809,11 +809,11 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 // then
                 expect(err).to.be.instanceOf(InvalidStageError);
                 expect(err.message).to.equal(
-                  "La modification de paliers n'est autorisé que pour les paliers appartenant au profil cible."
+                  "La modification de paliers n'est autorisé que pour les paliers appartenant au profil cible.",
                 );
               }
             });
-          }
+          },
         );
         context('when collection has several first skill stages', function () {
           it('should throw an error', function () {

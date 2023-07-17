@@ -20,7 +20,7 @@ const BookshelfCompetenceMark = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfCompetenceMark };

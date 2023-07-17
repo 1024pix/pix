@@ -43,7 +43,7 @@ const findPrivateCertificatesByUserId = async function ({ userId }) {
   const privateCertificates = certificationCourseDTOs.map((certificationCourseDTO) =>
     _toDomainForPrivateCertificate({
       certificationCourseDTO,
-    })
+    }),
   );
   return privateCertificates;
 };
@@ -92,7 +92,7 @@ const findByDivisionForScoIsManagingStudentsOrganization = async function ({ org
     .innerJoin(
       'view-active-organization-learners',
       'view-active-organization-learners.id',
-      'certification-candidates.organizationLearnerId'
+      'certification-candidates.organizationLearnerId',
     )
     .innerJoin('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
     .where({
@@ -139,20 +139,20 @@ async function _getCertifiedBadges(certificationCourseId) {
       'complementary-certification-badges.level',
       'complementary-certification-badges.certificateMessage',
       'complementary-certification-badges.temporaryCertificateMessage',
-      'complementary-certifications.hasExternalJury'
+      'complementary-certifications.hasExternalJury',
     )
     .from('complementary-certification-course-results')
     .innerJoin(
       'complementary-certification-courses',
       'complementary-certification-courses.id',
-      'complementary-certification-course-results.complementaryCertificationCourseId'
+      'complementary-certification-course-results.complementaryCertificationCourseId',
     )
     .innerJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
     .innerJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
     .innerJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-badges.complementaryCertificationId'
+      'complementary-certification-badges.complementaryCertificationId',
     )
     .where({ certificationCourseId })
     .orderBy('partnerKey');
@@ -250,12 +250,12 @@ function _getCertificateQuery() {
     .join(
       'certification-courses-last-assessment-results',
       'certification-courses.id',
-      'certification-courses-last-assessment-results.certificationCourseId'
+      'certification-courses-last-assessment-results.certificationCourseId',
     )
     .join(
       'assessment-results',
       'assessment-results.id',
-      'certification-courses-last-assessment-results.lastAssessmentResultId'
+      'certification-courses-last-assessment-results.lastAssessmentResultId',
     )
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id');
 }
@@ -277,7 +277,7 @@ function _filterMostRecentCertificationCoursePerOrganizationLearner(DTOs) {
 function _toDomainForPrivateCertificate({ certificationCourseDTO, competenceTree, certifiedBadges = [] }) {
   if (competenceTree) {
     const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
-      (competenceMark) => new CompetenceMark({ ...competenceMark })
+      (competenceMark) => new CompetenceMark({ ...competenceMark }),
     );
 
     const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
@@ -317,7 +317,7 @@ function _toDomainForShareableCertificate({ shareableCertificateDTO, competenceT
 
 function _toDomainForCertificationAttestation({ certificationCourseDTO, competenceTree, certifiedBadges }) {
   const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
-    (competenceMark) => new CompetenceMark({ ...competenceMark })
+    (competenceMark) => new CompetenceMark({ ...competenceMark }),
   );
 
   const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({

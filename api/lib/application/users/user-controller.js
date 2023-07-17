@@ -72,7 +72,7 @@ const updatePassword = async function (request, h, dependencies = { userSerializ
 const updateUserDetailsForAdministration = async function (
   request,
   h,
-  dependencies = { userDetailsForAdminSerializer }
+  dependencies = { userDetailsForAdminSerializer },
 ) {
   const userId = request.params.id;
   const userDetailsForAdministration = dependencies.userDetailsForAdminSerializer.deserialize(request.payload);
@@ -154,7 +154,7 @@ const rememberUserHasSeenChallengeTooltip = async function (request, h, dependen
 const findPaginatedFilteredUsers = async function (
   request,
   h,
-  dependencies = { userForAdminSerializer, queryParamsUtils }
+  dependencies = { userForAdminSerializer, queryParamsUtils },
 ) {
   const options = dependencies.queryParamsUtils.extractParameters(request.query);
 
@@ -172,7 +172,7 @@ const findPaginatedUserRecommendedTrainings = async function (
     trainingSerializer,
     requestResponseUtils,
     queryParamsUtils,
-  }
+  },
 ) {
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
@@ -199,7 +199,7 @@ const getCampaignParticipationOverviews = async function (
   dependencies = {
     campaignParticipationOverviewSerializer,
     queryParamsUtils,
-  }
+  },
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
   const query = dependencies.queryParamsUtils.extractParameters(request.query);
@@ -211,7 +211,7 @@ const getCampaignParticipationOverviews = async function (
   });
 
   return dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList(
-    userCampaignParticipationOverviews
+    userCampaignParticipationOverviews,
   );
 };
 
@@ -251,7 +251,7 @@ const resetScorecard = function (request, h, dependencies = { scorecardSerialize
 const getUserCampaignParticipationToCampaign = function (
   request,
   h,
-  dependencies = { campaignParticipationSerializer }
+  dependencies = { campaignParticipationSerializer },
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
   const campaignId = request.params.campaignId;
@@ -267,7 +267,7 @@ const getUserProfileSharedForCampaign = async function (
   dependencies = {
     sharedProfileForCampaignSerializer,
     requestResponseUtils,
-  }
+  },
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
   const campaignId = request.params.campaignId;
@@ -288,7 +288,7 @@ const getUserCampaignAssessmentResult = async function (
   dependencies = {
     participantResultSerializer,
     requestResponseUtils,
-  }
+  },
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
   const campaignId = request.params.campaignId;
@@ -326,7 +326,7 @@ const removeAuthenticationMethod = async function (request, h) {
 const sendVerificationCode = async function (
   request,
   h,
-  dependencies = { emailVerificationSerializer, requestResponseUtils }
+  dependencies = { emailVerificationSerializer, requestResponseUtils },
 ) {
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const i18n = request.i18n;
@@ -360,7 +360,7 @@ const getUserAuthenticationMethods = async function (request, h, dependencies = 
 const addPixAuthenticationMethodByEmail = async function (
   request,
   h,
-  dependencies = { userDetailsForAdminSerializer }
+  dependencies = { userDetailsForAdminSerializer },
 ) {
   const userId = request.params.id;
   const email = request.payload.data.attributes.email.trim().toLowerCase();
@@ -388,7 +388,7 @@ const reassignAuthenticationMethods = async function (request, h) {
 const findCampaignParticipationsForUserManagement = async function (
   request,
   h,
-  dependencies = { campaignParticipationForUserManagementSerializer }
+  dependencies = { campaignParticipationForUserManagementSerializer },
 ) {
   const userId = request.params.id;
   const campaignParticipations = await usecases.findCampaignParticipationsForUserManagement({
@@ -400,7 +400,7 @@ const findCampaignParticipationsForUserManagement = async function (
 const findUserOrganizationsForAdmin = async function (
   request,
   h,
-  dependencies = { userOrganizationForAdminSerializer }
+  dependencies = { userOrganizationForAdminSerializer },
 ) {
   const userId = request.params.id;
   const organizations = await usecases.findUserOrganizationsForAdmin({
@@ -412,21 +412,21 @@ const findUserOrganizationsForAdmin = async function (
 const findCertificationCenterMembershipsByUser = async function (
   request,
   h,
-  dependencies = { certificationCenterMembershipSerializer }
+  dependencies = { certificationCenterMembershipSerializer },
 ) {
   const userId = request.params.id;
   const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByUser({
     userId,
   });
   return h.response(
-    dependencies.certificationCenterMembershipSerializer.serializeForAdmin(certificationCenterMemberships)
+    dependencies.certificationCenterMembershipSerializer.serializeForAdmin(certificationCenterMemberships),
   );
 };
 
 const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
   request,
   h,
-  dependencies = { userSerializer }
+  dependencies = { userSerializer },
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
 

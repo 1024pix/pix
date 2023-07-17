@@ -10,7 +10,7 @@ const BookshelfCertificationIssueReport = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfCertificationIssueReport };

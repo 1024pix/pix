@@ -32,7 +32,7 @@ async function _retrieveFinalizedUnpublishedUnassignedSessionsData() {
       'sessions.finalizedAt',
       'sessions.date',
       'sessions.time',
-      'sessions.examinerGlobalComment'
+      'sessions.examinerGlobalComment',
     )
     .join('finalized-sessions', 'finalized-sessions.sessionId', 'sessions.id')
     .where('isPublishable', '=', 'false')
@@ -59,7 +59,7 @@ async function _triggerAutoJuryFromEvents(events) {
         process.stderr.write('👹');
       }
     },
-    { concurrency: ~~process.env.CONCURRENCY || 10 }
+    { concurrency: ~~process.env.CONCURRENCY || 10 },
   );
 }
 
@@ -92,7 +92,7 @@ async function _retrieveEventsFromAuditTable() {
       'finalizedAt',
       'sessionDate',
       'sessionTime',
-      'hasExaminerGlobalComment'
+      'hasExaminerGlobalComment',
     )
     .where('status', '!=', 'DONE');
   return dtos.map((dto) => new SessionFinalized(dto));

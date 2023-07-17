@@ -37,7 +37,7 @@ const get = async function (id) {
     .join(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-habilitations.complementaryCertificationId'
+      'complementary-certification-habilitations.complementaryCertificationId',
     )
     .where('complementary-certification-habilitations.certificationCenterId', id)
     .orderBy('complementary-certification-habilitations.complementaryCertificationId', 'asc');

@@ -19,7 +19,7 @@ class CertifiableProfileForLearningContent {
             answerId: knowledgeElement.answerId,
             assessmentId: knowledgeElement.assessmentId,
             challengeId: answerAndChallengeIdsByAnswerId[knowledgeElement.answerId].challengeId,
-          })
+          }),
         );
       }
     }
@@ -44,7 +44,7 @@ class CertifiableProfileForLearningContent {
           areaId: competence.areaId,
           origin: competence.origin,
           skillResults,
-        })
+        }),
       );
     }
 
@@ -56,7 +56,7 @@ class CertifiableProfileForLearningContent {
         new ResultByArea({
           areaId: area.id,
           resultsByCompetence,
-        })
+        }),
       );
     }
   }

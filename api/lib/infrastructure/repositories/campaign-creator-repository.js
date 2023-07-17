@@ -25,7 +25,7 @@ async function _checkUserIsAMemberOfOrganization({ organizationId, userId }) {
   const membership = await knex('memberships').where({ organizationId, userId }).first();
   if (!membership) {
     throw new UserNotAuthorizedToCreateCampaignError(
-      `User does not have an access to the organization ${organizationId}`
+      `User does not have an access to the organization ${organizationId}`,
     );
   }
 }
@@ -34,7 +34,7 @@ async function _checkOwnerIsAMemberOfOrganization({ organizationId, ownerId }) {
   const membership = await knex('memberships').where({ organizationId, userId: ownerId }).first();
   if (!membership) {
     throw new UserNotAuthorizedToCreateCampaignError(
-      `Owner does not have an access to the organization ${organizationId}`
+      `Owner does not have an access to the organization ${organizationId}`,
     );
   }
 }

@@ -186,7 +186,7 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
       }
       if (
         ["Identifiant de l'organisation*", 'Identifiant du profil cible*', 'Identifiant du créateur*'].includes(
-          columnName
+          columnName,
         )
       ) {
         value = parseInt(value, 10);
@@ -194,7 +194,7 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
       if (requiredFieldNamesForCampaignsImport.includes(columnName) && !value) {
         throw new FileValidationError(
           'CSV_CONTENT_NOT_VALID',
-          `${value === '' ? '"empty"' : value} is not a valid value for "${columnName}"`
+          `${value === '' ? '"empty"' : value} is not a valid value for "${columnName}"`,
         );
       }
       return value;
@@ -250,7 +250,7 @@ function _extractComplementaryCertificationLabelsFromLine(line) {
       const complementaryCertificationValue = line[header];
       if (_isTrueValue(complementaryCertificationValue)) {
         complementaryCertificationLabels.push(
-          _getComplementaryCertificationLabel(header, COMPLEMENTARY_CERTIFICATION_SUFFIX)
+          _getComplementaryCertificationLabel(header, COMPLEMENTARY_CERTIFICATION_SUFFIX),
         );
       }
     }

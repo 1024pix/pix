@@ -28,7 +28,7 @@ describe('Unit | UseCase | findPaginatedParticipationsForCampaignManagement', fu
         campaignId,
         page,
         participationsForCampaignManagementRepository,
-      }
+      },
     );
 
     expect(foundParticipationsForCampaignManagement).to.deep.equal(expectedParticipationsForCampaignManagement);

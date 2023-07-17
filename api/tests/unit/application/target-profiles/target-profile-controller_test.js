@@ -327,7 +327,7 @@ describe('Unit | Controller | target-profile-controller', function () {
           },
         },
         hFake,
-        { trainingSummarySerializer, queryParamsUtils }
+        { trainingSummarySerializer, queryParamsUtils },
       );
 
       // then
@@ -362,7 +362,7 @@ describe('Unit | Controller | target-profile-controller', function () {
           },
         },
         hFake,
-        { targetProfileForAdminSerializer }
+        { targetProfileForAdminSerializer },
       );
 
       // then

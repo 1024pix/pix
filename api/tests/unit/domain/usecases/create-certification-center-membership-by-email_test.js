@@ -73,7 +73,7 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', fun
     // then
     expect(error).to.be.instanceOf(AlreadyExistingEntityError);
     expect(error.message).to.equal(
-      `Certification center membership already exists for the user ID ${userId} and certification center ID ${certificationCenterId}.`
+      `Certification center membership already exists for the user ID ${userId} and certification center ID ${certificationCenterId}.`,
     );
   });
 });

@@ -71,7 +71,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
             estimatedLevel: 0,
             pixScore: 0,
             type: 'PREVIEW',
-          })
+          }),
         );
 
         const request = { params: { id: PREVIEW_ASSESSMENT_ID } };
@@ -174,7 +174,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
             },
           },
           null,
-          dependencies
+          dependencies,
         );
 
         // then
@@ -234,7 +234,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
             },
           },
           null,
-          dependencies
+          dependencies,
         );
 
         // then

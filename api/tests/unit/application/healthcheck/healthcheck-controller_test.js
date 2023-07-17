@@ -16,7 +16,7 @@ describe('Unit | Controller | healthcheckController', function () {
       expect(response).to.include.keys('name', 'version', 'description');
       expect(response['name']).to.equal('pix-api');
       expect(response['description']).to.equal(
-        "Plateforme d'évaluation et de certification des compétences numériques"
+        "Plateforme d'évaluation et de certification des compétences numériques",
       );
       expect(response['environment']).to.equal('test');
     });

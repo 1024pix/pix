@@ -103,7 +103,7 @@ async function _autoResolveCertificationIssueReport({
   logger,
 }) {
   const certificationIssueReports = await certificationIssueReportRepository.findByCertificationCourseId(
-    certificationCourse.getId()
+    certificationCourse.getId(),
   );
   if (certificationIssueReports.length === 0) {
     return null;

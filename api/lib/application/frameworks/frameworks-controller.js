@@ -17,7 +17,7 @@ const getFrameworkAreas = async function (request, h, dependencies = { framework
 const getPixFrameworkAreasWithoutThematics = async function (
   request,
   h,
-  dependencies = { extractLocaleFromRequest, frameworkAreasSerializer }
+  dependencies = { extractLocaleFromRequest, frameworkAreasSerializer },
 ) {
   const locale = dependencies.extractLocaleFromRequest(request);
   const framework = await usecases.getFrameworkAreas({ frameworkName: 'Pix', locale });
@@ -27,7 +27,7 @@ const getPixFrameworkAreasWithoutThematics = async function (
 const getFrameworksForTargetProfileSubmission = async function (
   request,
   h,
-  dependencies = { extractLocaleFromRequest, frameworkSerializer }
+  dependencies = { extractLocaleFromRequest, frameworkSerializer },
 ) {
   const locale = dependencies.extractLocaleFromRequest(request);
   const learningContent = await usecases.getLearningContentForTargetProfileSubmission({ locale });

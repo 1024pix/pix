@@ -86,7 +86,7 @@ describe('Unit | Domain | Events | handle-session-finalized', function () {
         isPublishable: true,
         hasSupervisorAccess: true,
         publishedAt: null,
-      })
+      }),
     );
   });
 });

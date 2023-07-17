@@ -114,10 +114,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
       expect(csvLine[cols.CAMPAIGN_NAME], 'campaign name').to.equal(campaign.name);
       expect(csvLine[cols.TARGET_PROFILE_NAME], 'target profile name').to.equal(targetProfile.name);
       expect(csvLine[cols.PARTICIPANT_LAST_NAME], 'participant last name').to.equal(
-        campaignParticipationInfo.participantLastName
+        campaignParticipationInfo.participantLastName,
       );
       expect(csvLine[cols.PARTICIPANT_FIRST_NAME], 'participant first name').to.equal(
-        campaignParticipationInfo.participantFirstName
+        campaignParticipationInfo.participantFirstName,
       );
       expect(csvLine[cols.PARTICIPATION_CREATED_AT], 'participant created at').to.equal('2020-01-01');
       expect(csvLine[cols.PARTICIPATION_PROGRESSION], 'participation progression').to.equal(0);

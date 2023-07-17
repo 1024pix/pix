@@ -7,13 +7,13 @@ const up = async function (knex) {
   await knex.raw('ALTER SEQUENCE "knowledge-elements_id_seq" OWNED BY "knowledge-elements"."bigintId"');
   await knex.raw('ALTER SEQUENCE "knowledge-elements_id_seq" AS BIGINT');
   await knex.raw(
-    'ALTER TABLE "knowledge-elements" ALTER COLUMN "bigintId" SET DEFAULT nextval(\'"knowledge-elements_id_seq"\')'
+    'ALTER TABLE "knowledge-elements" ALTER COLUMN "bigintId" SET DEFAULT nextval(\'"knowledge-elements_id_seq"\')',
   );
   await knex.raw('ALTER TABLE "knowledge-elements" ALTER COLUMN "id" DROP DEFAULT');
   await knex.raw('ALTER TABLE "knowledge-elements" DROP CONSTRAINT "knowledge-elements_pkey"');
   await knex.raw('ALTER TABLE "knowledge-elements" ALTER COLUMN "id" DROP NOT NULL');
   await knex.raw(
-    'ALTER TABLE "knowledge-elements" ADD CONSTRAINT "knowledge-elements_pkey" PRIMARY KEY USING INDEX "knowledge-elements_bigintId_index"'
+    'ALTER TABLE "knowledge-elements" ADD CONSTRAINT "knowledge-elements_pkey" PRIMARY KEY USING INDEX "knowledge-elements_bigintId_index"',
   );
   await knex.raw('ALTER TABLE "knowledge-elements" RENAME COLUMN "id" TO "intId"');
   await knex.raw('ALTER TABLE "knowledge-elements" RENAME COLUMN "bigintId" TO "id"');
@@ -28,7 +28,7 @@ const down = async function (knex) {
     await knex.raw('ALTER SEQUENCE "knowledge-elements_id_seq" OWNED BY "knowledge-elements"."intId"');
     await knex.raw('ALTER SEQUENCE "knowledge-elements_id_seq" AS INTEGER');
     await knex.raw(
-      'ALTER TABLE "knowledge-elements" ALTER COLUMN "intId" SET DEFAULT nextval(\'"knowledge-elements_id_seq"\')'
+      'ALTER TABLE "knowledge-elements" ALTER COLUMN "intId" SET DEFAULT nextval(\'"knowledge-elements_id_seq"\')',
     );
     await knex.raw('ALTER TABLE "knowledge-elements" ALTER COLUMN "id" DROP DEFAULT');
     await knex.raw('ALTER TABLE "knowledge-elements" DROP CONSTRAINT "knowledge-elements_pkey"');

@@ -83,7 +83,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
         {
           authenticationMethod: expectedAuthenticationMethodFromPix,
         },
-        domainTransaction
+        domainTransaction,
       );
     });
   });
@@ -125,7 +125,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
           userId: user.id,
           hashedPassword,
         },
-        domainTransaction
+        domainTransaction,
       );
     });
   });

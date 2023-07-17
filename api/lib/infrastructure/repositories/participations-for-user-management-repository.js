@@ -22,7 +22,7 @@ const findByUserId = async function (userId) {
     .innerJoin(
       'view-active-organization-learners',
       'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId'
+      'campaign-participations.organizationLearnerId',
     )
     .leftJoin('users as deletedByUsers', 'deletedByUsers.id', 'campaign-participations.deletedBy')
     .where('campaign-participations.userId', userId)

@@ -12,7 +12,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
 
   if (!user.hasAccessToOrganization(organizationId)) {
     throw new UserNotAuthorizedToGetCampaignResultsError(
-      `User does not have an access to the organization ${organizationId}`
+      `User does not have an access to the organization ${organizationId}`,
     );
   }
 }
@@ -49,7 +49,7 @@ const startWritingCampaignProfilesCollectionResultsToStream = async function ({
     organization,
     campaign,
     allPixCompetences,
-    translate
+    translate,
   );
 
   // No return/await here, we need the writing to continue in the background

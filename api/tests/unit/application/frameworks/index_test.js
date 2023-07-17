@@ -43,7 +43,7 @@ describe('Unit | Application | Frameworks | Routes', function () {
             h
               .response({ errors: new Error('forbidden') })
               .code(403)
-              .takeover()
+              .takeover(),
         );
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -95,7 +95,7 @@ describe('Unit | Application | Frameworks | Routes', function () {
             h
               .response({ errors: new Error('forbidden') })
               .code(403)
-              .takeover()
+              .takeover(),
         );
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

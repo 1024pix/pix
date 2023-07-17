@@ -82,7 +82,7 @@ describe('Integration | API | Controller Error', function () {
 
     it('responds Precondition Failed when a AlreadyExistingInvitationError error occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.AlreadyExistingInvitationError("L'invitation de l'organisation existe déjà.")
+        new DomainErrors.AlreadyExistingInvitationError("L'invitation de l'organisation existe déjà."),
       );
       const response = await server.requestObject(request);
 
@@ -92,7 +92,7 @@ describe('Integration | API | Controller Error', function () {
 
     it('responds Precondition Failed when a AlreadySharedCampaignParticipationError error occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.AlreadySharedCampaignParticipationError('Ces résultats de campagne ont déjà été partagés.')
+        new DomainErrors.AlreadySharedCampaignParticipationError('Ces résultats de campagne ont déjà été partagés.'),
       );
       const response = await server.requestObject(request);
 
@@ -203,7 +203,7 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
       expect(responseDetail(response)).to.equal(
-        "Aucun candidat de certification ne correspond aux informations d'identité fournies."
+        "Aucun candidat de certification ne correspond aux informations d'identité fournies.",
       );
     });
 
@@ -218,8 +218,8 @@ describe('Integration | API | Controller Error', function () {
     it('responds Not Found when a PasswordResetDemandNotFoundError error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.PasswordResetDemandNotFoundError(
-          "La demande de réinitialisation de mot de passe n'existe pas."
-        )
+          "La demande de réinitialisation de mot de passe n'existe pas.",
+        ),
       );
       const response = await server.requestObject(request);
 
@@ -241,7 +241,7 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
       expect(responseDetail(response)).to.equal(
-        "La question à neutraliser n'a pas été posée lors du test de certification"
+        "La question à neutraliser n'a pas été posée lors du test de certification",
       );
     });
 
@@ -251,7 +251,7 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
       expect(responseDetail(response)).to.equal(
-        "La question à dé-neutraliser n'a pas été posée lors du test de certification"
+        "La question à dé-neutraliser n'a pas été posée lors du test de certification",
       );
     });
   });
@@ -265,7 +265,7 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(CONFLICT_ERROR);
       expect(responseDetail(response)).to.equal(
-        "Plus d'un candidat de certification correspondent aux informations d'identité fournies."
+        "Plus d'un candidat de certification correspondent aux informations d'identité fournies.",
       );
     });
 
@@ -288,8 +288,8 @@ describe('Integration | API | Controller Error', function () {
     it('responds Conflict when a OrganizationLearnerAlreadyLinkedToUserError error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.OrganizationLearnerAlreadyLinkedToUserError(
-          "L'élève est déjà rattaché à un compte utilisateur."
-        )
+          "L'élève est déjà rattaché à un compte utilisateur.",
+        ),
       );
       const response = await server.requestObject(request);
 
@@ -344,8 +344,8 @@ describe('Integration | API | Controller Error', function () {
     it('responds Forbidden when a UserNotAuthorizedToUpdateResourceError error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.UserNotAuthorizedToUpdateResourceError(
-          'Utilisateur non autorisé à mettre à jour à la ressource'
-        )
+          'Utilisateur non autorisé à mettre à jour à la ressource',
+        ),
       );
       const response = await server.requestObject(request);
 
@@ -355,7 +355,7 @@ describe('Integration | API | Controller Error', function () {
 
     it('responds Forbidden when a UserNotAuthorizedToCreateCampaignError error occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.UserNotAuthorizedToCreateCampaignError('Utilisateur non autorisé à créer une campagne')
+        new DomainErrors.UserNotAuthorizedToCreateCampaignError('Utilisateur non autorisé à créer une campagne'),
       );
       const response = await server.requestObject(request);
 
@@ -377,7 +377,7 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
       expect(responseDetail(response)).to.equal(
-        'Il est interdit de supprimer un candidat de certification déjà lié à un utilisateur.'
+        'Il est interdit de supprimer un candidat de certification déjà lié à un utilisateur.',
       );
     });
 
@@ -408,36 +408,36 @@ describe('Integration | API | Controller Error', function () {
     it('responds Forbidden when a UserNotAuthorizedToGetCampaignResultsError error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.UserNotAuthorizedToGetCampaignResultsError(
-          "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne."
-        )
+          "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne.",
+        ),
       );
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
       expect(responseDetail(response)).to.equal(
-        "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne."
+        "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne.",
       );
     });
 
     it('responds Forbidden when a UserNotAuthorizedToUpdatePasswordError error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.UserNotAuthorizedToUpdatePasswordError(
-          "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne."
-        )
+          "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne.",
+        ),
       );
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
       expect(responseDetail(response)).to.equal(
-        "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne."
+        "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne.",
       );
     });
 
     it('responds Forbidden when a UserNotAuthorizedToCreateResourceError error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.UserNotAuthorizedToCreateResourceError(
-          "Cet utilisateur n'est pas autorisé à créer la ressource."
-        )
+          "Cet utilisateur n'est pas autorisé à créer la ressource.",
+        ),
       );
       const response = await server.requestObject(request);
 
@@ -490,7 +490,7 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
       expect(responseDetail(response)).to.equal(
-        "Un ou plusieurs champs d'informations d'identité sont au mauvais format."
+        "Un ou plusieurs champs d'informations d'identité sont au mauvais format.",
       );
     });
 
@@ -505,8 +505,8 @@ describe('Integration | API | Controller Error', function () {
     it('responds Bad Request when a InvalidCertificationReportForFinalization error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.InvalidCertificationReportForFinalization(
-          'Echec lors de la validation du certification course'
-        )
+          'Echec lors de la validation du certification course',
+        ),
       );
       const response = await server.requestObject(request);
 
@@ -516,7 +516,7 @@ describe('Integration | API | Controller Error', function () {
 
     it('responds Bad Request when a MembershipCreationError error occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.MembershipCreationError('Erreur lors de la création du membership à une organisation.')
+        new DomainErrors.MembershipCreationError('Erreur lors de la création du membership à une organisation.'),
       );
       const response = await server.requestObject(request);
 
@@ -526,7 +526,7 @@ describe('Integration | API | Controller Error', function () {
 
     it('responds Bad Request when a MembershipUpdateError error occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.MembershipUpdateError('Erreur lors de la mise à jour du membership à une organisation.')
+        new DomainErrors.MembershipUpdateError('Erreur lors de la mise à jour du membership à une organisation.'),
       );
       const response = await server.requestObject(request);
 
@@ -556,7 +556,7 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
       expect(responseDetail(response)).to.equal(
-        "This session hasn't started, you can't finalise it. However, you can delete it."
+        "This session hasn't started, you can't finalise it. However, you can delete it.",
       );
       expect(responseCode(response)).to.equal('SESSION_WITHOUT_STARTED_CERTIFICATION');
     });
@@ -572,14 +572,14 @@ describe('Integration | API | Controller Error', function () {
     it('responds Bad Request when a UserOrgaSettingsCreationError error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.UserOrgaSettingsCreationError(
-          'Erreur lors de la création des paramètres utilisateur relatifs à Pix Orga.'
-        )
+          'Erreur lors de la création des paramètres utilisateur relatifs à Pix Orga.',
+        ),
       );
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
       expect(responseDetail(response)).to.equal(
-        'Erreur lors de la création des paramètres utilisateur relatifs à Pix Orga.'
+        'Erreur lors de la création des paramètres utilisateur relatifs à Pix Orga.',
       );
     });
 
@@ -613,7 +613,7 @@ describe('Integration | API | Controller Error', function () {
 
     it('responds Unprocessable Entity when a UserNotMemberOfOrganizationError error occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.UserNotMemberOfOrganizationError("L'utilisateur n'est pas membre de l'organisation.")
+        new DomainErrors.UserNotMemberOfOrganizationError("L'utilisateur n'est pas membre de l'organisation."),
       );
       const response = await server.requestObject(request);
 
@@ -697,7 +697,7 @@ describe('Integration | API | Controller Error', function () {
       expect(unprocessableErrorOnFirstname.source.pointer).to.equal('/data/attributes/participant-external-id');
       expect(unprocessableErrorOnFirstname.title).to.equal('Invalid data attribute "participantExternalId"');
       expect(unprocessableErrorOnFirstname.detail).to.equal(
-        'Un identifiant externe est requis pour accèder à la campagne.'
+        'Un identifiant externe est requis pour accèder à la campagne.',
       );
     });
 
@@ -725,7 +725,7 @@ describe('Integration | API | Controller Error', function () {
       expect(unprocessableErrorOnFirstname.source).to.be.undefined;
       expect(unprocessableErrorOnFirstname.title).to.equal('Invalid data attributes');
       expect(unprocessableErrorOnFirstname.detail).to.equal(
-        'Vous devez renseigner une adresse e-mail et/ou un identifiant.'
+        'Vous devez renseigner une adresse e-mail et/ou un identifiant.',
       );
     });
 
@@ -766,13 +766,13 @@ describe('Integration | API | Controller Error', function () {
 
     it('responds UnprocessableEntity when a UnknownCountryForStudentEnrolmentError occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.UnknownCountryForStudentEnrolmentError({ firstName: 'Paul', lastName: 'Preboist' })
+        new DomainErrors.UnknownCountryForStudentEnrolmentError({ firstName: 'Paul', lastName: 'Preboist' }),
       );
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
       expect(responseDetail(response)).to.equal(
-        "L'élève Paul Preboist a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix"
+        "L'élève Paul Preboist a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix",
       );
     });
 
@@ -826,13 +826,13 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
       expect(responseDetail(response)).to.equal(
-        'Le token de récupération des résultats de la session de certification est invalide.'
+        'Le token de récupération des résultats de la session de certification est invalide.',
       );
     });
 
     it('responds Unauthorized when a UserShouldChangePasswordError error occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.UserShouldChangePasswordError('Erreur, vous devez changer votre mot de passe.')
+        new DomainErrors.UserShouldChangePasswordError('Erreur, vous devez changer votre mot de passe.'),
       );
       const response = await server.requestObject(request);
 
@@ -901,7 +901,7 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(SERVICE_UNAVAILABLE_ERROR);
       expect(responseDetail(response)).to.equal(
-        "Échec lors de l'envoi des résultats au(x) destinataire(s) : toto@pix.fr, titi@pix.fr"
+        "Échec lors de l'envoi des résultats au(x) destinataire(s) : toto@pix.fr, titi@pix.fr",
       );
     });
 
@@ -912,7 +912,7 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(SERVICE_UNAVAILABLE_ERROR);
       expect(responseDetail(response)).to.equal(
-        "Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : toto@pix.fr, titi@pix.fr"
+        "Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : toto@pix.fr, titi@pix.fr",
       );
     });
 

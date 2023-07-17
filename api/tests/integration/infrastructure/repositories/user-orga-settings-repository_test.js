@@ -75,10 +75,10 @@ describe('Integration | Repository | UserOrgaSettings', function () {
       // then
       expect(userOrgaSettingsSaved.id).to.not.be.undefined;
       expect(_.pick(userOrgaSettingsSaved.user, USER_PICKED_PROPERTIES)).to.deep.equal(
-        _.pick(user, USER_PICKED_PROPERTIES)
+        _.pick(user, USER_PICKED_PROPERTIES),
       );
       expect(_.omit(userOrgaSettingsSaved.currentOrganization, ORGANIZATION_OMITTED_PROPERTIES)).to.deep.equal(
-        _.omit(organization, ORGANIZATION_OMITTED_PROPERTIES)
+        _.omit(organization, ORGANIZATION_OMITTED_PROPERTIES),
       );
     });
 
@@ -115,10 +115,10 @@ describe('Integration | Repository | UserOrgaSettings', function () {
       // then
       expect(updatedUserOrgaSettings.id).to.deep.equal(userOrgaSettingsId);
       expect(_.pick(updatedUserOrgaSettings.user, USER_PICKED_PROPERTIES)).to.deep.equal(
-        _.pick(user, USER_PICKED_PROPERTIES)
+        _.pick(user, USER_PICKED_PROPERTIES),
       );
       expect(_.omit(updatedUserOrgaSettings.currentOrganization, ORGANIZATION_OMITTED_PROPERTIES)).to.deep.equal(
-        _.omit(expectedOrganization, ORGANIZATION_OMITTED_PROPERTIES)
+        _.omit(expectedOrganization, ORGANIZATION_OMITTED_PROPERTIES),
       );
     });
   });
@@ -149,10 +149,10 @@ describe('Integration | Repository | UserOrgaSettings', function () {
       // then
       expect(foundUserOrgaSettings.id).to.deep.equal(userOrgaSettingsId);
       expect(_.pick(foundUserOrgaSettings.user, USER_PICKED_PROPERTIES)).to.deep.equal(
-        _.pick(user, USER_PICKED_PROPERTIES)
+        _.pick(user, USER_PICKED_PROPERTIES),
       );
       expect(_.omit(foundUserOrgaSettings.currentOrganization, ORGANIZATION_OMITTED_PROPERTIES)).to.deep.equal(
-        _.omit(organization, ORGANIZATION_OMITTED_PROPERTIES)
+        _.omit(organization, ORGANIZATION_OMITTED_PROPERTIES),
       );
     });
 

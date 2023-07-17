@@ -69,7 +69,7 @@ const create = function (organization) {
 
 const batchCreateOrganizations = async function (
   organizations,
-  domainTransaction = DomainTransaction.emptyTransaction()
+  domainTransaction = DomainTransaction.emptyTransaction(),
 ) {
   const organizationsRawData = organizations.map((organization) =>
     _.pick(organization, [
@@ -83,7 +83,7 @@ const batchCreateOrganizations = async function (
       'credit',
       'createdBy',
       'documentationUrl',
-    ])
+    ]),
   );
   return knex
     .batchInsert('organizations', organizationsRawData)
@@ -142,7 +142,7 @@ const getIdByCertificationCenterId = async function (certificationCenterId) {
     .innerJoin('certification-centers', function () {
       this.on('certification-centers.externalId', 'organizations.externalId').andOn(
         'certification-centers.type',
-        'organizations.type'
+        'organizations.type',
       );
     })
     .where('certification-centers.id', certificationCenterId);

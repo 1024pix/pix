@@ -78,6 +78,6 @@ async function _list({ locale }) {
   const competenceDatas = await competenceDatasource.list();
   return _.sortBy(
     competenceDatas.map((competenceData) => _toDomain({ competenceData, locale })),
-    'index'
+    'index',
   );
 }

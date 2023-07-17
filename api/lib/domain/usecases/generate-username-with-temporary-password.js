@@ -55,7 +55,7 @@ export { generateUsernameWithTemporaryPassword };
 function _checkIfStudentHasAccessToOrganization(organizationLearner, organizationId) {
   if (organizationLearner.organizationId !== organizationId) {
     throw new UserNotAuthorizedToGenerateUsernamePasswordError(
-      `L'élève avec l'INE ${organizationLearner.nationalStudentId} n'appartient pas à l'organisation.`
+      `L'élève avec l'INE ${organizationLearner.nationalStudentId} n'appartient pas à l'organisation.`,
     );
   }
 }
@@ -63,7 +63,7 @@ function _checkIfStudentHasAccessToOrganization(organizationLearner, organizatio
 function _checkIfStudentAccountAlreadyHasUsername(studentAccount) {
   if (!isEmpty(studentAccount.username)) {
     throw new UserNotAuthorizedToGenerateUsernamePasswordError(
-      `Ce compte utilisateur dispose déjà d'un identifiant: ${studentAccount.username}.`
+      `Ce compte utilisateur dispose déjà d'un identifiant: ${studentAccount.username}.`,
     );
   }
 }

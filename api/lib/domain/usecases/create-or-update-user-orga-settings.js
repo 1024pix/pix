@@ -11,7 +11,7 @@ const createOrUpdateUserOrgaSettings = async function ({
 
   if (_.isEmpty(memberships)) {
     throw new UserNotMemberOfOrganizationError(
-      `L'utilisateur ${userId} n'est pas membre de l'organisation ${organizationId}.`
+      `L'utilisateur ${userId} n'est pas membre de l'organisation ${organizationId}.`,
     );
   }
 

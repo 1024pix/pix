@@ -20,7 +20,7 @@ const getAssessment = async function ({
 
   if (assessment.type === Assessment.types.CAMPAIGN) {
     assessment.campaignCode = await campaignRepository.getCampaignCodeByCampaignParticipationId(
-      assessment.campaignParticipationId
+      assessment.campaignParticipationId,
     );
   }
   return assessment;

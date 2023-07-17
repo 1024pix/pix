@@ -260,7 +260,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         const { certificationCourseId, assessmentResultId } = await _buildValidShareableCertificate(
           shareableCertificateData,
-          false
+          false,
         );
 
         const competenceMarks1 = domainBuilder.buildCompetenceMark({
@@ -332,7 +332,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           'P-SOMECODE',
           {
             locale: 'fr',
-          }
+          },
         );
 
         // then
@@ -372,7 +372,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         const { certificationCourseId, assessmentResultId } = await _buildValidShareableCertificate(
           shareableCertificateData,
-          false
+          false,
         );
 
         const competenceMarks1 = domainBuilder.buildCompetenceMark({
@@ -444,7 +444,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           'P-SOMECODE',
           {
             locale: 'en',
-          }
+          },
         );
 
         // then
@@ -548,7 +548,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         // when
         const shareableCertificate = await certificateRepository.getShareableCertificateByVerificationCode(
-          'P-SOMECODE'
+          'P-SOMECODE',
         );
 
         // then
@@ -663,7 +663,7 @@ async function _buildValidShareableCertificateWithAcquiredBadges({ shareableCert
         partnerKey: key,
         acquired: true,
       });
-    }
+    },
   );
 
   databaseBuilder.factory.buildCompetenceMark({

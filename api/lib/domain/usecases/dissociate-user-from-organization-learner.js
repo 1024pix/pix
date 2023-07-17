@@ -5,7 +5,7 @@ const dissociateUserFromOrganizationLearner = async function ({
   organizationLearnerRepository,
 }) {
   const organizationLearnerForAdmin = await organizationLearnerRepository.getOrganizationLearnerForAdmin(
-    organizationLearnerId
+    organizationLearnerId,
   );
   if (!organizationLearnerForAdmin.canBeDissociated) {
     throw new OrganizationLearnerCannotBeDissociatedError();

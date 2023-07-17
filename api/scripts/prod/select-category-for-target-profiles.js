@@ -35,7 +35,7 @@ async function setCategoriesToTargetProfiles(csvData) {
   const result = await bluebird.mapSeries(validCategories, function (category) {
     const targetProfiles = targetProfilesGroupedByCategory[category].map((row) => row[TARGET_PROFILE_ID_COLUMN]);
     const [validTargetProfilesIds, invalidTargetProfilesIds] = partition(targetProfiles, (targetProfileId) =>
-      Number.isInteger(parseInt(targetProfileId))
+      Number.isInteger(parseInt(targetProfileId)),
     );
     invalidTargetProfiles = [...invalidTargetProfiles, ...invalidTargetProfilesIds];
 

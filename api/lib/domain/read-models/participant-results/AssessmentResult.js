@@ -31,13 +31,13 @@ class AssessmentResult {
       participationResults.masteryRate,
       this.isShared,
       this.totalSkillsCount,
-      this.validatedSkillsCount
+      this.validatedSkillsCount,
     );
 
     this.competenceResults = competences.map(({ competence, area, targetedSkillIds }) => {
       const competenceKnowledgeElements = knowledgeElements.filter(({ skillId }) => targetedSkillIds.includes(skillId));
       const validatedSkillsCountForCompetence = competenceKnowledgeElements.filter(
-        ({ isValidated }) => isValidated
+        ({ isValidated }) => isValidated,
       ).length;
       const masteryPercentage = Math.round((validatedSkillsCountForCompetence / targetedSkillIds.length) * 100);
       let reachedStage;
@@ -67,7 +67,7 @@ class AssessmentResult {
       sharedAt,
       isOrganizationLearnerActive,
       this.masteryRate,
-      this.isDisabled
+      this.isDisabled,
     );
 
     if (flashScoringResults) {
@@ -81,7 +81,7 @@ class AssessmentResult {
             totalSkillsCount: competence.skillIds.length,
             knowledgeElements: [],
             flashPixScore: pixScore,
-          })
+          }),
       );
     }
   }

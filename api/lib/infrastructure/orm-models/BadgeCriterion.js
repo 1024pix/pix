@@ -15,7 +15,7 @@ const BookshelfBadgeCriteri = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfBadgeCriteri };

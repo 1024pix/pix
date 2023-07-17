@@ -104,7 +104,7 @@ async function _getFlashScoringResults(assessmentId, locale) {
         pixScore,
       };
     }),
-    'competence.index'
+    'competence.index',
   );
 
   return { estimatedLevel, pixScore, competencesWithPixScore };
@@ -188,7 +188,7 @@ async function _getBadgeResults(badges) {
 function _findSkillSet(badges) {
   return knex('skill-sets').whereIn(
     'badgeId',
-    badges.map(({ id }) => id)
+    badges.map(({ id }) => id),
   );
 }
 
