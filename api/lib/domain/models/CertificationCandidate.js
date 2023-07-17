@@ -20,11 +20,11 @@ const BILLING_MODES = {
 };
 
 const certificationCandidateValidationJoiSchema = Joi.object({
-  firstName: Joi.string().required().empty(['', null]).messages({
+  firstName: Joi.string().trim().required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code,
     'string.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_MUST_BE_A_STRING.code,
   }),
-  lastName: Joi.string().required().empty(['', null]).messages({
+  lastName: Joi.string().trim().required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code,
     'string.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_MUST_BE_A_STRING.code,
   }),
@@ -80,7 +80,7 @@ const certificationCandidateValidationJoiSchema = Joi.object({
   }),
   prepaymentCode: Joi.when('billingMode', {
     is: 'PREPAID',
-    then: Joi.string().required().empty(['', null]).messages({
+    then: Joi.string().trim().required().empty(['', null]).messages({
       'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code,
     }),
     otherwise: Joi.valid(null).messages({

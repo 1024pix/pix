@@ -113,6 +113,20 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
         });
 
+        it(`should throw an error when field ${field.name} contains only spaces`, async function () {
+          //given
+          const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field.name]: ' ' });
+          const certificationCandidatesError = new CertificationCandidatesError({
+            code: field.code,
+          });
+
+          // when
+          const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+
+          // then
+          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
+        });
+
         it(`should throw an error when field ${field.name} is not present because null`, async function () {
           // given
           const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field.name]: null });

@@ -148,24 +148,7 @@ export default class EnrolledCandidates extends Component {
   }
 
   _createCertificationCandidateRecord(certificationCandidateData) {
-    return this.store.createRecord('certification-candidate', {
-      firstName: this._trimOrUndefinedIfFalsy(certificationCandidateData.firstName),
-      lastName: this._trimOrUndefinedIfFalsy(certificationCandidateData.lastName),
-      sex: this._trimOrUndefinedIfFalsy(certificationCandidateData.sex),
-      birthdate: certificationCandidateData.birthdate,
-      birthCountry: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthCountry),
-      birthInseeCode: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthInseeCode),
-      birthPostalCode: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthPostalCode),
-      birthCity: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthCity),
-      birthProvinceCode: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthProvinceCode),
-      externalId: this._trimOrUndefinedIfFalsy(certificationCandidateData.externalId),
-      email: this._trimOrUndefinedIfFalsy(certificationCandidateData.email),
-      resultRecipientEmail: this._trimOrUndefinedIfFalsy(certificationCandidateData.resultRecipientEmail),
-      extraTimePercentage: certificationCandidateData.extraTimePercentage,
-      billingMode: certificationCandidateData.billingMode,
-      prepaymentCode: this._trimOrUndefinedIfFalsy(certificationCandidateData.prepaymentCode),
-      complementaryCertification: certificationCandidateData.complementaryCertification,
-    });
+    return this.store.createRecord('certification-candidate', certificationCandidateData);
   }
 
   _handleDuplicateError(certificationCandidate) {
@@ -219,9 +202,5 @@ export default class EnrolledCandidates extends Component {
 
   _fromPercentageStringToDecimal(value) {
     return value ? toNumber(value) / 100 : value;
-  }
-
-  _trimOrUndefinedIfFalsy(str) {
-    return str ? str.trim() : undefined;
   }
 }

@@ -52,7 +52,11 @@ const deserialize = async function (json) {
   deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
   delete deserializedCandidate.birthInseeCode;
 
-  return new CertificationCandidate(deserializedCandidate);
+  return new CertificationCandidate({
+    ...deserializedCandidate,
+    firstName: deserializedCandidate.firstName.trim(),
+    lastName: deserializedCandidate.lastName.trim(),
+  });
 };
 
 export { serialize, deserialize };

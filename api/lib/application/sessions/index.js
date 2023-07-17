@@ -1,4 +1,7 @@
-import Joi from 'joi';
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
+const Joi = BaseJoi.extend(JoiDate);
+
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { sessionController } from './session-controller.js';
 import { sessionForSupervisingController } from './session-for-supervising-controller.js';
@@ -289,6 +292,37 @@ const register = async function (server) {
         validate: {
           params: Joi.object({
             id: identifiersType.sessionId,
+          }),
+          payload: Joi.object({
+            data: {
+              type: Joi.string().valid('certification-candidates').required(),
+              attributes: {
+                'complementary-certification': Joi.object()
+                  .keys({
+                    id: Joi.number().required(),
+                    key: Joi.string(),
+                    label: Joi.string(),
+                  })
+                  .optional(),
+                'first-name': Joi.string().empty(['', null]),
+                'last-name': Joi.string().empty(['', null]),
+                'birth-city': Joi.string().empty(['', null]),
+                'birth-province-code': Joi.string().empty(['', null]),
+                'birth-country': Joi.string().empty(['', null]),
+                'birth-postal-code': Joi.string().empty(['', null]),
+                'birth-insee-code': Joi.string().empty(['', null]),
+                'result-recipient-email': Joi.string().empty(['', null]),
+                'external-id': Joi.string().empty(['', null]),
+                'extra-time-percentage': Joi.number().empty([null]),
+                'billing-mode': Joi.string().empty(['', null]),
+                'prepayment-code': Joi.string().empty(['', null]),
+                'is-linked': Joi.boolean().valid(false).optional(),
+                sex: Joi.string().empty(['', null]),
+                email: Joi.string().empty(['', null]),
+                birthdate: Joi.date().format('YYYY-MM-DD').raw().required(),
+                'organization-learner-id': Joi.number().empty(null).forbidden(),
+              },
+            },
           }),
         },
         pre: [
