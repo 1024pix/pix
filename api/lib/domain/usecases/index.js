@@ -193,6 +193,7 @@ import * as userService from '../../domain/services/user-service.js';
 import * as userToCreateRepository from '../../infrastructure/repositories/user-to-create-repository.js';
 import * as userValidator from '../validators/user-validator.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
+import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
 import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
 import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
@@ -411,6 +412,7 @@ const dependencies = {
   userToCreateRepository,
   userValidator,
   verifyCertificateCodeService,
+  writeCsvUtils,
   writeOdsUtils,
 };
 
