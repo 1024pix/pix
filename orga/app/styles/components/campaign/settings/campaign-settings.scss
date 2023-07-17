@@ -81,9 +81,10 @@
   padding: 24px;
   width: 100%;
   box-sizing: border-box;
+  gap: 32px;
 
-  > *:first-child {
-    margin-right: 32px;
+  > *:last-child {
+    margin-left: auto;
   }
 }
 
