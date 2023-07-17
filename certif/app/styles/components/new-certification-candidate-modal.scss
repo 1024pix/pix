@@ -25,6 +25,17 @@
       width: 100%;
       margin: 12px 0;
 
+      &__fix-alert {
+        position:relative;
+
+        &__input {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+        } 
+      }
+  
+
       label {
         display: block;
 
