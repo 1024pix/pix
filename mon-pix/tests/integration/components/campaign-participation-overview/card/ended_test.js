@@ -25,7 +25,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
 
       // when
       const screen = await render(
-        hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`
+        hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`,
       );
 
       // then
@@ -34,7 +34,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
       assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.tag.finished')));
       assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.see-more')));
       assert.ok(
-        screen.getByText(this.intl.t('pages.campaign-participation-overview.card.finished-at', { date: '18/12/2020' }))
+        screen.getByText(this.intl.t('pages.campaign-participation-overview.card.finished-at', { date: '18/12/2020' })),
       );
     });
 
@@ -54,7 +54,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
 
         // when
         const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`
+          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`,
         );
 
         // then
@@ -79,7 +79,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
 
         // when
         const screen = await render(
-          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`
+          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`,
         );
 
         // then

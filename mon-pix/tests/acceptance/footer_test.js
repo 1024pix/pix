@@ -42,7 +42,7 @@ module('Acceptance | Footer', function (hooks) {
       assert.ok(
         find('.footer-container-content__navigation ul li:nth-child(1) a')
           .getAttribute('href')
-          .includes('support.pix.org')
+          .includes('support.pix.org'),
       );
     });
 
@@ -54,7 +54,7 @@ module('Acceptance | Footer', function (hooks) {
       assert.ok(
         find('.footer-container-content__navigation ul li:nth-child(2) a')
           .getAttribute('href')
-          .includes('/accessibilite')
+          .includes('/accessibilite'),
       );
     });
   });

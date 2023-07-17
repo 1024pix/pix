@@ -51,7 +51,7 @@ module('Unit | Controller | campaigns | join | student-sco', function (hooks) {
       // when
       await controller.actions.addGarAuthenticationMethodToUser.call(
         controller,
-        expectedExternalUserAuthenticationRequest
+        expectedExternalUserAuthenticationRequest,
       );
 
       // then
@@ -82,7 +82,7 @@ module('Unit | Controller | campaigns | join | student-sco', function (hooks) {
       // when
       await controller.actions.addGarAuthenticationMethodToUser.call(
         controller,
-        expectedExternalUserAuthenticationRequest
+        expectedExternalUserAuthenticationRequest,
       );
 
       // then

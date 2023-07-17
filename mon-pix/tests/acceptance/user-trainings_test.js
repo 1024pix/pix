@@ -42,8 +42,8 @@ module('Acceptance | mes-formations', function (hooks) {
       assert.dom('.user-trainings-banner__description').exists();
       assert.ok(
         find('.user-trainings-banner__description').textContent.includes(
-          'Continuez à progresser grâce aux formations recommandées à l’issue de vos parcours d’évaluation.'
-        )
+          'Continuez à progresser grâce aux formations recommandées à l’issue de vos parcours d’évaluation.',
+        ),
       );
       assert.dom('.user-trainings-content__container').exists();
       assert.dom('.user-trainings-content-list__item').exists();

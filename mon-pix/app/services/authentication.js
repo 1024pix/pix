@@ -23,7 +23,7 @@ export default class Authentication extends Service {
     }
 
     const isRouteAccessNotAllowedForAnonymousUser = !ALLOWED_ROUTES_FOR_ANONYMOUS_ACCESS.includes(
-      get(transition, 'to.name')
+      get(transition, 'to.name'),
     );
 
     if (isRouteAccessNotAllowedForAnonymousUser) {

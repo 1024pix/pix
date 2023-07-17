@@ -78,7 +78,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
       await fillInputReconciliationForm({ screen, intl: this.intl });
       await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
       );
 
       await click(screen.getByText('Mon adresse e-mail'));
@@ -88,7 +88,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
       // when
       await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
       );
 
       // then
@@ -106,13 +106,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
       await fillInputReconciliationForm({ screen, intl: this.intl });
       await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
       );
       await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'Mypassword1');
 
       // when
       await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
       );
 
       // then
@@ -131,13 +131,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
       // when
       await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
       );
 
       // then
       assert.ok(screen.getByText(this.intl.t('pages.login-or-register.register-form.rgpd-legal-notice')));
       assert.ok(
-        screen.getByRole('link', { name: this.intl.t('pages.login-or-register.register-form.rgpd-legal-notice-link') })
+        screen.getByRole('link', { name: this.intl.t('pages.login-or-register.register-form.rgpd-legal-notice-link') }),
       );
     });
   });
@@ -229,7 +229,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           await fillInputReconciliationForm({ screen, intl: this.intl });
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // when
@@ -255,7 +255,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           await fillInputReconciliationForm({ screen, intl: this.intl });
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // when
@@ -274,7 +274,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
       await fillInputReconciliationForm({ screen, intl: this.intl });
       await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
       );
 
       // when
@@ -282,7 +282,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       await fillIn(screen.getByRole('textbox', { name: EMAIL_INPUT_LABEL }), 'shi.fu');
       await triggerEvent(screen.getByRole('textbox', { name: EMAIL_INPUT_LABEL }), 'focusout');
       await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
       );
 
       // then
@@ -301,12 +301,12 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
         await fillInputReconciliationForm({ screen, intl: this.intl });
         await click(
-          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
         );
 
         await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'Mypassword1');
         await click(
-          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
         );
 
         // then
@@ -334,12 +334,12 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
         await fillInputReconciliationForm({ screen, intl: this.intl });
         await click(
-          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
         );
 
         await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'Mypassword1');
         await click(
-          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
         );
 
         // then
@@ -353,14 +353,14 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
       await fillInputReconciliationForm({ screen, intl: this.intl });
       await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
       );
 
       // when
       await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'toto');
       await triggerEvent(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'focusout');
       await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
       );
 
       // then
@@ -387,7 +387,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
         // when
         await click(
-          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
         );
 
         // then
@@ -415,12 +415,12 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
           const errorMessage = screen.getByText(
-            (errorMessage) => errorMessage.startsWith(EMAIL_ERROR_MESSAGE) && errorMessage.endsWith(R61_ERROR_MESSAGE)
+            (errorMessage) => errorMessage.startsWith(EMAIL_ERROR_MESSAGE) && errorMessage.endsWith(R61_ERROR_MESSAGE),
           );
           assert.dom(errorMessage).exists();
         });
@@ -445,13 +445,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
           const errorMessage = screen.getByText(
             (errorMessage) =>
-              errorMessage.startsWith(USERNAME_ERROR_MESSAGE) && errorMessage.endsWith(R62_ERROR_MESSAGE)
+              errorMessage.startsWith(USERNAME_ERROR_MESSAGE) && errorMessage.endsWith(R62_ERROR_MESSAGE),
           );
           assert.dom(errorMessage).exists();
         });
@@ -476,12 +476,12 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
           const errorMessage = screen.getByText(
-            (errorMessage) => errorMessage.startsWith(ENT_ERROR_MESSAGE) && errorMessage.endsWith(R63_ERROR_MESSAGE)
+            (errorMessage) => errorMessage.startsWith(ENT_ERROR_MESSAGE) && errorMessage.endsWith(R63_ERROR_MESSAGE),
           );
           assert.dom(errorMessage).exists();
         });
@@ -506,12 +506,12 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
           const errorMessage = screen.getByText(
-            (errorMessage) => errorMessage.startsWith(ENT_ERROR_MESSAGE) && errorMessage.endsWith(R63_ERROR_MESSAGE)
+            (errorMessage) => errorMessage.startsWith(ENT_ERROR_MESSAGE) && errorMessage.endsWith(R63_ERROR_MESSAGE),
           );
           assert.dom(errorMessage).exists();
         });
@@ -536,12 +536,12 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
           const errorMessage = screen.getByText(
-            (errorMessage) => errorMessage.startsWith(ENT_ERROR_MESSAGE) && errorMessage.endsWith(R63_ERROR_MESSAGE)
+            (errorMessage) => errorMessage.startsWith(ENT_ERROR_MESSAGE) && errorMessage.endsWith(R63_ERROR_MESSAGE),
           );
           assert.dom(errorMessage).exists();
         });
@@ -566,12 +566,12 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
           const errorMessage = screen.getByText(
-            (errorMessage) => errorMessage.startsWith(ENT_ERROR_MESSAGE) && errorMessage.endsWith(R63_ERROR_MESSAGE)
+            (errorMessage) => errorMessage.startsWith(ENT_ERROR_MESSAGE) && errorMessage.endsWith(R63_ERROR_MESSAGE),
           );
           assert.dom(errorMessage).exists();
         });
@@ -596,13 +596,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
           const errorMessage = screen.getByText(
             (errorMessage) =>
-              errorMessage.startsWith(USERNAME_ERROR_MESSAGE) && errorMessage.endsWith(R62_ERROR_MESSAGE)
+              errorMessage.startsWith(USERNAME_ERROR_MESSAGE) && errorMessage.endsWith(R62_ERROR_MESSAGE),
           );
           assert.dom(errorMessage).exists();
         });
@@ -629,12 +629,12 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
           const errorMessage = screen.getByText(
-            (errorMessage) => errorMessage.startsWith(EMAIL_ERROR_MESSAGE) && errorMessage.endsWith(R51_ERROR_MESSAGE)
+            (errorMessage) => errorMessage.startsWith(EMAIL_ERROR_MESSAGE) && errorMessage.endsWith(R51_ERROR_MESSAGE),
           );
           assert.dom(errorMessage).exists();
         });
@@ -659,13 +659,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
           const errorMessage = screen.getByText(
             (errorMessage) =>
-              errorMessage.startsWith(USERNAME_ERROR_MESSAGE) && errorMessage.endsWith(R52_ERROR_MESSAGE)
+              errorMessage.startsWith(USERNAME_ERROR_MESSAGE) && errorMessage.endsWith(R52_ERROR_MESSAGE),
           );
           assert.dom(errorMessage).exists();
         });
@@ -690,7 +690,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
@@ -717,7 +717,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
@@ -744,7 +744,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
@@ -771,7 +771,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
@@ -798,13 +798,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') })
+            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
           );
 
           // then
           const errorMessage = screen.getByText(
             (errorMessage) =>
-              errorMessage.startsWith(USERNAME_ERROR_MESSAGE) && errorMessage.endsWith(R52_ERROR_MESSAGE)
+              errorMessage.startsWith(USERNAME_ERROR_MESSAGE) && errorMessage.endsWith(R52_ERROR_MESSAGE),
           );
           assert.dom(errorMessage).exists();
         });
@@ -820,18 +820,18 @@ async function fillInputReconciliationForm({ screen, intl }) {
     screen.getByRole('spinbutton', {
       name: intl.t('pages.login-or-register.register-form.fields.birthdate.day.label'),
     }),
-    '10'
+    '10',
   );
   await fillIn(
     screen.getByRole('spinbutton', {
       name: intl.t('pages.login-or-register.register-form.fields.birthdate.month.label'),
     }),
-    '10'
+    '10',
   );
   await fillIn(
     screen.getByRole('spinbutton', {
       name: intl.t('pages.login-or-register.register-form.fields.birthdate.year.label'),
     }),
-    '2010'
+    '2010',
   );
 }

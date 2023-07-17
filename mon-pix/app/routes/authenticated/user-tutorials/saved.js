@@ -26,7 +26,7 @@ export default class UserTutorialsSavedRoute extends Route {
           size: params.pageSize,
         },
       },
-      { reload: true }
+      { reload: true },
     );
     return {
       areas,

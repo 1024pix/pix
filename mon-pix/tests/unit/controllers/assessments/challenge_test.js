@@ -138,7 +138,7 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
         test(`should be ${data.expectedResult} when ${_hasUserConfirmedCertificationFocusWarning}, ${_hasAnswer}`, function (assert) {
           // given
           const focusedCertificationChallengeWarningManager = this.owner.lookup(
-            'service:focused-certification-challenge-warning-manager'
+            'service:focused-certification-challenge-warning-manager',
           );
           focusedCertificationChallengeWarningManager._hasConfirmedFocusChallengeScreen =
             data.hasUserConfirmedCertificationFocusWarning;

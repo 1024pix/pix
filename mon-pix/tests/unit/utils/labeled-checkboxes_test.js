@@ -132,7 +132,7 @@ module('Unit | Utility | labeled checkboxes', function () {
           testCase.when,
         function (assert) {
           assert.deepEqual(labeledCheckboxes(testCase.proposals, testCase.answers), testCase.output);
-        }
+        },
       );
     });
   });

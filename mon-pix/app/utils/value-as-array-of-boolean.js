@@ -21,6 +21,6 @@ export default function valueAsArrayOfBoolean(value, length) {
     sortBy((_) => _), // now [1, 2, 2, 4]
     sortedUniq, // now [1, 2, 4]
     map((e) => e - 1), // now [0, 1, 3]
-    (e) => Array.from({ length: length ?? last(e) + 1 }, (_, i) => e.includes(i)) // now [true, true, false, true]
+    (e) => Array.from({ length: length ?? last(e) + 1 }, (_, i) => e.includes(i)), // now [true, true, false, true]
   )(value);
 }

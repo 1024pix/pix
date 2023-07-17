@@ -27,7 +27,7 @@ export default function index(config) {
                 detail: "Cet utilisateur n'a pas pu être rattaché à une organisation.",
               },
             ],
-          }
+          },
         );
   });
 
@@ -95,7 +95,7 @@ export default function index(config) {
               'latest-organization-name': 'Collège FouFouFou',
             },
           },
-        }
+        },
       );
     } else if (foundUser) {
       return new Response(
@@ -103,7 +103,7 @@ export default function index(config) {
         {},
         {
           errors: [{ status: '409' }],
-        }
+        },
       );
     } else {
       return new Response(
@@ -111,7 +111,7 @@ export default function index(config) {
         {},
         {
           errors: [{ status: '404', message: 'Not found' }],
-        }
+        },
       );
     }
   });

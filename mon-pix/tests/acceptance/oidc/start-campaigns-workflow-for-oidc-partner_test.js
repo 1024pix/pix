@@ -34,7 +34,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
           'service:location',
           Service.extend({
             replace: replaceLocationStub,
-          })
+          }),
         );
         campaign = server.create('campaign', { identityProvider: 'OIDC_PARTNER' });
       });
@@ -82,7 +82,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
                   },
                 },
               ],
-            }
+            },
           );
         });
 
@@ -128,7 +128,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
           'service:location',
           Service.extend({
             replace: replaceLocationStub,
-          })
+          }),
         );
         campaign = server.create('campaign', { identityProvider: 'OIDC_PARTNER' });
       });

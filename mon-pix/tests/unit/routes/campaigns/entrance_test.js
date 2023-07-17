@@ -143,7 +143,7 @@ module('Unit | Route | Entrance', function (hooks) {
       sinon.assert.calledWith(
         route.router.replaceWith,
         'campaigns.invited.fill-in-participant-external-id',
-        campaign.code
+        campaign.code,
       );
       assert.ok(true);
     });

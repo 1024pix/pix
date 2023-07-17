@@ -24,7 +24,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | ToShare
 
     // when
     const screen = await render(
-      hbs`<CampaignParticipationOverview::Card::ToShare @model={{this.campaignParticipationOverview}} />`
+      hbs`<CampaignParticipationOverview::Card::ToShare @model={{this.campaignParticipationOverview}} />`,
     );
 
     // then
@@ -33,7 +33,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | ToShare
     assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.tag.completed')));
     assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.send')));
     assert.ok(
-      screen.getByText(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '10/12/2020' }))
+      screen.getByText(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '10/12/2020' })),
     );
   });
 });

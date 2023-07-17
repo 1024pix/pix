@@ -24,13 +24,13 @@ export default class ConnectionMethodsController extends Controller {
 
   get shouldShowPixAuthenticationMethod() {
     return this.model.authenticationMethods.any(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX',
     );
   }
 
   get shouldShowGarAuthenticationMethod() {
     return this.model.authenticationMethods.any(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR'
+      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR',
     );
   }
 

@@ -13,7 +13,7 @@ module('Integration | Component | pix logo', function (hooks) {
     // then
     assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.homepage') })).exists();
     assert.ok(
-      screen.getByRole('img', { name: this.intl.t('navigation.homepage') }).hasAttribute('src', '/images/pix-logo.svg')
+      screen.getByRole('img', { name: this.intl.t('navigation.homepage') }).hasAttribute('src', '/images/pix-logo.svg'),
     );
   });
 });

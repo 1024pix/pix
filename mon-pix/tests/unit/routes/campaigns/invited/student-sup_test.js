@@ -16,13 +16,13 @@ module('Unit | Route | campaigns/invited/student-sup', function (hooks) {
         'store',
         Service.create({
           queryRecord: sinon.stub().resolves('a student user association'),
-        })
+        }),
       );
       route.set(
         'currentUser',
         Service.create({
           user: { id: 'id' },
-        })
+        }),
       );
       route.router = { replaceWith: sinon.stub() };
 
@@ -33,7 +33,7 @@ module('Unit | Route | campaigns/invited/student-sup', function (hooks) {
       sinon.assert.calledWith(
         route.router.replaceWith,
         'campaigns.invited.fill-in-participant-external-id',
-        campaign.code
+        campaign.code,
       );
       assert.ok(true);
     });

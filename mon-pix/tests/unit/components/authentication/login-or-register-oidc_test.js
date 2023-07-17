@@ -60,7 +60,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           // then
           assert.strictEqual(
             component.registerErrorMessage,
-            this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
+            this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key'),
           );
         });
       });
@@ -77,7 +77,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           // then
           assert.strictEqual(
             component.registerErrorMessage,
-            this.intl.t('pages.login-or-register-oidc.error.error-message')
+            this.intl.t('pages.login-or-register-oidc.error.error-message'),
           );
         });
       });
@@ -106,7 +106,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
             // then
             assert.strictEqual(
               component.registerErrorMessage,
-              `${this.intl.t('pages.sign-up.errors.invalid-locale-format', { invalidLocale: 'zzzz' })}`
+              `${this.intl.t('pages.sign-up.errors.invalid-locale-format', { invalidLocale: 'zzzz' })}`,
             );
           });
         });
@@ -134,7 +134,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
             // then
             assert.strictEqual(
               component.registerErrorMessage,
-              `${this.intl.t('pages.sign-up.errors.locale-not-supported', { localeNotSupported: 'jp' })}`
+              `${this.intl.t('pages.sign-up.errors.locale-not-supported', { localeNotSupported: 'jp' })}`,
             );
           });
         });
@@ -236,7 +236,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         // then
         assert.strictEqual(
           component.emailValidationMessage,
-          this.intl.t('pages.login-or-register-oidc.error.invalid-email')
+          this.intl.t('pages.login-or-register-oidc.error.invalid-email'),
         );
       });
     });
@@ -316,7 +316,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           // then
           assert.strictEqual(
             component.loginErrorMessage,
-            this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
+            this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key'),
           );
         });
       });
@@ -336,7 +336,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           // then
           assert.strictEqual(
             component.loginErrorMessage,
-            this.intl.t('pages.login-or-register-oidc.error.login-unauthorized-error')
+            this.intl.t('pages.login-or-register-oidc.error.login-unauthorized-error'),
           );
         });
       });
@@ -356,7 +356,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           // then
           assert.strictEqual(
             component.loginErrorMessage,
-            this.intl.t('pages.login-or-register-oidc.error.account-conflict')
+            this.intl.t('pages.login-or-register-oidc.error.account-conflict'),
           );
         });
       });

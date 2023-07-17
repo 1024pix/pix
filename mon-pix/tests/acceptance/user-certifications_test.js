@@ -86,7 +86,7 @@ module('Acceptance | User certifications page', function (hooks) {
         // then
         assert.strictEqual(
           findAll('.certifications-list__table-body .certifications-list-item').length,
-          userWithSomeCertificates.certifications.length
+          userWithSomeCertificates.certifications.length,
         );
       });
     });

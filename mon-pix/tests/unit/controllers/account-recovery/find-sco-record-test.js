@@ -97,7 +97,7 @@ module('Unit | Controller | account-recovery | find-sco-record', function (hooks
         sinon.assert.calledWithExactly(
           createRecord,
           'account-recovery-demand',
-          expectedAccountRecoveryDemandAttributes
+          expectedAccountRecoveryDemandAttributes,
         );
         sinon.assert.calledOnce(sendEmailStub);
         assert.ok(true);

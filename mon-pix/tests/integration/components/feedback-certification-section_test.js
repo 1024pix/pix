@@ -15,8 +15,8 @@ module('Integration | Component | feedback-certification-section', function (hoo
       find('.feedback-certification-section__div')
         .textContent.trim()
         .includes(
-          'Pour signaler un problème, appelez votre surveillant et communiquez-lui les informations suivantes :'
-        )
+          'Pour signaler un problème, appelez votre surveillant et communiquez-lui les informations suivantes :',
+        ),
     );
   });
 });

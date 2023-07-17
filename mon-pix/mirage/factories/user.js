@@ -54,7 +54,7 @@ function _addDefaultScorecards(user, server) {
         remainingDaysBeforeReset: 0,
         remainingDaysBeforeImproving: 0,
         tutorials: [tutorial],
-      })
+      }),
     );
     scorecards.push(
       server.create('scorecard', {
@@ -83,7 +83,7 @@ function _addDefaultScorecards(user, server) {
         index: `${areas[1].code}.1`,
         remainingDaysBeforeReset: 5,
         remainingDaysBeforeImproving: 0,
-      })
+      }),
     );
     scorecards.push(
       server.create('scorecard', {
@@ -112,7 +112,7 @@ function _addDefaultScorecards(user, server) {
         index: `${areas[1].code}.2`,
         remainingDaysBeforeReset: null,
         remainingDaysBeforeImproving: null,
-      })
+      }),
     );
     scorecards.push(
       server.create('scorecard', {
@@ -141,7 +141,7 @@ function _addDefaultScorecards(user, server) {
         index: `${areas[1].code}.1`,
         remainingDaysBeforeReset: 0,
         remainingDaysBeforeImproving: 0,
-      })
+      }),
     );
     scorecards.push(
       server.create('scorecard', {
@@ -170,7 +170,7 @@ function _addDefaultScorecards(user, server) {
         index: `${areas[3].code}.1`,
         remainingDaysBeforeReset: 0,
         remainingDaysBeforeImproving: 3,
-      })
+      }),
     );
     scorecards.push(
       server.create('scorecard', {
@@ -199,7 +199,7 @@ function _addDefaultScorecards(user, server) {
         index: `${areas[3].code}.2`,
         remainingDaysBeforeReset: 0,
         remainingDaysBeforeImproving: 0,
-      })
+      }),
     );
     user.update({ scorecards });
   }

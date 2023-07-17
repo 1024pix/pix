@@ -121,14 +121,14 @@ module('Integration | Component | user certifications detail header', function (
 
         // when
         const screen = await renderScreen(
-          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`
+          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`,
         );
 
         // then
         assert.ok(
           screen.getByText(
-            'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix'
-          )
+            'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix',
+          ),
         );
       });
     });
@@ -155,14 +155,14 @@ module('Integration | Component | user certifications detail header', function (
 
         // when
         const screen = await renderScreen(
-          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`
+          hbs`<UserCertificationsDetailHeader @certification={{this.certification}} />`,
         );
 
         // then
         assert.notOk(
           screen.queryByText(
-            'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix'
-          )
+            'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix',
+          ),
         );
       });
     });
@@ -243,8 +243,8 @@ module('Integration | Component | user certifications detail header', function (
       // then
       assert.notOk(
         screen.queryByText(
-          'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix'
-        )
+          'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix',
+        ),
       );
     });
 

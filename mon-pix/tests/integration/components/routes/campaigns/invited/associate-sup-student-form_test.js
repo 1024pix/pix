@@ -71,8 +71,8 @@ module('Integration | Component | routes/campaigns/invited/associate-sup-student
       // then
       assert.ok(
         screen.getByText(
-          'Veuillez vérifier les informations saisies, ou si vous avez déjà un compte Pix, connectez-vous avec celui-ci.'
-        )
+          'Veuillez vérifier les informations saisies, ou si vous avez déjà un compte Pix, connectez-vous avec celui-ci.',
+        ),
       );
     });
   });

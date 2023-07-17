@@ -130,8 +130,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
       // then
       assert.ok(
         screen.getByText(
-          "Vous utilisez actuellement un compte qui n'est pas lié à votre établissement. Connectez vous au compte avec lequel vous avez effectué vos parcours ou demandez de l'aide au surveillant."
-        )
+          "Vous utilisez actuellement un compte qui n'est pas lié à votre établissement. Connectez vous au compte avec lequel vous avez effectué vos parcours ou demandez de l'aide au surveillant.",
+        ),
       );
       assert.ok(screen.getByText("Comment trouver le compte lié à l'établissement ?"));
     });
@@ -163,8 +163,8 @@ module('Integration | Component | certification-joiner', function (hooks) {
       // then
       assert.ok(
         screen.getByText(
-          'Les informations saisies correspondent à un.e candidat.e inscrit.e à la session et déjà connecté.e avec un autre compte. Vérifiez que vous êtes connecté.e au compte qui a démarré la certification.'
-        )
+          'Les informations saisies correspondent à un.e candidat.e inscrit.e à la session et déjà connecté.e avec un autre compte. Vérifiez que vous êtes connecté.e au compte qui a démarré la certification.',
+        ),
       );
     });
 
@@ -190,7 +190,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       // then
       assert.ok(screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer')));
       assert.ok(
-        screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
+        screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number')),
       );
       assert.ok(screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info')));
     });
@@ -237,16 +237,16 @@ module('Integration | Component | certification-joiner', function (hooks) {
 
         // when
         await click(
-          screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') })
+          screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }),
         );
 
         // then
         assert.ok(screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer')));
         assert.ok(
-          screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
+          screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number')),
         );
         assert.ok(
-          screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))
+          screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info')),
         );
       });
     });
@@ -314,27 +314,27 @@ module('Integration | Component | certification-joiner', function (hooks) {
       screen.getByRole('textbox', {
         name: 'Numéro de session Communiqué uniquement par le surveillant en début de session',
       }),
-      sessionId
+      sessionId,
     );
     await fillIn(
       screen.getByRole('textbox', { name: intl.t('pages.certification-joiner.form.fields.first-name') }),
-      'Robert' + '  '
+      'Robert' + '  ',
     );
     await fillIn(
       screen.getByRole('textbox', { name: intl.t('pages.certification-joiner.form.fields.birth-name') }),
-      '  ' + 'de Pix'
+      '  ' + 'de Pix',
     );
     await fillIn(
       screen.getByRole('spinbutton', { name: intl.t('pages.certification-joiner.form.fields.birth-day') }),
-      '02'
+      '02',
     );
     await fillIn(
       screen.getByRole('spinbutton', { name: intl.t('pages.certification-joiner.form.fields.birth-month') }),
-      '01'
+      '01',
     );
     await fillIn(
       screen.getByRole('spinbutton', { name: intl.t('pages.certification-joiner.form.fields.birth-year') }),
-      '2000'
+      '2000',
     );
   }
 });

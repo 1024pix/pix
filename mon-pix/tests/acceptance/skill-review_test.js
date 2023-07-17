@@ -246,19 +246,19 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           screen
             .getAllByRole('progressbar', { name: 'Pourcentage de réussite du résultat thématique' })[0]
             .textContent.trim(),
-          '88%'
+          '88%',
         );
         assert.strictEqual(
           screen
             .getAllByRole('progressbar', { name: 'Pourcentage de réussite du résultat thématique' })[1]
             .textContent.trim(),
-          '67%'
+          '67%',
         );
         assert.strictEqual(
           screen
             .getAllByRole('progressbar', { name: 'Pourcentage de réussite du résultat thématique' })[2]
             .textContent.trim(),
-          '20%'
+          '20%',
         );
       });
 

@@ -50,7 +50,7 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
       assert.dom('.challenge-response__alert').exists();
       assert.strictEqual(
         find('.challenge-response__alert').textContent.trim(),
-        'Pour valider, sélectionnez une réponse. Sinon, passez.'
+        'Pour valider, sélectionnez une réponse. Sinon, passez.',
       );
     });
 

@@ -21,7 +21,7 @@ export default Mixin.create({
     set(
       this,
       'stepsAhead',
-      this.steps.map((step) => EmberObject.create({ name: step, status: STEPS.TO_COMPLETE }))
+      this.steps.map((step) => EmberObject.create({ name: step, status: STEPS.TO_COMPLETE })),
     );
     this.stepsActivated = [];
     this.next();

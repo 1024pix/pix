@@ -16,7 +16,7 @@ export default function (config) {
       access_token:
         'aaa.' +
         btoa(
-          `{"user_id":${createdUser.id},"source":"oidc-externe","iat":1545321469,"exp":4702193958,"identity_provider":"OIDC_PARTNER"}`
+          `{"user_id":${createdUser.id},"source":"oidc-externe","iat":1545321469,"exp":4702193958,"identity_provider":"OIDC_PARTNER"}`,
         ) +
         '.bbb',
       logout_url_uuid: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
@@ -65,7 +65,7 @@ export default function (config) {
       access_token:
         'aaa.' +
         btoa(
-          `{"user_id":${createdUser.id},"source":"oidc-externe","identity_provider":"${identityProvider}","iat":1545321469,"exp":4702193958}`
+          `{"user_id":${createdUser.id},"source":"oidc-externe","identity_provider":"${identityProvider}","iat":1545321469,"exp":4702193958}`,
         ) +
         '.bbb',
       user_id: createdUser.id,

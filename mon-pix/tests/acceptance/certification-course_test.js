@@ -83,8 +83,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             assert
               .dom(
                 screen.getByText(
-                  "Vérifiez auprès du surveillant la correspondance de vos informations personnelles avec la feuille d'émargement."
-                )
+                  "Vérifiez auprès du surveillant la correspondance de vos informations personnelles avec la feuille d'émargement.",
+                ),
               )
               .exists();
           });
@@ -114,8 +114,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             assert
               .dom(
                 screen.getByText(
-                  "Vérifiez auprès du surveillant la correspondance de vos informations personnelles avec la feuille d'émargement."
-                )
+                  "Vérifiez auprès du surveillant la correspondance de vos informations personnelles avec la feuille d'émargement.",
+                ),
               )
               .exists();
           });
@@ -145,8 +145,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             assert
               .dom(
                 screen.getByText(
-                  "Vérifiez auprès du surveillant la correspondance de vos informations personnelles avec la feuille d'émargement."
-                )
+                  "Vérifiez auprès du surveillant la correspondance de vos informations personnelles avec la feuille d'émargement.",
+                ),
               )
               .exists();
           });
@@ -402,8 +402,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           assert
             .dom(
               screen.getByText(
-                'Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.'
-              )
+                'Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.',
+              ),
             )
             .exists();
         });
@@ -459,8 +459,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             assert
               .dom(
                 screen.getByText(
-                  'Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.'
-                )
+                  'Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.',
+                ),
               )
               .exists();
           });
@@ -485,8 +485,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           assert
             .dom(
               screen.getByText(
-                'La session a été finalisée par votre centre de certification. Vous ne pouvez plus continuer de répondre aux questions.'
-              )
+                'La session a été finalisée par votre centre de certification. Vous ne pouvez plus continuer de répondre aux questions.',
+              ),
             )
             .exists();
         });
@@ -502,7 +502,7 @@ function generate400Error(detail) {
       {},
       {
         errors: [{ status: '400', detail }],
-      }
+      },
     );
   };
 }

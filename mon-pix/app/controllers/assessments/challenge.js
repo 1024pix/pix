@@ -34,7 +34,7 @@ export default class ChallengeController extends Controller {
   get pageTitle() {
     const stepNumber = progressInAssessment.getCurrentStepNumber(
       this.model.assessment,
-      this.model.currentChallengeNumber
+      this.model.currentChallengeNumber,
     );
     const totalChallengeNumber = progressInAssessment.getMaxStepsNumber(this.model.assessment);
 

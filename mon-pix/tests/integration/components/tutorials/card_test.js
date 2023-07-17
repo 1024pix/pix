@@ -28,7 +28,7 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
           duration: '60',
           userSavedTutorial: store.createRecord('user-saved-tutorial', {}),
           tutorialEvaluation: store.createRecord('tutorial-evaluation', { status: 'LIKED' }),
-        })
+        }),
       );
 
       // when
@@ -68,7 +68,7 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
           duration: '60',
           userSavedTutorial: store.createRecord('user-saved-tutorial', {}),
           tutorialEvaluation: store.createRecord('tutorial-evaluation', { status: 'LIKED' }),
-        })
+        }),
       );
 
       // when

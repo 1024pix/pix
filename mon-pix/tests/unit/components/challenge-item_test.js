@@ -203,7 +203,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
             component.router.transitionTo,
             'assessments.resume',
             assessment.get('id'),
-            expectedQueryParams
+            expectedQueryParams,
           );
           assert.ok(true);
         });
@@ -226,7 +226,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
             component.router.transitionTo,
             'assessments.resume',
             assessment.get('id'),
-            expectedQueryParams
+            expectedQueryParams,
           );
           assert.ok(true);
         });
@@ -249,7 +249,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
             component.router.transitionTo,
             'assessments.resume',
             assessment.get('id'),
-            expectedQueryParams
+            expectedQueryParams,
           );
           assert.ok(true);
         });
@@ -305,7 +305,7 @@ module('Unit | Component | Challenge | Item', function (hooks) {
         sinon.assert.calledWithExactly(
           component.router.transitionTo,
           'authenticated.certifications.results',
-          assessment.certificationCourse.get('id')
+          assessment.certificationCourse.get('id'),
         );
         assert.ok(true);
       });

@@ -18,7 +18,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       assert.ok(
         screen.getByRole('button', {
           name: this.intl.t('pages.user-account.account-update-email-with-validation.save-button'),
-        })
+        }),
       );
     });
 
@@ -29,7 +29,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
         this.set('disableEmailEditionMode', disableEmailEditionMode);
 
         const screen = await render(
-          hbs`<UserAccount::EmailWithValidationForm @disableEmailEditionMode={{this.disableEmailEditionMode}} />`
+          hbs`<UserAccount::EmailWithValidationForm @disableEmailEditionMode={{this.disableEmailEditionMode}} />`,
         );
 
         // when
@@ -77,7 +77,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       store.createRecord = () => ({ sendNewEmail: sinon.stub() });
 
       const screen = await render(
-        hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`
+        hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`,
       );
 
       // when
@@ -97,7 +97,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       });
 
       const screen = await render(
-        hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`
+        hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`,
       );
 
       // when
@@ -106,8 +106,8 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.new-email-already-exist')
-        )
+          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.new-email-already-exist'),
+        ),
       );
     });
 
@@ -120,7 +120,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       });
 
       const screen = await render(
-        hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`
+        hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`,
       );
 
       // when
@@ -129,8 +129,8 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-password')
-        )
+          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-password'),
+        ),
       );
     });
 
@@ -143,7 +143,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       });
 
       const screen = await render(
-        hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`
+        hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`,
       );
 
       // when
@@ -152,8 +152,8 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email')
-        )
+          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email'),
+        ),
       );
     });
 
@@ -166,7 +166,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       });
 
       const screen = await render(
-        hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`
+        hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`,
       );
 
       // when
@@ -175,8 +175,8 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password')
-        )
+          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password'),
+        ),
       );
     });
   });
@@ -187,7 +187,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
     await click(
       screen.getByRole('button', {
         name: intl.t('pages.user-account.account-update-email-with-validation.save-button'),
-      })
+      }),
     );
   }
 });

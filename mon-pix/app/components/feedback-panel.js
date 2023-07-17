@@ -99,7 +99,7 @@ export default class FeedbackPanel extends Component {
     const category = this._category
       ? this.intl.t(this._category)
       : this.intl.t(
-          'pages.challenge.feedback-panel.form.fields.category-selection.options.' + this._currentMajorCategory
+          'pages.challenge.feedback-panel.form.fields.category-selection.options.' + this._currentMajorCategory,
         );
     const feedback = this.store.createRecord('feedback', {
       content: this.content,

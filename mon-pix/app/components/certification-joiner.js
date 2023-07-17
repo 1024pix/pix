@@ -66,7 +66,7 @@ export default class CertificationJoiner extends Component {
     const { value } = event.target;
     if (value && !this._isANumber(value)) {
       this.sessionIdIsNotANumberError = this.intl.t(
-        'pages.certification-joiner.form.fields-validation.session-number-error'
+        'pages.certification-joiner.form.fields-validation.session-number-error',
       );
     } else {
       this.sessionIdIsNotANumberError = null;
@@ -95,7 +95,7 @@ export default class CertificationJoiner extends Component {
     let currentCertificationCandidate = null;
     if (this.sessionId && !this._isANumber(this.sessionId)) {
       this.sessionIdIsNotANumberError = this.intl.t(
-        'pages.certification-joiner.form.fields-validation.session-number-error'
+        'pages.certification-joiner.form.fields-validation.session-number-error',
       );
       document.querySelector('#certificationJoinerSessionId').focus();
       return;

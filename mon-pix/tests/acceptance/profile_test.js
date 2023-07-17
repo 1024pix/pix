@@ -56,7 +56,7 @@ module('Acceptance | Profile', function (hooks) {
       await click(
         screen.getByRole('link', {
           name: 'Area_1_title Area_1_Competence_1_name Niveau actuel: 2. Le prochain niveau est complété à 20%.',
-        })
+        }),
       );
 
       // then

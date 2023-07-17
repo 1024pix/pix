@@ -13,11 +13,11 @@ module('Integration | Component | certification-not-certifiable', function (hook
 
     assert.strictEqual(
       find('.certification-not-certifiable__title').textContent.trim(),
-      "Votre profil n'est pas encore certifiable."
+      "Votre profil n'est pas encore certifiable.",
     );
     assert.strictEqual(
       find('.certification-not-certifiable__text').textContent.trim(),
-      'Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.'
+      'Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.',
     );
   });
 });
