@@ -1,4 +1,3 @@
-import { logger } from '../lib/infrastructure/logger.js';
 import { readdir } from 'node:fs/promises';
 
 async function countFilesInPath(path) {
@@ -16,16 +15,23 @@ async function countFilesInPath(path) {
   return fileNumber;
 }
 
+function formatResult({ path, count }) {
+  return {
+    path,
+    count,
+  };
+}
+
 async function main() {
   const pathsToAnalyse = ['./lib', './src'];
   const result = await Promise.all(
-    pathsToAnalyse.map(async (path) => ({
-      path,
-      count: await countFilesInPath(path),
-    }))
+    pathsToAnalyse.map(async (path) => {
+      const count = await countFilesInPath(path);
+      return formatResult({ path, count });
+    })
   );
 
-  logger.info(`Nb de fichiers dans lib: ${JSON.stringify(result)}`);
+  return console.log(JSON.stringify(result));
 }
 
 await main();

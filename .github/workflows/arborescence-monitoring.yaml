@@ -1,0 +1,26 @@
+name: "Arborescence monitoring"
+
+on:
+  push:
+    branches:
+      - dashboard-api-arborescence
+
+defaults:
+  run:
+    shell: bash
+    working-directory: api
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: "Run monitoring"
+        id: monitoring
+        run: |
+          MONITORING=$(npm run monitoring:arborescence --silent)
+          echo "${MONITORING}" >> $GITHUB_STEP_SUMMARY
