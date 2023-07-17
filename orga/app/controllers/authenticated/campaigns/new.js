@@ -12,6 +12,8 @@ export default class NewController extends Controller {
 
   @tracked errors;
 
+  queryParams = ['source'];
+
   @action
   async createCampaign() {
     this.notifications.clearAll();
@@ -35,6 +37,10 @@ export default class NewController extends Controller {
 
   @action
   cancel() {
-    this.router.transitionTo('authenticated.campaigns');
+    if (this.source) {
+      this.router.transitionTo('authenticated.campaigns.campaign.settings', this.source);
+    } else {
+      this.router.transitionTo('authenticated.campaigns');
+    }
   }
 }
