@@ -6,7 +6,7 @@ export default class AccessControlService extends Service {
   @service featureToggles;
 
   get hasAccessToUsersActionsScope() {
-    return this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isSupport;
+    return !!(this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isSupport);
   }
 
   get hasAccessToTargetProfilesActionsScope() {
@@ -18,11 +18,11 @@ export default class AccessControlService extends Service {
   }
 
   get hasAccessToTrainingsActionsScope() {
-    return this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isMetier;
+    return !!(this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isMetier);
   }
 
   get hasAccessToTrainings() {
-    return (
+    return !!(
       this.currentUser.adminMember.isSuperAdmin ||
       this.currentUser.adminMember.isMetier ||
       this.currentUser.adminMember.isSupport
