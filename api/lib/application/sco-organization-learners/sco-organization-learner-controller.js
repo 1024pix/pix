@@ -2,6 +2,7 @@ import { usecases } from '../../domain/usecases/index.js';
 import * as scoOrganizationLearnerSerializer from '../../infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import * as studentInformationForAccountRecoverySerializer from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
+import dayjs from 'dayjs';
 
 const reconcileScoOrganizationLearnerManually = async function (
   request,
@@ -186,13 +187,21 @@ const updateOrganizationLearnersPassword = async function (request, h) {
   const organizationId = payload['organization-id'];
   const organizationLearnersId = payload['organization-learners-id'];
 
-  await usecases.updateOrganizationLearnersPassword({
+  const organizationLearnersGeneratedPassword = await usecases.updateOrganizationLearnersPassword({
     userId,
     organizationId,
     organizationLearnersId,
   });
+  const generatedCsvContent = await usecases.generateResetOrganizationLearnersPassword({
+    organizationLearnersGeneratedPassword,
+  });
+  const dateWithTime = dayjs().locale('fr').format('YYYYMMDD_HHmm');
+  const generatedCsvContentFileName = `${dateWithTime}_organization_learners_password_reset.csv`;
 
-  return h.response().code(200);
+  return h
+    .response(generatedCsvContent)
+    .header('Content-Type', 'text/csv;charset=utf-8')
+    .header('Content-Disposition', `attachment; filename=${generatedCsvContentFileName}`);
 };
 
 const scoOrganizationLearnerController = {

@@ -672,7 +672,7 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
 
   describe('PUT /api/sco-organization-learners/passwords', function () {
     context('when successfully update organization learners passwords', function () {
-      it('returns an HTTP status code 200', async function () {
+      it('returns an HTTP status code 200 with generated CSV file', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
 
@@ -699,7 +699,7 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
         await databaseBuilder.commit();
 
         // when
-        const { statusCode } = await server.inject({
+        const { headers, payload, statusCode } = await server.inject({
           method: 'PUT',
           url: `${BASE_PATH}/passwords`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
@@ -715,6 +715,13 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
 
         // then
         expect(statusCode).to.equal(200);
+        expect(headers['content-type']).to.equal('text/csv;charset=utf-8');
+        expect(headers['content-disposition']).to.contains('_organization_learners_password_reset.csv');
+
+        // eslint-disable-next-line no-unused-vars
+        const [fileHeaders, firstRow, ...unusedRows] = payload.split('\n').map((row) => row.trim());
+        expect(fileHeaders).to.equal('"Identifiant";"Mot de passe";"Classe"');
+        expect(firstRow).to.match(/^"paul";|"jacques";/);
       });
     });
   });
