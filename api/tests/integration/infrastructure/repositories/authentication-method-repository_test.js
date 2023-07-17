@@ -1211,12 +1211,12 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       const authenticationMethods = await knex('authentication-methods')
         .pluck('authenticationComplement')
         .whereIn('userId', [pierre.id, paul.id]);
+      const expectedAuthenticationMethods = [
+        { password: pierreNewHashedPassword, shouldChangePassword: true },
+        { password: paulNewHashedPassword, shouldChangePassword: true },
+      ];
 
-      expect(authenticationMethods[0].password).to.equal(pierreNewHashedPassword);
-      expect(authenticationMethods[0].shouldChangePassword).to.be.true;
-
-      expect(authenticationMethods[1].password).to.equal(paulNewHashedPassword);
-      expect(authenticationMethods[1].shouldChangePassword).to.be.true;
+      expect(authenticationMethods).to.have.deep.members(expectedAuthenticationMethods);
     });
 
     describe('when database transaction fails', function () {
