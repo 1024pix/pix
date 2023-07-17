@@ -8,7 +8,7 @@ function _createScoOrganization(databaseBuilder) {
     isManagingStudents: false,
     externalId: 'PRESCRIPTION',
   });
-  databaseBuilder.factory.buildUser({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: SCO_ORGANIZATION_USER_ID,
     firstName: 'Orga Sco',
     lastName: 'Team Prescription',
@@ -17,6 +17,7 @@ function _createScoOrganization(databaseBuilder) {
     lang: 'fr',
     rawPassword: DEFAULT_PASSWORD,
     shouldChangePassword: false,
+    pixOrgaTermsOfServiceAccepted: true,
   });
   databaseBuilder.factory.buildMembership({
     userId: SCO_ORGANIZATION_USER_ID,
