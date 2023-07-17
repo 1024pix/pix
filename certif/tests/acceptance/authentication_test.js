@@ -29,7 +29,7 @@ module('Acceptance | authentication', function (hooks) {
       assert.strictEqual(currentURL(), '/connexion');
       assert.notOk(
         currentSession(this.application).get('isAuthenticated'),
-        'The certificationPointOfContact is still unauthenticated'
+        'The certificationPointOfContact is still unauthenticated',
       );
     });
   });
@@ -52,7 +52,7 @@ module('Acceptance | authentication', function (hooks) {
         assert.strictEqual(currentURL(), '/cgu');
         assert.ok(
           currentSession(this.application).get('isAuthenticated'),
-          'The certificationPointOfContact is authenticated'
+          'The certificationPointOfContact is authenticated',
         );
       });
 
@@ -71,7 +71,7 @@ module('Acceptance | authentication', function (hooks) {
         // then
         assert.ok(
           currentSession(this.application).get('isAuthenticated'),
-          'The certificationPointOfContact is authenticated'
+          'The certificationPointOfContact is authenticated',
         );
 
         assert.dom('.app__sidebar').doesNotExist();
@@ -97,7 +97,7 @@ module('Acceptance | authentication', function (hooks) {
         assert.strictEqual(currentURL(), '/sessions/liste');
         assert.ok(
           currentSession(this.application).get('isAuthenticated'),
-          'The certificationPointOfContact is authenticated'
+          'The certificationPointOfContact is authenticated',
         );
       });
     });
@@ -117,7 +117,7 @@ module('Acceptance | authentication', function (hooks) {
         assert.strictEqual(currentURL(), '/sessions/liste');
         assert.ok(
           currentSession(this.application).get('isAuthenticated'),
-          'The certificationPointOfContact is authenticated'
+          'The certificationPointOfContact is authenticated',
         );
       });
 
@@ -134,7 +134,7 @@ module('Acceptance | authentication', function (hooks) {
           .dom(
             screen.getByRole('button', {
               name: 'Harry Cover Centre (ABC123) Ouvrir le menu utilisateur',
-            })
+            }),
           )
           .exists();
       });

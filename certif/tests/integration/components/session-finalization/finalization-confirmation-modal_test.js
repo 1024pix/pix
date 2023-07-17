@@ -33,8 +33,8 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
     assert
       .dom(
         screen.getByText(
-          "il ne vous sera plus possible de modifier ces informations par la suite. Un délai de traitement est nécessaire avant la mise à disposition des résultats par Pix (ce délai de traitement pouvant varier d'une session à l'autre)."
-        )
+          "il ne vous sera plus possible de modifier ces informations par la suite. Un délai de traitement est nécessaire avant la mise à disposition des résultats par Pix (ce délai de traitement pouvant varier d'une session à l'autre).",
+        ),
       )
       .exists();
   });

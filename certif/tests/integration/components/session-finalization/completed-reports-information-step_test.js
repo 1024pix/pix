@@ -109,7 +109,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
       .dom(
         screen.getByRole('table', {
           name: 'Certification(s) terminée(s) Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant.',
-        })
+        }),
       )
       .exists();
   });
@@ -172,7 +172,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
         .dom(
           screen.getByRole('checkbox', {
             name: "Sélectionner l'écran de fin du test vu pour le candidat Alice Alister",
-          })
+          }),
         )
         .exists();
     });

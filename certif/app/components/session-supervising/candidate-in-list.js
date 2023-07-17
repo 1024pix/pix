@@ -78,13 +78,13 @@ export default class CandidateInList extends Component {
       'pages.session-supervising.candidate-in-list.actions.confirm.extra-information',
       {
         candidate: candidateName,
-      }
+      },
     );
     const cancelAriaLabel = this.intl.t(
       'pages.session-supervising.candidate-in-list.actions.cancel-confirmation.extra-information',
       {
         candidate: candidateName,
-      }
+      },
     );
 
     return this.args.candidate.authorizedToStart ? cancelAriaLabel : confirmAriaLabel;
@@ -112,18 +112,18 @@ export default class CandidateInList extends Component {
   @action
   askUserToConfirmTestResume() {
     this.modalDescriptionText = this.intl.t(
-      'pages.session-supervising.candidate-in-list.resume-test-modal.description'
+      'pages.session-supervising.candidate-in-list.resume-test-modal.description',
     );
     this.modalCancelText = this.intl.t('common.actions.close');
     this.modalConfirmationText = this.intl.t(
-      'pages.session-supervising.candidate-in-list.resume-test-modal.actions.confirm'
+      'pages.session-supervising.candidate-in-list.resume-test-modal.actions.confirm',
     );
     this.modalInstructionText = this.intl.t(
       'pages.session-supervising.candidate-in-list.resume-test-modal.instruction-with-name',
       {
         firstName: this.args.candidate.firstName,
         lastName: this.args.candidate.lastName,
-      }
+      },
     );
     set(this, 'actionOnConfirmation', this.authorizeTestResume);
     this.isConfirmationModalDisplayed = true;
@@ -134,14 +134,14 @@ export default class CandidateInList extends Component {
     this.modalDescriptionText = this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.description');
     this.modalCancelText = this.intl.t('common.actions.cancel');
     this.modalConfirmationText = this.intl.t(
-      'pages.session-supervising.candidate-in-list.test-end-modal.end-assessment'
+      'pages.session-supervising.candidate-in-list.test-end-modal.end-assessment',
     );
     this.modalInstructionText = this.intl.t(
       'pages.session-supervising.candidate-in-list.test-end-modal.instruction-with-name',
       {
         firstName: this.args.candidate.firstName,
         lastName: this.args.candidate.lastName,
-      }
+      },
     );
     set(this, 'actionOnConfirmation', this.endAssessmentForCandidate);
     this.isConfirmationModalDisplayed = true;
@@ -161,7 +161,7 @@ export default class CandidateInList extends Component {
         this.intl.t('pages.session-supervising.candidate-in-list.resume-test-modal.success', {
           firstName: this.args.candidate.firstName,
           lastName: this.args.candidate.lastName,
-        })
+        }),
       );
     } catch (responseError) {
       const error = responseError?.errors?.[0];
@@ -190,14 +190,14 @@ export default class CandidateInList extends Component {
         this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.success', {
           firstName: this.args.candidate.firstName,
           lastName: this.args.candidate.lastName,
-        })
+        }),
       );
     } catch (error) {
       this.notifications.error(
         this.intl.t('pages.session-supervising.candidate-in-list.test-end-modal.error', {
           firstName: this.args.candidate.firstName,
           lastName: this.args.candidate.lastName,
-        })
+        }),
       );
     }
   }

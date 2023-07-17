@@ -30,7 +30,7 @@ export default class SessionsFinalizeController extends Controller {
 
   get uncheckedHasSeenEndTestScreenCount() {
     return sumBy(this.session.completedCertificationReports.toArray(), (reports) =>
-      Number(!reports.hasSeenEndTestScreen)
+      Number(!reports.hasSeenEndTestScreen),
     );
   }
 
@@ -141,12 +141,12 @@ export default class SessionsFinalizeController extends Controller {
 
   isValid() {
     const invalidCertificationReports = this.session.certificationReports.filter(
-      (certificationReport) => certificationReport.isInvalid
+      (certificationReport) => certificationReport.isInvalid,
     );
 
     if (invalidCertificationReports.length) {
       const select = document.getElementById(
-        `finalization-report-abort-reason__select${invalidCertificationReports.firstObject.id}`
+        `finalization-report-abort-reason__select${invalidCertificationReports.firstObject.id}`,
       );
 
       this.showErrorNotification(this.intl.t('pages.session-finalization.errors.no-abort-reason'));

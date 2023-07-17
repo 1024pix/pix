@@ -27,7 +27,7 @@ export default class ListRoute extends Route {
           size: params.pageSize,
         },
       },
-      { reload: true }
+      { reload: true },
     );
 
     return {

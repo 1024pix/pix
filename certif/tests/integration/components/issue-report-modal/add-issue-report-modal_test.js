@@ -70,7 +70,7 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
         .dom(
           screen.getByLabelText(`${categoryToCode[category]} ${this.intl.t(categoryToLabel[category])}`, {
             exact: false,
-          })
+          }),
         )
         .exists();
     }

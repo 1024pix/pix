@@ -75,7 +75,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         .dom(
           screen.queryByRole('button', {
             name: "Annuler la confirmation de présence de l'élève Gamora Zen Whoberi Ben Titan",
-          })
+          }),
         )
         .doesNotExist();
       assert
@@ -271,8 +271,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           assert
             .dom(
               screen.getByText(
-                'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.'
-              )
+                'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.',
+              ),
             )
             .exists();
         });
@@ -297,8 +297,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           assert
             .dom(
               screen.queryByText(
-                'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.'
-              )
+                'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.',
+              ),
             )
             .doesNotExist();
         });
@@ -323,8 +323,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         assert
           .dom(
             screen.queryByText(
-              'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.'
-            )
+              'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.',
+            ),
           )
           .doesNotExist();
       });
@@ -446,8 +446,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     assert
       .dom(
         screen.queryByText(
-          'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.'
-        )
+          'Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.',
+        ),
       )
       .doesNotExist();
   });
@@ -531,7 +531,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           .dom(
             screen.queryByRole('button', {
               name: 'Afficher les options du candidat',
-            })
+            }),
           )
           .exists();
       });
@@ -640,8 +640,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           assert
             .dom(
               screen.getByText(
-                "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté."
-              )
+                "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté.",
+              ),
             )
             .exists();
         });
@@ -768,8 +768,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               assert
                 .dom(
                   screen.getByText(
-                    "Une erreur est survenue, Vance Astro n'a pas pu être autorisé à reprendre son test."
-                  )
+                    "Une erreur est survenue, Vance Astro n'a pas pu être autorisé à reprendre son test.",
+                  ),
                 )
                 .exists();
             });
@@ -842,8 +842,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           assert
             .dom(
               screen.getByText(
-                'Attention : cette action entraîne la fin de son test de certification et est irréversible.'
-              )
+                'Attention : cette action entraîne la fin de son test de certification et est irréversible.',
+              ),
             )
             .exists();
           assert.dom(screen.getByRole('heading', { name: 'Terminer le test de Drax The Destroyer ?' })).exists();

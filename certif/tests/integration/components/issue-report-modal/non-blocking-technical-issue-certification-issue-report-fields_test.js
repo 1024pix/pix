@@ -76,10 +76,10 @@ module(
       assert
         .dom(
           screen.getByText(
-            "Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux questions. En cas d’incident sur une question focus, merci de vous reporter à la catégorie E10."
-          )
+            "Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux questions. En cas d’incident sur une question focus, merci de vous reporter à la catégorie E10.",
+          ),
         )
         .exists();
     });
-  }
+  },
 );

@@ -221,7 +221,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
         // then
         assert.strictEqual(session.certificationReports[0].hasSeenEndTestScreen, expectedState);
         assert.strictEqual(session.certificationReports[1].hasSeenEndTestScreen, expectedState);
-      })
+      }),
     );
 
     test('it should toggle the hasSeenEndTestScreen attribute only for completed certifs in session', function (assert) {

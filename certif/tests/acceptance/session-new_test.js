@@ -73,7 +73,7 @@ module('Acceptance | Session creation', function (hooks) {
       await fillIn(screen.getByRole('textbox', { name: t('common.forms.session-labels.invigilator') }), 'My examiner');
       await fillIn(
         screen.getByRole('textbox', { name: t('common.forms.session-labels.observations') }),
-        'My description'
+        'My description',
       );
       await setFlatpickrDate('#session-date', sessionDate);
       await setFlatpickrDate('#session-time', sessionTime);

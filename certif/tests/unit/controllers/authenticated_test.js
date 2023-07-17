@@ -16,7 +16,7 @@ module('Unit | Controller | authenticated', function (hooks) {
           id: 123,
           name: 'Sunnydale',
           type: 'NOT_SCO',
-        })
+        }),
       );
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -40,7 +40,7 @@ module('Unit | Controller | authenticated', function (hooks) {
           name: 'Sunnydale',
           type: 'SCO',
           isRelatedToManagingStudentsOrganization: true,
-        })
+        }),
       );
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -69,7 +69,7 @@ module('Unit | Controller | authenticated', function (hooks) {
           isAccessBlockedLycee: false,
           isAccessBlockedAEFE: false,
           isAccessBlockedAgri: false,
-        })
+        }),
       );
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -102,7 +102,7 @@ module('Unit | Controller | authenticated', function (hooks) {
           isAccessBlockedLycee: false,
           isAccessBlockedAEFE: false,
           isAccessBlockedAgri: false,
-        })
+        }),
       );
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -135,7 +135,7 @@ module('Unit | Controller | authenticated', function (hooks) {
           isAccessBlockedLycee: false,
           isAccessBlockedAEFE: false,
           isAccessBlockedAgri: false,
-        })
+        }),
       );
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -168,7 +168,7 @@ module('Unit | Controller | authenticated', function (hooks) {
           isAccessBlockedLycee: false,
           isAccessBlockedAEFE: false,
           isAccessBlockedAgri: false,
-        })
+        }),
       );
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -204,7 +204,7 @@ module('Unit | Controller | authenticated', function (hooks) {
             isAccessBlockedAEFE: false,
             isAccessBlockedAgri: false,
             isRelatedToManagingStudentsOrganization: true,
-          })
+          }),
         );
         class CurrentUserStub extends Service {
           currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -389,7 +389,7 @@ module('Unit | Controller | authenticated', function (hooks) {
           isAccessBlockedLycee: false,
           isAccessBlockedAEFE: false,
           isAccessBlockedAgri: false,
-        })
+        }),
       );
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -414,7 +414,7 @@ module('Unit | Controller | authenticated', function (hooks) {
           isAccessBlockedLycee: false,
           isAccessBlockedAEFE: false,
           isAccessBlockedAgri: false,
-        })
+        }),
       );
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;

@@ -25,7 +25,7 @@ module('Acceptance | terms-of-service', function (hooks) {
     assert.strictEqual(currentURL(), '/connexion');
     assert.notOk(
       currentSession(this.application).get('isAuthenticated'),
-      'The certificationPointOfContact is still unauthenticated'
+      'The certificationPointOfContact is still unauthenticated',
     );
   });
 
@@ -48,7 +48,7 @@ module('Acceptance | terms-of-service', function (hooks) {
             screen.getByRole('heading', {
               name: "Conditions générales d'utilisation de la plateforme Pix Certif",
               level: 1,
-            })
+            }),
           )
           .exists();
         assert.dom(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' })).exists();
@@ -105,13 +105,13 @@ module('Acceptance | terms-of-service', function (hooks) {
           assert
             .dom(
               screen.getByText(
-                'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
-              )
+                'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
+              ),
             )
             .exists();
         });
       });
-    }
+    },
   );
 
   module('When certificationPointOfContact has already accepted terms of service', function (hooks) {

@@ -54,7 +54,7 @@ module('Acceptance | Routes | join', function (hooks) {
               return (
                 content === 'Cette invitation n’est plus valide.Contactez l’administrateur de votre espace Pix Certif.'
               );
-            })
+            }),
           )
           .exists();
       });
@@ -80,7 +80,7 @@ module('Acceptance | Routes | join', function (hooks) {
                 content ===
                 'Cette invitation a déjà été acceptée.Connectez-vous ou contactez l’administrateur de votre espace Pix Certif.'
               );
-            })
+            }),
           )
           .exists();
       });

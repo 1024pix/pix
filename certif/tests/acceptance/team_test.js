@@ -39,7 +39,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               .dom(
                 screen.getByRole('button', {
                   name: this.intl.t('pages.team.no-referer-section.select-referer-button'),
-                })
+                }),
               )
               .exists();
           });
@@ -62,14 +62,14 @@ module('Acceptance | authenticated | team', function (hooks) {
             assert.dom(screen.queryByRole('cell', { name: 'Référent Pix' })).doesNotExist();
 
             await click(
-              screen.getByRole('button', { name: this.intl.t('pages.team.no-referer-section.select-referer-button') })
+              screen.getByRole('button', { name: this.intl.t('pages.team.no-referer-section.select-referer-button') }),
             );
             await screen.findByRole('dialog');
             await click(screen.getByLabelText(this.intl.t('pages.team.select-referer-modal.label')));
             await click(
               await screen.findByRole('option', {
                 name: 'Lili Dupont',
-              })
+              }),
             );
             await click(screen.getByRole('button', { name: 'Valider la sélection de référent' }));
             await waitForDialogClose();
@@ -100,7 +100,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               await click(
                 screen.getByRole('button', {
                   name: this.intl.t('pages.team.no-referer-section.select-referer-button'),
-                })
+                }),
               );
               await screen.findByRole('dialog');
 
@@ -123,7 +123,7 @@ module('Acceptance | authenticated | team', function (hooks) {
                 await click(
                   await screen.findByRole('option', {
                     name: 'Lili Dupont',
-                  })
+                  }),
                 );
 
                 // when
@@ -133,8 +133,8 @@ module('Acceptance | authenticated | team', function (hooks) {
                 assert
                   .dom(
                     screen.getByText(
-                      'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
-                    )
+                      'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
+                    ),
                   )
                   .exists();
               });

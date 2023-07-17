@@ -126,7 +126,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
         const screen = await visitScreen(`/sessions/${session.id}/candidats`);
         await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
         await click(
-          screen.getByRole('textbox', { name: 'Filtrer la liste des élèves en cochant la ou les classes souhaitées' })
+          screen.getByRole('textbox', { name: 'Filtrer la liste des élèves en cochant la ou les classes souhaitées' }),
         );
         await screen.findByRole('menu');
         await click(screen.getByRole('checkbox', { name: '3A' }));
