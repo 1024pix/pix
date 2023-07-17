@@ -41,7 +41,7 @@ const serialize = function (certificationCandidates) {
 const deserialize = async function (json) {
   if (json.data.attributes.birthdate && !isValidDate(json.data.attributes.birthdate, 'YYYY-MM-DD')) {
     throw new WrongDateFormatError(
-      "La date de naissance du candidate à la certification n'a pas un format valide du type JJ/MM/AAAA"
+      "La date de naissance du candidate à la certification n'a pas un format valide du type JJ/MM/AAAA",
     );
   }
 

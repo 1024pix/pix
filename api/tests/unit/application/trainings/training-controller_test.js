@@ -32,7 +32,7 @@ describe('Unit | Controller | training-controller', function () {
           },
         },
         hFake,
-        { trainingSummarySerializer, queryParamsUtils }
+        { trainingSummarySerializer, queryParamsUtils },
       );
 
       // then
@@ -62,7 +62,7 @@ describe('Unit | Controller | training-controller', function () {
           },
         },
         hFake,
-        { trainingSerializer }
+        { trainingSerializer },
       );
 
       // then
@@ -144,7 +144,7 @@ describe('Unit | Controller | training-controller', function () {
           },
         },
         hFake,
-        { trainingSerializer }
+        { trainingSerializer },
       );
 
       // then
@@ -192,7 +192,7 @@ describe('Unit | Controller | training-controller', function () {
             payload,
           },
           hFake,
-          { trainingSerializer }
+          { trainingSerializer },
         );
 
         // then
@@ -222,7 +222,7 @@ describe('Unit | Controller | training-controller', function () {
             payload,
           },
           hFake,
-          { trainingSerializer }
+          { trainingSerializer },
         );
 
         // then
@@ -293,7 +293,7 @@ describe('Unit | Controller | training-controller', function () {
           payload,
         },
         hFake,
-        { trainingTriggerSerializer: trainingTriggerSerializer }
+        { trainingTriggerSerializer: trainingTriggerSerializer },
       );
 
       // then
@@ -347,7 +347,7 @@ describe('Unit | Controller | training-controller', function () {
           params: { id: trainingId },
           payload: { 'target-profile-ids': targetProfileIds },
         },
-        hFake
+        hFake,
       );
 
       // then

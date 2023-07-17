@@ -37,7 +37,7 @@ describe('Unit | Application | Controller | sco-organization-learner', function 
       const response =
         await scoOrganizationLearnerController.createUserAndReconcileToOrganizationLearnerFromExternalUser(
           request,
-          hFake
+          hFake,
         );
 
       // then

@@ -97,7 +97,7 @@ async function createAssessmentCampaign({
     const skillsCapped = skillsForTube.filter((skill) => skill.level <= parseInt(cappedTube.level));
     skillCount += skillsCapped.length;
     skillsCapped.map((skill) =>
-      databaseBuilder.factory.buildCampaignSkill({ campaignId: realCampaignId, skillId: skill.id })
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: realCampaignId, skillId: skill.id }),
     );
   }
   const badgeIds = await databaseBuilder.knex('badges').pluck('id').where({ targetProfileId });
@@ -105,7 +105,7 @@ async function createAssessmentCampaign({
   const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
     databaseBuilder,
     realOrganizationId,
-    configCampaign.participantCount
+    configCampaign.participantCount,
   );
 
   const answersAndKnowledgeElementsForProfile = await _getProfile('PERFECT');
@@ -163,7 +163,7 @@ async function createAssessmentCampaign({
             userId,
             ...keData,
             createdAt: dayjs().subtract(1, 'day'),
-          })
+          }),
         );
       }
       for (const badgeId of badgeIds) {
@@ -186,7 +186,7 @@ async function createAssessmentCampaign({
           userId,
           ...keData,
           createdAt: dayjs().subtract(1, 'day'),
-        })
+        }),
       );
     }
     databaseBuilder.factory.buildKnowledgeElementSnapshot({
@@ -281,7 +281,7 @@ async function createProfilesCollectionCampaign({
   const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
     databaseBuilder,
     realOrganizationId,
-    configCampaign.participantCount
+    configCampaign.participantCount,
   );
   const profileDistribution = [
     ...Array(configCampaign.profileDistribution.beginner || 0).fill('BEGINNER'),
@@ -331,7 +331,7 @@ async function createProfilesCollectionCampaign({
           userId,
           ...keData,
           createdAt: dayjs().subtract(1, 'day'),
-        })
+        }),
       );
     }
     databaseBuilder.factory.buildKnowledgeElementSnapshot({

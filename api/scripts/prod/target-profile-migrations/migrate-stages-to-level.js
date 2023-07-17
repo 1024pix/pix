@@ -50,7 +50,7 @@ async function _computeMigrations(inputFile) {
         prechecksOk: _checkAllStagesHaveLevels(stagesMigrations) && _checkStagesHaveDifferentLevels(stagesMigrations),
         levels,
       };
-    })
+    }),
   );
 }
 
@@ -59,7 +59,7 @@ async function _computeLevels(cappedTubes) {
     cappedTubes.map(async (cappedTube) => {
       const skills = await skillRepository.findActiveByTubeId(cappedTube.id);
       return skills.filter((skill) => skill.difficulty <= cappedTube.level);
-    })
+    }),
   );
 
   const skills = cappedTubesSkills.flat();
@@ -99,7 +99,7 @@ async function _computeLevels(cappedTubes) {
           minThreshold,
         });
       },
-      [{ level: 0, threshold: 0, minThreshold: 0, maxThreshold: 0.1, count: 0 }]
+      [{ level: 0, threshold: 0, minThreshold: 0, maxThreshold: 0.1, count: 0 }],
     ),
   ])(skills);
 }
@@ -113,7 +113,7 @@ function _getStagesWOLevel(stages) {
 function _computeStagesMigrations(stages, levels) {
   return stages.map((stage) => {
     const level = levels.find(
-      ({ minThreshold, maxThreshold }) => stage.threshold >= minThreshold && stage.threshold < maxThreshold
+      ({ minThreshold, maxThreshold }) => stage.threshold >= minThreshold && stage.threshold < maxThreshold,
     );
     return {
       stageId: stage.id,
@@ -164,11 +164,11 @@ async function _writeReport(migrations) {
       fp.map('targetProfile.ownerOrganizationId'),
       fp.compact,
       fp.uniq,
-      fp.map(organizationRepository.get)
-    )(migrations)
+      fp.map(organizationRepository.get),
+    )(migrations),
   );
   const organizationsNameById = Object.fromEntries(
-    organizations.map((organization) => [organization.id, organization.name])
+    organizations.map((organization) => [organization.id, organization.name]),
   );
 
   const wb = xlsxUtils.book_new();

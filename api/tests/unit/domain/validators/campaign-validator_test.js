@@ -58,7 +58,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
               campaignValidator.validate({
                 ...campaign,
                 idPixLabel: MISSING_VALUE,
-              })
+              }),
             ).to.not.throw;
           });
 
@@ -69,7 +69,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                 campaignValidator.validate({
                   ...campaign,
                   title: MISSING_VALUE,
-                })
+                }),
               ).to.not.throw;
             });
 
@@ -79,7 +79,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                 campaignValidator.validate({
                   ...campaign,
                   title: UNDEFINED_VALUE,
-                })
+                }),
               ).to.not.throw;
             });
           });
@@ -91,7 +91,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                 campaignValidator.validate({
                   ...campaign,
                   customResultPageText: MISSING_VALUE,
-                })
+                }),
               ).to.not.throw;
             });
           });
@@ -104,7 +104,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   ...campaign,
                   customResultPageButtonText: MISSING_VALUE,
                   customResultPageButtonUrl: MISSING_VALUE,
-                })
+                }),
               ).to.not.throw;
             });
           });

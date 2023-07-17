@@ -37,7 +37,7 @@ class CertificationCandidateForSupervising {
   get isStillEligibleToComplementaryCertification() {
     return this.stillValidBadgeAcquisitions.some(
       (stillValidBadgeAcquisition) =>
-        stillValidBadgeAcquisition.complementaryCertificationKey === this.enrolledComplementaryCertification.key
+        stillValidBadgeAcquisition.complementaryCertificationKey === this.enrolledComplementaryCertification.key,
     );
   }
 }

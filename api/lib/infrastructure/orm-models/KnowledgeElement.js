@@ -21,7 +21,7 @@ const BookshelfKnowledgeElement = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfKnowledgeElement };

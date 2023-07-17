@@ -27,7 +27,7 @@ async function main() {
         'finalizedAt',
         'date as sessionDate',
         'time as sessionTime',
-        'examinerGlobalComment'
+        'examinerGlobalComment',
       )
       .where({ id })
       .first();

@@ -90,7 +90,7 @@ async function neutralizeOrValidateIfFocusedChallengeStrategy({
     return _validateAnswerAndResolve(
       certificationAssessment,
       certificationIssueReportRepository,
-      certificationIssueReport
+      certificationIssueReport,
     );
   }
   if (certificationChallengeAnswer.result.isSKIPPED()) {
@@ -189,7 +189,7 @@ function _neutralizeAndResolve(certificationAssessment, certificationIssueReport
 function _validateAnswerAndResolve(
   certificationAssessment,
   certificationIssueReportRepository,
-  certificationIssueReport
+  certificationIssueReport,
 ) {
   const questionNumber = certificationIssueReport.questionNumber;
   const certificationAnswerChangeAttempt = certificationAssessment.validateAnswerByNumberIfFocusedOut(questionNumber);
@@ -205,7 +205,7 @@ function _validateAnswerAndResolve(
 async function _resolveWithNoSuchQuestion(
   certificationIssueReportRepository,
   certificationIssueReport,
-  questionNumber
+  questionNumber,
 ) {
   certificationIssueReport.resolveAutomatically(`Aucune question ne correspond au numéro ${questionNumber}`);
   await certificationIssueReportRepository.save(certificationIssueReport);
@@ -220,10 +220,10 @@ async function _resolveWithQuestionNeutralized(certificationIssueReportRepositor
 
 async function _resolveWithNeitherImageNorEmbedInChallenge(
   certificationIssueReportRepository,
-  certificationIssueReport
+  certificationIssueReport,
 ) {
   certificationIssueReport.resolveAutomatically(
-    "Cette question n'a pas été neutralisée car elle ne contient ni image ni application/simulateur"
+    "Cette question n'a pas été neutralisée car elle ne contient ni image ni application/simulateur",
   );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
@@ -231,7 +231,7 @@ async function _resolveWithNeitherImageNorEmbedInChallenge(
 
 async function _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport) {
   certificationIssueReport.resolveAutomatically(
-    "Cette question n'a pas été neutralisée car elle ne contient pas de fichier à télécharger"
+    "Cette question n'a pas été neutralisée car elle ne contient pas de fichier à télécharger",
   );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
@@ -239,7 +239,7 @@ async function _resolveWithNoAttachmentInChallenge(certificationIssueReportRepos
 
 async function _resolveWithNoFocusedChallenge(certificationIssueReportRepository, certificationIssueReport) {
   certificationIssueReport.resolveAutomatically(
-    "Cette question n'a pas été neutralisée car ce n'est pas une question focus"
+    "Cette question n'a pas été neutralisée car ce n'est pas une question focus",
   );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
@@ -247,7 +247,7 @@ async function _resolveWithNoFocusedChallenge(certificationIssueReportRepository
 
 async function _resolveWithChallengeNotTimed(certificationIssueReportRepository, certificationIssueReport) {
   certificationIssueReport.resolveAutomatically(
-    "Cette question n'a pas été neutralisée car elle n'est pas chronométrée"
+    "Cette question n'a pas été neutralisée car elle n'est pas chronométrée",
   );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
@@ -261,10 +261,10 @@ async function _resolveWithAnswerIsCorrect(certificationIssueReportRepository, c
 
 async function _resolveWithNeitherSkippedNorFocusedOutAnswer(
   certificationIssueReportRepository,
-  certificationIssueReport
+  certificationIssueReport,
 ) {
   certificationIssueReport.resolveAutomatically(
-    "Cette question n'a pas été neutralisée car la réponse n'a pas été abandonnée ou le focus n'a pas été perdu"
+    "Cette question n'a pas été neutralisée car la réponse n'a pas été abandonnée ou le focus n'a pas été perdu",
   );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();

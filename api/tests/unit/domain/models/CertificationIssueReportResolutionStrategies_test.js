@@ -43,7 +43,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithEffect(),
         );
       });
 
@@ -104,7 +104,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -173,7 +173,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
           // then
           expect(neutralizationAttempt).to.deepEqualInstance(
-            CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+            CertificationIssueReportResolutionAttempt.resolvedWithEffect(),
           );
         });
 
@@ -245,7 +245,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
           // then
           expect(neutralizationAttempt).to.deepEqualInstance(
-            CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+            CertificationIssueReportResolutionAttempt.resolvedWithEffect(),
           );
         });
 
@@ -311,7 +311,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -377,10 +377,10 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.resolution).to.equal(
-          "Cette question n'a pas été neutralisée car elle ne contient ni image ni application/simulateur"
+          "Cette question n'a pas été neutralisée car elle ne contient ni image ni application/simulateur",
         );
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -450,7 +450,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -525,7 +525,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithEffect(),
         );
       });
 
@@ -594,7 +594,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -657,7 +657,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -729,7 +729,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -806,7 +806,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deep.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithEffect(),
         );
       });
 
@@ -875,7 +875,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -938,7 +938,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -1010,7 +1010,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -1088,7 +1088,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
           // then
           expect(resolutionAttempt).to.deep.deepEqualInstance(
-            CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+            CertificationIssueReportResolutionAttempt.resolvedWithEffect(),
           );
         });
 
@@ -1169,7 +1169,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
           // then
           expect(resolutionAttempt).to.deep.deepEqualInstance(
-            CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+            CertificationIssueReportResolutionAttempt.resolvedWithEffect(),
           );
         });
 
@@ -1242,7 +1242,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationOrValidationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -1306,7 +1306,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(neutralizationOrValidationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect(),
         );
       });
 
@@ -1341,7 +1341,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
         expect(certificationIssueReport.resolution).to.equal(
-          "Cette question n'a pas été neutralisée car ce n'est pas une question focus"
+          "Cette question n'a pas été neutralisée car ce n'est pas une question focus",
         );
         expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
       });

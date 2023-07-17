@@ -133,22 +133,22 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Jaja', lastName: 'Le raplapla', organizationId },
           campaignParticipation,
-          true
+          true,
         );
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'jiji', lastName: 'Le riquiqui', organizationId },
           campaignParticipation,
-          true
+          true,
         );
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Jojo', lastName: 'Le rococo', organizationId },
           campaignParticipation,
-          true
+          true,
         );
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Juju', lastName: 'Le riquiqui', organizationId },
           campaignParticipation,
-          true
+          true,
         );
 
         await databaseBuilder.commit();
@@ -169,17 +169,17 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         campaign = databaseBuilder.factory.buildCampaign();
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: 'Good Guys Team' },
-          { participantExternalId: 'The good', campaignId: campaign.id }
+          { participantExternalId: 'The good', campaignId: campaign.id },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: 'Bad Guys Team' },
-          { participantExternalId: 'The bad', campaignId: campaign.id }
+          { participantExternalId: 'The bad', campaignId: campaign.id },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: 'Ugly Guys Team' },
-          { participantExternalId: 'The ugly', campaignId: campaign.id }
+          { participantExternalId: 'The ugly', campaignId: campaign.id },
         );
 
         await databaseBuilder.commit();
@@ -206,12 +206,12 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId },
-          { participantExternalId: 'The good', campaignId: campaign.id, status: STARTED }
+          { participantExternalId: 'The good', campaignId: campaign.id, status: STARTED },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId },
-          { participantExternalId: 'The bad', campaignId: campaign.id, status: TO_SHARE }
+          { participantExternalId: 'The bad', campaignId: campaign.id, status: TO_SHARE },
         );
 
         await databaseBuilder.commit();
@@ -238,12 +238,12 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         await databaseBuilder.commit();
@@ -264,12 +264,12 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         await databaseBuilder.commit();
@@ -292,12 +292,12 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         await databaseBuilder.commit();
@@ -320,12 +320,12 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         await databaseBuilder.commit();
@@ -348,12 +348,12 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         await databaseBuilder.commit();
@@ -376,12 +376,12 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         await databaseBuilder.commit();
@@ -405,12 +405,12 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Right' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Wrong' },
-          { campaignId: otherCampaign.id }
+          { campaignId: otherCampaign.id },
         );
 
         await databaseBuilder.commit();
@@ -433,12 +433,12 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Saphira', lastName: 'Eurasier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
-          { campaignId: campaign.id }
+          { campaignId: campaign.id },
         );
 
         await databaseBuilder.commit();
@@ -464,17 +464,17 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, group: 'L1' },
-          { participantExternalId: 'The good', campaignId: campaign.id }
+          { participantExternalId: 'The good', campaignId: campaign.id },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, group: 'T1' },
-          { participantExternalId: 'The bad', campaignId: campaign.id, status: 'STARTED' }
+          { participantExternalId: 'The bad', campaignId: campaign.id, status: 'STARTED' },
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, group: 'T2' },
-          { participantExternalId: 'The ugly', campaignId: campaign.id, status: 'STARTED' }
+          { participantExternalId: 'The ugly', campaignId: campaign.id, status: 'STARTED' },
         );
 
         await databaseBuilder.commit();

@@ -222,7 +222,7 @@ describe('Integration | Repository | Organization', function () {
         ],
         (organization) => {
           databaseBuilder.factory.buildOrganization(organization);
-        }
+        },
       );
 
       databaseBuilder.factory.buildCertificationCenter({
@@ -311,7 +311,7 @@ describe('Integration | Repository | Organization', function () {
         ],
         (organization) => {
           return databaseBuilder.factory.buildOrganization(organization);
-        }
+        },
       );
 
       await databaseBuilder.commit();
@@ -372,7 +372,7 @@ describe('Integration | Repository | Organization', function () {
         ],
         (organization) => {
           return databaseBuilder.factory.buildOrganization(organization);
-        }
+        },
       );
 
       await databaseBuilder.commit();
@@ -678,7 +678,7 @@ describe('Integration | Repository | Organization', function () {
           expect(_.map(matchingOrganizations, 'externalId')).to.have.members(['1234567A', '1234568A', '1234569A']);
           expect(pagination).to.deep.equal(expectedPagination);
         });
-      }
+      },
     );
 
     context('when there are filters that should be ignored', function () {

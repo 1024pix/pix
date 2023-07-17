@@ -23,7 +23,7 @@ const findUserForOidcReconciliation = async function ({
 
   const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId: foundUser.id });
   const oidcAuthenticationMethod = authenticationMethods.find(
-    (authenticationMethod) => authenticationMethod.identityProvider === identityProvider
+    (authenticationMethod) => authenticationMethod.identityProvider === identityProvider,
   );
 
   const isSameExternalIdentifier =

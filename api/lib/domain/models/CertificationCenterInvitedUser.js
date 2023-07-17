@@ -11,7 +11,7 @@ class CertificationCenterInvitedUser {
   acceptInvitation(code) {
     if (code !== this.invitation.code) {
       throw new NotFoundError(
-        `Not found certification center invitation for ID ${this.invitation.id} and code ${code}`
+        `Not found certification center invitation for ID ${this.invitation.id} and code ${code}`,
       );
     }
 

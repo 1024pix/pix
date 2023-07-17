@@ -60,7 +60,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResult', func
             partnerKey: 'PARTNER_KEY',
             source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
             complementaryCertificationCourseId: 12,
-          })
+          }),
         );
       });
     });
@@ -89,7 +89,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResult', func
             partnerKey: 'PARTNER_KEY',
             source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
             complementaryCertificationCourseId: 12,
-          })
+          }),
         );
       });
     });

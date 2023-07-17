@@ -25,7 +25,7 @@ describe('SiecleFileStreamer', function () {
 
           const error = await catchErr(
             streamer.perform,
-            streamer
+            streamer,
           )((saxStream, resolve) => {
             saxStream.on('data', () => {
               return;
@@ -45,7 +45,7 @@ describe('SiecleFileStreamer', function () {
 
           await catchErr(
             streamer.perform,
-            streamer
+            streamer,
           )((saxStream, resolve) => {
             saxStream.on('data', () => {
               return;
@@ -76,7 +76,7 @@ describe('SiecleFileStreamer', function () {
 
           const error = await catchErr(
             streamer.perform,
-            streamer
+            streamer,
           )((saxStream, resolve) => {
             saxStream.on('data', () => {
               return;
@@ -161,7 +161,7 @@ describe('SiecleFileStreamer', function () {
 
           const error = await catchErr(
             streamer.perform,
-            streamer
+            streamer,
           )((saxStream, resolve) => {
             saxStream.on('data', () => {
               return;

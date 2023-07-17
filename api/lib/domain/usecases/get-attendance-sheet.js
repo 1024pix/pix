@@ -29,7 +29,7 @@ const getAttendanceSheet = async function ({
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(sessionId);
   const odsFilePath = _getAttendanceSheetTemplatePath(
     session.certificationCenterType,
-    session.isOrganizationManagingStudents
+    session.isOrganizationManagingStudents,
   );
 
   const stringifiedXml = await readOdsUtils.getContentXml({

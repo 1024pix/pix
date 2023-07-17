@@ -244,7 +244,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
         // then
         expect(lcms.getLatestRelease).to.have.been.called;
         expect(_.map(result, 'id').sort()).to.deep.equal(
-          [challenge_competence1.id, challenge_competence2.id, challenge_web3.id, challenge_web3_archived.id].sort()
+          [challenge_competence1.id, challenge_competence2.id, challenge_web3.id, challenge_web3_archived.id].sort(),
         );
       });
     });
@@ -264,7 +264,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
             challenge_competence2.id,
             challenge_web3.id,
             challenge_web3_archived.id,
-          ].sort()
+          ].sort(),
         );
       });
     });

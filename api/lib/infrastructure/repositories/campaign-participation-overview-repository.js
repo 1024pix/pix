@@ -68,7 +68,7 @@ function _computeCampaignParticipationState() {
     WHEN "campaign-participations"."status" = ? THEN 'ENDED'
     ELSE 'TO_SHARE'
   END`,
-    [CampaignParticipationStatuses.STARTED, CampaignParticipationStatuses.SHARED]
+    [CampaignParticipationStatuses.STARTED, CampaignParticipationStatuses.SHARED],
   );
 }
 

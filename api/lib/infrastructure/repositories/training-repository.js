@@ -46,8 +46,8 @@ async function findPaginatedSummaries({ filter, page, domainTransaction = Domain
       'id',
       'title',
       knex.raw(
-        '(CASE WHEN EXISTS (SELECT 1 FROM "training-triggers" WHERE "training-triggers"."trainingId" = trainings.id) THEN true ELSE false END) AS "isRecommendable"'
-      )
+        '(CASE WHEN EXISTS (SELECT 1 FROM "training-triggers" WHERE "training-triggers"."trainingId" = trainings.id) THEN true ELSE false END) AS "isRecommendable"',
+      ),
     )
     .orderBy('id', 'asc')
     .modify(_applyFilters, filter);
@@ -68,8 +68,8 @@ async function findPaginatedSummariesByTargetProfileId({
       'trainings.id',
       'trainings.title',
       knex.raw(
-        '(CASE WHEN EXISTS (SELECT 1 FROM "training-triggers" WHERE "training-triggers"."trainingId" = trainings.id) THEN true ELSE false END) AS "isRecommendable"'
-      )
+        '(CASE WHEN EXISTS (SELECT 1 FROM "training-triggers" WHERE "training-triggers"."trainingId" = trainings.id) THEN true ELSE false END) AS "isRecommendable"',
+      ),
     )
     .innerJoin('target-profile-trainings', `${TABLE_NAME}.id`, 'target-profile-trainings.trainingId')
     .where({ 'target-profile-trainings.targetProfileId': targetProfileId })
@@ -98,7 +98,7 @@ async function findWithTriggersByCampaignParticipationIdAndLocale({
 
   const targetProfileTrainings = await knexConn('target-profile-trainings').whereIn(
     'trainingId',
-    trainingsDTO.map(({ id }) => id)
+    trainingsDTO.map(({ id }) => id),
   );
 
   return Promise.all(
@@ -109,7 +109,7 @@ async function findWithTriggersByCampaignParticipationIdAndLocale({
       });
       training.trainingTriggers = trainingTriggers;
       return _toDomain(training, targetProfileTrainings);
-    })
+    }),
   );
 }
 
@@ -165,7 +165,7 @@ async function findPaginatedByUserId({
   const { results, pagination } = await fetchPage(query, page);
 
   const userRecommendedTrainings = results.map(
-    (userRecommendedTraining) => new UserRecommendedTraining(userRecommendedTraining)
+    (userRecommendedTraining) => new UserRecommendedTraining(userRecommendedTraining),
   );
   return { userRecommendedTrainings, pagination };
 }

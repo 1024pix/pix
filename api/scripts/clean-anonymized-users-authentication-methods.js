@@ -45,7 +45,7 @@ async function main() {
 
   console.log(
     "\nDone. Here the list of user's id which authentication methods were deleted : ",
-    anonymizedUserIdsWithAllAuthenticationMethodsDeleted
+    anonymizedUserIdsWithAllAuthenticationMethodsDeleted,
   );
 }
 

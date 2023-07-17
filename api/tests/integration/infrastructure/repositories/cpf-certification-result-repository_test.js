@@ -234,7 +234,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
               { competenceCode: '2.1', areaCode: '2', level: 1 },
               { competenceCode: '3.2', areaCode: '3', level: 2 },
             ],
-          })
+          }),
         );
         expect(cpfCertificationResults.map(({ id }) => id)).to.deepEqualArray([245, 345, 545]);
       });
@@ -477,6 +477,6 @@ function createCertificationCourseWithCompetenceMarks({
       ...competenceMark,
       area_code: competenceMark.areaCode,
       competence_code: competenceMark.competenceCode,
-    })
+    }),
   );
 }

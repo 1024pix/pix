@@ -13,7 +13,7 @@ function _toKnowledgeElementCollection({ snapshot } = {}) {
       new KnowledgeElement({
         ...data,
         createdAt: new Date(data.createdAt),
-      })
+      }),
   );
 }
 
@@ -32,7 +32,7 @@ const save = async function ({
   } catch (error) {
     if (knexUtils.isUniqConstraintViolated(error)) {
       throw new AlreadyExistingEntityError(
-        `A snapshot already exists for the user ${userId} at the datetime ${snappedAt}.`
+        `A snapshot already exists for the user ${userId} at the datetime ${snappedAt}.`,
       );
     }
   }
@@ -52,7 +52,7 @@ const findByUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates 
 
   const userIdsWithoutSnapshot = _.difference(
     Object.keys(userIdsAndSnappedAtDates),
-    Object.keys(knowledgeElementsByUserId)
+    Object.keys(knowledgeElementsByUserId),
   );
   for (const userId of userIdsWithoutSnapshot) {
     knowledgeElementsByUserId[userId] = null;

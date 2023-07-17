@@ -15,7 +15,7 @@ dotenv.config({
 
 async function doJob(multiFormFiles) {
   const multiFormDatas = await Promise.all(
-    multiFormFiles.map((multiFormFile) => parseMultiformFileStage(multiFormFile))
+    multiFormFiles.map((multiFormFile) => parseMultiformFileStage(multiFormFile)),
   );
 
   const targetProfiles = Object.entries(multiFormDatas.flat().reduce((acc, data) => ({ ...acc, ...data })))
@@ -53,7 +53,7 @@ async function parseMultiformFileStage(file) {
       const stageRows = rowValues.slice(stageStartIndex);
       if (!containsOnlyLevelStages(stageRows)) return [tab, []];
       return [tab, stageRows];
-    })
+    }),
   );
 }
 
@@ -67,7 +67,7 @@ function containsOnlyLevelStages(stageRows) {
       typeof level === 'number' &&
       level >= 0 &&
       level <= 8 &&
-      Number.isInteger(level)
+      Number.isInteger(level),
   );
   return levelStageRows.length === stageRows.length;
 }

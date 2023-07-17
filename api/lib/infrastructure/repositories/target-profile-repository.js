@@ -102,7 +102,7 @@ const findOrganizationIds = async function (targetProfileId) {
 
 const hasSkills = async function (
   { targetProfileId, skillIds },
-  { knexTransaction } = DomainTransaction.emptyTransaction()
+  { knexTransaction } = DomainTransaction.emptyTransaction(),
 ) {
   const result = await (knexTransaction ?? knex)('target-profiles_skills')
     .select('skillId')
@@ -119,7 +119,7 @@ const hasSkills = async function (
 
 const hasTubesWithLevels = async function (
   { targetProfileId, tubesWithLevels },
-  { knexTransaction } = DomainTransaction.emptyTransaction()
+  { knexTransaction } = DomainTransaction.emptyTransaction(),
 ) {
   const tubeIds = tubesWithLevels.map(({ id }) => id);
 
@@ -135,7 +135,7 @@ const hasTubesWithLevels = async function (
 
     if (tubeWithLevel.level > targetProfileTube.level) {
       throw new ObjectValidationError(
-        `Le niveau ${tubeWithLevel.level} dépasse le niveau max du sujet ${tubeWithLevel.id}`
+        `Le niveau ${tubeWithLevel.level} dépasse le niveau max du sujet ${tubeWithLevel.id}`,
       );
     }
   }

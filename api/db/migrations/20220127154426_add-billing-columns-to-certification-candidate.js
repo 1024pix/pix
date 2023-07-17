@@ -7,7 +7,7 @@ const up = async function (knex) {
   });
 
   await knex.raw(
-    'ALTER TABLE "certification-candidates" ADD CONSTRAINT "certification-candidates_billingMode_check" CHECK ( "billingMode" IN ( \'FREE\', \'PAID\', \'PREPAID\'))'
+    'ALTER TABLE "certification-candidates" ADD CONSTRAINT "certification-candidates_billingMode_check" CHECK ( "billingMode" IN ( \'FREE\', \'PAID\', \'PREPAID\'))',
   );
 };
 

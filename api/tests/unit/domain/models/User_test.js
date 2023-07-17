@@ -297,7 +297,7 @@ describe('Unit | Domain | Models | User', function () {
             email: 'email@example.net',
             authenticationMethods: [pixAuthenticationMethod],
           },
-          dependencies
+          dependencies,
         );
 
         // when
@@ -320,7 +320,7 @@ describe('Unit | Domain | Models | User', function () {
             email: 'email@example.net',
             authenticationMethods: [pixAuthenticationMethod],
           },
-          dependencies
+          dependencies,
         );
 
         // when
@@ -342,7 +342,7 @@ describe('Unit | Domain | Models | User', function () {
             id: 1,
             authenticationMethods: [poleEmploiAuthenticationMethod],
           },
-          dependencies
+          dependencies,
         );
 
         // when
@@ -412,7 +412,7 @@ describe('Unit | Domain | Models | User', function () {
         config.dataProtectionPolicy.updateDate = new Date();
         const user = new User(
           { lastDataProtectionPolicySeenAt: new Date(Date.now() + 3600 * 1000), cgu: true },
-          dependencies
+          dependencies,
         );
 
         // then
@@ -424,7 +424,7 @@ describe('Unit | Domain | Models | User', function () {
         config.dataProtectionPolicy.updateDate = new Date();
         const user = new User(
           { lastDataProtectionPolicySeenAt: new Date(Date.now() + 3600 * 1000), cgu: false },
-          dependencies
+          dependencies,
         );
 
         // then

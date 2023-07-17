@@ -228,9 +228,9 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
             const assessmentId = databaseBuilder.factory.buildAssessment({ ...assessment, campaignParticipationId }).id;
             databaseBuilder.factory.buildCompetenceEvaluation({ ...competenceEvaluation, assessmentId });
             _.each(knowledgeElements, (ke) =>
-              databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, assessmentId })
+              databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, assessmentId }),
             );
-          }
+          },
         );
 
         await databaseBuilder.commit();

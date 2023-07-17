@@ -485,7 +485,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
           ]);
           expect(pagination).to.deep.equal(expectedPagination);
         });
-      }
+      },
     );
 
     context('when there are filters that should be ignored', function () {

@@ -44,7 +44,7 @@ const BookshelfCertificationCourse = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfCertificationCourse };

@@ -26,7 +26,7 @@ async function main() {
 
   if (reportsNotUpdated > 0) {
     logger.info(
-      `Nb de certification issue reports non mis à jour : ${reportsNotUpdated.length} / ${certificationIssueReports.length}`
+      `Nb de certification issue reports non mis à jour : ${reportsNotUpdated.length} / ${certificationIssueReports.length}`,
     );
   } else {
     logger.info(`${certificationIssueReports.length} certification issue reports mis à jour`);

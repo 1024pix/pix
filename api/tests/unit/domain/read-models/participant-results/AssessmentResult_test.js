@@ -581,7 +581,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
 
           expect(assessmentResult.canRetry).to.be.false;
         });
-      }
+      },
     );
 
     context('when the mastery rate equals to 1', function () {
@@ -638,7 +638,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
 
           expect(assessmentResult.canRetry).to.be.true;
         });
-      }
+      },
     );
 
     context(
@@ -668,7 +668,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
 
           expect(assessmentResult.canRetry).to.be.true;
         });
-      }
+      },
     );
   });
 
@@ -720,7 +720,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
 
           expect(assessmentResult.canImprove).to.be.false;
         });
-      }
+      },
     );
 
     context('when the knowledge element is validated', function () {
@@ -797,7 +797,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
 
           expect(assessmentResult.canImprove).to.be.true;
         });
-      }
+      },
     );
   });
 

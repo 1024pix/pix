@@ -8,7 +8,7 @@ const deserialize = function (request) {
       new ScoringSimulation({
         ...simulation,
         answers: simulation.answers?.map((answer) => new Answer(answer)),
-      })
+      }),
   );
 
   return new ScoringSimulationDataset({

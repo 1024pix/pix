@@ -86,7 +86,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
         expect(simulationResults[0]).to.have.property(
           'error',
-          'Simulation should have answers in order to calculate estimated level'
+          'Simulation should have answers in order to calculate estimated level',
         );
       });
     });
@@ -182,7 +182,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
           expect(simulationResults[0]).to.have.property('estimatedLevel', 5.309899756825917);
           expect(simulationResults[0]).to.have.property(
             'error',
-            'Calculated estimated level 5.309899756825917 is different from expected given estimated level 1'
+            'Calculated estimated level 5.309899756825917 is different from expected given estimated level 1',
           );
         });
       });
@@ -302,7 +302,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         expect(simulationResults[0]).to.have.property('id', 'simulation1');
         expect(simulationResults[0]).to.have.property(
           'error',
-          'Challenge ID unknownChallenge is unknown or not compatible with flash algorithm'
+          'Challenge ID unknownChallenge is unknown or not compatible with flash algorithm',
         );
       });
     });
@@ -328,7 +328,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
         expect(simulationResults[0]).to.have.property(
           'error',
-          'Challenge ID challenge8 is unknown or not compatible with flash algorithm'
+          'Challenge ID challenge8 is unknown or not compatible with flash algorithm',
         );
       });
     });

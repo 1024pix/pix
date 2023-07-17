@@ -68,7 +68,7 @@ const getNextChallenge = async function (
     usecases,
     assessmentRepository,
     certificationChallengeRepository,
-  }
+  },
 ) {
   const assessmentId = request.params.id;
 

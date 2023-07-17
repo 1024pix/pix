@@ -48,7 +48,7 @@ describe('Integration | Application | Users | user-controller', function () {
           'GET',
           '/api/users/1234/campaigns/5678/campaign-participations',
           null,
-          auth
+          auth,
         );
 
         // then
@@ -132,7 +132,7 @@ describe('Integration | Application | Users | user-controller', function () {
           'GET',
           '/api/users/1234/campaigns/5678/assessment-result',
           null,
-          auth
+          auth,
         );
 
         // then

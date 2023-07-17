@@ -26,7 +26,7 @@ const BookshelfTargetProfile = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfTargetProfile };

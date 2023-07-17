@@ -92,7 +92,7 @@ describe('Integration | Application | Memberships | membership-controller', func
         it('should resolve a 403 HTTP response', async function () {
           // given
           securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns((request, h) =>
-            h.response().code(403).takeover()
+            h.response().code(403).takeover(),
           );
 
           // when

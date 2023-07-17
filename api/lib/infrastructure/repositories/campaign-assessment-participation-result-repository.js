@@ -10,7 +10,7 @@ const getByCampaignIdAndCampaignParticipationId = async function ({ campaignId, 
   const campaignLearningContent = new CampaignLearningContent(learningContent);
   const result = await _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(
     campaignId,
-    campaignParticipationId
+    campaignParticipationId,
   );
 
   return _buildCampaignAssessmentParticipationResults(result, campaignLearningContent);
@@ -20,7 +20,7 @@ export { getByCampaignIdAndCampaignParticipationId };
 
 async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(
   campaignId,
-  campaignParticipationId
+  campaignParticipationId,
 ) {
   const [campaignAssessmentParticipationResult] = await knex
     .with('campaignAssessmentParticipationResult', (qb) => {
@@ -55,7 +55,7 @@ async function _buildCampaignAssessmentParticipationResults(result, campaignLear
     await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
       result.userId,
       result.sharedAt,
-      campaignLearningContent
+      campaignLearningContent,
     );
 
   return new CampaignAssessmentParticipationResult({

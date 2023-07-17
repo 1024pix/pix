@@ -11,7 +11,7 @@ async function findByCampaignId(campaignId) {
     .join(
       'campaign-participations',
       'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId'
+      'campaign-participations.organizationLearnerId',
     );
 
   return groups.map(({ group }) => _toDomain(group));

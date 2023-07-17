@@ -75,7 +75,7 @@ async function _getLearningContentByCappedTubes(cappedTubesDTO, locale) {
 
   const tubes = await tubeRepository.findByRecordIds(
     cappedTubesDTO.map((dto) => dto.id),
-    locale
+    locale,
   );
 
   tubes.forEach((tube) => {

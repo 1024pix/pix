@@ -43,7 +43,7 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
         .join(
           'view-active-organization-learners',
           'view-active-organization-learners.id',
-          'campaign-participations.organizationLearnerId'
+          'campaign-participations.organizationLearnerId',
         )
         .where({
           campaignId,

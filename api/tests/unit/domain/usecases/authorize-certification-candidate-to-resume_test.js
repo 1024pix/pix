@@ -26,7 +26,7 @@ describe('Unit | Domain | Use Cases | authorize-certification-candidate-to-resum
     expect(certificationCandidateForSupervisingRepository.update).to.have.been.calledWith(
       domainBuilder.buildCertificationCandidateForSupervising({
         authorizedToStart: true,
-      })
+      }),
     );
   });
 });

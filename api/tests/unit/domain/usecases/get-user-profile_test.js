@@ -109,7 +109,7 @@ describe('Unit | UseCase | get-user-profile', function () {
         ];
 
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves(
-          knowledgeElementGroupedByCompetenceId
+          knowledgeElementGroupedByCompetenceId,
         );
         competenceEvaluationRepository.findByUserId.resolves([competenceEvaluationOfCompetence1]);
 

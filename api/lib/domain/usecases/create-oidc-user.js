@@ -25,7 +25,7 @@ const createOidcUser = async function ({
 
   if (authenticationMethod) {
     throw new UserAlreadyExistsWithAuthenticationMethodError(
-      'Authentication method already exists for this external identifier.'
+      'Authentication method already exists for this external identifier.',
     );
   }
 

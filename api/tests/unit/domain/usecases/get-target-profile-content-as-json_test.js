@@ -115,7 +115,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         // then
         expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
         expect(jsonContent).to.equal(
-          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]'
+          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]',
         );
       });
     });
@@ -138,7 +138,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         // then
         expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
         expect(jsonContent).to.equal(
-          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]'
+          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]',
         );
       });
     });
@@ -161,7 +161,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         // then
         expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
         expect(jsonContent).to.equal(
-          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]'
+          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]',
         );
       });
     });

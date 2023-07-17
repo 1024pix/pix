@@ -14,7 +14,7 @@ const execute = async function (userId, organizationId, type) {
     (membership) =>
       membership.organization.isManagingStudents &&
       membership.organization.type === type &&
-      membership.organizationRole === Membership.roles.ADMIN
+      membership.organizationRole === Membership.roles.ADMIN,
   );
 };
 

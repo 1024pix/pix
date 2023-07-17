@@ -58,7 +58,7 @@ describe('Integration | Domain | Services | user-service', function () {
         identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       });
       expect(pick(foundAuthenticationMethod, authenticationMethodPickedAttributes)).to.deep.equal(
-        expectedAuthenticationMethod
+        expectedAuthenticationMethod,
       );
     });
 
@@ -132,7 +132,7 @@ describe('Integration | Domain | Services | user-service', function () {
       const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
       expect(pick(foundUser, userPickedAttributes)).to.deep.equal(expectedUser);
       expect(pick(foundUser.authenticationMethods[0], authenticationMethodPickedAttributes)).to.deep.equal(
-        expectedAuthenticationMethod
+        expectedAuthenticationMethod,
       );
     });
   });

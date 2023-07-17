@@ -65,7 +65,7 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
       const sessionId = 3;
       const enrolledStudent = domainBuilder.buildOrganizationLearner({ id: 10, organization, division: '3A' });
       const enrolableStudents = _.times(5, (iteration) =>
-        domainBuilder.buildOrganizationLearner({ id: iteration, organization })
+        domainBuilder.buildOrganizationLearner({ id: iteration, organization }),
       );
       const certificationCandidates = [
         domainBuilder.buildCertificationCandidate({ sessionId, organizationLearnerId: enrolledStudent.id }),
@@ -93,7 +93,7 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
       // then
       const expectedEnrolledStudent = new StudentForEnrolment({ ...enrolledStudent, isEnrolled: true });
       const exepectedEnrollableStudents = enrolableStudents.map(
-        (student) => new StudentForEnrolment({ ...student, isEnrolled: false })
+        (student) => new StudentForEnrolment({ ...student, isEnrolled: false }),
       );
       const expectedStudents = [expectedEnrolledStudent, ...exepectedEnrollableStudents];
       expect(studentsFounds).to.be.deep.equal({

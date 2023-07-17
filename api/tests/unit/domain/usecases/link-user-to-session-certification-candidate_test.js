@@ -112,7 +112,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             // then
             expect(err).to.be.instanceOf(CertificationCandidateByPersonalInfoTooManyMatchesError);
           });
-        }
+        },
       );
     });
 
@@ -287,7 +287,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             });
           });
         });
-      }
+      },
     );
 
     context('when the organization behind this session is of type SCO', function () {
@@ -431,7 +431,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 userId,
               });
               expect(
-                organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization
+                organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization,
               ).to.have.been.calledWith({ userId, organizationLearnerId: organizationLearner.id });
               expect(event).to.be.instanceOf(UserLinkedToCertificationCandidate);
             });
@@ -507,7 +507,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
               // then
               expect(
-                organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization
+                organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization,
               ).to.have.been.calledWith({ userId, organizationLearnerId: organizationLearner.id });
               expect(error).to.be.an.instanceof(UserAlreadyLinkedToCandidateInSessionError);
             });

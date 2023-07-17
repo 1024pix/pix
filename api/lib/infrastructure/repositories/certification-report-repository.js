@@ -42,6 +42,6 @@ async function _finalize({ certificationReport, transaction = undefined }) {
 
   await new BookshelfCertificationCourse({ id: certificationReport.certificationCourseId }).save(
     { hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen },
-    saveOptions
+    saveOptions,
   );
 }

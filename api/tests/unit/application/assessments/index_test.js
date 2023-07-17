@@ -192,7 +192,7 @@ describe('Unit | Application | Router | assessment-router', function () {
         h
           .response({ errors: new Error('Unauthorized') })
           .code(403)
-          .takeover()
+          .takeover(),
       );
 
       const httpTestServer = new HttpTestServer();
@@ -201,7 +201,7 @@ describe('Unit | Application | Router | assessment-router', function () {
       // when
       const { statusCode } = await httpTestServer.request(
         'POST',
-        `/api/admin/assessments/123/always-ok-validate-next-challenge`
+        `/api/admin/assessments/123/always-ok-validate-next-challenge`,
       );
 
       // then

@@ -4,7 +4,7 @@ import * as requestResponseUtils from '../../infrastructure/utils/request-respon
 const verifyByCertificationCandidateId = async function (
   request,
   h,
-  dependencies = { requestResponseUtils, supervisorAccessRepository }
+  dependencies = { requestResponseUtils, supervisorAccessRepository },
 ) {
   const supervisorUserId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const candidateId = request.params.id;
@@ -23,7 +23,7 @@ const verifyByCertificationCandidateId = async function (
 const verifyBySessionId = async function (
   request,
   h,
-  dependencies = { requestResponseUtils, supervisorAccessRepository }
+  dependencies = { requestResponseUtils, supervisorAccessRepository },
 ) {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const sessionId = request.params.id;

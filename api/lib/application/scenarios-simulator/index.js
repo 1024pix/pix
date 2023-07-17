@@ -31,7 +31,9 @@ const register = async (server) => {
           payload: Joi.alternatives([
             _baseScenarioParametersValidator.keys({
               type: Joi.string().valid('deterministic').required(),
-              answerStatusArray: Joi.array().items(Joi.string().allow('ok', 'ko', 'aband')).required(),
+              answerStatusArray: Joi.array()
+                .items(Joi.string().allow('ok', 'ko', 'aband'))
+                .required(),
             }),
             _baseScenarioParametersValidator.keys({
               type: Joi.string().valid('random').required(),

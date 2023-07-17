@@ -74,7 +74,7 @@ describe('Unit | Controller | admin-member-controller', function () {
           payload: { data: { attributes: { role: ROLES.SUPPORT } } },
         },
         h,
-        dependencies
+        dependencies,
       );
 
       // then
@@ -101,7 +101,7 @@ describe('Unit | Controller | admin-member-controller', function () {
           params: { id },
         },
         hFake,
-        dependencies
+        dependencies,
       );
 
       // then
@@ -128,7 +128,7 @@ describe('Unit | Controller | admin-member-controller', function () {
       const { statusCode, source } = await adminMemberController.saveAdminMember(
         { payload: { data: { attributes } } },
         hFake,
-        dependencies
+        dependencies,
       );
 
       // then

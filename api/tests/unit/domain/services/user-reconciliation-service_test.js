@@ -58,7 +58,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           // when
           const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
             organizationLearners,
-            user
+            user,
           );
 
           // then
@@ -75,7 +75,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           // when
           const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
             organizationLearners,
-            user
+            user,
           );
 
           // then
@@ -96,7 +96,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -111,7 +111,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -126,7 +126,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -141,7 +141,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -156,7 +156,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -172,7 +172,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -188,7 +188,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -204,7 +204,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -223,7 +223,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -240,7 +240,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -257,7 +257,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -274,7 +274,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -294,7 +294,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -312,7 +312,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -330,7 +330,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              user
+              user,
             );
 
             // then
@@ -352,7 +352,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             // when
             const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(
               organizationLearners,
-              twin1
+              twin1,
             );
 
             // then
@@ -390,7 +390,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // when
           const result = await catchErr(
-            userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser
+            userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser,
           )({
             organizationId,
             reconciliationInfo: user,
@@ -418,7 +418,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
               organizationId,
               reconciliationInfo: user,
               organizationLearnerRepository: organizationLearnerRepositoryStub,
-            }
+            },
           );
 
           // then
@@ -441,7 +441,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
         // when
         const result = await catchErr(
-          userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser
+          userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser,
         )({
           organizationId,
           reconciliationInfo: user,
@@ -482,7 +482,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // when
           const error = await catchErr(
-            userReconciliationService.findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser
+            userReconciliationService.findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser,
           )({
             organizationId,
             reconciliationInfo: user,
@@ -513,7 +513,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
             // when
             const result = await catchErr(
-              userReconciliationService.findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser
+              userReconciliationService.findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser,
             )({
               organizationId,
               reconciliationInfo: user,
@@ -556,7 +556,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
         // when
         const error = await catchErr(
-          userReconciliationService.findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser
+          userReconciliationService.findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser,
         )({
           organizationId,
           reconciliationInfo: user,
@@ -701,7 +701,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
-            studentRepositoryStub
+            studentRepositoryStub,
           );
 
           // then
@@ -732,7 +732,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
-            studentRepositoryStub
+            studentRepositoryStub,
           );
 
           // then
@@ -764,7 +764,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
-            studentRepositoryStub
+            studentRepositoryStub,
           );
 
           // then
@@ -801,7 +801,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
-            studentRepositoryStub
+            studentRepositoryStub,
           );
 
           // then
@@ -835,7 +835,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
-            studentRepositoryStub
+            studentRepositoryStub,
           );
 
           // then
@@ -870,7 +870,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
-            studentRepositoryStub
+            studentRepositoryStub,
           );
 
           // then
@@ -907,7 +907,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           organizationLearner,
           userRepositoryStub,
           obfuscationServiceStub,
-          studentRepositoryStub
+          studentRepositoryStub,
         );
 
         // then

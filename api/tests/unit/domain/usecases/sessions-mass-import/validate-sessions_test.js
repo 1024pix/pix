@@ -437,7 +437,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
                 isBlocking: false,
               },
             ],
-          })
+          }),
         );
       });
     });
@@ -523,7 +523,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
                 isBlocking: true,
               },
             ],
-          })
+          }),
         );
       });
     });

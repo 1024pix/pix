@@ -40,16 +40,16 @@ class ComplementaryCertificationCourseResultForJuryCertificationWithExternal {
       return;
     }
     const pixComplementaryCertificationCourseResult = complementaryCertificationCourseResultWithExternal.find(
-      ({ source }) => source === PIX
+      ({ source }) => source === PIX,
     );
     const externalComplementaryCertificationCourseResult = complementaryCertificationCourseResultWithExternal.find(
-      ({ source }) => source === EXTERNAL
+      ({ source }) => source === EXTERNAL,
     );
 
     let allowedExternalLevels = [];
     if (pixComplementaryCertificationCourseResult) {
       const filteredBadges = badgeKeyAndLabelsGroupedByTargetProfile.find((badgeKeys) =>
-        badgeKeys.map(({ key }) => key).includes(pixComplementaryCertificationCourseResult.partnerKey)
+        badgeKeys.map(({ key }) => key).includes(pixComplementaryCertificationCourseResult.partnerKey),
       );
       allowedExternalLevels = filteredBadges.map(({ key, label }) => ({ label, value: key }));
     }

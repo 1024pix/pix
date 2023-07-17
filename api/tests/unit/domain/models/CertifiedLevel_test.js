@@ -490,7 +490,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function () {
           numberOfCorrectAnswers: 1000,
           estimatedLevel: 0, // unimportant
           reproducibilityRate: 0, // unimportant
-        })
+        }),
       ).to.throw(expectedMessage);
     });
   });

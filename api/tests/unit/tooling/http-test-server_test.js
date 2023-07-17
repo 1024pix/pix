@@ -17,7 +17,7 @@ describe('Unit | Tooling | Http-test-server', function () {
     it('Should use pre-response-utils function', function () {
       // then
       expect(server.hapiServer._core.extensions.route.onPreResponse.nodes[0].func.name).to.equal(
-        'handleDomainAndHttpErrors'
+        'handleDomainAndHttpErrors',
       );
     });
   });

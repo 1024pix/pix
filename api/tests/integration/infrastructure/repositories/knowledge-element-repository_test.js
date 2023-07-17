@@ -61,7 +61,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           { id: 1, createdAt: yesterday, skillId: '1', userId },
           { id: 2, createdAt: yesterday, skillId: '3', userId, status: 'validated' },
         ],
-        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke)
+        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke),
       );
 
       knowledgeElementsWanted = [
@@ -76,7 +76,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           { id: 6, createdAt: yesterday },
           { id: 7, createdAt: yesterday },
         ],
-        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke)
+        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke),
       );
 
       await databaseBuilder.commit();
@@ -146,7 +146,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           { id: 1, skillId: '1', userId, assessmentId },
           { id: 2, skillId: '3', createdAt: new Date('2020-02-01'), userId, assessmentId },
         ],
-        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke)
+        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke),
       );
 
       databaseBuilder.factory.buildKnowledgeElement({ id: 4, skillId: '5', userId, assessmentId: otherAssessmentId });
@@ -187,7 +187,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           { id: 2, competenceId: 1, userId, skillId: 'web2' },
           { id: 3, competenceId: 2, userId, skillId: 'url1' },
         ],
-        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke)
+        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke),
       );
 
       await databaseBuilder.commit();
@@ -223,7 +223,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           { id: 1, status: 'validated', userId, competenceId, skillId: 'rec1' },
           { id: 2, status: 'invalidated', userId, competenceId, skillId: 'rec2' },
         ],
-        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke)
+        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke),
       );
 
       _.each(
@@ -235,7 +235,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         ],
         (ke) => {
           databaseBuilder.factory.buildKnowledgeElement(ke);
-        }
+        },
       );
 
       await databaseBuilder.commit();
@@ -310,7 +310,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // when
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
-        campaignId
+        campaignId,
       );
 
       // then
@@ -336,7 +336,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // when
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
-        campaignId
+        campaignId,
       );
 
       // then
@@ -384,7 +384,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // when
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
-        campaignId
+        campaignId,
       );
 
       // then
@@ -418,7 +418,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // when
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
-        campaignId
+        campaignId,
       );
 
       // then
@@ -451,7 +451,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // when
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
-        campaignId
+        campaignId,
       );
 
       // then
@@ -484,7 +484,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // when
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
-        campaignId
+        campaignId,
       );
 
       // then
@@ -517,7 +517,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // when
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
-        campaignId
+        campaignId,
       );
 
       // then
@@ -562,7 +562,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // when
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
-        campaignId
+        campaignId,
       );
 
       // then
@@ -608,7 +608,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // when
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
-        campaignId
+        campaignId,
       );
 
       // then
@@ -888,7 +888,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
         // then
         expect(knowledgeElementsByUserIdAndCompetenceId[userId1][knowledgeElement.competenceId][0]).to.deep.equal(
-          knowledgeElement
+          knowledgeElement,
         );
       });
     });
@@ -1010,7 +1010,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
           userId,
           limitDate,
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1036,7 +1036,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
             await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
               userId,
               null,
-              learningContent
+              learningContent,
             );
 
           // then
@@ -1060,7 +1060,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
             userId,
             null,
-            learningContent
+            learningContent,
           );
 
           // then
@@ -1087,7 +1087,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
             await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
               userId,
               new Date('2018-02-01'),
-              learningContent
+              learningContent,
             );
 
           // then
@@ -1115,7 +1115,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
           userId,
           null,
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1141,7 +1141,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
           userId,
           null,
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1168,7 +1168,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
           userId,
           null,
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1188,7 +1188,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
           userId,
           null,
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1236,7 +1236,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElementsCountCompetenceId =
         await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
           { [userId1]: dateUserId1, [userId2]: dateUserId2 },
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1264,7 +1264,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           const knowledgeElementsCountByCompetenceId =
             await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
               { [userId]: null },
-              learningContent
+              learningContent,
             );
 
           // then
@@ -1287,7 +1287,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           // when
           await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
             { [userId]: null },
-            learningContent
+            learningContent,
           );
 
           // then
@@ -1313,7 +1313,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           const knowledgeElementsCountByCompetenceId =
             await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
               { [userId]: null },
-              learningContent
+              learningContent,
             );
 
           // then
@@ -1340,7 +1340,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElementsCountByCompetenceId =
         await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
           { [userId]: null },
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1365,7 +1365,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElementsCountByCompetenceId =
         await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
           { [userId]: null },
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1391,7 +1391,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElementsCountByCompetenceId =
         await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
           { [userId]: null },
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1410,7 +1410,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElementsByUserIdAndCompetenceId =
         await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
           { [userId]: null },
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1485,7 +1485,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElementsByUserIdAndCompetenceId =
         await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
           { [userId1]: dateUserId1, [userId2]: dateUserId2 },
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1522,12 +1522,12 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElementsByUserIdAndCompetenceId =
         await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
           { [userId]: dateUserId },
-          learningContent
+          learningContent,
         );
 
       // then
       expect(knowledgeElementsByUserIdAndCompetenceId[userId][learningContent.competences[0].id][0]).to.deep.equal(
-        knowledgeElement
+        knowledgeElement,
       );
     });
 
@@ -1549,7 +1549,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           const knowledgeElementsByUserIdAndCompetenceId =
             await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
               { [userId]: null },
-              learningContent
+              learningContent,
             );
 
           // then
@@ -1573,7 +1573,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           // when
           await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
             { [userId]: null },
-            learningContent
+            learningContent,
           );
 
           // then
@@ -1599,7 +1599,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           const knowledgeElementsByUserIdAndCompetenceId =
             await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
               { [userId]: new Date('2018-02-01') },
-              learningContent
+              learningContent,
             );
 
           // then
@@ -1626,7 +1626,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElementsByUserIdAndCompetenceId =
         await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
           { [userId]: null },
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1651,7 +1651,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElementsByUserIdAndCompetenceId =
         await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
           { [userId]: null },
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1677,7 +1677,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElementsByUserIdAndCompetenceId =
         await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
           { [userId]: null },
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1696,7 +1696,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const knowledgeElementsByUserIdAndCompetenceId =
         await knowledgeElementRepository.findGroupedByCompetencesForUsersWithinLearningContent(
           { [userId]: null },
-          learningContent
+          learningContent,
         );
 
       // then
@@ -1772,7 +1772,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       // when
       const knowledgeElementsByTubeId = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
         { [userId1]: dateUserId1, [userId2]: dateUserId2 },
-        targetProfile
+        targetProfile,
       );
 
       // then
@@ -1804,7 +1804,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       // when
       const knowledgeElementsByTubeId = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
         { [userId]: dateUserId },
-        learningContent
+        learningContent,
       );
 
       // then
@@ -1827,7 +1827,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           // when
           const knowledgeElementsByTubeId = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
             { [userId]: null },
-            learningContent
+            learningContent,
           );
 
           // then
@@ -1850,7 +1850,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           // when
           await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
             { [userId]: null },
-            learningContent
+            learningContent,
           );
 
           // then
@@ -1874,7 +1874,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
           // when
           const knowledgeElementsByTubeId = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
             { [userId]: new Date('2018-02-01') },
-            learningContent
+            learningContent,
           );
 
           // then
@@ -1899,7 +1899,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       // when
       const knowledgeElementsByTubeId = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
         { [userId]: null },
-        learningContent
+        learningContent,
       );
 
       // then
@@ -1923,7 +1923,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       // when
       const knowledgeElementsByTubeId = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
         { [userId]: null },
-        learningContent
+        learningContent,
       );
 
       // then
@@ -1941,7 +1941,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       // when
       const knowledgeElementsByTubeId = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
         { [userId]: null },
-        learningContent
+        learningContent,
       );
 
       // then

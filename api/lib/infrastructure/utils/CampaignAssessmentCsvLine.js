@@ -23,7 +23,7 @@ class CampaignAssessmentCsvLine {
     this.learningContent = learningContent;
     this.stageCollection = stageCollection;
     this.targetedKnowledgeElementsCount = _.sum(
-      _.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length)
+      _.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length),
     );
     this.targetedKnowledgeElementsByCompetence = participantKnowledgeElementsByCompetenceId;
     this.acquiredBadges = acquiredBadges;
@@ -63,7 +63,7 @@ class CampaignAssessmentCsvLine {
       this._makeSharedStatsColumns({
         id: competence.id,
         ...this._getStatsForCompetence(competence),
-      })
+      }),
     );
   }
 
@@ -84,7 +84,7 @@ class CampaignAssessmentCsvLine {
 
   _makeBadgesColumns() {
     return _.flatMap(this.targetProfile.badges, ({ title }) =>
-      this._makeYesNoColumns(_.includes(this.acquiredBadges, title))
+      this._makeYesNoColumns(_.includes(this.acquiredBadges, title)),
     );
   }
 
@@ -104,7 +104,7 @@ class CampaignAssessmentCsvLine {
       this.campaignParticipationService.progress(
         this.campaignParticipationInfo.isCompleted,
         this.targetedKnowledgeElementsCount,
-        this.learningContent.skills.length
+        this.learningContent.skills.length,
       ),
       moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
       this._makeYesNoColumns(this.campaignParticipationInfo.isShared),
@@ -147,7 +147,7 @@ class CampaignAssessmentCsvLine {
     if (competenceId in this.targetedKnowledgeElementsByCompetence) {
       knowledgeElementForSkill = _.find(
         this.targetedKnowledgeElementsByCompetence[competenceId],
-        (knowledgeElement) => knowledgeElement.skillId === targetedSkill.id
+        (knowledgeElement) => knowledgeElement.skillId === targetedSkill.id,
       );
     }
 
@@ -160,7 +160,7 @@ class CampaignAssessmentCsvLine {
 
   _countValidatedKnowledgeElementsForCompetence(competenceId) {
     return this.targetedKnowledgeElementsByCompetence[competenceId].filter(
-      (knowledgeElement) => knowledgeElement.isValidated
+      (knowledgeElement) => knowledgeElement.isValidated,
     ).length;
   }
 

@@ -28,112 +28,112 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', function () 
     it('should throw an ObjectValidationError when participantFirstName is not valid', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantFirstName: 123456 })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantFirstName: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should not throw an ObjectValidationError when participantFirstname is empty', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantFirstName: '' })).not.to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when participantLastName is not valid', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantLastName: 123456 })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantLastName: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should not throw an ObjectValidationError when participantLastName is empty', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantLastName: '' })).not.to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when participantExternalId is not valid', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantExternalId: 123456 })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should not throw an ObjectValidationError when participantExternalId is null or undefined', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantExternalId: null })).not.to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantExternalId: undefined })).not.to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when studentNumber is not valid', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, studentNumber: 123456 })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should not throw an ObjectValidationError when studentNumber is null or undefined', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, studentNumber: null })).not.to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new CampaignParticipationInfo({ ...validArguments, studentNumber: undefined })).not.to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when userId is not valid', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, userId: 'les zouzous' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new CampaignParticipationInfo({ ...validArguments, userId: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when isCompleted is not valid', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, isCompleted: 'les zouzous' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new CampaignParticipationInfo({ ...validArguments, isCompleted: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when createdAt is not valid', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, createdAt: 'coucou' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
       expect(() => new CampaignParticipationInfo({ ...validArguments, createdAt: undefined })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should throw an ObjectValidationError when sharedAt is not valid', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, sharedAt: 'coucou' })).to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 
     it('should not throw an ObjectValidationError when sharedAt is null', function () {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, sharedAt: null })).not.to.throw(
-        ObjectValidationError
+        ObjectValidationError,
       );
     });
 

@@ -1026,7 +1026,7 @@ describe('Acceptance | API | Certification Course', function () {
 });
 
 function _createRequestOptions(
-  { locale = 'fr-fr', version = CertificationVersion.V2 } = { locale: 'fr-fr', version: CertificationVersion.V2 }
+  { locale = 'fr-fr', version = CertificationVersion.V2 } = { locale: 'fr-fr', version: CertificationVersion.V2 },
 ) {
   const isV3Pilot = version === CertificationVersion.V3;
   const userId = databaseBuilder.factory.buildUser().id;

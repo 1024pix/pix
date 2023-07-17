@@ -45,7 +45,7 @@ const register = async function (server) {
             enErreur: Joi.boolean()
               .optional()
               .description(
-                "Permet de récupérer uniquement les résultats des participants dont l'envoi a échoué la première fois."
+                "Permet de récupérer uniquement les résultats des participants dont l'envoi a échoué la première fois.",
               ),
           }).options({ allowUnknown: true }),
         },

@@ -48,7 +48,7 @@ describe('Integration | Repository | Participations-For-User-Management', functi
         // then
         expect(participationsForUserManagement).to.have.lengthOf(1);
         expect(participationsForUserManagement[0].participantExternalId).to.equal(
-          campaignParticipation.participantExternalId
+          campaignParticipation.participantExternalId,
         );
       });
 

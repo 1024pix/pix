@@ -107,7 +107,7 @@ describe('Integration | Application | Route | campaignParticipationRouter', func
         // when
         const response = await httpTestServer.request(
           method,
-          '/api/campaigns/FAKE_ID/assessment-participations/1/results'
+          '/api/campaigns/FAKE_ID/assessment-participations/1/results',
         );
 
         // then
@@ -120,7 +120,7 @@ describe('Integration | Application | Route | campaignParticipationRouter', func
         // when
         const response = await httpTestServer.request(
           method,
-          '/api/campaigns/1/assessment-participations/FAKE_ID/results'
+          '/api/campaigns/1/assessment-participations/FAKE_ID/results',
         );
 
         // then

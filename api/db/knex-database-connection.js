@@ -94,7 +94,7 @@ async function listAllTableNames() {
 
   const resultSet = await configuredKnex.raw(
     'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?',
-    bindings
+    bindings,
   );
 
   const rows = resultSet.rows;
@@ -107,7 +107,7 @@ async function emptyAllTables() {
     tableNames,
     'knex_migrations',
     'knex_migrations_lock',
-    'view-active-organization-learners'
+    'view-active-organization-learners',
   );
 
   const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();

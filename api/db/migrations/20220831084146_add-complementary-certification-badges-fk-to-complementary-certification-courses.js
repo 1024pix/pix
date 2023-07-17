@@ -14,7 +14,7 @@ const up = async function (knex) {
     .join(
       'complementary-certification-course-results',
       'complementary-certification-course-results.complementaryCertificationCourseId',
-      'complementary-certification-courses.id'
+      'complementary-certification-courses.id',
     )
     .select('complementary-certification-courses.id', 'complementary-certification-course-results.partnerKey');
 

@@ -15,7 +15,7 @@ describe('Unit | Domain | Models | CertificationContract', function () {
             { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
             { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
           ],
-          domainBuilder.buildAnswer
+          domainBuilder.buildAnswer,
         );
 
         const challenges = _.map(
@@ -51,7 +51,7 @@ describe('Unit | Domain | Models | CertificationContract', function () {
               type: 'QCM',
             },
           ],
-          domainBuilder.buildCertificationChallengeWithType
+          domainBuilder.buildCertificationChallengeWithType,
         );
 
         // when
@@ -60,7 +60,7 @@ describe('Unit | Domain | Models | CertificationContract', function () {
         // then
         expect(error).to.be.instanceOf(CertificationComputeError);
         expect(error.message).to.equal(
-          "L’utilisateur n’a pas répondu à toutes les questions, alors qu'aucune raison d'abandon n'a été fournie."
+          "L’utilisateur n’a pas répondu à toutes les questions, alors qu'aucune raison d'abandon n'a été fournie.",
         );
       });
 
@@ -73,7 +73,7 @@ describe('Unit | Domain | Models | CertificationContract', function () {
             { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
             { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
           ],
-          domainBuilder.buildAnswer
+          domainBuilder.buildAnswer,
         );
 
         const challenges = _.map(
@@ -110,7 +110,7 @@ describe('Unit | Domain | Models | CertificationContract', function () {
               type: 'QCM',
             },
           ],
-          domainBuilder.buildCertificationChallengeWithType
+          domainBuilder.buildCertificationChallengeWithType,
         );
 
         // when
@@ -131,7 +131,7 @@ describe('Unit | Domain | Models | CertificationContract', function () {
         // when
         const error = await catchErr(CertificationContract.assertThatCompetenceHasAtLeastOneChallenge)(
           competenceChallenges,
-          competenceIndex
+          competenceIndex,
         );
 
         // then
@@ -152,7 +152,7 @@ describe('Unit | Domain | Models | CertificationContract', function () {
         // when
         const error = await catchErr(CertificationContract.assertThatScoreIsCoherentWithReproducibilityRate)(
           score,
-          reproducibilityRate
+          reproducibilityRate,
         );
 
         // then
@@ -174,7 +174,7 @@ describe('Unit | Domain | Models | CertificationContract', function () {
             { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
             { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
           ],
-          domainBuilder.buildAnswer
+          domainBuilder.buildAnswer,
         );
 
         const challenges = _.map(
@@ -204,13 +204,13 @@ describe('Unit | Domain | Models | CertificationContract', function () {
               type: 'QCM',
             },
           ],
-          domainBuilder.buildCertificationChallengeWithType
+          domainBuilder.buildCertificationChallengeWithType,
         );
 
         // when
         const error = await catchErr(CertificationContract.assertThatEveryAnswerHasMatchingChallenge)(
           answers,
-          challenges
+          challenges,
         );
 
         // then
@@ -233,7 +233,7 @@ describe('Unit | Domain | Models | CertificationContract', function () {
             { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
             { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
           ],
-          domainBuilder.buildAnswer
+          domainBuilder.buildAnswer,
         );
 
         // when
@@ -257,7 +257,7 @@ describe('Unit | Domain | Models | CertificationContract', function () {
         const hasEnoughNonNeutralizedChallengeToBeTrusted =
           CertificationContract.hasEnoughNonNeutralizedChallengesToBeTrusted(
             numberOfChallenges,
-            numberOfNonNeutralizedChallenges
+            numberOfNonNeutralizedChallenges,
           );
 
         // then
@@ -275,7 +275,7 @@ describe('Unit | Domain | Models | CertificationContract', function () {
         const hasEnoughNonNeutralizedChallengeToBeTrusted =
           CertificationContract.hasEnoughNonNeutralizedChallengesToBeTrusted(
             numberOfChallenges,
-            numberOfNonNeutralizedChallenges
+            numberOfNonNeutralizedChallenges,
           );
 
         // then

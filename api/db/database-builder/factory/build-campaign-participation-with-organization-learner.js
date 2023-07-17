@@ -5,7 +5,7 @@ import { buildOrganizationLearnerWithUser } from './build-organization-learner-w
 const buildCampaignParticipationWithOrganizationLearner = (
   organizationLearner,
   campaignParticipation,
-  withAssessment
+  withAssessment,
 ) => {
   const { userId, id: organizationLearnerId } = buildOrganizationLearnerWithUser(organizationLearner);
   const campaignParticipationCreated = buildCampaignParticipation({

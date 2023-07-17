@@ -52,7 +52,7 @@ describe('Unit | Infrastructure | Caches | LayeredCache', function () {
       expect(layeredCacheInstance._firstLevelCache.flushAll).to.have.been.calledOnce;
       expect(result).to.deep.equal(objectToCache);
       expect(layeredCacheInstance._secondLevelCache.set).to.have.been.calledBefore(
-        layeredCacheInstance._firstLevelCache.flushAll
+        layeredCacheInstance._firstLevelCache.flushAll,
       );
     });
   });

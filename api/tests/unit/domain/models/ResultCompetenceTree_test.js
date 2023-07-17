@@ -73,7 +73,7 @@ describe('Unit | Domain | Models | ResultCompetence', function () {
         expect(resultTree).to.be.an.instanceOf(ResultCompetenceTree);
         expect(resultTree.areas[0].resultCompetences[0]).to.be.an.instanceOf(ResultCompetence);
         expect(resultTree).to.deep.equal(expectedResultTree);
-      }
+      },
     );
   });
 });

@@ -10,7 +10,7 @@ const BookshelfCertificationChallenge = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfCertificationChallenge };

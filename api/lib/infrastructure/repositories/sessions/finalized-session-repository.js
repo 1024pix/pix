@@ -52,6 +52,6 @@ function _toDTO(finalizedSession) {
       date: finalizedSession.sessionDate,
       time: finalizedSession.sessionTime,
     },
-    ['sessionDate', 'sessionTime']
+    ['sessionDate', 'sessionTime'],
   );
 }

@@ -97,7 +97,7 @@ function _getPix1dLevelName(activityLevel) {
 
 function _throwNotFoundError(activityLevel, missionId, challengeNumber) {
   throw new NotFoundError(
-    `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`
+    `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`,
   );
 }
 

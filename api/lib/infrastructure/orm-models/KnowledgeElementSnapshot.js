@@ -9,7 +9,7 @@ const BookshelfKnowledgeElementSnapshot = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfKnowledgeElementSnapshot };

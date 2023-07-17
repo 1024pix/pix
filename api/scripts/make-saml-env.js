@@ -12,11 +12,11 @@ console.log(
   `SAML_SP_CONFIG=${JSON.stringify({
     metadata: readXml('metadata_sp.xml'),
     encPrivateKey: readFile('./privatekey.pem', 'utf-8'),
-  })}`
+  })}`,
 );
 
 console.log(
   `SAML_IDP_CONFIG=${JSON.stringify({
     metadata: readXml('metadata_idp.xml'),
-  })}`
+  })}`,
 );

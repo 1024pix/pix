@@ -78,7 +78,7 @@ function main() {
   const authToken = process.argv[3];
   const ids = parseArgs(process.argv.slice(4));
   const requests = Promise.all(
-    ids.map((id) => buildRequestObject(baseUrl, authToken, id)).map((requestObject) => makeRequest(requestObject))
+    ids.map((id) => buildRequestObject(baseUrl, authToken, id)).map((requestObject) => makeRequest(requestObject)),
   );
 
   requests
@@ -88,7 +88,7 @@ function main() {
         data: res,
         fieldNames: HEADERS,
         del: ';',
-      })
+      }),
     )
     .then((csv) => {
       console.log(`\n\n${csv}\n\n`);

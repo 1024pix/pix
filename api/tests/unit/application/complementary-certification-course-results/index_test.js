@@ -18,7 +18,7 @@ describe('Unit | Application | Complementary Certification Course Results | Rout
             h
               .response({ errors: new Error('forbidden') })
               .code(403)
-              .takeover()
+              .takeover(),
         );
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

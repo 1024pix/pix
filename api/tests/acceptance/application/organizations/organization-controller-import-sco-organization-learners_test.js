@@ -110,7 +110,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '</STRUCTURES>' +
               '</DONNEES>' +
               '</BEE_ELEVES>',
-            'ISO-8859-15'
+            'ISO-8859-15',
           );
           options.payload = buffer;
         });
@@ -173,7 +173,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '</STRUCTURES>' +
               '</DONNEES>' +
               '</BEE_ELEVES>',
-            'ISO-8859-15'
+            'ISO-8859-15',
           );
           options.payload = buffer;
         });
@@ -307,7 +307,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '</STRUCTURES>' +
               '</DONNEES>' +
               '</BEE_ELEVES>',
-            'ISO-8859-15'
+            'ISO-8859-15',
           );
 
           options.payload = malformedStudentsBuffer;
@@ -366,7 +366,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '</STRUCTURES>' +
               '</DONNEES>' +
               '</BEE_ELEVES>',
-            'ISO-8859-15'
+            'ISO-8859-15',
           );
 
           options.payload = buffer;
@@ -443,7 +443,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '</STRUCTURES>' +
               '</DONNEES>' +
               '</BEE_ELEVES>',
-            'ISO-8859-15'
+            'ISO-8859-15',
           );
 
           options.payload = bufferWithMalformedStudent;
@@ -530,7 +530,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '</STRUCTURES>' +
               '</DONNEES>' +
               '</BEE_ELEVES>',
-            'ISO-8859-15'
+            'ISO-8859-15',
           );
 
           options.payload = bufferWithMalformedStudent;
@@ -644,7 +644,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '</STRUCTURES>' +
               '</DONNEES>' +
               '</BEE_ELEVES>',
-            'ISO-8859-15'
+            'ISO-8859-15',
           );
 
           options.payload = buffer;
@@ -765,7 +765,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '</STRUCTURES>' +
               '</DONNEES>' +
               '</BEE_ELEVES>',
-            'ISO-8859-15'
+            'ISO-8859-15',
           );
 
           options.payload = buffer;
@@ -820,7 +820,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '</STRUCTURES>' +
               '</DONNEES>' +
               '</BEE_ELEVES>',
-            'ISO-8859-15'
+            'ISO-8859-15',
           );
           options.payload = malformedStudentsBuffer;
         });
@@ -846,7 +846,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '<UAJ>UAI123ABC</UAJ>' +
               '</PARAMETRES>' +
               '</BEE_ELEVES>',
-            'ISO-8859-15'
+            'ISO-8859-15',
           );
           options.payload = malformedBuffer;
         });
@@ -1039,7 +1039,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             expect(response.statusCode).to.equal(412);
             expect(response.result.errors[0].code).to.equal('IDENTIFIER_UNIQUE');
           });
-        }
+        },
       );
     });
 
@@ -1052,7 +1052,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<UAJ>UAI123ABC</UAJ>' +
             '</PARAMETRES>' +
             '</BEE_ELEVES>',
-          'ISO-8859-15'
+          'ISO-8859-15',
         );
         options.payload = buffer;
       });

@@ -80,7 +80,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
         expect(foundPrescriber.firstName).to.equal(expectedPrescriber.firstName);
         expect(foundPrescriber.lastName).to.equal(expectedPrescriber.lastName);
         expect(foundPrescriber.pixOrgaTermsOfServiceAccepted).to.equal(
-          expectedPrescriber.pixOrgaTermsOfServiceAccepted
+          expectedPrescriber.pixOrgaTermsOfServiceAccepted,
         );
         expect(foundPrescriber.lang).to.equal(expectedPrescriber.lang);
       });
@@ -142,7 +142,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
         expect(foundUser.userOrgaSettings).to.be.an.instanceOf(UserOrgaSettings);
         expect(foundUser.userOrgaSettings.id).to.equal(expectedPrescriber.userOrgaSettings.id);
         expect(foundUser.userOrgaSettings.currentOrganization.id).to.equal(
-          expectedPrescriber.userOrgaSettings.currentOrganizationId
+          expectedPrescriber.userOrgaSettings.currentOrganizationId,
         );
       });
 
@@ -253,7 +253,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
               // then
               expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.false;
             });
-          }
+          },
         );
       });
 

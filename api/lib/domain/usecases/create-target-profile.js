@@ -12,7 +12,7 @@ const createTargetProfile = async function ({
     await organizationRepository.get(targetProfileForCreation.ownerOrganizationId);
   } catch (error) {
     throw new TargetProfileCannotBeCreated(
-      `Cannot create target profile for non existant organization id: ${targetProfileForCreation.ownerOrganizationId}`
+      `Cannot create target profile for non existant organization id: ${targetProfileForCreation.ownerOrganizationId}`,
     );
   }
 

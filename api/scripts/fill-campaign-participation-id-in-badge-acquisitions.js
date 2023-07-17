@@ -55,8 +55,8 @@ async function updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisitio
   }
   console.log(
     `${badgeAcquisition.id} ;${badgeAcquisition.badgeId} ;${campaignParticipations.length};${campaignParticipations.map(
-      (c) => c.id
-    )}`
+      (c) => c.id,
+    )}`,
   );
 }
 

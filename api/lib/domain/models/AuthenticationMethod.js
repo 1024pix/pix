@@ -15,7 +15,7 @@ class PixAuthenticationComplement {
         password: Joi.string().required(),
         shouldChangePassword: Joi.boolean().required(),
       }),
-      this
+      this,
     );
   }
 }
@@ -32,7 +32,7 @@ class OidcAuthenticationComplement {
         refreshToken: Joi.string().optional(),
         expiredDate: Joi.date().required(),
       }),
-      this
+      this,
     );
   }
 }
@@ -47,7 +47,7 @@ class GARAuthenticationComplement {
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
       }),
-      this
+      this,
     );
   }
 }

@@ -40,7 +40,7 @@ const findByCampaignParticipationId = async function ({
       campaignSkillsByTube,
       campaignSkillIds,
       badgeCriteriaDTOByBadge[badgeDTO.id],
-      badgeDTO
+      badgeDTO,
     );
     badges.push(badge);
   }
@@ -77,7 +77,7 @@ const findByCampaignId = async function ({ campaignId, domainTransaction = Domai
       campaignSkillsByTube,
       campaignSkillIds,
       badgeCriteriaDTOByBadge[badgeDTO.id],
-      badgeDTO
+      badgeDTO,
     );
     badges.push(badge);
   }
@@ -125,7 +125,7 @@ async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCr
         new BadgeCriterionForCalculation({
           threshold: badgeCriterionDTO.threshold,
           skillIds: campaignSkillIds,
-        })
+        }),
       );
     }
     if (badgeCriterionDTO.scope === SCOPES.SKILL_SET) {
@@ -135,7 +135,7 @@ async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCr
           new BadgeCriterionForCalculation({
             threshold: badgeCriterionDTO.threshold,
             skillIds,
-          })
+          }),
         );
       }
     }
@@ -153,7 +153,7 @@ async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCr
           new BadgeCriterionForCalculation({
             threshold: badgeCriterionDTO.threshold,
             skillIds,
-          })
+          }),
         );
       }
     }

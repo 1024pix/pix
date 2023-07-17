@@ -57,7 +57,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
           name: 'PRO_CERTIFICATION_CENTER',
           type: 'PRO',
           externalId: 'EXTERNAL_ID',
-        }
+        },
       );
 
       sessionId = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter }).id;

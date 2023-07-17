@@ -57,7 +57,7 @@ describe('Unit | Application | Badges | Routes', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(badgesRouter);

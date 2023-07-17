@@ -19,7 +19,7 @@ const getNextChallengeForCertification = async function ({
     const lastNonAnsweredCertificationChallenge =
       await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3(
         assessment.id,
-        assessment.certificationCourseId
+        assessment.certificationCourseId,
       );
 
     if (lastNonAnsweredCertificationChallenge) {

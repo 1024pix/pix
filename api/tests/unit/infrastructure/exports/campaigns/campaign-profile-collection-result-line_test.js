@@ -96,7 +96,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           campaignParticipationResultData,
           competences,
           placementProfile,
-          translate
+          translate,
         );
 
         //then
@@ -150,7 +150,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           campaignParticipationResultData,
           competences,
           placementProfile,
-          translate
+          translate,
         );
 
         //then
@@ -206,7 +206,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           campaignParticipationResultData,
           competences,
           placementProfile,
-          translate
+          translate,
         );
 
         //then
@@ -267,7 +267,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           campaignParticipationResultData,
           competences,
           placementProfile,
-          translate
+          translate,
         );
 
         //then
@@ -330,7 +330,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           campaignParticipationResultData,
           competences,
           placementProfile,
-          translate
+          translate,
         );
 
         //then
@@ -394,7 +394,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             campaignParticipationResultData,
             competences,
             placementProfile,
-            translate
+            translate,
           );
 
           //then
@@ -452,7 +452,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             campaignParticipationResultData,
             competences,
             placementProfile,
-            translate
+            translate,
           );
 
           //then
@@ -516,7 +516,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             campaignParticipationResultData,
             competences,
             placementProfile,
-            translate
+            translate,
           );
 
           //then
@@ -583,7 +583,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             campaignParticipationResultData,
             competences,
             placementProfile,
-            translate
+            translate,
           );
 
           //then
@@ -643,7 +643,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             campaignParticipationResultData,
             competences,
             placementProfile,
-            translate
+            translate,
           );
 
           //then
@@ -703,7 +703,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             campaignParticipationResultData,
             competences,
             placementProfile,
-            translate
+            translate,
           );
 
           //then
@@ -767,7 +767,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             campaignParticipationResultData,
             competences,
             placementProfile,
-            translate
+            translate,
           );
 
           //then

@@ -52,7 +52,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // when
       const result = await organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE(
         path,
-        organization
+        organization,
       );
 
       //then
@@ -69,7 +69,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // when
       const result = await organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE(
         path,
-        organization
+        organization,
       );
 
       //then
@@ -84,7 +84,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
-        organization
+        organization,
       );
 
       //then
@@ -100,7 +100,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
-        organization
+        organization,
       );
 
       //then
@@ -116,7 +116,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
-        organization
+        organization,
       );
 
       //then
@@ -133,7 +133,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
-        organization
+        organization,
       );
 
       //then
@@ -150,7 +150,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
-        organization
+        organization,
       );
 
       //then
@@ -166,7 +166,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       // when
       const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
-        organization
+        organization,
       );
 
       //then
@@ -181,7 +181,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
         // when
         const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
           path,
-          organization
+          organization,
         );
 
         //then

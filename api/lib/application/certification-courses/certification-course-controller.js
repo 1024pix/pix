@@ -31,7 +31,7 @@ const update = async function (request, h, dependencies = { certificationSeriali
   const command = await dependencies.certificationSerializer.deserializeCertificationCandidateModificationCommand(
     request.payload,
     certificationCourseId,
-    userId
+    userId,
   );
   await usecases.correctCandidateIdentityInCertificationCourse({ command });
   const updatedCertificationCourse = await usecases.getCertificationCourse({
@@ -70,7 +70,7 @@ const get = async function (request, h, dependencies = { certificationCourseSeri
 const getCertifiedProfile = async function (
   request,
   h,
-  dependencies = { certifiedProfileRepository, certifiedProfileSerializer }
+  dependencies = { certifiedProfileRepository, certifiedProfileSerializer },
 ) {
   const certificationCourseId = request.params.id;
   const certifiedProfile = await dependencies.certifiedProfileRepository.get(certificationCourseId);

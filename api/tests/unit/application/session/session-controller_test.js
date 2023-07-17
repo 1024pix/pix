@@ -371,13 +371,13 @@ describe('Unit | Controller | sessionController', function () {
       const response = await sessionController.getSessionResultsByRecipientEmail(
         { i18n, params: { token: 'abcd1234' } },
         hFake,
-        dependencies
+        dependencies,
       );
 
       // then
       expect(response.source).to.deep.equal('csv content');
       expect(response.headers['Content-Disposition']).to.equal(
-        'attachment; filename=20200101_1200_resultats_session_1.csv'
+        'attachment; filename=20200101_1200_resultats_session_1.csv',
       );
     });
   });
@@ -694,7 +694,7 @@ describe('Unit | Controller | sessionController', function () {
             },
           },
           hFake,
-          { sessionSerializer }
+          { sessionSerializer },
         );
 
         // then
@@ -729,7 +729,7 @@ describe('Unit | Controller | sessionController', function () {
             },
           },
           hFake,
-          { sessionSerializer }
+          { sessionSerializer },
         );
 
         // then
@@ -793,7 +793,7 @@ describe('Unit | Controller | sessionController', function () {
 
       // then
       expect(logger.warn).to.have.been.calledWithExactly(
-        'One or more error occurred when publishing session in batch batchId'
+        'One or more error occurred when publishing session in batch batchId',
       );
 
       expect(logger.warn).to.have.been.calledWithExactly(
@@ -801,7 +801,7 @@ describe('Unit | Controller | sessionController', function () {
           batchId: 'batchId',
           sessionId: 'sessionId1',
         },
-        'an error'
+        'an error',
       );
 
       expect(logger.warn).to.have.been.calledWithExactly(
@@ -809,7 +809,7 @@ describe('Unit | Controller | sessionController', function () {
           batchId: 'batchId',
           sessionId: 'sessionId2',
         },
-        'another error'
+        'another error',
       );
     });
 
@@ -1151,7 +1151,7 @@ describe('Unit | Controller | sessionController', function () {
       // then
       expect(response.source).to.deep.equal(attestationPDF);
       expect(response.headers['Content-Disposition']).to.contains(
-        'attachment; filename=attestation-pix-session-12.pdf'
+        'attachment; filename=attestation-pix-session-12.pdf',
       );
     });
   });

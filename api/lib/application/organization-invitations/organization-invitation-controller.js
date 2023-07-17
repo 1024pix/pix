@@ -25,7 +25,7 @@ const acceptOrganizationInvitation = async function (request) {
 const sendScoInvitation = async function (
   request,
   h,
-  dependencies = { requestResponseUtils, scoOrganizationInvitationSerializer }
+  dependencies = { requestResponseUtils, scoOrganizationInvitationSerializer },
 ) {
   const { uai, 'first-name': firstName, 'last-name': lastName } = request.payload.data.attributes;
 

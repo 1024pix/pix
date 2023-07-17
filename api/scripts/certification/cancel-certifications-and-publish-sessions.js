@@ -48,7 +48,7 @@ async function _do({ file }) {
   }
 
   const sessionIdsToPublish = _.map(Object.keys(certificationsToCancelBySession), (sessionIdStr) =>
-    parseInt(sessionIdStr)
+    parseInt(sessionIdStr),
   );
   await _publishSessions(sessionIdsToPublish);
 }
@@ -120,7 +120,7 @@ async function _cancelCertifications(certificationIdsToCancel, trx) {
   const notUpdatedCertificationIds = _.difference(certificationIdsToCancel, cancelledCertificationIds);
   if (notUpdatedCertificationIds.length > 0) {
     throw new Error(
-      `Some certifications do not exist or were already cancelled : ${notUpdatedCertificationIds.join(', ')}`
+      `Some certifications do not exist or were already cancelled : ${notUpdatedCertificationIds.join(', ')}`,
     );
   }
   console.log('\tDone !');

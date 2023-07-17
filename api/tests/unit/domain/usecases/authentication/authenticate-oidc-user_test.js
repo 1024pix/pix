@@ -53,7 +53,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       // then
       expect(error).to.be.an.instanceOf(UnexpectedOidcStateError);
       expect(logger.error).to.have.been.calledWith(
-        `State sent ${stateSent} did not match the state received ${stateReceived}`
+        `State sent ${stateSent} did not match the state received ${stateReceived}`,
       );
     });
   });
@@ -189,9 +189,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         });
 
         // then
-        expect(
-          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
-        ).not.to.have.been.called;
+        expect(authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider).not.to.have
+          .been.called;
       });
     });
 
@@ -219,7 +218,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
         // then
         expect(
-          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
         ).to.have.been.calledWith({
           authenticationComplement,
           userId: 1,
@@ -287,7 +286,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
       // then
       expect(
-        authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+        authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
       ).to.have.been.calledWith({
         authenticationComplement,
         userId: 10,

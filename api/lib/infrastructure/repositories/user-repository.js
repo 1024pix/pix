@@ -168,7 +168,7 @@ const getWithMemberships = async function (userId) {
       'organizations.name AS organizationName',
       'organizations.type AS organizationType',
       'organizations.externalId AS organizationExternalId',
-      'organizations.isManagingStudents AS organizationIsManagingStudents'
+      'organizations.isManagingStudents AS organizationIsManagingStudents',
     )
     .join('organizations', 'organizations.id', 'memberships.organizationId')
     .where({ userId: userDTO.id, disabledAt: null });
@@ -315,7 +315,7 @@ const acceptPixLastTermsOfService = async function (id) {
       lastTermsOfServiceValidatedAt: moment().toDate(),
       mustValidateTermsOfService: false,
     },
-    { patch: true, method: 'update' }
+    { patch: true, method: 'update' },
   );
   return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
 };
@@ -358,7 +358,7 @@ const updateUsername = function ({ id, username, domainTransaction = DomainTrans
         transacting: domainTransaction.knexTransaction,
         patch: true,
         method: 'update',
-      }
+      },
     )
     .then((bookshelfUser) => _toDomain(bookshelfUser))
     .catch((err) => {
@@ -474,7 +474,7 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
         updatedAt: organizationLearnerDTO.updatedAt,
         isDisabled: organizationLearnerDTO.isDisabled,
         organizationIsManagingStudents: organizationLearnerDTO.organizationIsManagingStudents,
-      })
+      }),
   );
   const userLogin = new UserLogin({
     id: userDTO.userLoginId,
@@ -614,7 +614,7 @@ function _toDomain(userBookshelf) {
     pixCertifTermsOfServiceAccepted: Boolean(userBookshelf.get('pixCertifTermsOfServiceAccepted')),
     memberships: _toMembershipsDomain(userBookshelf.related('memberships')),
     certificationCenterMemberships: _toCertificationCenterMembershipsDomain(
-      userBookshelf.related('certificationCenterMemberships')
+      userBookshelf.related('certificationCenterMemberships'),
     ),
     hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
     authenticationMethods: _toAuthenticationMethodsDomain(userBookshelf.related('authenticationMethods')),
@@ -641,7 +641,7 @@ function _toDomainFromDTO({
     return new Membership({ ...membershipDTO, organization });
   });
   const certificationCenterMemberships = certificationCenterMembershipsDTO.map(
-    (certificationCenterMembershipDTO) => new CertificationCenterMembership(certificationCenterMembershipDTO)
+    (certificationCenterMembershipDTO) => new CertificationCenterMembership(certificationCenterMembershipDTO),
   );
   return new User({
     id: userDTO.id,

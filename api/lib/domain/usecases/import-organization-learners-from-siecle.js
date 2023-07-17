@@ -31,13 +31,13 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   if (format === 'xml') {
     organizationLearnerData = await organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE(
       path,
-      organization
+      organization,
     );
   } else if (format === 'csv') {
     organizationLearnerData = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
       path,
       organization,
-      i18n
+      i18n,
     );
   } else {
     throw new FileValidationError(ERRORS.INVALID_FILE_EXTENSION, { fileExtension: format });
@@ -61,7 +61,7 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
       return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
         chunk,
         organizationId,
-        domainTransaction
+        domainTransaction,
       );
     });
   });

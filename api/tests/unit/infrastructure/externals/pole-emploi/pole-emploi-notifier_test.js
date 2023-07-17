@@ -204,7 +204,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
           // then
           expect(
-            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
           ).to.have.been.calledWith({
             authenticationComplement,
             userId,

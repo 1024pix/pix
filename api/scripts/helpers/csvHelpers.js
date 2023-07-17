@@ -104,7 +104,7 @@ async function parseCsvWithHeaderAndRequiredFields({ filePath, requiredFieldName
         parser.abort();
         throw new FileValidationError(
           ERRORS.MISSING_REQUIRED_FIELD_VALUES,
-          `Field values are required for ${requiredFieldName}`
+          `Field values are required for ${requiredFieldName}`,
         );
       }
     });

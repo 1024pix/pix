@@ -28,7 +28,7 @@ describe('Unit | UseCase | accept-certification-center-invitation', function () 
 
     // then
     expect(error.message).to.equal(
-      `Certification center membership already exists for the user ID ${user.id} and certification center ID 1234.`
+      `Certification center membership already exists for the user ID ${user.id} and certification center ID 1234.`,
     );
     expect(error).to.be.an.instanceof(AlreadyExistingMembershipError);
   });

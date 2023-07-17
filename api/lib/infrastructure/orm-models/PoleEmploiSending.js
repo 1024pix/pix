@@ -16,7 +16,7 @@ const BookshelfPoleEmploiSending = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfPoleEmploiSending };

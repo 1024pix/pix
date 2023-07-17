@@ -521,7 +521,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', function ()
         return promise.then((errorObjects) => {
           expect(errorObjects).to.be.deep.equal(expectedErrorObjects);
         });
-      }
+      },
     );
   });
 });

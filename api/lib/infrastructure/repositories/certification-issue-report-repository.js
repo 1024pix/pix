@@ -24,7 +24,7 @@ const get = async function (id) {
 const findByCertificationCourseId = async function (certificationCourseId) {
   const certificationIssueReports = await knex('certification-issue-reports').where({ certificationCourseId });
   return certificationIssueReports.map(
-    (certificationIssueReport) => new CertificationIssueReport(certificationIssueReport)
+    (certificationIssueReport) => new CertificationIssueReport(certificationIssueReport),
   );
 };
 

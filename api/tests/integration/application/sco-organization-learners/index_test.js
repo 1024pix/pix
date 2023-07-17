@@ -692,7 +692,7 @@ describe('Integration | Application | Route | sco-organization-learners', functi
       // then
       expect(response.statusCode).to.equal(400);
       expect(JSON.parse(response.payload).errors[0].detail).to.equal(
-        '"data.attributes.campaign-code" is not allowed to be empty'
+        '"data.attributes.campaign-code" is not allowed to be empty',
       );
     });
 
@@ -706,7 +706,7 @@ describe('Integration | Application | Route | sco-organization-learners', functi
       // then
       expect(response.statusCode).to.equal(400);
       expect(JSON.parse(response.payload).errors[0].detail).to.equal(
-        '"data.attributes.external-user-token" is not allowed to be empty'
+        '"data.attributes.external-user-token" is not allowed to be empty',
       );
     });
 
@@ -720,7 +720,7 @@ describe('Integration | Application | Route | sco-organization-learners', functi
       // then
       expect(response.statusCode).to.equal(400);
       expect(JSON.parse(response.payload).errors[0].detail).to.equal(
-        '"data.attributes.birthdate" must be in YYYY-MM-DD format'
+        '"data.attributes.birthdate" must be in YYYY-MM-DD format',
       );
     });
   });

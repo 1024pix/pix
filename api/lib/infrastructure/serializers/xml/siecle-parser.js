@@ -34,7 +34,7 @@ class SiecleParser {
     await this.siecleFileStreamer.close();
 
     return this.organizationLearnersSet.organizationLearners.filter(
-      (organizationLearner) => !isUndefined(organizationLearner.division)
+      (organizationLearner) => !isUndefined(organizationLearner.division),
     );
   }
 
@@ -64,7 +64,7 @@ class SiecleParser {
 
   async _parseStudents() {
     await this.siecleFileStreamer.perform((stream, resolve, reject) =>
-      this._extractOrganizationLearnersFromStream(stream, resolve, reject)
+      this._extractOrganizationLearnersFromStream(stream, resolve, reject),
     );
   }
 

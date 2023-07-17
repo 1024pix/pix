@@ -94,7 +94,7 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
         beforeEach(function () {
           _.times(
             10,
-            databaseBuilder.factory.buildCertificationCandidate({ firstName: 'Alain', userId: null, sessionId })
+            databaseBuilder.factory.buildCertificationCandidate({ firstName: 'Alain', userId: null, sessionId }),
           );
           return databaseBuilder.commit();
         });

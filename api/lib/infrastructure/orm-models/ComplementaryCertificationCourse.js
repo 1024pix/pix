@@ -10,7 +10,7 @@ const BookshelfComplementaryCertificationCourse = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfComplementaryCertificationCourse };

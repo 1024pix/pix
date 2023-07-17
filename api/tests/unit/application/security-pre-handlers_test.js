@@ -614,7 +614,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
             {
               checkUserBelongsToScoOrganizationAndManagesStudentsUseCase:
                 checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub,
-            }
+            },
           );
 
           // then
@@ -643,7 +643,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
             {
               checkUserBelongsToScoOrganizationAndManagesStudentsUseCase:
                 checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub,
-            }
+            },
           );
 
           // then
@@ -746,7 +746,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
             request,
             hFake,
-            dependencies
+            dependencies,
           );
 
           // then
@@ -775,7 +775,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
             request,
             hFake,
-            dependencies
+            dependencies,
           );
 
           // then
@@ -808,7 +808,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
             request,
             hFake,
-            dependencies
+            dependencies,
           );
 
           // then
@@ -834,7 +834,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
           request,
           hFake,
-          dependencies
+          dependencies,
         );
 
         // then
@@ -866,7 +866,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
           request,
           hFake,
-          dependencies
+          dependencies,
         );
 
         // then
@@ -1177,7 +1177,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
             {
               checkUserIsMemberOfCertificationCenterSessionUsecase:
                 checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
-            }
+            },
           );
 
         // then
@@ -1200,7 +1200,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
             {
               checkUserIsMemberOfCertificationCenterSessionUsecase:
                 checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
-            }
+            },
           );
 
         // then
@@ -1222,7 +1222,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
             {
               checkUserIsMemberOfCertificationCenterSessionUsecase:
                 checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
-            }
+            },
           );
 
         // then
@@ -1244,7 +1244,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
             {
               checkUserIsMemberOfCertificationCenterSessionUsecase:
                 checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
-            }
+            },
           );
 
         // then
@@ -1278,7 +1278,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
               certificationIssueReportRepository: certificationIssueReportRepositoryStub,
               checkUserIsMemberOfCertificationCenterSessionUsecase:
                 checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
-            }
+            },
           );
 
         // then
@@ -1306,7 +1306,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
               certificationIssueReportRepository: certificationIssueReportRepositoryStub,
               checkUserIsMemberOfCertificationCenterSessionUsecase:
                 checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
-            }
+            },
           );
 
         // then
@@ -1332,7 +1332,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
               certificationIssueReportRepository: certificationIssueReportRepositoryStub,
               checkUserIsMemberOfCertificationCenterSessionUsecase:
                 checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
-            }
+            },
           );
 
         // then
@@ -1358,7 +1358,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
               certificationIssueReportRepository: certificationIssueReportRepositoryStub,
               checkUserIsMemberOfCertificationCenterSessionUsecase:
                 checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
-            }
+            },
           );
 
         // then
@@ -1383,7 +1383,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
               certificationIssueReportRepository: certificationIssueReportRepositoryStub,
               checkUserIsMemberOfCertificationCenterSessionUsecase:
                 checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
-            }
+            },
           );
 
         // then
@@ -1410,7 +1410,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           hFake,
           {
             checkUserOwnsCertificationCourseUseCase: checkUserOwnsCertificationCourseUseCaseStub,
-          }
+          },
         );
 
         // then
@@ -1431,7 +1431,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           hFake,
           {
             checkUserOwnsCertificationCourseUseCase: checkUserOwnsCertificationCourseUseCaseStub,
-          }
+          },
         );
 
         // then
@@ -1451,7 +1451,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           hFake,
           {
             checkUserOwnsCertificationCourseUseCase: checkUserOwnsCertificationCourseUseCaseStub,
-          }
+          },
         );
 
         // then
@@ -1471,7 +1471,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           hFake,
           {
             checkUserOwnsCertificationCourseUseCase: checkUserOwnsCertificationCourseUseCaseStub,
-          }
+          },
         );
 
         // then

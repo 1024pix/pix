@@ -63,7 +63,7 @@ describe('Integration | Scripts | Helpers | csvHelpers.js', function () {
         await checkCsvHeader({
           filePath: withValidHeaderFilePath,
           requiredFieldNames,
-        })
+        }),
       ).to.not.throw;
     });
   });

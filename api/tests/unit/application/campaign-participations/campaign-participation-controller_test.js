@@ -78,7 +78,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       // then
       expect(events.eventBus.publish).to.have.been.calledWith(
         campaignParticipationResultsSharedEvent,
-        domainTransaction
+        domainTransaction,
       );
     });
 
@@ -307,7 +307,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       const response = await campaignParticipationController.getCampaignAssessmentParticipationResult(
         request,
         h,
-        dependencies
+        dependencies,
       );
 
       // then

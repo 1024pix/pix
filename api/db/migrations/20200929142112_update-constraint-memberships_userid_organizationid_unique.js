@@ -10,7 +10,7 @@ const up = async function (knex) {
   });
   // eslint-disable-next-line knex/avoid-injections
   return knex.raw(
-    `CREATE UNIQUE INDEX ${NEW_CONSTRAINT_NAME} ON ${TABLE_NAME} ("${USERID_COLUMN}", "${ORGANIZATIONID_COLUMN}") WHERE "${DISABLEDAT_COLUMN}" IS NULL;`
+    `CREATE UNIQUE INDEX ${NEW_CONSTRAINT_NAME} ON ${TABLE_NAME} ("${USERID_COLUMN}", "${ORGANIZATIONID_COLUMN}") WHERE "${DISABLEDAT_COLUMN}" IS NULL;`,
   );
 };
 

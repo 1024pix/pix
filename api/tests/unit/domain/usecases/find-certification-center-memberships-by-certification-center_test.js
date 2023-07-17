@@ -8,7 +8,7 @@ describe('Unit | UseCase | find-certification-center-memberships-by-certificatio
     const certificationCenterMemberships = [domainBuilder.buildCertificationCenterMembership()];
     const certificationCenterMembershipRepository = { findActiveByCertificationCenterIdSortedById: sinon.stub() };
     certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedById.resolves(
-      certificationCenterMemberships
+      certificationCenterMemberships,
     );
 
     // when
@@ -19,7 +19,7 @@ describe('Unit | UseCase | find-certification-center-memberships-by-certificatio
 
     // then
     expect(certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedById).to.have.been.calledWith(
-      { certificationCenterId }
+      { certificationCenterId },
     );
     expect(foundCertificationCenterMemberships).to.deep.equal(certificationCenterMemberships);
   });

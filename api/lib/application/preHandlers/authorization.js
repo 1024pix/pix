@@ -12,7 +12,7 @@ const verifySessionAuthorization = async (request, h, dependencies = { sessionRe
 const verifyCertificationSessionAuthorization = async (
   request,
   h,
-  dependencies = { sessionRepository, certificationCourseRepository }
+  dependencies = { sessionRepository, certificationCourseRepository },
 ) => {
   const userId = request.auth.credentials.userId;
   const certificationCourseId = request.params.id;
@@ -33,13 +33,13 @@ export { authorization, verifySessionAuthorization, verifyCertificationSessionAu
 async function _isAuthorizedToAccessSession({ userId, sessionId, sessionRepository }) {
   const hasMembershipAccess = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
     userId,
-    sessionId
+    sessionId,
   );
 
   if (!hasMembershipAccess) {
     throw new NotFoundError(
       "Session does not exist or it's access is restricted.",
-      'SESSION_DOES_NOT_EXIST_OR_ACCESS_RESTRICTED'
+      'SESSION_DOES_NOT_EXIST_OR_ACCESS_RESTRICTED',
     );
   }
 

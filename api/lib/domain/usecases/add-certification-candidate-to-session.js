@@ -41,7 +41,7 @@ const addCertificationCandidateToSession = async function ({
 
   if (duplicateCandidates.length !== 0) {
     throw new CertificationCandidateByPersonalInfoTooManyMatchesError(
-      'A candidate with the same personal info is already in the session.'
+      'A candidate with the same personal info is already in the session.',
     );
   }
 

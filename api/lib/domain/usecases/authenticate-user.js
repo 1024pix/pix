@@ -46,7 +46,7 @@ const authenticateUser = async function ({
 
     const shouldChangePassword = get(
       foundUser,
-      'authenticationMethods[0].authenticationComplement.shouldChangePassword'
+      'authenticationMethods[0].authenticationComplement.shouldChangePassword',
     );
 
     if (shouldChangePassword) {

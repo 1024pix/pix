@@ -81,7 +81,7 @@ describe('Unit | Controller | certification-course-controller', function () {
           status: 'started',
           totalScore: 5,
           userId: 123,
-        })
+        }),
       );
       certificationDetailsSerializer.serialize.returns('ok');
 

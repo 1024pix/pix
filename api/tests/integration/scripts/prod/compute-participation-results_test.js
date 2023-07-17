@@ -183,7 +183,7 @@ describe('computeParticipationResults', function () {
           expect(campaignParticipation.validatedSkillsCount).to.equals(10);
           expect(campaignParticipation.isCertifiable).to.be.true;
         });
-      }
+      },
     );
 
     context('when there are campaign participation on assessment campaign with pixScore already computed', function () {

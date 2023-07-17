@@ -1,6 +1,6 @@
 const up = function (knex) {
   return knex.raw(
-    'CREATE INDEX "schooling-registrations_nationalstudentid_index" ON "schooling-registrations" ("nationalStudentId");'
+    'CREATE INDEX "schooling-registrations_nationalstudentid_index" ON "schooling-registrations" ("nationalStudentId");',
   );
 };
 

@@ -426,7 +426,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       // then
       const persistedCertificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
       expect(persistedCertificationAssessment.state).to.deep.equal(
-        CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION
+        CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION,
       );
     });
   });

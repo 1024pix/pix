@@ -13,7 +13,7 @@ const getTargetProfileContentAsJson = async function ({
     throw new ForbiddenAccess("L'utilisateur n'est pas autorisé à effectuer cette opération.");
   const targetProfileForAdmin = await targetProfileForAdminRepository.get({ id: targetProfileId });
   const skills = await learningContentConversionService.findActiveSkillsForCappedTubes(
-    targetProfileForAdmin.cappedTubes
+    targetProfileForAdmin.cappedTubes,
   );
   const jsonContent = targetProfileForAdmin.getContentAsJson(skills);
   const now = dayjs();

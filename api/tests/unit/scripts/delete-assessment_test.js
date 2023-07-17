@@ -45,7 +45,7 @@ describe('Delete Assessment Script', function () {
 
         // then
         expect(query).to.equal(
-          'DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" = 123 )'
+          'DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" = 123 )',
         );
       });
     });
@@ -115,10 +115,10 @@ describe('Delete Assessment Script', function () {
           expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM feedbacks WHERE "assessmentId" = 1345');
           expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM answers WHERE "assessmentId" = 1345');
           expect(clientStub.query_and_log).to.have.been.calledWith(
-            'DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" = 1345 )'
+            'DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" = 1345 )',
           );
           expect(clientStub.query_and_log).to.have.been.calledWith(
-            'DELETE FROM "assessment-results" WHERE "assessmentId" = 1345'
+            'DELETE FROM "assessment-results" WHERE "assessmentId" = 1345',
           );
         });
       });

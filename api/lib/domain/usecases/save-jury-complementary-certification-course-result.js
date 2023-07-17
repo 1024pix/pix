@@ -13,7 +13,7 @@ const saveJuryComplementaryCertificationCourseResult = async function ({
 
   if (!pixSourceComplementaryCertificationCourseResult) {
     throw new NotFoundError(
-      "Aucun résultat de certification Pix n'a été trouvé pour cette certification complémentaire."
+      "Aucun résultat de certification Pix n'a été trouvé pour cette certification complémentaire.",
     );
   }
 

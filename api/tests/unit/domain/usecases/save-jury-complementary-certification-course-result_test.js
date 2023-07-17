@@ -32,7 +32,7 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
         // then
         expect(error).to.be.instanceOf(NotFoundError);
         expect(error.message).to.be.equal(
-          "Aucun résultat de certification Pix n'a été trouvé pour cette certification complémentaire."
+          "Aucun résultat de certification Pix n'a été trouvé pour cette certification complémentaire.",
         );
       });
     });
@@ -48,7 +48,7 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
                 partnerKey: 'KEY_1',
                 complementaryCertificationCourseId: 1234,
                 source: ComplementaryCertificationCourseResult.sources.PIX,
-              })
+              }),
             );
 
           complementaryCertificationCourseResultRepository.getAllowedJuryLevelByBadgeKey
@@ -77,7 +77,7 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
                 partnerKey: 'KEY_1',
                 complementaryCertificationCourseId: 1234,
                 source: ComplementaryCertificationCourseResult.sources.PIX,
-              })
+              }),
             );
 
           complementaryCertificationCourseResultRepository.getAllowedJuryLevelByBadgeKey
@@ -98,7 +98,7 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
               source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
               acquired: true,
               complementaryCertificationCourseId: 1234,
-            })
+            }),
           );
         });
       });

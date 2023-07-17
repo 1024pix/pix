@@ -93,7 +93,7 @@ const getUniqueCandidates = function (candidates) {
         (other) =>
           candidate.firstName === other.firstName &&
           candidate.lastName === other.lastName &&
-          candidate.birthdate === other.birthdate
+          candidate.birthdate === other.birthdate,
       );
 
     if (!isFirstOccurence) {

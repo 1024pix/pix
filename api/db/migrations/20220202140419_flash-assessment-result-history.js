@@ -35,11 +35,11 @@ const down = async function (knex) {
             function () {
               this.orderBy('createdAt', 'desc');
             },
-            'assessmentId'
+            'assessmentId',
           ),
       })
         .select('answerRanked.answerId')
-        .where('answerRanked.rank', '>', 1)
+        .where('answerRanked.rank', '>', 1),
     )
     .delete();
 

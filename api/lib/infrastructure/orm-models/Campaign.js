@@ -32,7 +32,7 @@ const BookshelfCampaign = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfCampaign };

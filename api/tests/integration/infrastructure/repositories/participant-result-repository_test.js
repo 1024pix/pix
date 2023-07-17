@@ -805,10 +805,10 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           locale: 'FR',
         });
         const badgeResult1 = participantResult.badgeResults.find(
-          ({ id }) => id === badgeObtainedInAnotherCampaign.badgeId
+          ({ id }) => id === badgeObtainedInAnotherCampaign.badgeId,
         );
         const badgeResult2 = participantResult.badgeResults.find(
-          ({ id }) => id === badgeObtainedInThisCampaign.badgeId
+          ({ id }) => id === badgeObtainedInThisCampaign.badgeId,
         );
         expect(badgeResult1).to.deep.include({
           id: 1,
@@ -894,7 +894,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           ];
 
           knowledgeElementsAttributes.forEach((attributes) =>
-            databaseBuilder.factory.buildKnowledgeElement(attributes)
+            databaseBuilder.factory.buildKnowledgeElement(attributes),
           );
 
           await databaseBuilder.commit();

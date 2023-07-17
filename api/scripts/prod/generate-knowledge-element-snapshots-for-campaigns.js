@@ -47,7 +47,7 @@ async function getEligibleCampaignParticipations(maxSnapshotCount) {
     .leftJoin('knowledge-element-snapshots', function () {
       this.on('knowledge-element-snapshots.userId', 'campaign-participations.userId').andOn(
         'knowledge-element-snapshots.snappedAt',
-        'campaign-participations.sharedAt'
+        'campaign-participations.sharedAt',
       );
     })
     .whereNotNull('campaign-participations.sharedAt')
@@ -64,7 +64,7 @@ async function getEligibleCampaignParticipations(maxSnapshotCount) {
 async function generateKnowledgeElementSnapshots(
   campaignParticipationData,
   concurrency,
-  dependencies = { knowledgeElementRepository, knowledgeElementSnapshotRepository }
+  dependencies = { knowledgeElementRepository, knowledgeElementSnapshotRepository },
 ) {
   return bluebird.map(
     campaignParticipationData,
@@ -82,7 +82,7 @@ async function generateKnowledgeElementSnapshots(
         }
       }
     },
-    { concurrency }
+    { concurrency },
   );
 }
 

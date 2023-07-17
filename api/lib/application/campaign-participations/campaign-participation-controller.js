@@ -22,7 +22,7 @@ const save = async function (request, h, dependencies = { campaignParticipationS
   const { event, campaignParticipation: campaignParticipationCreated } = await DomainTransaction.execute(
     (domainTransaction) => {
       return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
-    }
+    },
   );
 
   events.eventDispatcher
@@ -114,7 +114,7 @@ const deleteParticipation = async function (request, h) {
 const getCampaignAssessmentParticipationResult = async function (
   request,
   h,
-  dependencies = { campaignAssessmentParticipationResultSerializer }
+  dependencies = { campaignAssessmentParticipationResultSerializer },
 ) {
   const { userId } = request.auth.credentials;
   const { campaignId, campaignParticipationId } = request.params;

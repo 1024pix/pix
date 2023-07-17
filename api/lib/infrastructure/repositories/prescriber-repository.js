@@ -19,11 +19,11 @@ function _toPrescriberDomain(bookshelfUser) {
     lang,
     memberships: bookshelfToDomainConverter.buildDomainObjects(
       BookshelfMembership,
-      bookshelfUser.related('memberships')
+      bookshelfUser.related('memberships'),
     ),
     userOrgaSettings: bookshelfToDomainConverter.buildDomainObject(
       BookshelfUserOrgaSettings,
-      bookshelfUser.related('userOrgaSettings')
+      bookshelfUser.related('userOrgaSettings'),
     ),
   });
 }
@@ -39,7 +39,7 @@ async function _areNewYearOrganizationLearnersImportedForPrescriber(prescriber) 
         qb.where(
           'view-active-organization-learners.createdAt',
           '>=',
-          config.features.newYearOrganizationLearnersImportDate
+          config.features.newYearOrganizationLearnersImportDate,
         );
       }
     })
@@ -70,13 +70,13 @@ async function _isMultipleSendingAssessmentEnabled(prescriber) {
     .join('organization-features', function () {
       this.on('features.id', 'organization-features.featureId').andOn(
         'organization-features.organizationId',
-        currentOrganizationId
+        currentOrganizationId,
       );
     })
     .pluck('key');
 
   prescriber.enableMultipleSendingAssessment = availableFeatures.includes(
-    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT
+    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
   );
 }
 

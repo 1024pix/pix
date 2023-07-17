@@ -180,7 +180,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const { certificationCourseId, assessmentResultId, competenceMarkId } = await _buildCertificationResultInSession(
-        sessionId
+        sessionId,
       );
       const oneBadgeId = databaseBuilder.factory.buildBadge({ key: 'PARTNER_KEY' }).id;
       const oneComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({

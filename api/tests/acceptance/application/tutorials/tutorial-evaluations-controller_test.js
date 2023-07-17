@@ -89,7 +89,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
         expect(response.result.data.id).to.exist;
         expect(response.result.data.attributes['user-id']).to.deep.equal(expectedResponse.data.attributes['user-id']);
         expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
-          expectedResponse.data.attributes['tutorial-id']
+          expectedResponse.data.attributes['tutorial-id'],
         );
         expect(response.result.data.attributes.status).to.deep.equal(expectedResponse.data.attributes.status);
       });
@@ -134,7 +134,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
         expect(response.result.data.id).to.exist;
         expect(response.result.data.attributes['user-id']).to.equal(expectedResponse.data.attributes['user-id']);
         expect(response.result.data.attributes['tutorial-id']).to.equal(
-          expectedResponse.data.attributes['tutorial-id']
+          expectedResponse.data.attributes['tutorial-id'],
         );
         expect(response.result.data.attributes.status).to.equal(expectedResponse.data.attributes.status);
       });

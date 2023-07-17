@@ -21,7 +21,7 @@ const BookshelfCertificationCandidate = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfCertificationCandidate };

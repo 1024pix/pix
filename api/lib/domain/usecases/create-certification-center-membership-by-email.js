@@ -15,7 +15,7 @@ const createCertificationCenterMembershipByEmail = async function ({
 
   if (isMembershipExisting) {
     throw new AlreadyExistingEntityError(
-      `Certification center membership already exists for the user ID ${userId} and certification center ID ${certificationCenterId}.`
+      `Certification center membership already exists for the user ID ${userId} and certification center ID ${certificationCenterId}.`,
     );
   }
 

@@ -46,7 +46,7 @@ describe('Integration | Repository | certification candidate for supervising', f
             assessmentStatus: 'started',
             startDateTime: new Date('2022-10-01T14:00:00Z'),
             stillValidBadgeAcquisitions: undefined,
-          })
+          }),
         );
       });
     });
@@ -141,7 +141,7 @@ describe('Integration | Repository | certification candidate for supervising', f
           authorizedToStart: true,
         };
         const error = await catchErr(certificationCandidateForSupervisingRepository.update)(
-          certificationCandidateForSupervising
+          certificationCandidateForSupervising,
         );
 
         // then

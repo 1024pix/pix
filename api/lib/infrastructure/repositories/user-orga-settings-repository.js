@@ -9,7 +9,7 @@ const findOneByUserId = function (userId) {
   return BookshelfUserOrgaSettings.where({ userId })
     .fetch({ require: true, withRelated: ['user', 'currentOrganization'] })
     .then((userOrgaSettings) =>
-      bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings)
+      bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings),
     )
     .catch((err) => {
       if (err instanceof BookshelfUserOrgaSettings.NotFoundError) {
@@ -24,7 +24,7 @@ const create = function (userId, currentOrganizationId) {
     .save()
     .then((bookshelfUserOrgaSettings) => bookshelfUserOrgaSettings.load(['user', 'currentOrganization']))
     .then((userOrgaSettings) =>
-      bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings)
+      bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings),
     )
     .catch((err) => {
       if (knexUtils.isUniqConstraintViolated(err)) {
@@ -37,7 +37,7 @@ const create = function (userId, currentOrganizationId) {
 const update = async function (userId, organizationId) {
   const bookshelfUserOrgaSettings = await BookshelfUserOrgaSettings.where({ userId }).save(
     { currentOrganizationId: organizationId },
-    { patch: true, method: 'update' }
+    { patch: true, method: 'update' },
   );
   await bookshelfUserOrgaSettings.related('user').fetch();
   await bookshelfUserOrgaSettings.related('currentOrganization').fetch();

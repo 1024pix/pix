@@ -16,7 +16,7 @@ const BookshelfAnswer = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfAnswer };

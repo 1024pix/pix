@@ -21,7 +21,7 @@ const findByBatchId = async function (batchId) {
         'competenceCode', "competence-marks"."competence_code",
         'areaCode', "competence-marks"."area_code",
         'level', "competence-marks"."level"
-      ) ORDER BY "competence-marks"."competence_code" asc) as "competenceMarks"`)
+      ) ORDER BY "competence-marks"."competence_code" asc) as "competenceMarks"`),
     )
     .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
     .where('certification-courses.cpfFilename', batchId)
@@ -82,12 +82,12 @@ function _selectCpfCertificationResults(qb = knex) {
     .innerJoin(
       'certification-courses-last-assessment-results',
       'certification-courses.id',
-      'certification-courses-last-assessment-results.certificationCourseId'
+      'certification-courses-last-assessment-results.certificationCourseId',
     )
     .leftJoin(
       'assessment-results',
       'assessment-results.id',
-      'certification-courses-last-assessment-results.lastAssessmentResultId'
+      'certification-courses-last-assessment-results.lastAssessmentResultId',
     );
 }
 

@@ -23,7 +23,7 @@ const findByCampaignId = async function (campaignId) {
     badges.map(async (badge) => {
       const { badgeCriteria, skillSets } = await _addCriteriaInformation(badge);
       return new Badge({ ...badge, badgeCriteria, skillSets });
-    })
+    }),
   );
 };
 

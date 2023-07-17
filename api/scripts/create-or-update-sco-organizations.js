@@ -58,7 +58,7 @@ async function createOrUpdateOrganizations({ accessToken, organizationsByExterna
           externalId,
           provinceCode: externalId.substring(0, 3),
           type: 'SCO',
-        })
+        }),
       );
     }
   }

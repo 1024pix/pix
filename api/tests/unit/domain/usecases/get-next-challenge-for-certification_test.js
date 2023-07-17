@@ -37,7 +37,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
         // then
         expect(certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId).to.have.been.calledWith(
           156,
-          54516
+          54516,
         );
       });
 

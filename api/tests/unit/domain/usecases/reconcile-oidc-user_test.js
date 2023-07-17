@@ -29,7 +29,7 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
     oidcAuthenticationService.createAuthenticationComplement
       .withArgs({ sessionContent })
       .returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({ accessToken: 'accessToken', expiredDate: new Date() })
+        new AuthenticationMethod.OidcAuthenticationComplement({ accessToken: 'accessToken', expiredDate: new Date() }),
       );
 
     // when
@@ -57,7 +57,7 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
     oidcAuthenticationService.createAuthenticationComplement
       .withArgs({ sessionContent })
       .returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({ accessToken: 'accessToken', expiredDate: new Date() })
+        new AuthenticationMethod.OidcAuthenticationComplement({ accessToken: 'accessToken', expiredDate: new Date() }),
       );
 
     // when
@@ -74,7 +74,7 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
     const { authenticationMethod } = authenticationMethodRepository.create.firstCall.args[0];
     expect(authenticationMethod).to.deep.contain({ identityProvider, externalIdentifier, userId });
     expect(authenticationMethod.authenticationComplement).to.be.instanceOf(
-      AuthenticationMethod.OidcAuthenticationComplement
+      AuthenticationMethod.OidcAuthenticationComplement,
     );
   });
 
@@ -90,7 +90,7 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
     oidcAuthenticationService.createAuthenticationComplement
       .withArgs({ sessionContent })
       .returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({ accessToken: 'accessToken', expiredDate: new Date() })
+        new AuthenticationMethod.OidcAuthenticationComplement({ accessToken: 'accessToken', expiredDate: new Date() }),
       );
     oidcAuthenticationService.createAccessToken.withArgs(userId).returns('accessToken');
     oidcAuthenticationService.saveIdToken

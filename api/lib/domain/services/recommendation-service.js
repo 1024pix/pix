@@ -55,7 +55,7 @@ function _getNextLevelToReach(skillsOfTube, validatedKnowledgeElements) {
 
 function _getReachedLevelInTube(validatedKnowledgeElements, skillsOfTube) {
   const skillsOfTubeWithKnowledgeElement = skillsOfTube.filter(({ id }) =>
-    _.find(validatedKnowledgeElements, { skillId: id })
+    _.find(validatedKnowledgeElements, { skillId: id }),
   );
   const reachSkill = _getSkillOfMaxDifficulty(skillsOfTubeWithKnowledgeElement);
 

@@ -6,7 +6,7 @@ const evaluate = async function (request, h, dependencies = { tutorialEvaluation
   const { userId } = request.auth.credentials;
   const { tutorialId } = request.params;
   const { status = TutorialEvaluation.statuses.LIKED } = dependencies.tutorialEvaluationSerializer.deserialize(
-    request.payload
+    request.payload,
   );
 
   const tutorialEvaluation = await usecases.addTutorialEvaluation({ userId, tutorialId, status });

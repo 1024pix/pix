@@ -12,7 +12,7 @@ async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externa
     .leftJoin(
       'certification-center-memberships',
       'certification-centers.id',
-      'certification-center-memberships.certificationCenterId'
+      'certification-center-memberships.certificationCenterId',
     )
     .where('certification-centers.externalId', '=', externalId);
 
@@ -61,7 +61,7 @@ async function prepareDataForInsert(rawExternalIds) {
   const externalIds = _.uniq(_.map(rawExternalIds, 'externalId'));
   const certificationCenterMembershipsLists = await bluebird.mapSeries(
     externalIds,
-    fetchCertificationCenterMembershipsByExternalId
+    fetchCertificationCenterMembershipsByExternalId,
   );
   return certificationCenterMembershipsLists.flat();
 }

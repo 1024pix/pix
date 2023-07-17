@@ -37,7 +37,7 @@ function certificationScoresBuilder({ databaseBuilder }) {
     ],
     (assessmentId) => {
       _buildSuccessScore(databaseBuilder, createdAt, assessmentId);
-    }
+    },
   );
   _.each(
     [
@@ -48,7 +48,7 @@ function certificationScoresBuilder({ databaseBuilder }) {
     ],
     (assessmentId) => {
       _buildFailureScore(databaseBuilder, createdAt, assessmentId);
-    }
+    },
   );
 
   // Special case : build answers only, has for this one, the assessment has not been completed

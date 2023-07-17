@@ -139,7 +139,7 @@ describe('Acceptance | Controller | saml-controller', function () {
       // then
       expect(response.statusCode).to.equal(302);
       expect(response.headers['location']).to.have.string(
-        'https://pixpoc.samlidp.io/saml2/idp/SSOService.php?SAMLRequest='
+        'https://pixpoc.samlidp.io/saml2/idp/SSOService.php?SAMLRequest=',
       );
     });
   });
@@ -165,16 +165,16 @@ describe('Acceptance | Controller | saml-controller', function () {
               attributes,
               (value, key) => `<saml2:Attribute Name="${key}">
                                                  <saml2:AttributeValue>${value}</saml2:AttributeValue>
-                                               </saml2:Attribute>`
+                                               </saml2:Attribute>`,
             ).join('\n')}
-          </saml2:AttributeStatement>`
-          )
+          </saml2:AttributeStatement>`,
+          ),
         );
 
         return identityProvider.createLoginResponse(
           serviceProvider,
           null, // requestInfo
-          'post'
+          'post',
         );
       } finally {
         tempSandbox.restore();

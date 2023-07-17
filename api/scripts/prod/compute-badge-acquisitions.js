@@ -74,7 +74,7 @@ async function computeAllBadgeAcquisitions({ idMin, idMax, dryRun }) {
         badgeAcquisitionRepository,
         knowledgeElementRepository,
       });
-    }
+    },
   );
   return _.sum(numberOfBadgeCreatedByCampaignParticipation);
 }
@@ -88,7 +88,7 @@ async function computeBadgeAcquisition({
 } = {}) {
   const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(
     campaignParticipation,
-    badgeForCalculationRepository
+    badgeForCalculationRepository,
   );
   if (_.isEmpty(associatedBadges)) {
     return 0;

@@ -48,7 +48,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -92,7 +92,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
         // when
         const response = await httpTestServer.request(
           method,
-          `${url}?filter[id]=1&filter[name]=azerty&page[size]=10&page[number]=1`
+          `${url}?filter[id]=1&filter[name]=azerty&page[size]=10&page[number]=1`,
         );
 
         // then
@@ -201,7 +201,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -274,7 +274,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           // when
           const { statusCode } = await httpTestServer.request(
             method,
-            `${url}?filter[name]=azerty&filter[type]=sco&filter[external-id]=abc&page[size]=10&page[number]=1`
+            `${url}?filter[name]=azerty&filter[type]=sco&filter[external-id]=abc&page[size]=10&page[number]=1`,
           );
 
           // then
@@ -291,7 +291,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           // when
           const { statusCode } = await httpTestServer.request(
             method,
-            '/api/admin/target-profiles/azerty/organizations'
+            '/api/admin/target-profiles/azerty/organizations',
           );
 
           // then
@@ -343,7 +343,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -396,7 +396,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           const { statusCode } = await httpTestServer.request(
             method,
             '/api/admin/target-profiles/azerty/attach-organizations',
-            payload
+            payload,
           );
 
           // then
@@ -448,7 +448,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -502,7 +502,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           const { statusCode } = await httpTestServer.request(
             method,
             '/api/admin/target-profiles/azerty/copy-organizations',
-            payload
+            payload,
           );
 
           // then
@@ -540,7 +540,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -624,7 +624,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -753,7 +753,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -826,7 +826,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -878,7 +878,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           // when
           const { statusCode } = await httpTestServer.request(
             method,
-            '/api/admin/target-profiles/azerty/simplified-access'
+            '/api/admin/target-profiles/azerty/simplified-access',
           );
 
           // then
@@ -902,7 +902,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -1477,7 +1477,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           // when
           const { statusCode } = await httpTestServer.request(
             method,
-            '/api/admin/target-profiles/azerty/training-summaries'
+            '/api/admin/target-profiles/azerty/training-summaries',
           );
 
           // then
@@ -1501,7 +1501,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               h
                 .response({ errors: new Error('forbidden') })
                 .code(403)
-                .takeover()
+                .takeover(),
           );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);

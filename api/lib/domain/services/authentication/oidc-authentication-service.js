@@ -79,7 +79,7 @@ class OidcAuthenticationService {
       logger.error(
         `Invalid config for OIDC Provider "${
           this.identityProvider
-        }": the following required properties are missing: ${missingRequiredProperties.join(', ')}`
+        }": the following required properties are missing: ${missingRequiredProperties.join(', ')}`,
       );
       return;
     }

@@ -118,7 +118,7 @@ function _transformSheetDataRow(sheetDataRow, sheetHeaderPropertyMap) {
       target[targetProperty] = transformFn(cellValue);
       return target;
     },
-    {}
+    {},
   );
 }
 

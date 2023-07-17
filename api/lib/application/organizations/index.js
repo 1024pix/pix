@@ -62,7 +62,7 @@ const register = async function (server) {
               new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
                 maxSize: '20',
               }),
-              h
+              h,
             );
           },
         },
@@ -404,7 +404,7 @@ const register = async function (server) {
           failAction: (request, h) => {
             return sendJsonApiError(
               new NotFoundError("L'id d'un des profils cible ou de l'organisation n'est pas valide"),
-              h
+              h,
             );
           },
         },
@@ -863,7 +863,7 @@ const register = async function (server) {
               new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
                 maxSize: '20',
               }),
-              h
+              h,
             );
           },
         },
@@ -899,7 +899,7 @@ const register = async function (server) {
               new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
                 maxSize: '10',
               }),
-              h
+              h,
             );
           },
         },
@@ -935,7 +935,7 @@ const register = async function (server) {
               new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
                 maxSize: '10',
               }),
-              h
+              h,
             );
           },
         },

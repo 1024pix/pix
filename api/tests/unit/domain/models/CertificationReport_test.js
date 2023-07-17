@@ -62,7 +62,7 @@ describe('Unit | Domain | Models | CertificationReport', function () {
         // then
         expect(error).to.be.instanceOf(InvalidCertificationReportForFinalization);
         expect(error.message).contains(_getFieldName(invalidData));
-      })
+      }),
     );
 
     it('should throw an error if not completed and abortReason is empty', async function () {

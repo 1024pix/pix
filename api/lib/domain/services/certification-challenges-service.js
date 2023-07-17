@@ -22,7 +22,7 @@ const pickCertificationChallenges = async function (
   locale,
   injectedKnowledgeElementRepository = knowledgeElementRepository,
   injectedAnswerRepository = answerRepository,
-  injectedChallengeRepository = challengeRepository
+  injectedChallengeRepository = challengeRepository,
 ) {
   const certifiableUserCompetences = placementProfile.getCertifiableUserCompetences();
 
@@ -30,7 +30,7 @@ const pickCertificationChallenges = async function (
     injectedKnowledgeElementRepository,
     injectedAnswerRepository,
     placementProfile.userId,
-    placementProfile.profileDate
+    placementProfile.profileDate,
   );
 
   const allOperativeChallengesForLocale = await injectedChallengeRepository.findOperativeHavingLocale(locale);
@@ -38,7 +38,7 @@ const pickCertificationChallenges = async function (
   return _pickCertificationChallengesForCertifiableCompetences(
     certifiableUserCompetences,
     alreadyAnsweredChallengeIds,
-    allOperativeChallengesForLocale
+    allOperativeChallengesForLocale,
   );
 };
 
@@ -49,7 +49,7 @@ const pickCertificationChallengesForPixPlus = async function (
   locale,
   injectedLearningContentRepository = learningContentRepository,
   injectedCertifiableProfileForLearningContentRepository = certifiableProfileForLearningContentRepository,
-  injectedChallengeRepository = challengeRepository
+  injectedChallengeRepository = challengeRepository,
 ) {
   const learningContent = await injectedLearningContentRepository.findByCampaignId(campaignId, locale);
   const certifiableProfile = await injectedCertifiableProfileForLearningContentRepository.get({
@@ -70,7 +70,7 @@ const pickCertificationChallengesForPixPlus = async function (
     alreadyAnsweredChallengeIds,
     allOperativeChallengesForLocale,
     learningContent,
-    badgeKey
+    badgeKey,
   );
 };
 
@@ -80,7 +80,7 @@ async function _getAlreadyAnsweredChallengeIds(
   injectedKnowledgeElementRepository = knowledgeElementRepository,
   injectedAnswerRepository = answerRepository,
   userId,
-  limitDate
+  limitDate,
 ) {
   const knowledgeElementsByCompetence = await injectedKnowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
     userId,
@@ -95,14 +95,14 @@ async function _getAlreadyAnsweredChallengeIds(
 function _pickCertificationChallengesForCertifiableCompetences(
   certifiableUserCompetences,
   alreadyAnsweredChallengeIds,
-  allChallenges
+  allChallenges,
 ) {
   let pickedCertificationChallenges = [];
   for (const userCompetence of certifiableUserCompetences) {
     const certificationChallengesForCompetence = _pick3CertificationChallengesForCompetence(
       userCompetence,
       alreadyAnsweredChallengeIds,
-      allChallenges
+      allChallenges,
     );
     pickedCertificationChallenges = pickedCertificationChallenges.concat(certificationChallengesForCompetence);
   }
@@ -148,8 +148,8 @@ function _pick3CertificationChallengesForCompetence(userCompetence, alreadyAnswe
       (certificationChallenge) =>
         result.some(
           (certificationChallengeInResult) =>
-            _getTubeName(certificationChallenge) === _getTubeName(certificationChallengeInResult)
-        )
+            _getTubeName(certificationChallenge) === _getTubeName(certificationChallengeInResult),
+        ),
     );
 
     result.push(...certificationChallengesWithTubeNotAlreadyAdded, ...certificationChallengesWithTubeAlreadyAdded);
@@ -166,7 +166,7 @@ function _pickCertificationChallengesForAllAreas(
   alreadyAnsweredChallengeIds,
   allChallenges,
   learningContent,
-  certifiableBadgeKey
+  certifiableBadgeKey,
 ) {
   let pickedCertificationChallenges = [];
   for (const skillIds of Object.values(skillIdsByArea)) {
@@ -175,7 +175,7 @@ function _pickCertificationChallengesForAllAreas(
       alreadyAnsweredChallengeIds,
       allChallenges,
       learningContent,
-      certifiableBadgeKey
+      certifiableBadgeKey,
     );
     pickedCertificationChallenges = pickedCertificationChallenges.concat(certificationChallengesForArea);
   }
@@ -188,7 +188,7 @@ function _pick4CertificationChallengesForArea(
   alreadyAnsweredChallengeIds,
   allChallenges,
   learningContent,
-  certifiableBadgeKey
+  certifiableBadgeKey,
 ) {
   const result = [];
 
@@ -233,7 +233,7 @@ function _pickChallengeForSkill({ skill, allChallenges, alreadyAnsweredChallenge
   const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allChallenges, skill });
   const unansweredChallenges = _.filter(
     challengesToValidateCurrentSkill,
-    (challenge) => !alreadyAnsweredChallengeIds.includes(challenge.id)
+    (challenge) => !alreadyAnsweredChallengeIds.includes(challenge.id),
   );
 
   const challengesPoolToPickChallengeFrom = _.isEmpty(unansweredChallenges)

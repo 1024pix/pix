@@ -38,7 +38,7 @@ async function addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivis
 
   const manyStudents = _.flatMap(divisions, (division) => {
     return _.times(numberOfStudentsPerDivision, (iteration) =>
-      _buildOrganizationLearner(division, organizationId, iteration)
+      _buildOrganizationLearner(division, organizationId, iteration),
     );
   });
 

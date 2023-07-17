@@ -32,10 +32,10 @@ const register = async function (server) {
                         Joi.object({
                           challengeId: Joi.string().required(),
                           result: Joi.string().required(),
-                        })
+                        }),
                       )
                       .min(1),
-                  }).required()
+                  }).required(),
                 )
                 .min(1),
             }).required(),
@@ -85,10 +85,10 @@ const register = async function (server) {
                         Joi.object({
                           challengeId: Joi.string().required(),
                           result: Joi.string().required(),
-                        })
+                        }),
                       )
                       .min(1),
-                  }).required()
+                  }).required(),
                 )
                 .min(1),
             }).required(),

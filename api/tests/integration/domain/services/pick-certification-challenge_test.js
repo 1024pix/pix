@@ -102,7 +102,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       locale,
       knowledgeElementRepository,
       answerRepository,
-      challengeRepository
+      challengeRepository,
     );
 
     //then
@@ -194,7 +194,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       locale,
       knowledgeElementRepository,
       answerRepository,
-      challengeRepository
+      challengeRepository,
     );
 
     //then
@@ -295,7 +295,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       locale,
       knowledgeElementRepository,
       answerRepository,
-      challengeRepository
+      challengeRepository,
     );
 
     //then
@@ -396,7 +396,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       locale,
       knowledgeElementRepository,
       answerRepository,
-      challengeRepository
+      challengeRepository,
     );
 
     //then
@@ -479,7 +479,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       locale,
       knowledgeElementRepository,
       answerRepository,
-      challengeRepository
+      challengeRepository,
     );
     expect(challenges.length).to.equal(1);
     expect(challenges[0].challengeId).to.be.oneOf([
@@ -579,7 +579,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       locale,
       knowledgeElementRepository,
       answerRepository,
-      challengeRepository
+      challengeRepository,
     );
     expect(challenges.length).to.equal(1);
     expect([
@@ -720,7 +720,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       locale,
       knowledgeElementRepository,
       answerRepository,
-      challengeRepository
+      challengeRepository,
     );
     expect(challenges.length).to.equal(3);
     expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal([

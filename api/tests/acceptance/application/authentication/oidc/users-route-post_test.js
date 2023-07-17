@@ -30,7 +30,7 @@ describe('Acceptance | Route | oidc users', function () {
           nonce: 'nonce',
           sub: externalIdentifier,
         },
-        'secret'
+        'secret',
       );
 
       const sessionContent = new AuthenticationSessionContent({

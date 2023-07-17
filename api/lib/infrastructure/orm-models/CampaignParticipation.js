@@ -34,7 +34,7 @@ const BookshelfCampaignParticipation = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfCampaignParticipation };

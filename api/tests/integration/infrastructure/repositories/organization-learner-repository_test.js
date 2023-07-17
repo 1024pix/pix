@@ -664,7 +664,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
               return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
                 importedOrganizationLearners,
                 anotherOrganizationId,
-                domainTransaction
+                domainTransaction,
               );
             });
 
@@ -711,7 +711,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
               return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
                 importedOrganizationLearners,
                 anotherOrganizationId,
-                domainTransaction
+                domainTransaction,
               );
             });
 
@@ -733,7 +733,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
             expect(newOrganizationLearner.birthdate).to.not.equal(existingOrganizationLearner.birthdate);
           });
         });
-      }
+      },
     );
 
     context('when there are only organizationLearners to create', function () {
@@ -779,7 +779,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
             organizationLearners,
             organizationId,
-            domainTransaction
+            domainTransaction,
           );
         });
 
@@ -789,7 +789,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         });
         expect(actualOrganizationLearners).to.have.length(1);
         expect(_.omit(actualOrganizationLearners[0], ['updatedAt', 'id'])).to.deep.equal(
-          _.omit(firstOrganizationLearner, ['updatedAt', 'id'])
+          _.omit(firstOrganizationLearner, ['updatedAt', 'id']),
         );
       });
     });
@@ -832,7 +832,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
             return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
               organizationLearners,
               organizationId,
-              domainTransaction
+              domainTransaction,
             );
           });
 
@@ -885,7 +885,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
             return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
               organizationLearners,
               organizationId,
-              domainTransaction
+              domainTransaction,
             );
           });
 
@@ -924,7 +924,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
             return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
               [organizationLearner],
               organizationId,
-              domainTransaction
+              domainTransaction,
             );
           });
 
@@ -957,7 +957,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
             [organizationLearner],
             organizationId,
-            domainTransaction
+            domainTransaction,
           );
         });
 
@@ -994,7 +994,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
             [organizationLearner],
             organizationId,
-            domainTransaction
+            domainTransaction,
           );
         });
 
@@ -1028,7 +1028,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
             [organizationLearner1, organizationLearner2],
             organizationId,
-            domainTransaction
+            domainTransaction,
           );
         });
 
@@ -1090,7 +1090,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
             organizationLearners,
             organizationId,
-            domainTransaction
+            domainTransaction,
           );
         });
 
@@ -1119,7 +1119,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
             organizationLearners,
             organizationId,
-            domainTransaction
+            domainTransaction,
           );
         });
 
@@ -1145,7 +1145,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
             return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
               organizationLearners,
               organizationId,
-              domainTransaction
+              domainTransaction,
             );
           });
 
@@ -1207,7 +1207,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
             organizationLearners,
             organizationId,
-            domainTransaction
+            domainTransaction,
           );
         });
 
@@ -1261,7 +1261,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         await DomainTransaction.execute(async (domainTransaction) => {
           error = await catchErr(
             organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners,
-            organizationLearnerRepository
+            organizationLearnerRepository,
           )(organizationLearners, organizationId, domainTransaction);
         });
 
@@ -1275,7 +1275,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         await DomainTransaction.execute(async (domainTransaction) => {
           error = await catchErr(
             organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners,
-            organizationLearnerRepository
+            organizationLearnerRepository,
           )([{ nationalStudentId: 'something' }], organizationId, domainTransaction);
         });
 
@@ -1316,7 +1316,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
             [organizationLearner_updated],
             organizationId,
-            domainTransaction
+            domainTransaction,
           );
         });
 
@@ -1343,7 +1343,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
             await organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
               [organizationLearner],
               organizationId,
-              domainTransaction
+              domainTransaction,
             );
             throw new Error('an error occurs within the domain transaction');
           });
@@ -1827,7 +1827,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     it('should return an instance of OrganizationLearnerForAdmin', async function () {
       // when
       const organizationLearner = await organizationLearnerRepository.getOrganizationLearnerForAdmin(
-        organizationLearnerId
+        organizationLearnerId,
       );
 
       // then
@@ -1841,7 +1841,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // when
       const result = await catchErr(organizationLearnerRepository.getOrganizationLearnerForAdmin)(
-        nonExistentOrganizationLearnerId
+        nonExistentOrganizationLearnerId,
       );
 
       // then

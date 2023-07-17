@@ -16,7 +16,7 @@ const BookshelfOrganizationInvitation = Bookshelf.model(
   },
   {
     modelName,
-  }
+  },
 );
 
 export { BookshelfOrganizationInvitation };

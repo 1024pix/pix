@@ -90,7 +90,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
           // given & when
           const data = await parseCsvWithHeader(
             organizationWithTagsAndTargetProfilesFilePath,
-            batchOrganizationOptionsWithHeader
+            batchOrganizationOptionsWithHeader,
           );
 
           // then
@@ -104,7 +104,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
           // given & when
           const data = await parseCsvWithHeader(
             organizationWithTagsAndTargetProfilesFilePath,
-            batchOrganizationOptionsWithHeader
+            batchOrganizationOptionsWithHeader,
           );
 
           // then
@@ -117,7 +117,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
           // given & when
           const data = await parseCsvWithHeader(
             organizationWithTagsAndTargetProfilesFilePath,
-            batchOrganizationOptionsWithHeader
+            batchOrganizationOptionsWithHeader,
           );
 
           // then
@@ -129,7 +129,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
         // given & when
         const data = await parseCsvWithHeader(
           organizationWithTagsAndTargetProfilesFilePath,
-          batchOrganizationOptionsWithHeader
+          batchOrganizationOptionsWithHeader,
         );
 
         // then
@@ -142,7 +142,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
         // given & when
         const data = await parseCsvWithHeader(
           organizationWithTagsAndTargetProfilesFilePath,
-          batchOrganizationOptionsWithHeader
+          batchOrganizationOptionsWithHeader,
         );
 
         // then
@@ -153,7 +153,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
         // given & when
         const data = await parseCsvWithHeader(
           organizationWithTagsAndTargetProfilesFilePath,
-          batchOrganizationOptionsWithHeader
+          batchOrganizationOptionsWithHeader,
         );
 
         // then
@@ -164,7 +164,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
         // given & when
         const data = await parseCsvWithHeader(
           organizationWithTagsAndTargetProfilesFilePath,
-          batchOrganizationOptionsWithHeader
+          batchOrganizationOptionsWithHeader,
         );
 
         // then

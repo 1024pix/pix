@@ -17,7 +17,7 @@ function getFilteredSkillsForFirstChallenge({ knowledgeElements, tubes, targetSk
     _getUntestedSkills.bind(null, knowledgeElements),
     _keepSkillsFromEasyTubes.bind(null, tubes),
     _removeTimedSkillsIfNeeded.bind(null, true),
-    _focusOnDefaultLevel.bind(null)
+    _focusOnDefaultLevel.bind(null),
   )(targetSkills);
 }
 
@@ -33,7 +33,7 @@ function getFilteredSkillsForNextChallenge({
     _getUntestedSkills.bind(null, knowledgeElements),
     _keepSkillsFromEasyTubes.bind(null, tubes),
     _removeTimedSkillsIfNeeded.bind(null, isLastChallengeTimed),
-    _removeTooDifficultSkills.bind(null, predictedLevel)
+    _removeTooDifficultSkills.bind(null, predictedLevel),
   )(targetSkills);
 }
 
