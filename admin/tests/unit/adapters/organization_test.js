@@ -27,7 +27,7 @@ module('Unit | Adapters | organization', function (hooks) {
 
       // then
       assert.ok(
-        ajaxStub.calledWith(`${ENV.APP.API_HOST}/api/admin/organizations/1/memberships?page%5Bsize%5D=2`, 'GET')
+        ajaxStub.calledWith(`${ENV.APP.API_HOST}/api/admin/organizations/1/memberships?page%5Bsize%5D=2`, 'GET'),
       );
     });
 

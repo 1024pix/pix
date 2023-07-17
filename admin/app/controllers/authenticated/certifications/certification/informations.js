@@ -62,14 +62,14 @@ export default class CertificationInformationsController extends Controller {
   @computed('certification.certificationIssueReports.@each.isImpactful')
   get hasImpactfulIssueReports() {
     return Boolean(
-      this.certification.certificationIssueReports.filter((issueReport) => issueReport.isImpactful).length
+      this.certification.certificationIssueReports.filter((issueReport) => issueReport.isImpactful).length,
     );
   }
 
   @computed('certification.certificationIssueReports.@each.isImpactful')
   get hasUnimpactfulIssueReports() {
     return Boolean(
-      this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isImpactful).length
+      this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isImpactful).length,
     );
   }
 
@@ -273,7 +273,7 @@ export default class CertificationInformationsController extends Controller {
     this.certification.editJuryLevel({
       juryLevel: this.selectedJuryLevel,
       complementaryCertificationCourseId: this.certification.complementaryCertificationCourseResultWithExternal.get(
-        'complementaryCertificationCourseId'
+        'complementaryCertificationCourseId',
       ),
     });
 

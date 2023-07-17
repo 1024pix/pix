@@ -32,7 +32,7 @@ module('Integration | Component | routes/authenticated/trainings | list-items', 
 
     // when
     const screen = await render(
-      hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.noop}} />`
+      hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.noop}} />`,
     );
 
     // then
@@ -49,7 +49,7 @@ module('Integration | Component | routes/authenticated/trainings | list-items', 
 
     // when
     const screen = await render(
-      hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.noop}} />`
+      hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.noop}} />`,
     );
 
     // then

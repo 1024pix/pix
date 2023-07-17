@@ -20,7 +20,7 @@ module('Integration | Component | certification-centers/creation-form', function
         @certificationCenter={{this.certificationCenter}}
         @onSubmit={{this.onSubmit}}
         @onCancel={{this.onCancel}}
-      />`
+      />`,
     );
 
     // then
@@ -42,7 +42,7 @@ module('Integration | Component | certification-centers/creation-form', function
           @certificationCenter={{this.certificationCenter}}
           @onSubmit={{this.onSubmit}}
           @onCancel={{this.onCancel}}
-        />`
+        />`,
       );
 
       // when
@@ -71,7 +71,7 @@ module('Integration | Component | certification-centers/creation-form', function
           @habilitations={{this.habilitations}}
           @onSubmit={{this.stub}}
           @onCancel={{this.stub}}
-        />`
+        />`,
       );
 
       // when
@@ -98,7 +98,7 @@ module('Integration | Component | certification-centers/creation-form', function
           @habilitations={{this.habilitations}}
           @onSubmit={{this.stub}}
           @onCancel={{this.stub}}
-        />`
+        />`,
       );
 
       // when
@@ -116,7 +116,7 @@ module('Integration | Component | certification-centers/creation-form', function
     const store = this.owner.lookup('service:store');
     this.certificationCenter = store.createRecord('certificationCenter', { name: 'Super centre' });
     await render(
-      hbs`<CertificationCenters::CreationForm @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`
+      hbs`<CertificationCenters::CreationForm @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
     );
 
     // when

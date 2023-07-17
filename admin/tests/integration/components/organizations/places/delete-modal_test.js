@@ -122,7 +122,7 @@ module('Integration | Component | Organizations | Places | Delete-modal', functi
         places.save,
         notificationSuccessStub,
         refreshModel,
-        toggleDisplayModal
+        toggleDisplayModal,
       );
       assert.ok(true);
     });

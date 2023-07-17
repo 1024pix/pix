@@ -16,7 +16,7 @@ module('Integration | Component | users | certification-center-memberships', fun
 
       // when
       const screen = await render(
-        hbs`<Users::CertificationCenterMemberships @certificationCenterMemberships={{this.certificationCenterMemberships}} />`
+        hbs`<Users::CertificationCenterMemberships @certificationCenterMemberships={{this.certificationCenterMemberships}} />`,
       );
 
       // then
@@ -42,7 +42,7 @@ module('Integration | Component | users | certification-center-memberships', fun
 
       // when
       const screen = await render(
-        hbs`<Users::CertificationCenterMemberships @certificationCenterMemberships={{this.certificationCenterMemberships}} />`
+        hbs`<Users::CertificationCenterMemberships @certificationCenterMemberships={{this.certificationCenterMemberships}} />`,
       );
 
       // then
@@ -78,7 +78,7 @@ module('Integration | Component | users | certification-center-memberships', fun
 
     // when
     await render(
-      hbs`<Users::CertificationCenterMemberships @certificationCenterMemberships={{this.certificationCenterMemberships}} />`
+      hbs`<Users::CertificationCenterMemberships @certificationCenterMemberships={{this.certificationCenterMemberships}} />`,
     );
     await clickByName('Désactiver');
 
@@ -115,7 +115,7 @@ module('Integration | Component | users | certification-center-memberships', fun
 
     // when
     await render(
-      hbs`<Users::CertificationCenterMemberships @certificationCenterMemberships={{this.certificationCenterMemberships}} />`
+      hbs`<Users::CertificationCenterMemberships @certificationCenterMemberships={{this.certificationCenterMemberships}} />`,
     );
     await clickByName('Désactiver');
 

@@ -24,7 +24,7 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
         controller.certificationDetails.neutralizeChallenge.calledOnceWithExactly({
           certificationCourseId: 'certificationCourseId',
           challengeRecId: 'challengeRecId123',
-        })
+        }),
       );
     });
 
@@ -47,7 +47,7 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
 
       // then
       assert.ok(
-        controller.notifications.success.calledOnceWithExactly('La question n°2 a été neutralisée avec succès.')
+        controller.notifications.success.calledOnceWithExactly('La question n°2 a été neutralisée avec succès.'),
       );
       assert.true(controller.certificationDetails.listChallengesAndAnswers[0].isNeutralized);
     });
@@ -72,8 +72,8 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       // then
       assert.ok(
         controller.notifications.error.calledOnceWithExactly(
-          'Une erreur est survenue lors de la neutralisation de la question n°2.'
-        )
+          'Une erreur est survenue lors de la neutralisation de la question n°2.',
+        ),
       );
     });
   });
@@ -97,7 +97,7 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
         controller.certificationDetails.deneutralizeChallenge.calledOnceWithExactly({
           certificationCourseId: 'certificationCourseId',
           challengeRecId: 'challengeRecId123',
-        })
+        }),
       );
     });
 
@@ -120,7 +120,7 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
 
       // then
       assert.ok(
-        controller.notifications.success.calledOnceWithExactly('La question n°2 a été dé-neutralisée avec succès.')
+        controller.notifications.success.calledOnceWithExactly('La question n°2 a été dé-neutralisée avec succès.'),
       );
       assert.false(controller.certificationDetails.listChallengesAndAnswers[0].isNeutralized);
     });
@@ -145,8 +145,8 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       // then
       assert.ok(
         controller.notifications.error.calledOnceWithExactly(
-          'Une erreur est survenue lors de la dé-neutralisation de la question n°2.'
-        )
+          'Une erreur est survenue lors de la dé-neutralisation de la question n°2.',
+        ),
       );
     });
   });

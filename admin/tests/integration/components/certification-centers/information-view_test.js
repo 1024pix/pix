@@ -38,7 +38,7 @@ module('Integration | Component | certification-centers/information-view', funct
       hbs`<CertificationCenters::InformationView
   @availableHabilitations={{this.availableHabilitations}}
   @certificationCenter={{this.certificationCenter}}
-/>`
+/>`,
     );
 
     // then
@@ -64,7 +64,7 @@ module('Integration | Component | certification-centers/information-view', funct
 
     // when
     const screen = await render(
-      hbs`<CertificationCenters::InformationView @certificationCenter={{this.certificationCenter}} />`
+      hbs`<CertificationCenters::InformationView @certificationCenter={{this.certificationCenter}} />`,
     );
 
     // then

@@ -45,7 +45,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
 
     // when
     const screen = await render(
-      hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition='true' />`
+      hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition='true' />`,
     );
 
     // then
@@ -62,7 +62,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
 
     // when
     const screen = await render(
-      hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition='true' />`
+      hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition='true' />`,
     );
 
     // then

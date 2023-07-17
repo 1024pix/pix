@@ -14,7 +14,7 @@ module('Integration | Component | certifications/status-select', function (hooks
       const certification = EmberObject.create({ status: 'started' });
       this.set('certification', certification);
       const screen = await render(
-        hbs`<Certifications::StatusSelect @edition={{true}} @certification={{this.certification}} />`
+        hbs`<Certifications::StatusSelect @edition={{true}} @certification={{this.certification}} />`,
       );
 
       // when

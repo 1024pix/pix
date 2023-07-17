@@ -92,7 +92,7 @@ module('Acceptance | Target profile creation', function (hooks) {
       let isTabletCompliant = screen.getByTestId('tablet-compliant-tube_f1_a1_c1_th1_tu1').getAttribute('aria-label');
       assert.deepEqual(
         screen.getByTestId('title-tube_f1_a1_c1_th1_tu1').innerText,
-        'tube_f1_a1_c1_th1_tu1 name : tube_f1_a1_c1_th1_tu1 practicalTitle'
+        'tube_f1_a1_c1_th1_tu1 name : tube_f1_a1_c1_th1_tu1 practicalTitle',
       );
       assert.deepEqual(screen.getByTestId('level-tube_f1_a1_c1_th1_tu1').innerText, '8');
       assert.deepEqual(isMobileCompliant, 'compatible mobile');
@@ -102,7 +102,7 @@ module('Acceptance | Target profile creation', function (hooks) {
       isTabletCompliant = screen.getByTestId('tablet-compliant-tube_f1_a1_c1_th1_tu2').getAttribute('aria-label');
       assert.deepEqual(
         screen.getByTestId('title-tube_f1_a1_c1_th1_tu2').innerText,
-        'tube_f1_a1_c1_th1_tu2 name : tube_f1_a1_c1_th1_tu2 practicalTitle'
+        'tube_f1_a1_c1_th1_tu2 name : tube_f1_a1_c1_th1_tu2 practicalTitle',
       );
       assert.deepEqual(screen.getByTestId('level-tube_f1_a1_c1_th1_tu2').innerText, '8');
       assert.deepEqual(isMobileCompliant, 'incompatible mobile');
@@ -112,7 +112,7 @@ module('Acceptance | Target profile creation', function (hooks) {
       isTabletCompliant = screen.getByTestId('tablet-compliant-tube_f1_a2_c1_th1_tu1').getAttribute('aria-label');
       assert.deepEqual(
         screen.getByTestId('title-tube_f1_a2_c1_th1_tu1').innerText,
-        'tube_f1_a2_c1_th1_tu1 name : tube_f1_a2_c1_th1_tu1 practicalTitle'
+        'tube_f1_a2_c1_th1_tu1 name : tube_f1_a2_c1_th1_tu1 practicalTitle',
       );
       assert.deepEqual(screen.getByTestId('level-tube_f1_a2_c1_th1_tu1').innerText, '2');
       assert.deepEqual(isMobileCompliant, 'compatible mobile');
@@ -122,7 +122,7 @@ module('Acceptance | Target profile creation', function (hooks) {
       isTabletCompliant = screen.getByTestId('tablet-compliant-tube_f2_a1_c1_th1_tu1').getAttribute('aria-label');
       assert.deepEqual(
         screen.getByTestId('title-tube_f2_a1_c1_th1_tu1').innerText,
-        'tube_f2_a1_c1_th1_tu1 name : tube_f2_a1_c1_th1_tu1 practicalTitle'
+        'tube_f2_a1_c1_th1_tu1 name : tube_f2_a1_c1_th1_tu1 practicalTitle',
       );
       assert.deepEqual(screen.getByTestId('level-tube_f2_a1_c1_th1_tu1').innerText, '8');
       assert.deepEqual(isMobileCompliant, 'incompatible mobile');
@@ -149,7 +149,7 @@ async function _selectLearningContent(screen) {
   await clickByName('tube_f1_a2_c1_th1_tu1 name : tube_f1_a2_c1_th1_tu1 practicalTitle');
 
   await click(
-    screen.getByRole('button', { name: 'Sélection du niveau du sujet suivant : tube_f1_a2_c1_th1_tu1 practicalTitle' })
+    screen.getByRole('button', { name: 'Sélection du niveau du sujet suivant : tube_f1_a2_c1_th1_tu1 practicalTitle' }),
   );
   await screen.findByRole('listbox');
   await click(screen.getByRole('option', { name: '2' }));

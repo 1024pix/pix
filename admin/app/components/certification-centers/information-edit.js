@@ -143,7 +143,7 @@ export default class InformationEdit extends Component {
       'type',
       'dataProtectionOfficerFirstName',
       'dataProtectionOfficerLastName',
-      'dataProtectionOfficerEmail'
+      'dataProtectionOfficerEmail',
     );
 
     this.form.name = name;

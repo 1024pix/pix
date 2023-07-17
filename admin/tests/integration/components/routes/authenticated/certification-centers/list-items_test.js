@@ -28,7 +28,7 @@ module('Integration | Component | routes/authenticated/certification-centers | l
       hbs`<CertificationCenters::ListItems
   @certificationCenters={{this.certificationCenters}}
   @triggerFiltering={{this.triggerFiltering}}
-/>`
+/>`,
     );
 
     // then

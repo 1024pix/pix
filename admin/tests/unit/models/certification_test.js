@@ -151,7 +151,7 @@ module('Unit | Model | certification', function (hooks) {
           'complementary-certification-course-result-with-external',
           {
             pixResult: 'TOTO',
-          }
+          },
         );
         const commonComplementaryCertificationCourseResult = null;
         const certification = store.createRecord('certification', {
@@ -170,7 +170,7 @@ module('Unit | Model | certification', function (hooks) {
       // given
       const complementaryCertificationCourseResultWithExternal = null;
       const commonComplementaryCertificationCourseResult = store.createRecord(
-        'common-complementary-certification-course-result'
+        'common-complementary-certification-course-result',
       );
       const certification = store.createRecord('certification', {
         complementaryCertificationCourseResultWithExternal,

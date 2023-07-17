@@ -40,7 +40,7 @@ module('Integration | Component | certifications/details-competence', function (
   rate={{60}}
   @juryRate={{false}}
   @onUpdateRate={{this.externalAction}}
-/>`
+/>`,
     );
 
     // then
@@ -61,7 +61,7 @@ module('Integration | Component | certifications/details-competence', function (
   rate={{60}}
   @juryRate={{false}}
   @onUpdateRate={{this.externalAction}}
-/>`
+/>`,
     );
 
     // then
@@ -80,7 +80,7 @@ module('Integration | Component | certifications/details-competence', function (
   rate={{60}}
   juryRate={{70}}
   @onUpdateRate={{this.externalAction}}
-/>`
+/>`,
     );
 
     // then

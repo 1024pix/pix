@@ -55,7 +55,7 @@ function findPaginatedOrganizationMemberships(schema, request) {
 
   const json = this.serialize(
     { modelName: 'organizationMembership', models: paginatedMemberships },
-    'organizationMembership'
+    'organizationMembership',
   );
   json.meta = {
     page: pagination.page,

@@ -42,7 +42,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
           competence(false, 'ok', 'timedout', 'ok'),
           competence(false, 'ok', 'ok', 'ok'),
         ],
-      })
+      }),
     );
 
     // when
@@ -67,7 +67,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
           competence(false, 'ok', 'timedout', 'ok'),
           competence(true, 'ok', 'ok', 'ok'),
         ],
-      })
+      }),
     );
 
     // when

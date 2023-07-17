@@ -10,7 +10,7 @@ export default class AllTags extends Route {
   beforeModel() {
     this.accessControl.restrictAccessTo(
       ['isSuperAdmin', 'isSupport', 'isMetier'],
-      'authenticated.organizations.get.team'
+      'authenticated.organizations.get.team',
     );
   }
 

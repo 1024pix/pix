@@ -53,7 +53,7 @@ export default class SessionToBePublishedController extends Controller {
     this.notifications.error(
       "Une ou plusieurs erreurs se sont produites, veuillez conserver la référence suivante pour investigation auprès de l'équipe technique : " +
         get(error, 'errors[0].detail'),
-      { autoClear: false }
+      { autoClear: false },
     );
   }
 

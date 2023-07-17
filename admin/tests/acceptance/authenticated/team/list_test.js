@@ -136,7 +136,7 @@ module('Acceptance | Team | List', function (hooks) {
             },
           ],
         }),
-        422
+        422,
       );
 
       // when

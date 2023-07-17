@@ -189,7 +189,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
           hbs`<Users::UserDetailPersonalInformation
   @user={{this.user}}
   @removeAuthenticationMethod={{this.removeAuthenticationMethod}}
-/>`
+/>`,
         );
         await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
 

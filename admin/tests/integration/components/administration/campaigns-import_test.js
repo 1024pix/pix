@@ -31,7 +31,7 @@ module('Integration | Component |  administration/campaigns-import', function (h
     assert.ok(true);
     sinon.assert.calledWith(
       notificationSuccessStub,
-      this.intl.t('components.administration.campaigns-import.notifications.success')
+      this.intl.t('components.administration.campaigns-import.notifications.success'),
     );
   });
 
@@ -44,9 +44,9 @@ module('Integration | Component |  administration/campaigns-import', function (h
           new Response(
             422,
             {},
-            { errors: [{ status: '422', title: "Un soucis avec l'import", code: '422', detail: 'Erreur d’import' }] }
+            { errors: [{ status: '422', title: "Un soucis avec l'import", code: '422', detail: 'Erreur d’import' }] },
           ),
-        422
+        422,
       );
       const file = new Blob(['foo'], { type: `valid-file` });
       const notificationErrorStub = sinon.stub().returns();
@@ -59,7 +59,7 @@ module('Integration | Component |  administration/campaigns-import', function (h
       // when
       const screen = await render(hbs`<Administration::CampaignsImport />`);
       const input = await screen.findByLabelText(
-        this.intl.t('components.administration.campaigns-import.upload-button')
+        this.intl.t('components.administration.campaigns-import.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 

@@ -168,7 +168,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
               status: '422',
             },
           ],
-        }
+        },
       );
       this.server.post('/admin/organizations/:id/archive', () => errorResponse);
       const screen = await visit(`/organizations/${organization.id}`);
@@ -197,7 +197,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
               status: '500',
             },
           ],
-        }
+        },
       );
       this.server.post('/admin/organizations/:id/archive', () => errorResponse);
       const screen = await visit(`/organizations/${organization.id}`);

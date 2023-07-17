@@ -47,8 +47,8 @@ export default class TrainingDetailsTargetProfilesController extends Controller 
       if (hasDuplicated) {
         message.push(
           `Le(s) profil(s) cible(s) suivant(s) étai(en)t déjà rattaché(s) à ce contenu formatif : ${duplicatedIds.join(
-            ', '
-          )}.`
+            ', ',
+          )}.`,
         );
       }
       this.targetProfilesToAttach = '';

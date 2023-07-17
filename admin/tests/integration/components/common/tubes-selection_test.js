@@ -68,7 +68,7 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
           @onChange={{this.onChangeFunction}}
           @displayJsonImportButton={{true}}
           @displayDeviceCompatibility={{true}}
-          />`
+          />`,
     );
   });
 

@@ -43,7 +43,7 @@ export default class List extends Component {
     try {
       await adminMember.save();
       this.notifications.success(
-        `L'agent ${adminMember.firstName} ${adminMember.lastName} a désormais le rôle ${adminMember.updatedRole}`
+        `L'agent ${adminMember.firstName} ${adminMember.lastName} a désormais le rôle ${adminMember.updatedRole}`,
       );
     } catch (errorResponse) {
       this.errorResponseHandler.notify(errorResponse, this.CUSTOM_ERROR_STATUS_MESSAGES.UPDATE);
@@ -61,7 +61,7 @@ export default class List extends Component {
       await this.adminMemberToDeactivate.deactivate();
       this.toggleDisplayConfirm();
       this.notifications.success(
-        `L'agent ${adminMemberToDeactivate.firstName} ${adminMemberToDeactivate.lastName} n'a plus accès à Pix Admin.`
+        `L'agent ${adminMemberToDeactivate.firstName} ${adminMemberToDeactivate.lastName} n'a plus accès à Pix Admin.`,
       );
     } catch (errorResponse) {
       this.toggleDisplayConfirm();

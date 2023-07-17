@@ -31,7 +31,7 @@ module('Integration | Component | TargetProfiles::ListSummaryItems', function (h
       @summaries={{this.summaries}}
       @name={{this.name}}
   @triggerFiltering={{this.triggerFiltering}}
-/>`
+/>`,
     );
 
     // then
