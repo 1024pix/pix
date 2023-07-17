@@ -47,8 +47,8 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
       });
 
       // then
-      expect(response.statusCode).to.equal(404);
-      expect(response.statusMessage).to.equal('Not Found');
+      expect(response.statusCode).to.equal(403);
+      expect(response.statusMessage).to.equal('Forbidden');
     });
   });
 
