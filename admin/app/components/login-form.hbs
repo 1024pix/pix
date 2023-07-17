@@ -1,41 +1,10 @@
 <header class="login-form__header">
   <img class="login-form__logo" src="/platform-logo.png" alt="Pix for pix Admin" />
 
-  <h1 class="login-form__title">Connectez-vous</h1>
+  <h1 class="screen-reader-only">Connectez-vous</h1>
 </header>
 
-<p class="login-form__information">L'accès à Pix Admin est limité aux administrateurs de la plateforme.</p>
-
-<form class="login-form" {{on "submit" this.authenticateUser}}>
-  <p class="login-form__information">Tous les champs sont obligatoires.</p>
-
-  <PixInput
-    @id="email"
-    @label="Adresse e-mail"
-    {{on "input" this.updateLogin}}
-    @validationStatus="default"
-    required
-    autocomplete="email"
-  />
-
-  <PixInputPassword
-    @id="password"
-    name="password"
-    @label="Mot de passe"
-    {{on "input" this.updatePassword}}
-    @validationStatus="default"
-    required
-    autocomplete="current-password"
-  />
-
-  {{#if this.errorMessage}}
-    <p class="login-form__error" role="alert">
-      {{this.errorMessage}}
-    </p>
-  {{/if}}
-
-  <PixButton @type="submit" @size="big">Je me connecte</PixButton>
-</form>
+<p class="login-form__information">L'accès à Pix4Pix Admin est limité aux administrateurs de la plateforme.</p>
 
 <LinkTo @route="authentication.login-oidc" @model="google" class="login-form__oidc-connect-link">
   <img src="/google-logo.svg" alt="" role="presentation" />

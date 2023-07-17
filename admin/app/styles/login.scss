@@ -32,20 +32,6 @@
 }
 
 .login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 440px;
-  width: 440px;
-
-  &__title {
-    @extend %pix-title-m;
-
-    font-family: $font-open-sans;
-    font-weight: $font-normal;
-    color: $pix-neutral-80;
-    margin-top: $pix-spacing-m;
-  }
 
   &__information {
     text-align: center;
@@ -91,11 +77,3 @@
   }
 }
 
-.login-form__error {
-  color: $pix-error-70;
-  padding: 8px 0;
-
-  & a {
-    text-decoration: underline;
-  }
-}

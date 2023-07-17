@@ -4,7 +4,8 @@ import { service } from '@ember/service';
 export default class LoginRoute extends Route {
   @service session;
 
-  beforeModel() {
+  beforeModel(transition) {
+    console.log(transition.from);
     this.session.prohibitAuthentication('authenticated');
   }
 }
