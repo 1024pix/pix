@@ -87,8 +87,6 @@ module('Unit | Service | competence-evaluation', function (hooks) {
         competenceEvaluationService.set('store', store);
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('throws error', async function (assert) {
         // when
         try {
