@@ -48,6 +48,7 @@ describe('Unit | UseCases | Update organization learners password', function () 
             { userId: studentIds[0], hashedPassword },
             { userId: studentIds[1], hashedPassword },
           ];
+          const domainTransaction = Symbol('transaction');
 
           organizationLearnerRepository.findByIds = sinon.stub().resolves(organizationLearnersId);
           userRepository.getWithMemberships = sinon.stub().resolves(userWithMemberships);
@@ -59,6 +60,7 @@ describe('Unit | UseCases | Update organization learners password', function () 
             organizationId,
             organizationLearnersId,
             userId,
+            domainTransaction,
             authenticationMethodRepository,
             organizationLearnerRepository,
             userRepository,
@@ -72,6 +74,7 @@ describe('Unit | UseCases | Update organization learners password', function () 
           expect(encryptionService.hashPassword).to.have.been.callCount(2);
           expect(authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged).to.have.been.calledWith({
             usersToUpdateWithNewPassword: userIdHashedPassword,
+            domainTransaction,
           });
           expect(organizationLearnersGeneratedPassword).to.have.deep.members([
             new OrganizationLearnerPasswordDTO({
