@@ -29,7 +29,7 @@ module('Integration | Component | levelup-notif', function (hooks) {
     // then
     assert.strictEqual(
       find('.levelup-competence__level').innerHTML,
-      this.intl.t('pages.levelup-notif.obtained-level', { level: this.newLevel })
+      this.intl.t('pages.levelup-notif.obtained-level', { level: this.newLevel }),
     );
     assert.strictEqual(find('.levelup-competence__name').innerHTML, "Mener une recherche et une veille d'information");
   });

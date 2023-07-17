@@ -19,7 +19,7 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
     this.set('answer', null);
 
     await render(
-      hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}}/>`
+      hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}}/>`,
     );
 
     assert.dom('.qroc-proposal').exists();
@@ -37,7 +37,7 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`
+        hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`,
       );
 
       // then
@@ -57,7 +57,7 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`
+        hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`,
       );
 
       // then
@@ -78,7 +78,7 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<ChallengeItemQroc  @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`
+        hbs`<ChallengeItemQroc  @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`,
       );
 
       // then
@@ -104,7 +104,7 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`
+          hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`,
         );
 
         // then
@@ -133,7 +133,7 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
 
           // when
           const screen = await render(
-            hbs`<ChallengeItemQroc  @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}}/>`
+            hbs`<ChallengeItemQroc  @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}}/>`,
           );
 
           // then
@@ -153,7 +153,7 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
 
           // when
           const screen = await render(
-            hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}}/>`
+            hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}}/>`,
           );
 
           // then
@@ -183,7 +183,7 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
 
             // when
             const screen = await render(
-              hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`
+              hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`,
             );
 
             // then
@@ -206,7 +206,7 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`
+        hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`,
       );
 
       // then
@@ -224,7 +224,7 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`
+        hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`,
       );
 
       // then

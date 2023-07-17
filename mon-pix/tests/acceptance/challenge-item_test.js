@@ -280,7 +280,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               const assessment1 = server.create(
                 'assessment',
                 'ofCompetenceEvaluationType',
-                'withCurrentChallengeUnfocus'
+                'withCurrentChallengeUnfocus',
               );
               const assessment2 = server.create('assessment', 'ofCompetenceEvaluationType');
               server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
@@ -364,7 +364,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                   // then
                   assert.ok(find('.challenge-actions__action-skip').getAttribute('aria-disabled').includes('false'));
                   assert.ok(
-                    find('.challenge-actions__action-validate').getAttribute('aria-disabled').includes('false')
+                    find('.challenge-actions__action-validate').getAttribute('aria-disabled').includes('false'),
                   );
                   assert.notOk(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'));
                 });
@@ -412,7 +412,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                   'challenge',
                   'forCompetenceEvaluation',
                   `${data.challengeType}`,
-                  'withFocused'
+                  'withFocused',
                 ),
               });
 
@@ -467,6 +467,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           });
         });
       });
-    }
+    },
   );
 });

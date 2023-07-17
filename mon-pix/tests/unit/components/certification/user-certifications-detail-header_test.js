@@ -40,7 +40,7 @@ module('Unit | Component | certifications', function (hooks) {
           component.fileSaver.save.calledWith({
             token,
             url: `/api/attestation/12?isFrenchDomainExtension=true&lang=fr`,
-          })
+          }),
         );
       });
     });
@@ -79,7 +79,7 @@ module('Unit | Component | certifications', function (hooks) {
             component.fileSaver.save.calledWith({
               token,
               url: `/api/attestation/12?isFrenchDomainExtension=false&lang=en`,
-            })
+            }),
           );
         });
       });

@@ -44,7 +44,7 @@ export default class QrocmDepSolutionPanel extends Component {
     }
     const expectedAnswers = this.expectedAnswers;
     const formattedExpectedAnswers = expectedAnswers.join(
-      ` ${this.intl.t('pages.comparison-window.results.solutions.or')} `
+      ` ${this.intl.t('pages.comparison-window.results.solutions.or')} `,
     );
     return `${formattedExpectedAnswers} ${this.intl.t('pages.comparison-window.results.solutions.end')}`;
   }

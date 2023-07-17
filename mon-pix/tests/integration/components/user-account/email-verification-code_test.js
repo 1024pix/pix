@@ -31,7 +31,7 @@ module('Integration | Component | user-account | email-verification-code', funct
 
       // when
       const screen = await render(
-        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`
+        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`,
       );
 
       // then
@@ -39,7 +39,7 @@ module('Integration | Component | user-account | email-verification-code', funct
       assert.ok(
         screen.getByRole('button', {
           name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
-        })
+        }),
       );
     });
 
@@ -58,13 +58,13 @@ module('Integration | Component | user-account | email-verification-code', funct
 
       // when
       const screen = await render(
-        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`
+        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`,
       );
 
       await click(
         screen.getByRole('button', {
           name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
-        })
+        }),
       );
 
       // then
@@ -72,7 +72,7 @@ module('Integration | Component | user-account | email-verification-code', funct
         screen.getByRole('button', {
           name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
           hidden: true,
-        }).disabled
+        }).disabled,
       );
     });
 
@@ -92,13 +92,13 @@ module('Integration | Component | user-account | email-verification-code', funct
 
       // when
       const screen = await render(
-        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`
+        hbs`<UserAccount::EmailVerificationCode @email={{this.email}} @password={{this.password}} />`,
       );
 
       await click(
         screen.getByRole('button', {
           name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
-        })
+        }),
       );
 
       // then
@@ -106,7 +106,7 @@ module('Integration | Component | user-account | email-verification-code', funct
       assert.notOk(
         screen.queryByRole('button', {
           name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
-        })
+        }),
       );
     });
   });
@@ -173,7 +173,7 @@ module('Integration | Component | user-account | email-verification-code', funct
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
       assert.ok(
-        screen.getByText(this.intl.t('pages.user-account.email-verification.errors.email-modification-demand-expired'))
+        screen.getByText(this.intl.t('pages.user-account.email-verification.errors.email-modification-demand-expired')),
       );
     });
 

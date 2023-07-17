@@ -28,31 +28,31 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
       dayOfBirth = 20,
       monthOfBirth = 5,
       yearOfBirth = 2000,
-    } = {}
+    } = {},
   ) => {
     await fillInByLabel(
       currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
-      ineIna
+      ineIna,
     );
     await fillInByLabel(
       currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'),
-      firstName
+      firstName,
     );
     await fillInByLabel(
       currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'),
-      lastName
+      lastName,
     );
     await fillInByLabel(
       currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'),
-      dayOfBirth
+      dayOfBirth,
     );
     await fillInByLabel(
       currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'),
-      monthOfBirth
+      monthOfBirth,
     );
     await fillInByLabel(
       currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'),
-      yearOfBirth
+      yearOfBirth,
     );
     await clickByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
   };
@@ -66,7 +66,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
     assert.ok(
       screen.getByRole('heading', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
-      })
+      }),
     );
   });
 
@@ -84,12 +84,12 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
       assert.notOk(
         screen.queryByRole('heading', {
           name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
-        })
+        }),
       );
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
-        })
+        }),
       );
     });
 
@@ -104,7 +104,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
               status: '403',
             },
           ],
-        }
+        },
       );
       server.post('/sco-organization-learners/account-recovery', () => errorsApi);
 
@@ -116,13 +116,13 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.errors.title'),
-        })
+        }),
       );
       assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used')));
       assert.ok(
         screen.getByRole('link', {
           name: this.intl.t('navigation.back-to-homepage'),
-        })
+        }),
       );
     });
 
@@ -142,12 +142,12 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         assert.ok(
           screen.getByRole('heading', {
             name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
-          })
+          }),
         );
         assert.notOk(
           screen.queryByText(
-            this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName })
-          )
+            this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
+          ),
         );
       });
     });
@@ -163,12 +163,12 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
       assert.ok(
         screen.getByRole('heading', {
           name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
-        })
+        }),
       );
       assert.ok(
         screen.getByRole('link', {
           name: this.intl.t('pages.account-recovery.find-sco-record.contact-support.link-text'),
-        })
+        }),
       );
     });
   });
@@ -198,10 +198,10 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
       assert.notOk(
         screen.queryByRole('heading', {
           name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
-        })
+        }),
       );
       assert.ok(
-        screen.getByText(this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName }))
+        screen.getByText(this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName })),
       );
     });
   });
@@ -227,14 +227,14 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
               'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
               {
                 firstName,
-              }
+              },
             ),
-          })
+          }),
         );
         assert.notOk(
           screen.queryByRole('heading', {
             name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
-          })
+          }),
         );
       });
 
@@ -253,19 +253,19 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         // when
         await fillInByLabel(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
-          email
+          email,
         );
         await clickByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit')
+          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         );
 
         // then
         assert.ok(
           screen.getByText(
             this.intl.t(
-              'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist'
-            )
-          )
+              'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist',
+            ),
+          ),
         );
       });
 
@@ -285,17 +285,17 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         // when
         await fillInByLabel(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
-          newEmail
+          newEmail,
         );
         await clickByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit')
+          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         );
 
         // then
         assert.ok(
           screen.getByRole('heading', {
             name: this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.title'),
-          })
+          }),
         );
         assert.notOk(
           screen.queryByRole('heading', {
@@ -303,9 +303,9 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
               'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
               {
                 firstName,
-              }
+              },
             ),
-          })
+          }),
         );
       });
 
@@ -325,7 +325,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
                 status: '403',
               },
             ],
-          }
+          },
         );
         server.post('/account-recovery', () => errorsApi);
 
@@ -338,23 +338,23 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         // when
         await fillInByLabel(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
-          newEmail
+          newEmail,
         );
         await clickByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit')
+          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         );
 
         // then
         assert.ok(
           screen.getByRole('heading', {
             name: this.intl.t('pages.account-recovery.errors.title'),
-          })
+          }),
         );
         assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used')));
         assert.ok(
           screen.getByRole('link', {
             name: this.intl.t('navigation.back-to-homepage'),
-          })
+          }),
         );
       });
 
@@ -374,7 +374,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
                 status: '500',
               },
             ],
-          }
+          },
         );
         server.post('/account-recovery', () => errorsApi);
 
@@ -387,23 +387,23 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         // when
         await fillInByLabel(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
-          newEmail
+          newEmail,
         );
         await clickByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit')
+          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         );
 
         // then
         assert.ok(
           screen.getByRole('heading', {
             name: this.intl.t('pages.account-recovery.errors.title'),
-          })
+          }),
         );
         assert.ok(screen.getByText(this.intl.t('common.api-error-messages.internal-server-error')));
         assert.ok(
           screen.getByRole('link', {
             name: this.intl.t('navigation.back-to-homepage'),
-          })
+          }),
         );
       });
     });
@@ -420,14 +420,14 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
 
         // when
         await clickByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.cancel')
+          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.cancel'),
         );
 
         // then
         assert.ok(
           screen.getByRole('heading', {
             name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
-          })
+          }),
         );
         assert.notOk(
           screen.queryByRole('heading', {
@@ -435,9 +435,9 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
               'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
               {
                 firstName,
-              }
+              },
             ),
-          })
+          }),
         );
       });
     });

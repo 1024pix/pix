@@ -19,20 +19,20 @@ module('Integration | Component | certification-starter', function (hooks) {
         store.createRecord('certification-candidate-subscription', {
           eligibleSubscription: null,
           nonEligibleSubscription: null,
-        })
+        }),
       );
       this.set('certificationCandidateSubscription', { eligibleSubscription: null, nonEligibleSubscription: null });
 
       // when
       const screen = await render(
-        hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+        hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
       );
 
       // then
       assert.notOk(
         screen.queryByText(
-          "'Vous êtes inscrit à la certification complémentaire suivante en plus de la certification Pix :"
-        )
+          "'Vous êtes inscrit à la certification complémentaire suivante en plus de la certification Pix :",
+        ),
       );
       assert.notOk(screen.queryByText('Vous n’êtes pas éligible à'));
     });
@@ -48,19 +48,19 @@ module('Integration | Component | certification-starter', function (hooks) {
           store.createRecord('certification-candidate-subscription', {
             eligibleSubscription: { label: 'Certif complémentaire 1' },
             nonEligibleSubscription: null,
-          })
+          }),
         );
 
         // when
         const screen = await render(
-          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
         );
 
         // then
         assert.ok(
           screen.getByText(
-            'Vous êtes inscrit à la certification complémentaire suivante en plus de la certification Pix :'
-          )
+            'Vous êtes inscrit à la certification complémentaire suivante en plus de la certification Pix :',
+          ),
         );
         assert.ok(screen.getByText('Certif complémentaire 1'));
       });
@@ -73,12 +73,12 @@ module('Integration | Component | certification-starter', function (hooks) {
           store.createRecord('certification-candidate-subscription', {
             eligibleSubscription: { label: 'Certif complémentaire 1' },
             nonEligibleSubscription: null,
-          })
+          }),
         );
 
         // when
         const screen = await render(
-          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
         );
 
         // then
@@ -95,19 +95,19 @@ module('Integration | Component | certification-starter', function (hooks) {
           store.createRecord('certification-candidate-subscription', {
             eligibleSubscription: null,
             nonEligibleSubscription: { label: 'Certif complémentaire 1' },
-          })
+          }),
         );
 
         // when
         const screen = await render(
-          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
         );
 
         // then
         assert.ok(
           screen.getByText(
-            "Vous n'êtes pas éligible à Certif complémentaire 1. Vous pouvez néanmoins passer votre certification Pix."
-          )
+            "Vous n'êtes pas éligible à Certif complémentaire 1. Vous pouvez néanmoins passer votre certification Pix.",
+          ),
         );
       });
 
@@ -119,19 +119,19 @@ module('Integration | Component | certification-starter', function (hooks) {
           store.createRecord('certification-candidate-subscription', {
             eligibleSubscription: null,
             nonEligibleSubscription: { label: 'Certif complémentaire 1' },
-          })
+          }),
         );
 
         // when
         const screen = await render(
-          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
         );
 
         // then
         assert.notOk(
           screen.queryByText(
-            'Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :'
-          )
+            'Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :',
+          ),
         );
       });
     });
@@ -174,12 +174,12 @@ module('Integration | Component | certification-starter', function (hooks) {
 
           this.owner.register(
             'service:focused-certification-challenge-warning-manager',
-            FocusedCertificationChallengeWarningManagerStub
+            FocusedCertificationChallengeWarningManagerStub,
           );
 
           this.set('certificationCandidateSubscription', { sessionId: 123 });
           await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           replaceWithStub.returns('ok');
@@ -224,7 +224,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           createRecordStub.returns(certificationCourse);
           this.set('certificationCandidateSubscription', { sessionId: 123 });
           const screen = await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: '404' }] });
@@ -260,7 +260,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           createRecordStub.returns(certificationCourse);
           this.set('certificationCandidateSubscription', { sessionId: 123 });
           const screen = await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: '412' }] });
@@ -297,7 +297,7 @@ module('Integration | Component | certification-starter', function (hooks) {
             createRecordStub.returns(certificationCourse);
             this.set('certificationCandidateSubscription', { sessionId: 123 });
             const screen = await render(
-              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
             );
             await fillIn('#certificationStarterSessionCode', 'ABC123');
             certificationCourse.save.rejects({
@@ -310,8 +310,8 @@ module('Integration | Component | certification-starter', function (hooks) {
             // then
             assert.ok(
               screen.getByText(
-                this.intl.t('pages.certification-start.error-messages.candidate-not-authorized-to-start')
-              )
+                this.intl.t('pages.certification-start.error-messages.candidate-not-authorized-to-start'),
+              ),
             );
           });
 
@@ -339,7 +339,7 @@ module('Integration | Component | certification-starter', function (hooks) {
             createRecordStub.returns(certificationCourse);
             this.set('certificationCandidateSubscription', { sessionId: 123 });
             const screen = await render(
-              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
             );
             await fillIn('#certificationStarterSessionCode', 'ABC123');
             certificationCourse.save.rejects({
@@ -352,8 +352,8 @@ module('Integration | Component | certification-starter', function (hooks) {
             // then
             assert.ok(
               screen.getByText(
-                this.intl.t('pages.certification-start.error-messages.candidate-not-authorized-to-resume')
-              )
+                this.intl.t('pages.certification-start.error-messages.candidate-not-authorized-to-resume'),
+              ),
             );
           });
         });
@@ -382,7 +382,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           createRecordStub.returns(certificationCourse);
           this.set('certificationCandidateSubscription', { sessionId: 123 });
           const screen = await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: 'other' }] });

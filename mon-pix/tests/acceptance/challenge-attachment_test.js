@@ -31,7 +31,7 @@ module('Acceptance | Download an attachment from a challenge', function (hooks) 
       assert.strictEqual(challengeWithAttachment.attachments.length, 1);
       assert.strictEqual(
         find('.challenge-statement__action-link').getAttribute('href'),
-        challengeWithAttachment.attachments[0]
+        challengeWithAttachment.attachments[0],
       );
     });
 

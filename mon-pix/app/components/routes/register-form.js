@@ -178,7 +178,7 @@ export default class RegisterForm extends Component {
           const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
           return (this.errorMessage = error.detail ? error.detail : defaultMessage);
         });
-      }
+      },
     );
   }
 

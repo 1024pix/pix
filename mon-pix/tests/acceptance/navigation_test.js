@@ -44,13 +44,13 @@ module('Acceptance | Navbar', function (hooks) {
         assert.ok(
           find('.navbar-desktop-header-container__menu')
             .children[0].children[userNavigation.initialNavigationItem].children[0].getAttribute('class')
-            .includes('active')
+            .includes('active'),
         );
 
         // when
         await click(
           find('.navbar-desktop-header-container__menu').children[0].children[userNavigation.targetedNavigationItem]
-            .children[0]
+            .children[0],
         );
 
         // then
@@ -58,7 +58,7 @@ module('Acceptance | Navbar', function (hooks) {
         assert.ok(
           find('.navbar-desktop-header-container__menu')
             .children[0].children[userNavigation.targetedNavigationItem].children[0].getAttribute('class')
-            .includes('active')
+            .includes('active'),
         );
       });
     });

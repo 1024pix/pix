@@ -47,10 +47,10 @@ module('Acceptance | User account page', function (hooks) {
 
         // then
         assert.ok(
-          screen.getByRole('link', { name: this.intl.t('pages.user-account.personal-information.menu-link-title') })
+          screen.getByRole('link', { name: this.intl.t('pages.user-account.personal-information.menu-link-title') }),
         );
         assert.ok(
-          screen.getByRole('link', { name: this.intl.t('pages.user-account.connexion-methods.menu-link-title') })
+          screen.getByRole('link', { name: this.intl.t('pages.user-account.connexion-methods.menu-link-title') }),
         );
         assert.ok(screen.getByRole('link', { name: this.intl.t('pages.user-account.language.menu-link-title') }));
       });
@@ -61,7 +61,7 @@ module('Acceptance | User account page', function (hooks) {
 
         // when
         await click(
-          screen.getByRole('link', { name: this.intl.t('pages.user-account.personal-information.menu-link-title') })
+          screen.getByRole('link', { name: this.intl.t('pages.user-account.personal-information.menu-link-title') }),
         );
 
         // then
@@ -74,7 +74,7 @@ module('Acceptance | User account page', function (hooks) {
 
         // when
         await click(
-          screen.getByRole('link', { name: this.intl.t('pages.user-account.connexion-methods.menu-link-title') })
+          screen.getByRole('link', { name: this.intl.t('pages.user-account.connexion-methods.menu-link-title') }),
         );
 
         // then

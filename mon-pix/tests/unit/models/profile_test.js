@@ -34,7 +34,7 @@ module('Unit | Model | Profile model', function (hooks) {
       // then
       assert.deepEqual(
         areas.map((area) => area.get('code')),
-        [1, 2]
+        [1, 2],
       );
     });
   });

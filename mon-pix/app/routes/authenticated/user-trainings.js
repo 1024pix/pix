@@ -20,7 +20,7 @@ export default class UserTrainingsRoute extends Route {
         },
         userId: user.id,
       },
-      { reload: true }
+      { reload: true },
     );
 
     return { trainings };

@@ -29,7 +29,7 @@ module('Unit | Helper | text with multiple lang', function (hooks) {
 
       assert.strictEqual(
         textWithMultipleLangHelper.compute([expected.text, expected.lang]).toString(),
-        expected.outputText
+        expected.outputText,
       );
     });
   });

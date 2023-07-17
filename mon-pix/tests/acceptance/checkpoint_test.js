@@ -57,8 +57,8 @@ module('Acceptance | Checkpoint', function (hooks) {
       assert.ok(find('.checkpoint__continue').textContent.includes('Voir mes résultats'));
       assert.ok(
         find('.checkpoint-no-answer__info').textContent.includes(
-          'Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur  “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.'
-        )
+          'Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur  “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.',
+        ),
       );
     });
   });

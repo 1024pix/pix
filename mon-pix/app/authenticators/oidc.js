@@ -84,7 +84,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-      }
+      },
     );
     const { redirectLogoutUrl } = await response.json();
 

@@ -33,7 +33,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
           screen.getByRole('heading', {
             name: this.intl.t('pages.campaign-landing.profiles-collection.announcement'),
             level: 2,
-          })
+          }),
         )
         .exists();
       assert.dom(screen.getByText('My campaign text')).exists();
@@ -76,8 +76,8 @@ module('Integration | Component | campaign-start-block', function (hooks) {
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' })
-        )
+          this.intl.t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' }),
+        ),
       );
       assert
         .dom(screen.getByRole('link', { name: this.intl.t('pages.campaign-landing.warning-message-logout') }))
@@ -117,14 +117,14 @@ module('Integration | Component | campaign-start-block', function (hooks) {
           .dom(
             screen.queryByRole('heading', {
               name: this.intl.t('pages.campaign-landing.profiles-collection.announcement'),
-            })
+            }),
           )
           .doesNotExist();
         assert
           .dom(
             screen.getByRole('button', {
               name: this.intl.t('pages.campaign-landing.profiles-collection.action'),
-            })
+            }),
           )
           .exists();
         assert.dom(screen.getByText(this.intl.t('pages.campaign-landing.profiles-collection.legal'))).exists();
@@ -144,7 +144,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
             screen.getByRole('heading', {
               name: 'Izuku, envoyez votre profil',
               level: 1,
-            })
+            }),
           )
           .exists();
       });
@@ -167,14 +167,14 @@ module('Integration | Component | campaign-start-block', function (hooks) {
           .dom(
             screen.queryByRole('heading', {
               name: this.intl.t('pages.campaign-landing.profiles-collection.announcement'),
-            })
+            }),
           )
           .doesNotExist();
         assert
           .dom(
             screen.getByRole('button', {
               name: this.intl.t('pages.campaign-landing.assessment.action'),
-            })
+            }),
           )
           .exists();
         assert.dom(screen.getByText(this.intl.t('pages.campaign-landing.assessment.legal'))).exists();
@@ -194,7 +194,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
             screen.getByRole('heading', {
               name: 'Izuku, commencez votre parcours',
               level: 1,
-            })
+            }),
           )
           .exists();
       });
@@ -238,8 +238,8 @@ module('Integration | Component | campaign-start-block', function (hooks) {
       assert
         .dom(
           screen.queryByText(
-            this.intl.t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' })
-          )
+            this.intl.t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' }),
+          ),
         )
         .doesNotExist();
     });
@@ -263,7 +263,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
             screen.getByRole('heading', {
               name: 'Envoyez votre profil',
               level: 1,
-            })
+            }),
           )
           .exists();
       });
@@ -288,7 +288,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
             screen.getByRole('heading', {
               name: 'Commencez votre parcours Pix',
               level: 1,
-            })
+            }),
           )
           .exists();
       });
@@ -332,8 +332,8 @@ module('Integration | Component | campaign-start-block', function (hooks) {
       assert
         .dom(
           screen.queryByText(
-            this.intl.t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' })
-          )
+            this.intl.t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' }),
+          ),
         )
         .doesNotExist();
     });
@@ -357,7 +357,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
             screen.getByRole('heading', {
               name: 'Envoyez votre profil',
               level: 1,
-            })
+            }),
           )
           .exists();
       });
@@ -382,7 +382,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
             screen.getByRole('heading', {
               name: 'Commencez votre parcours Pix',
               level: 1,
-            })
+            }),
           )
           .exists();
       });

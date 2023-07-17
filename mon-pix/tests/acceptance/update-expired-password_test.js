@@ -39,7 +39,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
 
     await fillIn(
       screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }),
-      userShouldChangePassword.username
+      userShouldChangePassword.username,
     );
     await fillIn(screen.getByLabelText('Mot de passe'), userShouldChangePassword.password);
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
@@ -50,7 +50,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
         {},
         {
           errors: [{ status: '400' }],
-        }
+        },
       );
     });
 
@@ -71,7 +71,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
     const screen = await visit('/connexion');
     await fillIn(
       screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }),
-      userShouldChangePassword.username
+      userShouldChangePassword.username,
     );
     await fillIn(screen.getByLabelText('Mot de passe'), userShouldChangePassword.password);
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
@@ -82,7 +82,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
         {},
         {
           errors: [{ status: '401' }],
-        }
+        },
       );
     });
 
@@ -107,7 +107,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
         {},
         {
           errors: [{ status: '404', code: 'USER_ACCOUNT_NOT_FOUND' }],
-        }
+        },
       );
     });
 
@@ -126,7 +126,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
     const screen = await visit('/connexion');
     await fillIn(
       screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }),
-      userShouldChangePassword.username
+      userShouldChangePassword.username,
     );
     await fillIn(screen.getByLabelText('Mot de passe'), userShouldChangePassword.password);
     await click(screen.getByRole('button', { name: 'Je me connecte' }));

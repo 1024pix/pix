@@ -26,7 +26,7 @@ export default class OidcReconciliationComponent extends Component {
 
   get shouldShowGarAuthenticationMethod() {
     return this.args.authenticationMethods.any(
-      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR'
+      (authenticationMethod) => authenticationMethod.identityProvider === 'GAR',
     );
   }
 

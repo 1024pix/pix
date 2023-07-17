@@ -41,7 +41,7 @@ module('Unit | Adapters | user-saved-tutorial', function (hooks) {
         adapter.ajax,
         'http://localhost:3000/api/users/tutorials/tutorialId',
         'PUT',
-        expectedOptions
+        expectedOptions,
       );
       assert.ok(true);
     });

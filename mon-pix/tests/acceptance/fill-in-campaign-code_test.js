@@ -46,7 +46,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
       // then
       assert
         .dom(
-          '[href="https://support.pix.org/fr/support/solutions/articles/15000029147-qu-est-ce-qu-un-code-parcours-et-comment-l-utiliser-"]'
+          '[href="https://support.pix.org/fr/support/solutions/articles/15000029147-qu-est-ce-qu-un-code-parcours-et-comment-l-utiliser-"]',
         )
         .exists();
       assert.dom('[target="_blank"]').exists();

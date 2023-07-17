@@ -112,7 +112,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       await authenticate(user);
       const screen = await visit('/mon-compte/methodes-de-connexion');
       await click(
-        screen.getByRole('button', { name: this.intl.t('pages.user-account.connexion-methods.edit-button') })
+        screen.getByRole('button', { name: this.intl.t('pages.user-account.connexion-methods.edit-button') }),
       );
 
       // when

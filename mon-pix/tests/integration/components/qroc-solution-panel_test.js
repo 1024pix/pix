@@ -27,7 +27,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       assert.strictEqual(find('textarea.correction-qroc-box-answer--paragraph').getAttribute('rows'), '5');
       assert.strictEqual(
         find('textarea.correction-qroc-box-answer--paragraph').getAttribute('aria-label'),
-        'Question passée'
+        'Question passée',
       );
     });
   });
@@ -67,7 +67,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       assert.dom('input.correction-qroc-box-answer--input').hasAttribute('disabled');
       assert.strictEqual(
         find('input.correction-qroc-box-answer--input').getAttribute('size'),
-        answer.value.length.toString()
+        answer.value.length.toString(),
       );
     });
   });
@@ -187,7 +187,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
 
         // When
         await render(
-          hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+          hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
         );
 
         // Then
@@ -210,7 +210,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
 
         // When
         await render(
-          hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+          hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
         );
 
         // Then
@@ -235,7 +235,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
 
         // When
         await render(
-          hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+          hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
         );
 
         // Then
@@ -262,7 +262,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
 
       // When
       await render(
-        hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+        hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then
@@ -280,7 +280,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
 
       // When
       await render(
-        hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+        hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then

@@ -40,7 +40,7 @@ export default function (schema, request) {
       {},
       {
         errors: [{ title: 'PasswordShouldChange', code: 'SHOULD_CHANGE_PASSWORD', meta: foundUser.id }],
-      }
+      },
     );
   }
   return new Response(401, {}, 'Authentication failed');

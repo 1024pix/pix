@@ -10,7 +10,7 @@ module('Unit | Utility | errors-messages', function () {
     test('should retrieve all messages by shortCode with value', function (assert) {
       // given
       const expectedMessages = JOIN_SHORT_CODES_ERRORS.map(
-        (shortCode) => 'api-error-messages.join-error.' + shortCode.toLowerCase()
+        (shortCode) => 'api-error-messages.join-error.' + shortCode.toLowerCase(),
       );
 
       // when
@@ -25,12 +25,12 @@ module('Unit | Utility | errors-messages', function () {
     test('should retrieve all messages by shortCode with values', function (assert) {
       // given
       const expectedMessages = REGISTER_SHORT_CODES_ERRORS.map(
-        (shortCode) => 'api-error-messages.register-error.' + shortCode.toLowerCase()
+        (shortCode) => 'api-error-messages.register-error.' + shortCode.toLowerCase(),
       );
 
       // when
       const messages = REGISTER_SHORT_CODES_ERRORS.map((shortCode) =>
-        getRegisterErrorsMessageByShortCode({ shortCode })
+        getRegisterErrorsMessageByShortCode({ shortCode }),
       );
 
       // then

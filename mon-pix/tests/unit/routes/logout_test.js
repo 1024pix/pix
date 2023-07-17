@@ -131,7 +131,7 @@ module('Unit | Route | logout', function (hooks) {
           data: {
             authenticated: {},
           },
-        })
+        }),
       );
       route.set('campaignStorage', campaignStorageStub);
       route._redirectToHomePage = redirectToHomePageStub;

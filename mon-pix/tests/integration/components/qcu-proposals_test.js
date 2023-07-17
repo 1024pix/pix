@@ -32,7 +32,7 @@ module('Integration | Component | QCU proposals', function (hooks) {
 
       // when
       await render(
-        hbs`<QcuProposals @answers={{this.answers}} @proposals={{this.proposals}} @answerChanged={{this.answerChanged}} />`
+        hbs`<QcuProposals @answers={{this.answers}} @proposals={{this.proposals}} @answerChanged={{this.answerChanged}} />`,
       );
 
       // then

@@ -17,13 +17,13 @@ module('Integration | Component | student-information-form', function (hooks) {
     assert.ok(
       screen.getByRole('heading', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
-      })
+      }),
     );
     assert.ok(screen.getByText('Si vous possédez un compte avec une adresse e-mail valide,'));
     assert.ok(
       screen.getByRole('link', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.subtitle.link'),
-      })
+      }),
     );
     assert.ok(screen.getByText(this.intl.t('common.form.mandatory-all-fields')));
   });
@@ -59,42 +59,42 @@ module('Integration | Component | student-information-form', function (hooks) {
       screen.getByRole('textbox', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
       }),
-      ine
+      ine,
     );
     await fillIn(
       screen.getByRole('textbox', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'),
       }),
-      firstName
+      firstName,
     );
     await fillIn(
       screen.getByRole('textbox', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'),
       }),
-      lastName
+      lastName,
     );
     await fillIn(
       screen.getByRole('spinbutton', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'),
       }),
-      dayOfBirth
+      dayOfBirth,
     );
     await fillIn(
       screen.getByRole('spinbutton', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'),
       }),
-      monthOfBirth
+      monthOfBirth,
     );
     await fillIn(
       screen.getByRole('spinbutton', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'),
       }),
-      yearOfBirth
+      yearOfBirth,
     );
     await click(
       screen.getByRole('button', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'),
-      })
+      }),
     );
 
     // then
@@ -124,8 +124,8 @@ module('Integration | Component | student-information-form', function (hooks) {
         // then
         assert.notOk(
           screen.queryByText(
-            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
-          )
+            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format'),
+          ),
         );
       });
 
@@ -144,8 +144,8 @@ module('Integration | Component | student-information-form', function (hooks) {
         // then
         assert.notOk(
           screen.queryByText(
-            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
-          )
+            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format'),
+          ),
         );
       });
     });
@@ -166,8 +166,8 @@ module('Integration | Component | student-information-form', function (hooks) {
         // then
         assert.ok(
           screen.queryByText(
-            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
-          )
+            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format'),
+          ),
         );
       });
 
@@ -186,8 +186,8 @@ module('Integration | Component | student-information-form', function (hooks) {
         // then
         assert.ok(
           screen.getByText(
-            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-ine-ina')
-          )
+            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-ine-ina'),
+          ),
         );
       });
     });
@@ -209,8 +209,8 @@ module('Integration | Component | student-information-form', function (hooks) {
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-last-name')
-        )
+          this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-last-name'),
+        ),
       );
     });
   });
@@ -231,8 +231,8 @@ module('Integration | Component | student-information-form', function (hooks) {
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-first-name')
-        )
+          this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-first-name'),
+        ),
       );
     });
   });

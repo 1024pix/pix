@@ -367,7 +367,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }), prescritUser.email);
     await fillIn(
       screen.getByLabelText('Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'),
-      prescritUser.password
+      prescritUser.password,
     );
     await click(screen.getByRole('checkbox', { name: intl.t('common.cgu.label') }));
     await click(screen.getByRole('button', { name: intl.t('pages.sign-up.actions.submit') }));

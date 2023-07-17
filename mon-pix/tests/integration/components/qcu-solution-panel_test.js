@@ -67,7 +67,7 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then
@@ -95,7 +95,7 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then
@@ -124,7 +124,7 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then
@@ -140,7 +140,7 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then
@@ -158,7 +158,7 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then
@@ -189,7 +189,7 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
       this.set('challenge', challenge);
       // When
       await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then
@@ -209,7 +209,7 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then
@@ -227,7 +227,7 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then
@@ -247,7 +247,7 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
       // When
       await render(
-        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+        hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
       );
 
       // Then
@@ -272,7 +272,7 @@ module('Integration | Component | qcu-solution-panel.js', function (hooks) {
 
         // When
         await render(
-          hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`
+          hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
         );
 
         // Then
