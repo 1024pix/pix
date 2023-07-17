@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
@@ -46,252 +47,168 @@ module('Unit | Service | access-control', function (hooks) {
   });
 
   module('#hasAccessToUsersActionsScope', function () {
-    test('should be true if admin member has role "SUPER_ADMIN"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isSuperAdmin: true };
-      const service = this.owner.lookup('service:access-control');
+    [
+      { role: 'isSuperAdmin', hasAccess: true },
+      { role: 'isSupport', hasAccess: true },
+      { role: 'isMetier', hasAccess: false },
+      { role: 'isCertif', hasAccess: false },
+    ].forEach(function ({ role, hasAccess }) {
+      test(`should be ${hasAccess} if current admin member is ${role}`, async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { [role]: true };
 
-      // when & then
-      assert.true(service.hasAccessToUsersActionsScope);
-    });
+        const service = this.owner.lookup('service:access-control');
 
-    test('should be true if admin member has role "SUPPORT"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isSupport: true };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.true(service.hasAccessToUsersActionsScope);
-    });
-
-    test('should be false if admin member has role "CERTIF" or "METIER"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isSuperAdmin: false, isSupport: false };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.false(service.hasAccessToUsersActionsScope);
+        // when / then
+        assert.deepEqual(service.hasAccessToUsersActionsScope, hasAccess);
+      });
     });
   });
 
   module('#hasAccessToTargetProfilesActionsScope', function () {
-    test('should be true if admin member has role "SUPER_ADMIN"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isSuperAdmin: true };
-      const service = this.owner.lookup('service:access-control');
+    [
+      { role: 'isSuperAdmin', hasAccess: true },
+      { role: 'isSupport', hasAccess: true },
+      { role: 'isMetier', hasAccess: true },
+      { role: 'isCertif', hasAccess: false },
+    ].forEach(function ({ role, hasAccess }) {
+      test(`should be ${hasAccess} if current admin member is ${role}`, async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { [role]: true };
 
-      // when & then
-      assert.true(service.hasAccessToTargetProfilesActionsScope);
-    });
+        const service = this.owner.lookup('service:access-control');
 
-    test('should be true if admin member has role "SUPPORT"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isSupport: true };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.true(service.hasAccessToTargetProfilesActionsScope);
-    });
-
-    test('should be true if admin member has role "METIER"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isMetier: true };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.true(service.hasAccessToTargetProfilesActionsScope);
-    });
-
-    test('should be false if admin member has role "CERTIF"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isCertif: true };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.false(service.hasAccessToTargetProfilesActionsScope);
+        // when / then
+        assert.deepEqual(service.hasAccessToTargetProfilesActionsScope, hasAccess);
+      });
     });
   });
 
   module('#hasAccessToTrainingsActionsScope', function () {
-    test('should be true if admin member has role "SUPER_ADMIN"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isSuperAdmin: true };
-      const service = this.owner.lookup('service:access-control');
+    [
+      { role: 'isSuperAdmin', hasAccess: true },
+      { role: 'isSupport', hasAccess: false },
+      { role: 'isMetier', hasAccess: true },
+      { role: 'isCertif', hasAccess: false },
+    ].forEach(function ({ role, hasAccess }) {
+      test(`should be ${hasAccess} if current admin member is ${role}`, async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { [role]: true };
 
-      // when & then
-      assert.true(service.hasAccessToTrainingsActionsScope);
-    });
+        const service = this.owner.lookup('service:access-control');
 
-    test('should be false if admin member has role "SUPPORT"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isCertif: false, isMetier: false, isSuperAdmin: false, isSupport: true };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.false(service.hasAccessToTrainingsActionsScope);
-    });
-
-    test('should be true if admin member has role "METIER"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isMetier: true };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.true(service.hasAccessToTrainingsActionsScope);
-    });
-
-    test('should be false if admin member has role "CERTIF"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isCertif: true, isMetier: false, isSuperAdmin: false, isSupport: false };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.false(service.hasAccessToTrainingsActionsScope);
+        // when / then
+        assert.deepEqual(service.hasAccessToTrainingsActionsScope, hasAccess);
+      });
     });
   });
 
   module('#hasAccessToTrainings', function () {
-    test('should be true if admin member has role "SUPER_ADMIN"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isSuperAdmin: true };
-      const service = this.owner.lookup('service:access-control');
+    [
+      { role: 'isSuperAdmin', hasAccess: true },
+      { role: 'isSupport', hasAccess: true },
+      { role: 'isMetier', hasAccess: true },
+      { role: 'isCertif', hasAccess: false },
+    ].forEach(function ({ role, hasAccess }) {
+      test(`should be ${hasAccess} if current admin member is ${role}`, async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { [role]: true };
 
-      // when & then
-      assert.true(service.hasAccessToTrainings);
-    });
+        const service = this.owner.lookup('service:access-control');
 
-    test('should be true if admin member has role "SUPPORT"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isSupport: true };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.true(service.hasAccessToTrainings);
-    });
-
-    test('should be true if admin member has role "METIER"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isMetier: true };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.true(service.hasAccessToTrainings);
-    });
-
-    test('should be false if admin member has role "CERTIF"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isCertif: true, isMetier: false, isSuperAdmin: false, isSupport: false };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.false(service.hasAccessToTrainings);
+        // when / then
+        assert.deepEqual(service.hasAccessToTrainings, hasAccess);
+      });
     });
   });
 
   module('#hasAccessToOrganizationActionsScope', function () {
-    test('should be true if current admin member is Super Admin', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.adminMember = { isSuperAdmin: true };
+    [
+      { role: 'isSuperAdmin', hasAccess: true },
+      { role: 'isSupport', hasAccess: true },
+      { role: 'isMetier', hasAccess: true },
+      { role: 'isCertif', hasAccess: false },
+    ].forEach(function ({ role, hasAccess }) {
+      test(`should be ${hasAccess} if current admin member is ${role}`, function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { [role]: true };
 
-      const service = this.owner.lookup('service:access-control');
+        const service = this.owner.lookup('service:access-control');
 
-      // when / then
-      assert.true(service.hasAccessToOrganizationActionsScope);
-    });
-
-    test('should be true if user is Support', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.adminMember = { isSupport: true };
-
-      const service = this.owner.lookup('service:access-control');
-
-      // when / then
-      assert.true(service.hasAccessToOrganizationActionsScope);
-    });
-
-    test('should be true if user is Metier', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.adminMember = { isMetier: true };
-
-      const service = this.owner.lookup('service:access-control');
-
-      // when / then
-      assert.true(service.hasAccessToOrganizationActionsScope);
-    });
-
-    test('should be false if user is Certif', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.adminMember = { isCertif: true };
-
-      const service = this.owner.lookup('service:access-control');
-
-      // when / then
-      assert.false(service.hasAccessToOrganizationActionsScope);
+        // when / then
+        assert.deepEqual(service.hasAccessToOrganizationActionsScope, hasAccess);
+      });
     });
   });
 
   module('#hasAccessToCertificationActionsScope', function () {
-    test('should be true if current admin member is Super admin', function (assert) {
+    [
+      { role: 'isSuperAdmin', hasAccess: true },
+      { role: 'isSupport', hasAccess: true },
+      { role: 'isCertif', hasAccess: true },
+      { role: 'isMetier', hasAccess: false },
+    ].forEach(function ({ role, hasAccess }) {
+      test(`should be ${hasAccess} if current admin member is ${role}`, function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { [role]: true };
+
+        const service = this.owner.lookup('service:access-control');
+
+        // when / then
+        assert.deepEqual(service.hasAccessToCertificationActionsScope, hasAccess);
+      });
+    });
+  });
+
+  module('#hasAccessToTargetProfileVersioningActionsScope', function () {
+    test('should be false if FT_TARGET_PROFILE_VERSIONING is false', function (assert) {
       // given
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.adminMember = { isSuperAdmin: true };
+      this.owner.lookup('service:store');
+      class FeatureTogglesStub extends Service {
+        featureToggles = { isTargetProfileVersioningEnabled: false };
+      }
+      this.owner.register('service:featureToggles', FeatureTogglesStub);
 
       const service = this.owner.lookup('service:access-control');
 
       // when / then
-      assert.true(service.hasAccessToCertificationActionsScope);
+      assert.false(service.hasAccessToTargetProfileVersioningScope);
     });
 
-    test('should be true if user is Support', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.adminMember = { isSupport: true };
+    module('when FT_TARGET_PROFILE_VERSIONING is true ', function (hooks) {
+      hooks.beforeEach(async function () {
+        this.owner.lookup('service:store');
+        class FeatureTogglesStub extends Service {
+          featureToggles = { isTargetProfileVersioningEnabled: true };
+        }
+        this.owner.register('service:featureToggles', FeatureTogglesStub);
+      });
 
-      const service = this.owner.lookup('service:access-control');
+      [
+        { role: 'isSuperAdmin', hasAccess: true },
+        { role: 'isSupport', hasAccess: true },
+        { role: 'isMetier', hasAccess: true },
+        { role: 'isCertif', hasAccess: false },
+      ].forEach(function ({ role, hasAccess }) {
+        test(`should be ${hasAccess} if current admin member is ${role}`, function (assert) {
+          // given
+          const currentUser = this.owner.lookup('service:currentUser');
+          currentUser.adminMember = { [role]: true };
 
-      // when / then
-      assert.true(service.hasAccessToCertificationActionsScope);
-    });
+          const service = this.owner.lookup('service:access-control');
 
-    test('should be true if user is Certif', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.adminMember = { isCertif: true };
-
-      const service = this.owner.lookup('service:access-control');
-
-      // when / then
-      assert.true(service.hasAccessToCertificationActionsScope);
-    });
-
-    test('should be false if user is Metier', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.adminMember = { isMetier: true };
-
-      const service = this.owner.lookup('service:access-control');
-
-      // when / then
-      assert.false(service.hasAccessToCertificationActionsScope);
+          // when / then
+          assert.deepEqual(service.hasAccessToTargetProfileVersioningScope, hasAccess);
+        });
+      });
     });
   });
 

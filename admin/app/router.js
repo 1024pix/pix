@@ -90,6 +90,10 @@ Router.map(function () {
       });
     });
 
+    this.route('target-profiles-versioning', function () {
+      this.route('complementary-certifications');
+    });
+
     this.route('target-profiles', function () {
       this.route('list');
       this.route('new');
