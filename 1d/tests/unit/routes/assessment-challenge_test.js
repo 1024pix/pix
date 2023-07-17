@@ -53,7 +53,7 @@ module('Unit | Route | AssessmentChallengeRoute', function (hooks) {
         assert.ok(
           route.router.replaceWith.calledWith('assessment.resume', assessment.id, {
             queryParams: { assessmentHasNoMoreQuestions: true },
-          })
+          }),
         );
       });
     });
