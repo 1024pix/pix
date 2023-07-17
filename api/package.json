@@ -162,7 +162,8 @@
     "test:api:bail": "npm run test:api:unit -- --bail && npm run test:api:integration -- --bail && npm run test:api:acceptance -- --bail",
     "test:api:certification": "npm run test:api:path -- tests/certification",
     "test:api:shared": "npm run test:api:path -- tests/shared",
-    "test:lint": "npm test && npm run lint"
+    "test:lint": "npm test && npm run lint",
+    "dashboard:arbo": "node ./scripts/arborescence-monitoring.js"
   },
   "optionalDependencies": {
     "nyc": "^15.1.0"
