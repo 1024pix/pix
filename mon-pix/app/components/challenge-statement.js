@@ -47,6 +47,18 @@ export default class ChallengeStatement extends Component {
   }
 
   @action
+  readTheInstruction() {
+    if (!window.speechSynthesis.speaking) {
+      const utterance = new SpeechSynthesisUtterance();
+
+      utterance.text = this._removeMarkDown(this.challengeInstruction);
+      utterance.lang = this.intl.get('locale')[0] === 'fr' ? 'fr-FR' : 'en-GB';
+
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  @action
   toggleAlternativeInstruction() {
     this.displayAlternativeInstruction = !this.displayAlternativeInstruction;
   }
@@ -66,6 +78,18 @@ export default class ChallengeStatement extends Component {
       const newFirstChar = PREFERRED_ATTACHMENT_FORMATS.indexOf(extension) >= 0 ? 'A' : 'Z';
       return newFirstChar + extension;
     });
+  }
+
+  _removeMarkDown(text) {
+    let cleanText;
+
+    cleanText = text.replaceAll(/\*\*(.+?)\*\*/g, '$1');
+    cleanText = cleanText.replaceAll(/_(.+?)_/g, '$1');
+    cleanText = cleanText.replaceAll(/~~(.+?)~~/g, '$1');
+    cleanText = cleanText.replaceAll(/`(.+?)`/g, '$1');
+    cleanText = cleanText.replaceAll(/```(.+?)```/g, '$1');
+
+    return cleanText;
   }
 
   _initialiseDefaultAttachment() {

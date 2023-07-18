@@ -37,6 +37,7 @@ module.exports = function () {
       'up-right-from-square',
       'user',
       'xmark',
+      'volume-high',
     ],
     'free-regular-svg-icons': ['bookmark', 'clock', 'copy', 'thumbs-up'],
   };

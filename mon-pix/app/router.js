@@ -13,6 +13,10 @@ export default class Router extends EmberRouter {
 
   init() {
     this.on('routeDidChange', () => {
+      if (window.speechSynthesis?.speaking) {
+        window.speechSynthesis.cancel();
+      }
+
       window.scrollTo(0, 0);
     });
   }

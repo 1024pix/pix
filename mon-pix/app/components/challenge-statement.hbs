@@ -3,6 +3,12 @@
   {{#if this.challengeInstruction}}
     <div class="challenge-statement__instruction-section">
       <MarkdownToHtmlUnsafe @class="challenge-statement-instruction__text" @markdown={{this.challengeInstruction}} />
+      <PixIconButton
+        @ariaLabel="Lire la consigne à haute voix"
+        @withBackground="true"
+        @icon="volume-high"
+        @triggerAction={{this.readTheInstruction}}
+      />
 
       {{#if @challenge.hasValidEmbedDocument}}
         <div class="sr-only">{{t "pages.challenge.statement.sr-only.embed"}}</div>
