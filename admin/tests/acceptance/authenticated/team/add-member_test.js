@@ -30,7 +30,7 @@ module('Acceptance | Team | Add member', function (hooks) {
 
       // then
       assert.dom(screen.getByText('chris@to.phe')).exists();
-      assert.dom(screen.getByText("L'agent christophe leclerc a dorénavant accès à Pix Admin")).exists();
+      assert.dom(screen.getByText("L'agent christophe leclerc a dorénavant accès à Pix4Pix Admin")).exists();
       assert
         .dom(screen.getByRole('textbox', { name: "Adresse e-mail professionnelle de l'agent Pix à rattacher" }))
         .hasNoValue();

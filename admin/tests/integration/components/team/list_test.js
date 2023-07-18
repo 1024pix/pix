@@ -131,7 +131,7 @@ module('Integration | Component | team | list', function (hooks) {
           await clickByName('Confirmer');
 
           // then
-          sinon.assert.calledWith(notificationSuccessStub, "L'agent Marie Tim n'a plus accès à Pix Admin.");
+          sinon.assert.calledWith(notificationSuccessStub, "L'agent Marie Tim n'a plus accès à Pix4Pix Admin.");
           assert.ok(true);
           // TODO : Add aria-hidden to Pix Modal
           //assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();

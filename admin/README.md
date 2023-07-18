@@ -1,4 +1,4 @@
-# Pix Admin
+# Pix4Pix Admin
 
 Interface d'administration pour les membres de Pix.   
 

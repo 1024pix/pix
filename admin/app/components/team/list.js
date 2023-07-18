@@ -61,7 +61,7 @@ export default class List extends Component {
       await this.adminMemberToDeactivate.deactivate();
       this.toggleDisplayConfirm();
       this.notifications.success(
-        `L'agent ${adminMemberToDeactivate.firstName} ${adminMemberToDeactivate.lastName} n'a plus accès à Pix Admin.`
+        `L'agent ${adminMemberToDeactivate.firstName} ${adminMemberToDeactivate.lastName} n'a plus accès à Pix4Pix Admin.`
       );
     } catch (errorResponse) {
       this.toggleDisplayConfirm();
