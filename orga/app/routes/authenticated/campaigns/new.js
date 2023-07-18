@@ -57,4 +57,10 @@ export default class NewRoute extends Route {
       membersSortedByFullName,
     };
   }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('source', null);
+    }
+  }
 }
