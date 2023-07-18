@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import hashInt from 'hash-int';
 import * as pseudoRandom from '../../infrastructure/utils/pseudo-random.js';
+import { config } from '../../config.js';
 const NON_EXISTING_ITEM = null;
 const VALIDATED_STATUS = 'validé';
-const DEFAULT_PROBABILITY_TO_PICK_CHALLENGE = 51;
 
 const pickChallenge = function ({ skills, randomSeed, locale }) {
   if (skills.length === 0) {
@@ -16,7 +16,10 @@ const pickChallenge = function ({ skills, randomSeed, locale }) {
   return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
 };
 
-const chooseNextChallenge = function (seed, probabilityToPickChallenge = DEFAULT_PROBABILITY_TO_PICK_CHALLENGE) {
+const chooseNextChallenge = function (
+  seed,
+  probabilityToPickChallenge = config.v3Certification.defaultProbabilityToPickChallenge
+) {
   const pseudoRandomContext = pseudoRandom.create(seed);
   return function ({ possibleChallenges }) {
     const challengeIndex = pseudoRandomContext.binaryTreeRandom(probabilityToPickChallenge, possibleChallenges.length);
