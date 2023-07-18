@@ -1,4 +1,11 @@
-import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
+import {
+  catchErr,
+  databaseBuilder,
+  domainBuilder,
+  expect,
+  mockLearningContent,
+  learningContentBuilder,
+} from '../../../test-helper.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { TargetProfileForAdmin } from '../../../../lib/domain/models/TargetProfileForAdmin.js';
@@ -439,6 +446,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           category: targetProfileDB.category,
           isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
           areKnowledgeElementsResettable: targetProfileDB.areKnowledgeElementsResettable,
+          hasLinkedCampaign: false,
           badges: [expectedBadge1, expectedBadge2],
           stageCollection: expectedStageCollection,
           areas: [areaA],
@@ -585,6 +593,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           category: targetProfileDB.category,
           isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
           areKnowledgeElementsResettable: targetProfileDB.areKnowledgeElementsResettable,
+          hasLinkedCampaign: false,
           areas: [areaA],
           competences: [compA_areaA],
           thematics: [themA_compA_areaA],
@@ -593,6 +602,25 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           stageCollection: expectedStageCollection,
         });
         expect(actualTargetProfile).to.deepEqualInstance(expectedTargetProfile);
+      });
+    });
+
+    context('when target profile has a linked campaign', function () {
+      it('should return target profile with hasLinkedCampaign at true', async function () {
+        // given
+        const { id } = databaseBuilder.factory.buildTargetProfile();
+        databaseBuilder.factory.buildCampaign({ targetProfileId: id });
+        await databaseBuilder.commit();
+
+        const learningContent = domainBuilder.buildCampaignLearningContent.withSimpleContent();
+        const learningContentObjects = learningContentBuilder([learningContent]);
+        mockLearningContent(learningContentObjects);
+
+        // when
+        const actualTargetProfile = await targetProfileForAdminRepository.get({ id });
+
+        // then
+        expect(actualTargetProfile.hasLinkedCampaign).to.be.true;
       });
     });
   });
