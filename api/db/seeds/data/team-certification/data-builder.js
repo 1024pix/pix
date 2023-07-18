@@ -1,4 +1,5 @@
 import * as tooling from '../common/tooling/index.js';
+import * as campaignTooling from '../common/tooling/campaign-tooling.js';
 
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
@@ -33,12 +34,19 @@ const DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
 const PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 3;
 const V3_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 4;
 const PRO_STARTED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 5;
+const complementaryCertificationIds = [
+  CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+];
 
 async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createScoOrganization({ databaseBuilder });
   await _createScoCertificationCenter({ databaseBuilder });
   await _createProOrganization({ databaseBuilder });
   await _createProCertificationCenter({ databaseBuilder });
+  await _createComplementaryCertificationCampaign({ databaseBuilder });
   await _createV3PilotCertificationCenter({ databaseBuilder });
   await _createSuccessCertifiableUser({ databaseBuilder });
   await _createScoSession({ databaseBuilder });
@@ -141,12 +149,7 @@ async function _createProCertificationCenter({ databaseBuilder }) {
     createdAt: new Date(),
     updatedAt: new Date(),
     memberIds: [PRO_CERTIFICATION_CENTER_USER_ID],
-    complementaryCertificationIds: [
-      CLEA_COMPLEMENTARY_CERTIFICATION_ID,
-      PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-      PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-      PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-    ],
+    complementaryCertificationIds,
   });
 }
 
@@ -381,4 +384,30 @@ async function _createProStartedSession({ databaseBuilder }) {
       hasComplementaryCertificationsToRegister: true,
     },
   });
+}
+
+async function _createComplementaryCertificationCampaign({ databaseBuilder }) {
+  for (const complementaryCertificationId of complementaryCertificationIds) {
+    const [targetProfileId] = await databaseBuilder
+      .knex('complementary-certification-badges')
+      .pluck('badges.targetProfileId')
+      .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
+      .where({ complementaryCertificationId });
+    const campaignCode = _createCodeCampaign(complementaryCertificationId);
+    await campaignTooling.createAssessmentCampaign({
+      databaseBuilder,
+      targetProfileId,
+      name: 'Campagne evaluation team-certif',
+      code: campaignCode,
+      title: 'Campagne evaluation team-certif',
+      configCampaign: {
+        participantCount: 0,
+      },
+    });
+  }
+}
+
+function _createCodeCampaign(complementaryCertificationId) {
+  const campaignCode = `${complementaryCertificationId}`.padStart(9, 'CERTIF_');
+  return campaignCode;
 }
