@@ -48,6 +48,7 @@ async function _toDomain(targetProfileDTO, tubesData, locale) {
   const { areas, competences, thematics, tubes } = await _getLearningContent(targetProfileDTO.id, tubesData, locale);
   const badges = await _findBadges(targetProfileDTO.id);
   const stageCollection = await _getStageCollection(targetProfileDTO.id);
+  const hasLinkedCampaign = await _hasLinkedCampaign(targetProfileDTO.id);
 
   return new TargetProfileForAdmin({
     ...targetProfileDTO,
@@ -57,6 +58,7 @@ async function _toDomain(targetProfileDTO, tubesData, locale) {
     competences,
     thematics,
     tubes,
+    hasLinkedCampaign,
   });
 }
 
@@ -147,4 +149,10 @@ async function _getStageCollection(targetProfileId) {
     .first();
 
   return new StageCollection({ id: targetProfileId, stages, maxLevel });
+}
+
+async function _hasLinkedCampaign(targetProfileId) {
+  const campaigns = await knex('campaigns').where({ targetProfileId }).first();
+
+  return Boolean(campaigns);
 }
