@@ -82,7 +82,8 @@
       "test": "Your test is loading"
     },
     "new-information-banner": {
-      "close-label": "Close banner"
+      "close-label": "Close banner",
+      "lvl-seven": "Level 7 is now available! Learn more '<'a href=\"{lvlSevenUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'here'</a>'"
     },
     "or": "or",
     "pagination": {
