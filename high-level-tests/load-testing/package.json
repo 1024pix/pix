@@ -39,7 +39,7 @@
     "test": "npm run lint && npm run test:js"
   },
   "devDependencies": {
-    "@faker-js/faker": "^5.5.3",
+    "@faker-js/faker": "^6.0.0",
     "chai": "^4.3.4",
     "js2xmlparser": "^4.0.1",
     "mocha": "^9.1.0",
