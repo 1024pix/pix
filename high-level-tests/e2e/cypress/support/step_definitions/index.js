@@ -1,3 +1,9 @@
+const {
+  Given,
+  When,
+  Then,
+} = require("@badeball/cypress-cucumber-preprocessor");
+
 Given("les données de test sont chargées", () => {
   cy.task("db:fixture", "users");
   cy.task("db:fixture", "authentication-methods");

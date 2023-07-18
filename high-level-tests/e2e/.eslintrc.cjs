@@ -3,7 +3,7 @@ module.exports = {
   extends: "plugin:cypress/recommended",
   root: true,
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 2020,
     sourceType: "module",
   },
   plugins: ["cypress"],
@@ -14,6 +14,6 @@ module.exports = {
     "cypress/globals": true,
   },
   rules: {
-    "no-unused-vars": [2, { argsIgnorePattern: "_" }],
+    "no-unused-vars": [2, {argsIgnorePattern: "_"}],
   },
 };
