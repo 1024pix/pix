@@ -163,7 +163,8 @@
     "test:api:certification": "npm run test:api:path -- tests/certification",
     "test:api:shared": "npm run test:api:path -- tests/shared",
     "test:lint": "npm test && npm run lint",
-    "monitoring:arborescence": "node scripts/arborescence-monitoring/arborescence-monitoring.js"
+    "monitoring:arborescence": "node scripts/arborescence-monitoring/arborescence-monitoring.js",
+    "monitoring:metrics": "node scripts/arborescence-monitoring/add-metrics-to-gist.js"
   },
   "optionalDependencies": {
     "nyc": "^15.1.0"
