@@ -1,4 +1,5 @@
 import lodash from 'lodash';
+
 const { isUndefined, isNil } = lodash;
 
 import { databaseBuffer } from '../database-buffer.js';
@@ -75,6 +76,7 @@ const buildUser = function buildUser({
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
   hasSeenNewDashboardInfo = false,
+  hasSeenLevelSevenInfo = false,
   hasSeenFocusedChallengeTooltip = false,
   hasSeenOtherChallengesTooltip = false,
   isAnonymous = false,
@@ -105,6 +107,7 @@ const buildUser = function buildUser({
     pixCertifTermsOfServiceAccepted,
     hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo,
+    hasSeenLevelSevenInfo,
     hasSeenFocusedChallengeTooltip,
     hasSeenOtherChallengesTooltip,
     isAnonymous,

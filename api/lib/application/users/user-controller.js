@@ -140,6 +140,13 @@ const rememberUserHasSeenNewDashboardInfo = async function (request, h, dependen
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
+const rememberUserHasSeenLevelSevenInfo = async function (request, h, dependencies = { userSerializer }) {
+  const authenticatedUserId = request.auth.credentials.userId;
+
+  const updatedUser = await usecases.rememberUserHasSeenLevelSevenInfo({ userId: authenticatedUserId });
+  return dependencies.userSerializer.serialize(updatedUser);
+};
+
 const rememberUserHasSeenChallengeTooltip = async function (request, h, dependencies = { userSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
   const challengeType = request.params.challengeType;
@@ -448,6 +455,7 @@ const userController = {
   acceptPixCertifTermsOfService,
   rememberUserHasSeenAssessmentInstructions,
   rememberUserHasSeenNewDashboardInfo,
+  rememberUserHasSeenLevelSevenInfo,
   rememberUserHasSeenChallengeTooltip,
   findPaginatedFilteredUsers,
   findPaginatedUserRecommendedTrainings,

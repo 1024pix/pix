@@ -25,6 +25,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
         hasSeenAssessmentInstructions: false,
         hasSeenFocusedChallengeTooltip: false,
         hasSeenOtherChallengesTooltip: false,
+        hasSeenNewDashboardInfo: false,
+        hasSeenLevelSevenInfo: false,
         lastDataProtectionPolicySeenAt: '2022-12-24T10:00:00.000Z',
       });
     });
@@ -51,6 +53,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
               'pix-certif-terms-of-service-accepted': userModelObject.pixCertifTermsOfServiceAccepted,
               'has-seen-assessment-instructions': userModelObject.hasSeenAssessmentInstructions,
               'has-seen-new-dashboard-info': userModelObject.hasSeenNewDashboardInfo,
+              'has-seen-level-seven-info': userModelObject.hasSeenLevelSevenInfo,
               'has-seen-focused-challenge-tooltip': userModelObject.hasSeenFocusedChallengeTooltip,
               'has-seen-other-challenges-tooltip': userModelObject.hasSeenOtherChallengesTooltip,
               'last-data-protection-policy-seen-at': userModelObject.lastDataProtectionPolicySeenAt,
