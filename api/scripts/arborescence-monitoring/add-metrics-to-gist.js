@@ -1,21 +1,27 @@
 import { readFile, writeFile } from 'fs/promises';
 import { countFilesInPath } from './stats.js';
 
-async function main() {
-  const metricsFile = process.argv[2];
+async function parseTimeSeriesMetrics({ metricsFilepath }) {
+  const currentRawMetrics = await readFile(metricsFilepath, { encoding: 'utf-8' });
+  return JSON.parse(currentRawMetrics);
+}
 
-  const currentRawMetrics = await readFile(metricsFile, { encoding: 'utf-8' });
-  const currentMetrics = JSON.parse(currentRawMetrics);
+async function main() {
+  const metricsFilepath = process.argv[2];
+
+  const currentRawMetrics = await parseTimeSeriesMetrics({ metricsFilepath });
 
   const usecasesCount = await countFilesInPath('./lib/domain/usecases');
 
-  currentMetrics.push({
+  currentRawMetrics.push({
     x: new Date(),
     y: usecasesCount,
   });
 
-  const stringifiedMetrics = JSON.stringify(currentMetrics);
-  await writeFile(metricsFile, stringifiedMetrics);
+  const stringifiedMetrics = JSON.stringify(currentRawMetrics);
+  await writeFile(metricsFilepath, stringifiedMetrics);
 }
 
 await main();
+
+export { parseTimeSeriesMetrics };

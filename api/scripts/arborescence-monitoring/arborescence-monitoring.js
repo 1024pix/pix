@@ -1,29 +1,46 @@
 import { formatMessageForSlack } from './slack.js';
 import { boundedContextDirectories, countFilesInPath } from './stats.js';
-import { getDoughnutChartUrl, getSankeyChartUrl } from './quickcharts.js';
+import { getDoughnutChartUrl, getSankeyChartUrl, getTimeSeriesChartUrl } from './quickcharts.js';
+import { parseTimeSeriesMetrics } from './add-metrics-to-gist.js';
 
-function formatResult({ path, count }) {
+async function main() {
+  const doughnutChartUrl = await _getDoughnut();
+  const sankeyChartUrl = await _getSankey();
+  const timeseriesChartUrl = await _getTimeSeries({ metricsFilepath: process.argv[2] });
+
+  return console.log(formatMessageForSlack([doughnutChartUrl, sankeyChartUrl, timeseriesChartUrl]));
+}
+
+await main();
+
+export { countFilesInPath };
+
+function _formatResult({ path, count }) {
   return {
     path,
     count,
   };
 }
 
-async function main() {
+async function _getDoughnut() {
   const pathsToAnalyse = ['./src', './lib'];
   const result = await Promise.all(
     pathsToAnalyse.map(async (path) => {
       const count = await countFilesInPath(path);
-      return formatResult({ path, count });
+      return _formatResult({ path, count });
     })
   );
   const data = result.map(({ count }) => count);
-  const boundedContexts = await boundedContextDirectories();
-  const doughnutChartUrl = getDoughnutChartUrl(data);
-  const sankeyChartUrl = getSankeyChartUrl(boundedContexts);
-  return console.log(formatMessageForSlack([doughnutChartUrl, sankeyChartUrl]));
+  return getDoughnutChartUrl(data);
 }
 
-await main();
+async function _getSankey() {
+  const boundedContexts = await boundedContextDirectories();
+  const sankeyChartUrl = getSankeyChartUrl(boundedContexts);
+  return sankeyChartUrl;
+}
 
-export { countFilesInPath };
+async function _getTimeSeries({ metricsFilepath }) {
+  const timeseriesChartUrl = getTimeSeriesChartUrl(await parseTimeSeriesMetrics({ metricsFilepath }));
+  return timeseriesChartUrl;
+}

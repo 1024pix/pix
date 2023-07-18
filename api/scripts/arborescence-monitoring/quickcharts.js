@@ -1,14 +1,33 @@
-export function getDoughnutChartUrl(data) {
-  const doughnutChartConfiguration = generateDoughnutChartConfiguration(data);
-  return generateChartUrl(doughnutChartConfiguration, 2);
+function _generateTimeSeriesChartConfiguration(data) {
+  return {
+    type: 'line',
+    data: {
+      datasets: [
+        {
+          label: 'Time series example',
+          fill: false,
+          data,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        xAxes: [
+          {
+            type: 'time',
+            time: {
+              displayFormats: {
+                day: 'MMM DD YYYY',
+              },
+            },
+          },
+        ],
+      },
+    },
+  };
 }
 
-export function getSankeyChartUrl(boundedContextDirectories) {
-  const sankeyConf = generateSankeyChartConfiguration(boundedContextDirectories);
-  return generateChartUrl(sankeyConf, 3);
-}
-
-function generateDoughnutChartConfiguration(data) {
+function _generateDoughnutChartConfiguration(data) {
   return {
     type: 'doughnut',
     data: {
@@ -72,7 +91,7 @@ function generateDoughnutChartConfiguration(data) {
   };
 }
 
-function generateSankeyChartConfiguration(boundedContextDirectories) {
+function _generateSankeyChartConfiguration(boundedContextDirectories) {
   const data = boundedContextDirectories.map(({ name, fileCount }) => ({
     from: 'src',
     to: name,
@@ -93,8 +112,25 @@ function generateSankeyChartConfiguration(boundedContextDirectories) {
   };
 }
 
+function getDoughnutChartUrl(data) {
+  const doughnutChartConfiguration = _generateDoughnutChartConfiguration(data);
+  return generateChartUrl(doughnutChartConfiguration, 2);
+}
+
+function getSankeyChartUrl(boundedContextDirectories) {
+  const sankeyConf = _generateSankeyChartConfiguration(boundedContextDirectories);
+  return generateChartUrl(sankeyConf, 3);
+}
+
+function getTimeSeriesChartUrl(data) {
+  const timeseriesConf = _generateTimeSeriesChartConfiguration(data);
+  return generateChartUrl(timeseriesConf, 2);
+}
+
 function generateChartUrl(conf, version) {
   const backgroundColor = 'snow';
   const encodedChartConfiguration = encodeURIComponent(JSON.stringify(conf));
   return `https://quickchart.io/chart?c=${encodedChartConfiguration}&backgroundColor=${backgroundColor}&version=${version}`;
 }
+
+export { getDoughnutChartUrl, getSankeyChartUrl, getTimeSeriesChartUrl };

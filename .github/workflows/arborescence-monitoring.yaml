@@ -43,7 +43,7 @@ jobs:
         env:
           BRANCH_NAME: ${{ github.ref_name }}
         run: |
-          MONITORING=$(npm run monitoring:arborescence --silent)
+          MONITORING=$(npm run monitoring:arborescence --silent -- tech_days_api_arbo.json)
           echo "${MONITORING}" >> $GITHUB_STEP_SUMMARY
           echo "MONITORING_RESULT=${MONITORING}" >> $GITHUB_ENV
 
