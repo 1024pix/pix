@@ -82,7 +82,8 @@
       "test": "Votre test est en cours de chargement"
     },
     "new-information-banner": {
-      "close-label": "Fermer la bannière"
+      "close-label": "Fermer la bannière",
+      "lvl-seven": "Le niveau 7 est enfin disponible ! Vous pouvez en apprendre plus via '<'a href=\"{lvlSevenUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'cette news'</a>'"
     },
     "or": "ou",
     "pagination": {

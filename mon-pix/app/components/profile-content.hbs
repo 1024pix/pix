@@ -2,6 +2,19 @@
   <div class="background-banner"></div>
 
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner profile__panel">
+    {{#if this.displayLevelSevenBanner}}
+      <section>
+        <div>
+          <NewInformation
+            @information={{this.lvlSevenInformation}}
+            @image="/images/illustrations/tutorial-campaign/icn-tutos.svg"
+            @backgroundColorClass="new-information--yellow-gradient-background"
+            @textColorClass="new-information--black-text"
+            @closeAction={{this.closeLevelSevenBanner}}
+          />
+        </div>
+      </section>
+    {{/if}}
     <h1 class="sr-only">{{t "pages.profile.accessibility.title"}}</h1>
 
     <div class="rounded-panel-header-with-components">
@@ -21,7 +34,6 @@
         />
       </div>
     </div>
-
     {{#if @model.profile.scorecards}}
       <ProfileScorecards
         @interactive={{true}}

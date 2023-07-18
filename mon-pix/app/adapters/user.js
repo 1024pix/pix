@@ -50,6 +50,11 @@ export default class User extends ApplicationAdapter {
       return url + '/remember-user-has-seen-assessment-instructions';
     }
 
+    if (adapterOptions && adapterOptions.rememberUserHasSeenLevelSevenBanner) {
+      delete adapterOptions.rememberUserHasSeenLevelSevenBanner;
+      return url + '/user-has-seen-level-seven-info';
+    }
+
     if (adapterOptions && adapterOptions.rememberUserHasSeenNewDashboardInfo) {
       delete adapterOptions.rememberUserHasSeenNewDashboardInfo;
       return url + '/has-seen-new-dashboard-info';
@@ -72,7 +77,6 @@ export default class User extends ApplicationAdapter {
       delete adapterOptions.rememberUserHasSeenLastDataProtectionPolicyInformation;
       return url + '/has-seen-last-data-protection-policy-information';
     }
-
     return url;
   }
 }
