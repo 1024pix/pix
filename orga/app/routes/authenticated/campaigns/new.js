@@ -41,8 +41,6 @@ export default class NewRoute extends Route {
           );
         }
       } catch {
-        console.log('Campaign not found');
-        console.log({ router: this.router });
         this.router.replaceWith('authenticated.campaigns.new', { queryParams: { source: null } });
       }
     }
@@ -56,5 +54,11 @@ export default class NewRoute extends Route {
       targetProfiles: organization.targetProfiles,
       membersSortedByFullName,
     };
+  }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('source', null);
+    }
   }
 }
