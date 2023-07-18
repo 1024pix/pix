@@ -1,8 +1,11 @@
 export function getDoughnutChartUrl(data) {
-  const backgroundColor = 'snow';
   const doughnutChartConfiguration = generateDoughnutChartConfiguration(data);
-  const encodedChartConfiguration = encodeURIComponent(JSON.stringify(doughnutChartConfiguration));
-  return `https://quickchart.io/chart?c=${encodedChartConfiguration}&backgroundColor=${backgroundColor}`;
+  return generateChartUrl(doughnutChartConfiguration, 2);
+}
+
+export function getSankeyChartUrl(boundedContextDirectories) {
+  const sankeyConf = generateSankeyChartConfiguration(boundedContextDirectories);
+  return generateChartUrl(sankeyConf, 3);
 }
 
 function generateDoughnutChartConfiguration(data) {
@@ -67,4 +70,31 @@ function generateDoughnutChartConfiguration(data) {
       },
     },
   };
+}
+
+function generateSankeyChartConfiguration(boundedContextDirectories) {
+  const data = boundedContextDirectories.map(({ name, fileCount }) => ({
+    from: 'src',
+    to: name,
+    flow: fileCount,
+  }));
+
+  return {
+    type: 'sankey',
+    data: {
+      datasets: [
+        {
+          data,
+          colorFrom: '#3d68ff',
+          colorTo: '#ff9f00',
+        },
+      ],
+    },
+  };
+}
+
+function generateChartUrl(conf, version) {
+  const backgroundColor = 'snow';
+  const encodedChartConfiguration = encodeURIComponent(JSON.stringify(conf));
+  return `https://quickchart.io/chart?c=${encodedChartConfiguration}&backgroundColor=${backgroundColor}&version=${version}`;
 }

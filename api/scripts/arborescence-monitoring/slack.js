@@ -1,12 +1,7 @@
-export function formatMessageForSlack(image_url) {
+export function formatMessageForSlack(chartUrls) {
+  const blocks = chartUrls.map((image_url) => ({ type: 'image', image_url, alt_text: 'inspiration ❤️❤️❤️' }));
   const slackBlocks = {
-    blocks: [
-      {
-        type: 'image',
-        image_url,
-        alt_text: 'inspiration',
-      },
-    ],
+    blocks,
   };
   return JSON.stringify(slackBlocks);
 }

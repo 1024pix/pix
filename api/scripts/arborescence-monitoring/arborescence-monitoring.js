@@ -1,6 +1,6 @@
 import { formatMessageForSlack } from './slack.js';
-import { countFilesInPath } from './stats.js';
-import { getDoughnutChartUrl } from './quickcharts.js';
+import { boundedContextDirectories, countFilesInPath } from './stats.js';
+import { getDoughnutChartUrl, getSankeyChartUrl } from './quickcharts.js';
 
 function formatResult({ path, count }) {
   return {
@@ -18,8 +18,10 @@ async function main() {
     })
   );
   const data = result.map(({ count }) => count);
-  const chartUrl = getDoughnutChartUrl(data);
-  return console.log(formatMessageForSlack(chartUrl));
+  const boundedContexts = await boundedContextDirectories();
+  const doughnutChartUrl = getDoughnutChartUrl(data);
+  const sankeyChartUrl = getSankeyChartUrl(boundedContexts);
+  return console.log(formatMessageForSlack([doughnutChartUrl, sankeyChartUrl]));
 }
 
 await main();
