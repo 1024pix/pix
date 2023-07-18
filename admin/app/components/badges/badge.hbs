@@ -17,6 +17,7 @@
     </div>
     <div class="page-section__details badge-data">
       <div class="badge-data__image">
+        {{! template-lint-disable no-redundant-role }}
         <img src={{@badge.imageUrl}} alt="" role="presentation" width="90px" /><br />
       </div>
       {{#if this.editMode}}
