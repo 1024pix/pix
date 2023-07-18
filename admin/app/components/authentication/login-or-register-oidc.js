@@ -73,25 +73,10 @@ export default class LoginOrRegisterOidcComponent extends Component {
 
     this.isLoginLoading = true;
 
-    const identityProvider = this.oidcIdentityProviders[this.args.identityProviderSlug].code;
-
-    const authenticationRequest = this.store.createRecord('user-oidc-authentication-request', {
-      password: this.password,
-      email: this.email,
-      authenticationKey: this.args.authenticationKey,
-      identityProvider,
-    });
-
     try {
-      const { email, username, authenticationMethods, fullNameFromPix, fullNameFromExternalIdentityProvider } =
-        await authenticationRequest.login();
-      this.email = email;
-      this.username = username;
-      this.authenticationMethods = authenticationMethods;
-      this.fullNameFromPix = fullNameFromPix;
-      this.fullNameFromExternalIdentityProvider = fullNameFromExternalIdentityProvider;
-
       await this.session.authenticate('authenticator:oidc', {
+        email: this.email,
+        password: this.password,
         authenticationKey: this.args.authenticationKey,
         identityProviderSlug: this.args.identityProviderSlug,
         hostSlug: 'user/reconcile',
@@ -106,7 +91,7 @@ export default class LoginOrRegisterOidcComponent extends Component {
       };
       this.loginErrorMessage = errorsMapping[status] || ERROR_INPUT_MESSAGE_MAP['unknownError'];
     } finally {
-      this.isLoading = false;
+      this.isLoginLoading = false;
     }
   }
 }

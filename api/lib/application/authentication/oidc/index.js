@@ -151,6 +151,8 @@ const register = async function (server) {
           payload: Joi.object({
             data: Joi.object({
               attributes: Joi.object({
+                email: Joi.string().email().required(),
+                password: Joi.string().required(),
                 identity_provider: Joi.string()
                   .required()
                   .valid(...validOidcProviderCodes),
