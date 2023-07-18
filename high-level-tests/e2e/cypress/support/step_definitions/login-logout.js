@@ -1,3 +1,9 @@
+const {
+  Given,
+  When,
+  Then,
+} = require("@badeball/cypress-cucumber-preprocessor");
+
 // Given
 Given(`je me connecte avec le compte {string}`, (email) => {
   cy.get('input[name="login"]').type(email);

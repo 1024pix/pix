@@ -1,5 +1,7 @@
-When('je vais sur la page de connexion', () => {
-  cy.visitMonPix('/connexion');
+const { When, Then } = require("@badeball/cypress-cucumber-preprocessor");
+
+When("je vais sur la page de connexion", () => {
+  cy.visitMonPix("/connexion");
 });
 
 When(`je vais sur la compétence {string}`, (competenceId) => {
@@ -7,5 +9,5 @@ When(`je vais sur la compétence {string}`, (competenceId) => {
 });
 
 Then(`je vois le titre de la page {string}`, (pageTitle) => {
-  cy.title().should('equal', pageTitle);
+  cy.title().should("equal", pageTitle);
 });
