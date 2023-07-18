@@ -38,7 +38,7 @@ async function simulateFlashAssessmentScenario(
     _.range(0, numberOfIterations).map(async (index) => {
       const pickChallenge = dependencies.pickChallengeService.chooseNextChallenge(
         `${assessmentId}-${index}`,
-        challengePickProbability
+        challengePickProbability,
       );
 
       const usecaseParams = _.omitBy(

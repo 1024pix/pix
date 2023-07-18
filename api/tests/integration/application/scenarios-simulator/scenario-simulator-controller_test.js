@@ -159,7 +159,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               challengePickProbability,
             },
             null,
-            { 'accept-language': 'en' }
+            { 'accept-language': 'en' },
           );
 
           // then
@@ -178,7 +178,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
                   discriminant: challenge1.discriminant,
                 },
               ],
-            ])
+            ]),
           );
         });
       });
