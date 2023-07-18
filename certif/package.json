@@ -76,7 +76,7 @@
     "ember-cli-notifications": "^8.0.0",
     "ember-cli-sass": "^11.0.1",
     "ember-composable-helpers": "^5.0.0",
-    "ember-cookies": "^0.5.2",
+    "ember-cookies": "^1.0.0",
     "ember-data": "~4.0.2",
     "ember-dayjs": "^0.12.0",
     "ember-export-application-global": "^2.0.1",
@@ -118,6 +118,9 @@
   "overrides": {
     "ember-keyboard": {
       "@ember/test-helpers": "^3.0.0"
+    },
+    "ember-simple-auth": {
+      "ember-cookies": "^1.0.0"
     }
   }
 }
