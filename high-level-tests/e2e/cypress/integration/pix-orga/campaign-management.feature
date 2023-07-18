@@ -67,7 +67,9 @@ Fonctionnalité: Gestion des Campagnes
 
   Scénario: Je duplique une campagne d'évaluation
     Étant donné que je suis connecté à Pix Orga
-    Lorsque je duplique la campagne "1"
+    Et je clique sur "Campagne de la Néra"
+    Et je clique sur "Paramètres"
+    Lorsque je clique sur "Dupliquer"
     Alors je suis redirigé vers la page "creation"
     Et je clique sur "Créer la campagne"
     Alors je vois le détail de la campagne "Copie de Campagne de la Néra"
