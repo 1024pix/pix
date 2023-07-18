@@ -43,6 +43,18 @@ function generateDoughnutChartConfiguration(data) {
         doughnutlabel: {
           labels: [
             {
+              text: `branch`,
+              font: {
+                size: 18,
+              },
+            },
+            {
+              text: process.env.BRANCH_NAME || 'unknown',
+              font: {
+                size: 14,
+              },
+            },
+            {
               text: '\n\nmigration progress',
               color: '#000',
               font: {

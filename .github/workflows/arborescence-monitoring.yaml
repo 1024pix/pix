@@ -21,6 +21,8 @@ jobs:
           node-version: 16
       - name: "Run monitoring"
         id: monitoring
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
         run: |
           MONITORING=$(npm run monitoring:arborescence --silent)
           echo "${MONITORING}" >> $GITHUB_STEP_SUMMARY
