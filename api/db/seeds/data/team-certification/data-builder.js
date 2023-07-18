@@ -46,7 +46,12 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createSession({ databaseBuilder });
   await _createV3Session({ databaseBuilder });
   await _createPublishedSession({ databaseBuilder });
-  await _createStartedSession({ databaseBuilder });
+  await _createStartedSession({
+    databaseBuilder,
+    sessionId: STARTED_SESSION_ID,
+    certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
+    organizationId: PRO_ORGANIZATION_USER_ID,
+  });
 }
 
 export { teamCertificationDataBuilder };
@@ -361,14 +366,14 @@ async function _createPublishedSession({ databaseBuilder }) {
   });
 }
 
-async function _createStartedSession({ databaseBuilder }) {
+async function _createStartedSession({ databaseBuilder, sessionId, certificationCenterId, type = 'PRO' }) {
   await tooling.session.createStartedSession({
     databaseBuilder,
-    sessionId: STARTED_SESSION_ID,
-    accessCode: 'SCOS78',
-    address: '1 rue Certification pro',
-    certificationCenter: 'Centre de certification pro',
-    certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
+    sessionId,
+    accessCode: `${type}S78`,
+    address: `1 rue Certification ${type}`,
+    certificationCenter: `Centre de certification ${type}`,
+    certificationCenterId,
     date: new Date(),
     description: 'une description',
     examiner: 'Un super examinateur',
