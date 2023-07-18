@@ -221,9 +221,6 @@ const configuration = (function () {
       ),
       isPix1dEnabled: isFeatureEnabled(process.env.FT_PIX_1D_ENABLED),
       isTargetProfileVersioningEnabled: isFeatureEnabled(process.env.FT_TARGET_PROFILE_VERSIONING),
-      isDifferentiatedTimeInvigilatorPortalEnabled: isFeatureEnabled(
-        process.env.FT_DIFFERENTIATED_TIME_INVIGILATOR_PORTAL,
-      ),
     },
 
     infra: {
@@ -371,7 +368,6 @@ const configuration = (function () {
 
     config.featureToggles.isMassiveSessionManagementEnabled = false;
     config.featureToggles.isPix1dEnabled = true;
-    config.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled = true;
     config.featureToggles.isTargetProfileVersioningEnabled = true;
 
     config.mailing.enabled = false;
