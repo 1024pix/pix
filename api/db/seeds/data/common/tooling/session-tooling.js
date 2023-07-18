@@ -877,6 +877,15 @@ async function _makeCandidatesComplementaryCertifiable(databaseBuilder, certific
   return complementaryCertificationsProfileData;
 }
 
+async function _getOrganizationLearnerId({ databaseBuilder, userId, campaignId }) {
+  const [organizationLearnerId] = await databaseBuilder
+    .knex('organization-learners')
+    .pluck('organization-learners.id')
+    .join('campaigns', 'campaigns.organizationId', 'organization-learners.organizationId')
+    .where({ 'campaigns.id': campaignId, userId });
+  return organizationLearnerId;
+}
+
 async function _makeCandidatesComplementaryCertificationCertifiable(
   databaseBuilder,
   complementaryCertificationId,
@@ -894,31 +903,41 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
     .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
     .join('campaigns', 'campaigns.targetProfileId', 'badges.targetProfileId')
     .where({ complementaryCertificationId });
-  const assessmentAndUserIds = certificationCandidates.map((certificationCandidate) => {
-    const {
-      badgeId: selectedBadgeId,
-      complementaryCertificationBadgeId,
-      partnerKey,
-      campaignId,
-    } = generic.pickOneRandomAmong(badgeAndComplementaryCertificationBadgeIds);
-    const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
-      userId: certificationCandidate.userId,
-      campaignId,
-      state: 'SHARED',
-    }).id;
-    databaseBuilder.factory.buildBadgeAcquisition({
-      userId: certificationCandidate.userId,
-      badgeId: selectedBadgeId,
-      campaignParticipationId,
-    });
-    const assessmentId = databaseBuilder.factory.buildAssessment({
-      userId: certificationCandidate.userId,
-      type: Assessment.types.CAMPAIGN,
-      campaignParticipationId,
-    }).id;
-    certificationCandidate.complementaryCertificationBadgeInfo = { complementaryCertificationBadgeId, partnerKey };
-    return { assessmentId, userId: certificationCandidate.userId };
-  });
+
+  const assessmentAndUserIds = await Promise.all(
+    certificationCandidates.map(async (certificationCandidate) => {
+      const {
+        badgeId: selectedBadgeId,
+        complementaryCertificationBadgeId,
+        partnerKey,
+        campaignId,
+      } = generic.pickOneRandomAmong(badgeAndComplementaryCertificationBadgeIds);
+
+      const organizationLearnerId = await _getOrganizationLearnerId({
+        databaseBuilder,
+        campaignId,
+        userId: certificationCandidate.userId,
+      });
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        userId: certificationCandidate.userId,
+        campaignId,
+        state: 'SHARED',
+        organizationLearnerId,
+      }).id;
+      databaseBuilder.factory.buildBadgeAcquisition({
+        userId: certificationCandidate.userId,
+        badgeId: selectedBadgeId,
+        campaignParticipationId,
+      });
+      const assessmentId = databaseBuilder.factory.buildAssessment({
+        userId: certificationCandidate.userId,
+        type: Assessment.types.CAMPAIGN,
+        campaignParticipationId,
+      }).id;
+      certificationCandidate.complementaryCertificationBadgeInfo = { complementaryCertificationBadgeId, partnerKey };
+      return { assessmentId, userId: certificationCandidate.userId };
+    }),
+  );
 
   // All candidates for complementary certification validates all of the pix+ framework
   const allSkillsOfFramework = await learningContent.findActiveSkillsByFrameworkName(frameworkName);
