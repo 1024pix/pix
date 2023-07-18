@@ -9,6 +9,7 @@ import {
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common-builder.js';
+import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
 
 let verifCodeCount = 0;
 
@@ -888,9 +889,13 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
     .pluck('badges.targetProfileId')
     .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
     .where({ complementaryCertificationId });
+  const campaignCode = _createCampaignCode(frameworkName, complementaryCertificationId);
   const { campaignId } = await campaignTooling.createAssessmentCampaign({
     databaseBuilder,
     targetProfileId,
+    name: 'Campagne evaluation team-certif',
+    code: campaignCode,
+    title: 'Campagne evaluation team-certif',
     configCampaign: {
       participantCount: 0,
     },
@@ -905,10 +910,6 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
     .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
     .where({ complementaryCertificationId });
   const assessmentAndUserIds = certificationCandidates.map((certificationCandidate) => {
-    const assessmentId = databaseBuilder.factory.buildAssessment({
-      userId: certificationCandidate.userId,
-      type: 'COMPETENCE_EVALUATION',
-    }).id;
     const {
       badgeId: selectedBadgeId,
       complementaryCertificationBadgeId,
@@ -924,6 +925,11 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
       badgeId: selectedBadgeId,
       campaignParticipationId,
     });
+    const assessmentId = databaseBuilder.factory.buildAssessment({
+      userId: certificationCandidate.userId,
+      type: Assessment.types.CAMPAIGN,
+      campaignParticipationId,
+    }).id;
     certificationCandidate.complementaryCertificationBadgeInfo = { complementaryCertificationBadgeId, partnerKey };
     return { assessmentId, userId: certificationCandidate.userId };
   });
@@ -981,6 +987,12 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
   }
 
   return complementaryProfileData;
+}
+
+function _createCampaignCode(frameworkName, complementaryCertificationId) {
+  const campaignCodeSuffix = frameworkName.toUpperCase().substr(0, 3);
+  const campaignCode = `${campaignCodeSuffix}${complementaryCertificationId}`.padStart(9, 'CERTIF');
+  return campaignCode;
 }
 
 function _makeCandidatesPassCertification(
