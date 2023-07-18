@@ -1,3 +1,5 @@
+const { When, Then } = require("@badeball/cypress-cucumber-preprocessor");
+
 When(`je vais sur la page d'accès à une campagne`, () => {
   cy.visitMonPix(`/campagnes`);
 });
