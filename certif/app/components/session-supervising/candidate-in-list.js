@@ -7,7 +7,6 @@ import dayjs from 'dayjs';
 export default class CandidateInList extends Component {
   @service notifications;
   @service intl;
-  @service featureToggles;
 
   @tracked isMenuOpen = false;
   @tracked isConfirmationModalDisplayed = false;
@@ -18,19 +17,7 @@ export default class CandidateInList extends Component {
   @tracked actionOnConfirmation;
 
   get isConfirmButtonToBeDisplayed() {
-    return (
-      !this.args.candidate.hasStarted &&
-      !this.args.candidate.hasCompleted &&
-      this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled
-    );
-  }
-
-  get isCheckboxToBeDisplayed() {
-    return (
-      !this.args.candidate.hasStarted &&
-      !this.args.candidate.hasCompleted &&
-      !this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled
-    );
+    return !this.args.candidate.hasStarted && !this.args.candidate.hasCompleted;
   }
 
   get optionsMenuShouldBeDisplayed() {
@@ -38,14 +25,7 @@ export default class CandidateInList extends Component {
   }
 
   get shouldDisplayEnrolledComplementaryCertification() {
-    return (
-      this.args.candidate.enrolledComplementaryCertificationLabel &&
-      this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled
-    );
-  }
-
-  get shouldDisplayTheoricalEndDatetime() {
-    return this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled;
+    return this.args.candidate.enrolledComplementaryCertificationLabel;
   }
 
   get shouldDisplayNonEligibilityWarning() {
@@ -60,9 +40,7 @@ export default class CandidateInList extends Component {
   }
 
   _isReconciliated() {
-    return (
-      this.featureToggles.featureToggles.isDifferentiatedTimeInvigilatorPortalEnabled && this.args.candidate.userId
-    );
+    return this.args.candidate.userId;
   }
 
   get authorizationButtonLabel() {
