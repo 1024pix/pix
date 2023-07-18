@@ -23,4 +23,45 @@ module('Unit | Adapters | sco-organization-participant', function (hooks) {
       assert.strictEqual(query.organizationId, undefined);
     });
   });
+
+  module('#resetOrganizationLearnersPassword', function () {
+    test('resets organization learners password and saves a CSV file', async function (assert) {
+      // given
+      const fetch = sinon.stub().resolves();
+      const fileSaver = { save: sinon.stub().resolves() };
+      const organizationId = 1;
+      const organizationLearnersIds = [23, 789];
+      const token = 'best token ever';
+      adapter.host = 'pix.local';
+      adapter.namespace = 'api';
+
+      // when
+      await adapter.resetOrganizationLearnersPassword({
+        fetch,
+        fileSaver,
+        organizationId,
+        organizationLearnersIds,
+        token,
+      });
+
+      // then
+      const expectedUrl = `${adapter.host}/${adapter.namespace}/sco-organization-learners/passwords`;
+      const expectedOptions = {
+        method: 'PUT',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          {
+            data: {
+              attributes: { 'organization-id': organizationId, 'organization-learners-id': organizationLearnersIds },
+            },
+          },
+          null,
+          2
+        ),
+      };
+      sinon.assert.calledWith(fetch, expectedUrl, expectedOptions);
+      sinon.assert.calledOnce(fileSaver.save);
+      assert.ok(true);
+    });
+  });
 });
