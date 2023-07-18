@@ -129,8 +129,3 @@ Then(
 When('je clique sur le bouton "Associer"', () => {
   cy.contains("button", "Associer").click();
 });
-
-When(`je duplique la campagne {string}`, (id) => {
-  const urn = `/campagnes/creation?source=${id}`;
-  cy.visitOrga(urn);
-});
