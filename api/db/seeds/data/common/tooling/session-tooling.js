@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import * as learningContent from './learning-content.js';
-import * as campaignTooling from './campaign-tooling.js';
 import * as generic from './generic.js';
 
 import {
@@ -884,36 +883,23 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
   frameworkName,
   certificationCandidates,
 ) {
-  const [targetProfileId] = await databaseBuilder
-    .knex('complementary-certification-badges')
-    .pluck('badges.targetProfileId')
-    .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
-    .where({ complementaryCertificationId });
-  const campaignCode = _createCampaignCode(frameworkName, complementaryCertificationId);
-  const { campaignId } = await campaignTooling.createAssessmentCampaign({
-    databaseBuilder,
-    targetProfileId,
-    name: 'Campagne evaluation team-certif',
-    code: campaignCode,
-    title: 'Campagne evaluation team-certif',
-    configCampaign: {
-      participantCount: 0,
-    },
-  });
   const badgeAndComplementaryCertificationBadgeIds = await databaseBuilder
     .knex('complementary-certification-badges')
     .select({
       badgeId: 'complementary-certification-badges.badgeId',
       complementaryCertificationBadgeId: 'complementary-certification-badges.id',
       partnerKey: 'badges.key',
+      campaignId: 'campaigns.id',
     })
     .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
+    .join('campaigns', 'campaigns.targetProfileId', 'badges.targetProfileId')
     .where({ complementaryCertificationId });
   const assessmentAndUserIds = certificationCandidates.map((certificationCandidate) => {
     const {
       badgeId: selectedBadgeId,
       complementaryCertificationBadgeId,
       partnerKey,
+      campaignId,
     } = generic.pickOneRandomAmong(badgeAndComplementaryCertificationBadgeIds);
     const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
       userId: certificationCandidate.userId,
@@ -987,12 +973,6 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
   }
 
   return complementaryProfileData;
-}
-
-function _createCampaignCode(frameworkName, complementaryCertificationId) {
-  const campaignCodeSuffix = frameworkName.toUpperCase().substr(0, 3);
-  const campaignCode = `${campaignCodeSuffix}${complementaryCertificationId}`.padStart(9, 'CERTIF');
-  return campaignCode;
 }
 
 function _makeCandidatesPassCertification(
