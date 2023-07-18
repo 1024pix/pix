@@ -19,6 +19,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+      - run: |
+          curl 'https://gist.githubusercontent.com/Steph0/a8204cf9e9f5483bfb0720b3f55681a8/raw/tech_days_api_arbo.json' > tech_days_api_arbo.json
       - name: "Run monitoring"
         id: monitoring
         env:
@@ -33,3 +35,7 @@ jobs:
           WEBHOOK_URL: ${{ secrets.DASHBOARD_API_ARBORESCENCE_SLACK_WEBHOOK_URL }}
         run: |
           curl -X POST $WEBHOOK_URL -H 'Content-Type: application/json' -d "$MONITORING_RESULT"
+      - name : "Display Gist"
+        run: cat tech_days_api_arbo.json
+
+
