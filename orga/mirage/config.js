@@ -394,7 +394,12 @@ export default function () {
   });
 
   this.put('/sco-organization-learners/passwords', () => {
-    return emptyData;
+    const headers = {
+      'Content-Type': 'text/csv;charset=utf-8',
+      'Content-Disposition': 'attachment; filename=content.csv',
+    };
+    const csvContent = 'Identifiant;Mot de passe;Classe\nuser1;password1;1A\n';
+    return new Response(200, headers, csvContent);
   });
 
   this.post('/sco-organization-learners/username-password-generation', (schema) => {
