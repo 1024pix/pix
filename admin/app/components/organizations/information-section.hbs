@@ -3,8 +3,10 @@
     <div class="organization__logo">
       <figure class="organization__logo-figure">
         {{#if @organization.logoUrl}}
+          {{! template-lint-disable no-redundant-role }}
           <img src={{@organization.logoUrl}} alt="" role="presentation" />
         {{else}}
+          {{! template-lint-disable no-redundant-role }}
           <img src="{{this.rootURL}}/logo-placeholder.png" alt="" role="presentation" />
         {{/if}}
 
