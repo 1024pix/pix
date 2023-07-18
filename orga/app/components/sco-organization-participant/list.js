@@ -2,13 +2,16 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { CONNECTION_TYPES } from '../../helpers/connection-types';
 import { guidFor } from '@ember/object/internals';
+import fetch from 'fetch';
+import { CONNECTION_TYPES } from '../../helpers/connection-types';
 
 export default class ScoList extends Component {
   @service currentUser;
   @service intl;
   @service store;
+  @service session;
+  @service fileSaver;
 
   @tracked isLoadingDivisions;
   @tracked student = null;
@@ -94,9 +97,13 @@ export default class ScoList extends Component {
   async resetPasswordForStudents(affectedStudents, resetSelectedStudents) {
     const affectedStudentsIds = affectedStudents.map((affectedStudents) => affectedStudents.id);
     try {
-      await this.store
-        .adapterFor('sco-organization-participant')
-        .resetOrganizationLearnersPassword(this.currentUser.organization.id, affectedStudentsIds);
+      await this.store.adapterFor('sco-organization-participant').resetOrganizationLearnersPassword({
+        fetch,
+        fileSaver: this.fileSaver,
+        organizationId: this.currentUser.organization.id,
+        organizationLearnersIds: affectedStudentsIds,
+        token: this.session?.data?.authenticated?.access_token,
+      });
       this.closeResetPasswordModal();
       resetSelectedStudents();
     } catch (error) {
