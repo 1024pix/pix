@@ -1,0 +1,16 @@
+{{page-title "Réconcilier son compte Pix | Pix4Pix Admin"}}
+
+<PixBackgroundHeader>
+  <PixBlock @shadow="light" class="login-or-register-oidc-form">
+    <a href="https://admin.pix4.pix.digital/login" class="login-or-register-oidc-form__logo">
+      <img src="/platform-logo.png" alt="Pix4Pix Admin" />
+    </a>
+    <Authentication::LoginOrRegisterOidc
+      @identityProviderSlug={{this.identityProviderSlug}}
+      @authenticationKey={{this.authenticationKey}}
+      @givenName={{this.givenName}}
+      @familyName={{this.familyName}}
+      @onLogin={{this.onLogin}}
+    />
+  </PixBlock>
+</PixBackgroundHeader>

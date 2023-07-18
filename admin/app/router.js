@@ -125,5 +125,6 @@ Router.map(function () {
 
   this.route('authentication', { path: '/connexion' }, function () {
     this.route('login-oidc', { path: '/:identity_provider_slug' });
+    this.route('login-or-register-oidc', { path: '/oidc' });
   });
 });

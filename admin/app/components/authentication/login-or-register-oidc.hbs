@@ -1,0 +1,51 @@
+<h1 class="login-or-register-oidc-form__title">Réconciliation compte Pix</h1>
+
+<div class="login-or-register-oidc-form__login-container">
+  <PixMessage @type="warning" class="login-or-register-oidc-form__message">
+    Si vous n'avez de compte, créez-le sur l'application
+    <a
+      href="https://app.pix4.pix.digital"
+      target="_blank"
+      rel="noreferrer noopener"
+      class="login-or-register-oidc-form__link"
+    >
+      Pix4Pix App
+    </a>.
+    <br />Veillez à demander un accès administrateur avant de vous reconnecter sur Pix4Pix Admin.
+  </PixMessage>
+
+  <span class="login-or-register-oidc-form__subtitle">Connectez-vous pour lier votre compte existant</span>
+  <form {{on "submit" this.login}} class="login-or-register-oidc-form__form">
+    <p class="login-or-register-oidc-form__mandatory-description">Tous les champs sont obligatoires.</p>
+
+    <PixInput
+      @id="email"
+      @label="Adresse e-mail"
+      name="email"
+      @errorMessage={{this.emailValidationMessage}}
+      @validationStatus={{this.emailValidationStatus}}
+      {{on "change" this.validateEmail}}
+      autocomplete="off"
+      required
+    />
+    <PixInputPassword
+      @id="password"
+      @value={{this.password}}
+      @label="Mot de passe"
+      autocomplete="off"
+      required
+      {{on "change" this.setPassword}}
+    />
+
+    {{#if this.loginErrorMessage}}
+      <PixMessage @type="error" class="login-or-register-oidc-form__error">
+        {{this.loginErrorMessage}}
+      </PixMessage>
+    {{/if}}
+
+    <PixButton @type="submit" @isLoading={{this.isLoginLoading}} class="login-or-register-oidc-form__submit-button">
+      Se connecter
+    </PixButton>
+  </form>
+
+</div>

@@ -1,0 +1,86 @@
+.login-or-register-oidc-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 1250px;
+  margin-bottom: 32px;
+  padding: 25px 50px;
+
+  @include device-is('desktop') {
+    padding: 50px;
+  }
+
+  &__logo {
+    text-align: center;
+
+    img {
+      height: 80px;
+    }
+  }
+
+  &__title {
+    padding: 22px 0 30px;
+    color: $pix-neutral-90;
+    font-weight: 300;
+    font-size: 36px;
+    font-family: $font-open-sans;
+    text-align: center;
+
+    @include device-is('desktop') {
+      padding: 32px 0 48px;
+      font-size: 46px;
+      line-height: 3.75rem;
+    }
+  }
+
+  &__subtitle {
+    padding: 24px 0 30px;
+    color: $pix-neutral-90;
+    font-weight: 500;
+    font-size: 22px;
+    font-family: $font-open-sans;
+    line-height: 2.5rem;
+    text-align: center;
+  }
+
+  &__login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__mandatory-description {
+    padding-bottom: 10px;
+    color: $pix-neutral-70;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  &__submit-button {
+    margin-top: 24px;
+    width: 100%;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 60%;
+  }
+
+  &__link {
+    text-decoration: underline;
+  }
+
+  &__message {
+    width: 70%;
+    line-height: 1.5rem;
+  }
+
+  &__error {
+    margin-top: 15px;
+  }
+}
+
+.pix-background-header__background {
+  background: linear-gradient(180deg, #ac3dff 0%, #7712ff 100%);
+}
