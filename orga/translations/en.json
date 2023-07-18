@@ -541,6 +541,7 @@
       "title": "Settings",
       "actions": {
         "archive": "Archive",
+        "duplicate": "Duplicate",
         "edit": "Edit"
       },
       "campaign-type": {

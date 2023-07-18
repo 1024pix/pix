@@ -259,4 +259,14 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
       });
     });
   });
+
+  module('resetController', function () {
+    test('should reset source to null when isExiting true', function (assert) {
+      const route = this.owner.lookup('route:authenticated/campaigns/new');
+
+      const controller = { set: sinon.stub() };
+      route.resetController(controller, true);
+      assert.true(controller.set.calledWithExactly('source', null));
+    });
+  });
 });

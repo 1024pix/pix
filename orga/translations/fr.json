@@ -544,6 +544,7 @@
       "title": "Paramètres",
       "actions": {
         "archive": "Archiver",
+        "duplicate": "Dupliquer",
         "edit": "Modifier"
       },
       "campaign-type": {
