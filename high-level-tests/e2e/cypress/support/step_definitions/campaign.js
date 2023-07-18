@@ -8,9 +8,9 @@ When(
   `je vais sur la campagne {string} avec l'identifiant {string}`,
   (campaignCode, participantExternalId) => {
     cy.visitMonPix(
-      `/campagnes/${campaignCode}?participantExternalId=${participantExternalId}`
+      `/campagnes/${campaignCode}?participantExternalId=${participantExternalId}`,
     );
-  }
+  },
 );
 
 When(`j'ouvre le sujet {string}`, (tubeName) => {
@@ -21,7 +21,7 @@ When(`j'ouvre le sujet {string}`, (tubeName) => {
     });
 });
 
-Then(`je vois la page \(d'\)/\(de \){string} de la campagne`, (page) => {
+Then(`je vois la page (d')(de ){string} de la campagne`, (page) => {
   cy.url().should("include", page);
 });
 
@@ -31,7 +31,7 @@ When(
     cy.get("input#dayOfBirth").type(dayOfBirth);
     cy.get("input#monthOfBirth").type(monthOfBirth);
     cy.get("input#yearOfBirth").type(yearOfBirth);
-  }
+  },
 );
 
 Then(`je vois {int} campagne\(s\)`, (campaignsCount) => {
@@ -53,7 +53,7 @@ Then(`je vois le détail de la campagne {string}`, (campaignName) => {
 Then(`je vois {int} participants`, (numberOfParticipants) => {
   cy.get('[aria-label="Participant"]').should(
     "have.lengthOf",
-    numberOfParticipants
+    numberOfParticipants,
   );
 });
 
@@ -69,10 +69,10 @@ When(
     } else {
       cy.get('[aria-label="Compétence"]').should(
         "have.lengthOf",
-        numberOfResultsByCompetence
+        numberOfResultsByCompetence,
       );
     }
-  }
+  },
 );
 
 When(
@@ -80,16 +80,16 @@ When(
   (numberOfResultsByCompetence) => {
     cy.get(".skill-review-competence__row").should(
       "have.lengthOf",
-      numberOfResultsByCompetence
+      numberOfResultsByCompetence,
     );
-  }
+  },
 );
 
 When(
   `je vois la formation recommandée ayant le titre {string}`,
   (trainingName) => {
     cy.get(".training-card-content__title").should("contain", trainingName);
-  }
+  },
 );
 
 Then(`je vois la moyenne des résultats à {int}%`, (averageResult) => {
@@ -125,7 +125,7 @@ Then(
     cy.contains(tubeName)
       .closest('[aria-label="Sujet"]')
       .get(`[aria-label="${recommendationLevel}"]`);
-  }
+  },
 );
 
 When('je clique sur le bouton "Associer"', () => {
