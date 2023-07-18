@@ -18,7 +18,7 @@ const pickChallenge = function ({ skills, randomSeed, locale }) {
 
 const chooseNextChallenge = function (
   seed,
-  probabilityToPickChallenge = config.v3Certification.defaultProbabilityToPickChallenge
+  probabilityToPickChallenge = config.v3Certification.defaultProbabilityToPickChallenge,
 ) {
   const pseudoRandomContext = pseudoRandom.create(seed);
   return function ({ possibleChallenges }) {
