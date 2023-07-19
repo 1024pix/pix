@@ -1,4 +1,4 @@
-import { Factory } from 'miragejs';
+import { Factory, trait } from 'miragejs';
 
 export default Factory.extend({
   type() {
@@ -20,4 +20,12 @@ export default Factory.extend({
   proposals() {
     return 'Rue de : ${Rue#}';
   },
+  withTextArea: trait({
+    format: 'paragraphe',
+  }),
+  QROCWithSelect: trait({
+    type: 'QROC',
+    instruction: 'Un QROC est une question',
+    proposals: 'Select: ${banana#tomatoPlaceholder§saladAriaLabel options=["good-answer","bad-answer"]}',
+  }),
 });

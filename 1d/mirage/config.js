@@ -23,7 +23,7 @@ export default function () {
   this.post('/activity-answers', (schema, request) => {
     const answerValue = JSON.parse(request.requestBody).data.attributes?.value;
     return schema.create('activity-answer', {
-      result: answerValue === '#ABAND#' ? 'aband' : 'ok',
+      result: answerValue === '#ABAND#' ? 'aband' : answerValue !== 'bad-answer' ? 'ok' : 'ko',
     });
   });
 

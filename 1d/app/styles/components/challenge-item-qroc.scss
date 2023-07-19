@@ -1,0 +1,34 @@
+.challenge-proposals {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  width: 100%;
+  height: fit-content;
+}
+
+.qroc_input-label {
+  display: inline;
+}
+
+.challenge-response__proposal{
+  &--short-text{
+    width: 50%;
+  }
+
+  &--number{
+    width: 50%;
+  }
+
+  &--paragraph{
+    max-width: 100%;
+  }
+
+  &.pix-input__input--default {
+    background-color: #F4F5F7;
+    border: none;
+    border-bottom: 1px solid #556BCC;
+    border-radius: 4px 4px 0 0;
+  }
+}
+

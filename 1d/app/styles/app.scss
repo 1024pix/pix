@@ -1,11 +1,14 @@
 @charset "utf-8";
 @import 'globals/fonts';
 @import 'globals/buttons';
+@import 'globals/a11y';
 @import 'components/challenge-actions';
+@import 'components/challenge-illustration';
 @import 'components/challenge-embed-simulator';
 @import 'components/answer';
 @import 'components/challenge-instruction';
 @import 'components/challenge-item';
+@import 'components/challenge-item-qroc';
 @import 'components/home';
 @import 'components/mission';
 @import 'components/card';
