@@ -12,6 +12,7 @@ class TargetProfileForAdmin {
     category,
     isSimplifiedAccess,
     areKnowledgeElementsResettable,
+    hasLinkedCampaign,
     badges,
     stageCollection,
     areas = [],
@@ -31,6 +32,7 @@ class TargetProfileForAdmin {
     this.category = category;
     this.isSimplifiedAccess = isSimplifiedAccess;
     this.areKnowledgeElementsResettable = areKnowledgeElementsResettable;
+    this.hasLinkedCampaign = hasLinkedCampaign;
     this.badges = badges;
     this.stageCollection = stageCollection;
     this.areas = areas.map(

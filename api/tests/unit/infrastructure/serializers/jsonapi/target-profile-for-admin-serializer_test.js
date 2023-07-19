@@ -104,6 +104,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
         category: 'OTHER',
         isSimplifiedAccess: true,
         areKnowledgeElementsResettable: false,
+        hasLinkedCampaign: false,
         badges: [badge1, badge2],
         stageCollection,
         areas: [area, area2],
@@ -191,6 +192,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             name: 'Mon Super profil cible',
             outdated: true,
             'owner-organization-id': 12,
+            'has-linked-campaign': false,
           },
           relationships: {
             areas: {
