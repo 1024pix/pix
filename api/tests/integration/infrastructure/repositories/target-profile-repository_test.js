@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, catchErr, knex, domainBuilder } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { NotFoundError, ObjectValidationError, InvalidSkillSetError } from '../../../../lib/domain/errors.js';
+import { InvalidSkillSetError, NotFoundError, ObjectValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {
@@ -24,6 +24,7 @@ describe('Integration | Repository | Target-profile', function () {
         isPublic: true,
         imageUrl: 'mon-image/stylée',
         ownerOrganizationId: 1,
+        areKnowledgeElementsResettable: true,
       });
 
       // when
@@ -36,7 +37,16 @@ describe('Integration | Repository | Target-profile', function () {
 
       // then
       const targetProfileInDB = await knex('target-profiles')
-        .select(['name', 'category', 'description', 'comment', 'isPublic', 'imageUrl', 'ownerOrganizationId'])
+        .select([
+          'name',
+          'category',
+          'description',
+          'comment',
+          'isPublic',
+          'imageUrl',
+          'ownerOrganizationId',
+          'areKnowledgeElementsResettable',
+        ])
         .where({ id: targetProfileId })
         .first();
       expect(targetProfileInDB).to.deep.equal({
@@ -47,6 +57,7 @@ describe('Integration | Repository | Target-profile', function () {
         isPublic: true,
         imageUrl: 'mon-image/stylée',
         ownerOrganizationId: 1,
+        areKnowledgeElementsResettable: true,
       });
     });
 
