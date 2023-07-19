@@ -39,6 +39,7 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
       {
         organizationId: organization.id,
         name: 'My Campaign',
+        type: 'ASSESSMENT',
         targetProfileId: 3,
         ownerId: administrator.id,
         creatorId: 1,
@@ -47,6 +48,7 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
       {
         organizationId: organization.id,
         name: 'My Campaign',
+        type: 'ASSESSMENT',
         targetProfileId: 3,
         ownerId: administrator.id,
         creatorId: 2,

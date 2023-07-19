@@ -1048,7 +1048,6 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         "Identifiant de l'organisation*",
         'Nom de la campagne*',
         'Identifiant du profil cible*',
-        "Libellé de l'identifiant externe*",
         'Identifiant du créateur*',
       ];
 
@@ -1066,7 +1065,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
   describe('#parseForCampaignsImport', function () {
     const headerCsv =
-      "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe*;Identifiant du créateur*;Titre du parcours;Descriptif du parcours\n";
+      "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours\n";
 
     it('should return parsed campaign data', async function () {
       // given
@@ -1196,21 +1195,6 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
         expect(error.meta).to.equal('"empty" is not a valid value for "Nom de la campagne*"');
-      });
-    });
-
-    describe('when pixIdLabel field is not valid', function () {
-      it('should throw an error', async function () {
-        // given
-        const campaignWithoutPixIdLabelCsv = `${headerCsv}1;chaussette;1234;`;
-
-        // when
-        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutPixIdLabelCsv);
-
-        // then
-        expect(error).to.be.instanceOf(FileValidationError);
-        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
-        expect(error.meta).to.equal('"empty" is not a valid value for "Libellé de l\'identifiant externe*"');
       });
     });
   });
