@@ -38,8 +38,8 @@ const buildCampaign = function ({
   }
 
   organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
-  creatorId = _.isUndefined(creatorId) ? buildUser().id : creatorId;
-  ownerId = _.isUndefined(ownerId) ? buildUser().id : ownerId;
+  creatorId = _.isUndefined(creatorId) ? buildUser({ firstName: 'campaignCreator' }).id : creatorId;
+  ownerId = _.isUndefined(ownerId) ? buildUser({ firstName: 'campaignOwner' }).id : ownerId;
   // Because of unicity constraint if no code is given we set the unique id as campaign code.
   code = _.isUndefined(code) ? id.toString() : code;
 
