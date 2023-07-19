@@ -1,9 +1,8 @@
 name: "Arborescence monitoring"
 
 on:
-  push:
-    branches:
-      - dashboard-api-arborescence
+  schedule:
+    - 0 7 * * 1-5
 
 defaults:
   run:
