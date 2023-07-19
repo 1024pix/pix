@@ -61,6 +61,7 @@ class Form extends Object.extend(Validations) {
   @tracked comment;
   @tracked category;
   @tracked imageUrl;
+  @tracked areKnowledgeElementsResettable;
 }
 
 export default class UpdateTargetProfile extends Component {
@@ -74,6 +75,7 @@ export default class UpdateTargetProfile extends Component {
     this.form.comment = this.args.model.comment || null;
     this.form.category = this.args.model.category || null;
     this.form.imageUrl = this.args.model.imageUrl || null;
+    this.form.areKnowledgeElementsResettable = this.args.model.areKnowledgeElementsResettable;
 
     this.optionsList = this.optionsList = optionsCategoryList;
   }
@@ -100,6 +102,7 @@ export default class UpdateTargetProfile extends Component {
     model.comment = this.form.comment;
     model.category = this.form.category;
     model.imageUrl = this.form.imageUrl;
+    model.areKnowledgeElementsResettable = this.form.areKnowledgeElementsResettable;
 
     try {
       await model.save();
