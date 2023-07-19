@@ -166,7 +166,7 @@ module('Unit | Service | access-control', function (hooks) {
     });
   });
 
-  module('#hasAccessToTargetProfileVersioningActionsScope', function () {
+  module('#hasAccessToComplementaryCertificationsScope', function () {
     test('should be false if FT_TARGET_PROFILE_VERSIONING is false', function (assert) {
       // given
       const currentUser = this.owner.lookup('service:currentUser');
@@ -180,7 +180,7 @@ module('Unit | Service | access-control', function (hooks) {
       const service = this.owner.lookup('service:access-control');
 
       // when / then
-      assert.false(service.hasAccessToTargetProfileVersioningScope);
+      assert.false(service.hasAccessToComplementaryCertificationsScope);
     });
 
     module('when FT_TARGET_PROFILE_VERSIONING is true ', function (hooks) {
@@ -206,7 +206,7 @@ module('Unit | Service | access-control', function (hooks) {
           const service = this.owner.lookup('service:access-control');
 
           // when / then
-          assert.deepEqual(service.hasAccessToTargetProfileVersioningScope, hasAccess);
+          assert.deepEqual(service.hasAccessToComplementaryCertificationsScope, hasAccess);
         });
       });
     });

@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import isEmpty from 'lodash/isEmpty';
 
-export default class ComplementaryCertificationsRoute extends Route {
+export default class ListRoute extends Route {
   @service store;
 
   async model() {

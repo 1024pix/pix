@@ -5,14 +5,14 @@ import { visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
-module('Acceptance | Target Profiles Versioning| Complementary certifications', function (hooks) {
+module('Acceptance | Complementary certifications | list ', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   module('When admin member is not logged in', function () {
     test('it should not be accessible by an unauthenticated user', async function (assert) {
       // when
-      await visit('/target-profiles-versioning/complementary-certifications/');
+      await visit('/complementary-certifications/list');
 
       // then
       assert.strictEqual(currentURL(), '/login');
@@ -28,18 +28,18 @@ module('Acceptance | Target Profiles Versioning| Complementary certifications', 
 
       test('it should be accessible for an authenticated user', async function (assert) {
         // when
-        await visit('/target-profiles-versioning/complementary-certifications/');
+        await visit('/complementary-certifications/');
 
         // then
-        assert.strictEqual(currentURL(), '/target-profiles-versioning/complementary-certifications/');
+        assert.strictEqual(currentURL(), '/complementary-certifications/list');
       });
 
-      test('it should set target profiles versioning menubar item active', async function (assert) {
+      test('it should set complementary certifications menubar item active', async function (assert) {
         // when
-        const screen = await visit('/target-profiles-versioning/complementary-certifications/');
+        const screen = await visit('/complementary-certifications/list');
 
         // then
-        assert.dom(screen.getByRole('link', { name: 'Versioning des profils cibles' })).hasClass('active');
+        assert.dom(screen.getByRole('link', { name: 'Certifications complémentaires' })).hasClass('active');
       });
 
       test('it should render the complementary certifications list', async function (assert) {
@@ -47,7 +47,7 @@ module('Acceptance | Target Profiles Versioning| Complementary certifications', 
         server.create('complementary-certification', { id: 1, key: 'AN', label: 'TOINE' });
 
         // when
-        const screen = await visit('/target-profiles-versioning/complementary-certifications/');
+        const screen = await visit('/complementary-certifications/list');
 
         // then
         assert.dom(screen.getByText('ID')).exists({ count: 1 });
