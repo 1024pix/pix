@@ -1,0 +1,56 @@
+name: "Arborescence monitoring"
+
+on:
+  schedule:
+    - 0 7 * * 1-5
+
+defaults:
+  run:
+    shell: bash
+    working-directory: api
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: "Download Gist"
+        run: |
+          curl 'https://gist.githubusercontent.com/Steph0/a8204cf9e9f5483bfb0720b3f55681a8/raw/tech_days_api_arbo.json' > tech_days_api_arbo.json
+
+      - name: "Update file arbo"
+        run: npm run monitoring:metrics -- tech_days_api_arbo.json
+
+      - name : "Display Gist"
+        run: cat tech_days_api_arbo.json
+
+      - name : "Update Gist"
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.DASHBOARD_API_ARBORESCENCE_GIST_TOKEN }}
+          gist_id: a8204cf9e9f5483bfb0720b3f55681a8
+          file_path: api/tech_days_api_arbo.json
+
+      - name: "Run monitoring"
+        id: monitoring
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+        run: |
+          MONITORING=$(npm run monitoring:arborescence --silent -- tech_days_api_arbo.json)
+          echo "${MONITORING}" >> $GITHUB_STEP_SUMMARY
+          echo "MONITORING_RESULT=${MONITORING}" >> $GITHUB_ENV
+
+      - name: "Notify Slack"
+        id: notify
+        env:
+          WEBHOOK_URL: ${{ secrets.DASHBOARD_API_ARBORESCENCE_SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST $WEBHOOK_URL -H 'Content-Type: application/json' -d "$MONITORING_RESULT"
+
+
