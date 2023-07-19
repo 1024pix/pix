@@ -1,5 +1,45 @@
 # Pix Changelog
 
+## v4.15.0 (19/07/2023)
+
+
+### :rocket: Amélioration
+- [#6420](https://github.com/1024pix/pix/pull/6420) [FEATURE] Ajouter la modalité QROC dans Pix 1d (PIX-8226).
+- [#6627](https://github.com/1024pix/pix/pull/6627) [FEATURE] renvoyer l'information de la jointure entre un profile cible et une campagne dans l'API admin (PIX-8645).
+- [#6581](https://github.com/1024pix/pix/pull/6581) [FEATURE] Configurer les probabilités de choix d'épreuve dans les simulateurs.
+- [#6621](https://github.com/1024pix/pix/pull/6621) [FEATURE] Dupliquer une campagne d'un simple clic (PIX-8635).
+- [#6586](https://github.com/1024pix/pix/pull/6586) [FEATURE] Ajoute la création d'une campagne à partir d'une campagne existante (PIX-8622).
+
+### :bug: Correction
+- [#6663](https://github.com/1024pix/pix/pull/6663) [BUGFIX] Corriger le bug de sélection de la catégorie (PIX-8680).
+- [#6652](https://github.com/1024pix/pix/pull/6652) [BUGFIX] Corriger la création de campagne en masse via l'import de fichier CSV (PIX-8659).
+
+### :coffee: Autre
+- [#6649](https://github.com/1024pix/pix/pull/6649) [BUMP] Update dependency @1024pix/pix-ui to v38 (mon-pix).
+- [#6651](https://github.com/1024pix/pix/pull/6651) [BUMP] Lock file maintenance (e2e).
+- [#6602](https://github.com/1024pix/pix/pull/6602) [BUMP] Lock file maintenance (orga).
+- [#6643](https://github.com/1024pix/pix/pull/6643) [BUMP] Update dependency cypress-visual-regression to v3 (e2e).
+- [#6648](https://github.com/1024pix/pix/pull/6648) [BUMP] Update browser-tools orb to v1.4.2 (.circleci).
+- [#6642](https://github.com/1024pix/pix/pull/6642) [BUMP] Update dependency @badeball/cypress-cucumber-preprocessor to v18 (e2e).
+- [#6641](https://github.com/1024pix/pix/pull/6641) [BUMP] Update dependency @badeball/cypress-cucumber-preprocessor to v17 (e2e).
+- [#6640](https://github.com/1024pix/pix/pull/6640) [BUMP] Update dependency @badeball/cypress-cucumber-preprocessor to v16 (e2e).
+- [#6639](https://github.com/1024pix/pix/pull/6639) [BUMP] Update dependency @badeball/cypress-cucumber-preprocessor to v15 (e2e).
+- [#6634](https://github.com/1024pix/pix/pull/6634) [BUMP] Update dependency cypress to v11 (e2e).
+- [#6638](https://github.com/1024pix/pix/pull/6638) [BUMP] Update dependency @badeball/cypress-cucumber-preprocessor to v14 (e2e).
+- [#6637](https://github.com/1024pix/pix/pull/6637) [BUMP] Update dependency @badeball/cypress-cucumber-preprocessor to v13 (e2e).
+- [#6636](https://github.com/1024pix/pix/pull/6636) [BUMP] Update dependency @badeball/cypress-cucumber-preprocessor to v12 (e2e).
+- [#6632](https://github.com/1024pix/pix/pull/6632) [BUMP] Update dependency cypress to v10 (e2e).
+- [#6630](https://github.com/1024pix/pix/pull/6630) [BUMP] Lock file maintenance (dossier racine).
+- [#6626](https://github.com/1024pix/pix/pull/6626) [BUMP] Update dependency @1024pix/pix-ui to v37 (certif).
+- [#6624](https://github.com/1024pix/pix/pull/6624) [BUMP] Update dependency @1024pix/pix-ui to v37 (mon-pix).
+- [#6617](https://github.com/1024pix/pix/pull/6617) [BUMP] Lock file maintenance (certif).
+- [#6620](https://github.com/1024pix/pix/pull/6620) [BUMP] Lock file maintenance (admin).
+- [#6619](https://github.com/1024pix/pix/pull/6619) [BUMP] Lock file maintenance (1d).
+- [#6618](https://github.com/1024pix/pix/pull/6618) [BUMP] Lock file maintenance (mon-pix).
+- [#6616](https://github.com/1024pix/pix/pull/6616) [BUMP] Lock file maintenance (api).
+- [#6608](https://github.com/1024pix/pix/pull/6608) [BUMP] Update dependency eslint-plugin-qunit to v8 (admin).
+- [#6609](https://github.com/1024pix/pix/pull/6609) [BUMP] Update dependency eslint-plugin-qunit to v8 (orga).
+
 ## v4.14.0 (17/07/2023)
 
 
