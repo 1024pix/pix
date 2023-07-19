@@ -69,26 +69,51 @@ function _createCodeCampaign(complementaryCertificationId) {
 }
 
 async function teamCertificationDataBuilder({ databaseBuilder }) {
+  console.time('_createScoOrganization');
   await _createScoOrganization({ databaseBuilder });
+  console.timeEnd('_createScoOrganization');
+  console.time('_createScoCertificationCenter');
   await _createScoCertificationCenter({ databaseBuilder });
+  console.timeEnd('_createScoCertificationCenter');
+  console.time('_createProOrganization');
   await _createProOrganization({ databaseBuilder });
+  console.timeEnd('_createProOrganization');
+  console.time('_createProCertificationCenter');
   await _createProCertificationCenter({ databaseBuilder });
+  console.timeEnd('_createProCertificationCenter');
+  console.time('_createComplementaryCertificationCampaign');
   await _createComplementaryCertificationCampaign({ databaseBuilder });
+  console.timeEnd('_createComplementaryCertificationCampaign');
+  console.time('_createV3PilotCertificationCenter');
   await _createV3PilotCertificationCenter({ databaseBuilder });
+  console.timeEnd('_createV3PilotCertificationCenter');
+  console.time('_createSuccessCertifiableUser');
   await _createSuccessCertifiableUser({ databaseBuilder });
+  console.timeEnd('_createSuccessCertifiableUser');
+  console.time('_createScoSession');
   await _createScoSession({ databaseBuilder });
+  console.timeEnd('_createScoSession');
+  console.time('_createPublishedScoSession');
   await _createPublishedScoSession({ databaseBuilder });
+  console.timeEnd('_createPublishedScoSession');
+  console.time('_createSession');
   await _createSession({ databaseBuilder });
+  console.timeEnd('_createSession');
+  console.time('_createV3Session');
   await _createV3Session({ databaseBuilder });
+  console.timeEnd('_createV3Session');
+  console.time('_createPublishedSession');
   await _createPublishedSession({ databaseBuilder });
+  console.timeEnd('_createPublishedSession');
+  console.time('_createStartedSession');
   await _createStartedSession({
     databaseBuilder,
     sessionId: STARTED_SESSION_ID,
     certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
     organizationId: PRO_ORGANIZATION_USER_ID,
   });
+  console.timeEnd('_createStartedSession');
 }
-
 export { teamCertificationDataBuilder };
 
 async function _createScoCertificationCenter({ databaseBuilder }) {

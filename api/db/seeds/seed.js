@@ -51,14 +51,30 @@ const seed = async function (knex) {
   const shouldUseNewSeeds = process.env.USE_NEW_SEEDS === 'true';
   const databaseBuilder = new DatabaseBuilder({ knex });
   if (shouldUseNewSeeds) {
+    console.time('commonBuilder');
     await commonBuilder({ databaseBuilder });
-    await teamAccesDataBuilder(databaseBuilder);
-    await teamContenuDataBuilder({ databaseBuilder });
+    console.timeEnd('commonBuilder');
+    // console.time('teamAccesDataBuilder');
+    // await teamAccesDataBuilder(databaseBuilder);
+    // console.timeEnd('teamAccesDataBuilder');
+    // console.time('teamContenuDataBuilder');
+    // await teamContenuDataBuilder({ databaseBuilder });
+    // console.timeEnd('teamContenuDataBuilder');
+    console.time('teamCertificationDataBuilder');
     await teamCertificationDataBuilder({ databaseBuilder });
-    await teamEvaluationDataBuilder({ databaseBuilder });
-    await teamPrescriptionDataBuilder({ databaseBuilder });
+    console.timeEnd('teamCertificationDataBuilder');
+    // console.time('teamEvaluationDataBuilder');
+    // await teamEvaluationDataBuilder({ databaseBuilder });
+    // console.timeEnd('teamEvaluationDataBuilder');
+    // console.time('teamPrescriptionDataBuilder');
+    // await teamPrescriptionDataBuilder({ databaseBuilder });
+    // console.timeEnd('teamPrescriptionDataBuilder');
+    console.time('commit');
     await databaseBuilder.commit();
+    console.timeEnd('commit');
+    console.time('fixSequences');
     await databaseBuilder.fixSequences();
+    console.timeEnd('fixSequences')
   } else {
     // Feature list
     featuresBuilder({ databaseBuilder });
