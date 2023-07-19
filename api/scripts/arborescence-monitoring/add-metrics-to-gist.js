@@ -8,18 +8,40 @@ async function parseTimeSeriesMetrics({ metricsFilepath }) {
 
 async function main() {
   const metricsFilepath = process.argv[2];
+  const existingTimeSeriesMetrics = await parseTimeSeriesMetrics({ metricsFilepath });
 
-  const currentRawMetrics = await parseTimeSeriesMetrics({ metricsFilepath });
+  const updatedTimeSeriesMetrics = await _addOrUpdateTodayValue(existingTimeSeriesMetrics)
 
+  const stringifiedMetrics = JSON.stringify(updatedTimeSeriesMetrics);
+  await writeFile(metricsFilepath, stringifiedMetrics);
+}
+
+
+async function _addOrUpdateTodayValue(existingTimeSeriesMetrics) {
   const usecasesCount = await countFilesInPath('./lib/domain/usecases');
 
-  currentRawMetrics.push({
-    x: new Date(),
+  const todayIndex = _todayIndex(existingTimeSeriesMetrics)
+  existingTimeSeriesMetrics.splice(todayIndex, _addOrUpdate(todayIndex), {
+    x: new Date().toJSON(),
     y: usecasesCount,
   });
+  return existingTimeSeriesMetrics;
+}
 
-  const stringifiedMetrics = JSON.stringify(currentRawMetrics);
-  await writeFile(metricsFilepath, stringifiedMetrics);
+function _todayIndex(existingTimeSeriesMetrics) {
+  return existingTimeSeriesMetrics.findIndex(function(metric) {
+    return _isSameDay(new Date(metric.x), new Date());
+  })
+}
+
+function _isSameDay(d1, d2) {
+  return d1.getFullYear() === d2.getFullYear() &&
+    d1.getDate() === d2.getDate() &&
+    d1.getMonth() === d2.getMonth();
+}
+
+function _addOrUpdate(todayIndex) {
+  return (todayIndex >= 0 ? 1 : 0)
 }
 
 await main();
