@@ -1,1 +1,15 @@
-{{page-title "Certification complémentaire  " @model.id " | Pix Admin" replace=true}}
+{{page-title "Certification complémentaire " @model.id " | Pix Admin" replace=true}}
+
+<header class="page-header">
+  <div class="page-title">
+    <LinkTo @route="authenticated.complementary-certifications.list">Toutes les certification complémentaires</LinkTo>
+    <span class="wire">&nbsp;>&nbsp;</span>
+    <h1>TODO</h1>
+  </div>
+</header>
+
+<main class="page-body">
+  <ComplementaryCertifications::TargetProfiles::Information />
+  <ComplementaryCertifications::TargetProfiles::BadgesList />
+  <ComplementaryCertifications::TargetProfiles::Log />
+</main>
