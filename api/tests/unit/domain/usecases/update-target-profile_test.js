@@ -207,6 +207,7 @@ describe('Unit | UseCase | update-target-profile', function () {
       description: 'description changée',
       comment: 'commentaire changé',
       category: 'OTHER',
+      areKnowledgeElementsResettable: false,
     };
     const targetProfileToUpdate = {
       targetProfileId: 123,
