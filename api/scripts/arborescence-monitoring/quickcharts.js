@@ -4,7 +4,7 @@ function _generateTimeSeriesChartConfiguration(data) {
     data: {
       datasets: [
         {
-          label: 'Time series example',
+          label: 'Number of remaining usecases to migrate',
           fill: false,
           data,
         },
