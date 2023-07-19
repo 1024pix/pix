@@ -15,13 +15,13 @@ describe('Acceptance | API | complementary-certification-controller', function (
     server = await createServer();
   });
 
-  describe('GET /api/complementary-certifications/', function () {
+  describe('GET /api/admin/complementary-certifications/', function () {
     it('should return 200 HTTP status code', async function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
       const options = {
         method: 'GET',
-        url: '/api/complementary-certifications',
+        url: '/api/admin/complementary-certifications',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
         },
