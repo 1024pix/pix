@@ -400,6 +400,7 @@ const register = async function (server) {
                 description: Joi.string().required().allow(null).max(500),
                 comment: Joi.string().required().allow(null).max(500),
                 category: Joi.string().required(),
+                'are-knowledge-elements-resettable': Joi.boolean().required(),
               },
             },
           }).options({ allowUnknown: true }),

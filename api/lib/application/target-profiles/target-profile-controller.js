@@ -74,8 +74,23 @@ const attachOrganizationsFromExistingTargetProfile = async function (request, h)
 
 const updateTargetProfile = async function (request, h) {
   const id = request.params.id;
-  const { name, 'image-url': imageUrl, description, comment, category } = request.payload.data.attributes;
-  await usecases.updateTargetProfile({ id, name, imageUrl, description, comment, category });
+  const {
+    name,
+    'image-url': imageUrl,
+    description,
+    comment,
+    category,
+    'are-knowledge-elements-resettable': areKnowledgeElementsResettable,
+  } = request.payload.data.attributes;
+  await usecases.updateTargetProfile({
+    id,
+    name,
+    imageUrl,
+    description,
+    comment,
+    category,
+    areKnowledgeElementsResettable,
+  });
   return h.response({}).code(204);
 };
 

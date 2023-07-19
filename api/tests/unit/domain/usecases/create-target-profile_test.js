@@ -31,6 +31,7 @@ describe('Unit | UseCase | create-target-profile', function () {
       imageUrl: 'mon-image/stylée',
       ownerOrganizationId: 1,
       tubes: [{ id: 'tubeId', level: 2 }],
+      areKnowledgeElementsResettable: false,
     };
 
     const error = await catchErr(createTargetProfile)({
@@ -70,6 +71,7 @@ describe('Unit | UseCase | create-target-profile', function () {
       imageUrl: 'mon-image/stylée',
       ownerOrganizationId: 1,
       tubes: [{ id: 'tubeId', level: 2 }],
+      areKnowledgeElementsResettable: false,
     };
     await createTargetProfile({
       targetProfileCreationCommand,
@@ -116,6 +118,7 @@ describe('Unit | UseCase | create-target-profile', function () {
       imageUrl: 'mon-image/stylée',
       ownerOrganizationId: 1,
       tubes: [{ id: 'tubeId', level: 2 }],
+      areKnowledgeElementsResettable: false,
     };
     const targetProfileId = await createTargetProfile({
       targetProfileCreationCommand,

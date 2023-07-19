@@ -305,6 +305,7 @@ describe('Acceptance | Route | target-profiles', function () {
               comment: 'Amazing comment',
               category: 'OTHER',
               'image-url': 'http://valid-uri.com/image.png',
+              'are-knowledge-elements-resettable': false,
             },
           },
         },

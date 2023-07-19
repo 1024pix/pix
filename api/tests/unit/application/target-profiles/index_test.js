@@ -649,6 +649,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           comment: 'commentaire changé.',
           category: 'OTHER',
           'image-url': 'some image',
+          'are-knowledge-elements-resettable': false,
         },
       },
     };
@@ -931,6 +932,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
             'image-url': 'http://some/image.ok',
             'owner-organization-id': null,
             tubes: [{ id: 'recTube1', level: '5' }],
+            'are-knowledge-elements-resettable': false,
           },
         },
       };
