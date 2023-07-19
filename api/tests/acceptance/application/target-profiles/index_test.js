@@ -1,15 +1,16 @@
 import {
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
   knex,
-  mockLearningContent,
   learningContentBuilder,
   MockDate,
+  mockLearningContent,
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
 import lodash from 'lodash';
+
 const { omit } = lodash;
 
 describe('Acceptance | Route | target-profiles', function () {
@@ -104,6 +105,7 @@ describe('Acceptance | Route | target-profiles', function () {
               'image-url': 'http://some/image.ok',
               'owner-organization-id': '1',
               tubes: [{ id: 'recTube1', level: 5 }],
+              'are-knowledge-elements-resettable': true,
             },
           },
         },
@@ -113,7 +115,9 @@ describe('Acceptance | Route | target-profiles', function () {
       const response = await server.inject(options);
 
       // then
-      const { id: targetProfileId } = await knex('target-profiles').select('id').first();
+      const { id: targetProfileId, areKnowledgeElementsResettable } = await knex('target-profiles')
+        .select('id', 'areKnowledgeElementsResettable')
+        .first();
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal({
         data: {
@@ -121,6 +125,7 @@ describe('Acceptance | Route | target-profiles', function () {
           id: `${targetProfileId}`,
         },
       });
+      expect(areKnowledgeElementsResettable).to.be.true;
     });
   });
 
