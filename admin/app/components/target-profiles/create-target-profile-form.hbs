@@ -12,7 +12,7 @@
       />
       <PixSelect
         @label="Catégorie :"
-        @onChange={{fn this.updateTargetProfileValue "category"}}
+        @onChange={{this.updateCategory}}
         @value={{@targetProfile.category}}
         @options={{this.optionsList}}
         @placeholder="-"
