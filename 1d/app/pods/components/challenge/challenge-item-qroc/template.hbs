@@ -11,74 +11,61 @@
     {{/if}}
     {{#if block.input}}
       {{#if (eq block.type "select")}}
-        <div class="challenge-response__proposal">
-          <PixSelect
-            data-uid="qroc-proposal-uid"
-            @label={{block.ariaLabel}}
-            @screenReaderOnly={{true}}
-            @placeholder={{block.placeholder}}
-            @value={{this.qrocProposalAnswerValue}}
-            @hideDefaultOption={{true}}
-            @options={{block.options}}
-            @onChange={{this.onChangeSelect}}
-            @size="big"
-          />
-        </div>
+        <PixSelect
+          data-uid="qroc-proposal-uid"
+          class="challenge-response__proposal"
+          @label={{block.ariaLabel}}
+          @screenReaderOnly={{true}}
+          @placeholder={{block.placeholder}}
+          @value={{this.qrocProposalAnswerValue}}
+          @hideDefaultOption={{true}}
+          @options={{block.options}}
+          @onChange={{this.onChangeSelect}}
+        />
       {{else if (eq @challenge.format "paragraphe")}}
-        <div class="challenge-response__proposal challenge-response__proposal--paragraph">
-          <PixTextarea
-            @id="qroc_input"
-            rows="5"
-            placeholder={{block.placeholder}}
-            name={{block.randomName}}
-            data-test="challenge-response-proposal-selector"
-            autocomplete="nope"
-            data-uid="qroc-proposal-uid"
-            {{on "change" this.updateUserAnswerValue}}
-          />
-        </div>
+        <PixTextarea
+          @id="qroc_input"
+          class="challenge-response__proposal challenge-response__proposal--paragraph"
+          rows="5"
+          placeholder={{block.placeholder}}
+          name={{block.randomName}}
+          autocomplete="nope"
+          data-uid="qroc-proposal-uid"
+          {{on "change" this.updateUserAnswerValue}}
+        />
       {{else if (eq @challenge.format "phrase")}}
-        <div class="challenge-response__proposal challenge-response__proposal--sentence">
-          <PixInput
-            @id="qroc_input"
-            name={{block.randomName}}
-            type="text"
-            class="challenge-response__proposal"
-            placeholder={{block.placeholder}}
-            autocomplete="nope"
-            data-test="challenge-response-proposal-selector"
-            data-uid="qroc-proposal-uid"
-            {{on "change" this.updateUserAnswerValue}}
-          />
-        </div>
+        <PixInput
+          @id="qroc_input"
+          name={{block.randomName}}
+          type="text"
+          class="challenge-response__proposal challenge-response__proposal--sentence"
+          placeholder={{block.placeholder}}
+          autocomplete="nope"
+          data-uid="qroc-proposal-uid"
+          {{on "change" this.updateUserAnswerValue}}
+        />
       {{else if (eq @challenge.format "nombre")}}
-        <div class="challenge-response__proposal challenge-response__proposal--number">
-          <PixInput
-            @id="qroc_input"
-            class="challenge-response__proposal"
-            name={{block.randomName}}
-            type="number"
-            min="0"
-            data-test="challenge-response-proposal-selector"
-            placeholder={{block.placeholder}}
-            @value={{this.userAnswer}}
-            data-uid="qroc-proposal-uid"
-            {{on "change" this.updateUserAnswerValue}}
-          />
-        </div>
+        <PixInput
+          @id="qroc_input"
+          class="challenge-response__proposal challenge-response__proposal--number"
+          name={{block.randomName}}
+          type="number"
+          min="0"
+          placeholder={{block.placeholder}}
+          @value={{this.userAnswer}}
+          data-uid="qroc-proposal-uid"
+          {{on "change" this.updateUserAnswerValue}}
+        />
       {{else}}
-        <div class="challenge-response__proposal challenge-response__proposal--short-text">
-          <PixInput
-            class="challenge-response__proposal"
-            @id="qroc_input"
-            @ariaLabel={{block.ariaLabel}}
-            type="text"
-            data-test="challenge-response-proposal-selector"
-            autocomplete="nope"
-            data-uid="qroc-proposal-uid"
-            {{on "change" this.updateUserAnswerValue}}
-          />
-        </div>
+        <PixInput
+          class="challenge-response__proposal challenge-response__proposal--short-text"
+          @id="qroc_input"
+          @ariaLabel={{block.ariaLabel}}
+          type="text"
+          autocomplete="nope"
+          data-uid="qroc-proposal-uid"
+          {{on "change" this.updateUserAnswerValue}}
+        />
       {{/if}}
     {{/if}}
     {{#if block.breakline}}
