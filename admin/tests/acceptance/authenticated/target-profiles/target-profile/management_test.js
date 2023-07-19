@@ -1,4 +1,5 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import setupIntl from '../../../../helpers/setup-intl';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
@@ -7,6 +8,7 @@ import { click, currentURL } from '@ember/test-helpers';
 
 module('Acceptance | Target Profile Management', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
   module('Access restriction stuff', function () {
@@ -90,7 +92,9 @@ module('Acceptance | Target Profile Management', function (hooks) {
       assert.dom(_findByNestedText(screen, 'Public : Oui')).exists();
       assert.dom(_findByNestedText(screen, 'Obsolète : Non')).exists();
       assert.dom(_findByNestedText(screen, 'Parcours Accès Simplifié : Oui')).exists();
-      assert.dom(_findByNestedText(screen, 'Permettre la remise à zero des acquis du Profil Cible : Non')).exists();
+      assert
+        .dom(_findByNestedText(screen, `${this.intl.t('pages.target-profiles.resettable-checkbox.label')} : Non`))
+        .exists();
       assert.dom(screen.getByText('456')).exists();
       assert.dom(screen.getByText('Top profil cible.')).exists();
       assert.dom(screen.getByText('Commentaire Privé.')).exists();
@@ -105,11 +109,18 @@ module('Acceptance | Target Profile Management', function (hooks) {
         description: 'description initiale',
         comment: 'commentaire initial',
         category: 'OTHER',
+        areKnowledgeElementsResettable: true,
       });
 
       // when
       const screen = await visit('/target-profiles/1');
       await clickByName('Éditer');
+      assert
+        .dom(screen.getByRole('checkbox', { name: this.intl.t('pages.target-profiles.resettable-checkbox.label') }))
+        .isChecked();
+      await click(
+        screen.getByRole('checkbox', { name: this.intl.t('pages.target-profiles.resettable-checkbox.label') }),
+      );
       await fillByLabel('* Nom', 'nom modifié');
       await click(screen.getByRole('button', { name: 'Catégorie :' }));
       await screen.findByRole('listbox');
@@ -122,6 +133,9 @@ module('Acceptance | Target Profile Management', function (hooks) {
       assert.strictEqual(currentURL(), '/target-profiles/1/details');
       assert.dom(screen.getByRole('heading', { name: 'nom modifié', level: 2 })).exists();
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+      assert
+        .dom(_findByNestedText(screen, `${this.intl.t('pages.target-profiles.resettable-checkbox.label')} : Non`))
+        .exists();
       await clickByName('Éditer');
       assert.dom(screen.getByDisplayValue('description modifiée')).exists();
       assert.dom(screen.getByDisplayValue('commentaire modifié')).exists();

@@ -61,7 +61,6 @@ class Form extends Object.extend(Validations) {
   @tracked comment;
   @tracked category;
   @tracked imageUrl;
-  @tracked areKnowledgeElementsResettable;
 }
 
 export default class UpdateTargetProfile extends Component {
@@ -88,6 +87,11 @@ export default class UpdateTargetProfile extends Component {
   @action
   onCategoryChange(value) {
     this.form.category = value;
+  }
+
+  @action
+  updateAreKnowledgeElementsResettableValue(event) {
+    this.form.areKnowledgeElementsResettable = event.target.checked;
   }
 
   @action
