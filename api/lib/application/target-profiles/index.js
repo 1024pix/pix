@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { sendJsonApiError, BadRequestError } from '../http-errors.js';
+import { BadRequestError, sendJsonApiError } from '../http-errors.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { targetProfileController } from './target-profile-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
@@ -190,6 +190,7 @@ const register = async function (server) {
                     level: Joi.number().required(),
                   })
                   .required(),
+                'are-knowledge-elements-resettable': Joi.boolean().required(),
               },
             },
           }),
