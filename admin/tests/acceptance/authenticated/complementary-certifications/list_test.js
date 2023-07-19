@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -55,6 +55,18 @@ module('Acceptance | Complementary certifications | list ', function (hooks) {
 
         assert.dom(screen.getByText('Nom')).exists({ count: 1 });
         assert.dom(screen.getByText('TOINE')).exists({ count: 1 });
+      });
+
+      test('it should redirect to complementary certification details on click ', async function (assert) {
+        // given
+        server.create('complementary-certification', { id: 1, key: 'AN', label: 'TOINE' });
+        const screen = await visit('/complementary-certifications/list');
+
+        // when
+        await click(screen.getByRole('link', { name: 'TOINE' }));
+
+        // then
+        assert.strictEqual(currentURL(), '/complementary-certifications/1/details');
       });
     });
   });

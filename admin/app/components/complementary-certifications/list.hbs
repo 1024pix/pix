@@ -16,7 +16,14 @@
         {{#each @complementaryCertifications as |complementaryCertification|}}
           <tr aria-label="">
             <td class="table__column table__column--id">{{complementaryCertification.id}}</td>
-            <td>{{complementaryCertification.label}}</td>
+            <td>
+              <LinkTo
+                @route="authenticated.complementary-certifications.complementary-certification"
+                @model={{complementaryCertification.id}}
+              >
+                {{complementaryCertification.label}}
+              </LinkTo>
+            </td>
           </tr>
         {{/each}}
       </tbody>
