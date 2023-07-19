@@ -38,7 +38,7 @@ export {
  * @param {string} time
  * @param {Date} createdAt
  * @param {string} supervisorPassword
- * @param configSession {learnersToRegisterCount: number }
+ * @param {learnersToRegisterCount: number, maxLevel: number } configSession
 
  * @returns {Promise<{sessionId: number}>} sessionId
  */
@@ -115,7 +115,7 @@ async function createDraftScoSession({
  * @param {Date} createdAt
  * @param {string} supervisorPassword
  * @param {number} version
- * @param configSession {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean }
+ * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean } configSession
 
  * @returns {Promise<{sessionId: number}>} sessionId
  */
@@ -192,7 +192,7 @@ async function createDraftSession({
  * @param {string} time
  * @param {Date} createdAt
  * @param {string} supervisorPassword
- * @param configSession {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean }
+ * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean, maxLevel: number } configSession
 
  * @returns {Promise<{sessionId: number}>} sessionId
  */
@@ -245,7 +245,7 @@ async function createStartedSession({
     certificationCenterId,
   });
 
-  await _makeCandidatesCertifiable(databaseBuilder, certificationCandidates);
+  await _makeCandidatesCertifiable({ databaseBuilder, certificationCandidates, maxLevel: configSession.maxLevel });
 
   await databaseBuilder.commit();
   return { sessionId };
@@ -279,8 +279,8 @@ async function createStartedSession({
  * @param {Date} juryCommentedAt
  * @param {number} organizationId
  * @param {string} supervisorPassword
- * @param configSession {learnersToRegisterCount: number }
- * @returns {{sessionId: number}} sessionId
+ * @param {learnersToRegisterCount: number, maxLevel: number } configSession
+ * @returns {sessionId: number} sessionId
  */
 async function createPublishedScoSession({
   databaseBuilder,
@@ -353,7 +353,11 @@ async function createPublishedScoSession({
     configSession,
   });
 
-  const { coreProfileData } = await _makeCandidatesCertifiable(databaseBuilder, certificationCandidates);
+  const { coreProfileData } = await _makeCandidatesCertifiable({
+    databaseBuilder,
+    certificationCandidates,
+    maxLevel: configSession.maxLevel,
+  });
   await _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, coreProfileData);
 
   await databaseBuilder.commit();
@@ -387,8 +391,8 @@ async function createPublishedScoSession({
  * @param {number} juryCommentAuthorId
  * @param {Date} juryCommentedAt
  * @param {string} supervisorPassword
- * @param configSession {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean }
- * @returns {{sessionId: number}} sessionId
+ * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean, maxLevel: number } configSession
+ * @returns {sessionId: number} sessionId
  */
 async function createPublishedSession({
   databaseBuilder,
@@ -460,10 +464,11 @@ async function createPublishedSession({
     certificationCenterId,
   });
 
-  const { coreProfileData, complementaryCertificationsProfileData } = await _makeCandidatesCertifiable(
+  const { coreProfileData, complementaryCertificationsProfileData } = await _makeCandidatesCertifiable({
     databaseBuilder,
     certificationCandidates,
-  );
+    maxLevel: configSession.maxLevel,
+  });
   await _makeCandidatesPassCertification(
     databaseBuilder,
     sessionId,
@@ -788,9 +793,9 @@ function _buildSession({
   });
 }
 
-async function _makeCandidatesCertifiable(databaseBuilder, certificationCandidates) {
+async function _makeCandidatesCertifiable({ databaseBuilder, certificationCandidates, maxLevel = 7 }) {
   return {
-    coreProfileData: await _makeCandidatesCoreCertifiable(databaseBuilder, certificationCandidates),
+    coreProfileData: await _makeCandidatesCoreCertifiable(databaseBuilder, certificationCandidates, maxLevel),
     complementaryCertificationsProfileData: await _makeCandidatesComplementaryCertifiable(
       databaseBuilder,
       certificationCandidates,
@@ -798,7 +803,7 @@ async function _makeCandidatesCertifiable(databaseBuilder, certificationCandidat
   };
 }
 
-async function _makeCandidatesCoreCertifiable(databaseBuilder, certificationCandidates) {
+async function _makeCandidatesCoreCertifiable(databaseBuilder, certificationCandidates, maxLevel) {
   const coreProfileData = {};
   const pixCompetences = await learningContent.getCoreCompetences();
   const assessmentAndUserIds = certificationCandidates.map((certificationCandidate) => {
@@ -814,7 +819,7 @@ async function _makeCandidatesCoreCertifiable(databaseBuilder, certificationCand
   for (const competence of pixCompetences) {
     coreProfileData[competence.id] = { threeMostDifficultSkillsAndChallenges: [], pixScore: 0, competence };
     const skills = await learningContent.findActiveSkillsByCompetenceId(competence.id);
-    const orderedSkills = _.sortBy(skills, 'level');
+    const orderedSkills = _.sortBy(skills, 'level').filter(({ level }) => level <= maxLevel);
     for (const skill of orderedSkills) {
       const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
       coreProfileData[competence.id].threeMostDifficultSkillsAndChallenges.push({ challenge, skill });
