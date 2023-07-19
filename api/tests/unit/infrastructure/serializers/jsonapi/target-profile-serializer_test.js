@@ -73,6 +73,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
               { id: 'tubeId1', level: '5' },
               { id: 'tubeId2', level: '7' },
             ],
+            'are-knowledge-elements-resettable': true,
           },
         },
       };
@@ -93,6 +94,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
           { id: 'tubeId1', level: '5' },
           { id: 'tubeId2', level: '7' },
         ],
+        areKnowledgeElementsResettable: true,
       };
       expect(deserializedTargetProfileCreationCommand).to.deep.equal(expectedTargetProfileCreationCommand);
     });
