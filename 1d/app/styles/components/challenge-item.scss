@@ -46,12 +46,15 @@
     align-content: center;
   }
 
-  &__image, &__qroc {
+  &__image {
     width : 49%;
     display: flex;
+    justify-content: center;
   }
 
   &__qroc {
+    width : 49%;
+    display: flex;
     padding: 20px 20px;
     align-items: center;
   }

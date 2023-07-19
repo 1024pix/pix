@@ -1,4 +1,3 @@
-// import isEmpty from 'lodash/isEmpty';
 import ChallengeResponseTemplate from './proposals-parser/challenge-response-template';
 import InputBlock from './proposals-parser/input-block';
 import SelectBlock from './proposals-parser/select-block';

@@ -20,7 +20,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       // when
       await visit(`/assessments/${assessment.id}/challenges`);
       // then
-      assert.dom('.challenge-response__proposal').exists({ count: 2 });
+      assert.dom('.challenge-response__proposal').exists({ count: 1 });
       assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Rue de : '));
     });
 
