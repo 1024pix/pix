@@ -1,4 +1,5 @@
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
+import { ComplementaryCertificationForAdmin } from '../../domain/models/ComplementaryCertificationForAdmin.js';
 import { knex } from '../../../db/knex-database-connection.js';
 
 function _toDomain(row) {
@@ -19,4 +20,27 @@ const getByLabel = async function ({ label }) {
   return _toDomain(result);
 };
 
-export { findAll, getByLabel };
+const getTargetProfileById = async function ({ complementaryCertificationId }) {
+  const targetProfile = await knex('complementary-certification-badges')
+    .select({
+      id: 'target-profiles.id',
+      name: 'target-profiles.name',
+    })
+    .leftJoin('badges', 'badges.id', 'complementary-certification-badges.badgeId')
+    .leftJoin('target-profiles', 'target-profiles.id', 'badges.targetProfileId')
+    .where({ complementaryCertificationId })
+    .orderBy('complementary-certification-badges.createdAt', 'desc')
+    .first();
+
+  const complementaryCertification = await knex
+    .from('complementary-certifications')
+    .where({ id: complementaryCertificationId })
+    .first();
+
+  return new ComplementaryCertificationForAdmin({
+    ...complementaryCertification,
+    currentTargetProfile: { ...targetProfile },
+  });
+};
+
+export { findAll, getByLabel, getTargetProfileById };
