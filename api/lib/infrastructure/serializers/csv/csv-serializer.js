@@ -163,7 +163,6 @@ const requiredFieldNamesForCampaignsImport = [
   "Identifiant de l'organisation*",
   'Nom de la campagne*',
   'Identifiant du profil cible*',
-  "Libellé de l'identifiant externe*",
   'Identifiant du créateur*',
 ];
 
@@ -206,7 +205,7 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
     organizationId: data["Identifiant de l'organisation*"],
     name: data['Nom de la campagne*'],
     targetProfileId: data['Identifiant du profil cible*'],
-    idPixLabel: data["Libellé de l'identifiant externe*"],
+    idPixLabel: data["Libellé de l'identifiant externe"],
     creatorId: data['Identifiant du créateur*'],
     title: data['Titre du parcours'],
     customLandingPageText: data['Descriptif du parcours'],

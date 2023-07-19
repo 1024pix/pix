@@ -95,6 +95,7 @@ describe('Integration | Infrastructure | Repository | Campaign Administration | 
           customLandingPageText: 'CampaignToCreate',
           ownerId: userId,
           creatorId: userId,
+          type: 'ASSESSMENT',
         },
       ];
 
@@ -111,6 +112,7 @@ describe('Integration | Infrastructure | Repository | Campaign Administration | 
           'creatorId',
           'createdAt',
           'ownerId',
+          'type',
         )
         .where('name', campaignsToCreate[0].name)
         .first();
