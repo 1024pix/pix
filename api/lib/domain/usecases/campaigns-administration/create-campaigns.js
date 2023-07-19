@@ -1,3 +1,5 @@
+import { CampaignTypes } from '../../models/CampaignTypes.js';
+
 const createCampaigns = async function ({
   campaignsToCreate,
   campaignAdministrationRepository,
@@ -15,6 +17,7 @@ const createCampaigns = async function ({
         ...campaign,
         ownerId: administrator.user.id,
         code: await campaignCodeGenerator.generate(campaignRepository),
+        type: CampaignTypes.ASSESSMENT,
       };
     }),
   );
