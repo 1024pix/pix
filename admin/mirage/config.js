@@ -400,11 +400,11 @@ export default function () {
     return schema.countries.all();
   });
 
-  this.get('/complementary-certifications', (schema) => {
+  this.get('admin/complementary-certifications', (schema) => {
     return schema.complementaryCertifications.all();
   });
 
-  this.get('/complementary-certifications/:id', (schema, request) => {
+  this.get('admin/complementary-certifications/:id/target-profiles', (schema, request) => {
     return schema.complementaryCertifications.find(request.params.id);
   });
 
