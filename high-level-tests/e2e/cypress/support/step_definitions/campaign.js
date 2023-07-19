@@ -94,8 +94,11 @@ When(
 
 Then(`je vois la moyenne des résultats à {int}%`, (averageResult) => {
   cy.contains("Résultat moyen")
-    .parents()
-    .within(() => cy.contains(`${averageResult} %`));
+    .parent()
+    .parent()
+    .within(() => {
+      cy.contains(`${averageResult} %`);
+    });
 });
 
 Then(`je vois un résultat global à {int}%`, (globalResult) => {
