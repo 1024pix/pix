@@ -31,7 +31,7 @@ describe('Acceptance | Application | campaign-controller-create-campaigns', func
         const targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
         await databaseBuilder.commit();
 
-        const buffer = `Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe*;Identifiant du créateur*;Titre du parcours;Descriptif du parcours
+        const buffer = `Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours
           ${organizationId};Parcours importé par CSV;${targetProfileId};numéro d'étudiant;${userId};
           ${organizationId};Autre parcours importé par CSV;${targetProfileId};numéro d'étudiant;${userId};Titre;Superbe descriptif de parcours`;
         const options = {
