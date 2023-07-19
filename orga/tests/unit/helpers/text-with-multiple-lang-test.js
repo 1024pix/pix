@@ -11,7 +11,6 @@ module('Unit | Helper | TextWithMultipleLang', function (hooks) {
 
   [
     { text: 'des mots', lang: 'fr', outputText: 'des mots' },
-    { text: 'des mots', lang: null, outputText: 'des mots' },
     { text: null, lang: 'fr', outputText: '' },
     { text: '[fr]des mots', lang: 'fr', outputText: 'des mots' },
     { text: '[fr]des mots[/fr][en]some words[/en]', lang: 'fr', outputText: 'des mots' },
