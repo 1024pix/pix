@@ -70,6 +70,7 @@ describe('Unit | Controller | target-profile-controller', function () {
           data: {
             attributes: {
               name: 'Pixer123',
+              'are-knowledge-elements-resettable': false,
               description: 'description changée',
               comment: 'commentaire changée',
               'image-url': 'image changée',
@@ -93,6 +94,7 @@ describe('Unit | Controller | target-profile-controller', function () {
           description: 'description changée',
           comment: 'commentaire changée',
           imageUrl: 'image changée',
+          areKnowledgeElementsResettable: false,
         });
       });
     });
