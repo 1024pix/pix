@@ -265,6 +265,7 @@ async function _createPublishedScoSession({ databaseBuilder }) {
     juryCommentedAt: new Date(),
     configSession: {
       learnersToRegisterCount: 8,
+      maxLevel: 3,
     },
   });
 }
@@ -362,6 +363,7 @@ async function _createPublishedSession({ databaseBuilder }) {
     configSession: {
       candidatesToRegisterCount: 12,
       hasComplementaryCertificationsToRegister: true,
+      maxLevel: 3,
     },
   });
 }
@@ -384,6 +386,7 @@ async function _createProStartedSession({ databaseBuilder }) {
     configSession: {
       candidatesToRegisterCount: 12,
       hasComplementaryCertificationsToRegister: true,
+      maxLevel: 3,
     },
   });
 }
