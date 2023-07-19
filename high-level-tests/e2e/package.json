@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^18.0.0",
+    "@cypress/browserify-preprocessor": "^3.0.2",
     "axe-core": "^4.4.3",
     "cypress": "^11.0.0",
     "cypress-axe": "^1.4.0",
