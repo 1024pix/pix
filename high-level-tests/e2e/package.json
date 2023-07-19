@@ -36,7 +36,7 @@
     "test:ci:orga": "npm run db:initialize && npx wait-on http://localhost:3000/api http://localhost:4201 && npm run cy:run:ci:orga"
   },
   "devDependencies": {
-    "@badeball/cypress-cucumber-preprocessor": "^17.0.0",
+    "@badeball/cypress-cucumber-preprocessor": "^18.0.0",
     "axe-core": "^4.4.3",
     "cypress": "^11.0.0",
     "cypress-axe": "^1.4.0",
