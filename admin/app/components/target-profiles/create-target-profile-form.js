@@ -29,6 +29,11 @@ export default class CreateTargetProfileForm extends Component {
   }
 
   @action
+  updateCategory(value) {
+    this.args.targetProfile['category'] = value;
+  }
+
+  @action
   async onSubmit(event) {
     try {
       this.submitting = true;
