@@ -18,7 +18,7 @@
     "cy:open": "npm run db:initialize && cypress open",
     "cy:open:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:open",
     "cy:run": "npm run db:initialize && cypress run --browser=chrome && exit",
-    "cy:run:ci:app": "npx cypress run --browser=chrome --spec cypress/integration/pix-app/**/* --parallel --record --group e2e-tests-app --reporter junit --reporter-options 'mochaFile=/home/circleci/test-results/cypress.xml' && exit",
+    "cy:run:ci:app": "npx cypress run --browser=chrome --spec cypress/integration/pix-app/**/* --parallel --record --group e2e-tests-app --reporter junit --reporter-options 'mochaFile=/home/circleci/test-results/cypress.xml' --env type=base && exit",
     "cy:run:ci:orga": "npx cypress run --browser=chrome --spec cypress/integration/pix-orga/**/* --record --group e2e-tests-orga --reporter junit --reporter-options 'mochaFile=/home/circleci/test-results/cypress.xml' && exit",
     "cy:run:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:run",
     "cy:run:base": "cypress run --env type=base --config screenshotsFolder=cypress/snapshots/base",
@@ -40,7 +40,7 @@
     "axe-core": "^4.4.3",
     "cypress": "^11.0.0",
     "cypress-axe": "^1.4.0",
-    "cypress-visual-regression": "^1.5.7",
+    "cypress-visual-regression": "^3.0.0",
     "eslint": "^8.0.0",
     "eslint-plugin-cypress": "^2.11.2",
     "npm-run-all": "4.1.5"
