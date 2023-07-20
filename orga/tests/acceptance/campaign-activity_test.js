@@ -12,7 +12,6 @@ module('Acceptance | Campaign Activity', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
-
   let campaignId;
 
   hooks.beforeEach(async function () {

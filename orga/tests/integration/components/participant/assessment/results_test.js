@@ -47,6 +47,6 @@ module('Integration | Component | Participant::Assessment::Results', function (h
     assert
       .dom(`[aria-label="${t('pages.assessment-individual-results.table.row-title')}"]`)
       .containsText('Compétence 1');
-    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.row-title')}"]`).containsText('50 %');
+    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.row-title')}"]`).containsText('50%');
   });
 });
