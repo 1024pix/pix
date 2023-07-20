@@ -687,7 +687,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
     describe('#getByIds', function () {
       it('returns users from provided ids', async function () {
-        //given
+        // given
         const paul = databaseBuilder.factory.buildUser({
           firstname: 'paul',
         });
@@ -699,11 +699,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
         const ids = [paul.id, jacques.id];
 
-        //when
+        // when
         const results = await userRepository.getByIds(ids);
         const resultsWithIdOnly = results.map((result) => result.id);
 
-        //then
+        // then
         expect(resultsWithIdOnly).to.have.members(ids);
       });
     });
