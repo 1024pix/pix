@@ -1,5 +1,4 @@
 import Service, { inject as service } from '@ember/service';
-import isEmpty from 'lodash/isEmpty';
 
 export default class OidcIdentityProviders extends Service {
   @service store;

@@ -40,5 +40,4 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       assert.strictEqual(oidcIdentityProvidersService.list[0].source, oidcPartner.source);
     });
   });
-
 });

@@ -30,10 +30,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         component.validateEmail({ target: { value: invalidEmail } });
 
         // then
-        assert.strictEqual(
-          component.emailValidationMessage,
-          'Votre adresse e-mail n’est pas valide.'
-        );
+        assert.strictEqual(component.emailValidationMessage, 'Votre adresse e-mail n’est pas valide.');
       });
     });
   });
@@ -110,10 +107,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           await component.login(eventStub);
 
           // then
-          assert.strictEqual(
-            component.loginErrorMessage,
-            'Votre demande d\'authentification a expiré.'
-          );
+          assert.strictEqual(component.loginErrorMessage, "Votre demande d'authentification a expiré.");
         });
       });
 
@@ -132,7 +126,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           // then
           assert.strictEqual(
             component.loginErrorMessage,
-            'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.'
+            "L'adresse e-mail et/ou le mot de passe saisis sont incorrects."
           );
         });
       });
@@ -170,7 +164,10 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
 
         // then
         assert.false(component.isLoginLoading);
-        assert.strictEqual(component.loginErrorMessage, 'Une erreur est survenue. Veuillez recommencer ou contacter le support.');
+        assert.strictEqual(
+          component.loginErrorMessage,
+          'Une erreur est survenue. Veuillez recommencer ou contacter le support.'
+        );
       });
     });
 

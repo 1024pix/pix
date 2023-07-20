@@ -75,7 +75,6 @@ module('Unit | Route | login-oidc', function (hooks) {
           assert.ok(true);
         });
       });
-
     });
   });
 

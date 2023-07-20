@@ -15,12 +15,14 @@ module('Unit | Errors | Factories | create-application-error', function (hooks) 
       // Given and When
       const error = createTranslatedApplicationError.withCodeAndDescription({
         code: 'access_denied',
-        description: 'Error description'
+        description: 'Error description',
       });
 
       // Then
-      assert.strictEqual(error.message, 'Nous vous informons que la transmission de vos données, précisées à la page précédente, est indispensable pour pouvoir accéder au service et l\'utiliser.');
+      assert.strictEqual(
+        error.message,
+        "Nous vous informons que la transmission de vos données, précisées à la page précédente, est indispensable pour pouvoir accéder au service et l'utiliser."
+      );
     });
   });
-
 });
