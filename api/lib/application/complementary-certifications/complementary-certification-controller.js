@@ -6,5 +6,16 @@ const findComplementaryCertifications = async function () {
   return complementaryCertificationSerializer.serialize(complementaryCertifications);
 };
 
-const complementaryCertificationController = { findComplementaryCertifications };
+const getTargetProfileFromComplementaryCertification = async function (request) {
+  const complementaryCertificationId = request.params.id;
+  const complementaryCertification = await usecases.getTargetProfileFromComplementaryCertification({
+    complementaryCertificationId,
+  });
+  return complementaryCertificationSerializer.serializeForAdmin(complementaryCertification);
+};
+
+const complementaryCertificationController = {
+  findComplementaryCertifications,
+  getTargetProfileFromComplementaryCertification,
+};
 export { complementaryCertificationController };
