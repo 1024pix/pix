@@ -25,8 +25,9 @@ Fonctionnalité: Connexion - Déconnexion
     Alors je suis redirigé vers la page "/nonconnecte"
 
   Scénario: Je me connecte via un organisme externe alors qu'il y a une personne déjà connectée puis je me déconnecte
-    Étant donné que je suis connecté à Pix en tant que "John Snow"
-    Lorsque je me connecte sur Pix pour la seconde fois via le GAR
+    Étant donné que je vais sur Pix
+    Lorsque je suis connecté à Pix en tant que "John Snow"
+    Et je me connecte sur Pix pour la seconde fois via le GAR
     Alors je suis redirigé vers la page d'accueil de "Daenerys"
     Lorsque je me déconnecte
     Alors je suis redirigé vers la page "/nonconnecte"
