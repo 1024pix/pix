@@ -785,7 +785,7 @@
       "page-title": "Participants",
       "table": {
         "column": {
-          "checkbox": "Sélectionner/Déselectionner {firstname} {lastname}",
+          "checkbox": "Sélectionner/Désélectionner {firstname} {lastname}",
           "first-name": "Prénom",
           "is-certifiable": {
             "label": "Certificabilité",
@@ -893,7 +893,7 @@
       "title": "{count, plural, =0 {Élèves} =1 {Élève ({count})} other {Élèves ({count})}}",
       "action-bar": {
         "information": "{count, plural, =1 {{count} élève sélectionné} other {{count} élèves sélectionnés}}",
-        "reset-password-button": "Réinitialiser les mots de passes des élèves sélectionnés"
+        "reset-password-button": "Réinitialiser les mots de passe des élèves sélectionnés"
       },
       "actions": {
         "import-file": {
@@ -989,15 +989,15 @@
       "no-participants-action": "L’administrateur doit importer la base élèves en cliquant sur le bouton importer.",
       "page-title": "Élèves",
       "reset-password-modal": {
-        "title": "Réinitialisation de mot de passe des élèves avec identifiants",
-        "content-message-1": "Sur {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} élève</strong>} other {<strong>{totalSelectedStudents} élèves</strong>}} que vous avez sélectionné, {totalAffectedStudents, plural, =0 {<strong>aucun mot de passe</strong> sera réinitialisé} =1 {le mot de passe de <strong>{totalAffectedStudents} élève</strong> va être réinitialisé.} other {les mots de passe de <strong>{totalAffectedStudents} élèves</strong> vont être réinitialisé.}}",
+        "title": "Réinitialisation de mot de passe des élèves avec identifiant",
+        "content-message-1": "Sur {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} élève</strong> sélectionné} other {<strong>{totalSelectedStudents} élèves</strong> sélectionnés}}, {totalAffectedStudents, plural, =0 {<strong>aucun mot de passe</strong> ne sera réinitialisé} =1 {le mot de passe de <strong>{totalAffectedStudents} élève</strong> va être réinitialisé} other {les mots de passe de <strong>{totalAffectedStudents} élèves</strong> vont être réinitialisés}}.",
         "content-message-2": "Un fichier CSV sera généré contenant les identifiants ainsi que les mots de passe à usage unique.",
         "content-message-3": "Communiquez ces nouveaux mots de passe à usage unique aux élèves. Lorsqu'ils se connecteront avec ce mot de passe, Pix leur demandera d'en saisir un nouveau.",
-        "warning-message": "Seuls les mots de passe des accès par identifiants peuvent être réinitialisés. Les accès par adresse email et Mediacentre ne seront pas impactés."
+        "warning-message": "Seuls les mots de passe des accès par identifiant peuvent être réinitialisés. Les accès par adresse email et Mediacentre ne sont pas impactés."
       },
       "table": {
         "column": {
-          "checkbox": "Sélectionner/Déselectionner {firstname} {lastname}",
+          "checkbox": "Sélectionner/Désélectionner {firstname} {lastname}",
           "date-of-birth": "Date de naissance",
           "division": {
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par classe. Cliquez pour trier par ordre alphanumérique.",
