@@ -17,7 +17,7 @@ export default class ScoOrganizationParticipantAdapter extends ApplicationAdapte
         },
       },
       null,
-      2
+      2,
     );
     const request = fetch(url, {
       method: 'PUT',

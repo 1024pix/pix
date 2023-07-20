@@ -56,7 +56,7 @@ module('Unit | Adapters | sco-organization-participant', function (hooks) {
             },
           },
           null,
-          2
+          2,
         ),
       };
       sinon.assert.calledWith(fetch, expectedUrl, expectedOptions);
