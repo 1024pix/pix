@@ -1,5 +1,6 @@
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { updateDocumentationUrl, URL } from '../../../../scripts/prod/update-documentation-url.js';
+import sample from 'lodash/sample.js';
 
 describe('updateDocumentationUrl', function () {
   context('when the organization is PRO', function () {
@@ -93,8 +94,8 @@ describe('updateDocumentationUrl', function () {
       });
     });
 
-    context('when the organization is AGRI', function () {
-      it('uses the AGRI documentation', async function () {
+    context('when the organization is AGRICULTURE', function () {
+      it('uses the AGRICULTURE documentation', async function () {
         const { id: organizationId } = databaseBuilder.factory.buildOrganization({
           type: 'SCO',
           isManagingStudents: true,
@@ -108,7 +109,7 @@ describe('updateDocumentationUrl', function () {
 
         const { documentationUrl } = await knex('organizations').first();
 
-        expect(documentationUrl).equal(URL.AGRI);
+        expect(documentationUrl).equal(URL.AGRICULTURE);
       });
 
       context('when the organization is not managing students', function () {
@@ -133,118 +134,30 @@ describe('updateDocumentationUrl', function () {
     });
   });
 
-  context('when the organization is INTERNATIONAL', function () {
-    context('when the organization is PRO', function () {
-      it('uses the INTERNATIONAL documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'INTERNATIONAL' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+  context(`regardless organization type`, function () {
+    let organizationId;
+    const organizationType = ['PRO', 'SUP', 'SCO'];
+    beforeEach(async function () {
+      const type = sample(organizationType);
 
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).equal(URL.INTERNATIONAL);
-      });
+      organizationId = databaseBuilder.factory.buildOrganization({ type, isManagingStudents: false }).id;
+      await databaseBuilder.commit();
     });
 
-    context('when the organization is SCO', function () {
-      it('uses the INTERNATIONAL documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'INTERNATIONAL' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+    it('sets right documentation URL for INTERNATIONAL', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'INTERNATIONAL' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
-        await databaseBuilder.commit();
+      await databaseBuilder.commit();
 
-        await updateDocumentationUrl();
+      await updateDocumentationUrl();
 
-        const { documentationUrl } = await knex('organizations').first();
+      const { documentationUrl } = await knex('organizations').first();
 
-        expect(documentationUrl).to.equal(URL.INTERNATIONAL);
-      });
+      expect(documentationUrl).equal(URL.INTERNATIONAL);
     });
 
-    context('when the organization is SUP', function () {
-      it('uses the INTERNATIONAL documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SUP',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'INTERNATIONAL' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.equal(URL.INTERNATIONAL);
-      });
-    });
-  });
-
-  context('when the organization is PRIVE HORS CONTRAT', function () {
-    context('when the organization is PRO', function () {
-      it('uses the PRIVE HORS CONTRAT documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'PRIVE HORS CONTRAT' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).equal(URL.PRIVE_HORS_CONTRAT);
-      });
-    });
-
-    context('when the organization is SUP', function () {
-      it('uses the PRIVE HORS CONTRAT documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'SUP' });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'PRIVE HORS CONTRAT' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).equal(URL.PRIVE_HORS_CONTRAT);
-      });
-    });
-
-    context('when the organization is SCO', function () {
-      it('does not the PRIVE HORS CONTRAT documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'PRIVE HORS CONTRAT' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.PRIVE_HORS_CONTRAT);
-      });
-    });
-  });
-
-  context('when the organization is DOC ENGLISH', function () {
-    it('uses the DOC ENGLISH documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for DOC ENGLISH', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'DOC ENGLISH' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -257,82 +170,20 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.DOC_ENGLISH);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the DOC ENGLISH documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'DOC ENGLISH' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+    it('sets right documentation URL for PROMSOC', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'PROMSOC' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
-        await databaseBuilder.commit();
+      await databaseBuilder.commit();
 
-        await updateDocumentationUrl();
+      await updateDocumentationUrl();
 
-        const { documentationUrl } = await knex('organizations').first();
+      const { documentationUrl } = await knex('organizations').first();
 
-        expect(documentationUrl).to.not.equal(URL.DOC_ENGLISH);
-      });
-    });
-  });
-
-  context('when the organization is PROMSOC', function () {
-    context('when the organization is PRO', function () {
-      it('uses the PROMSOC documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'PROMSOC' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).equal(URL.PROMSOC);
-      });
+      expect(documentationUrl).equal(URL.PROMSOC);
     });
 
-    context('when the organization is SUP', function () {
-      it('uses the PROMSOC documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'SUP' });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'PROMSOC' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).equal(URL.PROMSOC);
-      });
-    });
-
-    context('when the organization is SCO', function () {
-      it('does not the PROMSOC documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'PROMSOC' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.PROMSOC);
-      });
-    });
-  });
-
-  context('when the organization is AUF', function () {
-    it('uses the AUF documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for AUF', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'AUF' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -345,122 +196,7 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.AUF);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the AUF documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'AUF' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.AUF);
-      });
-    });
-  });
-
-  context('when the organization is EFENH', function () {
-    context('when the organization is SCO', function () {
-      it('uses the EFENH documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'EFENH' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).equal(URL.EFENH);
-      });
-    });
-
-    context('when the organization is SUP', function () {
-      it('does not the EFENH documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SUP',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'EFENH' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.EFENH);
-      });
-    });
-
-    context('when the organization is PRO', function () {
-      it('does not the EFENH documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'PRO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'EFENH' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.EFENH);
-      });
-    });
-  });
-
-  context('when the organization is DIPUTACIO DE BARCELONA', function () {
-    context('when the organization is PRO', function () {
-      it('uses the DIPUTACIO DE BARCELONA documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'DIPUTACIO DE BARCELONA' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).equal(URL.DIPUTACIO_DE_BARCELONA);
-      });
-    });
-
-    context('when the organization is not PRO', function () {
-      it('does not the DIPUTACIO DE BARCELONA documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'DIPUTACIO DE BARCELONA' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.DIPUTACIO_DE_BARCELONA);
-      });
-    });
-  });
-
-  context('when the organization is MEDNUM', function () {
-    it('uses the MEDNUM documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for MEDNUM', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'MEDNUM' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -473,29 +209,111 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.MEDNUM);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the MEDNUM documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'MEDNUM' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+    it('sets right documentation URL for EFENH', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'EFENH' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
-        await databaseBuilder.commit();
+      await databaseBuilder.commit();
 
-        await updateDocumentationUrl();
+      await updateDocumentationUrl();
 
-        const { documentationUrl } = await knex('organizations').first();
+      const { documentationUrl } = await knex('organizations').first();
 
-        expect(documentationUrl).to.not.equal(URL.MEDNUM);
-      });
+      expect(documentationUrl).equal(URL.EFENH);
     });
-  });
 
-  context('when the organization is CPAM', function () {
-    it('uses the CPAM documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for DIPUTACIO DE BARCELONA', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'DIPUTACIO DE BARCELONA' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+
+      await databaseBuilder.commit();
+
+      await updateDocumentationUrl();
+
+      const { documentationUrl } = await knex('organizations').first();
+
+      expect(documentationUrl).equal(URL.DIPUTACIO_DE_BARCELONA);
+    });
+
+    it('sets right documentation URL for PRIVE HORS CONTRAT', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'PRIVE HORS CONTRAT' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+
+      await databaseBuilder.commit();
+
+      await updateDocumentationUrl();
+
+      const { documentationUrl } = await knex('organizations').first();
+
+      expect(documentationUrl).equal(URL.PRIVE_HORS_CONTRAT);
+    });
+
+    it('sets right documentation URL for PIC', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'PIC' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+
+      await databaseBuilder.commit();
+
+      await updateDocumentationUrl();
+
+      const { documentationUrl } = await knex('organizations').first();
+
+      expect(documentationUrl).equal(URL.PIC);
+    });
+
+    it('sets right documentation URL for MISSION LOCALE', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'MISSION LOCALE' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+
+      await databaseBuilder.commit();
+
+      await updateDocumentationUrl();
+
+      const { documentationUrl } = await knex('organizations').first();
+
+      expect(documentationUrl).equal(URL.MISSION_LOCALE);
+    });
+
+    it('sets right documentation URL for CAP EMPLOI', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'CAP EMPLOI' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+
+      await databaseBuilder.commit();
+
+      await updateDocumentationUrl();
+
+      const { documentationUrl } = await knex('organizations').first();
+
+      expect(documentationUrl).equal(URL.CAP_EMPLOI);
+    });
+
+    it('sets right documentation URL for EPIDE', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'EPIDE' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+
+      await databaseBuilder.commit();
+
+      await updateDocumentationUrl();
+
+      const { documentationUrl } = await knex('organizations').first();
+
+      expect(documentationUrl).equal(URL.EPIDE);
+    });
+
+    it('sets right documentation URL for E2C', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'E2C' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+
+      await databaseBuilder.commit();
+
+      await updateDocumentationUrl();
+
+      const { documentationUrl } = await knex('organizations').first();
+
+      expect(documentationUrl).equal(URL.E2C);
+    });
+
+    it('sets right documentation URL for CPAM', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'CPAM' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -508,29 +326,7 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.CPAM);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the CPAM documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'CPAM' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.CPAM);
-      });
-    });
-  });
-
-  context('when the organization is CNAF', function () {
-    it('uses the CPAM documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for CNAF', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'CNAF' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -543,29 +339,7 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.CNAF);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the CNAF documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'CNAF' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.CNAF);
-      });
-    });
-  });
-
-  context('when the organization is CNAV', function () {
-    it('uses the CNAV documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for CNAV', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'CNAV' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -578,29 +352,7 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.CNAV);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the CNAV documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'CNAV' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.CNAV);
-      });
-    });
-  });
-
-  context('when the organization is ACOSS', function () {
-    it('uses the ACOSS documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for ACOSS', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'ACOSS' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -613,29 +365,7 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.ACOSS);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the ACOSS documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'ACOSS' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.ACOSS);
-      });
-    });
-  });
-
-  context('when the organization is INSTITUT 4.10', function () {
-    it('uses the INSTITUT 4.10 documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for INSTITUT410', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'INSTITUT 4.10' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -648,29 +378,7 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.INSTITUT410);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the INSTITUT 4.10 documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'INSTITUT 4.10' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.INSTITUT410);
-      });
-    });
-  });
-
-  context('when the organization is UCANSS', function () {
-    it('uses the UCANSS documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for UCANSS', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'UCANSS' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -683,29 +391,7 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.UCANSS);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the UCANSS documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'UCANSS' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.UCANSS);
-      });
-    });
-  });
-
-  context('when the organization is SECTEUR_CHIMIE', function () {
-    it('uses the SECTEUR_CHIMIE documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for SECTEUR_CHIMIE', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'SECTEUR CHIMIE' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -718,29 +404,7 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.SECTEUR_CHIMIE);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the SECTEUR_CHIMIE documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'SECTEUR CHIMIE' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.SECTEUR_CHIMIE);
-      });
-    });
-  });
-
-  context('when the organization is EDUSERVICES', function () {
-    it('uses the EDUSERVICES documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for EDUSERVICES', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'EDUSERVICES' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -753,29 +417,7 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.EDUSERVICES);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the EDUSERVICES documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'EDUSERVICES' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
-
-        await databaseBuilder.commit();
-
-        await updateDocumentationUrl();
-
-        const { documentationUrl } = await knex('organizations').first();
-
-        expect(documentationUrl).to.not.equal(URL.EDUSERVICES);
-      });
-    });
-  });
-
-  context('when the organization is PIXTERRITOIRES', function () {
-    it('uses the PIXTERRITOIRES documentation', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+    it('sets right documentation URL for PIXTERRITOIRES', async function () {
       const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'PIXTERRITOIRES' });
       databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
@@ -788,23 +430,43 @@ describe('updateDocumentationUrl', function () {
       expect(documentationUrl).equal(URL.PIXTERRITOIRES);
     });
 
-    context('when the organization is not PRO', function () {
-      it('does not the PIXTERRITOIRES documentation', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-          type: 'SCO',
-          documentationUrl: 'toto',
-        });
-        const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'PIXTERRITOIRES' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+    it('sets right documentation URL for INTERINDUSTRIES', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'INTERINDUSTRIES' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
 
-        await databaseBuilder.commit();
+      await databaseBuilder.commit();
 
-        await updateDocumentationUrl();
+      await updateDocumentationUrl();
 
-        const { documentationUrl } = await knex('organizations').first();
+      const { documentationUrl } = await knex('organizations').first();
 
-        expect(documentationUrl).to.not.equal(URL.PIXTERRITOIRES);
-      });
+      expect(documentationUrl).equal(URL.INTERINDUSTRIES);
+    });
+
+    it('sets right documentation URL for EXPE MADA', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'EXPE MADA' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+
+      await databaseBuilder.commit();
+
+      await updateDocumentationUrl();
+
+      const { documentationUrl } = await knex('organizations').first();
+
+      expect(documentationUrl).equal(URL.EXPE_MADA);
+    });
+
+    it('sets right documentation URL for SUP-FWB', async function () {
+      const { id: tagId } = databaseBuilder.factory.buildTag({ name: 'SUP-FWB' });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+
+      await databaseBuilder.commit();
+
+      await updateDocumentationUrl();
+
+      const { documentationUrl } = await knex('organizations').first();
+
+      expect(documentationUrl).equal(URL.SUP_FWB);
     });
   });
 });
