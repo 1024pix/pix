@@ -1,8 +1,8 @@
 import { UserNotAuthorizedToUpdatePasswordError } from '../errors.js';
 import {
+  USER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
   ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
-  USER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
 } from '../constants/update-organization-learners-password-errors.js';
 import { OrganizationLearnerPasswordDTO } from '../models/OrganizationLearnerPasswordDTO.js';
 
