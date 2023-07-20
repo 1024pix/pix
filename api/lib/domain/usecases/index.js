@@ -164,6 +164,7 @@ import * as skillRepository from '../../infrastructure/repositories/skill-reposi
 import * as skillSetRepository from '../../infrastructure/repositories/skill-set-repository.js';
 import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
+import * as stageCollectionForTargetProfileRepository from '../../infrastructure/repositories/target-profile-management/stage-collection-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as supOrganizationLearnerRepository from '../../infrastructure/repositories/sup-organization-learner-repository.js';
 import * as supOrganizationParticipantRepository from '../../infrastructure/repositories/sup-organization-participant-repository.js';
@@ -383,6 +384,7 @@ const dependencies = {
   skillSetRepository,
   smartRandom,
   stageCollectionRepository,
+  stageCollectionForTargetProfileRepository,
   studentRepository,
   supOrganizationLearnerRepository,
   supOrganizationParticipantRepository,
