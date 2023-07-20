@@ -1,17 +1,17 @@
 import { expect, sinon } from '../../../test-helper.js';
 import { generateResetOrganizationLearnersPasswordCsvContent } from '../../../../lib/domain/usecases/generate-reset-organization-learners-password-cvs-content.js';
-import { OrganizationLearnerPasswordDTO } from '../../../../lib/domain/models/OrganizationLearnerPasswordDTO.js';
+import { OrganizationLearnerPasswordResetDTO } from '../../../../lib/domain/models/OrganizationLearnerPasswordResetDTO.js';
 
 describe('Unit | UseCases | Generate reset organization learners csv', function () {
   it('returns generated CSV content', async function () {
     // given
-    const organizationLearnersGeneratedPassword = [
-      new OrganizationLearnerPasswordDTO({
+    const OrganizationLearnerPasswordResets = [
+      new OrganizationLearnerPasswordResetDTO({
         division: '3A',
         password: '123456@Bc',
         username: 'brown',
       }),
-      new OrganizationLearnerPasswordDTO({
+      new OrganizationLearnerPasswordResetDTO({
         division: '3A',
         password: '123456@Bc',
         username: 'sugar',
@@ -22,7 +22,7 @@ describe('Unit | UseCases | Generate reset organization learners csv', function 
 
     // when
     const generatedCsvContent = await generateResetOrganizationLearnersPasswordCsvContent({
-      organizationLearnersGeneratedPassword,
+      OrganizationLearnerPasswordResets,
       writeCsvUtils,
     });
 

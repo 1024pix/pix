@@ -4,7 +4,7 @@ import {
   ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
 } from '../constants/update-organization-learners-password-errors.js';
-import { OrganizationLearnerPasswordDTO } from '../models/OrganizationLearnerPasswordDTO.js';
+import { OrganizationLearnerPasswordResetDTO } from '../models/OrganizationLearnerPasswordResetDTO.js';
 
 const resetOrganizationLearnersPassword = async function ({
   organizationId,
@@ -49,15 +49,15 @@ const resetOrganizationLearnersPassword = async function ({
     throw new UserNotAuthorizedToUpdatePasswordError(errorMessage, ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE);
   }
 
-  const organizationLearnersGeneratedPassword = [];
+  const organizationLearnersPasswordResets = [];
 
   const usersToUpdateWithNewPassword = await Promise.all(
     students.map(async ({ id: userId, username }) => {
       const generatedPassword = passwordGenerator.generateSimplePassword();
       const hashedPassword = await encryptionService.hashPassword(generatedPassword);
 
-      organizationLearnersGeneratedPassword.push(
-        new OrganizationLearnerPasswordDTO({
+      organizationLearnersPasswordResets.push(
+        new OrganizationLearnerPasswordResetDTO({
           username,
           password: generatedPassword,
           division: organizationLearnersMap.get(userId).division,
@@ -73,7 +73,7 @@ const resetOrganizationLearnersPassword = async function ({
     domainTransaction,
   });
 
-  return organizationLearnersGeneratedPassword;
+  return organizationLearnersPasswordResets;
 };
 
 export { resetOrganizationLearnersPassword };

@@ -14,11 +14,11 @@ const FILE_HEADERS = [
 ];
 
 async function generateResetOrganizationLearnersPasswordCsvContent({
-  organizationLearnersGeneratedPassword,
+  organizationLearnersPasswordResets,
   writeCsvUtils,
 }) {
   const generatedCsvContent = await writeCsvUtils.getCsvContent({
-    data: organizationLearnersGeneratedPassword,
+    data: organizationLearnersPasswordResets,
     fileHeaders: FILE_HEADERS,
   });
 

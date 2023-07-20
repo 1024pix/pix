@@ -6,7 +6,7 @@ import {
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
   USER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
 } from '../../../../lib/domain/constants/update-organization-learners-password-errors.js';
-import { OrganizationLearnerPasswordDTO } from '../../../../lib/domain/models/OrganizationLearnerPasswordDTO.js';
+import { OrganizationLearnerPasswordResetDTO } from '../../../../lib/domain/models/OrganizationLearnerPasswordResetDTO.js';
 
 describe('Unit | UseCases | Update organization learners password', function () {
   const hashedPassword = '21fedcba';
@@ -56,7 +56,7 @@ describe('Unit | UseCases | Update organization learners password', function () 
           authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged = sinon.stub().resolves();
 
           // when
-          const organizationLearnersGeneratedPassword = await resetOrganizationLearnersPassword({
+          const organizationLearnersPasswordResets = await resetOrganizationLearnersPassword({
             organizationId,
             organizationLearnersId,
             userId,
@@ -76,13 +76,13 @@ describe('Unit | UseCases | Update organization learners password', function () 
             usersToUpdateWithNewPassword: userIdHashedPassword,
             domainTransaction,
           });
-          expect(organizationLearnersGeneratedPassword).to.have.deep.members([
-            new OrganizationLearnerPasswordDTO({
+          expect(organizationLearnersPasswordResets).to.have.deep.members([
+            new OrganizationLearnerPasswordResetDTO({
               username: 'Paul',
               password: generatedPassword,
               division: '3B',
             }),
-            new OrganizationLearnerPasswordDTO({
+            new OrganizationLearnerPasswordResetDTO({
               username: 'Jacques',
               password: generatedPassword,
               division: '3B',

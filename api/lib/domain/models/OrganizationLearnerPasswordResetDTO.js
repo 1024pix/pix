@@ -1,4 +1,4 @@
-class OrganizationLearnerPasswordDTO {
+class OrganizationLearnerPasswordResetDTO {
   constructor({ division, password, username }) {
     this.division = division;
     this.password = password;
@@ -6,4 +6,4 @@ class OrganizationLearnerPasswordDTO {
   }
 }
 
-export { OrganizationLearnerPasswordDTO };
+export { OrganizationLearnerPasswordResetDTO };
