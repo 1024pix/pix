@@ -92,6 +92,33 @@ module('Acceptance | Target Profile Insights', function (hooks) {
     });
 
     module('Stages', function () {
+      test('it should display a warning if target profile is linked to a campaign', async function (assert) {
+        // given
+        targetProfile.update({ hasLinkedCampaign: true });
+
+        // when
+        const screen = await visit('/target-profiles/1');
+        await clickByName('Clés de lecture');
+
+        // then
+        assert.strictEqual(currentURL(), '/target-profiles/1/insights');
+        assert.dom(screen.getByText('Ce profil cible est associé à une campagne, vous ne pouvez donc pas :')).exists();
+      });
+      test('it should not display this warning if target profile is not linked to a campaign', async function (assert) {
+        // given
+        targetProfile.update({ hasLinkedCampaign: false });
+
+        // when
+        const screen = await visit('/target-profiles/1');
+        await clickByName('Clés de lecture');
+
+        // then
+        assert.strictEqual(currentURL(), '/target-profiles/1/insights');
+        assert
+          .dom(screen.queryByText('Ce profil cible est associé à une campagne, vous ne pouvez donc pas :'))
+          .doesNotExist();
+      });
+
       test('it should display existing stages', async function (assert) {
         // given
         const stage1 = server.create('stage', { id: 100, title: 'premier palier' });

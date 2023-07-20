@@ -17,6 +17,23 @@
 
   <section class="insights__section">
     <h2 class="insights-section__title">Paliers</h2>
+
+    {{#if @targetProfile.hasLinkedCampaign}}
+      <PixBanner
+        @type={{this.type}}
+        @actionLabel={{this.actionLabel}}
+        @actionUrl={{this.actionUrl}}
+        @canCloseBanner={{this.canCloseBanner}}
+      >
+        <p>Ce profil cible est associé à une campagne, vous ne pouvez donc pas :</p>
+        <ul>
+          <li>ajouter un nouveau palier</li>
+          <li>supprimer un palier existant</li>
+          <li>modifier les seuils ou niveaux des paliers existants</li>
+        </ul>
+      </PixBanner>
+    {{/if}}
+
     <TargetProfiles::Stages
       @imageUrl={{@targetProfile.imageUrl}}
       @targetProfileId={{@targetProfile.id}}

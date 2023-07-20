@@ -30,6 +30,10 @@ export default class TargetProfile extends Component {
     return this.args.model.areKnowledgeElementsResettable ? 'Oui' : 'Non';
   }
 
+  get hasLinkedCampaign() {
+    return this.args.model.hasLinkedCampaign ? 'Oui' : 'Non';
+  }
+
   @action
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
