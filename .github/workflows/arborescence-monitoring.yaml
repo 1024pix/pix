@@ -3,6 +3,9 @@ name: Arborescence monitoring
 on:
   schedule:
     - cron: '0 7 * * 1-5'
+  push:
+    branches:
+      - tech-days-api-arborescence-monitoring-setup
 
 defaults:
   run:

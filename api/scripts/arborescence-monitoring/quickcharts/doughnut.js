@@ -1,6 +1,8 @@
 import { generateChartUrl } from './quickcharts.js';
 
-function _generateDoughnutChartConfiguration(data) {
+function _generateDoughnutChartConfiguration(doughnutData) {
+  const totalFilesCount = doughnutData.reduce((acc, curr) => curr.count + acc, 0);
+  const data = doughnutData.map(({ count }) => Math.round((count / totalFilesCount) * 100));
   return {
     type: 'doughnut',
     data: {
@@ -38,23 +40,30 @@ function _generateDoughnutChartConfiguration(data) {
         doughnutlabel: {
           labels: [
             {
-              text: `branch`,
+              text: `Files count: ${totalFilesCount}`,
+              font: {
+                size: 14,
+                weight: 'bold',
+              },
+            },
+            {
+              text: '\nmigration progress in %',
+              color: '#000',
+              font: {
+                size: 18,
+                weight: 'bold',
+              },
+            },
+            {
+              text: `\n\nbranch`,
               font: {
                 size: 18,
               },
             },
             {
-              text: process.env.BRANCH_NAME || 'unknown',
+              text: `\n\n\n${process.env.BRANCH_NAME}` || '\n\n\nunknown',
               font: {
-                size: 14,
-              },
-            },
-            {
-              text: '\n\nmigration progress',
-              color: '#000',
-              font: {
-                size: 22,
-                weight: 'bold',
+                size: 12,
               },
             },
           ],
