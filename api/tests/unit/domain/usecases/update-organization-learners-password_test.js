@@ -1,5 +1,5 @@
 import { catchErr, expect, sinon } from '../../../test-helper.js';
-import { updateOrganizationLearnersPassword } from '../../../../lib/domain/usecases/update-organization-learners-password.js';
+import { resetOrganizationLearnersPassword } from '../../../../lib/domain/usecases/reset-organization-learners-password.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../../lib/domain/errors.js';
 import {
   ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
@@ -56,7 +56,7 @@ describe('Unit | UseCases | Update organization learners password', function () 
           authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged = sinon.stub().resolves();
 
           // when
-          const organizationLearnersGeneratedPassword = await updateOrganizationLearnersPassword({
+          const organizationLearnersGeneratedPassword = await resetOrganizationLearnersPassword({
             organizationId,
             organizationLearnersId,
             userId,
@@ -106,7 +106,7 @@ describe('Unit | UseCases | Update organization learners password', function () 
         userRepository.getWithMemberships = sinon.stub().resolves(userWithMemberships);
 
         // when
-        const error = await catchErr(updateOrganizationLearnersPassword)({
+        const error = await catchErr(resetOrganizationLearnersPassword)({
           organizationId,
           organizationLearnersId,
           userId,
@@ -135,7 +135,7 @@ describe('Unit | UseCases | Update organization learners password', function () 
         userRepository.getWithMemberships = sinon.stub().resolves(userWithMemberships);
 
         // when
-        const error = await catchErr(updateOrganizationLearnersPassword)({
+        const error = await catchErr(resetOrganizationLearnersPassword)({
           organizationId,
           organizationLearnersId,
           userId,
@@ -170,7 +170,7 @@ describe('Unit | UseCases | Update organization learners password', function () 
         userRepository.getByIds = sinon.stub().resolves(users);
 
         // when
-        const error = await catchErr(updateOrganizationLearnersPassword)({
+        const error = await catchErr(resetOrganizationLearnersPassword)({
           organizationId,
           organizationLearnersId,
           userId,
