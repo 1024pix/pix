@@ -26,14 +26,13 @@ function _formatResult({ path, count }) {
 
 async function _getDoughnut() {
   const pathsToAnalyse = ['./src', './lib'];
-  const result = await Promise.all(
+  const formattedDoughnutData = await Promise.all(
     pathsToAnalyse.map(async (path) => {
       const count = await countFilesInPath(path);
       return _formatResult({ path, count });
-    })
+    }),
   );
-  const data = result.map(({ count }) => count);
-  return getDoughnutChartUrl(data);
+  return getDoughnutChartUrl(formattedDoughnutData);
 }
 
 async function _getSankey() {
