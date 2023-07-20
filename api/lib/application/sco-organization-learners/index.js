@@ -235,8 +235,8 @@ const register = async function (server) {
           },
         },
         notes: [
-          "- Met à jour les mots de passe des élèves ayant un identifiant comme méthode d'authentification\n" +
-            "- La demande de modification du mot de passe doit être effectuée par un membre de l'organisation à laquelle appartient les élèves.",
+          "- Réinitialise, avec un mot de passe à usage unique, les mots de passe des élèves dont les identifiants sont passés en paramètre et qui ont un identifiant comme méthode d'authentification\n" +
+            "- La demande de modification du mot de passe doit être effectuée par un membre de l'organisation à laquelle appartiennent les élèves.",
         ],
         tags: ['api', 'sco-organization-learners'],
       },
