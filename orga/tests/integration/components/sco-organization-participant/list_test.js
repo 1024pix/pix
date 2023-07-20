@@ -1130,26 +1130,28 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     test('displays action bar', async function (assert) {
       //given
-      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man' }, { id: 2, firstName: 'Spider', lastName: 'Woman'}];
 
       this.set('students', students);
 
       //when
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+      const screen = await render(hbs`
+        <ScoOrganizationParticipant::List
+          @students={{this.students}}
+          @lastnameSort={{this.noop}}
+          @sortByLastname={{this.noop}}
+          @participationCountOrder={{this.noop}}
+          @sortByParticipationCount={{this.noop}}
+          @divisionSort={{this.noop}}
+          @sortByDivision={{this.noop}}
+          @onClickLearner={{this.noop}}
+          @onFilter={{this.noop}}
+          @searchFilter={{this.search}}
+          @divisionsFilter={{this.divisions}}
+          @connectionTypeFilter={{this.connectionTypes}}
+          @certificabilityFilter={{this.certificability}}
+        />
+      `);
 
       const firstStudent = screen.getAllByRole('checkbox')[1];
       await click(firstStudent);
