@@ -31,7 +31,7 @@
               {{@model.ownerOrganizationId}}
             </LinkTo>
           </li>
-          <li><span class="bold">Permettre la remise à zero des acquis du Profil Cible : </span>{{this.areKnowledgeElementsResettable}}</li>
+          <li><span class="bold">{{t "pages.target-profiles.resettable-checkbox.label"}} : </span>{{this.areKnowledgeElementsResettable}}</li>
           {{#if @model.description}}
             <li>
               <span class="bold">Description : </span>

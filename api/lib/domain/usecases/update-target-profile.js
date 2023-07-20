@@ -7,6 +7,7 @@ const updateTargetProfile = async function ({
   description,
   comment,
   category,
+  areKnowledgeElementsResettable,
   targetProfileForUpdateRepository,
 }) {
   validate({ name, imageUrl, description, comment, category });
@@ -17,6 +18,7 @@ const updateTargetProfile = async function ({
     description,
     comment,
     category,
+    areKnowledgeElementsResettable,
   });
 };
 
