@@ -268,7 +268,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
           };
 
           sinon
-            .stub(usecases, 'updateOrganizationLearnersPassword')
+            .stub(usecases, 'resetOrganizationLearnersPassword')
             .rejects(new UserNotAuthorizedToUpdatePasswordError(message, code));
 
           // when
