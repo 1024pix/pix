@@ -26,12 +26,12 @@ async function setupNodeEvents(on, config) {
         .raw("SELECT sequence_name FROM information_schema.sequences;")
         .then((sequenceNameQueryResult) => {
           const sequenceNames = sequenceNameQueryResult.rows.map(
-            (row) => row.sequence_name
+            (row) => row.sequence_name,
           );
 
           const sequenceUpdatePromises = sequenceNames.map((sequenceName) => {
             return knex.raw(
-              `ALTER SEQUENCE "${sequenceName}" RESTART WITH ${SEQUENCE_RESTART_AT_NUMBER};`
+              `ALTER SEQUENCE "${sequenceName}" RESTART WITH ${SEQUENCE_RESTART_AT_NUMBER};`,
             );
           });
           return Promise.all(sequenceUpdatePromises);
@@ -60,7 +60,6 @@ module.exports = defineConfig({
   projectId: "3cjm89",
   numTestsKeptInMemory: 0,
   viewportWidth: 1500,
-  nodeVersion: "system",
   retries: {
     runMode: 2,
   },
