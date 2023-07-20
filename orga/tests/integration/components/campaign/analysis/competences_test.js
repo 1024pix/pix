@@ -37,6 +37,6 @@ module('Integration | Component | Campaign::Analysis::Competences', function (ho
     // then
     const firstCompetence = '[aria-label="Compétence"]:first-child';
     assert.dom(firstCompetence).containsText('Competence A');
-    assert.dom(firstCompetence).containsText('33 %');
+    assert.dom(firstCompetence).containsText('33%');
   });
 });
