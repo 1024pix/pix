@@ -29,6 +29,7 @@ export default class TargetProfile extends Model {
   @attr('string') category;
   @attr('boolean') isSimplifiedAccess;
   @attr('boolean') areKnowledgeElementsResettable;
+  @attr('boolean') hasLinkedCampaign;
   @attr('number') maxLevel;
 
   @hasMany('badge') badges;
