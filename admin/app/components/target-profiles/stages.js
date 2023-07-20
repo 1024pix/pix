@@ -121,6 +121,10 @@ export default class Stages extends Component {
     return (this.mustChooseStageType && this.stageType == null) || !this.hasAvailableStages;
   }
 
+  get canAddNewStage() {
+    return !this.args.hasLinkedCampaign;
+  }
+
   @action
   async createStages(event) {
     event.preventDefault();
