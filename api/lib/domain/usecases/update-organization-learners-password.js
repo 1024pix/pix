@@ -23,7 +23,7 @@ const updateOrganizationLearnersPassword = async function ({
 
   const userBelongsToOrganization = userWithMemberships.hasAccessToOrganization(organizationId);
   const organizationLearnersBelongsToOrganization = organizationLearners.every(
-    (organizationLearner) => organizationLearner.organizationId === organizationId
+    (organizationLearner) => organizationLearner.organizationId === organizationId,
   );
 
   if (!userBelongsToOrganization) {
@@ -33,7 +33,7 @@ const updateOrganizationLearnersPassword = async function ({
   if (!organizationLearnersBelongsToOrganization) {
     throw new UserNotAuthorizedToUpdatePasswordError(
       errorMessage,
-      ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE
+      ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
     );
   }
 
@@ -61,11 +61,11 @@ const updateOrganizationLearnersPassword = async function ({
           username,
           password: generatedPassword,
           division: organizationLearnersMap.get(userId).division,
-        })
+        }),
       );
 
       return { userId, hashedPassword };
-    })
+    }),
   );
 
   await authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged({

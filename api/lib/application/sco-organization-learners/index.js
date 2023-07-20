@@ -230,7 +230,7 @@ const register = async function (server) {
           failAction: (request, h) => {
             return sendJsonApiError(
               new BadRequestError('The server could not understand the request due to invalid syntax.'),
-              h
+              h,
             );
           },
         },
