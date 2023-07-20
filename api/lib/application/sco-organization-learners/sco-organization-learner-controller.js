@@ -195,7 +195,7 @@ const updateOrganizationLearnersPassword = async function (request, h) {
       organizationLearnersId,
       domainTransaction,
     });
-    return usecases.generateResetOrganizationLearnersPassword({
+    return usecases.generateResetOrganizationLearnersPasswordCsvContent({
       organizationLearnersGeneratedPassword,
     });
   });

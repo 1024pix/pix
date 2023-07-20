@@ -13,7 +13,10 @@ const FILE_HEADERS = [
   },
 ];
 
-async function generateResetOrganizationLearnersPassword({ organizationLearnersGeneratedPassword, writeCsvUtils }) {
+async function generateResetOrganizationLearnersPasswordCsvContent({
+  organizationLearnersGeneratedPassword,
+  writeCsvUtils,
+}) {
   const generatedCsvContent = await writeCsvUtils.getCsvContent({
     data: organizationLearnersGeneratedPassword,
     fileHeaders: FILE_HEADERS,
@@ -22,4 +25,4 @@ async function generateResetOrganizationLearnersPassword({ organizationLearnersG
   return generatedCsvContent;
 }
 
-export { generateResetOrganizationLearnersPassword };
+export { generateResetOrganizationLearnersPasswordCsvContent };
