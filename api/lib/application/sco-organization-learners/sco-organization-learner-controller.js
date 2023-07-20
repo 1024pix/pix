@@ -189,14 +189,14 @@ const updateOrganizationLearnersPassword = async function (request, h) {
   const organizationLearnersId = payload['organization-learners-id'];
 
   const generatedCsvContent = await DomainTransaction.execute(async (domainTransaction) => {
-    const organizationLearnersGeneratedPassword = await usecases.resetOrganizationLearnersPassword({
+    const organizationLearnersPasswordResets = await usecases.resetOrganizationLearnersPassword({
       userId,
       organizationId,
       organizationLearnersId,
       domainTransaction,
     });
     return usecases.generateResetOrganizationLearnersPasswordCsvContent({
-      organizationLearnersGeneratedPassword,
+      organizationLearnersPasswordResets,
     });
   });
 
