@@ -790,7 +790,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
   module('when user is reconciled', function () {
     test('it should display the manage account entry menu', async function (assert) {
-      //given
+      // given
       const store = this.owner.lookup('service:store');
       this.set('students', [
         store.createRecord('sco-organization-participant', {
@@ -1129,41 +1129,42 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     });
 
     test('displays action bar', async function (assert) {
-      //given
-      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man' }, { id: 2, firstName: 'Spider', lastName: 'Woman'}];
+      // given
+      const students = [
+        { id: 1, firstName: 'Spider', lastName: 'Man' },
+        { id: 2, firstName: 'Spider', lastName: 'Woman' },
+      ];
 
       this.set('students', students);
 
-      //when
-      const screen = await render(hbs`
-        <ScoOrganizationParticipant::List
-          @students={{this.students}}
-          @lastnameSort={{this.noop}}
-          @sortByLastname={{this.noop}}
-          @participationCountOrder={{this.noop}}
-          @sortByParticipationCount={{this.noop}}
-          @divisionSort={{this.noop}}
-          @sortByDivision={{this.noop}}
-          @onClickLearner={{this.noop}}
-          @onFilter={{this.noop}}
-          @searchFilter={{this.search}}
-          @divisionsFilter={{this.divisions}}
-          @connectionTypeFilter={{this.connectionTypes}}
-          @certificabilityFilter={{this.certificability}}
-        />
-      `);
+      // when
+      const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
 
       const firstStudent = screen.getAllByRole('checkbox')[1];
       await click(firstStudent);
 
-      //then
+      // then
       assert
         .dom(screen.getByText(this.intl.t('pages.sco-organization-participants.action-bar.information', { count: 1 })))
         .exists();
     });
 
     test('opens the reset password modal', async function (assert) {
-      //given
+      // given
       const spiderStudent = { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] };
       const peterStudent = {
         id: 2,
@@ -1176,7 +1177,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       this.set('students', students);
 
-      //when
+      // when
       const screen = await render(hbs`<ScoOrganizationParticipant::List
   @students={{this.students}}
   @lastnameSort={{this.noop}}
@@ -1216,7 +1217,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         name: this.intl.t('common.actions.confirm'),
       });
 
-      //then
+      // then
       assert.dom(modalTitle).exists();
       assert.dom(confirmationButton).exists();
     });
@@ -1224,12 +1225,12 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     module('when the reset password modal is open', function () {
       module('when there is no student selected with "identifiant" as an authentication method', function () {
         test('"Confirm" button is disabled', async function (assert) {
-          //given
+          // given
           const students = [{ id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] }];
 
           this.set('students', students);
 
-          //when
+          // when
           const screen = await render(hbs`<ScoOrganizationParticipant::List
   @students={{this.students}}
   @lastnameSort={{this.noop}}
@@ -1260,7 +1261,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
             name: this.intl.t('common.actions.confirm'),
           });
 
-          //then
+          // then
           assert.dom(modalTitle).exists();
           assert.true(confirmationButton.disabled);
         });
@@ -1268,7 +1269,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       module('when there is at least one student with "identifiant" as an authentication method', function () {
         test('"Confirm" button is enabled', async function (assert) {
-          //given
+          // given
           const students = [
             { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
             { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
@@ -1276,7 +1277,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
           this.set('students', students);
 
-          //when
+          // when
           const screen = await render(hbs`<ScoOrganizationParticipant::List
   @students={{this.students}}
   @lastnameSort={{this.noop}}
@@ -1309,13 +1310,13 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
             name: this.intl.t('common.actions.confirm'),
           });
 
-          //then
+          // then
           assert.dom(modalTitle).exists();
           assert.false(confirmationButton.disabled);
         });
 
         test('closes dialog', async function (assert) {
-          //given
+          // given
           const store = this.owner.lookup('service:store');
           sinon.stub(store, 'adapterFor').returns({ resetOrganizationLearnersPassword: sinon.stub().resolves() });
 
@@ -1326,7 +1327,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
           this.set('students', students);
 
-          //when
+          // when
           const screen = await render(hbs`<ScoOrganizationParticipant::List
   @students={{this.students}}
   @lastnameSort={{this.noop}}
@@ -1360,7 +1361,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           await click(confirmationButton);
           const resetPasswordsModal = await screen.queryByRole('dialog');
 
-          //then
+          // then
           assert.dom(resetPasswordsModal).isNotVisible();
         });
       });
