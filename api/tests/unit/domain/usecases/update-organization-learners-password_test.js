@@ -89,7 +89,7 @@ describe('Unit | UseCases | Update organization learners password', function () 
             }),
           ]);
         });
-      }
+      },
     );
   });
 

@@ -250,7 +250,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
           };
 
           securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) =>
-            h.response(true)
+            h.response(true),
           );
           const payload = {
             data: {
@@ -276,7 +276,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
             'PUT',
             '/api/sco-organization-learners/passwords',
             payload,
-            auth
+            auth,
           );
           // then
           expect(response.statusCode).to.equal(403);

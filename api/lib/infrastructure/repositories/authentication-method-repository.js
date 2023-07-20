@@ -295,8 +295,8 @@ const batchUpdatePasswordThatShouldBeChanged = function ({
 }) {
   return Promise.all(
     usersToUpdateWithNewPassword.map(({ userId, hashedPassword }) =>
-      updatePasswordThatShouldBeChanged({ userId, hashedPassword, domainTransaction })
-    )
+      updatePasswordThatShouldBeChanged({ userId, hashedPassword, domainTransaction }),
+    ),
   );
 };
 
