@@ -56,6 +56,13 @@
     align-items: center;
   }
 
+  &__qcm {
+    width : 100%;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
   &__autoreply {
     width: 0;
   }

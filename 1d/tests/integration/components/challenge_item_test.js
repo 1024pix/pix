@@ -32,4 +32,13 @@ module('Integration | Component | challenge', function (hooks) {
 
     assert.dom('.challenge-item__qrocm').exists();
   });
+
+  test('displays qcm', async function (assert) {
+    this.set('challenge', { hasValidEmbedDocument: false, autoReply: false, isQCM: true });
+    this.set('assessment', {});
+
+    await render(hbs`<Challenge::Item @challenge={{this.challenge}} @assessment={{this.assessment}} />`);
+
+    assert.dom('.challenge-item__qcm').exists();
+  });
 });

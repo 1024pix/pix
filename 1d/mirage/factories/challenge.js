@@ -34,4 +34,9 @@ export default Factory.extend({
     proposals:
       'Le prénom est : ${prenom §prenom}\n\nLe livre est : ${livre# - Sélectionne - §livre options=["good-answer","bad-answer"]}',
   }),
+  QCM: trait({
+    type: 'QCM',
+    instruction: 'Sélectionne les bonnes réponses.',
+    proposals: '- Profil 1\n- bad-answer \n- Profil 3\n- Profil 4\n- Profil 5\n- Profil 6',
+  }),
 });
