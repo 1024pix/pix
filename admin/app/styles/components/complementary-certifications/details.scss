@@ -1,0 +1,49 @@
+.complementary-certification-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__title {
+    text-transform: uppercase;
+    color: $pix-neutral-50;
+    font-family: $font-roboto;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0.02em;
+  }
+
+
+  &__label {
+    color: $pix-neutral-70;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 36px;
+    letter-spacing: -0.04em;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: $pix-spacing-s;
+    font-family: $font-roboto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0;
+    text-align: left;
+    color: $pix-neutral-70;
+  }
+}
+
+
+.complementary-certification-details-list {
+  &__link {
+    color: $pix-primary;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
