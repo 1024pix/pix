@@ -924,6 +924,14 @@ class TargetProfileInvalidError extends DomainError {
   }
 }
 
+class StageModificationForbiddenForLinkedTargetProfileError extends DomainError {
+  constructor(targetProfileId) {
+    super(
+      `Le profil cible ${targetProfileId} est déjà rattaché à une campagne. La modification du seuil ou niveau est alors impossible.`,
+    );
+  }
+}
+
 class OrganizationTagNotFound extends DomainError {
   constructor(message = 'Le tag de l’organization n’existe pas.') {
     super(message);
@@ -1414,6 +1422,7 @@ export {
   SessionWithIdAndInformationOnMassImportError,
   SessionWithMissingAbortReasonError,
   SiecleXmlImportError,
+  StageModificationForbiddenForLinkedTargetProfileError,
   SupervisorAccessNotAuthorizedError,
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
