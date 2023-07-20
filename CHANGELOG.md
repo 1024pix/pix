@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v4.16.0 (20/07/2023)
+
+
+### :rocket: Amélioration
+- [#6658](https://github.com/1024pix/pix/pull/6658) [FEATURE] Ajout de la nouvelle arborescence API.
+- [#6613](https://github.com/1024pix/pix/pull/6613) [FEATURE] Corriger le script de mise à jour des url de PixOrga (PIX-8414) .
+- [#6666](https://github.com/1024pix/pix/pull/6666) [FEATURE] Configurer la remise à zéro d'un profil cible (PIX-8444).
+
+### :building_construction: Tech
+- [#6558](https://github.com/1024pix/pix/pull/6558) [TECH] Mise à jour de Pix-UI sur Orga (Pix-8674).
+
+### :coffee: Autre
+- [#6668](https://github.com/1024pix/pix/pull/6668) [BUMP] Lock file maintenance (e2e).
+- [#6647](https://github.com/1024pix/pix/pull/6647) [BUMP] Update dependency cypress to v12 (e2e).
+
 ## v4.15.0 (19/07/2023)
 
 
