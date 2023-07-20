@@ -250,7 +250,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`,
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} />`,
       );
 
       // then
@@ -270,6 +270,62 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.dom(screen.getByText('Voir détail')).exists();
       assert.dom(screen.getByRole('button', { name: /Supprimer/ })).exists();
       assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
+    });
+  });
+
+  module('when target profile is linked to a campaign', function () {
+    module('when no stages have been previously created', function () {
+      test('it should not be possible to create stages', async function (assert) {
+        // given
+        const stageCollection = store.createRecord('stage-collection', {
+          stages: [],
+        });
+        this.set('stageCollection', stageCollection);
+        this.set('maxLevel', 2);
+        this.set('hasLinkedCampaign', true);
+
+        // when
+        const screen = await render(
+          hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @hasLinkedCampaign={{true}} />`,
+        );
+
+        // then
+        assert.dom(screen.queryByText('Palier par seuil')).doesNotExist();
+        assert.dom(screen.queryByText('Palier par niveau')).doesNotExist();
+        assert.dom(screen.queryByText('Nouveau palier')).doesNotExist();
+      });
+    });
+    module('when stages have been created prior to the campaign creation', function (hooks) {
+      let screen;
+      hooks.beforeEach(async function () {
+        // given
+        const stage = store.createRecord('stage', {
+          id: 1,
+          threshold: 50,
+          level: null,
+          title: 'My title',
+          message: 'My message',
+        });
+        const stageCollection = store.createRecord('stage-collection', {
+          stages: [stage],
+        });
+        this.set('stageCollection', stageCollection);
+        this.set('maxLevel', 2);
+        this.set('hasLinkedCampaign', true);
+        // when
+        screen = await render(
+          hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @hasLinkedCampaign={{true}} />`,
+        );
+      });
+      test('it should not be possible to create new stages', async function (assert) {
+        // then
+        assert.dom(screen.queryByText('Nouveau palier')).doesNotExist();
+        assert.dom(screen.queryByText('Nouveau palier "1er acquis')).doesNotExist();
+      });
+      test('it should not be possible to delete existing stages', async function (assert) {
+        // then
+        assert.dom(screen.queryByText('Supprimer')).doesNotExist();
+      });
     });
   });
 });

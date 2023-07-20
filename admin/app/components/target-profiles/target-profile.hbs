@@ -26,6 +26,7 @@
           <li><span class="bold">Public : </span>{{this.isPublic}}</li>
           <li><span class="bold">Parcours Accès Simplifié : </span>{{this.isSimplifiedAccess}}</li>
           <li><span class="bold">Obsolète : </span>{{this.isOutdated}}</li>
+          <li><span class="bold">Est associé à une campagne : </span>{{this.hasLinkedCampaign}}</li>
           <li><span class="bold">Organisation de référence : </span>
             <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
               {{@model.ownerOrganizationId}}

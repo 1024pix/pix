@@ -11,7 +11,7 @@
   &__title {
     font-size: 1.4rem;
     display: inline-block;
-    margin-bottom: 20px;
+    margin: 20px 0;
   }
 
   &__button {
@@ -24,6 +24,11 @@
     }
   }
 }
+
+.insights__section > .pix-banner  {
+  margin-bottom: 20px;
+}
+
 
 .insights-section-button {
 

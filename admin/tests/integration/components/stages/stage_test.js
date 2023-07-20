@@ -5,7 +5,7 @@ import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { render } from '@1024pix/ember-testing-library';
 
-module('Integration | Component | Stages::Stage', function (hooks) {
+module.only('Integration | Component | Stages::Stage', function (hooks) {
   let stage;
   let isEditMode;
   let toggleEditMode;
@@ -135,6 +135,7 @@ module('Integration | Component | Stages::Stage', function (hooks) {
       assert.dom(screen.getByRole('textbox', { name: 'Titre pour le prescripteur' })).exists();
     });
   });
+
   module('when stage type is level', function (hooks) {
     hooks.beforeEach(function () {
       isEditMode = false;
@@ -174,6 +175,35 @@ module('Integration | Component | Stages::Stage', function (hooks) {
       );
       // then
       assert.dom(screen.queryByText('Éditer')).exists();
+    });
+  });
+
+  module('when target profile is linked to a campaing', function () {
+    test('should no be  be possible to edit level or threshold', async function (assert) {
+      // given
+      isEditMode = true;
+      toggleEditMode = sinon.stub();
+      stage = {
+        id: 34,
+        isTypeLevel: false,
+        threshold: 40,
+        title: 'palier 3',
+        message: 'mon message',
+        prescriberTitle: 'titre du prescriteur',
+        prescriberDescription: 'description de prescripteur',
+      };
+      this.set('isEditMode', isEditMode);
+      this.set('stage', stage);
+      this.set('toggleEditMode', toggleEditMode);
+      this.set('hasLinkedCampaign', true);
+
+      //when
+      const screen = await render(
+        hbs`<Stages::Stage @stage={{this.stage}} @toggleEditMode={{this.toggleEditMode}} @isEditMode={{this.isEditMode}} @hasLinkedCampaign={{this.hasLinkedCampaign}} />`,
+      );
+
+      // then
+      assert.dom(screen.getByRole('spinbutton', { name: 'Seuil du palier' })).hasAttribute('readonly');
     });
   });
 });

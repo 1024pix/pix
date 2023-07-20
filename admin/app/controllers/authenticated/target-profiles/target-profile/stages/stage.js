@@ -20,6 +20,10 @@ export default class StageController extends Controller {
     );
   }
 
+  get hasLinkedCampaign() {
+    return this.model.targetProfile.hasLinkedCampaign;
+  }
+
   @action
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;

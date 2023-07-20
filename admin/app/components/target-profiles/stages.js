@@ -32,6 +32,7 @@ export default class Stages extends Component {
   }
 
   get hasNewStage() {
+    console.log(this.args.stageCollection.stages);
     return this.args.stageCollection.stages.any((stage) => stage.isBeingCreated);
   }
 
@@ -119,6 +120,10 @@ export default class Stages extends Component {
 
   get isAddStageDisabled() {
     return (this.mustChooseStageType && this.stageType == null) || !this.hasAvailableStages;
+  }
+
+  get canAddNewStage() {
+    return !this.args.hasLinkedCampaign;
   }
 
   @action

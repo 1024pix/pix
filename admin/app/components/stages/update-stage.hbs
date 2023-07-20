@@ -1,4 +1,5 @@
 <section class="page-section">
+
   <form class="form stage-form" {{on "submit" this.updateStage}}>
     <div class="form-field">
       {{#if @stage.isFirstSkill}}
@@ -11,7 +12,7 @@
         <Stages::StageLevelSelect
           @id="threshold-or-level"
           @availableLevels={{@availableLevels}}
-          @isDisabled={{this.isDisabled}}
+          @isDisabled={{this.isThresholdOrLevelDisabled}}
           @onChange={{this.setLevel}}
           @value={{this.level}}
         />
@@ -25,7 +26,7 @@
           @validationStatus={{this.thresholdStatus}}
           @requiredLabel="Champ obligatoire"
           type="number"
-          readonly={{this.isDisabled}}
+          readonly={{this.isThresholdOrLevelDisabled}}
           @value={{this.threshold}}
           @ariaLabel="Seuil du palier"
           min="0"

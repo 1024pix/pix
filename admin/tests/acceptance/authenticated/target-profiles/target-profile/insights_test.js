@@ -92,6 +92,43 @@ module('Acceptance | Target Profile Insights', function (hooks) {
     });
 
     module('Stages', function () {
+      test('it should display a warning if target profile is linked to a campaign', async function (assert) {
+        // given
+        targetProfile.update({ hasLinkedCampaign: true });
+
+        // when
+        const screen = await visit('/target-profiles/1');
+        await clickByName('Clés de lecture');
+
+        // then
+        assert.strictEqual(currentURL(), '/target-profiles/1/insights');
+        assert
+          .dom(
+            screen.getByText(
+              'Vous ne pouvez pas ajouter ou supprimer de paliers car le profil cible est associé à une campagne. Vous ne pouvez pas non plus modifier les seuils ou niveaux des paliers existants.',
+            ),
+          )
+          .exists();
+      });
+      test('it should not display this warning if target profile is not linked to a campaign', async function (assert) {
+        // given
+        targetProfile.update({ hasLinkedCampaign: false });
+
+        // when
+        const screen = await visit('/target-profiles/1');
+        await clickByName('Clés de lecture');
+
+        // then
+        assert.strictEqual(currentURL(), '/target-profiles/1/insights');
+        assert
+          .dom(
+            screen.queryByText(
+              'Vous ne pouvez pas ajouter ou supprimer de paliers car le profil cible est associé à une campagne. Vous ne pouvez pas non plus modifier les seuils ou niveaux des paliers existants.',
+            ),
+          )
+          .doesNotExist();
+      });
+
       test('it should display existing stages', async function (assert) {
         // given
         const stage1 = server.create('stage', { id: 100, title: 'premier palier' });

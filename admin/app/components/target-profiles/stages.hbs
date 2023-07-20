@@ -32,6 +32,7 @@
                   @stage={{stage}}
                   @deleteStage={{this.deleteStage}}
                   @collectionHasNonZeroStages={{this.collectionHasNonZeroStages}}
+                  @hasLinkedCampaign={{@hasLinkedCampaign}}
                 />
               {{/if}}
             {{/each}}
@@ -41,56 +42,58 @@
     {{else}}
       <div class="table__empty">Aucun palier associé</div>
     {{/if}}
-    {{#if this.mustChooseStageType}}
-      <PixRadioButton
-        name="stageType"
-        @value="threshold"
-        checked={{this.isStageTypeThresholdChecked}}
-        {{on "change" this.onStageTypeChange}}
-      >
-        Palier par seuil
-      </PixRadioButton>
-      <PixRadioButton
-        name="stageType"
-        @value="level"
-        checked={{this.isStageTypeLevelChecked}}
-        {{on "change" this.onStageTypeChange}}
-      >
-        Palier par niveau
-      </PixRadioButton>
-    {{/if}}
-    <div class="add-stage-actions">
-      <PixButton
-        class="stages-new-stage"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @triggerAction={{this.addStage}}
-        @isDisabled={{this.isAddStageDisabled}}
-        @iconBefore="plus"
-      >
-        Nouveau palier
-      </PixButton>
-      {{#if @stageCollection.hasStages}}
-        <PixTooltip @id="tooltip-stage" @isWide="true">
-          <:triggerElement>
-            <PixButton
-              class="stages-new-stage"
-              @backgroundColor="transparent-light"
-              @isBorderVisible={{true}}
-              @triggerAction={{this.addFirstSkillStage}}
-              @isDisabled={{this.isAddFirstSkillStageDisabled}}
-              @iconBefore="plus"
-            >
-              Nouveau palier "1er acquis"
-            </PixButton>
-          </:triggerElement>
-          <:tooltip>
-            Le palier 1er acquis est obtenu dès un acquis réussi par le participant. Il se verra alors attribuer une
-            étoile à la fin de son parcours.
-          </:tooltip>
-        </PixTooltip>
+    {{#if this.canAddNewStage}}
+      {{#if this.mustChooseStageType}}
+        <PixRadioButton
+          name="stageType"
+          @value="threshold"
+          checked={{this.isStageTypeThresholdChecked}}
+          {{on "change" this.onStageTypeChange}}
+        >
+          Palier par seuil
+        </PixRadioButton>
+        <PixRadioButton
+          name="stageType"
+          @value="level"
+          checked={{this.isStageTypeLevelChecked}}
+          {{on "change" this.onStageTypeChange}}
+        >
+          Palier par niveau
+        </PixRadioButton>
       {{/if}}
-    </div>
+      <div class="add-stage-actions">
+        <PixButton
+          class="stages-new-stage"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.addStage}}
+          @isDisabled={{this.isAddStageDisabled}}
+          @iconBefore="plus"
+        >
+          Nouveau palier
+        </PixButton>
+        {{#if @stageCollection.hasStages}}
+          <PixTooltip @id="tooltip-stage" @isWide="true">
+            <:triggerElement>
+              <PixButton
+                class="stages-new-stage"
+                @backgroundColor="transparent-light"
+                @isBorderVisible={{true}}
+                @triggerAction={{this.addFirstSkillStage}}
+                @isDisabled={{this.isAddFirstSkillStageDisabled}}
+                @iconBefore="plus"
+              >
+                Nouveau palier "1er acquis"
+              </PixButton>
+            </:triggerElement>
+            <:tooltip>
+              Le palier 1er acquis est obtenu dès un acquis réussi par le participant. Il se verra alors attribuer une
+              étoile à la fin de son parcours.
+            </:tooltip>
+          </PixTooltip>
+        {{/if}}
+      </div>
+    {{/if}}
     {{#if this.hasNewStage}}
       <div class="stages-actions form-actions">
         <PixButton

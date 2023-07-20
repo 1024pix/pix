@@ -25,8 +25,7 @@ export default class UpdateStage extends Component {
     this.message = this.args.stage.message;
     this.prescriberTitle = this.args.stage.prescriberTitle;
     this.prescriberDescription = this.args.stage.prescriberDescription;
-
-    this.isDisabled = this.threshold === 0 || this.level === '0';
+    this.isThresholdOrLevelDisabled = this.threshold === 0 || this.level === '0' || this.args.hasLinkedCampaign;
   }
 
   async _updateStage() {

@@ -77,6 +77,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
         comment: 'Commentaire Privé.',
         category: 'SUBJECT',
         isSimplifiedAccess: true,
+        hasLinkedCampaign: true,
         areKnowledgeElementsResettable: false,
       });
 
@@ -90,6 +91,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
       assert.dom(_findByNestedText(screen, 'Public : Oui')).exists();
       assert.dom(_findByNestedText(screen, 'Obsolète : Non')).exists();
       assert.dom(_findByNestedText(screen, 'Parcours Accès Simplifié : Oui')).exists();
+      assert.dom(_findByNestedText(screen, 'Est associé à une campagne : Oui')).exists();
       assert.dom(_findByNestedText(screen, 'Permettre la remise à zero des acquis du Profil Cible : Non')).exists();
       assert.dom(screen.getByText('456')).exists();
       assert.dom(screen.getByText('Top profil cible.')).exists();
