@@ -10,6 +10,7 @@ export default Factory.extend({
         targetedSkillsCount: 4,
         testedSkillsCount: 3,
         validatedSkillsCount: 2,
+        competenceMasteryRate: 0.21,
       });
       const competenceResult_2 = server.create('campaign-assessment-participation-competence-result', {
         areaColor: 'emerald',
@@ -18,6 +19,7 @@ export default Factory.extend({
         targetedSkillsCount: 10,
         testedSkillsCount: 10,
         validatedSkillsCount: 10,
+        competenceMasteryRate: 1,
       });
       campaignAssessmentParticipationResult.competenceResults = [competenceResult_1, competenceResult_2];
     },

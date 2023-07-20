@@ -120,6 +120,11 @@ export default class CreateForm extends Component {
   }
 
   @action
+  onChangeCampaignCustomLandingPageText(event) {
+    this.args.campaign.customLandingPageText = event.target.value;
+  }
+
+  @action
   onSubmit(event) {
     event.preventDefault();
     this.args.onSubmit(this.campaign);
