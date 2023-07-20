@@ -23,6 +23,7 @@ const deserializeCreationCommand = function (json) {
     imageUrl: json.data.attributes['image-url'],
     ownerOrganizationId: json.data.attributes['owner-organization-id'],
     tubes: json.data.attributes['tubes'],
+    areKnowledgeElementsResettable: json.data.attributes['are-knowledge-elements-resettable'],
   };
 };
 

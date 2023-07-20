@@ -127,11 +127,10 @@ function findTargetProfileBadges(schema) {
 
 function updateTargetProfile(schema, request) {
   const payload = JSON.parse(request.requestBody);
-  const newName = payload.data.attributes.name;
   const id = request.params.id;
 
   const targetProfile = schema.targetProfiles.find(id);
-  targetProfile.update({ name: newName });
+  targetProfile.update(payload.data.attributes);
   return new Response(204);
 }
 

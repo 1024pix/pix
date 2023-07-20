@@ -74,6 +74,7 @@ export default class UpdateTargetProfile extends Component {
     this.form.comment = this.args.model.comment || null;
     this.form.category = this.args.model.category || null;
     this.form.imageUrl = this.args.model.imageUrl || null;
+    this.form.areKnowledgeElementsResettable = this.args.model.areKnowledgeElementsResettable;
 
     this.optionsList = this.optionsList = optionsCategoryList;
   }
@@ -89,6 +90,11 @@ export default class UpdateTargetProfile extends Component {
   }
 
   @action
+  updateAreKnowledgeElementsResettableValue(event) {
+    this.form.areKnowledgeElementsResettable = event.target.checked;
+  }
+
+  @action
   updateFormValue(key, event) {
     this.form[key] = event.target.value;
   }
@@ -100,6 +106,7 @@ export default class UpdateTargetProfile extends Component {
     model.comment = this.form.comment;
     model.category = this.form.category;
     model.imageUrl = this.form.imageUrl;
+    model.areKnowledgeElementsResettable = this.form.areKnowledgeElementsResettable;
 
     try {
       await model.save();

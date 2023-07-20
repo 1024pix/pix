@@ -61,6 +61,11 @@
         }
       }
     },
+    "target-profiles": {
+      "resettable-checkbox": {
+        "label": "Permettre la remise à zéro des acquis du profil cible"
+      }
+    },
     "trainings": {
       "training": {
         "targetProfiles": {

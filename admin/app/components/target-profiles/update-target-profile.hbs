@@ -90,6 +90,14 @@
           {{on "change" (fn this.updateFormValue "comment")}}
         />
       </div>
+      <div class="form-field">
+        <PixCheckbox
+          @checked={{this.form.areKnowledgeElementsResettable}}
+          onChange={{this.updateAreKnowledgeElementsResettableValue}}
+        >
+          {{t "pages.target-profiles.resettable-checkbox.label"}}
+        </PixCheckbox>
+      </div>
       <div class="form-actions">
         <PixButton
           @backgroundColor="transparent-light"

@@ -12,6 +12,7 @@ describe('Integration | Repository | Target-profile-for-update', function () {
         description: 'old description',
         comment: 'old comment',
         category: 'old category',
+        areKnowledgeElementsResettable: false,
       });
       await databaseBuilder.commit();
       const updatedData = {
@@ -21,6 +22,7 @@ describe('Integration | Repository | Target-profile-for-update', function () {
         description: 'new description',
         comment: 'new comment',
         category: 'new category',
+        areKnowledgeElementsResettable: true,
       };
 
       // when
@@ -33,6 +35,7 @@ describe('Integration | Repository | Target-profile-for-update', function () {
       expect(targetProfileFromDB.description).to.equal('new description');
       expect(targetProfileFromDB.comment).to.equal('new comment');
       expect(targetProfileFromDB.category).to.equal('new category');
+      expect(targetProfileFromDB.areKnowledgeElementsResettable).to.be.true;
     });
   });
 });

@@ -1,8 +1,19 @@
 import { validate } from '../validators/target-profile/creation-command-validation.js';
+
 const DEFAULT_IMAGE_URL = 'https://images.pix.fr/profil-cible/Illu_GEN.svg';
 
 class TargetProfileForCreation {
-  constructor({ name, category, description, comment, isPublic, imageUrl, ownerOrganizationId, tubes }) {
+  constructor({
+    name,
+    category,
+    description,
+    comment,
+    isPublic,
+    imageUrl,
+    ownerOrganizationId,
+    tubes,
+    areKnowledgeElementsResettable,
+  }) {
     this.name = name;
     this.category = category;
     this.description = description;
@@ -11,6 +22,7 @@ class TargetProfileForCreation {
     this.imageUrl = imageUrl;
     this.ownerOrganizationId = ownerOrganizationId;
     this.tubes = tubes;
+    this.areKnowledgeElementsResettable = areKnowledgeElementsResettable;
   }
 
   static fromCreationCommand(creationCommand) {
@@ -24,6 +36,7 @@ class TargetProfileForCreation {
       imageUrl: creationCommand.imageUrl || DEFAULT_IMAGE_URL,
       ownerOrganizationId: creationCommand.ownerOrganizationId,
       tubes: creationCommand.tubes,
+      areKnowledgeElementsResettable: creationCommand.areKnowledgeElementsResettable,
     });
   }
 }
