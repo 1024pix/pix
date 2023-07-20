@@ -2,6 +2,7 @@ import { expect, hFake, databaseBuilder, knex } from '../../../test-helper.js';
 import * as organizationAdministrationController from '../../../../lib/application/organizations-administration/organization-administration-controller.js';
 import * as dragonLogo from '../../../../db/seeds/src/dragonAndCoBase64.js';
 import * as apps from '../../../../lib/domain/constants.js';
+
 describe('Integration | Application | Controller | organization-administration-controller', function () {
   let organization;
   let featureId;
@@ -21,7 +22,8 @@ describe('Integration | Application | Controller | organization-administration-c
       identityProviderForCampaigns: 'POLE_EMPLOI',
     });
 
-    featureId = databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
+    const feature = await knex('features').select('id').where({ key: apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key }).first();
+    featureId = feature.id;
 
     await databaseBuilder.commit();
   });

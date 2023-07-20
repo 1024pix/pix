@@ -108,6 +108,7 @@ class DatabaseBuilder {
   async _emptyDatabase() {
     const sortedTables = _.without(
       _.map(this.tablesOrderedByDependencyWithDirtinessMap, 'table'),
+      'features',
       'knex_migrations',
       'knex_migrations_lock',
       'view-active-organization-learners',
