@@ -6,7 +6,7 @@ import {
 } from '../constants/update-organization-learners-password-errors.js';
 import { OrganizationLearnerPasswordDTO } from '../models/OrganizationLearnerPasswordDTO.js';
 
-const updateOrganizationLearnersPassword = async function ({
+const resetOrganizationLearnersPassword = async function ({
   organizationId,
   organizationLearnersId,
   userId,
@@ -76,4 +76,4 @@ const updateOrganizationLearnersPassword = async function ({
   return organizationLearnersGeneratedPassword;
 };
 
-export { updateOrganizationLearnersPassword };
+export { resetOrganizationLearnersPassword };
