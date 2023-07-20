@@ -58,7 +58,11 @@ function _endDateProjectionDataset(data) {
 }
 
 function _computeProjectionDate(data) {
-  const firstIndex = Math.min(data.length - 10, 0);
+  if (!data.length) {
+    return;
+  }
+
+  const firstIndex = Math.max(data.length - 10, 0);
   const firstDateTime = new Date(data.at(firstIndex).x).getTime();
   const lastDateTime = new Date(data.at(-1).x).getTime();
   const slope = (data.at(-1).y - data.at(firstIndex).y) / (lastDateTime - firstDateTime);
