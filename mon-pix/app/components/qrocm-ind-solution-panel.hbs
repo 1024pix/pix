@@ -12,11 +12,7 @@
       {{#if block.input}}
         {{#if block.text}}
           <label for="{{block.input}}">
-            <MarkdownToHtml
-              @markdown={{block.text}}
-              @extensions="remove-paragraph-tags"
-              class="correction-qrocm-text__label"
-            />
+            <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{block.text}} />
           </label>
         {{/if}}
 

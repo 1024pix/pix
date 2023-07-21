@@ -9,7 +9,7 @@
         {{on "click" (fn this.checkboxClicked labeledCheckbox.value)}}
         data-test="challenge-response-proposal-selector"
       >
-        <MarkdownToHtml @class="proposal-text" @markdown={{labeledCheckbox.label}} />
+        <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{labeledCheckbox.label}} />
       </PixCheckbox>
 
     </p>
