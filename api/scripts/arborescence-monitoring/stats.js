@@ -20,6 +20,10 @@ export class BoundedContextDirectory {
     this.name = name;
     this.fileCount = fileCount;
   }
+
+  toString() {
+    return `${this.name}: ${this.fileCount}`;
+  }
 }
 
 export async function boundedContextDirectories() {
