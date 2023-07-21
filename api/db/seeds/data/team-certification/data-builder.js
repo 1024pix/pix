@@ -6,6 +6,7 @@ import {
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common/common-builder.js';
+import { issueReportCategoriesBuilder } from '../certification/issue-report-categories-builder.js';
 
 const TEAM_CERTIFICATION_OFFSET_ID = 7000;
 // IDS
@@ -47,6 +48,7 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createV3Session({ databaseBuilder });
   await _createPublishedSession({ databaseBuilder });
   await _createStartedSession({ databaseBuilder });
+  await _createIssueReportCategories({ databaseBuilder });
 }
 
 export { teamCertificationDataBuilder };
@@ -381,4 +383,8 @@ async function _createStartedSession({ databaseBuilder }) {
       hasComplementaryCertificationsToRegister: true,
     },
   });
+}
+
+async function _createIssueReportCategories({ databaseBuilder }) {
+  await issueReportCategoriesBuilder({ databaseBuilder });
 }
