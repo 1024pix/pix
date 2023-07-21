@@ -32,6 +32,11 @@
             <Challenge::ChallengeItemQrocm @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} />
           </div>
         {{/if}}
+        {{#if @challenge.isQCU}}
+          <div class="challenge-item__qcu">
+            <Challenge::ChallengeItemQcu @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} />
+          </div>
+        {{/if}}
         {{#if @challenge.isQCM}}
           <div class="challenge-item__qcm">
             <Challenge::ChallengeItemQcm

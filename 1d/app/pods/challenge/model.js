@@ -41,6 +41,11 @@ export default class Challenge extends Model {
   get isQROCM() {
     return this.type === 'QROCM-dep' || this.type === 'QROCM-ind';
   }
+
+  get isQCU() {
+    return this.type === 'QCU';
+  }
+
   get isQCM() {
     return this.type === 'QCM' || this.type === 'QCMIMG';
   }

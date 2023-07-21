@@ -39,4 +39,9 @@ export default Factory.extend({
     instruction: 'Sélectionne les bonnes réponses.',
     proposals: '- Profil 1\n- bad-answer \n- Profil 3\n- Profil 4\n- Profil 5\n- Profil 6',
   }),
+  QCU: trait({
+    type: 'QCU',
+    instruction: 'Sélectionne la bonne réponse.',
+    proposals: '- Profil 1\n- bad-answer \n- Profil 3\n- Profil 4\n- Profil 5\n- Profil 6',
+  }),
 });
