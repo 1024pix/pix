@@ -1,10 +1,11 @@
+import striptags from 'striptags';
 import { module, test } from 'qunit';
 import { click } from '@ember/test-helpers';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import { hbs } from 'ember-cli-htmlbars';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { waitForDialog } from '../../../helpers/wait-for';
 
 module('Integration | Component | ScoOrganizationParticipant::List', function (hooks) {
@@ -1210,7 +1211,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       const modalTitle = await screen.findByRole('heading', {
         level: 1,
-        name: this.intl.t('pages.sco-organization-participants.reset-password-modal.title'),
+        name: striptags(this.intl.t('pages.sco-organization-participants.reset-password-modal.title')),
       });
 
       const confirmationButton = await screen.findByRole('button', {
@@ -1255,7 +1256,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           await screen.findByRole('dialog');
           const modalTitle = await screen.findByRole('heading', {
             level: 1,
-            name: this.intl.t('pages.sco-organization-participants.reset-password-modal.title'),
+            name: striptags(this.intl.t('pages.sco-organization-participants.reset-password-modal.title')),
           });
           const confirmationButton = await screen.findByRole('button', {
             name: this.intl.t('common.actions.confirm'),
@@ -1268,6 +1269,8 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       });
 
       module('when there is at least one student with "identifiant" as an authentication method', function () {
+        let notificationsStub;
+
         test('"Confirm" button is enabled', async function (assert) {
           // given
           const students = [
@@ -1304,7 +1307,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           await screen.findByRole('dialog');
           const modalTitle = await screen.findByRole('heading', {
             level: 1,
-            name: this.intl.t('pages.sco-organization-participants.reset-password-modal.title'),
+            name: striptags(this.intl.t('pages.sco-organization-participants.reset-password-modal.title')),
           });
           const confirmationButton = await screen.findByRole('button', {
             name: this.intl.t('common.actions.confirm'),
@@ -1363,6 +1366,303 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
           // then
           assert.dom(resetPasswordsModal).isNotVisible();
+        });
+
+        test('displays a successful notification', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          sinon.stub(store, 'adapterFor').returns({ resetOrganizationLearnersPassword: sinon.stub().resolves() });
+          notificationsStub = this.owner.lookup('service:notifications');
+          sinon.stub(notificationsStub, 'sendSuccess');
+
+          const students = [
+            { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+            { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+          ];
+
+          this.set('students', students);
+
+          // when
+          const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
+
+          const firstStudent = await screen.getAllByRole('checkbox')[1];
+          const secondStudent = await screen.getAllByRole('checkbox')[2];
+          await click(firstStudent);
+          await click(secondStudent);
+
+          const resetPasswordButton = await screen.findByRole('button', {
+            name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+          });
+          await click(resetPasswordButton);
+          await waitForDialog();
+
+          const confirmationButton = await screen.findByRole('button', {
+            name: this.intl.t('common.actions.confirm'),
+          });
+          await click(confirmationButton);
+
+          // then
+          sinon.assert.called(notificationsStub.sendSuccess);
+          assert.ok(true);
+        });
+
+        module('#errorNotifications', function () {
+          module('when the user doesn’t belong to the organisation', function () {
+            test('displays an error notification', async function (assert) {
+              // given
+              const store = this.owner.lookup('service:store');
+              sinon.stub(store, 'adapterFor').returns({
+                resetOrganizationLearnersPassword: sinon
+                  .stub()
+                  .rejects([{ code: 'USER_DOES_NOT_BELONG_TO_ORGANIZATION' }]),
+              });
+              notificationsStub = this.owner.lookup('service:notifications');
+              sinon.stub(notificationsStub, 'sendError');
+
+              const students = [
+                { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+                { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+              ];
+
+              this.set('students', students);
+
+              // when
+              const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
+
+              const firstStudent = await screen.getAllByRole('checkbox')[1];
+              const secondStudent = await screen.getAllByRole('checkbox')[2];
+              await click(firstStudent);
+              await click(secondStudent);
+
+              const resetPasswordButton = await screen.findByRole('button', {
+                name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+              });
+              await click(resetPasswordButton);
+              await waitForDialog();
+
+              const confirmationButton = await screen.findByRole('button', {
+                name: this.intl.t('common.actions.confirm'),
+              });
+              await click(confirmationButton);
+
+              // then
+              sinon.assert.calledWith(
+                notificationsStub.sendError,
+                this.intl.t('api-error-messages.student-password-reset.user-does-not-belong-to-organization-error'),
+              );
+              assert.ok(true);
+            });
+          });
+
+          module('when a student doesn’t belong to the organisation', function () {
+            test('displays an error notification', async function (assert) {
+              // given
+              const store = this.owner.lookup('service:store');
+              sinon.stub(store, 'adapterFor').returns({
+                resetOrganizationLearnersPassword: sinon
+                  .stub()
+                  .rejects([{ code: 'ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION' }]),
+              });
+              notificationsStub = this.owner.lookup('service:notifications');
+              sinon.stub(notificationsStub, 'sendError');
+
+              const students = [
+                { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+                { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+              ];
+
+              this.set('students', students);
+
+              // when
+              const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
+
+              const firstStudent = await screen.getAllByRole('checkbox')[1];
+              const secondStudent = await screen.getAllByRole('checkbox')[2];
+              await click(firstStudent);
+              await click(secondStudent);
+
+              const resetPasswordButton = await screen.findByRole('button', {
+                name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+              });
+              await click(resetPasswordButton);
+              await waitForDialog();
+
+              const confirmationButton = await screen.findByRole('button', {
+                name: this.intl.t('common.actions.confirm'),
+              });
+              await click(confirmationButton);
+
+              // then
+              sinon.assert.calledWith(
+                notificationsStub.sendError,
+                this.intl.t(
+                  'api-error-messages.student-password-reset.organization-learner-does-not-belong-to-organization-error',
+                ),
+              );
+              assert.ok(true);
+            });
+          });
+
+          module('when a student doesn’t have a username', function () {
+            test('displays an error notification', async function (assert) {
+              // given
+              const store = this.owner.lookup('service:store');
+              sinon.stub(store, 'adapterFor').returns({
+                resetOrganizationLearnersPassword: sinon.stub().rejects([
+                  {
+                    code: 'ORGANIZATION_LEARNER_WITHOUT_USERNAME',
+                  },
+                ]),
+              });
+              notificationsStub = this.owner.lookup('service:notifications');
+              sinon.stub(notificationsStub, 'sendError');
+
+              const students = [
+                { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+                { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+              ];
+
+              this.set('students', students);
+
+              // when
+              const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
+
+              const firstStudent = await screen.getAllByRole('checkbox')[1];
+              const secondStudent = await screen.getAllByRole('checkbox')[2];
+              await click(firstStudent);
+              await click(secondStudent);
+
+              const resetPasswordButton = await screen.findByRole('button', {
+                name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+              });
+              await click(resetPasswordButton);
+              await waitForDialog();
+
+              const confirmationButton = await screen.findByRole('button', {
+                name: this.intl.t('common.actions.confirm'),
+              });
+              await click(confirmationButton);
+
+              // then
+              sinon.assert.calledWith(
+                notificationsStub.sendError,
+                this.intl.t('api-error-messages.student-password-reset.organization-learner-without-username-error'),
+              );
+              assert.ok(true);
+            });
+          });
+
+          module('when an unrelated error occurs', function () {
+            test('displays an error notification', async function (assert) {
+              // given
+              const store = this.owner.lookup('service:store');
+              sinon.stub(store, 'adapterFor').returns({
+                resetOrganizationLearnersPassword: sinon.stub().rejects([{ status: 500 }]),
+              });
+              notificationsStub = this.owner.lookup('service:notifications');
+              sinon.stub(notificationsStub, 'sendError');
+
+              const students = [
+                { id: 1, firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+                { id: 2, firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+              ];
+
+              this.set('students', students);
+
+              // when
+              const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @lastnameSort={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @participationCountOrder={{this.noop}}
+  @sortByParticipationCount={{this.noop}}
+  @divisionSort={{this.noop}}
+  @sortByDivision={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+/>`);
+
+              const firstStudent = await screen.getAllByRole('checkbox')[1];
+              const secondStudent = await screen.getAllByRole('checkbox')[2];
+              await click(firstStudent);
+              await click(secondStudent);
+
+              const resetPasswordButton = await screen.findByRole('button', {
+                name: this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'),
+              });
+              await click(resetPasswordButton);
+              await waitForDialog();
+
+              const confirmationButton = await screen.findByRole('button', {
+                name: this.intl.t('common.actions.confirm'),
+              });
+              await click(confirmationButton);
+
+              // then
+              sinon.assert.called(notificationsStub.sendError);
+              assert.ok(true);
+            });
+          });
         });
       });
     });

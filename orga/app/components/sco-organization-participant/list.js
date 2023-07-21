@@ -1,13 +1,17 @@
+import fetch from 'fetch';
+
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import fetch from 'fetch';
+
 import { CONNECTION_TYPES } from '../../helpers/connection-types';
+import ENV from 'pix-orga/config/environment';
 
 export default class ScoList extends Component {
   @service currentUser;
+  @service notifications;
   @service intl;
   @service store;
   @service session;
@@ -106,8 +110,47 @@ export default class ScoList extends Component {
       });
       this.closeResetPasswordModal();
       resetSelectedStudents();
-    } catch (error) {
-      console.log(error);
+      this.notifications.sendSuccess(
+        this.intl.t('pages.sco-organization-participants.messages.password-reset-success'),
+      );
+    } catch (fetchErrors) {
+      const error = Array.isArray(fetchErrors) && fetchErrors.length > 0 && fetchErrors[0];
+      let errorMessage;
+      switch (error?.code) {
+        case 'USER_DOES_NOT_BELONG_TO_ORGANIZATION':
+          errorMessage = this.intl.t(
+            'api-error-messages.student-password-reset.user-does-not-belong-to-organization-error',
+          );
+          break;
+        case 'ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION':
+          errorMessage = this.intl.t(
+            'api-error-messages.student-password-reset.organization-learner-does-not-belong-to-organization-error',
+          );
+          break;
+        case 'ORGANIZATION_LEARNER_WITHOUT_USERNAME':
+          errorMessage = this.intl.t(
+            'api-error-messages.student-password-reset.organization-learner-without-username-error',
+          );
+          break;
+        default:
+          errorMessage = this.intl.t(this._getI18nKeyByStatus(error.status));
+      }
+      this.notifications.sendError(errorMessage);
+    }
+  }
+
+  _getI18nKeyByStatus(status) {
+    switch (status) {
+      case 400:
+        return ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY;
+      case 401:
+        return ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.I18N_KEY;
+      case 422:
+        return ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY;
+      case 504:
+        return ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.I18N_KEY;
+      default:
+        return ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY;
     }
   }
 
