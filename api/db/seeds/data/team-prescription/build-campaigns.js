@@ -1,28 +1,38 @@
-import { SCO_ORGANIZATION_ID, SCO_ORGANIZATION_USER_ID } from './constants.js';
+import { SCO_ORGANIZATION_ID, SCO_ORGANIZATION_USER_ID, TARGET_PROFILE_ID } from './constants.js';
+import { createProfilesCollectionCampaign, createAssessmentCampaign } from '../common/tooling/campaign-tooling.js';
 
-function _createScoCampaigns(databaseBuilder) {
-  databaseBuilder.factory.buildCampaign({
+async function _createScoCampaigns(databaseBuilder) {
+  await createAssessmentCampaign({
+    databaseBuilder,
+    targetProfileId: TARGET_PROFILE_ID,
     organizationId: SCO_ORGANIZATION_ID,
     ownerId: SCO_ORGANIZATION_USER_ID,
     name: "Campagne d'évaluation SCO",
+    configCampaign: { participantCount: 5 },
   });
-  databaseBuilder.factory.buildCampaign({
+
+  await createProfilesCollectionCampaign({
+    databaseBuilder,
     organizationId: SCO_ORGANIZATION_ID,
     ownerId: SCO_ORGANIZATION_USER_ID,
     name: 'Campagne de collecte de profil SCO - envoi simple',
     type: 'PROFILES_COLLECTION',
     title: null,
+    configCampaign: { participantCount: 10, profileDistribution: { beginner: 1, perfect: 1 } },
   });
-  databaseBuilder.factory.buildCampaign({
+
+  await createProfilesCollectionCampaign({
+    databaseBuilder,
     organizationId: SCO_ORGANIZATION_ID,
     ownerId: SCO_ORGANIZATION_USER_ID,
     name: 'Campagne de collecte de profil SCO - envoi multiple',
     type: 'PROFILES_COLLECTION',
     title: null,
     multipleSendings: true,
+    configCampaign: { participantCount: 2, profileDistribution: { beginner: 1, perfect: 1 } },
   });
 }
 
-export function buildCampaigns(databaseBuilder) {
-  _createScoCampaigns(databaseBuilder);
+export async function buildCampaigns(databaseBuilder) {
+  return _createScoCampaigns(databaseBuilder);
 }
