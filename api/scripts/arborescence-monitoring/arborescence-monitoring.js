@@ -6,22 +6,11 @@ import { getSankeyChartUrl } from './quickcharts/sankey.js';
 import { getDoughnutChartUrl } from './quickcharts/doughnut.js';
 
 async function main() {
-  const doughnutChartUrl = await _getDoughnut();
-  const sankeyChartUrl = await _getSankey();
-  const timeseriesChartUrl = await _getTimeSeries({ metricsFilepath: process.argv[2] });
+  const doughnutChart = await _getDoughnut();
+  const sankeyChart = await _getSankey();
+  const timeSeriesChart = await _getTimeSeries({ metricsFilepath: process.argv[2] });
 
-  return console.log(formatMessageForSlack([doughnutChartUrl, sankeyChartUrl, timeseriesChartUrl]));
-}
-
-await main();
-
-export { countFilesInPath };
-
-function _formatResult({ path, count }) {
-  return {
-    path,
-    count,
-  };
+  return console.log(formatMessageForSlack([doughnutChart, sankeyChart, timeSeriesChart]));
 }
 
 async function _getDoughnut() {
@@ -29,19 +18,29 @@ async function _getDoughnut() {
   const formattedDoughnutData = await Promise.all(
     pathsToAnalyse.map(async (path) => {
       const count = await countFilesInPath(path);
-      return _formatResult({ path, count });
+      return {
+        path,
+        count,
+      };
     }),
   );
-  return getDoughnutChartUrl(formattedDoughnutData);
+  const url = getDoughnutChartUrl(formattedDoughnutData);
+  const altText = `🍩 ` + formattedDoughnutData.map(({ path, count }) => `${path}: ${count}`).join(', ');
+  return { url, altText };
 }
 
 async function _getSankey() {
   const boundedContexts = await boundedContextDirectories();
-  const sankeyChartUrl = getSankeyChartUrl(boundedContexts);
-  return sankeyChartUrl;
+  const url = getSankeyChartUrl(boundedContexts);
+  const altText = '🍣 ' + boundedContexts.map((boundedContext) => boundedContext.toString()).join(', ');
+
+  return { url, altText };
 }
 
 async function _getTimeSeries({ metricsFilepath }) {
-  const timeseriesChartUrl = getTimeSeriesChartUrl(await parseTimeSeriesMetrics({ metricsFilepath }));
-  return timeseriesChartUrl;
+  const url = getTimeSeriesChartUrl(await parseTimeSeriesMetrics({ metricsFilepath }));
+  const altText = '📉 Nombre de usecases restants dans ./lib';
+  return { url, altText };
 }
+
+await main();
