@@ -55,7 +55,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
     });
 
     test('it should display sessions with required action informations', async function (assert) {
-      assert.expect(8);
+      assert.expect(10);
       // given
       const finalizedAt = new Date('2021-02-01T03:00:00Z');
       server.create('with-required-action-session', {
@@ -65,6 +65,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
         sessionDate: '2021-01-01',
         sessionTime: '17:00:00',
         assignedCertificationOfficerName: 'Officer1',
+        version: 101,
       });
       server.create('with-required-action-session', {
         id: '2',
@@ -73,6 +74,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
         sessionDate: '2022-07-12',
         sessionTime: '10:10:00',
         assignedCertificationOfficerName: 'Officer2',
+        version: 102,
       });
 
       // when
@@ -83,7 +85,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
       _assertSession2InformationsAreDisplayed(assert, screen);
     });
 
-    module('When clicking on the display only my sessions button', function () {
+    module('When clicking on the display only V2 sessions button', function () {
       test('it should filter the sessions', async function (assert) {
         // given
         const sessionDate = '2021-01-01';
@@ -96,6 +98,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
           sessionDate,
           sessionTime,
           assignedCertificationOfficerName: 'John Doe',
+          version: 2,
         });
         server.create('with-required-action-session', {
           id: '2',
@@ -104,6 +107,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
           sessionDate,
           sessionTime,
           assignedCertificationOfficerName: 'Officer2',
+          version: 3,
         });
         const screen = await visit('/sessions/list/with-required-action');
 
@@ -116,6 +120,8 @@ module('Acceptance | authenticated/sessions/list/with required action', function
         assert.dom(screen.getByText('1')).exists();
         assert.dom(screen.getByText('01/01/2021 à 17:00:00')).exists();
         assert.dom(screen.getByText('John Doe')).exists();
+        assert.dom(screen.getByText('2')).exists();
+        assert.dom(screen.queryByText('3')).doesNotExist();
       });
     });
   });
@@ -126,6 +132,7 @@ function _assertSession1InformationsAreDisplayed(assert, screen) {
   assert.dom(screen.getByText('1')).exists();
   assert.dom(screen.getByText('01/01/2021 à 17:00:00')).exists();
   assert.dom(screen.getByText('Officer1')).exists();
+  assert.dom(screen.getByText('101')).exists();
 }
 
 function _assertSession2InformationsAreDisplayed(assert, screen) {
@@ -133,4 +140,5 @@ function _assertSession2InformationsAreDisplayed(assert, screen) {
   assert.dom(screen.getByText('2')).exists();
   assert.dom(screen.getByText('12/07/2022 à 10:10:00')).exists();
   assert.dom(screen.getByText('Officer2')).exists();
+  assert.dom(screen.getByText('102')).exists();
 }

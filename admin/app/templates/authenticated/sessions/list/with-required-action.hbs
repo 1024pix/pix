@@ -1,12 +1,7 @@
 {{page-title "Sessions à traiter"}}
 <span class="session-list__self-toogle">
-  <p>Afficher uniquement mes sessions</p>
-  <XToggle
-    @size="small"
-    @theme="light"
-    @value={{this.assignedToSelfOnly}}
-    @onToggle={{fn (mut this.assignedToSelfOnly)}}
-  />
+  <p>Afficher uniquement les sessions V2</p>
+  <XToggle @size="small" @theme="light" @value={{this.v2sessionsOnly}} @onToggle={{fn (mut this.v2sessionsOnly)}} />
 </span>
 
 <WithRequiredActionSessions::ListItems @withRequiredActionSessions={{this.filteredSessions}} />
