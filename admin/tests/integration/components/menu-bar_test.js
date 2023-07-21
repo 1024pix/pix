@@ -179,11 +179,11 @@ module('Integration | Component | menu-bar', function (hooks) {
     });
   });
 
-  module('Target profile versioning tab', function () {
-    test('should contain link to "target profile versioning" management page when admin member have access to target profile versioning actions scope', async function (assert) {
+  module('Complementary certifications tab', function () {
+    test('should contain link to "complementary certifications" management page when admin member have access to complementary certifications actions scope', async function (assert) {
       // given
       class AccessControlStub extends Service {
-        hasAccessToTargetProfileVersioningScope = true;
+        hasAccessToComplementaryCertificationsScope = true;
       }
       this.owner.register('service:accessControl', AccessControlStub);
 
@@ -191,13 +191,13 @@ module('Integration | Component | menu-bar', function (hooks) {
       const screen = await render(hbs`<MenuBar />`);
 
       // then
-      assert.dom(screen.getByRole('link', { name: 'Versioning des profils cibles' })).exists();
+      assert.dom(screen.getByRole('link', { name: 'Certifications complémentaires' })).exists();
     });
 
-    test('should not contain link to "target profile versioning" management page when admin member does not have access to target profile versioning actions scope', async function (assert) {
+    test('should not contain link to "complementary certifications" management page when admin member does not have access to complementary certifications actions scope', async function (assert) {
       // given
       class AccessControlStub extends Service {
-        hasAccessToTargetProfileVersioningScope = false;
+        hasAccessToComplementaryCertificationsScope = false;
       }
       this.owner.register('service:accessControl', AccessControlStub);
 
@@ -205,7 +205,7 @@ module('Integration | Component | menu-bar', function (hooks) {
       const screen = await render(hbs`<MenuBar />`);
 
       // then
-      assert.dom(screen.queryByRole('link', { name: 'Versioning des profils cibles' })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: 'Certifications complémentaires' })).doesNotExist();
     });
   });
 

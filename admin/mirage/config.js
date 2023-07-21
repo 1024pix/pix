@@ -404,6 +404,10 @@ export default function () {
     return schema.complementaryCertifications.all();
   });
 
+  this.get('/complementary-certifications/:id', (schema, request) => {
+    return schema.complementaryCertifications.find(request.params.id);
+  });
+
   this.put('/admin/sessions/:id/comment', (schema, request) => {
     const sessionToUpdate = schema.sessions.find(request.params.id);
     const params = JSON.parse(request.requestBody);

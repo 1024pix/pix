@@ -56,7 +56,7 @@ export default class AccessControlService extends Service {
     return !!(this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isMetier);
   }
 
-  get hasAccessToTargetProfileVersioningScope() {
+  get hasAccessToComplementaryCertificationsScope() {
     return (
       this.featureToggles.featureToggles.isTargetProfileVersioningEnabled &&
       !!(
