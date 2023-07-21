@@ -4,10 +4,12 @@ import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Displaying a QCU challenge', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
   let assessment;
   let qcuChallenge;
 
@@ -17,28 +19,40 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
   });
 
   module('When challenge is not already answered', function (hooks) {
+    let screen;
+
     hooks.beforeEach(async function () {
       // when
-      await visit(`/assessments/${assessment.id}/challenges/0`);
+      screen = await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
     test('should render challenge information and question', function (assert) {
       // then
       const expectedProposals = [
-        '<p>1ere <em>possibilite</em></p>',
-        '<p>2eme <a href="/test" rel="noopener noreferrer" target="_blank">possibilite</a></p>',
-        '<p><img src="/images/pix-logo-blanc.svg" alt="3eme possibilite"></p>',
-        '<p>4eme possibilite</p>',
+        '1ere <em>possibilite</em>',
+        '2eme <a href="/test" rel="noopener noreferrer" target="_blank">possibilite</a>',
+        '<img src="/images/pix-logo-blanc.svg" alt="3eme possibilite">',
+        '4eme possibilite',
       ];
 
-      const actualProposals = findAll('.proposal-text');
-
-      assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), qcuChallenge.instruction);
-      assert.dom('input[type=radio][name="radio"]').exists({ count: 4 });
-      assert.strictEqual(actualProposals[0].innerHTML.trim(), expectedProposals[0]);
-      assert.strictEqual(actualProposals[1].innerHTML.trim(), expectedProposals[1]);
-      assert.strictEqual(actualProposals[2].innerHTML.trim(), expectedProposals[2]);
-      assert.strictEqual(actualProposals[3].innerHTML.trim(), expectedProposals[3]);
+      assert.ok(screen.getByText(qcuChallenge.instruction));
+      assert.strictEqual(screen.getAllByRole('radio', { name: /possibilite/ }).length, 4);
+      assert.strictEqual(
+        screen.getByRole('radio', { name: '1ere possibilite' }).nextElementSibling.innerHTML.trim(),
+        expectedProposals[0],
+      );
+      assert.strictEqual(
+        screen.getByRole('radio', { name: '2eme possibilite' }).nextElementSibling.innerHTML.trim(),
+        expectedProposals[1],
+      );
+      assert.strictEqual(
+        screen.getByRole('radio', { name: '3eme possibilite' }).nextElementSibling.innerHTML.trim(),
+        expectedProposals[2],
+      );
+      assert.strictEqual(
+        screen.getByRole('radio', { name: '4eme possibilite' }).nextElementSibling.innerHTML.trim(),
+        expectedProposals[3],
+      );
       assert.dom('.challenge-reponse__alert').doesNotExist();
     });
 
@@ -59,7 +73,7 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
       await click('.challenge-actions__action-validate');
 
       // when
-      await click(findAll('.proposal-text')[1]);
+      await click(screen.getByRole('radio', { name: '2eme possibilite' }));
 
       // then
       assert.dom('.challenge-response__alert').doesNotExist();
@@ -67,8 +81,8 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
     test('should go to checkpoint when user selects an answer and validates', async function (assert) {
       // when
-      await click(findAll('.proposal-text')[1]);
-      await click('.challenge-actions__action-validate');
+      await click(screen.getByRole('radio', { name: '2eme possibilite' }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.validate-go-to-next') }));
 
       // then
       assert.ok(currentURL().includes(`/assessments/${assessment.id}/checkpoint`));

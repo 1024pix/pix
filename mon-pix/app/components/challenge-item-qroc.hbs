@@ -6,7 +6,7 @@
         {{#each this._blocks as |block|}}
           {{#if block.text}}
             <label for="qroc_input">
-              <MarkdownToHtml class="qroc_input-label" @extensions="remove-paragraph-tags" @markdown={{block.text}} />
+              <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{block.text}} />
             </label>
           {{/if}}
 
@@ -14,6 +14,7 @@
             {{#if (eq block.type "select")}}
               <div class="challenge-response__proposal challenge-response__proposal--selector">
                 <PixSelect
+                  @id="qroc_input"
                   data-uid="qroc-proposal-uid"
                   data-test="challenge-response-proposal-selector"
                   @isDisabled={{this.isAnswerFieldDisabled}}

@@ -3,7 +3,7 @@ import { click, find, findAll, currentURL, fillIn, triggerEvent } from '@ember/t
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { visit } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Displaying a QROC challenge', function (hooks) {
   setupApplicationTest(hooks);
@@ -88,19 +88,18 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
     });
 
     module('When challenge is not already answered', function (hooks) {
+      let screen;
+
       hooks.beforeEach(async function () {
         // when
-        await visit(`/assessments/${assessment.id}/challenges/0`);
+        screen = await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
       test('should render challenge information and question', function (assert) {
         // then
-        assert.strictEqual(
-          find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocChallenge.instruction,
-        );
-        assert.dom('.challenge-response__proposal').exists({ count: 1 });
-        assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Entrez le <em>prénom</em> de B. Gates :'));
+        assert.ok(screen.getByText(qrocChallenge.instruction));
+        assert.ok(screen.getByLabelText('Entrez le prénom de B. Gates :'));
+        assert.ok(screen.getByPlaceholderText('prénom'));
         assert.dom('.challenge-response__alert').doesNotExist();
       });
 
@@ -266,19 +265,18 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
     });
 
     module('When challenge is not already answered', function (hooks) {
+      let screen;
+
       hooks.beforeEach(async function () {
         // when
-        await visit(`/assessments/${assessment.id}/challenges/0`);
+        screen = await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
       test('should render challenge information and question', function (assert) {
         // then
-        assert.strictEqual(
-          find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocChallenge.instruction,
-        );
-        assert.dom('.challenge-response__proposal').exists({ count: 1 });
-        assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Entrez le <em>prénom</em> de B. Gates :'));
+        assert.ok(screen.getByText(qrocChallenge.instruction));
+        assert.ok(screen.getByLabelText('Entrez le prénom de B. Gates :'));
+        assert.ok(screen.getByPlaceholderText('prénom'));
         assert.dom('.challenge-response__alert').doesNotExist();
       });
 
@@ -386,15 +384,12 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
     module('When challenge is not already answered', function () {
       test('should render challenge information and question', async function (assert) {
         // given
-        await visit(`/assessments/${assessment.id}/challenges/0`);
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // then
-        assert.strictEqual(
-          find('.challenge-statement-instruction__text').textContent.trim(),
-          qrocChallenge.instruction,
-        );
-        assert.dom('.challenge-response__proposal').exists({ count: 1 });
-        assert.ok(findAll('.qroc_input-label')[0].innerHTML.includes('Select: '));
+        assert.ok(screen.getByText(qrocChallenge.instruction));
+        assert.ok(screen.getByText(/Select:/, { exact: false, selector: 'label' }));
+        assert.ok(screen.getByRole('button', { name: /Select:/ }));
         assert.dom('.challenge-response__alert').doesNotExist();
       });
 
@@ -404,7 +399,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         await click('.challenge-actions__action-validate');
 
         // when
-        await clickByName('saladAriaLabel');
+        await click(screen.getByRole('button', { name: /Select:/ }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'mango' }));
 
@@ -419,7 +414,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         assert.dom('.challenge-response__alert').exists();
 
         // when
-        await clickByName('saladAriaLabel');
+        await click(screen.getByRole('button', { name: /Select:/ }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'mango' }));
 
@@ -432,7 +427,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // when
-        await clickByName('saladAriaLabel');
+        await click(screen.getByRole('button', { name: /Select:/ }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'mango' }));
 

@@ -1,3 +1,7 @@
-<div class={{@class}} ...attributes>
+{{#if @isInline}}
   {{this.html}}
-</div>
+{{else}}
+  <div class={{@class}} ...attributes>
+    {{this.html}}
+  </div>
+{{/if}}
