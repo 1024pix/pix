@@ -9,7 +9,7 @@ export default class ScoOrganizationParticipantAdapter extends ApplicationAdapte
   }
 
   async resetOrganizationLearnersPassword({ fetch, fileSaver, organizationId, organizationLearnersIds, token }) {
-    const url = `${this.host}/${this.namespace}/sco-organization-learners/passwords`;
+    const url = `${this.host}/${this.namespace}/sco-organization-learners/password-reset`;
     const payload = JSON.stringify(
       {
         data: {
@@ -20,7 +20,7 @@ export default class ScoOrganizationParticipantAdapter extends ApplicationAdapte
       2,
     );
     const request = fetch(url, {
-      method: 'PUT',
+      method: 'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: payload,
     });

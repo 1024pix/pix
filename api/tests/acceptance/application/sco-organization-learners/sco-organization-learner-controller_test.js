@@ -11,7 +11,6 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/id
 
 describe('Acceptance | Controller | sco-organization-learners', function () {
   let server;
-  const BASE_PATH = '/api/sco-organization-learners';
 
   beforeEach(async function () {
     server = await createServer();
@@ -700,8 +699,8 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
 
         // when
         const { headers, payload, statusCode } = await server.inject({
-          method: 'PUT',
-          url: `${BASE_PATH}/passwords`,
+          method: 'POST',
+          url: '/api/sco-organization-learners/password-reset',
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
           payload: {
             data: {
