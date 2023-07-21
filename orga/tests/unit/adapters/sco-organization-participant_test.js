@@ -45,9 +45,9 @@ module('Unit | Adapters | sco-organization-participant', function (hooks) {
       });
 
       // then
-      const expectedUrl = `${adapter.host}/${adapter.namespace}/sco-organization-learners/passwords`;
+      const expectedUrl = `${adapter.host}/${adapter.namespace}/sco-organization-learners/password-reset`;
       const expectedOptions = {
-        method: 'PUT',
+        method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(
           {

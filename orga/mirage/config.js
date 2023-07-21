@@ -393,7 +393,7 @@ export default function () {
     });
   });
 
-  this.put('/sco-organization-learners/passwords', () => {
+  this.post('/sco-organization-learners/password-reset', () => {
     const headers = {
       'Content-Type': 'text/csv;charset=utf-8',
       'Content-Disposition': 'attachment; filename=content.csv',
