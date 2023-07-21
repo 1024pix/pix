@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 import * as complementaryCertificationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import { ComplementaryCertificationForAdmin } from '../../../../lib/domain/models/ComplementaryCertificationForAdmin.js';
 
@@ -104,7 +104,7 @@ describe('Integration | Repository | complementary-certification-repository', fu
   });
 
   describe('#getTargetProfileById', function () {
-    it('should return the complementary certification and current target profile by its id', async function () {
+    it('should return the complementary certification and current target profile with badges', async function () {
       // given
       databaseBuilder.factory.buildComplementaryCertification({
         id: 1,
@@ -122,26 +122,26 @@ describe('Integration | Repository | complementary-certification-repository', fu
 
       const oldTargetProfile = databaseBuilder.factory.buildTargetProfile({ id: 222, name: 'oldTarget' });
 
-      const currentBadge = databaseBuilder.factory.buildBadge({
+      const currentBadgeId = _createComplementaryCertificationBadge({
         targetProfileId: currentTarget.id,
-        key: 'badgeGood',
-      });
-
-      const oldBadge = databaseBuilder.factory.buildBadge({
-        targetProfileId: oldTargetProfile.id,
-        key: 'badge',
-      });
-
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        badgeId: currentBadge.id,
         complementaryCertificationId: complementaryCertification.id,
         createdAt: new Date('2023-10-10'),
+        label: 'badgeGood',
+        level: 1,
       });
-
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        badgeId: oldBadge.id,
+      const currentBadgeId2 = _createComplementaryCertificationBadge({
+        targetProfileId: currentTarget.id,
+        complementaryCertificationId: complementaryCertification.id,
+        createdAt: new Date('2023-10-10'),
+        label: 'badgeGood2',
+        level: 1,
+      });
+      _createComplementaryCertificationBadge({
+        targetProfileId: oldTargetProfile.id,
         complementaryCertificationId: complementaryCertification.id,
         createdAt: new Date('2020-10-10'),
+        label: 'oldBadge',
+        level: 1,
       });
 
       await databaseBuilder.commit();
@@ -160,9 +160,44 @@ describe('Integration | Repository | complementary-certification-repository', fu
           currentTargetProfile: {
             id: 999,
             name: 'currentTarget',
+            badges: [
+              {
+                id: currentBadgeId,
+                level: 1,
+                label: 'badgeGood',
+              },
+              {
+                id: currentBadgeId2,
+                level: 1,
+                label: 'badgeGood2',
+              },
+            ],
           },
         }),
       );
     });
   });
 });
+
+function _createComplementaryCertificationBadge({
+  targetProfileId,
+  complementaryCertificationId,
+  createdAt,
+  label,
+  level,
+}) {
+  const badgeId = databaseBuilder.factory.buildBadge({
+    targetProfileId,
+    key: label,
+  }).id;
+
+  databaseBuilder.factory.buildComplementaryCertificationBadge({
+    badgeId,
+    complementaryCertificationId,
+    createdAt,
+    label,
+    level,
+  });
+
+  return badgeId;
+}

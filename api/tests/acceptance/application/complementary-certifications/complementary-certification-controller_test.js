@@ -93,11 +93,26 @@ describe('Acceptance | API | complementary-certification-controller', function (
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ id: 999, name: 'Target' });
 
       const badge1 = databaseBuilder.factory.buildBadge({
+        id: 198,
+        key: 'badge1',
+        targetProfileId: targetProfile.id,
+      });
+
+      const badge2 = databaseBuilder.factory.buildBadge({
+        id: 298,
+        key: 'badge2',
         targetProfileId: targetProfile.id,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         badgeId: badge1.id,
+        label: 'another badge label',
+        complementaryCertificationId: complementaryCertification.id,
+      });
+
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: badge2.id,
+        label: 'badge label',
         complementaryCertificationId: complementaryCertification.id,
       });
 
@@ -116,6 +131,18 @@ describe('Acceptance | API | complementary-certification-controller', function (
             label: 'Pix+ Édu 2nd degré',
             key: 'EDU_2ND_DEGRE',
             'current-target-profile': {
+              badges: [
+                {
+                  id: 198,
+                  level: 1,
+                  label: 'another badge label',
+                },
+                {
+                  id: 298,
+                  level: 1,
+                  label: 'badge label',
+                },
+              ],
               id: 999,
               name: 'Target',
             },
