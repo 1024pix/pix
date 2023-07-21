@@ -9,6 +9,7 @@ const buildFinalizedSession = function ({
   date = '2019-12-25',
   publishedAt = null,
   assignedCertificationOfficerName = null,
+  version = 2,
 } = {}) {
   const values = {
     sessionId,
@@ -19,6 +20,7 @@ const buildFinalizedSession = function ({
     date,
     publishedAt,
     assignedCertificationOfficerName,
+    version,
   };
 
   return databaseBuffer.pushInsertable({

@@ -19,6 +19,7 @@ describe('Integration | Repository | Finalized-session', function () {
           sessionDate: '2021-01-01',
           sessionTime: '14:00:00',
           isPublishable: true,
+          version: 3,
         });
 
         // when
@@ -36,6 +37,7 @@ describe('Integration | Repository | Finalized-session', function () {
           isPublishable: true,
           publishedAt: null,
           assignedCertificationOfficerName: null,
+          version: 3,
         });
       });
     });
@@ -69,6 +71,7 @@ describe('Integration | Repository | Finalized-session', function () {
           certificationCenterName: 'A certification center name',
           date: '2021-01-01',
           time: '14:00:00',
+          version: 2,
         });
 
         await databaseBuilder.commit();
@@ -89,6 +92,7 @@ describe('Integration | Repository | Finalized-session', function () {
           isPublishable: false,
           publishedAt: null,
           assignedCertificationOfficerName: 'David Gilmour',
+          version: 2,
         });
       });
     });
@@ -118,6 +122,7 @@ describe('Integration | Repository | Finalized-session', function () {
           isPublishable: finalizedSession.isPublishable,
           publishedAt: null,
           assignedCertificationOfficerName: null,
+          version: 2,
         });
       });
     });
@@ -149,6 +154,7 @@ describe('Integration | Repository | Finalized-session', function () {
           isPublishable: true,
           publishedAt: null,
           finalizedAt: new Date('2021-01-01'),
+          version: 3,
         });
 
         databaseBuilder.factory.buildFinalizedSession({
@@ -177,6 +183,7 @@ describe('Integration | Repository | Finalized-session', function () {
             isPublishable: publishableFinalizedSession2.isPublishable,
             publishedAt: null,
             assignedCertificationOfficerName: null,
+            version: 2,
           },
           {
             sessionId: publishableFinalizedSession1.sessionId,
@@ -187,6 +194,7 @@ describe('Integration | Repository | Finalized-session', function () {
             isPublishable: publishableFinalizedSession1.isPublishable,
             publishedAt: null,
             assignedCertificationOfficerName: null,
+            version: 2,
           },
           {
             sessionId: publishableFinalizedSession3.sessionId,
@@ -197,6 +205,7 @@ describe('Integration | Repository | Finalized-session', function () {
             isPublishable: publishableFinalizedSession3.isPublishable,
             publishedAt: null,
             assignedCertificationOfficerName: null,
+            version: 3,
           },
         ]);
       });
@@ -231,6 +240,7 @@ describe('Integration | Repository | Finalized-session', function () {
           isPublishable: false,
           publishedAt: null,
           finalizedAt: new Date('2021-01-01'),
+          version: 3,
         });
 
         databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null });
@@ -253,6 +263,7 @@ describe('Integration | Repository | Finalized-session', function () {
             isPublishable: firstFinalizedSession.isPublishable,
             publishedAt: null,
             assignedCertificationOfficerName: null,
+            version: 2,
           },
           {
             sessionId: secondFinalizedSession.sessionId,
@@ -263,6 +274,7 @@ describe('Integration | Repository | Finalized-session', function () {
             isPublishable: secondFinalizedSession.isPublishable,
             publishedAt: null,
             assignedCertificationOfficerName: null,
+            version: 2,
           },
           {
             sessionId: thirdFinalizedSession.sessionId,
@@ -273,6 +285,7 @@ describe('Integration | Repository | Finalized-session', function () {
             isPublishable: thirdFinalizedSession.isPublishable,
             publishedAt: null,
             assignedCertificationOfficerName: null,
+            version: 3,
           },
         ]);
       });

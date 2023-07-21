@@ -66,6 +66,7 @@ async function handleAutoJury({
       sessionDate: event.sessionDate,
       sessionTime: event.sessionTime,
       hasExaminerGlobalComment: event.hasExaminerGlobalComment,
+      version: event.version,
     }),
   ];
 }

@@ -8,6 +8,7 @@ class FinalizedSession {
     isPublishable,
     publishedAt,
     assignedCertificationOfficerName,
+    version = 2,
   } = {}) {
     this.sessionId = sessionId;
     this.finalizedAt = finalizedAt;
@@ -17,6 +18,7 @@ class FinalizedSession {
     this.isPublishable = isPublishable;
     this.publishedAt = publishedAt;
     this.assignedCertificationOfficerName = assignedCertificationOfficerName;
+    this.version = version;
   }
 
   static from({
@@ -28,6 +30,7 @@ class FinalizedSession {
     hasExaminerGlobalComment,
     juryCertificationSummaries,
     hasSupervisorAccess,
+    version,
   }) {
     return new FinalizedSession({
       sessionId,
@@ -42,6 +45,7 @@ class FinalizedSession {
         _hasNoUnfinishedWithoutAbortReason(juryCertificationSummaries) &&
         _hasAllFinishedEndTestScreensSeenByExaminer(hasSupervisorAccess, juryCertificationSummaries),
       publishedAt: null,
+      version,
     });
   }
 

@@ -261,6 +261,7 @@ describe('Unit | UseCase | finalize-session', function () {
           certificationCenter: 'a certification center name',
           date: '2019-12-12',
           time: '16:00:00',
+          version: 3,
         });
         clock = sinon.useFakeTimers(now);
         const validReportForFinalization = domainBuilder.buildCertificationReport({
@@ -303,6 +304,7 @@ describe('Unit | UseCase | finalize-session', function () {
             certificationCenterName: 'a certification center name',
             sessionDate: '2019-12-12',
             sessionTime: '16:00:00',
+            version: 3,
           }),
         );
       });

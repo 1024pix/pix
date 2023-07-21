@@ -72,6 +72,7 @@ const finalizeSession = async function ({
     certificationCenterName: finalizedSession.certificationCenter,
     sessionDate: finalizedSession.date,
     sessionTime: finalizedSession.time,
+    version: finalizedSession.version,
   });
 };
 

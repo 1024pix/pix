@@ -26,6 +26,7 @@ async function handleSessionFinalized({
     hasExaminerGlobalComment: event.hasExaminerGlobalComment,
     hasSupervisorAccess,
     juryCertificationSummaries,
+    version: event.version,
   });
 
   await finalizedSessionRepository.save(finalizedSession);

@@ -35,6 +35,7 @@ describe('Unit | Domain | Events | handle-session-finalized', function () {
       certificationCenterName: 'A certification center name',
       sessionDate: '2021-01-29',
       sessionTime: '14:00',
+      version: 3,
     });
     const juryCertificationSummary = new JuryCertificationSummary({
       id: 1,
@@ -75,6 +76,7 @@ describe('Unit | Domain | Events | handle-session-finalized', function () {
       hasExaminerGlobalComment: false,
       hasSupervisorAccess: true,
       juryCertificationSummaries: [juryCertificationSummary],
+      version: event.version,
     });
     expect(finalizedSessionRepository.save).to.have.been.calledWithExactly(
       new FinalizedSession({
@@ -86,6 +88,7 @@ describe('Unit | Domain | Events | handle-session-finalized', function () {
         isPublishable: true,
         hasSupervisorAccess: true,
         publishedAt: null,
+        version: event.version,
       }),
     );
   });
