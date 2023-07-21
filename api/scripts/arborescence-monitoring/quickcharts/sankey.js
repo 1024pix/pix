@@ -18,6 +18,14 @@ function _generateSankeyChartConfiguration(boundedContextDirectories) {
         },
       ],
     },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Src directory distribution',
+        },
+      },
+    },
   };
 }
 
