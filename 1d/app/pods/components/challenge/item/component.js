@@ -46,10 +46,6 @@ export default class Item extends Component {
   resume() {
     this.answerHasBeenValidated = false;
     this.answerValue = null;
-    //TODO: Réinitiliser this.answer
-    //On voulait réinitialiser this.answer à null pour repartir sur de bonnes bases,
-    //mais on ne le fait pas car sinon on affiche une valeur non désirée dans la modale;
-    this.answerValue = null;
     this.router.transitionTo('assessment.resume');
   }
 

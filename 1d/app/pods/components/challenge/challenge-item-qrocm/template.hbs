@@ -1,0 +1,74 @@
+<div class="challenge-item-proposals">
+  {{#each this.proposalBlocks as |block|}}
+    {{#if block.showText}}
+      <Markdown::MarkdownToHtml
+        @markdown={{block.text}}
+        @extensions="remove-paragraph-tags"
+        class="qrocm-proposal__label"
+      />
+    {{/if}}
+    {{#if (eq block.type "select")}}
+      <PixSelect
+        class="challenge-item-proposals__response challenge-item-proposals__response--selector"
+        @value={{this.selectAnswer}}
+        @label={{block.ariaLabel}}
+        @screenReaderOnly={{true}}
+        @placeholder={{block.placeholder}}
+        @hideDefaultOption={{true}}
+        @options={{block.options}}
+        @onChange={{fn this.onSelectChange block.input}}
+        @id="{{block.input}}"
+      />
+    {{else if (eq block.type "input")}}
+      {{#if block.input}}
+        <div class="qrocm-proposal__input">
+          {{#if block.text}}
+            <label for="{{block.input}}">
+              <Markdown::MarkdownToHtml
+                @markdown={{block.text}}
+                @extensions="remove-paragraph-tags"
+                class="challenge-item-proposals__input-label"
+              />
+            </label>
+          {{/if}}
+
+          {{#if (eq @challenge.format "paragraphe")}}
+            <PixTextarea
+              @id="{{block.input}}"
+              class="challenge-item-proposals__response challenge-item-proposals__response--paragraph"
+              rows="5"
+              aria-label={{block.ariaLabel}}
+              placeholder={{block.placeholder}}
+              name={{block.randomName}}
+              autocomplete="nope"
+              {{on "change" (fn this.onInputChange block.input)}}
+            />
+          {{else if (eq @challenge.format "phrase")}}
+            <PixInput
+              class="challenge-item-proposals__response"
+              @type="text"
+              @id="{{block.input}}"
+              name={{block.randomName}}
+              autocomplete="nope"
+              placeholder={{block.placeholder}}
+              @ariaLabel={{block.ariaLabel}}
+              {{on "change" (fn this.onInputChange block.input)}}
+            />
+          {{else}}
+            <PixInput
+              type="text"
+              class="challenge-item-proposals__response challenge-item-proposals__response--short-text"
+              @id="{{block.input}}"
+              name={{block.randomName}}
+              autocomplete="nope"
+              placeholder={{block.placeholder}}
+              @value={{get @answersValue block.input}}
+              @ariaLabel={{block.ariaLabel}}
+              {{on "change" (fn this.onInputChange block.input)}}
+            />
+          {{/if}}
+        </div>
+      {{/if}}
+    {{/if}}
+  {{/each}}
+</div>

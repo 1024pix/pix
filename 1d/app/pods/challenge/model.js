@@ -32,4 +32,12 @@ export default class Challenge extends Model {
     const embedUrl = this.embedUrl;
     return !!embedUrl && !!this.embedTitle && !!this.embedHeight && embedUrl.toLowerCase().indexOf('https://') === 0; // fixes bug on IE: startsWith in not supported (PR #242)
   }
+
+  get isQROC() {
+    return this.type === 'QROC';
+  }
+
+  get isQROCM() {
+    return this.type === 'QROCM-dep' || this.type === 'QROCM-ind';
+  }
 }

@@ -1,0 +1,29 @@
+.challenge-item-proposals {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  width: 100%;
+  height: fit-content;
+
+  &.input-label {
+    display: inline;
+  }
+
+  &__response{
+    &--short-text, &--number{
+      width: 50%;
+    }
+
+    &--paragraph{
+      max-width: 100%;
+    }
+
+    &.pix-input__input--default {
+      background-color: #F4F5F7;
+      border: none;
+      border-bottom: 1px solid #556BCC;
+      border-radius: 4px 4px 0 0;
+    }
+  }
+}
