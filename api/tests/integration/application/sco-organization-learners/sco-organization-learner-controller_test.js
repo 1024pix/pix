@@ -273,8 +273,8 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
 
           // when
           const response = await httpTestServer.request(
-            'PUT',
-            '/api/sco-organization-learners/passwords',
+            'POST',
+            '/api/sco-organization-learners/password-reset',
             payload,
             auth,
           );
