@@ -205,8 +205,8 @@ const register = async function (server) {
       },
     },
     {
-      method: 'PUT',
-      path: '/api/sco-organization-learners/passwords',
+      method: 'POST',
+      path: '/api/sco-organization-learners/password-reset',
       config: {
         pre: [
           {

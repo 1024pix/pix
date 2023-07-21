@@ -670,7 +670,7 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
     });
   });
 
-  describe('PUT /api/sco-organization-learners/passwords', function () {
+  describe('POST /api/sco-organization-learners/password-reset', function () {
     context('when successfully update organization learners passwords', function () {
       it('returns an HTTP status code 200 with generated CSV file', async function () {
         // given
