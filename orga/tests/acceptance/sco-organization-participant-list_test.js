@@ -345,7 +345,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
           });
 
           module('when resetting students password', function () {
-            test('resets students password', async function (assert) {
+            test('resets students password and displays a success notification', async function (assert) {
               // given
               const screen = await visit('/eleves');
               await clickByName(this.intl.t('pages.sco-organization-participants.table.column.mainCheckbox'));
@@ -358,6 +358,11 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
               // then
               const resetPasswordsModal = await screen.queryByRole('dialog');
               assert.dom(resetPasswordsModal).isNotVisible();
+
+              const successNotification = await screen.getByText(
+                this.intl.t('pages.sco-organization-participants.messages.password-reset-success'),
+              );
+              assert.dom(successNotification).exists();
             });
           });
         });

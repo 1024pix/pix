@@ -34,6 +34,11 @@
       "student-number-format": "Row {line} : The field “{field}” must not contain any special characters.",
       "student-number-unique": "Row {line} : The field “{field}” must be unique within the file."
     },
+    "student-password-reset": {
+      "organization-learner-does-not-belong-to-organization-error": "Some of the selected students are no longer part of this organisation.",
+      "organization-learner-without-username-error": "Some of the selected students no longer have a username. Please refresh this page.",
+      "user-does-not-belong-to-organization-error": "You no longer have the rights for this organisation."
+    },
     "student-xml-import": {
       "birth-city-code-required-for-french-student": "The field birth city code is mandatory for each student born in France.",
       "empty": "Each student must have an INE and a class.",
@@ -982,11 +987,14 @@
           }
         }
       },
+      "messages": {
+        "password-reset-success": "The password reset of the selected students has been done successfuly."
+      },
       "no-participants": "No students yet!",
       "no-participants-action": "The administrator must import the students database by clicking on the import button.",
       "page-title": "Students",
       "reset-password-modal": {
-        "title": "Réinitialisation de mot de passe des élèves avec identifiants",
+        "title": "Réinitialisation des <strong>mots de passe</strong> des élèves avec <strong>identifiant</strong>",
         "content-message-1": "Sur {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} élève</strong>} other {<strong>{totalSelectedStudents} élèves</strong>}} que vous avez sélectionné, {totalAffectedStudents, plural, =0 {<strong>aucun mot de passe</strong> sera réinitialisé} =1 {le mot de passe de <strong>{totalAffectedStudents} élève</strong> va être réinitialisé.} other {les mots de passe de <strong>{totalAffectedStudents} élèves</strong> vont être réinitialisé.}}",
         "content-message-2": "Un fichier CSV sera généré contenant les identifiants ainsi que les mots de passe à usage unique.",
         "content-message-3": "Communiquez ces nouveaux mots de passe à usage unique aux élèves. Lorsqu'ils se connecteront avec ce mot de passe, Pix leur demandera d'en saisir un nouveau.",
