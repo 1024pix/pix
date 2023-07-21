@@ -27,6 +27,13 @@ function _generateDoughnutChartConfiguration(doughnutData) {
         display: true,
         position: 'bottom',
       },
+      title: {
+        display: true,
+        text: 'Migration progress',
+        position: 'bottom',
+        fontSize: 20,
+        fontColor: 'black',
+      },
       plugins: {
         datalabels: {
           color: '#404040',
@@ -41,28 +48,20 @@ function _generateDoughnutChartConfiguration(doughnutData) {
         doughnutlabel: {
           labels: [
             {
-              text: `Files count: ${totalFilesCount}`,
+              text: `\nFiles count: ${totalFilesCount}`,
               font: {
                 size: 14,
                 weight: 'bold',
               },
             },
             {
-              text: '\nMigration progress',
-              color: '#000',
-              font: {
-                size: 18,
-                weight: 'bold',
-              },
-            },
-            {
-              text: `\n\nbranch`,
+              text: `\nbranch`,
               font: {
                 size: 18,
               },
             },
             {
-              text: `\n\n\n${process.env.BRANCH_NAME}` || '\n\n\nunknown',
+              text: `\n\n${process.env.BRANCH_NAME}` || '\n\n\nunknown',
               font: {
                 size: 12,
               },

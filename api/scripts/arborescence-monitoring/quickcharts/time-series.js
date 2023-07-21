@@ -12,6 +12,13 @@ function _generateTimeSeriesChartConfiguration(data) {
       datasets: [_historicalDataset(data), _endDateProjectionDataset(data)],
     },
     options: {
+      title: {
+        display: true,
+        text: 'Usecases count evolution in ./lib directory',
+        position: 'bottom',
+        fontSize: 20,
+        fontColor: 'black',
+      },
       scales: {
         xAxes: [
           {
@@ -27,6 +34,7 @@ function _generateTimeSeriesChartConfiguration(data) {
     },
   };
 }
+
 function _historicalDataset(data) {
   return {
     label: 'Number of remaining usecases to migrate',
