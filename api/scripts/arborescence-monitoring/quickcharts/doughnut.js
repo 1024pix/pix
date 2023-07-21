@@ -32,6 +32,7 @@ function _generateDoughnutChartConfiguration(doughnutData) {
           color: '#404040',
           anchor: 'end',
           align: 'end',
+          formatter: '$FORMATTER',
           font: {
             size: 25,
             weight: 'bold',
@@ -47,7 +48,7 @@ function _generateDoughnutChartConfiguration(doughnutData) {
               },
             },
             {
-              text: '\nmigration progress in %',
+              text: '\nMigration progress',
               color: '#000',
               font: {
                 size: 18,
@@ -75,7 +76,9 @@ function _generateDoughnutChartConfiguration(doughnutData) {
 
 function getDoughnutChartUrl(data) {
   const doughnutChartConfiguration = _generateDoughnutChartConfiguration(data);
-  return generateChartUrl(doughnutChartConfiguration, 2);
+  return generateChartUrl(doughnutChartConfiguration, 2, {
+    FORMATTER: '(value) => `${value}%`',
+  });
 }
 
 export { getDoughnutChartUrl };
