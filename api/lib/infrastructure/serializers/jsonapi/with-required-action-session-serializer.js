@@ -14,6 +14,7 @@ const serialize = function (finalizedSessions) {
       'finalizedAt',
       'certificationCenterName',
       'assignedCertificationOfficerName',
+      'version',
     ],
   }).serialize(finalizedSessions);
 };

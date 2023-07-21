@@ -15,6 +15,7 @@ describe('Unit | Serializer | JSONAPI | with-required-action-session-serializer'
         isPublishable: false,
         publishedAt: null,
         assignedCertificationOfficerName: 'Anne Star',
+        version: 3,
       });
 
       const expectedJsonApi = {
@@ -28,6 +29,7 @@ describe('Unit | Serializer | JSONAPI | with-required-action-session-serializer'
             'finalized-at': new Date('2019-04-28T02:42:26Z'),
             'certification-center-name': 'Centre des Anne-Etoile',
             'assigned-certification-officer-name': 'Anne Star',
+            version: 3,
           },
         },
       };
