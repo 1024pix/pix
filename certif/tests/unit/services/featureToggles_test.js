@@ -11,7 +11,7 @@ module('Unit | Service | feature toggles', function (hooks) {
     test('should load the feature toggles', async function (assert) {
       // Given
       const featureToggles = Object.create({
-        isDifferentiatedTimeInvigilatorPortalEnabled: false,
+        isMassiveSessionManagementEnabled: false,
       });
       const storeStub = Service.create({
         queryRecord: () => resolve(featureToggles),
