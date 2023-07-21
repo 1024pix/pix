@@ -15,13 +15,13 @@ describe('Acceptance | API | complementary-certification-controller', function (
     server = await createServer();
   });
 
-  describe('GET /api/complementary-certifications/', function () {
+  describe('GET /api/admin/complementary-certifications/', function () {
     it('should return 200 HTTP status code', async function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
       const options = {
         method: 'GET',
-        url: '/api/complementary-certifications',
+        url: '/api/admin/complementary-certifications',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
         },
@@ -62,6 +62,65 @@ describe('Acceptance | API | complementary-certification-controller', function (
             },
           },
         ],
+      });
+    });
+  });
+
+  describe('GET /api/admin/complementary-certifications/{id}/target-profiles', function () {
+    it('should return 200 HTTP status code', async function () {
+      // given
+      const complementaryCertificationId = 1;
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+      const options = {
+        method: 'GET',
+        url: '/api/admin/complementary-certifications/' + complementaryCertificationId + '/target-profiles',
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+        },
+      };
+      databaseBuilder.factory.buildComplementaryCertification({
+        id: 3,
+        key: 'EDU_1ER_DEGRE',
+        label: 'Pix+ Édu 1er degré',
+      });
+
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        id: complementaryCertificationId,
+        key: 'EDU_2ND_DEGRE',
+        label: 'Pix+ Édu 2nd degré',
+      });
+
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ id: 999, name: 'Target' });
+
+      const badge1 = databaseBuilder.factory.buildBadge({
+        targetProfileId: targetProfile.id,
+      });
+
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: badge1.id,
+        complementaryCertificationId: complementaryCertification.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: {
+          type: 'complementary-certifications',
+          id: '1',
+          attributes: {
+            label: 'Pix+ Édu 2nd degré',
+            key: 'EDU_2ND_DEGRE',
+            'current-target-profile': {
+              id: 999,
+              name: 'Target',
+            },
+          },
+        },
       });
     });
   });

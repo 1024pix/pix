@@ -1,5 +1,22 @@
 <section class="page-section">
-  <div class="content-text content-text--small">
-    TODO: Section infos
+  <div class="content-text content-text--small complementary-certification-details">
+    <h1 class="complementary-certification-details__title">Certification complémentaire</h1>
+
+    <span class="complementary-certification-details__label">{{@complementaryCertification.label}}</span>
+    <ul class="complementary-certification-details__list">
+      <li>Profil cible actuel :
+        <LinkTo
+          @route="authenticated.target-profiles.target-profile"
+          @model={{@complementaryCertification.currentTargetProfile.id}}
+          class="complementary-certification-details-list__link"
+        >
+          {{@complementaryCertification.currentTargetProfile.name}}
+        </LinkTo>
+      </li>
+      <li>Date de rattachement : TODO</li>
+    </ul>
+
+    <PixButton>Rattacher un nouveau profil cible</PixButton>
+
   </div>
 </section>

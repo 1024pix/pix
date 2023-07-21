@@ -4,12 +4,12 @@
   <div class="page-title">
     <LinkTo @route="authenticated.complementary-certifications.list">Toutes les certification complémentaires</LinkTo>
     <span class="wire">&nbsp;>&nbsp;</span>
-    <h1>TODO</h1>
+    <h1>{{@model.label}}</h1>
   </div>
 </header>
 
 <main class="page-body">
-  <ComplementaryCertifications::TargetProfiles::Information />
+  <ComplementaryCertifications::TargetProfiles::Information @complementaryCertification={{@model}} />
   <ComplementaryCertifications::TargetProfiles::BadgesList />
   <ComplementaryCertifications::TargetProfiles::Log />
 </main>

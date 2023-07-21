@@ -1,5 +1,6 @@
 import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
 import * as complementaryCertificationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
+import { ComplementaryCertificationForAdmin } from '../../../../lib/domain/models/ComplementaryCertificationForAdmin.js';
 
 describe('Integration | Repository | complementary-certification-repository', function () {
   describe('#findAll', function () {
@@ -99,6 +100,69 @@ describe('Integration | Repository | complementary-certification-repository', fu
         label: 'Pix+ Édu 1er degré',
       });
       expect(complementaryCertification).to.deep.equal(expectedComplementaryCertification);
+    });
+  });
+
+  describe('#getTargetProfileById', function () {
+    it('should return the complementary certification and current target profile by its id', async function () {
+      // given
+      databaseBuilder.factory.buildComplementaryCertification({
+        id: 1,
+        key: 'EDU_1ER_DEGRE',
+        label: 'Pix+ Édu 1er degré',
+      });
+
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        id: 3,
+        key: 'EDU_2ND_DEGRE',
+        label: 'Pix+ Édu 2nd degré',
+      });
+
+      const currentTarget = databaseBuilder.factory.buildTargetProfile({ id: 999, name: 'currentTarget' });
+
+      const oldTargetProfile = databaseBuilder.factory.buildTargetProfile({ id: 222, name: 'oldTarget' });
+
+      const currentBadge = databaseBuilder.factory.buildBadge({
+        targetProfileId: currentTarget.id,
+        key: 'badgeGood',
+      });
+
+      const oldBadge = databaseBuilder.factory.buildBadge({
+        targetProfileId: oldTargetProfile.id,
+        key: 'badge',
+      });
+
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: currentBadge.id,
+        complementaryCertificationId: complementaryCertification.id,
+        createdAt: new Date('2023-10-10'),
+      });
+
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: oldBadge.id,
+        complementaryCertificationId: complementaryCertification.id,
+        createdAt: new Date('2020-10-10'),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await complementaryCertificationRepository.getTargetProfileById({
+        complementaryCertificationId: complementaryCertification.id,
+      });
+
+      // then
+      expect(result).to.deepEqualInstance(
+        new ComplementaryCertificationForAdmin({
+          id: 3,
+          key: 'EDU_2ND_DEGRE',
+          label: 'Pix+ Édu 2nd degré',
+          currentTargetProfile: {
+            id: 999,
+            name: 'currentTarget',
+          },
+        }),
+      );
     });
   });
 });
