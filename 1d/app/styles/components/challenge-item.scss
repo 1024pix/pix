@@ -56,9 +56,10 @@
     align-items: center;
   }
 
-  &__qcm {
+  &__qcm, &__qcu {
     width : 100%;
-    padding: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
     display: flex;
     justify-content: center;
   }
