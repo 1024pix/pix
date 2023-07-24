@@ -24,6 +24,7 @@ export default class Challenge extends Model {
   @attr('string') type;
   @attr('boolean') autoReply;
   @attr('boolean') focused;
+  @attr('boolean') shuffled;
 
   @belongsTo('activity-answer') activityAnswer;
 
@@ -39,5 +40,8 @@ export default class Challenge extends Model {
 
   get isQROCM() {
     return this.type === 'QROCM-dep' || this.type === 'QROCM-ind';
+  }
+  get isQCM() {
+    return this.type === 'QCM' || this.type === 'QCMIMG';
   }
 }
