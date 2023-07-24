@@ -1,8 +1,8 @@
-<div class="challenge-item-proposals__checkboxes">
+<div class="challenge-item-proposals__qcm-checkboxes">
   {{#each this.labeledCheckboxes as |labeledCheckbox|}}
     <PixCheckbox
       name="{{labeledCheckbox.value}}"
-      @class="pix1d"
+      @class="pix1d-checkbox"
       disabled={{@isAnswerFieldDisabled}}
       checked={{labeledCheckbox.checked}}
       {{on "click" (fn this.checkboxClicked labeledCheckbox.value)}}
