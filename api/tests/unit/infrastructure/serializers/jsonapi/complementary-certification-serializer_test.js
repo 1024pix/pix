@@ -49,23 +49,24 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
     it('should convert a ComplementaryCertification model object into JSON API data', function () {
       // given
       const badges = [
-        { id: 1, label: 'badge 1', level: 1, otherProp: true },
-        { id: 2, label: 'badge 2', level: 2, otherProp: false },
+        { id: 1, label: 'badge 1', level: 1 },
+        { id: 2, label: 'badge 2', level: 2 },
       ];
-      // Fonctionne si c'est un "plain object", si on passe par un constructeur: i.e. new Badge(), il serialize tout
-      // cf. json-api-serializer/serializer-utils.js l. 171j
 
-      const currentTargetProfile = domainBuilder.buildTargetProfile({ id: 999, name: 'Target', badges });
+      const currentTargetProfile = { id: 999, name: 'Target', attachedAt: new Date('2023-10-10') };
 
-      const complementaryCertifications = domainBuilder.buildComplementaryCertificationForAdmin({
+      const oldTargetProfile = { id: 333, name: 'Old Target', attachedAt: new Date('2020-10-10') };
+
+      const complementaryCertification = domainBuilder.buildComplementaryCertificationForAdmin({
         id: 11,
         label: 'Pix+Edu',
         key: 'EDU',
-        currentTargetProfile,
+        currentTargetProfileBadges: badges,
+        targetProfilesLog: [currentTargetProfile, oldTargetProfile],
       });
 
       // when
-      const json = serializer.serializeForAdmin(complementaryCertifications);
+      const json = serializer.serializeForAdmin(complementaryCertification);
 
       // then
       expect(json).to.deep.equal({
@@ -75,14 +76,14 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
           attributes: {
             label: 'Pix+Edu',
             key: 'EDU',
-            'current-target-profile': {
-              id: 999,
-              name: 'Target',
-              badges: [
-                { id: 1, label: 'badge 1', level: 1 },
-                { id: 2, label: 'badge 2', level: 2 },
-              ],
-            },
+            'target-profiles-log': [
+              { id: 999, name: 'Target', attachedAt: new Date('2023-10-10') },
+              { id: 333, name: 'Old Target', attachedAt: new Date('2020-10-10') },
+            ],
+            'current-target-profile-badges': [
+              { id: 1, label: 'badge 1', level: 1 },
+              { id: 2, label: 'badge 2', level: 2 },
+            ],
           },
         },
       });
