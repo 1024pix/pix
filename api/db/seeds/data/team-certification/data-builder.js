@@ -361,7 +361,7 @@ async function _createPublishedSession({ databaseBuilder }) {
     juryCommentAuthorId: null,
     juryCommentedAt: new Date(),
     configSession: {
-      candidatesToRegisterCount: 12,
+      candidatesToRegisterCount: 4,
       hasComplementaryCertificationsToRegister: true,
       maxLevel: 3,
     },
@@ -384,7 +384,7 @@ async function _createProStartedSession({ databaseBuilder }) {
     hasJoiningIssue: false,
     createdAt: new Date(),
     configSession: {
-      candidatesToRegisterCount: 12,
+      candidatesToRegisterCount: 6,
       hasComplementaryCertificationsToRegister: true,
       maxLevel: 3,
     },
