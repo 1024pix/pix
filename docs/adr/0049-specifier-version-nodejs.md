@@ -71,7 +71,9 @@ Permettre de spécifier une version mineure (en plus de la majeure) pour précis
 
 ## Décision
 
-Lors des Tech Days 2023, une équipe s'est formée sur le sujet des montées de version. Après avoir corrigé la version de Node embarquée dans l'API qui était impaire, nous avons expérimenté les montées de version automatisées de Node sur [un fork du monorepo](https://github.com/1024pix/pix-renovate-test).
+Lors des Tech Days 2023, une équipe s'est formée sur le sujet des montées de version. Après avoir corrigé la version de Node embarquée dans l'API qui était non maintenue nous avons expérimenté les montées de version automatisées de Node sur [un fork du monorepo](https://github.com/1024pix/pix-renovate-test).
+
+NB : Après six mois, les versions impaires (9, 11, etc.), ne sont plus maintenues et sont donc hors LTS [voir la doc](https://nodejs.dev/en/about/releases/)
 
 En faisant évoluer [notre configuration Renovate](https://github.com/1024pix/renovate-config), nous avons observé que l'outil force l'ajout du numéro de patch si on précise la version mineure requise.
 
