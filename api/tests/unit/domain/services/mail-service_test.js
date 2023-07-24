@@ -165,6 +165,8 @@ describe('Unit | Service | MailService', function () {
             title: translate('certification-result-email.title', { sessionId }),
             homeName: 'pix.fr',
             homeUrl: 'https://pix.fr',
+            homeNameInternational: 'pix.org',
+            homeUrlInternational: 'https://pix.org/fr',
             link: `${link}?lang=fr`,
           },
           en: {

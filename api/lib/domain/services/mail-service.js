@@ -23,7 +23,8 @@ const HELPDESK_ENGLISH_SPOKEN = 'https://support.pix.org/en/support/home';
 const HELPDESK_FRENCH_SPOKEN = 'https://support.pix.org';
 const PIX_HOME_NAME_INTERNATIONAL = `pix${config.domain.tldOrg}`;
 const PIX_HOME_NAME_FRENCH_FRANCE = `pix${config.domain.tldFr}`;
-const PIX_HOME_URL_ENGLISH_SPOKEN = `${config.domain.pix + config.domain.tldOrg}/en-gb`;
+const PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN = `${config.domain.pix + config.domain.tldOrg}/en-gb`;
+const PIX_HOME_URL_INTERNATIONAL_FRENCH_SPOKEN = `${config.domain.pix + config.domain.tldOrg}/fr`;
 const PIX_HOME_URL_FRENCH_FRANCE = `${config.domain.pix + config.domain.tldFr}`;
 
 const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
@@ -108,13 +109,15 @@ function sendCertificationResultEmail({
       ...frTranslations['certification-result-email'].params,
       homeName: PIX_HOME_NAME_FRENCH_FRANCE,
       homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
+      homeNameInternational: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrlInternational: PIX_HOME_URL_INTERNATIONAL_FRENCH_SPOKEN,
       title: translate({ phrase: 'certification-result-email.title', locale: 'fr' }, { sessionId }),
       link: `${link}?lang=fr`,
     },
     en: {
       ...enTranslations['certification-result-email'].params,
       homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_ENGLISH_SPOKEN,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
       title: translate({ phrase: 'certification-result-email.title', locale: 'en' }, { sessionId }),
       link: `${link}?lang=en`,
     },
