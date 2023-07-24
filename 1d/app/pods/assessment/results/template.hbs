@@ -8,21 +8,19 @@
     </div>
     <div class="mission-page__body-finish">
       <MissionCardSuccess @title={{@model.name}} />
-      <div class="list">
-        <ul>
-          <li class="list-title">Pour cette mission, tu devais montrer que tu sais :</li>
-          {{#if (eq @model.id "recExjO7RHeDI48HK")}}
-            <li class="list-item">ce qu'est un moteur de recherche et donner le nom d'un moteur de recherche que tu
-              connais,
-            </li>
-            <li class="list-item">choisir correctement les mots pour faire une recherche,</li>
-            <li class="list-item">utiliser un moteur de recherche.</li>
-          {{else}}
-            <li class="list-item">ce qu'est une donnée personelle,</li>
-            <li class="list-item">protéger tes données personnelles en évitant de les diffuser.</li>
-          {{/if}}
-        </ul>
-      </div>
+      <ul class="competences-list">
+        <li class="list-title">Pour cette mission, tu devais montrer que tu sais :</li>
+        {{#if (eq @model.id "recExjO7RHeDI48HK")}}
+          <li class="list-item">ce qu'est un moteur de recherche et donner le nom d'un moteur de recherche que tu
+            connais,
+          </li>
+          <li class="list-item">choisir correctement les mots pour faire une recherche,</li>
+          <li class="list-item">utiliser un moteur de recherche.</li>
+        {{else}}
+          <li class="list-item">ce qu'est une donnée personelle,</li>
+          <li class="list-item">protéger tes données personnelles en évitant de les diffuser.</li>
+        {{/if}}
+      </ul>
     </div>
     <LinkTo class="pix1d-button pix1d-button--small" @route="home">Retour aux missions</LinkTo>
   </div>
