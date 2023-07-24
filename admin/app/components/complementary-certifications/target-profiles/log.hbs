@@ -1,5 +1,35 @@
 <section class="page-section">
   <div class="content-text content-text--small">
-    TODO: Section historique
+    <h2 class="complementary-certification-details__log-title">
+      Historique des profils cibles rattachés
+    </h2>
+    <div class="table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th>Nom du profil cible</th>
+            <th>Date de rattachement</th>
+            <th>Date de détachement</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each @targetProfilesLog as |targetProfileLog|}}
+            <tr>
+              <td>
+                <LinkTo
+                  @route="authenticated.target-profiles.target-profile"
+                  @model={{targetProfileLog.id}}
+                  class="complementary-certification-details-target-profile__link"
+                >
+                  {{targetProfileLog.name}}
+                </LinkTo>
+              </td>
+              <td>{{dayjs-format targetProfileLog.attachedAt "DD/MM/YYYY"}}</td>
+              <td>TODO</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
