@@ -5,6 +5,7 @@ import * as profileTooling from './profile-tooling.js';
 import * as generic from './generic.js';
 import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
+import { getPlacementProfile } from '../../../../../lib/domain/services/placement-profile-service.js';
 
 export { createAssessmentCampaign, createProfilesCollectionCampaign };
 
@@ -128,7 +129,7 @@ async function createAssessmentCampaign({
       pixScore = _.floor(answersAndKnowledgeElementsForProfile[0].keData.earnedPix);
     }
     const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
-      campaignId,
+      campaignId: realCampaignId,
       userId,
       organizationLearnerId,
       sharedAt,
@@ -296,17 +297,17 @@ async function createProfilesCollectionCampaign({
   for (const { userId, organizationLearnerId } of userAndLearnerIds) {
     const answersAndKnowledgeElementsForProfile = await _getProfile(profileDistribution.shift());
     await profileTooling.getAnswersAndKnowledgeElementsForBeginnerProfile();
+    const placementProfile = await getPlacementProfile({ userId, limitDate: sharedAt });
     const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
-      campaignId,
+      campaignId: realCampaignId,
       userId,
       organizationLearnerId,
       sharedAt,
-      validatedSkillsCount: answersAndKnowledgeElementsForProfile.length,
-      masteryRate: 1,
+      masteryRate: null,
       pixScore: _.floor(_.sumBy(answersAndKnowledgeElementsForProfile, ({ keData }) => keData.earnedPix)),
       status: CampaignParticipationStatuses.SHARED,
       isImproved: false,
-      isCertifiable: true,
+      isCertifiable: placementProfile.isCertifiable(),
     }).id;
     const assessmentId = databaseBuilder.factory.buildAssessment({
       userId,

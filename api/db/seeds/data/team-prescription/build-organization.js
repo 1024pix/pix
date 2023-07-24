@@ -26,6 +26,7 @@ function _createScoOrganization(databaseBuilder) {
   });
 }
 
-export function buildOrganizations(databaseBuilder) {
-  _createScoOrganization(databaseBuilder);
+export async function buildOrganizations(databaseBuilder) {
+  await _createScoOrganization(databaseBuilder);
+  return databaseBuilder.commit();
 }
