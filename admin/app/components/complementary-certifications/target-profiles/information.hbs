@@ -6,10 +6,10 @@
     <span class="complementary-certification-details__target-profile">Profil cible actuel :
       <LinkTo
         @route="authenticated.target-profiles.target-profile"
-        @model={{@complementaryCertification.currentTargetProfile.id}}
+        @model={{this.currentTargetProfile.id}}
         class="complementary-certification-details-target-profile__link"
       >
-        {{@complementaryCertification.currentTargetProfile.name}}
+        {{this.currentTargetProfile.name}}
       </LinkTo>
     </span>
 
