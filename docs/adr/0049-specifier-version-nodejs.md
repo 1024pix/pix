@@ -18,7 +18,10 @@ Avec l'ADR 18, nous avons choisi :
 - PAAS : préciser la version majeure de Node uniquement.
 - CI : préciser une version exacte de Node.
 - Local : préciser la version majeure de Node uniquement.
-
+Par exemple, si l'on spécifie la version 16 : 
+- en local, on peut utiliser la `16.1.0`
+- dans la CI, on peut utiliser la `16.2.8` 
+- dans le PAAS, on peut utiliser la `16.5.1`
 Nous avons constaté plusieurs limites à ce choix :
 - L'API ne fonctionne plus en version antérieure à Node@v16.15. L'ADR précédant ne nous permet pas de fixer de version mineure minimum donc un risque d'incompatibilité est présent.
 - Fixer la version majeure uniquement peut provoquer des problèmes de reproductibilité car nos 3 environnements ont chacun une version de Node différente. Notamment en local, il est arrivé que certains développeurs restent en version antérieure à la 16.15 lorsque nous avons dû supprimer la compatibilité de ces versions.
