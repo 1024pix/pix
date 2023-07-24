@@ -1,4 +1,4 @@
-import { visit, within } from '@1024pix/ember-testing-library';
+import { visit } from '@1024pix/ember-testing-library';
 import { module, skip } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -14,7 +14,7 @@ module('Acceptance | Challenge', function (hooks) {
     this.server.create('challenge');
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
-    await click(within(document.querySelector('.challenge-actions')).getByRole('button', { name: 'Je continue' }));
+    await click(screen.getByRole('button', { name: 'Je continue' }));
 
     // then
     assert.dom(screen.getByText("Pour valider la mission, tu dois terminer l'activité.")).isVisible();
