@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../lib/domain/constants.js';
 
 import {
   expect,
@@ -101,8 +102,8 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
               'pix-score': 2,
               'shared-at': sharedAt,
               'can-retry': false,
-              'max-reachable-level': 5,
-              'max-reachable-pix-score': 640,
+              'max-reachable-level': MAX_REACHABLE_LEVEL,
+              'max-reachable-pix-score': MAX_REACHABLE_PIX_SCORE,
             },
             relationships: {
               scorecards: {
