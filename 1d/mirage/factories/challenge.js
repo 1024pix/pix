@@ -20,6 +20,9 @@ export default Factory.extend({
   proposals() {
     return 'Rue de : ${Rue#}';
   },
+  autoReply() {
+    return false;
+  },
   QROCWithTextArea: trait({
     format: 'paragraphe',
   }),

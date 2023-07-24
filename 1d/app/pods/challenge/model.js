@@ -35,18 +35,18 @@ export default class Challenge extends Model {
   }
 
   get isQROC() {
-    return this.type === 'QROC';
+    return this.autoReply === false && this.type === 'QROC';
   }
 
   get isQROCM() {
-    return this.type === 'QROCM-dep' || this.type === 'QROCM-ind';
+    return this.autoReply === false && (this.type === 'QROCM-dep' || this.type === 'QROCM-ind');
   }
 
   get isQCU() {
-    return this.type === 'QCU';
+    return this.autoReply === false && this.type === 'QCU';
   }
 
   get isQCM() {
-    return this.type === 'QCM' || this.type === 'QCMIMG';
+    return this.autoReply === false && (this.type === 'QCM' || this.type === 'QCMIMG');
   }
 }
