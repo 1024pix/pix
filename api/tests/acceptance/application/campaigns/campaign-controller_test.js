@@ -1,9 +1,6 @@
 import jwt from 'jsonwebtoken';
 
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-
-const { STARTED } = CampaignParticipationStatuses;
-
 import {
   databaseBuilder,
   expect,
@@ -16,6 +13,8 @@ import {
 import { config as settings } from '../../../../lib/config.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { createServer } from '../../../../server.js';
+
+const { STARTED } = CampaignParticipationStatuses;
 
 describe('Acceptance | API | Campaign Controller', function () {
   let campaign;
@@ -199,7 +198,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           campaign_id: campaignId,
         },
         settings.authentication.secret,
-        { expiresIn: settings.authentication.accessTokenLifespanMs },
+        { expiresIn: settings.authentication.accessTokenLifespanMs }
       );
     }
 
@@ -289,7 +288,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           campaign_id: campaignId,
         },
         settings.authentication.secret,
-        { expiresIn: settings.authentication.accessTokenLifespanMs },
+        { expiresIn: settings.authentication.accessTokenLifespanMs }
       );
     }
 
@@ -726,7 +725,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
           payload,
         },
-        payload,
+        payload
       );
 
       // then
@@ -775,7 +774,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
           payload,
         },
-        payload,
+        payload
       );
 
       // then
@@ -850,7 +849,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           headers: { authorization: generateValidRequestAuthorizationHeader(anotherUserId) },
           payload,
         },
-        payload,
+        payload
       );
 
       // then
@@ -912,7 +911,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            },
+            }
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -924,7 +923,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            },
+            }
           );
 
           await databaseBuilder.commit();
@@ -970,7 +969,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            },
+            }
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -982,7 +981,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            },
+            }
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -994,7 +993,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            },
+            }
           );
 
           await databaseBuilder.commit();
@@ -1043,7 +1042,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            },
+            }
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1055,7 +1054,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            },
+            }
           );
 
           await databaseBuilder.commit();
@@ -1101,7 +1100,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            },
+            }
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1113,7 +1112,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            },
+            }
           );
 
           databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1125,7 +1124,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             },
             {
               campaignId: campaign.id,
-            },
+            }
           );
 
           await databaseBuilder.commit();
@@ -1173,7 +1172,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           },
           {
             campaignId: campaign.id,
-          },
+          }
         );
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -1185,7 +1184,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           },
           {
             campaignId: campaign.id,
-          },
+          }
         );
 
         await databaseBuilder.commit();
@@ -1207,6 +1206,66 @@ describe('Acceptance | API | Campaign Controller', function () {
     });
   });
 
+  context('Search certificability filter', function () {
+    it('should returns profiles who are certifiable', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.MEMBER,
+      });
+      const campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Campagne de Test N°3',
+        organizationId: organization.id,
+      });
+
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+        {
+          firstName: 'Barry',
+          lastName: 'White',
+          organizationId: organization.id,
+          group: 'L1',
+        },
+        {
+          campaignId: campaign.id,
+          isCertifiable: true,
+        }
+      );
+
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+        {
+          firstName: 'Marvin',
+          lastName: 'Gaye',
+          organizationId: organization.id,
+          group: 'L2',
+        },
+        {
+          campaignId: campaign.id,
+          isCertifiable: false,
+        }
+      );
+
+      await databaseBuilder.commit();
+
+      // when
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[certificability]=eligible`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.have.lengthOf(1);
+      expect(response.result.data[0].attributes['last-name']).to.equal('White');
+    });
+  });
+
   describe('GET /api/campaigns/{id}/divisions', function () {
     it('should return the campaign participants division', async function () {
       const division = '3emeA';
@@ -1214,7 +1273,7 @@ describe('Acceptance | API | Campaign Controller', function () {
       const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
       databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, division: division },
-        { campaignId: campaign.id },
+        { campaignId: campaign.id }
       );
       await databaseBuilder.commit();
 
@@ -1238,7 +1297,7 @@ describe('Acceptance | API | Campaign Controller', function () {
       const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
       databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, group: group },
-        { campaignId: campaign.id },
+        { campaignId: campaign.id }
       );
       await databaseBuilder.commit();
 
