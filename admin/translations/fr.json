@@ -35,6 +35,18 @@
         "upload-button": "Importer un fichier CSV"
       }
     },
+    "complementary-certifications": {
+      "target-profiles": {
+        "badges-list": {
+          "title": "Résultats thématiques certifiants du profil cible actuel",
+          "header": {
+            "id": "ID",
+            "level": "Niveau",
+            "name": "Nom du résultat thématique"
+          }
+        }
+      }
+    },
     "organizations": {
       "all-tags": {
         "recently-used-tags": "Liste de tags récemment utilisés avec {tagName}"

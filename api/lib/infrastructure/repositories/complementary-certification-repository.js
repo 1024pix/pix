@@ -1,4 +1,4 @@
-import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../domain/models/index.js';
 import { ComplementaryCertificationForAdmin } from '../../domain/models/ComplementaryCertificationForAdmin.js';
 import { knex } from '../../../db/knex-database-connection.js';
 
@@ -21,7 +21,7 @@ const getByLabel = async function ({ label }) {
 };
 
 const getTargetProfileById = async function ({ complementaryCertificationId }) {
-  const targetProfile = await knex('complementary-certification-badges')
+  const currentProfile = await knex('complementary-certification-badges')
     .select({
       id: 'target-profiles.id',
       name: 'target-profiles.name',
@@ -32,6 +32,15 @@ const getTargetProfileById = async function ({ complementaryCertificationId }) {
     .orderBy('complementary-certification-badges.createdAt', 'desc')
     .first();
 
+  const currentTargetProfileBadges = await knex('badges')
+    .select({
+      id: 'badges.id',
+      label: 'complementary-certification-badges.label',
+      level: 'complementary-certification-badges.level',
+    })
+    .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .where({ targetProfileId: currentProfile.id });
+
   const complementaryCertification = await knex
     .from('complementary-certifications')
     .where({ id: complementaryCertificationId })
@@ -39,7 +48,7 @@ const getTargetProfileById = async function ({ complementaryCertificationId }) {
 
   return new ComplementaryCertificationForAdmin({
     ...complementaryCertification,
-    currentTargetProfile: { ...targetProfile },
+    currentTargetProfile: { ...currentProfile, badges: [...currentTargetProfileBadges] },
   });
 };
 

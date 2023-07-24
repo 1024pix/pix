@@ -3,19 +3,15 @@
     <table>
       <thead>
         <tr>
-          <th class="table__column table__column--id">
-            <label for="id">ID</label>
-          </th>
-          <th>
-            <label for="name">Nom</label>
-          </th>
+          <th class="table__column--id">ID</th>
+          <th>Nom</th>
         </tr>
       </thead>
 
       <tbody>
         {{#each @complementaryCertifications as |complementaryCertification|}}
-          <tr aria-label="">
-            <td class="table__column table__column--id">{{complementaryCertification.id}}</td>
+          <tr>
+            <td class="table__column--id">{{complementaryCertification.id}}</td>
             <td>
               <LinkTo
                 @route="authenticated.complementary-certifications.complementary-certification"
