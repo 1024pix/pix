@@ -3,7 +3,7 @@ import { buildPixAdminRoles } from './build-pix-admin-roles.js';
 import { buildTemporaryBlockedUsers } from './build-temporary-blocked-user.js';
 import { buildUsers } from './build-users.js';
 
-async function teamAccesDataBuilder(databaseBuilder) {
+async function teamAccesDataBuilder({ databaseBuilder }) {
   buildPixAdminRoles(databaseBuilder);
 
   buildUsers(databaseBuilder);

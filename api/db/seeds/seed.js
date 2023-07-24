@@ -47,34 +47,25 @@ import { certificationCpfCityBuilder } from './data/certification/certification-
 import { certificationCpfCountryBuilder } from './data/certification/certification-cpf-country-builder.js';
 import { teamAccesDataBuilder } from './data/team-acces/data-builder.js';
 
+const buildData = async (cb, databaseBuilder) => {
+  // eslint-disable-next-line no-console
+  console.time(cb.name);
+  await cb({ databaseBuilder });
+  // eslint-disable-next-line no-console
+  console.timeEnd(cb.name);
+};
 const seed = async function (knex) {
   const shouldUseNewSeeds = process.env.USE_NEW_SEEDS === 'true';
   const databaseBuilder = new DatabaseBuilder({ knex });
   if (shouldUseNewSeeds) {
-    console.time('commonBuilder');
-    await commonBuilder({ databaseBuilder });
-    console.timeEnd('commonBuilder');
-    // console.time('teamAccesDataBuilder');
-    // await teamAccesDataBuilder(databaseBuilder);
-    // console.timeEnd('teamAccesDataBuilder');
-    // console.time('teamContenuDataBuilder');
-    // await teamContenuDataBuilder({ databaseBuilder });
-    // console.timeEnd('teamContenuDataBuilder');
-    console.time('teamCertificationDataBuilder');
-    await teamCertificationDataBuilder({ databaseBuilder });
-    console.timeEnd('teamCertificationDataBuilder');
-    // console.time('teamEvaluationDataBuilder');
-    // await teamEvaluationDataBuilder({ databaseBuilder });
-    // console.timeEnd('teamEvaluationDataBuilder');
-    // console.time('teamPrescriptionDataBuilder');
-    // await teamPrescriptionDataBuilder({ databaseBuilder });
-    // console.timeEnd('teamPrescriptionDataBuilder');
-    console.time('commit');
+    await buildData(commonBuilder, databaseBuilder);
+    await buildData(teamAccesDataBuilder, databaseBuilder);
+    await buildData(teamContenuDataBuilder, databaseBuilder);
+    await buildData(teamCertificationDataBuilder, databaseBuilder);
+    await buildData(teamEvaluationDataBuilder, databaseBuilder);
+    await buildData(teamPrescriptionDataBuilder, databaseBuilder);
     await databaseBuilder.commit();
-    console.timeEnd('commit');
-    console.time('fixSequences');
     await databaseBuilder.fixSequences();
-    console.timeEnd('fixSequences')
   } else {
     // Feature list
     featuresBuilder({ databaseBuilder });
