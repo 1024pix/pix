@@ -22,23 +22,16 @@
     letter-spacing: -0.04em;
   }
 
-  &__list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: $pix-spacing-s;
+  &__target-profile {
+    margin: $pix-spacing-s 0;
     font-family: $font-roboto;
     font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    letter-spacing: 0;
-    text-align: left;
     color: $pix-neutral-70;
   }
 }
 
 
-.complementary-certification-details-list {
+.complementary-certification-details-target-profile {
   &__link {
     color: $pix-primary;
 
