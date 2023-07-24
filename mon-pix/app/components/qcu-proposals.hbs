@@ -11,7 +11,7 @@
       class="qcu-proposals__radio"
       data-test="challenge-response-proposal-selector"
     >
-      <MarkdownToHtml @class="qcu-panel__text proposal-text" @markdown={{labeledRadio.label}} />
+      <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{labeledRadio.label}} />
     </PixRadioButton>
   </p>
 {{/each}}

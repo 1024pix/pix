@@ -42,6 +42,8 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
     { format: 'unreferenced_format', input: INPUT },
   ].forEach((data) => {
     module(`Whatever the format (testing "${data.format}" format)`, function (hooks) {
+      let screen;
+
       hooks.beforeEach(async function () {
         // given
         this.set('answer', answer);
@@ -50,16 +52,18 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
         this.challenge.set('format', data.format);
 
         // when
-        await render(hbs`<QrocmIndSolutionPanel
+        screen = await render(hbs`<QrocmIndSolutionPanel
           @answer={{this.answer}}
           @solution={{this.solution}}
           @challenge={{this.challenge}} />`);
       });
 
-      test('should dqrocm-ind-solution-panel-test.jsisplay the labels', function (assert) {
-        const labels = findAll('.correction-qrocm-text__label');
-
+      test('should display the labels', function (assert) {
+        const labels = screen.getAllByText((_, element) => element.tagName.toLowerCase() === 'label');
         assert.strictEqual(labels.length, 3);
+        assert.strictEqual(labels[0].innerHTML.trim(), '<strong>blabla</strong> :');
+        assert.strictEqual(labels[1].innerHTML.trim(), '<br>Carte mémoire (SD) :');
+        assert.strictEqual(labels[2].innerHTML.trim(), '<br>answer :');
       });
 
       module('When the answer is correct', function () {
