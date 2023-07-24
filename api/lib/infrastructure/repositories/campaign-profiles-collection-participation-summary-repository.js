@@ -1,6 +1,5 @@
-import lodash from 'lodash';
-
-const { chunk } = lodash;
+import chunk from 'lodash/chunk.js';
+import isBoolean from 'lodash/isBoolean.js';
 
 import bluebird from 'bluebird';
 import { knex } from '../../../db/knex-database-connection.js';
@@ -100,6 +99,9 @@ function _filterQuery(queryBuilder, filters) {
       'view-active-organization-learners.firstName',
       'view-active-organization-learners.lastName',
     );
+  }
+  if (isBoolean(filters.certificability)) {
+    queryBuilder.where('campaign-participations.isCertifiable', filters.certificability);
   }
 }
 

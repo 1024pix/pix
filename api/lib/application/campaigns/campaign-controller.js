@@ -16,7 +16,7 @@ import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import { escapeFileName, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 import { ForbiddenAccess } from '../../domain/errors.js';
-import { mapCertificabilityByLabel } from '../organizations/helpers.js';
+import { certificabilityByLabel } from '../organizations/helpers.js';
 
 const { PassThrough } = stream;
 
@@ -67,7 +67,7 @@ const getById = async function (
   dependencies = {
     campaignReportSerializer,
     tokenService,
-  }
+  },
 ) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
@@ -194,7 +194,7 @@ const findProfilesCollectionParticipations = async function (request) {
     filters.groups = [filters.groups];
   }
   if (filters.certificability) {
-    filters.certificability = mapCertificabilityByLabel(filters.certificability);
+    filters.certificability = certificabilityByLabel[filters.certificability];
   }
   const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({
     userId,
@@ -208,7 +208,7 @@ const findProfilesCollectionParticipations = async function (request) {
 const findParticipantsActivity = async function (
   request,
   h,
-  dependencies = { campaignParticipantsActivitySerializer }
+  dependencies = { campaignParticipantsActivitySerializer },
 ) {
   const campaignId = request.params.id;
 
