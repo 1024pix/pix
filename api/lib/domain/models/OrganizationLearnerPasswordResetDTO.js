@@ -1,6 +1,8 @@
 class OrganizationLearnerPasswordResetDTO {
-  constructor({ division, password, username }) {
+  constructor({ division, lastName, firstName, username, password }) {
     this.division = division;
+    this.lastName = lastName;
+    this.firstName = firstName;
     this.password = password;
     this.username = username;
   }

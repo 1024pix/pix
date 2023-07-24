@@ -688,10 +688,12 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
           databaseBuilder.factory.buildOrganizationLearner({
             organizationId,
             userId: paul.id,
+            division: '3A',
           }).id,
           databaseBuilder.factory.buildOrganizationLearner({
             organizationId,
             userId: jacques.id,
+            division: '3A',
           }).id,
         ];
 
@@ -719,8 +721,8 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
 
         // eslint-disable-next-line no-unused-vars
         const [fileHeaders, firstRow, ...unusedRows] = payload.split('\n').map((row) => row.trim());
-        expect(fileHeaders).to.equal('"Identifiant";"Mot de passe";"Classe"');
-        expect(firstRow).to.match(/^"paul";|"jacques";/);
+        expect(fileHeaders).to.equal('"Classe";"Nom";"Prénom";"Identifiant";"Mot de passe"');
+        expect(firstRow).to.match(/^"3A";/);
       });
     });
   });

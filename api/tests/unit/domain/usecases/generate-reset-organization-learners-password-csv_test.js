@@ -8,16 +8,21 @@ describe('Unit | UseCases | Generate reset organization learners csv', function 
     const OrganizationLearnerPasswordResets = [
       new OrganizationLearnerPasswordResetDTO({
         division: '3A',
-        password: '123456@Bc',
-        username: 'brown',
+        lastName: 'Brown',
+        firstName: 'James',
+        password: '123456@jb',
+        username: 'jamesBrown',
       }),
       new OrganizationLearnerPasswordResetDTO({
         division: '3A',
-        password: '123456@Bc',
-        username: 'sugar',
+        lastName: 'Lô',
+        firstName: 'Ismaël',
+        password: '123456@il',
+        username: 'ismaelLo',
       }),
     ];
-    const expectedCsvContent = 'username;password;classe\nbrown;123456@Bc;3A\nsugar;123456@Bc;3A\n';
+    const expectedCsvContent =
+      'division;lastName;firstName;username;password\n3A;Brown;James;123456@jb\n3A;Lô;Ismaël;123456@il\n';
     const writeCsvUtils = { getCsvContent: sinon.stub().resolves(expectedCsvContent) };
 
     // when
