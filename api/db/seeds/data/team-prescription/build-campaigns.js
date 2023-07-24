@@ -18,7 +18,7 @@ async function _createScoCampaigns(databaseBuilder) {
     name: 'Campagne de collecte de profil SCO - envoi simple',
     type: 'PROFILES_COLLECTION',
     title: null,
-    configCampaign: { participantCount: 10, profileDistribution: { beginner: 1, perfect: 1 } },
+    configCampaign: { participantCount: 3, profileDistribution: { beginner: 1, perfect: 1, blank: 1 } },
   });
 
   await createProfilesCollectionCampaign({
@@ -29,7 +29,8 @@ async function _createScoCampaigns(databaseBuilder) {
     type: 'PROFILES_COLLECTION',
     title: null,
     multipleSendings: true,
-    configCampaign: { participantCount: 2, profileDistribution: { beginner: 1, perfect: 1 } },
+    sharedAt: new Date('2022-05-18'),
+    configCampaign: { participantCount: 3, profileDistribution: { beginner: 1, perfect: 1 } },
   });
 }
 
