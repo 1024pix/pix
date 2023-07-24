@@ -28,7 +28,7 @@ Nous avons constaté plusieurs limites à ce choix :
 
 ### Solution n°1 : Forcer la même version exacte minimum de Node sur tous les environnements
 
-Cette solution consiste à mettre à jour les 3 versions des 3 environnements en même temps.
+Cette solution consiste à mettre à jour la version de node dans chacun des 3 environnements en même temps.
 
 #### Avantages
 - Limite l'écart de version possible entre les 3 environnements.
