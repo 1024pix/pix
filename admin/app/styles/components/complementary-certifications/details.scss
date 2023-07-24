@@ -22,23 +22,23 @@
     letter-spacing: -0.04em;
   }
 
-  &__list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: $pix-spacing-s;
-    font-family: $font-roboto;
+  &__target-profile {
+    margin: $pix-spacing-s 0;
     font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    letter-spacing: 0;
-    text-align: left;
     color: $pix-neutral-70;
+  }
+
+  &__badges-title {
+    font-family: $font-open-sans;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+    padding-bottom: $pix-spacing-s;
   }
 }
 
 
-.complementary-certification-details-list {
+.complementary-certification-details-target-profile {
   &__link {
     color: $pix-primary;
 

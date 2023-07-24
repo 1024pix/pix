@@ -12,7 +12,24 @@ const serialize = function (complementaryCertifications) {
 
 const serializeForAdmin = function (complementaryCertification) {
   return new Serializer('complementary-certification', {
-    attributes: ['label', 'key', 'currentTargetProfile'],
+    transform: (record) => {
+      const currentTargetProfile = {
+        ...record.currentTargetProfile,
+        badges: record.currentTargetProfile?.badges.map((badge) => ({ ...badge })),
+      };
+
+      return {
+        ...record,
+        currentTargetProfile,
+      };
+    },
+    attributes: ['label', 'key', 'currentTargetProfile', 'badges'],
+    currentTargetProfile: {
+      attributes: ['id', 'name', 'badges'],
+      badges: {
+        attributes: ['id', 'label', 'level'],
+      },
+    },
   }).serialize(complementaryCertification);
 };
 

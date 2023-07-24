@@ -1,5 +1,30 @@
 <section class="page-section">
   <div class="content-text content-text--small">
-    TODO: Section liste des résultats thématique
+    <h2 class="complementary-certification-details__badges-title">
+      {{t "components.complementary-certifications.target-profiles.badges-list.title"}}
+    </h2>
+    <div class="table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th class="table__column--id">{{t
+                "components.complementary-certifications.target-profiles.badges-list.header.id"
+              }}</th>
+            <th>{{t "components.complementary-certifications.target-profiles.badges-list.header.name"}}</th>
+            <th>{{t "components.complementary-certifications.target-profiles.badges-list.header.level"}}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each @badges as |badge|}}
+            <tr>
+              <td>{{badge.id}}</td>
+              <td>{{badge.label}}</td>
+              <td>{{badge.level}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>

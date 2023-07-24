@@ -3,18 +3,15 @@
     <h1 class="complementary-certification-details__title">Certification complémentaire</h1>
 
     <span class="complementary-certification-details__label">{{@complementaryCertification.label}}</span>
-    <ul class="complementary-certification-details__list">
-      <li>Profil cible actuel :
-        <LinkTo
-          @route="authenticated.target-profiles.target-profile"
-          @model={{@complementaryCertification.currentTargetProfile.id}}
-          class="complementary-certification-details-list__link"
-        >
-          {{@complementaryCertification.currentTargetProfile.name}}
-        </LinkTo>
-      </li>
-      <li>Date de rattachement : TODO</li>
-    </ul>
+    <span class="complementary-certification-details__target-profile">Profil cible actuel :
+      <LinkTo
+        @route="authenticated.target-profiles.target-profile"
+        @model={{@complementaryCertification.currentTargetProfile.id}}
+        class="complementary-certification-details-target-profile__link"
+      >
+        {{@complementaryCertification.currentTargetProfile.name}}
+      </LinkTo>
+    </span>
 
     <PixButton>Rattacher un nouveau profil cible</PixButton>
 
