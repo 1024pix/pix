@@ -1,8 +1,6 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
-const environment = process.env.environment;
-const pluginsToBlacklist = environment === 'production' ? ['ember-freestyle'] : [];
 
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
@@ -13,9 +11,6 @@ module.exports = function (defaults) {
     babel: {
       sourceMaps: 'inline',
       plugins: [require.resolve('ember-auto-import/babel-plugin')],
-    },
-    addons: {
-      blacklist: pluginsToBlacklist,
     },
     flatpickr: {
       locales: ['fr'],
