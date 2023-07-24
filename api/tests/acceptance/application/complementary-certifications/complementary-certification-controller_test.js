@@ -78,6 +78,8 @@ describe('Acceptance | API | complementary-certification-controller', function (
           authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
         },
       };
+      const attachedAt = new Date('2019-01-01');
+
       databaseBuilder.factory.buildComplementaryCertification({
         id: 3,
         key: 'EDU_1ER_DEGRE',
@@ -108,12 +110,14 @@ describe('Acceptance | API | complementary-certification-controller', function (
         badgeId: badge1.id,
         label: 'another badge label',
         complementaryCertificationId: complementaryCertification.id,
+        createdAt: attachedAt,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         badgeId: badge2.id,
         label: 'badge label',
         complementaryCertificationId: complementaryCertification.id,
+        createdAt: attachedAt,
       });
 
       await databaseBuilder.commit();
@@ -130,22 +134,25 @@ describe('Acceptance | API | complementary-certification-controller', function (
           attributes: {
             label: 'Pix+ Édu 2nd degré',
             key: 'EDU_2ND_DEGRE',
-            'current-target-profile': {
-              badges: [
-                {
-                  id: 198,
-                  level: 1,
-                  label: 'another badge label',
-                },
-                {
-                  id: 298,
-                  level: 1,
-                  label: 'badge label',
-                },
-              ],
-              id: 999,
-              name: 'Target',
-            },
+            'current-target-profile-badges': [
+              {
+                id: 198,
+                level: 1,
+                label: 'another badge label',
+              },
+              {
+                id: 298,
+                level: 1,
+                label: 'badge label',
+              },
+            ],
+            'target-profiles-log': [
+              {
+                id: 999,
+                name: 'Target',
+                attachedAt,
+              },
+            ],
           },
         },
       });
