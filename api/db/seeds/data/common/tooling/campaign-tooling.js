@@ -244,6 +244,7 @@ async function createProfilesCollectionCampaign({
   archivedAt,
   archivedBy,
   createdAt,
+  sharedAt = new Date(),
   organizationId,
   creatorId,
   ownerId,
@@ -285,6 +286,7 @@ async function createProfilesCollectionCampaign({
     configCampaign.participantCount,
   );
   const profileDistribution = [
+    ...Array(configCampaign.profileDistribution.blank || 0).fill('BLANK'),
     ...Array(configCampaign.profileDistribution.beginner || 0).fill('BEGINNER'),
     ...Array(configCampaign.profileDistribution.intermediate || 0).fill('INTERMEDIATE'),
     ...Array(configCampaign.profileDistribution.advanced || 0).fill('ADVANCED'),
@@ -293,11 +295,9 @@ async function createProfilesCollectionCampaign({
   if (profileDistribution.length < configCampaign.participantCount)
     profileDistribution.push(...Array(configCampaign.participantCount - profileDistribution.length).fill('BEGINNER'));
 
-  const sharedAt = new Date();
   for (const { userId, organizationLearnerId } of userAndLearnerIds) {
     const answersAndKnowledgeElementsForProfile = await _getProfile(profileDistribution.shift());
-    await profileTooling.getAnswersAndKnowledgeElementsForBeginnerProfile();
-    const placementProfile = await getPlacementProfile({ userId, limitDate: sharedAt });
+
     const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
       campaignId: realCampaignId,
       userId,
@@ -307,7 +307,6 @@ async function createProfilesCollectionCampaign({
       pixScore: _.floor(_.sumBy(answersAndKnowledgeElementsForProfile, ({ keData }) => keData.earnedPix)),
       status: CampaignParticipationStatuses.SHARED,
       isImproved: false,
-      isCertifiable: placementProfile.isCertifiable(),
     }).id;
     const assessmentId = databaseBuilder.factory.buildAssessment({
       userId,
@@ -340,6 +339,14 @@ async function createProfilesCollectionCampaign({
       snappedAt: sharedAt,
       snapshot: JSON.stringify(keDataForSnapshot),
     });
+
+    await databaseBuilder.commit();
+    const placementProfile = await getPlacementProfile({ userId, limitDate: sharedAt });
+
+    await databaseBuilder
+      .knex('campaign-participations')
+      .where('id', campaignParticipationId)
+      .update('isCertifiable', placementProfile.isCertifiable());
   }
   await databaseBuilder.commit();
   return { campaignId: realCampaignId };
@@ -463,7 +470,7 @@ async function _getProfile(profileName) {
       answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForPerfectProfile();
       break;
     default:
-      answersAndKnowledgeElements = await profileTooling.getAnswersAndKnowledgeElementsForPerfectProfile();
+      answersAndKnowledgeElements = [];
   }
   return answersAndKnowledgeElements;
 }
