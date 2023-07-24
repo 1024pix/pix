@@ -1,8 +1,5 @@
 import _ from 'lodash';
 import stream from 'stream';
-
-const { PassThrough } = stream;
-
 import { MissingQueryParamError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { tokenService } from '../../../lib/domain/services/token-service.js';
@@ -19,6 +16,9 @@ import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import { escapeFileName, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 import { ForbiddenAccess } from '../../domain/errors.js';
+import { mapCertificabilityByLabel } from '../organizations/helpers.js';
+
+const { PassThrough } = stream;
 
 const save = async function (request, h, dependencies = { campaignReportSerializer }) {
   const { userId: creatorId } = request.auth.credentials;
@@ -67,7 +67,7 @@ const getById = async function (
   dependencies = {
     campaignReportSerializer,
     tokenService,
-  },
+  }
 ) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
@@ -193,6 +193,9 @@ const findProfilesCollectionParticipations = async function (request) {
   if (filters.groups && !Array.isArray(filters.groups)) {
     filters.groups = [filters.groups];
   }
+  if (filters.certificability) {
+    filters.certificability = mapCertificabilityByLabel(filters.certificability);
+  }
   const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({
     userId,
     campaignId,
@@ -205,7 +208,7 @@ const findProfilesCollectionParticipations = async function (request) {
 const findParticipantsActivity = async function (
   request,
   h,
-  dependencies = { campaignParticipantsActivitySerializer },
+  dependencies = { campaignParticipantsActivitySerializer }
 ) {
   const campaignId = request.params.id;
 
