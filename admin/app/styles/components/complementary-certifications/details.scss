@@ -24,9 +24,16 @@
 
   &__target-profile {
     margin: $pix-spacing-s 0;
-    font-family: $font-roboto;
     font-size: 16px;
     color: $pix-neutral-70;
+  }
+
+  &__badges-title {
+    font-family: $font-open-sans;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+    padding-bottom: $pix-spacing-s;
   }
 }
 
