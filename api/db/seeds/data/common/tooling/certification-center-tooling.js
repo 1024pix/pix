@@ -5,6 +5,7 @@ export { createCertificationCenter };
  * Retourne l'ID du centre de certification.
  *
  * @param {DatabaseBuilder} databaseBuilder
+ * @param {boolean} doCommit
  * @param {number} certificationCenterId
  * @param {string} name
  * @param {string} type
@@ -18,6 +19,7 @@ export { createCertificationCenter };
  */
 async function createCertificationCenter({
   databaseBuilder,
+  doCommit = true,
   certificationCenterId,
   name,
   type,
@@ -51,7 +53,9 @@ async function createCertificationCenter({
     complementaryCertificationIds,
   });
 
-  await databaseBuilder.commit();
+  if (doCommit) {
+    await databaseBuilder.commit();
+  }
   return { certificationCenterId };
 }
 

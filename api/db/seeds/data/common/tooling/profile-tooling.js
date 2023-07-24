@@ -35,10 +35,11 @@ async function createCertifiableProfile({ databaseBuilder, userId }) {
 /**
  * Fonction générique pour créer un profil ayant toutes les compétences Pix au niveau maximum
  * @param {DatabaseBuilder} databaseBuilder
+ * @param {boolean} doCommit
  * @param {number} userId
  * @returns {Promise<void>}
  */
-async function createPerfectProfile({ databaseBuilder, userId }) {
+async function createPerfectProfile({ databaseBuilder, userId, doCommit = true }) {
   const answersAndKnowledgeElementsCollection = await getAnswersAndKnowledgeElementsForPerfectProfile();
 
   _makeUserReachPixScoreForCompetences({
@@ -47,7 +48,9 @@ async function createPerfectProfile({ databaseBuilder, userId }) {
     answersAndKnowledgeElementsCollection,
   });
 
-  await databaseBuilder.commit();
+  if (doCommit) {
+    await databaseBuilder.commit();
+  }
 }
 
 const ANSWERS_AND_KNOWLEDGE_ELEMENTS_FOR_BEGINNER_PROFILE = [];

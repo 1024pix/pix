@@ -52,6 +52,7 @@ async function _createComplementaryCertificationCampaign({ databaseBuilder }) {
     const campaignCode = _createCodeCampaign(complementaryCertificationId);
     await campaignTooling.createAssessmentCampaign({
       databaseBuilder,
+      doCommit: false,
       targetProfileId,
       name: 'Campagne evaluation team-certif',
       code: campaignCode,
@@ -136,6 +137,7 @@ async function _createScoCertificationCenter({ databaseBuilder }) {
 
   await tooling.certificationCenter.createCertificationCenter({
     databaseBuilder,
+    doCommit: false,
     certificationCenterId: SCO_CERTIFICATION_CENTER_ID,
     name: 'Centre de certification sco managing students',
     type: 'SCO',
@@ -167,6 +169,7 @@ async function _createV3PilotCertificationCenter({ databaseBuilder }) {
 
   await tooling.certificationCenter.createCertificationCenter({
     databaseBuilder,
+    doCommit: false,
     certificationCenterId: V3_CERTIFICATION_CENTER_ID,
     name: 'Centre de certification v3',
     type: 'PRO',
@@ -199,6 +202,7 @@ async function _createProCertificationCenter({ databaseBuilder }) {
 
   await tooling.certificationCenter.createCertificationCenter({
     databaseBuilder,
+    doCommit: false,
     certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
     name: 'Centre de certification pro',
     type: 'PRO',
@@ -229,6 +233,7 @@ async function _createScoOrganization({ databaseBuilder }) {
   });
   await tooling.organization.createOrganization({
     databaseBuilder,
+    doCommit: false,
     organizationId: SCO_MANAGING_STUDENTS_ORGANIZATION_ID,
     type: 'SCO',
     name: 'Orga team Certification',
@@ -261,6 +266,7 @@ async function _createProOrganization({ databaseBuilder }) {
   });
   await tooling.organization.createOrganization({
     databaseBuilder,
+    doCommit: false,
     organizationId: PRO_ORGANIZATION_ID,
     type: 'PRO',
     name: 'Orga team Certification',
@@ -276,6 +282,7 @@ async function _createProOrganization({ databaseBuilder }) {
 async function _createScoSession({ databaseBuilder }) {
   await tooling.session.createDraftScoSession({
     databaseBuilder,
+    doCommit: false,
     sessionId: SCO_DRAFT_SESSION_ID,
     organizationId: SCO_MANAGING_STUDENTS_ORGANIZATION_ID,
     accessCode: 'SCOS12',
@@ -297,6 +304,7 @@ async function _createScoSession({ databaseBuilder }) {
 async function _createPublishedScoSession({ databaseBuilder }) {
   await tooling.session.createPublishedScoSession({
     databaseBuilder,
+    doCommit: false,
     sessionId: SCO_PUBLISHED_SESSION_ID,
     organizationId: SCO_MANAGING_STUDENTS_ORGANIZATION_ID,
     accessCode: 'SCOS34',
@@ -329,6 +337,7 @@ async function _createPublishedScoSession({ databaseBuilder }) {
 async function _createSession({ databaseBuilder }) {
   await tooling.session.createDraftSession({
     databaseBuilder,
+    doCommit: false,
     sessionId: DRAFT_SESSION_ID,
     accessCode: 'SCOS56',
     address: '1 rue Certification',
@@ -366,6 +375,7 @@ async function _createSuccessCertifiableUser({ databaseBuilder }) {
 
   await tooling.profile.createPerfectProfile({
     databaseBuilder,
+    doCommit: false,
     userId,
   });
 }
@@ -373,6 +383,7 @@ async function _createSuccessCertifiableUser({ databaseBuilder }) {
 async function _createV3Session({ databaseBuilder }) {
   await tooling.session.createDraftSession({
     databaseBuilder,
+    doCommit: false,
     sessionId: V3_SESSION_ID,
     accessCode: 'SUPV30',
     address: '1 rue Certification',
@@ -395,6 +406,7 @@ async function _createV3Session({ databaseBuilder }) {
 async function _createPublishedSession({ databaseBuilder }) {
   await tooling.session.createPublishedSession({
     databaseBuilder,
+    doCommit: false,
     sessionId: PUBLISHED_SESSION_ID,
     accessCode: 'SCOS78',
     address: '1 rue Certification pro',
@@ -427,6 +439,7 @@ async function _createPublishedSession({ databaseBuilder }) {
 async function _createStartedSession({ databaseBuilder, sessionId, certificationCenterId, type = 'PRO' }) {
   await tooling.session.createStartedSession({
     databaseBuilder,
+    doCommit: false,
     sessionId,
     accessCode: `${type}S78`,
     address: `1 rue Certification ${type}`,

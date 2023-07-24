@@ -14,6 +14,7 @@ export { createAssessmentCampaign, createProfilesCollectionCampaign };
  * Retourne l'ID de la campagne.
  *
  * @param {DatabaseBuilder} databaseBuilder
+ * @param {boolean} doCommit
  * @param {number} campaignId
  * @param {string} name
  * @param {string} code
@@ -40,6 +41,7 @@ export { createAssessmentCampaign, createProfilesCollectionCampaign };
  */
 async function createAssessmentCampaign({
   databaseBuilder,
+  doCommit = true,
   campaignId,
   name,
   code,
@@ -197,8 +199,9 @@ async function createAssessmentCampaign({
     });
     ++i;
   }
-
-  await databaseBuilder.commit();
+  if (doCommit) {
+    await databaseBuilder.commit();
+  }
   return { campaignId: realCampaignId };
 }
 

@@ -25,6 +25,7 @@ export {
  * Retourne l'ID de la session.
  *
  * @param {DatabaseBuilder} databaseBuilder
+ * @param {boolean} doCommit
  * @param {number} sessionId
  * @param {number} organizationId
  * @param {string} accessCode
@@ -44,6 +45,7 @@ export {
  */
 async function createDraftScoSession({
   databaseBuilder,
+  doCommit = true,
   sessionId,
   organizationId,
   accessCode,
@@ -93,7 +95,9 @@ async function createDraftScoSession({
     configSession,
   });
 
-  await databaseBuilder.commit();
+  if (doCommit) {
+    await databaseBuilder.commit();
+  }
   return { sessionId };
 }
 
@@ -121,6 +125,8 @@ async function createDraftScoSession({
  */
 async function createDraftSession({
   databaseBuilder,
+  doCommit = true,
+
   sessionId,
   accessCode,
   address,
@@ -170,8 +176,9 @@ async function createDraftSession({
     configSession,
     certificationCenterId,
   });
-
-  await databaseBuilder.commit();
+  if (doCommit) {
+    await databaseBuilder.commit();
+  }
   return { sessionId };
 }
 
@@ -198,6 +205,7 @@ async function createDraftSession({
  */
 async function createStartedSession({
   databaseBuilder,
+  doCommit = true,
   sessionId,
   accessCode,
   address,
@@ -247,7 +255,9 @@ async function createStartedSession({
 
   await _makeCandidatesCertifiable({ databaseBuilder, certificationCandidates, maxLevel: configSession.maxLevel });
 
-  await databaseBuilder.commit();
+  if (doCommit) {
+    await databaseBuilder.commit();
+  }
   return { sessionId };
 }
 
@@ -284,6 +294,8 @@ async function createStartedSession({
  */
 async function createPublishedScoSession({
   databaseBuilder,
+  doCommit = true,
+
   sessionId,
   accessCode,
   address,
@@ -360,7 +372,9 @@ async function createPublishedScoSession({
   });
   await _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, coreProfileData);
 
-  await databaseBuilder.commit();
+  if (doCommit) {
+    await databaseBuilder.commit();
+  }
   return { sessionId };
 }
 
@@ -396,6 +410,7 @@ async function createPublishedScoSession({
  */
 async function createPublishedSession({
   databaseBuilder,
+  doCommit = true,
   sessionId,
   accessCode,
   address,
@@ -477,7 +492,9 @@ async function createPublishedSession({
     complementaryCertificationsProfileData,
   );
 
-  await databaseBuilder.commit();
+  if (doCommit) {
+    await databaseBuilder.commit();
+  }
   return { sessionId };
 }
 

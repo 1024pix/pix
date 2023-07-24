@@ -5,6 +5,7 @@ export { createOrganization };
  * Retourne l'ID de l'organisation.
  *
  * @param {DatabaseBuilder} databaseBuilder
+ * @param {boolean} doCommit
  * @param {number} organizationId
  * @param {string} type
  * @param {string} name
@@ -33,6 +34,7 @@ export { createOrganization };
  */
 async function createOrganization({
   databaseBuilder,
+  doCommit = true,
   organizationId,
   type,
   name,
@@ -106,7 +108,9 @@ async function createOrganization({
     configOrganization,
   });
 
-  await databaseBuilder.commit();
+  if (doCommit) {
+    await databaseBuilder.commit();
+  }
   return { organizationId };
 }
 
