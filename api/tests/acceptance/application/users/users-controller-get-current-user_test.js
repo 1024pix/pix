@@ -59,6 +59,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
             'has-seen-new-dashboard-info': user.hasSeenNewDashboardInfo,
             'has-seen-focused-challenge-tooltip': user.hasSeenFocusedChallengeTooltip,
             'has-seen-other-challenges-tooltip': user.hasSeenOtherChallengesTooltip,
+            'has-seen-level-seven-info': false,
             'has-assessment-participations': true,
             'code-for-last-profile-to-share': expectedCode,
             'has-recommended-trainings': true,

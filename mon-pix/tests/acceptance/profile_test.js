@@ -24,7 +24,6 @@ module('Acceptance | Profile', function (hooks) {
     test('can visit /competences', async function (assert) {
       // when
       await visit('/competences');
-
       // then
       assert.strictEqual(currentURL(), '/competences');
     });
@@ -61,6 +60,52 @@ module('Acceptance | Profile', function (hooks) {
       // then
       const scorecard = user.scorecards.models[0];
       assert.strictEqual(currentURL(), `/competences/${scorecard.competenceId}/details`);
+    });
+  });
+
+  module('Authenticated cases as a user with specific max reachable level', function () {
+    module('max reachable level is set to seven', function (hooks) {
+      hooks.beforeEach(async function () {
+        const userWithMaxReachableLevelSeven = server.create('user', 'withMaxReachableLevelSeven');
+        await authenticate(userWithMaxReachableLevelSeven);
+      });
+      module('user has never closed the banner', function () {
+        test('should display the level seven information banner', async function (assert) {
+          // when
+          const screen = await visit('/competences');
+
+          // then
+          assert.dom('.new-information-content__text').exists();
+          assert.ok(screen.getByText('Le niveau 7 est enfin disponible ! Vous pouvez en apprendre plus via'));
+        });
+      });
+
+      module('user has closed the banner', function () {
+        test('should not display the level seven information banner', async function (assert) {
+          // given
+          await visit('/competences');
+
+          // when
+          await click('.new-information__close.new-information--black-text');
+
+          // then
+          assert.dom('.new-information-content__text').doesNotExist();
+        });
+      });
+    });
+
+    module('max reachable level is not set to seven', function (hooks) {
+      hooks.beforeEach(async function () {
+        const userWithMaxReachableLevelSix = server.create('user', 'withMaxReachableLevelSix');
+        await authenticate(userWithMaxReachableLevelSix);
+      });
+      test('should not display the level seven information banner', async function (assert) {
+        // when
+        await visit('/competences');
+
+        // then
+        assert.dom('.new-information-content__text').doesNotExist();
+      });
     });
   });
 

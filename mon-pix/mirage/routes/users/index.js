@@ -63,6 +63,12 @@ export default function index(config) {
     return user;
   });
 
+  config.patch('/users/:id/user-has-seen-level-seven-info', (schema, request) => {
+    const user = schema.users.find(request.params.id);
+    user.update({ hasSeenLevelSevenInfo: true });
+    return user;
+  });
+
   config.patch('/users/:id/has-seen-challenge-tooltip/:challengeType', (schema, request) => {
     const user = schema.users.find(request.params.id);
     user.update({ tooltipChallengeType: request.params.challengeType });

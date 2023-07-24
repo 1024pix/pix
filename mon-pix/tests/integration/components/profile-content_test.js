@@ -29,6 +29,7 @@ module('Integration | Component | Profile-content', function (hooks) {
       model = {
         profile: {
           pixScore: '34',
+          get: () => 7,
           areas: [{ code: 0 }, { code: 1 }],
           scorecards: [
             {

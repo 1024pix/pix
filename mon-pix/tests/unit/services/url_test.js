@@ -224,6 +224,7 @@ module('Unit | Service | locale', function (hooks) {
         // given
         const service = this.owner.lookup('service:url');
         service.currentDomain = { isFranceDomain: true };
+        service.intl = { t: sinon.stub().returns(FRENCH_INTERNATIONAL_LOCALE) };
         const expectedAccessibilityUrl = 'https://pix.fr/accessibilite';
 
         // when
@@ -281,6 +282,40 @@ module('Unit | Service | locale', function (hooks) {
           // then
           assert.strictEqual(accessibilityUrl, expectedAccessibilityUrl);
         });
+      });
+    });
+  });
+
+  module('#levelSevenNewsUrl', function () {
+    test('returns the French URL page', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      service.currentDomain = { isFranceDomain: true };
+      service.intl = { t: sinon.stub().returns(FRENCH_INTERNATIONAL_LOCALE) };
+      const expectedLevelSevenNewsUrl =
+        'https://pix.fr/actualites/commission-europeenne-pix-remporte-european-digital-skills-awards';
+
+      // when
+      const levelSevenNewsUrl = service.levelSevenNewsUrl;
+
+      // then
+      assert.strictEqual(levelSevenNewsUrl, expectedLevelSevenNewsUrl);
+    });
+
+    module('when current language is "en"', function () {
+      test('returns the English URL page', function (assert) {
+        // given
+        const service = this.owner.lookup('service:url');
+        service.currentDomain = { isFranceDomain: false };
+        service.intl = { t: sinon.stub().returns(ENGLISH_INTERNATIONAL_LOCALE) };
+        const expectedLevelSevenNewsUrl =
+          'https://pix.org/en/news/european-commission-pix-wins-european-digital-skills-awards';
+
+        // when
+        const levelSevenNewsUrl = service.levelSevenNewsUrl;
+
+        // then
+        assert.strictEqual(levelSevenNewsUrl, expectedLevelSevenNewsUrl);
       });
     });
   });
