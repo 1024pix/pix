@@ -31,12 +31,15 @@ module('Integration | Component | QCU proposals', function (hooks) {
       this.set('answerChanged', answerChangedHandler);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<QcuProposals @answers={{this.answers}} @proposals={{this.proposals}} @answerChanged={{this.answerChanged}} />`,
       );
 
       // then
-      assert.dom('.proposal-text').exists({ count: 3 });
+      assert.strictEqual(screen.getAllByRole('radio').length, 3);
+      assert.ok(screen.getByLabelText('prop 1'));
+      assert.ok(screen.getByLabelText('prop 2'));
+      assert.ok(screen.getByLabelText('prop 3'));
     });
   });
 });

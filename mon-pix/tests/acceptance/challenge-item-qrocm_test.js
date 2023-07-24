@@ -3,11 +3,13 @@ import { click, find, findAll, currentURL, fillIn, triggerEvent } from '@ember/t
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import setupIntl from '../helpers/setup-intl';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
   let assessment;
   let qrocmDepChallenge;
 
@@ -17,10 +19,12 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
   module('When challenge is not already answered', function () {
     module('and challenge only has input fields', function (hooks) {
+      let screen;
+
       hooks.beforeEach(async function () {
         // when
         qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
-        await visit(`/assessments/${assessment.id}/challenges/0`);
+        screen = await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
       test('should render challenge information and question', function (assert) {
@@ -33,9 +37,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         assert.dom('.challenge-response__proposal').exists({ count: 2 });
         assert.false(findAll('.challenge-response__proposal input')[0].disabled);
         assert.false(findAll('.challenge-response__proposal input')[1].disabled);
-        assert.ok(find('div[data-test="qrocm-label-0"]').innerHTML.includes('Station <strong>1</strong> :'));
-        assert.ok(find('div[data-test="qrocm-label-1"]').innerHTML.includes('Station <em>2</em> :'));
-
+        assert.ok(screen.getByLabelText(/Station 1/));
+        assert.ok(screen.getByLabelText(/Station 2/));
         assert.dom('.challenge-response__alert').doesNotExist();
       });
 
@@ -125,6 +128,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
   module('When challenge is already answered', function () {
     module('and challenge is only made of input fields', function (hooks) {
+      let screen;
+
       hooks.beforeEach(async function () {
         // given
         qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
@@ -136,19 +141,19 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         });
 
         // when
-        await visit(`/assessments/${assessment.id}/challenges/0`);
+        screen = await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
       test('should set the input text with previous answers and propose to continue', async function (assert) {
         // then
-        assert.ok(find('div[data-test="qrocm-label-0"]').innerHTML.includes('Station <strong>1</strong> :'));
-        assert.ok(find('div[data-test="qrocm-label-1"]').innerHTML.includes('Station <em>2</em> :'));
-        assert.strictEqual(findAll('.challenge-response__proposal input')[0].value, 'Republique');
-        assert.true(findAll('.challenge-response__proposal input')[0].disabled);
-        assert.strictEqual(findAll('.challenge-response__proposal input')[1].value, 'Chatelet');
-        assert.true(findAll('.challenge-response__proposal input')[1].disabled);
+        const input1 = screen.getByLabelText(/Station 1/);
+        const input2 = screen.getByLabelText(/Station 2/);
+        assert.strictEqual(input1.value, 'Republique');
+        assert.true(input1.disabled);
+        assert.strictEqual(input2.value, 'Chatelet');
+        assert.true(input2.disabled);
 
-        assert.dom('.challenge-actions__action-continue').exists();
+        assert.ok(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.continue') }));
         assert.dom('.challenge-actions__action-validate').doesNotExist();
         assert.dom('.challenge-actions__action-skip-text').doesNotExist();
       });
