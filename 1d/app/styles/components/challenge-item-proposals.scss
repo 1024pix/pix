@@ -27,28 +27,67 @@
     }
   }
 
-  &__checkboxes{
+  &__qcm-checkboxes, &__qcu-radios{
     display: flex;
     flex-direction: column;
     width: 50%;
   }
 }
 
-.pix-checkbox.pix1d {
+.pix-checkbox.pix1d-checkbox {
   width: 100%;
-  padding: 20px;
   border: 1px solid #556BCC;
   border-radius: 8px;
 }
 
-.pix-checkbox.pix1d .pix-checkbox__label {
+.pix-checkbox.pix1d-checkbox .pix-checkbox__label {
   color: #1E2547;
   font-weight: 400;
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: left;
 }
 
-.pix-checkbox.pix1d .pix-checkbox__input {
+.pix-checkbox.pix1d-checkbox .pix-checkbox__input {
   width: 18px;
   height: 18px;
   border: 1.5px solid #556BCC;
   border-radius: 5px;
+  margin-left:20px;
+
+  &:checked {
+    background-color: #556BCC;
+  }
+}
+
+.pix-radio-button.pix1d-radio {
+  width: 100%;
+  border: 1px solid #556BCC;
+  border-radius: 8px;
+}
+
+.pix-radio-button.pix1d-radio .pix-radio-button__input{
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #556BCC;
+  border-radius: 10px;
+  margin-left: 20px;
+
+  &:checked::after {
+    background-color: #556BCC;
+  }
+}
+
+.pix-radio-button.pix1d-radio .pix-radio-button__label {
+  color: #1E2547;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: left;
 }
