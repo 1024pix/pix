@@ -1,0 +1,14 @@
+<div class="challenge-item-proposals__checkboxes">
+  {{#each this.labeledCheckboxes as |labeledCheckbox|}}
+    <PixCheckbox
+      name="{{labeledCheckbox.value}}"
+      @class="pix1d"
+      disabled={{@isAnswerFieldDisabled}}
+      checked={{labeledCheckbox.checked}}
+      {{on "click" (fn this.checkboxClicked labeledCheckbox.value)}}
+      data-test="challenge-response-proposal-selector"
+    >
+      <Markdown::MarkdownToHtml @class="proposal-text" @markdown={{labeledCheckbox.label}} />
+    </PixCheckbox>
+  {{/each}}
+</div>
