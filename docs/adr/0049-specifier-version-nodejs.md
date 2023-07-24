@@ -61,7 +61,7 @@ Notre CI évoluerai de son côté, pour éviter la synchronisation avec les imag
 
 ### Solution n°3 : Ajouter la version mineure minimum de Node en local et sur le PAAS
 
-Permettre de spécifier une version mineure (en plus de la majeure) pour préciser la version minimale nécessaire. C'est ce qui a été fait sur le PAAS pour l'API avec #6512 car elle ne fonctionnait plus avec des versions inférieures à la 16.15 de Node.
+Permettre de spécifier une version mineure (en plus de la majeure) pour préciser la version minimale nécessaire. 
 
 #### Avantages
 - Gestion plus fine de la compatibilité.
