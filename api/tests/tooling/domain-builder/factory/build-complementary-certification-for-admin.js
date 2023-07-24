@@ -4,7 +4,7 @@ const buildComplementaryCertificationForAdmin = function ({
   id = 1,
   label = 'Complementary certification name',
   key = 'COMPLEMENTARY_CERTIFICATION_KEY',
-  currentTargetProfile = { id: 12, name: 'Target' },
+  currentTargetProfile = { id: 12, name: 'Target', badges: [] },
 } = {}) {
   return new ComplementaryCertificationForAdmin({
     id,
