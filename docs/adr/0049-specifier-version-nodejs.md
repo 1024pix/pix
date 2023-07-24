@@ -23,7 +23,7 @@ Par exemple, si l'on spécifie la version 16 :
 - dans la CI, on peut utiliser la `16.2.8` 
 - dans le PAAS, on peut utiliser la `16.5.1`
 Nous avons constaté plusieurs limites à ce choix :
-- L'API ne fonctionne plus en version antérieure à Node@v16.15. L'ADR précédant ne nous permet pas de fixer de version mineure minimum donc un risque d'incompatibilité est présent.
+- Un bug corrigé par la [PR 6512](https://github.com/1024pix/pix/pull/6512) nous oblige à fixer une version minimale.
 - Fixer la version majeure uniquement peut provoquer des problèmes de reproductibilité car nos 3 environnements ont chacun une version de Node différente. Notamment en local, il est arrivé que certains développeurs restent en version antérieure à la 16.15 lorsque nous avons dû supprimer la compatibilité de ces versions.
 
 ### Solution n°1 : Forcer la même version exacte minimum de Node sur tous les environnements
