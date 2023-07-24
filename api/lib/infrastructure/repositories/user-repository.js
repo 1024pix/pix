@@ -291,6 +291,16 @@ const updateHasSeenAssessmentInstructionsToTrue = async function (id) {
   return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
 };
 
+const updateHasSeenLevelSevenInfoToTrue = async function (id) {
+  const now = new Date();
+  const [user] = await knex('users')
+    .where({ id })
+    .update({ hasSeenLevelSevenInfo: true, updatedAt: now })
+    .returning('*');
+
+  return new User(user);
+};
+
 const updateHasSeenNewDashboardInfoToTrue = async function (id) {
   const user = await BookshelfUser.where({ id }).fetch({ require: false });
   await user.save({ hasSeenNewDashboardInfo: true }, { patch: true, method: 'update' });
@@ -424,38 +434,39 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
 };
 
 export {
-  getByEmail,
-  getFullById,
-  getByUsernameOrEmailWithRolesAndPassword,
-  get,
-  getById,
-  getForObfuscation,
-  getUserDetailsForAdmin,
-  findPaginatedFiltered,
-  getWithMemberships,
-  getWithCertificationCenterMemberships,
-  getBySamlId,
-  update,
-  updateWithEmailConfirmed,
-  checkIfEmailIsAvailable,
-  isUserExistingByEmail,
-  updatePassword,
-  updateEmail,
-  updateUserDetailsForAdministration,
-  updateHasSeenAssessmentInstructionsToTrue,
-  updateHasSeenNewDashboardInfoToTrue,
-  updateHasSeenChallengeTooltip,
   acceptPixLastTermsOfService,
-  updatePixOrgaTermsOfServiceAcceptedToTrue,
-  updatePixCertifTermsOfServiceAcceptedToTrue,
-  isUsernameAvailable,
-  updateUsername,
   addUsername,
-  findByExternalIdentifier,
+  checkIfEmailIsAvailable,
   findAnotherUserByEmail,
   findAnotherUserByUsername,
-  updateLastLoggedAt,
+  findByExternalIdentifier,
+  findPaginatedFiltered,
+  get,
+  getByEmail,
+  getById,
+  getBySamlId,
+  getByUsernameOrEmailWithRolesAndPassword,
+  getForObfuscation,
+  getFullById,
+  getUserDetailsForAdmin,
+  getWithCertificationCenterMemberships,
+  getWithMemberships,
+  isUserExistingByEmail,
+  isUsernameAvailable,
+  update,
+  updateEmail,
+  updateHasSeenAssessmentInstructionsToTrue,
+  updateHasSeenChallengeTooltip,
+  updateHasSeenLevelSevenInfoToTrue,
+  updateHasSeenNewDashboardInfoToTrue,
   updateLastDataProtectionPolicySeenAt,
+  updateLastLoggedAt,
+  updatePassword,
+  updatePixCertifTermsOfServiceAcceptedToTrue,
+  updatePixOrgaTermsOfServiceAcceptedToTrue,
+  updateUserDetailsForAdministration,
+  updateUsername,
+  updateWithEmailConfirmed,
 };
 
 function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, authenticationMethodsDTO }) {

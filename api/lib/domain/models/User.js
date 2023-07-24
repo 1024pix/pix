@@ -27,6 +27,7 @@ class User {
       lastDataProtectionPolicySeenAt,
       hasSeenAssessmentInstructions,
       hasSeenNewDashboardInfo,
+      hasSeenLevelSevenInfo,
       hasSeenFocusedChallengeTooltip,
       hasSeenOtherChallengesTooltip,
       mustValidateTermsOfService,
@@ -65,6 +66,7 @@ class User {
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
     this.hasSeenOtherChallengesTooltip = hasSeenOtherChallengesTooltip;
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
+    this.hasSeenLevelSevenInfo = hasSeenLevelSevenInfo;
     this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
     this.knowledgeElements = knowledgeElements;
     this.lang = lang;
