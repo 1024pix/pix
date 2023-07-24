@@ -1,5 +1,33 @@
 # Pix Changelog
 
+## v4.17.0 (24/07/2023)
+
+
+### :rocket: Amélioration
+- [#6681](https://github.com/1024pix/pix/pull/6681) [FEATURE] Éviter la présence d'éléments block dans des labels d'épreuve.
+- [#6580](https://github.com/1024pix/pix/pull/6580) [FEATURE] Créer la bannière d'information pour l'ouverture du niveau 7 (Pix-8395).
+- [#6691](https://github.com/1024pix/pix/pull/6691) [FEATURE] Corrige le campaign tooling et ajoute des seeds pour prescription (PIX-8729).
+- [#6678](https://github.com/1024pix/pix/pull/6678) [FEATURE] Ajouter la modalité QCU (Pix-8608).
+- [#6677](https://github.com/1024pix/pix/pull/6677) [FEATURE] Ajouter la modalité QCM (Pix-8607).
+- [#6669](https://github.com/1024pix/pix/pull/6669) [FEATURE] Ajouter la modalité QROCM dans pix1d (Pix-8606).
+- [#6623](https://github.com/1024pix/pix/pull/6623) [FEATURE] Supprimer le feature toggle FT_DIFFERENTIATED_TIME_INVIGILATOR_PORTAL (PIX-7837).
+- [#6674](https://github.com/1024pix/pix/pull/6674) [FEATURE] Afficher les informations de la certification complémentaire sur la page de détails sur Pix Admin (PIX-8673).
+- [#6653](https://github.com/1024pix/pix/pull/6653) [FEATURE] Création de la page détails d'une certification complémentaire sur Pix Admin (PIX-8577).
+
+### :building_construction: Tech
+- [#6536](https://github.com/1024pix/pix/pull/6536) [TECH] Mise à jour des tests basés sur le niveau max (PIX-8269).
+- [#6683](https://github.com/1024pix/pix/pull/6683) [TECH] Supprime la dépendance ember-export-application-global.
+- [#6672](https://github.com/1024pix/pix/pull/6672) [TECH] Tech days api arborescence monitoring setup.
+
+### :coffee: Autre
+- [#6465](https://github.com/1024pix/pix/pull/6465) explore script to analyse panel data.
+- [#6688](https://github.com/1024pix/pix/pull/6688) [CLEANUP] Supprime de l'ancienne config sur certif.
+- [#6689](https://github.com/1024pix/pix/pull/6689) [BUMP] Update dependency @1024pix/pix-ui to v38 (1d).
+- [#6687](https://github.com/1024pix/pix/pull/6687) [BUMP] Update dependency @1024pix/pix-ui to v37 (1d).
+- [#6598](https://github.com/1024pix/pix/pull/6598) [BUMP] Update dependency ember-source to ~4.12.0 (certif).
+- [#6685](https://github.com/1024pix/pix/pull/6685) [BUMP] Lock file maintenance (1d).
+- [#6684](https://github.com/1024pix/pix/pull/6684) [BUMP] Update browser-tools orb to v1.4.3 (.circleci).
+
 ## v4.16.0 (20/07/2023)
 
 
