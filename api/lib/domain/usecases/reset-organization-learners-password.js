@@ -52,15 +52,17 @@ const resetOrganizationLearnersPassword = async function ({
   const organizationLearnersPasswordResets = [];
 
   const usersToUpdateWithNewPassword = await Promise.all(
-    students.map(async ({ id: userId, username }) => {
+    students.map(async ({ id: userId, username, lastName, firstName }) => {
       const generatedPassword = passwordGenerator.generateSimplePassword();
       const hashedPassword = await encryptionService.hashPassword(generatedPassword);
 
       organizationLearnersPasswordResets.push(
         new OrganizationLearnerPasswordResetDTO({
+          division: organizationLearnersMap.get(userId).division,
+          lastName,
+          firstName,
           username,
           password: generatedPassword,
-          division: organizationLearnersMap.get(userId).division,
         }),
       );
 
