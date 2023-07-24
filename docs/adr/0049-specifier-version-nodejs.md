@@ -26,7 +26,7 @@ Nous avons constaté plusieurs limites à ce choix :
   * dans la CI, on peut utiliser la `16.2.8`.
   * dans le PAAS, on peut utiliser la `16.15.0`.
 
-### Solution n°1 : Forcer la même version exacte minimum de Node sur tous les environnements
+### Solution n°1 : Spécifier la même version exacte minimum de Node sur tous les environnements
 
 Cette solution consiste à mettre à jour la version de node dans chacun des 3 environnements en même temps.
 
@@ -43,7 +43,7 @@ Cette solution consiste à mettre à jour la version de node dans chacun des 3 e
 - On synchronise les montées de versions de Node avec les mises à jour des images Node de Circle CI.
 - Retard minime possible à cause du délai de mise à jour des versions de Node côté Circle CI.
 
-### Solution n°2 : Forcer la même version exacte minimum de Node en local et sur le PAAS
+### Solution n°2 : Spécifier la même version exacte minimum de Node en local et sur le PAAS
 
 Notre CI évoluerai de son côté, pour éviter la synchronisation avec les images Node Circle CI.
 
@@ -80,7 +80,7 @@ NB : Après six mois, les versions impaires (9, 11, etc.), ne sont plus maintenu
 
 En faisant évoluer [notre configuration Renovate](https://github.com/1024pix/renovate-config), nous avons observé que l'outil force l'ajout du numéro de patch si on précise la version mineure requise.
 
-Fort de ces expérimentations, l'équipe propose de choisir [la solution 1](### Solution n°1 : Forcer la même version exacte minimum de Node sur tous les environnements).
+Fort de ces expérimentations, l'équipe propose de choisir la solution 1.
 
 ## Conséquences
 
