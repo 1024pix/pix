@@ -1,9 +1,10 @@
 class ComplementaryCertificationForAdmin {
-  constructor({ id, label, key, currentTargetProfile }) {
+  constructor({ id, label, key, currentTargetProfileBadges, targetProfilesLog }) {
     this.id = id;
     this.label = label;
     this.key = key;
-    this.currentTargetProfile = currentTargetProfile;
+    this.currentTargetProfileBadges = currentTargetProfileBadges;
+    this.targetProfilesLog = targetProfilesLog;
   }
 }
 
