@@ -607,6 +607,62 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         expect(results.data[1].firstName).to.equal('Laa-Laa');
       });
     });
+
+    describe('when there is a filter on certificability', function () {
+      it('returns certifiable participants', async function () {
+        // given
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId },
+          { participantExternalId: 'Certifiable', campaignId, isCertifiable: true },
+        );
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId },
+          { participantExternalId: 'Not certifiable', campaignId, isCertifiable: false },
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId,
+          undefined,
+          { certificability: true },
+        );
+
+        const participantExternalIds = results.data.map((result) => result.participantExternalId);
+
+        // then
+        expect(participantExternalIds).to.deep.equal(['Certifiable']);
+      });
+
+      it('returns not certifiable participants', async function () {
+        // given
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId },
+          { participantExternalId: 'Certifiable', campaignId, isCertifiable: true },
+        );
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId },
+          { participantExternalId: 'Not certifiable', campaignId, isCertifiable: false },
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId,
+          undefined,
+          { certificability: false },
+        );
+
+        const participantExternalIds = results.data.map((result) => result.participantExternalId);
+
+        // then
+        expect(participantExternalIds).to.deep.equal(['Not certifiable']);
+      });
+    });
   });
 });
 
