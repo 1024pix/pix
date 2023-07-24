@@ -1,5 +1,28 @@
 <section class="page-section">
   <div class="content-text content-text--small">
-    TODO: Section liste des résultats thématique
+    <h2 class="complementary-certification-details__badges-title">
+      Résultats thématiques certifiants du profil cible actuel
+    </h2>
+    <div class="table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th class="table__column--id">ID</th>
+            <th>Nom du résultat thématique</th>
+            <th>Niveau</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each @badges as |badge|}}
+            <tr>
+              <td>{{badge.id}}</td>
+              <td>{{badge.label}}</td>
+              <td>{{badge.level}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
