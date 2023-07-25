@@ -22,7 +22,7 @@
     &.pix-input__input--default {
       background-color: #F4F5F7;
       border: none;
-      border-bottom: 1px solid #556BCC;
+      border-bottom: 1px solid var(--pix-color-primary);
       border-radius: 4px 4px 0 0;
     }
   }
@@ -36,12 +36,12 @@
 
 .pix-checkbox.pix1d-checkbox {
   width: 100%;
-  border: 1px solid #556BCC;
+  border: 1px solid var(--pix-color-primary);
   border-radius: 8px;
 }
 
 .pix-checkbox.pix1d-checkbox .pix-checkbox__label {
-  color: #1E2547;
+  color: var(--pix-color-primary-90);
   font-weight: 400;
   width: 100%;
   height: 100%;
@@ -53,35 +53,35 @@
 .pix-checkbox.pix1d-checkbox .pix-checkbox__input {
   width: 18px;
   height: 18px;
-  border: 1.5px solid #556BCC;
+  border: 1.5px solid var(--pix-color-primary);
   border-radius: 5px;
   margin-left:20px;
 
   &:checked {
-    background-color: #556BCC;
+    background-color: var(--pix-color-primary);
   }
 }
 
 .pix-radio-button.pix1d-radio {
   width: 100%;
-  border: 1px solid #556BCC;
+  border: 1px solid var(--pix-color-primary);
   border-radius: 8px;
 }
 
 .pix-radio-button.pix1d-radio .pix-radio-button__input{
   width: 18px;
   height: 18px;
-  border: 1.5px solid #556BCC;
+  border: 1.5px solid var(--pix-color-primary);
   border-radius: 10px;
   margin-left: 20px;
 
   &:checked::after {
-    background-color: #556BCC;
+    background-color: var(--pix-color-primary);
   }
 }
 
 .pix-radio-button.pix1d-radio .pix-radio-button__label {
-  color: #1E2547;
+  color: var(--pix-color-primary-90);
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
