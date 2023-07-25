@@ -15,6 +15,7 @@ const getUserCertificationEligibility = async function ({
 
   const stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
     userId,
+    limitDate,
   });
 
   const eligibleComplementaryCertifications = stillValidBadgeAcquisitions.map(
