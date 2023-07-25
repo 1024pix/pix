@@ -9,6 +9,7 @@ export default class ProfilesController extends Controller {
   @tracked divisions = [];
   @tracked groups = [];
   @tracked search = null;
+  @tracked certificability = null;
 
   @action
   goToProfilePage(campaignId, campaignParticipationId, event) {
@@ -29,5 +30,6 @@ export default class ProfilesController extends Controller {
     this.divisions = [];
     this.groups = [];
     this.search = null;
+    this.certificability = null;
   }
 }

@@ -42,6 +42,7 @@ module('Unit | Route | authenticated/campaigns/campaign/profile-results', functi
             groups: params.groups,
             campaignId: params.campaignId,
             search: params.search,
+            certificability: params.certificability,
           },
         })
         .returns(expectedSummaries);
@@ -78,6 +79,21 @@ module('Unit | Route | authenticated/campaigns/campaign/profile-results', functi
 
         assert.strictEqual(route.loading(transition), undefined);
       });
+    });
+  });
+
+  module('resetController', function () {
+    test('should reset filter to default value when isExiting true', function (assert) {
+      const controller = { set: sinon.stub() };
+
+      route.resetController(controller, true);
+
+      assert.ok(controller.set.calledWith('certificability', null));
+      assert.ok(controller.set.calledWith('pageNumber', 1));
+      assert.ok(controller.set.calledWith('pageSize', 50));
+      assert.ok(controller.set.calledWith('divisions', []));
+      assert.ok(controller.set.calledWith('groups', []));
+      assert.ok(controller.set.calledWith('search', null));
     });
   });
 });

@@ -207,6 +207,9 @@
     }
   },
   "components": {
+    "certificability": {
+      "placeholder-select": "Certifiable / Non certifiable"
+    },
     "date": {
       "no-date": "Pas encore de date"
     },
