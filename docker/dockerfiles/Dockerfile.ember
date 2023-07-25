@@ -1,10 +1,10 @@
-FROM node:16.20.1 as dev
+FROM node:16.17.0 as dev
 
 WORKDIR /code
 COPY . .
 
 RUN npm ci
-RUN npm install -g ember-cli 
+RUN npm install -g ember-cli
 
 CMD [ "npm", "run", "start:watch" ]
 
