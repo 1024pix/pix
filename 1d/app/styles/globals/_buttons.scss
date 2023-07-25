@@ -1,15 +1,15 @@
 .pix1d-button {
-  background-color: var(--pix-color-primary);
-  color: var(--pix-color-neutral-0);
-  border: 1px solid var(--pix-color-primary);
-  box-shadow: 0 3px var(--pix-color-primary-60);
-  font-size: 1.25rem;
   padding: 16px 48px;
+  color: var(--pix-color-neutral-0);
+  font-size: 1.25rem;
+  background-color: var(--pix-color-primary);
+  border: 1px solid var(--pix-color-primary);
   border-radius: 30px;
+  box-shadow: 0 3px var(--pix-color-primary-60);
 
   &--small {
-    font-size: 1rem;
     padding: 8px 24px;
+    font-size: 1rem;
     border-style: none;
     box-shadow: none;
   }
@@ -23,8 +23,8 @@
   }
 
   &--skip {
-    background-color: var(--pix-color-neutral-0);
     color: var(--pix-color-primary);
+    background-color: var(--pix-color-neutral-0);
 
     &:hover, &:focus {
       color: var(--pix-color-neutral-0);

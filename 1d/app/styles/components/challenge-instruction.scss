@@ -1,12 +1,12 @@
 .challenge-instruction {
-  background-color: var(--pix-color-secondary);
-  font-size: 1.25rem;
-  color: #344563;
-  min-height: 95px;
   display: flex;
   align-items: center;
   justify-content:center;
+  min-height: 95px;
   padding: 21px;
+  color: #344563;
+  font-size: 1.25rem;
+  background-color: var(--pix-color-secondary);
 
   a {
     color: #3d68ff;
