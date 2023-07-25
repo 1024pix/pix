@@ -13,7 +13,7 @@
   "includeForks": true,
   "prConcurrentLimit": 5,
   "labels": ["dependencies"],
-  "minimumReleaseAge": "1 day",
+  "minimumReleaseAge": "7 days",
   "commitMessagePrefix": "[BUMP]",
   "rebaseWhen": "never",
   "schedule": "every 1 hour every weekday"
