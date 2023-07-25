@@ -131,29 +131,82 @@ describe('Acceptance | Route | target-profiles', function () {
 
   describe('GET /api/admin/target-profiles/{id}', function () {
     let user;
-    let targetProfileId;
+    let targetProfile;
+    let options;
 
     beforeEach(async function () {
       mockLearningContent(learningContent);
-      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId });
+      targetProfile = databaseBuilder.factory.buildTargetProfile({
+        name: 'Savoir tout faire',
+        imageUrl: 'https://test',
+        isPublic: true,
+        isSimplifiedAccess: false,
+        createdAt: new Date('2020-01-01'),
+        outdated: false,
+        description: 'Une description',
+        comment: 'Un beau profil cible',
+        category: 'TEST',
+        migration_status: 'N/A',
+        areKnowledgeElementsResettable: false,
+      });
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfile.id, tubeId, level: 7 });
       user = databaseBuilder.factory.buildUser.withRole();
-
-      await databaseBuilder.commit();
+      options = {
+        method: 'GET',
+        url: `/api/admin/target-profiles/${targetProfile.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
     });
 
     it('should return 200', async function () {
-      const options = {
-        method: 'GET',
-        url: `/api/admin/target-profiles/${targetProfileId}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-      };
+      // given
+      await databaseBuilder.commit();
 
       // when
       const response = await server.inject(options);
 
       // then
       expect(response.statusCode).to.equal(200);
+      expect(response.result.data.attributes['has-linked-campaign']).to.equal(false);
+    });
+
+    it('should return the target-profile corresponding to the given {id}', async function () {
+      // given
+      await databaseBuilder.commit();
+      const expectedTargetProfile = {
+        'are-knowledge-elements-resettable': false,
+        category: 'TEST',
+        comment: 'Un beau profil cible',
+        description: 'Une description',
+        'created-at': new Date('2020-01-01'),
+        'has-linked-campaign': false,
+        'image-url': 'https://test',
+        'is-public': true,
+        'is-simplified-access': false,
+        name: 'Savoir tout faire',
+        outdated: false,
+        'owner-organization-id': targetProfile.ownerOrganizationId,
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.result.data.attributes).to.deep.equal(expectedTargetProfile);
+    });
+
+    context('when target profile is linked to a campaign', function () {
+      it('should return a target profile with has-linked-campaign equal to true', async function () {
+        // given
+        databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.result.data.attributes['has-linked-campaign']).to.equal(true);
+      });
     });
   });
 
