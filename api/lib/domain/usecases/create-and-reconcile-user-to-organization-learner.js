@@ -1,5 +1,4 @@
 import lodash from 'lodash';
-
 const { isNil } = lodash;
 
 import {
@@ -9,10 +8,83 @@ import {
   EntityValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../errors.js';
-
 import { User } from '../models/User.js';
 import { getCampaignUrl } from '../../infrastructure/utils/url-builder.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
+
+const createAndReconcileUserToOrganizationLearner = async function ({
+  campaignCode,
+  locale,
+  password,
+  userAttributes,
+  authenticationMethodRepository,
+  campaignRepository,
+  organizationLearnerRepository,
+  userRepository,
+  userToCreateRepository,
+  encryptionService,
+  mailService,
+  obfuscationService,
+  userReconciliationService,
+  userService,
+  passwordValidator,
+  userValidator,
+}) {
+  const campaign = await campaignRepository.getByCode(campaignCode);
+  if (!campaign) {
+    throw new CampaignCodeError();
+  }
+
+  const matchedOrganizationLearner =
+    await userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
+      organizationId: campaign.organizationId,
+      reconciliationInfo: userAttributes,
+      organizationLearnerRepository,
+      userRepository,
+      obfuscationService,
+    });
+
+  const organizationLearnerFound = !isNil(matchedOrganizationLearner.userId);
+  if (organizationLearnerFound) {
+    const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
+    const error = STUDENT_RECONCILIATION_ERRORS.LOGIN_OR_REGISTER.IN_SAME_ORGANIZATION.username;
+    const meta = {
+      shortCode: error.shortCode,
+    };
+    throw new OrganizationLearnerAlreadyLinkedToUserError(detail, error.code, meta);
+  }
+
+  const isUsernameMode = userAttributes.withUsername;
+  const cleanedUserAttributes = _emptyOtherMode(isUsernameMode, userAttributes);
+
+  await _validateData({
+    isUsernameMode,
+    password,
+    userAttributes: cleanedUserAttributes,
+    userRepository,
+    passwordValidator,
+    userValidator,
+  });
+
+  const hashedPassword = await _encryptPassword(password, encryptionService);
+  const domainUser = _createDomainUser(cleanedUserAttributes);
+
+  const userId = await userService.createAndReconcileUserToOrganizationLearner({
+    hashedPassword,
+    organizationLearnerId: matchedOrganizationLearner.id,
+    user: domainUser,
+    authenticationMethodRepository,
+    organizationLearnerRepository,
+    userToCreateRepository,
+  });
+
+  const createdUser = await userRepository.get(userId);
+  if (!isUsernameMode) {
+    const redirectionUrl = getCampaignUrl(locale, campaignCode);
+    await mailService.sendAccountCreationEmail(createdUser.email, locale, redirectionUrl);
+  }
+  return createdUser;
+};
 
 function _encryptPassword(userPassword, encryptionService) {
   const encryptedPassword = encryptionService.hashPassword(userPassword);
@@ -112,79 +184,5 @@ async function _validateData({
     throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
   }
 }
-
-const createAndReconcileUserToOrganizationLearner = async function ({
-  campaignCode,
-  locale,
-  password,
-  userAttributes,
-  authenticationMethodRepository,
-  campaignRepository,
-  organizationLearnerRepository,
-  userRepository,
-  userToCreateRepository,
-  encryptionService,
-  mailService,
-  obfuscationService,
-  userReconciliationService,
-  userService,
-  passwordValidator,
-  userValidator,
-}) {
-  const campaign = await campaignRepository.getByCode(campaignCode);
-  if (!campaign) {
-    throw new CampaignCodeError();
-  }
-
-  const matchedOrganizationLearner =
-    await userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
-      organizationId: campaign.organizationId,
-      reconciliationInfo: userAttributes,
-      organizationLearnerRepository,
-      userRepository,
-      obfuscationService,
-    });
-
-  const organizationLearnerFound = !isNil(matchedOrganizationLearner.userId);
-  if (organizationLearnerFound) {
-    const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
-    const error = STUDENT_RECONCILIATION_ERRORS.LOGIN_OR_REGISTER.IN_SAME_ORGANIZATION.username;
-    const meta = {
-      shortCode: error.shortCode,
-    };
-    throw new OrganizationLearnerAlreadyLinkedToUserError(detail, error.code, meta);
-  }
-
-  const isUsernameMode = userAttributes.withUsername;
-  const cleanedUserAttributes = _emptyOtherMode(isUsernameMode, userAttributes);
-
-  await _validateData({
-    isUsernameMode,
-    password,
-    userAttributes: cleanedUserAttributes,
-    userRepository,
-    passwordValidator,
-    userValidator,
-  });
-
-  const hashedPassword = await _encryptPassword(password, encryptionService);
-  const domainUser = _createDomainUser(cleanedUserAttributes);
-
-  const userId = await userService.createAndReconcileUserToOrganizationLearner({
-    hashedPassword,
-    organizationLearnerId: matchedOrganizationLearner.id,
-    user: domainUser,
-    authenticationMethodRepository,
-    organizationLearnerRepository,
-    userToCreateRepository,
-  });
-
-  const createdUser = await userRepository.get(userId);
-  if (!isUsernameMode) {
-    const redirectionUrl = getCampaignUrl(locale, campaignCode);
-    await mailService.sendAccountCreationEmail(createdUser.email, locale, redirectionUrl);
-  }
-  return createdUser;
-};
 
 export { createAndReconcileUserToOrganizationLearner };

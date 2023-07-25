@@ -7,42 +7,6 @@ import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.j
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 
-function _toDomain(authenticationMethodDTO) {
-  if (authenticationMethodDTO.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
-    authenticationMethodDTO.externalIdentifier = undefined;
-  }
-  const authenticationComplement = _toAuthenticationComplement(
-    authenticationMethodDTO.identityProvider,
-    authenticationMethodDTO.authenticationComplement,
-  );
-  return new AuthenticationMethod({
-    ...authenticationMethodDTO,
-    externalIdentifier: authenticationMethodDTO.externalIdentifier,
-    authenticationComplement,
-  });
-}
-
-function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationComplement) {
-  if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
-    return new AuthenticationMethod.PixAuthenticationComplement(bookshelfAuthenticationComplement);
-  }
-
-  if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
-    return new AuthenticationMethod.OidcAuthenticationComplement(bookshelfAuthenticationComplement);
-  }
-
-  if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.GAR.code) {
-    const methodWasCreatedWithoutUserFirstAndLastName = bookshelfAuthenticationComplement === null;
-    if (methodWasCreatedWithoutUserFirstAndLastName) {
-      return undefined;
-    }
-
-    return new AuthenticationMethod.GARAuthenticationComplement(bookshelfAuthenticationComplement);
-  }
-
-  return undefined;
-}
-
 const AUTHENTICATION_METHODS_TABLE = 'authentication-methods';
 const COLUMNS = Object.freeze([
   'id',
@@ -299,6 +263,42 @@ const batchUpdatePasswordThatShouldBeChanged = function ({
     ),
   );
 };
+
+function _toDomain(authenticationMethodDTO) {
+  if (authenticationMethodDTO.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
+    authenticationMethodDTO.externalIdentifier = undefined;
+  }
+  const authenticationComplement = _toAuthenticationComplement(
+    authenticationMethodDTO.identityProvider,
+    authenticationMethodDTO.authenticationComplement,
+  );
+  return new AuthenticationMethod({
+    ...authenticationMethodDTO,
+    externalIdentifier: authenticationMethodDTO.externalIdentifier,
+    authenticationComplement,
+  });
+}
+
+function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationComplement) {
+  if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
+    return new AuthenticationMethod.PixAuthenticationComplement(bookshelfAuthenticationComplement);
+  }
+
+  if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
+    return new AuthenticationMethod.OidcAuthenticationComplement(bookshelfAuthenticationComplement);
+  }
+
+  if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.GAR.code) {
+    const methodWasCreatedWithoutUserFirstAndLastName = bookshelfAuthenticationComplement === null;
+    if (methodWasCreatedWithoutUserFirstAndLastName) {
+      return undefined;
+    }
+
+    return new AuthenticationMethod.GARAuthenticationComplement(bookshelfAuthenticationComplement);
+  }
+
+  return undefined;
+}
 
 export {
   batchUpdatePasswordThatShouldBeChanged,
