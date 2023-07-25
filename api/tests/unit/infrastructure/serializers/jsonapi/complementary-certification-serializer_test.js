@@ -46,7 +46,7 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
   });
 
   describe('#serializeForAdmin', function () {
-    it('should convert a ComplementaryCertification model object into JSON API data', function () {
+    it('should convert a ComplementaryCertificationTargetProfileHistory model object into JSON API data', function () {
       // given
       const badges = [
         { id: 1, label: 'badge 1', level: 1 },
@@ -57,16 +57,17 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
 
       const oldTargetProfile = { id: 333, name: 'Old Target', attachedAt: new Date('2020-10-10') };
 
-      const complementaryCertification = domainBuilder.buildComplementaryCertificationForAdmin({
-        id: 11,
-        label: 'Pix+Edu',
-        key: 'EDU',
-        currentTargetProfileBadges: badges,
-        targetProfilesLog: [currentTargetProfile, oldTargetProfile],
-      });
+      const complementaryCertificationTargetProfileHistory =
+        domainBuilder.buildComplementaryCertificationTargetProfileHistory({
+          id: 11,
+          label: 'Pix+Edu',
+          key: 'EDU',
+          currentTargetProfileBadges: badges,
+          targetProfilesHistory: [currentTargetProfile, oldTargetProfile],
+        });
 
       // when
-      const json = serializer.serializeForAdmin(complementaryCertification);
+      const json = serializer.serializeForAdmin(complementaryCertificationTargetProfileHistory);
 
       // then
       expect(json).to.deep.equal({
@@ -76,7 +77,7 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
           attributes: {
             label: 'Pix+Edu',
             key: 'EDU',
-            'target-profiles-log': [
+            'target-profiles-history': [
               { id: 999, name: 'Target', attachedAt: new Date('2023-10-10') },
               { id: 333, name: 'Old Target', attachedAt: new Date('2020-10-10') },
             ],

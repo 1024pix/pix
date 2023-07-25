@@ -12,7 +12,7 @@ const serialize = function (complementaryCertifications) {
 
 const serializeForAdmin = function (complementaryCertification) {
   return new Serializer('complementary-certification', {
-    attributes: ['label', 'key', 'currentTargetProfileBadges', 'targetProfilesLog'],
+    attributes: ['label', 'key', 'currentTargetProfileBadges', 'targetProfilesHistory'],
   }).serialize(complementaryCertification);
 };
 
