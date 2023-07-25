@@ -2,8 +2,10 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "fileMatch": [".*"],
-      "matchStrings": ["# renovate datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s*default: (?<currentValue>.*)\\s"]
+      "fileMatch": ["config.yml"],
+      "matchStrings": [
+        "# renovate datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s*default: (?<currentValue>.*)\\s"
+      ]
     }
   ]
 }
