@@ -14,7 +14,7 @@
       "rangeStrategy": "bump"
     },
     {
-      "matchPackagePatterns": ["^(node|cimg/node)$"],
+      "matchPackagePatterns": ["^node$"],
       "groupName": "node",
       "rangeStrategy": "bump",
       "versioning": "node"
