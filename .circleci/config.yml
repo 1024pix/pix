@@ -24,6 +24,52 @@ version: 2.1
 orbs:
   browser-tools: circleci/browser-tools@1.4.3
 
+executors:
+  node-docker:
+    parameters:
+      node-version:
+        default: 16.20.1
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.node-version>>
+    resource_class: small
+  node-redis-postgres-docker:
+    parameters:
+      node-version:
+        default: 16.20.1
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.node-version>>
+      - image: postgres:14.6-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:6.2.10-alpine
+    resource_class: small
+  node-browsers-docker:
+    parameters:
+      node-version:
+        default: 16.20.1
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.node-version>>-browsers
+        environment:
+          JOBS: 2
+    resource_class: small
+  node-browsers-redis-postgres-docker:
+    parameters:
+      node-version:
+        default: 16.20.1
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.node-version>>-browsers
+      - image: postgres:14.6-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:6.2.10-alpine
+    resource_class: medium+
+
 workflows:
   version: 2
   build-and-test:
@@ -77,9 +123,8 @@ workflows:
 
 jobs:
   checkout:
-    docker:
-      - image: cimg/node:16.20.1
-    resource_class: small
+    executor:
+      name: node-docker
     working_directory: ~/pix
     steps:
       - checkout
@@ -97,14 +142,8 @@ jobs:
             - .
 
   api_build_and_test:
-    docker:
-      - image: cimg/node:16.20.1
-      - image: postgres:14.6-alpine
-        environment:
-          POSTGRES_USER: circleci
-          POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:6.2.10-alpine
-    resource_class: small
+    executor:
+      name: node-redis-postgres-docker
     working_directory: ~/pix/api
     steps:
       - attach_workspace:
@@ -140,12 +179,8 @@ jobs:
           path: /home/circleci/test-results
 
   mon_pix_build_and_test:
-    docker:
-      - image: cimg/node:16.20.1-browsers
-        environment:
-          # See https://git.io/vdao3 for details.
-          JOBS: 2
-    resource_class: medium
+    executor:
+      name: node-browsers-docker
     working_directory: ~/pix/mon-pix
     parallelism: 3
     steps:
@@ -169,11 +204,8 @@ jobs:
           command: npm run test:ci
 
   orga_build_and_test:
-    docker:
-      - image: cimg/node:16.20.1-browsers
-        environment:
-          JOBS: 2
-    resource_class: small
+    executor:
+      name: node-browsers-docker
     working_directory: ~/pix/orga
     steps:
       - browser-tools/install-chrome
@@ -196,11 +228,8 @@ jobs:
           command: npm run test:ci
 
   pix1d_build_and_test:
-    docker:
-      - image: cimg/node:16.20.1-browsers
-        environment:
-          JOBS: 2
-    resource_class: small
+    executor:
+      name: node-browsers-docker
     working_directory: ~/pix/1d
     steps:
       - browser-tools/install-chrome
@@ -223,11 +252,8 @@ jobs:
           command: npm run test:ci
 
   certif_build_and_test:
-    docker:
-      - image: cimg/node:16.20.1-browsers
-        environment:
-          JOBS: 2
-    resource_class: small
+    executor:
+      name: node-browsers-docker
     working_directory: ~/pix/certif
     steps:
       - browser-tools/install-chrome
@@ -250,11 +276,8 @@ jobs:
           command: npm run test:ci
 
   admin_build_and_test:
-    docker:
-      - image: cimg/node:16.20.1-browsers
-        environment:
-          JOBS: 2
-    resource_class: small
+    executor:
+      name: node-browsers-docker
     working_directory: ~/pix/admin
     steps:
       - browser-tools/install-chrome
@@ -277,14 +300,8 @@ jobs:
           command: npm run test:ci
 
   e2e_test_app:
-    docker:
-      - image: cimg/node:16.20.1-browsers
-      - image: postgres:14.6-alpine
-        environment:
-          POSTGRES_USER: circleci
-          POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:6.2.10-alpine
-    resource_class: medium+
+    executor:
+      name: node-browsers-redis-postgres-docker
     parallelism: 4
     working_directory: ~/pix/high-level-tests/e2e
     steps:
@@ -355,14 +372,8 @@ jobs:
           path: /home/circleci/test-results
 
   e2e_test_orga:
-    docker:
-      - image: cimg/node:16.20.1-browsers
-      - image: postgres:14.6-alpine
-        environment:
-          POSTGRES_USER: circleci
-          POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:6.2.10-alpine
-    resource_class: medium+
+    executor:
+      name: node-browsers-redis-postgres-docker
     working_directory: ~/pix/high-level-tests/e2e
     steps:
       - browser-tools/install-chrome
@@ -432,9 +443,8 @@ jobs:
           path: /home/circleci/test-results
 
   algo_test:
-    docker:
-      - image: cimg/node:16.20.1
-    resource_class: small
+    executor:
+      name: node-docker
     parallelism: 1
     working_directory: ~/pix/high-level-tests/test-algo
     steps:
