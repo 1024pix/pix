@@ -28,7 +28,7 @@ executors:
   node-docker:
     parameters:
       node-version:
-        # renovate datasource=npm depName=node
+        # renovate datasource=node-version depName=node
         default: 16.19.0
         type: string
     docker:
@@ -37,7 +37,7 @@ executors:
   node-redis-postgres-docker:
     parameters:
       node-version:
-        # renovate datasource=npm depName=node
+        # renovate datasource=node-version depName=node
         default: 16.19.0
         type: string
     docker:
@@ -51,7 +51,7 @@ executors:
   node-browsers-docker:
     parameters:
       node-version:
-        # renovate datasource=npm depName=node
+        # renovate datasource=node-version depName=node
         default: 16.18.0
         type: string
     docker:
@@ -62,7 +62,7 @@ executors:
   node-browsers-redis-postgres-docker:
     parameters:
       node-version:
-        # renovate datasource=npm depName=node
+        # renovate datasource=node-version depName=node
         default: 16.19.0
         type: string
     docker:
