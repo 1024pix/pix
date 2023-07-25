@@ -24,7 +24,7 @@ module('Acceptance | Complementary certifications | Complementary certification 
           id: 1,
           key: 'KEY',
           label: 'MARIANNE CERTIF',
-          targetProfilesLog: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
+          targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
         });
         server.create('target-profile', {
           id: 3,
@@ -50,7 +50,7 @@ module('Acceptance | Complementary certifications | Complementary certification 
           id: 1,
           key: 'KEY',
           label: 'MARIANNE CERTIF',
-          targetProfilesLog: [
+          targetProfilesHistory: [
             { name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') },
             { name: 'JEREM TARGET', id: 2, attachedAt: dayjs('2020-10-10T10:50:00Z') },
           ],

@@ -11,7 +11,7 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::I
     const store = this.owner.lookup('service:store');
     this.complementaryCertification = store.createRecord('complementary-certification', {
       label: 'MARIANNE CERTIF',
-      targetProfilesLog: [{ name: 'ALEX TARGET', id: 3 }],
+      targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3 }],
     });
 
     // when

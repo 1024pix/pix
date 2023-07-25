@@ -4,23 +4,23 @@ import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import dayjs from 'dayjs';
 
-module('Integration | Component | ComplementaryCertifications::TargetProfiles::Log', function (hooks) {
+module('Integration | Component | ComplementaryCertifications::TargetProfiles::History', function (hooks) {
   setupRenderingTest(hooks);
 
-  test("it should display logs for complementary certification's target profiles", async function (assert) {
+  test("it should display history for complementary certification's target profiles", async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     const complementaryCertification = store.createRecord('complementary-certification', {
-      targetProfilesLog: [
+      targetProfilesHistory: [
         { id: 1023, name: 'Target Cascade', attachedAt: dayjs('2023-10-10T10:50:00Z') },
         { id: 1025, name: 'Target Volcan', attachedAt: dayjs('2019-10-08T10:50:00Z') },
       ],
     });
-    this.targetProfilesLog = complementaryCertification.targetProfilesLog;
+    this.targetProfilesHistory = complementaryCertification.targetProfilesHistory;
 
     // when
     const screen = await render(
-      hbs`<ComplementaryCertifications::TargetProfiles::Log @targetProfilesLog={{this.targetProfilesLog}} />`,
+      hbs`<ComplementaryCertifications::TargetProfiles::History @targetProfilesHistory={{this.targetProfilesHistory}} />`,
     );
 
     // then

@@ -4,5 +4,5 @@ export default class ComplementaryCertification extends Model {
   @attr() key;
   @attr() label;
   @attr() currentTargetProfileBadges;
-  @attr() targetProfilesLog;
+  @attr() targetProfilesHistory;
 }

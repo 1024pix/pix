@@ -11,7 +11,7 @@ module('Unit | Component | complementary-certifications/target-profiles/informat
 
     component.args = {
       complementaryCertification: {
-        targetProfilesLog: [
+        targetProfilesHistory: [
           { id: 1, name: 'current target' },
           { id: 2, name: 'old target' },
         ],
