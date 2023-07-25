@@ -12,18 +12,18 @@ function assertScorecard(userScorecard, expectedUserScorecard) {
 }
 
 describe('Unit | UseCase | get-user-profile', function () {
-  let competenceRepository;
+  let skillRepository;
   let areaRepository;
   let knowledgeElementRepository;
-  let competenceEvaluationRepository;
+  let competenceRepository;
   const scorecard = { id: 'foo' };
   const locale = 'fr';
 
   beforeEach(function () {
-    competenceRepository = { listPixCompetencesOnly: sinon.stub() };
+    skillRepository = { list: sinon.stub() };
     areaRepository = { list: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
-    competenceEvaluationRepository = { findByUserId: sinon.stub() };
+    competenceRepository = { listPixCompetencesOnly: sinon.stub() };
     sinon.stub(Scorecard, 'buildFrom').returns(scorecard);
   });
 
@@ -45,8 +45,14 @@ describe('Unit | UseCase | get-user-profile', function () {
           domainBuilder.buildCompetence({ id: 2, areaId: 'area' }),
           domainBuilder.buildCompetence({ id: 3, areaId: 'area' }),
         ];
+        const skills = [
+          domainBuilder.buildSkill({ competenceId: competenceList[0].id }),
+          domainBuilder.buildSkill({ competenceId: competenceList[1].id }),
+          domainBuilder.buildSkill({ competenceId: competenceList[2].id }),
+        ];
         const area = domainBuilder.buildArea({ id: 'area' });
         competenceRepository.listPixCompetencesOnly.resolves(competenceList);
+        skillRepository.list.resolves(skills);
         areaRepository.list.resolves([area]);
 
         const assessmentFinishedOfCompetence1 = domainBuilder.buildAssessment({
@@ -57,10 +63,6 @@ describe('Unit | UseCase | get-user-profile', function () {
         const assessmentStartedOfCompetence2 = domainBuilder.buildAssessment({
           type: 'CAMPAIGN',
           state: 'started',
-        });
-        const competenceEvaluationOfCompetence1 = domainBuilder.buildCompetenceEvaluation({
-          competenceId: 1,
-          assessment: assessmentFinishedOfCompetence1,
         });
 
         const knowledgeElementList = [
@@ -111,14 +113,13 @@ describe('Unit | UseCase | get-user-profile', function () {
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves(
           knowledgeElementGroupedByCompetenceId,
         );
-        competenceEvaluationRepository.findByUserId.resolves([competenceEvaluationOfCompetence1]);
 
         Scorecard.buildFrom
           .withArgs({
             userId,
             knowledgeElements: knowledgeElementGroupedByCompetenceId[1],
             competence: competenceList[0],
-            competenceEvaluation: competenceEvaluationOfCompetence1,
+            skills: [skills[0]],
             area,
           })
           .returns(expectedUserScorecard[0]);
@@ -128,7 +129,7 @@ describe('Unit | UseCase | get-user-profile', function () {
             userId,
             knowledgeElements: knowledgeElementGroupedByCompetenceId[2],
             competence: competenceList[1],
-            competenceEvaluation: undefined,
+            skills: [skills[1]],
             area,
           })
           .returns(expectedUserScorecard[1]);
@@ -138,7 +139,7 @@ describe('Unit | UseCase | get-user-profile', function () {
             userId,
             knowledgeElements: undefined,
             competence: competenceList[2],
-            competenceEvaluation: undefined,
+            skills: [skills[2]],
             area,
           })
           .returns(expectedUserScorecard[2]);
@@ -156,7 +157,7 @@ describe('Unit | UseCase | get-user-profile', function () {
           knowledgeElementRepository,
           competenceRepository,
           areaRepository,
-          competenceEvaluationRepository,
+          skillRepository,
           locale,
         });
 

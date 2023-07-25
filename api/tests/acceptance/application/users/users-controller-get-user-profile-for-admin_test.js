@@ -16,6 +16,8 @@ describe('Acceptance | Controller | users-controller-get-user-profile-for-admin'
 
   const skillWeb1Id = 'recAcquisWeb1';
   const skillWeb1Name = '@web1';
+  const skillWeb2Id = 'recAcquisWeb2';
+  const skillWeb2Name = '@web2';
 
   const competenceId = 'recCompetence';
 
@@ -50,7 +52,13 @@ describe('Acceptance | Controller | users-controller-get-user-profile-for-admin'
         id: skillWeb1Id,
         name: skillWeb1Name,
         status: 'actif',
-        competenceId: competenceId,
+        competenceId,
+      },
+      {
+        id: skillWeb2Id,
+        name: skillWeb2Name,
+        status: 'actif',
+        competenceId,
       },
     ],
   };
@@ -103,15 +111,11 @@ describe('Acceptance | Controller | users-controller-get-user-profile-for-admin'
 
         knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
           userId,
-          competenceId: competenceId,
+          competenceId,
+          skillId: skillWeb1Id,
         });
 
-        const assessmentId = databaseBuilder.factory.buildAssessment({ state: 'started' }).id;
-        databaseBuilder.factory.buildCompetenceEvaluation({
-          userId,
-          assessmentId,
-          competenceId: competenceId,
-        });
+        databaseBuilder.factory.buildAssessment({ state: 'started' });
 
         await databaseBuilder.commit();
       });
