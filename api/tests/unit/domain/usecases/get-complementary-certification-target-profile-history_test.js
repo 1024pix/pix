@@ -1,7 +1,7 @@
 import { expect, domainBuilder, sinon } from '../../../test-helper.js';
-import { getTargetProfileFromComplementaryCertification } from '../../../../lib/domain/usecases/get-target-profile-from-complementary-certification.js';
+import { getComplementaryCertificationTargetProfileHistory } from '../../../../lib/domain/usecases/get-complementary-certification-target-profile-history.js';
 
-describe('Unit | UseCase | get-target-profile-from-complementary-certification', function () {
+describe('Unit | UseCase | get-complementary-certification-target-profile-history', function () {
   let complementaryCertificationTargetProfileHistoryRepository;
 
   beforeEach(function () {
@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-target-profile-from-complementary-certification',
     complementaryCertificationTargetProfileHistoryRepository.getById.resolves(complementaryCertification);
 
     // when
-    const result = await getTargetProfileFromComplementaryCertification({
+    const result = await getComplementaryCertificationTargetProfileHistory({
       complementaryCertificationId: 1,
       complementaryCertificationTargetProfileHistoryRepository,
     });

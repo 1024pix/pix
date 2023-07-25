@@ -1,8 +1,8 @@
-const getTargetProfileFromComplementaryCertification = function ({
+const getComplementaryCertificationTargetProfileHistory = function ({
   complementaryCertificationId,
   complementaryCertificationTargetProfileHistoryRepository,
 }) {
   return complementaryCertificationTargetProfileHistoryRepository.getById({ complementaryCertificationId });
 };
 
-export { getTargetProfileFromComplementaryCertification };
+export { getComplementaryCertificationTargetProfileHistory };

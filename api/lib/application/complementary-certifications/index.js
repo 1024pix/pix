@@ -41,7 +41,7 @@ const register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: complementaryCertificationController.getTargetProfileFromComplementaryCertification,
+        handler: complementaryCertificationController.getComplementaryCertificationTargetProfileHistory,
         tags: ['api', 'admin'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin, Support et Métier',
