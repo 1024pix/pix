@@ -1,5 +1,5 @@
 .pix-modal.warning {
-  background-color: #EBEFFF;
+  background-color: var(--pix-color-primary-10);
 }
 
 .pix-modal.warning .pix-modal__content {
@@ -8,6 +8,6 @@
 
 .pix-button--background-blue.warning__button {
   &:hover {
-    background-color: #495AA0;
+    background-color: var(--pix-color-primary-60);
   }
 }

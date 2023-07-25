@@ -1,17 +1,22 @@
 @charset "utf-8";
+
+// Globals
 @import 'globals/fonts';
-@import 'globals/buttons';
 @import 'globals/a11y';
-@import 'components/challenge-actions';
-@import 'components/challenge-illustration';
-@import 'components/challenge-embed-simulator';
+@import 'globals/colors';
+@import 'globals/buttons';
+
+// Components
 @import 'components/answer';
+@import 'components/card';
+@import 'components/challenge-actions';
+@import 'components/challenge-embed-simulator';
+@import 'components/challenge-illustration';
 @import 'components/challenge-instruction';
 @import 'components/challenge-item';
-@import 'app/styles/components/challenge-item-proposals';
+@import 'components/challenge-item-proposals';
 @import 'components/home';
 @import 'components/mission';
-@import 'components/card';
 @import 'components/warning';
 
 body {
