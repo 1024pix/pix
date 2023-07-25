@@ -1,9 +1,8 @@
 import { UserNotAuthorizedToUpdatePasswordError } from '../errors.js';
 import {
-  USER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
   ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
-} from '../constants/update-organization-learners-password-errors.js';
+} from '../constants/reset-organization-learners-password-errors.js';
 import { OrganizationLearnerPasswordResetDTO } from '../models/OrganizationLearnerPasswordResetDTO.js';
 
 const resetOrganizationLearnersPassword = async function ({
@@ -17,18 +16,12 @@ const resetOrganizationLearnersPassword = async function ({
   organizationLearnerRepository,
   userRepository,
 }) {
-  const errorMessage = `User ${userId} does not have permissions to update passwords of students in organization ${organizationId}`;
-  const userWithMemberships = await userRepository.getWithMemberships(userId);
+  const errorMessage = `User ${userId} cannot reset passwords of some students in organization ${organizationId}`;
   const organizationLearners = await organizationLearnerRepository.findByIds({ ids: organizationLearnersId });
 
-  const userBelongsToOrganization = userWithMemberships.hasAccessToOrganization(organizationId);
   const organizationLearnersBelongsToOrganization = organizationLearners.every(
     (organizationLearner) => organizationLearner.organizationId === organizationId,
   );
-
-  if (!userBelongsToOrganization) {
-    throw new UserNotAuthorizedToUpdatePasswordError(errorMessage, USER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE);
-  }
 
   if (!organizationLearnersBelongsToOrganization) {
     throw new UserNotAuthorizedToUpdatePasswordError(

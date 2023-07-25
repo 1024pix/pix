@@ -8,7 +8,7 @@ import {
   UserNotAuthorizedToUpdatePasswordError,
   UserNotAuthorizedToGenerateUsernamePasswordError,
 } from '../../../../lib/domain/errors.js';
-import { ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE } from '../../../../lib/domain/constants/update-organization-learners-password-errors.js';
+import { ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE } from '../../../../lib/domain/constants/reset-organization-learners-password-errors.js';
 
 describe('Integration | Application | sco-organization-learners | sco-organization-learner-controller', function () {
   let sandbox;
