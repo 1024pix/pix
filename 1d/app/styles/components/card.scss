@@ -1,22 +1,23 @@
 .card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 0 0 30px;
   gap: 35px;
-  margin: 20px;
-  overflow: hidden;
+  align-items: center;
   min-width: 210px;
   height: 300px;
+  margin: 20px;
+  padding: 0 0 30px;
+  overflow: hidden;
   background: var(--pix-color-neutral-0);
-  box-shadow: 0 4px 8px rgb(7 20 46 / 8%);
   border-radius: 12px;
+  box-shadow: 0 4px 8px rgb(7 20 46 / 8%);
+
 
   &__body{
-    height: 115px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 115px;
   }
 
   &__comment{
