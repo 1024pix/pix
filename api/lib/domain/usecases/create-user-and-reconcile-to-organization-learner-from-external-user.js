@@ -3,6 +3,11 @@ import { User } from '../models/User.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 
+const existingUserReconciliationErrors = [
+  STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_SAME_ORGANIZATION.samlId.code,
+  STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_OTHER_ORGANIZATION.samlId.code,
+];
+
 const createUserAndReconcileToOrganizationLearnerFromExternalUser = async function ({
   birthdate,
   campaignCode,
@@ -44,10 +49,6 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   let matchedOrganizationLearner;
   let userWithSamlId;
   let userId;
-  const reconciliationErrors = [
-    STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_OTHER_ORGANIZATION.samlId.code,
-    STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_SAME_ORGANIZATION.samlId.code,
-  ];
 
   try {
     matchedOrganizationLearner =
@@ -76,7 +77,7 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
       });
     }
   } catch (error) {
-    if (reconciliationErrors.includes(error.code)) {
+    if (existingUserReconciliationErrors.includes(error.code)) {
       await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({
         externalIdentifier: externalUser.samlId,
         userId: error.meta.userId,
