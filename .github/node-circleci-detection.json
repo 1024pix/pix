@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "regexManagers": [
     {
-      "fileMatch": ["config.yml"],
+      "fileMatch": ["^.circleci/config.yml$"],
       "matchStrings": [
         "# renovate datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s*default: (?<currentValue>.*)\\s"
       ]
