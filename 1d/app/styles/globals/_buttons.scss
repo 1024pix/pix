@@ -1,8 +1,8 @@
 .pix1d-button {
-  background-color: #556bcc;
-  color: white;
-  border: 1px solid #556BCC;
-  box-shadow: 0 3px #495aa0;
+  background-color: var(--pix-color-primary);
+  color: var(--pix-color-neutral-0);
+  border: 1px solid var(--pix-color-primary);
+  box-shadow: 0 3px var(--pix-color-primary-60);
   font-size: 1.25rem;
   padding: 16px 48px;
   border-radius: 30px;
@@ -15,7 +15,7 @@
   }
 
   &:hover {
-    background-color: #495AA0;
+    background-color: var(--pix-color-primary-60);
   }
 
   &--modal {
@@ -23,17 +23,17 @@
   }
 
   &--skip {
-    background-color: white;
-    color: #556bcc;
+    background-color: var(--pix-color-neutral-0);
+    color: var(--pix-color-primary);
 
     &:hover, &:focus {
-      color: white;
+      color: var(--pix-color-neutral-0);
     }
   }
 }
 
 .pix-button--background-blue.pix1d-button {
   &:hover, &:focus {
-    background-color: #495AA0;
+    background-color: var(--pix-color-primary-60);
   }
 }
