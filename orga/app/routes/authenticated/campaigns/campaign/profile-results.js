@@ -22,6 +22,9 @@ export default class ProfilesRoute extends Route {
     search: {
       refreshModel: true,
     },
+    certificability: {
+      refreshModel: true,
+    },
   };
 
   @action
@@ -46,6 +49,7 @@ export default class ProfilesRoute extends Route {
         divisions: params.divisions,
         groups: params.groups,
         search: params.search,
+        certificability: params.certificability,
       },
       page: {
         number: params.pageNumber,
@@ -61,6 +65,7 @@ export default class ProfilesRoute extends Route {
       controller.set('divisions', []);
       controller.set('groups', []);
       controller.set('search', null);
+      controller.set('certificability', null);
     }
   }
 }

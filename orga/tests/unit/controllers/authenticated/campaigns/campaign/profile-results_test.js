@@ -68,7 +68,6 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
 
       routerService.transitionTo = sinon.stub();
 
-
       // when
       controller.send('goToProfilePage', 123, 345, event);
 
