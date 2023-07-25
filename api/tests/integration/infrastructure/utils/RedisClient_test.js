@@ -3,6 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { RedisClient } from '../../../../lib/infrastructure/utils/RedisClient.js';
 import { config } from '../../../../lib/config.js';
 import { expect } from '../../../test-helper.js';
+import bluebird from 'bluebird';
+import Redis from 'ioredis';
+
+const { using } = bluebird;
 
 describe('Integration | Infrastructure | Utils | RedisClient', function () {
   it('stores and retrieve a value for a key', async function () {
@@ -71,5 +75,46 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
 
     await redisClient.del(keyToAdd);
     await redisClient.del(keyToRemove);
+  });
+
+  it('should flush all values', async function () {
+    // given
+    const client = new RedisClient(config.redis.url);
+    await client.set('toto', 'tata');
+
+    // when
+    await client.flushall();
+
+    // then
+    expect(await client.get('toto')).to.equal(null);
+  });
+
+  it('should ping redis', async function () {
+    // given
+    const client = new RedisClient(config.redis.url);
+
+    // when
+    const result = await client.ping();
+
+    // then
+    expect(result).to.equal('PONG');
+  });
+
+  describe('lock disposer', function () {
+    it('should provide a lock disposer that grants a lock', async function () {
+      // given
+      const client = new RedisClient(config.redis.url);
+      const clientWithAllFunctions = new Redis(config.redis.url);
+
+      const locker = client.lockDisposer('locks:toto', 1000);
+
+      // when
+      const result = await using(locker, async () => {
+        return clientWithAllFunctions.exists('locks:toto');
+      });
+
+      // then
+      expect(result).to.equal(1);
+    });
   });
 });
