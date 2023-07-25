@@ -590,7 +590,7 @@ async function _registerCandidatesToSession({
         userId = databaseBuilder.factory.buildUser.withRawPassword({
           firstName: `firstname${i}-${sessionId}`,
           lastName: `lastname${i}-${sessionId}`,
-          email: `firstname${i}-${sessionId}-lastname${i}-${sessionId}@example.net`,
+          email: _generateEmail({ sessionId, index: i }),
         }).id;
       }
 
@@ -608,7 +608,7 @@ async function _registerCandidatesToSession({
         birthINSEECode: '75115',
         birthCity: 'PARIS 15',
         birthCountry: 'France',
-        email: `firstname${i}-${sessionId}-lastname${i}-${sessionId}@example.net`,
+        email: _generateEmail({ sessionId, index: i }),
         birthdate: '2000-01-04',
         sessionId,
         createdAt: new Date(),
@@ -674,7 +674,7 @@ async function _registerSomeCandidatesToSession({ databaseBuilder, sessionId, co
       const userId = databaseBuilder.factory.buildUser.withRawPassword({
         firstName: `firstname${i}-${sessionId}`,
         lastName: `lastname${i}-${sessionId}`,
-        email: `firstname${i}-${sessionId}@example.net`,
+        email: _generateEmail({ sessionId, index: i }),
       }).id;
 
       const { billingMode: randomBillingMode, prepaymentCode: randomPrepaymentCode } =
@@ -691,7 +691,7 @@ async function _registerSomeCandidatesToSession({ databaseBuilder, sessionId, co
         birthINSEECode: '75115',
         birthCity: 'PARIS 15',
         birthCountry: 'France',
-        email: `firstname${i}-${sessionId}-lastname${i}-${sessionId}@example.net`,
+        email: _generateEmail({ sessionId, index: i }),
         birthdate: '2000-01-04',
         sessionId,
         createdAt: new Date(),
@@ -791,6 +791,10 @@ function _buildSession({
     supervisorPassword,
     version,
   });
+}
+
+function _generateEmail({ sessionId, index }) {
+  return `user-${index}-${sessionId}@example.net`;
 }
 
 async function _makeCandidatesCertifiable({ databaseBuilder, certificationCandidates, maxLevel = 7 }) {
