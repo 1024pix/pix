@@ -9,11 +9,6 @@
       "commitMessageSuffix": "{{#if parentDir}}({{parentDir}}){{else}}(dossier racine){{/if}}"
     },
     {
-      "matchPackagePatterns": ["^npm$"],
-      "groupName": "npm",
-      "rangeStrategy": "bump"
-    },
-    {
       "matchPackagePatterns": ["^node$"],
       "groupName": "node",
       "rangeStrategy": "bump",
