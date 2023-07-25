@@ -86,7 +86,9 @@
     "showdown": "^2.1.0",
     "sinon": "^15.0.4",
     "stylelint": "^15.0.0",
+    "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard-scss": "^10.0.0",
+    "stylelint-order": "^6.0.3",
     "tracked-built-ins": "^3.1.1",
     "webpack": "^5.79.0",
     "xss": "^1.0.14"
