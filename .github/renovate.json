@@ -1,6 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>1024pix/renovate-config:default"],
+  "extends": [
+    "config:base",
+    ":maintainLockFilesMonthly",
+    ":preserveSemverRanges",
+    ":semanticCommits",
+    ":separateMultipleMajorReleases",
+    "local>1024pix/pix-renovate-test//.github/node-circleci-detection",
+    "local>1024pix/pix-renovate-test//.github/extend-renovate"
+  ],
   "enabled": true,
-  "includeForks": true
+  "includeForks": true,
+  "prConcurrentLimit": 5,
+  "labels": ["dependencies"],
+  "minimumReleaseAge": "7 days",
+  "commitMessagePrefix": "[BUMP]",
+  "rebaseWhen": "never",
+  "schedule": "every 1 hour every weekday"
 }

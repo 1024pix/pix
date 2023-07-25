@@ -28,7 +28,8 @@ executors:
   node-docker:
     parameters:
       node-version:
-        default: 16.20.1
+        # renovate datasource=npm depName=node
+        default: 16.19.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -36,7 +37,8 @@ executors:
   node-redis-postgres-docker:
     parameters:
       node-version:
-        default: 16.20.1
+        # renovate datasource=npm depName=node
+        default: 16.19.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -49,7 +51,8 @@ executors:
   node-browsers-docker:
     parameters:
       node-version:
-        default: 16.20.1
+        # renovate datasource=npm depName=node
+        default: 16.18.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
@@ -59,7 +62,8 @@ executors:
   node-browsers-redis-postgres-docker:
     parameters:
       node-version:
-        default: 16.20.1
+        # renovate datasource=npm depName=node
+        default: 16.19.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers

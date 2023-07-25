@@ -1,0 +1,57 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "excludePackagePatterns": [
+        "^(node|npm|cimg/node|eslint|nginx|redis|postgres)$"
+      ],
+      "additionalBranchPrefix": "{{#if parentDir}}{{parentDir}}{{else}}dossier-racine{{/if}}-",
+      "commitMessageSuffix": "{{#if parentDir}}({{parentDir}}){{else}}(dossier racine){{/if}}"
+    },
+    {
+      "matchPackagePatterns": ["^npm$"],
+      "groupName": "npm",
+      "rangeStrategy": "bump"
+    },
+    {
+      "matchPackagePatterns": ["^(node|cimg/node)$"],
+      "groupName": "node",
+      "rangeStrategy": "bump",
+      "versioning": "node"
+    },
+    {
+      "matchPackagePatterns": ["^eslint$"],
+      "groupName": "eslint"
+    },
+    {
+      "matchPackagePatterns": ["^nginx$"],
+      "matchManagers": [
+        "circleci",
+        "docker-compose",
+        "dockerfile",
+        "github-actions"
+      ],
+      "groupName": "nginx"
+    },
+    {
+      "matchPackagePatterns": ["^redis$"],
+      "matchManagers": [
+        "circleci",
+        "docker-compose",
+        "dockerfile",
+        "github-actions"
+      ],
+      "groupName": "redis"
+    },
+    {
+      "matchPackagePatterns": ["^postgres$"],
+      "matchManagers": [
+        "circleci",
+        "docker-compose",
+        "dockerfile",
+        "github-actions"
+      ],
+      "groupName": "postgres"
+    }
+  ]
+}
