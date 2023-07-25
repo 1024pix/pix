@@ -9,23 +9,22 @@ async function computeScorecard({
   competenceId,
   competenceRepository,
   areaRepository,
-  competenceEvaluationRepository,
+  skillRepository,
   knowledgeElementRepository,
   allowExcessPix = false,
   allowExcessLevel = false,
   locale,
 }) {
-  const [knowledgeElements, competence, competenceEvaluations] = await Promise.all([
+  const [knowledgeElements, competence, skills] = await Promise.all([
     knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId }),
     competenceRepository.get({ id: competenceId, locale }),
-    competenceEvaluationRepository.findByUserId(userId),
+    skillRepository.findOperativeByCompetenceId(competenceId),
   ]);
-  const competenceEvaluation = _.find(competenceEvaluations, { competenceId: competence.id });
   const area = await areaRepository.get({ id: competence.areaId, locale });
   return Scorecard.buildFrom({
     userId,
     knowledgeElements,
-    competenceEvaluation,
+    skills,
     competence,
     area,
     allowExcessPix,

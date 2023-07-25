@@ -1,12 +1,10 @@
 import _ from 'lodash';
-import { Assessment } from './Assessment.js';
-import { CompetenceEvaluation } from './CompetenceEvaluation.js';
 import { KnowledgeElement } from './KnowledgeElement.js';
 import {
-  MINIMUM_DELAY_IN_DAYS_FOR_RESET,
-  MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
-  PIX_COUNT_BY_LEVEL,
   MAX_REACHABLE_LEVEL,
+  MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
+  MINIMUM_DELAY_IN_DAYS_FOR_RESET,
+  PIX_COUNT_BY_LEVEL,
 } from '../constants.js';
 import * as scoringService from '../services/scoring/scoring-service.js';
 
@@ -61,7 +59,7 @@ class Scorecard {
     knowledgeElements,
     competence,
     area,
-    competenceEvaluation,
+    skills,
     allowExcessPix = false,
     allowExcessLevel = false,
   }) {
@@ -84,7 +82,7 @@ class Scorecard {
       exactlyEarnedPix: realTotalPixScoreForCompetence,
       level: currentLevel,
       pixScoreAheadOfNextLevel: pixAheadForNextLevel,
-      status: _getScorecardStatus(competenceEvaluation, knowledgeElements),
+      status: _getScorecardStatus(knowledgeElements, skills),
       remainingDaysBeforeReset,
       remainingDaysBeforeImproving,
     });
@@ -161,15 +159,14 @@ class Scorecard {
   }
 }
 
-function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
-  if (!competenceEvaluation || competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
-    return _.isEmpty(knowledgeElements) ? statuses.NOT_STARTED : statuses.STARTED;
+function _getScorecardStatus(knowledgeElements, skills) {
+  if (_.isEmpty(knowledgeElements)) {
+    return statuses.NOT_STARTED;
   }
-  const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
-  if (stateOfAssessment === Assessment.states.COMPLETED) {
-    return statuses.COMPLETED;
-  }
-  return statuses.STARTED;
+  const skillIds = skills.map((skill) => skill.id);
+  const knowledgeElementSkillIds = knowledgeElements.map((ke) => ke.skillId);
+  const remainingSkillIds = _.differenceBy(skillIds, knowledgeElementSkillIds);
+  return _.isEmpty(remainingSkillIds) ? statuses.COMPLETED : statuses.STARTED;
 }
 
 Scorecard.statuses = statuses;

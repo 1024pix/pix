@@ -12,7 +12,7 @@ describe('Unit | Service | ScorecardService', function () {
     let competenceRepository;
     let areaRepository;
     let knowledgeElementRepository;
-    let competenceEvaluationRepository;
+    let skillRepository;
     let buildFromStub;
     let competenceId;
     let authenticatedUserId;
@@ -23,7 +23,7 @@ describe('Unit | Service | ScorecardService', function () {
       competenceRepository = { get: sinon.stub() };
       areaRepository = { get: sinon.stub() };
       knowledgeElementRepository = { findUniqByUserIdAndCompetenceId: sinon.stub() };
-      competenceEvaluationRepository = { findByUserId: sinon.stub() };
+      skillRepository = { findOperativeByCompetenceId: sinon.stub() };
       buildFromStub = sinon.stub(Scorecard, 'buildFrom');
     });
 
@@ -33,11 +33,12 @@ describe('Unit | Service | ScorecardService', function () {
         const earnedPixForCompetenceId1 = 8;
         const levelForCompetenceId1 = 1;
         const pixScoreAheadOfNextLevelForCompetenceId1 = 0;
+        const locale = Symbol('Locale');
 
         const competence = domainBuilder.buildCompetence({ id: 1, areaId: 'area' });
         const area = domainBuilder.buildArea({ id: 'area' });
 
-        competenceRepository.get.resolves(competence);
+        competenceRepository.get.withArgs({ id: competence.id, locale }).resolves(competence);
         areaRepository.get.resolves(area);
 
         const knowledgeElementList = [
@@ -45,16 +46,12 @@ describe('Unit | Service | ScorecardService', function () {
           domainBuilder.buildKnowledgeElement({ competenceId: 1 }),
         ];
 
-        knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves(knowledgeElementList);
+        knowledgeElementRepository.findUniqByUserIdAndCompetenceId
+          .withArgs({ userId: authenticatedUserId, competenceId: competence.id })
+          .resolves(knowledgeElementList);
 
-        const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
-        const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
-          competenceId: 1,
-          assessmentId: assessment.id,
-          assessment,
-        });
-
-        competenceEvaluationRepository.findByUserId.resolves([competenceEvaluation]);
+        const skill = domainBuilder.buildSkill();
+        skillRepository.findOperativeByCompetenceId.withArgs(competence.id).resolves([skill]);
 
         const expectedUserScorecard = domainBuilder.buildUserScorecard({
           name: competence.name,
@@ -69,7 +66,7 @@ describe('Unit | Service | ScorecardService', function () {
             knowledgeElements: knowledgeElementList,
             competence,
             area,
-            competenceEvaluation,
+            skills: [skill],
             allowExcessLevel: false,
             allowExcessPix: false,
           })
@@ -81,8 +78,9 @@ describe('Unit | Service | ScorecardService', function () {
           competenceId,
           areaRepository,
           competenceRepository,
-          competenceEvaluationRepository,
+          skillRepository,
           knowledgeElementRepository,
+          locale,
         });
 
         //then
