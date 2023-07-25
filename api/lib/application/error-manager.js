@@ -352,7 +352,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message, error.code);
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdatePasswordError) {
-    return new HttpErrors.ForbiddenError(error.message);
+    return new HttpErrors.ForbiddenError(error.message, error.code);
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdateEmailError) {
     return new HttpErrors.ForbiddenError(error.message);
