@@ -12,7 +12,7 @@ describe('Unit | UseCase | get-target-profile-from-complementary-certification',
 
   it('should get the complementary certification', async function () {
     // given
-    const complementaryCertification = domainBuilder.buildComplementaryCertificationForAdmin();
+    const complementaryCertification = domainBuilder.buildComplementaryCertificationTargetProfileHistory();
     complementaryCertificationRepository.getTargetProfileById.resolves(complementaryCertification);
 
     // when

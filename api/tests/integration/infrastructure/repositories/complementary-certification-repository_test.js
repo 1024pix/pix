@@ -1,6 +1,6 @@
 import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 import * as complementaryCertificationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
-import { ComplementaryCertificationForAdmin } from '../../../../lib/domain/models/ComplementaryCertificationForAdmin.js';
+import { ComplementaryCertificationTargetProfileHistory } from '../../../../lib/domain/models/ComplementaryCertificationTargetProfileHistory.js';
 
 describe('Integration | Repository | complementary-certification-repository', function () {
   describe('#findAll', function () {
@@ -153,11 +153,11 @@ describe('Integration | Repository | complementary-certification-repository', fu
 
       // then
       expect(result).to.deepEqualInstance(
-        new ComplementaryCertificationForAdmin({
+        new ComplementaryCertificationTargetProfileHistory({
           id: 3,
           key: 'EDU_2ND_DEGRE',
           label: 'Pix+ Édu 2nd degré',
-          targetProfilesLog: [
+          targetProfilesHistory: [
             { id: 999, name: 'currentTarget', attachedAt: new Date('2023-10-10') },
             { id: 222, name: 'oldTarget', attachedAt: new Date('2020-10-10') },
           ],

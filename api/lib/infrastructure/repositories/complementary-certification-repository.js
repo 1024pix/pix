@@ -1,5 +1,5 @@
 import { ComplementaryCertification } from '../../domain/models/index.js';
-import { ComplementaryCertificationForAdmin } from '../../domain/models/ComplementaryCertificationForAdmin.js';
+import { ComplementaryCertificationTargetProfileHistory } from '../../domain/models/ComplementaryCertificationTargetProfileHistory.js';
 import { knex } from '../../../db/knex-database-connection.js';
 
 function _toDomain(row) {
@@ -47,9 +47,9 @@ const getTargetProfileById = async function ({ complementaryCertificationId }) {
     .where({ id: complementaryCertificationId })
     .first();
 
-  return new ComplementaryCertificationForAdmin({
+  return new ComplementaryCertificationTargetProfileHistory({
     ...complementaryCertification,
-    targetProfilesLog: targetProfiles,
+    targetProfilesHistory: targetProfiles,
     currentTargetProfileBadges,
   });
 };
