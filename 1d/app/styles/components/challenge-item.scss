@@ -1,67 +1,67 @@
 .modal-footer {
   display: flex;
-  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 16px;
+  justify-content: flex-end;
   margin-bottom: 16px
 }
 
 .challenge-item {
   &__body {
-    background-color: #505F79;
-    padding: 32px 121px 10px 121px;
     height: calc(100vh - 93px);
+    padding: 32px 121px 10px 121px;
     overflow-y: auto;
+    background-color: #505F79;
   }
 
   &__footer {
-    background-color: var(--pix-color-neutral-0);
-    padding: 16px 0 19px;
     position: fixed;
-    bottom: 0;
     right: 0;
+    bottom: 0;
     left: 0;
+    padding: 16px 0 19px;
+    background-color: var(--pix-color-neutral-0);
     border-top: 1px solid #EBEBEB;
     box-shadow: 0px -3px 12px 3px rgb(0 25 54 / 2%);
   }
 
   &__container {
-    border-radius: 50px 50px 24px 24px;
-    overflow: hidden;
-    background-color: var(--pix-color-neutral-0);
-    min-height: 100%;
     display: flex;
     flex-direction: column;
     max-width: 1600px;
+    min-height: 100%;
     margin: 0 auto;
+    overflow: hidden;
+    background-color: var(--pix-color-neutral-0);
+    border-radius: 50px 50px 24px 24px;
   }
 
   &__playground {
-    background-color: var(--pix-color-neutral-0);
     display: flex;
-    justify-content: space-evenly;
     flex-flow: row wrap;
-    padding: 50px;
     flex-grow: 1;
     align-content: center;
+    justify-content: space-evenly;
+    padding: 50px;
+    background-color: var(--pix-color-neutral-0);
   }
 
   &__image, &__qroc, &__qrocm {
-    width : 49%;
     display: flex;
+    width : 49%;
   }
 
   &__qroc, &__qrocm {
-    padding: 20px 20px;
     align-items: center;
+    padding: 20px 20px;
   }
 
   &__qcm, &__qcu {
-    width : 100%;
-    padding-left: 50px;
-    padding-right: 50px;
     display: flex;
     justify-content: center;
+    width : 100%;
+    padding-right: 50px;
+    padding-left: 50px;
   }
 
   &__autoreply {

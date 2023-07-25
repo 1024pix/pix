@@ -1,9 +1,9 @@
 .container {
   display: flex;
-  align-items: center;
   flex-direction: column;
-  background-color: var(--pix-color-secondary);
+  align-items: center;
   height: 100vh;
+  background-color: var(--pix-color-secondary);
 }
 
 .cards {
