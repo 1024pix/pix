@@ -631,6 +631,13 @@
       "no-students-imported-yet": "In this tab, you will find the certification results and certificates of the students. You will first need to import the students database of your school.",
       "select-label": "Class"
     },
+    "join-request-form": {
+      "legal-information": {
+        "link-text": "En savoir plus sur mes droits.",
+        "link-url": "https://pix.fr/dp-formulaire-recuperation-pixorga-sco",
+        "text": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par le GIP Pix pour le compte du ministère de l’Éducation nationale en tant que responsable de traitement, pour permettre à votre établissement scolaire d’accéder à son espace Pix Orga en lui envoyant une invitation à rejoindre cet espace."
+      }
+    },
     "login": {
       "title": "Log in",
       "choose-language-aria-label": "Select a language"
