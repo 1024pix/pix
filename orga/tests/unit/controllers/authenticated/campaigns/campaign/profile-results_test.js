@@ -59,13 +59,15 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
 
   module('#goToProfilePage', function () {
     test('it should call transitionToRoute with appropriate arguments', function (assert) {
+      const routerService = this.owner.lookup('service:router');
       // given
       const event = {
         stopPropagation: sinon.stub(),
         preventDefault: sinon.stub(),
       };
 
-      controller.transitionToRoute = sinon.stub();
+      routerService.transitionTo = sinon.stub();
+
 
       // when
       controller.send('goToProfilePage', 123, 345, event);
@@ -73,7 +75,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
       // then
       assert.true(event.stopPropagation.called);
       assert.true(event.preventDefault.called);
-      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-profile', 123, 345));
+      assert.true(controller.router.transitionTo.calledWith('authenticated.campaigns.participant-profile', 123, 345));
     });
   });
 });
