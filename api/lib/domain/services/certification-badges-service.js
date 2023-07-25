@@ -7,16 +7,19 @@ import * as badgeForCalculationRepository from '../../infrastructure/repositorie
 const findStillValidBadgeAcquisitions = async function ({
   userId,
   domainTransaction,
+  limitDate = new Date(),
   dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
 }) {
   const highestCertifiableBadgeAcquisitions =
     await dependencies.certifiableBadgeAcquisitionRepository.findHighestCertifiable({
       userId,
       domainTransaction,
+      limitDate,
     });
 
   const knowledgeElements = await dependencies.knowledgeElementRepository.findUniqByUserId({
     userId,
+    limitDate,
     domainTransaction,
   });
 

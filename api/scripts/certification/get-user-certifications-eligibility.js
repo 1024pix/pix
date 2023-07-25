@@ -34,7 +34,7 @@ async function getUserCertificationsEligibility({ userId, limitDate }) {
     });
 
   const complementaires = eligibleComplementaryCertifications.map(({ label }) => label).join(', ') || '❌';
-  console.log(`Eligibilité user ${userId}`);
+  console.log(`Eligibilité utilisateur ${userId} à ${limitDate.toISOString()}`);
   console.log(`PIX: ${pixCertificationEligible ? '✅' : '❌'}`);
   console.log(`COMPLEMENTAIRES: ${complementaires}`);
 }
