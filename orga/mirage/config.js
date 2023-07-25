@@ -393,6 +393,15 @@ export default function () {
     });
   });
 
+  this.post('/sco-organization-learners/password-reset', () => {
+    const headers = {
+      'Content-Type': 'text/csv;charset=utf-8',
+      'Content-Disposition': 'attachment; filename=content.csv',
+    };
+    const csvContent = 'Identifiant;Mot de passe;Classe\nuser1;password1;1A\n';
+    return new Response(200, headers, csvContent);
+  });
+
   this.post('/sco-organization-learners/username-password-generation', (schema) => {
     return schema.dependentUsers.create({
       username: 'user.gar3112',

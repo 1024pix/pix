@@ -14,137 +14,58 @@
 <div class="panel">
   <table class="table content-text content-text--small">
     <caption class="screen-reader-only">{{t "pages.sco-organization-participants.table.description"}}</caption>
-    <thead>
-      <tr>
-        <Table::HeaderSort
-          @display="left"
-          @size="medium"
-          @onSort={{@sortByLastname}}
-          @order={{@lastnameSort}}
-          @ariaLabelDefaultSort={{t "pages.organization-participants.table.column.last-name.ariaLabelDefaultSort"}}
-          @ariaLabelSortUp={{t "pages.organization-participants.table.column.last-name.ariaLabelSortUp"}}
-          @ariaLabelSortDown={{t "pages.organization-participants.table.column.last-name.ariaLabelSortDown"}}
-        >
-          {{t "pages.organization-participants.table.column.last-name.label"}}
-        </Table::HeaderSort>
-        <Table::Header @size="wide">{{t "pages.sco-organization-participants.table.column.first-name"}}</Table::Header>
-        <Table::Header @size="medium">
-          {{t "pages.sco-organization-participants.table.column.date-of-birth"}}
-        </Table::Header>
-        <Table::HeaderSort
-          @display="left"
-          @size="medium"
-          @onSort={{@sortByDivision}}
-          @order={{@divisionSort}}
-          @ariaLabelDefaultSort={{t "pages.sco-organization-participants.table.column.division.ariaLabelDefaultSort"}}
-          @ariaLabelSortUp={{t "pages.sco-organization-participants.table.column.division.ariaLabelSortUp"}}
-          @ariaLabelSortDown={{t "pages.sco-organization-participants.table.column.division.ariaLabelSortDown"}}
-        >
-          {{t "pages.sco-organization-participants.table.column.division.label"}}
-        </Table::HeaderSort>
-        <Table::Header @size="medium">
-          {{t "pages.sco-organization-participants.table.column.login-method"}}
-        </Table::Header>
-        <Table::HeaderSort
-          @size="medium"
-          @align="center"
-          @onSort={{@sortByParticipationCount}}
-          @order={{@participationCountOrder}}
-          @ariaLabelDefaultSort={{t
-            "pages.sco-organization-participants.table.column.participation-count.ariaLabelDefaultSort"
-          }}
-          @ariaLabelSortUp={{t "pages.sco-organization-participants.table.column.participation-count.ariaLabelSortUp"}}
-          @ariaLabelSortDown={{t
-            "pages.sco-organization-participants.table.column.participation-count.ariaLabelSortDown"
-          }}
-        >
-          {{t "pages.sco-organization-participants.table.column.participation-count.label"}}
-        </Table::HeaderSort>
-        <Table::Header @size="medium" @align="center">
-          {{t "pages.sco-organization-participants.table.column.last-participation-date"}}
-        </Table::Header>
-        <Table::Header @size="medium" @align="center">
-          <div class="sco-organization-participant-list-page__certificability-header">
-            {{t "pages.sco-organization-participants.table.column.is-certifiable.label"}}
-            <Ui::CertificabilityTooltip
-              @aria-label={{t "pages.sco-organization-participants.table.column.is-certifiable.tooltip.aria-label"}}
-              @content={{t "pages.sco-organization-participants.table.column.is-certifiable.tooltip.content"}}
+    <thead id={{this.headerId}} />
+
+    <tbody>
+      <SelectableList @items={{@students}}>
+        <:manager as |allSelected someSelected toggleAll selectedStudents reset|>
+          <InElement @destinationId={{this.headerId}}>
+            <ScoOrganizationParticipant::TableHeaders
+              @showCheckbox={{this.showCheckbox}}
+              @lastnameSort={{@lastnameSort}}
+              @onSortByLastname={{@sortByLastname}}
+              @participationCountOrder={{@participationCountOrder}}
+              @onSortByParticipationCount={{@sortByParticipationCount}}
+              @divisionSort={{@divisionSort}}
+              @onSortByDivision={{@sortByDivision}}
+              @allSelected={{allSelected}}
+              @someSelected={{someSelected}}
+              @onToggleAll={{toggleAll}}
+              @hasStudents={{this.hasStudents}}
             />
-          </div>
-        </Table::Header>
-        <Table::Header class="hide-on-mobile organization-participant-list-page__actions-header">
-          {{t "common.actions.global"}}
-        </Table::Header>
-      </tr>
-    </thead>
-
-    {{#if @students}}
-      <tbody>
-        {{#each @students as |student index|}}
-          <tr
-            aria-label={{t "pages.sco-organization-participants.table.row-title"}}
-            {{on "click" (fn @onClickLearner student.id)}}
-            class="tr--clickable"
-          >
-            <td class="ellipsis">
-              <LinkTo
-                @route="authenticated.sco-organization-participants.sco-organization-participant"
-                @model={{student.id}}
-              >
-                {{student.lastName}}
-              </LinkTo>
-            </td>
-            <td class="ellipsis" title={{student.firstName}}>{{student.firstName}}</td>
-            <td>{{dayjs-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
-            <td class="ellipsis">{{student.division}}</td>
-            <td class="sco-organization-participant-list-page__authentication-methods">
-              {{#each student.authenticationMethods as |authenticationMethod|}}
-                <p>{{t (get this.connectionTypes authenticationMethod)}}</p>
-              {{/each}}
-            </td>
-            <td class="table__column--center">{{student.participationCount}}</td>
-            <td>
-              {{#if student.lastParticipationDate}}
-                <div class="organization-participant-list-page__last-participation">
-                  <span>{{dayjs-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</span>
-                  <Ui::LastParticipationDateTooltip
-                    @id={{index}}
-                    @campaignName={{student.campaignName}}
-                    @campaignType={{student.campaignType}}
-                    @participationStatus={{student.participationStatus}}
-                  />
-                </div>
-              {{/if}}
-            </td>
-            <td class="table__column--center">
-              <Ui::IsCertifiable @isCertifiable={{student.isCertifiable}} />
-              {{#if student.certifiableAt}}
-                <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
-                    student.certifiableAt
-                    "DD/MM/YYYY"
-                    allow-empty=true
-                  }}</span>
-              {{/if}}
-            </td>
-            <td class="organization-participant-list-page__actions hide-on-mobile">
-              {{#if student.isAssociated}}
-                <Dropdown::IconTrigger
-                  @icon="ellipsis-vertical"
-                  @dropdownButtonClass="organization-participant-list-page__dropdown-button"
-                  @dropdownContentClass="organization-participant-list-page__dropdown-content"
-                  @ariaLabel={{t "pages.sco-organization-participants.actions.show-actions"}}
-                >
-                  <Dropdown::Item @onClick={{fn this.openAuthenticationMethodModal student}}>
-                    {{t "pages.sco-organization-participants.actions.manage-account"}}
-                  </Dropdown::Item>
-                </Dropdown::IconTrigger>
-              {{/if}}
-            </td>
-          </tr>
-        {{/each}}
-
-      </tbody>
-    {{/if}}
+          </InElement>
+          <InElement @destinationId={{this.paginationControlId}} @waitForElement={{true}}>
+            <Table::PaginationControl @pagination={{@students.meta}} @onChange={{reset}} />
+          </InElement>
+          {{#if someSelected}}
+            <InElement @destinationId={{this.actionBarId}}>
+              <ScoOrganizationParticipant::ActionBar
+                @count={{selectedStudents.length}}
+                @openResetPasswordModal={{(fn this.openResetPasswordModal selectedStudents)}}
+              />
+              <ScoOrganizationParticipant::ResetPasswordModal
+                @showModal={{this.showResetPasswordModal}}
+                @totalSelectedStudents={{selectedStudents.length}}
+                @totalAffectedStudents={{this.affectedStudents.length}}
+                @onTriggerAction={{(fn this.resetPasswordForStudents this.affectedStudents reset)}}
+                @onCloseModal={{this.closeResetPasswordModal}}
+              />
+            </InElement>
+          {{/if}}
+        </:manager>
+        <:item as |student toggleStudent isStudentSelected index|>
+          <ScoOrganizationParticipant::TableRow
+            @showCheckbox={{this.showCheckbox}}
+            @index={{index}}
+            @student={{student}}
+            @isStudentSelected={{isStudentSelected}}
+            @openAuthenticationMethodModal={{this.openAuthenticationMethodModal}}
+            @onToggleStudent={{(fn this.addStopPropagationOnFunction toggleStudent)}}
+            @onClickLearner={{(fn @onClickLearner student.id)}}
+          />
+        </:item>
+      </SelectableList>
+    </tbody>
   </table>
   {{#if (eq @students.meta.participantCount 0)}}
     <Ui::EmptyState
@@ -157,6 +78,8 @@
     </div>
   {{/if}}
 </div>
+<div id={{this.actionBarId}} />
+<div id={{this.paginationControlId}} />
 
 <ScoOrganizationParticipant::ManageAuthenticationMethodModal
   @organizationId={{this.currentUser.organization.id}}
@@ -164,5 +87,3 @@
   @display={{this.isShowingAuthenticationMethodModal}}
   @onClose={{this.closeAuthenticationMethodModal}}
 />
-
-<Table::PaginationControl @pagination={{@students.meta}} />

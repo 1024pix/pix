@@ -109,6 +109,7 @@
     "qunit-dom": "^2.0.0",
     "sass": "^1.57.1",
     "sinon": "^15.0.1",
+    "striptags": "^3.2.0",
     "stylelint": "^15.0.0",
     "stylelint-config-standard-scss": "^10.0.0",
     "webpack": "^5.76.3"

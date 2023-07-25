@@ -1,7 +1,9 @@
+import dayjs from 'dayjs';
 import { usecases } from '../../domain/usecases/index.js';
 import * as scoOrganizationLearnerSerializer from '../../infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
-import * as requestReponseUtils from '../../infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import * as studentInformationForAccountRecoverySerializer from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const reconcileScoOrganizationLearnerManually = async function (
   request,
@@ -80,7 +82,7 @@ const createAndReconcileUserToOrganizationLearner = async function (
   h,
   dependencies = {
     scoOrganizationLearnerSerializer,
-    requestReponseUtils,
+    requestResponseUtils,
   },
 ) {
   const payload = request.payload.data.attributes;
@@ -92,7 +94,7 @@ const createAndReconcileUserToOrganizationLearner = async function (
     username: payload.username,
     withUsername: payload['with-username'],
   };
-  const locale = dependencies.requestReponseUtils.extractLocaleFromRequest(request);
+  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
   await usecases.createAndReconcileUserToOrganizationLearner({
     userAttributes,
@@ -180,6 +182,33 @@ const checkScoAccountRecovery = async function (
   );
 };
 
+const updateOrganizationLearnersPassword = async function (request, h) {
+  const payload = request.payload.data.attributes;
+  const userId = request.auth.credentials.userId;
+  const organizationId = payload['organization-id'];
+  const organizationLearnersId = payload['organization-learners-id'];
+
+  const generatedCsvContent = await DomainTransaction.execute(async (domainTransaction) => {
+    const organizationLearnersPasswordResets = await usecases.resetOrganizationLearnersPassword({
+      userId,
+      organizationId,
+      organizationLearnersId,
+      domainTransaction,
+    });
+    return usecases.generateResetOrganizationLearnersPasswordCsvContent({
+      organizationLearnersPasswordResets,
+    });
+  });
+
+  const dateWithTime = dayjs().locale('fr').format('YYYYMMDD_HHmm');
+  const generatedCsvContentFileName = `${dateWithTime}_organization_learners_password_reset.csv`;
+
+  return h
+    .response(generatedCsvContent)
+    .header('Content-Type', 'text/csv;charset=utf-8')
+    .header('Content-Disposition', `attachment; filename=${generatedCsvContentFileName}`);
+};
+
 const scoOrganizationLearnerController = {
   reconcileScoOrganizationLearnerManually,
   reconcileScoOrganizationLearnerAutomatically,
@@ -189,6 +218,7 @@ const scoOrganizationLearnerController = {
   updatePassword,
   generateUsernameWithTemporaryPassword,
   checkScoAccountRecovery,
+  updateOrganizationLearnersPassword,
 };
 
 export { scoOrganizationLearnerController };

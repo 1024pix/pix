@@ -2,16 +2,16 @@ import { module, test } from 'qunit';
 import { find, currentURL, triggerEvent, click } from '@ember/test-helpers';
 import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+
 import setupIntl from '../helpers/setup-intl';
 import authenticateSession from '../helpers/authenticate-session';
-
+import { waitForDialog } from '../helpers/wait-for';
 import {
   createUserWithMembershipAndTermsOfServiceAccepted,
   createUserManagingStudents,
   createPrescriberByUser,
 } from '../helpers/test-init';
-
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Sco Organization Participant List', function (hooks) {
   setupApplicationTest(hooks);
@@ -322,6 +322,48 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             // then
             assert.dom('#generate-password').doesNotExist();
             assert.dom('#generated-password').exists();
+          });
+        });
+
+        module('when there are multiple students authenticated by username and email', function (hooks) {
+          hooks.beforeEach(function () {
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Paul',
+              lastName: 'Dupont',
+              username: 'paul.dupont',
+              email: 'paul.dupont@example.net',
+            });
+
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Jacques',
+              lastName: 'Dupont',
+              username: 'jacques.dupont',
+              email: 'jacques.dupont@example.net',
+            });
+          });
+
+          module('when resetting students password', function () {
+            test('resets students password and displays a success notification', async function (assert) {
+              // given
+              const screen = await visit('/eleves');
+              await clickByName(this.intl.t('pages.sco-organization-participants.table.column.mainCheckbox'));
+              await clickByName(this.intl.t('pages.sco-organization-participants.action-bar.reset-password-button'));
+              await waitForDialog();
+
+              // when
+              await clickByName(this.intl.t('common.actions.confirm'));
+
+              // then
+              const resetPasswordsModal = await screen.queryByRole('dialog');
+              assert.dom(resetPasswordsModal).isNotVisible();
+
+              const successNotification = await screen.getByText(
+                this.intl.t('pages.sco-organization-participants.messages.password-reset-success'),
+              );
+              assert.dom(successNotification).exists();
+            });
           });
         });
       });

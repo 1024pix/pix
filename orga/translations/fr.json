@@ -34,6 +34,11 @@
       "student-number-format": "Ligne {line} : Le champ “{field}” ne doit pas avoir de caractères spéciaux.",
       "student-number-unique": "Ligne {line} : Le champ “{field}” doit être unique au sein du fichier."
     },
+    "student-password-reset": {
+      "organization-learner-does-not-belong-to-organization-error": "Certains des élèves sélectionnés ne figurent plus dans cette organisation.",
+      "organization-learner-without-username-error": "Certains des élèves sélectionnés n'ont plus d'identifiant. Veuillez rafraichir la page.",
+      "user-does-not-belong-to-organization-error": "Vous n'avez plus les droits pour cette organisation."
+    },
     "student-xml-import": {
       "birth-city-code-required-for-french-student": "Le champ code commune de naissance est obligatoire pour chaque élève née en France.",
       "empty": "Les élèves doivent posséder un INE ainsi qu'une classe.",
@@ -146,6 +151,7 @@
       "back": "Retour",
       "cancel": "Annuler",
       "close": "Fermer",
+      "confirm": "Confirmer",
       "global": "Actions",
       "link-to-participant": "Voir toute l'activité du participant"
     },
@@ -784,7 +790,7 @@
       "page-title": "Participants",
       "table": {
         "column": {
-          "checkbox": "Sélectionner/Déselectionner {firstname} {lastname}",
+          "checkbox": "Sélectionner/Désélectionner {firstname} {lastname}",
           "first-name": "Prénom",
           "is-certifiable": {
             "label": "Certificabilité",
@@ -890,6 +896,10 @@
     },
     "sco-organization-participants": {
       "title": "{count, plural, =0 {Élèves} =1 {Élève ({count})} other {Élèves ({count})}}",
+      "action-bar": {
+        "information": "{count, plural, =1 {{count} élève sélectionné} other {{count} élèves sélectionnés}}",
+        "reset-password-button": "Réinitialiser les mots de passe des élèves sélectionnés"
+      },
       "actions": {
         "import-file": {
           "file-type-separator": " ou ",
@@ -980,11 +990,22 @@
           }
         }
       },
+      "messages": {
+        "password-reset-success": "La réinitialisation des mots de passe des élèves sélectionnés a été effectuée."
+      },
       "no-participants": "Aucun élève pour l’instant !",
       "no-participants-action": "L’administrateur doit importer la base élèves en cliquant sur le bouton importer.",
       "page-title": "Élèves",
+      "reset-password-modal": {
+        "title": "Réinitialisation des <strong>mots de passe</strong> des élèves avec <strong>identifiant</strong>",
+        "content-message-1": "Sur {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} élève</strong> sélectionné} other {<strong>{totalSelectedStudents} élèves</strong> sélectionnés}}, {totalAffectedStudents, plural, =0 {<strong>aucun mot de passe</strong> ne sera réinitialisé} =1 {le mot de passe de <strong>{totalAffectedStudents} élève</strong> va être réinitialisé} other {les mots de passe de <strong>{totalAffectedStudents} élèves</strong> vont être réinitialisés}}.",
+        "content-message-2": "Un fichier CSV contenant les identifiants ainsi que les mots de passe à usage unique sera généré.",
+        "content-message-3": "Communiquez ces nouveaux mots de passe à usage unique aux élèves. Lorsqu'ils se connecteront avec ce mot de passe, Pix leur demandera d'en saisir un nouveau.",
+        "warning-message": "Seuls les mots de passe des accès par identifiant peuvent être réinitialisés. Les accès par adresse email et Mediacentre ne sont pas impactés."
+      },
       "table": {
         "column": {
+          "checkbox": "Sélectionner/Désélectionner {firstname} {lastname}",
           "date-of-birth": "Date de naissance",
           "division": {
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par classe. Cliquez pour trier par ordre alphanumérique.",
@@ -1011,6 +1032,7 @@
           },
           "last-participation-date": "Dernière participation",
           "login-method": "Méthode(s) de connexion",
+          "mainCheckbox": "Selectionner/Deselectionner toute la colonne",
           "participation-count": {
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
             "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant.",

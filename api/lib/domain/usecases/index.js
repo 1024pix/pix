@@ -193,14 +193,15 @@ import * as userService from '../../domain/services/user-service.js';
 import * as userToCreateRepository from '../../infrastructure/repositories/user-to-create-repository.js';
 import * as userValidator from '../validators/user-validator.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
+import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
 import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
 import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
-import { getCompetenceLevel } from '../../domain/services/get-competence-level.js';
+import { getCompetenceLevel } from '../services/get-competence-level.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import { pickChallengeService } from '../services/pick-challenge-service.js';
-import { tokenService } from '../../domain/services/token-service.js';
+import { tokenService } from '../services/token-service.js';
 
 import { importNamedExportsFromDirectory } from '../../infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../infrastructure/utils/dependency-injection.js';
@@ -411,6 +412,7 @@ const dependencies = {
   userToCreateRepository,
   userValidator,
   verifyCertificateCodeService,
+  writeCsvUtils,
   writeOdsUtils,
 };
 
