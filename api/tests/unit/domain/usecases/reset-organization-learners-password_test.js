@@ -4,11 +4,10 @@ import { UserNotAuthorizedToUpdatePasswordError } from '../../../../lib/domain/e
 import {
   ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
-  USER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
-} from '../../../../lib/domain/constants/update-organization-learners-password-errors.js';
+} from '../../../../lib/domain/constants/reset-organization-learners-password-errors.js';
 import { OrganizationLearnerPasswordResetDTO } from '../../../../lib/domain/models/OrganizationLearnerPasswordResetDTO.js';
 
-describe('Unit | UseCases | Update organization learners password', function () {
+describe('Unit | UseCases | Reset organization learners password', function () {
   const hashedPassword = '21fedcba';
   const generatedPassword = 'abcdef12';
 
@@ -39,7 +38,6 @@ describe('Unit | UseCases | Update organization learners password', function () 
             { organizationId: 1, userId: studentIds[1], division: '3B' },
           ];
           const userId = 2;
-          const userWithMemberships = { id: 2, hasAccessToOrganization: sinon.stub().returns(true) };
           const users = [
             { id: studentIds[0], username: 'Paul' },
             { id: studentIds[1], username: 'Jacques' },
@@ -51,7 +49,6 @@ describe('Unit | UseCases | Update organization learners password', function () 
           const domainTransaction = Symbol('transaction');
 
           organizationLearnerRepository.findByIds = sinon.stub().resolves(organizationLearnersId);
-          userRepository.getWithMemberships = sinon.stub().resolves(userWithMemberships);
           userRepository.getByIds = sinon.stub().resolves(users);
           authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged = sinon.stub().resolves();
 
@@ -94,45 +91,14 @@ describe('Unit | UseCases | Update organization learners password', function () 
   });
 
   context('failure', function () {
-    context('when user does not belong to organization', function () {
-      it('throws an UserNotAuthorizedToUpdatePasswordError', async function () {
-        // given
-        const organizationId = 1;
-        const organizationLearnersId = [];
-        const userId = 2;
-        const userWithMemberships = { id: 2, hasAccessToOrganization: sinon.stub().returns(false) };
-
-        organizationLearnerRepository.findByIds = sinon.stub().resolves(organizationLearnersId);
-        userRepository.getWithMemberships = sinon.stub().resolves(userWithMemberships);
-
-        // when
-        const error = await catchErr(resetOrganizationLearnersPassword)({
-          organizationId,
-          organizationLearnersId,
-          userId,
-          organizationLearnerRepository,
-          userRepository,
-        });
-
-        // then
-        expect(organizationLearnerRepository.findByIds).to.have.been.calledWith({ ids: organizationLearnersId });
-        expect(userRepository.getWithMemberships).to.have.been.calledWith(userId);
-        expect(userWithMemberships.hasAccessToOrganization).to.have.been.calledWith(organizationId);
-        expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
-        expect(error.code).to.equal(USER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE);
-      });
-    });
-
     context('when an organization learner does not belong to organization', function () {
       it('throws an UserNotAuthorizedToUpdatePasswordError', async function () {
         // given
         const organizationId = 1;
         const organizationLearnersId = [{ organizationId: 1 }, { organizationId: 2 }];
         const userId = 2;
-        const userWithMemberships = { id: 2, hasAccessToOrganization: sinon.stub().returns(true) };
 
         organizationLearnerRepository.findByIds = sinon.stub().resolves(organizationLearnersId);
-        userRepository.getWithMemberships = sinon.stub().resolves(userWithMemberships);
 
         // when
         const error = await catchErr(resetOrganizationLearnersPassword)({
@@ -145,8 +111,6 @@ describe('Unit | UseCases | Update organization learners password', function () 
 
         // then
         expect(organizationLearnerRepository.findByIds).to.have.been.calledWith({ ids: organizationLearnersId });
-        expect(userRepository.getWithMemberships).to.have.been.calledWith(userId);
-        expect(userWithMemberships.hasAccessToOrganization).to.have.been.calledWith(organizationId);
         expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
         expect(error.code).to.equal(ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE);
       });
@@ -162,11 +126,9 @@ describe('Unit | UseCases | Update organization learners password', function () 
           { organizationId: 1, userId: studentIds[1] },
         ];
         const userId = 2;
-        const userWithMemberships = { id: 2, hasAccessToOrganization: sinon.stub().returns(true) };
         const users = [{ id: studentIds[0], username: 'Paul' }, { id: studentIds[1] }];
 
         organizationLearnerRepository.findByIds = sinon.stub().resolves(organizationLearnersId);
-        userRepository.getWithMemberships = sinon.stub().resolves(userWithMemberships);
         userRepository.getByIds = sinon.stub().resolves(users);
 
         // when
