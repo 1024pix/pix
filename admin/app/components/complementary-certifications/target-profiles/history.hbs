@@ -13,18 +13,18 @@
           </tr>
         </thead>
         <tbody>
-          {{#each @targetProfilesLog as |targetProfileLog|}}
+          {{#each @targetProfilesHistory as |targetProfileHistory|}}
             <tr>
               <td>
                 <LinkTo
                   @route="authenticated.target-profiles.target-profile"
-                  @model={{targetProfileLog.id}}
+                  @model={{targetProfileHistory.id}}
                   class="complementary-certification-details-target-profile__link"
                 >
-                  {{targetProfileLog.name}}
+                  {{targetProfileHistory.name}}
                 </LinkTo>
               </td>
-              <td>{{dayjs-format targetProfileLog.attachedAt "DD/MM/YYYY"}}</td>
+              <td>{{dayjs-format targetProfileHistory.attachedAt "DD/MM/YYYY"}}</td>
               <td>TODO</td>
             </tr>
           {{/each}}

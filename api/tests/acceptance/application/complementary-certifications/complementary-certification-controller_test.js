@@ -146,7 +146,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
                 label: 'badge label',
               },
             ],
-            'target-profiles-log': [
+            'target-profiles-history': [
               {
                 id: 999,
                 name: 'Target',
