@@ -537,7 +537,7 @@ function _createDroit(databaseBuilder) {
     label: 'Pix+ Droit Expert',
     certificateMessage: null,
     temporaryCertificateMessage: null,
-    stickerUrl: 'https://images.pix.fr/stickers/macaron_PIX_DROIT_expert.pdf',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_expert.pdf',
   });
 
   databaseBuilder.factory.buildBadge({
@@ -615,7 +615,7 @@ function _createDroit(databaseBuilder) {
     label: 'Pix+ Droit Initié',
     certificateMessage: null,
     temporaryCertificateMessage: null,
-    stickerUrl: 'https://images.pix.fr/stickers/macaron_PIX_DROIT_initie.pdf',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_initie.pdf',
   });
 }
 
