@@ -52,7 +52,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 16.20.1
+        default: 18.17.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
