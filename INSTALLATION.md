@@ -158,7 +158,7 @@ LCMS_API_KEY=<SOME_KEY>
 LCMS_API_URL=<SOME_URL>
 ```
 
-#### Configurer les domaines locaux.
+#### Configurer les domaines locaux
 
 Il est possible d'accéder aux applications Pix avec des domaines `*.dev.pix.<tld>`
 plutôt que `localhost:port` :
@@ -202,13 +202,27 @@ Malgré cela, il peut arriver que des erreurs de lint soient introduites.
 Pour tenter de les corriger automatiquement lors du commit, installer un hook de pre-commit.
 
 ```
-npm run local:trigger-lint-on-commit
+npm run local:add-optional-checks
 ```
 
 Si vous souhaitez désactiver
 
 ```
-npm run local:prevent-trigger-lint-on-commit
+npm run local:remove-optional-checks
+```
+
+#### Détecter des secrets
+
+Installer un hook de pre-commit.
+
+```
+npm run local:add-optional-checks
+```
+
+Si vous souhaitez le désactiver
+
+```
+npm run local:remove-optional-checks
 ```
 
 #### Tracer de manière détaillée l'envoi d'email
