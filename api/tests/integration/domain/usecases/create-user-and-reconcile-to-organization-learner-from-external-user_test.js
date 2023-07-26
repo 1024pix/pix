@@ -209,7 +209,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
       expect(usersBefore.length + 1).to.equal(usersAfter.length);
 
       const authenticationMethodInDB = await knex('authentication-methods');
-      expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
+      const authenticationMethod = authenticationMethodInDB[0];
+      expect(authenticationMethod.externalIdentifier).to.equal(samlId);
+      expect(authenticationMethod.authenticationComplement).to.deep.equal({
+        firstName: 'Saml',
+        lastName: 'Jackson',
+      });
     });
 
     context('When the external user is already linked to another account', function () {
@@ -259,6 +264,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
               externalIdentifier: '12345678',
               userId: otherAccount.id,
+              firstName: 'John',
+              lastName: 'Travolta',
             });
 
             const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
@@ -298,7 +305,10 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
               identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
               userId: otherAccount.id,
             });
-            expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
+            const authenticationMethod = authenticationMethodInDB[0];
+            expect(authenticationMethod.externalIdentifier).to.equal(samlId);
+            expect(authenticationMethod.authenticationComplement.firstName).not.to.equal('Saml');
+            expect(authenticationMethod.authenticationComplement.lastName).not.to.equal('Jackson');
           });
         });
 
@@ -314,6 +324,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
               externalIdentifier: '12345678',
               userId: otherAccount.id,
+              firstName: 'John',
+              lastName: 'Travolta',
             });
 
             const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -351,7 +363,10 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
               identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
               userId: otherAccount.id,
             });
-            expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
+            const authenticationMethod = authenticationMethodInDB[0];
+            expect(authenticationMethod.externalIdentifier).to.equal(samlId);
+            expect(authenticationMethod.authenticationComplement.firstName).not.to.equal('Saml');
+            expect(authenticationMethod.authenticationComplement.lastName).not.to.equal('Jackson');
           });
         });
       });
