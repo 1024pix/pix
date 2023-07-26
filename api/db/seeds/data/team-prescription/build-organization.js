@@ -5,7 +5,7 @@ function _createScoOrganization(databaseBuilder) {
     id: SCO_ORGANIZATION_ID,
     type: 'SCO',
     name: 'Sco Orga team prescription',
-    isManagingStudents: false,
+    isManagingStudents: true,
     externalId: 'PRESCRIPTION',
   });
   databaseBuilder.factory.buildUser.withRawPassword({

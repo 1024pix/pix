@@ -19,11 +19,8 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   module('Basic Filter State', function () {
     test('it should display one filtered participant', async function (assert) {
       // given
-      const badge = store.createRecord('badge');
       const campaign = store.createRecord('campaign', {
         type: 'ASSESSMENT',
-        targetProfileHasStage: true,
-        badges: [badge],
       });
       const rowCount = 1;
       this.set('campaign', campaign);
@@ -110,34 +107,73 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         assert.ok(resetFiltering.called);
       });
 
-      test('it display disabled button ', async function (assert) {
-        //given
-        const badge = store.createRecord('badge');
-        const campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
-          targetProfileHasStage: true,
-          badges: [badge],
-        });
-        this.set('campaign', campaign);
-        this.set('resetFiltering', () => {});
-        this.set('searchFilter', null);
+      module('Campaign type ASSESSMENT', function () {
+        test('it display disabled button', async function (assert) {
+          //given
+          const badge = store.createRecord('badge');
+          const stage = store.createRecord('stage');
 
-        //when
-        const screen = await render(
-          hbs`<Campaign::Filter::ParticipationFilters
+          const campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            targetProfileHasStage: true,
+            targetProfileThematicResultCount: 2,
+            badges: [badge],
+            stages: [stage],
+          });
+          this.set('campaign', campaign);
+          this.set('resetFiltering', () => {});
+          this.set('searchFilter', null);
+          this.set('searchBadges', []);
+          this.set('searchStages', []);
+          this.set('selectedStages', []);
+          this.set('selectedBadges', []);
+
+          //when
+          const screen = await render(
+            hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @onResetFilter={{this.resetFiltering}}
   @searchFilter={{this.searchFilter}}
-  @onFilter={{this.noop}}
-  @isHiddenStages={{true}}
-  @isHiddenBadges={{true}}
-  @isHiddenDivisions={{true}}
+  @searchBadges={{this.searchBadges}}
+  @searchStages={{this.searchStages}}
+  @selectedStages={{this.selectedStages}}
+  @selectedBadges={{this.selectedBadges}}
   @isHiddenGroups={{true}}
+  @isHiddenDivisions={{true}}
+  @onFilter={{this.noop}}
 />`,
-        );
+          );
 
-        //then
-        assert.dom(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true })).exists();
+          //then
+          assert.dom(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true })).exists();
+        });
+      });
+
+      module('Campaign type PROFILE_COLLECTION', function () {
+        test('it display disabled button', async function (assert) {
+          //given
+          const campaign = store.createRecord('campaign', {
+            type: 'PROFILE_COLLECTION',
+          });
+          this.set('campaign', campaign);
+          this.set('resetFiltering', () => {});
+          this.set('searchFilter', null);
+          this.set('certificabilityFilter', null);
+
+          //when
+          const screen = await render(
+            hbs`<Campaign::Filter::ParticipationFilters
+  @campaign={{this.campaign}}
+  @onResetFilter={{this.resetFiltering}}
+  @searchFilter={{this.searchFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @onFilter={{this.noop}}
+/>`,
+          );
+
+          //then
+          assert.dom(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true })).exists();
+        });
       });
     });
   });
@@ -606,6 +642,91 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
     });
   });
 
+  module('certificability', function () {
+    test('display certificability filter', async function (assert) {
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        type: 'PROFILE_COLLECTION',
+        name: 'campagne 1',
+      });
+      this.set('campaign', campaign);
+
+      const screen = await render(
+        hbs`<Campaign::Filter::ParticipationFilters
+  @campaign={{this.campaign}}
+  @isHiddenSearch={{true}}
+  @isHiddenStatus={{true}}
+  @isHiddenBadges={{true}}
+  @isHiddenDivisions={{true}}
+  @isHiddenGroups={{true}}
+  @onResetFilter={{this.noop}}
+  @onFilter={{this.noop}}
+/>`,
+      );
+
+      // then
+      assert.dom(screen.getByLabelText('Rechercher par certificabilité')).exists();
+    });
+
+    test('hide certificability filter on assessment campaign', async function (assert) {
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        type: 'ASSESSMENT',
+        name: 'campagne 1',
+      });
+      this.set('campaign', campaign);
+
+      const screen = await render(
+        hbs`<Campaign::Filter::ParticipationFilters
+  @campaign={{this.campaign}}
+  @isHiddenSearch={{true}}
+  @isHiddenStatus={{true}}
+  @isHiddenBadges={{true}}
+  @isHiddenDivisions={{true}}
+  @isHiddenGroups={{true}}
+  @onResetFilter={{this.noop}}
+  @onFilter={{this.noop}}
+/>`,
+      );
+
+      // then
+      assert.dom(screen.queryByLabelText('Rechercher par certificabilité')).doesNotExist();
+    });
+
+    test('it triggers the filter when a certificability is selected', async function (assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        id: campaignId,
+        name: 'campagne 1',
+        type: 'PROFILE_COLLECTION',
+      });
+
+      const triggerFiltering = sinon.stub();
+      this.set('campaign', campaign);
+      this.set('triggerFiltering', triggerFiltering);
+
+      // when
+      const screen = await render(
+        hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`,
+      );
+      await click(
+        screen.getByRole('button', {
+          name: this.intl.t('pages.sco-organization-participants.filter.certificability.label'),
+        }),
+      );
+      await screen.findByRole('listbox');
+
+      await click(
+        screen.getByRole('option', {
+          name: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.non-eligible'),
+        }),
+      );
+
+      // then
+      assert.ok(triggerFiltering.calledWith('certificability', 'non-eligible'));
+    });
+  });
+
   module('when user works for a SCO organization which manages students', function () {
     class CurrentUserStub extends Service {
       isSCOManagingStudents = true;
@@ -635,6 +756,31 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         // then
         assert.contains('Classes');
         assert.contains('d1');
+      });
+
+      test('it display disabled button', async function (assert) {
+        //given
+        this.set('resetFiltering', () => {});
+        this.set('selectedDivisions', []);
+
+        //when
+        const screen = await render(
+          hbs`<Campaign::Filter::ParticipationFilters
+  @campaign={{this.campaign}}
+  @onResetFilter={{this.resetFiltering}}
+  @selectedDivisions={{this.selectedDivisions}}
+  @isHiddenStages={{true}}
+  @isHiddenBadges={{true}}
+  @isHiddenGroups={{true}}
+  @isHiddenCertificability={{true}}
+  @isHiddenSearch={{true}}
+  @isHiddenStatus={{true}}
+  @onFilter={{this.noop}}
+/>`,
+        );
+
+        //then
+        assert.dom(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true })).exists();
       });
 
       test('it triggers the filter when a division is selected', async function (assert) {
@@ -693,6 +839,31 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         const group = store.createRecord('group', { id: 'd1', name: 'd1' });
         this.campaign = store.createRecord('campaign', { id: 1, groups: [group] });
         this.set('selectedGroups', []);
+      });
+
+      test('it display disabled button', async function (assert) {
+        //given
+        this.set('resetFiltering', () => {});
+        this.set('selectedGroups', []);
+
+        //when
+        const screen = await render(
+          hbs`<Campaign::Filter::ParticipationFilters
+  @campaign={{this.campaign}}
+  @onResetFilter={{this.resetFiltering}}
+  @selectedGroups={{this.selectedGroups}}
+  @isHiddenStages={{true}}
+  @isHiddenBadges={{true}}
+  @isHiddenDivisions={{true}}
+  @isHiddenCertificability={{true}}
+  @isHiddenSearch={{true}}
+  @isHiddenStatus={{true}}
+  @onFilter={{this.noop}}
+/>`,
+        );
+
+        //then
+        assert.dom(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true })).exists();
       });
 
       test('it displays the group filter', async function (assert) {

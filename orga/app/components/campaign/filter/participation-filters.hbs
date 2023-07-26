@@ -73,5 +73,15 @@
         {{badge.label}}
       </PixMultiSelect>
     {{/if}}
+    {{#if this.displayCertificabilityFilter}}
+      <PixSelect
+        @options={{this.certificabilityOptions}}
+        @value={{@selectedCertificability}}
+        @onChange={{this.onSelectCertificability}}
+        @screenReaderOnly={{true}}
+        @label={{t "pages.sco-organization-participants.filter.certificability.label"}}
+        @placeholder={{t "components.certificability.placeholder-select"}}
+      />
+    {{/if}}
   </PixFilterBanner>
 {{/if}}
