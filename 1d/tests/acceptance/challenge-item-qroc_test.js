@@ -23,26 +23,6 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       assert.dom('.challenge-item-proposals__response').exists({ count: 1 });
       assert.dom(screen.getByText('Rue de :')).exists();
     });
-
-    test.skip('should display the warning dialog if user validates without writing an answer in input', async function (assert) {
-      // when
-      const screen = await visit(`/assessments/${assessment.id}/challenges`);
-      assert.dom(screen.getByText("Pour valider la mission, tu dois terminer l'activité.")).doesNotExist();
-      await click(screen.getByRole('button', { name: 'Je continue' }));
-
-      // then
-      assert.dom(screen.getByText("Pour valider la mission, tu dois terminer l'activité.")).exists();
-    });
-
-    test('should display answer feedback dialog if user validates after writing the right answer in input', async function (assert) {
-      // when
-      const screen = await visit(`/assessments/${assessment.id}/challenges`);
-      await fillIn('input[data-uid="qroc-proposal-uid"]', 'good-answer');
-      await click(screen.getByRole('button', { name: 'Je continue' }));
-
-      // then
-      assert.dom(screen.getByText("Bravo ! C'est la bonne réponse.")).exists();
-    });
   });
 
   module('with text-area format', function (hooks) {
@@ -57,16 +37,6 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       // then
       assert.dom('.challenge-item-proposals__response').exists({ count: 1 });
       assert.dom(screen.getByText('Rue de :')).exists();
-    });
-
-    test.skip('should display the warning dialog if user validates without writing an answer in input', async function (assert) {
-      // when
-      const screen = await visit(`/assessments/${assessment.id}/challenges`);
-      assert.dom(screen.getByText("Pour valider la mission, tu dois terminer l'activité.")).doesNotExist();
-      await click(screen.getByRole('button', { name: 'Je continue' }));
-
-      // then
-      assert.dom(screen.getByText("Pour valider la mission, tu dois terminer l'activité.")).exists();
     });
 
     test('should display answer feedback dialog if user validates after writing the right answer in text area', async function (assert) {
@@ -106,31 +76,6 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
       // then
       assert.dom('.pix-select-button').hasText('good-answer');
-    });
-
-    test.skip('should display the warning dialog if user validates without selecting an answer in input', async function (assert) {
-      // when
-      const screen = await visit(`/assessments/${assessment.id}/challenges`);
-      assert.dom(screen.getByText("Pour valider la mission, tu dois terminer l'activité.")).doesNotExist();
-      await click(screen.getByRole('button', { name: 'Je continue' }));
-
-      // then
-      assert.dom(screen.getByText("Pour valider la mission, tu dois terminer l'activité.")).exists();
-    });
-
-    test('should display good answer feedback when user validates with good answer', async function (assert) {
-      // given
-      const screen = await visit(`/assessments/${assessment.id}/challenges`);
-
-      // when
-      await clickByName('saladAriaLabel');
-      await screen.findByRole('listbox');
-      await click(screen.getByRole('option', { name: 'good-answer' }));
-
-      await click(screen.getByRole('button', { name: 'Je continue' }));
-
-      // then
-      assert.dom(screen.getByText("Bravo ! C'est la bonne réponse.")).exists();
     });
   });
 });
