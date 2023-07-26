@@ -581,6 +581,22 @@ describe('Unit | Application | Router | campaign-router ', function () {
       expect(result.statusCode).to.equal(200);
     });
 
+    it('should return 200 with a string of certificability filter', async function () {
+      // given
+      sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const result = await httpTestServer.request(
+        'GET',
+        '/api/campaigns/1/profiles-collection-participations?filter[certificability]="eligibile"',
+      );
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
     it('should return 400 with unexpected filters', async function () {
       // given
       const httpTestServer = new HttpTestServer();

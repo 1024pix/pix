@@ -1,19 +1,21 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-
 export default class ProfilesController extends Controller {
+  @service router;
   @tracked pageNumber = 1;
   @tracked pageSize = 50;
   @tracked divisions = [];
   @tracked groups = [];
   @tracked search = null;
+  @tracked certificability = null;
 
   @action
   goToProfilePage(campaignId, campaignParticipationId, event) {
     event.stopPropagation();
     event.preventDefault();
-    this.transitionToRoute('authenticated.campaigns.participant-profile', campaignId, campaignParticipationId);
+    this.router.transitionTo('authenticated.campaigns.participant-profile', campaignId, campaignParticipationId);
   }
 
   @action
@@ -28,5 +30,6 @@ export default class ProfilesController extends Controller {
     this.divisions = [];
     this.groups = [];
     this.search = null;
+    this.certificability = null;
   }
 }
