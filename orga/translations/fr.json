@@ -634,6 +634,13 @@
       "no-students-imported-yet": "Dans cet onglet, vous retrouverez les résultats et les attestations de certification des élèves. Vous devez, dans un premier temps, importer la base élèves de votre établissement. ",
       "select-label": "Classe"
     },
+    "join-request-form": {
+      "legal-information": {
+        "link-text": "En savoir plus sur mes droits.",
+        "link-url": "https://pix.fr/dp-formulaire-recuperation-pixorga-sco",
+        "text": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par le GIP Pix pour le compte du ministère de l’Éducation nationale en tant que responsable de traitement, pour permettre à votre établissement scolaire d’accéder à son espace Pix Orga en lui envoyant une invitation à rejoindre cet espace."
+      }
+    },
     "login": {
       "title": "Connectez-vous",
       "choose-language-aria-label": "Sélectionnez une langue"
