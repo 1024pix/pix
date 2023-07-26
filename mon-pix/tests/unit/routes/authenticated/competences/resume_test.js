@@ -44,13 +44,13 @@ module('Unit | Route | Competence | Resume', function (hooks) {
   });
 
   module('#afterModel', function () {
-    test('should transition to assessments.resume', function (assert) {
+    test('should transition to assessments.resume', async function (assert) {
       // given
       route.router.replaceWith.returns();
       const competenceEvaluation = EmberObject.create({ competenceId, assessment: { id: 'assessmentId' } });
 
       // when
-      route.afterModel(competenceEvaluation);
+      await route.afterModel(competenceEvaluation);
 
       // then
       sinon.assert.calledOnce(route.router.replaceWith);

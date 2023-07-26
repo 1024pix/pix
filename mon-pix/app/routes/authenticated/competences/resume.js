@@ -12,7 +12,8 @@ export default class ResumeRoute extends Route {
     return this.store.queryRecord('competenceEvaluation', { competenceId, startOrResume: true });
   }
 
-  afterModel(competenceEvaluation) {
-    return this.router.replaceWith('assessments.resume', competenceEvaluation.get('assessment.id'));
+  async afterModel(competenceEvaluation) {
+    const assessment = await competenceEvaluation.assessment;
+    return this.router.replaceWith('assessments.resume', assessment.id);
   }
 }
