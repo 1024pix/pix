@@ -490,7 +490,7 @@
       },
       "first-title": "You are about to begin your certification test.",
       "link-to-user-certification": "See my certificates",
-      "non-eligible-subscription": "You are not eligible to {nonEligibleSubscription}. However, you can still take your Pix Certification.",
+      "non-eligible-subscription": "You are not eligible to {nonEligibleSubscriptionLabel}. However, you can still take your Pix Certification.",
       "subscription": "You are registered for the following additional certification in combination with the Pix Certification:"
     },
     "certifications-list": {
