@@ -10,15 +10,10 @@ module('Acceptance | Complementary certifications | Complementary certification 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach(async () => {
-    server.create('feature-toggle', { isTargetProfileVersioningEnabled: true });
-  });
-
   module('when admin member has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
     module('on information section', function () {
       test('it should display current target profile link and redirect to details page on click', async function (assert) {
         // given
-        server.create('feature-toggle', { isTargetProfileVersioningEnabled: true });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         server.create('complementary-certification', {
           id: 1,
@@ -41,10 +36,9 @@ module('Acceptance | Complementary certifications | Complementary certification 
       });
     });
 
-    module('on log section', function () {
+    module('on history section', function () {
       test('it should display target profiles links and redirect to details page on click', async function (assert) {
         // given
-        server.create('feature-toggle', { isTargetProfileVersioningEnabled: true });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         server.create('complementary-certification', {
           id: 1,
@@ -73,7 +67,6 @@ module('Acceptance | Complementary certifications | Complementary certification 
   module('when admin member has role "CERTIF"', function () {
     test('it should not allow user to access complementary certification details', async function (assert) {
       // given
-      server.create('feature-toggle', { isTargetProfileVersioningEnabled: true });
       await authenticateAdminMemberWithRole({ isCertif: true })(server);
       server.create('complementary-certification', {
         id: 1,

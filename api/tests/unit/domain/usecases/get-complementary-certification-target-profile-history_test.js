@@ -6,14 +6,16 @@ describe('Unit | UseCase | get-complementary-certification-target-profile-histor
 
   beforeEach(function () {
     complementaryCertificationTargetProfileHistoryRepository = {
-      getById: sinon.stub(),
+      getByComplementaryCertificationId: sinon.stub(),
     };
   });
 
   it('should get the complementary certification', async function () {
     // given
     const complementaryCertification = domainBuilder.buildComplementaryCertificationTargetProfileHistory();
-    complementaryCertificationTargetProfileHistoryRepository.getById.resolves(complementaryCertification);
+    complementaryCertificationTargetProfileHistoryRepository.getByComplementaryCertificationId.resolves(
+      complementaryCertification,
+    );
 
     // when
     const result = await getComplementaryCertificationTargetProfileHistory({
