@@ -38,7 +38,7 @@ class LearningContentCache extends Cache {
   }
 
   quit() {
-    return Promise.all([this._underlyingCache.quit(), this.redisCache.quit(), this.distributedCache.quit()]);
+    return this._underlyingCache.quit();
   }
 }
 
