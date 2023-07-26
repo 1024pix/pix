@@ -12,8 +12,13 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::H
     const store = this.owner.lookup('service:store');
     const complementaryCertification = store.createRecord('complementary-certification', {
       targetProfilesHistory: [
-        { id: 1023, name: 'Target Cascade', attachedAt: dayjs('2023-10-10T10:50:00Z') },
-        { id: 1025, name: 'Target Volcan', attachedAt: dayjs('2019-10-08T10:50:00Z') },
+        { id: 1023, name: 'Target Cascade', attachedAt: dayjs('2023-10-10T10:50:00Z'), detachedAt: null },
+        {
+          id: 1025,
+          name: 'Target Volcan',
+          attachedAt: dayjs('2019-10-08T10:50:00Z'),
+          detachedAt: dayjs('2020-10-08T10:50:00Z'),
+        },
       ],
     });
     this.targetProfilesHistory = complementaryCertification.targetProfilesHistory;
@@ -27,8 +32,8 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::H
     assert.dom(screen.getByRole('columnheader', { name: 'Nom du profil cible' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Date de rattachement' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Date de détachement' })).exists();
-    assert.dom(screen.getByRole('row', { name: 'Target Cascade 10/10/2023 TODO' })).exists();
-    assert.dom(screen.getByRole('row', { name: 'Target Volcan 08/10/2019 TODO' })).exists();
+    assert.dom(screen.getByRole('row', { name: 'Target Cascade 10/10/2023 -' })).exists();
+    assert.dom(screen.getByRole('row', { name: 'Target Volcan 08/10/2019 08/10/2020' })).exists();
     assert.dom(screen.getByRole('link', { name: 'Target Cascade' })).exists();
     assert.dom(screen.getByRole('link', { name: 'Target Volcan' })).exists();
   });
