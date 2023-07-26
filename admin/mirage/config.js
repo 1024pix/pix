@@ -1,3 +1,6 @@
+import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
+import { Response, createServer } from 'miragejs';
+
 import {
   attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
@@ -13,8 +16,6 @@ import {
   createBadge,
   markTargetProfileAsSimplifiedAccess,
 } from './handlers/target-profiles';
-
-import { Response } from 'miragejs';
 import { createOrganizationMembership } from './handlers/organization-memberships';
 import { createStage } from './handlers/stages';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
@@ -38,9 +39,20 @@ import {
 } from './handlers/trainings';
 import { findFrameworkAreas } from './handlers/frameworks';
 
-export default function () {
-  this.logging = true;
-  this.urlPrefix = 'http://localhost:3000';
+export default function makeServer(config) {
+  const finalConfig = {
+    ...config,
+    models: { ...discoverEmberDataModels(), ...config.models },
+    serializers: applyEmberDataSerializers(config.serializers),
+    routes,
+    logging: true,
+    urlPrefix: 'http://localhost:3000',
+  };
+
+  return createServer(finalConfig);
+}
+
+function routes() {
   this.namespace = 'api';
 
   this.get('feature-toggles', (schema) => {
