@@ -73,7 +73,7 @@
     "ember-composable-helpers": "^5.0.0",
     "ember-concurrency": "^3.0.0",
     "ember-cp-validations": "^5.0.0",
-    "ember-data": "~4.0.2",
+    "ember-data": "~5.1.0",
     "ember-dayjs": "^0.12.0",
     "ember-exam": "^8.0.0",
     "ember-fetch": "^8.1.2",
