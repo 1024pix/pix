@@ -65,7 +65,7 @@
     "chartjs-adapter-dayjs-4": "^1.0.4",
     "dayjs": "^1.11.7",
     "ember-auto-import": "^2.6.0",
-    "ember-cli": "^4.12.1",
+    "ember-cli": "^5.0.0",
     "ember-cli-app-version": "^6.0.0",
     "ember-cli-babel": "^7.26.11",
     "ember-cli-clipboard": "^1.0.0",
