@@ -35,17 +35,18 @@ const findHighestCertifiable = async function ({
       'badge-acquisitions.userId': userId,
       'badges.isCertifiable': true,
     })
-    .whereRaw(
-      `"badge-acquisitions"."createdAt" =
-          (select max(ba."createdAt") from "complementary-certification-badges" ccb
-          join "badges" b on ccb."badgeId" = b.id
-          join "badge-acquisitions" ba on ba."badgeId" = b.id
-          where "complementary-certification-badges"."complementaryCertificationId" = ccb."complementaryCertificationId"
-          and ba."createdAt" <= ?
-          and ba."userId" = ? and b."isCertifiable" = true)
-      `,
-      [limitDate, userId],
-    );
+    .where({
+      'badge-acquisitions.createdAt': knex('complementary-certification-badges AS ccb')
+        .max('badge-acquisitions.createdAt')
+        .join('badges', 'ccb.badgeId', 'badges.id')
+        .join('badge-acquisitions', 'badge-acquisitions.badgeId', 'badges.id')
+        .whereRaw(
+          'ccb."complementaryCertificationId" = "complementary-certification-badges"."complementaryCertificationId"',
+        )
+        .where({ 'badge-acquisitions.userId': userId })
+        .where('ba.createdAt', '<=', limitDate)
+        .where({ 'badges.isCertifiable': true }),
+    });
 
   const highestCertifiableBadgeAcquisitionByComplementaryCertificationId = _(certifiableBadgeAcquisitions)
     .groupBy('complementaryCertificationId')
