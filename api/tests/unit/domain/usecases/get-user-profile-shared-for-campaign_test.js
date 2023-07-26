@@ -15,6 +15,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
   let areaRepository;
   let campaignRepository;
   let organizationLearnerRepository;
+  let skillRepository;
   let userId;
   let campaignId;
   let expectedMaxReachableLevel;
@@ -35,12 +36,17 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
       areaRepository = { list: sinon.stub() };
       campaignRepository = { get: sinon.stub() };
       organizationLearnerRepository = { isActive: sinon.stub() };
+      skillRepository = { list: sinon.stub() };
       sinon.stub(Scorecard, 'buildFrom');
       sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(expectedMaxReachableLevel);
       sinon.stub(constants, 'MAX_REACHABLE_PIX_SCORE').value(expectedMaxReachablePixScore);
     });
 
     it('should return the shared profile for campaign', async function () {
+      const skills = [
+        { id: 'skill1', competenceId: 'competence1' },
+        { id: 'skill2', competenceId: 'competence2' },
+      ];
       const knowledgeElements = { competence1: [], competence2: [] };
       const competences = [
         { id: 'competence1', areaId: 'area' },
@@ -59,11 +65,24 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
       areaRepository.list.withArgs({ locale: 'fr' }).resolves([area]);
       campaignRepository.get.withArgs(campaignId).resolves(campaign);
       organizationLearnerRepository.isActive.withArgs({ campaignId, userId }).resolves(false);
+      skillRepository.list.resolves(skills);
       Scorecard.buildFrom
-        .withArgs({ userId, knowledgeElements: knowledgeElements['competence1'], competence: competences[0], area })
+        .withArgs({
+          userId,
+          knowledgeElements: knowledgeElements['competence1'],
+          competence: competences[0],
+          area,
+          skills: [skills[0]],
+        })
         .returns({ id: 'Score1', earnedPix: 10 });
       Scorecard.buildFrom
-        .withArgs({ userId, knowledgeElements: knowledgeElements['competence2'], competence: competences[1], area })
+        .withArgs({
+          userId,
+          knowledgeElements: knowledgeElements['competence2'],
+          competence: competences[1],
+          area,
+          skills: [skills[1]],
+        })
         .returns({ id: 'Score2', earnedPix: 5 });
 
       // when
@@ -76,6 +95,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
         areaRepository,
         campaignRepository,
         organizationLearnerRepository,
+        skillRepository,
         locale,
       });
 

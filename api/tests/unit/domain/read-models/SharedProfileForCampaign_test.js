@@ -9,8 +9,9 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
         const userId = 1;
         const competence = { id: 1, name: 'Useful competence', areaId: 'area' };
         const area = { id: 'area' };
+        const skills = [domainBuilder.buildSkill()];
         const knowledgeElements = [domainBuilder.buildKnowledgeElement({ competenceId: competence.id })];
-        const expectedScorecard = Scorecard.buildFrom({ userId, competence, knowledgeElements });
+        const expectedScorecard = Scorecard.buildFrom({ userId, competence, knowledgeElements, skills });
 
         const sharedProfileForCampaign = new SharedProfileForCampaign({
           userId,
@@ -22,6 +23,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
           knowledgeElementsGroupedByCompetenceId: {
             [competence.id]: knowledgeElements,
           },
+          allSkills: skills,
         });
 
         expect(sharedProfileForCampaign.scorecards[0]).to.deep.include({

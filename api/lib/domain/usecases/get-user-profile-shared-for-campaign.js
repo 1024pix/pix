@@ -11,6 +11,7 @@ const getUserProfileSharedForCampaign = async function ({
   competenceRepository,
   areaRepository,
   organizationLearnerRepository,
+  skillRepository,
   locale,
 }) {
   const campaignParticipation = await campaignParticipationRepository.findOneByCampaignIdAndUserId({
@@ -26,6 +27,7 @@ const getUserProfileSharedForCampaign = async function ({
     { multipleSendings: campaignAllowsRetry },
     isOrganizationLearnerActive,
     knowledgeElementsGroupedByCompetenceId,
+    allSkills,
   ] = await Promise.all([
     campaignRepository.get(campaignId),
     organizationLearnerRepository.isActive({ campaignId, userId }),
@@ -33,6 +35,7 @@ const getUserProfileSharedForCampaign = async function ({
       userId,
       limitDate: campaignParticipation.sharedAt,
     }),
+    skillRepository.list(),
   ]);
   const competences = await competenceRepository.listPixCompetencesOnly({ locale });
   const allAreas = await areaRepository.list({ locale });
@@ -47,6 +50,7 @@ const getUserProfileSharedForCampaign = async function ({
     knowledgeElementsGroupedByCompetenceId,
     userId,
     allAreas,
+    allSkills,
     maxReachableLevel,
     maxReachablePixScore,
   });

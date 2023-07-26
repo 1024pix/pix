@@ -45,6 +45,12 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
         areaId: 'recvoGdo7z2z7pXWa',
       },
     ],
+    skills: [
+      {
+        id: 'skillId',
+        competenceId,
+      },
+    ],
   };
 
   beforeEach(async function () {

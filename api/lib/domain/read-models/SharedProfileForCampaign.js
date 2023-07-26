@@ -15,11 +15,18 @@ class SharedProfileForCampaign {
     allAreas,
     maxReachableLevel,
     maxReachablePixScore,
+    allSkills,
   }) {
     this.id = campaignParticipation?.id;
     this.sharedAt = campaignParticipation?.sharedAt;
     this.pixScore = campaignParticipation?.pixScore || 0;
-    this.scorecards = this._buildScorecards(userId, competences, allAreas, knowledgeElementsGroupedByCompetenceId);
+    this.scorecards = this._buildScorecards(
+      userId,
+      competences,
+      allAreas,
+      knowledgeElementsGroupedByCompetenceId,
+      allSkills,
+    );
     this.canRetry = this._computeCanRetry(
       campaignAllowsRetry,
       this.sharedAt,
@@ -30,18 +37,20 @@ class SharedProfileForCampaign {
     this.maxReachablePixScore = maxReachablePixScore;
   }
 
-  _buildScorecards(userId, competences, allAreas, knowledgeElementsGroupedByCompetenceId) {
+  _buildScorecards(userId, competences, allAreas, knowledgeElementsGroupedByCompetenceId, allSkills) {
     if (isEmpty(knowledgeElementsGroupedByCompetenceId)) return [];
     return map(competences, (competence) => {
       const competenceId = competence.id;
       const area = allAreas.find((area) => area.id === competence.areaId);
       const knowledgeElements = knowledgeElementsGroupedByCompetenceId[competenceId];
+      const skills = allSkills.filter((skill) => skill.competenceId === competenceId);
 
       return Scorecard.buildFrom({
         userId,
         knowledgeElements,
         competence,
         area,
+        skills,
       });
     });
   }
