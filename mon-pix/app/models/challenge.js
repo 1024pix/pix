@@ -28,7 +28,7 @@ export default class Challenge extends Model {
   @attr('boolean') shuffled;
 
   // includes
-  @belongsTo('answer') answer;
+  @belongsTo('answer', { async: false, inverse: 'challenge' }) answer;
 
   // methods
   @computed('embedUrl', 'embedTitle', 'embedHeight')

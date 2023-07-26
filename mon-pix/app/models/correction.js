@@ -10,8 +10,8 @@ export default class Correction extends Model {
   @attr('string') hint;
 
   // includes
-  @hasMany('tutorial', { inverse: null }) tutorials;
-  @hasMany('tutorial', { inverse: null }) learningMoreTutorials; // Traduction: TutoSavoirPlus
+  @hasMany('tutorial', { async: false, inverse: null }) tutorials;
+  @hasMany('tutorial', { async: false, inverse: null }) learningMoreTutorials; // Traduction: TutoSavoirPlus
 
   // methods
   @empty('hint') hasNoHints;
