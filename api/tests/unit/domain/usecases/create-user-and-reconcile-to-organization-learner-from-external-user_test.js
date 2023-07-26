@@ -22,7 +22,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
     };
     userReconciliationService = {
       findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser: sinon.stub(),
-      checkIfStudentHasAnAlreadyReconciledAccount: sinon.stub(),
+      assertStudentHasAnAlreadyReconciledAccount: sinon.stub(),
     };
     userRepository = {
       getBySamlId: sinon.stub(),

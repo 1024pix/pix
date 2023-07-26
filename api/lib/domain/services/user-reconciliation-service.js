@@ -80,7 +80,7 @@ async function findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
   return lodash.find(organizationLearners, { id: organizationLearnerId });
 }
 
-async function checkIfStudentHasAnAlreadyReconciledAccount(
+async function assertStudentHasAnAlreadyReconciledAccount(
   organizationLearner,
   userRepository,
   obfuscationService,
@@ -234,5 +234,5 @@ export {
   findMatchingCandidateIdForGivenUser,
   findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser,
   findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser,
-  checkIfStudentHasAnAlreadyReconciledAccount,
+  assertStudentHasAnAlreadyReconciledAccount,
 };

@@ -665,7 +665,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
     });
   });
 
-  describe('#checkIfStudentHasAnAlreadyReconciledAccount', function () {
+  describe('#assertStudentHasAnAlreadyReconciledAccount', function () {
     let userRepositoryStub;
     let obfuscationServiceStub;
     let studentRepositoryStub;
@@ -697,7 +697,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           });
 
           // when
-          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
+          const error = await catchErr(userReconciliationService.assertStudentHasAnAlreadyReconciledAccount)(
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
@@ -728,7 +728,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           });
 
           // when
-          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
+          const error = await catchErr(userReconciliationService.assertStudentHasAnAlreadyReconciledAccount)(
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
@@ -760,7 +760,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           });
 
           // when
-          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
+          const error = await catchErr(userReconciliationService.assertStudentHasAnAlreadyReconciledAccount)(
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
@@ -797,7 +797,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           });
 
           // when
-          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
+          const error = await catchErr(userReconciliationService.assertStudentHasAnAlreadyReconciledAccount)(
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
@@ -831,7 +831,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           });
 
           // when
-          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
+          const error = await catchErr(userReconciliationService.assertStudentHasAnAlreadyReconciledAccount)(
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
@@ -866,7 +866,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           });
 
           // when
-          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
+          const error = await catchErr(userReconciliationService.assertStudentHasAnAlreadyReconciledAccount)(
             organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
@@ -903,7 +903,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
         obfuscationServiceStub.getUserAuthenticationMethodWithObfuscation.withArgs(user).rejects(new NotFoundError());
 
         // when
-        const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
+        const error = await catchErr(userReconciliationService.assertStudentHasAnAlreadyReconciledAccount)(
           organizationLearner,
           userRepositoryStub,
           obfuscationServiceStub,
