@@ -18,8 +18,7 @@ export default class ChallengeRoute extends Route {
     const currentChallengeNumber = parseInt(params.challenge_number);
     const isBackToPreviousChallenge = currentChallengeNumber < assessment.answers.length;
     if (isBackToPreviousChallenge) {
-      const answers = assessment.answers.toArray();
-      const challengeId = answers[currentChallengeNumber].challenge.get('id');
+      const challengeId = assessment.answers[currentChallengeNumber].challenge.get('id');
       challenge = await this.store.findRecord('challenge', challengeId);
     } else {
       if (assessment.isPreview && params.challengeId) {
