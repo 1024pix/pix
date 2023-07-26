@@ -58,7 +58,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
     });
   });
 
-  context('When no organizationLearner found', function () {
+  context('When no organizationLearner is found', function () {
     beforeEach(async function () {
       campaignCode = databaseBuilder.factory.buildCampaign().code;
       await databaseBuilder.commit();
@@ -95,7 +95,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
     });
   });
 
-  context('When one organizationLearner matched on names', function () {
+  context('When an organizationLearner matches on names', function () {
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignCode = databaseBuilder.factory.buildCampaign({
