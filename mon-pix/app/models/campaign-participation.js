@@ -17,5 +17,5 @@ export default class CampaignParticipation extends Model {
   @belongsTo('campaignParticipationResult') campaignParticipationResult;
   @belongsTo('user') user;
 
-  @hasMany('training') trainings;
+  @hasMany('training', { async: true, inverse: 'campaignParticipation' }) trainings;
 }

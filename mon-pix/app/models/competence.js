@@ -4,5 +4,5 @@ export default class Competence extends Model {
   // attributes
   @attr('string') name;
 
-  @belongsTo('area') area;
+  @belongsTo('area', { async: true, inverse: 'competences' }) area;
 }
