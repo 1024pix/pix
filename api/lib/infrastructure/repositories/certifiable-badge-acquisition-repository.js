@@ -11,41 +11,46 @@ const findHighestCertifiable = async function ({
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   const knexConn = domainTransaction.knexTransaction || knex;
-  const certifiableBadgeAcquisitions = await knexConn(BADGE_ACQUISITIONS_TABLE)
+  const certifiableBadgeAcquisitions = await knexConn
+    .with('user-badges', (qb) => {
+      qb.from(BADGE_ACQUISITIONS_TABLE)
+        .select({
+          id: 'badges.id',
+          key: 'badges.key',
+          acquiredAt: 'badge-acquisitions.createdAt',
+          campaignParticipationId: 'badge-acquisitions.campaignParticipationId',
+          complementaryCertificationId: 'complementary-certification-badges.complementaryCertificationId',
+          complementaryCertificationBadgeId: 'complementary-certification-badges.id',
+          complementaryCertificationBadgeImageUrl: 'complementary-certification-badges.imageUrl',
+          complementaryCertificationBadgeLabel: 'complementary-certification-badges.label',
+          complementaryCertificationBadgeLevel: 'complementary-certification-badges.level',
+        })
+        .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
+        .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
+        .where('badge-acquisitions.createdAt', '<=', limitDate)
+        .where({
+          'badge-acquisitions.userId': userId,
+          'badges.isCertifiable': true,
+        });
+    })
+    .from('user-badges')
     .select({
-      badgeId: 'badges.id',
-      badgeKey: 'badges.key',
+      badgeId: 'user-badges.id',
+      badgeKey: 'user-badges.key',
       campaignId: 'campaign-participations.campaignId',
       complementaryCertificationId: 'complementary-certifications.id',
       complementaryCertificationKey: 'complementary-certifications.key',
-      complementaryCertificationBadgeId: 'complementary-certification-badges.id',
-      complementaryCertificationBadgeImageUrl: 'complementary-certification-badges.imageUrl',
-      complementaryCertificationBadgeLabel: 'complementary-certification-badges.label',
-      complementaryCertificationBadgeLevel: 'complementary-certification-badges.level',
+      complementaryCertificationBadgeId: 'user-badges.complementaryCertificationBadgeId',
+      complementaryCertificationBadgeImageUrl: 'user-badges.complementaryCertificationBadgeImageUrl',
+      complementaryCertificationBadgeLabel: 'user-badges.complementaryCertificationBadgeLabel',
+      complementaryCertificationBadgeLevel: 'user-badges.complementaryCertificationBadgeLevel',
     })
-    .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
-    .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
-    .join(
-      'complementary-certifications',
-      'complementary-certifications.id',
-      'complementary-certification-badges.complementaryCertificationId',
-    )
-    .join('campaign-participations', 'campaign-participations.id', 'badge-acquisitions.campaignParticipationId')
+    .join('complementary-certifications', 'complementary-certifications.id', 'user-badges.complementaryCertificationId')
+    .join('campaign-participations', 'campaign-participations.id', 'user-badges.campaignParticipationId')
     .where({
-      'badge-acquisitions.userId': userId,
-      'badges.isCertifiable': true,
-    })
-    .where({
-      'badge-acquisitions.createdAt': knex('complementary-certification-badges AS ccb')
-        .max('badge-acquisitions.createdAt')
-        .join('badges', 'ccb.badgeId', 'badges.id')
-        .join('badge-acquisitions', 'badge-acquisitions.badgeId', 'badges.id')
-        .whereRaw(
-          'ccb."complementaryCertificationId" = "complementary-certification-badges"."complementaryCertificationId"',
-        )
-        .where({ 'badge-acquisitions.userId': userId })
-        .where('ba.createdAt', '<=', limitDate)
-        .where({ 'badges.isCertifiable': true }),
+      'user-badges.acquiredAt': knex('user-badges AS ub')
+        .max('ub.acquiredAt')
+        .whereRaw('ub."complementaryCertificationId" = "user-badges"."complementaryCertificationId"'),
     });
 
   const highestCertifiableBadgeAcquisitionByComplementaryCertificationId = _(certifiableBadgeAcquisitions)
