@@ -108,7 +108,12 @@
   &__subTitle {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 16px;
+
+    &--mediacentre {
+      margin-bottom: 0;
+    }
 
     .green-icon {
       color: $pix-success-70;
