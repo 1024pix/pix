@@ -2,13 +2,13 @@
   display: flex;
   flex-direction: column;
   background-color: $pix-neutral-10;
-  padding: 24px;
+  padding: $pix-spacing-m;
 
   h6 {
     font-size: 1.125rem;
     font-weight: normal;
     color: $pix-neutral-90;
-    margin: 0px;
+    margin: 0;
   }
 
   label {
@@ -66,22 +66,22 @@
     color: $pix-neutral-0;
     flex-direction: column;
     font-size: .875rem;
-    padding-left: 16px;
+    padding-left: $pix-spacing-s;
 
     li {
-      margin: 4px 0;
+      margin: $pix-spacing-xxs 0;
     }
   }
 
   &__footer {
     background-color: $pix-neutral-70;
-    border-radius: 8px;
-    padding: 16px 24px;
-    margin-top: 16px;
+    border-radius: $pix-spacing-xs;
+    padding: $pix-spacing-s $pix-spacing-m;
+    margin-top: $pix-spacing-s;
 
     button {
       font-weight: 600;
-      margin-bottom: 16px;
+      margin-bottom: $pix-spacing-s;
     }
 
     label {
@@ -92,23 +92,28 @@
   &__box {
     background-color: $pix-neutral-0;
     border-radius: 8px;
-    margin-top: 16px;
-    padding: 16px 24px 16px 24px;
+    margin-top: $pix-spacing-s;
+    padding: $pix-spacing-s $pix-spacing-m;
 
     hr {
       color: $pix-neutral-22;
-      margin-bottom: 16px;
+      margin-bottom: $pix-spacing-s;
     }
 
     > .input-container {
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
   }
 
   &__subTitle {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 16px;
+    align-items: center;
+    margin-bottom: $pix-spacing-s;
+
+    &--mediacentre {
+      margin-bottom: 0;
+    }
 
     .green-icon {
       color: $pix-success-70;
