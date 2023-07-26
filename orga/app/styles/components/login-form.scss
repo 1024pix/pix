@@ -58,5 +58,9 @@
     display: flex;
     flex-direction: column;
     gap: $pix-spacing-s;
+
+    button[type="submit"] {
+      width: 100%;
+    }
   }
 }
