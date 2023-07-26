@@ -16,10 +16,20 @@ import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/ind
 /**
  * DESCRIPTION
  *    Will display certifications eligibiliby for a user at a specific date
- *    Note: by default date is today's date
+ *    Note: by default date is full today's date at 23h 59m 59s
  *
  * USAGE
- *    $ node get-user-certifications-eligibility.js <userId> [<YYYY-MM-DD>]
+ *    $ node ./scripts/certification/get-user-certifications-eligibility.js <userId> [<YYYY-MM-DD>] [HH:mm:ss]
+ *
+ * EXAMPLES:
+ *    # Today at 23h59:59
+ *    $ node get-user-certifications-eligibility.js 147114
+ *
+ *    # On 26/07/2023 at 23h 59m 59s
+ *    $ node get-user-certifications-eligibility.js 147114 2023-07-26
+ *
+ *    # On 22/01/2000 at 11h 52m 00s
+ *    $ node get-user-certifications-eligibility.js 147114 2000-01-22 11:52
  */
 
 async function getUserCertificationsEligibility({ userId, limitDate }) {
@@ -33,10 +43,10 @@ async function getUserCertificationsEligibility({ userId, limitDate }) {
       limitDate,
     });
 
-  const complementaires = eligibleComplementaryCertifications.map(({ label }) => label).join(', ') || '❌';
+  const complementaryCertifications = eligibleComplementaryCertifications.map(({ label }) => label).join(', ') || '❌';
   console.log(`Eligibilité utilisateur ${userId} à ${limitDate.toISOString()}`);
   console.log(`PIX: ${pixCertificationEligible ? '✅' : '❌'}`);
-  console.log(`COMPLEMENTAIRES: ${complementaires}`);
+  console.log(`COMPLEMENTAIRES: ${complementaryCertifications}`);
 }
 
 const modulePath = url.fileURLToPath(import.meta.url);
@@ -44,7 +54,10 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const userId = process.argv[2];
-  const limitDate = process.argv[3] ? new Date(process.argv[3]) : new Date();
+  const limitDay = process.argv[3];
+  const limitHours = process.argv[4] ?? '23:59:59';
+  const limitDate = limitDay ? new Date(`${limitDay} ${limitHours}`) : new Date();
+
   await getUserCertificationsEligibility({ userId, limitDate });
 }
 
