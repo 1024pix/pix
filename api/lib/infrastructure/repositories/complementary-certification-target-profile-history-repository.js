@@ -1,7 +1,7 @@
 import { ComplementaryCertificationTargetProfileHistory } from '../../domain/models/ComplementaryCertificationTargetProfileHistory.js';
 import { knex } from '../../../db/knex-database-connection.js';
 
-const getById = async function ({ complementaryCertificationId }) {
+const getByComplementaryCertificationId = async function ({ complementaryCertificationId }) {
   const targetProfiles = await knex('complementary-certification-badges')
     .select({
       id: 'target-profiles.id',
@@ -14,6 +14,7 @@ const getById = async function ({ complementaryCertificationId }) {
     .where({ complementaryCertificationId })
     .orderBy('attachedAt', 'desc');
 
+  const currentTargetProfileId = targetProfiles.at(0).id;
   const currentTargetProfileBadges = await knex('badges')
     .select({
       id: 'badges.id',
@@ -21,7 +22,7 @@ const getById = async function ({ complementaryCertificationId }) {
       level: 'complementary-certification-badges.level',
     })
     .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
-    .where({ targetProfileId: targetProfiles[0].id });
+    .where({ targetProfileId: currentTargetProfileId });
 
   const complementaryCertification = await knex
     .from('complementary-certifications')
@@ -35,4 +36,4 @@ const getById = async function ({ complementaryCertificationId }) {
   });
 };
 
-export { getById };
+export { getByComplementaryCertificationId };

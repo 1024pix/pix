@@ -3,7 +3,7 @@ import * as complementaryCertificationTargetProfileHistoryRepository from '../..
 import { ComplementaryCertificationTargetProfileHistory } from '../../../../lib/domain/models/ComplementaryCertificationTargetProfileHistory.js';
 
 describe('Integration | Repository | complementary-certification-target-profile-history-repository', function () {
-  describe('#getById', function () {
+  describe('#getByComplementaryCertificationId', function () {
     it('should return the complementary certification and current target profile with badges', async function () {
       // given
       databaseBuilder.factory.buildComplementaryCertification({
@@ -47,7 +47,7 @@ describe('Integration | Repository | complementary-certification-target-profile-
       await databaseBuilder.commit();
 
       // when
-      const result = await complementaryCertificationTargetProfileHistoryRepository.getById({
+      const result = await complementaryCertificationTargetProfileHistoryRepository.getByComplementaryCertificationId({
         complementaryCertificationId: complementaryCertification.id,
       });
 
