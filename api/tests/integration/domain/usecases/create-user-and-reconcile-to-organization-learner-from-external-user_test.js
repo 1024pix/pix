@@ -212,9 +212,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
       expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
     });
 
-    context(
-      'When the external user is already linked to another account without samlId authentication method',
-      function () {
+    context('When the external user is already linked to another account', function () {
+      context('without samlId authentication method', function () {
         it('throws an OrganizationLearnerAlreadyLinkedToUserError', async function () {
           // given
           const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -240,12 +239,9 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
           // then
           expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
         });
-      },
-    );
+      });
 
-    context(
-      'When the external user is already linked to another account with samlId authentication method',
-      function () {
+      context('with samlId authentication method', function () {
         context('When reconciled in other organization', function () {
           it('updates existing account with the new samlId, firstName and lastName', async function () {
             // given
@@ -358,8 +354,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
           });
         });
-      },
-    );
+      });
+    });
 
     context('When the external user is already created', function () {
       it('does not create again the user', async function () {
