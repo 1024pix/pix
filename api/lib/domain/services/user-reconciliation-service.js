@@ -44,12 +44,12 @@ async function findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser
   });
 
   if (!organizationLearner) {
-    throw new NotFoundError('There are no organization learners found');
+    throw new NotFoundError('Found no organization learner matching organization, student number and birthdate');
   }
 
   const organizationLearnerId = findMatchingCandidateIdForGivenUser([organizationLearner], { firstName, lastName });
   if (!organizationLearnerId) {
-    throw new NotFoundError('There were no organizationLearners matching with names');
+    throw new NotFoundError('Found no organization learner matching organization and names');
   }
 
   if (!lodash.isNil(organizationLearner.userId)) {
@@ -69,12 +69,12 @@ async function findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
   });
 
   if (lodash.isEmpty(organizationLearners)) {
-    throw new NotFoundError('There are no organization learners found');
+    throw new NotFoundError('Found no organization learners matching organization and birthdate');
   }
 
   const organizationLearnerId = findMatchingCandidateIdForGivenUser(organizationLearners, { firstName, lastName });
   if (!organizationLearnerId) {
-    throw new NotFoundError('There were no organizationLearners matching with names');
+    throw new NotFoundError('Found no organization learner matching names');
   }
 
   return lodash.find(organizationLearners, { id: organizationLearnerId });

@@ -146,7 +146,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
-      expect(error.message).to.equal('There are no organization learners found');
+      expect(error.message).to.equal('Found no organization learners matching organization and birthdate');
     });
   });
 

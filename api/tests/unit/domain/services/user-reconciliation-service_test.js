@@ -399,7 +399,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // then
           expect(result).to.be.instanceOf(NotFoundError);
-          expect(result.message).to.equal('There were no organizationLearners matching with names');
+          expect(result.message).to.equal('Found no organization learner matching names');
         });
       });
 
@@ -450,7 +450,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
         // then
         expect(result).to.be.instanceOf(NotFoundError);
-        expect(result.message).to.equal('There are no organization learners found');
+        expect(result.message).to.equal('Found no organization learners matching organization and birthdate');
       });
     });
   });
