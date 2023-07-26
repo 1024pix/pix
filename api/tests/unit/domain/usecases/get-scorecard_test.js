@@ -1,4 +1,4 @@
-import { sinon, expect } from '../../../test-helper.js';
+import { expect, sinon } from '../../../test-helper.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
 import { getScorecard } from '../../../../lib/domain/usecases/get-scorecard.js';
@@ -6,8 +6,9 @@ import { getScorecard } from '../../../../lib/domain/usecases/get-scorecard.js';
 describe('Unit | UseCase | get-scorecard', function () {
   let scorecardService;
   let competenceRepository;
-  let competenceEvaluationRepository;
+  let skillRepository;
   let knowledgeElementRepository;
+  let areaRepository;
   let scorecardId;
   let competenceId;
   let authenticatedUserId;
@@ -21,8 +22,9 @@ describe('Unit | UseCase | get-scorecard', function () {
     scorecardService = { computeScorecard: sinon.stub() };
     parseIdStub = sinon.stub(Scorecard, 'parseId');
     competenceRepository = {};
-    competenceEvaluationRepository = {};
+    skillRepository = {};
     knowledgeElementRepository = {};
+    areaRepository = {};
   });
 
   context('When user is authenticated', function () {
@@ -31,37 +33,9 @@ describe('Unit | UseCase | get-scorecard', function () {
     });
 
     context('And user asks for his own scorecard', function () {
-      it('should resolve', function () {
-        // given
-        scorecardService.computeScorecard
-          .withArgs({
-            userId: authenticatedUserId,
-            competenceRepository,
-            competenceEvaluationRepository,
-            knowledgeElementRepository,
-            locale,
-          })
-          .resolves({});
-
-        // when
-        const promise = getScorecard({
-          authenticatedUserId,
-          scorecardId,
-          scorecardService,
-          competenceRepository,
-          competenceEvaluationRepository,
-          knowledgeElementRepository,
-          locale,
-        });
-
-        // then
-        return expect(promise).to.be.fulfilled;
-      });
-
-      it('should return the user scorecard', async function () {
+      it('should resolve', async function () {
         // given
         const scorecard = Symbol('Scorecard');
-
         scorecardService.computeScorecard.resolves(scorecard);
 
         // when
@@ -69,9 +43,24 @@ describe('Unit | UseCase | get-scorecard', function () {
           authenticatedUserId,
           scorecardId,
           scorecardService,
+          competenceRepository,
+          skillRepository,
+          knowledgeElementRepository,
+          areaRepository,
+          locale,
         });
 
-        //then
+        // then
+        expect(scorecardService.computeScorecard).to.have.been.calledWith({
+          userId: authenticatedUserId,
+          competenceId,
+          competenceRepository,
+          areaRepository,
+          skillRepository,
+          knowledgeElementRepository,
+          locale,
+        });
+
         expect(userScorecard).to.deep.equal(scorecard);
       });
     });

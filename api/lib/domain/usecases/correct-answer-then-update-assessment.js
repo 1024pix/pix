@@ -1,8 +1,8 @@
 import {
-  ForbiddenAccess,
-  ChallengeNotAskedError,
-  CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
+  CertificationEndedBySupervisorError,
+  ChallengeNotAskedError,
+  ForbiddenAccess,
 } from '../errors.js';
 
 import { Examiner } from '../models/Examiner.js';
@@ -19,7 +19,6 @@ const correctAnswerThenUpdateAssessment = async function ({
   challengeRepository,
   scorecardService,
   competenceRepository,
-  competenceEvaluationRepository,
   skillRepository,
   campaignRepository,
   knowledgeElementRepository,
@@ -56,7 +55,7 @@ const correctAnswerThenUpdateAssessment = async function ({
       competenceId: challenge.competenceId,
       areaRepository,
       competenceRepository,
-      competenceEvaluationRepository,
+      skillRepository,
       knowledgeElementRepository,
       locale,
     });
@@ -92,7 +91,7 @@ const correctAnswerThenUpdateAssessment = async function ({
     competenceId: challenge.competenceId,
     areaRepository,
     competenceRepository,
-    competenceEvaluationRepository,
+    skillRepository,
     knowledgeElementRepository,
     scorecardBeforeAnswer,
     locale,
@@ -187,7 +186,7 @@ async function _addLevelUpInformation({
   competenceId,
   competenceRepository,
   areaRepository,
-  competenceEvaluationRepository,
+  skillRepository,
   knowledgeElementRepository,
   scorecardBeforeAnswer,
   locale,
@@ -203,7 +202,7 @@ async function _addLevelUpInformation({
     competenceId,
     competenceRepository,
     areaRepository,
-    competenceEvaluationRepository,
+    skillRepository,
     knowledgeElementRepository,
     locale,
   });

@@ -17,6 +17,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
   const campaignParticipationRepository = {};
   const campaignRepository = {};
   const scorecardService = {};
+  const skillRepository = {};
   let getRemainingDaysBeforeResetStub;
 
   beforeEach(function () {
@@ -24,6 +25,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
     scorecard = Symbol('Scorecard');
     competenceEvaluationRepository.existsByCompetenceIdAndUserId = sinon.stub();
     knowledgeElementRepository.findUniqByUserIdAndCompetenceId = sinon.stub();
+    skillRepository.findOperativeByCompetenceId = sinon.stub();
     scorecardService.resetScorecard = sinon.stub();
     scorecardService.computeScorecard = sinon.stub();
     getRemainingDaysBeforeResetStub = sinon.stub(Scorecard, 'computeRemainingDaysBeforeReset');
@@ -56,7 +58,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
           competenceId,
           competenceRepository,
           areaRepository,
-          competenceEvaluationRepository,
+          skillRepository,
           knowledgeElementRepository,
           locale,
         })
@@ -80,6 +82,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceEvaluationRepository,
         knowledgeElementRepository,
         campaignRepository,
+        skillRepository,
         locale,
       });
 
@@ -124,7 +127,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
           competenceId,
           competenceRepository,
           areaRepository,
-          competenceEvaluationRepository,
+          skillRepository,
           knowledgeElementRepository,
           locale,
         })
@@ -141,6 +144,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         areaRepository,
         competenceEvaluationRepository,
         knowledgeElementRepository,
+        skillRepository,
         locale,
       });
 
@@ -167,6 +171,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceRepository,
         competenceEvaluationRepository,
         knowledgeElementRepository,
+        skillRepository,
         locale,
       });
 
@@ -190,6 +195,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceRepository,
         competenceEvaluationRepository,
         knowledgeElementRepository,
+        skillRepository,
         locale,
       });
 

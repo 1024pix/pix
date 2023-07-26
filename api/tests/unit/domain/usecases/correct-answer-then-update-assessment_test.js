@@ -1,15 +1,15 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecases/correct-answer-then-update-assessment.js';
 
 import {
-  ChallengeNotAskedError,
-  NotFoundError,
-  ForbiddenAccess,
-  CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
+  CertificationEndedBySupervisorError,
+  ChallengeNotAskedError,
+  ForbiddenAccess,
+  NotFoundError,
 } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', function () {
@@ -30,7 +30,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
   };
   const assessmentRepository = { get: () => undefined };
   const challengeRepository = { get: () => undefined };
-  const competenceEvaluationRepository = {};
   const campaignRepository = { findSkillsByCampaignParticipationId: () => undefined };
   const skillRepository = { findActiveByCompetenceId: () => undefined };
   const flashAssessmentResultRepository = { save: () => undefined };
@@ -38,6 +37,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
   const knowledgeElementRepository = {
     findUniqByUserIdAndAssessmentId: () => undefined,
   };
+  const competenceRepository = {};
+  const areaRepository = {};
+  const locale = 'fr';
   const flashAlgorithmService = { getEstimatedLevelAndErrorRate: () => undefined };
   const algorithmDataFetcherService = { fetchForFlashLevelEstimation: () => undefined };
   const nowDate = new Date('2021-03-11T11:00:04Z');
@@ -81,11 +83,13 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       answerRepository,
       assessmentRepository,
       challengeRepository,
-      competenceEvaluationRepository,
       skillRepository,
       campaignRepository,
       knowledgeElementRepository,
       flashAssessmentResultRepository,
+      areaRepository,
+      locale,
+      competenceRepository,
       scorecardService,
       flashAlgorithmService,
       algorithmDataFetcherService,
@@ -282,6 +286,15 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           });
 
           // then
+          sinon.assert.alwaysCalledWith(scorecardService.computeScorecard, {
+            userId,
+            competenceId: challenge.competenceId,
+            competenceRepository,
+            areaRepository,
+            skillRepository,
+            knowledgeElementRepository,
+            locale,
+          });
           expect(result.levelup).to.deep.equal({});
         });
       });

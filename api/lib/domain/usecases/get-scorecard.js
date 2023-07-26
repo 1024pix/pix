@@ -7,7 +7,7 @@ const getScorecard = async function ({
   scorecardService,
   competenceRepository,
   areaRepository,
-  competenceEvaluationRepository,
+  skillRepository,
   knowledgeElementRepository,
   locale,
 }) {
@@ -22,7 +22,7 @@ const getScorecard = async function ({
     competenceId,
     competenceRepository,
     areaRepository,
-    competenceEvaluationRepository,
+    skillRepository,
     knowledgeElementRepository,
     locale,
   });

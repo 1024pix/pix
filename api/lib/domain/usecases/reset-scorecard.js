@@ -13,6 +13,7 @@ const resetScorecard = async function ({
   assessmentRepository,
   campaignParticipationRepository,
   campaignRepository,
+  skillRepository,
   locale,
 }) {
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
@@ -52,7 +53,7 @@ const resetScorecard = async function ({
     competenceId,
     competenceRepository,
     areaRepository,
-    competenceEvaluationRepository,
+    skillRepository,
     knowledgeElementRepository,
     locale,
   });
