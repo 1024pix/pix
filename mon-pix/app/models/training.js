@@ -10,7 +10,7 @@ export default class Training extends Model {
   @attr('string') editorLogoUrl;
   @attr() duration;
 
-  @belongsTo('campaign-participation') campaignParticpation;
+  @belongsTo('campaign-participation', { async: true, inverse: 'trainings' }) campaignParticipation;
 
   get isAutoformation() {
     return this.type === 'autoformation';

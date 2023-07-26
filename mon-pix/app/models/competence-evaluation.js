@@ -1,4 +1,4 @@
-import Model, { belongsTo, attr } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class CompetenceEvaluation extends Model {
   // attributes
@@ -10,7 +10,7 @@ export default class CompetenceEvaluation extends Model {
   @attr('string') competenceId;
 
   // includes
-  @belongsTo('assessment') assessment;
-  @belongsTo('scorecard', { async: false }) scorecard;
-  @belongsTo('user') user;
+  @belongsTo('assessment', { async: true, inverse: null }) assessment;
+  @belongsTo('scorecard', { async: true, inverse: null }) scorecard;
+  @belongsTo('user', { async: true, inverse: null }) user;
 }

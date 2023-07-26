@@ -24,11 +24,11 @@ export default class User extends Model {
   @attr() lastDataProtectionPolicySeenAt;
 
   // includes
-  @belongsTo('is-certifiable') isCertifiable;
-  @belongsTo('profile') profile;
-  @hasMany('certification') certifications;
-  @hasMany('scorecard') scorecards;
-  @hasMany('trainings') trainings;
+  @belongsTo('is-certifiable', { async: true, inverse: null }) isCertifiable;
+  @belongsTo('profile', { async: true, inverse: null }) profile;
+  @hasMany('certification', { async: true, inverse: 'user' }) certifications;
+  @hasMany('scorecard', { async: true, inverse: null }) scorecards;
+  @hasMany('trainings', { async: true, inverse: null }) trainings;
 
   // methods
   get fullName() {

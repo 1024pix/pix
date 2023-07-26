@@ -31,8 +31,8 @@ export default class Scorecard extends Model {
   @attr('string') competenceId;
 
   // includes
-  @belongsTo('area') area;
-  @hasMany('tutorial') tutorials;
+  @belongsTo('area', { async: false, inverse: null }) area;
+  @hasMany('tutorial', { async: true, inverse: 'scorecard' }) tutorials;
 
   // methods
   get capedPercentageAheadOfNextLevel() {
