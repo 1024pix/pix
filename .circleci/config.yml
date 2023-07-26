@@ -47,7 +47,7 @@ executors:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
       - image: redis:6.2.10-alpine
-    resource_class: small
+    resource_class: medium
   node-browsers-docker:
     parameters:
       node-version:
