@@ -37,7 +37,7 @@ const markCertificationCoursesAsExported = async function ({ certificationCourse
     .whereIn('id', certificationCourseIds);
 };
 
-const markCertificationToExport = async function ({ startDate, endDate, limit = 'ALL', offset = 0, batchId }) {
+const markCertificationToExport = async function ({ startDate, endDate, limit, offset, batchId }) {
   const now = new Date();
 
   return knex

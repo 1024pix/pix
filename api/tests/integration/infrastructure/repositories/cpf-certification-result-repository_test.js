@@ -282,57 +282,6 @@ describe('Integration | Repository | CpfCertificationResult', function () {
   });
 
   describe('#markCertificationToExport', function () {
-    context('when there is no offset, limit', function () {
-      it('should save batchId in cpfFilename', async function () {
-        // given
-        const startDate = new Date('2022-01-01');
-        const endDate = new Date('2022-01-10');
-
-        const firstPublishedSessionId = databaseBuilder.factory.buildSession({
-          publishedAt: new Date('2022-01-04'),
-        }).id;
-        createCertificationCourseWithCompetenceMarks({
-          certificationCourseId: 123,
-          sessionId: firstPublishedSessionId,
-        });
-        createCertificationCourseWithCompetenceMarks({
-          certificationCourseId: 456,
-          sessionId: firstPublishedSessionId,
-        });
-        const secondPublishedSessionId = databaseBuilder.factory.buildSession({
-          publishedAt: new Date('2023-01-09'),
-        }).id;
-        createCertificationCourseWithCompetenceMarks({
-          certificationCourseId: 789,
-          sessionId: secondPublishedSessionId,
-        });
-        createCertificationCourseWithCompetenceMarks({
-          certificationCourseId: 101112,
-          sessionId: secondPublishedSessionId,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        await cpfCertificationResultRepository.markCertificationToExport({
-          startDate,
-          endDate,
-          batchId: 'toto#1',
-        });
-
-        // then
-        const certificationCourses = await knex('certification-courses')
-          .select('id', 'cpfImportStatus', 'cpfFilename')
-          .orderBy('id');
-        expect(certificationCourses).to.deep.equal([
-          { id: 123, cpfImportStatus: 'PENDING', cpfFilename: 'toto#1' },
-          { id: 456, cpfImportStatus: 'PENDING', cpfFilename: 'toto#1' },
-          { id: 789, cpfImportStatus: null, cpfFilename: null },
-          { id: 101112, cpfImportStatus: null, cpfFilename: null },
-        ]);
-      });
-    });
-
     context('when there are pending certification courses', function () {
       context('when there are offset/limit', function () {
         it('should save partially batchId in cpfFilename', async function () {
