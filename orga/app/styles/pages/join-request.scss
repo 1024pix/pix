@@ -8,11 +8,7 @@
   justify-content: center;
 
   a {
-    color: $pix-communication-dark;
-
-    &:visited {
-      color: $pix-communication-dark;
-    }
+    text-decoration: underline;
   }
 
   &__panel {
@@ -49,6 +45,7 @@
 
   &__error-message {
     max-width: 497px;
+    margin-top: $pix-spacing-m;
     margin-bottom: 24px;
     font-size: 0.875rem;
     text-align: center;
@@ -60,5 +57,9 @@
     letter-spacing: 0.15px;
     margin-top: 54px;
     margin-bottom: 24px;
+  }
+
+  .pix-button {
+    width: 100%;
   }
 }
