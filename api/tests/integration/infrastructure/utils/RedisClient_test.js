@@ -117,4 +117,31 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
       expect(result).to.equal(1);
     });
   });
+
+  describe('quit', function () {
+    it('should close the connection', async function () {
+      // given
+      const client = new RedisClient(config.redis.url);
+
+      // when
+      await client.quit();
+
+      // then
+      expect(client._client.status).to.equal('end');
+    });
+
+    context('when the connection is already closed', function () {
+      it('should not throw an error', async function () {
+        // given
+        const client = new RedisClient(config.redis.url);
+
+        // when
+        await client.quit();
+        await client.quit();
+
+        // then
+        expect(client._client.status).to.equal('end');
+      });
+    });
+  });
 });
