@@ -8,6 +8,7 @@ const getByComplementaryCertificationId = async function ({ complementaryCertifi
       name: 'target-profiles.name',
     })
     .max('complementary-certification-badges.createdAt', { as: 'attachedAt' })
+    .max('complementary-certification-badges.detachedAt', { as: 'detachedAt' })
     .leftJoin('badges', 'badges.id', 'complementary-certification-badges.badgeId')
     .leftJoin('target-profiles', 'target-profiles.id', 'badges.targetProfileId')
     .groupBy('target-profiles.id')

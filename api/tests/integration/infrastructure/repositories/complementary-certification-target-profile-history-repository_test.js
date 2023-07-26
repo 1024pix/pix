@@ -42,6 +42,7 @@ describe('Integration | Repository | complementary-certification-target-profile-
         createdAt: new Date('2020-10-10'),
         label: 'oldBadge',
         level: 1,
+        detachedAt: new Date('2021-10-10'),
       });
 
       await databaseBuilder.commit();
@@ -58,8 +59,8 @@ describe('Integration | Repository | complementary-certification-target-profile-
           key: 'EDU_2ND_DEGRE',
           label: 'Pix+ Édu 2nd degré',
           targetProfilesHistory: [
-            { id: 999, name: 'currentTarget', attachedAt: new Date('2023-10-10') },
-            { id: 222, name: 'oldTarget', attachedAt: new Date('2020-10-10') },
+            { id: 999, name: 'currentTarget', attachedAt: new Date('2023-10-10'), detachedAt: null },
+            { id: 222, name: 'oldTarget', attachedAt: new Date('2020-10-10'), detachedAt: new Date('2021-10-10') },
           ],
           currentTargetProfileBadges: [
             {
@@ -83,6 +84,7 @@ function _createComplementaryCertificationBadge({
   targetProfileId,
   complementaryCertificationId,
   createdAt,
+  detachedAt,
   label,
   level,
 }) {
@@ -95,6 +97,7 @@ function _createComplementaryCertificationBadge({
     badgeId,
     complementaryCertificationId,
     createdAt,
+    detachedAt,
     label,
     level,
   });
