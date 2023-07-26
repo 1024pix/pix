@@ -8,6 +8,6 @@ export default class Profile extends Model {
   @hasMany('scorecard', { async: false, inverse: null }) scorecards;
 
   get areas() {
-    return this.scorecards.mapBy('area').uniqBy('code');
+    return this.scorecards.map((s) => s.area).uniqBy('code');
   }
 }
