@@ -5,7 +5,7 @@ export default class Profile extends Model {
   @attr('number') maxReachablePixScore;
   @attr('number') maxReachableLevel;
 
-  @hasMany('scorecard') scorecards;
+  @hasMany('scorecard', { async: false, inverse: null }) scorecards;
 
   get areas() {
     return this.scorecards.mapBy('area').uniqBy('code');

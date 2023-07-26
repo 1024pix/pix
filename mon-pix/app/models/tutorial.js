@@ -16,7 +16,7 @@ export default class Tutorial extends Model {
   @attr('string') skillId;
 
   // includes
-  @belongsTo('scorecard') scorecard;
+  @belongsTo('scorecard', { async: true, inverse: 'tutorials' }) scorecard;
   @belongsTo('userSavedTutorial', { inverse: 'tutorial', async: false }) userSavedTutorial;
   @belongsTo('tutorialEvaluation', { inverse: 'tutorial', async: false }) tutorialEvaluation;
 

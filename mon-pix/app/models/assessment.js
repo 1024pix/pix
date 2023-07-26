@@ -1,7 +1,7 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
-import { equal, or, not, and } from '@ember/object/computed';
+import { and, equal, not, or } from '@ember/object/computed';
 import ENV from 'mon-pix/config/environment';
 
 export const assessmentStates = {
@@ -26,10 +26,10 @@ export default class Assessment extends Model {
   @attr('string') competenceId;
 
   // includes
-  @hasMany('answer') answers;
-  @belongsTo('certification-course') certificationCourse;
-  @belongsTo('course', { inverse: null }) course;
-  @belongsTo('progression', { inverse: null }) progression;
+  @hasMany('answer', { async: true, inverse: 'assessment' }) answers;
+  @belongsTo('certification-course', { async: true, inverse: 'assessment' }) certificationCourse;
+  @belongsTo('course', { async: true, inverse: null }) course;
+  @belongsTo('progression', { async: true, inverse: null }) progression;
 
   // methods
   @equal('type', 'CERTIFICATION') isCertification;
