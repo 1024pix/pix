@@ -16,7 +16,9 @@ describe('Unit | Infrastructure | CsvParser', function () {
 
         const input = `Column 1;Column 2
         John;Mc Lane`;
-        const parser = new CsvParser(input, header);
+        const encodedInput = iconv.encode(input, 'utf8');
+
+        const parser = new CsvParser(encodedInput, header);
         const [result] = parser.parse();
 
         expect(result.col1).to.equal('John');
@@ -30,7 +32,9 @@ describe('Unit | Infrastructure | CsvParser', function () {
         const input = `Column 1
         GodZilla
         Gidora`;
-        const parser = new CsvParser(input, header);
+        const encodedInput = iconv.encode(input, 'utf8');
+
+        const parser = new CsvParser(encodedInput, header);
 
         const [result1, result2] = parser.parse();
 
