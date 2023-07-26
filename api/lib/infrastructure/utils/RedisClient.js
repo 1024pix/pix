@@ -59,6 +59,9 @@ class RedisClient {
   }
 
   async quit() {
+    if (this._client.status == 'end') {
+      return;
+    }
     await this._client.quit();
   }
 }
