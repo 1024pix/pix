@@ -54,13 +54,13 @@ export default class Assessment extends Model {
   @or('isCompetenceEvaluation', 'isForNotFlashCampaign', 'isDemo') showProgressBar;
 
   get answersSinceLastCheckpoints() {
-    const answers = this.answers.toArray();
-    const howManyAnswersSinceTheLastCheckpoint = answers.length % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
+    const howManyAnswersSinceTheLastCheckpoint =
+      this.currentChallengeNumber % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
     const sliceAnswersFrom =
       howManyAnswersSinceTheLastCheckpoint === 0
         ? -ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS
         : -howManyAnswersSinceTheLastCheckpoint;
-    return answers.slice(sliceAnswersFrom);
+    return this.answers.slice(sliceAnswersFrom);
   }
 
   get currentChallengeNumber() {

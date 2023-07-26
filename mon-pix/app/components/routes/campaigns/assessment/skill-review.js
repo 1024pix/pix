@@ -184,7 +184,7 @@ export default class SkillReview extends Component {
   }
 
   get competenceResultsGroupedByAreas() {
-    const competenceResults = this.args.model.campaignParticipationResult.get('competenceResults').toArray();
+    const competenceResults = this.args.model.campaignParticipationResult.get('competenceResults');
     return competenceResults.reduce((acc, competenceResult) => {
       const currentArea = competenceResult.areaTitle;
       const competence = {
