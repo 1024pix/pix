@@ -1,5 +1,4 @@
 .insights {
-
   &__section {
     padding: 0;
     margin-bottom: 30px;
@@ -7,11 +6,10 @@
 }
 
 .insights-section {
-
   &__title {
     font-size: 1.4rem;
     display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: $pix-spacing-m;
   }
 
   &__button {
@@ -25,8 +23,25 @@
   }
 }
 
-.insights-section-button {
+.insights__section > .pix-banner {
+  margin-bottom: $pix-spacing-m;
 
+  ul,
+  ol {
+    list-style: revert;
+    padding-left: 1.75em;
+
+    &:not(:first-child) {
+      margin-top: 0.5em;
+    }
+  }
+
+  li + li {
+    margin-top: 0.25em;
+  }
+}
+
+.insights-section-button {
   &__icon {
     margin-right: 4px;
   }
