@@ -1,5 +1,61 @@
 # Pix Changelog
 
+## v4.18.0 (27/07/2023)
+
+
+### :rocket: Amélioration
+- [#6692](https://github.com/1024pix/pix/pull/6692) [FEATURE] Afficher l'historique des badges liés à une certification complémentaire sur Pix Admin (PIX-8731).
+- [#6708](https://github.com/1024pix/pix/pull/6708) [FEATURE] Ajouter le filtre sur la certificabilité dans la page de résultat d'une collecte de profil dans Pix Orga (PIX-2431).
+- [#6710](https://github.com/1024pix/pix/pull/6710) [FEATURE] Modifier le texte légal sur la page de récupération d'accès à Pix Orga (PIX-8559).
+- [#6566](https://github.com/1024pix/pix/pull/6566) [FEATURE] EPIX Réinitialisation en masse des mots de passe temporaires des élèves sur Pix Orga (PIX-8678).
+- [#6680](https://github.com/1024pix/pix/pull/6680) [FEATURE] Afficher les badges certifiants de la certification complementaire dans Pix Admin (PIX-8679).
+
+### :building_construction: Tech
+- [#6694](https://github.com/1024pix/pix/pull/6694) [TECH] Ajout de paramètres pour l'email de résultats de certification (PIX-8611).
+- [#6721](https://github.com/1024pix/pix/pull/6721) [TECH] Builder pix-admin avec Embroider.
+- [#6702](https://github.com/1024pix/pix/pull/6702) [TECH] Ajouter un test d'acceptance pour fiabiliser la route /api/admin/target-profiles/{id} (PIX-8748).
+- [#6752](https://github.com/1024pix/pix/pull/6752) [TECH] Corrige le test du csv parser pour ne plus avoir de warning dans la console (PIX-8761).
+- [#6712](https://github.com/1024pix/pix/pull/6712) [TECH] Ajouter un script pour mettre à jour le département d'une liste d'organisations (PIX-6970).
+- [#6728](https://github.com/1024pix/pix/pull/6728) [TECH] Ajouter un script pour mettre à jour l'attribut "identityProviderForCampaigns" d'une liste d'organisations (PIX-8433).
+- [#6695](https://github.com/1024pix/pix/pull/6695) [TECH] Remplacer le package redis par ioredis.
+- [#6747](https://github.com/1024pix/pix/pull/6747) [TECH] Simplifier `cpfCertificationResultRepository.markCertificationToExport`.
+- [#6732](https://github.com/1024pix/pix/pull/6732) [TECH] Améliore les cas de test d'acceptance autour de l'affichage des modales (PIX-8756).
+- [#6731](https://github.com/1024pix/pix/pull/6731) [TECH] Rollback de Artillery en v1 (stable).
+- [#6720](https://github.com/1024pix/pix/pull/6720) [TECH] :sparkles: Détecter les  version de node dans les executors CircleCI.
+- [#6709](https://github.com/1024pix/pix/pull/6709) [TECH] Définir les environnements CircleCI en tant qu'executors.
+- [#6714](https://github.com/1024pix/pix/pull/6714) [TECH] Ajouter des seeds pour une activité (Pix-8752).
+- [#6711](https://github.com/1024pix/pix/pull/6711) [TECH] Organiser les attributs css (PIX-8749).
+
+### :bug: Correction
+- [#6715](https://github.com/1024pix/pix/pull/6715) [BUGFIX] Réparer le design de la page de récupération d'accès à Pix Orga (PIX-8315).
+- [#6729](https://github.com/1024pix/pix/pull/6729) [BUGFIX] Dans Pix Orga réparer le design cassé de l'affichage de la connexion Médiacentre dans la pop-up du compte de l'élève (PIX-8632).
+- [#6725](https://github.com/1024pix/pix/pull/6725) [BUGFIX] Corriger la non-concordance des paramètres d'une traduction d'éligibilité sur Pix App (PIX-8755).
+- [#6719](https://github.com/1024pix/pix/pull/6719) [BUGFIX] Corriger la largeur du bouton "Je me connecte" de Pix Certif (PIX-8754).
+- [#6713](https://github.com/1024pix/pix/pull/6713) [BUGFIX] Corrige la largeur du bouton "Je me connecte" de Pix Orga(PIX-8750).
+- [#6693](https://github.com/1024pix/pix/pull/6693) [BUGFIX] Vérifier si l'épreuve est en autoReply (Pix-8737).
+
+### :arrow_up: Montée de version
+- [#6760](https://github.com/1024pix/pix/pull/6760) [BUMP] Update dependency sinon to v15 (test-algo).
+- [#6754](https://github.com/1024pix/pix/pull/6754) [BUMP] Update dependency mocha to v10 (test-algo).
+- [#6738](https://github.com/1024pix/pix/pull/6738) [BUMP] Lock file maintenance (api).
+- [#6665](https://github.com/1024pix/pix/pull/6665) [BUMP] Update dependency ember-cli to v5 (admin).
+- [#6686](https://github.com/1024pix/pix/pull/6686) [BUMP] Update dependency ember-cli to v5 (mon-pix).
+- [#6700](https://github.com/1024pix/pix/pull/6700) [BUMP] Update dependency ember-cli to v5 (orga).
+- [#6667](https://github.com/1024pix/pix/pull/6667) [BUMP] Update dependency ember-cli to v5 (certif).
+- [#6664](https://github.com/1024pix/pix/pull/6664) [BUMP] Update dependency ember-cli to v5 (1d).
+- [#6698](https://github.com/1024pix/pix/pull/6698) [BUMP] Monte la version minimale de Node.js en v16.17.
+- [#6707](https://github.com/1024pix/pix/pull/6707) [BUMP] Lock file maintenance (1d).
+- [#6706](https://github.com/1024pix/pix/pull/6706) [BUMP] Lock file maintenance (orga).
+- [#6705](https://github.com/1024pix/pix/pull/6705) [BUMP] Lock file maintenance (mon-pix).
+- [#6704](https://github.com/1024pix/pix/pull/6704) [BUMP] Lock file maintenance (certif).
+- [#6703](https://github.com/1024pix/pix/pull/6703) [BUMP] Update dependency @1024pix/pix-ui to v38.2.0 (admin).
+- [#6701](https://github.com/1024pix/pix/pull/6701) [BUMP] Update dependency @1024pix/pix-ui to v38 (certif).
+- [#6690](https://github.com/1024pix/pix/pull/6690) [BUMP] Update dependency ember-source to ~4.12.0 (mon-pix).
+
+### :coffee: Autre
+- [#6697](https://github.com/1024pix/pix/pull/6697) [CHORE] Améliorer le CSS (PIX-8736).
+- [#6699](https://github.com/1024pix/pix/pull/6699) [CLEANUP] Supprime des packages inutilisées.
+
 ## v4.17.0 (24/07/2023)
 
 
