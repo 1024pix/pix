@@ -13,7 +13,22 @@ export default class SidebarMenu extends Component {
     return this.currentUser.isAdminInOrganization && this.currentUser.isSCOManagingStudents;
   }
 
-  get isNotManagingStudents() {
-    return !this.currentUser.isSCOManagingStudents && !this.currentUser.isSUPManagingStudents;
+  get organizationLearnersList() {
+    if (this.currentUser.isSCOManagingStudents) {
+      return {
+        route: 'authenticated.sco-organization-participants',
+        label: 'navigation.main.sco-organization-participants',
+      };
+    } else if (this.currentUser.isSUPManagingStudents) {
+      return {
+        route: 'authenticated.sup-organization-participants',
+        label: 'navigation.main.sup-organization-participants',
+      };
+    } else {
+      return {
+        route: 'authenticated.organization-participants',
+        label: 'navigation.main.organization-participants',
+      };
+    }
   }
 }
