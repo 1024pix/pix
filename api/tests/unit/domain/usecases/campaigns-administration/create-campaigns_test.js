@@ -3,8 +3,8 @@ import { createCampaigns } from '../../../../../lib/domain/usecases/campaigns-ad
 
 describe('Unit | UseCase | campaign-administration | create-campaign', function () {
   it('should create campaigns', async function () {
-    const campaignAdministrationRepository = {
-      createCampaigns: sinon.stub(),
+    const campaignRepository = {
+      save: sinon.stub(),
     };
     const code1 = Symbol('code1');
     const code2 = Symbol('code2');
@@ -15,7 +15,6 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
       organization,
       organizationRole: 'ADMIN',
     });
-    const campaignRepository = Symbol('campaignRepository');
     const campaignCodeGeneratorStub = {
       generate: sinon.stub().withArgs(campaignRepository).onFirstCall().resolves(code1).onSecondCall().resolves(code2),
     };
@@ -56,7 +55,7 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
       },
     ];
 
-    campaignAdministrationRepository.createCampaigns.withArgs(campaignsWithAllData).resolves();
+    campaignRepository.save.withArgs(campaignsWithAllData).resolves();
 
     const membershipRepository = {
       findAdminsByOrganizationId: sinon.stub(),
@@ -67,13 +66,12 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
 
     await createCampaigns({
       campaignsToCreate,
-      campaignAdministrationRepository,
       membershipRepository,
       campaignRepository,
       campaignCodeGenerator: campaignCodeGeneratorStub,
     });
 
-    expect(campaignAdministrationRepository.createCampaigns).to.have.been.calledWith(campaignsWithAllData);
+    expect(campaignRepository.save).to.have.been.calledWith(campaignsWithAllData);
     expect(membershipRepository.findAdminsByOrganizationId).to.have.been.calledTwice;
   });
 });

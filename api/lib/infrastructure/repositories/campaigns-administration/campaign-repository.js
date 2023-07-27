@@ -7,14 +7,4 @@ const archiveCampaigns = function (campaignIds, userId) {
   });
 };
 
-const createCampaigns = function (campaignsToCreate) {
-  return knex.batchInsert(
-    'campaigns',
-    campaignsToCreate.map((campaignToCreate) => ({
-      ...campaignToCreate,
-      createdAt: new Date(),
-    })),
-  );
-};
-
-export { archiveCampaigns, createCampaigns };
+export { archiveCampaigns };
