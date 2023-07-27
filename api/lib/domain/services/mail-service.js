@@ -23,8 +23,8 @@ const HELPDESK_ENGLISH_SPOKEN = 'https://support.pix.org/en/support/home';
 const HELPDESK_FRENCH_SPOKEN = 'https://support.pix.org';
 const PIX_HOME_NAME_INTERNATIONAL = `pix${config.domain.tldOrg}`;
 const PIX_HOME_NAME_FRENCH_FRANCE = `pix${config.domain.tldFr}`;
-const PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN = `${config.domain.pix + config.domain.tldOrg}/en-gb`;
-const PIX_HOME_URL_INTERNATIONAL_FRENCH_SPOKEN = `${config.domain.pix + config.domain.tldOrg}/fr`;
+const PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN = `${config.domain.pix + config.domain.tldOrg}/en-gb/`;
+const PIX_HOME_URL_INTERNATIONAL_FRENCH_SPOKEN = `${config.domain.pix + config.domain.tldOrg}/fr/`;
 const PIX_HOME_URL_FRENCH_FRANCE = `${config.domain.pix + config.domain.tldFr}`;
 
 const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
@@ -37,8 +37,8 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
 
   if (locale === FRENCH_SPOKEN) {
     variables = {
-      homeName: `pix${config.domain.tldOrg}`,
-      homeUrl: `${config.domain.pix + config.domain.tldOrg}/fr/`,
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_FRENCH_SPOKEN,
       redirectionUrl: redirectionUrl || `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=fr`,
       helpdeskUrl: HELPDESK_FRENCH_SPOKEN,
       displayNationalLogo: false,
@@ -49,8 +49,8 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
     accountCreationEmailSubject = frTranslations['pix-account-creation-email'].subject;
   } else if (locale === ENGLISH_SPOKEN) {
     variables = {
-      homeName: `pix${config.domain.tldOrg}`,
-      homeUrl: `${config.domain.pix + config.domain.tldOrg}/en-gb/`,
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
       redirectionUrl: redirectionUrl || `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=en`,
       helpdeskUrl: HELPDESK_ENGLISH_SPOKEN,
       displayNationalLogo: false,
@@ -61,8 +61,8 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
     accountCreationEmailSubject = enTranslations['pix-account-creation-email'].subject;
   } else {
     variables = {
-      homeName: `pix${config.domain.tldFr}`,
-      homeUrl: `${config.domain.pix + config.domain.tldFr}`,
+      homeName: PIX_HOME_NAME_FRENCH_FRANCE,
+      homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
       redirectionUrl: redirectionUrl || `${config.domain.pixApp + config.domain.tldFr}/connexion`,
       helpdeskUrl: HELPDESK_FRENCH_FRANCE,
       displayNationalLogo: true,
@@ -141,8 +141,8 @@ function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
   let templateParams = {
     locale: localeParam,
     ...frTranslations['reset-password-demand-email'].params,
-    homeName: `pix${config.domain.tldFr}`,
-    homeUrl: `${config.domain.pix + config.domain.tldFr}`,
+    homeName: PIX_HOME_NAME_FRENCH_FRANCE,
+    homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
     resetUrl: `${config.domain.pixApp + config.domain.tldFr}/changer-mot-de-passe/${temporaryKey}`,
     helpdeskURL: HELPDESK_FRENCH_FRANCE,
   };
@@ -150,7 +150,7 @@ function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
   if (localeParam === FRENCH_SPOKEN) {
     templateParams = {
       ...templateParams,
-      homeName: `pix${config.domain.tldOrg}`,
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
       homeUrl: `${config.domain.pix + config.domain.tldOrg}/fr/`,
       resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=fr`,
       helpdeskURL: HELPDESK_FRENCH_SPOKEN,
@@ -161,8 +161,8 @@ function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
     templateParams = {
       locale: localeParam,
       ...enTranslations['reset-password-demand-email'].params,
-      homeName: `pix${config.domain.tldOrg}`,
-      homeUrl: `${config.domain.pix + config.domain.tldOrg}/en-gb/`,
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
       resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=en`,
       helpdeskURL: HELPDESK_ENGLISH_SPOKEN,
     };
@@ -188,8 +188,8 @@ function sendOrganizationInvitationEmail({ email, organizationName, organization
 
   let templateParams = {
     organizationName,
-    pixHomeName: `pix${config.domain.tldFr}`,
-    pixHomeUrl: `${config.domain.pix + config.domain.tldFr}`,
+    pixHomeName: PIX_HOME_NAME_FRENCH_FRANCE,
+    pixHomeUrl: PIX_HOME_URL_FRENCH_FRANCE,
     pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldFr}`,
     redirectionUrl: `${
       config.domain.pixOrga + config.domain.tldFr
@@ -201,7 +201,7 @@ function sendOrganizationInvitationEmail({ email, organizationName, organization
   if (locale === FRENCH_SPOKEN) {
     templateParams = {
       organizationName,
-      pixHomeName: `pix${config.domain.tldOrg}`,
+      pixHomeName: PIX_HOME_NAME_INTERNATIONAL,
       pixHomeUrl: `${config.domain.pix + config.domain.tldOrg}`,
       pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldOrg}`,
       redirectionUrl: `${
@@ -215,8 +215,8 @@ function sendOrganizationInvitationEmail({ email, organizationName, organization
   if (locale === ENGLISH_SPOKEN) {
     templateParams = {
       organizationName,
-      pixHomeName: `pix${config.domain.tldOrg}`,
-      pixHomeUrl: `${config.domain.pix + config.domain.tldOrg}/en-gb/`,
+      pixHomeName: PIX_HOME_NAME_INTERNATIONAL,
+      pixHomeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
       pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldOrg}?lang=en`,
       redirectionUrl: `${
         config.domain.pixOrga + config.domain.tldOrg
@@ -255,8 +255,8 @@ function sendScoOrganizationInvitationEmail({
     organizationName,
     firstName,
     lastName,
-    pixHomeName: `pix${config.domain.tldFr}`,
-    pixHomeUrl: `${config.domain.pix + config.domain.tldFr}`,
+    pixHomeName: PIX_HOME_NAME_FRENCH_FRANCE,
+    pixHomeUrl: PIX_HOME_URL_FRENCH_FRANCE,
     pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldFr}`,
     redirectionUrl: `${
       config.domain.pixOrga + config.domain.tldFr
@@ -269,7 +269,7 @@ function sendScoOrganizationInvitationEmail({
       organizationName,
       firstName,
       lastName,
-      pixHomeName: `pix${config.domain.tldOrg}`,
+      pixHomeName: PIX_HOME_NAME_INTERNATIONAL,
       pixHomeUrl: `${config.domain.pix + config.domain.tldOrg}`,
       pixOrgaHomeUrl: `${config.domain.pixOrga + config.domain.tldOrg}`,
       redirectionUrl: `${
@@ -300,8 +300,8 @@ function sendCertificationCenterInvitationEmail({
   let templateParams, fromName, subject;
   const frenchFranceTemplateParams = {
     certificationCenterName,
-    pixHomeName: `pix${config.domain.tldFr}`,
-    pixHomeUrl: `${config.domain.pix + config.domain.tldFr}`,
+    pixHomeName: PIX_HOME_NAME_FRENCH_FRANCE,
+    pixHomeUrl: PIX_HOME_URL_FRENCH_FRANCE,
     pixCertifHomeUrl: `${config.domain.pixCertif + config.domain.tldFr}`,
     redirectionUrl: `${
       config.domain.pixCertif + config.domain.tldFr
@@ -311,7 +311,7 @@ function sendCertificationCenterInvitationEmail({
   };
   const frenchSpokenTemplateParams = {
     certificationCenterName,
-    pixHomeName: `pix${config.domain.tldOrg}`,
+    pixHomeName: PIX_HOME_NAME_INTERNATIONAL,
     pixHomeUrl: `${config.domain.pix + config.domain.tldOrg}`,
     pixCertifHomeUrl: `${config.domain.pixCertif + config.domain.tldOrg}`,
     redirectionUrl: `${
@@ -322,8 +322,8 @@ function sendCertificationCenterInvitationEmail({
   };
   const englishSpokenTemplateParams = {
     certificationCenterName,
-    pixHomeName: `pix${config.domain.tldOrg}`,
-    pixHomeUrl: `${config.domain.pix + config.domain.tldOrg}/en-gb/`,
+    pixHomeName: PIX_HOME_NAME_INTERNATIONAL,
+    pixHomeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
     pixCertifHomeUrl: `${config.domain.pixCertif + config.domain.tldOrg}?lang=en`,
     redirectionUrl: `${
       config.domain.pixCertif + config.domain.tldOrg
@@ -368,7 +368,7 @@ function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
   const variables = {
     firstName,
     redirectionUrl,
-    homeName: `pix${config.domain.tldFr}`,
+    homeName: PIX_HOME_NAME_FRENCH_FRANCE,
     ...frTranslations['account-recovery-email'].params,
   };
 
@@ -397,7 +397,7 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
 
     options.variables = {
       code,
-      homeName: `pix${config.domain.tldOrg}`,
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
       homeUrl: `${config.domain.pix + config.domain.tldOrg}/fr/`,
       displayNationalLogo: false,
       ...frTranslations['verification-code-email'].body,
@@ -407,8 +407,8 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
 
     options.variables = {
       code,
-      homeName: `pix${config.domain.tldFr}`,
-      homeUrl: `${config.domain.pix + config.domain.tldFr}`,
+      homeName: PIX_HOME_NAME_FRENCH_FRANCE,
+      homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
       displayNationalLogo: true,
       ...frTranslations['verification-code-email'].body,
     };
@@ -417,8 +417,8 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
 
     options.variables = {
       code,
-      homeName: `pix${config.domain.tldOrg}`,
-      homeUrl: `${config.domain.pix + config.domain.tldOrg}/en-gb/`,
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
       displayNationalLogo: false,
       ...enTranslations['verification-code-email'].body,
     };
