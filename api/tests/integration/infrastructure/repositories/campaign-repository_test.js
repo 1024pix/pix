@@ -413,6 +413,95 @@ describe('Integration | Repository | Campaign', function () {
       const skillIds = await knex('campaign_skills').pluck('skillId').where('campaignId', savedCampaign.id);
       expect(skillIds).to.be.empty;
     });
+
+    context('when there are several campaigns', function () {
+      it('should save the given campaigns', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        const creatorId = user.id;
+        const ownerId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        await databaseBuilder.commit();
+
+        const campaignsToSave = [
+          {
+            name: 'Evaluation niveau 1 recherche internet',
+            code: 'ACTERD153',
+            customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
+            creatorId,
+            ownerId,
+            organizationId,
+            multipleSendings: true,
+            type: CampaignTypes.ASSESSMENT,
+            targetProfileId,
+            title: 'Parcours recherche internet',
+          },
+          {
+            name: 'Evaluation niveau 1 recherche internet #2',
+            code: 'BCTERD153',
+            customLandingPageText: 'Parcours évaluatif concernant la recherche internet #2',
+            creatorId,
+            ownerId,
+            organizationId,
+            multipleSendings: true,
+            type: CampaignTypes.ASSESSMENT,
+            targetProfileId,
+            title: 'Parcours recherche internet #2',
+          },
+        ];
+
+        // when
+        await campaignRepository.save(campaignsToSave);
+
+        // then
+        const savedCampaigns = await knex('campaigns')
+          .select(
+            'name',
+            'code',
+            'title',
+            'type',
+            'customLandingPageText',
+            'creatorId',
+            'organizationId',
+            'targetProfileId',
+            'multipleSendings',
+            'ownerId',
+          )
+          .orderBy('code');
+
+        expect(savedCampaigns[0]).to.deep.include(
+          _.pick(campaignsToSave[0], [
+            'name',
+            'code',
+            'title',
+            'type',
+            'customLandingPageText',
+            'creator',
+            'organization',
+            'targetProfile',
+            'multipleSendings',
+            'ownerId',
+          ]),
+        );
+
+        expect(savedCampaigns[1]).to.deep.include(
+          _.pick(campaignsToSave[1], [
+            'name',
+            'code',
+            'title',
+            'type',
+            'customLandingPageText',
+            'creator',
+            'organization',
+            'targetProfile',
+            'multipleSendings',
+            'ownerId',
+          ]),
+        );
+      });
+    });
   });
 
   describe('#get', function () {
