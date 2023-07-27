@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
 import { visit, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Team | List', function (hooks) {

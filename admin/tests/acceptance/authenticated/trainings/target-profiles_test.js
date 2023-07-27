@@ -4,7 +4,7 @@ import { currentURL } from '@ember/test-helpers';
 import { visit, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import setupIntl from '../../../helpers/setup-intl';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 module('Acceptance | Trainings | Target profiles', function (hooks) {
   setupApplicationTest(hooks);

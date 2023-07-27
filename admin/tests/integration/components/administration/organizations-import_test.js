@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { triggerEvent } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import sinon from 'sinon';
 import Service from '@ember/service';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';

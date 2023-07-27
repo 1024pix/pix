@@ -2,8 +2,7 @@ import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { clickByName, visit, fillByLabel } from '@1024pix/ember-testing-library';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { Response } from 'miragejs';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Organizations | Information management', function (hooks) {
@@ -159,18 +158,17 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       const organization = this.server.create('organization', {
         name: 'Aude Javel Company',
       });
-      const errorResponse = new Response(
-        422,
-        {},
-        {
+      this.server.post(
+        '/admin/organizations/:id/archive',
+        () => ({
           errors: [
             {
               status: '422',
             },
           ],
-        },
+        }),
+        422,
       );
-      this.server.post('/admin/organizations/:id/archive', () => errorResponse);
       const screen = await visit(`/organizations/${organization.id}`);
       await clickByName("Archiver l'organisation");
 
@@ -188,18 +186,17 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       const organization = this.server.create('organization', {
         name: 'Aude Javel Company',
       });
-      const errorResponse = new Response(
-        500,
-        {},
-        {
+      this.server.post(
+        '/admin/organizations/:id/archive',
+        () => ({
           errors: [
             {
               status: '500',
             },
           ],
-        },
+        }),
+        500,
       );
-      this.server.post('/admin/organizations/:id/archive', () => errorResponse);
       const screen = await visit(`/organizations/${organization.id}`);
       await clickByName("Archiver l'organisation");
 

@@ -1,87 +1,14 @@
 import Component from '@glimmer/component';
-import Object, { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
-import { validator, buildValidations } from 'ember-cp-validations';
-import { getOwner } from '@ember/application';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
-
-const Validations = buildValidations({
-  name: {
-    validators: [
-      validator('presence', {
-        presence: true,
-        message: 'Le nom ne peut pas être vide',
-      }),
-      validator('length', {
-        min: 1,
-        max: 255,
-        message: 'La longueur du nom ne doit pas excéder 255 caractères',
-      }),
-    ],
-  },
-  title: {
-    validators: [
-      validator('length', {
-        min: 0,
-        max: 50,
-        message: 'La longueur du titre ne doit pas excéder 50 caractères',
-      }),
-    ],
-  },
-  customLandingPageText: {
-    validators: [
-      validator('length', {
-        min: 0,
-        max: 5000,
-        message: "La longueur du texte de la page d'accueil ne doit pas excéder 5000 caractères",
-      }),
-    ],
-  },
-  customResultPageText: {
-    validators: [
-      validator('length', {
-        min: 0,
-        max: 5000,
-        message: 'La longueur du texte de la page de résultat ne doit pas excéder 5000 caractères',
-      }),
-    ],
-  },
-  customResultPageButtonText: {
-    validators: [
-      validator('length', {
-        min: 0,
-        max: 255,
-        message: 'La longueur du texte ne doit pas excéder 255 caractères',
-      }),
-    ],
-  },
-  customResultPageButtonUrl: {
-    validators: [
-      validator('format', {
-        type: 'url',
-        allowBlank: true,
-        message: 'Ce champ doit être une URL complète et valide',
-      }),
-    ],
-  },
-});
-
-class Form extends Object.extend(Validations) {
-  @tracked name;
-  @tracked title;
-  @tracked customLandingPageText;
-  @tracked customResultPageText;
-  @tracked customResultPageButtonText;
-  @tracked customResultPageButtonUrl;
-  @tracked multipleSendings;
-}
 
 export default class Update extends Component {
   @service notifications;
+  @service store;
 
   constructor() {
     super(...arguments);
-    this.form = Form.create(getOwner(this).ownerInjection());
+    this.form = this.store.createRecord('campaign-form');
     this.form.name = this.args.campaign.name;
     this.form.title = this.args.campaign.title;
     this.form.customLandingPageText = this.args.campaign.customLandingPageText;

@@ -1,74 +1,15 @@
-import Object, { action } from '@ember/object';
-import { buildValidations, validator } from 'ember-cp-validations';
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { getOwner } from '@ember/application';
 import { service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 import { optionsCategoryList } from '../../models/target-profile';
-
-const Validations = buildValidations({
-  name: {
-    validators: [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true,
-        message: 'Le nom ne peut pas être vide',
-      }),
-      validator('length', {
-        min: 1,
-        max: 255,
-        message: 'La longueur du nom ne doit pas excéder 255 caractères',
-      }),
-    ],
-  },
-  description: {
-    validators: [
-      validator('length', {
-        max: 500,
-        message: 'La longueur de la description ne doit pas excéder 500 caractères',
-      }),
-    ],
-  },
-  comment: {
-    validators: [
-      validator('length', {
-        max: 500,
-        message: 'La longueur du commentaire ne doit pas excéder 500 caractères',
-      }),
-    ],
-  },
-  category: {
-    validators: [
-      validator('presence', {
-        presence: true,
-      }),
-    ],
-  },
-  imageUrl: {
-    validators: [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true,
-        message: "L'url vers l'image ne peut pas être vide",
-      }),
-    ],
-  },
-});
-
-class Form extends Object.extend(Validations) {
-  @tracked name;
-  @tracked description;
-  @tracked comment;
-  @tracked category;
-  @tracked imageUrl;
-}
 
 export default class UpdateTargetProfile extends Component {
   @service notifications;
+  @service store;
 
   constructor() {
     super(...arguments);
-    this.form = Form.create(getOwner(this).ownerInjection());
+    this.form = this.store.createRecord('target-profile-form');
     this.form.name = this.args.model.name;
     this.form.description = this.args.model.description || null;
     this.form.comment = this.args.model.comment || null;
