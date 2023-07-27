@@ -29,22 +29,19 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   }
 
   const externalUser = await tokenService.extractExternalUserFromIdToken(token);
+  const firstName = externalUser.firstName;
+  const lastName = externalUser.lastName;
+  const samlId = externalUser.samlId;
 
-  if (!externalUser.firstName || !externalUser.lastName || !externalUser.samlId) {
+  if (!firstName || !lastName || !samlId) {
     throw new ObjectValidationError('Missing claim(s) in IdToken');
   }
 
   const reconciliationInfo = {
-    firstName: externalUser.firstName,
-    lastName: externalUser.lastName,
+    firstName,
+    lastName,
     birthdate,
   };
-
-  const domainUser = new User({
-    firstName: externalUser.firstName,
-    lastName: externalUser.lastName,
-    cgu: false,
-  });
 
   let matchedOrganizationLearner;
   let userWithSamlId;
@@ -68,10 +65,15 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
 
     userWithSamlId = await userRepository.getBySamlId(externalUser.samlId);
     if (!userWithSamlId) {
+      const domainUser = new User({
+        firstName,
+        lastName,
+        cgu: false,
+      });
       userId = await userService.createAndReconcileUserToOrganizationLearner({
         user: domainUser,
         organizationLearnerId: matchedOrganizationLearner.id,
-        samlId: externalUser.samlId,
+        samlId,
         authenticationMethodRepository,
         organizationLearnerRepository,
         userToCreateRepository,
@@ -79,13 +81,17 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
     }
   } catch (error) {
     if (existingUserReconciliationErrors.includes(error.code)) {
+      const reconciliationUserId = error.meta.userId;
+      const identityProvider = NON_OIDC_IDENTITY_PROVIDERS.GAR.code;
+
       await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({
-        externalIdentifier: externalUser.samlId,
-        userId: error.meta.userId,
-        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+        externalIdentifier: samlId,
+        userId: reconciliationUserId,
+        identityProvider,
       });
+
       const organizationLearner = await organizationLearnerRepository.reconcileUserToOrganizationLearner({
-        userId: error.meta.userId,
+        userId: reconciliationUserId,
         organizationLearnerId: matchedOrganizationLearner.id,
       });
       userId = organizationLearner.userId;
