@@ -1,5 +1,6 @@
 import { CampaignCodeError, ObjectValidationError } from '../errors.js';
 import { User } from '../models/User.js';
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 
@@ -90,6 +91,15 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
         identityProvider,
       });
 
+      const authenticationComplement = new AuthenticationMethod.GARAuthenticationComplement({
+        firstName,
+        lastName,
+      });
+      await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
+        authenticationComplement,
+        userId: reconciliationUserId,
+        identityProvider,
+      });
       const organizationLearner = await organizationLearnerRepository.reconcileUserToOrganizationLearner({
         userId: reconciliationUserId,
         organizationLearnerId: matchedOrganizationLearner.id,

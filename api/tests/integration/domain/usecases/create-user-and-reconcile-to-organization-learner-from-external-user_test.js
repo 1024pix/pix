@@ -151,8 +151,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
   });
 
   context('When an organizationLearner matches on birthdate and on token firstName and lastName', function () {
-    const firstName = 'Saml';
-    const lastName = 'Jackson';
+    const firstName = 'Julie';
+    const lastName = 'Dumoulin-Lemarchand';
     const samlId = 'SamlId';
 
     let campaignCode;
@@ -212,8 +212,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
       const authenticationMethod = authenticationMethodInDB[0];
       expect(authenticationMethod.externalIdentifier).to.equal(samlId);
       expect(authenticationMethod.authenticationComplement).to.deep.equal({
-        firstName: 'Saml',
-        lastName: 'Jackson',
+        firstName: 'Julie',
+        lastName: 'Dumoulin-Lemarchand',
       });
     });
 
@@ -264,8 +264,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
               externalIdentifier: '12345678',
               userId: otherAccount.id,
-              firstName: 'John',
-              lastName: 'Travolta',
+              firstName: 'Juliette',
+              lastName: 'Dumoulin',
             });
 
             const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
@@ -307,8 +307,10 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             });
             const authenticationMethod = authenticationMethodInDB[0];
             expect(authenticationMethod.externalIdentifier).to.equal(samlId);
-            expect(authenticationMethod.authenticationComplement.firstName).not.to.equal('Saml');
-            expect(authenticationMethod.authenticationComplement.lastName).not.to.equal('Jackson');
+            expect(authenticationMethod.authenticationComplement).to.deep.equal({
+              firstName: 'Julie',
+              lastName: 'Dumoulin-Lemarchand',
+            });
           });
         });
 
@@ -324,8 +326,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
               externalIdentifier: '12345678',
               userId: otherAccount.id,
-              firstName: 'John',
-              lastName: 'Travolta',
+              firstName: 'Juliette',
+              lastName: 'Dumoulin',
             });
 
             const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -365,8 +367,10 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             });
             const authenticationMethod = authenticationMethodInDB[0];
             expect(authenticationMethod.externalIdentifier).to.equal(samlId);
-            expect(authenticationMethod.authenticationComplement.firstName).not.to.equal('Saml');
-            expect(authenticationMethod.authenticationComplement.lastName).not.to.equal('Jackson');
+            expect(authenticationMethod.authenticationComplement).to.deep.equal({
+              firstName: 'Julie',
+              lastName: 'Dumoulin-Lemarchand',
+            });
           });
         });
       });
