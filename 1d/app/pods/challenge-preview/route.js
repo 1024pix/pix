@@ -6,17 +6,6 @@ export default class ChallengePreviewRoute extends Route {
   @service store;
 
   model(params) {
-    this.challengeId = params.challenge_id;
-  }
-
-  afterModel() {
-    const store = this.store;
-    const assessment = store.createRecord('assessment');
-    //create a preview assessment
-    return assessment.save().then(() => {
-      return this.router.replaceWith('assessment.challenge', assessment.id, {
-        queryParams: { challengeId: this.challengeId },
-      });
-    });
+    return this.store.findRecord('challenge', params.challenge_id);
   }
 }

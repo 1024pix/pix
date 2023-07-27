@@ -13,7 +13,7 @@ export default class ChallengeItemQcm extends Component {
     const arrayOfBoolean = valueAsArrayOfBoolean();
     const labeledCheckboxesList = labeledCheckboxes(arrayOfProposals, arrayOfBoolean);
     if (this.args.challenge.shuffled) {
-      pshuffle(labeledCheckboxesList, this.args.assessment.id);
+      pshuffle(labeledCheckboxesList);
     }
     return labeledCheckboxesList;
   }

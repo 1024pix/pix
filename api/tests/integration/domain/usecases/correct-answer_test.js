@@ -8,37 +8,69 @@ describe('Integration | UseCases | correct-answer', function () {
   afterEach(async function () {
     await knex('activity-answers').where({ id: createdAnswerRecordId }).delete();
   });
+  context('when there is assessmentId', function () {
+    it('returns newly created answer', async function () {
+      // given
+      const { id: assessmentId } = databaseBuilder.factory.buildAssessment();
+      const activity = databaseBuilder.factory.buildActivity({ assessmentId });
+      await databaseBuilder.commit();
 
-  it('returns newly created answer', async function () {
-    // given
-    const { id: assessmentId } = databaseBuilder.factory.buildAssessment({});
-    const activity = databaseBuilder.factory.buildActivity({ assessmentId });
-    await databaseBuilder.commit();
+      const challenge = domainBuilder.buildChallenge();
+      const challengeRepository = { get: sinon.stub().resolves(challenge) };
 
-    const challenge = domainBuilder.buildChallenge();
-    const challengeRepository = { get: sinon.stub().resolves(challenge) };
+      const activityAnswer = domainBuilder.buildActivityAnswer({
+        id: null,
+        challengeId: challenge.id,
+      });
 
-    const activityAnswer = domainBuilder.buildAnswer({
-      id: null,
-      challengeId: challenge.id,
+      // when
+      const record = await correctAnswer({
+        activityAnswer,
+        assessmentId,
+        challengeRepository,
+        activityAnswerRepository,
+        activityRepository,
+      });
+
+      // For cleanup purpose
+      createdAnswerRecordId = record.id;
+
+      const savedAnswer = await knex('activity-answers').where({ id: record.id }).first();
+
+      // then
+      expect(savedAnswer.challengeId).to.equal(challenge.id);
+      expect(savedAnswer.activityId).to.equal(activity.id);
     });
+  });
+  context('when there is no assessmentId', function () {
+    it('returns newly created answer with null as activtyId', async function () {
+      // given
+      const assessmentId = null;
+      const challenge = domainBuilder.buildChallenge();
+      const challengeRepository = { get: sinon.stub().resolves(challenge) };
 
-    // when
-    const record = await correctAnswer({
-      activityAnswer,
-      assessmentId,
-      challengeRepository,
-      activityAnswerRepository,
-      activityRepository,
+      const activityAnswer = domainBuilder.buildActivityAnswer({
+        id: null,
+        challengeId: challenge.id,
+      });
+
+      // when
+      const record = await correctAnswer({
+        activityAnswer,
+        assessmentId,
+        challengeRepository,
+        activityAnswerRepository,
+        activityRepository,
+      });
+
+      // For cleanup purpose
+      createdAnswerRecordId = record.id;
+
+      const savedAnswer = await knex('activity-answers').where({ id: record.id }).first();
+
+      // then
+      expect(savedAnswer.challengeId).to.equal(challenge.id);
+      expect(savedAnswer.activityId).to.equal(null);
     });
-
-    // For cleanup purpose
-    createdAnswerRecordId = record.id;
-
-    const savedAnswer = await knex('activity-answers').where({ id: record.id }).first();
-
-    // then
-    expect(savedAnswer.challengeId).to.equal(challenge.id);
-    expect(savedAnswer.activityId).to.equal(activity.id);
   });
 });

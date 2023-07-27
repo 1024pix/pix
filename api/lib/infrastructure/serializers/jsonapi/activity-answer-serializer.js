@@ -28,7 +28,7 @@ const deserialize = function (payload) {
       resultDetails: null,
       challengeId: payload.data.relationships.challenge.data.id,
     }),
-    assessmentId: payload.meta.assessmentId,
+    assessmentId: payload.meta?.assessmentId || null,
   };
 };
 
