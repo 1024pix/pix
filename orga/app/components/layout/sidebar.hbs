@@ -20,30 +20,12 @@
         {{t "navigation.main.certifications"}}
       </LinkTo>
     {{/if}}
-    {{#if this.currentUser.isSCOManagingStudents}}
-      <LinkTo @route="authenticated.sco-organization-participants" class="sidebar-nav__item">
-        <span class="sidebar-nav__item-icon">
-          <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
-        </span>
-        {{t "navigation.main.sco-organization-participants"}}
-      </LinkTo>
-    {{/if}}
-    {{#if this.isNotManagingStudents}}
-      <LinkTo @route="authenticated.organization-participants" class="sidebar-nav__item">
-        <span class="sidebar-nav__item-icon">
-          <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
-        </span>
-        {{t "navigation.main.organization-participants"}}
-      </LinkTo>
-    {{/if}}
-    {{#if this.currentUser.isSUPManagingStudents}}
-      <LinkTo @route="authenticated.sup-organization-participants" class="sidebar-nav__item">
-        <span class="sidebar-nav__item-icon">
-          <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
-        </span>
-        {{t "navigation.main.sup-organization-participants"}}
-      </LinkTo>
-    {{/if}}
+    <LinkTo @route={{this.organizationLearnersList.route}} class="sidebar-nav__item">
+      <span class="sidebar-nav__item-icon">
+        <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
+      </span>
+      {{t this.organizationLearnersList.label}}
+    </LinkTo>
     <LinkTo @route="authenticated.team" class="sidebar-nav__item">
       <span class="sidebar-nav__item-icon">
         <img src="{{this.rootURL}}/icons/users-light.svg" alt="" role="none" />
