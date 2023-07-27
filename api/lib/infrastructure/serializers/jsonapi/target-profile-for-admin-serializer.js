@@ -28,6 +28,7 @@ const serialize = function (targetProfiles) {
       'badges',
       'stageCollection',
       'areas',
+      'maxLevel',
     ],
     badges: {
       ref: 'id',
