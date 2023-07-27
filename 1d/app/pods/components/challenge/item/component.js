@@ -22,11 +22,13 @@ export default class Item extends Component {
 
   @action
   async validateAnswer() {
+    const assessmentIdForPreview = null;
     if (this.answerValue) {
       this.answer = this._createActivityAnswer(this.args.challenge);
       this.answer.value = this.answerValue;
       try {
-        await this.answer.save({ adapterOptions: { assessmentId: this.args.assessment.id } });
+        const assessmentId = this.args.assessment?.id || assessmentIdForPreview;
+        await this.answer.save({ adapterOptions: { assessmentId } });
         this.answerHasBeenValidated = true;
       } catch (error) {
         this.answer.rollbackAttributes();
