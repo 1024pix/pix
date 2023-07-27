@@ -11,6 +11,8 @@ async function computeScorecard({
   areaRepository,
   skillRepository,
   knowledgeElementRepository,
+  smartRandom,
+  tubeRepository,
   allowExcessPix = false,
   allowExcessLevel = false,
   locale,
@@ -20,11 +22,22 @@ async function computeScorecard({
     competenceRepository.get({ id: competenceId, locale }),
     skillRepository.findOperativeByCompetenceId(competenceId),
   ]);
+
+  const tubeIds = skills.map((skill) => skill.tubeId);
+  const tubes = await tubeRepository.findByRecordIds(_.uniq(tubeIds), locale);
+
+  const { possibleSkillsForNextChallenge } = smartRandom.findAnyChallenge({
+    knowledgeElements,
+    targetSkills: skills,
+    tubes,
+    isLastChallengeTimed: false,
+  });
+
   const area = await areaRepository.get({ id: competence.areaId, locale });
   return Scorecard.buildFrom({
     userId,
     knowledgeElements,
-    skills,
+    hasAssessmentEnded: _.isEmpty(possibleSkillsForNextChallenge),
     competence,
     area,
     allowExcessPix,

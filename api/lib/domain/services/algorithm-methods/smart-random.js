@@ -3,7 +3,7 @@ import * as catAlgorithm from './cat-algorithm.js';
 import { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } from './skills-filter.js';
 import { computeTubesFromSkills } from './../tube-service.js';
 
-export { getPossibleSkillsForNextChallenge };
+export { getPossibleSkillsForNextChallenge, findAnyChallenge };
 
 function getPossibleSkillsForNextChallenge({
   knowledgeElements,
@@ -25,7 +25,7 @@ function getPossibleSkillsForNextChallenge({
   // First challenge has specific rules
   const { possibleSkillsForNextChallenge, levelEstimated } = isUserStartingTheTest
     ? _findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes })
-    : _findAnyChallenge({
+    : findAnyChallenge({
         knowledgeElements: knowledgeElementsOfTargetSkills,
         targetSkills,
         tubes,
@@ -54,7 +54,7 @@ function _filterSkillsByChallenges(skills, challenges) {
   return skillsWithChallenges;
 }
 
-function _findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) {
+function findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
   const availableSkills = getFilteredSkillsForNextChallenge({
     knowledgeElements,

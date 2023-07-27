@@ -38,14 +38,14 @@ function _toDomainArray(answerDTOs) {
 }
 
 const COLUMNS = Object.freeze([
-  'id',
-  'result',
-  'resultDetails',
-  'timeout',
-  'value',
-  'assessmentId',
-  'challengeId',
-  'timeSpent',
+  'answers.id',
+  'answers.result',
+  'answers.resultDetails',
+  'answers.timeout',
+  'answers.value',
+  'answers.assessmentId',
+  'answers.challengeId',
+  'answers.timeSpent',
 ]);
 
 const get = async function (id) {
@@ -81,6 +81,21 @@ const findByChallengeAndAssessment = async function ({ challengeId, assessmentId
 
 const findByAssessment = async function (assessmentId) {
   const answerDTOs = await knex.select(COLUMNS).from('answers').where({ assessmentId }).orderBy('createdAt');
+  const answerDTOsWithoutDuplicate = _.uniqBy(answerDTOs, 'challengeId');
+
+  return _toDomainArray(answerDTOsWithoutDuplicate);
+};
+
+const findByCompetenceId = async function (competenceId) {
+  const answerDTOs = await knex
+    .select(COLUMNS)
+    .from('answers')
+    .join('assessments', function () {
+      this.on('assessments.id', 'answers.assessmentId')
+        .andOn('assessments.competenceId', competenceId)
+        .andOn('assessments.type', 'COMPETENCE_EVALUATION');
+    })
+    .orderBy('createdAt');
   const answerDTOsWithoutDuplicate = _.uniqBy(answerDTOs, 'challengeId');
 
   return _toDomainArray(answerDTOsWithoutDuplicate);
@@ -131,6 +146,7 @@ export {
   findByIds,
   findByChallengeAndAssessment,
   findByAssessment,
+  findByCompetenceId,
   findLastByAssessment,
   findChallengeIdsFromAnswerIds,
   saveWithKnowledgeElements,

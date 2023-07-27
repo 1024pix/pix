@@ -8,6 +8,8 @@ const getScorecard = async function ({
   competenceRepository,
   areaRepository,
   skillRepository,
+  tubeRepository,
+  smartRandom,
   knowledgeElementRepository,
   locale,
 }) {
@@ -23,6 +25,8 @@ const getScorecard = async function ({
     competenceRepository,
     areaRepository,
     skillRepository,
+    tubeRepository,
+    smartRandom,
     knowledgeElementRepository,
     locale,
   });

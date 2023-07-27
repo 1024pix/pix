@@ -59,7 +59,7 @@ class Scorecard {
     knowledgeElements,
     competence,
     area,
-    skills,
+    hasAssessmentEnded,
     allowExcessPix = false,
     allowExcessLevel = false,
   }) {
@@ -82,7 +82,7 @@ class Scorecard {
       exactlyEarnedPix: realTotalPixScoreForCompetence,
       level: currentLevel,
       pixScoreAheadOfNextLevel: pixAheadForNextLevel,
-      status: _getScorecardStatus(knowledgeElements, skills),
+      status: _getScorecardStatus(knowledgeElements, hasAssessmentEnded),
       remainingDaysBeforeReset,
       remainingDaysBeforeImproving,
     });
@@ -159,32 +159,12 @@ class Scorecard {
   }
 }
 
-function _getScorecardStatus(knowledgeElements, skills) {
+function _getScorecardStatus(knowledgeElements, hasAssessmentEnded) {
   if (_.isEmpty(knowledgeElements)) {
     return statuses.NOT_STARTED;
   }
 
-  const knowledgeElementActiveSkillIds = [];
-  const remainingSkillIds = [];
-
-  skills.forEach((skill) => {
-    const isSkillAcquired = knowledgeElements.find((ke) => ke.skillId === skill.id);
-
-    isSkillAcquired ? knowledgeElementActiveSkillIds.push(skill) : remainingSkillIds.push(skill);
-  });
-
-  if (_.isEmpty(knowledgeElementActiveSkillIds)) {
-    return statuses.STARTED;
-  }
-
-  if (!_.isEmpty(remainingSkillIds)) {
-    const { difficulty: maxDifficultyReached } = _.maxBy(knowledgeElementActiveSkillIds, 'difficulty');
-    const { difficulty: maxDifficultyRemaining } = _.maxBy(remainingSkillIds, 'difficulty');
-
-    return maxDifficultyReached > maxDifficultyRemaining ? statuses.COMPLETED : statuses.STARTED;
-  }
-
-  return statuses.COMPLETED;
+  return hasAssessmentEnded ? statuses.COMPLETED : statuses.STARTED;
 }
 
 Scorecard.statuses = statuses;

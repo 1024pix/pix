@@ -76,6 +76,31 @@ async function fetchForCompetenceEvaluations({
   };
 }
 
+async function fetchForCompetenceEvaluationsByCompetenceId({
+  competenceId,
+  answerRepository,
+  challengeRepository,
+  knowledgeElementRepository,
+  skillRepository,
+  improvementService,
+}) {
+  const [allAnswers, targetSkills, challenges] = await Promise.all([
+    answerRepository.findByCompetenceId(competenceId),
+    skillRepository.findActiveByCompetenceId(competenceId),
+    challengeRepository.findValidatedByCompetenceId(competenceId),
+  ]);
+
+  const ke = await _fetchKnowledgeElements({ assessment, knowledgeElementRepository, improvementService });
+
+  return {
+    allAnswers,
+    lastAnswer: _.isEmpty(allAnswers) ? null : _.last(allAnswers),
+    targetSkills,
+    challenges,
+    knowledgeElements,
+  };
+}
+
 async function fetchForFlashCampaigns({
   assessmentId,
   answerRepository,
