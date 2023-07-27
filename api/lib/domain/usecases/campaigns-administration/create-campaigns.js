@@ -2,7 +2,6 @@ import { CampaignTypes } from '../../models/CampaignTypes.js';
 
 const createCampaigns = async function ({
   campaignsToCreate,
-  campaignAdministrationRepository,
   membershipRepository,
   campaignRepository,
   campaignCodeGenerator,
@@ -22,7 +21,7 @@ const createCampaigns = async function ({
     }),
   );
 
-  return campaignAdministrationRepository.createCampaigns(enrichedCampaignsData);
+  return campaignRepository.save(enrichedCampaignsData);
 };
 
 export { createCampaigns };

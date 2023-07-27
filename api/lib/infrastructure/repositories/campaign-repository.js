@@ -29,38 +29,46 @@ const get = async function (id) {
   });
 };
 
-const save = async function (campaign, dependencies = { skillRepository }) {
+const save = async function (campaigns, dependencies = { skillRepository }) {
   const trx = await knex.transaction();
-  const campaignAttributes = _.pick(campaign, [
-    'name',
-    'code',
-    'title',
-    'type',
-    'idPixLabel',
-    'customLandingPageText',
-    'creatorId',
-    'ownerId',
-    'organizationId',
-    'targetProfileId',
-    'multipleSendings',
-  ]);
+  const campaignsToCreate = _.isArray(campaigns) ? campaigns : [campaigns];
+
   try {
-    const [createdCampaignDTO] = await trx(CAMPAIGNS_TABLE).insert(campaignAttributes).returning('*');
-    const createdCampaign = new Campaign(createdCampaignDTO);
-    if (createdCampaign.isAssessment()) {
-      const cappedTubes = await trx('target-profile_tubes')
-        .select('tubeId', 'level')
-        .where('targetProfileId', campaignAttributes.targetProfileId);
-      const skillData = [];
-      for (const cappedTube of cappedTubes) {
-        const allLevelSkills = await dependencies.skillRepository.findActiveByTubeId(cappedTube.tubeId);
-        const rightLevelSkills = allLevelSkills.filter((skill) => skill.difficulty <= cappedTube.level);
-        skillData.push(...rightLevelSkills.map((skill) => ({ skillId: skill.id, campaignId: createdCampaign.id })));
+    let latestCreatedCampaign;
+    for (const campaign of campaignsToCreate) {
+      const campaignAttributes = _.pick(campaign, [
+        'name',
+        'code',
+        'title',
+        'type',
+        'idPixLabel',
+        'customLandingPageText',
+        'creatorId',
+        'ownerId',
+        'organizationId',
+        'targetProfileId',
+        'multipleSendings',
+        'createdAt',
+      ]);
+      const [createdCampaignDTO] = await trx(CAMPAIGNS_TABLE).insert(campaignAttributes).returning('*');
+      latestCreatedCampaign = new Campaign(createdCampaignDTO);
+      if (latestCreatedCampaign.isAssessment()) {
+        const cappedTubes = await trx('target-profile_tubes')
+          .select('tubeId', 'level')
+          .where('targetProfileId', campaignAttributes.targetProfileId);
+        const skillData = [];
+        for (const cappedTube of cappedTubes) {
+          const allLevelSkills = await dependencies.skillRepository.findActiveByTubeId(cappedTube.tubeId);
+          const rightLevelSkills = allLevelSkills.filter((skill) => skill.difficulty <= cappedTube.level);
+          skillData.push(
+            ...rightLevelSkills.map((skill) => ({ skillId: skill.id, campaignId: latestCreatedCampaign.id })),
+          );
+        }
+        await trx.batchInsert('campaign_skills', skillData);
       }
-      await trx.batchInsert('campaign_skills', skillData);
     }
     await trx.commit();
-    return createdCampaign;
+    return latestCreatedCampaign;
   } catch (err) {
     await trx.rollback();
     throw err;

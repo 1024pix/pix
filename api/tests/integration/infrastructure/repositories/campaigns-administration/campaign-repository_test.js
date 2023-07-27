@@ -1,4 +1,4 @@
-import { expect, knex, databaseBuilder, sinon } from '../../../../test-helper.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaigns-administration/campaign-repository.js';
 
 describe('Integration | Infrastructure | Repository | Campaign Administration | campaign-repository', function () {
@@ -70,55 +70,6 @@ describe('Integration | Infrastructure | Repository | Campaign Administration | 
 
       // when
       expect(call).to.not.throw();
-    });
-  });
-
-  describe('#createCampaigns', function () {
-    afterEach(function () {
-      return knex('campaigns').delete();
-    });
-
-    it('creates campaigns', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser().id;
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-
-      await databaseBuilder.commit();
-
-      const campaignsToCreate = [
-        {
-          targetProfileId,
-          name: 'CampaignToCreate',
-          organizationId,
-          title: 'CampaignToCreate',
-          customLandingPageText: 'CampaignToCreate',
-          ownerId: userId,
-          creatorId: userId,
-          type: 'ASSESSMENT',
-        },
-      ];
-
-      // when
-      await campaignRepository.createCampaigns(campaignsToCreate);
-
-      const createdCampaign = await knex('campaigns')
-        .select(
-          'targetProfileId',
-          'name',
-          'organizationId',
-          'title',
-          'customLandingPageText',
-          'creatorId',
-          'createdAt',
-          'ownerId',
-          'type',
-        )
-        .where('name', campaignsToCreate[0].name)
-        .first();
-
-      // then
-      expect(createdCampaign).to.deep.equal({ ...campaignsToCreate[0], createdAt: now });
     });
   });
 });
