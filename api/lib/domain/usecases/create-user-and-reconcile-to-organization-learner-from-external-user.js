@@ -1,3 +1,4 @@
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { CampaignCodeError, ObjectValidationError } from '../errors.js';
 import { User } from '../models/User.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
@@ -85,26 +86,31 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
       const reconciliationUserId = error.meta.userId;
       const identityProvider = NON_OIDC_IDENTITY_PROVIDERS.GAR.code;
 
-      await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({
-        externalIdentifier: samlId,
-        userId: reconciliationUserId,
-        identityProvider,
-      });
+      await DomainTransaction.execute(async (domainTransaction) => {
+        await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({
+          externalIdentifier: samlId,
+          userId: reconciliationUserId,
+          identityProvider,
+          domainTransaction,
+        });
 
-      const authenticationComplement = new AuthenticationMethod.GARAuthenticationComplement({
-        firstName,
-        lastName,
+        const authenticationComplement = new AuthenticationMethod.GARAuthenticationComplement({
+          firstName,
+          lastName,
+        });
+        await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
+          authenticationComplement,
+          userId: reconciliationUserId,
+          identityProvider,
+          domainTransaction,
+        });
+        const organizationLearner = await organizationLearnerRepository.reconcileUserToOrganizationLearner({
+          userId: reconciliationUserId,
+          organizationLearnerId: matchedOrganizationLearner.id,
+          domainTransaction,
+        });
+        userId = organizationLearner.userId;
       });
-      await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
-        authenticationComplement,
-        userId: reconciliationUserId,
-        identityProvider,
-      });
-      const organizationLearner = await organizationLearnerRepository.reconcileUserToOrganizationLearner({
-        userId: reconciliationUserId,
-        organizationLearnerId: matchedOrganizationLearner.id,
-      });
-      userId = organizationLearner.userId;
     } else {
       throw error;
     }

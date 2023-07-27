@@ -211,8 +211,10 @@ const updateExternalIdentifierByUserIdAndIdentityProvider = async function ({
   externalIdentifier,
   userId,
   identityProvider,
+  domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
-  const [authenticationMethodDTO] = await knex(AUTHENTICATION_METHODS_TABLE)
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+  const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE)
     .where({ userId, identityProvider })
     .update({ externalIdentifier, updatedAt: new Date() })
     .returning(COLUMNS);
@@ -229,8 +231,10 @@ const updateAuthenticationComplementByUserIdAndIdentityProvider = async function
   authenticationComplement,
   userId,
   identityProvider,
+  domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
-  const [authenticationMethodDTO] = await knex(AUTHENTICATION_METHODS_TABLE)
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+  const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE)
     .where({ userId, identityProvider })
     .update({ authenticationComplement, updatedAt: new Date() })
     .returning(COLUMNS);
