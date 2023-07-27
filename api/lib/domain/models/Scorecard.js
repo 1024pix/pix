@@ -163,10 +163,28 @@ function _getScorecardStatus(knowledgeElements, skills) {
   if (_.isEmpty(knowledgeElements)) {
     return statuses.NOT_STARTED;
   }
-  const skillIds = skills.map((skill) => skill.id);
-  const knowledgeElementSkillIds = knowledgeElements.map((ke) => ke.skillId);
-  const remainingSkillIds = _.differenceBy(skillIds, knowledgeElementSkillIds);
-  return _.isEmpty(remainingSkillIds) ? statuses.COMPLETED : statuses.STARTED;
+
+  const knowledgeElementActiveSkillIds = [];
+  const remainingSkillIds = [];
+
+  skills.forEach((skill) => {
+    const isSkillAcquired = knowledgeElements.find((ke) => ke.skillId === skill.id);
+
+    isSkillAcquired ? knowledgeElementActiveSkillIds.push(skill) : remainingSkillIds.push(skill);
+  });
+
+  if (_.isEmpty(knowledgeElementActiveSkillIds)) {
+    return statuses.STARTED;
+  }
+
+  if (!_.isEmpty(remainingSkillIds)) {
+    const { difficulty: maxDifficultyReached } = _.maxBy(knowledgeElementActiveSkillIds, 'difficulty');
+    const { difficulty: maxDifficultyRemaining } = _.maxBy(remainingSkillIds, 'difficulty');
+
+    return maxDifficultyReached > maxDifficultyRemaining ? statuses.COMPLETED : statuses.STARTED;
+  }
+
+  return statuses.COMPLETED;
 }
 
 Scorecard.statuses = statuses;

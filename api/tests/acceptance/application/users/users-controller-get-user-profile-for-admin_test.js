@@ -53,12 +53,14 @@ describe('Acceptance | Controller | users-controller-get-user-profile-for-admin'
         name: skillWeb1Name,
         status: 'actif',
         competenceId,
+        level: 1,
       },
       {
         id: skillWeb2Id,
         name: skillWeb2Name,
         status: 'actif',
         competenceId,
+        level: 2,
       },
     ],
   };
