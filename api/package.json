@@ -7,7 +7,7 @@
   "author": "GIP Pix",
   "engines": {
     "node": "^16.15",
-    "npm": "^8.13.2"
+    "npm": "^9.0.0"
   },
   "type": "module",
   "repository": {
