@@ -188,6 +188,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             'is-public': true,
             'is-simplified-access': true,
             'are-knowledge-elements-resettable': false,
+            'max-level': 7,
             name: 'Mon Super profil cible',
             outdated: true,
             'owner-organization-id': 12,
