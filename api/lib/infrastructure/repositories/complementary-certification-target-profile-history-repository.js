@@ -1,5 +1,8 @@
 import { ComplementaryCertificationTargetProfileHistory } from '../../domain/models/ComplementaryCertificationTargetProfileHistory.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
+import { TargetProfileHistoryForAdmin } from '../../domain/models/TargetProfileHistoryForAdmin.js';
+import { ComplementaryCertificationBadgeForAdmin } from '../../domain/models/ComplementaryCertificationBadgeForAdmin.js';
 
 const getByComplementaryCertificationId = async function ({ complementaryCertificationId }) {
   const targetProfiles = await knex('complementary-certification-badges')
@@ -15,26 +18,36 @@ const getByComplementaryCertificationId = async function ({ complementaryCertifi
     .where({ complementaryCertificationId })
     .orderBy('attachedAt', 'desc');
 
-  const currentTargetProfileId = targetProfiles.at(0).id;
-  const currentTargetProfileBadges = await knex('badges')
+  const currentTargetProfiles = targetProfiles.filter((targetProfile) => !targetProfile.detachedAt);
+
+  for (const currentTargetProfile of currentTargetProfiles) {
+    currentTargetProfile.badges = await _getBadgesForCurrentTargetProfiles({ currentTargetProfile });
+  }
+
+  const complementaryCertificationDTO = await knex
+    .from('complementary-certifications')
+    .where({ id: complementaryCertificationId })
+    .first();
+
+  const targetProfilesHistory = targetProfiles.map((targetProfile) => new TargetProfileHistoryForAdmin(targetProfile));
+  const complementaryCertification = new ComplementaryCertification(complementaryCertificationDTO);
+  return new ComplementaryCertificationTargetProfileHistory({
+    ...complementaryCertification,
+    targetProfilesHistory,
+  });
+};
+
+export { getByComplementaryCertificationId };
+
+async function _getBadgesForCurrentTargetProfiles({ currentTargetProfile }) {
+  const badgesDTO = await knex('badges')
     .select({
       id: 'badges.id',
       label: 'complementary-certification-badges.label',
       level: 'complementary-certification-badges.level',
     })
     .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
-    .where({ targetProfileId: currentTargetProfileId });
+    .where('targetProfileId', currentTargetProfile.id);
 
-  const complementaryCertification = await knex
-    .from('complementary-certifications')
-    .where({ id: complementaryCertificationId })
-    .first();
-
-  return new ComplementaryCertificationTargetProfileHistory({
-    ...complementaryCertification,
-    targetProfilesHistory: targetProfiles,
-    currentTargetProfileBadges,
-  });
-};
-
-export { getByComplementaryCertificationId };
+  return badgesDTO.map((badge) => new ComplementaryCertificationBadgeForAdmin({ ...badge }));
+}
