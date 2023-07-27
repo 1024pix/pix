@@ -14,7 +14,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
 
   redis:
-    image: redis:5.0.14-alpine
+    image: redis:6.2.13-alpine
     container_name: pix-api-redis
     ports:
       - '${PIX_CACHE_PORT:-6379}:6379'
