@@ -7,7 +7,6 @@ import {
   UserCouldNotBeReconciledError,
   UserNotFoundError,
 } from '../../domain/errors.js';
-
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
 import * as studentRepository from './student-repository.js';
@@ -193,9 +192,14 @@ const findByOrganizationIdAndBirthdate = async function ({ organizationId, birth
   return rawOrganizationLearners.map((rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner));
 };
 
-const reconcileUserToOrganizationLearner = async function ({ userId, organizationLearnerId }) {
+const reconcileUserToOrganizationLearner = async function ({
+  userId,
+  organizationLearnerId,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
   try {
-    const [rawOrganizationLearner] = await knex('organization-learners')
+    const knexConn = domainTransaction.knexTransaction ?? knex;
+    const [rawOrganizationLearner] = await knexConn('organization-learners')
       .where({ id: organizationLearnerId })
       .where('isDisabled', false)
       .update({ userId, updatedAt: knex.fn.now() })
