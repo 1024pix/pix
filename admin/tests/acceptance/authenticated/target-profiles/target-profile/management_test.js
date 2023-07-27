@@ -79,6 +79,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
         comment: 'Commentaire Privé.',
         category: 'SUBJECT',
         isSimplifiedAccess: true,
+        hasLinkedCampaign: true,
         areKnowledgeElementsResettable: false,
       });
 
@@ -95,6 +96,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
       assert
         .dom(_findByNestedText(screen, `${this.intl.t('pages.target-profiles.resettable-checkbox.label')} : Non`))
         .exists();
+      assert.dom(_findByNestedText(screen, 'Est associé à une campagne : Oui')).exists();
       assert.dom(screen.getByText('456')).exists();
       assert.dom(screen.getByText('Top profil cible.')).exists();
       assert.dom(screen.getByText('Commentaire Privé.')).exists();

@@ -27,7 +27,7 @@
     >
       Voir détail
     </PixButtonLink>
-    {{#unless this.isZeroStageAmongOtherStages}}
+    {{#if this.canDeleteStage}}
       <PixButton
         @backgroundColor="red"
         @isBorderVisible={{true}}
@@ -66,6 +66,6 @@
           </PixButton>
         </:footer>
       </PixModal>
-    {{/unless}}
+    {{/if}}
   </td>
 </tr>

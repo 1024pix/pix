@@ -16,4 +16,8 @@ export default class Stage extends Component {
       this.args.collectionHasNonZeroStages
     );
   }
+
+  get canDeleteStage() {
+    return !this.isZeroStageAmongOtherStages && !this.args.hasLinkedCampaign;
+  }
 }

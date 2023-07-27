@@ -42,6 +42,10 @@ export default Factory.extend({
     return false;
   },
 
+  hasLinkedCampaign() {
+    return false;
+  },
+
   maxLevel() {
     return 1000;
   },
