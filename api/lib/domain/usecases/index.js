@@ -81,6 +81,7 @@ import * as competenceTreeRepository from '../../infrastructure/repositories/com
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation-repository.js';
 import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
+import * as complementaryCertificationTargetProfileHistoryRepository from '../../infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
 import * as complementaryCertificationSubscriptionRepository from '../../infrastructure/repositories/complementary-certification-subscription-repository.js';
 import * as countryRepository from '../../infrastructure/repositories/country-repository.js';
 import * as courseRepository from '../../infrastructure/repositories/course-repository.js';
@@ -295,6 +296,7 @@ const dependencies = {
   complementaryCertificationCourseResultRepository,
   complementaryCertificationHabilitationRepository,
   complementaryCertificationRepository,
+  complementaryCertificationTargetProfileHistoryRepository,
   complementaryCertificationSubscriptionRepository,
   config,
   correctionRepository: repositories.correctionRepository,
