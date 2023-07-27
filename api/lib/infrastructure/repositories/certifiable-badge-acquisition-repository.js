@@ -27,11 +27,18 @@ const findHighestCertifiable = async function ({
         })
         .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
         .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
+        .whereNull('complementary-certification-badges.detachedAt')
         .where('badge-acquisitions.createdAt', '<=', limitDate)
         .where({
           'badge-acquisitions.userId': userId,
           'badges.isCertifiable': true,
         });
+    })
+    .with('latest-acquiredAt-badges', (qb) => {
+      qb.from('user-badges')
+        .select('complementaryCertificationId')
+        .max('acquiredAt', { as: 'acquiredAt' })
+        .groupBy('complementaryCertificationId');
     })
     .from('user-badges')
     .select({
@@ -48,9 +55,11 @@ const findHighestCertifiable = async function ({
     .join('complementary-certifications', 'complementary-certifications.id', 'user-badges.complementaryCertificationId')
     .join('campaign-participations', 'campaign-participations.id', 'user-badges.campaignParticipationId')
     .where({
-      'user-badges.acquiredAt': knex('user-badges AS ub')
-        .max('ub.acquiredAt')
-        .whereRaw('ub."complementaryCertificationId" = "user-badges"."complementaryCertificationId"'),
+      'user-badges.acquiredAt': knex('latest-acquiredAt-badges')
+        .select('acquiredAt')
+        .whereRaw(
+          '"latest-acquiredAt-badges"."complementaryCertificationId" = "user-badges"."complementaryCertificationId"',
+        ),
     });
 
   const highestCertifiableBadgeAcquisitionByComplementaryCertificationId = _(certifiableBadgeAcquisitions)
