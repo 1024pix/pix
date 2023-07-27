@@ -186,6 +186,7 @@ describe('Acceptance | Route | target-profiles', function () {
         name: 'Savoir tout faire',
         outdated: false,
         'owner-organization-id': targetProfile.ownerOrganizationId,
+        'max-level': -Infinity,
       };
 
       // when
