@@ -28,7 +28,8 @@
     color: $pix-neutral-70;
   }
 
-  &__badges-title {
+  &__badges-title,
+  &__history-title {
     font-family: $font-open-sans;
     font-size: 20px;
     font-weight: 600;
