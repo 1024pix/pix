@@ -79,10 +79,6 @@ async function createOrganization({
     archivedBy,
     archivedAt,
     identityProviderForCampaigns,
-    adminUserId,
-    memberIds,
-    tagIds,
-    featureIds,
   });
 
   _buildMemberships({
