@@ -6,6 +6,23 @@ import * as skillRepository from './skill-repository.js';
 
 const CAMPAIGNS_TABLE = 'campaigns';
 
+const areKnowledgeElementsResettable = async function ({
+  id,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const result = await knexConn('campaigns')
+    .join('target-profiles', function () {
+      this.on('target-profiles.id', 'campaigns.targetProfileId').andOnVal(
+        'target-profiles.areKnowledgeElementsResettable',
+        'true',
+      );
+    })
+    .where({ 'campaigns.id': id, 'campaigns.multipleSendings': true })
+    .first();
+  return Boolean(result);
+};
+
 const isCodeAvailable = async function (code) {
   return !(await knex('campaigns').first('id').where({ code }));
 };
@@ -177,6 +194,7 @@ export {
   findSkills,
   findSkillsByCampaignParticipationId,
   findSkillIdsByCampaignParticipationId,
+  areKnowledgeElementsResettable,
 };
 
 async function _findSkills({ campaignId, domainTransaction, filterByStatus = 'operative' }) {

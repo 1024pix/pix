@@ -1,11 +1,11 @@
 import {
-  expect,
-  domainBuilder,
+  catchErr,
   databaseBuilder,
+  domainBuilder,
+  expect,
   knex,
   mockLearningContent,
   sinon,
-  catchErr,
 } from '../../../test-helper.js';
 
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
@@ -15,6 +15,37 @@ import { NotFoundError } from '../../../../lib/domain/errors.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | Campaign', function () {
+  describe('#areKnowledgeElementsResettable', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { multipleSendings: true, areKnowledgeElementsResettable: true, expected: true },
+      { multipleSendings: true, areKnowledgeElementsResettable: false, expected: false },
+      { multipleSendings: false, areKnowledgeElementsResettable: true, expected: false },
+      { multipleSendings: false, areKnowledgeElementsResettable: false, expected: false },
+    ].forEach(({ multipleSendings, areKnowledgeElementsResettable, expected }) => {
+      it(`should return ${expected} if campaign multipleSendings equal ${multipleSendings} and target profiles areKnowledgeElementsResettable equal ${areKnowledgeElementsResettable}`, async function () {
+        // given
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile({ areKnowledgeElementsResettable }).id;
+
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          code: 'BADOIT710',
+          multipleSendings,
+          targetProfileId,
+          type: 'ASSESSMENT',
+        }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const canReset = await campaignRepository.areKnowledgeElementsResettable({
+          id: campaignId,
+        });
+
+        // then
+        expect(canReset).to.equal(expected);
+      });
+    });
+  });
+
   describe('#isCodeAvailable', function () {
     beforeEach(async function () {
       databaseBuilder.factory.buildCampaign({ code: 'BADOIT710' });
