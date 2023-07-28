@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v4.19.0 (28/07/2023)
+
+
+### :rocket: Amélioration
+- [#6730](https://github.com/1024pix/pix/pull/6730) [FEATURE] Créer les colonnes detachedAt et createdBy pour la table complementary-certification-badges (PIX-8745).
+- [#6675](https://github.com/1024pix/pix/pull/6675) [FEATURE](admin) Empêcher l'ajout, la suppression et la modification de seuil ou niveau d'un palier lorsqu'une campagne est associé au profil cible. (PIX-8646).
+
+### :building_construction: Tech
+- [#6781](https://github.com/1024pix/pix/pull/6781) [TECH] Trier les data pour la génération du timeSeries chart des tech-days api arboresence.
+- [#6779](https://github.com/1024pix/pix/pull/6779) [TECH] Uniformisation de l'ordonnancement des propriétés CSS.
+- [#6777](https://github.com/1024pix/pix/pull/6777) [TECH] Ajout de tests pour le challenge de type embed (PIX-8777).
+- [#6780](https://github.com/1024pix/pix/pull/6780) [TECH] Ajouter un test sur le bouton retour (PIX-8776).
+- [#6727](https://github.com/1024pix/pix/pull/6727) [TECH] Refactoring des seeds certif (PIX-8547).
+- [#6737](https://github.com/1024pix/pix/pull/6737) [TECH] Support d'une date dans le script de vérification d'eligibilité aux certifications (PIX-8746).
+- [#6771](https://github.com/1024pix/pix/pull/6771) [TECH] Amélioration de l'affichage de la preview (PIX-8763).
+
+### :bug: Correction
+- [#6773](https://github.com/1024pix/pix/pull/6773) [BUGFIX] Corriger l'affichage du lien sur la page de récupération d'accès à Pix Orga (PIX-8782).
+- [#6772](https://github.com/1024pix/pix/pull/6772) [BUGFIX] Réparer la selection des niveaux sur les paliers par niveaux.
+- [#6768](https://github.com/1024pix/pix/pull/6768) [BUGFIX] Créer les acquis de la campagne au moment de la création en masse (PIX-8735).
+
+### :arrow_up: Montée de version
+- [#6769](https://github.com/1024pix/pix/pull/6769) [BUMP] Update redis Docker tag to v6.
+
 ## v4.18.0 (27/07/2023)
 
 
