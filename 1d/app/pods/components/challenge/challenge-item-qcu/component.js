@@ -9,8 +9,8 @@ export default class QcuProposals extends Component {
   get labeledRadios() {
     const arrayOfProposals = proposalsAsArray(this.args.challenge.proposals);
     const labeledCheckboxesList = labeledCheckboxes(arrayOfProposals, valueAsArrayOfBoolean());
-    if (this.args.shuffled) {
-      pshuffle(labeledCheckboxesList, this.args.assessment.id);
+    if (this.args.challenge.shuffled) {
+      pshuffle(labeledCheckboxesList, this.args.assessment?.id);
     }
     return labeledCheckboxesList;
   }

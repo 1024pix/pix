@@ -34,12 +34,20 @@
         {{/if}}
         {{#if @challenge.isQCU}}
           <div class="challenge-item__qcu">
-            <Challenge::ChallengeItemQcu @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} />
+            <Challenge::ChallengeItemQcu
+              @challenge={{@challenge}}
+              @setAnswerValue={{this.setAnswerValue}}
+              @assessment={{@assessment}}
+            />
           </div>
         {{/if}}
         {{#if @challenge.isQCM}}
           <div class="challenge-item__qcm">
-            <Challenge::ChallengeItemQcm @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} />
+            <Challenge::ChallengeItemQcm
+              @challenge={{@challenge}}
+              @setAnswerValue={{this.setAnswerValue}}
+              @assessment={{@assessment}}
+            />
           </div>
         {{/if}}
       </div>
