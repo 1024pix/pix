@@ -363,7 +363,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
     });
   });
 
-  describe('#findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser', function () {
+  describe('#findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo', function () {
     let user;
     let organizationId;
     let organizationLearnerRepositoryStub;
@@ -390,7 +390,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // when
           const result = await catchErr(
-            userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser,
+            userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo,
           )({
             organizationId,
             reconciliationInfo: user,
@@ -413,13 +413,12 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
         it('should return matched OrganizationLearner', async function () {
           // when
-          const result = await userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser(
-            {
+          const result =
+            await userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo({
               organizationId,
               reconciliationInfo: user,
               organizationLearnerRepository: organizationLearnerRepositoryStub,
-            },
-          );
+            });
 
           // then
           expect(result).to.equal(organizationLearners[0]);
@@ -441,7 +440,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
         // when
         const result = await catchErr(
-          userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser,
+          userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo,
         )({
           organizationId,
           reconciliationInfo: user,

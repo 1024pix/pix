@@ -58,7 +58,7 @@ async function findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser
   return organizationLearner;
 }
 
-async function findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
+async function findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo({
   organizationId,
   reconciliationInfo: { firstName, lastName, birthdate },
   organizationLearnerRepository,
@@ -233,6 +233,6 @@ export {
   createUsernameByUser,
   findMatchingCandidateIdForGivenUser,
   findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser,
-  findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser,
+  findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo,
   assertStudentHasAnAlreadyReconciledAccount,
 };
