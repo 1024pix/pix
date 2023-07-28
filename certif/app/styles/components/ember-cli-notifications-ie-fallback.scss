@@ -2,21 +2,21 @@
 
   *::-ms-backdrop,
   .ember-cli-notifications-notification__container {
+    position: fixed;
     right: 10px;
     bottom: 10px;
     left: auto;
-    position: fixed;
-    margin: 0 auto;
     width: 80%;
     max-width: 400px;
+    margin: 0 auto;
   }
 
   *::-ms-backdrop,
   .ember-cli-notifications-notification__container > div {
-    background-color: $pix-success-10;
-    border-radius: 3px;
     max-height: 800px;
     margin-bottom: 1rem;
+    background-color: $pix-success-10;
+    border-radius: 3px;
   }
 
   *::-ms-backdrop,
@@ -26,10 +26,10 @@
 
   *::-ms-backdrop,
   .c-notification__icon {
-    padding: 0.5rem 0;
-    background-color: rgb(255 255 255 / 20%);
     width: 30px;
+    padding: 0.5rem 0;
     color: rgb(255 255 255 / 74%);
+    background-color: rgb(255 255 255 / 20%);
   }
 
   *::-ms-backdrop,

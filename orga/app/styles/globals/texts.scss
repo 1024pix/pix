@@ -1,27 +1,27 @@
 .paragraph {
   color: $pix-neutral-60;
-  font-family: $font-open-sans;
   font-size: 0.875rem;
+  font-family: $font-open-sans;
   line-height: 20px;
 }
 
 .help-text {
   color: $pix-neutral-60;
-  font-family: $font-roboto;
   font-size: 0.75rem;
+  font-family: $font-roboto;
 }
 
 .information-text {
   color: $pix-neutral-60;
-  font-family: $font-open-sans;
   font-size: 1.2rem;
+  font-family: $font-open-sans;
 }
 
 .label-text {
   color: $pix-neutral-50;
-  font-family: $font-roboto;
-  font-size: 0.875rem;
   font-weight: 400;
+  font-size: 0.875rem;
+  font-family: $font-roboto;
 
   &--dark {
     color: $pix-neutral-60;
@@ -34,9 +34,9 @@
 
 .value-text {
   color: $pix-neutral-80;
-  font-family: $font-roboto;
-  font-size: 0.875rem;
   font-weight: 500;
+  font-size: 0.875rem;
+  font-family: $font-roboto;
 
   &--highlight {
     color: $pix-neutral-90;
@@ -46,8 +46,8 @@
 
 .content-text {
   color: $pix-neutral-60;
-  font-family: $font-roboto;
   font-size: 1rem;
+  font-family: $font-roboto;
 
   &--bold {
     color: $pix-neutral-100;
@@ -55,8 +55,8 @@
   }
 
   &--big {
-    font-size: 1.5rem;
     font-weight: 300;
+    font-size: 1.5rem;
   }
 
   &--small {
@@ -65,17 +65,17 @@
 }
 
 .link {
-  outline: none;
-  border: none;
-  background-color: inherit;
   color: $pix-primary;
   text-decoration: none;
+  background-color: inherit;
+  border: none;
+  outline: none;
 
   &:hover,
   &:focus,
   &:active {
-    text-decoration: underline;
     color: $pix-primary-60;
+    text-decoration: underline;
   }
 
   &--bold {

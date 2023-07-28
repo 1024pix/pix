@@ -14,18 +14,18 @@
 
 .participant-header-content {
   &__left-wrapper {
-    border-right: 1px solid $pix-neutral-20;
+    flex-shrink: 1;
     width: 60%;
     margin: 0 0 0 3%;
-    flex-shrink: 1;
+    border-right: 1px solid $pix-neutral-20;
   }
 
   &__right-wrapper {
     display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
     align-items: flex-start;
     justify-content: space-around;
-    flex-shrink: 0;
-    flex-grow: 1;
     min-width: 370px;
     max-width: 600px;
 

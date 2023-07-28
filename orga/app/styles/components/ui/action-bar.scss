@@ -2,23 +2,23 @@
   @extend %pix-body-m;
   @include shadow(-4px, 8px);
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: fixed;
-  width: calc(100% - $app-sidebar-width) ;
-  height: 68px;
   right: 0;
   bottom: 0;
-  background-color: $pix-neutral-0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - $app-sidebar-width) ;
+  height: 68px;
   color: $pix-neutral-60;
   font-family: $font-roboto;
-  z-index: 1;
+  background-color: $pix-neutral-0;
 
   .action-bar__informations {
-    margin-left: $pix-spacing-xl;
     display: flex;
     align-items: baseline;
+    margin-left: $pix-spacing-xl;
   }
 
   .action-bar__actions {

@@ -8,8 +8,8 @@
   /* to fix in pix UI */
   fieldset {
     margin: 0;
-    border: 0;
     padding: 0;
+    border: 0;
   }
 
   &__form {
@@ -52,23 +52,23 @@
       }
 
       .pix-select {
-        height: 36px;
         width: 248px;
+        height: 36px;
       }
 
       .birth-country-selector {
-        height: 36px;
         width: 248px;
+        height: 36px;
       }
 
       input[type='radio'] {
-        height: 20px;
         width: 20px;
+        height: 20px;
       }
 
       .radio-button-container {
-        align-items: center;
         display: flex;
+        align-items: center;
       }
 
       &-double {
@@ -90,28 +90,28 @@
       }
 
       &__info-panel {
-        align-items: center;
-        background-color: $pix-primary-10;
-        border-radius: 4px;
-        color: $pix-primary-70;
         display: flex;
         gap: 16px;
+        align-items: center;
         margin-top: 8px;
         padding: 12px 16px;
+        color: $pix-primary-70;
+        background-color: $pix-primary-10;
+        border-radius: 4px;
       }
 
       .complementary-certifications-checkbox-list {
         display: flex;
 
         ul {
-          list-style-type: none;
           margin: 8px;
           padding: 0;
+          list-style-type: none;
         }
 
         label {
-          align-items: center;
           display: flex;
+          align-items: center;
           height: 30px;
         }
 
@@ -124,12 +124,12 @@
   }
 
   &__actions {
-    background-color: $pix-neutral-10;
-    padding: 16px 0;
     display: flex;
     justify-content: flex-end;
-    border-radius: 0 0 5px 5px;
     width: 100%;
+    padding: 16px 0;
+    background-color: $pix-neutral-10;
+    border-radius: 0 0 5px 5px;
 
     .pix-button {
       margin-left: 16px;

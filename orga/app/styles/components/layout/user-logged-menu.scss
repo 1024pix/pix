@@ -1,13 +1,13 @@
 .user-logged-button {
-  color: $pix-neutral-60;
-  cursor: pointer;
-  height: 100%;
   display: flex;
   align-items: center;
+  height: 100%;
   padding: 0 30px;
+  color: $pix-neutral-60;
   background-color: transparent;
   border-width: 0;
   border-left: 1px solid $pix-neutral-20;
+  cursor: pointer;
 
   &:hover,
   &:active,
@@ -18,22 +18,22 @@
 
   &:focus {
     border-radius: 4px;
-    box-shadow: inset 0px 0px 0px 1.6px $pix-primary;
     outline: none;
+    box-shadow: inset 0px 0px 0px 1.6px $pix-primary;
   }
 
   &__text {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: right;
-    font-size: 0.875rem;
-    font-weight: 700;
-    letter-spacing: .03125rem;
     height: 100%;
-    text-transform: capitalize;
-    line-height: 1.1rem;
     padding-right: $pix-spacing-xs;
+    font-weight: 700;
+    font-size: 0.875rem;
+    line-height: 1.1rem;
+    letter-spacing: .03125rem;
+    text-align: right;
+    text-transform: capitalize;
   }
 
   &__text > *:last-child {
@@ -52,11 +52,11 @@
 }
 
 .user-logged-menu {
-  right: 0;
   top: 60px;
+  right: 0;
+  z-index: 2;
   width: 400px;
   max-width: 100%;
-  z-index: 2;
 
   &__icon {
     margin-right: 8px;

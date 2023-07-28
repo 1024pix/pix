@@ -1,8 +1,8 @@
 .progress-bar {
   width: 160px;
   height: 6px;
-  border-radius: 10px;
   background-color: $pix-neutral-20;
+  border-radius: 10px;
 
   &--completion {
     background-color: $pix-primary;

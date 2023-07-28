@@ -18,8 +18,8 @@
   margin-right: 0.4rem;
 
   &--error {
-    border-right: 1px solid $pix-error-70;
     border-color: $pix-error-70;
+    border-right: 1px solid $pix-error-70;
   }
 }
 

@@ -1,8 +1,8 @@
 .tube-recommendation-title {
-  font-family: $font-open-sans;
   color: $pix-neutral-80;
   font-weight: 600;
   font-size: 0.875rem;
+  font-family: $font-open-sans;
 
   &--open {
     margin-left: $pix-spacing-s;
@@ -12,10 +12,10 @@
 }
 
 .tube-recommendation-subtitle {
-  font-family: $font-open-sans;
+  color: $pix-neutral-50;
   font-weight: 400;
   font-size: 0.75rem;
-  color: $pix-neutral-50;
+  font-family: $font-open-sans;
 
   &--open {
     color: $pix-neutral-60;
@@ -23,8 +23,8 @@
 }
 
 .tube-recommendation-tutorial {
-  height: 0;
   display: none;
+  height: 0;
   border-top: none;
 
   &--open {
@@ -33,30 +33,30 @@
   }
 
   &__description {
-    font-family: $font-open-sans;
+    margin-bottom: $pix-spacing-s;
     color: $pix-neutral-60;
     font-size: 0.875rem;
-    margin-bottom: $pix-spacing-s;
+    font-family: $font-open-sans;
   }
 
   &__column {
     position: relative;
-    padding-left: $pix-spacing-l;
     padding-right: $pix-spacing-xl;
+    padding-left: $pix-spacing-l;
   }
 
   &__title {
-    font-weight: 400;
     margin-bottom: $pix-spacing-s;
-    font-family: $font-open-sans;
-    font-size: 1rem;
     padding-left: $pix-spacing-m;
+    font-weight: 400;
+    font-size: 1rem;
+    font-family: $font-open-sans;
   }
 }
 
 .tube-recommendation-tutorial-wrapper {
-  overflow: hidden;
   max-height: 0;
+  overflow: hidden;
   transition: max-height 0s ease;
 
   &--open {
@@ -80,9 +80,9 @@
 
   &__details {
     color: $pix-neutral-80;
-    font-family: $font-roboto;
-    font-size: 0.75rem;
     font-weight: normal;
+    font-size: 0.75rem;
+    font-family: $font-roboto;
   }
 
   &__format {

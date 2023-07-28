@@ -1,9 +1,9 @@
 .footer {
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
   margin: 0 $pix-spacing-m;
   border-top: 1px solid $pix-neutral-20;
 
@@ -20,24 +20,24 @@
     }
 
     &-list {
-      list-style: none;
       display: flex;
       padding: 0;
+      list-style: none;
 
       li {
-        align-self: center;
         display: inline;
+        align-self: center;
         padding: 0;
       }
     }
   }
 
   &__copyrights {
+    padding: 16px 0;
     color: $pix-neutral-50;
-    cursor: default;
     font-size: 0.75rem;
     font-family: $font-roboto;
-    padding: 16px 0;
+    cursor: default;
   }
 }
 
@@ -45,8 +45,8 @@
   &__item {
     margin-right: $pix-spacing-xxs;
     color: $pix-neutral-60;
-    font-size: 0.8125rem;
     font-weight: 500;
+    font-size: 0.8125rem;
     font-family: $font-roboto;
     text-decoration: none;
 
@@ -63,8 +63,8 @@
     }
 
     &:hover {
-      cursor: pointer;
       color: $pix-primary;
+      cursor: pointer;
     }
   }
 }

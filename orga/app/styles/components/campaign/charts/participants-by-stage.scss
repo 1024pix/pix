@@ -1,6 +1,6 @@
 .participants-by-stage {
-  display: flex;
   position: relative;
+  display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 8px;
@@ -14,20 +14,20 @@
     height: 1.5rem;
     
     &--loader {
-      height: 20px;
       min-width: 100px;
+      height: 20px;
     }
   }
 
   &__values {
-    color: $pix-neutral-50;
-    font-size: 0.75rem;
     min-width: 140px;
     margin-left: 32px;
+    color: $pix-neutral-50;
+    font-size: 0.75rem;
 
     &--loader {
-      height: 20px;
       min-width: 100px;
+      height: 20px;
       margin: 0 16px;
     }
   }
@@ -36,16 +36,16 @@
     flex-grow: 1;
 
     .pix-tooltip__content {
-      transform: none;
       left: 0;
+      transform: none;
     }
   }
 
   &__graph {
-    cursor: pointer;
-    width: 100%;
     display: flex;
     align-items: center;
+    width: 100%;
+    cursor: pointer;
 
     &--loader {
       flex-grow: 1;
@@ -55,9 +55,9 @@
 
   &__bar {
     height: 16px;
-    border-radius: 3px;
-    border: 1px solid $pix-primary;
     background-color: lighten($pix-primary, 20%);
+    border: 1px solid $pix-primary;
+    border-radius: 3px;
   }
 
   &__graph:hover &__bar {
@@ -65,9 +65,9 @@
   }
 
   &__percentage {
+    margin-left: 8px;
     color: $pix-neutral-50;
     font-size: 0.75rem;
-    margin-left: 8px;
     white-space: nowrap;
   }
 }

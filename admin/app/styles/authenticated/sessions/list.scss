@@ -30,9 +30,9 @@
 .session-to-be-publish {
 
   &__publish-all {
-    width: 100%;
     display: flex;
     flex-direction: row-reverse;
+    width: 100%;
     margin-bottom: 16px;
   }
 }

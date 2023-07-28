@@ -1,28 +1,28 @@
 .panel {
+  background-color: white;
   border-radius: 4px;
   box-shadow: 0 1px 1px 0 rgb(12 22 58 / 10%), 0 2px 5px 0 rgb(0 0 0 / 10%);
-  background-color: white;
 }
 
 .navbar {
   height: $navbar-height;
-  border: none;
   padding: 0 12px;
+  border: none;
 
   &-item {
-    align-items: center;
     display: flex;
+    align-items: center;
+    margin: 0 12px;
+    color: $pix-neutral-60;
+    font-weight: 500;
+    font-size: 0.9rem;
+    font-family: $font-roboto;
+    text-decoration: none;
     border: none;
     border-bottom: 2px solid transparent;
     outline: none;
     cursor: pointer;
-    color: $pix-neutral-60;
-    font-family: $font-roboto;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin: 0 12px;
     transition: all ease-in-out 0.2s;
-    text-decoration: none;
 
     &:hover {
       color: $pix-communication-dark;
@@ -30,7 +30,7 @@
   }
 
   &-item.active {
-    border-bottom: 2px solid $pix-communication-dark;
     color: $pix-communication-dark;
+    border-bottom: 2px solid $pix-communication-dark;
   }
 }

@@ -14,15 +14,15 @@
   }
 
   &__invisible-field {
-    height: inherit;
     width: 100%;
-    border: none;
-    outline: none;
+    height: inherit;
     padding: 0 10px;
-    border-radius: 3px;
-    font-family: $font-roboto;
     font-size: 0.875rem;
+    font-family: $font-roboto;
     background: transparent;
+    border: none;
+    border-radius: 3px;
+    outline: none;
 
     &:focus {
       outline: none;

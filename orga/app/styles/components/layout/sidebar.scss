@@ -2,8 +2,8 @@
   position: sticky;
   top: 0;
   align-self: flex-start;
-  height: 100vh;
   width: $app-sidebar-width;
+  height: 100vh;
   background-color: $dark-blue-orga;
 
   &__logo {
@@ -16,19 +16,19 @@
 }
 
 .sidebar-nav {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 
   &__item {
     display: flex;
     align-items: center;
     height: 40px;
-    color: $pix-neutral-0;
-    font-family: $font-roboto;
-    font-size: 0.875rem;
-    text-decoration: none;
     padding-left: 24px;
+    color: $pix-neutral-0;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+    text-decoration: none;
     border-left: 3px solid transparent;
 
     &:hover {
@@ -36,37 +36,37 @@
     }
 
     &.active {
-      border-left: 3px solid $pix-warning-40;
       background-color: $chambray;
+      border-left: 3px solid $pix-warning-40;
     }
   }
 
   &__item-icon {
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-right: 8px;
+    justify-content: center;
     width: 8%;
+    margin-right: 8px;
 
     > img {
+      width: 100%; // useful for IE
       height: 1rem;
       margin: 0;
-      width: 100%; // useful for IE
     }
   }
 
   &__documentation-item {
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     justify-content: flex-end;
   }
 }
 
 @include device-is('mobile') {
   .sidebar {
+    position: relative;
     width: 100%;
     height: auto;
-    position: relative;
   }
 }

@@ -10,11 +10,11 @@
     }
 
     &__information {
-      font-size: 0.75rem;
+      display: block;
       margin-top: 4px;
       margin-bottom: 4px;
       color: $pix-neutral-60;
-      display: block;
+      font-size: 0.75rem;
     }
   }
 
@@ -25,9 +25,9 @@
 
 .create-training-form-card {
   &__duration {
-    margin-top: 1rem;
     display: flex;
     gap: 2rem;
+    margin-top: 1rem;
 
     input {
       width: 6.25rem;

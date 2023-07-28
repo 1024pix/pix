@@ -14,14 +14,14 @@
   &__display {
 
     &__name {
-      font-size: 1.5rem;
-      font-weight: 600;
       margin-bottom: 20px;
+      font-weight: 600;
+      font-size: 1.5rem;
     }
 
     .property {
-      padding: 0.5rem 1rem;
       display: block;
+      padding: 0.5rem 1rem;
       border-bottom: 0.05rem solid $pix-neutral-20;
 
       &:last-child {
@@ -41,8 +41,8 @@
 
   .field__label {
     color: $pix-neutral-70;
-    font-size: 0.875rem;
     font-weight: normal;
+    font-size: 0.875rem;
   }
 
   .form-field__checkbox {
@@ -50,8 +50,8 @@
     gap: 0.5rem;
 
     * {
-      margin-bottom: 0;
       align-self: center;
+      margin-bottom: 0;
     }
 
     input[type='checkbox'] {
@@ -68,14 +68,14 @@
 
   &__display__habilitations-list,
   &__edit-form__habilitations-checkbox-list {
-    list-style-type: none;
     margin: 8px 0;
     padding: 0;
+    list-style-type: none;
   }
 
   &__edit-form__habilitations-checkbox-list {
-    flex-direction: column;
     display: flex;
+    flex-direction: column;
 
     .habilitation-entry {
       display: flex;
@@ -84,8 +84,8 @@
       padding-bottom: 8px;
 
       * {
-        margin-bottom: 0;
         align-self: center;
+        margin-bottom: 0;
       }
 
       input[type='checkbox'] {
@@ -96,13 +96,13 @@
   }
 
   &__display__habilitations-list {
-    background-color: #F4F5F7;
-    border-radius: 8px;
-    align-items: flex-start;
-    gap: 24px;
     display: inline-flex;
     flex-direction: row;
+    gap: 24px;
+    align-items: flex-start;
     padding: 8px 16px;
+    background-color: #F4F5F7;
+    border-radius: 8px;
 
     .granted-habilitation-icon {
       color: $pix-success-60;

@@ -2,16 +2,16 @@
   height: 240px;
 
   &__legend {
-    list-style: none;
-    padding-left: 0;
-    padding-top: 16px;
     margin: 0;
+    padding-top: 16px;
+    padding-left: 0;
     font-size: 0.875rem;
+    list-style: none;
 
     > li {
+      position: relative;
       display: flex;
       align-items: center;
-      position: relative;
       padding-bottom: 8px;
       padding-left: 24px;
       color: $pix-neutral-70;
@@ -28,8 +28,8 @@
   }
 
   &__legend-view {
-    border-radius: 14px;
     margin: 0 8px;
+    border-radius: 14px;
   }
 
   &__loader {
@@ -38,13 +38,13 @@
     align-items: center;
 
     &--chart {
-      height: 240px;
       width: 240px;
+      height: 240px;
     }
 
     &--legend {
-      height: 20px;
       width: 100%;
+      height: 20px;
       margin-top: 8px;
     }
   }

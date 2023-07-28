@@ -19,9 +19,9 @@
   }
 
   &__checkbox {
-    margin: 0 $pix-spacing-xs;
     width: $pix-spacing-s;
     height: $pix-spacing-s;
+    margin: 0 $pix-spacing-xs;
   }
 
   &__is-public-checkbox {
@@ -31,16 +31,16 @@
 
   &__checkbox-label {
     margin: 0;
-    font-family: $font-roboto;
     font-weight: normal;
     font-size: 0.875rem;
+    font-family: $font-roboto;
     line-height: 20px;
   }
 
   &__is-public-label {
-    font-family: $font-roboto;
     font-weight: $font-normal;
     font-size: 0.875rem;
+    font-family: $font-roboto;
     line-height: 21px;
   }
 

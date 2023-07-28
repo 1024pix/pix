@@ -1,10 +1,10 @@
 /* stylelint-disable selector-class-pattern */
 table {
+  box-sizing: border-box;
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
-  table-layout: fixed;
-  box-sizing: border-box;
 }
 
 thead {
@@ -32,8 +32,8 @@ tr {
 
 td,
 th {
-  text-align: left;
   padding-left: 30px;
+  text-align: left;
   text-overflow: ellipsis;
 }
 
@@ -67,8 +67,8 @@ td.td--bold {
 
 .table__empty {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   height: 180px;
   text-align: center;
   border-top: 2px solid $pix-neutral-22;

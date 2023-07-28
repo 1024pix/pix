@@ -2,21 +2,21 @@
   font-family: $font-roboto;
 
   &__information {
-    font-size: 0.875rem;
     margin: 14px 0 24px 0;
+    font-size: 0.875rem;
     text-align: center;
   }
 
   &__legal-information {
+    max-width: 500px;
     color: $pix-neutral-60;
     font-size: 0.6875rem;
-    max-width: 500px;
   }
 
   &__back {
+    margin-top: $pix-spacing-s;
     font-size: 1rem;
     text-align: left;
-    margin-top: $pix-spacing-s;
 
     a {
       color: $pix-communication-dark;
@@ -38,8 +38,8 @@
   }
 
   &__button {
-    font-weight: 600;
     margin-top: 8px;
+    font-weight: 600;
   }
 
   .input-container {
@@ -47,8 +47,8 @@
   }
 
   form {
-    margin: auto;
     width: 300px;
+    margin: auto;
 
     @include device-is('tablet') {
       width: 450px;

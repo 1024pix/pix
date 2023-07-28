@@ -1,8 +1,8 @@
 .login {
+  max-width: 500px;
+  padding: 20px 30px;
   background-color: $pix-neutral-0;
   border-radius: 10px;
-  padding: 20px 30px;
-  max-width: 500px;
 
   @include device-is('tablet') {
     padding: 40px 60px;
@@ -19,28 +19,28 @@
 
 .login-header {
   &__title {
-    font-family: $font-open-sans;
-    font-weight: 400;
-    font-size: 2rem;
-    color: $pix-neutral-80;
     margin-top: 32px;
     margin-bottom: 8px;
+    color: $pix-neutral-80;
+    font-weight: 400;
+    font-size: 2rem;
+    font-family: $font-open-sans;
   }
 
   &__information {
+    width: 100%;
+    max-width: 400px;
     margin-bottom: 32px;
     font-family: $font-roboto;
-    max-width: 400px;
-    width: 100%;
   }
 
   &__invitation-error {
-    border-radius: 3px;
-    color: $pix-error-70;
-    font-size: 0.875rem;
     margin: 10px 0 16px;
     padding: 9px;
+    color: $pix-error-70;
+    font-size: 0.875rem;
     text-align: center;
+    border-radius: 3px;
   }
 }
 
@@ -54,9 +54,9 @@
 
 .login-main-form {
   &__mandatory-information {
-    text-align: center;
-    font-family: $font-roboto;
     color: $pix-neutral-80;
+    font-family: $font-roboto;
+    text-align: center;
   }
 
   &__button {
@@ -64,9 +64,9 @@
   }
 
   &__forgotten-password {
-    text-align: left;
-    font-size: 0.875rem;
     color: $pix-communication-dark;
+    font-size: 0.875rem;
+    text-align: left;
 
     a {
       text-decoration: none;
@@ -75,8 +75,8 @@
       &:active,
       &:focus,
       &:visited {
-        text-decoration: underline;
         color: $pix-communication-dark;
+        text-decoration: underline;
       }
     }
   }

@@ -1,13 +1,13 @@
 /* stylelint-disable selector-class-pattern */
 .campaign__subtitle {
-  font-size: 0.875rem;
   color: $pix-neutral-50;
+  font-size: 0.875rem;
 }
 
 .campaign__attributes {
+  margin: 0;
   list-style: none;
   padding-inline: 0;
-  margin: 0;
 }
 
 .campaign-title {
