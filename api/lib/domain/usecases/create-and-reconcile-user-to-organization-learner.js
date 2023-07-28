@@ -36,7 +36,7 @@ const createAndReconcileUserToOrganizationLearner = async function ({
   }
 
   const matchedOrganizationLearner =
-    await userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
+    await userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo({
       organizationId: campaign.organizationId,
       reconciliationInfo: userAttributes,
       organizationLearnerRepository,

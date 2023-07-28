@@ -51,8 +51,7 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
 
   try {
     matchedOrganizationLearner =
-      // TODO: Rename findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser→findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo
-      await userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
+      await userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo({
         organizationId: campaign.organizationId,
         reconciliationInfo,
         organizationLearnerRepository,

@@ -61,7 +61,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
       sendAccountCreationEmail: sinon.stub(),
     };
     userReconciliationService = {
-      findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser: sinon.stub(),
+      findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo: sinon.stub(),
     };
     userService = {
       createAndReconcileUserToOrganizationLearner: sinon.stub(),
@@ -118,7 +118,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
   context('When no organizationLearner found', function () {
     it('should throw a Not Found error', async function () {
       // given
-      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.throws(
+      userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.throws(
         new NotFoundError('Error message'),
       );
 
@@ -154,7 +154,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
     beforeEach(function () {
       createdUser = domainBuilder.buildUser();
 
-      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearnerId,
       );
       encryptionService.hashPassword.resolves(encryptedPassword);
