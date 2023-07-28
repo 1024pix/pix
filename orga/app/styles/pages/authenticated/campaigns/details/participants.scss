@@ -1,25 +1,25 @@
 .participant-list {
   &__mastery-percentage {
+    margin-left: 26px;
     color: $pix-primary;
     font-size: 1.25rem;
-    margin-left: 26px;
   }
 
   &__icon {
-    margin-right: 8px;
-    min-width: 15px;
     display: inline-block;
+    min-width: 15px;
+    margin-right: 8px;
   }
 
   &__header {
     display: flex;
-    align-items: center;
     align-content: center;
+    align-items: center;
     height: 60px;
     padding-left: 30px;
     color: $pix-neutral-60;
-    font-family: $font-roboto;
     font-size: 0.875rem;
+    font-family: $font-roboto;
   }
 
   &__badges {

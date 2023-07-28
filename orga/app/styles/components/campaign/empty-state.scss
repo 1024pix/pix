@@ -1,14 +1,14 @@
 .empty-state {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding: 40px 0;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  padding: 40px 0;
   color: $pix-neutral-30;
 
   &__text {
-    margin-top: 16px;
     display: flex;
+    margin-top: 16px;
   }
 }

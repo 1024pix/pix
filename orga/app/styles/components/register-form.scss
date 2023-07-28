@@ -2,22 +2,22 @@
   max-width: 360px;
 
   &__cgu-label {
-    font-family: $font-roboto;
-    font-size: 0.875rem;
     margin: 0;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
   }
 
   &__cgu-error {
+    margin-top: 20px;
     color: $pix-error-70;
     font-size: 0.75em;
-    margin-top: 20px;
   }
 
   &__information {
     @extend %pix-body-s;
 
-    text-align: center;
     color: $pix-neutral-90;
+    text-align: center;
   }
 
   .input-container {

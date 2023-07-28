@@ -17,11 +17,11 @@
     justify-content: space-between;
     max-width: 350px;
     height: 230px;
+    margin: 16px;
+    padding: 16px;
+    background-color: $pix-neutral-0;
     border-radius: 8px;
     box-shadow: 0 2px 5px 0 rgba($pix-neutral-110, 0.05);
-    background-color: $pix-neutral-0;
-    padding: 16px;
-    margin: 16px;
   }
 }
 
@@ -31,11 +31,11 @@
   }
 
   &__details {
-    color: $pix-neutral-50;
-    font-family: $font-roboto;
-    font-size: 1rem;
-    font-weight: 300;
     margin: 8px;
+    color: $pix-neutral-50;
+    font-weight: 300;
+    font-size: 1rem;
+    font-family: $font-roboto;
 
     &--small {
       font-size: 0.875rem;
@@ -45,21 +45,21 @@
 
 .import-students-page-section {
   &__title {
-    color: $pix-neutral-90;
-    font-family: $font-open-sans;
-    font-size: 1.25rem;
-    font-weight: 500;
     margin: 8px;
+    color: $pix-neutral-90;
+    font-weight: 500;
+    font-size: 1.25rem;
+    font-family: $font-open-sans;
   }
 
   &__details {
+    margin: 16px;
     color: $pix-neutral-50;
-    font-family: $font-roboto;
     font-size: 0.875rem;
-    text-align: center;
+    font-family: $font-roboto;
     line-height: 22px;
     letter-spacing: 0.15px;
-    margin: 16px;
+    text-align: center;
   }
 }
 

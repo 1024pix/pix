@@ -4,9 +4,9 @@
 
 .cards {
   display: flex;
-  margin: $pix-spacing-m 0;
-  justify-content: space-between;
   gap: $pix-spacing-m;
+  justify-content: space-between;
+  margin: $pix-spacing-m 0;
 
   &__content {
     width: 100%;
@@ -14,10 +14,10 @@
 
   &__stats {
     display: inline-flex;
-    list-style: none;
-    justify-content: space-between;
-    padding: 0;
     gap: $pix-spacing-s;
+    justify-content: space-between;
     margin: 0;
+    padding: 0;
+    list-style: none;
   }
 }

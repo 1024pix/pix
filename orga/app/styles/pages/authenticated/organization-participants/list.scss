@@ -21,9 +21,9 @@ $margin-right: 32px;
     width: 10%;
 
     @include device-is('tablet') {
-      text-align: right;
       padding-right: 12px;
       padding-left: 0;
+      text-align: right;
     }
   }
 
@@ -64,8 +64,8 @@ $margin-right: 32px;
   }
 
   &__dropdown-content {
-    width: 200px;
     right: $margin-right;
+    width: 200px;
   }
 
   &__tag {

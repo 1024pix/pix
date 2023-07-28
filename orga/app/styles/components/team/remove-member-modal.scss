@@ -1,14 +1,14 @@
 .remove-member-modal {
   color: $pix-neutral-90;
-  line-height: $pix-spacing-m;
   font-size: 1rem;
+  line-height: $pix-spacing-m;
 
   &__action-buttons {
 
     &--list {
       display: flex;
-      justify-content: flex-end;
       gap: $pix-spacing-s;
+      justify-content: flex-end;
     }
 
     &--container {

@@ -14,11 +14,11 @@
   &__panel {
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: $pix-spacing-s;
-    border-radius: 10px;
-    align-items: center;
     padding: 20px 2px;
+    border-radius: 10px;
 
     @include device-is('tablet') {
       padding: 20px;
@@ -37,20 +37,20 @@
   }
 
   &__invitation {
-    font-family: $font-roboto;
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: $pix-neutral-100;
-    text-align: center;
     margin-top: 24px;
+    color: $pix-neutral-100;
+    font-weight: 500;
+    font-size: 1.125rem;
+    font-family: $font-roboto;
+    text-align: center;
   }
 
   &__forms-container {
     display: flex;
-    margin-top: 10px;
-    min-height: 500px;
     flex-flow: row;
     justify-content: space-around;
+    min-height: 500px;
+    margin-top: 10px;
 
     @include device-is('large-screen') {
       flex-flow: row;

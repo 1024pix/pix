@@ -1,11 +1,11 @@
 .login-page {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   min-height: 100vh;
   background: $pix-secondary-orga-gradient;
-  align-items: center;
-  justify-content: center;
 
   &__header {
     text-align: center;
@@ -14,17 +14,17 @@
   &__title {
     @extend %pix-title-m;
 
-    font-family: $font-open-sans;
-    font-weight: $font-normal;
-    color: $pix-neutral-80;
     margin-top: $pix-spacing-m;
+    color: $pix-neutral-80;
+    font-weight: $font-normal;
+    font-family: $font-open-sans;
   }
 
   &__container {
+    margin-bottom: $pix-spacing-s;
+    padding: $pix-spacing-xl 60px;
     background-color: $pix-neutral-0;
     border-radius: 10px;
-    padding: $pix-spacing-xl 60px;
-    margin-bottom: $pix-spacing-s;
 
     @include device-is('mobile') {
       padding: $pix-spacing-xl $pix-spacing-s;
