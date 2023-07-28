@@ -6,13 +6,18 @@ async function parseTimeSeriesMetrics({ metricsFilepath }) {
   return JSON.parse(currentRawMetrics);
 }
 
+function sortTimeSeriesMetrics(existingTimeSeriesMetrics) {
+  return existingTimeSeriesMetrics.sort((a, b) => new Date(a.x).getTime() - new Date(b.x).getTime());
+}
+
 async function main() {
   const metricsFilepath = process.argv[2];
   const existingTimeSeriesMetrics = await parseTimeSeriesMetrics({ metricsFilepath });
 
   const updatedTimeSeriesMetrics = await _addOrUpdateTodayValue(existingTimeSeriesMetrics);
+  const sortedTimeSeriesMetrics = sortTimeSeriesMetrics(updatedTimeSeriesMetrics);
 
-  const stringifiedMetrics = JSON.stringify(updatedTimeSeriesMetrics);
+  const stringifiedMetrics = JSON.stringify(sortedTimeSeriesMetrics);
   await writeFile(metricsFilepath, stringifiedMetrics);
 }
 
