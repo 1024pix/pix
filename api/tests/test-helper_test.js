@@ -1,4 +1,4 @@
-import { expect, catchErr } from './test-helper.js';
+import { expect, catchErr, buildParameterizedTests } from './test-helper.js';
 
 describe('Test helpers', function () {
   describe('#catchErr', function () {
@@ -27,6 +27,19 @@ describe('Test helpers', function () {
 
       // then
       await expect(promise).to.be.rejectedWith('Expected an error, but none was thrown.');
+    });
+  });
+
+  describe('#buildParameterizedTests', function () {
+    it('should call all passed functions', function () {
+      buildParameterizedTests(
+        ['hello', 'hello'],
+        (data) => `should do ${data}`,
+        function (data) {
+          // Then
+          expect(data).to.equal('hello');
+        },
+      );
     });
   });
 });

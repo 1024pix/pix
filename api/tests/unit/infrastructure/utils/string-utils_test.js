@@ -1,4 +1,4 @@
-import { expect } from '../../../test-helper.js';
+import { buildParameterizedTests, expect } from '../../../test-helper.js';
 
 import {
   isNumeric,
@@ -59,20 +59,24 @@ describe('Unit | Utils | string-utils', function () {
   });
 
   describe('#splitIntoWordsAndRemoveBackspaces', function () {
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      { case: 'abc', expectedResult: ['abc'] },
-      { case: 'qvak\nqwak\nanything\n', expectedResult: ['qvak', 'qwak', 'anything'] },
-      { case: 'wîth àccénts êêê', expectedResult: ['wîth àccénts êêê'] },
-      { case: ',.!p-u-n-c-t', expectedResult: [',.!p-u-n-c-t'] },
-      { case: 'variant 1\nvariant 2\nvariant 3\n', expectedResult: ['variant 1', 'variant 2', 'variant 3'] },
-    ].forEach((data) => {
-      it(`should return ${data.expectedResult} with ${data.case}`, function () {
-        // When
-        const result = splitIntoWordsAndRemoveBackspaces(data.case);
-        // Then
-        expect(result).to.be.deep.equal(data.expectedResult);
-      });
+    it('should call all passed functions', function () {
+      buildParameterizedTests(
+        [
+          { case: 'abc', expectedResult: ['abc'] },
+          { case: 'qvak\nqwak\nanything\n', expectedResult: ['qvak', 'qwak', 'anything'] },
+          { case: 'wîth àccénts êêê', expectedResult: ['wîth àccénts êêê'] },
+          { case: ',.!p-u-n-c-t', expectedResult: [',.!p-u-n-c-t'] },
+          { case: 'variant 1\nvariant 2\nvariant 3\n', expectedResult: ['variant 1', 'variant 2', 'variant 3'] },
+        ],
+        (data) => `should return ${data.expectedResult} with ${data.case}`,
+        function (data) {
+          // When
+          const result = splitIntoWordsAndRemoveBackspaces(data.case);
+
+          // Then
+          expect(result).to.be.deep.equal(data.expectedResult);
+        },
+      );
     });
   });
 

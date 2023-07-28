@@ -115,6 +115,17 @@ async function insertUserWithRoleCertif() {
   return user;
 }
 
+function buildParameterizedTests(params, title, callee) {
+  describe('parameterized test', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    params.forEach((test) => {
+      it(title(test), function () {
+        return callee(test);
+      });
+    });
+  });
+}
+
 async function insertOrganizationUserWithRoleAdmin() {
   const adminUser = databaseBuilder.factory.buildUser();
   const organization = databaseBuilder.factory.buildOrganization();
@@ -289,4 +300,5 @@ export {
   learningContentBuilder,
   createTempFile,
   removeTempFile,
+  buildParameterizedTests,
 };
