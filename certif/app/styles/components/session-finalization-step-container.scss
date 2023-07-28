@@ -4,27 +4,27 @@
   margin-bottom: 24px;
 
   &__page-title {
-    color: $pix-neutral-90;
-    font-family: $font-open-sans;
-    font-size: 1rem;
-    font-weight: 700;
     margin: 0;
+    color: $pix-neutral-90;
+    font-weight: 700;
+    font-size: 1rem;
+    font-family: $font-open-sans;
   }
 
   p {
-    color: $pix-neutral-60;
-    font-size: 0.875rem;
-    font-weight: normal;
     margin: 8px 0 0;
+    color: $pix-neutral-60;
+    font-weight: normal;
+    font-size: 0.875rem;
   }
 
   &__header {
-    align-items: center;
-    background: $pix-neutral-10;
-    border-radius: 8px;
     display: flex;
+    align-items: center;
     margin: 16px;
     padding: 20px 24px;
+    background: $pix-neutral-10;
+    border-radius: 8px;
   }
 
   &__titles {

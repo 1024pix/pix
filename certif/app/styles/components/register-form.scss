@@ -1,17 +1,17 @@
 .register-form {
   max-width: 360px;
-  font-size: 0.875rem;
   overflow-y: auto;
+  font-size: 0.875rem;
 
   &__cgu-label {
-    font-family: $font-roboto;
     margin: 0;
+    font-family: $font-roboto;
   }
 
   &__cgu-error {
+    margin-top: 4px;
     color: $pix-error-70;
     font-size: 0.75rem;
-    margin-top: 4px;
   }
 
   &__submit-button {

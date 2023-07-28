@@ -10,24 +10,24 @@
   }
 
   &__row {
-    align-items: center;
-    border-bottom: 1px solid $pix-neutral-20;
     display: flex;
-    list-style: none;
-    line-height: 22px;
+    align-items: center;
     padding: 8px 32px;
+    line-height: 22px;
+    list-style: none;
+    border-bottom: 1px solid $pix-neutral-20;
 
     &__label {
-      box-sizing: border-box;
       display: inline-block;
-      font-weight: 600;
-      padding-right: 25px;
+      box-sizing: border-box;
       width: 200px;
+      padding-right: 25px;
+      font-weight: 600;
     }
 
     &__value {
-      font-weight: 400;
       color: $pix-neutral-60;
+      font-weight: 400;
     }
   }
 
