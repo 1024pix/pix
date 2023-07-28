@@ -155,66 +155,109 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
     });
 
     describe('when the user has several acquired badges', function () {
-      it('should return the highest level and latest certifiable badge acquired for each complementary certification', async function () {
-        //given
-        const userId = databaseBuilder.factory.buildUser().id;
-        const firstComplementaryBadges = buildComplementaryCertificationWithMultipleCertifiableBadges({
-          userId,
-          keys: [1, 2],
-          level: [1, 2],
-        });
-        const sameDateCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
-        databaseBuilder.factory.buildBadgeAcquisition({
-          badgeId: firstComplementaryBadges[0].id,
-          userId,
-          sameDateCampaignParticipationId,
-          createdAt: new Date('2022-09-29'),
-        });
-        databaseBuilder.factory.buildBadgeAcquisition({
-          badgeId: firstComplementaryBadges[1].id,
-          userId,
-          sameDateCampaignParticipationId,
-          createdAt: new Date('2022-09-29'),
-        });
-
-        const secondComplementaryBadges = buildComplementaryCertificationWithMultipleCertifiableBadges({
-          userId,
-          keys: [3, 4],
-          level: [3, 4],
-        });
-        const oldestCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
-        databaseBuilder.factory.buildBadgeAcquisition({
-          badgeId: secondComplementaryBadges[0].id,
-          userId,
-          oldestCampaignParticipationId,
-          createdAt: new Date('2020-01-01'),
-        });
-        databaseBuilder.factory.buildBadgeAcquisition({
-          badgeId: secondComplementaryBadges[1].id,
-          userId,
-          oldestCampaignParticipationId,
-          createdAt: new Date('2020-01-01'),
-        });
-        const latestCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
-        databaseBuilder.factory.buildBadgeAcquisition({
-          badgeId: secondComplementaryBadges[0].id,
-          userId,
-          latestCampaignParticipationId,
-          createdAt: new Date('2022-01-01'),
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
-          return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
-            userId,
-            domainTransaction,
+      describe('when no limit date is provided (now by default)', function () {
+        it('should return the highest level and latest certifiable badge acquired for each complementary certification', async function () {
+          //given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const firstComplementaryBadges = buildComplementaryCertificationWithMultipleCertifiableBadges({
+            keyLevelList: [
+              { key: 1, level: 1 },
+              { key: 2, level: 2 },
+            ],
           });
-        });
 
-        // then
-        expect(certifiableBadgesAcquiredByUser.length).to.equal(2);
-        expect(certifiableBadgesAcquiredByUser.map(({ badgeKey }) => badgeKey)).to.deep.equal(['level-2', 'level-3']);
+          const sameDateCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+          databaseBuilder.factory.buildBadgeAcquisition({
+            badgeId: firstComplementaryBadges[0].id,
+            userId,
+            campaignParticipationId: sameDateCampaignParticipationId,
+            createdAt: new Date('2022-09-29'),
+          });
+          databaseBuilder.factory.buildBadgeAcquisition({
+            badgeId: firstComplementaryBadges[1].id,
+            userId,
+            campaignParticipationId: sameDateCampaignParticipationId,
+            createdAt: new Date('2022-09-29'),
+          });
+
+          const secondComplementaryBadges = buildComplementaryCertificationWithMultipleCertifiableBadges({
+            keyLevelList: [
+              { key: 3, level: 3 },
+              { key: 4, level: 4 },
+            ],
+          });
+          const oldestCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+          databaseBuilder.factory.buildBadgeAcquisition({
+            badgeId: secondComplementaryBadges[0].id,
+            userId,
+            campaignParticipationId: oldestCampaignParticipationId,
+            createdAt: new Date('2020-01-01'),
+          });
+          databaseBuilder.factory.buildBadgeAcquisition({
+            badgeId: secondComplementaryBadges[1].id,
+            userId,
+            campaignParticipationId: oldestCampaignParticipationId,
+            createdAt: new Date('2020-01-01'),
+          });
+          const latestCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+          databaseBuilder.factory.buildBadgeAcquisition({
+            badgeId: secondComplementaryBadges[0].id,
+            userId,
+            campaignParticipationId: latestCampaignParticipationId,
+            createdAt: new Date('2022-01-01'),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+            return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
+              userId,
+              domainTransaction,
+            });
+          });
+
+          // then
+          expect(certifiableBadgesAcquiredByUser.length).to.equal(2);
+          expect(certifiableBadgesAcquiredByUser.map(({ badgeKey }) => badgeKey)).to.deep.equal(['level-2', 'level-3']);
+        });
+      });
+
+      describe('when a limit date is provided', function () {
+        it('should return the certifiable badge acquired at the limit date for each complementary certification', async function () {
+          //given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const complementaryBadges = buildComplementaryCertificationWithMultipleCertifiableBadges({
+            keyLevelList: [
+              { key: 3, level: 3 },
+              { key: 2, level: 2 },
+            ],
+          });
+          databaseBuilder.factory.buildBadgeAcquisition({
+            badgeId: complementaryBadges[0].id,
+            userId,
+            createdAt: new Date('2022-09-29'),
+          });
+
+          databaseBuilder.factory.buildBadgeAcquisition({
+            badgeId: complementaryBadges[1].id,
+            userId,
+            createdAt: new Date('2020-01-01'),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+            return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
+              userId,
+              domainTransaction,
+              limitDate: new Date('2021-01-01'),
+            });
+          });
+
+          // then
+          expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+          expect(certifiableBadgesAcquiredByUser.map(({ badgeKey }) => badgeKey)).to.deep.equal(['level-2']);
+        });
       });
     });
 
@@ -247,27 +290,23 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
   });
 });
 
-function buildComplementaryCertificationWithMultipleCertifiableBadges({ keys, level }) {
-  const badgeLevel1 = databaseBuilder.factory.buildBadge.certifiable({
-    key: `level-${keys[0]}`,
-  });
-  const badgeLevel2 = databaseBuilder.factory.buildBadge.certifiable({
-    key: `level-${keys[1]}`,
+function buildComplementaryCertificationWithMultipleCertifiableBadges({ keyLevelList = [] }) {
+  const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+
+  const badgeLevels = keyLevelList.map(({ key, level }) => {
+    const badgeLevel = databaseBuilder.factory.buildBadge.certifiable({
+      key: `level-${key}`,
+    });
+
+    databaseBuilder.factory.buildComplementaryCertificationBadge({
+      badgeId: badgeLevel.id,
+      complementaryCertificationId,
+      level,
+      imageUrl: 'complementary-certification-badge-url-2.fr',
+    });
+
+    return badgeLevel;
   });
 
-  const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification();
-  databaseBuilder.factory.buildComplementaryCertificationBadge({
-    badgeId: badgeLevel1.id,
-    complementaryCertificationId,
-    level: level[0],
-    imageUrl: 'complementary-certification-badge-url-2.fr',
-  });
-
-  databaseBuilder.factory.buildComplementaryCertificationBadge({
-    badgeId: badgeLevel2.id,
-    complementaryCertificationId,
-    level: level[1],
-  });
-
-  return [badgeLevel1, badgeLevel2];
+  return badgeLevels;
 }
