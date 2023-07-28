@@ -566,51 +566,12 @@
     text-align: center;
   }
 
-  &__badge-icons {
-    display: flex;
-    flex-basis: 100%;
-    flex-direction: column;
-    height: 89px;
-
-    @include device-is('tablet') {
-      flex-direction: row;
-    }
-  }
-
   &__button {
     max-width: fit-content;
     margin: 0 auto;
 
     @include device-is('tablet') {
       margin: 0;
-    }
-  }
-}
-
-.skill-review-share-badge-icons {
-  display: flex;
-  justify-content: center;
-  border-radius: 16px;
-
-  &__image {
-    max-width: 50px;
-    margin: 8px 0 8px 10px;
-
-    &:last-child {
-      margin-right: 10px;
-    }
-  }
-
-  &--certifiable {
-    background-color: $pix-success-5;
-  }
-
-  &--not-certifiable {
-    margin: 16px 0 0;
-    background-color: $pix-neutral-10;
-
-    @include device-is('tablet') {
-      margin: 0 0 0 16px;
     }
   }
 }
