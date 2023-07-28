@@ -7,8 +7,6 @@ export default class ResultRoute extends Route {
 
   async model() {
     const assessment = await this.modelFor('assessment');
-    const mission = this.store.findRecord('mission', assessment.missionId);
-
-    return mission;
+    return this.store.findRecord('mission', assessment.missionId);
   }
 }
