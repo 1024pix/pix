@@ -2,16 +2,16 @@
 
   &__header {
     display: flex;
+    justify-content: space-between;
     width: 100%;
     padding: 32px;
-    justify-content: space-between;
     border-radius: 5px;
 
     .legend {
-      background-color: rgb(0 0 0 / 3%);
-      border-radius: 8px;
-      border: 1px solid $pix-neutral-22;
       padding: 12px;
+      background-color: rgb(0 0 0 / 3%);
+      border: 1px solid $pix-neutral-22;
+      border-radius: 8px;
     }
   }
 }

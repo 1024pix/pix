@@ -7,17 +7,17 @@
       margin-right: 20px;
 
       .organization__logo-figure {
-        padding: 3px;
-        border: 2px solid $pix-neutral-15;
-        border-radius: 4px;
-        margin: 0;
-        width: 100px;
-        height: 100px;
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        position: relative;
+        width: 100px;
+        height: 100px;
+        margin: 0;
+        padding: 3px;
+        border: 2px solid $pix-neutral-15;
+        border-radius: 4px;
 
         > img {
           max-width: 100%;
@@ -28,9 +28,9 @@
           position: absolute;
           top: 0;
           left: 0;
-          background: transparent;
           width: 100%;
           height: 100%;
+          background: transparent;
           cursor: pointer;
         }
       }
@@ -41,17 +41,17 @@
       overflow: hidden;
 
       .organization__name {
-        font-size: 1.5rem;
-        font-weight: 600;
         margin-bottom: 20px;
+        font-weight: 600;
+        font-size: 1.5rem;
       }
 
       .organization-tags-list {
-        list-style: none;
-        padding: 0;
         display: flex;
         flex-wrap: wrap;
         margin-bottom: $pix-spacing-m;
+        padding: 0;
+        list-style: none;
 
         &__tag {
           margin-right: 6px;
@@ -67,9 +67,9 @@
         align-items: center;
 
         & > input[type='checkbox'] {
-          margin: 0 8px;
           width: 16px;
           height: 16px;
+          margin: 0 8px;
         }
       }
     }
@@ -96,8 +96,8 @@
         margin-right: 6px;
 
         &__error {
-          border-right: 1px solid $pix-error-70;
           border-color: $pix-error-70;
+          border-right: 1px solid $pix-error-70;
         }
       }
 

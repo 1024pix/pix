@@ -5,39 +5,39 @@
 
   .menu-bar__entries {
     margin: 0;
-    list-style-type: none;
     padding: 0;
+    list-style-type: none;
 
     .menu-bar__entry {
       margin: 10px 0 0;
       padding: 0 15px;
 
       .menu-bar__link {
-        width: 50px;
         position: relative;
-        color: $pix-neutral-22;
         display: block;
-        line-height: 50px;
+        width: 50px;
         padding: 0;
-        cursor: pointer;
+        color: $pix-neutral-22;
+        font-size: 1.25rem;
+        line-height: 50px;
         text-align: center;
         border-radius: 5px;
-        font-size: 1.25rem;
+        cursor: pointer;
 
         i.fa {
-          margin: 0 10px;
           width: 32px;
+          margin: 0 10px;
         }
 
         &:hover {
-          text-decoration: none;
           color: $pix-neutral-0;
+          text-decoration: none;
         }
 
         &.active {
+          color: $pix-neutral-0;
           font-weight: 600;
           background-color: $pix-neutral-40;
-          color: $pix-neutral-0;
         }
       }
     }
