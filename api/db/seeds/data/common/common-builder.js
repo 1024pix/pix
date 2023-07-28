@@ -15,29 +15,35 @@ const PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 55;
 const REAL_PIX_SUPER_ADMIN_ID = 90000;
 
 // TARGET PROFILES
-const CLEA_TARGET_PROFILE_ID = 56;
+const CLEA_V1_TARGET_PROFILE_ID = 56;
+const CLEA_V2_TARGET_PROFILE_ID = 78;
 const PIX_DROIT_TARGET_PROFILE_ID = 59;
-const PIX_EDU_1ER_DEGRE_TARGET_PROFILE_ID = 66;
+const PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID = 66;
+const PIX_EDU_1ER_DEGRE_FC_TARGET_PROFILE_ID = 81;
 const PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID = 67;
 const PIX_PUBLIC_TARGET_PROFILE_ID = 76;
 
 // CERTIFIABLE BADGES
-const CLEA_CERTIFIABLE_BADGE_ID = 57;
+const CLEA_V1_CERTIFIABLE_BADGE_ID = 57;
+const CLEA_V2_CERTIFIABLE_BADGE_ID = 79;
 const PIX_DROIT_INITIE_CERTIFIABLE_BADGE_ID = 60;
 const PIX_DROIT_AVANCE_CERTIFIABLE_BADGE_ID = 61;
 const PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID = 62;
-const PIX_EDU_1ER_DEGRE_INITIE_CERTIFIABLE_BADGE_ID = 68;
-const PIX_EDU_1ER_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID = 69;
+const PIX_EDU_1ER_DEGRE_FI_INITIE_CERTIFIABLE_BADGE_ID = 68;
+const PIX_EDU_1ER_DEGRE_FI_CONFIRME_CERTIFIABLE_BADGE_ID = 69;
+const PIX_EDU_1ER_DEGRE_FC_CONFIRME_CERTIFIABLE_BADGE_ID = 82;
 const PIX_EDU_2ND_DEGRE_INITIE_CERTIFIABLE_BADGE_ID = 70;
 const PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID = 71;
 
 // COMPLEMENTARY CERTIFICATION BADGES
-const CLEA_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 58;
+const CLEA_V1_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 58;
+const CLEA_V2_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 80;
 const PIX_DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 63;
 const PIX_DROIT_AVANCE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 64;
 const PIX_DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 65;
-const PIX_EDU_1ER_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 72;
-const PIX_EDU_1ER_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 73;
+const PIX_EDU_1ER_DEGRE_FI_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 72;
+const PIX_EDU_1ER_DEGRE_FI_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 73;
+const PIX_EDU_1ER_DEGRE_FC_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 83;
 const PIX_EDU_2ND_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 74;
 const PIX_EDU_2ND_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 75;
 
@@ -47,24 +53,27 @@ export {
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-  CLEA_TARGET_PROFILE_ID,
+  CLEA_V1_TARGET_PROFILE_ID,
   PIX_DROIT_TARGET_PROFILE_ID,
-  PIX_EDU_1ER_DEGRE_TARGET_PROFILE_ID,
+  PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID,
+  PIX_EDU_1ER_DEGRE_FC_TARGET_PROFILE_ID,
   PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID,
-  CLEA_CERTIFIABLE_BADGE_ID,
+  CLEA_V1_CERTIFIABLE_BADGE_ID,
   PIX_DROIT_INITIE_CERTIFIABLE_BADGE_ID,
   PIX_DROIT_AVANCE_CERTIFIABLE_BADGE_ID,
   PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
-  PIX_EDU_1ER_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
-  PIX_EDU_1ER_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
+  PIX_EDU_1ER_DEGRE_FI_INITIE_CERTIFIABLE_BADGE_ID,
+  PIX_EDU_1ER_DEGRE_FI_CONFIRME_CERTIFIABLE_BADGE_ID,
+  PIX_EDU_1ER_DEGRE_FC_CONFIRME_CERTIFIABLE_BADGE_ID,
   PIX_EDU_2ND_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
   PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
-  CLEA_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  CLEA_V1_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_DROIT_AVANCE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-  PIX_EDU_1ER_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-  PIX_EDU_1ER_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  PIX_EDU_1ER_DEGRE_FI_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  PIX_EDU_1ER_DEGRE_FI_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  PIX_EDU_1ER_DEGRE_FC_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_2ND_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_2ND_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
 };
@@ -114,10 +123,20 @@ function _createClea(databaseBuilder) {
     id: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
   databaseBuilder.factory.buildTargetProfile({
-    id: CLEA_TARGET_PROFILE_ID,
+    id: CLEA_V1_TARGET_PROFILE_ID,
     imageUrl: 'https://images.pix.fr/profil-cible/Illu_GEN.svg',
     description: null,
-    name: 'Parcours complet CléA numérique',
+    name: 'Parcours complet CléA numérique V1',
+    isSimplifiedAccess: false,
+    category: 'PREDEFINED',
+    isPublic: true,
+  });
+
+  databaseBuilder.factory.buildTargetProfile({
+    id: CLEA_V2_TARGET_PROFILE_ID,
+    imageUrl: 'https://images.pix.fr/profil-cible/Illu_GEN.svg',
+    description: null,
+    name: 'Parcours complet CléA numérique V2',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
     isPublic: true,
@@ -185,18 +204,31 @@ function _createClea(databaseBuilder) {
     { tubeId: 'recInPPTW79jkUbEY', level: 3 },
     { tubeId: 'rec6Ic2FdcxSRYkdn', level: 2 },
   ].map(({ tubeId, level }) => {
-    databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: CLEA_TARGET_PROFILE_ID, tubeId, level });
+    databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: CLEA_V1_TARGET_PROFILE_ID, tubeId, level });
+    databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: CLEA_V2_TARGET_PROFILE_ID, tubeId, level });
   });
 
   databaseBuilder.factory.buildBadge({
-    id: CLEA_CERTIFIABLE_BADGE_ID,
-    targetProfileId: CLEA_TARGET_PROFILE_ID,
+    id: CLEA_V1_CERTIFIABLE_BADGE_ID,
+    targetProfileId: CLEA_V1_TARGET_PROFILE_ID,
     message:
       'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
     altMessage: 'Prêt pour le CléA numérique',
-    key: badges.keys.PIX_EMPLOI_CLEA_V3,
+    key: badges.keys.PIX_EMPLOI_CLEA_V1,
     imageUrl: 'https://images.pix.fr/badges/Logos_badge_Prêt-CléA_Num NEW 2020.svg',
-    title: 'Prêt pour le CléA numérique',
+    title: 'Prêt pour le CléA numérique V1',
+    isCertifiable: true,
+    isAlwaysVisible: true,
+  });
+  databaseBuilder.factory.buildBadge({
+    id: CLEA_V2_CERTIFIABLE_BADGE_ID,
+    targetProfileId: CLEA_V2_TARGET_PROFILE_ID,
+    message:
+      'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
+    altMessage: 'Prêt pour le CléA numérique',
+    key: badges.keys.PIX_EMPLOI_CLEA_V2,
+    imageUrl: 'https://images.pix.fr/badges/Logos_badge_Prêt-CléA_Num NEW 2020.svg',
+    title: 'Prêt pour le CléA numérique V2',
     isCertifiable: true,
     isAlwaysVisible: true,
   });
@@ -232,7 +264,14 @@ function _createClea(databaseBuilder) {
     },
   ].map(({ scope, threshold, cappedTubes, name }) => {
     databaseBuilder.factory.buildBadgeCriterion({
-      badgeId: CLEA_CERTIFIABLE_BADGE_ID,
+      badgeId: CLEA_V1_CERTIFIABLE_BADGE_ID,
+      scope,
+      threshold,
+      cappedTubes,
+      name,
+    });
+    databaseBuilder.factory.buildBadgeCriterion({
+      badgeId: CLEA_V2_CERTIFIABLE_BADGE_ID,
       scope,
       threshold,
       cappedTubes,
@@ -240,15 +279,31 @@ function _createClea(databaseBuilder) {
     });
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
-    id: CLEA_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    badgeId: CLEA_CERTIFIABLE_BADGE_ID,
+    id: CLEA_V1_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+    badgeId: CLEA_V1_CERTIFIABLE_BADGE_ID,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
     level: 4,
     imageUrl: 'https://images.pix.fr/badges/CleA_Num_certif.svg',
-    label: 'CléA Numérique',
+    label: 'CléA Numérique V1',
     certificateMessage: null,
     temporaryCertificateMessage: null,
     stickerUrl: 'https://images.pix.fr/stickers/macaron_clea.pdf',
+    createdAt: new Date('2020-01-01'),
+    detachedAt: new Date('2021-01-01'),
+    createdBy: REAL_PIX_SUPER_ADMIN_ID,
+  });
+  databaseBuilder.factory.buildComplementaryCertificationBadge({
+    id: CLEA_V2_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+    badgeId: CLEA_V2_CERTIFIABLE_BADGE_ID,
+    complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+    level: 4,
+    imageUrl: 'https://images.pix.fr/badges/CleA_Num_certif.svg',
+    label: 'CléA Numérique V2',
+    certificateMessage: null,
+    temporaryCertificateMessage: null,
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_clea.pdf',
+    createdAt: new Date('2021-01-01'),
+    createdBy: REAL_PIX_SUPER_ADMIN_ID,
   });
 }
 
@@ -623,10 +678,19 @@ function _createPixEdu1erDegre(databaseBuilder) {
     id: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   });
   databaseBuilder.factory.buildTargetProfile({
-    id: PIX_EDU_1ER_DEGRE_TARGET_PROFILE_ID,
+    id: PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID,
     imageUrl: null,
     description: null,
-    name: '[Pix+Édu 1D FI] Prêt pour la certification du volet 1 (CRCN et CRCNÉ) 20 04 2023',
+    name: '[Pix+Édu 1D FI] Prêt pour la certification du volet 1',
+    isSimplifiedAccess: false,
+    category: 'PREDEFINED',
+    isPublic: true,
+  });
+  databaseBuilder.factory.buildTargetProfile({
+    id: PIX_EDU_1ER_DEGRE_FC_TARGET_PROFILE_ID,
+    imageUrl: null,
+    description: null,
+    name: '[Pix+Édu 1D FC] Prêt pour la certification du volet 1',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
     isPublic: true,
@@ -756,21 +820,39 @@ function _createPixEdu1erDegre(databaseBuilder) {
     { tubeId: 'tube26F5w4J602048x', level: 1 },
   ].map(({ tubeId, level }) => {
     databaseBuilder.factory.buildTargetProfileTube({
-      targetProfileId: PIX_EDU_1ER_DEGRE_TARGET_PROFILE_ID,
+      targetProfileId: PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID,
+      tubeId,
+      level,
+    });
+    databaseBuilder.factory.buildTargetProfileTube({
+      targetProfileId: PIX_EDU_1ER_DEGRE_FC_TARGET_PROFILE_ID,
       tubeId,
       level,
     });
   });
 
   databaseBuilder.factory.buildBadge({
-    id: PIX_EDU_1ER_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
-    targetProfileId: PIX_EDU_1ER_DEGRE_TARGET_PROFILE_ID,
+    id: PIX_EDU_1ER_DEGRE_FI_INITIE_CERTIFIABLE_BADGE_ID,
+    targetProfileId: PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID,
     message:
       'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Édu de niveau Initié (entrée dans le métier).',
-    altMessage: 'Pix+Édu niveau Initié (entrée dans le métier)',
+    altMessage: 'Pix+Édu FI niveau Initié (entrée dans le métier)',
     key: badges.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-Initie-PREMIER-DEGRE.svg',
-    title: 'Pix+Édu niveau Initié (entrée dans le métier)',
+    title: 'Pix+Édu niveau Initié FI (entrée dans le métier)',
+    isCertifiable: true,
+    isAlwaysVisible: false,
+  });
+
+  databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_1ER_DEGRE_FC_CONFIRME_CERTIFIABLE_BADGE_ID,
+    targetProfileId: PIX_EDU_1ER_DEGRE_FC_TARGET_PROFILE_ID,
+    message:
+      'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Édu de niveau Confirmé.',
+    altMessage: 'Pix+Édu FC niveau Confirmé',
+    key: badges.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
+    title: 'Pix+Édu FC niveau Confirmé',
     isCertifiable: true,
     isAlwaysVisible: false,
   });
@@ -792,7 +874,14 @@ function _createPixEdu1erDegre(databaseBuilder) {
     },
   ].map(({ scope, threshold, cappedTubes, name }) => {
     databaseBuilder.factory.buildBadgeCriterion({
-      badgeId: PIX_EDU_1ER_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
+      badgeId: PIX_EDU_1ER_DEGRE_FI_INITIE_CERTIFIABLE_BADGE_ID,
+      scope,
+      threshold,
+      cappedTubes,
+      name,
+    });
+    databaseBuilder.factory.buildBadgeCriterion({
+      badgeId: PIX_EDU_1ER_DEGRE_FC_CONFIRME_CERTIFIABLE_BADGE_ID,
       scope,
       threshold,
       cappedTubes,
@@ -801,24 +890,39 @@ function _createPixEdu1erDegre(databaseBuilder) {
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
-    id: PIX_EDU_1ER_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    badgeId: PIX_EDU_1ER_DEGRE_INITIE_CERTIFIABLE_BADGE_ID,
+    id: PIX_EDU_1ER_DEGRE_FI_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+    badgeId: PIX_EDU_1ER_DEGRE_FI_INITIE_CERTIFIABLE_BADGE_ID,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     level: 1,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-Autonome_PREMIER-DEGRE.svg',
-    label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
+    label: 'Pix+ Édu FI 1er degré Initié (entrée dans le métier)',
     certificateMessage: 'Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”',
     temporaryCertificateMessage:
       'Vous avez obtenu le niveau “Initié (entrée dans le métier)” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
     stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_1er_initie.pdf',
+    createdBy: REAL_PIX_SUPER_ADMIN_ID,
+  });
+
+  databaseBuilder.factory.buildComplementaryCertificationBadge({
+    id: PIX_EDU_1ER_DEGRE_FC_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+    badgeId: PIX_EDU_1ER_DEGRE_FC_CONFIRME_CERTIFIABLE_BADGE_ID,
+    complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    level: 1,
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
+    label: 'Pix+ Édu FC 1er degré Confirmé',
+    certificateMessage: 'Vous avez obtenu la certification Pix+Édu niveau “Confirmé”',
+    temporaryCertificateMessage:
+      'Vous avez obtenu le niveau “Confirmé” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_1er_confirme.pdf',
+    createdBy: REAL_PIX_SUPER_ADMIN_ID,
   });
 
   databaseBuilder.factory.buildBadge({
-    id: PIX_EDU_1ER_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
-    targetProfileId: PIX_EDU_1ER_DEGRE_TARGET_PROFILE_ID,
+    id: PIX_EDU_1ER_DEGRE_FI_CONFIRME_CERTIFIABLE_BADGE_ID,
+    targetProfileId: PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID,
     message:
       'Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Édu de niveau Confirmé.',
-    altMessage: 'Pix+Édu niveau Confirmé',
+    altMessage: 'Pix+Édu FI niveau Confirmé',
     key: badges.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-Confirme-PREMIER-DEGRE.svg',
     title: 'Pix+Édu niveau Confirmé',
@@ -843,7 +947,7 @@ function _createPixEdu1erDegre(databaseBuilder) {
     },
   ].map(({ scope, threshold, cappedTubes, name }) => {
     databaseBuilder.factory.buildBadgeCriterion({
-      badgeId: PIX_EDU_1ER_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
+      badgeId: PIX_EDU_1ER_DEGRE_FI_CONFIRME_CERTIFIABLE_BADGE_ID,
       scope,
       threshold,
       cappedTubes,
@@ -852,16 +956,17 @@ function _createPixEdu1erDegre(databaseBuilder) {
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
-    id: PIX_EDU_1ER_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    badgeId: PIX_EDU_1ER_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
+    id: PIX_EDU_1ER_DEGRE_FI_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+    badgeId: PIX_EDU_1ER_DEGRE_FI_CONFIRME_CERTIFIABLE_BADGE_ID,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
     level: 2,
     imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
-    label: 'Pix+ Édu 1er degré Confirmé',
+    label: 'Pix+ Édu FI 1er degré Confirmé',
     certificateMessage: 'Vous avez obtenu la certification Pix+Édu niveau “Confirmé”',
     temporaryCertificateMessage:
       'Vous avez obtenu le niveau “Confirmé” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
     stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_1er_confirme.pdf',
+    createdBy: REAL_PIX_SUPER_ADMIN_ID,
   });
 }
 
@@ -1056,6 +1161,7 @@ function _createPixEdu2ndDegre(databaseBuilder) {
     temporaryCertificateMessage:
       'Vous avez obtenu le niveau “Initié (entrée dans le métier)” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
     stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_2nd_initie.pdf',
+    createdBy: REAL_PIX_SUPER_ADMIN_ID,
   });
 
   databaseBuilder.factory.buildBadge({
@@ -1107,6 +1213,7 @@ function _createPixEdu2ndDegre(databaseBuilder) {
     temporaryCertificateMessage:
       'Vous avez obtenu le niveau “Confirmé” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
     stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_2nd_confirme.pdf',
+    createdBy: REAL_PIX_SUPER_ADMIN_ID,
   });
 }
 
