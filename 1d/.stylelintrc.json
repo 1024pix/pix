@@ -1,8 +1,6 @@
 {
-  "extends": ["@1024pix/stylelint-config", "stylelint-config-rational-order"],
-  "plugins": [
-    "stylelint-order"
-  ],
+  "extends": ["@1024pix/stylelint-config"],
+  "plugins": ["stylelint-order"],
   "rules": {
     "declaration-block-no-duplicate-properties": null,
     "declaration-block-no-redundant-longhand-properties": null,
