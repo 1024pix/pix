@@ -9,7 +9,6 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
   setupMirage(hooks);
   let assessment;
 
-  //TODO Ajouter test d'affichage image/embed
   module('with input format', function (hooks) {
     hooks.beforeEach(async function () {
       assessment = this.server.create('assessment');
