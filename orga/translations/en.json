@@ -1202,6 +1202,12 @@
           }
         }
       },
+      "modals": {
+        "leave-organization": {
+          "title": "Leave this Pix Orga space",
+          "message": "Are you sure you want to leave this Pix Orga space? You will no longer have access to <strong>{organizationName}</strong>.<br/><br/>Your campaigns remain accessible to the rest of the team and will not be archived.<br/><br/>Your access to other Pix Orga spaces will not be affected.<br/><br/>You'll be disconnected."
+        }
+      },
       "notifications": {
         "change-member-role": {
           "error": "An error occurred while changing this member's role.",
