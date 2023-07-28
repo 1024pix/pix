@@ -3,29 +3,6 @@ import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.j
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { UserToCreate } from '../models/UserToCreate.js';
 
-function _buildPasswordAuthenticationMethod({ userId, hashedPassword }) {
-  return new AuthenticationMethod({
-    userId,
-    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
-    authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
-      password: hashedPassword,
-      shouldChangePassword: false,
-    }),
-  });
-}
-
-function _buildGARAuthenticationMethod({ externalIdentifier, user }) {
-  return new AuthenticationMethod({
-    externalIdentifier,
-    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
-    userId: user.id,
-    authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({
-      firstName: user.firstName,
-      lastName: user.lastName,
-    }),
-  });
-}
-
 async function createUserWithPassword({
   user,
   hashedPassword,
@@ -115,4 +92,27 @@ async function createAndReconcileUserToOrganizationLearner({
   });
 }
 
-export { createAndReconcileUserToOrganizationLearner, createUserWithPassword, updateUsernameAndAddPassword };
+function _buildPasswordAuthenticationMethod({ userId, hashedPassword }) {
+  return new AuthenticationMethod({
+    userId,
+    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+    authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
+      password: hashedPassword,
+      shouldChangePassword: false,
+    }),
+  });
+}
+
+function _buildGARAuthenticationMethod({ externalIdentifier, user }) {
+  return new AuthenticationMethod({
+    externalIdentifier,
+    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+    userId: user.id,
+    authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({
+      firstName: user.firstName,
+      lastName: user.lastName,
+    }),
+  });
+}
+
+export { createUserWithPassword, updateUsernameAndAddPassword, createAndReconcileUserToOrganizationLearner };

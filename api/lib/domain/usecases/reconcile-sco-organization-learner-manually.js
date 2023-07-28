@@ -26,13 +26,13 @@ const reconcileScoOrganizationLearnerManually = async function ({
   }
 
   const organizationLearnerOfUserAccessingCampaign =
-    await userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
+    await userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo({
       organizationId: campaign.organizationId,
       reconciliationInfo,
       organizationLearnerRepository,
     });
 
-  await userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount(
+  await userReconciliationService.assertStudentHasAnAlreadyReconciledAccount(
     organizationLearnerOfUserAccessingCampaign,
     userRepository,
     obfuscationService,

@@ -146,13 +146,13 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
-      expect(error.message).to.equal('There are no organization learners found');
+      expect(error.message).to.equal('Found no organization learners matching organization and birthdate');
     });
   });
 
-  context('When an organizationLearner match the token data and birthdate', function () {
-    const firstName = 'Saml';
-    const lastName = 'Jackson';
+  context('When an organizationLearner matches on birthdate and on token firstName and lastName', function () {
+    const firstName = 'Julie';
+    const lastName = 'Dumoulin-Lemarchand';
     const samlId = 'SamlId';
 
     let campaignCode;
@@ -175,7 +175,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
       await knex('users').delete();
     });
 
-    it('should create the external user, reconcile it and create GAR authentication method', async function () {
+    it('creates the external user, reconciles it and creates GAR authentication method', async function () {
       // given
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         firstName,
@@ -209,13 +209,17 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
       expect(usersBefore.length + 1).to.equal(usersAfter.length);
 
       const authenticationMethodInDB = await knex('authentication-methods');
-      expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
+      const authenticationMethod = authenticationMethodInDB[0];
+      expect(authenticationMethod.externalIdentifier).to.equal(samlId);
+      expect(authenticationMethod.authenticationComplement).to.deep.equal({
+        firstName: 'Julie',
+        lastName: 'Dumoulin-Lemarchand',
+      });
     });
 
-    context(
-      'When the external user is already reconciled by another account without samlId authentication method',
-      function () {
-        it('should throw a OrganizationLearnerAlreadyLinkedToUserError', async function () {
+    context('When the external user is already linked to another account', function () {
+      context('without samlId authentication method', function () {
+        it('throws an OrganizationLearnerAlreadyLinkedToUserError', async function () {
           // given
           const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
             firstName,
@@ -240,14 +244,11 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
           // then
           expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
         });
-      },
-    );
+      });
 
-    context(
-      'When the external user is already reconciled by another account with samlId authentication method',
-      function () {
+      context('with samlId authentication method', function () {
         context('When reconciled in other organization', function () {
-          it('should update existing account with the new samlId', async function () {
+          it('updates existing account with the new samlId, firstName and lastName', async function () {
             // given
             const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
               firstName,
@@ -263,6 +264,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
               externalIdentifier: '12345678',
               userId: otherAccount.id,
+              firstName: 'Juliette',
+              lastName: 'Dumoulin',
             });
 
             const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
@@ -302,12 +305,17 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
               identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
               userId: otherAccount.id,
             });
-            expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
+            const authenticationMethod = authenticationMethodInDB[0];
+            expect(authenticationMethod.externalIdentifier).to.equal(samlId);
+            expect(authenticationMethod.authenticationComplement).to.deep.equal({
+              firstName: 'Julie',
+              lastName: 'Dumoulin-Lemarchand',
+            });
           });
         });
 
         context('When reconciled in the same organization', function () {
-          it('should update existing account with the new samlId', async function () {
+          it('updates existing account with the new samlId, firstName and lastName', async function () {
             // given
             const birthdate = '10-10-2010';
             const otherAccount = databaseBuilder.factory.buildUser({
@@ -318,6 +326,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
               externalIdentifier: '12345678',
               userId: otherAccount.id,
+              firstName: 'Juliette',
+              lastName: 'Dumoulin',
             });
 
             const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -355,14 +365,19 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
               identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
               userId: otherAccount.id,
             });
-            expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
+            const authenticationMethod = authenticationMethodInDB[0];
+            expect(authenticationMethod.externalIdentifier).to.equal(samlId);
+            expect(authenticationMethod.authenticationComplement).to.deep.equal({
+              firstName: 'Julie',
+              lastName: 'Dumoulin-Lemarchand',
+            });
           });
         });
-      },
-    );
+      });
+    });
 
     context('When the external user is already created', function () {
-      it('should not create again the user', async function () {
+      it('does not create again the user', async function () {
         // given
         const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           firstName,

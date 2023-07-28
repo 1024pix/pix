@@ -21,8 +21,8 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       createAccessTokenForSaml: sinon.stub(),
     };
     userReconciliationService = {
-      findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser: sinon.stub(),
-      checkIfStudentHasAnAlreadyReconciledAccount: sinon.stub(),
+      findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo: sinon.stub(),
+      assertStudentHasAnAlreadyReconciledAccount: sinon.stub(),
     };
     userRepository = {
       getBySamlId: sinon.stub(),
@@ -42,7 +42,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
-      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
       );
       userRepository.getBySamlId.resolves(user);
@@ -76,7 +76,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
-      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
       );
       userRepository.getBySamlId.resolves(user);
@@ -112,7 +112,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
-      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
       );
       userRepository.getBySamlId.resolves(null);
@@ -147,7 +147,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
-      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearner,
       );
       userRepository.getBySamlId.resolves(null);
