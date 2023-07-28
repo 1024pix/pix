@@ -1,13 +1,13 @@
 .logged-user-summary {
-  color: $pix-neutral-60;
-  cursor: pointer;
-  height: 100%;
   display: flex;
   align-items: center;
+  height: 100%;
   padding: 0 30px;
+  color: $pix-neutral-60;
   background-color: transparent;
   border-width: 0;
   border-left: 1px solid $pix-neutral-20;
+  cursor: pointer;
 
   &:hover,
   &:active,
@@ -18,21 +18,21 @@
 
   &:focus {
     border-radius: $pix-spacing-xxs;
-    box-shadow: inset 0 0 0 1.6px $pix-primary;
     outline: none;
+    box-shadow: inset 0 0 0 1.6px $pix-primary;
   }
 
   &__text {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: right;
-    font-size: 0.875rem;
-    font-weight: 700;
-    letter-spacing: .0313rem;
     height: 100%;
-    line-height: 1.1rem;
     padding-right: $pix-spacing-xs;
+    font-weight: 700;
+    font-size: 0.875rem;
+    line-height: 1.1rem;
+    letter-spacing: .0313rem;
+    text-align: right;
   }
 
   &__text > *:last-child {
@@ -51,11 +51,11 @@
 }
 
 .logged-user-menu {
-  right: 0;
   top: 60px;
+  right: 0;
   min-width: 400px;
-  overflow: scroll;
   max-height: 600px;
+  overflow: scroll;
 
   &-item {
     text-decoration: none;
@@ -78,8 +78,8 @@
     &__certification-center-name {
       margin-right: 3px;
       overflow: hidden;
-      text-overflow: ellipsis;
       white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }

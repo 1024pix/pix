@@ -32,13 +32,13 @@
   }
 
   &__contextual {
-    border: 2px solid $pix-neutral-20;
-    background-color: $pix-neutral-20;
-    border-radius: 4px;
     padding: 10px 0;
-    font-size: 1rem;
-    font-weight: bold;
     color: $pix-neutral-80;
+    font-weight: bold;
+    font-size: 1rem;
+    background-color: $pix-neutral-20;
+    border: 2px solid $pix-neutral-20;
+    border-radius: 4px;
     outline: 0;
   }
 }

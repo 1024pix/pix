@@ -1,19 +1,19 @@
 .label {
   display: inline-block;
-  color: $pix-neutral-70;
-  font-size: 0.94rem;
-  font-weight: 500;
-  padding-bottom: 5px;
   margin-left: 1px;
+  padding-bottom: 5px;
+  color: $pix-neutral-70;
+  font-weight: 500;
+  font-size: 0.94rem;
 }
 
 .input {
-  border: 2px solid $pix-neutral-20;
-  border-radius: 4px;
   height: 40px;
-  font-size: 1rem;
   padding-left: 15px;
   color: $pix-neutral-80;
+  font-size: 1rem;
+  border: 2px solid $pix-neutral-20;
+  border-radius: 4px;
   outline: none;
 
   &:focus {
@@ -28,8 +28,8 @@
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  appearance: none;
   margin: 0;
+  appearance: none;
 }
 
 /* Firefox */
@@ -38,11 +38,11 @@ input[type='number'] {
 }
 
 .textarea {
-  border: 2px solid $pix-neutral-20;
-  border-radius: 4px;
-  font-size: 1rem;
   padding: 8px;
   color: $pix-neutral-80;
+  font-size: 1rem;
+  border: 2px solid $pix-neutral-20;
+  border-radius: 4px;
   outline: none;
   resize: none;
 
@@ -53,8 +53,8 @@ input[type='number'] {
 
 .error-message {
   color: $pix-error-70;
-  font-family: $font-roboto;
   font-size: 0.875rem;
+  font-family: $font-roboto;
 
   & a {
     text-decoration: underline;
@@ -62,10 +62,10 @@ input[type='number'] {
 }
 
 .select {
-  font-size: 1rem;
-  border: 2px $pix-neutral-20 solid;
   height: 46px;
+  font-size: 1rem;
   background-color: white;
+  border: 2px $pix-neutral-20 solid;
   outline: none;
 
   &:focus {
@@ -80,28 +80,28 @@ input[type='number'] {
   }
 
   &--showed-as-link {
-    text-decoration: underline;
-    border: none;
-    background: none;
-    font-family: $font-roboto;
-    font-size: 0.875rem;
     color: $pix-neutral-60;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+    text-decoration: underline;
+    background: none;
+    border: none;
 
     &:hover {
-      cursor: pointer;
       color: $pix-communication-dark;
+      cursor: pointer;
     }
   }
 }
 
 .icon-button {
-  color: $pix-neutral-45;
   padding: 6px 8px;
-  border: none;
+  color: $pix-neutral-45;
   font-size: 1rem;
   background-color: transparent;
-  cursor: pointer;
+  border: none;
   outline: none;
+  cursor: pointer;
 
   &:hover,
   &:active {
