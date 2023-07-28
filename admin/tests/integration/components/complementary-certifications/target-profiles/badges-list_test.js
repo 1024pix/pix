@@ -11,20 +11,23 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::B
     const store = this.owner.lookup('service:store');
     const complementaryCertification = store.createRecord('complementary-certification', {
       label: 'MARIANNE CERTIF',
-      currentTargetProfile: {
-        name: 'ALEX TARGET',
-        id: 3,
-        badges: [
-          { id: 1023, label: 'Badge Cascade', level: 3 },
-          { id: 1025, label: 'Badge Volcan', level: 1 },
-        ],
-      },
+      targetProfilesHistory: [
+        {
+          detachedAt: null,
+          name: 'ALEX TARGET',
+          id: 3,
+          badges: [
+            { id: 1023, label: 'Badge Cascade', level: 3 },
+            { id: 1025, label: 'Badge Volcan', level: 1 },
+          ],
+        },
+      ],
     });
-    this.badges = complementaryCertification.currentTargetProfile.badges;
+    this.currentTargetProfiles = complementaryCertification.currentTargetProfiles;
 
     // when
     const screen = await render(
-      hbs`<ComplementaryCertifications::TargetProfiles::BadgesList @badges={{this.badges}} />`,
+      hbs`<ComplementaryCertifications::TargetProfiles::BadgesList @currentTargetProfiles={{this.currentTargetProfiles}} />`,
     );
 
     // then
