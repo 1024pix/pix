@@ -1,9 +1,9 @@
 /* stylelint-disable selector-class-pattern, function-no-unknown */
 .btn {
-  cursor: pointer;
   border: none;
-  outline: none;
   border-radius: 5px;
+  outline: none;
+  cursor: pointer;
 
   label {
     margin: 0;
@@ -19,9 +19,9 @@
 }
 
 .btn-primary {
+  color: $pix-neutral-0;
   text-align: center;
   background-color: $pix-primary;
-  color: $pix-neutral-0;
   transition: background-color 0.2s ease;
 
   &:hover,
@@ -32,16 +32,16 @@
 }
 
 .btn-secondary {
-  background-color: transparent;
   color: $pix-neutral-90;
+  background-color: transparent;
   border: 2px solid $pix-neutral-50;
 
   &:hover,
   &:active,
   &:focus {
-    border-color: $pix-neutral-80;
-    background-color: $pix-neutral-15;
     color: $pix-neutral-90;
+    background-color: $pix-neutral-15;
+    border-color: $pix-neutral-80;
   }
 }
 

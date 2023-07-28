@@ -1,15 +1,15 @@
 .insights {
   &__section {
-    padding: 0;
     margin-bottom: 30px;
+    padding: 0;
   }
 }
 
 .insights-section {
   &__title {
-    font-size: 1.4rem;
     display: inline-block;
     margin-bottom: $pix-spacing-m;
+    font-size: 1.4rem;
   }
 
   &__button {
@@ -17,8 +17,8 @@
     margin: 10px 0;
 
     a:hover {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
   }
 }
@@ -28,8 +28,8 @@
 
   ul,
   ol {
-    list-style: revert;
     padding-left: 1.75em;
+    list-style: revert;
 
     &:not(:first-child) {
       margin-top: 0.5em;

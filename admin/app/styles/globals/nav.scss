@@ -8,26 +8,26 @@
 .navbar {
   @include whiteBlock;
 
-  margin: 20px 0;
-  height: 60px;
-  padding: 0 10px;
-  justify-content: start;
-  align-items: normal;
   display: flex;
+  align-items: normal;
+  justify-content: start;
+  height: 60px;
+  margin: 20px 0;
+  padding: 0 10px;
 
   a {
     text-decoration: none;
   }
 
   &-item {
-    min-width: 150px;
-    align-items: center;
     display: flex;
+    align-items: center;
     justify-content: center;
+    min-width: 150px;
     padding: 0 $pix-spacing-xs;
-    cursor: pointer;
     color: $pix-neutral-45;
     font-weight: 500;
+    cursor: pointer;
     transition: all ease-in-out 0.2s;
 
     &:hover {
@@ -36,10 +36,10 @@
   }
 
   &__list--item {
-    width: 150px;
-    align-items: center;
     display: flex;
+    align-items: center;
     justify-content: center;
+    width: 150px;
     cursor: pointer;
   }
 
@@ -59,8 +59,8 @@
   }
 
   &-item.active {
-    border-bottom: 2px solid $pix-communication-dark;
     color: $pix-communication-dark;
+    border-bottom: 2px solid $pix-communication-dark;
   }
 }
 

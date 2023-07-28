@@ -6,26 +6,26 @@
   }
 
   &__subtitle {
-    font-size: 1rem;
-    font-weight: normal;
-    padding: 0.75rem 1rem;
-    border-radius: 4px;
     margin: 0;
+    padding: 0.75rem 1rem;
+    font-weight: normal;
+    font-size: 1rem;
+    border-radius: 4px;
 
     &--with-action-required {
-      background-color: $pix-warning-10;
       color: $pix-secondary-70;
+      background-color: $pix-warning-10;
     }
 
     &--without-action-required {
-      background-color: $pix-neutral-10;
       color: $pix-neutral-60;
+      background-color: $pix-neutral-10;
     }
   }
 
   &__list {
-    padding-left: 0;
     width: 100%;
+    padding-left: 0;
 
     button:last-of-type {
       margin-left: auto;

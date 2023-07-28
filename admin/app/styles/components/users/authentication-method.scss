@@ -36,13 +36,13 @@
   }
 
   &__check {
-    color: $pix-success-70;
     margin: 0 20px;
+    color: $pix-success-70;
   }
 
   &__uncheck {
-    color: $pix-neutral-30;
     margin: 0 20px;
+    color: $pix-neutral-30;
   }
 }
 
@@ -51,8 +51,8 @@
   &__form-body {
 
     p {
-      padding: 0;
       margin-bottom: 40px;
+      padding: 0;
     }
   }
 }

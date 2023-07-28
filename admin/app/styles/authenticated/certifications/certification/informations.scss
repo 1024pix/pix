@@ -5,10 +5,10 @@
   }
 
   &__row {
-    align-items: flex-start;
     display: flex;
-    justify-content: space-between;
     gap: 20px;
+    align-items: flex-start;
+    justify-content: space-between;
     margin-bottom: 20px;
 
     &--center {
@@ -21,18 +21,18 @@
   }
 
   &__card {
-    box-shadow: 0 4px 8px rgba($pix-neutral-110, 0.08);
+    flex-grow: 1;
+    padding: 1rem;
+    background: $pix-neutral-0;
     border: 1px solid $pix-neutral-20;
     border-radius: 8px;
-    background: $pix-neutral-0;
-    padding: 1rem;
-    flex-grow: 1;
+    box-shadow: 0 4px 8px rgba($pix-neutral-110, 0.08);
 
     .certification-info-field {
       display: flex;
+      flex-wrap: wrap;
       margin-bottom: 0.5em;
       padding-bottom: 0.5em;
-      flex-wrap: wrap;
       border-bottom: 1px solid $pix-neutral-20;
 
       &:last-of-type {
@@ -40,9 +40,9 @@
       }
 
       :first-child:not(button) {
-        font-weight: bold;
         min-width: 16em;
         color: $pix-neutral-50;
+        font-weight: bold;
       }
     }
 
@@ -52,12 +52,12 @@
 
     &--pix-edu {
       flex: 1;
-      background-color: $pix-neutral-5;
-      text-align: center;
-      box-shadow: none;
-      border: 2px solid $pix-neutral-20;
-      font-weight: 500;
       color: $pix-neutral-40;
+      font-weight: 500;
+      text-align: center;
+      background-color: $pix-neutral-5;
+      border: 2px solid $pix-neutral-20;
+      box-shadow: none;
     }
 
     &__title {
@@ -66,9 +66,9 @@
     }
 
     &__list {
-      list-style: none;
-      padding: 0;
       margin: 0;
+      padding: 0;
+      list-style: none;
     }
 
     &__list-item {
@@ -80,14 +80,14 @@
     }
 
     &__list-label {
-      color: $pix-neutral-40;
-      min-width: 180px;
       display: inline-block;
+      min-width: 180px;
+      color: $pix-neutral-40;
     }
 
     &__score {
-      font-size: 1.125rem;
       color: $pix-neutral-90;
+      font-size: 1.125rem;
     }
   }
 
@@ -102,14 +102,14 @@
     }
 
     &__row {
-      margin-top: 16px;
       display: flex;
       gap: 16px;
+      margin-top: 16px;
 
       &__jury-level {
         display: flex;
-        justify-content: center;
         align-items: start;
+        justify-content: center;
 
         p {
           margin-top: 0;
@@ -117,11 +117,11 @@
 
         .jury-level-edit-icon-button {
           margin-left: 10px;
+          color: $pix-neutral-60;
+          font-size: 19px;
           background: none;
           border: none;
           cursor: pointer;
-          font-size: 19px;
-          color: $pix-neutral-60;
         }
       }
 
@@ -133,9 +133,9 @@
         padding: 0 8px;
 
         section:nth-of-type(2) {
-          margin: 8px 0;
           display: flex;
           gap: 1rem;
+          margin: 8px 0;
 
           button:last-child {
             flex: 2;
@@ -162,10 +162,10 @@
     }
 
     &__warning-cpf-message {
-      font-style: italic;
-      color: $pix-error-60;
       margin-top: 8px;
       margin-left: 5px;
+      color: $pix-error-60;
+      font-style: italic;
     }
   }
 }

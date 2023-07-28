@@ -3,15 +3,15 @@
   font-family: $font-roboto;
 
   &__title {
-    font-family: $font-open-sans;
+    margin-bottom: 16px;
     font-weight: normal;
     font-size: 1.25rem;
-    margin-bottom: 16px;
+    font-family: $font-open-sans;
   }
 
   &__author {
-    font-weight: bold;
     margin-bottom: 4px;
+    font-weight: bold;
   }
 
   &__date {
@@ -20,8 +20,8 @@
   }
 
   &__content {
-    background-color: $pix-neutral-10;
     padding: 8px 24px;
+    background-color: $pix-neutral-10;
   }
 
   &__field {

@@ -1,54 +1,54 @@
 .competence {
-  display: flex;
   position: relative;
+  display: flex;
 
   &__header {
     flex-direction: column;
-    justify-content: flex-start;
     align-items: flex-start;
+    justify-content: flex-start;
     margin-bottom: 16px;
   }
 
   &__title {
-    font-size: 1.4rem;
     margin-bottom: 0;
+    font-size: 1.4rem;
   }
 
   &__subtitle {
-    font-size: 0.9rem;
     color: $pix-neutral-35;
+    font-size: 0.9rem;
   }
 
   &__border {
-    padding: 0.5rem 0;
     margin-right: 1rem;
+    padding: 0.5rem 0;
     border-style: solid;
     border-width: 1.5px;
     border-radius: 1.5px;
 
     &--jaffa {
-      border-color: $pix-information-light;
       background: $pix-information-light;
+      border-color: $pix-information-light;
     }
 
     &--emerald {
-      border-color: $pix-content-light;
       background: $pix-content-light;
+      border-color: $pix-content-light;
     }
 
     &--cerulean {
-      border-color: $pix-communication-light;
       background: $pix-communication-light;
+      border-color: $pix-communication-light;
     }
 
     &--wild-strawberry {
-      border-color: $pix-security-light;
       background: $pix-security-light;
+      border-color: $pix-security-light;
     }
 
     &--butterfly-bush {
-      border-color: $pix-environment-light;
       background: $pix-environment-light;
+      border-color: $pix-environment-light;
     }
   }
 }

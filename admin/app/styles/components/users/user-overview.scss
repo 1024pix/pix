@@ -15,15 +15,15 @@
   }
 
   &__anonymisation-message {
-    margin-bottom: 16px;
     max-width: 600px;
+    margin-bottom: 16px;
   }
 
   .pix-select {
     &__label {
+      margin: 0;
       font-weight: 600;
       font-size: 1rem;
-      margin: 0;
     }
   }
 

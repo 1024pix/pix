@@ -19,9 +19,9 @@
     margin-bottom: 0.5rem;
 
     &::after {
-      content: '';
       display: table;
       clear: left;
+      content: '';
     }
   }
 }

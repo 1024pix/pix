@@ -14,8 +14,8 @@
   }
 
   &__list {
-    list-style: none;
     padding: 0;
+    list-style: none;
   }
 }
 
@@ -32,8 +32,8 @@
 
   &__actions {
     display: flex;
-    max-width: 220px;
     justify-content: space-between;
+    max-width: 220px;
     margin-bottom: 12px;
   }
 }
