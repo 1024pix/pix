@@ -4,9 +4,9 @@ const getUserCertificationEligibility = async function ({
   userId,
   placementProfileService,
   certificationBadgesService,
+  limitDate = new Date(),
 }) {
-  const now = new Date();
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: now });
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate });
   const pixCertificationEligible = placementProfile.isCertifiable();
 
   if (!pixCertificationEligible) {
@@ -15,6 +15,7 @@ const getUserCertificationEligibility = async function ({
 
   const stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
     userId,
+    limitDate,
   });
 
   const eligibleComplementaryCertifications = stillValidBadgeAcquisitions.map(

@@ -5,7 +5,11 @@ import _ from 'lodash';
 
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 
-const findHighestCertifiable = async function ({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+const findHighestCertifiable = async function ({
+  userId,
+  limitDate = new Date(),
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
   const knexConn = domainTransaction.knexTransaction || knex;
   const certifiableBadgeAcquisitions = await knexConn(BADGE_ACQUISITIONS_TABLE)
     .select({
@@ -37,9 +41,10 @@ const findHighestCertifiable = async function ({ userId, domainTransaction = Dom
           join "badges" b on ccb."badgeId" = b.id
           join "badge-acquisitions" ba on ba."badgeId" = b.id
           where "complementary-certification-badges"."complementaryCertificationId" = ccb."complementaryCertificationId"
+          and ba."createdAt" <= ?
           and ba."userId" = ? and b."isCertifiable" = true)
       `,
-      userId,
+      [limitDate, userId],
     );
 
   const highestCertifiableBadgeAcquisitionByComplementaryCertificationId = _(certifiableBadgeAcquisitions)
