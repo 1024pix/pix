@@ -10,6 +10,46 @@ module('Unit | Model | Challenge', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
+  module('#hasValidEmbedDocument', function () {
+    test('should be true when all attributes are correctly provided', function (assert) {
+      const challenge = store.createRecord('challenge', {
+        embedUrl: 'https://pix.fr',
+        embedTitle: 'Amazing Pix Embed',
+        embedHeight: 800,
+      });
+      assert.true(challenge.hasValidEmbedDocument);
+    });
+    test('should be false when embedUrl does not start with "https://"', function (assert) {
+      const challenge = store.createRecord('challenge', {
+        embedUrl: 'http://pix.fr',
+        embedTitle: 'Amazing Pix Embed',
+        embedHeight: 800,
+      });
+      assert.false(challenge.hasValidEmbedDocument);
+    });
+    test('should be false when embedUrl is not provided', function (assert) {
+      const challenge = store.createRecord('challenge', {
+        embedTitle: 'Amazing Pix Embed',
+        embedHeight: 800,
+      });
+      assert.false(challenge.hasValidEmbedDocument);
+    });
+    test('should be false when embedTitle is not provided', function (assert) {
+      const challenge = store.createRecord('challenge', {
+        embedUrl: 'https://pix.fr',
+        embedHeight: 800,
+      });
+      assert.false(challenge.hasValidEmbedDocument);
+    });
+    test('should be false when embedHeight is not provided', function (assert) {
+      const challenge = store.createRecord('challenge', {
+        embedUrl: 'https://pix.fr',
+        embedTitle: 'Amazing Pix Embed',
+      });
+      assert.false(challenge.hasValidEmbedDocument);
+    });
+  });
+
   module('#isQROC', function () {
     test('should be true if challenge type is QROC', async function (assert) {
       const challenge = store.createRecord('challenge', {

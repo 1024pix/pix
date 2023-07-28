@@ -9,7 +9,6 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   setupMirage(hooks);
   let assessment;
 
-  //TODO Ajouter test d'affichage image/embed
   hooks.beforeEach(async function () {
     assessment = this.server.create('assessment');
     this.server.create('challenge', 'QROCM');
