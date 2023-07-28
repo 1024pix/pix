@@ -363,4 +363,47 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
       });
     });
   });
+
+  describe('#reset', function () {
+    it('should set status to RESET', function () {
+      // given
+      const knowledgeElement = domainBuilder.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.VALIDATED,
+      });
+
+      // when
+      const resetKe = KnowledgeElement.reset(knowledgeElement);
+
+      // then
+      expect(resetKe.status).to.be.equal(KnowledgeElement.StatusType.RESET);
+    });
+
+    it('should set earnedPix to 0', function () {
+      // given
+      const knowledgeElement = domainBuilder.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.VALIDATED,
+        earnedPix: 18,
+      });
+
+      // when
+      const resetKe = KnowledgeElement.reset(knowledgeElement);
+
+      // then
+      expect(resetKe.earnedPix).to.be.equal(0);
+    });
+
+    it('should set id to undefined', function () {
+      // given
+      const knowledgeElement = domainBuilder.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.VALIDATED,
+        earnedPix: 18,
+      });
+
+      // when
+      const resetKe = KnowledgeElement.reset(knowledgeElement);
+
+      // then
+      expect(resetKe.id).to.be.undefined;
+    });
+  });
 });

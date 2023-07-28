@@ -54,6 +54,15 @@ class KnowledgeElement {
     return this.status === statuses.VALIDATED && this.source === sources.DIRECT;
   }
 
+  static reset(knowledgeElement) {
+    return new KnowledgeElement({
+      ...knowledgeElement,
+      status: statuses.RESET,
+      earnedPix: 0,
+      id: undefined,
+    });
+  }
+
   static createKnowledgeElementsForAnswer({
     answer,
     challenge,
