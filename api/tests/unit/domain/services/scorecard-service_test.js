@@ -6,6 +6,7 @@ import {
   CampaignParticipationStatuses,
 } from '../../../../lib/domain/models/index.js';
 import * as scorecardService from '../../../../lib/domain/services/scorecard-service.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 
@@ -105,41 +106,59 @@ describe('Unit | Service | ScorecardService', function () {
     let resetKnowledgeElement1;
     let resetKnowledgeElement2;
     let updatedCompetenceEvaluation;
+    let userId;
+    let competenceId;
+    let knowledgeElements;
+    let firstResetKe;
+    let secondResetKe;
 
-    const userId = 1;
-    const competenceId = 2;
-    const knowledgeElements = [{ id: 1 }, { id: 2 }];
+    const firstSkillId = 'recmoustache';
+    const secondSkillId = 'rouflaquette';
 
     beforeEach(function () {
       updatedCompetenceEvaluation = Symbol('updated competence evaluation');
       resetKnowledgeElement2 = Symbol('reset knowledge element 2');
       resetKnowledgeElement1 = Symbol('reset knowledge element 1');
+      userId = 1;
+      competenceId = 2;
+      knowledgeElements = [
+        domainBuilder.buildKnowledgeElement({ id: 1, skillId: firstSkillId }),
+        domainBuilder.buildKnowledgeElement({ id: 2, skillId: secondSkillId }),
+      ];
+      knowledgeElementRepository = {
+        save: sinon.stub(),
+        findUniqByUserIdAndCompetenceId: sinon.stub(),
+      };
+      assessmentRepository = {
+        findNotAbortedCampaignAssessmentsByUserId: sinon.stub(),
+        save: sinon.stub(),
+        abortByAssessmentId: sinon.stub(),
+      };
+
+      knowledgeElementRepository.findUniqByUserIdAndCompetenceId
+        .withArgs({ userId, competenceId })
+        .resolves(knowledgeElements);
+
+      firstResetKe = KnowledgeElement.reset(knowledgeElements[0]);
+      secondResetKe = KnowledgeElement.reset(knowledgeElements[1]);
+
+      resetKnowledgeElement1 = Symbol('reset knowledge element 1');
+      resetKnowledgeElement2 = Symbol('reset knowledge element 2');
+      updatedCompetenceEvaluation = Symbol('updated competence evaluation');
     });
 
     context('when competence evaluation exists', function () {
       beforeEach(async function () {
         // when
         const shouldResetCompetenceEvaluation = true;
-        assessmentRepository = { findNotAbortedCampaignAssessmentsByUserId: sinon.stub() };
         competenceEvaluationRepository = { updateStatusByUserIdAndCompetenceId: sinon.stub() };
-        knowledgeElementRepository = {
-          save: sinon.stub(),
-          findUniqByUserIdAndCompetenceId: sinon.stub(),
-        };
 
         competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId
           .withArgs({ userId, competenceId, status: CompetenceEvaluation.statuses.RESET })
           .resolves(updatedCompetenceEvaluation);
 
-        knowledgeElementRepository.findUniqByUserIdAndCompetenceId
-          .withArgs({ userId, competenceId })
-          .resolves(knowledgeElements);
-
-        knowledgeElementRepository.save
-          .onFirstCall()
-          .resolves(resetKnowledgeElement1)
-          .onSecondCall()
-          .resolves(resetKnowledgeElement2);
+        knowledgeElementRepository.save.withArgs(firstResetKe).resolves(resetKnowledgeElement1);
+        knowledgeElementRepository.save.withArgs(secondResetKe).resolves(resetKnowledgeElement2);
 
         [resetKnowledgeElements, resetCampaignParticipation, resetCompetenceEvaluation] =
           await scorecardService.resetScorecard({
@@ -155,20 +174,10 @@ describe('Unit | Service | ScorecardService', function () {
 
       // then
       it('should reset each knowledge elements', async function () {
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({
-          id: 1,
-          status: 'reset',
-          earnedPix: 0,
-        });
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({
-          id: 2,
-          status: 'reset',
-          earnedPix: 0,
-        });
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
       });
 
-      it('should reset the competence evaluation', function () {
+      it('should reset the competence evaluation', async function () {
         expect(resetCompetenceEvaluation).to.deep.equal(updatedCompetenceEvaluation);
       });
     });
@@ -176,25 +185,13 @@ describe('Unit | Service | ScorecardService', function () {
     context(
       'when competence evaluation does not exists - there is only knowledge elements thanks to campaign',
       function () {
-        beforeEach(async function () {
-          // when
+        it('should reset each knowledge elements', async function () {
+          // given
           const shouldResetCompetenceEvaluation = false;
-          assessmentRepository = { findNotAbortedCampaignAssessmentsByUserId: sinon.stub() };
-          knowledgeElementRepository = {
-            save: sinon.stub(),
-            findUniqByUserIdAndCompetenceId: sinon.stub(),
-          };
+          knowledgeElementRepository.save.withArgs(firstResetKe).resolves(resetKnowledgeElement1);
+          knowledgeElementRepository.save.withArgs(secondResetKe).resolves(resetKnowledgeElement2);
 
-          knowledgeElementRepository.findUniqByUserIdAndCompetenceId
-            .withArgs({ userId, competenceId })
-            .resolves(knowledgeElements);
-
-          knowledgeElementRepository.save
-            .onFirstCall()
-            .resolves(resetKnowledgeElement1)
-            .onSecondCall()
-            .resolves(resetKnowledgeElement2);
-
+          // when
           [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
             userId,
             competenceId,
@@ -204,20 +201,7 @@ describe('Unit | Service | ScorecardService', function () {
             competenceEvaluationRepository,
             campaignParticipationRepository,
           });
-        });
-
-        // then
-        it('should reset each knowledge elements', async function () {
-          expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({
-            id: 1,
-            status: 'reset',
-            earnedPix: 0,
-          });
-          expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({
-            id: 2,
-            status: 'reset',
-            earnedPix: 0,
-          });
+          // then
           expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
         });
       },
@@ -232,19 +216,17 @@ describe('Unit | Service | ScorecardService', function () {
       let newAssessment2Saved;
       let campaignParticipation1;
       let campaignParticipation2;
-      let campaignParticipation1Updated;
-      let campaignParticipation2Updated;
       let campaign;
       const assessmentId1 = 12345;
       const assessmentId2 = 56789;
-      const skillId = 'recmoustache';
       const shouldResetCompetenceEvaluation = false;
 
       beforeEach(async function () {
-        campaignParticipation1Updated = Symbol('campaign participation 1 updated');
-        campaignParticipation2Updated = Symbol('campaign participation 2 updated');
-        const skill = domainBuilder.buildSkill({ id: skillId });
-        const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+        const campaignParticipation1Updated = Symbol('campaign participation 1 updated');
+        const campaignParticipation2Updated = Symbol('campaign participation 2 updated');
+        const targetProfile = domainBuilder.buildTargetProfile({
+          skills: [domainBuilder.buildSkill({ id: firstSkillId }, domainBuilder.buildSkill({ id: secondSkillId }))],
+        });
         campaign = domainBuilder.buildCampaign.ofTypeAssessment({ targetProfileId: targetProfile.id, targetProfile });
         campaignParticipation1 = domainBuilder.buildCampaignParticipation({
           id: 1,
@@ -286,19 +268,11 @@ describe('Unit | Service | ScorecardService', function () {
           id: 98760,
           campaignParticipationId: campaignParticipation2.id,
         });
-        resetKnowledgeElement1 = domainBuilder.buildKnowledgeElement({ skillId });
-        resetKnowledgeElement2 = domainBuilder.buildKnowledgeElement({ skillId });
+
+        knowledgeElementRepository.save.withArgs(firstResetKe).resolves(firstResetKe);
+        knowledgeElementRepository.save.withArgs(secondResetKe).resolves(secondResetKe);
 
         // when
-        assessmentRepository = {
-          findNotAbortedCampaignAssessmentsByUserId: sinon.stub(),
-          save: sinon.stub(),
-          abortByAssessmentId: sinon.stub(),
-        };
-        knowledgeElementRepository = {
-          save: sinon.stub(),
-          findUniqByUserIdAndCompetenceId: sinon.stub(),
-        };
         campaignParticipationRepository = {
           get: sinon.stub(),
           updateAssessmentIdByOldAssessmentId: sinon.stub(),
@@ -333,20 +307,14 @@ describe('Unit | Service | ScorecardService', function () {
 
         campaignRepository.findSkillIdsByCampaignParticipationId
           .withArgs({ campaignParticipationId: campaignParticipation1.id })
-          .resolves([skillId]);
+          .resolves(['recbarbe', 'recbouc']);
         campaignRepository.findSkillIdsByCampaignParticipationId
           .withArgs({ campaignParticipationId: campaignParticipation2.id })
-          .resolves([skillId]);
+          .resolves(['recbarbe', 'recbouc']);
 
         knowledgeElementRepository.findUniqByUserIdAndCompetenceId
           .withArgs({ userId, competenceId })
           .resolves(knowledgeElements);
-
-        knowledgeElementRepository.save
-          .onFirstCall()
-          .resolves(resetKnowledgeElement1)
-          .onSecondCall()
-          .resolves(resetKnowledgeElement2);
       });
 
       // then
@@ -362,20 +330,17 @@ describe('Unit | Service | ScorecardService', function () {
           campaignRepository,
         });
 
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({
-          id: 1,
-          status: 'reset',
-          earnedPix: 0,
-        });
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({
-          id: 2,
-          status: 'reset',
-          earnedPix: 0,
-        });
-        expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
+        expect(resetKnowledgeElements).to.deep.equal([firstResetKe, secondResetKe]);
       });
 
       it('should save a new Assessment', async function () {
+        campaignRepository.findSkillIdsByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation1.id })
+          .resolves([firstSkillId, secondSkillId]);
+        campaignRepository.findSkillIdsByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation2.id })
+          .resolves([firstSkillId, secondSkillId]);
+
         // when
         await scorecardService.resetScorecard({
           userId,
@@ -439,17 +404,17 @@ describe('Unit | Service | ScorecardService', function () {
         });
       });
 
-      context("when dosen 't intersection between target skills and reset skills", function () {
+      context("when doesn 't intersection between target skills and reset skills", function () {
         it('should return null for campaign participation', async function () {
           //given
           resetKnowledgeElement1 = domainBuilder.buildKnowledgeElement({ skillId: 'recAloevera' });
           resetKnowledgeElement2 = domainBuilder.buildKnowledgeElement({ skillId: 'recDing' });
 
-          knowledgeElementRepository.save
-            .onFirstCall()
-            .resolves(resetKnowledgeElement1)
-            .onSecondCall()
-            .resolves(resetKnowledgeElement2);
+          const resetKe1 = KnowledgeElement.reset(resetKnowledgeElement1);
+          const resetKe2 = KnowledgeElement.reset(resetKnowledgeElement2);
+
+          knowledgeElementRepository.save.withArgs(resetKnowledgeElement1).resolves(resetKe1);
+          knowledgeElementRepository.save.withArgs(resetKnowledgeElement2).resolves(resetKe2);
 
           //when
           [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
@@ -485,15 +450,12 @@ describe('Unit | Service | ScorecardService', function () {
 
         assessmentRepository.findNotAbortedCampaignAssessmentsByUserId.withArgs(userId).resolves(null);
 
+        knowledgeElementRepository.save.withArgs(firstResetKe).resolves(resetKnowledgeElement1);
+        knowledgeElementRepository.save.withArgs(secondResetKe).resolves(resetKnowledgeElement2);
+
         knowledgeElementRepository.findUniqByUserIdAndCompetenceId
           .withArgs({ userId, competenceId })
           .resolves(knowledgeElements);
-
-        knowledgeElementRepository.save
-          .onFirstCall()
-          .resolves(resetKnowledgeElement1)
-          .onSecondCall()
-          .resolves(resetKnowledgeElement2);
 
         [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
           userId,
@@ -508,16 +470,6 @@ describe('Unit | Service | ScorecardService', function () {
 
       // then
       it('should reset each assessments', async function () {
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({
-          id: 1,
-          status: 'reset',
-          earnedPix: 0,
-        });
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({
-          id: 2,
-          status: 'reset',
-          earnedPix: 0,
-        });
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
       });
 
