@@ -7,4 +7,8 @@ export default class MembersList extends Component {
   get displayManagingColumn() {
     return this.currentUser.isAdminInOrganization;
   }
+
+  get isMultipleAdminsAvailable() {
+    return this.args.members?.filter((member) => member.isAdmin).length > 1;
+  }
 }
