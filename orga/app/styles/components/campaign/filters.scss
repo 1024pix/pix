@@ -1,19 +1,19 @@
 .campaign-filters {
   display: flex;
   flex-direction: column;
+  gap: $pix-spacing-s;
   margin: 8px 5px;
+  padding: 10px 14px;
   background-color: $pix-neutral-0;
   border-radius: 4px;
-  padding: 10px 14px;
-  gap: $pix-spacing-s;
 
   @include device-is('tablet') {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 24px;
     margin: 0 0 8px 0;
+    padding: 14px 24px;
   }
 
   &__title {
@@ -22,8 +22,8 @@
   }
 
   .search-input {
-    height: 36px;
     width: 260px;
+    height: 36px;
 
     @include device-is('mobile') {
       width: 100%;
@@ -56,8 +56,8 @@
   }
 
   &__action {
-    gap: $pix-spacing-m;
     display: flex;
+    gap: $pix-spacing-m;
     border-top: 1.2px solid $pix-neutral-15;
 
     @include device-is('tablet') {
@@ -74,8 +74,8 @@
     display: flex;
     align-items: center;
     color: $pix-neutral-60;
-    font-size: 0.875em;
     font-weight: 500;
+    font-size: 0.875em;
   }
 
   &__action-separator {
@@ -88,32 +88,32 @@
 
   &__radio {
     position: absolute;
-    clip: rect(0, 0, 0, 0);
-    height: 1px;
     width: 1px;
-    border: 0;
+    height: 1px;
     overflow: hidden;
+    border: 0;
+    clip: rect(0, 0, 0, 0);
 
     &:focus-visible + .campaign-filters__tab {
-      box-shadow: $pix-neutral-0 0 0 0 2px, $pix-primary 0 0 0 4px;
       z-index: 1;
+      box-shadow: $pix-neutral-0 0 0 0 2px, $pix-primary 0 0 0 4px;
     }
   }
 
   &__tab {
     display: flex;
     align-items: center;
-    color: $pix-neutral-60;
-    background: transparent;
+    height: 36px;
     padding: 6px 8px;
+    color: $pix-neutral-60;
+    font-weight: 500;
+    font-size: 0.8125rem;
+    font-family: $font-roboto;
+    background: transparent;
+    border: 1.2px solid $pix-neutral-45;
+    outline: none;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    outline: none;
-    font-family: $font-roboto;
-    border: 1.2px solid $pix-neutral-45;
-    height: 36px;
 
     &:hover {
       background: $pix-neutral-20;

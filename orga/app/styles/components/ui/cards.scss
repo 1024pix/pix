@@ -1,17 +1,17 @@
 .chart-card {
   position: relative;
-  border-radius: 10px;
-  border: none;
-  box-shadow: $shadow-base;
-  background-color: $pix-neutral-0;
   padding: 16px 20px;
+  background-color: $pix-neutral-0;
+  border: none;
+  border-radius: 10px;
+  box-shadow: $shadow-base;
 
   &__title {
-    font-size: 1.125rem;
-    font-family: $font-open-sans;
-    font-weight: 600;
-    color: $pix-neutral-60;
     margin-top: 0;
     margin-bottom: 32px;
+    color: $pix-neutral-60;
+    font-weight: 600;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
   }
 }

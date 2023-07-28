@@ -3,9 +3,9 @@
 
   &__container {
     display: flex;
-    margin-bottom: 8px;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
 
     li:not(:last-child) {
       margin-bottom: .3em;
@@ -35,8 +35,8 @@
     gap: 16px;
 
     &-separator {
-      background-color: $pix-neutral-22;
       width: 1px;
+      background-color: $pix-neutral-22;
     }
 
     &-spacer {

@@ -26,8 +26,8 @@
   &__field-with-info {
     position: relative;
     display: flex;
-    align-content: center;
     flex-direction: column;
+    align-content: center;
 
     & > .form__field--wide {
       flex-grow: 1;
@@ -41,24 +41,24 @@
   &__field-info {
     display: flex;
     flex-direction: column;
-    border-radius: 8px;
-    background: $pix-neutral-15;
     height: max-content;
+    margin: $pix-spacing-s 0 0 0;
     padding: $pix-spacing-s;
     color: $pix-neutral-60;
     font-size: 0.875rem;
-    margin: $pix-spacing-s 0 0 0;
+    background: $pix-neutral-15;
+    border-radius: 8px;
 
     @include device-is('desktop') {
       position: absolute;
-      margin: 0 0 0 $pix-spacing-s;
       left: 100%;
       width: calc(100vw - 580px - #{$app-sidebar-width} - 32px);
+      margin: 0 0 0 $pix-spacing-s;
     }
 
     &-icon {
-      color: $pix-primary;
       margin-right: $pix-spacing-xs;
+      color: $pix-primary;
     }
 
     &-title {
@@ -78,13 +78,13 @@
 
   &__field-filters {
     margin-bottom: $pix-spacing-s;
-    border: 0;
     padding: 0;
+    border: 0;
 
     > legend {
-      font-size: 0.875rem;
-      color: $pix-neutral-50;
       margin-bottom: 2px;
+      color: $pix-neutral-50;
+      font-size: 0.875rem;
     }
 
     .pix-selectable-tag {
@@ -98,10 +98,10 @@
   }
 
   &__validation {
-    margin-top: $pix-spacing-l;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: $pix-spacing-l;
 
     @include device-is('desktop') {
       max-width: 500px;
@@ -122,16 +122,16 @@
   }
 
   &__mandatory-fields-information {
-    font-size: 0.875rem;
     margin: 0 0 $pix-spacing-l 0;
     color: $pix-neutral-70;
+    font-size: 0.875rem;
   }
 
   abbr.mandatory-mark {
-    cursor: help;
     color: $pix-error-70;
     text-decoration: none;
     border: none;
+    cursor: help;
   }
 }
 
@@ -148,11 +148,11 @@
 
 .input {
   height: 36px;
-  border: 1px solid $pix-neutral-40;
-  border-radius: 4px;
-  font-size: 0.875rem;
   padding-left: $pix-spacing-s;
   color: $pix-neutral-100;
+  font-size: 0.875rem;
+  border: 1px solid $pix-neutral-40;
+  border-radius: 4px;
   outline: none;
 
   &:focus {
@@ -166,6 +166,6 @@
 
 .error-message {
   color: $pix-error-70;
-  font-family: $font-roboto;
   font-size: 0.75rem;
+  font-family: $font-roboto;
 }

@@ -4,37 +4,37 @@
   gap: 15px;
 
   &__title {
-    text-transform: uppercase;
     color: $pix-neutral-50;
-    font-family: $font-roboto;
-    font-size: 12px;
     font-weight: 400;
+    font-size: 12px;
+    font-family: $font-roboto;
     line-height: 18px;
     letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 
 
   &__label {
     color: $pix-neutral-70;
-    font-size: 28px;
     font-weight: 500;
+    font-size: 28px;
     line-height: 36px;
     letter-spacing: -0.04em;
   }
 
   &__target-profile {
     margin: $pix-spacing-s 0;
-    font-size: 16px;
     color: $pix-neutral-70;
+    font-size: 16px;
   }
 
   &__badges-title,
   &__history-title {
-    font-family: $font-open-sans;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 28px;
     padding-bottom: $pix-spacing-s;
+    font-weight: 600;
+    font-size: 20px;
+    font-family: $font-open-sans;
+    line-height: 28px;
   }
 }
 

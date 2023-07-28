@@ -2,21 +2,21 @@
   width: 35%;
 
   &__title {
-    font-family: $font-open-sans;
+    color: $pix-neutral-90;
     font-weight: 600;
     font-size: 1.25rem;
-    color: $pix-neutral-90;
+    font-family: $font-open-sans;
   }
 
   &__label {
-    font-weight: 500;
     padding-bottom: 4px;
+    font-weight: 500;
   }
 
   &__referer-selector {
-    margin: 0 24px;
     display: flex;
     flex-direction: column;
+    margin: 0 24px;
 
     .pix-select {
       width: 100%;
@@ -34,9 +34,9 @@
   }
 
   &__description {
-    color: $pix-neutral-70;
-    font-size: 0.75rem;
     margin: 16px 24px;
+    color: $pix-neutral-70;
     font-weight: 400;
+    font-size: 0.75rem;
   }
 }

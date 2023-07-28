@@ -1,18 +1,18 @@
 /* stylelint-disable selector-class-pattern */
 .page {
   .page-header {
-    background: $pix-neutral-0;
+    top: 0;
+    right: 0;
+    left: 80px;
+    z-index: 4;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 6px 20px;
-    border-bottom: 1px solid $pix-neutral-20;
-    top: 0;
-    left: 80px;
-    right: 0;
     min-height: 60px;
-    z-index: 4;
     margin: 0;
+    padding: 6px 20px;
+    background: $pix-neutral-0;
+    border-bottom: 1px solid $pix-neutral-20;
 
     .page-title {
       font-weight: 500;
@@ -24,8 +24,8 @@
 
       h1 {
         display: inline;
-        font-size: 1rem;
         font-weight: bold;
+        font-size: 1rem;
       }
 
       .wire {
@@ -35,12 +35,12 @@
 
     .page-actions {
       display: flex;
-      align-items: center;
       gap: 1rem;
+      align-items: center;
 
       &__link {
-        font-size: 0.875rem;
         color: $pix-primary;
+        font-size: 0.875rem;
 
         svg {
           margin-right: 2px;
@@ -54,10 +54,10 @@
     padding: 10px;
 
     .page-section {
+      margin-bottom: 10px;
+      padding: 32px;
       background: $pix-neutral-0;
       border-radius: 5px;
-      padding: 32px;
-      margin-bottom: 10px;
 
       &__header {
         display: flex;
@@ -66,8 +66,8 @@
       }
 
       &__title {
-        font-size: 1.2rem;
         font-weight: 600;
+        font-size: 1.2rem;
 
         &--sub {
           margin-bottom: $pix-spacing-s;

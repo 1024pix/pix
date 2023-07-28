@@ -1,8 +1,8 @@
 .campaign-list-header {
   &__header {
     display: flex;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
     
     @include device-is('tablet') {
       flex-direction: row;
@@ -21,11 +21,11 @@
     margin-bottom: 20px;
 
     ul {
+      display: flex;
       width: 100%;
-      list-style: none;
       margin: 0;
       padding: 0;
-      display: flex;
+      list-style: none;
     }
 
     ul li {

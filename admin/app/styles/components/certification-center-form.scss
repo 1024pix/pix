@@ -4,16 +4,16 @@
 
   .habilitations-title {
     color: $pix-neutral-70;
-    font-size: 0.875rem;
     font-weight: normal;
+    font-size: 0.875rem;
   }
 
   .habilitations-checkbox-list {
     display: flex;
     flex-direction: column;
-    list-style-type: none;
     margin: 8px 0;
     padding: 0;
+    list-style-type: none;
 
     .habilitation-entry {
       display: flex;
@@ -22,8 +22,8 @@
       padding-bottom: 8px;
 
       * {
-        margin-bottom: 0;
         align-self: center;
+        margin-bottom: 0;
       }
 
       input[type='checkbox'] {

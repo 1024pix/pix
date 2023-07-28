@@ -10,19 +10,19 @@ $app-header-height: 60px;
     background-color: $pix-neutral-70;
 
     .app-logo {
+      width: 100%;
+      height: $app-header-height;
       text-align: center;
       border-bottom: 1px solid $pix-neutral-100;
-      height: $app-header-height;
-      width: 100%;
 
       .app-logo__link {
-        color: $pix-neutral-0;
-        background-color: $pix-primary;
         display: block;
-        line-height: $app-header-height;
         width: 100%;
         height: 100%;
+        color: $pix-neutral-0;
+        line-height: $app-header-height;
         text-decoration: none;
+        background-color: $pix-primary;
       }
     }
   }

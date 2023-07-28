@@ -1,6 +1,6 @@
 .tubes-selection {
-  color: $pix-neutral-70;
   margin-bottom: $pix-spacing-m;
+  color: $pix-neutral-70;
 
   &__card {
     margin-bottom: $pix-spacing-m;
@@ -15,9 +15,9 @@
     }
 
     .vertical-delimiter {
+      height: 32px;
       margin: 0 1em;
       border-left: 1px solid $pix-neutral-90;
-      height: 32px;
     }
 
     &--count {
@@ -31,8 +31,8 @@
   }
 
   &__multi-select-label {
-    font-weight: 500;
     padding-right: $pix-spacing-s;
+    font-weight: 500;
   }
 }
 
@@ -45,8 +45,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     color: $pix-error-60;
+    transform: translate(-50%, -50%);
   }
 
   table {
@@ -54,8 +54,8 @@
   }
 
   th {
-    font-weight: 500;
     color: $pix-neutral-100;
+    font-weight: 500;
 
     p {
       margin-bottom: 0.5rem;
@@ -67,8 +67,8 @@
     vertical-align: middle;
 
     .icon-container {
-      display: inline-block;
       position: relative;
+      display: inline-block;
 
       &:first-child {
         margin-right: 0.5rem;
@@ -96,13 +96,13 @@
 
   .area-border {
     position: absolute;
-    width: 4px;
-    border-radius: 2px;
-    height: calc(100% - 24px);
     top: 12px;
     left: 1rem;
     z-index: 2;
+    width: 4px;
+    height: calc(100% - 24px);
     background-color: $pix-primary-70;
+    border-radius: 2px;
 
     &.jaffa {
       background-color: $pix-information-light;
@@ -132,12 +132,12 @@
 
 .list-competences {
   &.pix-collapsible__title {
-    align-items: center;
-    font-family: $font-open-sans;
-    font-size: 1.3rem;
-    font-weight: 500;
     position: relative;
+    align-items: center;
     padding-left: 2rem;
+    font-weight: 500;
+    font-size: 1.3rem;
+    font-family: $font-open-sans;
     background-color: $pix-neutral-0;
 
     &:hover {
@@ -153,7 +153,7 @@
 
 .competence-container {
   .pix-collapsible {
-    box-shadow: none;
     border-radius: 0;
+    box-shadow: none;
   }
 }

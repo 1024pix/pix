@@ -15,8 +15,8 @@ $margin-right: $pix-spacing-l;
 
   &__tabs {
     display: flex;
-    border-bottom: 1px solid $pix-neutral-20;
     margin-bottom: $pix-spacing-m;
+    border-bottom: 1px solid $pix-neutral-20;
   }
 
   .modal-dialog-width {
@@ -39,19 +39,19 @@ $margin-right: $pix-spacing-l;
   }
 
   &__dropdown-content {
-    width: 200px;
     right: $margin-right;
+    width: 200px;
   }
 }
 
 .zone-save-cancel-role {
-  box-sizing: border-box;
-  padding-right: 25px;
   display: flex;
-  height: inherit;
-  width: 100%;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  width: 100%;
+  height: inherit;
+  padding-right: 25px;
 
   & > :last-child {
     margin-left: 10px;

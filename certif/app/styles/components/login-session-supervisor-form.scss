@@ -1,45 +1,45 @@
 .login-session-supervisor-form {
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
-  border-radius: 10px 10px 0 0;
+  box-sizing: border-box;
+  width: 100%;
   max-width: 463px;
   padding: 32px 8px 16px;
-  width: 100%;
+  background-color: white;
+  border-radius: 10px 10px 0 0;
 
   @include device-is('tablet') {
-    padding: 40px 60px 10px;
     margin: auto;
+    padding: 40px 60px 10px;
   }
 
   &__title {
-    color: $pix-neutral-50;
-    font-size: 0.8rem;
-    font-weight: normal;
     margin: 8px 0 0;
+    color: $pix-neutral-50;
+    font-weight: normal;
+    font-size: 0.8rem;
     text-transform: uppercase;
   }
 
   &__subtitle {
+    margin: 0;
     color: $pix-neutral-80;
-    font-family: $font-open-sans;
     font-weight: normal;
     font-size: 1.75rem;
-    margin: 0;
+    font-family: $font-open-sans;
   }
 
   &__required-fields-notice {
+    margin: 8px 0 24px;
     color: $pix-neutral-50;
     font-size: 0.8rem;
-    margin: 8px 0 24px;
   }
 
   &__error-message {
     margin-bottom: 10px;
-    text-align: center;
     font-size: 0.875rem;
+    text-align: center;
   }
 
   &__form {
@@ -48,15 +48,15 @@
     .pix-input,
     .pix-input-password,
     .pix-button {
-      margin-bottom: 16px;
       width: 100%;
+      margin-bottom: 16px;
     }
   }
 
   &__description {
+    margin: 0;
     color: $pix-neutral-50;
     font-size: 0.8rem;
-    margin: 0;
     text-align: center;
   }
 }

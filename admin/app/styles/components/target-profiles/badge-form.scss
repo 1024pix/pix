@@ -1,8 +1,8 @@
 .badge-form {
 
   h2 {
-    font-weight: 500;
     margin-bottom: 16px;
+    font-weight: 500;
   }
 
   &__label {
@@ -10,8 +10,8 @@
   }
 
   &__information {
-    font-size: 0.75rem;
     margin-bottom: 10px;
+    font-size: 0.75rem;
 
     &--link {
       color: $pix-primary-70;
@@ -42,8 +42,8 @@
     margin-right: 8px;
 
     &:hover {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
   }
 
@@ -62,16 +62,16 @@
   }
 
   &-criterion {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: $pix-neutral-5;
     border: 1px solid #A5ADBA;
     border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 24px;
-    background: $pix-neutral-5;
 
     header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       margin-bottom: 16px;
     }
 
@@ -86,8 +86,8 @@
   &-criteria-choice {
     display: flex;
     flex-direction: column;
-    align-items: start;
     gap: 8px;
+    align-items: start;
     margin-bottom: 16px;
 
     label {

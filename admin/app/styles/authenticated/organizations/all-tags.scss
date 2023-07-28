@@ -1,16 +1,16 @@
 .organization-all-tags-list {
-  list-style: none;
-  padding: 0;
   display: flex;
   flex-wrap: wrap;
   gap: $pix-spacing-xs;
+  padding: 0;
+  list-style: none;
 
   &__tag {
     button {
-      border: none;
       padding: 0;
-      border-radius: 0.75rem;
       background-color: transparent;
+      border: none;
+      border-radius: 0.75rem;
     }
   }
 }

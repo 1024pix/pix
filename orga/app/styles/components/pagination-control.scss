@@ -3,8 +3,8 @@
   justify-content: space-between;
   margin: 16px 0;
   color: $pix-neutral-60;
-  font-family: $font-roboto;
   font-size: 0.875rem;
+  font-family: $font-roboto;
 }
 
 .page-size {
@@ -19,9 +19,9 @@
 
 select.page-size__choice {
   height: 36px;
-  font-size: 0.8rem;
-  padding-left: 8px;
   padding-right: 24px;
+  padding-left: 8px;
+  font-size: 0.8rem;
 }
 
 .page-navigation {

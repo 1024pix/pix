@@ -4,8 +4,8 @@
 
     svg {
       height: 0.75em;
-      vertical-align: -0.05em;
       margin-left: 2px;
+      vertical-align: -0.05em;
     }
   }
 }
@@ -14,17 +14,17 @@
   &__title {
     @extend %pix-body-l;
 
-    font-weight: 500;
     display: flex;
     align-items: baseline;
     margin-bottom: $pix-spacing-xs;
+    font-weight: 500;
   }
 
   &__threshold {
+    margin-left: $pix-spacing-s;
     color: $pix-neutral-90;
     font-size: 1rem;
     line-height: 1.5;
-    margin-left: $pix-spacing-s;
   }
 
   &__tubes-count {
