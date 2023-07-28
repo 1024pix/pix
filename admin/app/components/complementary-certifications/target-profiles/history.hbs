@@ -25,7 +25,9 @@
                 </LinkTo>
               </td>
               <td>{{dayjs-format targetProfileHistory.attachedAt "DD/MM/YYYY"}}</td>
-              <td>TODO</td>
+              <td>
+                {{if targetProfileHistory.detachedAt (dayjs-format targetProfileHistory.detachedAt "DD/MM/YYYY") "-"}}
+              </td>
             </tr>
           {{/each}}
         </tbody>

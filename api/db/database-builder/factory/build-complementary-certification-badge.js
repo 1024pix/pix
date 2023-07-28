@@ -14,6 +14,8 @@ const buildComplementaryCertificationBadge = function ({
   certificateMessage,
   temporaryCertificateMessage,
   stickerUrl = 'http://stiker-url.fr',
+  detachedAt = null,
+  createdBy,
 } = {}) {
   complementaryCertificationId = _.isNull(complementaryCertificationId)
     ? buildComplementaryCertification().id
@@ -31,6 +33,8 @@ const buildComplementaryCertificationBadge = function ({
     certificateMessage,
     temporaryCertificateMessage,
     stickerUrl,
+    detachedAt,
+    createdBy,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'complementary-certification-badges',

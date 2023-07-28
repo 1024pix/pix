@@ -151,6 +151,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
                 id: 999,
                 name: 'Target',
                 attachedAt,
+                detachedAt: null,
               },
             ],
           },
