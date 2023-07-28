@@ -1,0 +1,56 @@
+.skill-review-share__badge-icons {
+  display: flex;
+}
+
+/*
+ * BADGES ITEMS
+ */
+[class*='skill-review-share-badge-icons__item'] {
+  position: relative;
+  padding: $pix-spacing-xs;
+  border-radius: 1rem;
+
+  & > * {
+    z-index: 1;
+  }
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: calc(100% - 1rem);
+    z-index: 0;
+    width: 2rem;
+    height: 100%;
+    content: '';
+  }
+}
+
+// Certifiable badge item
+.skill-review-share-badge-icons__item--certifiable {
+  background-color: $pix-success-5;
+
+  & + .skill-review-share-badge-icons__item--certifiable::before {
+    background-color: $pix-success-5;
+  }
+}
+
+// Not certifiable badge item
+.skill-review-share-badge-icons__item--not-certifiable {
+  background-color: $pix-neutral-10;
+
+  & + .skill-review-share-badge-icons__item--not-certifiable::before {
+    background-color: $pix-neutral-10;
+  }
+}
+
+.skill-review-share-badge-icons__item--certifiable + .skill-review-share-badge-icons__item--not-certifiable {
+  margin-left: $pix-spacing-xs;
+}
+
+/*
+ * ICON IMAGE
+ */
+.skill-review-share-badge-icons__image {
+  display: block;
+  width: 3rem;
+}

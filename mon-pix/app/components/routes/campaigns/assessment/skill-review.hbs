@@ -105,46 +105,9 @@
                   @redirectToSignupIfUserIsAnonymous={{this.redirectToSignupIfUserIsAnonymous}}
                   @isFlashCampaign={{this.isFlashCampaign}}
                 />
-                <div class="skill-review-share__badge-icons">
-                  {{#if this.showValidBadges}}
-                    <div class="skill-review-share-badge-icons skill-review-share-badge-icons--certifiable">
-                      {{#each this.validBadges as |badge|}}
-                        <PixTooltip @position="top" @isInline={{true}} @id="tooltip-certifiable-{{badge.key}}">
-                          <:triggerElement>
-                            <a href="#{{badge.title}}">
-                              <img
-                                aria-labelledby="tooltip-certifiable-{{badge.key}}"
-                                class="skill-review-share-badge-icons__image"
-                                src="{{badge.imageUrl}}"
-                                alt="{{badge.altMessage}}"
-                              />
-                            </a>
-                          </:triggerElement>
-                          <:tooltip>{{badge.title}}</:tooltip>
-                        </PixTooltip>
-                      {{/each}}
-                    </div>
-                  {{/if}}
-                  {{#if this.showNotCertifiableBadges}}
-                    <div class="skill-review-share-badge-icons skill-review-share-badge-icons--not-certifiable">
-                      {{#each this.notCertifiableBadges as |badge|}}
-                        <PixTooltip @position="top" @isInline={{true}} @id="tooltip-{{badge.key}}">
-                          <:triggerElement>
-                            <a href="#{{badge.title}}">
-                              <img
-                                aria-labelledby="tooltip-{{badge.key}}"
-                                class="skill-review-share-badge-icons__image"
-                                src="{{badge.imageUrl}}"
-                                alt="{{badge.altMessage}}"
-                              />
-                            </a>
-                          </:triggerElement>
-                          <:tooltip>{{badge.title}}</:tooltip>
-                        </PixTooltip>
-                      {{/each}}
-                    </div>
-                  {{/if}}
-                </div>
+                <Campaigns::Assessment::SkillReview::ShareBadgeIcons
+                  @badges={{@model.campaignParticipationResult.campaignParticipationBadges}}
+                />
               {{/if}}
             {{/if}}
           </div>

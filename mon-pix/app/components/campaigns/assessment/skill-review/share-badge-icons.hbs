@@ -1,0 +1,27 @@
+{{#if this.showBadgeIcons}}
+  <ul class="skill-review-share__badge-icons">
+    {{#each this.acquiredAndValidBadges as |badge|}}
+      <li
+        class={{if
+          badge.isCertifiable
+          "skill-review-share-badge-icons__item--certifiable"
+          "skill-review-share-badge-icons__item--not-certifiable"
+        }}
+      >
+        <PixTooltip @position="top" @isInline={{true}} @id="tooltip-certifiable-{{badge.key}}">
+          <:triggerElement>
+            <a href="#{{badge.title}}">
+              <img
+                aria-labelledby="tooltip-certifiable-{{badge.key}}"
+                class="skill-review-share-badge-icons__image"
+                src="{{badge.imageUrl}}"
+                alt="{{badge.altMessage}}"
+              />
+            </a>
+          </:triggerElement>
+          <:tooltip>{{badge.title}}</:tooltip>
+        </PixTooltip>
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}
