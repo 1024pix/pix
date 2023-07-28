@@ -1,10 +1,10 @@
 .download-file {
-  display: flex;
-  justify-content: flex-end;
   position: sticky;
-  padding: 0.5em 0;
   top: 0;
   z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5em 0;
 
   &__button {
     width: fit-content;
@@ -20,28 +20,28 @@
     position: absolute;
     top: 50%;
     left: calc(50% + 12px);
-    transform: translate(-50%, -50%);
     color: $pix-error-70;
+    transform: translate(-50%, -50%);
   }
 }
 
 .preselect-target-profile {
   .pix-collapsible {
     &__title {
-      align-items: center;
-      font-family: $font-open-sans;
-      font-size: 1.5rem;
-      font-weight: 500;
       position: relative;
+      align-items: center;
       padding-left: 2rem;
+      font-weight: 500;
+      font-size: 1.5rem;
+      font-family: $font-open-sans;
 
       &:before {
-        content: '';
         position: absolute;
         top: 10%;
         left: 1rem;
-        border-left: 3px solid;
         height: 80%;
+        border-left: 3px solid;
+        content: '';
       }
 
       &.jaffa:before {
@@ -70,11 +70,11 @@
       cursor: auto;
 
       h2 {
-        font-family: $font-open-sans;
-        font-size: 1.125rem;
-        padding: 1rem;
         margin: 0;
+        padding: 1rem;
         color: $pix-neutral-90;
+        font-size: 1.125rem;
+        font-family: $font-open-sans;
       }
 
       table {
@@ -82,8 +82,8 @@
       }
 
       th {
-        font-weight: 500;
         color: $pix-neutral-100;
+        font-weight: 500;
       }
 
       th,

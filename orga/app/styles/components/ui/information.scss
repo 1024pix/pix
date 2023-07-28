@@ -8,9 +8,9 @@
   flex-direction: column;
   justify-content: space-evenly;
   padding: 0 $pix-spacing-xs;
-  border-left: 1px solid $pix-neutral-22;
   font-size: 0.875rem;
   text-align: left;
+  border-left: 1px solid $pix-neutral-22;
 
   &__title {
     margin-bottom: $pix-spacing-xs;
@@ -18,13 +18,13 @@
   }
 
   &__content {
-    color: $pix-neutral-90;
     margin: 0;
+    color: $pix-neutral-90;
 
 
     &--date {
-      font-size: 0.75rem;
       color: $pix-neutral-50;
+      font-size: 0.75rem;
     }
   }
 

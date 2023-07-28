@@ -7,17 +7,17 @@
   &__information {
     @extend %pix-body-s;
 
-    text-align: center;
-    color: $pix-neutral-90;
     margin-top: $pix-spacing-s;
+    color: $pix-neutral-90;
+    text-align: center;
   }
 
   &__error-message {
     @extend %pix-body-s;
 
-    text-align: center;
-    color: $pix-error-70;
     margin-top: $pix-spacing-m;
+    color: $pix-error-70;
+    text-align: center;
 
     & a {
       text-decoration: underline;
@@ -27,8 +27,8 @@
   &__forgotten-password {
     @extend %pix-body-s;
 
-    text-align: left;
     color: $pix-communication-dark;
+    text-align: left;
   }
 
   &__recover-access-link {
@@ -46,18 +46,18 @@
   &__invitation-error {
     @extend %pix-body-s;
 
-    border-radius: 3px;
-    color: $pix-error-70;
     margin: 10px 0 16px 0;
     padding: 9px;
+    color: $pix-error-70;
     text-align: center;
+    border-radius: 3px;
   }
 
   &__input-container {
-    width: 100%;
     display: flex;
     flex-direction: column;
     gap: $pix-spacing-s;
+    width: 100%;
 
     button[type="submit"] {
       width: 100%;

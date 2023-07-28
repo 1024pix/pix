@@ -4,14 +4,14 @@
   &__legend {
     display: flex;
     justify-content: flex-start;
-    list-style: none;
     padding-left: 0px;
     font-size: 0.875rem;
+    list-style: none;
 
     &--loader {
+      width: 100px;
       height: 20px;
       margin-top: 8px;
-      width: 100px;
 
       &:first-child {
         margin-right: 16px;

@@ -3,8 +3,8 @@
 
   &__informations {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
   
   &__breadcrumb {
@@ -15,28 +15,28 @@
     @extend %pix-title-m;
 
     flex: 0 1 auto;
-    white-space: nowrap;
+    padding-right: $pix-spacing-s;
     overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: $pix-spacing-s; 
+    white-space: nowrap;
+    text-overflow: ellipsis; 
   }
 
   &__details {
     display: flex;
+    flex: 0 0 auto;
     align-items: center;
     margin: 0;
     padding: 0;
-    flex: 0 0 auto;
 
     & > * {
-      padding-right: 15px;
       margin-right: 15px;
+      padding-right: 15px;
       border-right: 1px solid $pix-neutral-20;
     }
 
     & > *:last-child {
-      padding-right: 0;
       margin-right: 0;
+      padding-right: 0;
       border-right-width: 0;
     }
   }
@@ -52,8 +52,8 @@
     }
 
     & > dd {
-      color: $pix-neutral-90;
       margin: 0;
+      color: $pix-neutral-90;
     }
   }
 
@@ -68,9 +68,9 @@
     align-items: initial;
 
     &__headline {
-      margin-bottom: $pix-spacing-s;
       justify-content: center;
       width: 100%;
+      margin-bottom: $pix-spacing-s;
     }
 
     &__infos {

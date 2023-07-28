@@ -1,9 +1,9 @@
 table {
+  box-sizing: border-box;
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
-  table-layout: fixed;
-  box-sizing: border-box;
 
   .table__input {
     &:focus-within {
@@ -25,17 +25,17 @@ thead {
   color: $pix-neutral-100;
 
   th {
-    font-family: $font-roboto;
-    font-size: 0.875rem;
     font-weight: 500;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
   }
 }
 
 caption {
-  text-align: center;
   padding: 1rem 24px;
   font-weight: bold;
   font-size: 0.9rem;
+  text-align: center;
 }
 
 tbody {
@@ -61,8 +61,8 @@ tbody {
   }
 
   .row--not-clickable {
-    cursor: auto;
     background-color: white;
+    cursor: auto;
   }
 
   th.th--clickable {
@@ -74,11 +74,11 @@ tbody {
   }
 
   td {
-    font-family: $font-roboto;
-    font-size: 0.875rem;
-    font-weight: 400;
-    color: $pix-neutral-80;
     position: relative;
+    color: $pix-neutral-80;
+    font-weight: 400;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
 
     &.ellipsis {
       overflow: hidden;
@@ -106,8 +106,8 @@ tr {
 
 td,
 th {
-  text-align: left;
   padding-left: 24px;
+  text-align: left;
 }
 
 th::first-letter {
@@ -147,13 +147,13 @@ th::first-letter {
   }
 
   &--right {
-    text-align: right;
     padding-right: 24px;
+    text-align: right;
   }
 
   &--truncated {
-    white-space: nowrap;
     overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
   }
 
@@ -191,10 +191,10 @@ th::first-letter {
 
 .table__empty {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   height: 180px;
+  margin: 0;
   text-align: center;
   border-top: 1px solid $pix-neutral-15;
-  margin: 0;
 }
