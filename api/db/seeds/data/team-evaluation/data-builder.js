@@ -142,7 +142,7 @@ async function createAssessmentCampaign(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_PIX_ID,
     customResultPageText: 'customResultPageText',
     customResultPageButtonText: 'customResultPageButtonText',
-    customResultPageButtonUrl: 'customResultPageButtonUrl',
+    customResultPageButtonUrl: 'https://pix.fr/',
     multipleSendings: false,
     assessmentMethod: 'SMART_RANDOM',
     configCampaign: {

@@ -46,9 +46,10 @@ const PIX_EDU_1ER_DEGRE_FI_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 73;
 const PIX_EDU_1ER_DEGRE_FC_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 83;
 const PIX_EDU_2ND_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 74;
 const PIX_EDU_2ND_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 75;
-
+const COLLEGE_TAG_ID = 8;
 export {
   commonBuilder,
+  COLLEGE_TAG_ID,
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
@@ -107,7 +108,7 @@ function _createTags(databaseBuilder) {
   databaseBuilder.factory.buildTag({ id: 5, name: 'CFA' });
   databaseBuilder.factory.buildTag({ id: 6, name: 'AEFE' });
   databaseBuilder.factory.buildTag({ id: 7, name: 'MEDNUM' });
-  databaseBuilder.factory.buildTag({ id: 8, name: 'COLLEGE' });
+  databaseBuilder.factory.buildTag({ id: COLLEGE_TAG_ID, name: 'COLLEGE' });
   databaseBuilder.factory.buildTag({ id: 9, name: 'LYCEE' });
 }
 
@@ -591,7 +592,7 @@ function _createDroit(databaseBuilder) {
     label: 'Pix+ Droit Expert',
     certificateMessage: null,
     temporaryCertificateMessage: null,
-    stickerUrl: 'https://images.pix.fr/stickers/macaron_PIX_DROIT_expert.pdf',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_expert.pdf',
   });
 
   databaseBuilder.factory.buildBadge({
@@ -669,7 +670,7 @@ function _createDroit(databaseBuilder) {
     label: 'Pix+ Droit Initié',
     certificateMessage: null,
     temporaryCertificateMessage: null,
-    stickerUrl: 'https://images.pix.fr/stickers/macaron_PIX_DROIT_initie.pdf',
+    stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_initie.pdf',
   });
 }
 

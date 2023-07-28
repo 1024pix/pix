@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import * as learningContent from './learning-content.js';
-import * as campaignTooling from './campaign-tooling.js';
 import * as generic from './generic.js';
 
 import {
@@ -9,6 +8,7 @@ import {
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common-builder.js';
+import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
 
 let verifCodeCount = 0;
 
@@ -38,7 +38,7 @@ export {
  * @param {string} time
  * @param {Date} createdAt
  * @param {string} supervisorPassword
- * @param configSession {learnersToRegisterCount: number }
+ * @param {learnersToRegisterCount: number, maxLevel: number } configSession
 
  * @returns {Promise<{sessionId: number}>} sessionId
  */
@@ -115,7 +115,7 @@ async function createDraftScoSession({
  * @param {Date} createdAt
  * @param {string} supervisorPassword
  * @param {number} version
- * @param configSession {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean }
+ * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean } configSession
 
  * @returns {Promise<{sessionId: number}>} sessionId
  */
@@ -192,7 +192,7 @@ async function createDraftSession({
  * @param {string} time
  * @param {Date} createdAt
  * @param {string} supervisorPassword
- * @param configSession {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean }
+ * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean, maxLevel: number } configSession
 
  * @returns {Promise<{sessionId: number}>} sessionId
  */
@@ -245,7 +245,7 @@ async function createStartedSession({
     certificationCenterId,
   });
 
-  await _makeCandidatesCertifiable(databaseBuilder, certificationCandidates);
+  await _makeCandidatesCertifiable({ databaseBuilder, certificationCandidates, maxLevel: configSession.maxLevel });
 
   await databaseBuilder.commit();
   return { sessionId };
@@ -279,8 +279,8 @@ async function createStartedSession({
  * @param {Date} juryCommentedAt
  * @param {number} organizationId
  * @param {string} supervisorPassword
- * @param configSession {learnersToRegisterCount: number }
- * @returns {{sessionId: number}} sessionId
+ * @param {learnersToRegisterCount: number, maxLevel: number } configSession
+ * @returns {sessionId: number} sessionId
  */
 async function createPublishedScoSession({
   databaseBuilder,
@@ -353,7 +353,11 @@ async function createPublishedScoSession({
     configSession,
   });
 
-  const { coreProfileData } = await _makeCandidatesCertifiable(databaseBuilder, certificationCandidates);
+  const { coreProfileData } = await _makeCandidatesCertifiable({
+    databaseBuilder,
+    certificationCandidates,
+    maxLevel: configSession.maxLevel,
+  });
   await _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, coreProfileData);
 
   await databaseBuilder.commit();
@@ -387,8 +391,8 @@ async function createPublishedScoSession({
  * @param {number} juryCommentAuthorId
  * @param {Date} juryCommentedAt
  * @param {string} supervisorPassword
- * @param configSession {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean }
- * @returns {{sessionId: number}} sessionId
+ * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean, maxLevel: number } configSession
+ * @returns {sessionId: number} sessionId
  */
 async function createPublishedSession({
   databaseBuilder,
@@ -460,10 +464,11 @@ async function createPublishedSession({
     certificationCenterId,
   });
 
-  const { coreProfileData, complementaryCertificationsProfileData } = await _makeCandidatesCertifiable(
+  const { coreProfileData, complementaryCertificationsProfileData } = await _makeCandidatesCertifiable({
     databaseBuilder,
     certificationCandidates,
-  );
+    maxLevel: configSession.maxLevel,
+  });
   await _makeCandidatesPassCertification(
     databaseBuilder,
     sessionId,
@@ -585,7 +590,7 @@ async function _registerCandidatesToSession({
         userId = databaseBuilder.factory.buildUser.withRawPassword({
           firstName: `firstname${i}-${sessionId}`,
           lastName: `lastname${i}-${sessionId}`,
-          email: `firstname${i}-${sessionId}-lastname${i}-${sessionId}@example.net`,
+          email: _generateEmail({ sessionId, index: i }),
         }).id;
       }
 
@@ -603,7 +608,7 @@ async function _registerCandidatesToSession({
         birthINSEECode: '75115',
         birthCity: 'PARIS 15',
         birthCountry: 'France',
-        email: `firstname${i}-${sessionId}-lastname${i}-${sessionId}@example.net`,
+        email: _generateEmail({ sessionId, index: i }),
         birthdate: '2000-01-04',
         sessionId,
         createdAt: new Date(),
@@ -669,7 +674,7 @@ async function _registerSomeCandidatesToSession({ databaseBuilder, sessionId, co
       const userId = databaseBuilder.factory.buildUser.withRawPassword({
         firstName: `firstname${i}-${sessionId}`,
         lastName: `lastname${i}-${sessionId}`,
-        email: `firstname${i}-${sessionId}@example.net`,
+        email: _generateEmail({ sessionId, index: i }),
       }).id;
 
       const { billingMode: randomBillingMode, prepaymentCode: randomPrepaymentCode } =
@@ -686,7 +691,7 @@ async function _registerSomeCandidatesToSession({ databaseBuilder, sessionId, co
         birthINSEECode: '75115',
         birthCity: 'PARIS 15',
         birthCountry: 'France',
-        email: `firstname${i}-${sessionId}-lastname${i}-${sessionId}@example.net`,
+        email: _generateEmail({ sessionId, index: i }),
         birthdate: '2000-01-04',
         sessionId,
         createdAt: new Date(),
@@ -788,9 +793,13 @@ function _buildSession({
   });
 }
 
-async function _makeCandidatesCertifiable(databaseBuilder, certificationCandidates) {
+function _generateEmail({ sessionId, index }) {
+  return `user-${index}-${sessionId}@example.net`;
+}
+
+async function _makeCandidatesCertifiable({ databaseBuilder, certificationCandidates, maxLevel = 7 }) {
   return {
-    coreProfileData: await _makeCandidatesCoreCertifiable(databaseBuilder, certificationCandidates),
+    coreProfileData: await _makeCandidatesCoreCertifiable(databaseBuilder, certificationCandidates, maxLevel),
     complementaryCertificationsProfileData: await _makeCandidatesComplementaryCertifiable(
       databaseBuilder,
       certificationCandidates,
@@ -798,7 +807,7 @@ async function _makeCandidatesCertifiable(databaseBuilder, certificationCandidat
   };
 }
 
-async function _makeCandidatesCoreCertifiable(databaseBuilder, certificationCandidates) {
+async function _makeCandidatesCoreCertifiable(databaseBuilder, certificationCandidates, maxLevel) {
   const coreProfileData = {};
   const pixCompetences = await learningContent.getCoreCompetences();
   const assessmentAndUserIds = certificationCandidates.map((certificationCandidate) => {
@@ -814,7 +823,7 @@ async function _makeCandidatesCoreCertifiable(databaseBuilder, certificationCand
   for (const competence of pixCompetences) {
     coreProfileData[competence.id] = { threeMostDifficultSkillsAndChallenges: [], pixScore: 0, competence };
     const skills = await learningContent.findActiveSkillsByCompetenceId(competence.id);
-    const orderedSkills = _.sortBy(skills, 'level');
+    const orderedSkills = _.sortBy(skills, 'level').filter(({ level }) => level <= maxLevel);
     for (const skill of orderedSkills) {
       const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
       coreProfileData[competence.id].threeMostDifficultSkillsAndChallenges.push({ challenge, skill });
@@ -877,56 +886,67 @@ async function _makeCandidatesComplementaryCertifiable(databaseBuilder, certific
   return complementaryCertificationsProfileData;
 }
 
+async function _getOrganizationLearnerId({ databaseBuilder, userId, campaignId }) {
+  const [organizationLearnerId] = await databaseBuilder
+    .knex('organization-learners')
+    .pluck('organization-learners.id')
+    .join('campaigns', 'campaigns.organizationId', 'organization-learners.organizationId')
+    .where({ 'campaigns.id': campaignId, userId });
+  return organizationLearnerId;
+}
+
 async function _makeCandidatesComplementaryCertificationCertifiable(
   databaseBuilder,
   complementaryCertificationId,
   frameworkName,
   certificationCandidates,
 ) {
-  const [targetProfileId] = await databaseBuilder
-    .knex('complementary-certification-badges')
-    .pluck('badges.targetProfileId')
-    .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
-    .where({ complementaryCertificationId });
-  const { campaignId } = await campaignTooling.createAssessmentCampaign({
-    databaseBuilder,
-    targetProfileId,
-    configCampaign: {
-      participantCount: 0,
-    },
-  });
   const badgeAndComplementaryCertificationBadgeIds = await databaseBuilder
     .knex('complementary-certification-badges')
     .select({
       badgeId: 'complementary-certification-badges.badgeId',
       complementaryCertificationBadgeId: 'complementary-certification-badges.id',
       partnerKey: 'badges.key',
+      campaignId: 'campaigns.id',
     })
     .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
+    .join('campaigns', 'campaigns.targetProfileId', 'badges.targetProfileId')
     .where({ complementaryCertificationId });
-  const assessmentAndUserIds = certificationCandidates.map((certificationCandidate) => {
-    const assessmentId = databaseBuilder.factory.buildAssessment({
-      userId: certificationCandidate.userId,
-      type: 'COMPETENCE_EVALUATION',
-    }).id;
-    const {
-      badgeId: selectedBadgeId,
-      complementaryCertificationBadgeId,
-      partnerKey,
-    } = generic.pickOneRandomAmong(badgeAndComplementaryCertificationBadgeIds);
-    const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
-      userId: certificationCandidate.userId,
-      campaignId,
-      state: 'SHARED',
-    }).id;
-    databaseBuilder.factory.buildBadgeAcquisition({
-      userId: certificationCandidate.userId,
-      badgeId: selectedBadgeId,
-      campaignParticipationId,
-    });
-    certificationCandidate.complementaryCertificationBadgeInfo = { complementaryCertificationBadgeId, partnerKey };
-    return { assessmentId, userId: certificationCandidate.userId };
-  });
+
+  const assessmentAndUserIds = await Promise.all(
+    certificationCandidates.map(async (certificationCandidate) => {
+      const {
+        badgeId: selectedBadgeId,
+        complementaryCertificationBadgeId,
+        partnerKey,
+        campaignId,
+      } = generic.pickOneRandomAmong(badgeAndComplementaryCertificationBadgeIds);
+
+      const organizationLearnerId = await _getOrganizationLearnerId({
+        databaseBuilder,
+        campaignId,
+        userId: certificationCandidate.userId,
+      });
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        userId: certificationCandidate.userId,
+        campaignId,
+        state: 'SHARED',
+        organizationLearnerId,
+      }).id;
+      databaseBuilder.factory.buildBadgeAcquisition({
+        userId: certificationCandidate.userId,
+        badgeId: selectedBadgeId,
+        campaignParticipationId,
+      });
+      const assessmentId = databaseBuilder.factory.buildAssessment({
+        userId: certificationCandidate.userId,
+        type: Assessment.types.CAMPAIGN,
+        campaignParticipationId,
+      }).id;
+      certificationCandidate.complementaryCertificationBadgeInfo = { complementaryCertificationBadgeId, partnerKey };
+      return { assessmentId, userId: certificationCandidate.userId };
+    }),
+  );
 
   // All candidates for complementary certification validates all of the pix+ framework
   const allSkillsOfFramework = await learningContent.findActiveSkillsByFrameworkName(frameworkName);
