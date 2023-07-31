@@ -179,6 +179,14 @@ const findSkillIdsByCampaignParticipationId = async function ({ campaignParticip
   return skills.map(({ id }) => id);
 };
 
+const findTubes = async function ({ campaignId, domainTransaction }) {
+  const knexConn = domainTransaction?.knexTransaction ?? knex;
+  return await knexConn('target-profile_tubes')
+    .pluck('tubeId')
+    .join('campaigns', 'campaigns.targetProfileId', 'target-profile_tubes.targetProfileId')
+    .where('campaigns.id', campaignId);
+};
+
 export {
   isCodeAvailable,
   getByCode,
@@ -195,6 +203,7 @@ export {
   findSkillsByCampaignParticipationId,
   findSkillIdsByCampaignParticipationId,
   areKnowledgeElementsResettable,
+  findTubes,
 };
 
 async function _findSkills({ campaignId, domainTransaction, filterByStatus = 'operative' }) {

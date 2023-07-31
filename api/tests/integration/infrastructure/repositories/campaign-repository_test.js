@@ -46,6 +46,31 @@ describe('Integration | Repository | Campaign', function () {
     });
   });
 
+  describe('#findTubes', function () {
+    it('should return the tubes for the campaign', async function () {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'toto' });
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tata' });
+      databaseBuilder.factory.buildTargetProfileTube({ tubeId: 'foo' });
+
+      const campaignId = databaseBuilder.factory.buildCampaign({
+        code: 'BADOIT710',
+        multipleSendings: true,
+        targetProfileId,
+        type: 'ASSESSMENT',
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const tubes = await campaignRepository.findTubes({ campaignId });
+
+      // then
+      expect(tubes).to.have.lengthOf(2);
+      expect(tubes).to.have.members(['toto', 'tata']);
+    });
+  });
+
   describe('#isCodeAvailable', function () {
     beforeEach(async function () {
       databaseBuilder.factory.buildCampaign({ code: 'BADOIT710' });
