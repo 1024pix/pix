@@ -1214,6 +1214,10 @@
           "error": "An error occurred while changing this member's role.",
           "success": "The role has been changed."
         },
+        "leave-organization": {
+          "error": "An error has occurred while deactivating the member.",
+          "success": "You have been successfully removed from the organisation {organizationName}. You will be disconnected from Pix Orga..."
+        },
         "remove-membership": {
           "error": "An error occurred while removing this member.",
           "success": "{memberFirstName} {memberLastName} has successfully been removed from your Pix Orga team."

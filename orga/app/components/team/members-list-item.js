@@ -125,8 +125,15 @@ export default class MembersListItem extends Component {
     try {
       const membership = this.args.membership;
       await this.args.onLeaveOrganization(membership);
+      this.notifications.sendSuccess(
+        this.intl.t('pages.team-members.notifications.leave-organization.success', {
+          organizationName: this.currentUserOrganizationName,
+        }),
+      );
+      await this.session.waitBeforeInvalidation(5000);
       this.session.invalidate();
     } catch (_) {
+      this.notifications.sendError(this.intl.t('pages.team-members.notifications.leave-organization.error'));
     } finally {
       this.closeLeaveOrganizationModal();
     }

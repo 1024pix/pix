@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
 import { clickByName } from '@1024pix/ember-testing-library';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { currentSession } from 'ember-simple-auth/test-support';
 
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
@@ -10,6 +11,8 @@ import { createUserMembershipWithRole, createPrescriberByUser } from '../helpers
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import times from 'lodash/times';
+import { waitForDialog } from '../helpers/wait-for';
+import sinon from 'sinon';
 
 module('Acceptance | Team List', function (hooks) {
   setupApplicationTest(hooks);
@@ -120,6 +123,68 @@ module('Acceptance | Team List', function (hooks) {
         assert.dom(screen.getByText('Inviter un membre')).exists();
         assert.dom(screen.getByText('Membres (1)')).exists();
         assert.dom(screen.getByText('Invitations (-)')).exists();
+      });
+    });
+
+    module('when prescriber is one of the admins', function () {
+      module('when prescriber wants to leave the organization', function () {
+        test('leaves the organization and disconnects from the application', async function (assert) {
+          // given
+          const session = this.owner.lookup('service:session');
+          sinon.stub(session, 'waitBeforeInvalidation');
+          const organization = server.create('organization', {
+            name: 'BRO & Evil Associates',
+            documentationUrl: 'https://pix.fr',
+          });
+
+          const leavingUser = server.create('user', {
+            firstName: 'Leaving',
+            lastName: 'User',
+            email: 'leaving@user.com',
+            lang: 'fr',
+            pixOrgaTermsOfServiceAccepted: true,
+          });
+          leavingUser.userOrgaSettings = server.create('user-orga-setting', { user: leavingUser, organization });
+          leavingUser.memberships = [
+            server.create('membership', {
+              userId: leavingUser.id,
+              organizationId: organization.id,
+              organizationRole: 'ADMIN',
+            }),
+          ];
+          createPrescriberByUser(leavingUser);
+
+          const userLeft = server.create('user', {
+            firstName: 'Left',
+            lastName: 'User',
+            email: 'left@user.com',
+            lang: 'fr',
+            pixOrgaTermsOfServiceAccepted: true,
+          });
+          leavingUser.userOrgaSettings = server.create('user-orga-setting', { user: userLeft, organization });
+          leavingUser.memberships = [
+            server.create('membership', {
+              userId: userLeft.id,
+              organizationId: organization.id,
+              organizationRole: 'ADMIN',
+            }),
+          ];
+          createPrescriberByUser(userLeft);
+
+          await authenticateSession(leavingUser.id);
+          const screen = await visitScreen('/equipe');
+
+          await click(screen.getAllByRole('button', { name: 'Gérer' })[0]);
+          await click(screen.getByRole('button', { name: 'Quitter cet espace Pix Orga' }));
+          await waitForDialog();
+
+          // when
+          await click(screen.getByRole('button', { name: 'Confirmer' }));
+
+          // then
+          sinon.assert.called(session.waitBeforeInvalidation);
+          assert.false(currentSession().get('isAuthenticated'));
+        });
       });
     });
   });

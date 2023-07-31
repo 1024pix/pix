@@ -300,6 +300,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       test('removes current administrator access to the organization, displays a success notification and invalidate the current session', async function (assert) {
         // given
         this.owner.register('service:current-user', CurrentLeavingUserAdminStub);
+        const notificationsService = this.owner.lookup('service:notifications');
         const sessionService = this.owner.lookup('service:session');
 
         const leavingAdminMembership = store.createRecord('membership', {
@@ -318,6 +319,8 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         this.set('isMultipleAdminsAvailable', true);
         this.set('onLeaveOrganization', onLeaveOrganizationStub);
 
+        sinon.stub(notificationsService, 'sendSuccess');
+        sinon.stub(sessionService, 'waitBeforeInvalidation');
         sinon.stub(sessionService, 'invalidate');
 
         // when
@@ -336,6 +339,8 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
         // then
         sinon.assert.calledWith(onLeaveOrganizationStub, leavingAdminMembership);
+        sinon.assert.called(notificationsService.sendSuccess);
+        sinon.assert.called(sessionService.waitBeforeInvalidation);
         sinon.assert.called(sessionService.invalidate);
         assert.ok(true);
       });
