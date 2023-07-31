@@ -5,7 +5,7 @@ import { membershipController } from './membership-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 
 const register = async function (server) {
-  server.route([
+  const adminRoutes = [
     {
       method: 'POST',
       path: '/api/admin/memberships',
@@ -30,36 +30,6 @@ const register = async function (server) {
           'hapi-swagger': {
             payloadType: 'form',
             order: 1,
-          },
-        },
-        tags: ['api', 'memberships'],
-      },
-    },
-    {
-      method: 'PATCH',
-      path: '/api/memberships/{id}',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInOrganization,
-            assign: 'isAdminInOrganization',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.membershipId,
-          }),
-        },
-        handler: membershipController.update,
-        description: 'Update organization role by admin for a organization members',
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur de l'organisation**\n" +
-            "- Elle permet de modifier le rôle d'un membre de l'organisation",
-        ],
-        plugins: {
-          'hapi-swagger': {
-            payloadType: 'form',
-            order: 2,
           },
         },
         tags: ['api', 'memberships'],
@@ -102,28 +72,6 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/memberships/{id}/disable',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInOrganization,
-            assign: 'isAdminInOrganization',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.membershipId,
-          }),
-        },
-        handler: membershipController.disable,
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur de l'organisation\n" +
-            "- Elle permet la désactivation d'un membre",
-        ],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/admin/memberships/{id}/disable',
       config: {
         pre: [
@@ -145,6 +93,62 @@ const register = async function (server) {
         handler: membershipController.disable,
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet la désactivation d'un membre",
+        ],
+      },
+    },
+  ];
+
+  server.route([
+    ...adminRoutes,
+    {
+      method: 'PATCH',
+      path: '/api/memberships/{id}',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.membershipId,
+          }),
+        },
+        handler: membershipController.update,
+        description: 'Update organization role by admin for a organization members',
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur de l'organisation**\n" +
+            "- Elle permet de modifier le rôle d'un membre de l'organisation",
+        ],
+        plugins: {
+          'hapi-swagger': {
+            payloadType: 'form',
+            order: 2,
+          },
+        },
+        tags: ['api', 'memberships'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/memberships/{id}/disable',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.membershipId,
+          }),
+        },
+        handler: membershipController.disable,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur de l'organisation\n" +
             "- Elle permet la désactivation d'un membre",
         ],
       },
