@@ -20,7 +20,7 @@ const register = async function (server) {
             certificationCenterId: identifiersType.certificationCenterId,
           }),
         },
-        handler: createSessionController.saveSession,
+        handler: createSessionController.createSession,
         tags: ['api', 'certification-center', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
