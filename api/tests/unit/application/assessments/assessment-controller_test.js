@@ -4,6 +4,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as events from '../../../../lib/domain/events/index.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { Activity } from '../../../../lib/domain/models/Activity.js';
 
 describe('Unit | Controller | assessment-controller', function () {
   describe('#createForPix1d', function () {
@@ -73,6 +74,34 @@ describe('Unit | Controller | assessment-controller', function () {
       expect(result).to.be.equal(assessment);
     });
   });
+
+  describe('#getCurrentActivity', function () {
+    const assessmentId = 104974;
+    const activity = { assessmentId, level: Activity.levels.TUTORIAL };
+    let activitySerializerStub;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'getCurrentActivity').withArgs({ assessmentId }).resolves(activity);
+      activitySerializerStub = { serialize: sinon.stub() };
+      activitySerializerStub.serialize.resolvesArg(0);
+    });
+
+    it('should call the expected usecase', async function () {
+      // given
+      const request = {
+        params: {
+          id: assessmentId,
+        }
+      };
+
+      // when
+      const result = await assessmentController.getCurrentActivity(request, hFake, { activitySerializer: activitySerializerStub });
+
+      // then
+      expect(result).to.be.equal(activity);
+    });
+  });
+
   describe('#getNextChallengeForPix1d', function () {
     it('should call the expected usecase', async function () {
       const assessmentId = 104974;
