@@ -1217,6 +1217,10 @@
           "error": "Une erreur est survenue lors de la modification du rôle du membre.",
           "success": "Le rôle a bien été changé."
         },
+        "leave-organization": {
+          "error": "Une erreur est survenue lors de la désactivation du membre.",
+          "success": "Vous avez été supprimé avec succès de l'organisation {organizationName}. Vous allez être déconnecté de Pix Orga..."
+        },
         "remove-membership": {
           "error": "Une erreur est survenue lors de la désactivation du membre.",
           "success": "{memberFirstName} {memberLastName} a été supprimé avec succès de votre équipe Pix Orga."
