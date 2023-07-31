@@ -5,7 +5,7 @@
 Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 - [Git](https://git-scm.com/) (2.6.4)
-- [Node.js](https://nodejs.org/) (v16) et NPM (v8)
+- [Node.js](https://nodejs.org/) (version utilisée disponible dans les fichiers [.nvmrc](https://github.com/1024pix/pix/blob/dev/.nvmrc)) il est recommandé d'utiliser un gestionnaire de versions tel que [nvm](https://github.com/nvm-sh/nvm)
 - [Docker](https://docs.docker.com/get-started/) (20.10) avec [Docker Compose](https://docs.docker.com/compose/install/)
 
 > ⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que
