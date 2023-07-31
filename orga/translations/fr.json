@@ -1194,6 +1194,7 @@
       "title": "Membres",
       "actions": {
         "edit-organization-membership-role": "Modifier le rôle",
+        "leave-organization": "Quitter cet espace Pix Orga",
         "manage": "Gérer",
         "remove-membership": "Supprimer",
         "save": "Enregistrer",

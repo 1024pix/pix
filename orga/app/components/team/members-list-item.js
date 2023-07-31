@@ -14,6 +14,7 @@ export default class MembersListItem extends Component {
   @tracked organizationRoles = null;
   @tracked isEditionMode = false;
   @tracked isRemoveMembershipModalDisplayed = false;
+  @tracked isLeaveOrganizationModalDisplayed = false;
 
   adminOption = {
     value: 'ADMIN',
@@ -82,8 +83,18 @@ export default class MembersListItem extends Component {
   }
 
   @action
+  displayLeaveOrganizationModal() {
+    this.isLeaveOrganizationModalDisplayed = true;
+  }
+
+  @action
   closeRemoveMembershipModal() {
     this.isRemoveMembershipModalDisplayed = false;
+  }
+
+  @action
+  closeLeaveOrganizationModal() {
+    this.isLeaveOrganizationModalDisplayed = false;
   }
 
   @action

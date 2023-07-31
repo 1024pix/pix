@@ -5,8 +5,8 @@
   {{#unless this.isEditionMode}}
     <td>{{this.displayRole}}</td>
     {{#if this.currentUser.isAdminInOrganization}}
-      {{#if this.isNotCurrentUserMembership}}
-        <td class="zone-edit-role hide-on-mobile">
+      <td class="zone-edit-role hide-on-mobile">
+        {{#if this.isNotCurrentUserMembership}}
           <Dropdown::IconTrigger
             @icon="ellipsis-vertical"
             @dropdownButtonClass="zone-edit-role__dropdown-button"
@@ -20,10 +20,21 @@
               {{t "pages.team-members.actions.remove-membership"}}
             </Dropdown::Item>
           </Dropdown::IconTrigger>
-        </td>
-      {{else}}
-        <td class="hide-on-mobile"></td>
-      {{/if}}
+        {{else}}
+          {{#if @isMultipleAdminsAvailable}}
+            <Dropdown::IconTrigger
+              @icon="ellipsis-vertical"
+              @dropdownButtonClass="zone-edit-role__dropdown-button"
+              @dropdownContentClass="zone-edit-role__dropdown-content"
+              @ariaLabel={{t "pages.team-members.actions.manage"}}
+            >
+              <Dropdown::Item @onClick={{fn this.displayLeaveOrganizationModal @membership}}>
+                {{t "pages.team-members.actions.leave-organization"}}
+              </Dropdown::Item>
+            </Dropdown::IconTrigger>
+          {{/if}}
+        {{/if}}
+      </td>
     {{/if}}
   {{/unless}}
 
