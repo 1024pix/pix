@@ -397,7 +397,9 @@ async function _createComplementaryCertificationCampaign({ databaseBuilder }) {
       .knex('complementary-certification-badges')
       .pluck('badges.targetProfileId')
       .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
-      .where({ complementaryCertificationId });
+      .where({ complementaryCertificationId })
+      .whereNull('detachedAt');
+
     const campaignCode = _createCodeCampaign(complementaryCertificationId);
     await campaignTooling.createAssessmentCampaign({
       databaseBuilder,

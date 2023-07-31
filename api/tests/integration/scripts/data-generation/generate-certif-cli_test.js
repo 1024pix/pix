@@ -108,14 +108,14 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
               const badgeAcquisitions = await knex('badge-acquisitions')
                 .innerJoin('badges', 'badges.id', 'badge-acquisitions.badgeId')
                 .whereIn('key', [
-                  'PIX_EMPLOI_CLEA_V3',
+                  'PIX_EMPLOI_CLEA_V2',
                   'PIX_DROIT_EXPERT_CERTIF',
                   'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
                   'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
                 ])
                 .pluck('key');
 
-              expect(badgeAcquisitions).to.deep.equal(['PIX_EMPLOI_CLEA_V3', 'PIX_DROIT_EXPERT_CERTIF']);
+              expect(badgeAcquisitions).to.deep.equal(['PIX_EMPLOI_CLEA_V2', 'PIX_DROIT_EXPERT_CERTIF']);
               expect(habilitations).to.equal(2);
             });
           });
@@ -198,25 +198,30 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
   }
 
   function buildComplementaryCertifications() {
+    const { id: userId } = databaseBuilderCli.factory.buildUser({ lastName: 'campaignUser' });
     buildComplementaryCertification({
       complementaryCertificationId: 52,
       complementaryCertificationKey: 'CLEA',
-      complementaryCertificationBadgeKey: 'PIX_EMPLOI_CLEA_V3',
+      complementaryCertificationBadgeKey: 'PIX_EMPLOI_CLEA_V2',
+      userId,
     });
     buildComplementaryCertification({
       complementaryCertificationId: 53,
       complementaryCertificationKey: 'DROIT',
       complementaryCertificationBadgeKey: 'PIX_DROIT_EXPERT_CERTIF',
+      userId,
     });
     buildComplementaryCertification({
       complementaryCertificationId: 54,
       complementaryCertificationKey: 'EDU_1ER_DEGRE',
       complementaryCertificationBadgeKey: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
+      userId,
     });
     buildComplementaryCertification({
       complementaryCertificationId: 55,
       complementaryCertificationKey: 'EDU_2ND_DEGRE',
       complementaryCertificationBadgeKey: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
+      userId,
     });
   }
 
@@ -224,17 +229,24 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
     complementaryCertificationId,
     complementaryCertificationKey,
     complementaryCertificationBadgeKey,
+    userId,
   }) {
     const { id: targetProfileId } = databaseBuilderCli.factory.buildTargetProfile();
     databaseBuilderCli.factory.buildTargetProfileTube({ targetProfileId });
+    const { id: badgeId } = databaseBuilderCli.factory.buildBadge({
+      key: complementaryCertificationBadgeKey,
+      targetProfileId,
+    });
+    const { skillIds } = databaseBuilderCli.factory.buildSkillSet({ badgeId });
+
+    databaseBuilderCli.factory.buildAssessmentCampaignForSkills(
+      { targetProfileId, creatorId: userId, ownerId: userId },
+      skillIds.map((id) => ({ id })),
+    );
 
     databaseBuilderCli.factory.buildComplementaryCertification({
       id: complementaryCertificationId,
       key: complementaryCertificationKey,
-    });
-    const { id: badgeId } = databaseBuilderCli.factory.buildBadge({
-      key: complementaryCertificationBadgeKey,
-      targetProfileId,
     });
     databaseBuilderCli.factory.buildComplementaryCertificationBadge({ complementaryCertificationId, badgeId });
   }

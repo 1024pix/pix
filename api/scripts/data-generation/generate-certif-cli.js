@@ -29,24 +29,25 @@ const { SHARED } = CampaignParticipationStatuses;
 
 const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
 /**
- * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "key": "EDU_1ER_DEGRE"}, {"candidateNumber": 1, "key": "EDU_2ND_DEGRE"}]'
- * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'PRO' 2 '[{"candidateNumber": 1, "key": "CLEA"}, {"candidateNumber": 2, "key": "DROIT"}]'
- * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'PRO' 1
+ * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "key": "EDU_1ER_DEGRE"}, {"candidateNumber": 1, "key": "EDU_2ND_DEGRE"}]'
+ * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 2 '[{"candidateNumber": 1, "key": "CLEA"}, {"candidateNumber": 2, "key": "DROIT"}]'
+ * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 1
  *
  * On a "production" environment (RA), you need to install inquirer package
- * NODE_ENV= npm i inquirer@8.2.4 && LOG_LEVEL=info LOG_FOR_HUMANS=true ./scripts/data-generation/generate-certif-cli.js 'PRO' 1
+ * NODE_ENV= npm i inquirer@8.2.4 && LOG_LEVEL=info LOG_FOR_HUMANS=true node ./scripts/data-generation/generate-certif-cli.js 'PRO' 1
  */
 
 const PIXCLEA = 'CLEA';
 const PIXDROIT = 'DROIT';
 const PIXEDU2NDDEGRE = 'EDU_2ND_DEGRE';
 const PIXEDU1ERDEGRE = 'EDU_1ER_DEGRE';
+import { badges } from '../../db/constants.js';
 
 const COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME = {
-  [PIXCLEA]: 'PIX_EMPLOI_CLEA_V3',
-  [PIXDROIT]: 'PIX_DROIT_EXPERT_CERTIF',
-  [PIXEDU1ERDEGRE]: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
-  [PIXEDU2NDDEGRE]: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
+  [PIXCLEA]: badges.keys.PIX_EMPLOI_CLEA_V2,
+  [PIXDROIT]: badges.keys.PIX_DROIT_EXPERT_CERTIF,
+  [PIXEDU1ERDEGRE]: badges.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+  [PIXEDU2NDDEGRE]: badges.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
 };
 
 const isInTest = process.env.NODE_ENV === 'test';
@@ -159,12 +160,15 @@ async function main({ centerType, candidateNumber, complementaryCertifications =
 }
 
 async function _getCertificationCenterIdByCenterType(centerType) {
-  const { id } = await knex('certification-centers')
+  const certificationCenter = await knex('certification-centers')
     .select('id')
     .where({ type: centerType })
     .orderBy('id', 'asc')
     .first();
-  return id;
+  if (!certificationCenter) {
+    throw new Error(`No ${centerType} certification center found`);
+  }
+  return certificationCenter.id;
 }
 
 async function _updateDatabaseBuilderSequenceNumber() {
@@ -291,13 +295,8 @@ async function _createComplementaryCertificationHability(
     certificationCandidateId,
   });
   const badgeId = await _getBadgeIdByComplementaryCertificationKey(key);
-  const targetProfileId = await _getTargetProfileIdFromBadgeKey(key);
-  const { id: campaignId } = databaseBuilder.factory.buildCampaign({
-    targetProfileId,
-    name: 'GENERATED_CAMPAIGN',
-    creatorId: userId,
-    ownerId: userId,
-  });
+  const campaignId = await _getCampaignIdFromBadgeKey(key);
+
   const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
@@ -327,14 +326,17 @@ async function _getBadgeIdByComplementaryCertificationKey(complementaryCertifica
   return id;
 }
 
-async function _getTargetProfileIdFromBadgeKey(badgeKey) {
+async function _getCampaignIdFromBadgeKey(badgeKey) {
   const key = COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[badgeKey];
-  const { id } = await knex('target-profiles')
-    .select('target-profiles.id')
-    .innerJoin('badges', 'badges.targetProfileId', 'target-profiles.id')
+
+  const { campaignId } = await knex('campaigns')
+    .select({ campaignId: 'campaigns.id' })
+    .innerJoin('badges', 'badges.targetProfileId', 'campaigns.targetProfileId')
+    .innerJoin('campaign_skills', 'campaign_skills.campaignId', 'campaigns.id')
     .where({ key })
+    .limit(1)
     .first();
-  return id;
+  return campaignId;
 }
 
 async function _getResults(sessionId) {
@@ -342,6 +344,7 @@ async function _getResults(sessionId) {
     .select({
       sessionId: 'sessions.id',
       accessCode: 'sessions.accessCode',
+      userId: 'users.id',
       firstName: 'certification-candidates.firstName',
       lastName: 'certification-candidates.lastName',
       email: 'certification-candidates.email',
@@ -349,6 +352,7 @@ async function _getResults(sessionId) {
       complementaryCertification: 'complementary-certifications.label',
     })
     .join('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
+    .join('users', 'users.email', 'certification-candidates.email')
     .leftJoin(
       'complementary-certification-subscriptions',
       'complementary-certification-subscriptions.certificationCandidateId',
