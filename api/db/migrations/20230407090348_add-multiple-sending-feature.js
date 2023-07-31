@@ -1,15 +1,15 @@
 const TABLE_NAME = 'features';
-const MULTIPLE_SENDING_KEY = 'MULTIPLE_SENDING_ASSESSMENT';
+import { ORGANIZATION_FEATURE } from '../../lib/domain/constants.js';
 
 const up = function (knex) {
   return knex(TABLE_NAME).insert({
-    key: MULTIPLE_SENDING_KEY,
-    description: "Permet d'activer l'envoi multiple sur les campagnes d'évaluation",
+    key: ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key,
+    description: ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.description,
   });
 };
 
 const down = function (knex) {
-  return knex(TABLE_NAME).where({ key: MULTIPLE_SENDING_KEY }).delete();
+  return knex(TABLE_NAME).where({ key: ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key }).delete();
 };
 
 export { up, down };

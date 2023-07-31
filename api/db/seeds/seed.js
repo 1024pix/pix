@@ -51,6 +51,8 @@ import { teamAccesDataBuilder } from './data/team-acces/data-builder.js';
 const seed = async function (knex) {
   const shouldUseNewSeeds = process.env.USE_NEW_SEEDS === 'true';
   const databaseBuilder = new DatabaseBuilder({ knex });
+  // Feature list
+  featuresBuilder({ databaseBuilder });
   if (shouldUseNewSeeds) {
     await commonBuilder({ databaseBuilder });
     await teamAccesDataBuilder(databaseBuilder);
@@ -62,9 +64,6 @@ const seed = async function (knex) {
     await databaseBuilder.commit();
     await databaseBuilder.fixSequences();
   } else {
-    // Feature list
-    featuresBuilder({ databaseBuilder });
-
     // cities
     certificationCpfCityBuilder({ databaseBuilder });
 

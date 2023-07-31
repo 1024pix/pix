@@ -53,11 +53,13 @@ async function _addOrUpdateDataProtectionOfficer({ organization, dataProtectionO
 
 async function _enablingOrganizationFeature(organization, organizationFeatureRepository) {
   const availableFeatures = await organizationFeatureRepository.getFeaturesListFromOrganization(organization.id);
-  const isAssessmentFeatureEnable = availableFeatures.includes(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
+  const isAssessmentFeatureEnable = availableFeatures.includes(
+    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key,
+  );
 
   const organizationFeatureData = {
     organizationId: organization.id,
-    featureKey: apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
+    featureKey: apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key,
   };
 
   if (isAssessmentFeatureEnable && !organization.enableMultipleSendingAssessment) {
