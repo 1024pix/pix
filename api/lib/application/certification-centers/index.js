@@ -230,29 +230,6 @@ const register = async function (server) {
   server.route([
     ...adminRoutes,
     {
-      method: 'POST',
-      path: '/api/certification-centers/{certificationCenterId}/session',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
-            assign: 'isMemberOfCertificationCenter',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            certificationCenterId: identifiersType.certificationCenterId,
-          }),
-        },
-        handler: certificationCenterController.saveSession,
-        tags: ['api', 'certification-center', 'sessions'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Elle permet de créer une session de certification liée au centre de certification de l’utilisateur',
-        ],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students',
       config: {
