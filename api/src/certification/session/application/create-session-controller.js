@@ -1,5 +1,5 @@
 import * as sessionSerializer from '../infrastructure/serializers/jsonapi/session-serializer.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../shared/domain/usecases/index.js';
 
 const createSession = async function (request, _h, dependencies = { sessionSerializer }) {
   const userId = request.auth.credentials.userId;
