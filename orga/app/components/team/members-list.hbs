@@ -18,11 +18,11 @@
       {{#if @members}}
         <tbody>
           {{#each @members as |membership|}}
-            <Team::MembersListItem @membership={{membership}} @onRemoveMember={{@onRemoveMember}} />
             <Team::MembersListItem
               @membership={{membership}}
               @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}}
               @onRemoveMember={{@onRemoveMember}}
+              @onLeaveOrganization={{@onLeaveOrganization}}
             />
           {{/each}}
         </tbody>

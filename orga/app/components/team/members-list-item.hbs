@@ -83,3 +83,9 @@
   @onSubmit={{this.onRemoveButtonClicked}}
   @onClose={{this.closeRemoveMembershipModal}}
 />
+<Team::LeaveOrganizationModal
+  @organizationName={{this.currentUserOrganizationName}}
+  @isOpen={{this.isLeaveOrganizationModalDisplayed}}
+  @onSubmit={{this.onLeaveButtonClicked}}
+  @onClose={{this.closeLeaveOrganizationModal}}
+/>
