@@ -1191,6 +1191,7 @@
       "title": "Team members",
       "actions": {
         "edit-organization-membership-role": "Change role",
+        "leave-organization": "Leave this Pix Orga space",
         "manage": "Manage",
         "remove-membership": "Remove",
         "save": "Save",
