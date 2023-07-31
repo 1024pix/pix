@@ -1,4 +1,4 @@
-import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 import _ from 'lodash';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
@@ -208,7 +208,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         createdAt: johnAssessmentDateToRemember,
         type: 'PLACEMENT',
         lastQuestionDate,
-        method: 'SMART_RANDOM',
+        method: Assessment.methods.SMART_RANDOM,
       });
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId: johnAssessmentToRemember.id,
@@ -227,7 +227,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
               createdAt: dateAssessmentBefore1,
               state: Assessment.states.COMPLETED,
               type: PLACEMENT,
-              method: 'SMART_RANDOM',
+              method: Assessment.methods.SMART_RANDOM,
             },
             assessmentResult: {
               createdAt: dateAssessmentResultBefore1,
@@ -242,7 +242,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
               createdAt: dateAssessmentBefore2,
               state: Assessment.states.COMPLETED,
               type: PLACEMENT,
-              method: 'SMART_RANDOM',
+              method: Assessment.methods.SMART_RANDOM,
             },
             assessmentResult: {
               createdAt: dateAssessmentResultAfter1,
@@ -257,7 +257,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
               createdAt: dateAssessmentBefore3,
               state: Assessment.states.STARTED,
               type: PLACEMENT,
-              method: 'SMART_RANDOM',
+              method: Assessment.methods.SMART_RANDOM,
             },
             assessmentResult: {
               createdAt: dateAssessmentResultBefore2,
@@ -272,7 +272,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
               createdAt: dateAssessmentAfter,
               state: Assessment.states.COMPLETED,
               type: PLACEMENT,
-              method: 'SMART_RANDOM',
+              method: Assessment.methods.SMART_RANDOM,
             },
             assessmentResult: {
               createdAt: dateAssessmentResultAfter2,
@@ -287,7 +287,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
               createdAt: dateAssessmentBefore1,
               state: Assessment.states.COMPLETED,
               type: PLACEMENT,
-              method: 'SMART_RANDOM',
+              method: Assessment.methods.SMART_RANDOM,
             },
             assessmentResult: {
               createdAt: dateAssessmentResultBefore3,
@@ -323,7 +323,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           certificationCourseId: null,
           competenceId: johnAssessmentToRemember.competenceId,
           assessmentResults: [],
-          method: 'SMART_RANDOM',
+          method: Assessment.methods.SMART_RANDOM,
           missionId: null,
         }),
       ];
@@ -663,13 +663,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const firstUserAssessmentId = databaseBuilder.factory.buildAssessment({
         userId: firstUserId,
         certificationCourseId: firstUserCertificationCourse,
-        state: 'started',
+        state: Assessment.states.STARTED,
         type: 'CERTIFICATION',
       }).id;
       databaseBuilder.factory.buildAssessment({
         userId: secondUserId,
         certificationCourseId: secondUserCertificationCourse,
-        state: 'started',
+        state: Assessment.states.STARTED,
         type: 'CERTIFICATION',
       });
 
@@ -683,7 +683,27 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       expect(assessment.id).to.equal(firstUserAssessmentId);
       expect(assessment.certificationCourseId).to.equal(firstUserCertificationCourse);
       expect(assessment.userId).to.equal(firstUserId);
-      expect(assessment.state).to.equal('started');
+      expect(assessment.state).to.equal(Assessment.states.STARTED);
+    });
+  });
+
+  describe('#setAssessmentsAsStarted', function () {
+    it('should update assessments state to started', async function () {
+      // given
+      const assessments = [
+        databaseBuilder.factory.buildAssessment({ state: Assessment.states.COMPLETED }),
+        databaseBuilder.factory.buildAssessment({ state: Assessment.states.COMPLETED }),
+      ];
+      const assessmentIds = assessments.map(({ id }) => id);
+
+      await databaseBuilder.commit();
+
+      // when
+      await assessmentRepository.setAssessmentsAsStarted({ assessmentIds });
+
+      // then
+      const statesInDb = await knex('assessments').whereIn('id', assessmentIds).pluck('state');
+      expect(statesInDb).to.deep.equal([Assessment.states.STARTED, Assessment.states.STARTED]);
     });
   });
 });
