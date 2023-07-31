@@ -330,9 +330,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
         it('should return activated feature for current organization', async function () {
           // given
           expectedPrescriber.userOrgaSettings = userOrgaSettings;
-          const feature = databaseBuilder.factory.buildFeature({
-            key: apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
-          });
+          const feature = databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
           databaseBuilder.factory.buildOrganizationFeature({ featureId: feature.id, organizationId: organization.id });
           await databaseBuilder.commit();
 
@@ -346,9 +344,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
         it('should return deactivated feature for current organization', async function () {
           // given
           expectedPrescriber.userOrgaSettings = userOrgaSettings;
-          databaseBuilder.factory.buildFeature({
-            key: apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
-          });
+          databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
           await databaseBuilder.commit();
 
           // when

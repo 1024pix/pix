@@ -21,7 +21,7 @@ describe('Integration | Application | Controller | organization-administration-c
       identityProviderForCampaigns: 'POLE_EMPLOI',
     });
 
-    featureId = databaseBuilder.factory.buildFeature({ key: apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT }).id;
+    featureId = databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
 
     await databaseBuilder.commit();
   });
@@ -171,7 +171,7 @@ describe('Integration | Application | Controller | organization-administration-c
       .where('organizationId', organization.id);
 
     expect(organizationFeature.length).to.equal(1);
-    expect(organizationFeature[0].key).to.equal(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
+    expect(organizationFeature[0].key).to.equal(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key);
     expect(response.source.data.attributes['enable-multiple-sending-assessment']).to.equal(true);
   });
 

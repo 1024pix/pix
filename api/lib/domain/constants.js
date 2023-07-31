@@ -108,7 +108,14 @@ const CERTIFICATION_CENTER_TYPES = {
 };
 
 const ORGANIZATION_FEATURE = {
-  MULTIPLE_SENDING_ASSESSMENT: 'MULTIPLE_SENDING_ASSESSMENT',
+  MULTIPLE_SENDING_ASSESSMENT: {
+    key: 'MULTIPLE_SENDING_ASSESSMENT',
+    description: "Permet d'activer l'envoi multiple sur les campagnes d'évaluation",
+  },
+  COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: {
+    key: 'COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY',
+    description: "Permet d'activer la remontée automatique de la certificabilité des prescrits",
+  },
 };
 
 const constants = {

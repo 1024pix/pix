@@ -76,7 +76,7 @@ async function _isMultipleSendingAssessmentEnabled(prescriber) {
     .pluck('key');
 
   prescriber.enableMultipleSendingAssessment = availableFeatures.includes(
-    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
+    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key,
   );
 }
 
