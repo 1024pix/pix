@@ -10,6 +10,7 @@ export default class MembersListItem extends Component {
   @service currentUser;
   @service notifications;
   @service intl;
+  @service session;
 
   @tracked organizationRoles = null;
   @tracked isEditionMode = false;
@@ -44,6 +45,10 @@ export default class MembersListItem extends Component {
 
   get isNotCurrentUserMembership() {
     return this.currentUser.prescriber.id !== this.args.membership.user.get('id');
+  }
+
+  get currentUserOrganizationName() {
+    return this.currentUser.organization.name;
   }
 
   @action
@@ -112,6 +117,18 @@ export default class MembersListItem extends Component {
       this.notifications.sendError(this.intl.t('pages.team-members.notifications.remove-membership.error'));
     } finally {
       this.closeRemoveMembershipModal();
+    }
+  }
+
+  @action
+  async onLeaveButtonClicked() {
+    try {
+      const membership = this.args.membership;
+      await this.args.onLeaveOrganization(membership);
+      this.session.invalidate();
+    } catch (_) {
+    } finally {
+      this.closeLeaveOrganizationModal();
     }
   }
 }
