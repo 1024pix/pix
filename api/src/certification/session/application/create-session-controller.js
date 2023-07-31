@@ -1,4 +1,4 @@
-import * as sessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/session-serializer.js';
+import * as sessionSerializer from '../infrastructure/serializers/jsonapi/session-serializer.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 const createSession = async function (request, _h, dependencies = { sessionSerializer }) {
