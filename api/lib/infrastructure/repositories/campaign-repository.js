@@ -3,6 +3,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 import * as skillRepository from './skill-repository.js';
+import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
 
 const CAMPAIGNS_TABLE = 'campaigns';
 
@@ -187,6 +188,14 @@ const findTubes = async function ({ campaignId, domainTransaction }) {
     .where('campaigns.id', campaignId);
 };
 
+const findAllSkills = async function ({ campaignId, domainTransaction }) {
+  const knexConn = domainTransaction?.knexTransaction ?? knex;
+  const tubeIds = await findTubes({ campaignId, domainTransaction: knexConn });
+  const tubes = await tubeDatasource.findByRecordIds(tubeIds);
+  const skillIds = tubes.flatMap((tube) => tube.skillIds);
+  return skillRepository.findByRecordIds(skillIds);
+};
+
 export {
   isCodeAvailable,
   getByCode,
@@ -202,6 +211,7 @@ export {
   findSkills,
   findSkillsByCampaignParticipationId,
   findSkillIdsByCampaignParticipationId,
+  findAllSkills,
   areKnowledgeElementsResettable,
   findTubes,
 };
