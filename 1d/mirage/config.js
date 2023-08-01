@@ -20,6 +20,14 @@ export default function () {
     return schema.challenges.find(1);
   });
 
+  this.get('/assessments/:assessment_id/current-activity', (schema, request) => {
+    if (schema.activities.first()) {
+      return schema.activities.first();
+    } else {
+      return schema.activities.create({ assessmentId: request.params.assessment_id });
+    }
+  });
+
   this.post('/activity-answers', (schema, request) => {
     const answerValue = JSON.parse(request.requestBody).data.attributes?.value;
     return schema.create('activity-answer', {

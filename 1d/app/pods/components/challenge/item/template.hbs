@@ -55,8 +55,11 @@
   </div>
 
   <div class="challenge-item__footer">
-    <Challenge::ChallengeActions @validateAnswer={{this.validateAnswer}} @skipChallenge={{this.skipChallenge}} />
-    <p>Challenge level : {{@activity.level}}</p>
+    <Challenge::ChallengeActions
+      @validateAnswer={{this.validateAnswer}}
+      @skipChallenge={{this.skipChallenge}}
+      @level={{@activity.level}}
+    />
   </div>
 </div>
 
