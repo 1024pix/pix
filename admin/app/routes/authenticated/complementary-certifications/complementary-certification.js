@@ -5,6 +5,8 @@ export default class ComplementaryCertificationRoute extends Route {
   @service store;
 
   model(params) {
-    return this.store.findRecord('complementary-certification', params.complementary_certification_id);
+    return this.store.findRecord('complementary-certification', params.complementary_certification_id, {
+      reload: true,
+    });
   }
 }
