@@ -93,4 +93,5 @@ Renovate nous proposera dès lors les montées de versions groupées de Node dè
 
 On peut commencer cette migration par le monorepo, avant de migrer nos dépendances comme `pix-ui`.
 
-Sur le PAAS, rien ne change car on utilisera toujours la dernière version disponible.
+Sur le PaaS, dans sa version actuelle, rien ne change car on utilisera toujours la dernière version disponible.
+À l'avenir, la version du PaaS sera synchronisée avec les 2 autres versions.
