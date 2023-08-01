@@ -1,3 +1,6 @@
+import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
+import { createServer } from 'miragejs';
+
 import getAreas from './routes/get-areas';
 import getCampaigns from './routes/get-campaigns';
 import getCertificationCandidatesSubscriptions from './routes/get-certification-candidates-subscriptions';
@@ -31,10 +34,21 @@ import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 
+export default function makeServer(config) {
+  const finalConfig = {
+    ...config,
+    models: { ...discoverEmberDataModels(), ...config.models },
+    serializers: applyEmberDataSerializers(config.serializers),
+    routes,
+    logging: true,
+    urlPrefix: 'http://localhost:3000',
+  };
+
+  return createServer(finalConfig);
+}
+
 /* eslint max-statements: off */
-export default function () {
-  this.logging = true;
-  this.urlPrefix = 'http://localhost:3000';
+function routes() {
   this.namespace = 'api';
   this.timing = 0; // response delay
 
