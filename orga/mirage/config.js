@@ -1,4 +1,5 @@
-import Response from 'ember-cli-mirage/response';
+import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
+import { Response, createServer } from 'miragejs';
 import { findPaginatedCampaignProfilesCollectionParticipationSummaries } from './handlers/find-paginated-campaign-participation-summaries';
 import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
 import { findFilteredPaginatedScoOrganizationParticipants } from './handlers/find-filtered-paginated-sco-organization-participants';
@@ -21,10 +22,21 @@ function parseQueryString(queryString) {
   return result;
 }
 
+export default function makeServer(config) {
+  const finalConfig = {
+    ...config,
+    models: { ...discoverEmberDataModels(), ...config.models },
+    serializers: applyEmberDataSerializers(config.serializers),
+    routes,
+    logging: true,
+    urlPrefix: 'http://localhost:3000',
+  };
+
+  return createServer(finalConfig);
+}
+
 /* eslint ember/no-get: off */
-export default function () {
-  this.logging = true;
-  this.urlPrefix = 'http://localhost:3000';
+function routes() {
   this.namespace = 'api';
   this.timing = 0;
 
