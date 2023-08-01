@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import createGlimmerComponent from '../../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
 
 module('Unit | Component | complementary-certifications/target-profiles/information', function (hooks) {
   setupTest(hooks);

@@ -10,6 +10,6 @@
 
 <main class="page-body">
   <ComplementaryCertifications::TargetProfiles::Information @complementaryCertification={{@model}} />
-  <ComplementaryCertifications::TargetProfiles::BadgesList @badges={{@model.currentTargetProfileBadges}} />
+  <ComplementaryCertifications::TargetProfiles::BadgesList @currentTargetProfiles={{@model.currentTargetProfiles}} />
   <ComplementaryCertifications::TargetProfiles::History @targetProfilesHistory={{@model.targetProfilesHistory}} />
 </main>
