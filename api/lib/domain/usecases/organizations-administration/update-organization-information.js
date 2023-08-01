@@ -85,17 +85,7 @@ const updateOrganizationInformation = async function ({
     tagRepository,
   });
 
-  if (organization.name) existingOrganization.name = organization.name;
-  if (organization.type) existingOrganization.type = organization.type;
-  if (organization.logoUrl) existingOrganization.logoUrl = organization.logoUrl;
-  existingOrganization.email = organization.email;
-  existingOrganization.credit = organization.credit;
-  existingOrganization.externalId = organization.externalId;
-  existingOrganization.provinceCode = organization.provinceCode;
-  existingOrganization.isManagingStudents = organization.isManagingStudents;
-  existingOrganization.documentationUrl = organization.documentationUrl;
-  existingOrganization.showSkills = organization.showSkills;
-  existingOrganization.identityProviderForCampaigns = organization.identityProviderForCampaigns;
+  existingOrganization.updateInformation(organization);
 
   const updatedOrganization = await organizationForAdminRepository.update(existingOrganization);
   const dataProtectionOfficer = await _addOrUpdateDataProtectionOfficer({
