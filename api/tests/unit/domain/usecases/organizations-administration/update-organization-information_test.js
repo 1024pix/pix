@@ -45,21 +45,25 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
   });
 
   context('when organization exists', function () {
+    let originalOrganization;
+    const organizationId = 7;
+
+    beforeEach(function () {
+      originalOrganization = _buildOriginalOrganization(organizationId);
+      organizationForAdminRepository.get.resolves(originalOrganization);
+      organizationForAdminRepository.update.resolves(new OrganizationForAdmin());
+      dataProtectionOfficerRepository.get.resolves({});
+      dataProtectionOfficerRepository.update.resolves({});
+    });
+
     it('should allow to update the organization name (only) if modified', async function () {
       // given
       const newName = 'New name';
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         name: newName,
         identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -80,17 +84,10 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     it('should allow to update the organization type (only) if modified', async function () {
       // given
       const newType = 'PRO';
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         type: newType,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -110,17 +107,10 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     it('should allow to update the organization logo URL (only) if modified', async function () {
       // given
       const newLogoUrl = 'http://new.logo.url';
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         logoUrl: newLogoUrl,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -140,17 +130,10 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     it('should allow to update the organization external id (only) if modified', async function () {
       // given
       const externalId = '9752145V';
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         externalId,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -170,17 +153,10 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     it('should allow to update the organization external id with null value', async function () {
       // given
       const externalId = null;
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         externalId,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -200,17 +176,10 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     it('should allow to update the organization province code (only) if modified', async function () {
       // given
       const provinceCode = '975';
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         provinceCode,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -230,17 +199,10 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     it('should allow to update the organization province code with null value', async function () {
       // given
       const provinceCode = null;
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         provinceCode,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -259,17 +221,10 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
 
     it('should allow to update the organization isManagingStudents (only) if modified', async function () {
       // given
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         isManagingStudents: false,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -287,17 +242,10 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     it('should allow to update the organization email', async function () {
       // given
       const newEmail = 'sco.generic.newaccount@example.net';
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         email: newEmail,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -317,17 +265,10 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     it('should allow to update the organization credit', async function () {
       // given
       const newCredit = 100;
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         credit: newCredit,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -347,17 +288,10 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     it('should allow to update the organization documentationUrl', async function () {
       // given
       const newDocumentationUrl = 'https://pix.fr/';
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         documentationUrl: newDocumentationUrl,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -377,17 +311,10 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     it('should allow to update the organization showSkills flag', async function () {
       // given
       const newShowSkills = true;
-      const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         showSkills: newShowSkills,
       });
-      const originalOrganization = _buildOriginalOrganization(organizationId);
-
-      organizationForAdminRepository.get.resolves(originalOrganization);
-      organizationForAdminRepository.update.resolves({});
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
 
       // when
       await updateOrganizationInformation({
@@ -420,7 +347,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
 
         organizationForAdminRepository.get.withArgs(organizationId).resolves(originalOrganization);
         tagRepository.get.withArgs(tagToAdd.id).resolves(originalTag);
-        organizationForAdminRepository.update.resolves({});
+        organizationForAdminRepository.update.resolves(new OrganizationForAdmin());
         dataProtectionOfficerRepository.get.resolves({});
         dataProtectionOfficerRepository.update.resolves({});
 
@@ -463,7 +390,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organizationTagRepository.findOneByOrganizationIdAndTagId
           .withArgs({ organizationId: originalOrganization.id, tagId: originalTag.id })
           .resolves(organizationTagToRemove);
-        organizationForAdminRepository.update.resolves({});
+        organizationForAdminRepository.update.resolves(new OrganizationForAdmin());
         dataProtectionOfficerRepository.get.resolves({});
         dataProtectionOfficerRepository.update.resolves({});
 
@@ -488,15 +415,15 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     context('when a data protection officer is linked to this organization', function () {
       it('should allow to update the data protection officer information', async function () {
         // given
-        const givenOrganization = {
+        const givenOrganization = new OrganizationForAdmin({
           id: 7,
           dataProtectionOfficerFirstName: 'Infinite',
           dataProtectionOfficerLastName: 'Blossom',
           dataProtectionOfficerEmail: 'karasu.nogymx@example.net',
-        };
+        });
 
         organizationForAdminRepository.get.resolves(new OrganizationForAdmin({ id: 7 }));
-        organizationForAdminRepository.update.resolves({ id: 7 });
+        organizationForAdminRepository.update.resolves(new OrganizationForAdmin({ id: 7 }));
         dataProtectionOfficerRepository.get.resolves({ id: 1 });
         dataProtectionOfficerRepository.update.resolves({
           id: 1,
@@ -526,15 +453,15 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     context('when a data protection officer is not linked to this organization', function () {
       it('should allow to create a data protection officer', async function () {
         // given
-        const givenOrganization = {
+        const givenOrganization = new OrganizationForAdmin({
           id: 7,
           dataProtectionOfficerFirstName: 'Infinite',
           dataProtectionOfficerLastName: 'Blossom',
           dataProtectionOfficerEmail: 'karasu.nogymx@example.net',
-        };
+        });
 
         organizationForAdminRepository.get.resolves(new OrganizationForAdmin({ id: 7 }));
-        organizationForAdminRepository.update.resolves({ id: 7 });
+        organizationForAdminRepository.update.resolves(new OrganizationForAdmin({ id: 7 }));
         dataProtectionOfficerRepository.get.resolves(null);
         dataProtectionOfficerRepository.create.resolves({
           id: 1,

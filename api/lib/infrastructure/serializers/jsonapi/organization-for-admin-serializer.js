@@ -8,6 +8,17 @@ import { Tag } from '../../../domain/models/Tag.js';
 
 const serialize = function (organizations, meta) {
   return new Serializer('organizations', {
+    transform(record) {
+      const dataProtectionOfficer = record.dataProtectionOfficer;
+      // createInBatch in organization-controller.js uses this serializer with the wrong model
+      if (dataProtectionOfficer) {
+        record.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
+        record.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
+        record.dataProtectionOfficerEmail = dataProtectionOfficer.email;
+      }
+
+      return record;
+    },
     attributes: [
       'name',
       'type',

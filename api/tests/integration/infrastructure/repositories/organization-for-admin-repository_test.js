@@ -227,35 +227,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
 
       // then
       expect(organizationSaved).to.be.an.instanceof(OrganizationForAdmin);
-      expect(organizationSaved).to.deep.equal({
-        id: organization.id,
-        name: 'super orga',
-        type: 'SCO',
-        logoUrl: 'http://new.logo.url',
-        externalId: '999Z527F',
-        provinceCode: '999',
-        isManagingStudents: true,
-        credit: 50,
-        email: 'email@example.net',
-        documentationUrl: 'https://pix.fr/',
-        formNPSUrl: null,
-        showNPS: false,
-        showSkills: false,
-        archivedAt: now,
-        createdBy: userId,
-        createdAt: organization.createdAt,
-        archivistFirstName: 'Anne',
-        archivistLastName: 'Héantie',
-        dataProtectionOfficerFirstName: undefined,
-        dataProtectionOfficerLastName: undefined,
-        dataProtectionOfficerEmail: undefined,
-        creatorFirstName: undefined,
-        creatorLastName: undefined,
-        identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
-        enableMultipleSendingAssessment: undefined,
-        tags: [{ id: tagId, name: 'orga tag' }],
-      });
-      expect(organizationSaved.tags[0].id).to.be.equal(tagId);
+      expect(organizationSaved.tags).to.deep.equal([{ id: tagId, name: 'orga tag' }]);
     });
 
     it('should not add row in table "organizations"', async function () {

@@ -1,3 +1,5 @@
+import { DataProtectionOfficer } from '../DataProtectionOfficer.js';
+
 class OrganizationForAdmin {
   constructor({
     id,
@@ -45,9 +47,12 @@ class OrganizationForAdmin {
     this.archivedAt = archivedAt;
     this.archivistFirstName = archivistFirstName;
     this.archivistLastName = archivistLastName;
-    this.dataProtectionOfficerFirstName = dataProtectionOfficerFirstName;
-    this.dataProtectionOfficerLastName = dataProtectionOfficerLastName;
-    this.dataProtectionOfficerEmail = dataProtectionOfficerEmail;
+    this.dataProtectionOfficer = new DataProtectionOfficer({
+      organizationId: id,
+      firstName: dataProtectionOfficerFirstName,
+      lastName: dataProtectionOfficerLastName,
+      email: dataProtectionOfficerEmail,
+    });
     this.creatorFirstName = creatorFirstName;
     this.creatorLastName = creatorLastName;
     this.identityProviderForCampaigns = identityProviderForCampaigns;

@@ -38,8 +38,8 @@ describe('Integration | UseCases | create-organization', function () {
     expect(createdOrganization.name).to.be.equal(organization.name);
     expect(createdOrganization.type).to.be.equal(organization.type);
     expect(createdOrganization.documentationUrl).to.be.equal(organization.documentationUrl);
-    expect(createdOrganization.dataProtectionOfficerFirstName).to.be.null;
-    expect(createdOrganization.dataProtectionOfficerLastName).to.be.null;
-    expect(createdOrganization.dataProtectionOfficerEmail).to.be.null;
+    expect(createdOrganization.dataProtectionOfficer.firstName).to.equal('');
+    expect(createdOrganization.dataProtectionOfficer.lastName).to.equal('');
+    expect(createdOrganization.dataProtectionOfficer.email).to.equal('');
   });
 });

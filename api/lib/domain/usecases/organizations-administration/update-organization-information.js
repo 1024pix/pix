@@ -1,7 +1,6 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 import { OrganizationTag } from '../../models/OrganizationTag.js';
-import { DataProtectionOfficer } from '../../models/DataProtectionOfficer.js';
 import * as apps from '../../constants.js';
 
 async function _updateOrganizationTags({
@@ -37,18 +36,11 @@ async function _updateOrganizationTags({
 }
 
 async function _addOrUpdateDataProtectionOfficer({ organization, dataProtectionOfficerRepository }) {
-  const dataProtectionOfficer = new DataProtectionOfficer({
-    firstName: organization.dataProtectionOfficerFirstName ?? '',
-    lastName: organization.dataProtectionOfficerLastName ?? '',
-    email: organization.dataProtectionOfficerEmail ?? '',
-    organizationId: organization.id,
-  });
-
   const dataProtectionOfficerFound = await dataProtectionOfficerRepository.get({ organizationId: organization.id });
 
-  if (dataProtectionOfficerFound) return dataProtectionOfficerRepository.update(dataProtectionOfficer);
+  if (dataProtectionOfficerFound) return dataProtectionOfficerRepository.update(organization.dataProtectionOfficer);
 
-  return dataProtectionOfficerRepository.create(dataProtectionOfficer);
+  return dataProtectionOfficerRepository.create(organization.dataProtectionOfficer);
 }
 
 async function _enablingOrganizationFeature(organization, organizationFeatureRepository) {
@@ -96,9 +88,9 @@ const updateOrganizationInformation = async function ({
   await _enablingOrganizationFeature(organization, organizationFeatureRepository);
 
   updatedOrganization.enableMultipleSendingAssessment = organization.enableMultipleSendingAssessment;
-  updatedOrganization.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
-  updatedOrganization.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
-  updatedOrganization.dataProtectionOfficerEmail = dataProtectionOfficer.email;
+  updatedOrganization.dataProtectionOfficer.firstName = dataProtectionOfficer.firstName;
+  updatedOrganization.dataProtectionOfficer.lastName = dataProtectionOfficer.lastName;
+  updatedOrganization.dataProtectionOfficer.email = dataProtectionOfficer.email;
 
   return updatedOrganization;
 };
