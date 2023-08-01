@@ -1,5 +1,5 @@
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
-import { badges } from '../../../constants.js';
+import { badges, DEFAULT_PASSWORD } from '../../../constants.js';
 import { createTargetProfile } from './tooling/target-profile-tooling.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -95,7 +95,7 @@ function _createSuperAdmin(databaseBuilder) {
     firstName: 'NextSuper',
     lastName: 'NextAdmin',
     email: 'superadmin@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
   });
   databaseBuilder.factory.buildPixAdminRole({ userId: REAL_PIX_SUPER_ADMIN_ID, role: ROLES.SUPER_ADMIN });
 }
