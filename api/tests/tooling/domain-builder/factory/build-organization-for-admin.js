@@ -1,4 +1,4 @@
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/Organization.js';
+import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 
 function buildOrganizationForAdmin({
   id = 123,

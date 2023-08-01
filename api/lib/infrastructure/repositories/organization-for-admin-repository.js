@@ -1,5 +1,5 @@
 import { NotFoundError, MissingAttributesError } from '../../domain/errors.js';
-import { OrganizationForAdmin } from '../../domain/models/organizations-administration/Organization.js';
+import { OrganizationForAdmin } from '../../domain/models/organizations-administration/OrganizationForAdmin.js';
 import { Tag } from '../../domain/models/Tag.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
