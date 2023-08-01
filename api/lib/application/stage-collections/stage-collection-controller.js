@@ -1,12 +1,9 @@
-import * as stageCollectionRepository from '../../infrastructure/repositories/target-profile-management/stage-collection-repository.js';
-import { StageCollectionUpdate } from '../../domain/models/target-profile-management/StageCollectionUpdate.js';
+import { usecases } from '../../domain/usecases/index.js';
 
 const update = async function (request, h) {
   const targetProfileId = request.params.id;
-  const stagesDTO = request.payload.data.attributes.stages;
-  const stageCollection = await stageCollectionRepository.getByTargetProfileId(targetProfileId);
-  const stageCollectionUpdate = new StageCollectionUpdate({ stagesDTO, stageCollection });
-  await stageCollectionRepository.update(stageCollectionUpdate);
+  const stagesFromPayload = request.payload.data.attributes.stages;
+  await usecases.createOrUpdateStageCollection({ targetProfileId, stagesFromPayload });
   return h.response({}).code(204);
 };
 
