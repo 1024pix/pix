@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v4.20.0 (01/08/2023)
+
+
+### :rocket: Amélioration
+- [#6671](https://github.com/1024pix/pix/pull/6671) [FEATURE] Empêcher la modification de paliers si un profil cible est relié à une campagne (PIX-8644).
+- [#6717](https://github.com/1024pix/pix/pull/6717) [FEATURE] Mettre à jour le prénom et le nom reçus du GAR quand le samlID change pour un même user (PIX-4771).
+
+### :building_construction: Tech
+- [#6788](https://github.com/1024pix/pix/pull/6788) [TECH] Ajoute la nouvelle feature de remontée de certificabilité auto dans la table features (PIX-8788).
+- [#6775](https://github.com/1024pix/pix/pull/6775) [TECH] Inclure les badges dans le profil cible associé pour le versioning (PIX-8772).
+- [#6782](https://github.com/1024pix/pix/pull/6782) [TECH] Revue de la fonction shuffle pour 1d (pix-8784).
+- [#6785](https://github.com/1024pix/pix/pull/6785) [TECH] Change le repository utilisé pour eslint-plugin-knex.
+
+### :bug: Correction
+- [#6795](https://github.com/1024pix/pix/pull/6795) [BUGFIX] Refacto la méthode shuffle pour corriger les tests flaky(PIX-8808).
+- [#6764](https://github.com/1024pix/pix/pull/6764) [BUGFIX] Aligner le comportement de la sidebar par rapport au Breadcrumb de la page participant d'une campagne (PIX-8762).
+
+### :arrow_up: Montée de version
+- [#6790](https://github.com/1024pix/pix/pull/6790) [BUMP] Mise à jour de Pix UI sur Pix Orga et Pix admin.
+- [#6793](https://github.com/1024pix/pix/pull/6793) [BUMP] Lock file maintenance (admin).
+- [#6792](https://github.com/1024pix/pix/pull/6792) [BUMP] Lock file maintenance (1d).
+- [#6783](https://github.com/1024pix/pix/pull/6783) [BUMP] Update postgres Docker tag to v14.8.
+
+### :coffee: Autre
+- [#6794](https://github.com/1024pix/pix/pull/6794) [FEAUTURE] Enlever le bouton 'Je passe' quand l'utilisateur est au niveau didacticiel (Pix-8774).
+- [#6784](https://github.com/1024pix/pix/pull/6784) [DOCS] Précise où trouver la version de Node.js.
+
 ## v4.19.0 (28/07/2023)
 
 
