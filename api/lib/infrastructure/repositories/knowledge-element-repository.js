@@ -92,6 +92,12 @@ const save = async function (knowledgeElement) {
   return new KnowledgeElement(savedKnowledgeElement);
 };
 
+const batchSave = async function ({ knowledgeElements, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const knowledgeElementsToSave = knowledgeElements.map((ke) => _.omit(ke, ['id', 'createdAt']));
+  await knexConn.batchInsert(tableName, knowledgeElementsToSave);
+};
+
 const findUniqByUserId = function ({ userId, limitDate, domainTransaction }) {
   return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction });
 };
@@ -221,6 +227,7 @@ const findInvalidatedAndDirectByUserId = async function (userId) {
 
 export {
   save,
+  batchSave,
   findUniqByUserId,
   findUniqByUserIdAndAssessmentId,
   findUniqByUserIdAndCompetenceId,
