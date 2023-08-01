@@ -38,6 +38,15 @@ const disable = async function (request, h) {
   return h.response().code(204);
 };
 
-const membershipController = { create, update, disable };
+const disableOwnOrganizationMembership = async function (request, h) {
+  const organizationId = request.payload.organizationId;
+  const userId = requestResponseUtils.extractUserIdFromRequest(request);
+
+  await usecases.disableOwnOrganizationMembership({ organizationId, userId });
+
+  return h.response().code(204);
+};
+
+const membershipController = { create, update, disable, disableOwnOrganizationMembership };
 
 export { membershipController };
