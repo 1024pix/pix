@@ -43,6 +43,50 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
     });
   });
 
+  describe('#batchSave', function () {
+    let knowledgeElementsToSave;
+
+    beforeEach(function () {
+      // given
+      knowledgeElementsToSave = [];
+      const userId = databaseBuilder.factory.buildUser({}).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
+      const answerId1 = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
+      const answerId2 = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
+      knowledgeElementsToSave.push(
+        domainBuilder.buildKnowledgeElement({
+          userId,
+          assessmentId,
+          answerId: answerId1,
+          competenceId: 'recABC',
+        }),
+      );
+      knowledgeElementsToSave.push(
+        domainBuilder.buildKnowledgeElement({
+          userId,
+          assessmentId,
+          answerId: answerId2,
+          competenceId: 'recABC',
+        }),
+      );
+
+      return databaseBuilder.commit();
+    });
+
+    it('should save all the knowledgeElements in db', async function () {
+      // when
+      await knowledgeElementRepository.batchSave({ knowledgeElements: knowledgeElementsToSave });
+
+      // then
+      let actualKnowledgeElements = await knex.select('*').from('knowledge-elements');
+      actualKnowledgeElements = actualKnowledgeElements.map((ke) => _.omit(ke, ['id', 'createdAt', 'updatedAt']));
+      const expectedKnowledgeElements = knowledgeElementsToSave.map((ke) =>
+        _.omit(ke, ['id', 'createdAt', 'updatedAt']),
+      );
+      expect(actualKnowledgeElements).to.deep.equal(expectedKnowledgeElements);
+    });
+  });
+
   describe('#findUniqByUserId', function () {
     const today = new Date('2018-08-03');
     let knowledgeElementsWanted, knowledgeElementsWantedWithLimitDate;
