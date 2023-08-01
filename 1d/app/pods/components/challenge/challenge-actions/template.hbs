@@ -1,15 +1,17 @@
 <div class="challenge-actions">
-  <PixButton
-    class="pix1d-button pix1d-button--skip"
-    @isDisabled={{@isDisabled}}
-    @triggerAction={{@skipChallenge}}
-    @shape="rounded"
-    @size="big"
-  >
-    <span>
-      Je passe
-    </span>
-  </PixButton>
+  {{#unless (eq @level "TUTORIAL")}}
+    <PixButton
+      class="pix1d-button pix1d-button--skip"
+      @isDisabled={{@isDisabled}}
+      @triggerAction={{@skipChallenge}}
+      @shape="rounded"
+      @size="big"
+    >
+      <span>
+        Je passe
+      </span>
+    </PixButton>
+  {{/unless}}
   <PixButton
     class="pix1d-button"
     @isDisabled={{@isDisabled}}

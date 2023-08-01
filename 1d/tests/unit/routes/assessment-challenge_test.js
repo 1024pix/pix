@@ -29,13 +29,14 @@ module('Unit | Route | AssessmentChallengeRoute', function (hooks) {
         const route = this.owner.lookup('route:assessment.challenge');
         const assessment = { id: 2, type: 'PIX1D_MISSION' };
         const challenge = { id: 2 };
+        const activity = { id: 2 };
         sinon.stub(route.router, 'replaceWith');
         sinon.stub(route, 'modelFor').returns(assessment);
         sinon.stub(store, 'queryRecord').returns(challenge);
 
         const result = await route.model();
 
-        assert.deepEqual(result, { assessment, challenge });
+        assert.deepEqual(result, { assessment, challenge, activity });
       });
     });
 

@@ -209,4 +209,17 @@ describe('Unit | Application | Router | assessment-router', function () {
       expect(statusCode).to.equal(403);
     });
   });
+
+  describe('GET /api/pix1d/assessments/{id}/current-activity', function () {
+    it('should return 200', async function () {
+      sinon.stub(assessmentController, 'getCurrentActivity').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const assessmentId = '12345678';
+
+      const response = await httpTestServer.request('GET', `/api/pix1d/assessments/${assessmentId}/current-activity`);
+
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });
