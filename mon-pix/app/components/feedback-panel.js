@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import { later } from '@ember/runloop';
 import { service } from '@ember/service';
-import { isEmpty } from '@ember/utils';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
@@ -16,7 +15,6 @@ export default class FeedbackPanel extends Component {
   @tracked content = null;
   @tracked displayQuestionDropdown = false;
   @tracked displayTextBox = false;
-  @tracked emptyTextBoxMessageError = null;
   @tracked isFormSubmitted = false;
   @tracked nextCategory = null;
   @tracked quickHelpInstructions = null;
@@ -88,21 +86,15 @@ export default class FeedbackPanel extends Component {
       return;
     }
     this._sendButtonStatus = buttonStatusTypes.pending;
-    const content = this.content;
-
-    if (isEmpty(content) || isEmpty(content.trim())) {
-      this._sendButtonStatus = buttonStatusTypes.unrecorded;
-      this.emptyTextBoxMessageError = this.intl.t('pages.challenge.feedback-panel.form.status.error.empty-message');
-      return;
-    }
 
     const category = this._category
       ? this.intl.t(this._category)
       : this.intl.t(
           'pages.challenge.feedback-panel.form.fields.category-selection.options.' + this._currentMajorCategory,
         );
+
     const feedback = this.store.createRecord('feedback', {
-      content: this.content,
+      content: this.content || '',
       category,
       assessment: this.args.assessment,
       challenge: this.args.challenge,
@@ -123,7 +115,6 @@ export default class FeedbackPanel extends Component {
   displayCategoryOptions(value) {
     this.displayTextBox = false;
     this.quickHelpInstructions = null;
-    this.emptyTextBoxMessageError = null;
     this.displayQuestionDropdown = false;
     this._category = null;
     this._currentNextCategory = null;
@@ -147,13 +138,11 @@ export default class FeedbackPanel extends Component {
     if (value === '') {
       this.displayTextBox = false;
       this.quickHelpInstructions = null;
-      this.emptyTextBoxMessageError = null;
       this._currentNextCategory = null;
       return;
     }
 
     this._currentNextCategory = value;
-    this.emptyTextBoxMessageError = null;
     this._category = this.nextCategory[value - 1] ? this.nextCategory[value - 1].name : null;
     if (this._category != null) {
       this._showFeedbackActionBasedOnCategoryType(this.nextCategory[value - 1]);
@@ -162,7 +151,6 @@ export default class FeedbackPanel extends Component {
 
   _resetPanel() {
     this.isFormSubmitted = false;
-    this.emptyTextBoxMessageError = null;
     this._resetForm();
     if (this.args.alwaysOpenForm) {
       this.isExpanded = true;
