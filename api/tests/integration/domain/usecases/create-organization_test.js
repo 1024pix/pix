@@ -2,7 +2,7 @@ import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 
 import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/Organization.js';
+import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 import * as organizationCreationValidator from '../../../../lib/domain/validators/organization-creation-validator.js';
 import { createOrganization } from '../../../../lib/domain/usecases/create-organization.js';
 

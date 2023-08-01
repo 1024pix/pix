@@ -1,6 +1,6 @@
 import { catchErr, expect, domainBuilder, databaseBuilder, sinon, knex } from '../../../test-helper.js';
 import { NotFoundError, MissingAttributesError } from '../../../../lib/domain/errors.js';
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/Organization.js';
+import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/index.js';
 import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';

@@ -87,7 +87,7 @@ import { LearningContent } from './LearningContent.js';
 import { Membership } from './Membership.js';
 import { NeutralizationAttempt } from './NeutralizationAttempt.js';
 import { Organization } from './Organization.js';
-import { OrganizationForAdmin } from './organizations-administration/Organization.js';
+import { OrganizationForAdmin } from './organizations-administration/OrganizationForAdmin.js';
 import { OrganizationInvitation } from './OrganizationInvitation.js';
 import { OrganizationInvitedUser } from './OrganizationInvitedUser.js';
 import { OrganizationLearner } from './OrganizationLearner.js';

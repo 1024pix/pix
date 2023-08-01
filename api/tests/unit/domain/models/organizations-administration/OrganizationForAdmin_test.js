@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/Organization.js';
+import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 
 describe('Unit | Domain | Models | OrganizationForAdmin', function () {
   describe('#archivistFullName', function () {

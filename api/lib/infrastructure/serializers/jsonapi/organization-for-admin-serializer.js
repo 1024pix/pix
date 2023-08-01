@@ -3,7 +3,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 const { Serializer } = jsonapiSerializer;
 
 import _ from 'lodash';
-import { OrganizationForAdmin } from '../../../domain/models/organizations-administration/Organization.js';
+import { OrganizationForAdmin } from '../../../domain/models/organizations-administration/OrganizationForAdmin.js';
 import { Tag } from '../../../domain/models/Tag.js';
 
 const serialize = function (organizations, meta) {
