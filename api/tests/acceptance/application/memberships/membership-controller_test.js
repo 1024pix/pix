@@ -329,4 +329,43 @@ describe('Acceptance | Controller | membership-controller', function () {
       });
     });
   });
+
+  describe('POST /api/memberships/me/disable', function () {
+    context('when user is one of the admins of the organization', function () {
+      it('disables user membership and returns a 204', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const organizationAdminUserId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildMembership({
+          userId: organizationAdminUserId,
+          organizationId,
+          organizationRole: Membership.roles.ADMIN,
+        });
+        databaseBuilder.factory.buildMembership({
+          userId: databaseBuilder.factory.buildUser().id,
+          organizationId,
+          organizationRole: Membership.roles.ADMIN,
+        });
+
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'POST',
+          url: '/api/memberships/me/disable',
+          payload: {
+            organizationId,
+          },
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(organizationAdminUserId),
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+  });
 });

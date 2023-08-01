@@ -133,6 +133,32 @@ const register = async function (server) {
     },
     {
       method: 'POST',
+      path: '/api/memberships/me/disable',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
+          },
+          {
+            method: securityPreHandlers.checkUserCanDisableHisOrganizationMembership,
+            assign: 'canDisableHisOrganizationMembership',
+          },
+        ],
+        validate: {
+          payload: Joi.object({
+            organizationId: identifiersType.organizationId,
+          }),
+        },
+        handler: membershipController.disableOwnOrganizationMembership,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur de l'organisation\n" +
+            "- Elle permet de se retirer d'une organisation",
+        ],
+      },
+    },
+    {
+      method: 'POST',
       path: '/api/memberships/{id}/disable',
       config: {
         pre: [
