@@ -449,7 +449,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         });
 
         const originalTag = domainBuilder.buildTag({ id: 4, name: 'SCO' });
-        const originalOrganization = domainBuilder.buildOrganization({
+        const originalOrganization = domainBuilder.buildOrganizationForAdmin({
           id: organizationId,
           tags: [originalTag],
         });
@@ -495,7 +495,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
           dataProtectionOfficerEmail: 'karasu.nogymx@example.net',
         };
 
-        organizationForAdminRepository.get.resolves({ id: 7 });
+        organizationForAdminRepository.get.resolves(new OrganizationForAdmin({ id: 7 }));
         organizationForAdminRepository.update.resolves({ id: 7 });
         dataProtectionOfficerRepository.get.resolves({ id: 1 });
         dataProtectionOfficerRepository.update.resolves({
@@ -533,7 +533,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
           dataProtectionOfficerEmail: 'karasu.nogymx@example.net',
         };
 
-        organizationForAdminRepository.get.resolves({ id: 7 });
+        organizationForAdminRepository.get.resolves(new OrganizationForAdmin({ id: 7 }));
         organizationForAdminRepository.update.resolves({ id: 7 });
         dataProtectionOfficerRepository.get.resolves(null);
         dataProtectionOfficerRepository.create.resolves({

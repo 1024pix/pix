@@ -64,6 +64,20 @@ class OrganizationForAdmin {
   get creatorFullName() {
     return this.creatorFirstName && this.creatorLastName ? `${this.creatorFirstName} ${this.creatorLastName}` : null;
   }
+
+  updateInformation(organization) {
+    if (organization.name) this.name = organization.name;
+    if (organization.type) this.type = organization.type;
+    if (organization.logoUrl) this.logoUrl = organization.logoUrl;
+    this.email = organization.email;
+    this.credit = organization.credit;
+    this.externalId = organization.externalId;
+    this.provinceCode = organization.provinceCode;
+    this.isManagingStudents = organization.isManagingStudents;
+    this.documentationUrl = organization.documentationUrl;
+    this.showSkills = organization.showSkills;
+    this.identityProviderForCampaigns = organization.identityProviderForCampaigns;
+  }
 }
 
 export { OrganizationForAdmin };
