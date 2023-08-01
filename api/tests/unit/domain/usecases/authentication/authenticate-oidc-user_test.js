@@ -1,16 +1,20 @@
 import { expect, sinon, catchErr } from '../../../../test-helper.js';
 import { UnexpectedOidcStateError } from '../../../../../lib/domain/errors.js';
+import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { logger } from '../../../../../lib/infrastructure/logger.js';
 import { authenticateOidcUser } from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as appMessages from '../../../../../lib/domain/constants.js';
+import { AdminMember } from '../../../../../lib/domain/models/index.js';
 
 describe('Unit | UseCase | authenticate-oidc-user', function () {
   let oidcAuthenticationService;
   let authenticationSessionService;
   let authenticationMethodRepository;
   let userRepository;
+  let adminMemberRepository;
   let userLoginRepository;
   const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
@@ -33,9 +37,63 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     };
 
     userRepository = { findByExternalIdentifier: sinon.stub() };
+    adminMemberRepository = {
+      get: sinon.stub(),
+    };
     userLoginRepository = {
       updateLastLoggedAt: sinon.stub().resolves(),
     };
+  });
+
+  context('check access by pix source', function () {
+    context('when source is pix-admin', function () {
+      it('should throw an error when user has no role and is therefore not an admin member', async function () {
+        // given
+        const source = appMessages.PIX_ADMIN.SCOPE;
+        _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+        userRepository.findByExternalIdentifier.resolves({ id: 10 });
+        adminMemberRepository.get.resolves(null);
+
+        // when
+        const error = await catchErr(authenticateOidcUser)({
+          source,
+          oidcAuthenticationService,
+          userRepository,
+          adminMemberRepository,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(error.message).to.be.equal('User does not have the rights to access the application');
+        expect(error.code).to.be.equal('PIX_ADMIN_ACCESS_NOT_ALLOWED');
+      });
+
+      it('should throw an error when user has a role but admin membership is disabled', async function () {
+        // given
+        const source = appMessages.PIX_ADMIN.SCOPE;
+        const adminMember = new AdminMember({
+          id: 567,
+          role: 'CERTIF',
+          disabledAt: new Date(),
+        });
+        _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+        userRepository.findByExternalIdentifier.resolves({ id: 10 });
+        adminMemberRepository.get.resolves(adminMember);
+
+        // when
+        const error = await catchErr(authenticateOidcUser)({
+          source,
+          oidcAuthenticationService,
+          userRepository,
+          adminMemberRepository,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(error.message).to.be.equal('User does not have the rights to access the application');
+        expect(error.code).to.be.equal('PIX_ADMIN_ACCESS_NOT_ALLOWED');
+      });
+    });
   });
 
   context('When the request state does not match the response state', function () {

@@ -30,6 +30,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
           redirect_uri: redirectUri,
           state_sent: undefined,
           state_received: state,
+          source: 'pix-admin',
         },
       },
     });

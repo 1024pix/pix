@@ -57,3 +57,9 @@
     Une erreur est survenue. Veuillez recommencer ou contacter les administrateurs de la plateforme.
   </PixMessage>
 {{/if}}
+
+{{#if @isUserShouldRequestAccess}}
+  <PixMessage @type="alert">
+    Vous n'avez pas les droits pour vous connecter. Veuillez demander un accès aux administrateurs de la plateforme.
+  </PixMessage>
+{{/if}}

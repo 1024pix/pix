@@ -170,6 +170,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
     const redirectUri = 'http://redirectUri.fr';
     const stateSent = 'state';
     const stateReceived = 'state';
+    const source = 'pix-admin';
 
     const pixAccessToken = 'pixAccessToken';
 
@@ -184,6 +185,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           redirectUri,
           stateSent,
           stateReceived,
+          source,
         },
       };
 
@@ -221,6 +223,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         stateReceived,
         stateSent,
         oidcAuthenticationService,
+        source,
       });
     });
 

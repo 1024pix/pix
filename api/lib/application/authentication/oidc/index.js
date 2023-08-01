@@ -124,6 +124,7 @@ const register = async function (server) {
                 redirect_uri: Joi.string().required(),
                 state_sent: Joi.string().required(),
                 state_received: Joi.string().required(),
+                source: Joi.string().optional(),
               },
             },
           }),

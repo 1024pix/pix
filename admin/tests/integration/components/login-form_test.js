@@ -182,6 +182,25 @@ module('Integration | Component | login-form', function (hooks) {
     });
   });
 
+  module('when user has no pix access rights', function () {
+    test('should displays a specific error message', async function (assert) {
+      // given
+      this.set('isUserShouldRequestAccess', true);
+
+      // when
+      const screen = await render(hbs`<LoginForm @isUserShouldRequestAccess={{this.isUserShouldRequestAccess}}/>`);
+
+      // then
+      assert
+        .dom(
+          screen.getByText(
+            "Vous n'avez pas les droits pour vous connecter. Veuillez demander un accès aux administrateurs de la plateforme.",
+          ),
+        )
+        .exists();
+    });
+  });
+
   module('when api throw an unknown error', function () {
     test('should displays an error message', async function (assert) {
       // given

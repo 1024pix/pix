@@ -92,7 +92,7 @@ const authenticateUser = async function (
     authenticationServiceRegistry,
   },
 ) {
-  const { code, identityProvider, redirectUri, stateSent, stateReceived } = request.deserializedPayload;
+  const { code, identityProvider, redirectUri, stateSent, stateReceived, source } = request.deserializedPayload;
 
   const oidcAuthenticationService =
     dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
@@ -102,6 +102,7 @@ const authenticateUser = async function (
     redirectUri,
     stateReceived,
     stateSent,
+    source,
     oidcAuthenticationService,
   });
 

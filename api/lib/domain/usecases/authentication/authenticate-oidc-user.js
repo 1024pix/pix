@@ -1,16 +1,20 @@
 import { UnexpectedOidcStateError } from '../../errors.js';
+import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 import { logger } from '../../../infrastructure/logger.js';
+import { PIX_ADMIN } from '../../constants.js';
 
 const authenticateOidcUser = async function ({
   stateReceived,
   stateSent,
   code,
   redirectUri,
+  source,
   oidcAuthenticationService,
   authenticationSessionService,
   authenticationMethodRepository,
   userRepository,
   userLoginRepository,
+  adminMemberRepository,
 }) {
   if (stateSent !== stateReceived) {
     logger.error(`State sent ${stateSent} did not match the state received ${stateReceived}`);
@@ -32,6 +36,8 @@ const authenticateOidcUser = async function ({
     const { firstName: givenName, lastName: familyName } = userInfo;
     return { authenticationKey, givenName, familyName, isAuthenticationComplete: false };
   }
+
+  await _checkUserAccessScope({ source, user, adminMemberRepository });
 
   await _updateAuthenticationMethodWithComplement({
     userInfo,
@@ -68,4 +74,16 @@ async function _updateAuthenticationMethodWithComplement({
     userId,
     identityProvider: oidcAuthenticationService.identityProvider,
   });
+}
+
+async function _checkUserAccessScope({ source, user, adminMemberRepository }) {
+  if (source === PIX_ADMIN.SCOPE) {
+    const adminMember = await adminMemberRepository.get({ userId: user.id });
+    if (!adminMember?.hasAccessToAdminScope) {
+      throw new ForbiddenAccess(
+        'User does not have the rights to access the application',
+        'PIX_ADMIN_ACCESS_NOT_ALLOWED',
+      );
+    }
+  }
 }

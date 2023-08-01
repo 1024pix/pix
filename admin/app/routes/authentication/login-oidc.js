@@ -87,6 +87,14 @@ export default class LoginOidcRoute extends Route {
         return { shouldUserCreateAnAccount, authenticationKey, email, identityProviderSlug };
       }
 
+      if (error.status === '403' && error.code === 'PIX_ADMIN_ACCESS_NOT_ALLOWED') {
+        return this.router.replaceWith('login', {
+          queryParams: {
+            isUserShouldRequestAccess: true,
+          },
+        });
+      }
+
       throw error;
     } finally {
       this.session.set('data.state', undefined);

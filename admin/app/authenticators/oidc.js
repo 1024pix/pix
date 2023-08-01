@@ -38,6 +38,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
         redirect_uri: redirectUri,
         state_sent: this.session.data.state,
         state_received: state,
+        source: 'pix-admin',
       };
 
       if (this.session.isAuthenticated) {

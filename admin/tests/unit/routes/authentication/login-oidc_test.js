@@ -241,5 +241,37 @@ module('Unit | Route | login-oidc', function (hooks) {
         }
       });
     });
+
+    module('when user does not have rights to access to pix admin', function () {
+      test('should redirect to login page', async function (assert) {
+        // given
+        const authenticateStub = sinon.stub().rejects({
+          errors: [
+            {
+              status: '403',
+              code: 'PIX_ADMIN_ACCESS_NOT_ALLOWED',
+            },
+          ],
+        });
+        const sessionStub = Service.create({
+          authenticate: authenticateStub,
+          data: {},
+        });
+        const route = this.owner.lookup('route:authentication/login-oidc');
+        route.set('session', sessionStub);
+        route.router = { replaceWith: sinon.stub() };
+
+        // when
+        await route.model({ identity_provider_slug: 'oidc-partner' }, { to: { queryParams: { code: 'test' } } });
+
+        // then
+        sinon.assert.calledWith(route.router.replaceWith, 'login', {
+          queryParams: {
+            isUserShouldRequestAccess: true,
+          },
+        });
+        assert.ok(true);
+      });
+    });
   });
 });
