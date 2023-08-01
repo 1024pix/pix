@@ -91,11 +91,13 @@ describe('Unit | Controller | assessment-controller', function () {
       const request = {
         params: {
           id: assessmentId,
-        }
+        },
       };
 
       // when
-      const result = await assessmentController.getCurrentActivity(request, hFake, { activitySerializer: activitySerializerStub });
+      const result = await assessmentController.getCurrentActivity(request, hFake, {
+        activitySerializer: activitySerializerStub,
+      });
 
       // then
       expect(result).to.be.equal(activity);

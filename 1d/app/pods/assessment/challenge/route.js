@@ -7,14 +7,13 @@ export default class ChallengeRoute extends Route {
 
   async model(params, transition) {
     const assessment = await this.modelFor('assessment');
-    let challenge;
     try {
       const challengeId = transition?.to.queryParams.challengeId;
       if (assessment.type === 'PREVIEW' && challengeId) {
-        challenge = await this.store.findRecord('challenge', challengeId);
-      } else {
-        challenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
+        const challenge = await this.store.findRecord('challenge', challengeId);
+        return { assessment, challenge };
       }
+      const challenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
       const activity = await this.store.queryRecord('activity', { assessmentId: assessment.id });
       return { assessment, challenge, activity };
     } catch (err) {

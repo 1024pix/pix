@@ -222,5 +222,4 @@ describe('Unit | Application | Router | assessment-router', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
-
 });

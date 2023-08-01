@@ -9,4 +9,3 @@ const serialize = function (activity) {
 };
 
 export { serialize };
-

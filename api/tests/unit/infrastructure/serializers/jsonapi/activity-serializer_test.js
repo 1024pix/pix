@@ -19,7 +19,7 @@ describe('Unit | Serializer | JSONAPI | activity-serializer', function () {
           id: activity.id.toString(),
           attributes: {
             level: level,
-            "assessment-id": assessmentId,
+            'assessment-id': assessmentId,
           },
         },
       };
@@ -31,5 +31,4 @@ describe('Unit | Serializer | JSONAPI | activity-serializer', function () {
       expect(json).to.deep.equal(expectedJSON);
     });
   });
-
 });
