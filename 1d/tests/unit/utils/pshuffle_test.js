@@ -65,13 +65,21 @@ module('Unit | Utils | PShuffle', function (hooks) {
     assert.deepEqual(arr1, arr2);
   });
 
-  test('wheen seed equals to 0 should shuffle with 1', function (assert) {
-    const arr1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-    const arr2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  test('shuffles works with a seed equal 0', function (assert) {
+    const shuffledArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const notShuffledArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-    pshuffle(arr1, 1);
-    pshuffle(arr2, 0);
+    pshuffle(shuffledArray, 0);
 
-    assert.deepEqual(arr1, arr2);
+    assert.notDeepEqual(shuffledArray, notShuffledArray);
+  });
+
+  test('shuffles works with a seed equal 1', function (assert) {
+    const shuffledArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const notShuffledArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    pshuffle(shuffledArray, 1);
+
+    assert.notDeepEqual(shuffledArray, notShuffledArray);
   });
 });
