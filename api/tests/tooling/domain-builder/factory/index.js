@@ -68,7 +68,8 @@ import { buildCompetenceMark } from './build-competence-mark.js';
 import { buildCompetenceResult } from './build-competence-result.js';
 import { buildCompetenceTree } from './build-competence-tree.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';
-import { buildComplementaryCertificationTargetProfileHistory } from './build-complementary-certification-target-profile-history.js';
+import { buildComplementaryCertificationBadgeForAdmin } from './build-complementary-certification-badge-for-admin.js';
+import { buildComplementaryCertificationTargetProfileHistory } from './build-complementary-certification-target-profile-history-for-admin.js';
 import { buildComplementaryCertificationForSupervising } from './build-complementary-certification-for-supervising.js';
 import { buildComplementaryCertificationHabilitation } from './build-complementary-certification-habilitation.js';
 import { buildComplementaryCertificationScoringCriteria } from './build-complementary-certification-scoring-criteria.js';
@@ -127,6 +128,7 @@ import { buildTag } from './build-tag.js';
 import { buildTargetProfile } from './build-target-profile.js';
 import { buildTargetProfileForAdmin } from './build-target-profile-for-admin.js';
 import { buildTargetProfileForCreation } from './build-target-profile-for-creation.js';
+import { buildTargetProfileHistoryForAdmin } from './build-target-profile-history-for-admin.js';
 import { buildOrganizationsToAttachToTargetProfile } from './build-organizations-to-attach-to-target-profile.js';
 import { buildTargetProfileSummaryForAdmin } from './build-target-profile-summary-for-admin.js';
 import { buildThematic } from './build-thematic.js';
@@ -220,6 +222,7 @@ export {
   buildCompetenceResult,
   buildCompetenceTree,
   buildComplementaryCertification,
+  buildComplementaryCertificationBadgeForAdmin,
   buildComplementaryCertificationTargetProfileHistory,
   buildComplementaryCertificationForSupervising,
   buildComplementaryCertificationHabilitation,
@@ -279,6 +282,7 @@ export {
   buildTargetProfile,
   buildTargetProfileForAdmin,
   buildTargetProfileForCreation,
+  buildTargetProfileHistoryForAdmin,
   buildOrganizationsToAttachToTargetProfile,
   buildTargetProfileSummaryForAdmin,
   buildThematic,

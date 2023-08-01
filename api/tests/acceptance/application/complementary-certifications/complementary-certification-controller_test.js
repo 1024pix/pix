@@ -134,24 +134,24 @@ describe('Acceptance | API | complementary-certification-controller', function (
           attributes: {
             label: 'Pix+ Édu 2nd degré',
             key: 'EDU_2ND_DEGRE',
-            'current-target-profile-badges': [
-              {
-                id: 198,
-                level: 1,
-                label: 'another badge label',
-              },
-              {
-                id: 298,
-                level: 1,
-                label: 'badge label',
-              },
-            ],
             'target-profiles-history': [
               {
                 id: 999,
                 name: 'Target',
                 attachedAt,
                 detachedAt: null,
+                badges: [
+                  {
+                    id: 198,
+                    level: 1,
+                    label: 'another badge label',
+                  },
+                  {
+                    id: 298,
+                    level: 1,
+                    label: 'badge label',
+                  },
+                ],
               },
             ],
           },
