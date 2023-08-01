@@ -160,4 +160,12 @@ module('Integration | Component | login-form', function (hooks) {
       assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
     });
   });
+
+  test('should displays a google button', async function (assert) {
+    // when
+    const screen = await render(hbs`<LoginForm />`);
+
+    // then
+    assert.dom(screen.getByRole('link', { name: 'Se connecter avec Google' })).exists();
+  });
 });

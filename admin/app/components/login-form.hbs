@@ -40,3 +40,8 @@
     <PixButton @type="submit" @size="small" class="login-form__button">Je me connecte</PixButton>
   </div>
 </form>
+
+<LinkTo @route="authentication.login-oidc" @model="google" class="login-form__oidc-connect-link">
+  <img src="/google-logo.svg" alt="" />
+  <span>Se connecter avec Google</span>
+</LinkTo>

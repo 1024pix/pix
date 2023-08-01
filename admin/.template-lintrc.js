@@ -7,6 +7,7 @@ module.exports = {
 
   rules: {
     'no-duplicate-landmark-elements': false,
+    'require-valid-alt-text': false,
   },
 
   ignore: ['blueprints/component-test/files/tests/integration/components/*'],

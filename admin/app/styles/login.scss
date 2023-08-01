@@ -61,5 +61,33 @@
   &__logo {
     width: 120px;
   }
+
+  &__oidc-connect-link {
+    display: flex;
+    align-items: center;
+    padding: 7px 10px 7px 13px;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    border-radius: 100px;
+    box-shadow: 0 0 0 2px $pix-neutral-70;
+
+    &:focus,
+    &:hover,
+    &:focus-within {
+      background-color: $pix-neutral-15;
+      border: 2px solid $pix-neutral-0;
+      box-shadow: 0 0 0 2px $pix-neutral-70;
+    }
+
+    img {
+      width: 30px;
+    }
+
+    span {
+      padding: 0 3px 0 10px;
+    }
+  }
 }
 
