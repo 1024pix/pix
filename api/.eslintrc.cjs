@@ -8,21 +8,28 @@ module.exports = {
     'plugin:chai-expect/recommended',
     'plugin:n/recommended',
     'plugin:import/recommended',
+    'plugin:@typescript-eslint/recommended'
   ],
+  settings: {
+    "import/extensions": [".js", ".ts"],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts"]
+    },
+    'import/resolver': {
+      typescript: {}
+    }
+  },
   parserOptions: {
     ecmaVersion: 2020,
     requireConfigFile: false,
-    babelOptions: {
-      parserOpts: {
-        plugins: ['importAssertions'],
-      },
-    },
+    tsconfigRootDir: '.',
+    sourceType: 'module',
   },
-  parser: '@babel/eslint-parser',
+  parser: '@typescript-eslint/parser',
   globals: {
     include: true,
   },
-  plugins: ['knex', 'unicorn'],
+  plugins: ['knex', 'unicorn', '@typescript-eslint'],
   rules: {
     'no-console': 'error',
     'mocha/no-hooks-for-single-case': 'off',

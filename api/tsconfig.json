@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@tsconfig/node-lts-strictest-esm/tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@lib/*": ["./lib/*"]
+    },
+    "checkJs": false,
+    "types": ["node", "mocha"],
+    "exactOptionalPropertyTypes": false,
+    "strict": false,
+    "allowJs": true,
+    "rootDirs": ["./src", "./lib"],
+    "outDir": "./dist",
+    "ignoreDeprecations": "5.0"
+  },
+  "include": ["./lib/**/*.js", "./src/**/*.js"]
+}
