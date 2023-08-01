@@ -1,8 +1,11 @@
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
+import { service } from '@ember/service';
 
 export default class AssessmentResultsController extends Controller {
+  @service router;
+
   @tracked pageNumber = 1;
   @tracked pageSize = 50;
   @tracked divisions = [];
@@ -15,7 +18,7 @@ export default class AssessmentResultsController extends Controller {
   goToAssessmentPage(campaignId, participantId, event) {
     event.stopPropagation();
     event.preventDefault();
-    this.transitionToRoute('authenticated.campaigns.participant-assessment', campaignId, participantId);
+    this.router.transitionTo('authenticated.campaigns.participant-assessment', campaignId, participantId);
   }
 
   @action

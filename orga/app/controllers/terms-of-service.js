@@ -8,6 +8,7 @@ const ENGLISH_LOCALE = 'en';
 export default class TermOfServiceController extends Controller {
   @service currentUser;
   @service intl;
+  @service router;
 
   @tracked isEnglishLocale = this.intl.primaryLocale === ENGLISH_LOCALE;
 
@@ -15,6 +16,6 @@ export default class TermOfServiceController extends Controller {
   async submit() {
     await this.currentUser.prescriber.save({ adapterOptions: { acceptPixOrgaTermsOfService: true } });
     this.currentUser.prescriber.pixOrgaTermsOfServiceAccepted = true;
-    this.transitionToRoute('application');
+    this.router.transitionTo('application');
   }
 }

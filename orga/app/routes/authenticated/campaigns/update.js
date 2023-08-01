@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 export default class UpdateRoute extends Route {
   @service currentUser;
   @service store;
+  @service router;
 
   async model(params) {
     const organization = this.currentUser.organization;
@@ -21,7 +22,7 @@ export default class UpdateRoute extends Route {
     const isCurrentUserOwnerOfTheCampaign = parseInt(this.currentUser.prescriber.id) === model.campaign.ownerId;
     if (!isCurrentUserAdmin && !isCurrentUserOwnerOfTheCampaign) {
       transition.abort();
-      this.transitionTo('authenticated.campaigns');
+      this.router.transitionTo('authenticated.campaigns');
     }
   }
 

@@ -16,7 +16,7 @@ module('Unit | Controller | authenticated/campaigns/list/all-campaigns', functio
   });
 
   module('#action goToCampaignPage', function () {
-    test('it should call transitionToRoute with appropriate arguments', function (assert) {
+    test('it should call transitionTo with appropriate arguments', function (assert) {
       // given
       controller.router = { transitionTo: sinon.stub() };
 
