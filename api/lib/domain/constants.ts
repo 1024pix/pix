@@ -1,6 +1,6 @@
 import { config } from '../config.js';
 
-const PIX_COUNT_BY_LEVEL = 8;
+const PIX_COUNT_BY_LEVEL: number = 8;
 const COMPETENCES_COUNT = 16;
 const MAX_REACHABLE_PIX_BY_COMPETENCE = config.features.maxReachableLevel * PIX_COUNT_BY_LEVEL;
 
