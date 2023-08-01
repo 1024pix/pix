@@ -6,12 +6,11 @@ import { tutorialDatasource } from '../datasources/learning-content/tutorial-dat
 import { NotFoundError } from '../../domain/errors.js';
 import { TutorialForUser } from '../../domain/read-models/TutorialForUser.js';
 import { LOCALE } from '../../domain/constants.js';
-
-const { FRENCH_FRANCE } = LOCALE;
-
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as skillRepository from './skill-repository.js';
 import * as paginateModule from '../utils/paginate.js';
+
+const { FRENCH_FRANCE } = LOCALE;
 
 const findByRecordIdsForCurrentUser = async function ({ ids, userId, locale }) {
   const tutorials = await _findByRecordIds({ ids, locale });
@@ -52,9 +51,9 @@ const findPaginatedFilteredForCurrentUser = async function ({ userId, filters = 
   return { models, meta };
 };
 
-const get = async function (id) {
+const get = async function ({ tutorialId }) {
   try {
-    const tutorialData = await tutorialDatasource.get(id);
+    const tutorialData = await tutorialDatasource.get(tutorialId);
     return _toDomain(tutorialData);
   } catch (error) {
     throw new NotFoundError('Tutorial not found');
