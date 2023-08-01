@@ -7,18 +7,14 @@ const createOrganization = async function ({
   organizationCreationValidator.validate(organization);
   const createdOrganization = await organizationForAdminRepository.save(organization);
 
-  const dataProtectionOfficer = await dataProtectionOfficerRepository.create({
+  await dataProtectionOfficerRepository.create({
     organizationId: createdOrganization.id,
-    firstName: organization.dataProtectionOfficerFirstName,
-    lastName: organization.dataProtectionOfficerLastName,
-    email: organization.dataProtectionOfficerEmail,
+    firstName: organization.dataProtectionOfficer.firstName,
+    lastName: organization.dataProtectionOfficer.lastName,
+    email: organization.dataProtectionOfficer.email,
   });
 
-  createdOrganization.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
-  createdOrganization.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
-  createdOrganization.dataProtectionOfficerEmail = dataProtectionOfficer.email;
-
-  return createdOrganization;
+  return organizationForAdminRepository.get(createdOrganization.id);
 };
 
 export { createOrganization };
