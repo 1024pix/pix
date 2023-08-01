@@ -59,7 +59,18 @@ module('Acceptance | Complementary certifications | list ', function (hooks) {
 
       test('it should redirect to complementary certification details on click ', async function (assert) {
         // given
-        server.create('complementary-certification', { id: 1, key: 'AN', label: 'TOINE' });
+        server.create('complementary-certification', {
+          id: 1,
+          key: 'AN',
+          label: 'TOINE',
+          targetProfilesHistory: [
+            {
+              id: 52,
+              name: 'Stephen target',
+              badges: [],
+            },
+          ],
+        });
         const screen = await visit('/complementary-certifications/list');
 
         // when
