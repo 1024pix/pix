@@ -12,7 +12,16 @@
     "allowJs": true,
     "rootDirs": ["./src", "./lib"],
     "outDir": "./dist",
-    "ignoreDeprecations": "5.0"
+    "ignoreDeprecations": "5.0",
+    "resolveJsonModule": true
   },
-  "include": ["./lib/**/*.js", "./src/**/*.js"]
+  "include": [
+    "./lib/**/*.js",
+    "./src/**/*.js",
+    "./lib/**/*.ts",
+    "./src/**/*.ts",
+    "./index.js",
+    "./server.js",
+    "./worker.js"
+  ]
 }

@@ -128,7 +128,7 @@
     }
   },
   "scripts": {
-    "clean": "rm -rf node_modules",
+    "clean": "rm -rf node_modules dist",
     "cache:refresh": "node scripts/refresh-cache",
     "db:new-migration": "npx knex --knexfile db/knexfile.js migrate:make --stub $PWD/db/template.js $migrationname",
     "db:create": "node scripts/database/create-database",
@@ -151,9 +151,12 @@
     "lint:translations:fix": "npm run lint:translations -- --fix",
     "postdeploy": "DEBUG=knex:* npm run db:migrate",
     "preinstall": "npx check-engine",
-    "scalingo-postbuild": "node scripts/generate-cron > cron.json",
+    "scalingo-postbuild": "npm run build && node scripts/generate-cron > cron.json",
+    "build": "tsc",
     "start": "node index.js",
-    "start:watch": "nodemon index.js",
+    "start2": "ts-node --esm index.js",
+    "start:prod": "npm run build && node ./dist/",
+    "start:watch": "nodemon -e js,ts,json -x \"npx ts-node --esm index.js\"",
     "start:job": "node worker.js",
     "start:job:watch": "nodemon worker.js",
     "test": "NODE_ENV=test npm run db:prepare && npm run test:api",
