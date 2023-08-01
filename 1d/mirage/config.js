@@ -1,5 +1,20 @@
-export default function () {
-  this.urlPrefix = 'http://localhost:3000';
+import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
+import { createServer } from 'miragejs';
+
+export default function makeServer(config) {
+  const finalConfig = {
+    ...config,
+    models: { ...discoverEmberDataModels(), ...config.models },
+    serializers: applyEmberDataSerializers(config.serializers),
+    routes,
+    logging: true,
+    urlPrefix: 'http://localhost:3000',
+  };
+
+  return createServer(finalConfig);
+}
+
+function routes() {
   this.namespace = 'api/pix1d';
   this.timing = 0; // response delay
 
