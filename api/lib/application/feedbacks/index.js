@@ -15,7 +15,7 @@ const register = async function (server) {
             data: Joi.object({
               type: Joi.string().valid('feedbacks'),
               attributes: Joi.object({
-                content: Joi.string().min(1).required(),
+                content: Joi.string().allow('').required(),
               }),
               relationships: Joi.object({
                 assessment: Joi.object({
