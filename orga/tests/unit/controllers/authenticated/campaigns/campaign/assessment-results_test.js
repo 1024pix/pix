@@ -70,14 +70,14 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
   });
 
   module('#goToAssessmentPage', function () {
-    test('it should call transitionToRoute with appropriate arguments', function (assert) {
+    test('it should call transitionTo with appropriate arguments', function (assert) {
       // given
       const event = {
         stopPropagation: sinon.stub(),
         preventDefault: sinon.stub(),
       };
 
-      controller.transitionToRoute = sinon.stub();
+      controller.router.transitionTo = sinon.stub();
 
       // when
       controller.send('goToAssessmentPage', 123, 345, event);
@@ -85,7 +85,9 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
       // then
       assert.true(event.stopPropagation.called);
       assert.true(event.preventDefault.called);
-      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-assessment', 123, 345));
+      assert.true(
+        controller.router.transitionTo.calledWith('authenticated.campaigns.participant-assessment', 123, 345),
+      );
     });
   });
 });

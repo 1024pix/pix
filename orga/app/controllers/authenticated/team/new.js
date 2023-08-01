@@ -8,6 +8,7 @@ export default class NewController extends Controller {
   @service notifications;
   @service store;
   @service currentUser;
+  @service router;
 
   @tracked isLoading = false;
 
@@ -26,7 +27,7 @@ export default class NewController extends Controller {
       });
       const organization = this.currentUser.organization;
       await organization.organizationInvitations.reload();
-      this.transitionToRoute('authenticated.team.list.invitations');
+      this.router.transitionTo('authenticated.team.list.invitations');
 
       const message =
         emails.length > 1
@@ -46,7 +47,7 @@ export default class NewController extends Controller {
 
   @action
   cancel() {
-    this.transitionToRoute('authenticated.team.list.invitations');
+    this.router.transitionTo('authenticated.team.list.invitations');
   }
 
   _handleResponseError({ errors }) {

@@ -1,7 +1,10 @@
 import Route from '@ember/routing/route';
+import { service } from '@ember/service';
 
 export default class IndexRoute extends Route {
+  @service router;
+
   beforeModel() {
-    this.replaceWith('authenticated.team.list.members');
+    this.router.replaceWith('authenticated.team.list.members');
   }
 }
