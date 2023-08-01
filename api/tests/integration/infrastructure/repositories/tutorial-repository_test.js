@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { expect, mockLearningContent, databaseBuilder, catchErr, domainBuilder } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 import { Tutorial } from '../../../../lib/domain/models/Tutorial.js';
 import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
@@ -389,7 +389,7 @@ describe('Integration | Repository | tutorial-repository', function () {
     context('when tutorial does not exist', function () {
       it('should throw a NotFoundError', async function () {
         // when
-        const error = await catchErr(tutorialRepository.get)('recTutoImaginaire');
+        const error = await catchErr(tutorialRepository.get)({ tutorialId: 'recTutoImaginaire' });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -413,7 +413,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         mockLearningContent(learningContent);
 
         // when
-        const tutorial = await tutorialRepository.get('recTutorial0');
+        const tutorial = await tutorialRepository.get({ tutorialId: 'recTutorial0' });
 
         // then
         expect(tutorial).to.deep.equal(tutorials[0]);
