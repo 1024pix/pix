@@ -350,4 +350,35 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       expect(response.result).to.deep.equal(jsonApiError403);
     });
   });
+
+  describe('#checkUserCanDisableHisOrganizationMembership', function () {
+    context('when user cannot disable his organization membership', function () {
+      it('returns a well formed JSON API error', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({
+          userId,
+          organizationId,
+          organizationRole: Membership.roles.ADMIN,
+        });
+
+        await databaseBuilder.commit();
+
+        const options = {
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          method: 'POST',
+          url: '/api/memberships/me/disable',
+          payload: { organizationId },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.result).to.deep.equal(jsonApiError403);
+      });
+    });
+  });
 });
