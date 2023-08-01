@@ -106,40 +106,6 @@ describe('Integration | Repository | tutorial-repository', function () {
     });
   });
 
-  describe('#findByRecordIds', function () {
-    it('should find tutorials by ids', async function () {
-      // given
-      const tutorialsList = [
-        {
-          duration: '00:00:54',
-          format: 'video',
-          link: 'https://tuto.fr',
-          source: 'tuto.fr',
-          title: 'tuto0',
-          id: 'recTutorial0',
-        },
-        {
-          duration: '00:01:54',
-          format: 'page',
-          link: 'https://tuto.com',
-          source: 'tuto.com',
-          title: 'tuto1',
-          id: 'recTutorial1',
-        },
-      ];
-      const learningContent = { tutorials: tutorialsList };
-      mockLearningContent(learningContent);
-
-      // when
-      const tutorials = await tutorialRepository.findByRecordIds(['recTutorial0', 'recTutorial1']);
-
-      // then
-      expect(tutorials).to.have.lengthOf(2);
-      expect(tutorials[0]).to.be.instanceof(Tutorial);
-      expect(tutorials).to.deep.include.members(tutorialsList);
-    });
-  });
-
   describe('#findPaginatedFilteredForCurrentUser', function () {
     let userId;
 

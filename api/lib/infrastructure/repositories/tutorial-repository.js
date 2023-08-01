@@ -19,10 +19,6 @@ const findByRecordIdsForCurrentUser = async function ({ ids, userId, locale }) {
   return _toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials });
 };
 
-const findByRecordIds = async function (ids) {
-  return _findByRecordIds({ ids });
-};
-
 const findPaginatedFilteredForCurrentUser = async function ({ userId, filters = {}, page }) {
   const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
   const [tutorials, tutorialEvaluations] = await Promise.all([
@@ -106,7 +102,6 @@ const findPaginatedFilteredRecommendedByUserId = async function ({
 
 export {
   findByRecordIdsForCurrentUser,
-  findByRecordIds,
   findPaginatedFilteredForCurrentUser,
   get,
   list,
