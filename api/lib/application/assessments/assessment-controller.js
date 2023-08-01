@@ -6,6 +6,7 @@ import * as events from '../../domain/events/index.js';
 import { logger } from '../../infrastructure/logger.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
+import * as activitySerializer from '../../infrastructure/serializers/jsonapi/activity-serializer.js';
 import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';
 import * as competenceEvaluationSerializer from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 import {
@@ -104,6 +105,12 @@ const getNextChallengeForPix1d = async function (request, h, dependencies = { ch
   return dependencies.challengeSerializer.serialize(challenge);
 };
 
+const getCurrentActivity = async function (request, h, dependencies = { activitySerializer }) {
+  const assessmentId = request.params.id;
+  const activity = await usecases.getCurrentActivity({ assessmentId });
+  return dependencies.activitySerializer.serialize(activity);
+};
+
 const completeAssessment = async function (request) {
   const assessmentId = request.params.id;
   const locale = extractLocaleFromRequest(request);
@@ -171,6 +178,7 @@ const assessmentController = {
   getChallengeForPixAutoAnswer,
   getNextChallenge,
   getNextChallengeForPix1d,
+  getCurrentActivity,
   completeAssessment,
   updateLastChallengeState,
   findCompetenceEvaluations,
