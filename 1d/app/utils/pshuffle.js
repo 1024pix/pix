@@ -3,7 +3,9 @@
  * @param {any[]} array
  * @param {int} seed (optional) used as based of shuffle, must be between 0 and 1
  */
-export function pshuffle(array, seed = Math.random()) {
+
+const SEED_OFFSET = 7;
+export function pshuffle(array, seed = Math.random() * 10000) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = _randomIndexFrom0ToI(i, seed);
     _permuteJValueToIValue(array, i, j);
@@ -11,19 +13,17 @@ export function pshuffle(array, seed = Math.random()) {
 }
 
 function _randomIndexFrom0ToI(i, seed) {
-  return Math.floor(_ensureSeedIsBetween0And1(seed) * (i + 1));
+  return (_ensureSeedCanShuffle(seed) * (i + 1)) % i;
+}
+
+function _ensureSeedCanShuffle(seed) {
+  let newSeed = Math.floor(Math.abs(seed));
+  if (newSeed <= 1) {
+    newSeed += SEED_OFFSET;
+  }
+  return newSeed;
 }
 
 function _permuteJValueToIValue(array, i, j) {
   [array[i], array[j]] = [array[j], array[i]];
-}
-
-function _ensureSeedIsBetween0And1(seed) {
-  if (seed === 0) {
-    return 1;
-  }
-  if (seed > 1 || seed < 0) {
-    return Number.parseFloat('0.' + Math.abs(seed).toString());
-  }
-  return seed;
 }
