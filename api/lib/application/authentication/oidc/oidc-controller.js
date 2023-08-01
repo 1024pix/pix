@@ -139,12 +139,35 @@ const createUser = async function (
   return h.response(response).code(200);
 };
 
+const reconcileUserForAdmin = async function (
+  request,
+  h,
+  dependencies = {
+    authenticationServiceRegistry,
+  },
+) {
+  const { email, identityProvider, authenticationKey } = request.deserializedPayload;
+
+  const oidcAuthenticationService =
+    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
+
+  const accessToken = await usecases.reconcileOidcUserForAdmin({
+    email,
+    identityProvider,
+    authenticationKey,
+    oidcAuthenticationService,
+  });
+
+  return h.response({ access_token: accessToken }).code(200);
+};
+
 const oidcController = {
   getAllIdentityProvidersForAdmin,
   getIdentityProviders,
   getRedirectLogoutUrl,
   findUserForReconciliation,
   reconcileUser,
+  reconcileUserForAdmin,
   getAuthenticationUrl,
   authenticateUser,
   createUser,

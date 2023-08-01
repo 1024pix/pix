@@ -403,4 +403,31 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       expect(result.source).to.deep.equal({ access_token: 'accessToken', logout_url_uuid: 'logoutUrlUUID' });
     });
   });
+
+  describe('#reconcileUserForAdmin', function () {
+    it('should call use case and return the result', async function () {
+      // given
+      const request = {
+        deserializedPayload: {
+          identityProvider: 'OIDC',
+          authenticationKey: '123abc',
+          email: 'user@example.net',
+        },
+      };
+      const authenticationServiceRegistryStub = {
+        getOidcProviderServiceByCode: sinon.stub(),
+      };
+
+      const dependencies = {
+        authenticationServiceRegistry: authenticationServiceRegistryStub,
+      };
+      sinon.stub(usecases, 'reconcileOidcUserForAdmin').resolves('accessToken');
+
+      // when
+      const result = await oidcController.reconcileUserForAdmin(request, hFake, dependencies);
+
+      // then
+      expect(result.source).to.deep.equal({ access_token: 'accessToken' });
+    });
+  });
 });
