@@ -16,7 +16,7 @@ En discussion
 
 Avec l'ADR 18, nous avons choisi :
 - PAAS : préciser la version majeure de Node uniquement.
-- CI : préciser une version exacte de Node.
+- CI : préciser une version exacte de Node (parce que imposé par la CI).
 - Local : préciser la version majeure de Node uniquement.
 
 Nous avons constaté plusieurs limites à ce choix :
