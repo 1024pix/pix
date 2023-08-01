@@ -180,7 +180,6 @@ import * as targetProfileTrainingRepository from '../../infrastructure/repositor
 import * as temporarySessionsStorageForMassImportService from '../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service.js';
 import * as thematicRepository from '../../infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../infrastructure/repositories/tube-repository.js';
-import * as tutorialEvaluationRepository from '../../infrastructure/repositories/tutorial-evaluation-repository.js';
 import * as tutorialRepository from '../../infrastructure/repositories/tutorial-repository.js';
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
@@ -402,7 +401,7 @@ const dependencies = {
   trainingRepository: repositories.trainingRepository,
   trainingTriggerRepository: repositories.trainingTriggerRepository,
   tubeRepository,
-  tutorialEvaluationRepository,
+  tutorialEvaluationRepository: repositories.tutorialEvaluationRepository,
   tutorialRepository,
   userEmailRepository,
   userLoginRepository,
