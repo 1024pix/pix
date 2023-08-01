@@ -185,7 +185,6 @@ import * as userEmailRepository from '../../infrastructure/repositories/user-ema
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
 import * as userOrgaSettingsRepository from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
-import * as userRecommendedTrainingRepository from '../../infrastructure/repositories/user-recommended-training-repository.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
 import * as userRepository from '../../infrastructure/repositories/user-repository.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
@@ -407,7 +406,7 @@ const dependencies = {
   userLoginRepository,
   userOrgaSettingsRepository,
   userOrganizationsForAdminRepository,
-  userRecommendedTrainingRepository,
+  userRecommendedTrainingRepository: repositories.userRecommendedTrainingRepository,
   userReconciliationService,
   userRepository,
   userSavedTutorialRepository,
