@@ -179,7 +179,6 @@ import * as targetProfileSummaryForAdminRepository from '../../infrastructure/re
 import * as targetProfileTrainingRepository from '../../infrastructure/repositories/target-profile-training-repository.js';
 import * as temporarySessionsStorageForMassImportService from '../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service.js';
 import * as thematicRepository from '../../infrastructure/repositories/thematic-repository.js';
-import * as trainingTriggerRepository from '../../infrastructure/repositories/training-trigger-repository.js';
 import * as tubeRepository from '../../infrastructure/repositories/tube-repository.js';
 import * as tutorialEvaluationRepository from '../../infrastructure/repositories/tutorial-evaluation-repository.js';
 import * as tutorialRepository from '../../infrastructure/repositories/tutorial-repository.js';
@@ -401,7 +400,7 @@ const dependencies = {
   thematicRepository,
   tokenService,
   trainingRepository: repositories.trainingRepository,
-  trainingTriggerRepository,
+  trainingTriggerRepository: repositories.trainingTriggerRepository,
   tubeRepository,
   tutorialEvaluationRepository,
   tutorialRepository,
