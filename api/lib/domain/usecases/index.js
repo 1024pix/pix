@@ -183,7 +183,7 @@ import * as userLoginRepository from '../../infrastructure/repositories/user-log
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
 import * as userOrgaSettingsRepository from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
-import * as userRepository from '../../infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
 import * as userService from '../../domain/services/user-service.js';
 import * as userToCreateRepository from '../../infrastructure/repositories/user-to-create-repository.js';

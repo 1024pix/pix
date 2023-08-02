@@ -2,7 +2,7 @@ import { expect, databaseBuilder } from '../../test-helper.js';
 import { knex, emptyAllTables } from '../../../db/knex-database-connection.js';
 
 import { UserNotFoundError } from '../../../lib/domain/errors.js';
-import * as userRepository from '../../../lib/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 
 describe('Integration | Infrastructure | knex-database-connection', function () {
   it('should connect to the database', async function () {
