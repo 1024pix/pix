@@ -220,6 +220,50 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           expect(certifiableBadgesAcquiredByUser.length).to.equal(2);
           expect(certifiableBadgesAcquiredByUser.map(({ badgeKey }) => badgeKey)).to.deep.equal(['level-2', 'level-3']);
         });
+
+        it('should return attached badge acquired for each complementary certification', async function () {
+          //given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
+          const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+
+          function createBadgeAcquisition({ detachedAt, key }) {
+            const firstBadge = databaseBuilder.factory.buildBadge.certifiable({
+              key,
+            });
+
+            databaseBuilder.factory.buildComplementaryCertificationBadge({
+              badgeId: firstBadge.id,
+              complementaryCertificationId: complementaryCertification.id,
+              level: 12,
+              detachedAt,
+            });
+
+            databaseBuilder.factory.buildBadgeAcquisition({
+              badgeId: firstBadge.id,
+              userId,
+              campaignParticipationId,
+              createdAt: new Date('2022-09-29'),
+            });
+          }
+
+          createBadgeAcquisition({ detachedAt: null, key: `attached-badge` });
+          createBadgeAcquisition({ detachedAt: new Date('2023-09-29'), key: `detached-badge` });
+
+          await databaseBuilder.commit();
+
+          // when
+          const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+            return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
+              userId,
+              domainTransaction,
+            });
+          });
+
+          // then
+          expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+          expect(certifiableBadgesAcquiredByUser[0].badgeKey).to.deep.equal('attached-badge');
+        });
       });
 
       describe('when a limit date is provided', function () {
