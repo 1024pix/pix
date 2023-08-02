@@ -184,68 +184,6 @@ module('Acceptance | Session List', function (hooks) {
           assert.strictEqual(sessionProcessedCount, 5);
         });
       });
-
-      module('#resultsSentToPrescriberAt', function (hooks) {
-        hooks.beforeEach(function () {
-          server.createList('session', 5, 'withResultsSentToPrescriber', 'finalized');
-          server.createList('session', 3, 'finalized');
-        });
-
-        test('it should display sessions regardless the results have been sent or not', async function (assert) {
-          // when
-          const screen = await visit('/sessions/list');
-
-          // then
-          const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
-            exact: false,
-          }).length;
-          assert.strictEqual(sessionCount, 8);
-        });
-
-        test('it should only display sessions which results have been sent', async function (assert) {
-          // when
-          const screen = await visit('/sessions/list');
-          await click(
-            screen.getByRole('button', {
-              name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
-            }),
-          );
-          await screen.findByRole('listbox');
-          await click(
-            screen.getByRole('option', {
-              name: 'Résultats diffusés',
-            }),
-          );
-
-          // then
-          const sessionWithResultSentCount = screen.getAllByLabelText('Informations de la session de certification', {
-            exact: false,
-          }).length;
-          assert.strictEqual(sessionWithResultSentCount, 5);
-        });
-
-        test('it should only display sessions which results have not been sent', async function (assert) {
-          // when
-          const screen = await visit('/sessions/list');
-          await click(
-            screen.getByRole('button', {
-              name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
-            }),
-          );
-          await screen.findByRole('listbox');
-          await click(
-            screen.getByRole('option', {
-              name: 'Résultats non diffusés',
-            }),
-          );
-
-          // then
-          const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
-            exact: false,
-          }).length;
-          assert.strictEqual(sessionCount, 3);
-        });
-      });
     });
   });
 });

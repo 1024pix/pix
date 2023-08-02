@@ -7,15 +7,7 @@ import { action } from '@ember/object';
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default class AuthenticatedSessionsListAllController extends Controller {
-  queryParams = [
-    'pageNumber',
-    'pageSize',
-    'id',
-    'certificationCenterName',
-    'certificationCenterExternalId',
-    'status',
-    'resultsSentToPrescriberAt',
-  ];
+  queryParams = ['pageNumber', 'pageSize', 'id', 'certificationCenterName', 'certificationCenterExternalId', 'status'];
   DEBOUNCE_MS = config.pagination.debounce;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
@@ -25,7 +17,6 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   @tracked certificationCenterExternalId = null;
   @tracked certificationCenterType = null;
   @tracked status = null;
-  @tracked resultsSentToPrescriberAt = null;
 
   pendingFilters = {};
 
@@ -40,7 +31,6 @@ export default class AuthenticatedSessionsListAllController extends Controller {
         break;
       case 'status':
       case 'certificationCenterType':
-      case 'resultsSentToPrescriberAt':
         debounceDuration = 0;
         value = param;
         break;
@@ -66,12 +56,6 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   @action
   updateSessionStatusFilter(newValue) {
     this.status = this._getOrNullForOptionAll(newValue);
-    this.triggerFiltering.perform();
-  }
-
-  @action
-  updateSessionResultsSentToPrescriberFilter(newValue) {
-    this.resultsSentToPrescriberAt = this._getOrNullForOptionAll(newValue);
     this.triggerFiltering.perform();
   }
 

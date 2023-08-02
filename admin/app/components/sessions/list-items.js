@@ -29,16 +29,6 @@ export default class ListItems extends Component {
       ...map(statusToDisplayName, (label, status) => ({ value: status, label })),
     ];
     this.selectedSessionStatusOption = this.getSessionStatusOptionByValue(this.args.sessionStatus);
-
-    // "certification center type" filter
-    this.sessionResultsSentToPrescriberOptions = [
-      { value: 'all', label: 'Tous' },
-      { value: 'true', label: 'Résultats diffusés' },
-      { value: 'false', label: 'Résultats non diffusés' },
-    ];
-    this.selectedSessionResultsSentToPrescriberOption = this.getSessionResultsSentToPrescriberOptionByValue(
-      this.args.resultsSentToPrescriberAt,
-    );
   }
 
   @action
@@ -65,18 +55,5 @@ export default class ListItems extends Component {
       return find(this.sessionStatusOptions, { value });
     }
     return this.sessionStatusOptions[0];
-  }
-
-  @action
-  selectSessionResultsSentToPrescriber(newValue) {
-    this.selectedSessionResultsSentToPrescriberOption = this.getSessionResultsSentToPrescriberOptionByValue(newValue);
-    this.args.onChangeSessionResultsSent(newValue);
-  }
-
-  getSessionResultsSentToPrescriberOptionByValue(value) {
-    if (value) {
-      return find(this.sessionResultsSentToPrescriberOptions, { value });
-    }
-    return this.sessionResultsSentToPrescriberOptions[0];
   }
 }
