@@ -1,5 +1,3 @@
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-import { BookshelfCompetenceEvaluation } from '../orm-models/CompetenceEvaluation.js';
 import _ from 'lodash';
 import { NotFoundError } from '../../domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
@@ -36,12 +34,13 @@ const updateStatusByAssessmentId = async function ({ assessmentId, status }) {
   return _toDomain({ competenceEvaluation, assessment: null });
 };
 
-const updateStatusByUserIdAndCompetenceId = function ({ userId, competenceId, status }) {
-  return BookshelfCompetenceEvaluation.where({ userId, competenceId })
-    .save({ status }, { require: true, patch: true })
-    .then((updatedCompetenceEvaluation) =>
-      bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation),
-    );
+const updateStatusByUserIdAndCompetenceId = async function ({ userId, competenceId, status }) {
+  const [competenceEvaluation] = await knex('competence-evaluations')
+    .where({ userId, competenceId })
+    .update({ status })
+    .returning('*');
+
+  return _toDomain({ competenceEvaluation, assessment: null });
 };
 
 const updateAssessmentId = async function ({
