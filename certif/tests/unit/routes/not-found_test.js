@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import sinon from 'sinon';
 
 module('Unit | Route | not-found', function (hooks) {
   setupTest(hooks);
@@ -9,14 +10,11 @@ module('Unit | Route | not-found', function (hooks) {
     const route = this.owner.lookup('route:not-found');
     const expectedRedirection = 'application';
 
-    route.transitionTo = (redirection) => {
-      assert.strictEqual(
-        redirection,
-        expectedRedirection,
-        `expect transition to ${expectedRedirection}, got ${redirection}`,
-      );
-    };
+    sinon.stub(route.router, 'transitionTo');
+    route.router.transitionTo.resolves();
 
     route.afterModel();
+
+    assert.ok(route.router.transitionTo.calledWith(expectedRedirection));
   });
 });

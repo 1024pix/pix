@@ -3,10 +3,11 @@ import { service } from '@ember/service';
 
 export default class AuthenticatedCertificationsRoute extends Route {
   @service currentUser;
+  @service router;
 
   beforeModel() {
     if (!(this.currentUser.isAdminInOrganization && this.currentUser.isSCOManagingStudents)) {
-      this.replaceWith('application');
+      this.router.replaceWith('application');
     }
   }
 

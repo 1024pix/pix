@@ -5,6 +5,7 @@ import { service } from '@ember/service';
 export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
   @service currentUser;
   @service store;
+  @service router;
 
   queryParams = {
     pageNumber: { refreshModel: true },
@@ -58,7 +59,7 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
 
     // eslint-disable-next-line ember/no-controller-access-in-routes
     this.controllerFor('authenticated.sessions.add-student').set('returnToSessionCandidates', (sessionId) =>
-      this.transitionTo('authenticated.sessions.details.certification-candidates', sessionId),
+      this.router.transitionTo('authenticated.sessions.details.certification-candidates', sessionId),
     );
   }
 

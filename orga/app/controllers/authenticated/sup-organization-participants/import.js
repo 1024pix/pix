@@ -14,6 +14,7 @@ export default class ImportController extends Controller {
   @service notifications;
   @service errorMessages;
   @service store;
+  @service router;
 
   @tracked isLoading = false;
 
@@ -27,7 +28,7 @@ export default class ImportController extends Controller {
     try {
       const response = await adapter.addStudentsCsv(organizationId, files);
       this._sendNotifications(response);
-      this.transitionToRoute('authenticated.sup-organization-participants.list');
+      this.router.transitionTo('authenticated.sup-organization-participants.list');
     } catch (errorResponse) {
       this._sendErrorNotifications(errorResponse);
     } finally {
@@ -45,7 +46,7 @@ export default class ImportController extends Controller {
     try {
       const response = await adapter.replaceStudentsCsv(organizationId, files);
       this._sendNotifications(response);
-      this.transitionToRoute('authenticated.sup-organization-participants.list');
+      this.router.transitionTo('authenticated.sup-organization-participants.list');
     } catch (errorResponse) {
       this._sendErrorNotifications(errorResponse);
     } finally {
