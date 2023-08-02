@@ -55,7 +55,7 @@ import * as certificationCenterForAdminRepository from '../../infrastructure/rep
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
 import * as certificationCenterInvitedUserRepository from '../../infrastructure/repositories/certification-center-invited-user-repository.js';
 import * as certificationCenterMembershipRepository from '../../infrastructure/repositories/certification-center-membership-repository.js';
-import * as certificationCenterRepository from '../../infrastructure/repositories/certification-center-repository.js';
+import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeRepository from '../../infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';

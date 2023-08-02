@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import { BookshelfCertificationCenter } from '../orm-models/CertificationCenter.js';
-import { knex } from '../../../db/knex-database-connection.js';
-import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
-import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { BookshelfCertificationCenter } from '../../../../../lib/infrastructure/orm-models/CertificationCenter.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
+import { ComplementaryCertification } from '../../../../../lib/domain/models/ComplementaryCertification.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 
 function _toDomain(bookshelfCertificationCenter) {
   const dbCertificationCenter = bookshelfCertificationCenter.toJSON();
