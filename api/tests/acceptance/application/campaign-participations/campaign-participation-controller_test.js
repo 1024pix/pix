@@ -1,16 +1,19 @@
 import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { buildLearningContent } from '../../../tooling/learning-content-builder/build-learning-content.js';
 
 import {
-  expect,
   databaseBuilder,
-  mockLearningContent,
-  learningContentBuilder,
+  domainBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
-  knex,
   insertUserWithRoleSuperAdmin,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
@@ -96,6 +99,9 @@ describe('Acceptance | API | Campaign Participations', function () {
 
   describe('POST /api/campaign-participations', function () {
     let campaignId;
+    let multipleSendingsCampaignId;
+    let assessmentId;
+
     const options = {
       method: 'POST',
       url: '/api/campaign-participations',
@@ -119,12 +125,76 @@ describe('Acceptance | API | Campaign Participations', function () {
 
     beforeEach(async function () {
       options.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
-      campaignId = databaseBuilder.factory.buildCampaign({}).id;
-      mockLearningContent({ skills: [] });
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({ areKnowledgeElementsResettable: true }).id;
+      databaseBuilder.factory.buildTargetProfileTube({ tubeId: 'tubeId1', targetProfileId });
+      databaseBuilder.factory.buildKnowledgeElement({
+        userId: user.id,
+        skillId: 'recSK123',
+        status: KnowledgeElement.StatusType.VALIDATED,
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        userId: user.id,
+        skillId: 'recSK789',
+        status: KnowledgeElement.StatusType.VALIDATED,
+      });
+
+      const competenceId = 'competenceId';
+      assessmentId = databaseBuilder.factory.buildAssessment({
+        userId: user.id,
+        type: Assessment.types.COMPETENCE_EVALUATION,
+        state: Assessment.states.COMPLETED,
+      }).id;
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: user.id,
+        assessmentId,
+        competenceId,
+      });
+
+      campaignId = databaseBuilder.factory.buildCampaign({
+        targetProfileId,
+        type: 'ASSESSMENT',
+        multipleSendings: false,
+      }).id;
+
+      multipleSendingsCampaignId = databaseBuilder.factory.buildCampaign({
+        targetProfileId,
+        type: 'ASSESSMENT',
+        multipleSendings: true,
+      }).id;
+
+      const framework = domainBuilder.buildFramework({ id: 'frameworkId', name: 'someFramework' });
+      const skill1 = {
+        id: 'recSK123',
+        name: '@sau3',
+        pixValue: 3,
+        competenceId,
+        tutorialIds: [],
+        learningMoreTutorialIds: [],
+        tubeId: 'tubeId1',
+        version: 1,
+        level: 3,
+      };
+      const tube1 = domainBuilder.buildTube({ id: 'tubeId1', competenceId, skills: [skill1] });
+      const area = domainBuilder.buildArea({ id: 'areaId', frameworkId: framework.id });
+      const competence = domainBuilder.buildCompetence({ id: 'competenceId', area, tubes: [tube1] });
+      const thematic = domainBuilder.buildThematic({
+        id: 'thematicId',
+        competenceId: 'competenceId',
+        tubeIds: ['tubeId1'],
+      });
+      competence.thematics = [thematic];
+      area.competences = [competence];
+      framework.areas = [area];
+      const learningContent = buildLearningContent([framework]);
+      mockLearningContent(learningContent);
+
       await databaseBuilder.commit();
     });
 
     afterEach(async function () {
+      await knex('knowledge-elements').delete();
+      await knex('answers').delete();
+      await knex('competence-evaluations').delete();
       await knex('assessments').delete();
       await knex('campaign-participations').delete();
       await knex('organization-learners').delete();
@@ -140,6 +210,26 @@ describe('Acceptance | API | Campaign Participations', function () {
       // then
       expect(response.statusCode).to.equal(201);
       expect(response.result.data.id).to.exist;
+    });
+
+    it('should reset the campaign participation', async function () {
+      // given
+      options.payload.data.relationships.campaign.data.id = multipleSendingsCampaignId;
+      options.payload.data.attributes['is-reset'] = true;
+
+      // when
+      await server.inject(options);
+
+      // then
+      const ke = await knex('knowledge-elements').where({
+        userId: user.id,
+        status: KnowledgeElement.StatusType.RESET,
+        skillId: 'recSK123',
+      });
+      const { state: assessmentState } = await knex('assessments').where({ id: assessmentId }).first();
+
+      expect(ke).to.have.lengthOf(1);
+      expect(assessmentState).to.equal(Assessment.states.STARTED);
     });
 
     it('should return a 412 if the user already participated to the campaign', async function () {
