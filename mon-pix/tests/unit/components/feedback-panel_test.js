@@ -25,7 +25,6 @@ module('Unit | Component | feedback-panel', function (hooks) {
     test('should close and reset form', function (assert) {
       // given
       component.isExpanded = true;
-      component.emptyTextBoxMessageError = '10, 9, 8, ...';
       component.isFormSubmitted = true;
 
       // when
@@ -34,7 +33,6 @@ module('Unit | Component | feedback-panel', function (hooks) {
       // then
       assert.false(component.isExpanded);
       assert.false(component.isFormSubmitted);
-      assert.notOk(component.emptyTextBoxMessageError);
     });
   });
 

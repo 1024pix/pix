@@ -1,6 +1,9 @@
+import lodash from 'lodash';
 import { expect, knex, databaseBuilder } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 import { Feedback } from '../../../../lib/infrastructure/orm-models/Feedback.js';
+
+const { cloneDeep } = lodash;
 
 describe('Acceptance | Controller | feedback-controller', function () {
   let server;
@@ -53,6 +56,18 @@ describe('Acceptance | Controller | feedback-controller', function () {
 
     it('should return 201 HTTP status code', function () {
       // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+
+    it('should return 201 HTTP status code with empty content', function () {
+      // when
+      const optionsWithEmptyContent = cloneDeep(options);
+      optionsWithEmptyContent.payload.data.attributes.content = '';
       const promise = server.inject(options);
 
       // then

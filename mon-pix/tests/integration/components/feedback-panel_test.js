@@ -41,32 +41,53 @@ module('Integration | Component | feedback-panel', function (hooks) {
         .doesNotExist();
     });
 
-    test('should display the "mercix" view when clicking on send button', async function (assert) {
-      // given
-      const screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
+    module('when clicking on send button', function (hooks) {
+      let screen;
 
-      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
+      hooks.beforeEach(async function () {
+        screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
 
-      await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
-      await screen.findByRole('listbox');
-      await click(
-        screen.getByRole('option', {
-          name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-        }),
-      );
+        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
-      const contentValue = 'Prêtes-moi ta plume, pour écrire un mot';
-      await fillIn(screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }), contentValue);
+        await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
+        await screen.findByRole('listbox');
+        await click(
+          screen.getByRole('option', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+          }),
+        );
+      });
 
-      // when
-      await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
+      test('should display the "mercix" view without content value', async function (assert) {
+        // when
+        await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
 
-      // then
-      assert
-        .dom(screen.queryByText('Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*'))
-        .doesNotExist();
-      assert.dom(screen.getByText('Votre commentaire a bien été transmis à l’équipe du projet Pix.')).exists();
-      assert.dom(screen.getByText('Mercix !')).exists();
+        // then
+        assert
+          .dom(screen.queryByText('Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*'))
+          .doesNotExist();
+        assert.dom(screen.getByText('Votre commentaire a bien été transmis à l’équipe du projet Pix.')).exists();
+        assert.dom(screen.getByText('Mercix !')).exists();
+      });
+
+      test('should display the "mercix" view when content value is filled', async function (assert) {
+        // given
+        const contentValue = 'Prêtes-moi ta plume, pour écrire un mot';
+        await fillIn(
+          screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }),
+          contentValue,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
+
+        // then
+        assert
+          .dom(screen.queryByText('Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*'))
+          .doesNotExist();
+        assert.dom(screen.getByText('Votre commentaire a bien été transmis à l’équipe du projet Pix.')).exists();
+        assert.dom(screen.getByText('Mercix !')).exists();
+      });
     });
 
     module('when selecting a category', function () {
@@ -384,47 +405,6 @@ module('Integration | Component | feedback-panel', function (hooks) {
   });
 
   module('Error management', function () {
-    test('should display error if "content" is empty', async function (assert) {
-      // given
-      const screen = await render(hbs`<FeedbackPanel />`);
-      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
-
-      await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
-      await screen.findByRole('listbox');
-      await click(
-        screen.getByRole('option', {
-          name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-        }),
-      );
-
-      // when
-      await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
-
-      // then
-      assert.dom(screen.getByText('Vous devez saisir un message.')).exists();
-    });
-
-    test('should display error if "content" is blank', async function (assert) {
-      // given
-      const screen = await render(hbs`<FeedbackPanel />`);
-      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
-
-      await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
-      await screen.findByRole('listbox');
-      await click(
-        screen.getByRole('option', {
-          name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-        }),
-      );
-      await fillIn(screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }), '');
-
-      // when
-      await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
-
-      // then
-      assert.dom(screen.getByText('Vous devez saisir un message.')).exists();
-    });
-
     test('should not display error if "form" view (with error) was closed and re-opened', async function (assert) {
       // given
       const screen = await render(hbs`<FeedbackPanel />`);
