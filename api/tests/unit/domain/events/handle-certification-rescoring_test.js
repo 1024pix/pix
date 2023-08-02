@@ -4,10 +4,11 @@ const { handleCertificationRescoring } = _forTestOnly.handlers;
 import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
 import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
 import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
-import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { CertificationAssessment, CertificationResult, AssessmentResult } from '../../../../lib/domain/models/index.js';
 import { CertificationComputeError } from '../../../../lib/domain/errors.js';
+
+const CERTIFICATION_RESULT_EMITTER_AUTOJURY = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
+const CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION = CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION;
 
 describe('Unit | Domain | Events | handle-certification-rescoring', function () {
   it('computes and persists the assessment result and competence marks when computation succeeds', async function () {
@@ -391,18 +392,15 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
   [
     {
       eventType: CertificationJuryDone,
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
+      emitter: CERTIFICATION_RESULT_EMITTER_AUTOJURY,
     },
     {
       eventType: ChallengeNeutralized,
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
+      emitter: CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION,
     },
     {
       eventType: ChallengeDeneutralized,
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
+      emitter: CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION,
     },
   ].forEach(({ eventType, emitter }) => {
     context(`when event is of type ${eventType}`, function () {
