@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { config } from '../../config.js';
+import { config } from '../../../../../lib/config.js';
 
 function _randomLetter() {
   const letters = config.availableCharacterForCode.letters.split('');
