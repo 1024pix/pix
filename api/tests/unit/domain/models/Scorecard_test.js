@@ -1,7 +1,12 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
+import { KnowledgeElement, Scorecard } from '../../../../lib/domain/models/index.js';
 import { constants, MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
+
+const MINIMUM_DELAY_IN_DAYS_FOR_RESET = constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET;
+const MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
+const SCORECARD_STATUS_STARTED = Scorecard.statuses.STARTED;
+const SCORECARD_STATUS_NOT_STARTED = Scorecard.statuses.NOT_STARTED;
+const SCORECARD_STATUS_COMPLETED = Scorecard.statuses.COMPLETED;
 
 describe('Unit | Domain | Models | Scorecard', function () {
   let computeDaysSinceLastKnowledgeElementStub;
@@ -70,7 +75,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
         expect(actualScorecard.pixScoreAheadOfNextLevel).to.equal(1);
       });
       it('should have set the scorecard status based on the competence evaluation status', function () {
-        expect(actualScorecard.status).to.equal(Scorecard.statuses.STARTED);
+        expect(actualScorecard.status).to.equal(SCORECARD_STATUS_STARTED);
       });
       it('should have set the scorecard remainingDaysBeforeReset based on last knowledge element date', function () {
         expect(actualScorecard.remainingDaysBeforeReset).to.equal(7);
@@ -91,7 +96,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       });
       // then
       it('should have set the scorecard status NOT_STARTED', function () {
-        expect(actualScorecard.status).to.equal(Scorecard.statuses.NOT_STARTED);
+        expect(actualScorecard.status).to.equal(SCORECARD_STATUS_NOT_STARTED);
       });
     });
 
@@ -112,7 +117,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       });
       // then
       it('should have set the scorecard status STARTED', function () {
-        expect(actualScorecard.status).to.equal(Scorecard.statuses.STARTED);
+        expect(actualScorecard.status).to.equal(SCORECARD_STATUS_STARTED);
       });
     });
 
@@ -149,7 +154,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       });
       // then
       it('should have set the scorecard status STARTED', function () {
-        expect(actualScorecard.status).to.equal(Scorecard.statuses.STARTED);
+        expect(actualScorecard.status).to.equal(SCORECARD_STATUS_STARTED);
       });
     });
 
@@ -262,7 +267,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
   describe('#computeRemainingDaysBeforeReset', function () {
     let testCurrentDate;
-    const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET;
+    const originalConstantValue = MINIMUM_DELAY_IN_DAYS_FOR_RESET;
 
     beforeEach(function () {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
@@ -277,6 +282,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_FOR_RESET').value(originalConstantValue);
     });
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeReset: 7 },
       { daysSinceLastKnowledgeElement: 1, expectedDaysBeforeReset: 6 },
@@ -305,7 +311,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
   describe('#computeRemainingDaysBeforeImproving', function () {
     let testCurrentDate;
-    const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
+    const originalConstantValue = MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
 
     beforeEach(function () {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
@@ -320,6 +326,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING').value(originalConstantValue);
     });
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeImproving: 4 },
       { daysSinceLastKnowledgeElement: 0, expectedDaysBeforeImproving: 4 },
@@ -363,7 +370,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   describe('#isFinished', function () {
     it('should return true when status is completed', function () {
       // given
-      const scorecard = new Scorecard({ status: Scorecard.statuses.COMPLETED });
+      const scorecard = new Scorecard({ status: SCORECARD_STATUS_COMPLETED });
 
       // when
       const result = scorecard.isFinished;
@@ -372,7 +379,8 @@ describe('Unit | Domain | Models | Scorecard', function () {
       expect(result).to.be.true;
     });
 
-    [Scorecard.statuses.STARTED, Scorecard.statuses.NOT_STARTED].forEach((status) => {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [SCORECARD_STATUS_STARTED, SCORECARD_STATUS_NOT_STARTED].forEach((status) => {
       it('should return false when status is not completed', function () {
         // given
         const scorecard = new Scorecard({ status });
@@ -430,16 +438,17 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isFinishedWithMaxLevel', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { level: 2, status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
-      { level: 2, status: Scorecard.statuses.STARTED, expectedResult: false },
-      { level: 2, status: Scorecard.statuses.COMPLETED, expectedResult: true },
-      { level: 1, status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
-      { level: 1, status: Scorecard.statuses.STARTED, expectedResult: false },
-      { level: 1, status: Scorecard.statuses.COMPLETED, expectedResult: false },
-      { level: 3, status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
-      { level: 3, status: Scorecard.statuses.STARTED, expectedResult: false },
-      { level: 3, status: Scorecard.statuses.COMPLETED, expectedResult: true },
+      { level: 2, status: SCORECARD_STATUS_NOT_STARTED, expectedResult: false },
+      { level: 2, status: SCORECARD_STATUS_STARTED, expectedResult: false },
+      { level: 2, status: SCORECARD_STATUS_COMPLETED, expectedResult: true },
+      { level: 1, status: SCORECARD_STATUS_NOT_STARTED, expectedResult: false },
+      { level: 1, status: SCORECARD_STATUS_STARTED, expectedResult: false },
+      { level: 1, status: SCORECARD_STATUS_COMPLETED, expectedResult: false },
+      { level: 3, status: SCORECARD_STATUS_NOT_STARTED, expectedResult: false },
+      { level: 3, status: SCORECARD_STATUS_STARTED, expectedResult: false },
+      { level: 3, status: SCORECARD_STATUS_COMPLETED, expectedResult: true },
     ].forEach((testCase) => {
       it(`should return ${testCase.expectedResult} when level is ${testCase.level} and status ${testCase.status}`, function () {
         // given
@@ -456,10 +465,11 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isNotStarted', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { status: Scorecard.statuses.NOT_STARTED, expectedResult: true },
-      { status: Scorecard.statuses.STARTED, expectedResult: false },
-      { status: Scorecard.statuses.COMPLETED, expectedResult: false },
+      { status: SCORECARD_STATUS_NOT_STARTED, expectedResult: true },
+      { status: SCORECARD_STATUS_STARTED, expectedResult: false },
+      { status: SCORECARD_STATUS_COMPLETED, expectedResult: false },
     ].forEach((testCase) => {
       it(`should return ${testCase.expectedResult} when status is ${testCase.status}`, function () {
         // given
@@ -475,10 +485,11 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isStarted', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
-      { status: Scorecard.statuses.STARTED, expectedResult: true },
-      { status: Scorecard.statuses.COMPLETED, expectedResult: false },
+      { status: SCORECARD_STATUS_NOT_STARTED, expectedResult: false },
+      { status: SCORECARD_STATUS_STARTED, expectedResult: true },
+      { status: SCORECARD_STATUS_COMPLETED, expectedResult: false },
     ].forEach((testCase) => {
       it(`should return ${testCase.expectedResult} when status is ${testCase.status}`, function () {
         // given
@@ -494,12 +505,13 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isProgressable', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { status: Scorecard.statuses.NOT_STARTED, level: 0, expectedResult: false },
-      { status: Scorecard.statuses.COMPLETED, level: 1, expectedResult: false },
-      { status: Scorecard.statuses.STARTED, level: 1, expectedResult: true },
-      { status: Scorecard.statuses.STARTED, level: 2, expectedResult: false },
-      { status: Scorecard.statuses.STARTED, level: 3, expectedResult: false },
+      { status: SCORECARD_STATUS_NOT_STARTED, level: 0, expectedResult: false },
+      { status: SCORECARD_STATUS_COMPLETED, level: 1, expectedResult: false },
+      { status: SCORECARD_STATUS_STARTED, level: 1, expectedResult: true },
+      { status: SCORECARD_STATUS_STARTED, level: 2, expectedResult: false },
+      { status: SCORECARD_STATUS_STARTED, level: 3, expectedResult: false },
     ].forEach((testCase) => {
       it(`should return ${testCase.expectedResult} when status is ${testCase.status}, level is ${testCase.level}`, function () {
         // given
@@ -516,6 +528,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isImprovable', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 5, expectedResult: false },
       { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 0, expectedResult: false },
@@ -542,6 +555,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#shouldWaitBeforeImproving', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 5, expectedResult: false },
       { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 0, expectedResult: false },
@@ -568,6 +582,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isResettable', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { isFinished: false, isStarted: true, remainingDaysBeforeReset: 5, expectedResult: false },
       { isFinished: false, isStarted: true, remainingDaysBeforeReset: 0, expectedResult: true },
@@ -688,6 +703,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#percentageAheadOfNextLevel', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { pixScoreAheadOfNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },
       { pixScoreAheadOfNextLevel: 4, expectedPercentageAheadOfNextLevel: 50 },
