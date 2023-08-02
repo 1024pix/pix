@@ -1,5 +1,4 @@
 'use strict';
-const fs = require('node:fs');
 
 module.exports = {
   root: true,
@@ -13,12 +12,7 @@ module.exports = {
     },
   },
   plugins: ['ember'],
-  extends: [
-    ...(fs.existsSync('../.eslintrc.cjs') ? ['../.eslintrc.cjs'] : []),
-    'eslint:recommended',
-    'plugin:ember/recommended',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['@1024pix', 'eslint:recommended', 'plugin:ember/recommended', 'plugin:prettier/recommended'],
   env: {
     browser: true,
   },

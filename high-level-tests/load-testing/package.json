@@ -38,8 +38,10 @@
     "test": "npm run lint && npm run test:js"
   },
   "devDependencies": {
+    "@1024pix/eslint-config": "^1.0.3",
     "@faker-js/faker": "^5.5.3",
     "chai": "^4.3.4",
+    "eslint": "^8.46.0",
     "js2xmlparser": "^4.0.1",
     "mocha": "^9.1.0",
     "sinon": "^11.1.2",
@@ -49,7 +51,6 @@
     "artillery": "^1.7.9",
     "artillery-plugin-expect": "^1.5.0",
     "artillery-plugin-publish-metrics": "^1.4.0",
-    "eslint": "^8.0.0",
     "eslint-plugin-yaml": "^0.5.0",
     "lodash": "^4.17.21"
   }

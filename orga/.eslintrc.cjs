@@ -1,5 +1,4 @@
 'use strict';
-const fs = require('node:fs');
 
 module.exports = {
   globals: {
@@ -15,12 +14,7 @@ module.exports = {
     },
   },
   plugins: ['ember', 'qunit'],
-  extends: [
-    ...(fs.existsSync('../.eslintrc.cjs') ? ['../.eslintrc.cjs'] : []),
-    'plugin:ember/recommended',
-    'plugin:qunit/recommended',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['@1024pix', 'plugin:ember/recommended', 'plugin:qunit/recommended', 'plugin:prettier/recommended'],
   env: {
     browser: true,
   },

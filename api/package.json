@@ -87,6 +87,7 @@
     "yargs": "^17.5.1"
   },
   "devDependencies": {
+    "@1024pix/eslint-config": "^1.0.3",
     "@babel/eslint-parser": "^7.18.2",
     "@babel/plugin-syntax-import-assertions": "^7.20.0",
     "@ls-lint/ls-lint": "^2.0.0",
@@ -94,7 +95,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-sorted": "^0.2.0",
     "depcheck": "^1.4.3",
-    "eslint": "^8.18.0",
+    "eslint": "^8.46.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-chai-expect": "^3.0.0",
     "eslint-plugin-import": "^2.27.5",

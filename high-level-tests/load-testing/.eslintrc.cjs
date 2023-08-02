@@ -2,7 +2,7 @@
 
 module.exports = {
   plugins: ["yaml"],
-  extends: ["../../.eslintrc.cjs", "plugin:yaml/recommended"],
+  extends: ["@1024pix", "plugin:yaml/recommended"],
   globals: {
     include: true,
   },
