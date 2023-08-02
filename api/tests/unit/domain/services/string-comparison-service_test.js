@@ -129,13 +129,9 @@ describe('Unit | Service | Validation Comparison', function () {
       const inputString = 'aaaaaa';
       const referenceString = '12KBKHBHB65';
 
-      // when
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
-
       // then
       it('should return false', function () {
+        const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
         expect(actual).to.be.false;
       });
     });
@@ -146,13 +142,9 @@ describe('Unit | Service | Validation Comparison', function () {
       const inputString = 'aaaaaa';
       const referenceString = 'àaaaaa';
 
-      // when
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
-
       // then
       it('should return true', function () {
+        const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
         expect(actual).to.be.true;
       });
     });
@@ -167,13 +159,9 @@ describe('Unit | Service | Validation Comparison', function () {
         const inputString = 'aaaaaa';
         const references = ['12KBKHBHB65', 'Jacques'];
 
-        // when
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
-
         // then
         it('should return false', function () {
+          const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
           expect(actual).to.be.false;
         });
       },
@@ -187,13 +175,9 @@ describe('Unit | Service | Validation Comparison', function () {
         const inputString = 'aaaaaa';
         const references = ['àaaaaa', 'bbbbbbb', 'aaaaab'];
 
-        // when
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
-
         // then
         it('should return true', function () {
+          const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
           expect(actual).to.be.true;
         });
       },
