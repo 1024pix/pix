@@ -262,7 +262,7 @@ jobs:
   orga_build_and_test:
     executor:
       name: node-browsers-docker
-    working_directory: ~/pix/orga
+    working_directory: ~/pix
     steps:
       - browser-tools/install-chrome
       - attach_workspace:
@@ -271,17 +271,16 @@ jobs:
       - restore_cache:
           keys:
             - v7-orga-npm-{{ checksum "cachekey" }}
-      - run: npm ci
       - save_cache:
           key: v7-orga-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
       - run:
           name: Lint
-          command: npm run lint
+          command: npm run lint --workspace=orga
       - run:
           name: Test
-          command: npm run test:ci
+          command: npm run test:ci --workspace=orga
 
   pix1d_build_and_test:
     executor:
@@ -467,13 +466,6 @@ jobs:
           keys:
             - v7-orga-npm-{{ checksum "~/pix/orga/cachekey" }}
       - run:
-          name: Install Pix Orga
-          environment:
-            JOBS: 2
-          working_directory: ~/pix/orga
-          command: npm ci
-
-      - run:
           name: Start Pix API
           working_directory: ~/pix/api
           environment:
@@ -484,11 +476,11 @@ jobs:
 
       - run:
           name: Start Pix Orga
-          working_directory: ~/pix/orga
+          working_directory: ~/pix
           environment:
             JOBS: 2
           background: true
-          command: npm start
+          command: npm start --workspace=orga
 
       - run:
           name: Run tests
