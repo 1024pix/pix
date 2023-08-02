@@ -327,6 +327,50 @@ describe('Integration | Repository | Competence Evaluation', function () {
     });
   });
 
+  describe('#existsByCompetenceIdAndUserId', function () {
+    let userId;
+
+    beforeEach(async function () {
+      // given
+      userId = databaseBuilder.factory.buildUser({}).id;
+
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId,
+        competenceId: '1',
+        status: STARTED,
+      });
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId,
+        competenceId: '2',
+        status: STARTED,
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return true where there is a a competence evaluation', async function () {
+      // when
+      const result = await competenceEvaluationRepository.existsByCompetenceIdAndUserId({
+        competenceId: 1,
+        userId,
+      });
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+    it('should return false when there is no competence evaluation', async function () {
+      // when
+      const result = await competenceEvaluationRepository.existsByCompetenceIdAndUserId({
+        competenceId: 'fakeId',
+        userId,
+      });
+
+      // then
+      expect(result).to.equal(false);
+    });
+  });
+
   describe('#updateStatusByAssessmentId', function () {
     let assessment;
 

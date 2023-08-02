@@ -112,8 +112,13 @@ const findByAssessmentId = async function (assessmentId) {
   return competenceEvaluations.map((competenceEvaluation) => _toDomain({ competenceEvaluation, assessment: null }));
 };
 
-const existsByCompetenceIdAndUserId = async function ({ competenceId, userId }) {
-  const competenceEvaluation = await _getByCompetenceIdAndUserId({ competenceId, userId });
+const existsByCompetenceIdAndUserId = async function ({
+  competenceId,
+  userId,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const competenceEvaluation = await _getByCompetenceIdAndUserId({ competenceId, userId, knexConn });
   return competenceEvaluation ? true : false;
 };
 
