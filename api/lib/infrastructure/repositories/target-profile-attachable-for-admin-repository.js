@@ -1,37 +1,43 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { TargetProfileAttachableForAdmin } from '../../domain/models/TargetProfileAttachableForAdmin.js';
 
-const find = async function () {
-  const queryBuilder = knex('target-profiles')
+const find = async function ({ searchTerm } = {}) {
+  const targetProfilesSearchQuery = knex('target-profiles')
     .select('target-profiles.id', 'target-profiles.name')
     .leftJoin('badges', 'target-profiles.id', 'badges.targetProfileId')
     .leftJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
     .orderBy('target-profiles.name', 'ASC')
     .orderBy('target-profiles.id', 'DESC');
 
-  queryBuilder.andWhere((queryBuilder) => {
-    return _excludeOutdatedTargetProfiles(queryBuilder).andWhere((queryBuilder) => {
-      return _includeWhenNotLinkedToAComplementaryCertification(queryBuilder).orWhere(
-        _excludeTargetProfilesWhenLinkedToAComplementaryCertificationButDetached,
+  targetProfilesSearchQuery.andWhere((queryBuilder) => {
+    return _excludeAllOutdatedTargetProfiles(queryBuilder).andWhere((queryBuilder) => {
+      return _includeAllTargetProfilesNotLinkedToAComplementaryCertification(queryBuilder).orWhere(
+        _includeTargetProfileLinkedToAComplementaryOnlyWhenDetached,
       );
     });
   });
 
-  const targetProfiles = await queryBuilder;
+  if (searchTerm) {
+    targetProfilesSearchQuery.andWhere((queryBuilder) => {
+      queryBuilder.whereILike('name', `%${searchTerm}%`);
+    });
+  }
+
+  const targetProfiles = await targetProfilesSearchQuery;
   return _toDomain(targetProfiles);
 };
 
 export { find };
 
-function _excludeOutdatedTargetProfiles(queryBuilder) {
+function _excludeAllOutdatedTargetProfiles(queryBuilder) {
   return queryBuilder.where('target-profiles.outdated', false);
 }
 
-function _includeWhenNotLinkedToAComplementaryCertification(queryBuilder) {
+function _includeAllTargetProfilesNotLinkedToAComplementaryCertification(queryBuilder) {
   return queryBuilder.whereNull('badges.targetProfileId');
 }
 
-function _excludeTargetProfilesWhenLinkedToAComplementaryCertificationButDetached(queryBuilder) {
+function _includeTargetProfileLinkedToAComplementaryOnlyWhenDetached(queryBuilder) {
   return queryBuilder
     .whereNotNull('badges.targetProfileId')
     .andWhereNot('complementary-certification-badges.detachedAt', null);
