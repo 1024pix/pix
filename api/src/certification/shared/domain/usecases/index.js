@@ -4,8 +4,8 @@ import { dirname, join } from 'node:path';
 import * as sessionCodeService from '../../../../../lib/domain/services/session-code-service.js';
 import * as sessionValidator from '../../../../../lib/domain/validators/session-validator.js';
 import * as userRepository from '../../../../../lib/infrastructure/repositories/user-repository.js';
-import * as sessionRepository from '../../../../../lib/infrastructure/repositories/sessions/session-repository.js';
-import * as certificationCenterRepository from '../../../../../lib/infrastructure/repositories/certification-center-repository.js';
+import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
+import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 
 import { importNamedExportsFromDirectory } from '../../../../../lib/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../../lib/infrastructure/utils/dependency-injection.js';

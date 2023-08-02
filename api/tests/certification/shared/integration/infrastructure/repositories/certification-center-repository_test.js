@@ -1,7 +1,7 @@
-import { expect, knex, databaseBuilder, domainBuilder, catchErr, sinon } from '../../../test-helper.js';
-import * as certificationCenterRepository from '../../../../lib/infrastructure/repositories/certification-center-repository.js';
-import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { expect, knex, databaseBuilder, domainBuilder, catchErr, sinon } from '../../../../../test-helper.js';
+import * as certificationCenterRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
+import { CertificationCenter } from '../../../../../../lib/domain/models/CertificationCenter.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | Certification Center', function () {

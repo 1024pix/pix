@@ -5,7 +5,7 @@ dotenv.config();
 import bluebird from 'bluebird';
 import { logger } from '../../lib/infrastructure/logger.js';
 import * as sessionRepository from '../../src/certification/session/infrastructure/repositories/session-repository.js';
-import * as certificationCenterRepository from '../../lib/infrastructure/repositories/certification-center-repository.js';
+import * as certificationCenterRepository from '../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as mailService from '../../lib/domain/services/mail-service.js';
 import { manageEmails } from '../../lib/domain/services/session-publication-service.js';
 import { disconnect } from '../../db/knex-database-connection.js';
