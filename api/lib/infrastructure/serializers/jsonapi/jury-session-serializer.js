@@ -27,6 +27,7 @@ const serialize = function (jurySessions, hasSupervisorAccess, meta) {
       'hasSupervisorAccess',
       'hasJoiningIssue',
       'hasIncident',
+      'version',
       // included
       'assignedCertificationOfficer',
       'juryCommentAuthor',
