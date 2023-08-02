@@ -6,6 +6,7 @@ import { types } from '../models/CertificationCenter.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../constants/sessions-errors.js';
 import { EntityValidationError } from '../errors.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { CertificationVersion } from '../models/CertificationVersion.js';
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -80,6 +81,7 @@ const sessionFiltersValidationSchema = Joi.object({
   certificationCenterName: Joi.string().trim().optional(),
   certificationCenterExternalId: Joi.string().trim().optional(),
   certificationCenterType: Joi.string().trim().valid(types.SUP, types.SCO, types.PRO).optional(),
+  version: Joi.number().valid(CertificationVersion.V2, CertificationVersion.V3).optional(),
 });
 
 const validate = function (session) {

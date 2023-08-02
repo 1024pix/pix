@@ -356,5 +356,40 @@ describe('Unit | Domain | Validators | session-validator', function () {
         });
       });
     });
+
+    context('when validating version', function () {
+      context('when version not in submitted filters', function () {
+        it('should not throw any error', function () {
+          expect(sessionValidator.validateAndNormalizeFilters({})).to.not.throw;
+        });
+      });
+
+      context('when version is in submitted filters', function () {
+        context('when version is not a number', function () {
+          it('should throw an error', async function () {
+            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({
+              version: 'ok',
+            });
+            expect(error).to.be.instanceOf(EntityValidationError);
+          });
+        });
+
+        context('when version is not in the versions allowed list', function () {
+          it('should throw an error', async function () {
+            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({
+              version: 4,
+            });
+            expect(error).to.be.instanceOf(EntityValidationError);
+          });
+        });
+
+        context('when resultsSentToPrescriberAt is a number in the allowed list', function () {
+          it('should not throw an error', async function () {
+            expect(sessionValidator.validateAndNormalizeFilters({ version: 2 })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ version: 3 })).to.not.throw;
+          });
+        });
+      });
+    });
   });
 });

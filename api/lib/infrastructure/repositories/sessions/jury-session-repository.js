@@ -101,14 +101,8 @@ function _toDomain(jurySessionFromDB) {
 }
 
 function _setupFilters(query, filters) {
-  const {
-    id,
-    certificationCenterName,
-    status,
-    resultsSentToPrescriberAt,
-    certificationCenterExternalId,
-    certificationCenterType,
-  } = filters;
+  const { id, certificationCenterName, status, certificationCenterExternalId, certificationCenterType, version } =
+    filters;
 
   if (id) {
     query.where('sessions.id', id);
@@ -129,12 +123,10 @@ function _setupFilters(query, filters) {
     ]);
   }
 
-  if (resultsSentToPrescriberAt === true) {
-    query.whereNotNull('resultsSentToPrescriberAt');
+  if (version) {
+    query.where('sessions.version', version);
   }
-  if (resultsSentToPrescriberAt === false) {
-    query.whereNull('resultsSentToPrescriberAt');
-  }
+
   if (status === statuses.CREATED) {
     query.whereNull('finalizedAt');
     query.whereNull('publishedAt');
