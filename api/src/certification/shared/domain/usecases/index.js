@@ -7,7 +7,7 @@ import * as userRepository from '../../../../../src/shared/infrastructure/reposi
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 
-import { importNamedExportsFromDirectory } from '../../../../../lib/infrastructure/utils/import-named-exports-from-directory.js';
+import { importNamedExportsFromDirectory } from '../../../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../../lib/infrastructure/utils/dependency-injection.js';
 
 const dependencies = {
