@@ -3,7 +3,7 @@ import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
-import { CertificationIssueReportResolutionAttempt } from '../../../../lib/domain/models/CertificationIssueReportResolutionAttempt.js';
+import { CertificationIssueReportResolutionAttempt } from '../../../../lib/domain/models/index.js';
 import {
   CertificationIssueReportResolutionStrategies,
   neutralizeWithoutCheckingStrategy,
@@ -13,6 +13,23 @@ import {
   neutralizeOrValidateIfFocusedChallengeStrategy,
   doNotResolveStrategy,
 } from '../../../../lib/domain/models/CertificationIssueReportResolutionStrategies.js';
+
+const ISSUE_REPORT_SUBCATEGORY_NAME_OR_BIRTHDATE = CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE;
+const ISSUE_REPORT_SUBCATEGORY_LEFT_EXAM_ROOM = CertificationIssueReportSubcategories.LEFT_EXAM_ROOM;
+const ISSUE_REPORT_SUBCATEGORY_ACCESSIBILITY_ISSUE = CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE;
+const ISSUE_REPORT_SUBCATEGORY_OTHER = CertificationIssueReportSubcategories.OTHER;
+const ISSUE_REPORT_SUBCATEGORY_EMBED_NOT_WORKING = CertificationIssueReportSubcategories.EMBED_NOT_WORKING;
+const ISSUE_REPORT_SUBCATEGORY_FILE_NOT_OPENING = CertificationIssueReportSubcategories.FILE_NOT_OPENING;
+const ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING = CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING;
+const ISSUE_REPORT_SUBCATEGORY_WEBSITE_UNAVAILABLE = CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE;
+const ISSUE_REPORT_SUBCATEGORY_WEBSITE_BLOCKED = CertificationIssueReportSubcategories.WEBSITE_BLOCKED;
+const ISSUE_REPORT_SUBCATEGORY_LINK_NOT_WORKING = CertificationIssueReportSubcategories.LINK_NOT_WORKING;
+const ISSUE_REPORT_SUBCATEGORY_IMAGE_NOT_DISPLAYING = CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING;
+const ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_PERCENTAGE = CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE;
+const ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_EXCEEDED = CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED;
+const ISSUE_REPORT_SUBCATEGORY_UNINTENTIONAL_FOCUS_OUT = CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT;
+const ISSUE_REPORT_SUBCATEGORY_SKIP_ON_OOPS = CertificationIssueReportSubcategories.SKIP_ON_OOPS;
+const ISSUE_REPORT_SUBCATEGORY_UNKNOWN = CertificationIssueReportSubcategories.SIGNATURE_ISSUE;
 
 describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies', function () {
   context('#NEUTRALIZE_WITHOUT_CHECKING', function () {
@@ -26,7 +43,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -56,7 +73,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -87,7 +104,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -117,7 +134,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -151,7 +168,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationAnswersByDate: [certificationAnswer],
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-            subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+            subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
@@ -186,7 +203,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationAnswersByDate: [certificationAnswer],
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-            subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+            subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
@@ -223,7 +240,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationAnswersByDate: [certificationAnswer],
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-            subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+            subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
@@ -258,7 +275,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationAnswersByDate: [certificationAnswer],
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-            subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+            subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
@@ -290,7 +307,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('returns a successful resolution without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -318,7 +335,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -347,7 +364,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('returns a successful resolution without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -387,7 +404,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -428,7 +445,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -463,7 +480,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -501,7 +518,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_FILE_NOT_OPENING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -538,7 +555,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_FILE_NOT_OPENING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -573,7 +590,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -601,7 +618,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_FILE_NOT_OPENING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -630,7 +647,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_FILE_NOT_OPENING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -664,7 +681,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_FILE_NOT_OPENING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -705,7 +722,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_FILE_NOT_OPENING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -742,7 +759,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_FILE_NOT_OPENING,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -782,7 +799,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_EXCEEDED,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -819,7 +836,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_EXCEEDED,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -854,7 +871,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_EXCEEDED,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -882,7 +899,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_EXCEEDED,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -911,7 +928,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_EXCEEDED,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -945,7 +962,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_EXCEEDED,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -986,7 +1003,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_EXCEEDED,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -1023,7 +1040,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_EXCEEDED,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -1066,7 +1083,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationAnswersByDate: [certificationAnswer],
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-            subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+            subcategory: ISSUE_REPORT_SUBCATEGORY_UNINTENTIONAL_FOCUS_OUT,
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
@@ -1103,7 +1120,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationAnswersByDate: [certificationAnswer],
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-            subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+            subcategory: ISSUE_REPORT_SUBCATEGORY_UNINTENTIONAL_FOCUS_OUT,
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
@@ -1147,7 +1164,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationAnswersByDate: [certificationAnswer],
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-            subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+            subcategory: ISSUE_REPORT_SUBCATEGORY_UNINTENTIONAL_FOCUS_OUT,
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
@@ -1184,7 +1201,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
             certificationAnswersByDate: [certificationAnswer],
           });
           const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-            subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+            subcategory: ISSUE_REPORT_SUBCATEGORY_UNINTENTIONAL_FOCUS_OUT,
             category: CertificationIssueReportCategory.IN_CHALLENGE,
             questionNumber: 1,
           });
@@ -1221,7 +1238,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_UNINTENTIONAL_FOCUS_OUT,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -1249,7 +1266,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_UNINTENTIONAL_FOCUS_OUT,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -1279,7 +1296,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_UNINTENTIONAL_FOCUS_OUT,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -1313,7 +1330,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+          subcategory: ISSUE_REPORT_SUBCATEGORY_UNINTENTIONAL_FOCUS_OUT,
           category: CertificationIssueReportCategory.IN_CHALLENGE,
           questionNumber: 1,
         });
@@ -1352,7 +1369,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     it('returns an unresolved resolution attempt', async function () {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-        subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+        subcategory: ISSUE_REPORT_SUBCATEGORY_EMBED_NOT_WORKING,
         category: CertificationIssueReportCategory.IN_CHALLENGE,
         questionNumber: 1,
       });
@@ -1372,7 +1389,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     it('does not resolve the certification issue report', async function () {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-        subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+        subcategory: ISSUE_REPORT_SUBCATEGORY_EMBED_NOT_WORKING,
         category: CertificationIssueReportCategory.IN_CHALLENGE,
         questionNumber: 1,
       });
@@ -1394,96 +1411,80 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_NAME_OR_BIRTHDATE,
         strategyToBeApplied: 'doNotResolve',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_PERCENTAGE,
         strategyToBeApplied: 'doNotResolve',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_LEFT_EXAM_ROOM,
         strategyToBeApplied: 'doNotResolve',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_UNKNOWN,
         strategyToBeApplied: 'doNotResolve',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_IMAGE_NOT_DISPLAYING,
         strategyToBeApplied: 'neutralizeIfImageOrEmbed',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.LINK_NOT_WORKING,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_LINK_NOT_WORKING,
         strategyToBeApplied: 'doNotResolve',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_EMBED_NOT_WORKING,
         strategyToBeApplied: 'neutralizeIfImageOrEmbed',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_FILE_NOT_OPENING,
         strategyToBeApplied: 'neutralizeIfAttachment',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_WEBSITE_UNAVAILABLE,
         strategyToBeApplied: 'neutralizeWithoutChecking',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_WEBSITE_BLOCKED,
         strategyToBeApplied: 'neutralizeWithoutChecking',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_EXTRA_TIME_EXCEEDED,
         strategyToBeApplied: 'neutralizeIfTimedChallenge',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_SOFTWARE_NOT_WORKING,
         strategyToBeApplied: 'neutralizeWithoutChecking',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.OTHER,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_OTHER,
         strategyToBeApplied: 'doNotResolve',
       },
 
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_UNINTENTIONAL_FOCUS_OUT,
         strategyToBeApplied: 'neutralizeOrValidateIfFocusedChallenge',
       },
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.SKIP_ON_OOPS,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_SKIP_ON_OOPS,
         strategyToBeApplied: 'neutralizeWithoutChecking',
       },
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        subCategoryToBeResolved: CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
+        subCategoryToBeResolved: ISSUE_REPORT_SUBCATEGORY_ACCESSIBILITY_ISSUE,
         strategyToBeApplied: 'neutralizeWithoutChecking',
       },
     ].forEach(({ subCategoryToBeResolved, strategyToBeApplied }) => {
