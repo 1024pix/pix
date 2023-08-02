@@ -51,15 +51,23 @@ const serialize = function (campaignParticipation) {
   }).serialize(campaignParticipation);
 };
 
-const deserialize = function (json) {
-  return new Deserializer({ keyForAttribute: 'camelCase' }).deserialize(json).then((campaignParticipation) => {
-    let campaign;
-    if (json.data?.relationships?.campaign) {
-      campaign = new Campaign({ id: json.data.relationships.campaign.data.id });
-    }
+const deserialize = async function (json) {
+  let campaign;
+  const deserialize = new Deserializer({ keyForAttribute: 'camelCase' });
+  const deserializedCampaignParticipation = await deserialize.deserialize(json);
 
-    return new CampaignParticipation({ ...campaignParticipation, campaign });
-  });
+  if (json.data?.relationships?.campaign) {
+    campaign = new Campaign({ id: json.data.relationships.campaign.data.id });
+  }
+
+  const campaignParticipation = new CampaignParticipation({ ...deserializedCampaignParticipation, campaign });
+
+  // does not want to pollute CampaignParticipation model
+  if (json.data?.attributes['is-reset']) {
+    campaignParticipation.isReset = deserializedCampaignParticipation.isReset;
+  }
+
+  return campaignParticipation;
 };
 
 export { serialize, deserialize };
