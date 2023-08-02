@@ -4,6 +4,16 @@ import config from './config/environment';
 export default class Router extends EmberRouter {
   location = config.locationType;
   rootURL = config.rootURL;
+
+  constructor() {
+    super(...arguments);
+    this.on('routeDidChange', () => {
+      if (window.speechSynthesis?.speaking) {
+        window.speechSynthesis.cancel();
+      }
+      window.scrollTo(0, 0);
+    });
+  }
 }
 
 Router.map(function () {
