@@ -3,23 +3,28 @@ import { BookshelfCompetenceEvaluation } from '../orm-models/CompetenceEvaluatio
 import _ from 'lodash';
 import { NotFoundError } from '../../domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import { knex } from '../../../db/knex-database-connection.js';
+import { CompetenceEvaluation } from '../../domain/models/CompetenceEvaluation.js';
+import { Assessment } from '../../domain/models/Assessment.js';
 
 const save = async function ({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  let competenceEvaluationCreated = await _getByCompetenceIdAndUserId({
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const foundCompetenceEvaluation = await _getByCompetenceIdAndUserId({
     competenceId: competenceEvaluation.competenceId,
     userId: competenceEvaluation.userId,
-    domainTransaction,
+    knexConn,
   });
-  if (competenceEvaluationCreated) {
-    return competenceEvaluationCreated;
-  } else {
-    competenceEvaluationCreated = await new BookshelfCompetenceEvaluation(
-      _.omit(competenceEvaluation, ['assessment', 'scorecard']),
-    )
-      .save(null, { transacting: domainTransaction.knexTransaction })
-      .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result));
+
+  if (foundCompetenceEvaluation) {
+    return foundCompetenceEvaluation;
   }
-  return competenceEvaluationCreated;
+
+  const competenceEvaluationToSave = _.omit(competenceEvaluation, ['assessment', 'scorecard']);
+  const [competenceEvaluationCreated] = await knexConn('competence-evaluations')
+    .insert(competenceEvaluationToSave)
+    .returning('*');
+
+  return _toDomain({ competenceEvaluation: competenceEvaluationCreated, assessment: null });
 };
 
 const updateStatusByAssessmentId = function ({ assessmentId, status }) {
@@ -116,32 +121,31 @@ export {
   existsByCompetenceIdAndUserId,
 };
 
-async function _getByCompetenceIdAndUserId({
-  competenceId,
-  userId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-  forUpdate = false,
-}) {
-  try {
-    const result = await BookshelfCompetenceEvaluation.where({ competenceId, userId })
-      .orderBy('createdAt', 'asc')
-      .fetch({
-        transacting: domainTransaction.knexTransaction,
-        lock: forUpdate ? 'forUpdate' : undefined,
-      });
-
-    await result.related('assessment').fetch();
-
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result);
-  } catch (bookshelfError) {
-    if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {
-      return null;
-    }
-    throw bookshelfError;
+async function _getByCompetenceIdAndUserId({ competenceId, userId, forUpdate = false, knexConn }) {
+  const query = knexConn('competence-evaluations').where({ competenceId, userId }).orderBy('createdAt', 'asc').first();
+  if (forUpdate) {
+    query.forUpdate();
   }
+
+  const competenceEvaluation = await query;
+
+  if (!competenceEvaluation) {
+    return null;
+  }
+
+  const assessment = await knexConn('assessments').where({ id: competenceEvaluation.assessmentId }).first();
+
+  return _toDomain({ competenceEvaluation, assessment });
 }
 
 function _selectOnlyOneCompetenceEvaluationByCompetence(competenceEvaluations) {
   const assessmentsGroupedByCompetence = _.groupBy(competenceEvaluations, 'competenceId');
   return _.map(assessmentsGroupedByCompetence, _.head);
+}
+
+function _toDomain({ competenceEvaluation, assessment }) {
+  return new CompetenceEvaluation({
+    ...competenceEvaluation,
+    assessment: assessment != null ? new Assessment(assessment) : undefined,
+  });
 }
