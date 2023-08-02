@@ -1,10 +1,10 @@
 import { expect, databaseBuilder } from '../../test-helper.js';
-import { SCO_MIDDLE_SCHOOL_ID } from '../../../db/seeds/data/organizations-sco-builder.js';
 import { knex } from '../../../lib/infrastructure/bookshelf.js';
 import { BookshelfOrganizationLearner } from '../../../lib/infrastructure/orm-models/OrganizationLearner.js';
 import { addManyStudentsToScoCertificationCenter } from '../../../scripts/data-generation/add-many-students-to-sco-certification-center.js';
 
 describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.js', function () {
+  const organizationId = 123;
   describe('#addManyStudentsToScoCertificationCenter', function () {
     afterEach(function () {
       return knex('organization-learners').delete();
@@ -14,7 +14,7 @@ describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.
       // given
       const numberOfOrganizationLearnerToCreate = 3;
       databaseBuilder.factory.buildOrganization({
-        id: SCO_MIDDLE_SCHOOL_ID,
+        id: organizationId,
         type: 'SCO',
         name: 'Collège The Night Watch',
         isManagingStudents: true,

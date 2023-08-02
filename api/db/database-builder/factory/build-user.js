@@ -3,9 +3,9 @@ import lodash from 'lodash';
 const { isUndefined, isNil } = lodash;
 
 import { databaseBuffer } from '../database-buffer.js';
-import { AuthenticationMethod } from '../../../lib/domain/models/AuthenticationMethod.js';
+import { AuthenticationMethod } from '../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../lib/domain/constants/identity-providers.js';
-import { Membership } from '../../../lib/domain/models/Membership.js';
+import { Membership } from '../../../lib/domain/models/index.js';
 
 import * as encrypt from '../../../lib/domain/services/encryption-service.js';
 
@@ -14,9 +14,9 @@ import { buildOrganization } from './build-organization.js';
 import { buildMembership } from './build-membership.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
-import { DEFAULT_PASSWORD } from '../../seeds/data/users-builder.js';
 import { PIX_ADMIN } from '../../../lib/domain/constants.js';
 
+const DEFAULT_PASSWORD = 'pix123';
 const { ROLES } = PIX_ADMIN;
 
 function _buildPixAuthenticationMethod({
