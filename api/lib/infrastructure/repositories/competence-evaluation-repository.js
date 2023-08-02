@@ -105,11 +105,12 @@ const findByUserId = async function (userId) {
   return _selectOnlyOneCompetenceEvaluationByCompetence(domainCompetenceEvaluations);
 };
 
-const findByAssessmentId = function (assessmentId) {
-  return BookshelfCompetenceEvaluation.where({ assessmentId })
-    .orderBy('createdAt', 'asc')
-    .fetchAll()
-    .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results));
+const findByAssessmentId = async function (assessmentId) {
+  const competenceEvaluations = await knex('competence-evaluations')
+    .where({ assessmentId })
+    .orderBy('createdAt', 'asc');
+
+  return competenceEvaluations.map((competenceEvaluation) => _toDomain({ competenceEvaluation, assessment: null }));
 };
 
 const existsByCompetenceIdAndUserId = async function ({ competenceId, userId }) {
