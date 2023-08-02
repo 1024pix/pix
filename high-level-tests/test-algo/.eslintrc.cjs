@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = {
-  extends: "../../.eslintrc.cjs",
+  extends: "@1024pix",
   globals: {
     include: true,
   },

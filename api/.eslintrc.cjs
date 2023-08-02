@@ -2,7 +2,7 @@
 
 module.exports = {
   extends: [
-    '../.eslintrc.cjs',
+    '@1024pix',
     'plugin:mocha/recommended',
     'plugin:prettier/recommended',
     'plugin:chai-expect/recommended',
