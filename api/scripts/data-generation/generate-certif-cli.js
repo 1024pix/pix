@@ -19,11 +19,11 @@ import {
   makeUserPixDroitCertifiable,
   makeUserCleaCertifiable,
   makeUserPixEduCertifiable,
-} from '../../db/seeds/data/certification/tooling.js';
+} from '../tooling/tooling.js';
 import { DatabaseBuilder } from '../../db/database-builder/database-builder.js';
 import { databaseBuffer } from '../../db/database-builder/database-buffer.js';
 import { learningContentCache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../lib/domain/models/index.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
