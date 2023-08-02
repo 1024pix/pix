@@ -19,7 +19,7 @@ module('Unit | Route | authenticated/certifications', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
       const route = this.owner.lookup('route:authenticated.certifications');
       const replaceWithStub = sinon.stub();
-      route.replaceWith = replaceWithStub;
+      route.router.replaceWith = replaceWithStub;
 
       // when
       route.beforeModel();
@@ -39,7 +39,7 @@ module('Unit | Route | authenticated/certifications', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
       const route = this.owner.lookup('route:authenticated.certifications');
       const replaceWithStub = sinon.stub();
-      route.replaceWith = replaceWithStub;
+      route.router.replaceWith = replaceWithStub;
 
       // when
       route.beforeModel();
@@ -59,7 +59,7 @@ module('Unit | Route | authenticated/certifications', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
       const route = this.owner.lookup('route:authenticated.certifications');
       const replaceWithStub = sinon.stub();
-      route.replaceWith = replaceWithStub;
+      route.router.replaceWith = replaceWithStub;
 
       // when
       route.beforeModel();

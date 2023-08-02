@@ -58,7 +58,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
   });
 
   module('#goToProfilePage', function () {
-    test('it should call transitionToRoute with appropriate arguments', function (assert) {
+    test('it should call transitionTo with appropriate arguments', function (assert) {
       const routerService = this.owner.lookup('service:router');
       // given
       const event = {
