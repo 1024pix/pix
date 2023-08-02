@@ -3,12 +3,13 @@
   flex-direction: column;
 
   &__navbar {
-    margin: 10px;
-    margin-top: 20px;
+    display: flex;
+    margin: 20px 10px 10px;
+  }
 
-    .navbar-item {
-      width: max-content;
-      padding: 0 20px;
+  .navbar-item {
+    &--right {
+      margin-left: auto;
     }
   }
 
@@ -28,7 +29,6 @@
 }
 
 .session-to-be-publish {
-
   &__publish-all {
     display: flex;
     flex-direction: row-reverse;

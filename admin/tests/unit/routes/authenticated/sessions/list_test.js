@@ -19,26 +19,33 @@ module('Unit | Route | authenticated/sessions/list', function (hooks) {
     test('it should fetch the list of sessions with required action', async function (assert) {
       // given
       const route = this.owner.lookup('route:authenticated/sessions/list');
-      const sessionsWithRequiredAction = [
+      const v2Sessions = [
         {
           certificationCenterName: 'Centre SCO des Anne-Solo',
           finalizedAt: '2020-04-15T15:00:34.000Z',
         },
       ];
+
+      const v3Sessions = [
+        {
+          certificationCenterName: 'Centre SCO v3',
+          finalizedAt: '2020-04-15T15:00:34.000Z',
+        },
+      ];
       const queryStub = sinon.stub();
-      queryStub.withArgs('with-required-action-session', {}).resolves(sessionsWithRequiredAction);
+      queryStub.withArgs('with-required-action-session', { filter: { version: 2 } }).resolves(v2Sessions);
+      queryStub.withArgs('with-required-action-session', { filter: { version: 3 } }).resolves(v3Sessions);
+
       store.query = queryStub;
 
       // when
       const result = await route.model();
 
       // then
-      assert.deepEqual(result, [
-        {
-          certificationCenterName: 'Centre SCO des Anne-Solo',
-          finalizedAt: '2020-04-15T15:00:34.000Z',
-        },
-      ]);
+      assert.deepEqual(result, {
+        v2Sessions,
+        v3Sessions,
+      });
     });
   });
 });

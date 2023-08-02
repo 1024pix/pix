@@ -35,7 +35,7 @@ module('Acceptance | Session List', function (hooks) {
 
     test('it should display the number of sessions with required actions', async function (assert) {
       // given
-      server.createList('with-required-action-session', 10);
+      server.createList('with-required-action-session', 10, { version: 2 });
 
       // when
       const screen = await visit('/sessions/list');

@@ -9,7 +9,7 @@ export default class AuthenticatedSessionsWithRequiredActionListController exten
 
   @tracked assignedToSelfOnly = false;
 
-  @computed('assignedToSelfOnly', 'currentUser.adminMember.fullName', 'model')
+  @computed('assignedToSelfOnly', 'currentUser.adminMember.fullName', 'model.withRequiredAction')
   get filteredSessions() {
     const sessions = this.model;
     if (this.assignedToSelfOnly) {
