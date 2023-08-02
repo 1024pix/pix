@@ -147,7 +147,7 @@ import * as scoCertificationCandidateRepository from '../../infrastructure/repos
 import * as scoOrganizationParticipantRepository from '../../infrastructure/repositories/sco-organization-participant-repository.js';
 import * as scorecardService from '../../domain/services/scorecard-service.js';
 import * as scoringCertificationService from '../../domain/services/scoring/scoring-certification-service.js';
-import * as sessionCodeService from '../services/session-code-service.js';
+import * as sessionCodeService from '../../../src/certification/session/domain/services/session-code-service.js';
 import * as sessionForAttendanceSheetRepository from '../../infrastructure/repositories/sessions/session-for-attendance-sheet-repository.js';
 import * as sessionForSupervisingRepository from '../../infrastructure/repositories/sessions/session-for-supervising-repository.js';
 import * as sessionForSupervisorKitRepository from '../../infrastructure/repositories/sessions/session-for-supervisor-kit-repository.js';

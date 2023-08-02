@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-import * as sessionCodeService from '../../../../../lib/domain/services/session-code-service.js';
+import * as sessionCodeService from '../../../session/domain/services/session-code-service.js';
 import * as sessionValidator from '../../../session/domain/validators/session-validator.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
