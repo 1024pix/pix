@@ -88,12 +88,21 @@ const getByCompetenceIdAndUserId = async function ({
   return competenceEvaluation;
 };
 
-const findByUserId = function (userId) {
-  return BookshelfCompetenceEvaluation.where({ userId })
-    .orderBy('createdAt', 'asc')
-    .fetchAll({ withRelated: ['assessment'] })
-    .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results))
-    .then(_selectOnlyOneCompetenceEvaluationByCompetence);
+const findByUserId = async function (userId) {
+  const competenceEvaluations = await knex('competence-evaluations').where({ userId }).orderBy('createdAt', 'asc');
+  const assessments = await knex('assessments').whereIn(
+    'id',
+    competenceEvaluations.map((competenceEvaluation) => competenceEvaluation.assessmentId),
+  );
+
+  const domainCompetenceEvaluations = competenceEvaluations.map((competenceEvaluation) =>
+    _toDomain({
+      competenceEvaluation,
+      assessment: assessments.find((assessment) => assessment.id === competenceEvaluation.assessmentId),
+    }),
+  );
+
+  return _selectOnlyOneCompetenceEvaluationByCompetence(domainCompetenceEvaluations);
 };
 
 const findByAssessmentId = function (assessmentId) {
