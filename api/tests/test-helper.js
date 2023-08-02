@@ -13,7 +13,7 @@ import MockDate from 'mockdate';
 import chai from 'chai';
 
 const expect = chai.expect;
-import sinon from 'sinon';
+import sinon, { restore } from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
 import chaiSorted from 'chai-sorted';
 import sinonChai from 'sinon-chai';
@@ -41,7 +41,7 @@ nock.disableNetConnect();
 import { buildLearningContent as learningContentBuilder } from './tooling/learning-content-builder/index.js';
 
 import * as tokenService from '../lib/domain/services/token-service.js';
-import { Membership } from '../lib/domain/models/Membership.js';
+import { Membership } from '../lib/domain/models/index.js';
 
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
@@ -52,7 +52,7 @@ import { createTempFile, removeTempFile } from './tooling/temporary-file.js';
 
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
-  sinon.restore();
+  restore();
   learningContentCache.flushAll();
   nock.cleanAll();
   return databaseBuilder.clean();
