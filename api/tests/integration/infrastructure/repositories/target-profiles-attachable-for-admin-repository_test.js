@@ -1,7 +1,7 @@
 import { databaseBuilder, expect } from '../../../test-helper.js';
-import * as targetProfileAttachableForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-attachable-for-admin-repository.js';
+import * as targetProfileAttachableForAdminRepository from '../../../../lib/infrastructure/repositories/target-profiles-attachable-for-admin-repository.js';
 
-describe('Integration | Repository | target-profile-attachable-for-admin', function () {
+describe('Integration | Repository | target-profiles-attachable-for-admin', function () {
   describe('#findAttachable', function () {
     it('should return target profiles ordered by name asc, then id desc', async function () {
       // given
@@ -219,6 +219,49 @@ describe('Integration | Repository | target-profile-attachable-for-admin', funct
             { id: 4, name: 'aValidCLéAResult' },
             { id: 3, name: 'aValidResult CléA' },
             { id: 5, name: 'cléa' },
+          ]);
+        });
+      });
+
+      context('when I am searching for a target profile by its ID', function () {
+        it('should return target profiles matching the search term in their id', async function () {
+          // given
+          databaseBuilder.factory.buildTargetProfile({
+            id: 1,
+            name: 'notAValidResult',
+            isPublic: false,
+            outdated: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 2,
+            name: 'aValidResult',
+            isPublic: false,
+            outdated: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 12,
+            name: 'aValidResult',
+            isPublic: false,
+            outdated: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 21,
+            name: 'aValidResult',
+            isPublic: false,
+            outdated: false,
+          });
+          await databaseBuilder.commit();
+
+          const searchTerm = '2';
+
+          // when
+          const results = await targetProfileAttachableForAdminRepository.find({ searchTerm });
+
+          // then
+          expect(results).to.deep.equal([
+            { id: 21, name: 'aValidResult' },
+            { id: 12, name: 'aValidResult' },
+            { id: 2, name: 'aValidResult' },
           ]);
         });
       });

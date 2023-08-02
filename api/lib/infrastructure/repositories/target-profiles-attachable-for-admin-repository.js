@@ -1,3 +1,4 @@
+import { _ } from '../utils/lodash-utils.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { TargetProfileAttachableForAdmin } from '../../domain/models/TargetProfileAttachableForAdmin.js';
 
@@ -17,9 +18,11 @@ const find = async function ({ searchTerm } = {}) {
     });
   });
 
-  if (searchTerm) {
-    targetProfilesSearchQuery.andWhere((queryBuilder) => {
-      queryBuilder.whereILike('name', `%${searchTerm}%`);
+  if (!_.isBlank(searchTerm)) {
+    targetProfilesSearchQuery.andWhere((builder) => {
+      return _searchByTargetProfileName({ builder, searchTerm }).orWhere((builder) => {
+        _searchOnIdColumnWhenSearchTermsContainsOnlyNumbers({ builder, searchTerm });
+      });
     });
   }
 
@@ -29,16 +32,28 @@ const find = async function ({ searchTerm } = {}) {
 
 export { find };
 
-function _excludeAllOutdatedTargetProfiles(queryBuilder) {
-  return queryBuilder.where('target-profiles.outdated', false);
+function _searchByTargetProfileName({ builder, searchTerm }) {
+  return builder.whereILike('target-profiles.name', `%${searchTerm}%`);
 }
 
-function _includeAllTargetProfilesNotLinkedToAComplementaryCertification(queryBuilder) {
-  return queryBuilder.whereNull('badges.targetProfileId');
+function _searchOnIdColumnWhenSearchTermsContainsOnlyNumbers({ builder, searchTerm }) {
+  if (/^\d+$/.test(searchTerm)) {
+    return builder.whereRaw('CAST("target-profiles"."id" AS TEXT) LIKE ?', [`%${searchTerm}%`]);
+  }
+
+  return builder;
 }
 
-function _includeTargetProfileLinkedToAComplementaryOnlyWhenDetached(queryBuilder) {
-  return queryBuilder
+function _excludeAllOutdatedTargetProfiles(builder) {
+  return builder.where('target-profiles.outdated', false);
+}
+
+function _includeAllTargetProfilesNotLinkedToAComplementaryCertification(builder) {
+  return builder.whereNull('badges.targetProfileId');
+}
+
+function _includeTargetProfileLinkedToAComplementaryOnlyWhenDetached(builder) {
+  return builder
     .whereNotNull('badges.targetProfileId')
     .andWhereNot('complementary-certification-badges.detachedAt', null);
 }
