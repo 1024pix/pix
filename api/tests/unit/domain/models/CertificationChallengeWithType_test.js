@@ -1,14 +1,11 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { CertificationChallengeWithType } from '../../../../lib/domain/models/CertificationChallengeWithType.js';
+import { CertificationChallengeWithType } from '../../../../lib/domain/models/index.js';
 import { Type } from '../../../../lib/domain/models/Challenge.js';
 
 describe('Unit | Domain | Models | CertificationChallengeWithType', function () {
   describe('#constructor', function () {
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
-    const validTypes = Object.values(Type);
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    validTypes.forEach((validType) => {
+    Object.values(Type).forEach((validType) => {
       it(`should initialize CertificationChallengeWithType with type ${validType}`, function () {
         // when
         const certificationChallengeWithType = new CertificationChallengeWithType({ type: validType });
