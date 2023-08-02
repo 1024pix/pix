@@ -76,11 +76,12 @@ describe('Unit | Controller | assessment-controller', function () {
   });
 
   describe('#getCurrentActivity', function () {
+    let activity;
     const assessmentId = 104974;
-    const activity = { assessmentId, level: Activity.levels.TUTORIAL };
     let activitySerializerStub;
 
     beforeEach(function () {
+      activity = { assessmentId, level: Activity.levels.TUTORIAL };
       sinon.stub(usecases, 'getCurrentActivity').withArgs({ assessmentId }).resolves(activity);
       activitySerializerStub = { serialize: sinon.stub() };
       activitySerializerStub.serialize.resolvesArg(0);
