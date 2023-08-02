@@ -222,6 +222,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         },
       ];
 
+      // eslint-disable-next-line mocha/no-setup-in-describe
       maximalScoreCases.forEach(function (testCase) {
         it(`should return "ok" when ${testCase.context}`, function () {
           // given
@@ -284,6 +285,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         },
       ];
 
+      // eslint-disable-next-line mocha/no-setup-in-describe
       partialScoreCases.forEach(function (testCase) {
         it(`should return "partially" when ${testCase.when}`, function () {
           // given
@@ -355,6 +357,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         },
       ];
 
+      // eslint-disable-next-line mocha/no-setup-in-describe
       failedCases.forEach(function (testCase) {
         it(`should return "ko" when ${testCase.context}`, function () {
           // given
