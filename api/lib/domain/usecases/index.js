@@ -156,7 +156,7 @@ import * as sessionPublicationService from '../../domain/services/session-public
 import * as sessionsImportValidationService from '../../domain/services/sessions-mass-import/sessions-import-validation-service.js';
 import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
-import * as sessionValidator from '../validators/session-validator.js';
+import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
 import * as sessionXmlService from '../../domain/services/session-xml-service.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as skillSetRepository from '../../infrastructure/repositories/skill-set-repository.js';
