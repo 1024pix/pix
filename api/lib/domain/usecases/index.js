@@ -153,8 +153,8 @@ import * as sessionForSupervisingRepository from '../../infrastructure/repositor
 import * as sessionForSupervisorKitRepository from '../../infrastructure/repositories/sessions/session-for-supervisor-kit-repository.js';
 import * as sessionJuryCommentRepository from '../../infrastructure/repositories/sessions/session-jury-comment-repository.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
-import * as sessionRepository from '../../infrastructure/repositories/sessions/session-repository.js';
 import * as sessionsImportValidationService from '../../domain/services/sessions-mass-import/sessions-import-validation-service.js';
+import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
 import * as sessionValidator from '../validators/session-validator.js';
 import * as sessionXmlService from '../../domain/services/session-xml-service.js';
