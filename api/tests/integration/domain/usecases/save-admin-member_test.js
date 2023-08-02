@@ -5,7 +5,7 @@ import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 const { ROLES } = PIX_ADMIN;
 
 import * as adminMemberRepository from '../../../../lib/infrastructure/repositories/admin-member-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 
 describe('Integration | UseCases | save-admin-member', function () {
   context('when admin member exists and is disabled', function () {

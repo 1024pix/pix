@@ -3,7 +3,7 @@ const { pick } = lodash;
 
 import { domainBuilder, expect, knex, nock } from '../../../test-helper.js';
 
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 
 import { createServer } from '../../../../server.js';
 

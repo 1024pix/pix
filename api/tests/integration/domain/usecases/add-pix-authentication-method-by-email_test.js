@@ -2,7 +2,7 @@ import { databaseBuilder, expect, catchErr } from '../../../test-helper.js';
 import { addPixAuthenticationMethodByEmail } from '../../../../lib/domain/usecases/add-pix-authentication-method-by-email.js';
 import { AuthenticationMethodAlreadyExistsError } from '../../../../lib/domain/errors.js';
 import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 
 describe('Integration | UseCase | add-pix-authentication-method-by-email', function () {
   context('when user have already Pix authentication method', function () {

@@ -9,7 +9,7 @@ import * as campaignRepository from '../../../../lib/infrastructure/repositories
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
