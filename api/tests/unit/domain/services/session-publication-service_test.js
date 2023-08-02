@@ -1,6 +1,6 @@
 import { domainBuilder, sinon, expect, catchErr } from '../../../test-helper.js';
 import { publishSession } from '../../../../lib/domain/services/session-publication-service.js';
-import { FinalizedSession } from '../../../../lib/domain/models/FinalizedSession.js';
+import { FinalizedSession, EmailingAttempt } from '../../../../lib/domain/models/index.js';
 
 import {
   SendingEmailToResultRecipientError,
@@ -8,7 +8,6 @@ import {
   SendingEmailToRefererError,
 } from '../../../../lib/domain/errors.js';
 
-import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | UseCase | session-publication-service', function () {
@@ -56,41 +55,37 @@ describe('Unit | UseCase | session-publication-service', function () {
     const recipient1 = 'email1@example.net';
     const recipient2 = 'email2@example.net';
     const certificationCenter = 'certificationCenter';
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const candidateWithRecipient1 = domainBuilder.buildCertificationCandidate({
-      resultRecipientEmail: recipient1,
-    });
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const candidateWithRecipient2 = domainBuilder.buildCertificationCandidate({
-      resultRecipientEmail: recipient2,
-    });
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const candidate2WithRecipient2 = domainBuilder.buildCertificationCandidate({
-      resultRecipientEmail: recipient2,
-    });
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
-      resultRecipientEmail: null,
-    });
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const originalSession = domainBuilder.buildSession({
-      id: sessionId,
-      certificationCenter,
-      date: sessionDate,
-      certificationCandidates: [
-        candidateWithRecipient1,
-        candidateWithRecipient2,
-        candidate2WithRecipient2,
-        candidateWithNoRecipient,
-      ],
-      publishedAt: null,
-    });
+    let candidateWithRecipient1,
+      candidateWithRecipient2,
+      candidate2WithRecipient2,
+      candidateWithNoRecipient,
+      originalSession;
+
     beforeEach(function () {
+      candidateWithRecipient1 = domainBuilder.buildCertificationCandidate({
+        resultRecipientEmail: recipient1,
+      });
+      candidateWithRecipient2 = domainBuilder.buildCertificationCandidate({
+        resultRecipientEmail: recipient2,
+      });
+      candidate2WithRecipient2 = domainBuilder.buildCertificationCandidate({
+        resultRecipientEmail: recipient2,
+      });
+      candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
+        resultRecipientEmail: null,
+      });
+      originalSession = domainBuilder.buildSession({
+        id: sessionId,
+        certificationCenter,
+        date: sessionDate,
+        certificationCandidates: [
+          candidateWithRecipient1,
+          candidateWithRecipient2,
+          candidate2WithRecipient2,
+          candidateWithNoRecipient,
+        ],
+        publishedAt: null,
+      });
       sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(originalSession);
     });
 
