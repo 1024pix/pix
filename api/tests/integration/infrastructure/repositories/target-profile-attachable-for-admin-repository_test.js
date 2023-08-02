@@ -130,6 +130,99 @@ describe('Integration | Repository | target-profile-attachable-for-admin', funct
         expect(results).to.deep.equal([{ id: 100, name: 'currentlyDetached' }]);
       });
     });
+
+    context('when there is a term to search for', function () {
+      context('when I am searching for a target profile by its name', function () {
+        it('should return target profiles matching the search term in their name', async function () {
+          // given
+          databaseBuilder.factory.buildTargetProfile({
+            id: 1,
+            name: 'notAValidResult',
+            isPublic: false,
+            outdated: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 11,
+            name: 'notAValidResult',
+            isPublic: false,
+            outdated: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 2,
+            name: 'CLEA aValidResult',
+            isPublic: false,
+            outdated: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 3,
+            name: 'aValidResult CLEA',
+            isPublic: false,
+            outdated: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 4,
+            name: 'aValidCLEAResult',
+            isPublic: false,
+            outdated: false,
+          });
+          await databaseBuilder.commit();
+
+          const searchTerm = 'CLEA';
+
+          // when
+          const results = await targetProfileAttachableForAdminRepository.find({ searchTerm });
+
+          // then
+          expect(results).to.deep.equal([
+            { id: 2, name: 'CLEA aValidResult' },
+            { id: 4, name: 'aValidCLEAResult' },
+            { id: 3, name: 'aValidResult CLEA' },
+          ]);
+        });
+
+        it('should not be case sensitive', async function () {
+          // given
+          databaseBuilder.factory.buildTargetProfile({
+            id: 2,
+            name: 'CLÉA aValidResult',
+            isPublic: false,
+            outdated: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 3,
+            name: 'aValidResult CléA',
+            isPublic: false,
+            outdated: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 4,
+            name: 'aValidCLéAResult',
+            isPublic: false,
+            outdated: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 5,
+            name: 'cléa',
+            isPublic: false,
+            outdated: false,
+          });
+          await databaseBuilder.commit();
+
+          const searchTerm = 'cléa';
+
+          // when
+          const results = await targetProfileAttachableForAdminRepository.find({ searchTerm });
+
+          // then
+          expect(results).to.deep.equal([
+            { id: 2, name: 'CLÉA aValidResult' },
+            { id: 4, name: 'aValidCLéAResult' },
+            { id: 3, name: 'aValidResult CléA' },
+            { id: 5, name: 'cléa' },
+          ]);
+        });
+      });
+    });
   });
 });
 
