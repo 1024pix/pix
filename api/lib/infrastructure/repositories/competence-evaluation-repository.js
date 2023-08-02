@@ -75,10 +75,11 @@ const getByCompetenceIdAndUserId = async function ({
   domainTransaction = DomainTransaction.emptyTransaction(),
   forUpdate = false,
 }) {
+  const knexConn = domainTransaction.knexTransaction || knex;
   const competenceEvaluation = await _getByCompetenceIdAndUserId({
     competenceId,
     userId,
-    domainTransaction,
+    knexConn,
     forUpdate,
   });
   if (competenceEvaluation === null) {
